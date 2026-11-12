@@ -17,17 +17,17 @@ public partial class Hexagon : AbstractHexagon
     public Hexagon(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131410;
+    public new const int ClassId = 131410;
 
-    protected internal ByteArray3 FTransitions;
-    protected internal byte FTransitionSides;
+    protected internal ByteArray3 Transitions;
+    protected internal byte TransitionSides;
 
     // Hexagon.pas:60
-    public override void NeighbourTerrainChanged(int HN, in HexSpriteTerrainInfo Info)
+    public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo info)
     {
-        if (HN == 0)
+        if (hexNumber == 0)
         {
-            switch (Info.HN)
+            switch (info.HexNumber)
             {
                 case 1:
                     UpdateTransition(0);
@@ -43,27 +43,27 @@ public partial class Hexagon : AbstractHexagon
     }
 
     // Hexagon.pas:52
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-        ((HexagonResource)FResource).Show(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc, this);
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        ((HexagonResource)_resource).Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, this);
     }
 
     // Hexagon.pas:74
     public override void UpdateTransitions()
     {
-        byte Side;
+        byte side;
         for (int sideOrdinal = 0; sideOrdinal <= 2; sideOrdinal++)
         {
-            Side = (byte)sideOrdinal;
-            UpdateTransition(Side);
+            side = (byte)sideOrdinal;
+            UpdateTransition(side);
         }
     }
 
     // Hexagon.pas:70
-    public virtual void UpdateTransition(byte Side)
+    public virtual void UpdateTransition(byte side)
     {
     }
 

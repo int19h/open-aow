@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Hexes;
 
-// FTransitionLibrary (HexTrans.ILB)
+// TransitionLibrary (HexTrans.ILB)
 public partial class HexagonResource : AbstractHexagonResource
 {
     public HexagonResource(ECustomNode owner) : base(owner)
@@ -17,105 +17,105 @@ public partial class HexagonResource : AbstractHexagonResource
     }
 
     // Hexagon.pas:89
-    public new const int ClassID = 131411;
+    public new const int ClassId = 131411;
 
-    protected internal CustomImageLibrary FTransitionLibrary;
+    protected internal CustomImageLibrary TransitionLibrary;
 
     // Hexagon.pas:83
 
     // Hexagon.pas:99
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 536870920)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 536870920)
         {
-            FTransitionLibrary = FEngine.HSSet.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "HexTrans.ILB");
+            TransitionLibrary = _engine.HexSpriteSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "HexTrans.ILB");
         }
 
-        if (Msg.MsgID == 65621)
+        if (message.MessageId == 65621)
         {
-            Msg.Result = 5;
+            message.Result = 5;
         }
     }
 
     // Hexagon.pas:94
-    public override int ResourceUserClassID() => 131410;
+    public override int ResourceUserClassId() => 131410;
 
     // Hexagon.pas:112
-    public override MapObject PlaceResourceUser(HSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override MapObject PlaceResourceUser(HSMap map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField MapField;
-        MapField = Map.MapContainer.GetField(Xhx, Yhx, Lhx);
-        MapObject Result = (MapObject)MapField.FindOwnedChild(ResourceUserClassID());
-        if (Result != null)
+        MapField mapField;
+        mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
+        MapObject result = (MapObject)mapField.FindOwnedChild(ResourceUserClassId());
+        if (result != null)
         {
-            if (Result.GetTerrain(0) != FTerrainList.GetTerrain(0))
+            if (result.GetTerrain(0) != _terrainList.GetTerrain(0))
             {
-                Result.SetResource(this);
-                MapField.UpdateTerrainType();
-                ((AbstractHexagon)Result).UpdateTransitions();
+                result.SetResource(this);
+                mapField.UpdateTerrainType();
+                ((AbstractHexagon)result).UpdateTransitions();
             }
             else
             {
-                Result.SetResource(this);
+                result.SetResource(this);
             }
 
-            Map.InvalidateStaticScene(Xhx, Yhx, Lhx);
+            map.InvalidateStaticScene(hexX, hexY, hexLevel);
         }
         else
         {
-            Result = (MapObject)CreateResourceUser();
-            if (!Result.PlaceHX(Map.MapContainer, Xhx, Yhx, Lhx))
+            result = (MapObject)CreateResourceUser();
+            if (!result.PlaceHex(map.MapContainer, hexX, hexY, hexLevel))
             {
-                Result?.Dispose();
-                Result = null;
+                result?.Dispose();
+                result = null;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hexagon.pas:141
-    public void Show(int Xhp, int Yhp, in LockedSurface SurfaceDesc, Hexagon Hexagon)
+    public void Show(int pixelX, int pixelY, in LockedSurface lockedSurface, Hexagon hex)
     {
-        byte Sides;
-        FImageLibrary[0].Show(Xhp, Yhp, SurfaceDesc);
-        if ((Hexagon.FTransitionSides & 7) != 0)
+        byte sides;
+        _imageLibrary[0].Show(pixelX, pixelY, lockedSurface);
+        if ((hex.TransitionSides & 7) != 0)
         {
-            Sides = Hexagon.FTransitionSides;
-            if ((Sides & 2) != 0)
+            sides = hex.TransitionSides;
+            if ((sides & 2) != 0)
             {
-                if ((Sides & 16) != 0)
+                if ((sides & 16) != 0)
                 {
-                    FTransitionLibrary[Hexagon.FTransitions[1]].Show(Xhp - 6, Yhp - 9 - 32, SurfaceDesc);
+                    TransitionLibrary[hex.Transitions[1]].Show(pixelX - 6, pixelY - 9 - 32, lockedSurface);
                 }
                 else
                 {
-                    FTransitionLibrary[Hexagon.FTransitions[1]].Show(Xhp - 6, Yhp - 9, SurfaceDesc);
+                    TransitionLibrary[hex.Transitions[1]].Show(pixelX - 6, pixelY - 9, lockedSurface);
                 }
             }
 
-            if ((Sides & 1) != 0)
+            if ((sides & 1) != 0)
             {
-                if ((Sides & 8) != 0)
+                if ((sides & 8) != 0)
                 {
-                    FTransitionLibrary[Hexagon.FTransitions[0]].Show(Xhp - 6 - 32, Yhp - 9 - 16, SurfaceDesc);
+                    TransitionLibrary[hex.Transitions[0]].Show(pixelX - 6 - 32, pixelY - 9 - 16, lockedSurface);
                 }
                 else
                 {
-                    FTransitionLibrary[Hexagon.FTransitions[0]].Show(Xhp - 6, Yhp - 9, SurfaceDesc);
+                    TransitionLibrary[hex.Transitions[0]].Show(pixelX - 6, pixelY - 9, lockedSurface);
                 }
             }
 
-            if ((Sides & 4) != 0)
+            if ((sides & 4) != 0)
             {
-                if ((Sides & 32) != 0)
+                if ((sides & 32) != 0)
                 {
-                    FTransitionLibrary[Hexagon.FTransitions[2]].Show(Xhp - 6 + 32, Yhp - 9 - 16, SurfaceDesc);
+                    TransitionLibrary[hex.Transitions[2]].Show(pixelX - 6 + 32, pixelY - 9 - 16, lockedSurface);
                 }
                 else
                 {
-                    FTransitionLibrary[Hexagon.FTransitions[2]].Show(Xhp - 6, Yhp - 9, SurfaceDesc);
+                    TransitionLibrary[hex.Transitions[2]].Show(pixelX - 6, pixelY - 9, lockedSurface);
                 }
             }
         }
@@ -124,8 +124,8 @@ public partial class HexagonResource : AbstractHexagonResource
     // Hexagon.pas:32
 
     // Hexagon.pas:107
-    public override string ResourceEditName() => HexagonStr;
+    public override string ResourceEditName() => s_hexText;
 
-    private static readonly string HexagonStr = "Hexagon";
+    private static readonly string s_hexText = "Hexagon";
 
 }

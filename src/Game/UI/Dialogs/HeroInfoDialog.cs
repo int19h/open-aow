@@ -36,69 +36,69 @@ public partial class HeroInfoDialog : DataModule
     public Label DetailsLbl;
     public Memo Message;
     public IvTranslator Translator;
-    public ExecuteDoneEvent FDone;
-    public ArmyInfoEventLog FArmyInfo;
-    public bool FDetailsOpen;
+    public ExecuteDoneEvent Done;
+    public ArmyInfoEventLog ArmyInfo;
+    public bool DetailsOpen;
 
     // AoWHeroInfoDlg.pas:99
     public void FinishDialog()
     {
-        ExecuteDoneEvent Done;
-        EventLog Event;
-        if (FDetailsOpen)
+        ExecuteDoneEvent done;
+        EventLog eventValue;
+        if (DetailsOpen)
         {
-            FDetailsOpen = false;
-            DialogHosts.UnitWindow.UnitWin.Priority = DialogHosts.ControlWin.MainWindow.Priority;
+            DetailsOpen = false;
+            DialogHosts.UnitWindow.UnitWin.Priority = DialogHosts.ControlWindow.MainWindow.Priority;
             DialogHosts.UnitWindow.UnitWin.Visible = false;
         }
 
-        Done = FDone;
-        Event = FArmyInfo;
-        FDone = null;
-        FArmyInfo = null;
-        if (Done != null)
+        done = Done;
+        eventValue = ArmyInfo;
+        Done = null;
+        ArmyInfo = null;
+        if (done != null)
         {
-            Done(Event);
+            done(eventValue);
         }
 
-        if (Event != null)
+        if (eventValue != null)
         {
-            Event.Release();
+            eventValue.Release();
         }
     }
 
     // AoWHeroInfoDlg.pas:118
-    public void DrawUnit(int Index, in Rect R, ref LockedSurface Surface)
+    public void DrawUnit(int index, in Rect R, ref LockedSurface surface)
     {
-        Units.Alignment Alignment;
+        Units.Alignment alignment;
         int X;
         int Y;
-        Rect OldClip;
-        UnitShowInfo Info;
-        if (Index < FArmyInfo.FArmyView.GetCount())
+        Rect oldClip;
+        UnitShowInfo info;
+        if (index < ArmyInfo.ArmyView.GetCount())
         {
-            OldClip = Surface.ClipRect;
-            Surface.ClipRect = R;
+            oldClip = surface.ClipRectangle;
+            surface.ClipRectangle = R;
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
-            Alignment = FArmyInfo.FArmyView.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < DialogHosts.IntGfxMod.UnitBGs.Count)
+            alignment = ArmyInfo.ArmyView.GetUnit(index).GetAlignment();
+            if ((int)alignment < DialogHosts.UIGraphics.UnitBGs.Count)
             {
-                var image = DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
-                image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, Surface);
+                var image = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
+                image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
             }
 
-            Info = default;
-            Info.Direction = 3;
-            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            FArmyInfo.FArmyView.GetUnit(Index).ShowEx(X - 33, Y - 35, Surface, Info);
-            if ((((int)(((uint)FArmyInfo.FSelection) >> Index)) & 1) == 0)
+            info = default;
+            info.Direction = 3;
+            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
+            ArmyInfo.ArmyView.GetUnit(index).Show(X - 33, Y - 35, surface, info);
+            if ((((int)(((uint)ArmyInfo.Selection) >> index)) & 1) == 0)
             {
-                var image = DialogHosts.IntGfxMod.UnitBGs[7];
-                image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, Surface);
+                var image = DialogHosts.UIGraphics.UnitBGs[7];
+                image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
             }
 
-            Surface.ClipRect = OldClip;
+            surface.ClipRectangle = oldClip;
         }
     }
 
@@ -110,59 +110,59 @@ public partial class HeroInfoDialog : DataModule
     }
 
     // AoWHeroInfoDlg.pas:152
-    public void FaceFramePreDraw(LockedSurface Surface)
+    public void FaceFramePreDraw(LockedSurface surface)
     {
         Rect R = default;
-        Hero Hero;
+        Hero hero;
         int I;
         R.Left = this.FaceFrame.WinLeft + Dlg.WinLeft;
         R.Right = this.FaceFrame.WinWidth + R.Left;
         R.Top = this.FaceFrame.WinTop + Dlg.WinTop;
         R.Bottom = this.FaceFrame.WinHeight + R.Top;
 
-        Hero = FArmyInfo.FArmyView.Hero(FArmyInfo.FSelection, RosterTables.AllHeroTypes);
-        if (Hero.GetFace() != null)
+        hero = ArmyInfo.ArmyView.Hero(ArmyInfo.Selection, RosterTables.AllHeroTypes);
+        if (hero.GetFace() != null)
         {
-            Hero.ShowFace(R, Surface);
+            hero.ShowFace(R, surface);
         }
         else
         {
             I = 0;
-            while (((1 << I) & FArmyInfo.FSelection) == 0 && I != FArmyInfo.FArmyView.GetCount())
+            while (((1 << I) & ArmyInfo.Selection) == 0 && I != ArmyInfo.ArmyView.GetCount())
             {
                 I += 1;
             }
 
-            if (I < FArmyInfo.FArmyView.GetCount())
+            if (I < ArmyInfo.ArmyView.GetCount())
             {
-                FArmyInfo.FArmyView.GetUnit(I).ShowFace(R, Surface);
+                ArmyInfo.ArmyView.GetUnit(I).ShowFace(R, surface);
             }
         }
     }
 
     // AoWHeroInfoDlg.pas:175
-    public void U1PreDraw(Frame Sender, LockedSurface Surface, int Slot)
+    public void U1PreDraw(Frame sender, LockedSurface surface, int slot)
     {
         Rect R = default;
-        R.Left = Sender.WinLeft + UnitPnl.WinLeft + 1;
-        R.Right = Sender.WinWidth + R.Left;
-        R.Top = Sender.WinTop + UnitPnl.WinTop;
-        R.Bottom = Sender.WinHeight + R.Top;
+        R.Left = sender.WinLeft + UnitPnl.WinLeft + 1;
+        R.Right = sender.WinWidth + R.Left;
+        R.Top = sender.WinTop + UnitPnl.WinTop;
+        R.Bottom = sender.WinHeight + R.Top;
 
-        DrawUnit(Slot, R, ref Surface);
+        DrawUnit(slot, R, ref surface);
     }
 
     // AoWHeroInfoDlg.pas:189
-    public void U1MouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y, int Slot)
+    public void U1MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
     {
-        var count = FArmyInfo.FArmyView.GetCount();
-        if (Slot < count)
+        var count = ArmyInfo.ArmyView.GetCount();
+        if (slot < count)
         {
-            var unit = FArmyInfo.FArmyView.GetUnit(Slot);
-            DialogHosts.General.FSelectedUnit = unit;
-            if (Button == MouseButton.Left)
+            var troop = ArmyInfo.ArmyView.GetUnit(slot);
+            DialogHosts.General.SelectedUnit = troop;
+            if (button == MouseButton.Left)
             {
-                FDetailsOpen = true;
+                DetailsOpen = true;
                 DialogHosts.UnitWindow.ShowUnit();
                 DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
             }
@@ -176,39 +176,39 @@ public partial class HeroInfoDialog : DataModule
     }
 
     // AoWHeroInfoDlg.pas:208
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27 || Key == 32)
+        if (key == 27 || key == 32)
         {
             Dlg.Visible = false;
         }
     }
 
-    internal static void ShowHeroInfo(HeroInfoDialog Dialog, ArmyInfoEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowHeroInfo(HeroInfoDialog dialog, ArmyInfoEventLog eventValue, ExecuteDoneEvent done)
     {
-        Hero Hero;
-        Assert(Dialog.FArmyInfo == null, "", "AoWHeroInfoDlg.pas", 80);
-        Dialog.FDone = Done;
-        Dialog.FArmyInfo = Event;
-        Dialog.FArmyInfo.AddRef();
-        var text = Event.FMessages.Text;
-        Dialog.Message.Items.Text = text;
-        Hero = Dialog.FArmyInfo.FArmyView.Hero(Dialog.FArmyInfo.FSelection, RosterTables.AllHeroTypes);
-        if (Hero != null)
+        Hero hero;
+        Assert(dialog.ArmyInfo == null, "", "AoWHeroInfoDlg.pas", 80);
+        dialog.Done = done;
+        dialog.ArmyInfo = eventValue;
+        dialog.ArmyInfo.AddRef();
+        var text = eventValue.Messages.Text;
+        dialog.Message.Items.Text = text;
+        hero = dialog.ArmyInfo.ArmyView.Hero(dialog.ArmyInfo.Selection, RosterTables.AllHeroTypes);
+        if (hero != null)
         {
-            Dialog.HeroName.Text = Hero.FHeroName;
-            var level = Hero.GetLevel();
-            var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.LevelXRStr), [IntToStr(level)]);
-            Dialog.HeroLevel.Text = format;
+            dialog.HeroName.Text = hero.HeroName;
+            var level = hero.GetLevel();
+            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_levelFormat), [IntToStr(level)]);
+            dialog.HeroLevel.Text = format;
         }
         else
         {
-            Dialog.HeroName.Text = "";
-            Dialog.HeroLevel.Text = "";
+            dialog.HeroName.Text = "";
+            dialog.HeroLevel.Text = "";
         }
 
-        Dialog.Dlg.Visible = true;
-        Dialog.FDetailsOpen = false;
+        dialog.Dlg.Visible = true;
+        dialog.DetailsOpen = false;
     }
 
 }

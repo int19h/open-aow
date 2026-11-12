@@ -13,9 +13,9 @@ public sealed class TacticalBattleRoundDistanceTests
     private static TacticalBattle Build(byte round, byte sideIndex)
     {
         var combat = new TacticalBattle(null!);
-        _ = new CombatPlayer(combat.FCombatData.FPlayers) { FSideIndex = sideIndex };
-        combat.FCombatData.FRound = round;
-        combat.FCombatData.FCurrentPlayer = 0;
+        _ = new CombatPlayer(combat.CombatData.Players) { SideIndex = sideIndex };
+        combat.CombatData.Round = round;
+        combat.CombatData.CurrentPlayer = 0;
         return combat;
     }
 
@@ -23,18 +23,18 @@ public sealed class TacticalBattleRoundDistanceTests
     [InlineData(3, 0, 5)]
     [InlineData(3, 1, 4)]
     [InlineData(1, 0, 1)]
-    public void ATacticalCombatAnswersTheRoundDistance(byte round, byte sideIndex, int distance)
+    public void ATacticalBattleAnswersTheRoundDistance(byte round, byte sideIndex, int distance)
     {
         Battle combat = Build(round, sideIndex);
         Assert.Equal(distance, combat.GetRoundDistance());
     }
 
     [Fact]
-    public void ATacticalCombatWithoutAWallHasNoWallSituation()
+    public void ATacticalBattleWithoutAWallHasNoWallSituation()
     {
         var combat = Build(1, 0);
-        var source = new TacticalBattleUnit(combat.FCombatData.FCombatObjects) { FCombat = combat, FPosition = 0x12 };
-        var target = new TacticalBattleUnit(combat.FCombatData.FCombatObjects) { FCombat = combat, FPosition = 0x34 };
+        var source = new TacticalBattleUnit(combat.CombatData.CombatObjects) { Combat = combat, Position = 0x12 };
+        var target = new TacticalBattleUnit(combat.CombatData.CombatObjects) { Combat = combat, Position = 0x34 };
         Assert.Equal(WallSituation.None, combat.GetWallSituation(source, target));
     }
 }

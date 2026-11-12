@@ -3,60 +3,60 @@ using Aow.Rtl;
 
 namespace Aow.Game.Audio;
 
-// FCurrentSong, FStatus, FSongs, FSongNames, FCurrentIndex, FOnSongChange, FBackup (Pause),
+// _currentSong, _status, _songs, _songNames, _currentIndex, _onSongChange, _backup (Pause),
 // FPauseCount. Plays the songs in turn (Update starts the next one)
 public partial class SongPlayer : IDisposable
 {
-    internal string FCurrentSong = "";
-    internal Set<StatusElement> FStatus;
-    internal StringList FSongs;
-    internal StringList FSongNames;
-    internal int FCurrentIndex;
-    internal NotifyEvent<SongPlayer> FOnSongChange;
-    internal SongStatus FBackup;
-    internal int FPauseCount;
+    internal string _currentSong = "";
+    internal Set<StatusElement> _status;
+    internal StringList _songs;
+    internal StringList _songNames;
+    internal int _currentIndex;
+    internal NotifyEvent<SongPlayer> _onSongChange;
+    internal SongStatus _backup;
+    internal int _pauseCount;
 
     // Sound.pas:870
-    internal void SetSongs(StringList Value)
+    internal void SetSongs(StringList value)
     {
-        FSongs.Assign(Value);
+        _songs.Assign(value);
     }
 
     // Sound.pas:875
-    internal void SongsChanged(object Sender)
+    internal void SongsChanged(object sender)
     {
-        FSongNames.Clear();
-        for (int I = FSongs.Count - 1; I >= 0; I--)
+        _songNames.Clear();
+        for (int I = _songs.Count - 1; I >= 0; I--)
         {
             try
             {
-                var songName = AudioPlayback.GetSongName(FSongs[I]);
-                FSongNames.Insert(0, songName);
+                var songName = AudioPlayback.GetSongName(_songs[I]);
+                _songNames.Insert(0, songName);
             }
             catch
             {
-                FSongs.Delete(I);
+                _songs.Delete(I);
             }
         }
 
-        if (FStatus.Contains(StatusElement.Playing))
+        if (_status.Contains(StatusElement.Playing))
         {
-            if (FSongs.Count != 0)
+            if (_songs.Count != 0)
             {
-                if (FCurrentIndex != -1)
+                if (_currentIndex != -1)
                 {
-                    var count = FSongs.Count;
-                    if (FCurrentIndex >= count || FSongs[FCurrentIndex] != FCurrentSong)
+                    var count = _songs.Count;
+                    if (_currentIndex >= count || _songs[_currentIndex] != _currentSong)
                     {
-                        FCurrentIndex = FSongs.IndexOf(FCurrentSong);
-                        if (FCurrentIndex == -1)
+                        _currentIndex = _songs.IndexOf(_currentSong);
+                        if (_currentIndex == -1)
                         {
-                            FCurrentSong = "";
+                            _currentSong = "";
                         }
                     }
                 }
 
-                if (FCurrentIndex == -1 && !FStatus.Contains(StatusElement.Paused))
+                if (_currentIndex == -1 && !_status.Contains(StatusElement.Paused))
                 {
                     Play(0);
                 }
@@ -68,8 +68,8 @@ public partial class SongPlayer : IDisposable
                     AudioHost.SoundSystem.StopSong();
                 }
 
-                FCurrentIndex = -1;
-                FCurrentSong = "";
+                _currentIndex = -1;
+                _currentSong = "";
             }
         }
     }
@@ -77,186 +77,186 @@ public partial class SongPlayer : IDisposable
     // Sound.pas:854
     public SongPlayer()
     {
-        FSongs = new StringList();
-        FSongs.OnChange = SongsChanged;
-        FSongNames = new StringList();
-        FCurrentIndex = -1;
+        _songs = new StringList();
+        _songs.OnChange = SongsChanged;
+        _songNames = new StringList();
+        _currentIndex = -1;
     }
 
     // Sound.pas:863
     public virtual void Dispose()
     {
-        FSongs?.Dispose();
-        FSongNames?.Dispose();
+        _songs?.Dispose();
+        _songNames?.Dispose();
     }
 
     // Sound.pas:909
     // { Called every tick (ProcessSound): starts the next song when the last one has ended. }
     public void Update()
     {
-        if (AudioHost.SoundSystem != null && FStatus.Contains(StatusElement.Playing) && !FStatus.Contains(StatusElement.Paused) && !AudioHost.SoundSystem.PlayingSong && AudioHost.SoundSystem.MusicEnabled)
+        if (AudioHost.SoundSystem != null && _status.Contains(StatusElement.Playing) && !_status.Contains(StatusElement.Paused) && !AudioHost.SoundSystem.PlayingSong && AudioHost.SoundSystem.MusicEnabled)
         {
-            FCurrentIndex += 1;
-            if (FSongs.Count <= FCurrentIndex)
+            _currentIndex += 1;
+            if (_songs.Count <= _currentIndex)
             {
-                FCurrentIndex = 0;
+                _currentIndex = 0;
             }
 
-            var count = FSongs.Count;
-            if (FCurrentIndex < count)
+            var count = _songs.Count;
+            if (_currentIndex < count)
             {
-                Play(FCurrentIndex);
+                Play(_currentIndex);
             }
             else
             {
-                FCurrentIndex = -1;
+                _currentIndex = -1;
             }
         }
     }
 
     // Sound.pas:924
-    public bool PlayEx(int Index, int FadeOut, int FadeIn)
+    public bool Play(int index, int fadeOut, int fadeIn)
     {
-        bool Result;
-        if (AudioHost.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
+        bool result;
+        if (AudioHost.SoundSystem != null && index >= 0 && index < _songs.Count)
         {
-            FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Playing);
-            var item = FSongs[Index];
-            Result = AudioHost.SoundSystem.PlaySongEx(item, FadeOut, FadeIn, false);
-            if (Result)
+            _status = _status + Set<StatusElement>.Of(StatusElement.Playing);
+            var item = _songs[index];
+            result = AudioHost.SoundSystem.PlaySong(item, fadeOut, fadeIn, false);
+            if (result)
             {
-                FCurrentIndex = Index;
-                FCurrentSong = FSongs[Index];
-                if (FOnSongChange != null)
+                _currentIndex = index;
+                _currentSong = _songs[index];
+                if (_onSongChange != null)
                 {
-                    FOnSongChange(this);
+                    _onSongChange(this);
                 }
             }
             else
             {
-                FCurrentSong = "";
-                FCurrentIndex = -1;
+                _currentSong = "";
+                _currentIndex = -1;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Sound.pas:947
-    public bool Play(int Index)
+    public bool Play(int index)
     {
-        bool Result;
-        if (AudioHost.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
+        bool result;
+        if (AudioHost.SoundSystem != null && index >= 0 && index < _songs.Count)
         {
-            FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Playing);
-            var item = FSongs[Index];
-            Result = AudioHost.SoundSystem.PlaySongEx(item, 2, 0, false);
-            if (Result)
+            _status = _status + Set<StatusElement>.Of(StatusElement.Playing);
+            var item = _songs[index];
+            result = AudioHost.SoundSystem.PlaySong(item, 2, 0, false);
+            if (result)
             {
-                FCurrentIndex = Index;
-                FCurrentSong = FSongs[Index];
-                if (FOnSongChange != null)
+                _currentIndex = index;
+                _currentSong = _songs[index];
+                if (_onSongChange != null)
                 {
-                    FOnSongChange(this);
+                    _onSongChange(this);
                 }
             }
             else
             {
-                FCurrentSong = "";
-                FCurrentIndex = -1;
+                _currentSong = "";
+                _currentIndex = -1;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Sound.pas:970
-    public bool Stop(bool StopMusic)
+    public bool Stop(bool stopMusic)
     {
-        bool Result;
+        bool result;
         if (AudioHost.SoundSystem != null)
         {
-            if (StopMusic)
+            if (stopMusic)
             {
-                Result = AudioHost.SoundSystem.StopSong();
+                result = AudioHost.SoundSystem.StopSong();
             }
             else
             {
-                Result = false;
+                result = false;
             }
 
-            FStatus = FStatus - Set<StatusElement>.Of(StatusElement.Playing);
+            _status = _status - Set<StatusElement>.Of(StatusElement.Playing);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Sound.pas:985
     // { Pauses count; the first one saves the song position. }
-    public bool Pause(bool StopMusic)
+    public bool Pause(bool stopMusic)
     {
-        if (FPauseCount == 0)
+        if (_pauseCount == 0)
         {
-            if (FBackup != null)
+            if (_backup != null)
             {
             }
 
-            FBackup = AudioPlayback.BackupSongStatus();
-            FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Paused);
-            if (StopMusic)
+            _backup = AudioPlayback.BackupSongStatus();
+            _status = _status + Set<StatusElement>.Of(StatusElement.Paused);
+            if (stopMusic)
             {
                 AudioHost.SoundSystem.StopSong();
             }
         }
 
-        FPauseCount += 1;
+        _pauseCount += 1;
         return true;
     }
 
     // Sound.pas:1000
     public bool Resume()
     {
-        FPauseCount -= 1;
-        if (FPauseCount == 0)
+        _pauseCount -= 1;
+        if (_pauseCount == 0)
         {
-            if (FBackup != null)
+            if (_backup != null)
             {
-                FCurrentIndex = FSongs.IndexOf(FBackup.FFileName);
-                if (FCurrentIndex == -1)
+                _currentIndex = _songs.IndexOf(_backup._fileName);
+                if (_currentIndex == -1)
                 {
                     Play(0);
                 }
                 else
                 {
-                    SongStatus.RestoreSongStatus(FBackup);
+                    SongStatus.RestoreSongStatus(_backup);
                 }
-                FBackup = null;
+                _backup = null;
             }
 
-            FStatus = FStatus - Set<StatusElement>.Of(StatusElement.Paused);
+            _status = _status - Set<StatusElement>.Of(StatusElement.Paused);
         }
 
         return true;
     }
 
-    public string CurrentSong { get => FCurrentSong; }
-    public Set<StatusElement> Status { get => FStatus; }
-    public StringList Songs { get => FSongs; set => SetSongs(value); }
-    public StringList SongNames { get => FSongNames; }
-    public int CurrentIndex { get => FCurrentIndex; }
-    public NotifyEvent<SongPlayer> OnSongChange { get => FOnSongChange; set => FOnSongChange = value; }
+    public string CurrentSong { get => _currentSong; }
+    public Set<StatusElement> Status { get => _status; }
+    public StringList Songs { get => _songs; set => SetSongs(value); }
+    public StringList SongNames { get => _songNames; }
+    public int CurrentIndex { get => _currentIndex; }
+    public NotifyEvent<SongPlayer> OnSongChange { get => _onSongChange; set => _onSongChange = value; }
 
     public enum StatusElement : byte
     {

@@ -27,74 +27,74 @@ public partial class CampaignTransferSettings : EngineObject
     // Diplomacy.pas:1736
     public CampaignTransferSettings(ECustomNode owner) : base(owner)
     {
-        FHeroes = new HeroList(null);
-        FItems = new ItemList(null);
-        FUnits = new UnitList(null);
-        FSpells = new Int32List();
-        FResearchPercentage = 50;
-        FSelectedHeroes = new Int32List();
-        FSelectedItems = new Int32List();
-        FSelectedUnits = new Int32List();
-        FSelectedSpheres = new ByteList();
+        Heroes = new HeroList(null);
+        Items = new ItemList(null);
+        Units = new UnitList(null);
+        Spells = new Int32List();
+        ResearchPercentage = 50;
+        SelectedHeroes = new Int32List();
+        SelectedItems = new Int32List();
+        SelectedUnits = new Int32List();
+        SelectedSpheres = new ByteList();
     }
 
-    public Leader FLeader;
-    public HeroList FHeroes;
-    public ItemList FItems;
-    public UnitList FUnits;
-    public int FResearchPercentage;
-    public Int32List FSpells;
-    public int FResearchSpellID;
-    public int FResearchPointsLeft;
-    public Int32List FSelectedHeroes;
-    public Int32List FSelectedItems;
-    public Int32List FSelectedUnits;
-    public int FSelectedTransferGold;
-    public int FSelectedTransferMana;
-    public ByteList FSelectedSpheres;
-    public int FTransferPointsMax;
-    public int FTransferGoldMax;
-    public int FTransferManaMax;
-    public int FTransferPointsLeft;
+    public Leader Leader;
+    public HeroList Heroes;
+    public ItemList Items;
+    public UnitList Units;
+    public int ResearchPercentage;
+    public Int32List Spells;
+    public int ResearchSpellId;
+    public int ResearchPointsLeft;
+    public Int32List SelectedHeroes;
+    public Int32List SelectedItems;
+    public Int32List SelectedUnits;
+    public int SelectedTransferGold;
+    public int SelectedTransferMana;
+    public ByteList SelectedSpheres;
+    public int TransferPointsMax;
+    public int TransferGoldMax;
+    public int TransferManaMax;
+    public int TransferPointsLeft;
 
     // Diplomacy.pas:1750
     public override void Dispose()
     {
         Clear();
-        FHeroes?.Dispose();
-        FItems?.Dispose();
-        FUnits?.Dispose();
-        FSelectedSpheres?.Dispose();
-        FSpells?.Dispose();
+        Heroes?.Dispose();
+        Items?.Dispose();
+        Units?.Dispose();
+        SelectedSpheres?.Dispose();
+        Spells?.Dispose();
         // { Original bug: the three selected-index lists are never freed. }
         base.Dispose();
     }
 
     // Diplomacy.pas:1776
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        Leader Leader = default;
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FHeroes, 20);
-        Stream.rwEObject(FItems, 21);
-        Stream.rwEObject(FUnits, 22);
-        Stream.rwStreamProc(23, FSpells.LoadFromStream, FSpells.SaveToStream);
-        Stream.rwInteger(ref FResearchSpellID, 24);
-        Stream.rwInteger(ref FResearchPointsLeft, 25);
-        Stream.rwInteger(ref FResearchPercentage, 26);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        Leader leader = default;
+        base.ReadWrite(stream);
+        stream.rwEObject(Heroes, 20);
+        stream.rwEObject(Items, 21);
+        stream.rwEObject(Units, 22);
+        stream.rwStreamProc(23, Spells.LoadFromStream, Spells.SaveToStream);
+        stream.rwInteger(ref ResearchSpellId, 24);
+        stream.rwInteger(ref ResearchPointsLeft, 25);
+        stream.rwInteger(ref ResearchPercentage, 26);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
-            Leader = null;
-            Stream.rwCreateEObject(ref Leader, null, 27);
-            SetLeader(Leader);
-            if (Leader != null)
+            leader = null;
+            stream.rwCreateEObject(ref leader, null, 27);
+            SetLeader(leader);
+            if (leader != null)
             {
-                Leader.Release();
+                leader.Release();
             }
         }
         else
         {
-            Stream.rwCreateEObject(ref FLeader, null, 27);
+            stream.rwCreateEObject(ref Leader, null, 27);
         }
     }
 
@@ -102,570 +102,570 @@ public partial class CampaignTransferSettings : EngineObject
     public override void Clear()
     {
         base.Clear();
-        if (FLeader != null)
+        if (Leader != null)
         {
-            FLeader.Release();
-            FLeader = null;
+            Leader.Release();
+            Leader = null;
         }
 
-        FHeroes.Clear();
-        FItems.Clear();
-        FUnits.Clear();
-        FSpells.Clear();
+        Heroes.Clear();
+        Items.Clear();
+        Units.Clear();
+        Spells.Clear();
     }
 
     // Diplomacy.pas:1797
-    public void SetLeader(Leader Leader)
+    public void SetLeader(Leader leader)
     {
-        if (FLeader != null)
+        if (Leader != null)
         {
-            FLeader.Release();
+            Leader.Release();
         }
 
-        FLeader = Leader;
-        if (FLeader != null)
+        Leader = leader;
+        if (Leader != null)
         {
-            FLeader.AddRef();
+            Leader.AddRef();
         }
     }
 
     // Diplomacy.pas:1804
-    public void GenerateTransferUnits(UnitList Units)
+    public void GenerateTransferUnits(UnitList units)
     {
-        int Index;
-        int MaxUnits;
-        Int32Array4 LevelCounts = default;
-        DelphiList Candidates;
-        Troop AUnit;
-        FUnits.Clear();
-        Candidates = new DelphiList();
-        MaxUnits = 10;
-        LevelCounts[1 - 1] = 8;
-        LevelCounts[2 - 1] = 4;
-        LevelCounts[3 - 1] = 1;
-        if (GameTables.AoWEngine.FCampaign.FRaceHistory.Count > 2)
+        int index;
+        int maxUnits;
+        Int32Array4 levelCounts = default;
+        DelphiList candidates;
+        Troop troop;
+        Units.Clear();
+        candidates = new DelphiList();
+        maxUnits = 10;
+        levelCounts[1 - 1] = 8;
+        levelCounts[2 - 1] = 4;
+        levelCounts[3 - 1] = 1;
+        if (GameTables.GameEngine.Campaign.RaceHistory.Count > 2)
         {
-            LevelCounts[4 - 1] = 1;
+            levelCounts[4 - 1] = 1;
         }
         else
         {
-            LevelCounts[4 - 1] = 0;
+            levelCounts[4 - 1] = 0;
         }
 
-        for (int Level = 4; Level >= 1; Level--)
+        for (int level = 4; level >= 1; level--)
         {
-            if (LevelCounts[Level - 1] != 0)
+            if (levelCounts[level - 1] != 0)
             {
-                Candidates.Clear();
-                for (int I = 0, last = Units.Count - 1; I <= last; I++)
+                candidates.Clear();
+                for (int I = 0, last = units.Count - 1; I <= last; I++)
                 {
-                    AUnit = Units.GetUnit(I);
-                    if (AUnit.GetUnitLevel() == Level && FUnits.IndexOf(AUnit) == -1)
+                    troop = units.GetUnit(I);
+                    if (troop.GetUnitLevel() == level && Units.IndexOf(troop) == -1)
                     {
-                        Candidates.Add(AUnit);
+                        candidates.Add(troop);
                     }
                 }
 
                 // { Original bug: the per-level quota is tested but never decremented. }
-                while (LevelCounts[Level - 1] != 0 && Candidates.Count != 0 && FUnits.Count != MaxUnits)
+                while (levelCounts[level - 1] != 0 && candidates.Count != 0 && Units.Count != maxUnits)
                 {
-                    Index = Random(Candidates.Count);
-                    var abstractUnit = Candidates[Index];
-                    FUnits.AddUnit((Troop)abstractUnit);
-                    Candidates.Delete(Index);
+                    index = Random(candidates.Count);
+                    var abstractUnit = candidates[index];
+                    Units.AddUnit((Troop)abstractUnit);
+                    candidates.Delete(index);
                 }
             }
         }
 
-        Candidates?.Dispose();
+        candidates?.Dispose();
     }
 
     // Diplomacy.pas:1842
     public void Retrieve()
     {
-        UnitUserList Units;
-        sbyte Player;
-        Troop AUnit;
-        Troop NewUnit;
-        Hero Hero;
-        Item Item;
-        Item CopyItem;
+        UnitUserList units;
+        sbyte player;
+        Troop troop;
+        Troop newUnit;
+        Hero hero;
+        Item item;
+        Item copyItem;
         Clear();
         if (AoWHSMap.Current != null)
         {
-            Units = new UnitUserList(null);
-            Player = (sbyte)AoWHSMap.Current.FPlayers.FLocalPlayers[0];
-            FLeader = (Leader)AoWHSMap.Current.FPlayers.GetPlayers(Player).FLeader.Copy(GameTables.AoWEngine);
-            FLeader.RemoveEnchantments();
-            FLeader.RemoveHandicaps();
-            FLeader.ExecuteCancelCasting();
-            for (int J = FLeader.FInventory.Count - 1; J >= 0; J--)
+            units = new UnitUserList(null);
+            player = (sbyte)AoWHSMap.Current.Players.LocalPlayers[0];
+            Leader = (Leader)AoWHSMap.Current.Players.GetPlayers(player).Leader.Copy(GameTables.GameEngine);
+            Leader.RemoveEnchantments();
+            Leader.RemoveHandicaps();
+            Leader.ExecuteCancelCasting();
+            for (int J = Leader.Inventory.Count - 1; J >= 0; J--)
             {
-                Item = FLeader.FInventory.GetItem(J);
-                if (Item != null)
+                item = Leader.Inventory.GetItem(J);
+                if (item != null)
                 {
-                    CopyItem = (Item)Item.Copy(GameTables.AoWEngine);
-                    CopyItem.SetOwner(FItems);
-                    CopyItem.FItemID = FLeader.FUnitID;
-                    CopyItem.Release();
+                    copyItem = (Item)item.Copy(GameTables.GameEngine);
+                    copyItem.SetOwner(Items);
+                    copyItem.ItemId = Leader.UnitId;
+                    copyItem.Release();
                 }
             }
 
-            FLeader.FInventory.Clear();
-            for (int J = FLeader.FHeroItems.Count - 1; J >= 0; J--)
+            Leader.Inventory.Clear();
+            for (int J = Leader.HeroItems.Count - 1; J >= 0; J--)
             {
-                Item = FLeader.FHeroItems.GetItem(J);
-                if (Item != null)
+                item = Leader.HeroItems.GetItem(J);
+                if (item != null)
                 {
-                    CopyItem = (Item)Item.Copy(GameTables.AoWEngine);
-                    CopyItem.SetOwner(FItems);
-                    CopyItem.FItemID = FLeader.FUnitID;
-                    CopyItem.Release();
+                    copyItem = (Item)item.Copy(GameTables.GameEngine);
+                    copyItem.SetOwner(Items);
+                    copyItem.ItemId = Leader.UnitId;
+                    copyItem.Release();
                 }
             }
 
-            FLeader.FHeroItems.Clear();
-            for (int I = 0, last = AoWHSMap.Current.FUnitControl.GetCount() - 1; I <= last; I++)
+            Leader.HeroItems.Clear();
+            for (int I = 0, last = AoWHSMap.Current.UnitControl.GetCount() - 1; I <= last; I++)
             {
-                AUnit = AoWHSMap.Current.FUnitControl.GetUnit(I);
-                if (AUnit.FPlayer == Player && AUnit.GetUnitType() != UnitType.Machine && (AUnit.GetMoveTypes() & Set<MoveType>.Of(MoveType.Walking, MoveType.Flying)) != Set<MoveType>.Of() && !(AUnit is Leader) && !AUnit.GetAbilityEnabled(155))
+                troop = AoWHSMap.Current.UnitControl.GetUnit(I);
+                if (troop.Player == player && troop.GetUnitType() != UnitType.Machine && (troop.GetMoveTypes() & Set<MoveType>.Of(MoveType.Walking, MoveType.Flying)) != Set<MoveType>.Of() && !(troop is Leader) && !troop.GetAbilityEnabled(155))
                 {
-                    if (AUnit is Hero)
+                    if (troop is Hero)
                     {
-                        Hero = (Hero)AUnit.Copy(GameTables.AoWEngine);
-                        Hero.SetOwner(FHeroes);
-                        Hero.RemoveEnchantments();
-                        Hero.RemoveHandicaps();
-                        Hero.ExecuteCancelCasting();
-                        for (int J = Hero.FInventory.Count - 1; J >= 0; J--)
+                        hero = (Hero)troop.Copy(GameTables.GameEngine);
+                        hero.SetOwner(Heroes);
+                        hero.RemoveEnchantments();
+                        hero.RemoveHandicaps();
+                        hero.ExecuteCancelCasting();
+                        for (int J = hero.Inventory.Count - 1; J >= 0; J--)
                         {
-                            Item = Hero.FInventory.GetItem(J);
-                            if (Item != null)
+                            item = hero.Inventory.GetItem(J);
+                            if (item != null)
                             {
-                                CopyItem = (Item)Item.Copy(GameTables.AoWEngine);
-                                CopyItem.SetOwner(FItems);
-                                CopyItem.FItemID = Hero.FUnitID;
-                                CopyItem.Release();
+                                copyItem = (Item)item.Copy(GameTables.GameEngine);
+                                copyItem.SetOwner(Items);
+                                copyItem.ItemId = hero.UnitId;
+                                copyItem.Release();
                             }
                         }
 
-                        Hero.FInventory.Clear();
-                        for (int J = Hero.FHeroItems.Count - 1; J >= 0; J--)
+                        hero.Inventory.Clear();
+                        for (int J = hero.HeroItems.Count - 1; J >= 0; J--)
                         {
-                            Item = Hero.FHeroItems.GetItem(J);
-                            if (Item != null)
+                            item = hero.HeroItems.GetItem(J);
+                            if (item != null)
                             {
-                                CopyItem = (Item)Item.Copy(GameTables.AoWEngine);
-                                CopyItem.SetOwner(FItems);
-                                CopyItem.FItemID = Hero.FUnitID;
-                                CopyItem.Release();
+                                copyItem = (Item)item.Copy(GameTables.GameEngine);
+                                copyItem.SetOwner(Items);
+                                copyItem.ItemId = hero.UnitId;
+                                copyItem.Release();
                             }
                         }
 
-                        Hero.FHeroItems.Clear();
-                        Hero.Release();
+                        hero.HeroItems.Clear();
+                        hero.Release();
                     }
                     else
                     {
-                        NewUnit = (Troop)AUnit.Copy(GameTables.AoWEngine);
-                        NewUnit.RemoveEnchantments();
-                        NewUnit.RemoveHandicaps();
-                        Units.AddUnit(NewUnit);
-                        NewUnit.Release();
+                        newUnit = (Troop)troop.Copy(GameTables.GameEngine);
+                        newUnit.RemoveEnchantments();
+                        newUnit.RemoveHandicaps();
+                        units.AddUnit(newUnit);
+                        newUnit.Release();
                     }
                 }
             }
 
-            FResearchPercentage = AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FResearchPercentage;
-            var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-            FSpells.Assign(players.FMagicControl.FSpells);
-            FResearchSpellID = AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FResearchSpellID;
-            FResearchPointsLeft = AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FResearchPointsLeft;
+            ResearchPercentage = AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPercentage;
+            var players = AoWHSMap.Current.Players.GetPlayers(player);
+            Spells.Assign(players.MagicControl.Spells);
+            ResearchSpellId = AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId;
+            ResearchPointsLeft = AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft;
             RandSeed = AoWHSMap.Current.Random(16777215);
-            GenerateTransferUnits(Units);
-            Units?.Dispose();
+            GenerateTransferUnits(units);
+            units?.Dispose();
         }
     }
 
     // Diplomacy.pas:1944
     public void ClearSelection()
     {
-        FSelectedHeroes.Clear();
-        FSelectedItems.Clear();
-        FSelectedUnits.Clear();
-        FTransferPointsLeft = FTransferPointsMax;
-        FSelectedTransferMana = 0;
-        FSelectedTransferGold = 0;
-        FSelectedSpheres.Clear();
+        SelectedHeroes.Clear();
+        SelectedItems.Clear();
+        SelectedUnits.Clear();
+        TransferPointsLeft = TransferPointsMax;
+        SelectedTransferMana = 0;
+        SelectedTransferGold = 0;
+        SelectedSpheres.Clear();
     }
 
     // Diplomacy.pas:1955
-    public bool AddItem(int Index)
+    public bool AddItem(int index)
     {
-        bool Result;
-        if (Index >= 0 && Index < FItems.Count && FSelectedItems.IndexOf(Index) == -1 && FItems.GetItem(Index).GetCampaignTransferPoints() <= FTransferPointsLeft)
+        bool result;
+        if (index >= 0 && index < Items.Count && SelectedItems.IndexOf(index) == -1 && Items.GetItem(index).GetCampaignTransferPoints() <= TransferPointsLeft)
         {
-            var campaignTransferPoints = FItems.GetItem(Index).GetCampaignTransferPoints();
-            FTransferPointsLeft -= campaignTransferPoints;
-            FSelectedItems.Add(Index);
-            Result = true;
+            var campaignTransferPoints = Items.GetItem(index).GetCampaignTransferPoints();
+            TransferPointsLeft -= campaignTransferPoints;
+            SelectedItems.Add(index);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:1968
-    public bool DeleteItem(int Index)
+    public bool DeleteItem(int index)
     {
-        bool Result;
-        if (FSelectedItems.Remove(Index) != -1)
+        bool result;
+        if (SelectedItems.Remove(index) != -1)
         {
-            var campaignTransferPoints = FItems.GetItem(Index).GetCampaignTransferPoints();
-            FTransferPointsLeft += campaignTransferPoints;
-            Result = true;
+            var campaignTransferPoints = Items.GetItem(index).GetCampaignTransferPoints();
+            TransferPointsLeft += campaignTransferPoints;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:1978
-    public bool AddHero(int Index)
+    public bool AddHero(int index)
     {
-        bool Result;
-        if (Index >= 0 && Index < FHeroes.Count && FSelectedHeroes.IndexOf(Index) == -1 && FHeroes.GetHero(Index).GetCampaignTransferPoints() <= FTransferPointsLeft)
+        bool result;
+        if (index >= 0 && index < Heroes.Count && SelectedHeroes.IndexOf(index) == -1 && Heroes.GetHero(index).GetCampaignTransferPoints() <= TransferPointsLeft)
         {
-            var campaignTransferPoints = FHeroes.GetHero(Index).GetCampaignTransferPoints();
-            FTransferPointsLeft -= campaignTransferPoints;
-            FSelectedHeroes.Add(Index);
-            Result = true;
+            var campaignTransferPoints = Heroes.GetHero(index).GetCampaignTransferPoints();
+            TransferPointsLeft -= campaignTransferPoints;
+            SelectedHeroes.Add(index);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:1991
-    public bool DeleteHero(int Index)
+    public bool DeleteHero(int index)
     {
-        bool Result;
-        if (FSelectedHeroes.Remove(Index) != -1)
+        bool result;
+        if (SelectedHeroes.Remove(index) != -1)
         {
-            var campaignTransferPoints = FHeroes.GetHero(Index).GetCampaignTransferPoints();
-            FTransferPointsLeft += campaignTransferPoints;
-            Result = true;
+            var campaignTransferPoints = Heroes.GetHero(index).GetCampaignTransferPoints();
+            TransferPointsLeft += campaignTransferPoints;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:2001
-    public bool AddUnit(int Index)
+    public bool AddUnit(int index)
     {
-        bool Result;
-        if (Index >= 0 && Index < FUnits.Count && FSelectedUnits.IndexOf(Index) == -1 && FUnits.GetUnit(Index).GetCampaignTransferPoints() <= FTransferPointsLeft)
+        bool result;
+        if (index >= 0 && index < Units.Count && SelectedUnits.IndexOf(index) == -1 && Units.GetUnit(index).GetCampaignTransferPoints() <= TransferPointsLeft)
         {
-            var campaignTransferPoints = FUnits.GetUnit(Index).GetCampaignTransferPoints();
-            FTransferPointsLeft -= campaignTransferPoints;
-            FSelectedUnits.Add(Index);
-            Result = true;
+            var campaignTransferPoints = Units.GetUnit(index).GetCampaignTransferPoints();
+            TransferPointsLeft -= campaignTransferPoints;
+            SelectedUnits.Add(index);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:2014
-    public bool DeleteUnit(int Index)
+    public bool DeleteUnit(int index)
     {
-        bool Result;
-        if (FSelectedUnits.Remove(Index) != -1)
+        bool result;
+        if (SelectedUnits.Remove(index) != -1)
         {
-            var campaignTransferPoints = FUnits.GetUnit(Index).GetCampaignTransferPoints();
-            FTransferPointsLeft += campaignTransferPoints;
-            Result = true;
+            var campaignTransferPoints = Units.GetUnit(index).GetCampaignTransferPoints();
+            TransferPointsLeft += campaignTransferPoints;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:2024
-    public void SetSelectedTransferGold(int Value)
+    public void SetSelectedTransferGold(int value)
     {
-        int Max;
-        Max = FSelectedTransferGold + FTransferPointsLeft;
-        if (Max > FTransferGoldMax)
+        int max;
+        max = SelectedTransferGold + TransferPointsLeft;
+        if (max > TransferGoldMax)
         {
-            Max = FTransferGoldMax;
+            max = TransferGoldMax;
         }
 
-        if (Value > Max)
+        if (value > max)
         {
-            Value = Max;
+            value = max;
         }
 
-        FTransferPointsLeft -= Value - FSelectedTransferGold;
-        FSelectedTransferGold = Value;
+        TransferPointsLeft -= value - SelectedTransferGold;
+        SelectedTransferGold = value;
     }
 
     // Diplomacy.pas:2034
-    public void SetSelectedTransferMana(int Value)
+    public void SetSelectedTransferMana(int value)
     {
-        int Max;
-        Max = FSelectedTransferMana + FTransferPointsLeft;
-        if (Max > FTransferManaMax)
+        int max;
+        max = SelectedTransferMana + TransferPointsLeft;
+        if (max > TransferManaMax)
         {
-            Max = FTransferManaMax;
+            max = TransferManaMax;
         }
 
-        if (Value > Max)
+        if (value > max)
         {
-            Value = Max;
+            value = max;
         }
 
-        FTransferPointsLeft -= Value - FSelectedTransferMana;
-        FSelectedTransferMana = Value;
+        TransferPointsLeft -= value - SelectedTransferMana;
+        SelectedTransferMana = value;
     }
 
     // Diplomacy.pas:2044
-    public void SetupSelection(string FileName)
+    public void SetupSelection(string fileName)
     {
-        AoWHSMap Map;
+        AoWHSMap map;
         ClearSelection();
-        Map = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(FileName, GameProfile.WorldMap);
-        FTransferPointsMax = Map.FCampaignSettings.FTransferPointsMax;
-        if (GameTables.AoWEngine.FCampaign.FDifficultyLevel == Campaign.DifficultyLevel.Easy)
+        map = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(fileName, GameProfile.WorldMap);
+        TransferPointsMax = map.CampaignSettings.TransferPointsMax;
+        if (GameTables.GameEngine.Campaign.DifficultyLevel == CampaignDifficultyLevel.Easy)
         {
-            FTransferPointsMax = Round((double)FTransferPointsMax * 1.5);
+            TransferPointsMax = Round((double)TransferPointsMax * 1.5);
         }
 
-        if (GameTables.AoWEngine.FCampaign.FDifficultyLevel == Campaign.DifficultyLevel.Hard)
+        if (GameTables.GameEngine.Campaign.DifficultyLevel == CampaignDifficultyLevel.Hard)
         {
-            FTransferPointsMax = Round((double)FTransferPointsMax * 0.5);
+            TransferPointsMax = Round((double)TransferPointsMax * 0.5);
         }
 
-        FTransferGoldMax = Map.FCampaignSettings.FTransferGoldMax;
-        FTransferManaMax = Map.FCampaignSettings.FTransferManaMax;
-        FTransferPointsLeft = FTransferPointsMax;
-        Map?.Dispose();
+        TransferGoldMax = map.CampaignSettings.TransferGoldMax;
+        TransferManaMax = map.CampaignSettings.TransferManaMax;
+        TransferPointsLeft = TransferPointsMax;
+        map?.Dispose();
     }
 
     // Diplomacy.pas:2065
     public void AutoSelect()
     {
-        int Points = default;
-        bool Done = default;
-        QuadItemList Candidates = default;
+        int points = default;
+        bool done = default;
+        QuadItemList candidates = default;
         ClearSelection();
-        Candidates = new QuadItemList();
-        Done = false;
-        while (!Done)
+        candidates = new QuadItemList();
+        done = false;
+        while (!done)
         {
-            Candidates.Clear();
-            for (int I = 0, last = FHeroes.Count - 1; I <= last; I++)
+            candidates.Clear();
+            for (int I = 0, last = Heroes.Count - 1; I <= last; I++)
             {
-                if (FSelectedHeroes.IndexOf(I) == -1)
+                if (SelectedHeroes.IndexOf(I) == -1)
                 {
-                    Points = FHeroes.GetHero(I).GetCampaignTransferPoints();
-                    if (Points <= FTransferPointsLeft)
+                    points = Heroes.GetHero(I).GetCampaignTransferPoints();
+                    if (points <= TransferPointsLeft)
                     {
-                        Candidates.AddABCD(0, I, Points, 0);
+                        candidates.AddABCD(0, I, points, 0);
                     }
                 }
             }
 
-            for (int I = 0, last = FItems.Count - 1; I <= last; I++)
+            for (int I = 0, last = Items.Count - 1; I <= last; I++)
             {
-                if (FSelectedItems.IndexOf(I) == -1)
+                if (SelectedItems.IndexOf(I) == -1)
                 {
-                    Points = FItems.GetItem(I).GetCampaignTransferPoints();
-                    if (Points <= FTransferPointsLeft)
+                    points = Items.GetItem(I).GetCampaignTransferPoints();
+                    if (points <= TransferPointsLeft)
                     {
-                        Candidates.AddABCD(1, I, Points, 0);
+                        candidates.AddABCD(1, I, points, 0);
                     }
                 }
             }
 
-            for (int I = 0, last = FUnits.Count - 1; I <= last; I++)
+            for (int I = 0, last = Units.Count - 1; I <= last; I++)
             {
-                if (FSelectedUnits.IndexOf(I) == -1)
+                if (SelectedUnits.IndexOf(I) == -1)
                 {
-                    Points = FUnits.GetUnit(I).GetCampaignTransferPoints();
-                    if (Points <= FTransferPointsLeft)
+                    points = Units.GetUnit(I).GetCampaignTransferPoints();
+                    if (points <= TransferPointsLeft)
                     {
-                        Candidates.AddABCD(2, I, Points, 0);
+                        candidates.AddABCD(2, I, points, 0);
                     }
                 }
             }
 
-            Candidates.Sort(CompareCampaignTransfer);
-            if (Candidates.Count != 0)
+            candidates.Sort(CompareCampaignTransfer);
+            if (candidates.Count != 0)
             {
-                switch (Candidates[0].A)
+                switch (candidates[0].First)
                 {
                     case 0:
-                        AddHero(Candidates[0].B);
+                        AddHero(candidates[0].Second);
                         break;
                     case 1:
-                        AddItem(Candidates[0].B);
+                        AddItem(candidates[0].Second);
                         break;
                     case 2:
-                        AddUnit(Candidates[0].B);
+                        AddUnit(candidates[0].Second);
                         break;
                 }
             }
             else
             {
-                Done = true;
+                done = true;
             }
         }
 
-        SetSelectedTransferGold(FTransferPointsMax);
-        SetSelectedTransferMana(FTransferPointsMax);
-        Candidates?.Dispose();
+        SetSelectedTransferGold(TransferPointsMax);
+        SetSelectedTransferMana(TransferPointsMax);
+        candidates?.Dispose();
     }
 
     // Diplomacy.pas:2109
     public void ExecuteSelection()
     {
-        sbyte Player;
+        sbyte player;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        Leader Leader;
-        Troop AUnit;
-        Hero Hero;
+        Leader leader;
+        Troop troop;
+        Hero hero;
         Item Item;
         if (AoWHSMap.Current != null)
         {
-            AoWHSMap.Current.SynchroniseBegin();
-            AoWHSMap.Current.FPlayers.Update();
-            Player = (sbyte)(AoWHSMap.Current.FPlayers.Count - 1);
-            while (Player > 1 && AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
+            AoWHSMap.Current.SynchronizeBegin();
+            AoWHSMap.Current.Players.Update();
+            player = (sbyte)(AoWHSMap.Current.Players.Count - 1);
+            while (player > 1 && AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
             {
-                Player = (sbyte)(Player - 1);
+                player = (sbyte)(player - 1);
             }
 
-            if (GameTables.AoWEngine.FCampaign.FCompletedScenarios.Count != 0)
+            if (GameTables.GameEngine.Campaign.CompletedScenarios.Count != 0)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FResearchPercentage = FResearchPercentage;
+                AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPercentage = ResearchPercentage;
             }
 
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FResearchSpellID = FResearchSpellID;
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FResearchPointsLeft = FResearchPointsLeft;
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FSpells.Assign(FSpells);
-            var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-            players.FInitialGold += FSelectedTransferGold;
-            var fPlayersPlayers = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-            fPlayersPlayers.FMagicControl.FExternalMana += FSelectedTransferMana;
-            Leader = AoWHSMap.Current.FPlayers.GetPlayers(Player).FLeader;
-            Leader.GetLocation(ref X, ref Y, ref L);
-            if (FLeader != null)
+            AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId = ResearchSpellId;
+            AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft = ResearchPointsLeft;
+            AoWHSMap.Current.Players.GetPlayers(player).MagicControl.Spells.Assign(Spells);
+            var players = AoWHSMap.Current.Players.GetPlayers(player);
+            players.InitialGold += SelectedTransferGold;
+            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(player);
+            fPlayersPlayers.MagicControl.ExternalMana += SelectedTransferMana;
+            leader = AoWHSMap.Current.Players.GetPlayers(player).Leader;
+            leader.GetLocation(ref X, ref Y, ref L);
+            if (Leader != null)
             {
-                Leader.Deactivate();
-                Leader.Assign(FLeader, GameTables.AoWEngine);
-                Leader.SetSpherePicksMax((byte)(Leader.GetSphereCount() + FSelectedSpheres.Count));
-                for (int I = 0, last = FSelectedSpheres.Count - 1; I <= last; I++)
+                leader.Deactivate();
+                leader.Assign(Leader, GameTables.GameEngine);
+                leader.SetSpherePicksMax((byte)(leader.GetSphereCount() + SelectedSpheres.Count));
+                for (int I = 0, last = SelectedSpheres.Count - 1; I <= last; I++)
                 {
-                    Leader.AddSphere((MagicSphere)FSelectedSpheres[I]);
+                    leader.AddSphere((MagicSphere)SelectedSpheres[I]);
                 }
 
-                for (int J = FSelectedItems.Count - 1; J >= 0; J--)
+                for (int J = SelectedItems.Count - 1; J >= 0; J--)
                 {
-                    var item = FSelectedItems[J];
-                    Item = FItems.GetItem(item);
-                    if (Leader.FUnitID == Item.FItemID)
+                    var item = SelectedItems[J];
+                    Item = Items.GetItem(item);
+                    if (leader.UnitId == Item.ItemId)
                     {
-                        var fSelectedItemsItem = FSelectedItems[J];
-                        Item = (Item)FItems.GetItem(fSelectedItemsItem).Copy(GameTables.AoWEngine);
-                        if (Leader.AutoPlaceItem(Item))
+                        var fSelectedItemsItem = SelectedItems[J];
+                        Item = (Item)Items.GetItem(fSelectedItemsItem).Copy(GameTables.GameEngine);
+                        if (leader.AutoPlaceItem(Item))
                         {
-                            FSelectedItems.Delete(J);
+                            SelectedItems.Delete(J);
                         }
 
                         Item.Release();
                     }
                 }
 
-                Leader.FUnitID = -1;
-                Leader.SetPlayer(Player);
-                Leader.Activate();
+                leader.UnitId = -1;
+                leader.SetPlayer(player);
+                leader.Activate();
             }
 
-            for (int I = FSelectedUnits.Count - 1; I >= 0; I--)
+            for (int I = SelectedUnits.Count - 1; I >= 0; I--)
             {
-                var item = FSelectedUnits[I];
-                AUnit = (Troop)FUnits.GetUnit(item).Copy(GameTables.AoWEngine);
-                AUnit.FUnitID = -1;
-                AUnit.Place(X, Y, L, Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
-                AUnit.Release();
+                var item = SelectedUnits[I];
+                troop = (Troop)Units.GetUnit(item).Copy(GameTables.GameEngine);
+                troop.UnitId = -1;
+                troop.Place(X, Y, L, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                troop.Release();
             }
 
-            for (int I = FSelectedHeroes.Count - 1; I >= 0; I--)
+            for (int I = SelectedHeroes.Count - 1; I >= 0; I--)
             {
-                var item = FSelectedHeroes[I];
-                Hero = (Hero)FHeroes.GetHero(item).Copy(GameTables.AoWEngine);
-                for (int J = FSelectedItems.Count - 1; J >= 0; J--)
+                var item = SelectedHeroes[I];
+                hero = (Hero)Heroes.GetHero(item).Copy(GameTables.GameEngine);
+                for (int J = SelectedItems.Count - 1; J >= 0; J--)
                 {
-                    var fSelectedItemsItem = FSelectedItems[J];
-                    Item = FItems.GetItem(fSelectedItemsItem);
-                    if (Hero.FUnitID == Item.FItemID)
+                    var fSelectedItemsItem = SelectedItems[J];
+                    Item = Items.GetItem(fSelectedItemsItem);
+                    if (hero.UnitId == Item.ItemId)
                     {
-                        var item2 = FSelectedItems[J];
-                        Item = (Item)FItems.GetItem(item2).Copy(GameTables.AoWEngine);
-                        if (Hero.AutoPlaceItem(Item))
+                        var item2 = SelectedItems[J];
+                        Item = (Item)Items.GetItem(item2).Copy(GameTables.GameEngine);
+                        if (hero.AutoPlaceItem(Item))
                         {
-                            FSelectedItems.Delete(J);
+                            SelectedItems.Delete(J);
                         }
 
                         Item.Release();
                     }
                 }
 
-                Hero.FUnitID = -1;
-                Hero.FMode = Hero.FMode + Set<HeroModeElement>.Of(HeroModeElement.SkipLibraryUpdate);
-                Hero.Place(X, Y, L, Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
-                Hero.FMode = Hero.FMode - Set<HeroModeElement>.Of(HeroModeElement.SkipLibraryUpdate);
-                Hero.Release();
+                hero.UnitId = -1;
+                hero.Mode = hero.Mode + Set<HeroModeElement>.Of(HeroModeElement.SkipLibraryUpdate);
+                hero.Place(X, Y, L, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                hero.Mode = hero.Mode - Set<HeroModeElement>.Of(HeroModeElement.SkipLibraryUpdate);
+                hero.Release();
             }
 
-            for (int I = FSelectedItems.Count - 1; I >= 0; I--)
+            for (int I = SelectedItems.Count - 1; I >= 0; I--)
             {
-                var item = FSelectedItems[I];
-                Item = (Item)FItems.GetItem(item).Copy(GameTables.AoWEngine);
-                AoWHSMap.Current.FItemControl.RegisterItem(Item);
+                var item = SelectedItems[I];
+                Item = (Item)Items.GetItem(item).Copy(GameTables.GameEngine);
+                AoWHSMap.Current.ItemControl.RegisterItem(Item);
                 Item.PlaceOnMap(AoWHSMap.Current, X, Y, L);
                 Item.Release();
             }
 
-            AoWHSMap.Current.SynchroniseEnd();
+            AoWHSMap.Current.SynchronizeEnd();
         }
     }
 
-    private static int CompareCampaignTransfer(in QuadItemList.QuadInteger Item1, in QuadItemList.QuadInteger Item2)
+    private static int CompareCampaignTransfer(in QuadItemList.QuadInteger item1, in QuadItemList.QuadInteger item2)
     {
-        return Item2.C - Item1.C;
+        return item2.Third - item1.Third;
     }
 
     // intf_P5_08.inc:43

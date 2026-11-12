@@ -15,175 +15,175 @@ public partial class House : CombatStructure
     public House(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 2229522;
+    public new const int ClassId = 2229522;
 
-    public int FRace;
-    public int FFlagID;
+    public int Race;
+    public int FlagId;
 
     // House.pas:45
     public override void Activate()
     {
-        PlayerStructure Structure;
+        PlayerStructure structure;
         base.Activate();
         if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            Structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLoc).GetField(CombatPlacement.CombatXLoc, CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(PlayerStructure));
-            if (Structure != null)
+            structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.s_combatLLocation).GetField(CombatPlacement.s_combatXLocation, CombatPlacement.s_combatYLocation).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+            if (structure != null)
             {
-                if (Structure is City)
+                if (structure is City)
                 {
-                    FRace = ((City)Structure).FRace;
+                    Race = ((City)structure).Race;
                 }
                 else
                 {
-                    FRace = 0;
+                    Race = 0;
                 }
 
-                if (Structure.FPlayer == -1)
+                if (structure.Player == -1)
                 {
-                    FFlagID = -1;
+                    FlagId = -1;
                 }
                 else
                 {
-                    FFlagID = AoWHSMap.Current.FPlayers.GetPlayers(Structure.FPlayer).FPlayerRace;
+                    FlagId = AoWHSMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
                 }
 
-                if (FFlagID == -1)
+                if (FlagId == -1)
                 {
-                    FFlagID = 32;
+                    FlagId = 32;
                 }
             }
         }
     }
 
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
-        int ImageIndex;
-        int Xhp = default;
-        int Yhp = default;
-        int TerrainOffset;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-        XhpSurf = Xhp - XhpSurf;
-        YhpSurf = Yhp - YhpSurf;
-        if (FHitPoints == 0)
+        ImageSequence sequence;
+        int imageIndex;
+        int pixelX = default;
+        int pixelY = default;
+        int terrainOffset;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        pixelXSurface = pixelX - pixelXSurface;
+        pixelYSurface = pixelY - pixelYSurface;
+        if (HitPoints == 0)
         {
-            Sequence = AoWHSSet.Current.FImageSequences.GetImageSequence(50);
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
+            sequence = AoWHSSet.Current.ImageSequences.GetImageSequence(50);
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType)
             {
                 case 3:
-                    TerrainOffset = 1;
+                    terrainOffset = 1;
                     break;
                 case 5:
                 case 7:
                 case 12:
-                    TerrainOffset = 2;
+                    terrainOffset = 2;
                     break;
                 default:
-                    TerrainOffset = 0;
+                    terrainOffset = 0;
                     break;
             }
 
-            if (Sequence != null)
+            if (sequence != null)
             {
                 do
                 {
-                    ImageIndex = Sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3) + TerrainOffset * 3);
-                    if (ImageIndex != -1)
+                    imageIndex = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3) + terrainOffset * 3);
+                    if (imageIndex != -1)
                     {
-                        Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift + 16, YhpSurf + Sequence.dYshift + 16, SurfaceDesc);
+                        sequence.ImageLibrary[imageIndex].Show(pixelXSurface + sequence.OffsetX + 16, pixelYSurface + sequence.OffsetY + 16, lockedSurface);
                     }
 
-                    Sequence = Sequence.Next;
+                    sequence = sequence.Next;
                 }
-                while (!(Sequence == null));
+                while (!(sequence == null));
             }
         }
         else
         {
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType)
             {
                 case 3:
-                    TerrainOffset = 20;
+                    terrainOffset = 20;
                     break;
                 case 5:
                 case 7:
                 case 12:
-                    TerrainOffset = 40;
+                    terrainOffset = 40;
                     break;
                 default:
-                    TerrainOffset = 0;
+                    terrainOffset = 0;
                     break;
             }
 
-            Sequence = FResource.ImageSequenceList.GetImageSequence(TerrainOffset + FRace);
-            if (Sequence != null)
+            sequence = _resource.ImageSequenceList.GetImageSequence(terrainOffset + Race);
+            if (sequence != null)
             {
                 do
                 {
-                    switch (Sequence.Layer)
+                    switch (sequence.Layer)
                     {
                         case 7:
-                            ImageIndex = Sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                            if (ImageIndex != -1)
+                            imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                            if (imageIndex != -1)
                             {
                                 if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                                 {
-                                    var xhx2 = GetXhx();
-                                    var yhx2 = GetYhx();
-                                    AoWHSSet.Current.FFlagControl.ShowStructureFlagEx(XhpSurf + 21 + Sequence.dXshift, YhpSurf + Sequence.dYshift + 16, xhx2 + AoWHSMap.Current.Frame + yhx2 * 100, (byte)FFlagID, SurfaceDesc, false);
+                                    var hexX2 = GetHexX();
+                                    var hexY2 = GetHexY();
+                                    AoWHSSet.Current.FlagControl.ShowStructureFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + AoWHSMap.Current.Frame + hexY2 * 100, (byte)FlagId, lockedSurface, false);
                                 }
                             }
 
                             break;
                         default:
                             {
-                                ImageIndex = Sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                                if (ImageIndex != -1)
+                                imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                                if (imageIndex != -1)
                                 {
-                                    Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
+                                    sequence.ImageLibrary[imageIndex].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);
                                 }
                             }
 
                             break;
                     }
 
-                    Sequence = Sequence.Next;
+                    sequence = sequence.Next;
                 }
-                while (!(Sequence == null));
+                while (!(sequence == null));
             }
         }
     }
 
-    public override void ShowShadow(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
-        int ImageIndex;
-        int Xhp = default;
-        int Yhp = default;
-        if (FHitPoints > 0)
+        ImageSequence sequence;
+        int imageIndex;
+        int pixelX = default;
+        int pixelY = default;
+        if (HitPoints > 0)
         {
-            HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-            XhpSurf = Xhp - XhpSurf;
-            YhpSurf = Yhp - YhpSurf;
-            Sequence = FResource.ImageSequenceList.GetImageSequence(FRace + 60);
-            if (Sequence != null)
+            HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+            pixelXSurface = pixelX - pixelXSurface;
+            pixelYSurface = pixelY - pixelYSurface;
+            sequence = _resource.ImageSequenceList.GetImageSequence(Race + 60);
+            if (sequence != null)
             {
                 do
                 {
-                    ImageIndex = Sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                    if (ImageIndex != -1)
+                    imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                    if (imageIndex != -1)
                     {
-                        Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
+                        sequence.ImageLibrary[imageIndex].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);
                     }
 
-                    Sequence = Sequence.Next;
+                    sequence = sequence.Next;
                 }
-                while (!(Sequence == null));
+                while (!(sequence == null));
             }
         }
     }
@@ -194,10 +194,10 @@ public partial class House : CombatStructure
         { }
 
         // House.pas:145
-        public new const int ClassID = 2229523;
+        public new const int ClassId = 2229523;
 
         // House.pas:151
-        public override int ResourceUserClassID() => 2229522;
+        public override int ResourceUserClassId() => 2229522;
 
         // House.pas:148
         public override string ResourceEditName() => "Combat House";

@@ -8,25 +8,25 @@ namespace Aow.Game.UI.Controls;
 public partial class Image
 {
     // FastBattleWindow.GlowAnimation is a plain TImageLibrary in the recovered form.
-    public ImageLibrary FImageLib;
+    public ImageLibrary _imageLibrary;
 
     [Published]
-    public ImageLibrary ImageLib { get => FImageLib; set => SetILB(value); }
+    public ImageLibrary ImageLibrary { get => _imageLibrary; set => SetImageLibrary(value); }
 
-    public void SetILB(ImageLibrary value)
+    public void SetImageLibrary(ImageLibrary value)
     {
-        if (value == FImageLib) return;
-        FValid = false;
-        FImageLib = value;
+        if (value == _imageLibrary) return;
+        Valid = false;
+        _imageLibrary = value;
     }
 
     public override void Validate()
     {
-        if (FImageLib != null)
-            FImageLib = FAnimate
-                ? FImageLib.CheckIL(FAnimStart, FAnimEnd + 1 - FAnimStart, this)
-                : FImageLib.CheckIL(FCurrentImage, 1, this);
-        if (FImageLib != null) FValid = true;
+        if (_imageLibrary != null)
+            _imageLibrary = _animate
+                ? _imageLibrary.CheckImageLibrary(_animationStart, _animationEnd + 1 - _animationStart, this)
+                : _imageLibrary.CheckImageLibrary(_currentImage, 1, this);
+        if (_imageLibrary != null) Valid = true;
         base.Validate();
     }
 
@@ -34,12 +34,12 @@ public partial class Image
     {
         try
         {
-            if (!FValid || !FVisible) return;
-            FOnPreDraw?.Invoke(this, surface);
-            var rectangle = new Rect(FAOWWindow.FWinLeft + FWinLeft,
-                FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-            FImageLib.DrawILT(FCurrentImage, rectangle, ref surface);
-            FOnDraw?.Invoke(this, surface);
+            if (!Valid || !_visible) return;
+            _onPreDraw?.Invoke(this, surface);
+            var rectangle = new Rect(_window._winLeft + _winLeft,
+                _window._winTop + _winTop, _winWidth, _winHeight);
+            _imageLibrary.DrawTiled(_currentImage, rectangle, ref surface);
+            _onDraw?.Invoke(this, surface);
         }
         catch
         {

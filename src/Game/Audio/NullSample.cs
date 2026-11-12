@@ -10,15 +10,15 @@ internal class NullSample : Sample
     public static new NullSample Create(SampleData data) =>
             ConstructionContext.Create(data, static (context, value) => new NullSample(context, value));
 
-    private int volume;
-    private bool looped;
-    private SamplePanning panning;
+    private int _volume;
+    private bool _looped;
+    private SamplePanning _panning;
 
     protected internal override bool GetPlaying() => false;
-    protected internal override int GetVolume() => volume;
-    protected internal override void SetVolume(int value) => volume = value;
-    protected internal override bool GetLooped() => looped;
-    protected internal override void SetLooped(bool value) => looped = value;
-    protected internal override SamplePanning GetPanning() => panning;
-    protected internal override void SetPanning(SamplePanning value) => panning = value;
+    protected internal override int GetVolume() => _volume;
+    protected internal override void SetVolume(int value) => _volume = value;
+    protected internal override bool GetLooped() => _looped;
+    protected internal override void SetLooped(bool value) => _looped = value;
+    protected internal override SamplePanning GetPanning() => _panning;
+    protected internal override void SetPanning(SamplePanning value) => _panning = value;
 }

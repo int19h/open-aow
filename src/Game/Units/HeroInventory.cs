@@ -14,13 +14,13 @@ public partial class HeroInventory : ItemList
     // Hero.PAS:274
     public HeroInventory(ECustomNode owner) : base(null)
     {
-        FOwner = owner;
+        _owner = owner;
     }
 
     // Hero.PAS:280
     public override void Dispose()
     {
-        FOwner = null;
+        _owner = null;
         base.Dispose();
     }
 
@@ -30,15 +30,15 @@ public partial class HeroInventory : ItemList
     // Hero.PAS:286
     public int GetFreeSlot()
     {
-        int Result = 0;
-        while (Result < FChildren.Count && Result != 8)
+        int result = 0;
+        while (result < _children.Count && result != 8)
         {
-            if (FChildren.List[Result] == null)
+            if (_children.List[result] == null)
             {
-                return Result;
+                return result;
             }
 
-            Result += 1;
+            result += 1;
         }
 
         return -1;
@@ -47,106 +47,106 @@ public partial class HeroInventory : ItemList
     // Hero.PAS:307
     public int GetAbilityCount()
     {
-        Item Item;
-        int Result = 0;
+        Item item;
+        int result = 0;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Item = (Item)FChildren.List[I];
-            if (Item != null && Result < Item.GetAbCount())
+            item = (Item)_children.List[I];
+            if (item != null && result < item.GetAbCount())
             {
-                Result = Item.GetAbCount();
+                result = item.GetAbCount();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:318
-    public AbilityOwner GetSuperlativeEnabledAbOwner(int AbilityID)
+    public AbilityOwner GetSuperlativeEnabledAbilityOwner(int abilityId)
     {
-        Item Item;
-        AbilityOwner Result = null;
+        Item item;
+        AbilityOwner result = null;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Item = (Item)FChildren.List[I];
-            if (Item != null && Item.GetAbEnabled(AbilityID) && Item.FItemType == ItemType.Use)
+            item = (Item)_children.List[I];
+            if (item != null && item.GetAbEnabled(abilityId) && item.ItemType == ItemType.Use)
             {
-                if (Result == null || Item.GetAbLevel(AbilityID) > Result.GetAbLevel(AbilityID))
+                if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
                 {
-                    Result = Item;
+                    result = item;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:331
-    public bool GetAbilityEnabled(int AbilityID)
+    public bool GetAbilityEnabled(int abilityId)
     {
         int I;
-        Item Item;
-        bool Result = false;
+        Item item;
+        bool result = false;
         I = 0;
-        while (!Result && I < Count)
+        while (!result && I < Count)
         {
-            Item = (Item)FChildren.List[I];
-            Result = Item != null && Item.FItemType == ItemType.Use && Item.GetAbEnabled(AbilityID);
+            item = (Item)_children.List[I];
+            result = item != null && item.ItemType == ItemType.Use && item.GetAbEnabled(abilityId);
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:344
-    public bool GetAbilitySet(int AbilityID)
+    public bool GetAbilitySet(int abilityId)
     {
         int I;
-        Item Item;
-        bool Result = false;
+        Item item;
+        bool result = false;
         I = 0;
-        while (!Result && I < Count)
+        while (!result && I < Count)
         {
-            Item = (Item)FChildren.List[I];
-            Result = Item != null && Item.FItemType == ItemType.Use && Item.GetAbSet(AbilityID);
+            item = (Item)_children.List[I];
+            result = item != null && item.ItemType == ItemType.Use && item.GetAbilitySetAt(abilityId);
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:357
-    public AbilityOwner GetSuperlativeAbOwner(int AbilityID)
+    public AbilityOwner GetSuperlativeAbilityOwner(int abilityId)
     {
-        Item Item;
-        AbilityOwner Result = null;
+        Item item;
+        AbilityOwner result = null;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Item = (Item)FChildren.List[I];
-            if (Item != null && Item.GetAbSet(AbilityID) && Item.FItemType == ItemType.Use)
+            item = (Item)_children.List[I];
+            if (item != null && item.GetAbilitySetAt(abilityId) && item.ItemType == ItemType.Use)
             {
-                if (Result == null || Item.GetAbLevel(AbilityID) > Result.GetAbLevel(AbilityID))
+                if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
                 {
-                    Result = Item;
+                    result = item;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:370
-    public Item GetSlot(HeroItemPosition Position)
+    public Item GetSlot(HeroItemPosition position)
     {
-        Item Result;
+        Item result;
         int I;
-        switch (Position)
+        switch (position)
         {
             case >= HeroItemPosition.InventorySlot1 and <= HeroItemPosition.InventorySlot8:
-                I = (int)Position - (int)HeroItemPosition.InventorySlot1;
+                I = (int)position - (int)HeroItemPosition.InventorySlot1;
                 if (I < Count && I >= 0)
                 {
-                    Result = GetItem(I);
+                    result = GetItem(I);
                 }
                 else
                 {
@@ -155,11 +155,11 @@ public partial class HeroInventory : ItemList
 
                 break;
             default:
-                Result = null;
+                result = null;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P2_06.inc:8

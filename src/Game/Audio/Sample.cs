@@ -9,13 +9,13 @@ public partial class Sample : IDisposable
 {
     public static SampleClass Descriptor { get; } = new("Sample", Create);
 
-    internal int FDelay;
-    internal SampleData FSampleData;
-    internal SampleCallBack FCallBack;
-    internal Set<StatusElement> FStatus;
+    internal int _delay;
+    internal SampleData _sampleData;
+    internal SampleCallBack _callback;
+    internal Set<StatusElement> _status;
 
     // Sound.pas:746
-    protected internal virtual bool GetPlaying() => FDelay != 0;
+    protected internal virtual bool GetPlaying() => _delay != 0;
 
     // Sound.pas:81
     protected internal virtual int GetVolume()
@@ -24,7 +24,7 @@ public partial class Sample : IDisposable
     }
 
     // Sound.pas:82
-    protected internal virtual void SetVolume(int Value)
+    protected internal virtual void SetVolume(int value)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -36,7 +36,7 @@ public partial class Sample : IDisposable
     }
 
     // Sound.pas:84
-    protected internal virtual void SetLooped(bool Value)
+    protected internal virtual void SetLooped(bool value)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -48,7 +48,7 @@ public partial class Sample : IDisposable
     }
 
     // Sound.pas:86
-    protected internal virtual void SetPanning(SamplePanning Value)
+    protected internal virtual void SetPanning(SamplePanning value)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -58,12 +58,12 @@ public partial class Sample : IDisposable
     //   does not loop destroys itself. }
     public virtual void Update()
     {
-        if (FStatus.Contains(StatusElement.Running) && !GetPlaying())
+        if (_status.Contains(StatusElement.Running) && !GetPlaying())
         {
-            if (FDelay != 0)
+            if (_delay != 0)
             {
-                FDelay -= 1;
-                if (FDelay == 0)
+                _delay -= 1;
+                if (_delay == 0)
                 {
                     Play();
                 }
@@ -79,12 +79,12 @@ public partial class Sample : IDisposable
     }
 
     // Sound.pas:727
-    protected Sample(ConstructionContext context, SampleData ASampleData)
+    protected Sample(ConstructionContext context, SampleData sampleData)
     {
         context.Capture(this);
         AudioHost.SampleList.Add(this);
-        FSampleData = ASampleData;
-        FSampleData.AddRef();
+        _sampleData = sampleData;
+        _sampleData.AddRef();
     }
 
     // Sound.pas:751
@@ -100,38 +100,38 @@ public partial class Sample : IDisposable
     // Sound.pas:735
     public virtual void Dispose()
     {
-        if (FCallBack != null)
+        if (_callback != null)
         {
-            FCallBack(this, SampleCallbackMode.Done);
+            _callback(this, SampleCallbackMode.Done);
         }
 
-        if (FSampleData != null)
+        if (_sampleData != null)
         {
-            FSampleData.Release();
+            _sampleData.Release();
         }
 
-        FSampleData = null;
+        _sampleData = null;
         AudioHost.SampleList.Remove(this);
     }
 
     // Sound.pas:774
     public void Execute()
     {
-        if (!FStatus.Contains(StatusElement.Running))
+        if (!_status.Contains(StatusElement.Running))
         {
-            if (FDelay == 0)
+            if (_delay == 0)
             {
                 Play();
             }
 
-            FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Running);
+            _status = _status + Set<StatusElement>.Of(StatusElement.Running);
         }
     }
 
-    public SampleData SampleData { get => FSampleData; }
-    public int Delay { get => FDelay; set => FDelay = value; }
-    public SampleCallBack CallBack { get => FCallBack; set => FCallBack = value; }
-    public Set<StatusElement> Status { get => FStatus; }
+    public SampleData SampleData { get => _sampleData; }
+    public int Delay { get => _delay; set => _delay = value; }
+    public SampleCallBack Callback { get => _callback; set => _callback = value; }
+    public Set<StatusElement> Status { get => _status; }
     public bool Playing { get => GetPlaying(); }
     public int Volume { get => GetVolume(); set => SetVolume(value); }
     public bool Looped { get => GetLooped(); set => SetLooped(value); }

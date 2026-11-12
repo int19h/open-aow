@@ -11,95 +11,95 @@ namespace Aow.Game.Commands;
 // events, simultaneous
 public partial class MultiMoveTokenEvent : TokenEvent
 {
-    public new const int ClassID = 135442;
+    public new const int ClassId = 135442;
 
-    public TokenEventList FEvents;
-    public bool FSimultaneous;
+    public TokenEventList Events;
+    public bool Simultaneous;
 
     // MoveT.PAS:3293
     public override void Dispose()
     {
-        FEvents?.Dispose();
+        Events?.Dispose();
         base.Dispose();
     }
 
     // MoveT.PAS:3302
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FEvents, 20);
-        Stream.rwBool(ref FSimultaneous, 21);
+        base.ReadWrite(stream);
+        stream.rwEObject(Events, 20);
+        stream.rwBool(ref Simultaneous, 21);
     }
 
     // MoveT.PAS:3286
     public MultiMoveTokenEvent(ECustomNode owner) : base(owner)
     {
-        FEvents = new TokenEventList(null);
-        FSimultaneous = true;
+        Events = new TokenEventList(null);
+        Simultaneous = true;
     }
 
     // MoveT.PAS:3309
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        TokenEventList Events;
-        bool Valid;
-        ExecuteResult MoveResult;
+        TokenEventList events;
+        bool valid;
+        ExecuteResult moveResult;
         int I;
-        Events = FEvents;
-        if (TE.ExecuteCount == 0)
+        events = Events;
+        if (tokenEvent.ExecuteCount == 0)
         {
-            I = Events.Count;
-            Valid = true;
+            I = events.Count;
+            valid = true;
             while (I != 0)
             {
                 I -= 1;
                 // { The original retains only the final validation result. }
-                Valid = ((MoveTokenEvent)Events[I]).Validate();
+                valid = ((MoveTokenEvent)events[I]).Validate();
             }
         }
         else
         {
-            Valid = true;
+            valid = true;
         }
 
-        if (Valid)
+        if (valid)
         {
-            if (FSimultaneous)
+            if (Simultaneous)
             {
-                I = Events.Count - 1;
+                I = events.Count - 1;
                 for (; I >= 0; I -= 1)
                 {
-                    MoveResult = Events[I].Execute(TE);
-                    if (MoveResult == ExecuteResult.Done || MoveResult == ExecuteResult.DoneHalt)
+                    moveResult = events[I].Execute(tokenEvent);
+                    if (moveResult == ExecuteResult.Done || moveResult == ExecuteResult.DoneHalt)
                     {
-                        Events.Delete(I);
+                        events.Delete(I);
                     }
                 }
             }
             else
             {
-                MoveResult = ExecuteResult.Done;
-                while (Set<ExecuteResult>.Of(ExecuteResult.Done, ExecuteResult.DoneHalt).Contains(MoveResult) && FEvents.Count > 0)
+                moveResult = ExecuteResult.Done;
+                while (Set<ExecuteResult>.Of(ExecuteResult.Done, ExecuteResult.DoneHalt).Contains(moveResult) && Events.Count > 0)
                 {
-                    MoveResult = Events[0].Execute(TE);
-                    if (MoveResult == ExecuteResult.Done || MoveResult == ExecuteResult.DoneHalt)
+                    moveResult = events[0].Execute(tokenEvent);
+                    if (moveResult == ExecuteResult.Done || moveResult == ExecuteResult.DoneHalt)
                     {
-                        Events.Delete(0);
+                        events.Delete(0);
                     }
                 }
             }
         }
 
-        if (!Valid || FEvents.Count == 0)
+        if (!valid || Events.Count == 0)
         {
-            MoveResult = ExecuteResult.Done;
+            moveResult = ExecuteResult.Done;
         }
         else
         {
-            MoveResult = ExecuteResult.Retry;
+            moveResult = ExecuteResult.Retry;
         }
 
-        return MoveResult;
+        return moveResult;
     }
 
     // intf_P5_07.inc:788

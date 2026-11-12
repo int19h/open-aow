@@ -21,86 +21,86 @@ public partial class ConstructStructureTokenEvent : TokenEvent
     public ConstructStructureTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135962;
+    public new const int ClassId = 135962;
 
-    public int FUnitID;
-    public sbyte FPlayer;
-    public int FControlID;
+    public int UnitId;
+    public sbyte Player;
+    public int ControlId;
 
     // Structur.PAS:3098
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FControlID, 20);
-        Stream.rwInteger(ref FUnitID, 21);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 22);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref ControlId, 20);
+        stream.rwInteger(ref UnitId, 21);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 22);
     }
 
     // Structur.PAS:3106
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        Troop AUnit;
-        StructureConstructionControl Control;
-        StructureResource Resource;
-        Structure Structure;
-        string Reason = "";
-        string Text = "";
-        int Gold = default;
-        int Days = default;
-        EChangeNotifyNode Owner;
+        Troop troop;
+        StructureConstructionControl control;
+        StructureResource resource;
+        Structure structure;
+        string reason = "";
+        string text = "";
+        int gold = default;
+        int days = default;
+        EChangeNotifyNode owner;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        MapLevel Level;
-        HexNumberWalkData Walk = default;
-        ExecuteResult Result = ExecuteResult.DoneHalt;
-        base.Execute(TE);
-        AUnit = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
-        Control = (StructureConstructionControl)((ConstructAbility)AoWHSSet.Current.FAbilityControl.GetAbility(125)).FConstructionControls.FindID(FControlID);
-        if (Control != null && AUnit != null && AUnit.FPlayer == FPlayer && Control.CanConstruct(AUnit, ref Reason))
+        MapLevel level;
+        HexNumberWalkData walk = default;
+        ExecuteResult result = ExecuteResult.DoneHalt;
+        base.Execute(tokenEvent);
+        troop = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+        control = (StructureConstructionControl)((ConstructAbility)AoWHSSet.Current.AbilityControl.GetAbility(125)).ConstructionControls.FindId(ControlId);
+        if (control != null && troop != null && troop.Player == Player && control.CanConstruct(troop, ref reason))
         {
-            Resource = Control.StructureResource(AUnit);
-            if (Resource != null)
+            resource = control.StructureResource(troop);
+            if (resource != null)
             {
-                AUnit.GetLocation(ref X, ref Y, ref L);
-                Level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
-                HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-                while (Walk.HN < Resource.TerrainList.Count)
+                troop.GetLocation(ref X, ref Y, ref L);
+                level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+                HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+                while (walk.HexNumber < resource.TerrainList.Count)
                 {
-                    if (Walk.X >= 0 && Walk.Y >= 0 && Level.Width > Walk.X && Level.Height > Walk.Y && Resource.TerrainList.GetUsed(Walk.HN))
+                    if (walk.X >= 0 && walk.Y >= 0 && level.Width > walk.X && level.Height > walk.Y && resource.TerrainList.GetUsed(walk.HexNumber))
                     {
-                        AoWHSMap.Current.ClearTerrain(Walk.X, Walk.Y, L, 0, -1);
+                        AoWHSMap.Current.ClearTerrain(walk.X, walk.Y, L, 0, -1);
                     }
 
-                    HexNumberWalkData.WalkToNextHN(ref Walk);
+                    HexNumberWalkData.WalkToNextHexNumber(ref walk);
                 }
 
-                bool locked = AUnit.Owner is not HeroList;
-                Owner = locked ? (EChangeNotifyNode)AUnit.Owner : null;
+                bool locked = troop.Owner is not HeroList;
+                owner = locked ? (EChangeNotifyNode)troop.Owner : null;
                 if (locked)
                 {
-                    Owner.BeginUpdate();
+                    owner.BeginUpdate();
                 }
 
-                Structure = (Structure)Resource.PlaceResourceUser(AoWHSMap.Current, X, Y, L);
-                if (Structure != null)
+                structure = (Structure)resource.PlaceResourceUser(AoWHSMap.Current, X, Y, L);
+                if (structure != null)
                 {
-                    Control.GetInfo(AUnit, ref Text, ref Gold, ref Days);
-                    Structure.ExecuteBuild(AUnit, Days);
-                    var players = AoWHSMap.Current.FPlayers.GetPlayers(AUnit.FPlayer);
-                    AoWHSMap.Current.FPlayers.GetPlayers(AUnit.FPlayer).SetGems(players.FGems - Gold);
-                    AUnit.Killed();
-                    Result = ExecuteResult.Done;
+                    control.GetInfo(troop, ref text, ref gold, ref days);
+                    structure.ExecuteBuild(troop, days);
+                    var players = AoWHSMap.Current.Players.GetPlayers(troop.Player);
+                    AoWHSMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - gold);
+                    troop.Killed();
+                    result = ExecuteResult.Done;
                 }
 
                 if (locked)
                 {
-                    Owner.EndUpdate();
+                    owner.EndUpdate();
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:230

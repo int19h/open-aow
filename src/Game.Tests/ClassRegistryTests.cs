@@ -36,7 +36,7 @@ public sealed class ClassRegistryTests
         {
             var descriptor = EngineClass.Of(type);
             Assert.Equal(type, descriptor.Type);
-            Assert.Equal((int)type.GetField("ClassID", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)!.GetRawConstantValue()!, descriptor.ClassID);
+            Assert.Equal((int)type.GetField("ClassId", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)!.GetRawConstantValue()!, descriptor.ClassId);
             Assert.Equal(type == typeof(EngineObject) ? null : type.BaseType, descriptor.Parent?.Type);
         }
         CheckFamily(typeof(IAIPlayerActionClass), types, AIPlayerActionClass.All.Select(c => c.Class.Type));
@@ -57,11 +57,11 @@ public sealed class ClassRegistryTests
         Assert.Equal(FormatVersions.UnitMappings.Order(StringComparer.Ordinal), FormatMapping.All.Keys.Order(StringComparer.Ordinal));
         foreach (var (name, rules) in FormatMapping.All)
         {
-            var cls = schema.Find(name);
-            Assert.True(cls is not null, "The format mapping names no schema class: " + name);
+            var classValue = schema.Find(name);
+            Assert.True(classValue is not null, "The format mapping names no schema class: " + name);
             Assert.NotEmpty(rules);
             foreach (var member in rules.SelectMany(r => r.Members))
-                Assert.True(member == "Children" ? cls.KeepsChildren : cls.PropertyByName(member) is not null, $"{name} has no member {member}.");
+                Assert.True(member == "Children" ? classValue.KeepsChildren : classValue.PropertyByName(member) is not null, $"{name} has no member {member}.");
         }
         foreach (var name in FormatVersions.FlatMappings)
         {
@@ -70,11 +70,11 @@ public sealed class ClassRegistryTests
         }
         // A schema class with a case table has its line, and its line gives the converter the
         // kind family's FromFields and ToFields.
-        foreach (var cls in schema.Classes.Where(c => c.Mapping is not null))
+        foreach (var classValue in schema.Classes.Where(c => c.Mapping is not null))
         {
-            Assert.Contains(cls.Name, FormatVersions.UnitMappings);
-            Assert.Contains(FormatMapping.All[cls.Name], r => r is KindCases);
-            Assert.Same(FormatMapping.All[cls.Name].OfType<KindCases>().Single(), CaseMappings.Find(cls.Name));
+            Assert.Contains(classValue.Name, FormatVersions.UnitMappings);
+            Assert.Contains(FormatMapping.All[classValue.Name], r => r is KindCases);
+            Assert.Same(FormatMapping.All[classValue.Name].OfType<KindCases>().Single(), CaseMappings.Find(classValue.Name));
         }
     }
 
@@ -111,7 +111,7 @@ public sealed class ClassRegistryTests
     }
 
     public static IEnumerable<object?[]> Classes => EngineClass.All
-        .Where(c => c.Type.Assembly == typeof(EngineObject).Assembly).Select(c => new object?[] { c.Type, IncompleteCleanup.GetValueOrDefault(c.Type) });
+        .Where(c => c.Type.Assembly == typeof(EngineObject).Assembly).Select(c => new object?[] { c.Type, s_incompleteCleanup.GetValueOrDefault(c.Type) });
 
     [Theory]
     [MemberData(nameof(Classes))]
@@ -120,10 +120,10 @@ public sealed class ClassRegistryTests
         // These two entries require a linked owner even though the descriptor accepts null.
         if (type == typeof(DynamicIsometricHex) || type == typeof(FlagControl))
         {
-            Assert.Throws<NullReferenceException>(() => EngineClass.Of(type).Create(null!));
+            Assert.Throws<NullReferenceException>(() => EngineClass.Of(type).CreateInstance(null!));
             return;
         }
-        var instance = EngineClass.Of(type).Create(null!);
+        var instance = EngineClass.Of(type).CreateInstance(null!);
         try { Assert.IsType(type, instance); }
         finally
         {
@@ -135,7 +135,7 @@ public sealed class ClassRegistryTests
         }
     }
 
-    private static readonly Dictionary<Type, Type> IncompleteCleanup = new()
+    private static readonly Dictionary<Type, Type> s_incompleteCleanup = new()
     {
         [typeof(AIGroupControl)] = typeof(NullReferenceException),
         [typeof(Army)] = typeof(NullReferenceException),

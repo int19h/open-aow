@@ -32,15 +32,15 @@ public partial class PopupWindows : DataModule
     public Menu TCEndMenu;
 
     // AoWPWindows.pas:61
-    public void SettingsMenuSelect(Menu Sender)
+    public void SettingsMenuSelect(Menu sender)
     {
-        switch (Sender.FSelectedItem)
+        switch (sender.SelectedItem)
         {
             case 0:
                 DialogHosts.VideoDialog.ShowModes();
                 break;
             case 1:
-                ShowSoundSettings(DialogHosts.SoundDlg);
+                ShowSoundSettings(DialogHosts.SoundDialog);
                 break;
             case 2:
                 DialogHosts.GamePlayDialog.Root.Visible = true;
@@ -49,41 +49,41 @@ public partial class PopupWindows : DataModule
                 DialogHosts.General.ResetLayout();
                 break;
             case 4:
-                EmailSettingsDialog.ShowEmailSettings(DialogHosts.EmailSettingsDlg);
+                EmailSettingsDialog.ShowEmailSettings(DialogHosts.EmailSettingsDialog);
                 break;
             case 5:
-                DialogHosts.DialogWin.DebugWin.Visible = true;
+                DialogHosts.ConfirmationDialog.DebugWin.Visible = true;
                 break;
         }
     }
 
     // AoWPWindows.pas:83
-    public void DiskMenuSelect(Menu Sender)
+    public void DiskMenuSelect(Menu sender)
     {
-        switch (Sender.FSelectedItem)
+        switch (sender.SelectedItem)
         {
             case 0:
-                DialogHosts.FileDlgWindow.FMode = 0;
-                DialogHosts.FileDlgWindow.FileDialog.Visible = true;
+                DialogHosts.FileDialogWindow.Mode = 0;
+                DialogHosts.FileDialogWindow.FileDialog.Visible = true;
                 break;
             case 1:
-                DialogHosts.FileDlgWindow.FMode = 1;
-                DialogHosts.FileDlgWindow.FileDialog.Visible = true;
+                DialogHosts.FileDialogWindow.Mode = 1;
+                DialogHosts.FileDialogWindow.FileDialog.Visible = true;
                 break;
         }
     }
 
     // AoWPWindows.pas:91
-    public void OverViewsMenuSelect(Menu Sender)
+    public void OverViewsMenuSelect(Menu sender)
     {
-        switch (Sender.FSelectedItem)
+        switch (sender.SelectedItem)
         {
             case 0:
                 // { Original opens the information book. }
                 ShowInformationBook(DialogHosts.WorldMap, null, null);
                 break;
             case 1:
-                if (GameTables.AoWEngine.FCampaign != null)
+                if (GameTables.GameEngine.Campaign != null)
                 {
                     DialogHosts.WorldMap.ShowCampaignHistory();
                 }
@@ -93,14 +93,14 @@ public partial class PopupWindows : DataModule
     }
 
     // AoWPWindows.pas:99
-    public void TCEndMenuSelect(Menu Sender)
+    public void TCEndMenuSelect(Menu sender)
     {
-        switch (Sender.FSelectedItem)
+        switch (sender.SelectedItem)
         {
             case 0:
-                var quitCombat = AbilityRules.TranslateRStr(QuitCombatRStr);
-                var confirm = AbilityRules.TranslateRStr(LobbyText.ConfirmRStr);
-                DialogHosts.DialogWin.Confirm(confirm, quitCombat, 6);
+                var quitCombat = AbilityRules.TranslateResourceString(s_quitCombatText);
+                var confirm = AbilityRules.TranslateResourceString(LobbyText.s_confirmText);
+                DialogHosts.ConfirmationDialog.Confirm(confirm, quitCombat, 6);
                 break;
         }
     }
@@ -109,9 +109,9 @@ public partial class PopupWindows : DataModule
     public const string AgeOfWondersUrl = "http://www.ageofwonders.com";
 
     // AoWPWindows.pas:107
-    public void HelpMenuSelect(Menu Sender)
+    public void HelpMenuSelect(Menu sender)
     {
-        switch (Sender.FSelectedItem)
+        switch (sender.SelectedItem)
         {
             case 0:
                 HelpWindow.ShowHelp(507);
@@ -130,148 +130,148 @@ public partial class PopupWindows : DataModule
     // AoWPWindows.pas:73. Keep all three branches across the host boundary.
     public void EndMenuSelect(Menu sender)
     {
-        switch (sender.FSelectedItem)
+        switch (sender.SelectedItem)
         {
             case 0:
-                DialogHosts.DialogWin.Confirm(
-                    AbilityRules.TranslateRStr(LobbyText.ConfirmRStr),
-                    AbilityRules.TranslateRStr(SurrenderYourEmpireRStr), 4);
+                DialogHosts.ConfirmationDialog.Confirm(
+                    AbilityRules.TranslateResourceString(LobbyText.s_confirmText),
+                    AbilityRules.TranslateResourceString(s_surrenderYourEmpireText), 4);
                 break;
             case 1:
                 AoWHSMap.Current.ExitGame(ExitGameMode.Terminate, null);
                 break;
             case 2:
-                if (GameTables.AoWEngine.FDemo) DialogHosts.TitleWindow.ShowExitSplash();
+                if (GameTables.GameEngine.Demo) DialogHosts.TitleWindow.ShowExitSplash();
                 else GameHost.MainForm.CloseRequested();
                 break;
         }
     }
 
-    private static StringArray4 TVictoryConditionRStr = StringArray4.From(default(ReadOnlySpan<string>));
-    private static StringArray3 TPlayerConnectionTypeRStr = StringArray3.From(default(ReadOnlySpan<string>));
-    private static readonly string AlliedVictoryXRStr = "Allied victory: %s";
-    private static readonly string ConquerTheMapRStr = "Conquer the map";
-    private static readonly string DisabledRStr = "Disabled";
-    private static readonly string EnabledRStr = "Enabled";
-    private static readonly string GametypeXRStr = "Game type: %s";
-    private static readonly string HotSeatRStr = "Hot Seat";
-    private static readonly string MaximumPlayerHeroesXRStr = "Maximum player heroes: %s";
-    private static readonly string MaximumSphereLevelXRStr = "Maximum sphere level: %s";
-    private static readonly string ObjectiveXRStr = "Objective: %s";
-    private static readonly string PlayersOnMapXRStr = "Players on map: %s";
-    private static readonly string SurrenderYourEmpireRStr = "Surrender your empire?";
-    private static readonly string TurnModeXRStr = "Turn mode: %s";
-    internal static readonly string QuitCombatRStr = "Surrender your forces?";
-    private static readonly string MapSettingsRStr = "Scenario Info:";
-    private static readonly string DayLimitXRStr = "Turn Limit: %s";
+    private static StringArray4 s_victoryConditionTexts = StringArray4.From(default(ReadOnlySpan<string>));
+    private static StringArray3 s_playerConnectionTypeTexts = StringArray3.From(default(ReadOnlySpan<string>));
+    private static readonly string s_alliedVictoryFormat = "Allied victory: %s";
+    private static readonly string s_conquerMapText = "Conquer the map";
+    private static readonly string s_disabledText = "Disabled";
+    private static readonly string s_enabledText = "Enabled";
+    private static readonly string s_gameTypeFormat = "Game type: %s";
+    private static readonly string s_hotSeatText = "Hot Seat";
+    private static readonly string s_maximumPlayerHeroesFormat = "Maximum player heroes: %s";
+    private static readonly string s_maximumSphereLevelFormat = "Maximum sphere level: %s";
+    private static readonly string s_objectiveFormat = "Objective: %s";
+    private static readonly string s_playersOnMapFormat = "Players on map: %s";
+    private static readonly string s_surrenderYourEmpireText = "Surrender your empire?";
+    private static readonly string s_turnModeFormat = "Turn mode: %s";
+    internal static readonly string s_quitCombatText = "Surrender your forces?";
+    private static readonly string s_mapSettingsText = "Scenario Info:";
+    private static readonly string s_dayLimitFormat = "Turn Limit: %s";
 
-    private static void ShowSoundSettings(SoundDialog Dialog)
+    private static void ShowSoundSettings(SoundDialog dialog)
     {
-        Dialog.AddBtn.Visible = false;
-        Dialog.FindFiles();
-        Dialog.SoundSetup();
-        Dialog.Dlg.Visible = true;
+        dialog.AddBtn.Visible = false;
+        dialog.FindFiles();
+        dialog.SoundSetup();
+        dialog.Dlg.Visible = true;
     }
 
-    internal static void ShowInformationBook(WorldMap Dialog, ShowBookEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowInformationBook(WorldMap dialog, ShowBookEventLog eventValue, ExecuteDoneEvent done)
     {
-        Dialog.FOnBookClosed = RtlUnit.RebindDelegate<NotifyEvent<object>>((Delegate)Done);
-        Dialog.FBookContext = Event;
-        if (Dialog.FBookContext != null)
+        dialog.OnBookClosed = RtlUnit.RebindDelegate<NotifyEvent<object>>((Delegate)done);
+        dialog.BookContext = eventValue;
+        if (dialog.BookContext != null)
         {
-            Dialog.FBookContext.AddRef();
+            dialog.BookContext.AddRef();
         }
-        Dialog.LabelL.Text = AoWHSMap.Current.FMapName;
-        ((StringCollection)Dialog.MemoL.Items).Clear();
-        ((StringCollection)Dialog.MemoL.Items).AddStrings((StringCollection)(object)AoWHSMap.Current.FDescription);
-        string text = AbilityRules.TranslateRStr(MapSettingsRStr);
-        Dialog.LabelR.Text = text;
-        ((StringCollection)Dialog.MemoR.Items).Clear();
-        if (AoWHSMap.Current.FVictoryCondition == AoWHSMap.VictoryCondition.None)
+        dialog.LabelL.Text = AoWHSMap.Current.MapName;
+        ((StringCollection)dialog.MemoL.Items).Clear();
+        ((StringCollection)dialog.MemoL.Items).AddStrings((StringCollection)(object)AoWHSMap.Current.Description);
+        string text = AbilityRules.TranslateResourceString(s_mapSettingsText);
+        dialog.LabelR.Text = text;
+        ((StringCollection)dialog.MemoR.Items).Clear();
+        if (AoWHSMap.Current.VictoryCondition == AoWHSMapVictoryCondition.None)
         {
-            string text2 = AbilityRules.TranslateRStr(ConquerTheMapRStr);
-            string s = AbilityRules.TranslateRStr(ObjectiveXRStr);
-            FormatArg val = (FormatArg)(text2);
-            string text3 = AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref val));
-            ((StringCollection)Dialog.MemoR.Items).Add(text3);
-        }
-        else
-        {
-            string text4 = AbilityRules.TranslateRStr(TVictoryConditionRStr[(int)AoWHSMap.Current.FVictoryCondition]);
-            string s2 = AbilityRules.TranslateRStr(ObjectiveXRStr);
-            FormatArg val2 = (FormatArg)(text4);
-            string text5 = AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref val2));
-            ((StringCollection)Dialog.MemoR.Items).Add(text5);
-        }
-        if (AoWHSMap.Current.FDayLimit > 0)
-        {
-            string s3 = AbilityRules.TranslateRStr(DayLimitXRStr);
-            FormatArg val3 = (FormatArg)(RtlUnit.IntToStr(AoWHSMap.Current.FDayLimit));
-            string text6 = AbilityRules.Format(s3, new ReadOnlySpan<FormatArg>(ref val3));
-            ((StringCollection)Dialog.MemoR.Items).Add(text6);
-        }
-        if (AoWHSMap.Current.FAlliedVictory)
-        {
-            string text7 = AbilityRules.TranslateRStr(EnabledRStr);
-            string s4 = AbilityRules.TranslateRStr(AlliedVictoryXRStr);
-            FormatArg val4 = (FormatArg)(text7);
-            string text8 = AbilityRules.Format(s4, new ReadOnlySpan<FormatArg>(ref val4));
-            ((StringCollection)Dialog.MemoR.Items).Add(text8);
+            string text2 = AbilityRules.TranslateResourceString(s_conquerMapText);
+            string s = AbilityRules.TranslateResourceString(s_objectiveFormat);
+            FormatArg value = (FormatArg)(text2);
+            string text3 = AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref value));
+            ((StringCollection)dialog.MemoR.Items).Add(text3);
         }
         else
         {
-            string text9 = AbilityRules.TranslateRStr(DisabledRStr);
-            string s5 = AbilityRules.TranslateRStr(AlliedVictoryXRStr);
-            FormatArg val5 = (FormatArg)(text9);
-            string text10 = AbilityRules.Format(s5, new ReadOnlySpan<FormatArg>(ref val5));
-            ((StringCollection)Dialog.MemoR.Items).Add(text10);
+            string text4 = AbilityRules.TranslateResourceString(s_victoryConditionTexts[(int)AoWHSMap.Current.VictoryCondition]);
+            string s2 = AbilityRules.TranslateResourceString(s_objectiveFormat);
+            FormatArg value2 = (FormatArg)(text4);
+            string text5 = AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref value2));
+            ((StringCollection)dialog.MemoR.Items).Add(text5);
         }
-        int count = AoWHSMap.Current.FPlayers.GetCount();
-        string s6 = AbilityRules.TranslateRStr(PlayersOnMapXRStr);
-        FormatArg val6 = (FormatArg)(RtlUnit.IntToStr(count - 1));
-        string text11 = AbilityRules.Format(s6, new ReadOnlySpan<FormatArg>(ref val6));
-        ((StringCollection)Dialog.MemoR.Items).Add(text11);
-        string s7 = AbilityRules.TranslateRStr(MaximumSphereLevelXRStr);
-        FormatArg val7 = (FormatArg)(RtlUnit.IntToStr(AoWHSMap.Current.FSphereCount));
-        string text12 = AbilityRules.Format(s7, new ReadOnlySpan<FormatArg>(ref val7));
-        ((StringCollection)Dialog.MemoR.Items).Add(text12);
-        string s8 = AbilityRules.TranslateRStr(MaximumPlayerHeroesXRStr);
-        FormatArg val8 = (FormatArg)(RtlUnit.IntToStr((int)AoWHSMap.Current.FHeroCountMax));
-        string text13 = AbilityRules.Format(s8, new ReadOnlySpan<FormatArg>(ref val8));
-        ((StringCollection)Dialog.MemoR.Items).Add(text13);
-        if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && AoWHSMap.Current.FRequestCombatType)
+        if (AoWHSMap.Current.DayLimit > 0)
         {
-            string text14 = AbilityRules.TranslateRStr(TPlayerConnectionTypeRStr[(int)AoWHSMap.Current.FConnectionType]);
-            string text15 = AbilityRules.TranslateRStr(HotSeatRStr);
-            string s9 = AbilityRules.TranslateRStr(GametypeXRStr);
-            FormatArg val9 = (FormatArg)(text14 + "/" + text15);
-            string text16 = AbilityRules.Format(s9, new ReadOnlySpan<FormatArg>(ref val9));
-            ((StringCollection)Dialog.MemoR.Items).Add(text16);
+            string s3 = AbilityRules.TranslateResourceString(s_dayLimitFormat);
+            FormatArg value3 = (FormatArg)(RtlUnit.IntToStr(AoWHSMap.Current.DayLimit));
+            string text6 = AbilityRules.Format(s3, new ReadOnlySpan<FormatArg>(ref value3));
+            ((StringCollection)dialog.MemoR.Items).Add(text6);
+        }
+        if (AoWHSMap.Current.AlliedVictory)
+        {
+            string text7 = AbilityRules.TranslateResourceString(s_enabledText);
+            string s4 = AbilityRules.TranslateResourceString(s_alliedVictoryFormat);
+            FormatArg value4 = (FormatArg)(text7);
+            string text8 = AbilityRules.Format(s4, new ReadOnlySpan<FormatArg>(ref value4));
+            ((StringCollection)dialog.MemoR.Items).Add(text8);
         }
         else
         {
-            string text17 = AbilityRules.TranslateRStr(TPlayerConnectionTypeRStr[(int)AoWHSMap.Current.FConnectionType]);
-            string s10 = AbilityRules.TranslateRStr(GametypeXRStr);
-            FormatArg val10 = (FormatArg)(text17);
-            string text18 = AbilityRules.Format(s10, new ReadOnlySpan<FormatArg>(ref val10));
-            ((StringCollection)Dialog.MemoR.Items).Add(text18);
+            string text9 = AbilityRules.TranslateResourceString(s_disabledText);
+            string s5 = AbilityRules.TranslateResourceString(s_alliedVictoryFormat);
+            FormatArg value5 = (FormatArg)(text9);
+            string text10 = AbilityRules.Format(s5, new ReadOnlySpan<FormatArg>(ref value5));
+            ((StringCollection)dialog.MemoR.Items).Add(text10);
         }
-        string text19 = AbilityRules.TranslateRStr(GameText.TPlayModeRStr[(int)AoWHSMap.Current.FPlayMode]);
-        string s11 = AbilityRules.TranslateRStr(TurnModeXRStr);
-        FormatArg val11 = (FormatArg)(text19);
-        string text20 = AbilityRules.Format(s11, new ReadOnlySpan<FormatArg>(ref val11));
-        ((StringCollection)Dialog.MemoR.Items).Add(text20);
-        Dialog.PicL.Visible = false;
-        Dialog.PicR.Visible = false;
-        Dialog.MemoL.Visible = true;
-        Dialog.MemoR.Visible = true;
-        Dialog.Back.Visible = false;
-        Dialog.Cancel.Visible = false;
-        Dialog.Next.Visible = false;
-        Dialog.BookWin.Visible = true;
-        if (Dialog.BookWin.FBackSurface != null)
+        int count = AoWHSMap.Current.Players.GetCount();
+        string s6 = AbilityRules.TranslateResourceString(s_playersOnMapFormat);
+        FormatArg value6 = (FormatArg)(RtlUnit.IntToStr(count - 1));
+        string text11 = AbilityRules.Format(s6, new ReadOnlySpan<FormatArg>(ref value6));
+        ((StringCollection)dialog.MemoR.Items).Add(text11);
+        string s7 = AbilityRules.TranslateResourceString(s_maximumSphereLevelFormat);
+        FormatArg value7 = (FormatArg)(RtlUnit.IntToStr(AoWHSMap.Current.SphereCount));
+        string text12 = AbilityRules.Format(s7, new ReadOnlySpan<FormatArg>(ref value7));
+        ((StringCollection)dialog.MemoR.Items).Add(text12);
+        string s8 = AbilityRules.TranslateResourceString(s_maximumPlayerHeroesFormat);
+        FormatArg value8 = (FormatArg)(RtlUnit.IntToStr((int)AoWHSMap.Current.HeroCountMax));
+        string text13 = AbilityRules.Format(s8, new ReadOnlySpan<FormatArg>(ref value8));
+        ((StringCollection)dialog.MemoR.Items).Add(text13);
+        if (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Local && AoWHSMap.Current.RequestCombatType)
         {
-            Dialog.BookWin.FBackSurface.Cls(Dialog.BookWin.FMaskColor);
+            string text14 = AbilityRules.TranslateResourceString(s_playerConnectionTypeTexts[(int)AoWHSMap.Current.ConnectionType]);
+            string text15 = AbilityRules.TranslateResourceString(s_hotSeatText);
+            string s9 = AbilityRules.TranslateResourceString(s_gameTypeFormat);
+            FormatArg value9 = (FormatArg)(text14 + "/" + text15);
+            string text16 = AbilityRules.Format(s9, new ReadOnlySpan<FormatArg>(ref value9));
+            ((StringCollection)dialog.MemoR.Items).Add(text16);
+        }
+        else
+        {
+            string text17 = AbilityRules.TranslateResourceString(s_playerConnectionTypeTexts[(int)AoWHSMap.Current.ConnectionType]);
+            string s10 = AbilityRules.TranslateResourceString(s_gameTypeFormat);
+            FormatArg value10 = (FormatArg)(text17);
+            string text18 = AbilityRules.Format(s10, new ReadOnlySpan<FormatArg>(ref value10));
+            ((StringCollection)dialog.MemoR.Items).Add(text18);
+        }
+        string text19 = AbilityRules.TranslateResourceString(GameText.s_playModeTexts[(int)AoWHSMap.Current.PlayMode]);
+        string s11 = AbilityRules.TranslateResourceString(s_turnModeFormat);
+        FormatArg value11 = (FormatArg)(text19);
+        string text20 = AbilityRules.Format(s11, new ReadOnlySpan<FormatArg>(ref value11));
+        ((StringCollection)dialog.MemoR.Items).Add(text20);
+        dialog.PicL.Visible = false;
+        dialog.PicR.Visible = false;
+        dialog.MemoL.Visible = true;
+        dialog.MemoR.Visible = true;
+        dialog.Back.Visible = false;
+        dialog.Cancel.Visible = false;
+        dialog.Next.Visible = false;
+        dialog.BookWin.Visible = true;
+        if (dialog.BookWin.BackSurface != null)
+        {
+            dialog.BookWin.BackSurface.Clear(dialog.BookWin._maskColor);
         }
         DialogHosts.General.Manager.OverlayPriority = 49;
     }

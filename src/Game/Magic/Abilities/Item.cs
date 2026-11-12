@@ -27,71 +27,71 @@ namespace Aow.Game.Magic.Abilities;
 // description, graphics index, hidden, availability, attack, defense, damage, resistance
 public partial class Item : AbilityOwner
 {
-    public new const int ClassID = 131688;
+    public new const int ClassId = 131688;
 
     // Army.PAS:4211
     public Item(ECustomNode owner) : base(owner)
     {
-        FItemGFXIndex = -1;
-        FDescription = new StringList();
-        FLibraryID = -1;
-        FRefCount = 1;
+        ItemGraphicsIndex = -1;
+        Description = new StringList();
+        LibraryId = -1;
+        RefCount = 1;
     }
 
-    public int FItemID;
-    public string FOwnerName = "";
-    public Set<ItemStatusElement> FStatus;
-    public int FRefCount;
-    public int FLibraryID;
-    public string FLibraryName = "";
-    public int FObtainValue;
-    public string FName = "";
-    public ItemType FItemType;
-    public int FSpellID;
-    public StringList FDescription;
-    public int FItemGFXIndex;
-    public bool FHidden;
-    public Availability FAvailability;
-    public sbyte FAttack;
-    public sbyte FDefense;
-    public sbyte FDamage;
-    public sbyte FResistance;
+    public int ItemId;
+    public string OwnerName = "";
+    public Set<ItemStatusElement> Status;
+    public int RefCount;
+    public int LibraryId;
+    public string LibraryName = "";
+    public int ObtainValue;
+    public string Name = "";
+    public ItemType ItemType;
+    public int SpellId;
+    public StringList Description;
+    public int ItemGraphicsIndex;
+    public bool Hidden;
+    public ItemAvailability Availability;
+    public sbyte Attack;
+    public sbyte Defense;
+    public sbyte Damage;
+    public sbyte Resistance;
 
     // Army.PAS:4220
     public override void Dispose()
     {
         AddRef();
-        if (FStatus.Contains(ItemStatusElement.Activated))
+        if (Status.Contains(ItemStatusElement.Activated))
         {
             Deactivate();
         }
 
-        if (FStatus.Contains(ItemStatusElement.Registered))
+        if (Status.Contains(ItemStatusElement.Registered))
         {
-            AoWHSMap.Current.FItemControl.UnRegisterItem(this);
+            AoWHSMap.Current.ItemControl.UnregisterItem(this);
         }
 
-        FDescription?.Dispose();
+        Description?.Dispose();
         base.Dispose();
     }
 
     // Army.PAS:4241
-    public override void SetOwner(ECustomNode AOwner)
+    public override void SetOwner(ECustomNode owner)
     {
-        if (AOwner != FOwner)
+        if (owner != _owner)
         {
             AddRef();
-            if (FOwner != null)
+            if (_owner != null)
             {
-                FOwner.RemoveChild(this);
+                _owner.RemoveChild(this);
             }
 
-            FOwner = AOwner;
-            if (FOwner != null)
+            _owner = owner;
+            if (_owner != null)
             {
-                if (FOwner.AddChild(this) == -1)
+                if (_owner.AddChild(this) == -1)
                 {
-                    FOwner = null;
+                    _owner = null;
                 }
             }
 
@@ -101,37 +101,37 @@ public partial class Item : AbilityOwner
     }
 
     // Army.PAS:4448
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        if (!Stream.StorageMode().Contains(EngineServices.smText) || !GetLibraryItem())
+        base.ReadWrite(stream);
+        if (!stream.StorageMode().Contains(EngineServices.Text) || !GetLibraryItem())
         {
-            Stream.rwInteger(ref FItemGFXIndex, 7);
+            stream.rwInteger(ref ItemGraphicsIndex, 7);
         }
 
-        if (!Stream.StorageMode().Contains(EngineServices.smText) || FOwner is ItemLibrary || !GetLibraryItem())
+        if (!stream.StorageMode().Contains(EngineServices.Text) || _owner is ItemLibrary || !GetLibraryItem())
         {
-            Stream.rwString(ref FOwnerName, 8);
+            stream.rwString(ref OwnerName, 8);
         }
 
-        if (!Stream.StorageMode().Contains(EngineServices.smText) || !GetLibraryItem())
+        if (!stream.StorageMode().Contains(EngineServices.Text) || !GetLibraryItem())
         {
-            Stream.rwString(ref FName, 9);
-            Stream.rwData(Bytes.Of(ref FAvailability, 1), 1, 10);
-            Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FAttack), 11);
-            Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDefense), 12);
-            Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDamage), 13);
-            Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FResistance), 14);
-            Stream.rwData(Bytes.Of(ref FItemType, 1), 1, 15);
-            Stream.rwBool(ref FHidden, 16);
-            Stream.rwInteger(ref FItemID, 17);
-            Stream.rwStrings(FDescription, 18);
-            Stream.rwInteger(ref FObtainValue, 19);
-            Stream.rwInteger(ref FSpellID, 20);
-            Stream.rwIntegerEx(ref FLibraryID, -1, 21);
-            if (!Stream.StorageMode().Contains(EngineServices.smText))
+            stream.rwString(ref Name, 9);
+            stream.rwData(Bytes.Of(ref Availability, 1), 1, 10);
+            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Attack), 11);
+            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Defense), 12);
+            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Damage), 13);
+            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Resistance), 14);
+            stream.rwData(Bytes.Of(ref ItemType, 1), 1, 15);
+            stream.rwBool(ref Hidden, 16);
+            stream.rwInteger(ref ItemId, 17);
+            stream.rwStrings(Description, 18);
+            stream.rwInteger(ref ObtainValue, 19);
+            stream.rwInteger(ref SpellId, 20);
+            stream.rwIntegerEx(ref LibraryId, -1, 21);
+            if (!stream.StorageMode().Contains(EngineServices.Text))
             {
-                Stream.rwString(ref FLibraryName, 22);
+                stream.rwString(ref LibraryName, 22);
             }
         }
     }
@@ -139,30 +139,30 @@ public partial class Item : AbilityOwner
     // Army.PAS:4229
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // Army.PAS:4232
     public override int Release()
     {
-        int Count;
-        FRefCount -= 1;
-        Count = FRefCount;
-        int Result = Count;
-        if (Count == 0)
+        int count;
+        RefCount -= 1;
+        count = RefCount;
+        int result = count;
+        if (count == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:4510
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 65541)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 65541)
         {
             /* TODO: Implement the managed record view field mapping. */
             throw new NotImplementedException();
@@ -170,11 +170,11 @@ public partial class Item : AbilityOwner
     }
 
     // Army.PAS:4311
-    public override void SetArrayOwner(ECustomNode AOwner, int Index)
+    public override void SetArrayOwner(ECustomNode owner, int index)
     {
         AddRef();
-        base.SetArrayOwner(AOwner, Index);
-        if (FOwner != null)
+        base.SetArrayOwner(owner, index);
+        if (_owner != null)
         {
             AddRef();
         }
@@ -184,169 +184,169 @@ public partial class Item : AbilityOwner
     }
 
     // Army.PAS:4399
-    public override string GetOwnerName() => FOwnerName;
+    public override string GetOwnerName() => OwnerName;
 
     // Army.PAS:4402
     public override Set<AbilitySelectionType> GetAbilitySelectionTypes()
     {
-        Set<AbilitySelectionType> Result;
-        switch (FItemType)
+        Set<AbilitySelectionType> result;
+        switch (ItemType)
         {
             case ItemType.Head:
-                Result = Set<AbilitySelectionType>.Of(AbilitySelectionType.HeadItem);
+                result = Set<AbilitySelectionType>.Of(AbilitySelectionType.HeadItem);
                 break;
             case ItemType.Torso:
-                Result = Set<AbilitySelectionType>.Of(AbilitySelectionType.TorsoItem);
+                result = Set<AbilitySelectionType>.Of(AbilitySelectionType.TorsoItem);
                 break;
             case ItemType.Attack:
-                Result = Set<AbilitySelectionType>.Of(AbilitySelectionType.AttackItem);
+                result = Set<AbilitySelectionType>.Of(AbilitySelectionType.AttackItem);
                 break;
             case ItemType.Defense:
-                Result = Set<AbilitySelectionType>.Of(AbilitySelectionType.DefenseItem);
+                result = Set<AbilitySelectionType>.Of(AbilitySelectionType.DefenseItem);
                 break;
             case ItemType.Ring:
-                Result = Set<AbilitySelectionType>.Of(AbilitySelectionType.RingItem);
+                result = Set<AbilitySelectionType>.Of(AbilitySelectionType.RingItem);
                 break;
             case ItemType.Use:
-                Result = Set<AbilitySelectionType>.Of(AbilitySelectionType.UseItem);
+                result = Set<AbilitySelectionType>.Of(AbilitySelectionType.UseItem);
                 break;
             default:
-                Result = Set<AbilitySelectionType>.Of();
+                result = Set<AbilitySelectionType>.Of();
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:4345
     public override void Changed()
     {
-        if (FStatus.Contains(ItemStatusElement.Registered))
+        if (Status.Contains(ItemStatusElement.Registered))
         {
-            AoWHSMap.Current.FItemControl.ItemChanged(this);
+            AoWHSMap.Current.ItemControl.ItemChanged(this);
         }
     }
 
     // Army.PAS:4276
-    public virtual bool CanUse(Hero Hero, ref string Reason)
+    public virtual bool CanUse(Hero hero, ref string reason)
     {
-        bool Result;
-        if (FItemType == ItemType.Scroll && FSpellID != 0)
+        bool result;
+        if (ItemType == ItemType.Scroll && SpellId != 0)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Hero.FPlayer).FMagicControl.FSpells.IndexOf(FSpellID) == -1)
+            if (AoWHSMap.Current.Players.GetPlayers(hero.Player).MagicControl.Spells.IndexOf(SpellId) == -1)
             {
-                Result = true;
+                result = true;
             }
             else
             {
-                Result = false;
-                var spell = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-                Reason = AbilityRules.Format(AbilityRules.TranslateRStr(ItemSpellAlreadyResearchedRStr), [spell.FSpellName]);
+                result = false;
+                var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+                reason = AbilityRules.Format(AbilityRules.TranslateResourceString(s_itemSpellAlreadyResearchedFormat), [spell.SpellName]);
             }
         }
         else
         {
-            Result = false;
-            Reason = AbilityRules.TranslateRStr(ItemNotUseableRStr);
+            result = false;
+            reason = AbilityRules.TranslateResourceString(s_itemNotUsableText);
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:4296
-    public virtual bool Use(Hero Hero)
+    public virtual bool Use(Hero hero)
     {
-        bool Result;
-        string Reason = "";
-        ItemTokenEvent Event;
-        if (CanUse(Hero, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Hero.FPlayer).GetBusy())
+        bool result;
+        string reason = "";
+        ItemTokenEvent eventValue;
+        if (CanUse(hero, ref reason) && !AoWHSMap.Current.Players.GetPlayers(hero.Player).GetBusy())
         {
-            Event = new ItemTokenEvent(null);
-            Event.FItemID = FItemID;
-            Event.FHeroID = Hero.FUnitID;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Hero.FPlayer).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new ItemTokenEvent(null);
+            eventValue.ItemId = ItemId;
+            eventValue.HeroId = hero.UnitId;
+            AoWHSMap.Current.TokenManager.GetTokenControl(hero.Player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:4255
-    public virtual bool ExecuteUse(Hero Hero)
+    public virtual bool ExecuteUse(Hero hero)
     {
-        string Reason = "";
+        string reason = "";
         // { Original reports success even when CanUse rejects the item. }
-        bool Result = true;
-        if (CanUse(Hero, ref Reason))
+        bool result = true;
+        if (CanUse(hero, ref reason))
         {
-            switch (FItemType)
+            switch (ItemType)
             {
                 case ItemType.Scroll:
-                    AoWHSMap.Current.FPlayers.GetPlayers(Hero.FPlayer).FMagicControl.ExecuteSpellResearched(FSpellID);
-                    if (AoWHSMap.Current.FSeatedPlayer == Hero.FPlayer)
+                    AoWHSMap.Current.Players.GetPlayers(hero.Player).MagicControl.ExecuteSpellResearched(SpellId);
+                    if (AoWHSMap.Current.SeatedPlayer == hero.Player)
                     {
                         AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
-                        var spell = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-                        var format = AbilityRules.Format(AbilityRules.TranslateRStr(ItemSpellResearchedRStr), [spell.FSpellName]);
+                        var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_itemSpellResearchedFormat), [spell.SpellName]);
                         AoWHSMap.Current.ShowMessage(format);
                     }
 
                     Dispose();
-                    Hero.Changed();
+                    hero.Changed();
                     break;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:4418
-    public virtual void Show(int X, int Y, in LockedSurface Surface)
+    public virtual void Show(int X, int Y, in LockedSurface surface)
     {
-        ItemGraphics GFX;
-        GFX = AoWHSSet.Current.FItemGFXResources.GetItemGFX(FItemGFXIndex);
-        if (GFX != null)
+        ItemGraphics graphics;
+        graphics = AoWHSSet.Current.ItemGraphicsResources.GetItemGraphics(ItemGraphicsIndex);
+        if (graphics != null)
         {
-            GFX.AddRef();
-            GFX.GetItemImage().Show(X, Y, Surface);
-            GFX.Release();
+            graphics.AddRef();
+            graphics.GetItemImage().Show(X, Y, surface);
+            graphics.Release();
         }
     }
 
     // Army.PAS:4331
     public virtual void Activate()
     {
-        if (!FStatus.Contains(ItemStatusElement.Activated))
+        if (!Status.Contains(ItemStatusElement.Activated))
         {
-            if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || AoWHSMap.Current.FDay == 0)
+            if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || AoWHSMap.Current.Day == 0)
             {
                 UpdateFromLibrary();
             }
 
-            FStatus = FStatus + Set<ItemStatusElement>.Of(ItemStatusElement.Activated);
+            Status = Status + Set<ItemStatusElement>.Of(ItemStatusElement.Activated);
         }
     }
 
     // Army.PAS:4340
     public virtual void Deactivate()
     {
-        if (FStatus.Contains(ItemStatusElement.Activated))
+        if (Status.Contains(ItemStatusElement.Activated))
         {
-            FStatus = FStatus - Set<ItemStatusElement>.Of(ItemStatusElement.Activated);
+            Status = Status - Set<ItemStatusElement>.Of(ItemStatusElement.Activated);
         }
     }
 
     // Army.PAS:4320
     public void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
-        if (FOwner != null && FOwner is ItemList)
+        if (_owner != null && _owner is ItemList)
         {
-            ((ItemList)FOwner).GetLocation(ref X, ref Y, ref L);
+            ((ItemList)_owner).GetLocation(ref X, ref Y, ref L);
         }
         else
         {
@@ -362,182 +362,177 @@ public partial class Item : AbilityOwner
     // Army.PAS:4356
     public LibraryImage GetImage()
     {
-        LibraryImage Result;
-        ItemGraphics GFX;
-        GFX = AoWHSSet.Current.FItemGFXResources.GetItemGFX(FItemGFXIndex);
-        if (GFX != null)
+        LibraryImage result;
+        ItemGraphics graphics;
+        graphics = AoWHSSet.Current.ItemGraphicsResources.GetItemGraphics(ItemGraphicsIndex);
+        if (graphics != null)
         {
-            GFX.AddRef();
-            Result = GFX.GetItemImage();
-            GFX.Release();
+            graphics.AddRef();
+            result = graphics.GetItemImage();
+            graphics.Release();
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:4369
-    public bool GetLibraryItem() => FLibraryID != -1;
+    public bool GetLibraryItem() => LibraryId != -1;
 
     // Army.PAS:4372
     public string GetLibraryName()
     {
-        string Result = "";
-        if (FLibraryID != -1)
+        string result = "";
+        if (LibraryId != -1)
         {
-            Result = FLibraryName;
-            if (IsEmpty(Result))
+            result = LibraryName;
+            if (IsEmpty(result))
             {
-                Result = AbilityRules.TranslateRStr(ItemSystemLibraryRStr);
+                result = AbilityRules.TranslateResourceString(s_itemSystemLibraryText);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:4381
     public void UpdateFromLibrary()
     {
-        int ID;
-        Item Item;
-        if (FLibraryID != -1)
+        int id;
+        Item item;
+        if (LibraryId != -1)
         {
-            Item = AoWHSSet.Current.FItemLibraries.FindItem(FLibraryName, FLibraryID);
-            if (Item != null)
+            item = AoWHSSet.Current.ItemLibraries.FindItem(LibraryName, LibraryId);
+            if (item != null)
             {
-                ID = FItemID;
-                Assign(Item, GameTables.AoWEngine);
-                FItemID = ID;
+                id = ItemId;
+                Assign(item, GameTables.GameEngine);
+                ItemId = id;
                 Changed();
             }
             else
             {
-                if (FOwner == null)
+                if (_owner == null)
                 {
                     this.Dispose();
                 }
                 else
                 {
-                    FLibraryID = -1;
+                    LibraryId = -1;
                 }
             }
         }
     }
 
     // Army.PAS:4415
-    public void SetItemGFXIndex(int Value)
+    public void SetItemGraphicsIndex(int value)
     {
-        FItemGFXIndex = Value;
+        ItemGraphicsIndex = value;
     }
 
     // Army.PAS:4430
-    public void SetItemType(ItemType Value)
+    public void SetItemType(ItemType value)
     {
-        ItemType ItemType;
-        FAttack = 0;
-        FDefense = 0;
-        FResistance = 0;
-        FDamage = 0;
-        ItemType = Value;
-        FItemType = ItemType;
-        FItemGFXIndex = AoWHSSet.Current.FItemGFXResources.FindItemTypeGFX(ItemType);
+        ItemType itemType;
+        Attack = 0;
+        Defense = 0;
+        Resistance = 0;
+        Damage = 0;
+        itemType = value;
+        ItemType = itemType;
+        ItemGraphicsIndex = AoWHSSet.Current.ItemGraphicsResources.FindItemTypeGraphics(itemType);
         base.Clear();
     }
 
     // Army.PAS:4443
     public int GetObtainValue()
     {
-        int Result;
-        if (FObtainValue > 10)
+        int result;
+        if (ObtainValue > 10)
         {
-            Result = FObtainValue;
+            result = ObtainValue;
         }
         else
         {
-            Result = 10;
+            result = 10;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:4474
-    public bool PlaceOnMap(GameMap Map, sbyte X, sbyte Y, sbyte L)
+    public bool PlaceOnMap(GameMap map, sbyte X, sbyte Y, sbyte L)
     {
-        bool Result;
-        ItemHexSprite HS;
-        if (X >= 0 && Y >= 0 && L >= 0 && X < Map.MapContainer.Width && Y < Map.MapContainer.Height && L < Map.MapContainer.LevelCount && Map.MapContainer.GetField(X, Y, L).TerrainType != 15)
+        bool result;
+        ItemHexSprite hexSprite;
+        if (X >= 0 && Y >= 0 && L >= 0 && X < map.MapContainer.Width && Y < map.MapContainer.Height && L < map.MapContainer.LevelCount && map.MapContainer.GetField(X, Y, L).TerrainType != 15)
         {
-            HS = (ItemHexSprite)Map.MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
-            if (HS == null)
+            hexSprite = (ItemHexSprite)map.MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
+            if (hexSprite == null)
             {
-                HS = new ItemHexSprite(null);
-                if (!Map.PlaceHX(HS, X, Y, L))
+                hexSprite = new ItemHexSprite(null);
+                if (!map.PlaceHex(hexSprite, X, Y, L))
                 {
-                    HS?.Dispose();
-                    HS = null;
+                    hexSprite?.Dispose();
+                    hexSprite = null;
                 }
             }
 
-            if (HS != null)
+            if (hexSprite != null)
             {
-                SetOwner(HS.FItems);
-                Result = true;
+                SetOwner(hexSprite.Items);
+                result = true;
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:4501
-    public void EditDropMsg(ref DropMessage Msg)
+    public void EditDropMessage(ref DropMessage message)
     {
         int X = default;
         int Y = default;
         int L;
-        L = Msg.Lhp;
-        HexGeometry.HPtoHX(Msg.Xhp, Msg.Yhp, ref X, ref Y);
+        L = message.MapLevel;
+        HexGeometry.PixelToHex(message.PixelX, message.PixelY, ref X, ref Y);
         if (!PlaceOnMap(AoWHSMap.Current, (sbyte)X, (sbyte)Y, (sbyte)L))
         {
-            Msg.Result = -1;
+            message.Result = -1;
         }
         else
         {
-            Msg.Result = 0;
+            message.Result = 0;
         }
     }
 
-    private static readonly string ItemSpellResearchedRStr = "%s researched";
-    private static readonly string ItemSpellAlreadyResearchedRStr = "%s already researched";
-    private static readonly string ItemNotUseableRStr = "This is not an usable item";
-    private static readonly string ItemSystemLibraryRStr = "System";
-
-    public enum Availability : byte
-    {
-        Exceptional = 0, Rare = 1, Common = 2, Frequent = 3
-    }
+    private static readonly string s_itemSpellResearchedFormat = "%s researched";
+    private static readonly string s_itemSpellAlreadyResearchedFormat = "%s already researched";
+    private static readonly string s_itemNotUsableText = "This is not an usable item";
+    private static readonly string s_itemSystemLibraryText = "System";
 
     // { Interface declaration run owned by P2. }
     // The editor drop message carries screen X/Y, level, and result.
     public struct DropMessage
     {
-        public int MsgID;
-        public int Seq;
+        public int MessageId;
+        public int Sequence;
         public EngineObject Sender;
         public Int32Array3 Param;
-        public int Xhp;
-        public int Yhp;
-        public int Lhp;
+        public int PixelX;
+        public int PixelY;
+        public int MapLevel;
         public int Reserved0;
         public int Reserved1;
         public int Result;
@@ -547,4 +542,9 @@ public partial class Item : AbilityOwner
 
     // intf_P2_04.inc:84
 
+}
+
+public enum ItemAvailability : byte
+{
+    Exceptional = 0, Rare = 1, Common = 2, Frequent = 3
 }

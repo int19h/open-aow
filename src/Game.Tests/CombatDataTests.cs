@@ -36,20 +36,20 @@ public sealed class CombatDataTests
         var data = new CombatData(null!);
         if (countCalls)
         {
-            data.FCombatObjects?.Dispose();
-            data.FDefeatedLeaders?.Dispose();
-            data.FInvolvedLeaders?.Dispose();
-            data.FCombatObjects = new ObservedNode();
-            data.FDefeatedLeaders = new ObservedList();
-            data.FInvolvedLeaders = new ObservedList();
+            data.CombatObjects?.Dispose();
+            data.DefeatedLeaders?.Dispose();
+            data.InvolvedLeaders?.Dispose();
+            data.CombatObjects = new ObservedNode();
+            data.DefeatedLeaders = new ObservedList();
+            data.InvolvedLeaders = new ObservedList();
         }
-        var node = data.FCombatObjects;
-        var defeated = data.FDefeatedLeaders;
-        var involved = data.FInvolvedLeaders;
+        var node = data.CombatObjects;
+        var defeated = data.DefeatedLeaders;
+        var involved = data.InvolvedLeaders;
         var child = new ObservedChild(node);
         defeated.Add(3);
         involved.Add(4);
-        Assert.Same(child, Assert.Single(node.FChildren.List.Take(node.Count)));
+        Assert.Same(child, Assert.Single(node._children.List.Take(node.Count)));
         data.Dispose();
         Assert.Equal(1, child.DestroyCount);
         Assert.Null(child.Owner);
@@ -76,24 +76,24 @@ public sealed class CombatDataTests
     {
         var data = new CombatData(null!)
         {
-            FX = 12,
-            FY = 34,
-            FL = 2,
-            FAttackerX = 9,
-            FAttackerY = 8,
-            FAttackerL = 1,
-            FAttackerPlayer = -1,
-            FDefenderPlayer = 3,
-            FRound = 7,
-            FHeader = "Combat",
-            FWallType = 2,
-            FWallBreached = true
+            X = 12,
+            Y = 34,
+            MapLevel = 2,
+            AttackerX = 9,
+            AttackerY = 8,
+            AttackerL = 1,
+            AttackerPlayer = -1,
+            DefenderPlayer = 3,
+            Round = 7,
+            Header = "Combat",
+            WallType = 2,
+            WallBreached = true
         };
-        data.FDefeatedLeaders.Add(3);
-        data.FDefeatedLeaders.Add(5);
-        data.FTurnOrder.Add(2);
-        data.FTurnOrder.Add(1);
-        data.FInvolvedLeaders.Add(4);
+        data.DefeatedLeaders.Add(3);
+        data.DefeatedLeaders.Add(5);
+        data.TurnOrder.Add(2);
+        data.TurnOrder.Add(1);
+        data.InvolvedLeaders.Add(4);
         try
         {
             byte[] before = Save(data);

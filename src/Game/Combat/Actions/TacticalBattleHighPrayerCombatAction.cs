@@ -8,21 +8,21 @@ namespace Aow.Game.Combat.Actions;
 public partial class TacticalBattleHighPrayerCombatAction : ExclusiveCombatSpellCombatAction
 {
     // CombatSpells.pas:976
-    public new const int ClassID = 131786;
+    public new const int ClassId = 131786;
 
     public TacticalBattleHighPrayerCombatAction(ECustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:982
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatObject Target;
-        base.Execute(Combat);
-        if (FSucceeded)
+        CombatObject target;
+        base.Execute(combat);
+        if (Succeeded)
         {
-            Target = Combat.FCombatData.FindID(FTargetID);
-            Target.SetHitPoints((byte)(Target.GetHitPoints() + 5));
-            AoWHSSet.Current.FAbilityControl.GetAbility(100).Expand(((CombatUnit)Target).FUnit);
+            target = combat.CombatData.FindId(TargetId);
+            target.SetHitPoints((byte)(target.GetHitPoints() + 5));
+            AoWHSSet.Current.AbilityControl.GetAbility(100).Expand(((CombatUnit)target).Troop);
         }
     }
 

@@ -9,127 +9,127 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Draw;
 
-// FCity, FModeStartFrame, FMode, FShellAnimation, FShellEndFrame
+// City, ModeStartFrame, Mode, ShellAnimation, ShellEndFrame
 public partial class CityOverlayHexSprite : SingleHexSprite
 {
     public CityOverlayHexSprite(ECustomNode owner) : base(owner)
     { }
 
-    public City FCity;
-    public int FModeStartFrame;
-    public OverlayMode FMode;
-    public ShellAnimationPhase FShellAnimation;
-    public int FShellEndFrame;
+    public City City;
+    public int ModeStartFrame;
+    public OverlayMode Mode;
+    public ShellAnimationPhase ShellAnimation;
+    public int ShellEndFrame;
 
     // City.pas:718
-    public override int GetShowPriority() => FCity.GetShowPriority() + 134217728;
+    public override int GetShowPriority() => City.GetShowPriority() + 134217728;
 
     // City.pas:733
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        int Intensity;
-        int Index;
-        int Frame;
-        ImageSequence Sequence;
-        HexGeometry.HXtoHP(FCity.FXhx, FCity.FYhx, ref Xhp, ref Yhp);
-        XhpSurf = Xhp - XhpSurf;
-        YhpSurf = Yhp - YhpSurf;
-        if (FCity.FEnchantmentsVisible)
+        int pixelX = default;
+        int pixelY = default;
+        int intensity;
+        int index;
+        int frame;
+        ImageSequence sequence;
+        HexGeometry.HexToPixel(City._hexX, City._hexY, ref pixelX, ref pixelY);
+        pixelXSurface = pixelX - pixelXSurface;
+        pixelYSurface = pixelY - pixelYSurface;
+        if (City.EnchantmentsVisible)
         {
-            if (FCity.FEnchantments.Contains(CityEnchantmentId.Warmonger))
+            if (City.Enchantments.Contains(CityEnchantmentId.Warmonger))
             {
-                Intensity = Math.Abs((int)(((uint)AoWHSMap.Current.Frame) >> 1) % 20 - 10) + 50;
-                Sequence = FCity.FResource.ImageSequenceList.ImageSequences[17];
-                while (Sequence != null)
+                intensity = Math.Abs((int)(((uint)AoWHSMap.Current.Frame) >> 1) % 20 - 10) + 50;
+                sequence = City._resource.ImageSequenceList.ImageSequences[17];
+                while (sequence != null)
                 {
-                    Index = Sequence.GetFrameIndex(0, 0);
-                    if (Sequence == FCity.FResource.ImageSequenceList.ImageSequences[17])
+                    index = sequence.GetFrameIndex(0, 0);
+                    if (sequence == City._resource.ImageSequenceList.ImageSequences[17])
                     {
-                        Sequence.ImageLibrary[Index].ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, GraphicsState.IntensityBlendTable.LookupTables[Intensity]);
+                        sequence.ImageLibrary[index].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
                     }
                     else
                     {
-                        Sequence.ImageLibrary[Index].ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, GraphicsState.AlphaBlendTable.LookupTables[Intensity]);
+                        sequence.ImageLibrary[index].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[intensity]);
                     }
 
-                    Sequence = Sequence.Next;
+                    sequence = sequence.Next;
                 }
             }
 
-            if (FCity.FEnchantments.Contains(CityEnchantmentId.GoldRush))
+            if (City.Enchantments.Contains(CityEnchantmentId.GoldRush))
             {
-                Intensity = Math.Abs((int)(((uint)AoWHSMap.Current.Frame) >> 1) % 20 - 10) + 70;
-                Sequence = FCity.FResource.ImageSequenceList.ImageSequences[18];
-                while (Sequence != null)
+                intensity = Math.Abs((int)(((uint)AoWHSMap.Current.Frame) >> 1) % 20 - 10) + 70;
+                sequence = City._resource.ImageSequenceList.ImageSequences[18];
+                while (sequence != null)
                 {
-                    if (Sequence == FCity.FResource.ImageSequenceList.ImageSequences[18])
+                    if (sequence == City._resource.ImageSequenceList.ImageSequences[18])
                     {
-                        Index = Sequence.GetFrameIndex(0, 0);
-                        if (Sequence.ImageLibrary.ImageExist(Index))
+                        index = sequence.GetFrameIndex(0, 0);
+                        if (sequence.ImageLibrary.ImageExist(index))
                         {
-                            Sequence.ImageLibrary[Index].ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, GraphicsState.IntensityBlendTable.LookupTables[Intensity]);
+                            sequence.ImageLibrary[index].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
                         }
                     }
                     else
                     {
-                        Index = Sequence.GetFrameIndex(0, AoWHSMap.Current.Frame);
-                        if (Sequence.ImageLibrary.ImageExist(Index))
+                        index = sequence.GetFrameIndex(0, AoWHSMap.Current.Frame);
+                        if (sequence.ImageLibrary.ImageExist(index))
                         {
-                            Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
+                            sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);
                         }
                     }
 
-                    Sequence = Sequence.Next;
+                    sequence = sequence.Next;
                 }
             }
 
-            if (FCity.FEnchantments.Contains(CityEnchantmentId.AntiMagicShell))
+            if (City.Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
             {
-                Sequence = FCity.FResource.ImageSequenceList.ImageSequences[19];
-                if (Sequence != null)
+                sequence = City._resource.ImageSequenceList.ImageSequences[19];
+                if (sequence != null)
                 {
-                    Intensity = 50;
-                    Index = Sequence.GetFrameIndex(0, 0);
-                    if (FShellEndFrame != -1 && AoWHSMap.Current.Frame < FShellEndFrame)
+                    intensity = 50;
+                    index = sequence.GetFrameIndex(0, 0);
+                    if (ShellEndFrame != -1 && AoWHSMap.Current.Frame < ShellEndFrame)
                     {
-                        switch (FShellAnimation)
+                        switch (ShellAnimation)
                         {
                             case ShellAnimationPhase.Setup:
-                                Frame = FShellEndFrame - AoWHSMap.Current.Frame;
-                                if (Frame <= 50)
+                                frame = ShellEndFrame - AoWHSMap.Current.Frame;
+                                if (frame <= 50)
                                 {
-                                    Intensity = 50 - Frame;
+                                    intensity = 50 - frame;
                                 }
                                 else
                                 {
-                                    FShellEndFrame = -1;
+                                    ShellEndFrame = -1;
                                 }
 
                                 break;
                             case ShellAnimationPhase.Fade:
-                                Frame = FShellEndFrame - AoWHSMap.Current.Frame;
-                                if (Frame <= 20)
+                                frame = ShellEndFrame - AoWHSMap.Current.Frame;
+                                if (frame <= 20)
                                 {
-                                    Intensity = Intensity + (10 - Math.Abs(Frame - 10)) * 3;
+                                    intensity = intensity + (10 - Math.Abs(frame - 10)) * 3;
                                 }
                                 else
                                 {
-                                    FShellEndFrame = -1;
+                                    ShellEndFrame = -1;
                                 }
 
                                 break;
                         }
                     }
 
-                    Sequence.ImageLibrary[Index].ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, GraphicsState.IntensityBlendTable.LookupTables[Intensity]);
+                    sequence.ImageLibrary[index].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
                 }
             }
 
-            if (FMode == OverlayMode.Looting)
+            if (Mode == OverlayMode.Looting)
             {
-                FCity.FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 22, (uint)(((MapField)FCity.Owner).Xhx + ((MapField)FCity.Owner).Yhx * 16));
+                City._resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 22, (uint)(((MapField)City.Owner).HexX + ((MapField)City.Owner).HexY * 16));
             }
         }
     }
@@ -137,24 +137,24 @@ public partial class CityOverlayHexSprite : SingleHexSprite
     // City.pas:721
     public void PlaySetupShellAnimation()
     {
-        FShellAnimation = ShellAnimationPhase.Setup;
-        FShellEndFrame = AoWHSMap.Current.Frame + 50;
+        ShellAnimation = ShellAnimationPhase.Setup;
+        ShellEndFrame = AoWHSMap.Current.Frame + 50;
     }
 
     // City.pas:727
     public void PlayFadeShellAnimation()
     {
-        FShellAnimation = ShellAnimationPhase.Fade;
-        FShellEndFrame = AoWHSMap.Current.Frame + 20;
+        ShellAnimation = ShellAnimationPhase.Fade;
+        ShellEndFrame = AoWHSMap.Current.Frame + 20;
     }
 
     // City.pas:815
-    public void SetMode(OverlayMode Mode)
+    public void SetMode(OverlayMode mode)
     {
-        if (Mode != FMode)
+        if (mode != Mode)
         {
-            FModeStartFrame = AoWHSMap.Current.Frame;
-            FMode = Mode;
+            ModeStartFrame = AoWHSMap.Current.Frame;
+            Mode = mode;
         }
     }
 

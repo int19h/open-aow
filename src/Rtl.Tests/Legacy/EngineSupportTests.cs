@@ -7,11 +7,11 @@ namespace Aow.Rtl.Tests;
 
 public sealed class EngineSupportTests
 {
-    private enum Flag : byte { A, B, C }
+    private enum Flag : byte { First, Second, Third }
 
-    private enum OffsetFlag : byte { A = 8, B, C }
+    private enum OffsetFlag : byte { First = 8, Second, Third }
 
-    [InlineArray(4)] private struct FourBytes { private byte first; }
+    [InlineArray(4)] private struct FourBytes { private byte _first; }
 
     private sealed class Receiver { public void Event(object sender) { } }
 
@@ -97,10 +97,10 @@ public sealed class EngineSupportTests
         {
             Assert.Equal(1, size); Assert.Equal(17, id); bytes[0] = 5;
         });
-        Assert.True(value.Contains(Flag.A)); Assert.True(value.Contains(Flag.C)); Assert.False(value.Contains(Flag.B));
+        Assert.True(value.Contains(Flag.First)); Assert.True(value.Contains(Flag.Third)); Assert.False(value.Contains(Flag.Second));
         Set<OffsetFlag> offset = default;
         R.RwSet(ref offset, 1, 0, (bytes, _, _) => bytes[0] = 5, 8);
-        Assert.True(offset.Contains(OffsetFlag.A)); Assert.True(offset.Contains(OffsetFlag.C));
+        Assert.True(offset.Contains(OffsetFlag.First)); Assert.True(offset.Contains(OffsetFlag.Third));
     }
 
     [Fact]

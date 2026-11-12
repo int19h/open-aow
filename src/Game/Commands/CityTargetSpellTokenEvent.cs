@@ -20,50 +20,50 @@ public partial class CityTargetSpellTokenEvent : SpellTokenEvent
     { }
 
     // CitySpells.pas:170
-    public new const int ClassID = 135949;
+    public new const int ClassId = 135949;
 
-    public MapCoordinate FTargetLocation;
-    public sbyte FTargetPlayer;
+    public MapCoordinate TargetLocation;
+    public sbyte TargetPlayer;
 
     // CitySpells.pas:175
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FTargetLocation.Packed, 20);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FTargetPlayer), 21);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref TargetLocation.Packed, 20);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TargetPlayer), 21);
     }
 
     // CitySpells.pas:189
     public override bool Validate(Hero source)
     {
-        City TargetCity;
-        bool Result = base.Validate(source);
-        if (Result)
+        City targetCity;
+        bool result = base.Validate(source);
+        if (result)
         {
-            TargetCity = GetSelectedCity();
-            if (TargetCity == null || TargetCity.FPlayer != FTargetPlayer)
+            targetCity = GetSelectedCity();
+            if (targetCity == null || targetCity.Player != TargetPlayer)
             {
-                Result = false;
+                result = false;
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // CitySpells.pas:182
     public void SetLocation(sbyte X, sbyte Y, sbyte L)
     {
-        FTargetLocation.X = X;
-        FTargetLocation.Y = Y;
-        FTargetLocation.L = L;
+        TargetLocation.X = X;
+        TargetLocation.Y = Y;
+        TargetLocation.MapLevel = L;
     }
 
     // CitySpells.pas:204
-    public City GetSelectedCity() => (City)AoWHSMap.Current.MapContainer.GetFieldXYL(FTargetLocation.Packed).FindNoneTransparentHS(typeof(City));
+    public City GetSelectedCity() => (City)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(TargetLocation.Packed).FindNoneTransparentHexSprite(typeof(City));
 
     // NetworkE.pas:230
 

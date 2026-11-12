@@ -41,7 +41,7 @@ public sealed class CoreTests
         var next = new SampleChild(3);
         Assert.NotSame(fresh, next);
         Assert.Equal(13, next.Value);
-        Assert.Equal(2, next.ClassID);
+        Assert.Equal(2, next.ClassId);
         Assert.Throws<AbstractErrorException>(next.AbstractCall);
         object? nil = null;
         (nil as IDisposable)?.Dispose();
@@ -176,7 +176,7 @@ public sealed class CoreTests
     }
 
     [Fact]
-    public void IntOrRefKeepsTagsAndIdentity()
+    public void IntegerOrRefKeepsTagsAndIdentity()
     {
         IntOrRef zero = default;
         Assert.Null(zero.Ref);
@@ -184,11 +184,11 @@ public sealed class CoreTests
         IntOrRef number = -123;
         Assert.Equal(-123, number.Value);
         Assert.Null(number.As<object>());
-        var obj = new object();
-        IntOrRef reference = new(obj);
-        Assert.Same(obj, reference.Ref);
-        Assert.Same(obj, reference.As<object>());
-        Assert.Equal(RuntimeHelpers.GetHashCode(obj) & int.MaxValue, reference.Value);
+        var objectValue = new object();
+        IntOrRef reference = new(objectValue);
+        Assert.Same(objectValue, reference.Ref);
+        Assert.Same(objectValue, reference.As<object>());
+        Assert.Equal(RuntimeHelpers.GetHashCode(objectValue) & int.MaxValue, reference.Value);
         string literal = "abc";
         IntOrRef text = literal;
         Assert.Equal(RuntimeHelpers.GetHashCode(literal), text.Value);

@@ -6,152 +6,152 @@ namespace Aow.Game.Draw.Images;
 
 public sealed class LibraryImageClass
 {
-    private static readonly Catalog<Type, LibraryImageClass> catalog = new("library image class");
-    private readonly Func<CustomImageLibrary, LibraryImage> create;
+    private static readonly Catalog<Type, LibraryImageClass> s_catalog = new("library image class");
+    private readonly Func<CustomImageLibrary, LibraryImage> _create;
 
-    private LibraryImageClass(Type type, int classID, byte classVersion, string name, Func<CustomImageLibrary, LibraryImage> create)
+    private LibraryImageClass(Type type, int classId, byte classVersion, string name, Func<CustomImageLibrary, LibraryImage> create)
     {
         Type = type;
-        ClassID = classID;
+        ClassId = classId;
         ClassVersion = classVersion;
         Name = name;
-        this.create = create;
+        this._create = create;
     }
 
     public Type Type { get; }
-    public string ClassName => NameTable.Stored(Type);
-    public int ClassID { get; }
+    public string StorageKey => NameTable.Stored(Type);
+    public int ClassId { get; }
     public byte ClassVersion { get; }
     public string Name { get; } = "";
 
-    public LibraryImage Create(CustomImageLibrary owner) => create(owner);
+    public LibraryImage CreateInstance(CustomImageLibrary owner) => _create(owner);
 
     public static LibraryImageClass Register<T>() where T : LibraryImage, ILibraryImageClass =>
-        catalog.Add(typeof(T), new LibraryImageClass(typeof(T), T.ClassID, T.ClassVersion, T.Name, T.Create));
+        s_catalog.Add(typeof(T), new LibraryImageClass(typeof(T), T.ClassId, T.ClassVersion, T.Name, T.CreateInstance));
 
-    public static LibraryImageClass Of<T>() where T : LibraryImage, ILibraryImageClass => catalog[typeof(T)];
-    public static LibraryImageClass Of(Type type) => catalog[type];
+    public static LibraryImageClass Of<T>() where T : LibraryImage, ILibraryImageClass => s_catalog[typeof(T)];
+    public static LibraryImageClass Of(Type type) => s_catalog[type];
 
-    public static IReadOnlyList<LibraryImageClass> All => catalog.All;
+    public static IReadOnlyList<LibraryImageClass> All => s_catalog.All;
 
-    public int GrabImages(in LockedSurface SD, GrabInfo GrabInfo, CustomImageLibrary ImageLibrary, GrabProgressEvent OnProgress)
+    public int GrabImages(in LockedSurface lockedSurface, GrabInfo grabInfo, CustomImageLibrary imageLibrary, GrabProgressEvent onProgress)
     {
-        int Result = default;
-        LibraryImageClass ImageClass;
-        LibraryImage Image = default;
-        RectangleList Rects = default;
-        void Progress(int Percent, string Msg)
+        int result = default;
+        LibraryImageClass imageClass;
+        LibraryImage image = default;
+        RectangleList rects = default;
+        void Progress(int percent, string message)
         {
-            if (OnProgress != null)
+            if (onProgress != null)
             {
-                OnProgress(null, Percent, Msg);
+                onProgress(null, percent, message);
             }
         }
 
         Progress(10, "Analyzing Image..");
-        ImageClass = LibraryCatalog.FindLibraryImageClass(ClassID);
-        if (GrabInfo.FindRectangles)
+        imageClass = LibraryCatalog.FindLibraryImageClass(ClassId);
+        if (grabInfo.FindRectangles)
         {
-            Rects = GetSurfaceRectangles(SD, GrabInfo.TransparentColor, null);
+            rects = GetSurfaceRectangles(lockedSurface, grabInfo.TransparentColor, null);
         }
         else
         {
-            Rects = new RectangleList();
-            Rects.Add(new Rectangle(0, 0, SD.Width, SD.Height));
+            rects = new RectangleList();
+            rects.Add(new Rectangle(0, 0, lockedSurface.Width, lockedSurface.Height));
         }
 
-        if (Rects != null && ImageClass != null)
+        if (rects != null && imageClass != null)
         {
-            for (int I = 0, last = Rects.Count - 1; I <= last; I++)
+            for (int I = 0, last = rects.Count - 1; I <= last; I++)
             {
-                if (Rects.Count > 1)
+                if (rects.Count > 1)
                 {
-                    Progress(RtlUnit.Round((double)(I * 90) / (Rects.Count - 1)) + 10, "Grabbing Image " + RtlUnit.IntToStr(I + 1));
+                    Progress(RtlUnit.Round((double)(I * 90) / (rects.Count - 1)) + 10, "Grabbing Image " + RtlUnit.IntToStr(I + 1));
                 }
                 else
                 {
                     Progress(100, "Grabbing Image");
                 }
 
-                Image = ImageClass.Create(null);
-                GrabInfo.FileIndex = I;
-                var rectangle = Rects.Rectangles[I];
-                if (Image.GrabImage(SD, rectangle.Rect, GrabInfo))
+                image = imageClass.CreateInstance(null);
+                grabInfo.FileIndex = I;
+                var rectangle = rects.Rectangles[I];
+                if (image.GrabImage(lockedSurface, rectangle.Bounds, grabInfo))
                 {
-                    ImageLibrary.Add(Image);
+                    imageLibrary.Add(image);
                 }
                 else
                 {
-                    Image?.Dispose();
+                    image?.Dispose();
                 }
             }
 
-            Result = 0;
+            result = 0;
         }
         else
         {
-            Result = PixelFormats.GFXE_ERROR;
+            result = PixelFormats.GFXE_ERROR;
         }
 
-        Rects?.Dispose();
-        return Result;
+        rects?.Dispose();
+        return result;
     }
 
-    internal static RectangleList GetSurfaceRectangles(LockedSurface SD, int TransparentColor, ProgressEvent OnProgress)
+    internal static RectangleList GetSurfaceRectangles(LockedSurface lockedSurface, int transparentColor, ProgressEvent onProgress)
     {
-        RectangleList tRectangleList = new RectangleList();
+        RectangleList rectangleList = new RectangleList();
         int i = 0;
-        for (int num = SD.Height - 1; i <= num; i++)
+        for (int number = lockedSurface.Height - 1; i <= number; i++)
         {
-            ushort num2 = (ushort)i;
+            ushort number2 = (ushort)i;
             int j = 0;
-            for (int num3 = SD.Width - 1; j <= num3; j++)
+            for (int number3 = lockedSurface.Width - 1; j <= number3; j++)
             {
                 ushort x = (ushort)j;
-                if (GetPixel(x, num2) == TransparentColor)
+                if (GetPixel(x, number2) == transparentColor)
                 {
-                    Rectangle tRectangle = FindRectangle(x, num2);
-                    if (tRectangle != null)
+                    Rectangle rectangle = FindRectangle(x, number2);
+                    if (rectangle != null)
                     {
-                        ((DelphiList)tRectangleList).Add((object)tRectangle);
+                        ((DelphiList)rectangleList).Add((object)rectangle);
                     }
                 }
             }
-            if (OnProgress != null && (num2 % 20 == 0 || num2 == SD.Height - 1))
+            if (onProgress != null && (number2 % 20 == 0 || number2 == lockedSurface.Height - 1))
             {
-                OnProgress(null, RtlUnit.Round((double)(num2 * 100) / (double)(SD.Height - 1)), 0);
+                onProgress(null, RtlUnit.Round((double)(number2 * 100) / (double)(lockedSurface.Height - 1)), 0);
             }
         }
-        if (((DelphiList)tRectangleList).Count == 0)
+        if (((DelphiList)rectangleList).Count == 0)
         {
-            if (tRectangleList != null)
+            if (rectangleList != null)
             {
-                ((DelphiList)tRectangleList).Dispose();
+                ((DelphiList)rectangleList).Dispose();
             }
             return null;
         }
-        return tRectangleList;
+        return rectangleList;
         Rectangle FindRectangle(int X, int Y)
         {
             Rectangle result = null;
             int k = 1;
             int l = 1;
-            for (; GetPixel(X + k, Y) == TransparentColor && GetPixel(X + k, Y + 1) != TransparentColor && X + k < SD.Width - 1; k++)
+            for (; GetPixel(X + k, Y) == transparentColor && GetPixel(X + k, Y + 1) != transparentColor && X + k < lockedSurface.Width - 1; k++)
             {
             }
-            if (GetPixel(X + k, Y) == TransparentColor && GetPixel(X + k, Y + 1) == TransparentColor && X + k < SD.Width - 1 && k > 1)
+            if (GetPixel(X + k, Y) == transparentColor && GetPixel(X + k, Y + 1) == transparentColor && X + k < lockedSurface.Width - 1 && k > 1)
             {
-                for (; GetPixel(X, Y + l) == TransparentColor && GetPixel(X + k, Y + l) == TransparentColor && GetPixel(X + 1, Y + l) != TransparentColor && GetPixel(X + k - 1, Y + l) != TransparentColor && Y + l < SD.Height; l++)
+                for (; GetPixel(X, Y + l) == transparentColor && GetPixel(X + k, Y + l) == transparentColor && GetPixel(X + 1, Y + l) != transparentColor && GetPixel(X + k - 1, Y + l) != transparentColor && Y + l < lockedSurface.Height; l++)
                 {
                 }
-                if (GetPixel(X, Y + l) == TransparentColor && GetPixel(X + 1, Y + l) == TransparentColor && GetPixel(X + k, Y + l) == TransparentColor && GetPixel(X + k - 1, Y + l) == TransparentColor && Y + l < SD.Height && l > 1)
+                if (GetPixel(X, Y + l) == transparentColor && GetPixel(X + 1, Y + l) == transparentColor && GetPixel(X + k, Y + l) == transparentColor && GetPixel(X + k - 1, Y + l) == transparentColor && Y + l < lockedSurface.Height && l > 1)
                 {
                     bool flag = true;
-                    int num4 = 1;
-                    while (flag && num4 != k)
+                    int number4 = 1;
+                    while (flag && number4 != k)
                     {
-                        flag = GetPixel(X + num4, Y + l) == TransparentColor;
-                        num4++;
+                        flag = GetPixel(X + number4, Y + l) == transparentColor;
+                        number4++;
                     }
                     if (flag)
                     {
@@ -163,31 +163,31 @@ public sealed class LibraryImageClass
         }
         int GetPixel(int X, int Y)
         {
-            SurfaceView val;
-            switch (SD.BitCount)
+            SurfaceView value;
+            switch (lockedSurface.BitCount)
             {
                 case 8:
-                    val = SD.View();
-                    return val.Byte(X + SD.Pitch * Y);
+                    value = lockedSurface.View();
+                    return value.Byte(X + lockedSurface.Pitch * Y);
                 case 16:
-                    val = SD.View();
-                    return val.Word(X + X + SD.Pitch * Y);
+                    value = lockedSurface.View();
+                    return value.UInt16(X + X + lockedSurface.Pitch * Y);
                 case 24:
                     {
-                        if (X + 1 < SD.Width)
+                        if (X + 1 < lockedSurface.Width)
                         {
-                            val = SD.View();
-                            return (int)(val.Dword(X + X + X + SD.Pitch * Y) & 0xFFFFFF);
+                            value = lockedSurface.View();
+                            return (int)(value.Dword(X + X + X + lockedSurface.Pitch * Y) & 0xFFFFFF);
                         }
-                        int num4 = X + X + X + SD.Pitch * Y;
-                        val = SD.View();
-                        ushort num5 = val.Word(num4);
-                        val = SD.View();
-                        return num5 + (val.Byte(num4 + 2) << 16);
+                        int number4 = X + X + X + lockedSurface.Pitch * Y;
+                        value = lockedSurface.View();
+                        ushort number5 = value.UInt16(number4);
+                        value = lockedSurface.View();
+                        return number5 + (value.Byte(number4 + 2) << 16);
                     }
                 case 32:
-                    val = SD.View();
-                    return (int)val.Dword((X << 2) + SD.Pitch * Y);
+                    value = lockedSurface.View();
+                    return (int)value.Dword((X << 2) + lockedSurface.Pitch * Y);
                 default:
                     throw new NotSupportedException("PixelFormat is not supported");
             }

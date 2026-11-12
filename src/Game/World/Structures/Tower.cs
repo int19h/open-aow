@@ -10,65 +10,65 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
-// FState, bit 0 razed
+// State, bit 0 razed
 public partial class Tower : PlayerStructure
 {
     public Tower(ECustomNode owner) : base(owner)
     { }
 
     // Tower.pas:55
-    public new const int ClassID = 132158;
+    public new const int ClassId = 132158;
 
-    public Set<StateElement> FState;
+    public Set<StateElement> State;
 
     // Tower.pas:96
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        RwSet(ref FState, 1, 20, Stream.rwData, 0);
+        base.ReadWrite(stream);
+        RwSet(ref State, 1, 20, stream.rwData, 0);
     }
 
     // Tower.pas:102
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        base.MapFieldMsgProc(ref Msg);
-        if (FResource.TerrainList.Terrain[Msg.HN] >= 0 && Msg.MsgID == 4387 && Msg.Param[0].As<MapField>().FindNoneTransparentHS(typeof(Tower)) == this && !GetBuilding() && !GetRazed())
+        base.MapFieldMessageProc(ref message);
+        if (_resource.TerrainList.Terrain[message.HexNumber] >= 0 && message.MessageId == 4387 && message.Param[0].As<MapField>().FindNoneTransparentHexSprite(typeof(Tower)) == this && !GetBuilding() && !GetRazed())
         {
-            Msg.Result = 2;
+            message.Result = 2;
         }
     }
 
     // Tower.pas:85
-    public override void SetRazed(bool Value)
+    public override void SetRazed(bool value)
     {
-        if (Value)
+        if (value)
         {
             SetPlayer(-1);
-            FState = FState + Set<StateElement>.Of(StateElement.Razed);
+            State = State + Set<StateElement>.Of(StateElement.Razed);
         }
         else
         {
-            FState = FState - Set<StateElement>.Of(StateElement.Razed);
+            State = State - Set<StateElement>.Of(StateElement.Razed);
         }
 
-        FImageIndex = GetTerrainTypeImage(FTerrainType);
+        _imageIndex = GetTerrainTypeImage(_terrainType);
     }
 
     // Tower.pas:82
-    public override bool GetRazed() => FState.Contains(StateElement.Razed);
+    public override bool GetRazed() => State.Contains(StateElement.Razed);
 
     // Tower.pas:73
-    public override void UpdateAITarget(in AITargetInfo Info, ref AITargetData Data)
+    public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        base.UpdateAITarget(Info, ref Data);
-        if (!FState.Contains(StateElement.Razed))
+        base.UpdateAITarget(info, ref data);
+        if (!State.Contains(StateElement.Razed))
         {
-            switch (Info.Mode)
+            switch (info.Mode)
             {
                 case AITargetMode.Fortify:
-                    if (Info.Player == FPlayer)
+                    if (info.Player == Player)
                     {
-                        Data.Priority = 50;
+                        data.Priority = 50;
                     }
 
                     break;
@@ -79,21 +79,21 @@ public partial class Tower : PlayerStructure
     // Tower.pas:58
     public override int VisibilityRange()
     {
-        int Result;
+        int result;
         if (!GetBuilding())
         {
-            Result = 12;
-            if (GetLhx() != 0 || FPlayer > 0 && (((byte)AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 8) != 0)
+            result = 12;
+            if (GetHexLevel() != 0 || Player > 0 && (((byte)AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
             {
-                Result = (int)(((uint)(Result + 1)) >> 1);
+                result = (int)(((uint)(result + 1)) >> 1);
             }
         }
         else
         {
-            Result = 4;
+            result = 4;
         }
 
-        return Result;
+        return result;
     }
 
     // Tower.pas:70
@@ -108,26 +108,26 @@ public partial class Tower : PlayerStructure
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FTerrainBound = true;
-            FClaimed = false;
-            FRazeable = true;
-            FRazeDefenderBudget = 50;
-            FRebuildGold = 25;
-            FRebuildDays = 2;
+            TerrainBound = true;
+            Claimed = false;
+            Razeable = true;
+            RazeDefenderBudget = 50;
+            RebuildGold = 25;
+            RebuildDays = 2;
         }
 
         // Tower.pas:124
-        public new const int ClassID = 132159;
+        public new const int ClassId = 132159;
 
         // Tower.pas:110
 
         // Tower.pas:127
-        public override int ResourceUserClassID() => 132158;
+        public override int ResourceUserClassId() => 132158;
 
         // Tower.pas:35
 
         // Tower.pas:121
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(GameText.TowerRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameText.s_towerText);
 
     }
 

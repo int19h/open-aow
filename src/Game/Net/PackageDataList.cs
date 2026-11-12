@@ -7,32 +7,32 @@ namespace Aow.Game.Net;
 // FList, the memory streams of the packages that wait to be received
 public partial class PackageDataList : IDisposable
 {
-    internal List<MemoryStream> FList;
+    internal List<MemoryStream> _list;
 
     // NetworkE.pas:870
     public PackageDataList()
     {
-        FList = new List<MemoryStream>();
+        _list = new List<MemoryStream>();
     }
 
     // NetworkE.pas:876
     public virtual void Dispose()
     {
         Clear();
-        FList?.Clear();
+        _list?.Clear();
     }
 
     // NetworkE.pas:883
-    public int GetCount() => FList.Count;
+    public int GetCount() => _list.Count;
 
     // NetworkE.pas:888
-    public MemoryStream GetPackageData(int Index) => FList[Index];
+    public MemoryStream GetPackageData(int index) => _list[index];
 
     // NetworkE.pas:893
     public void Clear()
     {
         List<MemoryStream> L;
-        L = FList;
+        L = _list;
         while (L.Count != 0)
         {
             (L[L.Count - 1] as IDisposable)?.Dispose();
@@ -41,49 +41,49 @@ public partial class PackageDataList : IDisposable
     }
 
     // NetworkE.pas:905
-    public void Add(MemoryStream Stream)
+    public void Add(MemoryStream stream)
     {
         MemoryStream S;
         S = new MemoryStream();
-        S.SetLength(Stream.Length);
+        S.SetLength(stream.Length);
         var size = (int)S.Length;
-        Move(Stream.GetBuffer().AsSpan(0, size), S.GetBuffer().AsSpan(0, size), size);
-        FList.Add(S);
+        Move(stream.GetBuffer().AsSpan(0, size), S.GetBuffer().AsSpan(0, size), size);
+        _list.Add(S);
     }
 
     // NetworkE.pas:915
-    public void AddData(object Data, int Size)
+    public void AddData(object data, int size)
     {
         MemoryStream S;
         S = new MemoryStream();
-        S.SetLength(Size);
-        Move(BufferBytes(Data)[..Size], S.GetBuffer().AsSpan(0, Size), Size);
-        FList.Add(S);
+        S.SetLength(size);
+        Move(BufferBytes(data)[..size], S.GetBuffer().AsSpan(0, size), size);
+        _list.Add(S);
     }
 
     // NetworkE.pas:925
-    public void Insert(int Index, MemoryStream Stream)
+    public void Insert(int index, MemoryStream stream)
     {
         MemoryStream S;
         S = new MemoryStream();
-        S.SetLength(Stream.Length);
+        S.SetLength(stream.Length);
         var size = (int)S.Length;
-        Move(Stream.GetBuffer().AsSpan(0, size), S.GetBuffer().AsSpan(0, size), size);
-        FList.Insert(Index, S);
+        Move(stream.GetBuffer().AsSpan(0, size), S.GetBuffer().AsSpan(0, size), size);
+        _list.Insert(index, S);
     }
 
     // NetworkE.pas:935
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        (FList[Index] as IDisposable)?.Dispose();
-        FList.RemoveAt(Index);
+        (_list[index] as IDisposable)?.Dispose();
+        _list.RemoveAt(index);
     }
 
     public int Count { get => GetCount(); }
 
     public sealed class PackageDataAccessor(PackageDataList target)
     {
-        public MemoryStream this[int Index] { get => target.GetPackageData(Index); }
+        public MemoryStream this[int index] { get => target.GetPackageData(index); }
     }
 
     public PackageDataAccessor PackageData => new PackageDataAccessor(this);

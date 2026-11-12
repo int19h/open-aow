@@ -15,44 +15,44 @@ public partial class BorderHexagon : AbstractBorderHexagon
     { }
 
     // BorderHx.pas:59
-    public new const int ClassID = 132439;
+    public new const int ClassId = 132439;
 
     // BorderHx.pas:39
-    public override void SetOwner(ECustomNode AOwner)
+    public override void SetOwner(ECustomNode owner)
     {
-        ECustomNode OldField;
-        if (AOwner != this.Owner)
+        ECustomNode oldField;
+        if (owner != this.Owner)
         {
-            OldField = Owner;
-            if (OldField != null && OldField is MapField && ((MapField)OldField).Yhx != 0)
+            oldField = Owner;
+            if (oldField != null && oldField is MapField && ((MapField)oldField).HexY != 0)
             {
-                ((MapLevel)OldField.Owner).GetField(((MapField)OldField).Xhx, ((MapField)Owner).Yhx - 1).RemoveChild(this);
+                ((MapLevel)oldField.Owner).GetField(((MapField)oldField).HexX, ((MapField)Owner).HexY - 1).RemoveChild(this);
             }
 
-            base.SetOwner(AOwner);
-            AOwner = Owner;
-            if (AOwner != null && AOwner is MapField && ((MapField)AOwner).Yhx != 0)
+            base.SetOwner(owner);
+            owner = Owner;
+            if (owner != null && owner is MapField && ((MapField)owner).HexY != 0)
             {
-                ((MapLevel)AOwner.Owner).GetField(((MapField)AOwner).Xhx, ((MapField)Owner).Yhx - 1).AddHS(this, 1);
+                ((MapLevel)owner.Owner).GetField(((MapField)owner).HexX, ((MapField)Owner).HexY - 1).AddHexSprite(this, 1);
             }
         }
         else
         {
-            base.SetOwner(AOwner);
+            base.SetOwner(owner);
         }
     }
 
     // BorderHx.pas:64
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-        FResource.ImageLibrary[0].Show(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc);
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        _resource.ImageLibrary[0].Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface);
     }
 
     // BorderHx.pas:72
-    public override bool CanSelect(int Xhp, int Yhp) => false;
+    public override bool CanSelect(int pixelX, int pixelY) => false;
 
     // BorderHx.pas:77
     public override byte GetLevel() => 11;
@@ -60,25 +60,25 @@ public partial class BorderHexagon : AbstractBorderHexagon
     // BorderHx.pas:82
     public override int GetShowPriority()
     {
-        int Xhp;
-        int Yhp;
-        Xhp = ((MapField)Owner).Xhx * 32 + 8;
-        Yhp = (((MapField)Owner).Xhx & 1) * 16 + ((MapField)Owner).Yhx * 32;
-        return ((Yhp + 32) << 13) + (11 << 26) + (Xhp + 8);
+        int pixelX;
+        int pixelY;
+        pixelX = ((MapField)Owner).HexX * 32 + 8;
+        pixelY = (((MapField)Owner).HexX & 1) * 16 + ((MapField)Owner).HexY * 32;
+        return ((pixelY + 32) << 13) + (11 << 26) + (pixelX + 8);
     }
 
     // BorderHx.pas:95
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo Info) => Info.HN != 0;
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => info.HexNumber != 0;
 
     public new partial class Resource : AbstractBorderHexagon.Resource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }
 
-        public new const int ClassID = 132440;
+        public new const int ClassId = 132440;
 
         // BorderHx.pas:112
-        public override int ResourceUserClassID() => 132439;
+        public override int ResourceUserClassId() => 132439;
 
         // BorderHx.pas:107
         public override string ResourceEditName() => "Border Hexagon";

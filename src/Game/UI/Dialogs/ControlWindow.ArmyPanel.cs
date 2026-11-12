@@ -25,38 +25,38 @@ public partial class ControlWindow
         {
             checks[i].Checked = false;
             emptyFrames[i].Visible = emptyChecks[i].Visible = true;
-            frames[i].ILIndexFrame = 12;
+            frames[i].ImageLibraryIndexFrame = 12;
         }
         PartyActionLbl1.Visible = PartyActionLbl2.Visible = false;
-        var army = DialogHosts.General.FUnitList;
-        bool readOnly = army.FPlayer != AoWHSMap.Current.FSeatedPlayer;
-        if (army.FPlayer == 0)
+        var army = DialogHosts.General.UnitList;
+        bool readOnly = army.Player != AoWHSMap.Current.SeatedPlayer;
+        if (army.Player == 0)
         {
             PartyBPnl.Visible = false;
             PartyIPnl.Visible = true;
             PartyILbl.Text = "";
             readOnly = true;
             PartyActionLbl1.Visible = PartyActionLbl2.Visible = true;
-            PartyActionLbl1.Text = AbilityRules.TranslateRStr(PartyActionRStr);
-            PartyActionLbl2.Text = AbilityRules.TranslateRStr(((int)army.GetBehavior(255) & 127) switch
+            PartyActionLbl1.Text = AbilityRules.TranslateResourceString(s_partyActionText);
+            PartyActionLbl2.Text = AbilityRules.TranslateResourceString(((int)army.GetBehavior(255) & 127) switch
             {
-                1 => PatrollingRStr,
-                2 or 3 => GuardingRStr,
-                4 => ScoutingRStr,
-                5 => SeekingRefugeRStr,
-                6 => RaidingRStr,
-                7 => HuntingRStr,
-                8 => ProtectingRStr,
-                9 => FortifiedRStr,
-                10 => BerserkRStr,
-                _ => WanderingRStr
+                1 => s_patrollingText,
+                2 or 3 => s_guardingText,
+                4 => s_scoutingText,
+                5 => s_seekingRefugeText,
+                6 => s_raidingText,
+                7 => s_huntingText,
+                8 => s_protectingText,
+                9 => s_fortifiedText,
+                10 => s_berserkText,
+                _ => s_wanderingText
             });
         }
         else if (readOnly)
         {
             PartyBPnl.Visible = false;
             PartyIPnl.Visible = true;
-            PartyILbl.Text = AbilityRules.Format(AbilityRules.TranslateRStr(PartyOwnerXRStr), [AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[AoWHSMap.Current.FPlayers.GetPlayers(army.FPlayer).FPlayerRace])]);
+            PartyILbl.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_partyOwnerFormat), [AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[AoWHSMap.Current.Players.GetPlayers(army.Player).PlayerRace])]);
             PControlPnl.Visible = false;
         }
         else
@@ -64,27 +64,27 @@ public partial class ControlWindow
             PartyBPnl.Visible = true;
             PartyIPnl.Visible = false;
             MoveIcon.Visible = true;
-            MoveIcon.CurrentImage = DialogHosts.General.MTtoInt(army.GetPartyMoves(255));
+            MoveIcon.CurrentImage = DialogHosts.General.MoveTypesToInt32(army.GetPartyMoves(255));
             MovesLbl.Text = RtlUnit.IntToStr(army.MovePoints(255));
-            DialogHosts.ControlWin.CheckEnd();
+            DialogHosts.ControlWindow.CheckEnd();
             PControlPnl.Visible = true;
-            PGuard.Checked = army.FUserMode.Contains(ArmyUserModeElement.Guard);
+            PGuard.Checked = army.UserMode.Contains(ArmyUserModeElement.Guard);
         }
         for (int i = 0; i < 8; i++)
         {
-            int index = DialogHosts.General.FSelectedUnits[i];
+            int index = DialogHosts.General.SelectedUnits[i];
             if (index == -1) continue;
             byte selection = (byte)(1 << index);
-            icons[i].CurrentImage = DialogHosts.General.MTtoInt(army.MoveTypes(selection));
-            var unit = army.GetUnit(index);
-            gauges[i].Max = unit.GetHits();
-            gauges[i].Position = unit.GetHitPoints();
+            icons[i].CurrentImage = DialogHosts.General.MoveTypesToInt32(army.MoveTypes(selection));
+            var troop = army.GetUnit(index);
+            gauges[i].Max = troop.GetHits();
+            gauges[i].Position = troop.GetHitPoints();
             checks[i].Text = UnitMoveText(army.MovePoints(selection));
             emptyFrames[i].Visible = false;
             checks[i].Visible = !readOnly;
             emptyChecks[i].Visible = readOnly;
         }
-        if (!DialogHosts.TBWindow.ConButton.Visible) MainWindow.Visible = true;
-        DialogHosts.TBWindow.ConButton.Visible = true;
+        if (!DialogHosts.TaskBar.ConButton.Visible) MainWindow.Visible = true;
+        DialogHosts.TaskBar.ConButton.Visible = true;
     }
 }

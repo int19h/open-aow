@@ -21,300 +21,300 @@ namespace Aow.Game.Combat.Actions;
 public partial class DamageCombatAction : SingleTargetCombatAction
 {
     // Combat2.pas:774
-    public new const int ClassID = 131761;
+    public new const int ClassId = 131761;
 
     public DamageCombatAction(ECustomNode owner) : base(owner)
     {
     }
 
-    public byte FDamage;
-    public PackedDamageTypes FDamageTypes;
-    public PackedDamageTypes FEffects;
-    public byte FDamageDone;
+    public byte Damage;
+    public PackedDamageTypes DamageTypes;
+    public PackedDamageTypes Effects;
+    public byte DamageDone;
 
     // Combat2.pas:777
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref FDamage, 15);
-        Stream.rwData(Bytes.Of(ref FEffects, 2), 2, 16);
-        Stream.rwData(Bytes.Of(ref FDamageTypes, 2), 2, 17);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Damage, 15);
+        stream.rwData(Bytes.Of(ref Effects, 2), 2, 16);
+        stream.rwData(Bytes.Of(ref DamageTypes, 2), 2, 17);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Byte("Damage", ref FDamage);
-        PersistSupport.Record(persister, "Effects", ref FEffects);
-        PersistSupport.Record(persister, "DamageTypes", ref FDamageTypes);
+        persister.Byte("Damage", ref Damage);
+        PersistSupport.Record(persister, "Effects", ref Effects);
+        PersistSupport.Record(persister, "DamageTypes", ref DamageTypes);
     }
 
     // Combat2.pas:817
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatObject Target;
-        CombatObject Source;
-        Source = Combat.FCombatData.FindID(FSourceID);
-        Target = Combat.FCombatData.FindID(FTargetID);
-        if (FDamage != 0)
+        CombatObject target;
+        CombatObject source;
+        source = combat.CombatData.FindId(SourceId);
+        target = combat.CombatData.FindId(TargetId);
+        if (Damage != 0)
         {
-            FDamageDone = (byte)Source.DoDamage(Target, FDamage);
+            DamageDone = (byte)source.DoDamage(target, Damage);
         }
 
-        if (FEffects.Value != Set<DamageType>.Of())
+        if (Effects.Value != Set<DamageType>.Of())
         {
-            Target.ExecuteDamageEffects(FEffects.Value);
+            target.ExecuteDamageEffects(Effects.Value);
         }
     }
 
     // Combat2.pas:826
-    public override bool Play(CombatViewer Viewer)
+    public override bool Play(CombatViewer viewer)
     {
-        int HitFrame;
-        int Duration;
-        int EffectFrames;
-        CombatObject Target;
-        if (Viewer.FDelay < 5)
+        int hitFrame;
+        int duration;
+        int effectFrames;
+        CombatObject target;
+        if (viewer.Delay < 5)
         {
-            HitFrame = Viewer.FDelay;
+            hitFrame = viewer.Delay;
         }
         else
         {
-            HitFrame = 5;
+            hitFrame = 5;
         }
 
-        if (HitFrame == Viewer.FTime)
+        if (hitFrame == viewer.Time)
         {
-            Execute(Viewer.FCombat);
-            Target = Viewer.FCombat.FCombatData.FindID(FTargetID);
-            if (FDamageDone != 0)
+            Execute(viewer.Combat);
+            target = viewer.Combat.CombatData.FindId(TargetId);
+            if (DamageDone != 0)
             {
-                if (!Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
+                if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
                 {
-                    Target.PlaySFX(2);
+                    target.PlaySfx(2);
                 }
                 else
                 {
-                    Target.PlaySFX(3);
+                    target.PlaySfx(3);
                 }
             }
         }
 
-        Duration = Viewer.FDelay * 2;
-        if (FEffects.Value != Set<DamageType>.Of())
+        duration = viewer.Delay * 2;
+        if (Effects.Value != Set<DamageType>.Of())
         {
-            EffectFrames = DamageEffectsAnimationFrames(FEffects.Value) + Viewer.FDelay;
-            HitFrame = Viewer.FDelay * 3;
-            if (EffectFrames > HitFrame)
+            effectFrames = DamageEffectsAnimationFrames(Effects.Value) + viewer.Delay;
+            hitFrame = viewer.Delay * 3;
+            if (effectFrames > hitFrame)
             {
-                EffectFrames = HitFrame;
+                effectFrames = hitFrame;
             }
 
-            if (Duration < EffectFrames)
+            if (duration < effectFrames)
             {
-                Duration = EffectFrames;
+                duration = effectFrames;
             }
         }
 
-        return Duration > Viewer.FTime;
+        return duration > viewer.Time;
     }
 
     // Combat2.pas:848
-    public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override void ShowObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        int HitFrame;
-        if (Obj.FID == FSourceID)
+        int hitFrame;
+        if (objectValue.Id == SourceId)
         {
-            Obj.ShowAttackAnimation(Viewer.FTime, Direction, X, Y, Surface);
+            objectValue.ShowAttackAnimation(viewer.Time, direction, X, Y, surface);
         }
         else
         {
-            if (Viewer.FDelay < 5)
+            if (viewer.Delay < 5)
             {
-                HitFrame = Viewer.FDelay;
+                hitFrame = viewer.Delay;
             }
             else
             {
-                HitFrame = 5;
+                hitFrame = 5;
             }
 
-            if (Obj.FID == FTargetID && FDamageDone != 0 && HitFrame <= Viewer.FTime)
+            if (objectValue.Id == TargetId && DamageDone != 0 && hitFrame <= viewer.Time)
             {
-                Obj.Show(Frame, Direction, X, Y, Surface);
-                if (FEffects.Value != Set<DamageType>.Of())
+                objectValue.Show(frame, direction, X, Y, surface);
+                if (Effects.Value != Set<DamageType>.Of())
                 {
-                    ShowDamageEffects(FEffects.Value, X, Y, Viewer.FTime - HitFrame, Surface);
+                    ShowDamageEffects(Effects.Value, X, Y, viewer.Time - hitFrame, surface);
                 }
 
-                var damageTypesToDamageType = DamageTypesToDamageType(FDamageTypes.Value);
-                AbilityRules.ShowDamageIcon(X, Y, Surface, FDamageDone, damageTypesToDamageType);
+                var damageTypesToDamageType = DamageTypesToDamageType(DamageTypes.Value);
+                AbilityRules.ShowDamageIcon(X, Y, surface, DamageDone, damageTypesToDamageType);
             }
             else
             {
-                Obj.Show(Frame, Direction, X, Y, Surface);
+                objectValue.Show(frame, direction, X, Y, surface);
             }
         }
     }
 
     // Combat2.pas:785
-    public virtual void Setup(byte SourceID, byte TargetID, byte Damage, Set<DamageType> Effects, Set<DamageType> DamageTypes, bool Defensive)
+    public virtual void Setup(byte sourceId, byte targetId, byte damage, Set<DamageType> effects, Set<DamageType> damageTypes, bool defensive)
     {
-        FSourceID = SourceID;
-        FTargetID = TargetID;
-        FDamage = Damage;
-        FEffects.Value = Effects;
-        FDamageTypes.Value = DamageTypes;
-        if (Defensive)
+        SourceId = sourceId;
+        TargetId = targetId;
+        Damage = damage;
+        Effects.Value = effects;
+        DamageTypes.Value = damageTypes;
+        if (defensive)
         {
-            FMode = FMode + Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
+            Mode = Mode + Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
         }
     }
 
     // Combat2.pas:795
-    public virtual void Generate(CombatObject Source, CombatObject Target, sbyte Attack, sbyte Damage, Set<DamageType> DamageTypes)
+    public virtual void Generate(CombatObject source, CombatObject target, sbyte attack, sbyte damage, Set<DamageType> damageTypes)
     {
-        FSourceID = Source.FID;
-        FTargetID = Target.FID;
-        FDamage = (byte)Target.ExecuteDamageRole(Attack, Damage, DamageTypes);
-        if (FDamage != 0)
+        SourceId = source.Id;
+        TargetId = target.Id;
+        Damage = (byte)target.ExecuteDamageRole(attack, damage, damageTypes);
+        if (Damage != 0)
         {
-            var executeDamageEffectsRole = Target.ExecuteDamageEffectsRole(DamageTypes);
-            FEffects.Value = executeDamageEffectsRole;
+            var executeDamageEffectsRole = target.ExecuteDamageEffectsRole(damageTypes);
+            Effects.Value = executeDamageEffectsRole;
         }
         else
         {
-            FEffects.Value = Set<DamageType>.Of();
+            Effects.Value = Set<DamageType>.Of();
         }
 
-        var immunityTypes = Target.GetImmunityTypes();
-        FDamageTypes.Value = DamageTypes - immunityTypes;
+        var immunityTypes = target.GetImmunityTypes();
+        DamageTypes.Value = damageTypes - immunityTypes;
     }
 
     // Combat2.pas:806
-    public virtual void GenerateEx(CombatObject Source, CombatObject Target, sbyte Attack, sbyte Damage, Set<DamageType> DamageTypes, byte DamageMode)
+    public virtual void Generate(CombatObject source, CombatObject target, sbyte attack, sbyte damage, Set<DamageType> damageTypes, byte damageMode)
     {
-        FSourceID = Source.FID;
-        FTargetID = Target.FID;
-        FDamage = (byte)Target.ExecuteDamageRoleEx(Attack, Damage, DamageTypes, DamageMode);
-        if (FDamage != 0)
+        SourceId = source.Id;
+        TargetId = target.Id;
+        Damage = (byte)target.ExecuteDamageRole(attack, damage, damageTypes, damageMode);
+        if (Damage != 0)
         {
-            var executeDamageEffectsRole = Target.ExecuteDamageEffectsRole(DamageTypes);
-            FEffects.Value = executeDamageEffectsRole;
+            var executeDamageEffectsRole = target.ExecuteDamageEffectsRole(damageTypes);
+            Effects.Value = executeDamageEffectsRole;
         }
         else
         {
-            FEffects.Value = Set<DamageType>.Of();
+            Effects.Value = Set<DamageType>.Of();
         }
 
-        var immunityTypes = Target.GetImmunityTypes();
-        FDamageTypes.Value = DamageTypes - immunityTypes;
+        var immunityTypes = target.GetImmunityTypes();
+        DamageTypes.Value = damageTypes - immunityTypes;
     }
 
-    private static bool ShowDamageEffects(Set<DamageType> DamageTypes, int X, int Y, int Frame, in LockedSurface Surface)
+    private static bool ShowDamageEffects(Set<DamageType> damageTypes, int X, int Y, int frame, in LockedSurface surface)
     {
         bool flag = false;
-        if (DamageTypes.Contains(DamageType.Fire))
+        if (damageTypes.Contains(DamageType.Fire))
         {
-            flag = flag || AoWHSSet.Current.FAbilityControl.GetAbility(127).FImageSequences.Show(0, X + 32, Y + 32, Frame, in Surface);
+            flag = flag || AoWHSSet.Current.AbilityControl.GetAbility(127).ImageSequences.Show(0, X + 32, Y + 32, frame, in surface);
         }
-        if (DamageTypes.Contains(DamageType.Poison))
+        if (damageTypes.Contains(DamageType.Poison))
         {
-            flag = flag || AoWHSSet.Current.FAbilityControl.GetAbility(96).FImageSequences.Show(0, X + 32, Y + 32, Frame, in Surface);
+            flag = flag || AoWHSSet.Current.AbilityControl.GetAbility(96).ImageSequences.Show(0, X + 32, Y + 32, frame, in surface);
         }
-        if (DamageTypes.Contains(DamageType.Cold))
+        if (damageTypes.Contains(DamageType.Cold))
         {
-            flag = flag || AoWHSSet.Current.FAbilityControl.GetAbility(95).FImageSequences.Show(1, X + 32, Y + 32, Frame, in Surface);
+            flag = flag || AoWHSSet.Current.AbilityControl.GetAbility(95).ImageSequences.Show(1, X + 32, Y + 32, frame, in surface);
         }
-        if (DamageTypes.Contains(DamageType.Death))
+        if (damageTypes.Contains(DamageType.Death))
         {
-            flag = flag || AoWHSSet.Current.FAbilityControl.GetAbility(93).FImageSequences.Show(0, X + 32, Y + 32, Frame, in Surface);
+            flag = flag || AoWHSSet.Current.AbilityControl.GetAbility(93).ImageSequences.Show(0, X + 32, Y + 32, frame, in surface);
         }
-        if (DamageTypes.Contains(DamageType.Holy))
+        if (damageTypes.Contains(DamageType.Holy))
         {
-            flag = flag || AoWHSSet.Current.FAbilityControl.GetAbility(98).FImageSequences.Show(0, X + 32, Y + 32, Frame, in Surface);
+            flag = flag || AoWHSSet.Current.AbilityControl.GetAbility(98).ImageSequences.Show(0, X + 32, Y + 32, frame, in surface);
         }
         return flag;
     }
 
-    private static int DamageEffectsAnimationFrames(Set<DamageType> DamageTypes)
+    private static int DamageEffectsAnimationFrames(Set<DamageType> damageTypes)
     {
-        int num = 0;
-        if (DamageTypes.Contains(DamageType.Fire))
+        int number = 0;
+        if (damageTypes.Contains(DamageType.Fire))
         {
-            int framesCount = AoWHSSet.Current.FAbilityControl.GetAbility(127).FImageSequences.GetFramesCount(0);
-            if (framesCount > num)
+            int framesCount = AoWHSSet.Current.AbilityControl.GetAbility(127).ImageSequences.GetFramesCount(0);
+            if (framesCount > number)
             {
-                num = framesCount;
+                number = framesCount;
             }
         }
-        if (DamageTypes.Contains(DamageType.Poison))
+        if (damageTypes.Contains(DamageType.Poison))
         {
-            int framesCount = AoWHSSet.Current.FAbilityControl.GetAbility(96).FImageSequences.GetFramesCount(0);
-            if (framesCount > num)
+            int framesCount = AoWHSSet.Current.AbilityControl.GetAbility(96).ImageSequences.GetFramesCount(0);
+            if (framesCount > number)
             {
-                num = framesCount;
+                number = framesCount;
             }
         }
-        if (DamageTypes.Contains(DamageType.Cold))
+        if (damageTypes.Contains(DamageType.Cold))
         {
-            int framesCount = AoWHSSet.Current.FAbilityControl.GetAbility(95).FImageSequences.GetFramesCount(1);
-            if (framesCount > num)
+            int framesCount = AoWHSSet.Current.AbilityControl.GetAbility(95).ImageSequences.GetFramesCount(1);
+            if (framesCount > number)
             {
-                num = framesCount;
+                number = framesCount;
             }
         }
-        if (DamageTypes.Contains(DamageType.Death))
+        if (damageTypes.Contains(DamageType.Death))
         {
-            int framesCount = AoWHSSet.Current.FAbilityControl.GetAbility(93).FImageSequences.GetFramesCount(0);
-            if (framesCount > num)
+            int framesCount = AoWHSSet.Current.AbilityControl.GetAbility(93).ImageSequences.GetFramesCount(0);
+            if (framesCount > number)
             {
-                num = framesCount;
+                number = framesCount;
             }
         }
-        if (DamageTypes.Contains(DamageType.Holy))
+        if (damageTypes.Contains(DamageType.Holy))
         {
-            int framesCount = AoWHSSet.Current.FAbilityControl.GetAbility(98).FImageSequences.GetFramesCount(0);
-            if (framesCount > num)
+            int framesCount = AoWHSSet.Current.AbilityControl.GetAbility(98).ImageSequences.GetFramesCount(0);
+            if (framesCount > number)
             {
-                num = framesCount;
+                number = framesCount;
             }
         }
-        return num;
+        return number;
     }
 
-    private static DamageType DamageTypesToDamageType(Set<DamageType> DamageTypes)
+    private static DamageType DamageTypesToDamageType(Set<DamageType> damageTypes)
     {
-        if (DamageTypes != Set<DamageType>.Of(Array.Empty<DamageType>()))
+        if (damageTypes != Set<DamageType>.Of(Array.Empty<DamageType>()))
         {
-            if (DamageTypes.Contains(DamageType.Holy))
+            if (damageTypes.Contains(DamageType.Holy))
             {
                 return DamageType.Holy;
             }
-            if (DamageTypes.Contains(DamageType.Magic))
+            if (damageTypes.Contains(DamageType.Magic))
             {
                 return DamageType.Magic;
             }
-            if (DamageTypes.Contains(DamageType.Death))
+            if (damageTypes.Contains(DamageType.Death))
             {
                 return DamageType.Death;
             }
-            if (DamageTypes.Contains(DamageType.Cold))
+            if (damageTypes.Contains(DamageType.Cold))
             {
                 return DamageType.Cold;
             }
-            if (DamageTypes.Contains(DamageType.Fire))
+            if (damageTypes.Contains(DamageType.Fire))
             {
                 return DamageType.Fire;
             }
-            if (DamageTypes.Contains(DamageType.Poison))
+            if (damageTypes.Contains(DamageType.Poison))
             {
                 return DamageType.Poison;
             }
-            if (DamageTypes.Contains(DamageType.Physical))
+            if (damageTypes.Contains(DamageType.Physical))
             {
                 return DamageType.Physical;
             }
-            if (DamageTypes.Contains(DamageType.Wall))
+            if (damageTypes.Contains(DamageType.Wall))
             {
                 return DamageType.Wall;
             }

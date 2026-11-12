@@ -16,9 +16,9 @@ public partial class Ooze : CombatSpell
     // CombatSpells.pas:1619
     public Ooze(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(OozeRStr);
-        FSpellID = 124;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_oozeText);
+        SpellId = 124;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 0;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of();
@@ -27,18 +27,18 @@ public partial class Ooze : CombatSpell
     }
 
     // CombatSpells.pas:1635
-    public override void GetCombatDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values)
+    public override void GetCombatDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        Target.GetProtectionTypes();
-        Target.GetImmunityTypes();
-        Values.DamageTypes = FCombatInfo.DamageTypes;
-        var resistance = Target.GetResistance();
-        var hitRoleProbability = HitChance.HitRoleProbability(FCombatInfo.Attack - resistance);
-        Values.SourceDamage = Round((double)hitRoleProbability * 200);
-        Values.SourceCost = 200;
-        Values.TargetDamage = 0;
-        Values.TargetCost = 0;
+        target.GetProtectionTypes();
+        target.GetImmunityTypes();
+        values.DamageTypes = CombatInfo.DamageTypes;
+        var resistance = target.GetResistance();
+        var hitRoleProbability = HitChance.HitRoleProbability(CombatInfo.Attack - resistance);
+        values.SourceDamage = Round((double)hitRoleProbability * 200);
+        values.SourceCost = 200;
+        values.TargetDamage = 0;
+        values.TargetCost = 0;
     }
 
-    private static readonly string OozeRStr = "Ooze";
+    private static readonly string s_oozeText = "Ooze";
 }

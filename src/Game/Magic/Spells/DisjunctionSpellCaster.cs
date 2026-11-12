@@ -14,151 +14,151 @@ namespace Aow.Game.Magic.Spells;
 // enchantment ID, dispel chance. inherited spell ID, source unit ID, references
 public partial class DisjunctionSpellCaster : SpellCaster
 {
-    public int FEnchantmentID;
-    public int FDispelChance;
+    public int EnchantmentId;
+    public int DispelChance;
 
     // GlobalSpells.pas:806
     public DisjunctionSpellCaster(ECustomNode owner) : base(owner)
     {
-        FDispelChance = 50;
+        DispelChance = 50;
     }
 
     // GlobalSpells.pas:868
-    public override bool CanCast(ref string Reason)
+    public override bool CanCast(ref string reason)
     {
         // FPlayer is on TAbstractUnit. FCastingProgress is on THero, so only that read tests for a hero.
-        Troop Source;
-        bool Result = base.CanCast(ref Reason);
-        Source = AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
-        if (Result && SelectedEnchantment() != null)
+        Troop source;
+        bool result = base.CanCast(ref reason);
+        source = AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId);
+        if (result && SelectedEnchantment() != null)
         {
-            if (!AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard) || SelectedEnchantment().FEnchantmentType == GlobalEnchantmentType.SpellWard)
+            if (!AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard) || SelectedEnchantment().EnchantmentType == GlobalEnchantmentType.SpellWard)
             {
-                if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.GetCheatEnabled())
+                if (!AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
                 {
-                    if (Source is Hero hero)
+                    if (source is Hero hero)
                     {
-                        var spell = AoWHSSet.Current.FSpellControl.GetSpell(51);
+                        var spell = AoWHSSet.Current.SpellControl.GetSpell(51);
                         var mana = GetMana();
-                        if (AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.FMana + hero.FCastingProgress >= spell.FBaseManaCost + mana)
+                        if (AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress >= spell.BaseManaCost + mana)
                         {
-                            Result = true;
+                            result = true;
                         }
                         else
                         {
-                            Result = false;
-                            Reason = AbilityRules.TranslateRStr(GameText.NotEnoughManaRStr);
+                            result = false;
+                            reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughManaText);
                         }
                     }
                 }
                 else
                 {
-                    Result = true;
+                    result = true;
                 }
             }
             else
             {
-                Result = false;
-                Reason = AbilityRules.TranslateRStr(CannotDispelWhenSpellWardIsActiveRStr);
+                result = false;
+                reason = AbilityRules.TranslateResourceString(s_cannotDispelWhenSpellWardIsActiveText);
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalSpells.pas:901
     public override bool Cast()
     {
-        bool Result;
-        string Reason = "";
-        Troop Source;
-        DisjunctionTokenEvent Event;
-        if (CanCast(ref Reason))
+        bool result;
+        string reason = "";
+        Troop source;
+        DisjunctionTokenEvent eventValue;
+        if (CanCast(ref reason))
         {
-            Source = AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
-            if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+            source = AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId);
+            if (!AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
             {
-                Event = new DisjunctionTokenEvent(null);
-                var spell = AoWHSSet.Current.FSpellControl.GetSpell(51);
-                Event.Initialize(FCasterSpellID, (byte)Source.FPlayer, Source.FUnitID, spell.FBaseManaCost);
-                Event.FEnchantmentID = FEnchantmentID;
-                Event.FDispelChance = FDispelChance;
-                AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-                Event.Release();
-                Result = true;
+                eventValue = new DisjunctionTokenEvent(null);
+                var spell = AoWHSSet.Current.SpellControl.GetSpell(51);
+                eventValue.Initialize(CasterSpellId, (byte)source.Player, source.UnitId, spell.BaseManaCost);
+                eventValue.EnchantmentId = EnchantmentId;
+                eventValue.DispelChance = DispelChance;
+                AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                eventValue.Release();
+                result = true;
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
-            AoWHSMap.Current.ShowMessage(Reason);
+            result = false;
+            AoWHSMap.Current.ShowMessage(reason);
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalSpells.pas:812
-    public void SetEnchantmentID(int Value)
+    public void SetEnchantmentId(int value)
     {
-        FEnchantmentID = Value;
+        EnchantmentId = value;
     }
 
     // GlobalSpells.pas:817
     public GlobalEnchantment SelectedEnchantment()
     {
-        GlobalEnchantment Result;
-        int Index;
-        Index = AoWHSMap.Current.FGlobalMagicControl.IndexOfID(FEnchantmentID);
-        if (Index != -1)
+        GlobalEnchantment result;
+        int index;
+        index = AoWHSMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
+        if (index != -1)
         {
-            Result = AoWHSMap.Current.FGlobalMagicControl.FEnchantments.GetEnchantments(Index);
+            result = AoWHSMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalSpells.pas:828
     public int GetMana()
     {
-        int Result;
-        GlobalEnchantment Enchantment;
-        Enchantment = SelectedEnchantment();
-        if (Enchantment != null)
+        int result;
+        GlobalEnchantment enchantment;
+        enchantment = SelectedEnchantment();
+        if (enchantment != null)
         {
-            Result = Round((double)((double)Enchantment.FDispelMana * 0.02) * FDispelChance);
+            result = Round((double)((double)enchantment.DispelMana * 0.02) * DispelChance);
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalSpells.pas:839
-    public void SetDispelChance(int Value)
+    public void SetDispelChance(int value)
     {
-        FDispelChance = Value;
-        if (FDispelChance < 1)
+        DispelChance = value;
+        if (DispelChance < 1)
         {
-            FDispelChance = 1;
+            DispelChance = 1;
         }
 
-        if (FDispelChance > 75)
+        if (DispelChance > 75)
         {
-            FDispelChance = 75;
+            DispelChance = 75;
         }
     }
 
@@ -169,34 +169,34 @@ public partial class DisjunctionSpellCaster : SpellCaster
     public bool GetEnoughMana()
     {
         // FPlayer is on TAbstractUnit. FCastingProgress is on THero, so only that read tests for a hero.
-        Troop Source;
+        Troop source;
         int Mana;
-        bool Result = false;
-        Source = AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
+        bool result = false;
+        source = AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId);
         if (SelectedEnchantment() != null)
         {
-            if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.GetCheatEnabled())
+            if (!AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
             {
-                if (Source is Hero hero)
+                if (source is Hero hero)
                 {
-                    Mana = AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.FMana + hero.FCastingProgress;
-                    var spell = AoWHSSet.Current.FSpellControl.GetSpell(51);
+                    Mana = AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress;
+                    var spell = AoWHSSet.Current.SpellControl.GetSpell(51);
                     var mana = GetMana();
-                    if (Mana >= spell.FBaseManaCost + mana)
+                    if (Mana >= spell.BaseManaCost + mana)
                     {
-                        Result = true;
+                        result = true;
                     }
                 }
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static readonly string CannotDispelWhenSpellWardIsActiveRStr = "Cannot dispel when Spell Ward is active";
+    internal static readonly string s_cannotDispelWhenSpellWardIsActiveText = "Cannot dispel when Spell Ward is active";
 
 }

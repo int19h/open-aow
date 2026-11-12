@@ -7,7 +7,7 @@ namespace Aow.Game.World.Structures;
 public partial class City
 {
     // War mode shows the war panel to every player.
-    public override StructureView InfoPanel(sbyte Viewer)
+    public override StructureView InfoPanel(sbyte viewer)
     {
         var state = StatePanel();
         if (state != null)
@@ -15,36 +15,36 @@ public partial class City
             return state;
         }
 
-        if (ShownToOwner(Viewer))
+        if (ShownToOwner(viewer))
         {
-            return FMode.Contains(ModeElement.Warmode) ? StructureView.WarCity : StructureView.City;
+            return Mode.Contains(ModeElement.WarMode) ? StructureView.WarCity : StructureView.City;
         }
 
-        return FMode.Contains(ModeElement.Warmode) ? StructureView.WarCity : StructureView.OtherPlayer;
+        return Mode.Contains(ModeElement.WarMode) ? StructureView.WarCity : StructureView.OtherPlayer;
     }
 
-    public override StructureView InfoButton(sbyte Viewer) => StructureView.CityScreen;
+    public override StructureView InfoButton(sbyte viewer) => StructureView.CityScreen;
 
-    public override StructureView DoubleClick(sbyte Viewer) => FPlayer == Viewer ? StructureView.CityScreen : StructureView.None;
+    public override StructureView DoubleClick(sbyte viewer) => Player == viewer ? StructureView.CityScreen : StructureView.None;
 
     // "0", the directions of the neighbors that hold the city, "x" up to four characters, "C000".
-    public override string CombatMapName(CombatMapSite Site)
+    public override string CombatMapName(CombatMapSite site)
     {
-        string Stem = "0";
+        string stem = "0";
         for (int I = 1; I <= 6; I += 1)
         {
-            if (Site.NeighborHolds(I, typeof(City)))
+            if (site.NeighborHolds(I, typeof(City)))
             {
-                Stem = Stem + IntToStr(I);
-                Site.FixTag(I);
+                stem = stem + IntToStr(I);
+                site.FixTag(I);
             }
         }
 
-        while (Stem.Length < 4)
+        while (stem.Length < 4)
         {
-            Stem = Stem + "x";
+            stem = stem + "x";
         }
 
-        return Stem + "C000";
+        return stem + "C000";
     }
 }

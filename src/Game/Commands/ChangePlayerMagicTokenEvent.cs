@@ -18,62 +18,62 @@ public partial class ChangePlayerMagicTokenEvent : TokenEvent
     public ChangePlayerMagicTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135445;
+    public new const int ClassId = 135445;
 
-    public Mode FMode;
-    public byte FPlayerIndex;
-    public int FValue;
-    public int FExtraValue;
+    public ChangePlayerMagicTokenEventMode Mode;
+    public byte PlayerIndex;
+    public int Value;
+    public int ExtraValue;
 
     // Spells.PAS:2448
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwData(Bytes.Of(ref FMode, 1), 1, 20);
-        Stream.rwByte(ref FPlayerIndex, 21);
-        Stream.rwInteger(ref FValue, 22);
-        Stream.rwInteger(ref FExtraValue, 23);
+        base.ReadWrite(stream);
+        stream.rwData(Bytes.Of(ref Mode, 1), 1, 20);
+        stream.rwByte(ref PlayerIndex, 21);
+        stream.rwInteger(ref Value, 22);
+        stream.rwInteger(ref ExtraValue, 23);
     }
 
     // Spells.PAS:2456
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult Result;
-        bool Success;
-        PlayerMagicControl Magic;
-        base.Execute(TE);
-        Success = false;
-        Magic = AoWHSMap.Current.FPlayers.GetPlayers((sbyte)FPlayerIndex).FMagicControl;
-        switch (FMode)
+        ExecuteResult result;
+        bool success;
+        PlayerMagicControl magic;
+        base.Execute(tokenEvent);
+        success = false;
+        magic = AoWHSMap.Current.Players.GetPlayers((sbyte)PlayerIndex).MagicControl;
+        switch (Mode)
         {
-            case Mode.DispelEnchantment:
-                Success = Magic.ExecuteDispelEnchantment(FValue);
+            case ChangePlayerMagicTokenEventMode.DispelEnchantment:
+                success = magic.ExecuteDispelEnchantment(Value);
                 break;
-            case Mode.ChangePowerSettings:
-                Success = Magic.ExecuteChangePowerSettings(FValue);
+            case ChangePlayerMagicTokenEventMode.ChangePowerSettings:
+                success = magic.ExecuteChangePowerSettings(Value);
                 break;
-            case Mode.ResearchSpell:
-                Success = Magic.ExecuteResearchSpell(FValue);
+            case ChangePlayerMagicTokenEventMode.ResearchSpell:
+                success = magic.ExecuteResearchSpell(Value);
                 break;
         }
 
-        if (Success)
+        if (success)
         {
-            Result = ExecuteResult.Done;
+            result = ExecuteResult.Done;
         }
         else
         {
-            Result = ExecuteResult.DoneHalt;
+            result = ExecuteResult.DoneHalt;
         }
 
-        return Result;
-    }
-
-    public enum Mode : byte
-    {
-        DispelEnchantment = 0, ChangePowerSettings = 1, ResearchSpell = 2
+        return result;
     }
 
     // NetworkE.pas:230
 
+}
+
+public enum ChangePlayerMagicTokenEventMode : byte
+{
+    DispelEnchantment = 0, ChangePowerSettings = 1, ResearchSpell = 2
 }

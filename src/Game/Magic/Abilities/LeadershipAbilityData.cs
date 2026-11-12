@@ -7,22 +7,22 @@ namespace Aow.Game.Magic.Abilities;
 // (external level, source name)
 public partial class LeadershipAbilityData : MultiLevelAbilityData
 {
-    public new const int ClassID = 131790;
+    public new const int ClassId = 131790;
 
     public LeadershipAbilityData(ECustomNode owner) : base(owner)
     { }
 
-    public byte FExternalLevel;
-    public string FExternalSource = "";
+    public byte ExternalLevel;
+    public string ExternalSource = "";
 
     // AoWAb.PAS:957
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref FExternalLevel, 25);
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+        base.ReadWrite(stream);
+        stream.rwByte(ref ExternalLevel, 25);
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            Stream.rwString(ref FExternalSource, 26);
+            stream.rwString(ref ExternalSource, 26);
         }
     }
 

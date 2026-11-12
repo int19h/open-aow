@@ -9,5 +9,5 @@ public enum SequenceMode : byte
     UpDown = 2,
     Random = 3,
     FrameTable = 4,
-    RndFrameTable = 5
+    RandomFrameTable = 5
 }

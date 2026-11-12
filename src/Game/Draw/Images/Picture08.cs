@@ -10,209 +10,209 @@ namespace Aow.Game.Draw.Images;
 // 8 bytes, is FBuffer itself in the port)
 public partial class Picture08 : Image08, ILibraryImageClass
 {
-    static int ILibraryImageClass.ClassID => 1;
+    static int ILibraryImageClass.ClassId => 1;
     static string ILibraryImageClass.Name => "Picture (08bpp)";
 
-    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new Picture08(owner);
+    static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Picture08(owner);
 
     public Picture08(CustomImageLibrary owner) : base(owner)
     { }
 
-    internal int FPitch;
-    internal byte[] FBuffer;
+    internal int _pitch;
+    internal byte[] _buffer;
 
     // The rows of the picture: FBuffer from its first byte, FPitch bytes apart.
-    internal SurfaceView View => new(FBuffer, 0, FPitch);
+    internal SurfaceView View => new(_buffer, 0, _pitch);
 
     // ImageLib.pas:7305
-    public override void SetXshift(int Value)
+    public override void SetXshift(int value)
     {
-        if (Value < 0)
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        base.SetXshift(Value);
-        SetWidth(FWidth);
+        base.SetXshift(value);
+        SetWidth(_width);
     }
 
     // ImageLib.pas:7312
-    public override void SetYshift(int Value)
+    public override void SetYshift(int value)
     {
-        if (Value < 0)
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        base.SetYshift(Value);
-        SetHeight(FHeight);
+        base.SetYshift(value);
+        SetHeight(_height);
     }
 
     // ImageLib.pas:7319
-    public override void SetWidth(int Value)
+    public override void SetWidth(int value)
     {
-        if (Value < FDataWidth + FXshift)
+        if (value < _dataWidth + _xshift)
         {
-            Value = FDataWidth + FXshift;
+            value = _dataWidth + _xshift;
         }
 
-        base.SetWidth(Value);
+        base.SetWidth(value);
     }
 
     // ImageLib.pas:7325
-    public override void SetHeight(int Value)
+    public override void SetHeight(int value)
     {
-        if (Value < FDataHeight + FYshift)
+        if (value < _dataHeight + _yshift)
         {
-            Value = FDataHeight + FYshift;
+            value = _dataHeight + _yshift;
         }
 
-        base.SetHeight(Value);
+        base.SetHeight(value);
     }
 
     // ImageLib.pas:7331
-    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == PixelFormats.pfPAL8 || PixelFormatID == PixelFormats.pfRGB555 || PixelFormatID == PixelFormats.pfRGB565) && ShowMode == ShowMode.Opaque;
+    public override bool SupportShowMode(ShowMode showMode, int pixelFormatId) => (pixelFormatId == 0 || pixelFormatId == PixelFormats.pfPAL8 || pixelFormatId == PixelFormats.pfRGB555 || pixelFormatId == PixelFormats.pfRGB565) && showMode == ShowMode.Opaque;
 
     // ImageLib.pas:7337
-    public void AllocateDiscardableImageData(int AWidth, int AHeight)
+    public void AllocateDiscardableImageData(int width, int height)
     {
-        int Size;
-        if (AWidth < 32)
+        int size;
+        if (width < 32)
         {
-            FPitch = (AWidth + 3) & ~3;
+            _pitch = (width + 3) & ~3;
         }
         else
         {
-            FPitch = (AWidth + 7) & ~7;
+            _pitch = (width + 7) & ~7;
         }
 
         // The original allocates 7 bytes more than the rows and aligns its pixel pointer to 8 for
         // MMX. The alignment has no effect on pixels, so the rows start at the first byte and the
         // 7 bytes stay after the last row (graphics.md 6.8).
-        Size = FPitch * AHeight + 7;
-        FBuffer = MemorySurfaces.Reallocate(FBuffer, Size);
+        size = _pitch * height + 7;
+        _buffer = MemorySurfaces.Reallocate(_buffer, size);
     }
 
     // ImageLib.pas:7350
     public override void ReleaseDiscardableImageData()
     {
-        if (FDataLoaded)
+        if (_dataLoaded)
         {
-            FBuffer = null;
-            FDataLoaded = false;
+            _buffer = null;
+            _dataLoaded = false;
         }
     }
 
     // ImageLib.pas:7359
-    public override void ReadDiscardableImageData(Stream Stream)
+    public override void ReadDiscardableImageData(Stream stream)
     {
-        base.ReadDiscardableImageData(Stream);
-        AllocateDiscardableImageData(FDataWidth, FDataHeight);
-        for (int Y = 0, last = FDataHeight - 1; Y <= last; Y++)
+        base.ReadDiscardableImageData(stream);
+        AllocateDiscardableImageData(_dataWidth, _dataHeight);
+        for (int Y = 0, last = _dataHeight - 1; Y <= last; Y++)
         {
-            Stream.ReadExactly(FBuffer.AsSpan(Y * FPitch, FDataWidth));
+            stream.ReadExactly(_buffer.AsSpan(Y * _pitch, _dataWidth));
         }
     }
 
     // ImageLib.pas:7369
-    public override void WriteDiscardableImageData(Stream Stream)
+    public override void WriteDiscardableImageData(Stream stream)
     {
-        base.WriteDiscardableImageData(Stream);
-        for (int Y = 0, last = FDataHeight - 1; Y <= last; Y++)
+        base.WriteDiscardableImageData(stream);
+        for (int Y = 0, last = _dataHeight - 1; Y <= last; Y++)
         {
-            Stream.Write(FBuffer.AsSpan(Y * FPitch, FDataWidth));
+            stream.Write(_buffer.AsSpan(Y * _pitch, _dataWidth));
         }
     }
 
     // ImageLib.pas:7378
-    public override Form CreateGrabForm(Component AOwner, in LockedSurface SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
+    public override Form CreateGrabForm(Component owner, in LockedSurface lockedSurface, ImagesGrabbedEvent onImagesGrabbed) => null;
 
     // ImageLib.pas:7384
-    public override bool SupportGrabPixelFormat(int PixelFormatID) => PixelFormatID == PixelFormats.pfPAL8;
+    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfPAL8;
 
     // ImageLib.pas:7389
-    public override bool GrabImage(in LockedSurface SD, in Rect R, GrabInfo GrabInfo)
+    public override bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo)
     {
-        bool Result;
+        bool result;
         try
         {
             Clear();
-            Result = true;
-            FDataLoaded = true;
-            FDataWidth = R.Right - R.Left;
-            FDataHeight = R.Bottom - R.Top;
-            FWidth = FDataWidth;
-            FHeight = FDataHeight;
-            FFileName = ExtractFileName(GrabInfo.FileName);
-            FFileIndex = GrabInfo.FileIndex;
-            FDataSize = FDataWidth * FDataHeight;
-            AllocateDiscardableImageData(FWidth, FHeight);
-            if (SD.PixelFormatID == PixelFormats.pfPAL8)
+            result = true;
+            _dataLoaded = true;
+            _dataWidth = R.Right - R.Left;
+            _dataHeight = R.Bottom - R.Top;
+            _width = _dataWidth;
+            _height = _dataHeight;
+            _fileName = ExtractFileName(grabInfo.FileName);
+            _fileIndex = grabInfo.FileIndex;
+            _dataSize = _dataWidth * _dataHeight;
+            AllocateDiscardableImageData(_width, _height);
+            if (lockedSurface.PixelFormatId == PixelFormats.pfPAL8)
             {
-                for (int Y = 0, last = FHeight - 1; Y <= last; Y++)
+                for (int Y = 0, last = _height - 1; Y <= last; Y++)
                 {
-                    SD.View().Bytes((R.Top + Y) * SD.Pitch + R.Left, FDataWidth).CopyTo(FBuffer.AsSpan(FPitch * Y, FDataWidth));
+                    lockedSurface.View().Bytes((R.Top + Y) * lockedSurface.Pitch + R.Left, _dataWidth).CopyTo(_buffer.AsSpan(_pitch * Y, _dataWidth));
                 }
 
-                CreateLibraryImagePalette(SD.Palette);
-                if (FOwner != null)
+                CreateLibraryImagePalette(lockedSurface.Palette);
+                if (_owner != null)
                 {
                     RegisterPalette();
                 }
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         catch
         {
             ReleaseDiscardableImageData();
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    public override void ShowOpaque(int x, int y, in LockedSurface sd)
+    public override void ShowOpaque(int x, int y, in LockedSurface lockedSurface)
     {
-        int destX = x + FXshift, destY = y + FYshift;
-        int right = destX + FDataWidth, bottom = destY + FDataHeight;
-        int width = FDataWidth, height = FDataHeight, srcX = 0, srcY = 0;
+        int destinationX = x + _xshift, destinationY = y + _yshift;
+        int right = destinationX + _dataWidth, bottom = destinationY + _dataHeight;
+        int width = _dataWidth, height = _dataHeight, sourceX = 0, sourceY = 0;
         // Preserve the source offsets and byte destination offset of ImageLib.pas:7424.
-        if (destX < sd.ClipRect.Left)
+        if (destinationX < lockedSurface.ClipRectangle.Left)
         {
-            srcX = sd.ClipRect.Left - x;
-            destX = sd.ClipRect.Left;
-            width -= srcX;
+            sourceX = lockedSurface.ClipRectangle.Left - x;
+            destinationX = lockedSurface.ClipRectangle.Left;
+            width -= sourceX;
         }
-        if (right > sd.ClipRect.Right) width -= right - sd.ClipRect.Right;
+        if (right > lockedSurface.ClipRectangle.Right) width -= right - lockedSurface.ClipRectangle.Right;
         if (width <= 0) return;
-        if (destY < sd.ClipRect.Top)
+        if (destinationY < lockedSurface.ClipRectangle.Top)
         {
-            srcY = sd.ClipRect.Top - y;
-            destY = sd.ClipRect.Top;
-            height -= srcY;
+            sourceY = lockedSurface.ClipRectangle.Top - y;
+            destinationY = lockedSurface.ClipRectangle.Top;
+            height -= sourceY;
         }
-        if (bottom > sd.ClipRect.Bottom) height -= bottom - sd.ClipRect.Bottom;
+        if (bottom > lockedSurface.ClipRectangle.Bottom) height -= bottom - lockedSurface.ClipRectangle.Bottom;
         if (height <= 0) return;
 
-        bool loadedHere = !FDataLoaded;
+        bool loadedHere = !_dataLoaded;
         if (loadedHere) LoadDiscardableImageData();
-        var source = View.At(srcX + srcY * FPitch);
-        var destination = sd.View(destX + destY * sd.Pitch);
-        if (sd.PixelFormatID == PixelFormats.pfPAL8)
-            BlitRects.BltRect(source, destination, width, height);
+        var source = View.At(sourceX + sourceY * _pitch);
+        var destination = lockedSurface.View(destinationX + destinationY * lockedSurface.Pitch);
+        if (lockedSurface.PixelFormatId == PixelFormats.pfPAL8)
+            BlitRects.BlitRectangle(source, destination, width, height);
         else
         {
-            if (sd.PixelFormatID != FRemapPalette.PixelFormatID &&
-                RemapToPixelFormat(sd.PixelFormatID) != PixelFormats.GFXE_OK)
+            if (lockedSurface.PixelFormatId != _remapPalette.PixelFormatId &&
+                RemapToPixelFormat(lockedSurface.PixelFormatId) != PixelFormats.GFXE_OK)
                 throw new NotSupportedException("Surface pixel format not supported!");
-            if (sd.PixelFormatID == PixelFormats.pfRGB555)
-                PixelRemap.RemapSurface08to555(source, destination, width, height, FRemapPalette);
-            else if (sd.PixelFormatID == PixelFormats.pfRGB565)
-                PixelRemap.RemapSurface08to565(source, destination, width, height, FRemapPalette);
+            if (lockedSurface.PixelFormatId == PixelFormats.pfRGB555)
+                PixelRemap.RemapSurface08To555(source, destination, width, height, _remapPalette);
+            else if (lockedSurface.PixelFormatId == PixelFormats.pfRGB565)
+                PixelRemap.RemapSurface08To565(source, destination, width, height, _remapPalette);
         }
-        if (loadedHere && FLoadMode == LoadMode.LoadFreeOnDemand) ReleaseDiscardableImageData();
+        if (loadedHere && _loadMode == LoadMode.LoadFreeOnDemand) ReleaseDiscardableImageData();
     }
 }

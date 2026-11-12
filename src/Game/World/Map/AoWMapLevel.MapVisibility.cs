@@ -9,16 +9,16 @@ public partial class AoWMapLevel
     private IEnumerable<AoWMapField> Area(int x, int y, int radius)
     {
         HexNumberWalkData walk = default;
-        HexNumberWalkData.InitHNWalk(ref walk, x, y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, x, y, 0);
         while (walk.Radius <= radius)
         {
-            if (walk.X >= 0 && walk.Y >= 0 && walk.X < FWidth && walk.Y < FHeight)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < _width && walk.Y < _height)
                 yield return (AoWMapField)GetField(walk.X, walk.Y);
-            HexNumberWalkData.WalkToNextHN(ref walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
 
-    private static byte FogCount(AoWMapField field) => (byte)((uint)field.FFieldFlags >> 16);
+    private static byte FogCount(AoWMapField field) => (byte)((uint)field.FieldFlags >> 16);
 
     public bool FogArea(int x, int y, int radius)
     {
@@ -48,8 +48,8 @@ public partial class AoWMapLevel
     {
         if (field.GetExplored(player)) return false;
         field.SetExplored(player, true);
-        var map = (GameMap)FMap;
-        if (map.FExplorationEnabled && map.FSeatedPlayer == player) FMap.InvalidateStaticScene(field.Xhx, field.Yhx, FLhx);
+        var map = (GameMap)_map;
+        if (map.ExplorationEnabled && map.SeatedPlayer == player) _map.InvalidateStaticScene(field.HexX, field.HexY, _hexLevel);
         return true;
     }
 
@@ -78,5 +78,5 @@ public partial class AoWMapLevel
 
     public void ResetUnFog() { for (int i = 0; i < Count; i++) ((AoWMapField)GetChild(i)).SetFogCount(1); }
 
-    public void Reset() { for (int i = 0; i < Count; i++) ((AoWMapField)GetChild(i)).FFieldFlags = 0; }
+    public void Reset() { for (int i = 0; i < Count; i++) ((AoWMapField)GetChild(i)).FieldFlags = 0; }
 }

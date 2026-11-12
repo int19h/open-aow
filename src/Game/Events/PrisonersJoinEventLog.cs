@@ -19,54 +19,54 @@ public partial class PrisonersJoinEventLog : JoinEventLog
     public PrisonersJoinEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public sbyte FX;
-    public sbyte FY;
-    public sbyte FL;
+    public sbyte X;
+    public sbyte Y;
+    public sbyte MapLevel;
 
     // Dungeon.pas:292
-    public override bool Accept(ref string ErrorText)
+    public override bool Accept(ref string errorText)
     {
-        bool Result;
-        Dungeon Dungeon;
-        StructureTokenEvent TE;
-        Dungeon = (Dungeon)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131882);
-        if (Dungeon != null && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+        bool result;
+        Dungeon dungeon;
+        StructureTokenEvent tokenEvent;
+        dungeon = (Dungeon)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel).FindOwnedChild(131882);
+        if (dungeon != null && !AoWHSMap.Current.Players.GetPlayers(_player).GetBusy())
         {
-            TE = Dungeon.CreateTE();
-            Dungeon.SetupTE(TE);
-            TE.FParam = FPlayer;
-            TE.FAction = 1;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
-            TE.Release();
-            Result = true;
+            tokenEvent = dungeon.CreateTokenEvent();
+            dungeon.SetupTokenEvent(tokenEvent);
+            tokenEvent.Param = _player;
+            tokenEvent.Action = 1;
+            AoWHSMap.Current.TokenManager.GetTokenControl(_player).AddEvent(tokenEvent);
+            tokenEvent.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Dungeon.pas:311
     public override bool Cancel()
     {
-        Dungeon Dungeon;
-        int Index;
-        Dungeon = (Dungeon)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131882);
-        if (Dungeon != null)
+        Dungeon dungeon;
+        int index;
+        dungeon = (Dungeon)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel).FindOwnedChild(131882);
+        if (dungeon != null)
         {
-            for (int I = 0, last = Dungeon.FPrisoners.Count - 1; I <= last; I++)
+            for (int I = 0, last = dungeon.Prisoners.Count - 1; I <= last; I++)
             {
-                var unitType = Dungeon.FPrisoners.GetUnit(I).GetUnitType();
+                var unitType = dungeon.Prisoners.GetUnit(I).GetUnitType();
                 if (Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType))
                 {
-                    Index = Dungeon.FPrisoners.GetUnit(I).GetUnitGFXResourceIndex();
-                    if (AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(Index) != null)
+                    index = dungeon.Prisoners.GetUnit(I).GetUnitGraphicsResourceIndex();
+                    if (AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(index) != null)
                     {
                         var random = Random(15);
-                        var unitGFXResource = AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(Index);
-                        unitGFXResource.FSFXLibraries[3].PlayEx(0, 100, false, random, SamplePanning.Center, null);
+                        var unitGraphicsResource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(index);
+                        unitGraphicsResource.SfxLibraries[3].Play(0, 100, false, random, SamplePanning.Center, null);
                     }
                 }
             }

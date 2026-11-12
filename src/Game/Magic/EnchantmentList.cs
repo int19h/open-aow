@@ -10,18 +10,18 @@ public partial class EnchantmentList : ENode
 
     // Spells.PAS:1762
     // inherited children
-    public Enchantment GetEnchantments(int Index) => (Enchantment)FChildren.List[Index];
+    public Enchantment GetEnchantments(int index) => (Enchantment)_children.List[index];
 
     // Spells.PAS:1764
-    public int IndexOfID(int ID)
+    public int IndexOfId(int id)
     {
-        int Result = GetCount();
-        while (Result != 0)
+        int result = GetCount();
+        while (result != 0)
         {
-            Result -= 1;
-            if (((Enchantment)FChildren.List[Result]).FEnchantmentID == ID)
+            result -= 1;
+            if (((Enchantment)_children.List[result]).EnchantmentId == id)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -29,21 +29,21 @@ public partial class EnchantmentList : ENode
     }
 
     // Spells.PAS:1774
-    public Enchantment FindID(int ID)
+    public Enchantment FindId(int id)
     {
-        Enchantment Result;
-        int Index;
-        Index = IndexOfID(ID);
-        if (Index != -1)
+        Enchantment result;
+        int index;
+        index = IndexOfId(id);
+        if (index != -1)
         {
-            Result = (Enchantment)FChildren.List[Index];
+            result = (Enchantment)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:631

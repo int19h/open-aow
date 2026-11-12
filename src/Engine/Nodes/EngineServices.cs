@@ -16,128 +16,128 @@ public static class EngineServices
 
     internal const int MaxListSize = 134217727;
 
-    internal const ControlStyleElement csStored = 0;
+    internal const ControlStyleElement Stored = 0;
 
-    internal const ControlStyleElement csShared = (ControlStyleElement)1;
+    internal const ControlStyleElement Shared = (ControlStyleElement)1;
 
-    internal const ControlStyleElement csReserved2 = (ControlStyleElement)2;
+    internal const ControlStyleElement Reserved2 = (ControlStyleElement)2;
 
-    internal const ControlStyleElement csKeepIndex = (ControlStyleElement)3;
+    internal const ControlStyleElement KeepIndex = (ControlStyleElement)3;
 
-    internal const StorageModeElement smText = (StorageModeElement)2;
+    internal const StorageModeElement Text = (StorageModeElement)2;
 
-    internal const StorageModeElement smPartial = (StorageModeElement)3;
+    internal const StorageModeElement Partial = (StorageModeElement)3;
 
-    internal static string ReplaceText(string S, string Old, string New)
+    internal static string ReplaceText(string S, string old, string newValue)
     {
         int P;
-        string Result = "";
-        P = Pos(Old, S);
+        string result = "";
+        P = Pos(old, S);
         while (P != 0)
         {
-            Result = Result + Copy(S, 1, P - 1) + New;
-            S = Copy(S, P + Old.Length, S.Length - P - Old.Length + 1);
-            P = Pos(Old, S);
+            result = result + Copy(S, 1, P - 1) + newValue;
+            S = Copy(S, P + old.Length, S.Length - P - old.Length + 1);
+            P = Pos(old, S);
         }
 
-        return Result + S;
+        return result + S;
     }
 
-    internal static Plugin GetPlugIn(int Index)
+    internal static Plugin GetPlugin(int index)
     {
-        Plugin Result;
-        if (EngineHost.PlugIns != null && Index >= 0 && Index < EngineHost.PlugIns.Count)
+        Plugin result;
+        if (EngineHost.Plugins != null && index >= 0 && index < EngineHost.Plugins.Count)
         {
-            Result = EngineHost.PlugIns[Index];
+            result = EngineHost.Plugins[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
-    public static int GetCRC32(ReadOnlySpan<byte> buffer, int size)
+    public static int GetCrc32(ReadOnlySpan<byte> buffer, int size)
     {
-        if (EngineHost.CRC32Table.Length == 0) BuildCRC32Table();
+        if (EngineHost.s_crc32Table.Length == 0) BuildCrc32Table();
         int crc = -1;
         foreach (byte value in buffer[..size])
-            crc = EngineHost.CRC32Table[(value ^ crc) & 255] ^ (int)((uint)crc >> 8);
+            crc = EngineHost.s_crc32Table[(value ^ crc) & 255] ^ (int)((uint)crc >> 8);
         return crc ^ -1;
     }
 
-    internal static GameEngine GetEngine(int Index)
+    internal static GameEngine GetEngine(int index)
     {
-        GameEngine Result;
+        GameEngine result;
         object P;
-        if (EngineHost.Engines != null && Index >= 0 && Index < EngineHost.Engines.Count)
+        if (EngineHost.Engines != null && index >= 0 && index < EngineHost.Engines.Count)
         {
-            P = EngineHost.Engines[Index];
-            Result = (GameEngine)P;
+            P = EngineHost.Engines[index];
+            result = (GameEngine)P;
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static GameEngine FindEngine(int AClassID)
+    internal static GameEngine FindEngine(int classId)
     {
         int I;
-        bool Found;
-        Found = false;
-        GameEngine Result = null;
+        bool found;
+        found = false;
+        GameEngine result = null;
         if (EngineHost.Engines != null)
         {
             I = 0;
-            Found = false;
-            while (!Found && I < EngineHost.Engines.Count)
+            found = false;
+            while (!found && I < EngineHost.Engines.Count)
             {
-                Found = AClassID == (EngineHost.Engines[I]).EClass.ClassID;
+                found = classId == (EngineHost.Engines[I]).EngineClass.ClassId;
                 I += 1;
             }
 
-            if (Found)
+            if (found)
             {
-                Result = EngineHost.Engines[I - 1];
+                result = EngineHost.Engines[I - 1];
             }
         }
 
-        if (!Found)
+        if (!found)
         {
             throw new InvalidOperationException("Cannot access Engine");
         }
 
-        return Result;
+        return result;
     }
 
-    internal static void StringToStream(string S, Stream Stream)
+    internal static void StringToStream(string S, Stream stream)
     {
-        int Len;
-        Len = S.Length;
-        Stream.Write(Bytes.Of(ref Len, 4));
-        Stream.Write(Cp1252.Encode(S).AsSpan().Slice(0, Len));
+        int length;
+        length = S.Length;
+        stream.Write(Bytes.Of(ref length, 4));
+        stream.Write(Cp1252.Encode(S).AsSpan().Slice(0, length));
     }
 
-    internal static void ExchangeLinkedStrings(DelphiList Lists, int I, int J)
+    internal static void ExchangeLinkedStrings(DelphiList lists, int I, int J)
     {
-        for (int K = Lists.Count - 1; K >= 0; K--)
+        for (int K = lists.Count - 1; K >= 0; K--)
         {
-            ((StringCollection)Lists.List[K]).Exchange(I, J);
+            ((StringCollection)lists.List[K]).Exchange(I, J);
         }
     }
 
-    internal static void BuildCRC32Table()
+    internal static void BuildCrc32Table()
     {
         int C;
-        int Polynomial;
-        if (EngineHost.CRC32Table.Length == 0)
+        int polynomial;
+        if (EngineHost.s_crc32Table.Length == 0)
         {
-            EngineHost.CRC32Table = new int[256];
-            Polynomial = -306674912;
+            EngineHost.s_crc32Table = new int[256];
+            polynomial = -306674912;
             for (int I = 0; I <= 255; I++)
             {
                 C = I;
@@ -145,14 +145,14 @@ public static class EngineServices
                 {
                     if ((C & 1) != 0)
                     {
-                        C = ((int)(((uint)C) >> 1)) ^ Polynomial;
+                        C = ((int)(((uint)C) >> 1)) ^ polynomial;
                     }
                     else
                     {
                         C = (int)(((uint)C) >> 1);
                     }
 
-                    EngineHost.CRC32Table[I] = C;
+                    EngineHost.s_crc32Table[I] = C;
                 }
             }
         }

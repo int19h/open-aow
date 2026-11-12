@@ -11,103 +11,103 @@ namespace Aow.Game.Draw;
 
 public partial class UnitHexSprite
 {
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
-        int Index;
-        int Xhp = default;
-        int Yhp = default;
-        int DX = default;
-        int DY = default;
-        float Progress;
-        Assert(FDirection < FUnitGFXResource.FSequences.Count, "Invalid Unit Index", "UnitHS.PAS", 853);
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-        XhpSurf = Xhp - XhpSurf;
-        YhpSurf = Yhp - YhpSurf;
-        if (FMoveStep != -1)
+        ImageSequence sequence;
+        int index;
+        int pixelX = default;
+        int pixelY = default;
+        int deltaX = default;
+        int deltaY = default;
+        float progress;
+        Assert(Direction < UnitGraphicsResource.Sequences.Count, "Invalid Unit Index", "UnitHS.PAS", 853);
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        pixelXSurface = pixelX - pixelXSurface;
+        pixelYSurface = pixelY - pixelYSurface;
+        if (MoveStep != -1)
         {
-            HexGeometry.HNtoHP(FDirection, ref DX, ref DY);
-            if ((FStatus & 16) == 0)
+            HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
+            if ((Status & 16) == 0)
             {
                 var moveSteps = GetMoveSteps();
-                Progress = (float)((double)FMoveStep / moveSteps);
-                XhpSurf += Round((double)DX * Progress);
-                YhpSurf += Round((double)DY * Progress);
+                progress = (float)((double)MoveStep / moveSteps);
+                pixelXSurface += Round((double)deltaX * progress);
+                pixelYSurface += Round((double)deltaY * progress);
             }
 
-            if ((FStatus & 8) == 0)
+            if ((Status & 8) == 0)
             {
-                Sequence = (ImageSequence)FUnitGFXResource.FSequences.List[FDirection + 5];
-                if (Sequence != null && GetSelected())
+                sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[Direction + 5];
+                if (sequence != null && GetSelected())
                 {
-                    Index = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                    index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                     // sound timing gate
-                    if (Sequence.SpeedCount == Sequence.SequenceSpeed)
+                    if (sequence.SpeedCount == sequence.SequenceSpeed)
                     {
-                        FUnitGFXResource.FSFXLibraries[1].Play(Index % 100);
+                        UnitGraphicsResource.SfxLibraries[1].Play(index % 100);
                     }
                 }
             }
             else
             {
-                Sequence = (ImageSequence)FUnitGFXResource.FSequences.List[FDirection - 1];
+                sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[Direction - 1];
             }
         }
         else
         {
-            Sequence = (ImageSequence)FUnitGFXResource.FSequences.List[FDirection - 1];
+            sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[Direction - 1];
         }
 
         if (!GetSelected() || (AoWHSMap.Current.Frame & 6) != 6)
         {
-            while (Sequence != null)
+            while (sequence != null)
             {
-                Index = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                if (Index != -1)
+                index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                if (index != -1)
                 {
-                    Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
+                    sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);
                 }
 
-                Sequence = Sequence.Next;
+                sequence = sequence.Next;
             }
         }
     }
 
-    public virtual void ShowShadow(int X, int Y, in LockedSurface SurfaceDesc)
+    public virtual void ShowShadow(int X, int Y, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
-        int Index;
-        float Progress;
-        int Xhp = default;
-        int Yhp = default;
-        int DX = default;
-        int DY = default;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-        X = Xhp - X;
-        Y = Yhp - Y;
-        if (FMoveStep != -1)
+        ImageSequence sequence;
+        int index;
+        float progress;
+        int pixelX = default;
+        int pixelY = default;
+        int deltaX = default;
+        int deltaY = default;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        X = pixelX - X;
+        Y = pixelY - Y;
+        if (MoveStep != -1)
         {
-            HexGeometry.HNtoHP(FDirection, ref DX, ref DY);
+            HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
             var moveSteps = GetMoveSteps();
-            Progress = (float)((double)FMoveStep / moveSteps);
-            X += Round((double)DX * Progress);
-            Y += Round((double)DY * Progress);
+            progress = (float)((double)MoveStep / moveSteps);
+            X += Round((double)deltaX * progress);
+            Y += Round((double)deltaY * progress);
         }
 
-        if (FDirection == 0)
+        if (Direction == 0)
         {
-            Sequence = FUnitGFXResource.FSequences.GetImageSequence(27);
+            sequence = UnitGraphicsResource.Sequences.GetImageSequence(27);
         }
         else
         {
-            Sequence = FUnitGFXResource.FSequences.GetImageSequence(FDirection + 23);
+            sequence = UnitGraphicsResource.Sequences.GetImageSequence(Direction + 23);
         }
 
-        while (Sequence != null)
+        while (sequence != null)
         {
-            Index = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-            Sequence.ImageLibrary[Index].Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
-            Sequence = Sequence.Next;
+            index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+            sequence.ImageLibrary[index].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
+            sequence = sequence.Next;
         }
     }
 }

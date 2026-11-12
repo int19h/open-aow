@@ -12,11 +12,11 @@ public sealed partial record SendMessage : DiplomaticProposal
 
     public override ProposalView View => ProposalView.Message;
 
-    public override string Name(DiplomaticAction Action) => AbilityRules.TranslateRStr(P5SendMessageRStr);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(s_sendMessageText);
 
-    public override string LogText(DiplomaticAction Action) => AbilityRules.TranslateRStr(GameText.P5MessageRStr);
+    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(GameText.s_diplomaticMessageText);
 
-    public override void Sent(DiplomaticAction Action) => Deliver(Action);
+    public override void Sent(DiplomaticAction action) => Deliver(action);
 
-    internal static readonly string P5SendMessageRStr = "Send Message";
+    internal static readonly string s_sendMessageText = "Send Message";
 }

@@ -7,34 +7,34 @@ namespace Aow.Game.Magic.Abilities;
 public partial class AbilityPlugin : Plugin
 {
     // AoWAb.PAS:5569
-    public override string Name() => P4AbilitiesRStr;
+    public override string Name() => s_abilitiesText;
 
     // AoWAb.PAS:5573
-    public override bool Initialize(GameEngine AEngine)
+    public override bool Initialize(GameEngine engine)
     {
-        bool Result;
-        if (AEngine is GameEngine)
+        bool result;
+        if (engine is GameEngine)
         {
-            Result = base.Initialize(AEngine);
+            result = base.Initialize(engine);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:5578
-    public override bool Finalize(GameEngine AEngine)
+    public override bool Finalize(GameEngine engine)
     {
         AddRef();
-        bool Result = base.Finalize(AEngine);
+        bool result = base.Finalize(engine);
         Release();
-        return Result;
+        return result;
     }
 
-    private static readonly string P4AbilitiesRStr = "Abilities";
+    private static readonly string s_abilitiesText = "Abilities";
 
     // Engine.pas:550
 

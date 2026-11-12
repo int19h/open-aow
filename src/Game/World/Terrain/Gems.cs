@@ -16,105 +16,105 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Terrain;
 
 // { ot=1 }
-// FAmount, FGenerateMode
+// Amount, GenerateMode
 public partial class Gems : ImageLibraryTerrainMapObject
 {
     public Gems(ECustomNode owner) : base(owner)
     {
-        FGenerateMode = GenerateMode.Normal;
-        FAmount = 0;
+        GenerateMode = GemsGenerateMode.Normal;
+        Amount = 0;
     }
 
     // Gems.pas:53
-    public new const int ClassID = 132014;
+    public new const int ClassId = 132014;
 
-    public int FAmount;
-    public GenerateMode FGenerateMode;
+    public int Amount;
+    public GemsGenerateMode GenerateMode;
 
     // Gems.pas:56
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FAmount, 5);
-        Stream.rwData(Bytes.Of(ref FGenerateMode, 1), 1, 6);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Amount, 5);
+        stream.rwData(Bytes.Of(ref GenerateMode, 1), 1, 6);
     }
 
     // Gems.pas:46
 
     // Gems.pas:93
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001985 && AoWHSMap.Current.FDay == 1)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001985 && AoWHSMap.Current.Day == 1)
         {
             GenerateGemsAmount();
         }
     }
 
     // Gems.pas:119
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        base.MapFieldMsgProc(ref Msg);
-        if (Msg.MsgID == 4354)
+        base.MapFieldMessageProc(ref message);
+        if (message.MessageId == 4354)
         {
-            ArmyEntered(Msg.Param[0].As<ArmyHexSprite>());
+            ArmyEntered(message.Param[0].As<ArmyHexSprite>());
             return;
         }
 
-        if (Msg.MsgID == 4608 && Msg.HN == 0)
+        if (message.MessageId == 4608 && message.HexNumber == 0)
         {
-            UpdateAITarget(ref Msg.Param[0].As<AITargetQuery>().Info, ref Msg.Param[0].As<AITargetQuery>().Data.Priority);
-            if (Msg.Param[0].As<AITargetQuery>().Data.Priority < 0)
+            UpdateAITarget(ref message.Param[0].As<AITargetQuery>().Info, ref message.Param[0].As<AITargetQuery>().Data.Priority);
+            if (message.Param[0].As<AITargetQuery>().Data.Priority < 0)
             {
-                Msg.Result = 1;
+                message.Result = 1;
             }
         }
     }
 
     // Gems.pas:87
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (Info.HN == 0)
+        if (info.HexNumber == 0)
         {
-            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 134217728;
+            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 134217728;
         }
     }
 
     // Gems.pas:63
     public void GenerateGemsAmount()
     {
-        if (FGenerateMode == GenerateMode.Random)
+        if (GenerateMode == GemsGenerateMode.Random)
         {
-            FGenerateMode = (GenerateMode)(AoWHSMap.Current.Random(3) + 1);
+            GenerateMode = (GemsGenerateMode)(AoWHSMap.Current.Random(3) + 1);
         }
 
-        switch (FGenerateMode)
+        switch (GenerateMode)
         {
-            case GenerateMode.Low:
-                FAmount = AoWHSMap.Current.Random(25) + 25;
+            case GemsGenerateMode.Low:
+                Amount = AoWHSMap.Current.Random(25) + 25;
                 break;
-            case GenerateMode.Normal:
-                FAmount = AoWHSMap.Current.Random(25) + 50;
+            case GemsGenerateMode.Normal:
+                Amount = AoWHSMap.Current.Random(25) + 50;
                 break;
-            case GenerateMode.High:
-                FAmount = AoWHSMap.Current.Random(50) + 100;
+            case GemsGenerateMode.High:
+                Amount = AoWHSMap.Current.Random(50) + 100;
                 break;
         }
     }
 
     // Gems.pas:74
-    public void UpdateAITarget(ref AITargetInfo Info, ref int Priority)
+    public void UpdateAITarget(ref AITargetInfo info, ref int priority)
     {
-        int Value;
-        switch (Info.Mode)
+        int value;
+        switch (info.Mode)
         {
             case >= AITargetMode.Attack and <= AITargetMode.Attack:
-                if (Info.Player != 0)
+                if (info.Player != 0)
                 {
-                    Value = FAmount / 5 + 15;
-                    if (Value > Priority)
+                    value = Amount / 5 + 15;
+                    if (value > priority)
                     {
-                        Priority = Value;
+                        priority = value;
                     }
                 }
 
@@ -123,18 +123,18 @@ public partial class Gems : ImageLibraryTerrainMapObject
     }
 
     // Gems.pas:99
-    public void ArmyEntered(ArmyHexSprite ArmyHS)
+    public void ArmyEntered(ArmyHexSprite armyHexSprite)
     {
-        LocationTextEventLog Event;
-        if (ArmyHS.FArmy.FPlayer != 0)
+        LocationTextEventLog eventValue;
+        if (armyHexSprite.Army.Player != 0)
         {
-            bool condition = AoWHSMap.Current.FSeatedPlayer == ArmyHS.FArmy.FPlayer;
+            bool condition = AoWHSMap.Current.SeatedPlayer == armyHexSprite.Army.Player;
             if (!condition)
             {
-                var lhx = GetLhx();
-                var yhx = GetYhx();
-                var xhx = GetXhx();
-                condition = AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
+                var hexLevel = GetHexLevel();
+                var hexY = GetHexY();
+                var hexX = GetHexX();
+                condition = AoWHSMap.Current.Watching(hexX, hexY, hexLevel, 0);
             }
 
             if (condition)
@@ -142,22 +142,22 @@ public partial class Gems : ImageLibraryTerrainMapObject
                 AudioPlayback.PlaySample("SFX\\EVENTS\\GOLD.WAV");
             }
 
-            var player = AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
-            player.SetGems(player.FGems + FAmount);
+            var player = AoWHSMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
+            player.SetGems(player.Gems + Amount);
 
-            Event = new LocationTextEventLog(null);
-            Event.FPlayer = ArmyHS.FArmy.FPlayer;
-            Event.FText = RtlUnit.Format(AbilityRules.TranslateRStr(GoldFoundRStr), [IntToStr(FAmount)]);
-            var lhx2 = GetLhx();
-            var yhx2 = GetYhx();
-            Event.SetLocation(GetXhx(), yhx2, lhx2);
-            AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Event);
-            Event.Release();
+            eventValue = new LocationTextEventLog(null);
+            eventValue._player = armyHexSprite.Army.Player;
+            eventValue.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_goldFoundFormat), [IntToStr(Amount)]);
+            var hexLevel2 = GetHexLevel();
+            var hexY2 = GetHexY();
+            eventValue.SetLocation(GetHexX(), hexY2, hexLevel2);
+            AoWHSMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);
+            eventValue.Release();
             Dispose();
         }
     }
 
-    private static readonly string GoldFoundRStr = "%s gold pieces found";
+    private static readonly string s_goldFoundFormat = "%s gold pieces found";
 
     public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
@@ -165,25 +165,25 @@ public partial class Gems : ImageLibraryTerrainMapObject
         { }
 
         // Gems.pas:137
-        public new const int ClassID = 132015;
+        public new const int ClassId = 132015;
 
         // Gems.pas:140
-        public override int ResourceUserClassID() => 132014;
+        public override int ResourceUserClassId() => 132014;
 
         // Gems.pas:134
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(GoldRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_goldText);
 
-        private static readonly string GoldRStr = "Gold";
+        private static readonly string s_goldText = "Gold";
 
-    }
-
-    public enum GenerateMode : byte
-    {
-        UserDefined = 0, Low = 1, Normal = 2, High = 3, Random = 4
     }
 
     // Gems.pas:24
 
     // Gems.pas:24
 
+}
+
+public enum GemsGenerateMode : byte
+{
+    UserDefined = 0, Low = 1, Normal = 2, High = 3, Random = 4
 }

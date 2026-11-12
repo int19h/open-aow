@@ -10,15 +10,15 @@ public partial class SummonGreatEagle : SummonSpell
     // SummonSpells.pas:444
     public SummonGreatEagle(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(SummonGreatEagleRStr);
-        FSpellID = 23;
-        FBaseManaCost = 5;
-        FSpellLevel = 2;
-        FMagicSphere = MagicSphere.Air;
-        FUnitIndices.Add(234);
-        FCastDuration = 10;
-        FAIBasePriority = 250;
+        SpellName = AbilityRules.TranslateResourceString(s_summonGreatEagleText);
+        SpellId = 23;
+        BaseManaCost = 5;
+        SpellLevel = 2;
+        MagicSphere = MagicSphere.Air;
+        UnitIndices.Add(234);
+        CastDuration = 10;
+        AIBasePriority = 250;
     }
 
-    private static readonly string SummonGreatEagleRStr = "Summon Great Eagle";
+    private static readonly string s_summonGreatEagleText = "Summon Great Eagle";
 }

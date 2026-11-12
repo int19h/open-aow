@@ -17,58 +17,58 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
     public FreezeWaterTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135939;
+    public new const int ClassId = 135939;
 
     // GlobalTargetSpells.pas:679
     public override bool Process(Troop source, int value)
     {
-        TwinkleAnimation Twinkle = default;
+        TwinkleAnimation twinkle = default;
         base.Process(source, value);
-        AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, (sbyte)(byte)FLocation.X, (sbyte)(byte)FLocation.Y, (sbyte)(byte)FLocation.L, 2);
-        if (AoWHSMap.Current.TerrainVisible((sbyte)(byte)FLocation.X, (sbyte)(byte)FLocation.Y, (sbyte)(byte)FLocation.L, 2))
+        AoWHSMap.Current.ValidateTerrainObservation(source.Player, (sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2);
+        if (AoWHSMap.Current.TerrainVisible((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
         {
-            Twinkle = new TwinkleAnimation(null);
-            Twinkle.Setup(AoWHSSet.Current.FSpellControl.GetSpell(10).FCastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand), 100, 64, 50, 30);
-            AoWHSMap.Current.PlaceHX(Twinkle, FLocation.X, FLocation.Y, FLocation.L);
+            twinkle = new TwinkleAnimation(null);
+            twinkle.Setup(AoWHSSet.Current.SpellControl.GetSpell(10).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand), 100, 64, 50, 30);
+            AoWHSMap.Current.PlaceHex(twinkle, Location.X, Location.Y, Location.MapLevel);
         }
 
         // Use the map's seated player.
-        if (AoWHSMap.Current.FSeatedPlayer == source.FPlayer || AoWHSMap.Current.WatchingTerrain((sbyte)(byte)FLocation.X, (sbyte)(byte)FLocation.Y, (sbyte)(byte)FLocation.L, 2))
+        if (AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.WatchingTerrain((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
         {
-            AoWHSSet.Current.FSpellControl.GetSpell(10).FCastSounds.Play(0);
+            AoWHSSet.Current.SpellControl.GetSpell(10).CastSounds.Play(0);
         }
 
-        AoWHSMap.Current.ChangeTerrainEx(null, FLocation.X, FLocation.Y, FLocation.L, 1, ChangeTerrain, TerrainChanged);
-        AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+        AoWHSMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 1, ChangeTerrain, TerrainChanged);
+        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         // The original event result is zero.
         return false;
     }
 
     // GlobalTargetSpells.pas:641
-    public void ChangeTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+    public void ChangeTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
     {
-        FrozenWaterHexSprite Ice;
-        if (((AoWMapField)MapF).GetArmyHS() == null)
+        FrozenWaterHexSprite ice;
+        if (((AoWMapField)mapField).GetArmyHexSprite() == null)
         {
-            if (TerrainType == (int)World.Map.TerrainType.Water)
+            if (terrainType == (int)World.Map.TerrainType.Water)
             {
-                TerrainType = (int)World.Map.TerrainType.Ice;
+                terrainType = (int)World.Map.TerrainType.Ice;
             }
             else
             {
-                if (TerrainType == (int)World.Map.TerrainType.UndergroundWater)
+                if (terrainType == (int)World.Map.TerrainType.UndergroundWater)
                 {
-                    TerrainType = (int)World.Map.TerrainType.UndergroundIce;
+                    terrainType = (int)World.Map.TerrainType.UndergroundIce;
                 }
                 else
                 {
-                    if (Set<byte>.WithBounds(0, 255).With((int)World.Map.TerrainType.Ice).With((int)World.Map.TerrainType.UndergroundIce).Contains((byte)TerrainType))
+                    if (Set<byte>.WithBounds(0, 255).With((int)World.Map.TerrainType.Ice).With((int)World.Map.TerrainType.UndergroundIce).Contains((byte)terrainType))
                     {
-                        Ice = (FrozenWaterHexSprite)MapF.FindOwnedHS(typeof(FrozenWaterHexSprite));
-                        if (Ice != null)
+                        ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
+                        if (ice != null)
                         {
-                            Ice.FDaysRemaining = (sbyte)((AoWHSMap.Current.Random(11) - 5) / 5 + 3);
-                            Ice.FCasterPlayer = (sbyte)FEventPlayerIndex;
+                            ice.DaysRemaining = (sbyte)((AoWHSMap.Current.Random(11) - 5) / 5 + 3);
+                            ice.CasterPlayer = (sbyte)EventPlayerIndex;
                         }
                     }
                 }
@@ -77,20 +77,20 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
     }
 
     // GlobalTargetSpells.pas:661
-    public void TerrainChanged(MapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType)
+    public void TerrainChanged(MapField mapField, sbyte originalTerrainType, sbyte originalOverlayType)
     {
-        FrozenWaterHexSprite Ice;
-        if (Set<byte>.WithBounds(0, 255).With((int)TerrainType.Ice).With((int)TerrainType.UndergroundIce).Contains((byte)MapF.TerrainType) && !Set<byte>.WithBounds(0, 255).With((int)TerrainType.Ice).With((int)TerrainType.UndergroundIce).Contains((byte)OriginalTerrainType))
+        FrozenWaterHexSprite ice;
+        if (Set<byte>.WithBounds(0, 255).With((int)TerrainType.Ice).With((int)TerrainType.UndergroundIce).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With((int)TerrainType.Ice).With((int)TerrainType.UndergroundIce).Contains((byte)originalTerrainType))
         {
-            Ice = (FrozenWaterHexSprite)MapF.FindOwnedHS(typeof(FrozenWaterHexSprite));
-            if (Ice == null)
+            ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
+            if (ice == null)
             {
-                Ice = new FrozenWaterHexSprite(null);
-                AoWHSMap.Current.PlaceHX(Ice, MapF.Xhx, MapF.Yhx, MapF.Lhx);
+                ice = new FrozenWaterHexSprite(null);
+                AoWHSMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
             }
 
-            Ice.FDaysRemaining = (sbyte)((AoWHSMap.Current.Random(11) - 5) / 5 + 3);
-            Ice.FCasterPlayer = (sbyte)FEventPlayerIndex;
+            ice.DaysRemaining = (sbyte)((AoWHSMap.Current.Random(11) - 5) / 5 + 3);
+            ice.CasterPlayer = (sbyte)EventPlayerIndex;
         }
     }
 

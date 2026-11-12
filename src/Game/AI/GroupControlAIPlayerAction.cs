@@ -15,8 +15,8 @@ public partial class GroupControlAIPlayerAction : AIPlayerAction, IAIPlayerActio
     {
     }
 
-    public int FGroupProcessCycles;
-    public AIGroupControl FGroupControl;
+    public int GroupProcessCycles;
+    public AIGroupControl GroupControl;
 
     // AI.pas:1054
     public override void Dispose()
@@ -28,80 +28,80 @@ public partial class GroupControlAIPlayerAction : AIPlayerAction, IAIPlayerActio
     // AI.pas:1083
     public override bool Process()
     {
-        bool Result;
-        bool Busy;
-        bool Done;
+        bool result;
+        bool busy;
+        bool done;
         int I;
-        AIGroupControl Control;
-        FGroupProcessCycles += 1;
+        AIGroupControl control;
+        GroupProcessCycles += 1;
         try
         {
-            Busy = false;
-            Done = false;
-            while (!Done && !Busy && AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 0)
+            busy = false;
+            done = false;
+            while (!done && !busy && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
             {
-                if (FGroupControl == null)
+                if (GroupControl == null)
                 {
-                    FControl.FPlayer.FAIGroups.SortOnProcessPriority();
+                    Control.Player.AIGroups.SortOnProcessPriority();
                     I = 0;
-                    while (I < FControl.FPlayer.FAIGroups.Count && FControl.FPlayer.FAIGroups.GetGroups(I).FStatus.Contains(AIGroupStatusElement.Done))
+                    while (I < Control.Player.AIGroups.Count && Control.Player.AIGroups.GetGroups(I).Status.Contains(AIGroupStatusElement.Done))
                     {
                         I += 1;
                     }
 
-                    if (I < FControl.FPlayer.FAIGroups.Count)
+                    if (I < Control.Player.AIGroups.Count)
                     {
-                        ActivateGroupControl(FControl.FPlayer.FAIGroups.GetGroups(I));
+                        ActivateGroupControl(Control.Player.AIGroups.GetGroups(I));
                     }
                     else
                     {
-                        Done = true;
+                        done = true;
                     }
                 }
 
-                Control = FGroupControl;
-                if (Control != null)
+                control = GroupControl;
+                if (control != null)
                 {
-                    Busy = Control.Process(false);
-                    if (!Busy)
+                    busy = control.Process(false);
+                    if (!busy)
                     {
                         DeactivateGroupControl();
                     }
                 }
                 else
                 {
-                    Done = true;
+                    done = true;
                 }
             }
 
-            Result = !Done;
+            result = !done;
         }
         catch
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1063
-    public void ActivateGroupControl(AIGroup Group)
+    public void ActivateGroupControl(AIGroup group)
     {
         DeactivateGroupControl();
-        FGroupControl = Group.CreateGroupControl();
-        FGroupControl.Activate();
+        GroupControl = group.CreateGroupControl();
+        GroupControl.Activate();
     }
 
     // AI.pas:1070
     public void DeactivateGroupControl()
     {
-        AIGroupControl Control;
-        Control = FGroupControl;
-        if (Control != null)
+        AIGroupControl control;
+        control = GroupControl;
+        if (control != null)
         {
-            Control.Deactivate();
-            FGroupControl?.Dispose();
-            FGroupControl = null;
+            control.Deactivate();
+            GroupControl?.Dispose();
+            GroupControl = null;
         }
     }
 

@@ -13,12 +13,12 @@ public partial class MountainMapObjectResource : Hexes.Terrain.Resource
     { }
 
     // Mountain.pas:169
-    public new const int ClassID = 131433;
+    public new const int ClassId = 131433;
 
     // Mountain.pas:175
-    public override int ResourceUserClassID() => 131432;
+    public override int ResourceUserClassId() => 131432;
 
     // Mountain.pas:172
-    public override string ResourceEditName() => AbilityRules.TranslateRStr(GameText.MountainRStr);
+    public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameText.s_mountainText);
 
 }

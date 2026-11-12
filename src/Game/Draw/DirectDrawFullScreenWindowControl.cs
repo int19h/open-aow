@@ -4,33 +4,33 @@ using Aow.Rtl;
 namespace Aow.Game.Draw;
 
 // the full screen window of the DirectDraw controllers. passes the mouse and key events on to
-// its display. FDisplay
+// its display. _display
 public partial class DirectDrawFullScreenWindowControl : WinControl
 {
-    internal CustomDisplay FDisplay;
+    internal CustomDisplay _display;
 
     // DisplayC.pas:1129
-    protected internal override void MouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    protected internal override void MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        FDisplay.MouseDown(Button, Shift, X, Y);
+        _display.MouseDown(button, shift, X, Y);
     }
 
     // DisplayC.pas:1134
-    protected internal override void MouseMove(Set<ShiftState> Shift, int X, int Y)
+    protected internal override void MouseMove(Set<ShiftState> shift, int X, int Y)
     {
         /* TODO: Implement Controls.MouseMove in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:1139
-    protected internal override void MouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    protected internal override void MouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         /* TODO: Implement Controls.MouseUp in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:1159
-    protected internal override void DblClick()
+    protected internal override void DoubleClick()
     {
         /* TODO: Implement Controls.DblClick in the platform or editor service. */
         throw new NotImplementedException();
@@ -44,34 +44,34 @@ public partial class DirectDrawFullScreenWindowControl : WinControl
     }
 
     // DisplayC.pas:1144
-    protected internal override void KeyDown(ref ushort Key, Set<ShiftState> Shift)
+    protected internal override void KeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        FDisplay.KeyDown(ref Key, Shift);
+        _display.KeyDown(ref key, shift);
     }
 
     // DisplayC.pas:1149
-    protected internal override void KeyUp(ref ushort Key, Set<ShiftState> Shift)
+    protected internal override void KeyUp(ref ushort key, Set<ShiftState> shift)
     {
         /* TODO: Implement Controls.KeyUp in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:1154
-    protected internal override void KeyPress(ref byte Key)
+    protected internal override void KeyPress(ref byte key)
     {
         /* TODO: Implement Controls.KeyPress in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:1169
-    protected internal override void CreateParams(ref CreateParams Params)
+    protected internal override void CreateParams(ref CreateParams paramsValue)
     {
         /* TODO: Implement Controls.CreateParams in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:1180
-    protected internal override void WndProc(ref Message Message)
+    protected internal override void WindowProc(ref Message message)
     {
         /* TODO: Implement Forms.Active in the platform or editor service. */
         throw new NotImplementedException();

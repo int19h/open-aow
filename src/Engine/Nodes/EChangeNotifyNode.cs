@@ -14,24 +14,24 @@ namespace Aow.Engine.Nodes;
 public partial class EChangeNotifyNode : ECustomNode
 {
     // Engine.pas:7246
-    public new const int ClassID = 265;
+    public new const int ClassId = 265;
 
     public EChangeNotifyNode(ECustomNode owner) : base(owner)
     {
-        FChildren = new EngineObjectList();
-        FUpdateCount = 0;
+        _children = new EngineObjectList();
+        _updateCount = 0;
     }
 
-    public EngineObjectList FChildren;
-    internal int FUpdateCount;
+    public EngineObjectList _children;
+    internal int _updateCount;
 
     // Engine.pas:7212
     public override void Dispose()
     {
         BeginUpdate();
         base.Dispose();
-        FChildren?.Dispose();
-        FChildren = null;
+        _children?.Dispose();
+        _children = null;
     }
 
     // Engine.pas:7220
@@ -42,10 +42,10 @@ public partial class EChangeNotifyNode : ECustomNode
         I = Count - 1;
         for (; I >= 0; I -= 1)
         {
-            C = (EngineObject)FChildren.List[I];
+            C = (EngineObject)_children.List[I];
             if (C != null && C.Owner == this)
             {
-                if (!C.GetControlStyle().Contains(EngineServices.csShared))
+                if (!C.GetControlStyle().Contains(EngineServices.Shared))
                 {
                     C.Dispose();
                 }
@@ -59,65 +59,65 @@ public partial class EChangeNotifyNode : ECustomNode
         I = Count - 1;
         for (; I >= 0; I -= 1)
         {
-            C = (EngineObject)FChildren.List[I];
+            C = (EngineObject)_children.List[I];
             if (C != null)
             {
-                if (!(C.Owner == this && C.GetControlStyle().Contains(EngineServices.csShared)))
+                if (!(C.Owner == this && C.GetControlStyle().Contains(EngineServices.Shared)))
                 {
                     RemoveChild(C);
                 }
             }
         }
 
-        I = FChildren.Count - 1;
-        while (I >= 0 && FChildren.List[I] == null)
+        I = _children.Count - 1;
+        while (I >= 0 && _children.List[I] == null)
         {
-            FChildren.Delete(I);
+            _children.Delete(I);
             I -= 1;
         }
 
-        if (FUpdateCount == 0)
+        if (_updateCount == 0)
         {
             Changed();
         }
     }
 
     // Engine.pas:7251
-    public override EngineObject GetChild(int Index) => (EngineObject)FChildren.List[Index];
+    public override EngineObject GetChild(int index) => (EngineObject)_children.List[index];
 
     // Engine.pas:7256
-    public override void SetChild(int Index, EngineObject Child)
+    public override void SetChild(int index, EngineObject child)
     {
-        while (Index >= Count)
+        while (index >= Count)
         {
-            FChildren.Add(null);
+            _children.Add(null);
         }
 
-        FChildren[Index] = Child;
-        if (FUpdateCount == 0)
+        _children[index] = child;
+        if (_updateCount == 0)
         {
             Changed();
         }
     }
 
     // Engine.pas:7263
-    public override void Assign(EngineObject Source, GameEngine AEngine)
+    public override void Assign(EngineObject source, GameEngine engine)
     {
         BeginUpdate();
-        base.Assign(Source, AEngine);
+        base.Assign(source, engine);
         EndUpdate();
     }
 
     // Engine.pas:7270
     public void LockChanged()
     {
-        FUpdateCount += 1;
+        _updateCount += 1;
     }
 
     // Engine.pas:7275
     public void UnlockChanged()
     {
-        FUpdateCount -= 1;
+        _updateCount -= 1;
     }
 
     // Engine.pas:7280
@@ -128,7 +128,7 @@ public partial class EChangeNotifyNode : ECustomNode
     // Engine.pas:7284
     public void BeginUpdate()
     {
-        FUpdateCount += 1;
+        _updateCount += 1;
     }
 
     // Engine.pas:7957
@@ -802,40 +802,40 @@ public partial class EChangeNotifyNode : ECustomNode
     // }
     public void EndUpdate()
     {
-        Assert(FUpdateCount > 0, "Invalid UpdateCount Usage", "Engine.pas", 7959);
-        FUpdateCount -= 1;
-        if (FUpdateCount == 0)
+        Assert(_updateCount > 0, "Invalid UpdateCount Usage", "Engine.pas", 7959);
+        _updateCount -= 1;
+        if (_updateCount == 0)
         {
             Changed();
         }
     }
 
     // Engine.pas:7964
-    public void Sort(ListSortCompare Compare)
+    public void Sort(ListSortCompare compare)
     {
         BeginUpdate();
-        FChildren.Sort(Compare);
+        _children.Sort(compare);
         EndUpdate();
     }
 
     // Keeps the order of equal items. Reflecting pool ordering is the only caller.
-    public void SortStable(ListSortCompare Compare)
+    public void SortStable(ListSortCompare compare)
     {
         BeginUpdate();
-        FChildren.SortStable(Compare);
+        _children.SortStable(compare);
         EndUpdate();
     }
 
     // Engine.pas:7971
-    public override void MainReadWrite(EStorageStream Stream)
+    public override void MainReadWrite(EStorageStream stream)
     {
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             BeginUpdate();
         }
 
-        base.MainReadWrite(Stream);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        base.MainReadWrite(stream);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             EndUpdate();
         }
@@ -856,27 +856,27 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     // Engine.pas:7978
-    public override int GetCount() => FChildren.Count;
+    public override int GetCount() => _children.Count;
 
     // Engine.pas:7983
-    public override void SendMsg(ref EngineMessage Msg, EngineObject Sender)
+    public override void SendMessage(ref EngineMessage message, EngineObject sender)
     {
-        var children = FChildren;
-        if (GetControlStyle().Contains(EngineServices.csKeepIndex))
+        var children = _children;
+        if (GetControlStyle().Contains(EngineServices.KeepIndex))
         {
-            if ((Msg.MsgID & 268435456) != 0)
+            if ((message.MessageId & 268435456) != 0)
             {
-                if ((Msg.MsgID & 536870912) == 0)
+                if ((message.MessageId & 536870912) == 0)
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
                         if (children.List[I] != null)
                         {
                             var node = (EngineObject)children.List[I];
-                            if (node.GetLastMsg() != Msg.Seq)
+                            if (node.GetLastMessage() != message.Sequence)
                             {
-                                node.SetLastMsg(Msg.Seq);
-                                node.MsgProc(ref Msg, this);
+                                node.SetLastMessage(message.Sequence);
+                                node.MessageProc(ref message, this);
                             }
                         }
                     }
@@ -888,10 +888,10 @@ public partial class EChangeNotifyNode : ECustomNode
                         if (children.List[I] != null)
                         {
                             var node = (EngineObject)children[I];
-                            if (node.GetLastMsg() != Msg.Seq && node.Owner == this)
+                            if (node.GetLastMessage() != message.Sequence && node.Owner == this)
                             {
-                                node.SetLastMsg(Msg.Seq);
-                                node.MsgProc(ref Msg, this);
+                                node.SetLastMessage(message.Sequence);
+                                node.MessageProc(ref message, this);
                             }
                         }
                     }
@@ -899,14 +899,14 @@ public partial class EChangeNotifyNode : ECustomNode
             }
             else
             {
-                if ((Msg.MsgID & 536870912) == 0)
+                if ((message.MessageId & 536870912) == 0)
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
                         if (children.List[I] != null)
                         {
                             var node = (EngineObject)children.List[I];
-                            node.MsgProc(ref Msg, this);
+                            node.MessageProc(ref message, this);
                         }
                     }
                 }
@@ -919,7 +919,7 @@ public partial class EChangeNotifyNode : ECustomNode
                             var node = (EngineObject)children[I];
                             if (node.Owner == this)
                             {
-                                node.MsgProc(ref Msg, this);
+                                node.MessageProc(ref message, this);
                             }
                         }
                     }
@@ -928,17 +928,17 @@ public partial class EChangeNotifyNode : ECustomNode
         }
         else
         {
-            if ((Msg.MsgID & 268435456) != 0)
+            if ((message.MessageId & 268435456) != 0)
             {
-                if ((Msg.MsgID & 536870912) == 0)
+                if ((message.MessageId & 536870912) == 0)
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
                         var node = (EngineObject)children.List[I];
-                        if (node.GetLastMsg() != Msg.Seq)
+                        if (node.GetLastMessage() != message.Sequence)
                         {
-                            node.SetLastMsg(Msg.Seq);
-                            node.MsgProc(ref Msg, this);
+                            node.SetLastMessage(message.Sequence);
+                            node.MessageProc(ref message, this);
                         }
                     }
                 }
@@ -947,22 +947,22 @@ public partial class EChangeNotifyNode : ECustomNode
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
                         var node = (EngineObject)children[I];
-                        if (node.GetLastMsg() != Msg.Seq && node.Owner == this)
+                        if (node.GetLastMessage() != message.Sequence && node.Owner == this)
                         {
-                            node.SetLastMsg(Msg.Seq);
-                            node.MsgProc(ref Msg, this);
+                            node.SetLastMessage(message.Sequence);
+                            node.MessageProc(ref message, this);
                         }
                     }
                 }
             }
             else
             {
-                if ((Msg.MsgID & 536870912) == 0)
+                if ((message.MessageId & 536870912) == 0)
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
                         var node = (EngineObject)children.List[I];
-                        node.MsgProc(ref Msg, this);
+                        node.MessageProc(ref message, this);
                     }
                 }
                 else
@@ -972,7 +972,7 @@ public partial class EChangeNotifyNode : ECustomNode
                         var node = (EngineObject)children[I];
                         if (node.Owner == this)
                         {
-                            node.MsgProc(ref Msg, this);
+                            node.MessageProc(ref message, this);
                         }
                     }
                 }
@@ -981,84 +981,84 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     // Engine.pas:8080
-    public override int RemoveChild(EngineObject Child)
+    public override int RemoveChild(EngineObject child)
     {
-        int Result;
-        if (GetControlStyle().Contains(EngineServices.csKeepIndex))
+        int result;
+        if (GetControlStyle().Contains(EngineServices.KeepIndex))
         {
-            Result = FChildren.IndexOf(Child);
-            if (Result != -1)
+            result = _children.IndexOf(child);
+            if (result != -1)
             {
-                FChildren.List[Result] = null;
+                _children.List[result] = null;
             }
         }
         else
         {
-            Result = FChildren.Remove(Child);
+            result = _children.Remove(child);
         }
 
-        if (FUpdateCount == 0)
+        if (_updateCount == 0)
         {
             Changed();
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:8092
-    public override int AddChild(EngineObject Child)
+    public override int AddChild(EngineObject child)
     {
-        FChildren.Add(Child);
-        if (FUpdateCount == 0)
+        _children.Add(child);
+        if (_updateCount == 0)
         {
             Changed();
         }
 
-        return FChildren.Count - 1;
+        return _children.Count - 1;
     }
 
     // Engine.pas:8099
-    public override EngineObject FindChild(int AClassID)
+    public override EngineObject FindChild(int classId)
     {
-        EngineObject Result;
+        EngineObject result;
         int I;
-        bool Found;
+        bool found;
         EngineObject C;
         I = 0;
-        Found = false;
+        found = false;
         C = null;
-        while (!Found && I < FChildren.Count)
+        while (!found && I < _children.Count)
         {
-            C = (EngineObject)FChildren.List[I];
-            Found = C != null && AClassID == C.EClass.ClassID;
+            C = (EngineObject)_children.List[I];
+            found = C != null && classId == C.EngineClass.ClassId;
             I += 1;
         }
 
-        if (Found)
+        if (found)
         {
-            Result = C;
+            result = C;
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:8117
-    public override int FindChildIndex(EngineObject Child)
+    public override int FindChildIndex(EngineObject child)
     {
-        int Result = Count - 1;
-        while (Result >= 0 && Child != FChildren.List[Result])
+        int result = Count - 1;
+        while (result >= 0 && child != _children.List[result])
         {
-            Result -= 1;
+            result -= 1;
         }
 
-        return Result;
+        return result;
     }
 
-    public int UpdateCount { get => FUpdateCount; }
+    public int UpdateCount { get => _updateCount; }
 
     // Engine.pas:680
 

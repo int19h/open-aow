@@ -9,16 +9,16 @@ namespace Aow.Game.Layout;
 // It also allows collection initializers without changing the frozen shim.
 public sealed class LayoutStrings : IEnumerable<string>
 {
-    private readonly List<string> values = [];
+    private readonly List<string> _values = [];
 
-    public void Add(string value) => values.Add(value);
-    public IEnumerator<string> GetEnumerator() => values.GetEnumerator();
+    public void Add(string value) => _values.Add(value);
+    public IEnumerator<string> GetEnumerator() => _values.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     public void CopyTo(StringCollection target)
     {
         target.BeginUpdate();
-        try { target.Clear(); foreach (var value in values) target.Add(value); }
+        try { target.Clear(); foreach (var value in _values) target.Add(value); }
         finally { target.EndUpdate(); }
     }
 }

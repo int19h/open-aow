@@ -10,15 +10,15 @@ public partial class SummonMermaid : SummonSpell
     // SummonSpells.pas:488
     public SummonMermaid(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(SummonMermaidRStr);
-        FSpellID = 78;
-        FBaseManaCost = 5;
-        FSpellLevel = 1;
-        FMagicSphere = MagicSphere.Death;
-        FUnitIndices.Add(218);
-        FCastDuration = 5;
-        FAIBasePriority = -1;
+        SpellName = AbilityRules.TranslateResourceString(s_summonMermaidText);
+        SpellId = 78;
+        BaseManaCost = 5;
+        SpellLevel = 1;
+        MagicSphere = MagicSphere.Death;
+        UnitIndices.Add(218);
+        CastDuration = 5;
+        AIBasePriority = -1;
     }
 
-    private static readonly string SummonMermaidRStr = "Summon Mermaid";
+    private static readonly string s_summonMermaidText = "Summon Mermaid";
 }

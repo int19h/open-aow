@@ -14,74 +14,74 @@ public sealed partial record Migrate(int Race) : ProductionOrder
 
     public override CityAction CityAction => CityAction.Migrate;
 
-    public override string Name(ProductionControl Control) => Control.ProductionCity() != null
-        ? RtlUnit.Format(AbilityRules.TranslateRStr(MigrateToXRStr), [AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Race])])
-        : base.Name(Control);
+    public override string Name(ProductionControl control) => control.ProductionCity() != null
+        ? RtlUnit.Format(AbilityRules.TranslateResourceString(s_migrateFormat), [AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[Race])])
+        : base.Name(control);
 
-    public override string NameProgressive(ProductionControl Control) => Control.ProductionCity() != null
-        ? RtlUnit.Format(AbilityRules.TranslateRStr(MigratingToXRStr), [AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Race])])
-        : base.NameProgressive(Control);
+    public override string NameProgressive(ProductionControl control) => control.ProductionCity() != null
+        ? RtlUnit.Format(AbilityRules.TranslateResourceString(s_migratingFormat), [AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[Race])])
+        : base.NameProgressive(control);
 
-    public override bool CanExecute(ProductionControl Control, ref string Reason)
+    public override bool CanExecute(ProductionControl control, ref string reason)
     {
-        var city = Control.ProductionCity();
-        return city != null ? city.CanMigrate((sbyte)Race, ref Reason) : base.CanExecute(Control, ref Reason);
+        var city = control.ProductionCity();
+        return city != null ? city.CanMigrate((sbyte)Race, ref reason) : base.CanExecute(control, ref reason);
     }
 
-    public override void Executed(ProductionControl Control)
+    public override void Executed(ProductionControl control)
     {
-        var city = Control.ProductionCity();
+        var city = control.ProductionCity();
         if (city == null)
         {
             return;
         }
 
-        Control.FSettings.FTurnsTotal = (sbyte)city.MigrationTime((sbyte)Race);
-        Control.FSettings.FTurnsLeft = Control.FSettings.FTurnsTotal;
-        Control.FSettings.FPlayer = Control.GetPlayer();
-        Control.FStatus = ProductionControl.Status.Producing;
-        ChangeRelation(Control, city, -15);
+        control.Settings.TurnsTotal = (sbyte)city.MigrationTime((sbyte)Race);
+        control.Settings.TurnsLeft = control.Settings.TurnsTotal;
+        control.Settings.Player = control.GetPlayer();
+        control.Status = ProductionControlStatus.Producing;
+        ChangeRelation(control, city, -15);
     }
 
-    public override void Completed(ProductionControl Control)
+    public override void Completed(ProductionControl control)
     {
-        var city = Control.ProductionCity();
+        var city = control.ProductionCity();
         if (city == null)
         {
             return;
         }
 
-        Control.BeginUpdate();
-        var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Race]);
-        Log(Control, city, RtlUnit.Format(AbilityRules.TranslateRStr(CityMigratedToRStr), [city.GetName(), raceNamesPlural]));
+        control.BeginUpdate();
+        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[Race]);
+        Log(control, city, RtlUnit.Format(AbilityRules.TranslateResourceString(s_cityMigratedToFormat), [city.GetName(), raceNamesPlural]));
         city.SetRace((sbyte)Race);
-        ChangeRelation(Control, city, 10);
-        Control.FUnitProductions.Clear();
-        city.SetUpgradeLevel(city.FUpgradeLevel);
-        Control.ProductionDone();
-        Control.EndUpdate();
+        ChangeRelation(control, city, 10);
+        control.UnitProductions.Clear();
+        city.SetUpgradeLevel(city.UpgradeLevel);
+        control.ProductionDone();
+        control.EndUpdate();
     }
 
-    public override void Cancel(ProductionControl Control)
+    public override void Cancel(ProductionControl control)
     {
-        var city = Control.ProductionCity();
+        var city = control.ProductionCity();
         if (city != null)
         {
-            ChangeRelation(Control, city, Control.FSettings.FTurnsLeft == Control.FSettings.FTurnsTotal ? 15 : 10);
+            ChangeRelation(control, city, control.Settings.TurnsLeft == control.Settings.TurnsTotal ? 15 : 10);
         }
     }
 
-    public override bool Loopable(ProductionControl Control) => Control.ProductionCity() == null;
+    public override bool Loopable(ProductionControl control) => control.ProductionCity() == null;
 
-    public override bool LocksQueue(ProductionControl Control) => Control.ProductionCity() != null;
+    public override bool LocksQueue(ProductionControl control) => control.ProductionCity() != null;
 
-    public override int ActivityImage(City City) => 44;
+    public override int ActivityImage(City city) => 44;
 
-    public override int? CitySequence(City City, int Row) => 39 + Row;
+    public override int? CitySequence(City city, int row) => 39 + row;
 
-    public override string RealmActivity(City City) => "4";
+    public override string RealmActivity(City city) => "4";
 
-    private static readonly string CityMigratedToRStr = "%0:s migrated to %1:s";
-    internal static readonly string MigrateToXRStr = "Migrate to %s";
-    private static readonly string MigratingToXRStr = "Migrating to %s";
+    private static readonly string s_cityMigratedToFormat = "%0:s migrated to %1:s";
+    internal static readonly string s_migrateFormat = "Migrate to %s";
+    private static readonly string s_migratingFormat = "Migrating to %s";
 }

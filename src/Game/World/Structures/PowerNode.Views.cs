@@ -6,5 +6,5 @@ public partial class PowerNode
 {
     protected override StructureView OwnerPanel() => StructureView.PowerNode;
 
-    public override string CombatMapName(CombatMapSite Site) => "NodeC000";
+    public override string CombatMapName(CombatMapSite site) => "NodeC000";
 }

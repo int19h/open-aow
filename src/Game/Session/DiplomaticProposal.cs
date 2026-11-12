@@ -11,7 +11,7 @@ namespace Aow.Game.Session;
 
 public abstract partial record DiplomaticProposal
 {
-    private static readonly Catalog<byte, Func<int, int, DiplomaticProposal>> Kinds = new("diplomatic proposal");
+    private static readonly Catalog<byte, Func<int, int, DiplomaticProposal>> s_kinds = new("diplomatic proposal");
 
     // The message lines (property 27): the default text of the kind, the sender's text, or the
     // reply's text once the target answers. The copies in the players' action lists hold none.
@@ -22,35 +22,35 @@ public abstract partial record DiplomaticProposal
 
     // The proposal the stored kind, gold and mana name. A kind no proposal registered reads as
     // UnknownProposal, which writes the three fields back unchanged.
-    public static DiplomaticProposal FromFields(byte Kind, int Gold, int Mana) =>
-        Kinds.TryGet(Kind, out var create) ? create(Gold, Mana) : new UnknownProposal(Kind, Gold, Mana);
+    public static DiplomaticProposal FromFields(byte kind, int gold, int mana) =>
+        s_kinds.TryGet(kind, out var create) ? create(gold, mana) : new UnknownProposal(kind, gold, mana);
 
     // Registers the proposal of a kind. A second registration of a kind throws.
-    internal static void Register(byte Kind, Func<int, int, DiplomaticProposal> Create) => Kinds.Add(Kind, Create);
+    internal static void Register(byte kind, Func<int, int, DiplomaticProposal> create) => s_kinds.Add(kind, create);
 
     // The kinds with a registered proposal.
-    internal static bool IsRegistered(byte Kind) => Kinds.TryGet(Kind, out _);
+    internal static bool IsRegistered(byte kind) => s_kinds.TryGet(kind, out _);
 
     // The message as TStrings.Text joins it.
     public string MessageText => string.Concat(Message.Select(static line => line + "\r\n"));
 
     // The lines of Text.
-    public static IReadOnlyList<string> Lines(StringCollection Text)
+    public static IReadOnlyList<string> Lines(StringCollection text)
     {
-        var lines = new string[Text.Count];
+        var lines = new string[text.Count];
         for (int I = 0; I < lines.Length; I++)
         {
-            lines[I] = Text[I];
+            lines[I] = text[I];
         }
 
         return lines;
     }
 
     // The lines TStrings.Text splits Text into.
-    public static IReadOnlyList<string> Lines(string Text)
+    public static IReadOnlyList<string> Lines(string text)
     {
         var list = new StringList();
-        list.Text = Text;
+        list.Text = text;
         var lines = Lines(list);
         list?.Dispose();
         return lines;
@@ -62,7 +62,7 @@ public abstract partial record DiplomaticProposal
     public override int GetHashCode() => HashCode.Combine(EqualityContract, Message.Count);
 
     // The proposal with the gold and mana the sender adds. A kind that carries none ignores them.
-    public virtual DiplomaticProposal WithOffer(int Gold, int Mana) => this;
+    public virtual DiplomaticProposal WithOffer(int gold, int mana) => this;
 
     // How the relations window composes and shows the proposal (AoWRelations.pas:811, E3EventDialogs.pas:194).
     public virtual ProposalView View => ProposalView.None;
@@ -75,156 +75,156 @@ public abstract partial record DiplomaticProposal
     public virtual bool SignedAsOtherPlayer => false;
 
     // The line of the actions list (Diplomacy.pas:505).
-    public virtual string Name(DiplomaticAction Action) => "";
+    public virtual string Name(DiplomaticAction action) => "";
 
     // The logbook line (Diplomacy.pas:1265).
-    public virtual string LogText(DiplomaticAction Action) => "DiplomaticActionEventLog";
+    public virtual string LogText(DiplomaticAction action) => "DiplomaticActionEventLog";
 
     // The sample played when the proposal enters a logbook (Diplomacy.pas:1208).
     public virtual string LoggedSample => "SFX\\EVENTS\\MESSAGE.WAV";
 
     // The logbook's middle icon (Diplomacy.pas:1353).
-    public virtual int MiddleIcon(DiplomaticAction Action) => 0x16;
+    public virtual int MiddleIcon(DiplomaticAction action) => 0x16;
 
     // Fills Text with the kind's default message for Reaction (Diplomacy.pas:1420). Relation is
     // the relation of the source to the target.
-    public virtual void DefaultMessage(DiplomaticMessageText Text, DiplomaticActionReaction Reaction, DiplomaticRelation Relation)
+    public virtual void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
     {
     }
 
     // The check the kind adds once the source can pay the offer (Diplomacy.pas:1055).
-    public virtual bool CanSend(DiplomaticAction Action, ref string ErrorText) => true;
+    public virtual bool CanSend(DiplomaticAction action, ref string errorText) => true;
 
     // What sending does once the offer sits in escrow (Diplomacy.pas:992).
-    public virtual void Sent(DiplomaticAction Action)
+    public virtual void Sent(DiplomaticAction action)
     {
     }
 
     // Whether the proposal, still unanswered when its source's turn comes round, lapses as
     // ignored (Diplomacy.pas:613).
-    public virtual bool LapsesUnanswered(DiplomaticAction Action) => false;
+    public virtual bool LapsesUnanswered(DiplomaticAction action) => false;
 
     // What acceptance does once the escrow went to the target and the race relations moved (Diplomacy.pas:826).
-    public virtual void Accepted(DiplomaticAction Action)
+    public virtual void Accepted(DiplomaticAction action)
     {
     }
 
     // The reaction a rejection records (Diplomacy.pas:950).
-    public virtual DiplomaticActionReaction RejectReaction(DiplomaticAction Action) => DiplomaticActionReaction.Reject;
+    public virtual DiplomaticActionReaction RejectReaction(DiplomaticAction action) => DiplomaticActionReaction.Reject;
 
     // The AI target's answer (Diplomacy.pas:722). Relation is the relation of the source to the
     // target, IdealPeace and IdealWar the target's ideal partners.
-    public virtual void AnswerAI(DiplomaticAction Action, sbyte Player, DiplomaticRelation Relation, ByteList IdealPeace, ByteList IdealWar)
+    public virtual void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
     {
     }
 
     // The AI source's step once the target rejected or ignored the proposal (Diplomacy.pas:722).
-    public virtual void RefusedAI(DiplomaticAction Action)
+    public virtual void RefusedAI(DiplomaticAction action)
     {
     }
 
     // How the proposal moves the relation of Race to Player (Diplomacy.pas:527).
-    public virtual int RelationModifier(DiplomaticAction Action, sbyte Player, sbyte Race) => 0;
+    public virtual int RelationModifier(DiplomaticAction action, sbyte player, sbyte race) => 0;
 
     // Modifier, scaled by how Race regards the race of Other, or Modifier itself for Other's own race.
-    protected static int RaceModifier(sbyte Other, sbyte Race, int Modifier)
+    protected static int RaceModifier(sbyte other, sbyte race, int modifier)
     {
-        if (AoWHSMap.Current.FPlayers.GetPlayers(Other).FPlayerRace != Race)
+        if (AoWHSMap.Current.Players.GetPlayers(other).PlayerRace != race)
         {
-            var players = AoWHSMap.Current.FPlayers.GetPlayers(Other);
-            return Round((double)((AoWHSMap.Current.FRaces.GetRace(Race).GetRelationValue(players.FPlayerRace) - 50) * Modifier) * 0.01);
+            var players = AoWHSMap.Current.Players.GetPlayers(other);
+            return Round((double)((AoWHSMap.Current.Races.GetRace(race).GetRelationValue(players.PlayerRace) - 50) * modifier) * 0.01);
         }
 
-        return Modifier;
+        return modifier;
     }
 
     // The relation of First to Second.
-    protected static DiplomaticRelation Relation(sbyte First, sbyte Second) =>
-        AoWHSMap.Current.FPlayers.GetDiplomaticRelation((sbyte)(byte)First, (sbyte)(byte)Second);
+    protected static DiplomaticRelation Relation(sbyte first, sbyte second) =>
+        AoWHSMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)first, (sbyte)(byte)second);
 
     // Shows Log at once when Player is seated.
-    protected static void ShowTo(EventLog Log, sbyte Player)
+    protected static void ShowTo(EventLog log, sbyte player)
     {
-        if (Player == AoWHSMap.Current.FSeatedPlayer)
+        if (player == AoWHSMap.Current.SeatedPlayer)
         {
-            Log.Execute(false, ExecuteTrigger.Event, null);
+            log.Execute(false, ExecuteTrigger.Event, null);
         }
     }
 
     // Announces the action to every player who knows both sides but Exclude, and shows it to Viewer.
-    protected static void Broadcast(DiplomaticAction Action, sbyte Exclude, sbyte Viewer)
+    protected static void Broadcast(DiplomaticAction action, sbyte exclude, sbyte viewer)
     {
-        var Log = Action.CreateEventLog();
-        BroadcastDiplomaticEvent(Log, Exclude);
-        ShowTo(Log, Viewer);
-        Log.Release();
+        var log = action.CreateEventLog();
+        BroadcastDiplomaticEvent(log, exclude);
+        ShowTo(log, viewer);
+        log.Release();
     }
 
     // Delivers the proposal to the target's logbook (Diplomacy.pas:992, the arm of the kinds that wait for an answer).
-    protected static void Deliver(DiplomaticAction Action)
+    protected static void Deliver(DiplomaticAction action)
     {
-        AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).PlayerSeen((sbyte)(byte)Action.FSource);
-        if (Action.FSource == AoWHSMap.Current.FSeatedPlayer)
+        AoWHSMap.Current.Players.GetPlayers(action.Target).PlayerSeen((sbyte)(byte)action.Source);
+        if (action.Source == AoWHSMap.Current.SeatedPlayer)
         {
-            var p5MessageSent = AbilityRules.TranslateRStr(P5MessageSentRStr);
-            AoWHSMap.Current.ShowMessage(p5MessageSent);
+            var messageSent = AbilityRules.TranslateResourceString(s_messageSentText);
+            AoWHSMap.Current.ShowMessage(messageSent);
         }
 
-        var Log = Action.CreateEventLog();
-        AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).FEventLogbook.AddEvent(Log);
-        ShowTo(Log, Action.FTarget);
-        Log.Release();
-        AoWHSMap.Current.FDiplomaticRelationsChangedEventsStore.Raise(Action);
+        var log = action.CreateEventLog();
+        AoWHSMap.Current.Players.GetPlayers(action.Target).EventLogbook.AddEvent(log);
+        ShowTo(log, action.Target);
+        log.Release();
+        AoWHSMap.Current._diplomaticRelationsChangedEventsStore.Raise(action);
     }
 
     // Drops the target's logbook entry of the answered proposal.
-    protected static void RemoveTargetLog(DiplomaticAction Action)
+    protected static void RemoveTargetLog(DiplomaticAction action)
     {
-        var Log = (DiplomaticActionEventLog)AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).FEventLogbook.FindID(Action.FEventLogID);
-        if (Log != null)
+        var log = (DiplomaticActionEventLog)AoWHSMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId(action.EventLogId);
+        if (log != null)
         {
-            Log.SetOwner(null);
+            log.SetOwner(null);
         }
     }
 
     // Moves the target's logbook entry, now holding the answer, to the source and shows it there.
-    protected static void ReturnToSource(DiplomaticAction Action)
+    protected static void ReturnToSource(DiplomaticAction action)
     {
-        var Log = (DiplomaticActionEventLog)AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).FEventLogbook.FindID(Action.FEventLogID);
-        Log.SetDiplomaticAction(Action);
-        AoWHSMap.Current.FPlayers.GetPlayers(Action.FSource).FEventLogbook.AddEvent(Log);
-        ShowTo(Log, Action.FSource);
+        var log = (DiplomaticActionEventLog)AoWHSMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId(action.EventLogId);
+        log.SetDiplomaticAction(action);
+        AoWHSMap.Current.Players.GetPlayers(action.Source).EventLogbook.AddEvent(log);
+        ShowTo(log, action.Source);
     }
 
     // The logbook line of an answered kind: Proposed while unanswered, else the answer about Subject.
-    protected static string Outcome(DiplomaticAction Action, string Proposed, string Subject, string Accepted, string Otherwise) => Action.FReaction switch
+    protected static string Outcome(DiplomaticAction action, string proposed, string subject, string accepted, string otherwise) => action.Reaction switch
     {
-        DiplomaticActionReaction.None => Proposed,
-        DiplomaticActionReaction.Reject => AbilityRules.Format(AbilityRules.TranslateRStr(P5XRejectedRStr), [Subject]),
-        DiplomaticActionReaction.Accept => Accepted,
-        DiplomaticActionReaction.Ignore => AbilityRules.Format(AbilityRules.TranslateRStr(P5XIgnoredRStr), [Subject]),
-        _ => Otherwise,
+        DiplomaticActionReaction.None => proposed,
+        DiplomaticActionReaction.Reject => AbilityRules.Format(AbilityRules.TranslateResourceString(s_rejectedFormat), [subject]),
+        DiplomaticActionReaction.Accept => accepted,
+        DiplomaticActionReaction.Ignore => AbilityRules.Format(AbilityRules.TranslateResourceString(s_ignoredFormat), [subject]),
+        _ => otherwise,
     };
 
     // The accepted line about Subject.
-    protected static string AcceptedLine(string Subject) => AbilityRules.Format(AbilityRules.TranslateRStr(P5XAcceptedRStr), [Subject]);
+    protected static string AcceptedLine(string subject) => AbilityRules.Format(AbilityRules.TranslateResourceString(s_acceptedFormat), [subject]);
 
-    private static readonly string P5MessageSentRStr = "Message sent";
-    internal static readonly string P5XRejectedRStr = "%s rejected";
-    internal static readonly string P5XAcceptedRStr = "%s accepted";
-    internal static readonly string P5XIgnoredRStr = "%s ignored";
+    private static readonly string s_messageSentText = "Message sent";
+    internal static readonly string s_rejectedFormat = "%s rejected";
+    internal static readonly string s_acceptedFormat = "%s accepted";
+    internal static readonly string s_ignoredFormat = "%s ignored";
 
-    private static void BroadcastDiplomaticEvent(DiplomaticActionEventLog Log, sbyte Exclude)
+    private static void BroadcastDiplomaticEvent(DiplomaticActionEventLog log, sbyte exclude)
     {
         int i = 0;
-        for (int num = AoWHSMap.Current.FPlayers.Count - 1; i <= num; i++)
+        for (int number = AoWHSMap.Current.Players.Count - 1; i <= number; i++)
         {
-            Player players = AoWHSMap.Current.FPlayers.GetPlayers(i);
-            if (players.FStatus == Player.Status.Playing && i != Exclude && (i == Log.FAction.FSource || i == Log.FAction.FTarget || (AoWHSMap.Current.FPlayers.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)Log.FAction.FSource) != -1 && AoWHSMap.Current.FPlayers.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)Log.FAction.FTarget) != -1)))
+            Player players = AoWHSMap.Current.Players.GetPlayers(i);
+            if (players.Status == PlayerStatus.Playing && i != exclude && (i == log.Action.Source || i == log.Action.Target || (AoWHSMap.Current.Players.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)log.Action.Source) != -1 && AoWHSMap.Current.Players.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)log.Action.Target) != -1)))
             {
-                EventLog tEventLog = (EventLog)Log.Copy(GameTables.AoWEngine);
-                players.FEventLogbook.AddEvent(tEventLog);
-                tEventLog.Release();
+                EventLog eventLog = (EventLog)log.Copy(GameTables.GameEngine);
+                players.EventLogbook.AddEvent(eventLog);
+                eventLog.Release();
             }
         }
     }

@@ -12,7 +12,7 @@ public partial class MailAddressList
     }
 
     // E3IMSTypes.pas:20
-    public void AddAddress(string Address, string Name)
+    public void AddAddress(string address, string name)
     {
         /* TODO: Implement TmsAddressList.AddAddress. */
         throw new NotImplementedException();

@@ -4,40 +4,40 @@ using Aow.Rtl;
 
 namespace Aow.Engine.Nodes;
 
-// FOnRegisterClasses (called from Loaded), FOnUnRegisterClasses (called from Destroy), FEngine,
+// _onRegisterClasses (called from Loaded), _onUnregisterClasses (called from Destroy), _engine,
 // the engine the component owns and frees.
 public partial class EngineComponent : Component
 {
-    internal NotifyEvent<object> FOnRegisterClasses;
-    internal NotifyEvent<object> FOnUnRegisterClasses;
-    internal GameEngine FEngine;
+    internal NotifyEvent<object> _onRegisterClasses;
+    internal NotifyEvent<object> _onUnregisterClasses;
+    internal GameEngine _engine;
 
     // Engine.pas:8642
     public override void Loaded()
     {
         base.Loaded();
-        if (FOnRegisterClasses != null)
+        if (_onRegisterClasses != null)
         {
-            FOnRegisterClasses(this);
+            _onRegisterClasses(this);
         }
     }
 
-    protected internal NotifyEvent<object> OnRegisterClasses { get => FOnRegisterClasses; set => FOnRegisterClasses = value; }
-    protected internal NotifyEvent<object> OnUnRegisterClasses { get => FOnUnRegisterClasses; set => FOnUnRegisterClasses = value; }
+    protected internal NotifyEvent<object> OnRegisterClasses { get => _onRegisterClasses; set => _onRegisterClasses = value; }
+    protected internal NotifyEvent<object> OnUnregisterClasses { get => _onUnregisterClasses; set => _onUnregisterClasses = value; }
 
     // Engine.pas:8635
     public override void Dispose()
     {
-        if (FOnUnRegisterClasses != null)
+        if (_onUnregisterClasses != null)
         {
-            FOnUnRegisterClasses(this);
+            _onUnregisterClasses(this);
         }
 
-        FEngine?.Dispose();
+        _engine?.Dispose();
         base.Dispose();
     }
 
-    public GameEngine Engine { get => FEngine; set => FEngine = value; }
+    public GameEngine Engine { get => _engine; set => _engine = value; }
 
     public EngineComponent(Component owner) : base(owner)
     { }

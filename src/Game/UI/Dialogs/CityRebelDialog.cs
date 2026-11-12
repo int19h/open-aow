@@ -24,30 +24,30 @@ public partial class CityRebelDialog : DataModule
     public Button CloseBut;
     public Image RebelBG;
     public Label CityNameLabel;
-    public Label AOWLabel2;
-    public Label AOWLabel3;
-    public Frame AoWFrame1;
+    public Label Label2;
+    public Label Label3;
+    public Frame Frame1;
     public IvTranslator Translator;
-    public ExecuteDoneEvent FOnClose;
-    public CityRebellionEventLog FEvent;
+    public ExecuteDoneEvent OnClose;
+    public CityRebellionEventLog Event;
 
     // AoWCityRebelDlg.pas:49
     public void ClearEvent()
     {
-        CityRebellionEventLog Event;
-        ExecuteDoneEvent Notify;
-        Notify = FOnClose;
-        Event = FEvent;
-        FOnClose = null;
-        FEvent = null;
-        if (Notify != null)
+        CityRebellionEventLog eventValue;
+        ExecuteDoneEvent notify;
+        notify = OnClose;
+        eventValue = Event;
+        OnClose = null;
+        Event = null;
+        if (notify != null)
         {
-            Notify(Event);
+            notify(eventValue);
         }
 
-        if (Event != null)
+        if (eventValue != null)
         {
-            Event.Release();
+            eventValue.Release();
         }
     }
 
@@ -62,8 +62,8 @@ public partial class CityRebelDialog : DataModule
     public void CenterButClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var cityRebellionEventLog = FEvent;
-        AoWHSMap.Current.CenterViewTo(cityRebellionEventLog.FXhx, cityRebellionEventLog.FYhx, cityRebellionEventLog.FLhx);
+        var cityRebellionEventLog = Event;
+        AoWHSMap.Current.CenterViewTo(cityRebellionEventLog.HexX, cityRebellionEventLog.HexY, cityRebellionEventLog.HexLevel);
     }
 
     // AoWCityRebelDlg.pas:72
@@ -73,21 +73,21 @@ public partial class CityRebelDialog : DataModule
     }
 
     // AoWCityRebelDlg.pas:77
-    public void RebelWinKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void RebelWinKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27 || Key == 32)
+        if (key == 27 || key == 32)
         {
             RebelWin.Visible = false;
         }
     }
 
-    internal static void ShowRebellion(CityRebelDialog Dialog, CityRebellionEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowRebellion(CityRebelDialog dialog, CityRebellionEventLog eventValue, ExecuteDoneEvent done)
     {
-        Dialog.FOnClose = Done;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Dialog.CityNameLabel.Text = Dialog.FEvent.FCityName;
-        Dialog.RebelWin.Visible = true;
+        dialog.OnClose = done;
+        dialog.Event = eventValue;
+        dialog.Event.AddRef();
+        dialog.CityNameLabel.Text = dialog.Event.CityName;
+        dialog.RebelWin.Visible = true;
     }
 
 }

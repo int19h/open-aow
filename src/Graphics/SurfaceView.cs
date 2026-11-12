@@ -54,9 +54,9 @@ public readonly ref struct SurfaceView
 
     public byte Byte(int offset) => Memory.Slice(Start + offset, 1)[0];
 
-    public ushort Word(int offset) => BinaryPrimitives.ReadUInt16LittleEndian(Memory.Slice(Start + offset, 2));
+    public ushort UInt16(int offset) => BinaryPrimitives.ReadUInt16LittleEndian(Memory.Slice(Start + offset, 2));
 
-    public void Word(int offset, int value) => BinaryPrimitives.WriteUInt16LittleEndian(Memory.Slice(Start + offset, 2), unchecked((ushort)value));
+    public void UInt16(int offset, int value) => BinaryPrimitives.WriteUInt16LittleEndian(Memory.Slice(Start + offset, 2), unchecked((ushort)value));
 
     public uint Dword(int offset) => BinaryPrimitives.ReadUInt32LittleEndian(Memory.Slice(Start + offset, 4));
 

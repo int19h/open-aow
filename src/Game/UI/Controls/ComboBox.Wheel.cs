@@ -6,15 +6,15 @@ public partial class ComboBox
 {
     // A closed list leaves the wheel for the parent. An open list scrolls with its bar and moves F12C
     // in the same call, which is what Update copies from the bar on the next frame.
-    public override bool CheckMouseWheel(int Steps, Set<ShiftState> Shift, int X, int Y)
+    public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
     {
-        if (Steps == 0 || !FOpen || FVScrollBar == null || !ContainsPoint(X, Y)) return false;
-        FVScrollBar.ScrollSteps(Steps);
-        F12C = FVScrollBar.FPosition;
-        int count = FItems.Count;
-        if (F12C + F124 > count) F12C = count - F124;
-        if (F12C < 0) F12C = 0;
-        FDrawn = false;
+        if (steps == 0 || !Open || _verticalScrollBar == null || !ContainsPoint(X, Y)) return false;
+        _verticalScrollBar.ScrollSteps(steps);
+        FirstShownItem = _verticalScrollBar._position;
+        int count = _items.Count;
+        if (FirstShownItem + OpenListRows > count) FirstShownItem = count - OpenListRows;
+        if (FirstShownItem < 0) FirstShownItem = 0;
+        Drawn = false;
         return true;
     }
 }

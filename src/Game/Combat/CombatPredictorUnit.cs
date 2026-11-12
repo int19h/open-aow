@@ -8,76 +8,76 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // { Interface declaration run owned by P3. }
-// FUnit. FCPUID. FPredictor. FInitialHitPoints. FSide. FOpponents. FEnabled. FBehindWall.
-// FTargets. FCombatValue. FWallTargets. FWallCombatValue. cache flags. FRoundTargets.
-// FCombatValueTotal. FCombatRounds. FIncomingCombatValue. FIneffectiveAttackers.
-// FTargetPriority. FHitPoints. FStatus
+// Troop. CpuId. Predictor. InitialHitPoints. Side. Opponents. Enabled. BehindWall.
+// Targets. CombatValue. WallTargets. WallCombatValue. cache flags. RoundTargets.
+// CombatValueTotal. CombatRounds. IncomingCombatValue. IneffectiveAttackers.
+// TargetPriority. HitPoints. Status
 public partial class CombatPredictorUnit : IDisposable
 {
     // CombatPredictor.pas:1
     public CombatPredictorUnit()
     {
-        FRoundTargets = new QuadItemList<CombatPredictorUnit>();
+        RoundTargets = new QuadItemList<CombatPredictorUnit>();
     }
 
-    public Troop FUnit;
-    public int FCPUID;
-    public CombatPredictor FPredictor;
-    public int FInitialHitPoints;
-    public byte FSide;
-    public CombatPredictorSide FOpponents;
-    public byte FEnabled;
-    public byte FBehindWall;
-    public QuadItemList<CombatPredictorUnit> FTargets;
-    public int FCombatValue;
-    public QuadItemList<CombatPredictorUnit> FWallTargets;
-    public int FWallCombatValue;
-    public byte FTargetsInvalid;
-    public byte FWallTargetsInvalid;
-    public QuadItemList<CombatPredictorUnit> FRoundTargets;
-    public int FCombatValueTotal;
-    public int FCombatRounds;
-    public int FIncomingCombatValue;
-    public int FIneffectiveAttackers;
-    public int FTargetPriority;
-    public int FHitPoints;
-    public Set<CombatPredictorUnitStatusElement> FStatus;
+    public Troop Troop;
+    public int CpuId;
+    public CombatPredictor Predictor;
+    public int InitialHitPoints;
+    public byte Side;
+    public CombatPredictorSide Opponents;
+    public byte Enabled;
+    public byte BehindWall;
+    public QuadItemList<CombatPredictorUnit> Targets;
+    public int CombatValue;
+    public QuadItemList<CombatPredictorUnit> WallTargets;
+    public int WallCombatValue;
+    public byte TargetsInvalid;
+    public byte WallTargetsInvalid;
+    public QuadItemList<CombatPredictorUnit> RoundTargets;
+    public int CombatValueTotal;
+    public int CombatRounds;
+    public int IncomingCombatValue;
+    public int IneffectiveAttackers;
+    public int TargetPriority;
+    public int HitPoints;
+    public Set<CombatPredictorUnitStatusElement> Status;
 
     // CombatPredictor.pas:4
     public virtual void Dispose()
     {
-        object Obj;
+        object objectValue;
         Troop U;
-        FRoundTargets?.Dispose();
-        Obj = FTargets;
-        if (Obj != null)
+        RoundTargets?.Dispose();
+        objectValue = Targets;
+        if (objectValue != null)
         {
-            (Obj as IDisposable)?.Dispose();
-            FTargets = null;
+            (objectValue as IDisposable)?.Dispose();
+            Targets = null;
         }
 
-        Obj = FWallTargets;
-        if (Obj != null)
+        objectValue = WallTargets;
+        if (objectValue != null)
         {
-            (Obj as IDisposable)?.Dispose();
-            FWallTargets = null;
+            (objectValue as IDisposable)?.Dispose();
+            WallTargets = null;
         }
 
-        U = FUnit;
+        U = Troop;
         if (U != null)
         {
             U.Release();
-            FUnit = null;
+            Troop = null;
         }
     }
 
     // CombatPredictor.pas:36
-    public void SetEnabled(byte Value)
+    public void SetEnabled(byte value)
     {
-        if (Value != FEnabled)
+        if (value != Enabled)
         {
-            FEnabled = Value;
-            FPredictor.FInvalid = 1;
+            Enabled = value;
+            Predictor.Invalid = 1;
         }
     }
 
@@ -87,61 +87,61 @@ public partial class CombatPredictorUnit : IDisposable
         int J;
         int V;
         CombatPredictorUnit U;
-        if (FTargets == null)
+        if (Targets == null)
         {
-            FTargets = new QuadItemList<CombatPredictorUnit>();
+            Targets = new QuadItemList<CombatPredictorUnit>();
         }
 
-        for (int I = FTargets.Count - 1; I >= 0; I--)
+        for (int I = Targets.Count - 1; I >= 0; I--)
         {
-            J = FOpponents.IndexOfCPUID(FTargets.List[I].C);
+            J = Opponents.IndexOfCpuId(Targets.List[I].Third);
             if (J == -1)
             {
-                FTargets.Delete(I);
+                Targets.Delete(I);
                 // { Original reads the shifted entry after deletion. }
-                FCombatValue -= FTargets.List[I].B;
+                CombatValue -= Targets.List[I].Second;
             }
         }
 
-        if (FTargets.Count != 0)
+        if (Targets.Count != 0)
         {
-            for (int I = FOpponents.Count - 1; I >= 0; I--)
+            for (int I = Opponents.Count - 1; I >= 0; I--)
             {
-                U = FOpponents.GetUnits(I);
-                J = FTargets.IndexOfItemC(U.FCPUID);
+                U = Opponents.GetUnits(I);
+                J = Targets.IndexOfItemC(U.CpuId);
                 if (J == -1)
                 {
-                    FPredictor.FWork += 1;
-                    V = FUnit.GetCombatValue(U.FUnit, 0);
+                    Predictor.Work += 1;
+                    V = Troop.GetCombatValue(U.Troop, 0);
                     if (V < 0)
                     {
                         V = 0;
                     }
 
-                    FTargets.AddABCD(U, V, U.FCPUID, 0);
-                    FCombatValue += V;
+                    Targets.AddABCD(U, V, U.CpuId, 0);
+                    CombatValue += V;
                 }
             }
         }
         else
         {
-            FCombatValue = 0;
-            for (int I = FOpponents.Count - 1; I >= 0; I--)
+            CombatValue = 0;
+            for (int I = Opponents.Count - 1; I >= 0; I--)
             {
-                FPredictor.FWork += 1;
-                U = FOpponents.List[I];
-                V = FUnit.GetCombatValue(U.FUnit, 0);
+                Predictor.Work += 1;
+                U = Opponents.List[I];
+                V = Troop.GetCombatValue(U.Troop, 0);
                 if (V < 0)
                 {
                     V = 0;
                 }
 
-                FTargets.AddABCD(U, V, U.FCPUID, 0);
-                FCombatValue += V;
+                Targets.AddABCD(U, V, U.CpuId, 0);
+                CombatValue += V;
             }
         }
 
-        FTargetsInvalid = 0;
+        TargetsInvalid = 0;
     }
 
     // CombatPredictor.pas:89
@@ -150,198 +150,198 @@ public partial class CombatPredictorUnit : IDisposable
         int J;
         int V;
         CombatPredictorUnit U;
-        bool Passing;
-        byte Mode;
-        Passing = FUnit.GetWallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
-        if (FWallTargets == null)
+        bool passing;
+        byte mode;
+        passing = Troop.GetWallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
+        if (WallTargets == null)
         {
-            FWallTargets = new QuadItemList<CombatPredictorUnit>();
+            WallTargets = new QuadItemList<CombatPredictorUnit>();
         }
 
-        for (int I = FWallTargets.Count - 1; I >= 0; I--)
+        for (int I = WallTargets.Count - 1; I >= 0; I--)
         {
-            J = FOpponents.IndexOfCPUID(FWallTargets.List[I].C);
+            J = Opponents.IndexOfCpuId(WallTargets.List[I].Third);
             if (J == -1)
             {
-                FWallTargets.Delete(I);
+                WallTargets.Delete(I);
                 // { Original reads the shifted entry after deletion. }
-                FWallCombatValue -= FWallTargets.List[I].B;
+                WallCombatValue -= WallTargets.List[I].Second;
             }
         }
 
-        if (FWallTargets.Count != 0)
+        if (WallTargets.Count != 0)
         {
-            for (int I = FOpponents.Count - 1; I >= 0; I--)
+            for (int I = Opponents.Count - 1; I >= 0; I--)
             {
-                U = FOpponents.List[I];
-                J = FWallTargets.IndexOfItemC(U.FCPUID);
+                U = Opponents.List[I];
+                J = WallTargets.IndexOfItemC(U.CpuId);
                 if (J == -1)
                 {
-                    if (!Passing)
+                    if (!passing)
                     {
-                        if (FBehindWall != 0)
+                        if (BehindWall != 0)
                         {
-                            if (U.FBehindWall == 0)
+                            if (U.BehindWall == 0)
                             {
-                                Mode = 1;
+                                mode = 1;
                             }
                             else
                             {
-                                Mode = 0;
+                                mode = 0;
                             }
                         }
                         else
                         {
-                            if (U.FBehindWall != 0)
+                            if (U.BehindWall != 0)
                             {
-                                Mode = 2;
+                                mode = 2;
                             }
                             else
                             {
-                                Mode = 0;
+                                mode = 0;
                             }
                         }
                     }
                     else
                     {
-                        Mode = 0;
+                        mode = 0;
                     }
 
-                    FPredictor.FWork += 1;
-                    V = FUnit.GetCombatValue(U.FUnit, Mode);
+                    Predictor.Work += 1;
+                    V = Troop.GetCombatValue(U.Troop, mode);
                     if (V < 0)
                     {
                         V = 0;
                     }
 
-                    FWallTargets.AddABCD(U, V, 0, 0);
-                    FWallCombatValue += V;
+                    WallTargets.AddABCD(U, V, 0, 0);
+                    WallCombatValue += V;
                 }
             }
         }
         else
         {
-            FWallCombatValue = 0;
-            for (int I = FOpponents.Count - 1; I >= 0; I--)
+            WallCombatValue = 0;
+            for (int I = Opponents.Count - 1; I >= 0; I--)
             {
-                U = FOpponents.List[I];
-                if (!Passing)
+                U = Opponents.List[I];
+                if (!passing)
                 {
-                    if (FBehindWall != 0)
+                    if (BehindWall != 0)
                     {
-                        if (U.FBehindWall == 0)
+                        if (U.BehindWall == 0)
                         {
-                            Mode = 1;
+                            mode = 1;
                         }
                         else
                         {
-                            Mode = 0;
+                            mode = 0;
                         }
                     }
                     else
                     {
-                        if (U.FBehindWall != 0)
+                        if (U.BehindWall != 0)
                         {
-                            Mode = 2;
+                            mode = 2;
                         }
                         else
                         {
-                            Mode = 0;
+                            mode = 0;
                         }
                     }
                 }
                 else
                 {
-                    Mode = 0;
+                    mode = 0;
                 }
 
-                FPredictor.FWork += 1;
-                V = FUnit.GetCombatValue(U.FUnit, Mode);
+                Predictor.Work += 1;
+                V = Troop.GetCombatValue(U.Troop, mode);
                 if (V < 0)
                 {
                     V = 0;
                 }
 
                 // { Original initializes both C and D to zero in the wall cache. }
-                FWallTargets.AddABCD(U, V, 0, 0);
-                FWallCombatValue += V;
+                WallTargets.AddABCD(U, V, 0, 0);
+                WallCombatValue += V;
             }
         }
 
-        FWallTargetsInvalid = 0;
+        WallTargetsInvalid = 0;
     }
 
     // CombatPredictor.pas:145
     public void InvalidateTargets()
     {
-        FTargetsInvalid = 1;
-        FWallTargetsInvalid = 1;
+        TargetsInvalid = 1;
+        WallTargetsInvalid = 1;
     }
 
     // CombatPredictor.pas:148
     public void ResetCombat()
     {
-        FHitPoints = FInitialHitPoints;
-        FCombatRounds = 0;
-        FStatus = Set<CombatPredictorUnitStatusElement>.Of();
+        HitPoints = InitialHitPoints;
+        CombatRounds = 0;
+        Status = Set<CombatPredictorUnitStatusElement>.Of();
     }
 
     // CombatPredictor.pas:155
     public void ResetRoundTargets()
     {
-        FRoundTargets.Clear();
-        FCombatValueTotal = 0;
-        FIncomingCombatValue = 0;
-        FIneffectiveAttackers = 0;
+        RoundTargets.Clear();
+        CombatValueTotal = 0;
+        IncomingCombatValue = 0;
+        IneffectiveAttackers = 0;
     }
 
     // CombatPredictor.pas:163
-    public void SetupRoundTargets(byte WallStanding)
+    public void SetupRoundTargets(byte wallStanding)
     {
         int V;
         CombatPredictorUnit U;
-        if (FEnabled != 0)
+        if (Enabled != 0)
         {
-            if (WallStanding != 0)
+            if (wallStanding != 0)
             {
-                if (FWallTargetsInvalid != 0)
+                if (WallTargetsInvalid != 0)
                 {
                     UpdateWallTargets();
                 }
 
-                FRoundTargets.Assign(FWallTargets);
+                RoundTargets.Assign(WallTargets);
             }
             else
             {
-                if (FTargetsInvalid != 0)
+                if (TargetsInvalid != 0)
                 {
                     UpdateTargets();
                 }
 
-                FRoundTargets.Assign(FTargets);
+                RoundTargets.Assign(Targets);
             }
 
-            for (int I = FRoundTargets.Count - 1; I >= 0; I--)
+            for (int I = RoundTargets.Count - 1; I >= 0; I--)
             {
                 // { Read the round list directly. }
-                U = FRoundTargets.List[I].A;
-                if (U.FEnabled != 0)
+                U = RoundTargets.List[I].First;
+                if (U.Enabled != 0)
                 {
-                    V = FRoundTargets.List[I].B;
+                    V = RoundTargets.List[I].Second;
                     if (V > 0)
                     {
-                        U.FIncomingCombatValue += V;
-                        FCombatValueTotal += V;
+                        U.IncomingCombatValue += V;
+                        CombatValueTotal += V;
                     }
                     else
                     {
-                        U.FIneffectiveAttackers += 1;
-                        FRoundTargets.Delete(I);
+                        U.IneffectiveAttackers += 1;
+                        RoundTargets.Delete(I);
                     }
                 }
                 else
                 {
-                    FRoundTargets.Delete(I);
+                    RoundTargets.Delete(I);
                 }
             }
         }
@@ -350,17 +350,17 @@ public partial class CombatPredictorUnit : IDisposable
     // CombatPredictor.pas:201
     public void UpdateRoundTargetPriority()
     {
-        if (FEnabled != 0)
+        if (Enabled != 0)
         {
-            FTargetPriority = 0;
-            for (int I = FRoundTargets.Count - 1; I >= 0; I--)
+            TargetPriority = 0;
+            for (int I = RoundTargets.Count - 1; I >= 0; I--)
             {
-                FTargetPriority += FRoundTargets.List[I].A.FIneffectiveAttackers;
+                TargetPriority += RoundTargets.List[I].First.IneffectiveAttackers;
             }
         }
         else
         {
-            FTargetPriority = 0;
+            TargetPriority = 0;
         }
     }
 
@@ -368,25 +368,25 @@ public partial class CombatPredictorUnit : IDisposable
     public void SortRoundTargets()
     {
         int V = default;
-        int Priority = default;
+        int priority = default;
         CombatPredictorUnit U = default;
-        for (int I = FRoundTargets.Count - 1; I >= 0; I--)
+        for (int I = RoundTargets.Count - 1; I >= 0; I--)
         {
-            U = FRoundTargets.List[I].A;
-            V = FRoundTargets.List[I].B;
-            if (U.FCombatValueTotal != 0)
+            U = RoundTargets.List[I].First;
+            V = RoundTargets.List[I].Second;
+            if (U.CombatValueTotal != 0)
             {
-                Priority = V * 100 * 1000 / U.FIncomingCombatValue + U.FTargetPriority * 100 + V;
+                priority = V * 100 * 1000 / U.IncomingCombatValue + U.TargetPriority * 100 + V;
             }
             else
             {
-                Priority = 0;
+                priority = 0;
             }
 
-            FRoundTargets.List[I].D = Priority;
+            RoundTargets.List[I].Fourth = priority;
         }
 
-        FRoundTargets.Sort(QuadItem<CombatPredictorUnit>.P3CompareRoundTargets);
+        RoundTargets.Sort(QuadItem<CombatPredictorUnit>.CompareRoundTargets);
     }
 
     // CombatPredictor.pas:231
@@ -394,37 +394,37 @@ public partial class CombatPredictorUnit : IDisposable
     {
         int I;
         CombatPredictorUnit U;
-        I = FRoundTargets.Count;
-        bool Result = false;
+        I = RoundTargets.Count;
+        bool result = false;
         if (I != 0)
         {
-            FCombatRounds += 1;
+            CombatRounds += 1;
         }
 
-        while (I != 0 && !Result)
+        while (I != 0 && !result)
         {
             I -= 1;
-            U = FRoundTargets.List[I].A;
-            if (U.FHitPoints > 0)
+            U = RoundTargets.List[I].First;
+            if (U.HitPoints > 0)
             {
-                U.FHitPoints -= FRoundTargets.List[I].B;
-                Result = true;
+                U.HitPoints -= RoundTargets.List[I].Second;
+                result = true;
             }
             else
             {
-                FRoundTargets.Delete(I);
+                RoundTargets.Delete(I);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // CombatPredictor.pas:250
     public void FinishCombat()
     {
-        if (FHitPoints <= 0)
+        if (HitPoints <= 0)
         {
-            FStatus = FStatus + Set<CombatPredictorUnitStatusElement>.Of(CombatPredictorUnitStatusElement.Destroyed);
+            Status = Status + Set<CombatPredictorUnitStatusElement>.Of(CombatPredictorUnitStatusElement.Destroyed);
         }
     }
 

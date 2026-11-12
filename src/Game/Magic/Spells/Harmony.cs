@@ -15,26 +15,26 @@ public partial class Harmony : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:969
     public Harmony(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.HarmonyRStr);
-        FSpellID = 47;
-        FSpellType = SpellType.Global;
-        FBaseManaCost = 15;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Life;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_harmonyText);
+        SpellId = 47;
+        SpellType = SpellType.Global;
+        BaseManaCost = 15;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Life;
     }
 
     // GlobalEnchantmentSpells.pas:980
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        base.ExecuteTE(Event, Source, ExecuteCount);
-        Source.GetLocation(ref X, ref Y, ref L);
-        AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        source.GetLocation(ref X, ref Y, ref L);
+        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         AoWHSMap.Current.AddEffect(WorldEffectType.Tranquility);
-        FCastSounds.Play(0);
-        CastingDone(Source, Event.FEventMana);
+        CastSounds.Play(0);
+        CastingDone(source, eventValue.EventMana);
         return false;
     }
 

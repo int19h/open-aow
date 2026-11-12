@@ -20,58 +20,58 @@ public partial class HeroResourceList : EResourceList
     }
 
     // Hero.PAS:2363
-    public HeroResource GetHeroResource(int Index)
+    public HeroResource GetHeroResource(int index)
     {
-        HeroResource Result;
-        if (Index >= 0 && Index < FChildren.Count)
+        HeroResource result;
+        if (index >= 0 && index < _children.Count)
         {
-            Result = (HeroResource)FChildren.List[Index];
+            result = (HeroResource)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2369
-    public StringList CreateHeroResourceStrings(Set<HeroType> HeroTypes)
+    public StringList CreateHeroResourceStrings(Set<HeroType> heroTypes)
     {
-        HeroResource Resource;
-        StringList List;
-        List = new StringList();
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        HeroResource resource;
+        StringList list;
+        list = new StringList();
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            Resource = (HeroResource)FChildren.List[I];
-            if (Resource != null && (GameTables.AoWEngine.FUser.Contains(EngineUserElement.Designer) || !Resource.FHidden) && HeroTypes.Contains(Resource.FHeroType))
+            resource = (HeroResource)_children.List[I];
+            if (resource != null && (GameTables.GameEngine.User.Contains(EngineUserElement.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType))
             {
-                List.AddObject(Resource.FName, IntToObject(I));
+                list.AddObject(resource.Name, IntToObject(I));
             }
         }
 
-        return List;
+        return list;
     }
 
     // Hero.PAS:2382
-    public int Find(int Race, HeroType HeroType)
+    public int Find(int race, HeroType heroType)
     {
         int I;
-        HeroResource Resource;
+        HeroResource resource;
         I = 0;
-        int Result = -1;
-        while (I < FChildren.Count && Result == -1)
+        int result = -1;
+        while (I < _children.Count && result == -1)
         {
-            Resource = (HeroResource)FChildren.List[I];
-            if (Resource != null && Race == Resource.FRace && HeroType == Resource.FHeroType)
+            resource = (HeroResource)_children.List[I];
+            if (resource != null && race == resource.Race && heroType == resource.HeroType)
             {
-                Result = I;
+                result = I;
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P2_07.inc:353

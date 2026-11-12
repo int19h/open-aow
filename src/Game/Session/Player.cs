@@ -40,183 +40,183 @@ namespace Aow.Game.Session;
 // emerge day, highest hero level, settings/description
 public partial class Player : EngineObject
 {
-    public new const int ClassID = 131104;
+    public new const int ClassId = 131104;
 
     // Player.PAS:261
     public Player(ECustomNode owner) : base(owner)
     {
-        FIncomeChangedEventsStore = new();
-        FGemsChangedEventsStore = new();
-        FUpkeepChangedEventsStore = new();
-        FStructures = new PlayerStructureList(null);
-        FStructures.FPlayer = this;
-        FArmies = new ArmyList(null);
-        FAIControl = new AIPlayerControl(null);
-        FAIControl.FPlayer = this;
-        FAIBudget = new AIBudgetManager(null);
-        FAIBudget.FPlayer = this;
-        FAIGroups = new AIGroupList(null);
-        FMagicControl = new PlayerMagicControl(null);
-        FMagicControl.FPlayer = this;
-        FStatistics = new PlayerStatistics(null);
-        FArmies.FPlayer = this;
-        FArmies.Events += ArmiesChanged;
-        FHeroes = new HeroList(null);
-        FInitialGold = 250;
-        FBaseIncome = 0;
-        FPlayerIndex = -1;
-        FParticipating = false;
-        FEventLogbook = new EventLogbook(null);
-        FEventLogbook.SetOnChanged(LogbookChangedEvent);
-        FLogbookChangedEventsStore = new();
-        FDiplomaticRelations = new PlayerDiplomaticRelations(null);
-        FDiplomaticRelations.FPlayer = this;
-        FLegacyNewRelations = new DiplomaticRelationList();
-        FProductionControls = new ProductionControlList();
-        FIncomeSources = new IncomeSourceList(null);
-        FLeaderSetup = new Leader(null);
-        FStatus = Status.Idle;
-        FGameOverStatus = GameOverStatus.None;
-        FFirstDaySeen = new Int32List();
-        FFirstDaySeen.Default = -1;
-        FLastDaySeen = new Int32List();
-        FLastDaySeen.Default = -1;
-        FVictoryLocations = new PlayerStructureList(null);
-        FKnownStructures = new PlayerStructureList(null);
-        FMessages = new StringList();
-        FDiplomaticActions = new DiplomaticActionList(null);
-        FAIValidAttackPlayers = new BitList();
-        FPBEMSettings = new PbemPlayerSettings(null);
-        FLegacyRelations = new DiplomaticRelationList();
-        FHeroEmerging = false;
-        FBaseHeroJoinDay = -1;
-        FHeroJoinDay = -1;
-        FPlayerRace = -1;
-        FViewX = 255;
-        FViewY = 255;
+        _incomeChangedEventsStore = new();
+        _gemsChangedEventsStore = new();
+        _upkeepChangedEventsStore = new();
+        Structures = new PlayerStructureList(null);
+        Structures.Player = this;
+        Armies = new ArmyList(null);
+        AIControl = new AIPlayerControl(null);
+        AIControl.Player = this;
+        AIBudget = new AIBudgetManager(null);
+        AIBudget.Player = this;
+        AIGroups = new AIGroupList(null);
+        MagicControl = new PlayerMagicControl(null);
+        MagicControl.Player = this;
+        Statistics = new PlayerStatistics(null);
+        Armies.Player = this;
+        Armies.Events += ArmiesChanged;
+        Heroes = new HeroList(null);
+        InitialGold = 250;
+        BaseIncome = 0;
+        PlayerIndex = -1;
+        Participating = false;
+        EventLogbook = new EventLogbook(null);
+        EventLogbook.SetOnChanged(LogbookChangedEvent);
+        _logbookChangedEventsStore = new();
+        DiplomaticRelations = new PlayerDiplomaticRelations(null);
+        DiplomaticRelations.Player = this;
+        LegacyNewRelations = new DiplomaticRelationList();
+        ProductionControls = new ProductionControlList();
+        IncomeSources = new IncomeSourceList(null);
+        LeaderSetup = new Leader(null);
+        Status = PlayerStatus.Idle;
+        GameOverStatus = GameOverStatus.None;
+        FirstDaySeen = new Int32List();
+        FirstDaySeen.Default = -1;
+        LastDaySeen = new Int32List();
+        LastDaySeen.Default = -1;
+        VictoryLocations = new PlayerStructureList(null);
+        KnownStructures = new PlayerStructureList(null);
+        Messages = new StringList();
+        DiplomaticActions = new DiplomaticActionList(null);
+        AIValidAttackPlayers = new BitList();
+        PbemSettings = new PbemPlayerSettings(null);
+        LegacyRelations = new DiplomaticRelationList();
+        HeroEmerging = false;
+        BaseHeroJoinDay = -1;
+        HeroJoinDay = -1;
+        PlayerRace = -1;
+        ViewX = 255;
+        ViewY = 255;
     }
 
-    public int FUpdateCount;
+    public int UpdateCount;
 
-    internal EventStore<Player> FGemsChangedEventsStore;
+    internal EventStore<Player> _gemsChangedEventsStore;
 
     public event NotifyEvent<Player> FGemsChangedEvents
     {
-        add => FGemsChangedEventsStore.Add(value);
-        remove => FGemsChangedEventsStore.Remove(value);
+        add => _gemsChangedEventsStore.Add(value);
+        remove => _gemsChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Player> FIncomeChangedEventsStore;
+    internal EventStore<Player> _incomeChangedEventsStore;
 
     public event NotifyEvent<Player> FIncomeChangedEvents
     {
-        add => FIncomeChangedEventsStore.Add(value);
-        remove => FIncomeChangedEventsStore.Remove(value);
+        add => _incomeChangedEventsStore.Add(value);
+        remove => _incomeChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Player> FUpkeepChangedEventsStore;
+    internal EventStore<Player> _upkeepChangedEventsStore;
 
     public event NotifyEvent<Player> FUpkeepChangedEvents
     {
-        add => FUpkeepChangedEventsStore.Add(value);
-        remove => FUpkeepChangedEventsStore.Remove(value);
+        add => _upkeepChangedEventsStore.Add(value);
+        remove => _upkeepChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Player> FLogbookChangedEventsStore;
+    internal EventStore<Player> _logbookChangedEventsStore;
 
     public event NotifyEvent<Player> FLogbookChangedEvents
     {
-        add => FLogbookChangedEventsStore.Add(value);
-        remove => FLogbookChangedEventsStore.Remove(value);
+        add => _logbookChangedEventsStore.Add(value);
+        remove => _logbookChangedEventsStore.Remove(value);
     }
 
-    public PlayerStructureList FStructures;
-    public PlayerStructureList FVictoryLocations;
-    public ProductionControlList FProductionControls;
-    public ArmyList FArmies;
-    public bool FSingleProcessCycle;
-    public byte FViewX;
-    public byte FViewY;
-    public byte FViewL;
-    public string FPassword = "";
-    public StringList FMessages;
-    public DiplomaticRelationList FLegacyRelations;
-    public DiplomaticRelationList FLegacyNewRelations;
-    public PlayerDiplomaticRelations FDiplomaticRelations;
-    public GameOverStatus FGameOverStatus;
-    public Status FStatus;
-    public int FBusyCount;
-    public string FName = "";
-    public sbyte FMoraleValue;
-    public PlayerMagicControl FMagicControl;
-    public Leader FLeaderSetup;
-    public int FDay;
-    public PlayerStatistics FStatistics;
-    public IncomeSourceList FIncomeSources;
-    public PlayerStructureList FKnownStructures;
-    public int FBaseHeroJoinLevel;
-    public int FLastHeroJoinDay;
-    public int FEmergingHeroID;
-    public int FLastHeroEmergeDay;
-    public int FHighestHeroLevel;
-    public HeroList FHeroes;
-    public AIGroupList FAIGroups;
-    public AIPlayerControl FAIControl;
-    public AIBudgetManager FAIBudget;
-    public DiplomaticActionList FDiplomaticActions;
-    public BitList FAIValidAttackPlayers;
-    public Int32List FFirstDaySeen;
-    public Int32List FLastDaySeen;
-    public PbemPlayerSettings FPBEMSettings;
-    public bool FHeroEmerging;
-    public sbyte FPlayerRace;
-    public sbyte FPlayerIndex;
-    public PlayerType FPlayerType;
-    public Behavior FBehavior;
-    public bool FParticipating;
-    public int FInitialGold;
-    public int FBaseIncome;
-    public int FBaseHeroJoinDay;
-    public int FHeroJoinDay;
-    public string FSettings = "";
-    public string FDescription = "";
-    public int FGems;
-    public int FArmyUpkeep;
-    public int FMagicUpkeep;
-    public int FIncome;
-    public Leader FLeader;
-    public EventLogbook FEventLogbook;
+    public PlayerStructureList Structures;
+    public PlayerStructureList VictoryLocations;
+    public ProductionControlList ProductionControls;
+    public ArmyList Armies;
+    public bool SingleProcessCycle;
+    public byte ViewX;
+    public byte ViewY;
+    public byte ViewL;
+    public string Password = "";
+    public StringList Messages;
+    public DiplomaticRelationList LegacyRelations;
+    public DiplomaticRelationList LegacyNewRelations;
+    public PlayerDiplomaticRelations DiplomaticRelations;
+    public GameOverStatus GameOverStatus;
+    public PlayerStatus Status;
+    public int BusyCount;
+    public string Name = "";
+    public sbyte MoraleValue;
+    public PlayerMagicControl MagicControl;
+    public Leader LeaderSetup;
+    public int Day;
+    public PlayerStatistics Statistics;
+    public IncomeSourceList IncomeSources;
+    public PlayerStructureList KnownStructures;
+    public int BaseHeroJoinLevel;
+    public int LastHeroJoinDay;
+    public int EmergingHeroId;
+    public int LastHeroEmergeDay;
+    public int HighestHeroLevel;
+    public HeroList Heroes;
+    public AIGroupList AIGroups;
+    public AIPlayerControl AIControl;
+    public AIBudgetManager AIBudget;
+    public DiplomaticActionList DiplomaticActions;
+    public BitList AIValidAttackPlayers;
+    public Int32List FirstDaySeen;
+    public Int32List LastDaySeen;
+    public PbemPlayerSettings PbemSettings;
+    public bool HeroEmerging;
+    public sbyte PlayerRace;
+    public sbyte PlayerIndex;
+    public PlayerType PlayerType;
+    public PlayerBehavior Behavior;
+    public bool Participating;
+    public int InitialGold;
+    public int BaseIncome;
+    public int BaseHeroJoinDay;
+    public int HeroJoinDay;
+    public string Settings = "";
+    public string Description = "";
+    public int Gems;
+    public int ArmyUpkeep;
+    public int MagicUpkeep;
+    public int Income;
+    public Leader Leader;
+    public EventLogbook EventLogbook;
 
     // Player.PAS:315
     public override void Dispose()
     {
-        PlayerStructureList Structures;
-        ArmyList Armies;
+        PlayerStructureList structures;
+        ArmyList armies;
         try
         {
-            FIncomeChangedEventsStore.Clear();
-            FGemsChangedEventsStore.Clear();
-            FUpkeepChangedEventsStore.Clear();
+            _incomeChangedEventsStore.Clear();
+            _gemsChangedEventsStore.Clear();
+            _upkeepChangedEventsStore.Clear();
             try
             {
                 if (AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
                 {
-                    Assert(FVictoryLocations.Count == 0, "Victory Locations not correctly cleared (TPlayer)", "Player.PAS", 326);
-                    Assert(FStructures.Count == 0, "Registered Player Structures not correctly cleared (TPlayer)", "Player.PAS", 327);
-                    Assert(FArmies.Count == 0, "Registered Player Armies not correctly cleared (TPlayer)", "Player.PAS", 328);
+                    Assert(VictoryLocations.Count == 0, "Victory Locations not correctly cleared (TPlayer)", "Player.PAS", 326);
+                    Assert(Structures.Count == 0, "Registered Player Structures not correctly cleared (TPlayer)", "Player.PAS", 327);
+                    Assert(Armies.Count == 0, "Registered Player Armies not correctly cleared (TPlayer)", "Player.PAS", 328);
                 }
                 else
                 {
-                    Structures = FStructures;
-                    for (int I = Structures.Count - 1; I >= 0; I--)
+                    structures = Structures;
+                    for (int I = structures.Count - 1; I >= 0; I--)
                     {
-                        FStructures.GetStructure(I).SetPlayer(0);
+                        Structures.GetStructure(I).SetPlayer(0);
                     }
 
-                    Armies = FArmies;
-                    for (int I = Armies.Count - 1; I >= 0; I--)
+                    armies = Armies;
+                    for (int I = armies.Count - 1; I >= 0; I--)
                     {
-                        FArmies.GetArmy(I).SetPlayer(0);
+                        Armies.GetArmy(I).SetPlayer(0);
                     }
                 }
             }
@@ -224,18 +224,18 @@ public partial class Player : EngineObject
             {
             }
 
-            FMessages?.Dispose();
-            FMessages = null;
-            FDiplomaticActions?.Dispose();
-            FDiplomaticActions = null;
-            FAIValidAttackPlayers?.Dispose();
-            FAIValidAttackPlayers = null;
-            FLegacyRelations?.Dispose();
+            Messages?.Dispose();
+            Messages = null;
+            DiplomaticActions?.Dispose();
+            DiplomaticActions = null;
+            AIValidAttackPlayers?.Dispose();
+            AIValidAttackPlayers = null;
+            LegacyRelations?.Dispose();
             try
             {
-                FLogbookChangedEventsStore.Clear();
-                FEventLogbook?.Dispose();
-                FLogbookChangedEventsStore.Clear();
+                _logbookChangedEventsStore.Clear();
+                EventLogbook?.Dispose();
+                _logbookChangedEventsStore.Clear();
             }
             catch
             {
@@ -243,8 +243,8 @@ public partial class Player : EngineObject
 
             try
             {
-                FLegacyNewRelations?.Dispose();
-                FDiplomaticRelations?.Dispose();
+                LegacyNewRelations?.Dispose();
+                DiplomaticRelations?.Dispose();
             }
             catch
             {
@@ -252,7 +252,7 @@ public partial class Player : EngineObject
 
             try
             {
-                FProductionControls?.Dispose();
+                ProductionControls?.Dispose();
             }
             catch
             {
@@ -260,7 +260,7 @@ public partial class Player : EngineObject
 
             try
             {
-                FAIControl?.Dispose();
+                AIControl?.Dispose();
             }
             catch
             {
@@ -268,7 +268,7 @@ public partial class Player : EngineObject
 
             try
             {
-                FStatistics?.Dispose();
+                Statistics?.Dispose();
             }
             catch
             {
@@ -276,7 +276,7 @@ public partial class Player : EngineObject
 
             try
             {
-                FMagicControl?.Dispose();
+                MagicControl?.Dispose();
             }
             catch
             {
@@ -284,7 +284,7 @@ public partial class Player : EngineObject
 
             try
             {
-                FLeaderSetup?.Dispose();
+                LeaderSetup?.Dispose();
             }
             catch
             {
@@ -292,8 +292,8 @@ public partial class Player : EngineObject
 
             try
             {
-                FFirstDaySeen?.Dispose();
-                FLastDaySeen?.Dispose();
+                FirstDaySeen?.Dispose();
+                LastDaySeen?.Dispose();
             }
             catch
             {
@@ -301,7 +301,7 @@ public partial class Player : EngineObject
 
             try
             {
-                FHeroes?.Dispose();
+                Heroes?.Dispose();
             }
             catch
             {
@@ -309,13 +309,13 @@ public partial class Player : EngineObject
 
             try
             {
-                FArmies?.Dispose();
-                FAIGroups?.Dispose();
-                FAIBudget?.Dispose();
-                FStructures?.Dispose();
-                FVictoryLocations?.Dispose();
-                FIncomeSources?.Dispose();
-                FKnownStructures?.Dispose();
+                Armies?.Dispose();
+                AIGroups?.Dispose();
+                AIBudget?.Dispose();
+                Structures?.Dispose();
+                VictoryLocations?.Dispose();
+                IncomeSources?.Dispose();
+                KnownStructures?.Dispose();
             }
             catch
             {
@@ -329,11 +329,11 @@ public partial class Player : EngineObject
             {
             }
 
-            FPBEMSettings?.Dispose();
-            FPBEMSettings = null;
-            FIncomeChangedEventsStore.Clear();
-            FGemsChangedEventsStore.Clear();
-            FUpkeepChangedEventsStore.Clear();
+            PbemSettings?.Dispose();
+            PbemSettings = null;
+            _incomeChangedEventsStore.Clear();
+            _gemsChangedEventsStore.Clear();
+            _upkeepChangedEventsStore.Clear();
         }
         catch
         {
@@ -341,156 +341,156 @@ public partial class Player : EngineObject
     }
 
     // Player.PAS:1023
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
         int X = default;
         int Y = default;
         int L = default;
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayerRace), 2);
-        Stream.rwData(Bytes.Of(ref FPlayerType, 1), 1, 3);
-        Stream.rwBool(ref FParticipating, 4);
-        Stream.rwInteger(ref FInitialGold, 5);
-        Stream.rwInteger(ref FBaseIncome, 6);
-        Stream.rwData(Bytes.Of(ref FStatus, 1), 1, 10);
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref PlayerRace), 2);
+        stream.rwData(Bytes.Of(ref PlayerType, 1), 1, 3);
+        stream.rwBool(ref Participating, 4);
+        stream.rwInteger(ref InitialGold, 5);
+        stream.rwInteger(ref BaseIncome, 6);
+        stream.rwData(Bytes.Of(ref Status, 1), 1, 10);
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            Stream.rwString(ref FSettings, 11);
+            stream.rwString(ref Settings, 11);
         }
 
-        Stream.rwString(ref FDescription, 12);
-        Stream.rwInteger(ref FGems, 16);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayerIndex), 18);
-        if ((GameTables.AoWEngine.Status & Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHSM, HexSpriteEngineStatusElement.SavingHSM)) != Set<HexSpriteEngineStatusElement>.Of() || Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+        stream.rwString(ref Description, 12);
+        stream.rwInteger(ref Gems, 16);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref PlayerIndex), 18);
+        if ((GameTables.GameEngine.Status & Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm, HexSpriteEngineStatusElement.SavingHsm)) != Set<HexSpriteEngineStatusElement>.Of() || stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            if (!Stream.StorageMode().Contains(StorageModeElement.Write))
+            if (!stream.StorageMode().Contains(StorageModeElement.Write))
             {
-                Stream.rwCreateEObject(ref FLeader, null, 19);
-                if (FLeader != null && !Stream.StorageMode().Contains(StorageModeElement.Preview))
+                stream.rwCreateEObject(ref Leader, null, 19);
+                if (Leader != null && !stream.StorageMode().Contains(StorageModeElement.Preview))
                 {
-                    FLeader.FPlayer = FPlayerIndex;
-                    AoWHSMap.Current.FHeroControl.RegisterHero(FLeader);
+                    Leader.Player = PlayerIndex;
+                    AoWHSMap.Current.HeroControl.RegisterHero(Leader);
                 }
             }
         }
 
-        if (Stream.StorageMode().Contains(StorageModeElement.Write))
+        if (stream.StorageMode().Contains(StorageModeElement.Write))
         {
-            if (AoWHSMap.Current.FSeatedPlayer == FPlayerIndex && AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
+            if (AoWHSMap.Current.SeatedPlayer == PlayerIndex && AoWHSMap.Current.ConnectionType != PlayerConnectionType.Network)
             {
                 AoWHSMap.Current.GetViewCenter(ref X, ref Y, ref L);
-                FViewX = (byte)X;
-                FViewY = (byte)Y;
-                FViewL = (byte)L;
-                Stream.rwByte(ref FViewX, 20);
-                Stream.rwByte(ref FViewY, 21);
-                Stream.rwByte(ref FViewL, 22);
+                ViewX = (byte)X;
+                ViewY = (byte)Y;
+                ViewL = (byte)L;
+                stream.rwByte(ref ViewX, 20);
+                stream.rwByte(ref ViewY, 21);
+                stream.rwByte(ref ViewL, 22);
             }
         }
         else
         {
-            Stream.rwByte(ref FViewX, 20);
-            Stream.rwByte(ref FViewY, 21);
-            Stream.rwByte(ref FViewL, 22);
+            stream.rwByte(ref ViewX, 20);
+            stream.rwByte(ref ViewY, 21);
+            stream.rwByte(ref ViewL, 22);
         }
 
-        if (!Stream.StorageMode().Contains(StorageModeElement.Preview))
+        if (!stream.StorageMode().Contains(StorageModeElement.Preview))
         {
-            Stream.rwEObject(FEventLogbook, 23);
+            stream.rwEObject(EventLogbook, 23);
         }
 
-        Stream.rwString(ref FPassword, 24);
-        Stream.rwData(Bytes.Of(ref FGameOverStatus, 1), 1, 25);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read))
+        stream.rwString(ref Password, 24);
+        stream.rwData(Bytes.Of(ref GameOverStatus, 1), 1, 25);
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
-            Stream.rwStreamProc(26, FLegacyNewRelations.LoadFromStream, FLegacyNewRelations.SaveToStream);
+            stream.rwStreamProc(26, LegacyNewRelations.LoadFromStream, LegacyNewRelations.SaveToStream);
         }
 
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FMoraleValue), 27);
-        Stream.rwEObject(FAIControl, 28);
-        Stream.rwData(Bytes.Of(ref FBehavior, 1), 1, 29);
-        if (FPlayerIndex != 0)
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MoraleValue), 27);
+        stream.rwEObject(AIControl, 28);
+        stream.rwData(Bytes.Of(ref Behavior, 1), 1, 29);
+        if (PlayerIndex != 0)
         {
-            if (Stream.StorageMode().Contains(StorageModeElement.Write) && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && FLeader != null)
+            if (stream.StorageMode().Contains(StorageModeElement.Write) && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Leader != null)
             {
-                Stream.rwEObject(FLeader, 30);
+                stream.rwEObject(Leader, 30);
             }
             else
             {
-                Stream.rwEObject(FLeaderSetup, 30);
+                stream.rwEObject(LeaderSetup, 30);
             }
         }
 
-        Stream.rwEObject(FMagicControl, 31);
-        Stream.rwStreamProc(32, FFirstDaySeen.LoadFromStream, FFirstDaySeen.SaveToStream);
-        Stream.rwStreamProc(33, FLastDaySeen.LoadFromStream, FLastDaySeen.SaveToStream);
-        Stream.rwInteger(ref FDay, 34);
-        Stream.rwEObject(FStatistics, 35);
-        Stream.rwInteger(ref FBaseHeroJoinLevel, 36);
-        Stream.rwInteger(ref FLastHeroJoinDay, 37);
-        Stream.rwInteger(ref FLastHeroEmergeDay, 38);
-        Stream.rwInteger(ref FHighestHeroLevel, 39);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read))
+        stream.rwEObject(MagicControl, 31);
+        stream.rwStreamProc(32, FirstDaySeen.LoadFromStream, FirstDaySeen.SaveToStream);
+        stream.rwStreamProc(33, LastDaySeen.LoadFromStream, LastDaySeen.SaveToStream);
+        stream.rwInteger(ref Day, 34);
+        stream.rwEObject(Statistics, 35);
+        stream.rwInteger(ref BaseHeroJoinLevel, 36);
+        stream.rwInteger(ref LastHeroJoinDay, 37);
+        stream.rwInteger(ref LastHeroEmergeDay, 38);
+        stream.rwInteger(ref HighestHeroLevel, 39);
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
-            SetRace(FPlayerRace);
-            FEventLogbook.FPlayer = FPlayerIndex;
-            FLegacyNewRelations.Default = (int)DiplomaticRelation.Unknown;
+            SetRace(PlayerRace);
+            EventLogbook.Player = PlayerIndex;
+            LegacyNewRelations.Default = (int)DiplomaticRelation.Unknown;
         }
 
-        Stream.rwStrings(FMessages, 40);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read))
+        stream.rwStrings(Messages, 40);
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
-            Stream.rwStreamProc(41, FLegacyRelations.LoadFromStream, FLegacyRelations.SaveToStream);
+            stream.rwStreamProc(41, LegacyRelations.LoadFromStream, LegacyRelations.SaveToStream);
         }
 
-        Stream.rwInteger(ref FEmergingHeroID, 50);
-        Stream.rwEObject(FAIBudget, 51);
-        Stream.rwEObject(FDiplomaticActions, 52);
-        Stream.rwStreamProc(53, FAIValidAttackPlayers.LoadFromStream, FAIValidAttackPlayers.SaveToStream);
-        Stream.rwEObject(FPBEMSettings, 54);
-        Stream.rwBool(ref FHeroEmerging, 56);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read) || AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
+        stream.rwInteger(ref EmergingHeroId, 50);
+        stream.rwEObject(AIBudget, 51);
+        stream.rwEObject(DiplomaticActions, 52);
+        stream.rwStreamProc(53, AIValidAttackPlayers.LoadFromStream, AIValidAttackPlayers.SaveToStream);
+        stream.rwEObject(PbemSettings, 54);
+        stream.rwBool(ref HeroEmerging, 56);
+        if (stream.StorageMode().Contains(StorageModeElement.Read) || AoWHSMap.Current.ConnectionType != PlayerConnectionType.Network)
         {
-            Stream.rwInteger(ref FBaseHeroJoinDay, 57);
+            stream.rwInteger(ref BaseHeroJoinDay, 57);
         }
 
-        Stream.rwEObject(FDiplomaticRelations, 58);
-        if (FPlayerIndex == 0)
+        stream.rwEObject(DiplomaticRelations, 58);
+        if (PlayerIndex == 0)
         {
-            FPlayerType = PlayerType.Independent;
+            PlayerType = PlayerType.Independent;
         }
     }
 
     // Player.PAS:974
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        FDiplomaticRelations.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 536870920 && AoWHSMap.Current.FDay == 0)
+        base.MessageProc(ref message, sender);
+        DiplomaticRelations.MessageProc(ref message, sender);
+        if (message.MessageId == 536870920 && AoWHSMap.Current.Day == 0)
         {
-            FFirstDaySeen.Clear();
-            FLastDaySeen.Clear();
+            FirstDaySeen.Clear();
+            LastDaySeen.Clear();
         }
 
-        if (Msg.MsgID == 537001989)
+        if (message.MessageId == 537001989)
         {
             ValidateLeader();
         }
 
-        if (Msg.MsgID == 537001985)
+        if (message.MessageId == 537001985)
         {
             try
             {
                 UpdateLogbook();
-                if (AoWHSMap.Current.FDay == 1)
+                if (AoWHSMap.Current.Day == 1)
                 {
-                    FViewX = 255;
-                    if (AoWHSMap.Current.FGameType != GameType.Campaign && !AoWHSMap.Current.FFixedLeaders && FLeader != null)
+                    ViewX = 255;
+                    if (AoWHSMap.Current.GameType != GameType.Campaign && !AoWHSMap.Current.FixedLeaders && Leader != null)
                     {
-                        FLeader.Owner = null;
-                        FMagicControl.UnregisterPowerSource(FLeader.FPowerSource);
+                        Leader.Owner = null;
+                        MagicControl.UnregisterPowerSource(Leader.PowerSource);
                         // { Original removes the player, not the leader. }
-                        FHeroes.RemoveChild(this);
+                        Heroes.RemoveChild(this);
                     }
 
                     UpdateAlliedPlayersSeen();
@@ -502,167 +502,167 @@ public partial class Player : EngineObject
             }
         }
 
-        if (Msg.MsgID == 537002243)
+        if (message.MessageId == 537002243)
         {
-            if (!Validate(Msg.Payload.As<StringCollection>()))
+            if (!Validate(message.Payload.As<StringCollection>()))
             {
-                Msg.Data[0] = 1;
+                message.Data[0] = 1;
             }
         }
 
-        if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayerIndex)
+        if (message.MessageId == 537001986 && message.Payload.Int == PlayerIndex)
         {
             UpdateAlliedPlayersSeen();
         }
 
-        if (Msg.MsgID == 537001987 && Msg.Payload.Int == FPlayerIndex)
+        if (message.MessageId == 537001987 && message.Payload.Int == PlayerIndex)
         {
             UpdateTurnInfo();
-            if (FPlayerIndex != 0)
+            if (PlayerIndex != 0)
             {
                 UpdateHeroJoin();
             }
         }
 
-        if (Msg.MsgID == 536870920 && AoWHSMap.Current.FDay == 0)
+        if (message.MessageId == 536870920 && AoWHSMap.Current.Day == 0)
         {
-            FViewX = 255;
-            FViewY = 255;
-            FViewL = 255;
+            ViewX = 255;
+            ViewY = 255;
+            ViewL = 255;
         }
 
-        FMagicControl.MsgProc(ref Msg, Sender);
-        FAIControl.MsgProc(ref Msg, Sender);
-        FAIBudget.MsgProc(ref Msg, Sender);
-        FEventLogbook.MsgProc(ref Msg, Sender);
+        MagicControl.MessageProc(ref message, sender);
+        AIControl.MessageProc(ref message, sender);
+        AIBudget.MessageProc(ref message, sender);
+        EventLogbook.MessageProc(ref message, sender);
     }
 
     // Player.PAS:394
     public bool GetBusy()
     {
-        bool Result = FBusyCount != 0 || !AoWHSMap.Current.FTokenManager.PlayerReady(FPlayerIndex);
-        Result = Result || (AoWHSMap.Current.FCombat == null && AoWHSMap.Current.FPlayMode == PlayMode.Turn && AoWHSMap.Current.FCurrentPlayer != FPlayerIndex);
-        Result = Result || AoWHSMap.Current.FCombat != null && AoWHSMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)AoWHSMap.Current.FCombat.FCombatData.FCurrentPlayer).FPlayer != FPlayerIndex;
-        Result = Result || FGameOverStatus != GameOverStatus.None || !GetLocal();
-        return Result || FPlayerType == PlayerType.Human && AoWHSMap.Current.GetTurnTimerEnabled() && AoWHSMap.Current.GetTurnTimeLeft() <= 0;
+        bool result = BusyCount != 0 || !AoWHSMap.Current.TokenManager.PlayerReady(PlayerIndex);
+        result = result || (AoWHSMap.Current.Combat == null && AoWHSMap.Current.PlayMode == PlayMode.Turn && AoWHSMap.Current.CurrentPlayer != PlayerIndex);
+        result = result || AoWHSMap.Current.Combat != null && AoWHSMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)AoWHSMap.Current.Combat.CombatData.CurrentPlayer).Player != PlayerIndex;
+        result = result || GameOverStatus != GameOverStatus.None || !GetLocal();
+        return result || PlayerType == PlayerType.Human && AoWHSMap.Current.GetTurnTimerEnabled() && AoWHSMap.Current.GetTurnTimeLeft() <= 0;
     }
 
     // Player.PAS:406
     public int GetSuperiority()
     {
-        int Result;
-        if (FStatistics.FTurnInfo.Count != 0)
+        int result;
+        if (Statistics.TurnInfo.Count != 0)
         {
-            var count = FStatistics.FTurnInfo.Count;
-            Result = FStatistics.FTurnInfo.GetTurnInfo(count - 1).GetSuperiority();
+            var count = Statistics.TurnInfo.Count;
+            result = Statistics.TurnInfo.GetTurnInfo(count - 1).GetSuperiority();
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:412
     public int GetUnitCount()
     {
-        int Result = 0;
-        for (int I = FArmies.Count - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = Armies.Count - 1; I >= 0; I--)
         {
-            Result += FArmies.GetArmy(I).Count;
+            result += Armies.GetArmy(I).Count;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:420
-    public void SetPlayerIndex(sbyte Value)
+    public void SetPlayerIndex(sbyte value)
     {
-        FPlayerIndex = Value;
-        FEventLogbook.FPlayer = Value;
+        PlayerIndex = value;
+        EventLogbook.Player = value;
     }
 
     // Player.PAS:425
-    public void SetGameOverStatus(GameOverStatus Value)
+    public void SetGameOverStatus(GameOverStatus value)
     {
-        GameOverEventLog Event;
-        PlayerStructureList Structures;
-        ArmyList Armies;
-        Campaign Campaign;
-        if (Value != FGameOverStatus && FGameOverStatus == GameOverStatus.None)
+        GameOverEventLog eventValue;
+        PlayerStructureList structures;
+        ArmyList armies;
+        Campaign campaign;
+        if (value != GameOverStatus && GameOverStatus == GameOverStatus.None)
         {
-            FGameOverStatus = Value;
-            AoWHSMap.Current.FAIExecuter.DeactivatePlayer(FPlayerIndex);
-            if (AoWHSMap.Current.FGameType == GameType.Campaign && FPlayerType == PlayerType.Human)
+            GameOverStatus = value;
+            AoWHSMap.Current.AIExecutor.DeactivatePlayer(PlayerIndex);
+            if (AoWHSMap.Current.GameType == GameType.Campaign && PlayerType == PlayerType.Human)
             {
-                if (FGameOverStatus == GameOverStatus.Lost)
+                if (GameOverStatus == GameOverStatus.Lost)
                 {
-                    AoWHSMap.Current.FGameResult = AoWHSMap.GameResult.Failed;
-                    Campaign = GameTables.AoWEngine.FCampaign;
-                    if (Campaign != null)
+                    AoWHSMap.Current.GameResult = AoWHSMapGameResult.Failed;
+                    campaign = GameTables.GameEngine.Campaign;
+                    if (campaign != null)
                     {
-                        Campaign.RestartScenario();
+                        campaign.RestartScenario();
                     }
                 }
                 else
                 {
-                    if (FGameOverStatus == GameOverStatus.Won)
+                    if (GameOverStatus == GameOverStatus.Won)
                     {
-                        AoWHSMap.Current.FGameResult = AoWHSMap.GameResult.Succeeded;
-                        Campaign = GameTables.AoWEngine.FCampaign;
-                        if (Campaign != null)
+                        AoWHSMap.Current.GameResult = AoWHSMapGameResult.Succeeded;
+                        campaign = GameTables.GameEngine.Campaign;
+                        if (campaign != null)
                         {
-                            Campaign.FinishScenario();
+                            campaign.FinishScenario();
                         }
                     }
                 }
             }
 
-            if (FGameOverStatus == GameOverStatus.Lost)
+            if (GameOverStatus == GameOverStatus.Lost)
             {
                 BeginUpdate();
-                FMagicControl.RemoveEnchantments();
-                Structures = FStructures;
-                for (int I = Structures.Count - 1; I >= 0; I--)
+                MagicControl.RemoveEnchantments();
+                structures = Structures;
+                for (int I = structures.Count - 1; I >= 0; I--)
                 {
-                    FStructures.GetStructure(I).SetPlayer(0);
+                    Structures.GetStructure(I).SetPlayer(0);
                 }
 
-                Armies = FArmies;
-                for (int I = Armies.Count - 1; I >= 0; I--)
+                armies = Armies;
+                for (int I = armies.Count - 1; I >= 0; I--)
                 {
-                    FArmies.GetArmy(I).SetPlayer(0);
+                    Armies.GetArmy(I).SetPlayer(0);
                 }
 
-                FMagicControl.SetMana(0);
-                FGems = 0;
+                MagicControl.SetMana(0);
+                Gems = 0;
                 EndUpdate();
-                AoWHSMap.Current.FPlayers.Update();
+                AoWHSMap.Current.Players.Update();
             }
 
-            Event = new GameOverEventLog(null);
-            Event.FPlayer = FPlayerIndex;
-            if (Value == GameOverStatus.Lost)
+            eventValue = new GameOverEventLog(null);
+            eventValue._player = PlayerIndex;
+            if (value == GameOverStatus.Lost)
             {
-                var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[FPlayerRace]);
+                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[PlayerRace]);
                 var name = GetName();
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameOverDefeatMessageRStr), [IntToStr(AoWHSMap.Current.FDay), raceNamesPlural, name]);
-                Event.FMessage.Text = format;
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_gameOverDefeatMessageFormat), [IntToStr(AoWHSMap.Current.Day), raceNamesPlural, name]);
+                eventValue.Message.Text = format;
             }
             else
             {
-                var raceNamesPluralText = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[FPlayerRace]);
+                var raceNamesPluralText = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[PlayerRace]);
                 var name = GetName();
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameOverVictoryMessageRStr), [IntToStr(AoWHSMap.Current.FDay), raceNamesPluralText, name]);
-                Event.FMessage.Text = format;
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_gameOverVictoryMessageFormat), [IntToStr(AoWHSMap.Current.Day), raceNamesPluralText, name]);
+                eventValue.Message.Text = format;
             }
 
-            AoWHSMap.Current.ExecuteGameOverEvent(Event);
-            Event.Release();
-            if (FGameOverStatus == GameOverStatus.Lost)
+            AoWHSMap.Current.ExecuteGameOverEvent(eventValue);
+            eventValue.Release();
+            if (GameOverStatus == GameOverStatus.Lost)
             {
-                AoWHSMap.Current.FGlobalMagicControl.RemovePlayerEnchantments(FPlayerIndex);
+                AoWHSMap.Current.GlobalMagicControl.RemovePlayerEnchantments(PlayerIndex);
             }
         }
     }
@@ -670,212 +670,212 @@ public partial class Player : EngineObject
     // Player.PAS:484
     public bool Surrender()
     {
-        bool Result;
-        GameOverTokenEvent TE;
-        if (!GetBusy() && FGameOverStatus == GameOverStatus.None)
+        bool result;
+        GameOverTokenEvent tokenEvent;
+        if (!GetBusy() && GameOverStatus == GameOverStatus.None)
         {
-            TE = new GameOverTokenEvent(null);
-            TE.FPlayer = FPlayerIndex;
-            TE.FGameOverStatus = GameOverStatus.Lost;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayerIndex).AddEvent(TE);
-            TE.Release();
-            Result = true;
+            tokenEvent = new GameOverTokenEvent(null);
+            tokenEvent.Player = PlayerIndex;
+            tokenEvent.GameOverStatus = GameOverStatus.Lost;
+            AoWHSMap.Current.TokenManager.GetTokenControl(PlayerIndex).AddEvent(tokenEvent);
+            tokenEvent.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:499
     public bool Win()
     {
-        bool Result;
-        GameOverTokenEvent TE;
-        if (!GetBusy() && FGameOverStatus == GameOverStatus.None)
+        bool result;
+        GameOverTokenEvent tokenEvent;
+        if (!GetBusy() && GameOverStatus == GameOverStatus.None)
         {
-            TE = new GameOverTokenEvent(null);
-            TE.FPlayer = FPlayerIndex;
-            TE.FGameOverStatus = GameOverStatus.Won;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayerIndex).AddEvent(TE);
-            TE.Release();
-            Result = true;
+            tokenEvent = new GameOverTokenEvent(null);
+            tokenEvent.Player = PlayerIndex;
+            tokenEvent.GameOverStatus = GameOverStatus.Won;
+            AoWHSMap.Current.TokenManager.GetTokenControl(PlayerIndex).AddEvent(tokenEvent);
+            tokenEvent.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:515
-    public bool Validate(StringCollection Errors)
+    public bool Validate(StringCollection errors)
     {
-        bool Result;
+        bool result;
         string S;
-        string LeaderName;
-        if (FPlayerIndex > 0)
+        string leaderName;
+        if (PlayerIndex > 0)
         {
-            Result = true;
-            if (FLeader.GetSphereCount() != AoWHSMap.Current.FSphereCount)
+            result = true;
+            if (Leader.GetSphereCount() != AoWHSMap.Current.SphereCount)
             {
-                var raceNames = AbilityRules.TranslateRStr(GameTables.RaceNamesRStr[FPlayerRace]);
-                LeaderName = AbilityRules.Format(XLeaderRStr, [raceNames]);
-                S = LeaderName + ": " + AbilityRules.TranslateRStr(NotAllSpheresAssignedRStr);
-                Errors.Add(S);
-                Result = false;
+                var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[PlayerRace]);
+                leaderName = AbilityRules.Format(s_leaderFormat, [raceNames]);
+                S = leaderName + ": " + AbilityRules.TranslateResourceString(s_notAllSpheresAssignedText);
+                errors.Add(S);
+                result = false;
             }
 
-            if (FLeader.Owner == null)
+            if (Leader.Owner == null)
             {
-                var raceNamesText = AbilityRules.TranslateRStr(GameTables.RaceNamesRStr[FPlayerRace]);
-                LeaderName = AbilityRules.Format(XLeaderRStr, [raceNamesText]);
-                S = LeaderName + ": " + AbilityRules.TranslateRStr(NotPlacedOnMapRStr);
-                Errors.Add(S);
-                Result = false;
+                var raceNamesText = AbilityRules.TranslateResourceString(GameTables.s_raceNames[PlayerRace]);
+                leaderName = AbilityRules.Format(s_leaderFormat, [raceNamesText]);
+                S = leaderName + ": " + AbilityRules.TranslateResourceString(s_notPlacedOnMapText);
+                errors.Add(S);
+                result = false;
             }
 
-            if (FLeader.GetSkillPoints() != 0)
+            if (Leader.GetSkillPoints() != 0)
             {
-                var translateRStr = AbilityRules.TranslateRStr(GameTables.RaceNamesRStr[FPlayerRace]);
-                LeaderName = AbilityRules.Format(XLeaderRStr, [translateRStr]);
-                S = LeaderName + ": " + AbilityRules.TranslateRStr(NotAllSkillPointsAssignedRStr);
-                Errors.Add(S);
+                var translatedText = AbilityRules.TranslateResourceString(GameTables.s_raceNames[PlayerRace]);
+                leaderName = AbilityRules.Format(s_leaderFormat, [translatedText]);
+                S = leaderName + ": " + AbilityRules.TranslateResourceString(s_notAllSkillPointsAssignedText);
+                errors.Add(S);
             }
         }
         else
         {
             // { Original reports unassigned skill points without failing validation. }
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:547
     public void LockBusy()
     {
-        FBusyCount += 1;
+        BusyCount += 1;
     }
 
     // Player.PAS:552
     public void UnlockBusy()
     {
-        Assert(FBusyCount != 0, "Invalid busy counter usage", "Player.PAS", 554);
-        FBusyCount -= 1;
+        Assert(BusyCount != 0, "Invalid busy counter usage", "Player.PAS", 554);
+        BusyCount -= 1;
     }
 
     // Player.PAS:558
-    public void LogbookChangedEvent(object Sender)
+    public void LogbookChangedEvent(object sender)
     {
-        if (FUpdateCount == 0)
+        if (UpdateCount == 0)
         {
-            FLogbookChangedEventsStore.Raise(this);
+            _logbookChangedEventsStore.Raise(this);
         }
     }
 
     // Player.PAS:563
     public void BeginUpdate()
     {
-        FUpdateCount += 1;
-        FStructures.BeginUpdate();
-        FArmies.BeginUpdate();
-        FMagicControl.BeginUpdate();
+        UpdateCount += 1;
+        Structures.BeginUpdate();
+        Armies.BeginUpdate();
+        MagicControl.BeginUpdate();
     }
 
     // Player.PAS:571
     public void EndUpdate()
     {
-        FUpdateCount -= 1;
-        if (FUpdateCount == 0)
+        UpdateCount -= 1;
+        if (UpdateCount == 0)
         {
-            FGemsChangedEventsStore.Raise(this);
-            FUpkeepChangedEventsStore.Raise(this);
+            _gemsChangedEventsStore.Raise(this);
+            _upkeepChangedEventsStore.Raise(this);
             UpdateIncome();
-            FLogbookChangedEventsStore.Raise(this);
+            _logbookChangedEventsStore.Raise(this);
         }
 
-        FStructures.EndUpdate();
-        FArmies.EndUpdate();
-        FMagicControl.EndUpdate();
+        Structures.EndUpdate();
+        Armies.EndUpdate();
+        MagicControl.EndUpdate();
     }
 
     // Player.PAS:586
-    public void ArmiesChanged(object Sender)
+    public void ArmiesChanged(object sender)
     {
-        if (FArmies.Count == 0)
+        if (Armies.Count == 0)
         {
-            AoWHSMap.Current.GameOver(FPlayerIndex, GameOverStatus.Lost);
+            AoWHSMap.Current.GameOver(PlayerIndex, GameOverStatus.Lost);
         }
     }
 
     // Player.PAS:591
-    public void SetGems(int Value)
+    public void SetGems(int value)
     {
-        FGems = Value;
-        if (FUpdateCount == 0)
+        Gems = value;
+        if (UpdateCount == 0)
         {
-            FGemsChangedEventsStore.Raise(this);
+            _gemsChangedEventsStore.Raise(this);
         }
 
-        if (AoWHSMap.Current.FVictoryCondition == AoWHSMap.VictoryCondition.AccumulateGold && AoWHSMap.Current.FVictoryGold <= FGems)
+        if (AoWHSMap.Current.VictoryCondition == AoWHSMapVictoryCondition.AccumulateGold && AoWHSMap.Current.VictoryGold <= Gems)
         {
-            AoWHSMap.Current.GameOver(FPlayerIndex, GameOverStatus.Won);
+            AoWHSMap.Current.GameOver(PlayerIndex, GameOverStatus.Won);
         }
     }
 
     // Player.PAS:600
     public void UpdateIncome()
     {
-        FIncome = FBaseIncome;
-        for (int I = FIncomeSources.Count - 1; I >= 0; I--)
+        Income = BaseIncome;
+        for (int I = IncomeSources.Count - 1; I >= 0; I--)
         {
-            var income = ((IncomeSource)FIncomeSources.FChildren.List[I]).Income();
-            FIncome += income;
+            var income = ((IncomeSource)IncomeSources._children.List[I]).Income();
+            Income += income;
         }
 
-        if (FPlayerType == PlayerType.CPU2)
+        if (PlayerType == PlayerType.Cpu2)
         {
-            FIncome = Round((double)FIncome * 1);
+            Income = Round((double)Income * 1);
         }
         else
         {
-            if (FPlayerType == PlayerType.CPU3)
+            if (PlayerType == PlayerType.Cpu3)
             {
-                FIncome = Round((double)FIncome * 2);
+                Income = Round((double)Income * 2);
             }
             else
             {
-                if (FPlayerType == PlayerType.CPU4)
+                if (PlayerType == PlayerType.Cpu4)
                 {
-                    FIncome = Round((double)FIncome * 2.5) + 50;
+                    Income = Round((double)Income * 2.5) + 50;
                 }
                 else
                 {
-                    if (FPlayerType == PlayerType.CPU5)
+                    if (PlayerType == PlayerType.Cpu5)
                     {
-                        FIncome = Round(FIncome * 3) + 100;
+                        Income = Round(Income * 3) + 100;
                     }
                 }
             }
         }
 
-        if (FUpdateCount == 0)
+        if (UpdateCount == 0)
         {
-            FIncomeChangedEventsStore.Raise(this);
+            _incomeChangedEventsStore.Raise(this);
         }
     }
 
     // Player.PAS:614
-    public void RegisterIncomeSource(IncomeSource Source)
+    public void RegisterIncomeSource(IncomeSource source)
     {
-        if (FIncomeSources.FChildren.IndexOf(Source) == -1)
+        if (IncomeSources._children.IndexOf(source) == -1)
         {
-            FIncomeSources.FChildren.Add(Source);
-            if (FUpdateCount == 0)
+            IncomeSources._children.Add(source);
+            if (UpdateCount == 0)
             {
                 UpdateIncome();
             }
@@ -883,101 +883,101 @@ public partial class Player : EngineObject
     }
 
     // Player.PAS:623
-    public void UnregisterIncomeSource(IncomeSource Source)
+    public void UnregisterIncomeSource(IncomeSource source)
     {
-        if (FIncomeSources.FChildren.Remove(Source) != -1 && FUpdateCount == 0)
+        if (IncomeSources._children.Remove(source) != -1 && UpdateCount == 0)
         {
             UpdateIncome();
         }
     }
 
     // Player.PAS:629
-    public int GetUpkeep() => FArmyUpkeep + FMagicUpkeep;
+    public int GetUpkeep() => ArmyUpkeep + MagicUpkeep;
 
     // Player.PAS:634
-    public void SetArmyUpkeep(int Value)
+    public void SetArmyUpkeep(int value)
     {
-        FArmyUpkeep = Value;
-        if (FUpdateCount == 0)
+        ArmyUpkeep = value;
+        if (UpdateCount == 0)
         {
-            FUpkeepChangedEventsStore.Raise(this);
+            _upkeepChangedEventsStore.Raise(this);
         }
     }
 
     // Player.PAS:640
-    public void SetMagicUpkeep(int Value)
+    public void SetMagicUpkeep(int value)
     {
-        FMagicUpkeep = Value;
-        if (FUpdateCount == 0)
+        MagicUpkeep = value;
+        if (UpdateCount == 0)
         {
-            FUpkeepChangedEventsStore.Raise(this);
+            _upkeepChangedEventsStore.Raise(this);
         }
     }
 
     // Player.PAS:646
     public string GetName()
     {
-        string Result;
-        if (FPlayerIndex != 0)
+        string result;
+        if (PlayerIndex != 0)
         {
-            if (FLeader != null)
+            if (Leader != null)
             {
-                Result = FLeader.FHeroName;
-                if (!IsEmpty(FLeader.GetNickname()))
+                result = Leader.HeroName;
+                if (!IsEmpty(Leader.GetNickname()))
                 {
-                    var nickname = FLeader.GetNickname();
-                    Result = Result + " " + nickname;
+                    var nickname = Leader.GetNickname();
+                    result = result + " " + nickname;
                 }
             }
             else
             {
-                Result = FName;
+                result = Name;
             }
 
-            if (IsEmpty(Result))
+            if (IsEmpty(result))
             {
-                Result = AbilityRules.TranslateRStr(PlayerRStr) + " " + IntToStr(FPlayerIndex);
+                result = AbilityRules.TranslateResourceString(s_playerText) + " " + IntToStr(PlayerIndex);
             }
         }
         else
         {
-            Result = AbilityRules.TranslateRStr(GameTables.IndependentsRStr);
+            result = AbilityRules.TranslateResourceString(GameTables.s_independentsText);
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:663
-    public string GetNameEx()
+    public string GetNameWithRace()
     {
-        string Result;
-        if (FPlayerIndex != 0)
+        string result;
+        if (PlayerIndex != 0)
         {
             var name = GetName();
-            var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[FPlayerRace]);
-            Result = AbilityRules.Format(AbilityRules.TranslateRStr(PlayerNameExRStr), [name, raceNamesPlural]);
+            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[PlayerRace]);
+            result = AbilityRules.Format(AbilityRules.TranslateResourceString(s_playerNameWithRaceFormat), [name, raceNamesPlural]);
         }
         else
         {
-            Result = GetName();
+            result = GetName();
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:671
-    public void SetName(string Value)
+    public void SetName(string value)
     {
-        if (FPlayerIndex != 0)
+        if (PlayerIndex != 0)
         {
-            if (FLeader != null)
+            if (Leader != null)
             {
-                FLeader.FHeroName = Value;
-                FLeader.SetNickname("");
+                Leader.HeroName = value;
+                Leader.SetNickname("");
             }
             else
             {
-                FName = Value;
+                Name = value;
             }
         }
     }
@@ -985,284 +985,284 @@ public partial class Player : EngineObject
     // Player.PAS:682
     public LibraryImage GetFace()
     {
-        LibraryImage Result;
-        if (FLeader != null)
+        LibraryImage result;
+        if (Leader != null)
         {
-            Result = FLeader.GetFace();
+            result = Leader.GetFace();
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:688
     public int GetHeroCountMax()
     {
-        int Result;
-        int Strength;
-        int Maximum;
-        var count = FStatistics.FTurnInfo.Count;
-        Strength = FStatistics.FTurnInfo.GetTurnInfo(count - 1).FArmyStrength;
-        if (Strength < 10)
+        int result;
+        int strength;
+        int maximum;
+        var count = Statistics.TurnInfo.Count;
+        strength = Statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength;
+        if (strength < 10)
         {
-            Result = 1;
+            result = 1;
         }
         else
         {
-            if (Strength < 40)
+            if (strength < 40)
             {
-                Result = 2;
+                result = 2;
             }
             else
             {
-                if (Strength < 80)
+                if (strength < 80)
                 {
-                    Result = 3;
+                    result = 3;
                 }
                 else
                 {
-                    if (Strength < 120)
+                    if (strength < 120)
                     {
-                        Result = 4;
+                        result = 4;
                     }
                     else
                     {
-                        if (Strength < 200)
+                        if (strength < 200)
                         {
-                            Result = 5;
+                            result = 5;
                         }
                         else
                         {
-                            Result = (Strength - 200) / 100 + 5;
+                            result = (strength - 200) / 100 + 5;
                         }
                     }
                 }
             }
         }
 
-        Maximum = AoWHSMap.Current.FHeroCountMax;
-        if (Maximum < Result)
+        maximum = AoWHSMap.Current.HeroCountMax;
+        if (maximum < result)
         {
-            Result = Maximum;
+            result = maximum;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:703
     public int GetIdealHeroJoinDay()
     {
-        int Average;
-        int Maximum;
-        int Result = FLastHeroJoinDay;
-        Average = AoWHSMap.Current.FPlayers.GetAverageHeroCount();
-        Maximum = AoWHSMap.Current.FPlayers.GetMaxHeroCount();
-        if (Maximum > Average && FHeroes.Count == Maximum)
+        int average;
+        int maximum;
+        int result = LastHeroJoinDay;
+        average = AoWHSMap.Current.Players.GetAverageHeroCount();
+        maximum = AoWHSMap.Current.Players.GetMaxHeroCount();
+        if (maximum > average && Heroes.Count == maximum)
         {
-            Result += 15;
+            result += 15;
         }
         else
         {
-            if (Average <= FHeroes.Count && FHeroes.Count != 0 && AoWHSMap.Current.FDay > 15)
+            if (average <= Heroes.Count && Heroes.Count != 0 && AoWHSMap.Current.Day > 15)
             {
-                Result += 10;
+                result += 10;
             }
             else
             {
-                Result += 5;
+                result += 5;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:717
     public int GetIdealHeroEmergeDay()
     {
-        int Average;
-        int Maximum;
-        int Earliest;
-        int Result = GetIdealHeroJoinDay();
-        Average = AoWHSMap.Current.FPlayers.GetAverageHeroCount();
-        Maximum = AoWHSMap.Current.FPlayers.GetMaxHeroCount();
-        if (Maximum > Average && FHeroes.Count == Maximum)
+        int average;
+        int maximum;
+        int earliest;
+        int result = GetIdealHeroJoinDay();
+        average = AoWHSMap.Current.Players.GetAverageHeroCount();
+        maximum = AoWHSMap.Current.Players.GetMaxHeroCount();
+        if (maximum > average && Heroes.Count == maximum)
         {
-            Result += 15;
+            result += 15;
         }
         else
         {
-            if (Average < FHeroes.Count && FHeroes.Count != 0 && AoWHSMap.Current.FDay > 10)
+            if (average < Heroes.Count && Heroes.Count != 0 && AoWHSMap.Current.Day > 10)
             {
-                Result += 10;
+                result += 10;
             }
             else
             {
-                Result += 5;
+                result += 5;
             }
         }
 
-        Earliest = FLastHeroEmergeDay + 5;
-        if (Earliest > Result)
+        earliest = LastHeroEmergeDay + 5;
+        if (earliest > result)
         {
-            Result = Earliest;
+            result = earliest;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:733
     public void ResetBaseHeroJoinDay()
     {
-        FLastHeroJoinDay = AoWHSMap.Current.FDay;
+        LastHeroJoinDay = AoWHSMap.Current.Day;
     }
 
     // Player.PAS:738
-    public void MakeHeroEmerge(HeroEmergeMode Mode)
+    public void MakeHeroEmerge(HeroEmergeMode mode)
     {
-        int Chance = default;
-        DoubleItemList<Hero> Heroes;
-        HeroEmergeEventLog Log;
-        MapCoordinateList Locations;
-        Structure Structure;
+        int chance = default;
+        DoubleItemList<Hero> heroes;
+        HeroEmergeEventLog log;
+        MapCoordinateList locations;
+        Structure structure;
         DoubleItem<Hero> Item;
         int I;
-        Hero Hero;
-        Heroes = new DoubleItemList<Hero>();
-        if (Mode == HeroEmergeMode.Normal)
+        Hero hero;
+        heroes = new DoubleItemList<Hero>();
+        if (mode == HeroEmergeMode.Normal)
         {
-            I = AoWHSMap.Current.FHeroControl.GetCount() - 1;
+            I = AoWHSMap.Current.HeroControl.GetCount() - 1;
             for (; I >= 0; I -= 1)
             {
-                Hero = AoWHSMap.Current.FHeroControl.GetHero(I);
-                if (!Hero.FHeroStatus.Contains(HeroStatusElement.Died) && Hero.FPlayer <= 0 && Hero.Owner == null && Hero.CanJoin(FPlayerIndex))
+                hero = AoWHSMap.Current.HeroControl.GetHero(I);
+                if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && hero.Owner == null && hero.CanJoin(PlayerIndex))
                 {
-                    Chance = GetHeroJoinChance(Hero.GetLevel());
-                    if (Chance > 0 && Hero.JoinAmount(FPlayerIndex) < FGems)
+                    chance = GetHeroJoinChance(hero.GetLevel());
+                    if (chance > 0 && hero.JoinAmount(PlayerIndex) < Gems)
                     {
-                        Heroes.AddAB(Hero, Chance * Chance);
+                        heroes.AddAbility(hero, chance * chance);
                     }
                 }
             }
         }
         else
         {
-            if (Mode == HeroEmergeMode.FirstHero)
+            if (mode == HeroEmergeMode.FirstHero)
             {
-                I = AoWHSMap.Current.FHeroControl.GetCount() - 1;
+                I = AoWHSMap.Current.HeroControl.GetCount() - 1;
                 for (; I >= 0; I -= 1)
                 {
-                    Hero = AoWHSMap.Current.FHeroControl.GetHero(I);
-                    if (!Hero.FHeroStatus.Contains(HeroStatusElement.Died) && Hero.FPlayer <= 0 && Hero.Owner == null && Hero.GetAbilityEnabled(52) && Hero.GetLevel() >= 2 && Hero.GetLevel() <= 3)
+                    hero = AoWHSMap.Current.HeroControl.GetHero(I);
+                    if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && hero.Owner == null && hero.GetAbilityEnabled(52) && hero.GetLevel() >= 2 && hero.GetLevel() <= 3)
                     {
-                        var playerRelation = AoWHSMap.Current.FRaces.GetRace(Hero.FRace).GetPlayerRelation(FPlayerIndex);
-                        if (Set<Session.Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation) && Hero.JoinAmount(FPlayerIndex) < FGems)
+                        var playerRelation = AoWHSMap.Current.Races.GetRace(hero.Race).GetPlayerRelation(PlayerIndex);
+                        if (Set<Session.Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation) && hero.JoinAmount(PlayerIndex) < Gems)
                         {
-                            var level = Hero.GetLevel();
-                            Heroes.AddAB(Hero, (level - 2) * 1000 + 1);
+                            var level = hero.GetLevel();
+                            heroes.AddAbility(hero, (level - 2) * 1000 + 1);
                         }
                     }
                 }
             }
         }
 
-        if (Heroes.Count != 0)
+        if (heroes.Count != 0)
         {
-            Locations = new MapCoordinateList();
-            I = FStructures.Count - 1;
+            locations = new MapCoordinateList();
+            I = Structures.Count - 1;
             for (; I >= 0; I -= 1)
             {
-                Structure = FStructures.GetStructure(I);
-                if (Structure.EClass.ClassID == 131336)
+                structure = Structures.GetStructure(I);
+                if (structure.EngineClass.ClassId == 131336)
                 {
-                    var lhx = Structure.GetLhx();
-                    var yhx = Structure.GetYhx();
-                    Locations.AddXYL(Structure.GetXhx(), yhx, lhx);
+                    var hexLevel = structure.GetHexLevel();
+                    var hexY = structure.GetHexY();
+                    locations.AddMapCoordinate(structure.GetHexX(), hexY, hexLevel);
                 }
             }
 
-            if (Locations.Count != 0)
+            if (locations.Count != 0)
             {
-                FLastHeroEmergeDay = AoWHSMap.Current.FDay;
+                LastHeroEmergeDay = AoWHSMap.Current.Day;
                 RandSeed = AoWHSMap.Current.Random(1048575);
-                I = Heroes.RandomChanceItemB(0);
-                Item = Heroes[I];
-                Hero = Item.A;
-                I = AoWHSMap.Current.Random(Locations.Count);
-                FEmergingHeroID = Hero.FUnitID;
-                Hero.UpdateSettings();
-                var item = Locations[I];
-                var locationsItem = Locations[I];
-                Hero.Place(Locations[I].X, locationsItem.Y, item.L, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
-                var item2 = Locations[I];
-                var item3 = Locations[I];
-                var item4 = Locations[I];
-                Structure = (Structure)AoWHSMap.Current.MapContainer.GetField(item4.X, item3.Y, item2.L).FindNoneTransparentHS(typeof(Structure));
-                Log = new HeroEmergeEventLog(null);
-                Log.Setup(Hero, FPlayerIndex, HeroEmergeEventLog.HeroJoinMode.Emerged);
-                if (Structure != null)
+                I = heroes.RandomChanceItemB(0);
+                Item = heroes[I];
+                hero = Item.First;
+                I = AoWHSMap.Current.Random(locations.Count);
+                EmergingHeroId = hero.UnitId;
+                hero.UpdateSettings();
+                var item = locations[I];
+                var locationsItem = locations[I];
+                hero.Place(locations[I].X, locationsItem.Y, item.MapLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
+                var item2 = locations[I];
+                var item3 = locations[I];
+                var item4 = locations[I];
+                structure = (Structure)AoWHSMap.Current.MapContainer.GetField(item4.X, item3.Y, item2.MapLevel).FindNoneTransparentHexSprite(typeof(Structure));
+                log = new HeroEmergeEventLog(null);
+                log.Setup(hero, PlayerIndex, HeroEmergeEventLog.HeroJoinMode.Emerged);
+                if (structure != null)
                 {
-                    Log.FLocationName = Structure.GetName();
+                    log.LocationName = structure.GetName();
                 }
                 else
                 {
-                    Log.FLocationName = AbilityRules.TranslateRStr(GameTables.UnknownRStr);
+                    log.LocationName = AbilityRules.TranslateResourceString(GameTables.s_unknownText);
                 }
 
-                FEventLogbook.AddEvent(Log);
-                if (FPlayerIndex == AoWHSMap.Current.FSeatedPlayer && AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FPlayerType == PlayerType.Human)
+                EventLogbook.AddEvent(log);
+                if (PlayerIndex == AoWHSMap.Current.SeatedPlayer && AoWHSMap.Current.Players.GetPlayers(PlayerIndex).PlayerType == PlayerType.Human)
                 {
-                    Log.Execute(false, ExecuteTrigger.Event, null);
+                    log.Execute(false, ExecuteTrigger.Event, null);
                 }
 
-                Log.Release();
+                log.Release();
             }
 
-            Locations?.Dispose();
+            locations?.Dispose();
         }
 
-        Heroes?.Dispose();
+        heroes?.Dispose();
     }
 
     // Player.PAS:812
     public void UpdateHeroJoin()
     {
-        int Days;
-        for (int I = FHeroes.Count - 1; I >= 0; I--)
+        int days;
+        for (int I = Heroes.Count - 1; I >= 0; I--)
         {
-            if (FHeroes.GetHero(I).GetLevel() > FHighestHeroLevel)
+            if (Heroes.GetHero(I).GetLevel() > HighestHeroLevel)
             {
-                FHighestHeroLevel = FHeroes.GetHero(I).GetLevel();
+                HighestHeroLevel = Heroes.GetHero(I).GetLevel();
             }
         }
 
-        FBaseHeroJoinLevel = AoWHSMap.Current.FPlayers.GetAverageHeroLevel();
-        if (FBaseHeroJoinLevel == 0)
+        BaseHeroJoinLevel = AoWHSMap.Current.Players.GetAverageHeroLevel();
+        if (BaseHeroJoinLevel == 0)
         {
-            FBaseHeroJoinLevel = AoWHSMap.Current.FHeroControl.GetMinFreeHeroLevel();
+            BaseHeroJoinLevel = AoWHSMap.Current.HeroControl.GetMinFreeHeroLevel();
         }
 
-        if (FHighestHeroLevel != 0)
+        if (HighestHeroLevel != 0)
         {
-            FBaseHeroJoinLevel = (FBaseHeroJoinLevel + FHighestHeroLevel + 1) / 2;
+            BaseHeroJoinLevel = (BaseHeroJoinLevel + HighestHeroLevel + 1) / 2;
         }
 
-        if (FHeroes.Count == GetHeroCountMax())
+        if (Heroes.Count == GetHeroCountMax())
         {
             ResetBaseHeroJoinDay();
         }
 
-        FEmergingHeroID = 0;
-        Days = GetIdealHeroEmergeDay() - AoWHSMap.Current.FDay;
-        if (AoWHSMap.Current.FDay == 1 && FHeroes.Count == 1 && !AoWHSMap.Current.FFixedLeaders)
+        EmergingHeroId = 0;
+        days = GetIdealHeroEmergeDay() - AoWHSMap.Current.Day;
+        if (AoWHSMap.Current.Day == 1 && Heroes.Count == 1 && !AoWHSMap.Current.FixedLeaders)
         {
             MakeHeroEmerge(HeroEmergeMode.FirstHero);
             return;
         }
 
-        if (Days <= 0)
+        if (days <= 0)
         {
             if (AoWHSMap.Current.Random(4) == 1)
             {
@@ -1272,95 +1272,95 @@ public partial class Player : EngineObject
     }
 
     // Player.PAS:836
-    public int GetHeroJoinChance(int Level)
+    public int GetHeroJoinChance(int level)
     {
-        int Result;
-        int Maximum;
-        Maximum = GetHeroJoinLevelMax();
-        if (Level <= Maximum)
+        int result;
+        int maximum;
+        maximum = GetHeroJoinLevelMax();
+        if (level <= maximum)
         {
-            Result = Round((double)((double)(Maximum + 2) / (Level + 2)) * 20);
-            if (Result > 40)
+            result = Round((double)((double)(maximum + 2) / (level + 2)) * 20);
+            if (result > 40)
             {
-                Result = 40;
+                result = 40;
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:849
     public int GetHeroJoinLevelMax()
     {
-        int Days;
-        int Result = FBaseHeroJoinLevel;
+        int days;
+        int result = BaseHeroJoinLevel;
         var idealHeroJoinDay = GetIdealHeroJoinDay();
-        Days = AoWHSMap.Current.FDay - idealHeroJoinDay;
-        if (Days > 0)
+        days = AoWHSMap.Current.Day - idealHeroJoinDay;
+        if (days > 0)
         {
-            Result += Days / 5;
+            result += days / 5;
         }
 
-        if (Days < 0)
+        if (days < 0)
         {
-            Result += Round((double)((double)(Result * Days) + 2.5) / 5);
-            if (Result < 0)
+            result += Round((double)((double)(result * days) + 2.5) / 5);
+            if (result < 0)
             {
-                Result = 0;
+                result = 0;
             }
         }
 
-        if (Result < 3 && !AoWHSMap.Current.FFixedLeaders && AoWHSMap.Current.FDay == 1)
+        if (result < 3 && !AoWHSMap.Current.FixedLeaders && AoWHSMap.Current.Day == 1)
         {
-            Result = 3;
+            result = 3;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:865
     public void ValidateLeader()
     {
-        int FaceIndex;
-        int ResourceIndex;
-        HeroType HeroType;
-        string Name;
-        if (AoWHSMap.Current != null && FPlayerIndex != 0)
+        int faceIndex;
+        int resourceIndex;
+        HeroType heroType;
+        string name;
+        if (AoWHSMap.Current != null && PlayerIndex != 0)
         {
-            HeroType = Units.HeroType.HeroLeader;
-            if (FLeader != null && FLeader.GetHeroType() != HeroType)
+            heroType = Units.HeroType.HeroLeader;
+            if (Leader != null && Leader.GetHeroType() != heroType)
             {
-                Name = FLeader.FHeroName;
-                FaceIndex = FLeader.FFaceIndex;
-                FLeader.Deactivate();
-                ResourceIndex = AoWHSSet.Current.FHeroResources.Find(FPlayerRace, HeroType);
-                FLeader.SetHeroResourceIndex(ResourceIndex);
-                FLeader.FHeroName = Name;
-                FLeader.SetFaceIndex(FaceIndex);
-                FLeader.Activate();
+                name = Leader.HeroName;
+                faceIndex = Leader.FaceIndex;
+                Leader.Deactivate();
+                resourceIndex = AoWHSSet.Current.HeroResources.Find(PlayerRace, heroType);
+                Leader.SetHeroResourceIndex(resourceIndex);
+                Leader.HeroName = name;
+                Leader.SetFaceIndex(faceIndex);
+                Leader.Activate();
             }
             else
             {
-                if (FLeader == null)
+                if (Leader == null)
                 {
-                    ResourceIndex = AoWHSSet.Current.FHeroResources.Find(FPlayerRace, HeroType);
-                    if (ResourceIndex != -1)
+                    resourceIndex = AoWHSSet.Current.HeroResources.Find(PlayerRace, heroType);
+                    if (resourceIndex != -1)
                     {
-                        FLeader = new Leader(null);
-                        FLeader.SetHeroResourceIndex(ResourceIndex);
-                        FLeader.FPlayer = FPlayerIndex;
-                        FLeader.Activate();
+                        Leader = new Leader(null);
+                        Leader.SetHeroResourceIndex(resourceIndex);
+                        Leader.Player = PlayerIndex;
+                        Leader.Activate();
                     }
                 }
                 else
                 {
-                    if (FLeader != null && !AoWHSMap.Current.FFixedLeaders && AoWHSMap.Current.FGameType != GameType.Campaign && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                    if (Leader != null && !AoWHSMap.Current.FixedLeaders && AoWHSMap.Current.GameType != GameType.Campaign && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                     {
-                        FLeader.Owner = null;
+                        Leader.Owner = null;
                     }
                 }
             }
@@ -1368,24 +1368,24 @@ public partial class Player : EngineObject
     }
 
     // Player.PAS:902
-    public void SetLeader(Leader Value)
+    public void SetLeader(Leader value)
     {
-        FLeader = Value;
+        Leader = value;
     }
 
     // Player.PAS:907
-    public void SetRace(sbyte Value)
+    public void SetRace(sbyte value)
     {
-        FPlayerRace = Value;
+        PlayerRace = value;
     }
 
     // Player.PAS:912
-    public void SetEndTurn(bool Value)
+    public void SetEndTurn(bool value)
     {
-        if (Value != FSingleProcessCycle)
+        if (value != SingleProcessCycle)
         {
-            FSingleProcessCycle = Value;
-            AoWHSMap.Current.TriggerEndTurnEvent(FPlayerIndex);
+            SingleProcessCycle = value;
+            AoWHSMap.Current.TriggerEndTurnEvent(PlayerIndex);
         }
     }
 
@@ -1394,43 +1394,43 @@ public partial class Player : EngineObject
     {
         while (true)
         {
-            bool condition = FEventLogbook.GetCount() != 0;
+            bool condition = EventLogbook.GetCount() != 0;
             if (condition)
             {
-                var logs = FEventLogbook.GetLogs(0);
-                condition = AoWHSMap.Current.FDay - logs.FDay >= 3;
+                var logs = EventLogbook.GetLogs(0);
+                condition = AoWHSMap.Current.Day - logs._day >= 3;
             }
 
             if (!condition)
                 break;
-            var fEventLogbookLogs = FEventLogbook.GetLogs(0);
-            FEventLogbook.RemoveEvent(fEventLogbookLogs);
+            var fEventLogbookLogs = EventLogbook.GetLogs(0);
+            EventLogbook.RemoveEvent(fEventLogbookLogs);
         }
     }
 
     // Player.PAS:928
     public void UpdateTurnInfo()
     {
-        TurnInfoItem Info;
-        Army Army;
-        Troop AUnit;
-        Info = new TurnInfoItem(FStatistics.FTurnInfo);
-        if (FGameOverStatus != GameOverStatus.Lost)
+        TurnInfoItem info;
+        Army army;
+        Troop troop;
+        info = new TurnInfoItem(Statistics.TurnInfo);
+        if (GameOverStatus != GameOverStatus.Lost)
         {
-            Info.FGold = FGems;
-            Info.FMana = FMagicControl.FMana;
-            Info.FStructures = FStructures.Count;
-            Info.FHeroes = (byte)FHeroes.Count;
-            for (int I = 0, last = FArmies.Count - 1; I <= last; I++)
+            info.Gold = Gems;
+            info.Mana = MagicControl.Mana;
+            info.Structures = Structures.Count;
+            info.Heroes = (byte)Heroes.Count;
+            for (int I = 0, last = Armies.Count - 1; I <= last; I++)
             {
-                Army = FArmies.GetArmy(I);
-                for (int J = Army.Count - 1; J >= 0; J--)
+                army = Armies.GetArmy(I);
+                for (int J = army.Count - 1; J >= 0; J--)
                 {
-                    AUnit = Army.GetUnit(J);
-                    if (Info.FArmyStrength < 1073741823)
+                    troop = army.GetUnit(J);
+                    if (info.ArmyStrength < 1073741823)
                     {
-                        var strengthMax = AUnit.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
-                        Info.FArmyStrength += strengthMax;
+                        var strengthMax = troop.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                        info.ArmyStrength += strengthMax;
                     }
                 }
             }
@@ -1440,11 +1440,11 @@ public partial class Player : EngineObject
     // Player.PAS:955
     public void UpdateAlliedPlayersSeen()
     {
-        for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
         {
-            if (I != FPlayerIndex)
+            if (I != PlayerIndex)
             {
-                if (AoWHSMap.Current.FPlayers.GetDiplomaticRelation(FPlayerIndex, (sbyte)I) == DiplomaticRelation.Alliance)
+                if (AoWHSMap.Current.Players.GetDiplomaticRelation(PlayerIndex, (sbyte)I) == DiplomaticRelation.Alliance)
                 {
                     PlayerSeen((sbyte)I);
                 }
@@ -1455,71 +1455,71 @@ public partial class Player : EngineObject
     // Player.PAS:965
     public void SetupAIValidAttackPlayers()
     {
-        for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
         {
-            if (I != FPlayerIndex)
+            if (I != PlayerIndex)
             {
-                var diplomaticRelation = FDiplomaticRelations.GetDiplomaticRelation((sbyte)I);
-                FAIValidAttackPlayers[I] = diplomaticRelation == DiplomaticRelation.War;
+                var diplomaticRelation = DiplomaticRelations.GetDiplomaticRelation((sbyte)I);
+                AIValidAttackPlayers[I] = diplomaticRelation == DiplomaticRelation.War;
             }
         }
     }
 
     // Player.PAS:1108
-    public int GetFirstDaySeen(sbyte Player)
+    public int GetFirstDaySeen(sbyte player)
     {
-        int Result;
-        if (Player != FPlayerIndex)
+        int result;
+        if (player != PlayerIndex)
         {
-            if (Player < FFirstDaySeen.Count)
+            if (player < FirstDaySeen.Count)
             {
-                Result = FFirstDaySeen[Player];
+                result = FirstDaySeen[player];
             }
             else
             {
-                Result = -1;
+                result = -1;
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1116
-    public int GetLastDaySeen(sbyte Player)
+    public int GetLastDaySeen(sbyte player)
     {
-        int Result;
-        if (Player != FPlayerIndex)
+        int result;
+        if (player != PlayerIndex)
         {
-            if (Player < FLastDaySeen.Count)
+            if (player < LastDaySeen.Count)
             {
-                Result = FLastDaySeen[Player];
+                result = LastDaySeen[player];
             }
             else
             {
-                Result = -1;
+                result = -1;
             }
         }
         else
         {
-            Result = AoWHSMap.Current.FDay;
+            result = AoWHSMap.Current.Day;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1124
-    public void PlayerSeen(sbyte Player)
+    public void PlayerSeen(sbyte player)
     {
-        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && (Player >= FLastDaySeen.Count || FLastDaySeen[Player] != AoWHSMap.Current.FDay))
+        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && (player >= LastDaySeen.Count || LastDaySeen[player] != AoWHSMap.Current.Day))
         {
-            FLastDaySeen[Player] = AoWHSMap.Current.FDay;
-            if (GetFirstDaySeen(Player) == -1)
+            LastDaySeen[player] = AoWHSMap.Current.Day;
+            if (GetFirstDaySeen(player) == -1)
             {
-                FFirstDaySeen[Player] = AoWHSMap.Current.FDay;
+                FirstDaySeen[player] = AoWHSMap.Current.Day;
             }
         }
     }
@@ -1527,9 +1527,9 @@ public partial class Player : EngineObject
     // Player.PAS:1134
     public void GetLeaderLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
-        if (FLeader != null && FLeader.UnitListOwner != null)
+        if (Leader != null && Leader.UnitListOwner != null)
         {
-            FLeader.UnitListOwner.GetLocation(ref X, ref Y, ref L);
+            Leader.UnitListOwner.GetLocation(ref X, ref Y, ref L);
         }
         else
         {
@@ -1542,42 +1542,42 @@ public partial class Player : EngineObject
     // Player.PAS:1146
     public bool GetLocal()
     {
-        bool Result;
-        PlayerCommunicationControl Control;
-        Control = AoWHSMap.Current.FPlayerCommunicator.PCC;
-        if (Control != null)
+        bool result;
+        PlayerCommunicationControl control;
+        control = AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl;
+        if (control != null)
         {
-            var players = Control.GetPlayers(FPlayerIndex);
-            Result = Set<ConnectionMode>.Of(ConnectionMode.Local, ConnectionMode.Global).Contains(players.ConnectionMode);
+            var players = control.GetPlayers(PlayerIndex);
+            result = Set<ConnectionMode>.Of(ConnectionMode.Local, ConnectionMode.Global).Contains(players.ConnectionMode);
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1159
-    public void RegisterVictoryLocation(PlayerStructure Structure)
+    public void RegisterVictoryLocation(PlayerStructure structure)
     {
-        FVictoryLocations.AddChild(Structure);
+        VictoryLocations.AddChild(structure);
     }
 
     // Player.PAS:1164
-    public void UnregisterVictoryLocation(PlayerStructure Structure)
+    public void UnregisterVictoryLocation(PlayerStructure structure)
     {
-        FVictoryLocations.RemoveChild(Structure);
+        VictoryLocations.RemoveChild(structure);
     }
 
     // Player.PAS:1169
     public void CheckCaptureLocations()
     {
-        if (AoWHSMap.Current.FVictoryCondition == AoWHSMap.VictoryCondition.CaptureLocations)
+        if (AoWHSMap.Current.VictoryCondition == AoWHSMapVictoryCondition.CaptureLocations)
         {
             if (CaptureLocationsLeft() == 0)
             {
-                AoWHSMap.Current.GameOver(FPlayerIndex, GameOverStatus.Won);
+                AoWHSMap.Current.GameOver(PlayerIndex, GameOverStatus.Won);
             }
         }
     }
@@ -1585,277 +1585,267 @@ public partial class Player : EngineObject
     // Player.PAS:1175
     public int CaptureLocationsLeft()
     {
-        int Result = 0;
-        for (int I = 0, last = FVictoryLocations.Count - 1; I <= last; I++)
+        int result = 0;
+        for (int I = 0, last = VictoryLocations.Count - 1; I <= last; I++)
         {
-            if (FVictoryLocations.GetStructure(I).FPlayer != FPlayerIndex)
+            if (VictoryLocations.GetStructure(I).Player != PlayerIndex)
             {
-                bool condition = FVictoryLocations.GetStructure(I).FPlayer > 0;
+                bool condition = VictoryLocations.GetStructure(I).Player > 0;
                 if (condition)
                 {
-                    var structure = FVictoryLocations.GetStructure(I);
-                    condition = AoWHSMap.Current.FPlayers.GetDiplomaticRelation(structure.FPlayer, FPlayerIndex) == DiplomaticRelation.Alliance;
+                    var structure = VictoryLocations.GetStructure(I);
+                    condition = AoWHSMap.Current.Players.GetDiplomaticRelation(structure.Player, PlayerIndex) == DiplomaticRelation.Alliance;
                 }
 
-                if (!(condition && AoWHSMap.Current.FAlliedVictory))
+                if (!(condition && AoWHSMap.Current.AlliedVictory))
                 {
-                    Result += 1;
+                    result += 1;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1188
-    public DiplomaticAction CreateDiplomaticAction(DiplomaticProposal Proposal, sbyte Target, sbyte Other)
+    public DiplomaticAction CreateDiplomaticAction(DiplomaticProposal proposal, sbyte target, sbyte other)
     {
-        DiplomaticAction Result;
-        if (AoWHSMap.Current.FPlayers.GetPlayers(Target).FStatus == Status.Playing)
+        DiplomaticAction result;
+        if (AoWHSMap.Current.Players.GetPlayers(target).Status == PlayerStatus.Playing)
         {
-            Result = new DiplomaticAction(null);
-            Result.FSource = FPlayerIndex;
-            Result.FTarget = Target;
-            Result.FOtherPlayer = Other;
-            Result.Proposal = Proposal;
-            Result.RetrieveDefaultMessage(FPlayerIndex, Target, Other, DiplomaticActionReaction.None);
+            result = new DiplomaticAction(null);
+            result.Source = PlayerIndex;
+            result.Target = target;
+            result.OtherPlayer = other;
+            result.Proposal = proposal;
+            result.RetrieveDefaultMessage(PlayerIndex, target, other, DiplomaticActionReaction.None);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1203
-    public bool DiplomaticActionAleadySend(byte Kind, sbyte Target, sbyte Other)
+    public bool DiplomaticActionAlreadySend(byte kind, sbyte target, sbyte other)
     {
-        EventLogbook Logbook;
+        EventLogbook logbook;
         int I;
-        DiplomaticAction Item;
-        Logbook = AoWHSMap.Current.FPlayers.GetPlayers(Target).FEventLogbook;
-        bool Result = false;
-        I = Logbook.GetCount();
-        while (!Result && I != 0)
+        DiplomaticAction item;
+        logbook = AoWHSMap.Current.Players.GetPlayers(target).EventLogbook;
+        bool result = false;
+        I = logbook.GetCount();
+        while (!result && I != 0)
         {
             I -= 1;
-            if (Logbook.GetLogs(I).FDay == AoWHSMap.Current.FDay)
+            if (logbook.GetLogs(I)._day == AoWHSMap.Current.Day)
             {
-                if (Logbook.GetLogs(I) is DiplomaticActionEventLog)
+                if (logbook.GetLogs(I) is DiplomaticActionEventLog)
                 {
-                    Item = ((DiplomaticActionEventLog)Logbook.GetLogs(I)).FAction;
-                    Result = Item.Proposal.ToFields().Kind == Kind && Item.FSource == FPlayerIndex && Item.FTarget == Target && (Other == -1 || Item.FOtherPlayer == Other);
+                    item = ((DiplomaticActionEventLog)logbook.GetLogs(I)).Action;
+                    result = item.Proposal.ToFields().Kind == kind && item.Source == PlayerIndex && item.Target == target && (other == -1 || item.OtherPlayer == other);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1226
-    public int ListDiplomaticActions(sbyte Player, ref DiplomaticActionList Actions)
+    public int ListDiplomaticActions(sbyte player, ref DiplomaticActionList actions)
     {
-        int Count;
-        DiplomaticRelation Relation;
-        DiplomaticAction Action;
-        if (Player != FPlayerIndex && GetFirstDaySeen(Player) != -1)
+        int count;
+        DiplomaticRelation relation;
+        DiplomaticAction action;
+        if (player != PlayerIndex && GetFirstDaySeen(player) != -1)
         {
-            Count = Actions.Count;
-            Relation = AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Player, FPlayerIndex);
-            if (FPlayerType == PlayerType.Human && AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
+            count = actions.Count;
+            relation = AoWHSMap.Current.Players.GetDiplomaticRelation(player, PlayerIndex);
+            if (PlayerType == PlayerType.Human && AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
-                Action = CreateDiplomaticAction(new SendMessage(), Player, -1);
-                if (Action != null)
+                action = CreateDiplomaticAction(new SendMessage(), player, -1);
+                if (action != null)
                 {
-                    Actions.AddChild(Action);
-                    Action.Release();
+                    actions.AddChild(action);
+                    action.Release();
                 }
             }
 
-            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(Relation) && !DiplomaticActionAleadySend(OfferPeace.Kind, Player, -1))
+            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(relation) && !DiplomaticActionAlreadySend(OfferPeace.Kind, player, -1))
             {
-                Action = CreateDiplomaticAction(new OfferPeace(), Player, -1);
-                if (Action != null)
+                action = CreateDiplomaticAction(new OfferPeace(), player, -1);
+                if (action != null)
                 {
-                    Actions.AddChild(Action);
-                    Action.Release();
+                    actions.AddChild(action);
+                    action.Release();
                 }
             }
 
-            if (Relation != DiplomaticRelation.War && Relation != DiplomaticRelation.Alliance)
+            if (relation != DiplomaticRelation.War && relation != DiplomaticRelation.Alliance)
             {
-                Action = CreateDiplomaticAction(new DeclareWar(), Player, -1);
-                if (Action != null)
+                action = CreateDiplomaticAction(new DeclareWar(), player, -1);
+                if (action != null)
                 {
-                    Actions.AddChild(Action);
-                    Action.Release();
+                    actions.AddChild(action);
+                    action.Release();
                 }
             }
 
-            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace).Contains(Relation) && !DiplomaticActionAleadySend(ProposeAlliance.Kind, Player, -1))
+            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace).Contains(relation) && !DiplomaticActionAlreadySend(ProposeAlliance.Kind, player, -1))
             {
-                Action = CreateDiplomaticAction(new ProposeAlliance(), Player, -1);
-                if (Action != null)
+                action = CreateDiplomaticAction(new ProposeAlliance(), player, -1);
+                if (action != null)
                 {
-                    Actions.AddChild(Action);
-                    Action.Release();
+                    actions.AddChild(action);
+                    action.Release();
                 }
             }
 
-            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Unknown).Contains(Relation) && !DiplomaticActionAleadySend(ThreatenToAttack.Kind, Player, -1))
+            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Unknown).Contains(relation) && !DiplomaticActionAlreadySend(ThreatenToAttack.Kind, player, -1))
             {
-                Action = CreateDiplomaticAction(new ThreatenToAttack(), Player, -1);
-                if (Action != null)
+                action = CreateDiplomaticAction(new ThreatenToAttack(), player, -1);
+                if (action != null)
                 {
-                    Actions.AddChild(Action);
-                    Action.Release();
+                    actions.AddChild(action);
+                    action.Release();
                 }
             }
 
-            Action = CreateDiplomaticAction(new MakeTribute(), Player, -1);
-            if (Action != null)
+            action = CreateDiplomaticAction(new MakeTribute(), player, -1);
+            if (action != null)
             {
-                Actions.AddChild(Action);
-                Action.Release();
+                actions.AddChild(action);
+                action.Release();
             }
 
-            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Alliance).Contains(Relation))
+            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Alliance).Contains(relation))
             {
-                Action = CreateDiplomaticAction(new BreakAlliance(), Player, -1);
-                if (Action != null)
+                action = CreateDiplomaticAction(new BreakAlliance(), player, -1);
+                if (action != null)
                 {
-                    Actions.AddChild(Action);
-                    Action.Release();
+                    actions.AddChild(action);
+                    action.Release();
                 }
             }
 
-            for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
             {
-                if (I != Player && I != FPlayerIndex && AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Status.Playing)
+                if (I != player && I != PlayerIndex && AoWHSMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing)
                 {
-                    bool condition = !DiplomaticActionAleadySend(SuggestWarDeclaration.Kind, Player, (sbyte)I) && AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.FPlayers.GetPlayers(Player).GetFirstDaySeen((sbyte)I) != -1;
+                    bool condition = !DiplomaticActionAlreadySend(SuggestWarDeclaration.Kind, player, (sbyte)I) && AoWHSMap.Current.Players.GetPlayers(PlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.Players.GetPlayers(player).GetFirstDaySeen((sbyte)I) != -1;
                     if (condition)
                     {
-                        var diplomaticRelation = AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Player, (sbyte)I);
+                        var diplomaticRelation = AoWHSMap.Current.Players.GetDiplomaticRelation(player, (sbyte)I);
                         condition = Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
                     }
 
                     if (condition)
                     {
-                        Action = CreateDiplomaticAction(new SuggestWarDeclaration(), Player, (sbyte)I);
-                        if (Action != null)
+                        action = CreateDiplomaticAction(new SuggestWarDeclaration(), player, (sbyte)I);
+                        if (action != null)
                         {
-                            Actions.AddChild(Action);
-                            Action.Release();
+                            actions.AddChild(action);
+                            action.Release();
                         }
                     }
                 }
             }
 
-            for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
             {
-                if (I != Player && I != FPlayerIndex && AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Status.Playing)
+                if (I != player && I != PlayerIndex && AoWHSMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing)
                 {
-                    if (!DiplomaticActionAleadySend(SuggestAllianceBreak.Kind, Player, (sbyte)I) && AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.FPlayers.GetPlayers(Player).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Player, (sbyte)I) == DiplomaticRelation.Alliance)
+                    if (!DiplomaticActionAlreadySend(SuggestAllianceBreak.Kind, player, (sbyte)I) && AoWHSMap.Current.Players.GetPlayers(PlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.Players.GetPlayers(player).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.Players.GetDiplomaticRelation(player, (sbyte)I) == DiplomaticRelation.Alliance)
                     {
-                        Action = CreateDiplomaticAction(new SuggestAllianceBreak(), Player, (sbyte)I);
-                        if (Action != null)
+                        action = CreateDiplomaticAction(new SuggestAllianceBreak(), player, (sbyte)I);
+                        if (action != null)
                         {
-                            Actions.AddChild(Action);
-                            Action.Release();
+                            actions.AddChild(action);
+                            action.Release();
                         }
                     }
                 }
             }
 
-            if (FPlayerRace == 5 && FHeroEmerging && FPlayerType == PlayerType.Human && AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
+            if (PlayerRace == 5 && HeroEmerging && PlayerType == PlayerType.Human && AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
-                for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
                 {
-                    if (I != Player && I != FPlayerIndex && AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Status.Playing && AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType == PlayerType.Human)
+                    if (I != player && I != PlayerIndex && AoWHSMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing && AoWHSMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human)
                     {
-                        if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.FPlayers.GetPlayers(Player).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.FPlayers.GetPlayers(I).GetFirstDaySeen(Player) != -1)
+                        if (AoWHSMap.Current.Players.GetPlayers(PlayerIndex).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.Players.GetPlayers(player).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.Current.Players.GetPlayers(I).GetFirstDaySeen(player) != -1)
                         {
-                            Action = CreateDiplomaticAction(new ImpersonatedMessage(), Player, (sbyte)I);
-                            if (Action != null)
+                            action = CreateDiplomaticAction(new ImpersonatedMessage(), player, (sbyte)I);
+                            if (action != null)
                             {
-                                Actions.AddChild(Action);
-                                Action.Release();
+                                actions.AddChild(action);
+                                action.Release();
                             }
                         }
                     }
                 }
             }
 
-            Count = Actions.Count - Count;
+            count = actions.Count - count;
         }
         else
         {
-            Count = 0;
+            count = 0;
         }
 
-        return Count;
+        return count;
     }
 
     // Player.PAS:1348
-    public bool ValidAttackRelation(sbyte Player, sbyte IndependentRelation)
+    public bool ValidAttackRelation(sbyte player, sbyte independentRelation)
     {
-        bool Result;
-        Assert(FPlayerIndex != 0, "", "Player.PAS", 1390);
-        if (Set<PlayerType>.Of(PlayerType.CPU1, PlayerType.CPU2, PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(FPlayerType))
+        bool result;
+        Assert(PlayerIndex != 0, "", "Player.PAS", 1390);
+        if (Set<PlayerType>.Of(PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(PlayerType))
         {
-            Result = FAIValidAttackPlayers[Player];
+            result = AIValidAttackPlayers[player];
         }
         else
         {
-            var diplomaticRelation = AbilityRules.DiplomaticRelation(FPlayerIndex, 0, Player, IndependentRelation);
-            Result = Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
+            var diplomaticRelation = AbilityRules.DiplomaticRelation(PlayerIndex, 0, player, independentRelation);
+            result = Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1398
-    public bool ChangePlayerSettings(string Settings, ref string Error)
+    public bool ChangePlayerSettings(string settings, ref string error)
     {
-        bool Result;
-        ChangePlayerSettingsTokenEvent Event;
+        bool result;
+        ChangePlayerSettingsTokenEvent eventValue;
         if (!GetBusy())
         {
-            Event = new ChangePlayerSettingsTokenEvent(null);
-            Event.FPlayer = FPlayerIndex;
-            Event.FSettings = Settings;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayerIndex).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new ChangePlayerSettingsTokenEvent(null);
+            eventValue.Player = PlayerIndex;
+            eventValue.Settings = settings;
+            AoWHSMap.Current.TokenManager.GetTokenControl(PlayerIndex).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string PlayerRStr = "Player";
-    private static readonly string PlayerNameExRStr = "%0:s of the %1:s";
-    private static readonly string GameOverDefeatMessageRStr = "On day %0:s, the empire of the %1:s, led by %2:s was defeated.";
-    private static readonly string GameOverVictoryMessageRStr = "On day %0:s, the empire of the %1:s, led by %2:s was victorious.";
-    private static readonly string XLeaderRStr = "%s leader";
-    private static readonly string NotAllSpheresAssignedRStr = "not all spheres assigned";
-    private static readonly string NotPlacedOnMapRStr = "not placed on map";
-    private static readonly string NotAllSkillPointsAssignedRStr = "not all skill points assigned";
-
-    public enum Behavior : byte
-    {
-        Normal = 0, Aggressor = 1, Defender = 2, Expander = 3, Scorcher = 4, Random = 5
-    }
-
-    public enum Status : byte
-    {
-        Idle = 0, Playing = 1, Terminated = 2
-    }
+    private static readonly string s_playerText = "Player";
+    private static readonly string s_playerNameWithRaceFormat = "%0:s of the %1:s";
+    private static readonly string s_gameOverDefeatMessageFormat = "On day %0:s, the empire of the %1:s, led by %2:s was defeated.";
+    private static readonly string s_gameOverVictoryMessageFormat = "On day %0:s, the empire of the %1:s, led by %2:s was victorious.";
+    private static readonly string s_leaderFormat = "%s leader";
+    private static readonly string s_notAllSpheresAssignedText = "not all spheres assigned";
+    private static readonly string s_notPlacedOnMapText = "not placed on map";
+    private static readonly string s_notAllSkillPointsAssignedText = "not all skill points assigned";
 
     public enum HeroEmergeMode : byte
     {
@@ -1873,17 +1863,17 @@ public partial class Player : EngineObject
 
         public override int Icon => 46;
 
-        public override string Name(DiplomaticAction Action) => AbilityRules.TranslateRStr(P5ThreatenToAttackRStr);
+        public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(s_threatenToAttackText);
 
-        public override string LogText(DiplomaticAction Action) => AbilityRules.TranslateRStr(P5ThreatRStr);
+        public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(s_threatText);
 
-        public override void DefaultMessage(DiplomaticMessageText Text, DiplomaticActionReaction Reaction, DiplomaticRelation Relation) =>
-            Text.Proposing(112);
+        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
+            text.Proposing(112);
 
-        public override void Sent(DiplomaticAction Action) => Deliver(Action);
+        public override void Sent(DiplomaticAction action) => Deliver(action);
 
-        internal static readonly string P5ThreatenToAttackRStr = "Threaten to attack";
-        internal static readonly string P5ThreatRStr = "Threat";
+        internal static readonly string s_threatenToAttackText = "Threaten to attack";
+        internal static readonly string s_threatText = "Threat";
     }
 
     // Kind 5: the source pays the target a tribute.
@@ -1895,59 +1885,59 @@ public partial class Player : EngineObject
 
         public override int Icon => 48;
 
-        public override string Name(DiplomaticAction Action) => AbilityRules.TranslateRStr(P5MakeTributeRStr);
+        public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(s_makeTributeText);
 
-        public override string LogText(DiplomaticAction Action)
+        public override string LogText(DiplomaticAction action)
         {
-            var subject = AbilityRules.TranslateRStr(P5TributeRStr);
-            return Outcome(Action, subject, subject, AcceptedLine(subject), "");
+            var subject = AbilityRules.TranslateResourceString(s_tributeText);
+            return Outcome(action, subject, subject, AcceptedLine(subject), "");
         }
 
         public override string LoggedSample => "SFX\\EVENTS\\MESSAGE2.WAV";
 
-        public override void DefaultMessage(DiplomaticMessageText Text, DiplomaticActionReaction Reaction, DiplomaticRelation Relation) =>
-            Text.Exchange(Reaction, 118, 133, 136);
+        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
+            text.Exchange(reaction, 118, 133, 136);
 
-        public override bool CanSend(DiplomaticAction Action, ref string ErrorText)
+        public override bool CanSend(DiplomaticAction action, ref string errorText)
         {
             if (Gold == 0 && Mana == 0)
             {
-                ErrorText = AbilityRules.TranslateRStr(P5NoGoldManaSpecifiedRStr);
+                errorText = AbilityRules.TranslateResourceString(s_noGoldManaSpecifiedText);
                 return false;
             }
 
             return true;
         }
 
-        public override void Sent(DiplomaticAction Action) => Deliver(Action);
+        public override void Sent(DiplomaticAction action) => Deliver(action);
 
-        public override bool LapsesUnanswered(DiplomaticAction Action) => true;
+        public override bool LapsesUnanswered(DiplomaticAction action) => true;
 
-        public override void Accepted(DiplomaticAction Action) => ReturnToSource(Action);
+        public override void Accepted(DiplomaticAction action) => ReturnToSource(action);
 
-        public override void AnswerAI(DiplomaticAction Action, sbyte Player, DiplomaticRelation Relation, ByteList IdealPeace, ByteList IdealWar)
+        public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
         {
-            string ErrorText = "";
-            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(Relation))
+            string errorText = "";
+            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(relation))
             {
-                Action.Accept(ref ErrorText);
+                action.Accept(ref errorText);
             }
             else
             {
                 if (AoWHSMap.Current.Random(200) + 50 < Gold + Mana)
                 {
-                    Action.Accept(ref ErrorText);
+                    action.Accept(ref errorText);
                 }
                 else
                 {
-                    Action.Reject(ref ErrorText);
+                    action.Reject(ref errorText);
                 }
             }
         }
 
-        internal static readonly string P5MakeTributeRStr = "Make tribute";
-        internal static readonly string P5NoGoldManaSpecifiedRStr = "No gold/mana specified";
-        internal static readonly string P5TributeRStr = "Tribute";
+        internal static readonly string s_makeTributeText = "Make tribute";
+        internal static readonly string s_noGoldManaSpecifiedText = "No gold/mana specified";
+        internal static readonly string s_tributeText = "Tribute";
     }
 
     // Kind 7: the source writes to the target in the name of the other player, offered between human
@@ -1962,17 +1952,17 @@ public partial class Player : EngineObject
 
         public override bool SignedAsOtherPlayer => true;
 
-        public override string Name(DiplomaticAction Action)
+        public override string Name(DiplomaticAction action)
         {
-            var name = AoWHSMap.Current.FPlayers.GetPlayers(Action.FOtherPlayer).GetName();
-            return AbilityRules.Format(AbilityRules.TranslateRStr(P5SendMessageAsXRStr), [name]);
+            var name = AoWHSMap.Current.Players.GetPlayers(action.OtherPlayer).GetName();
+            return AbilityRules.Format(AbilityRules.TranslateResourceString(s_sendMessageFormat), [name]);
         }
 
-        public override string LogText(DiplomaticAction Action) => AbilityRules.TranslateRStr(GameText.P5MessageRStr);
+        public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(GameText.s_diplomaticMessageText);
 
-        public override void Sent(DiplomaticAction Action) => Deliver(Action);
+        public override void Sent(DiplomaticAction action) => Deliver(action);
 
-        private static readonly string P5SendMessageAsXRStr = "Send message as %s";
+        private static readonly string s_sendMessageFormat = "Send message as %s";
     }
 
     // Kind 8: the source asks the target to end its alliance with the other player.
@@ -1984,65 +1974,65 @@ public partial class Player : EngineObject
 
         public override int Icon => 47;
 
-        public override string Name(DiplomaticAction Action)
+        public override string Name(DiplomaticAction action)
         {
-            var name = AoWHSMap.Current.FPlayers.GetPlayers(Action.FOtherPlayer).GetName();
-            return AbilityRules.Format(AbilityRules.TranslateRStr(P5SuggestAllianceBreakWithYRStr), [name]);
+            var name = AoWHSMap.Current.Players.GetPlayers(action.OtherPlayer).GetName();
+            return AbilityRules.Format(AbilityRules.TranslateResourceString(s_suggestAllianceBreakFormat), [name]);
         }
 
-        public override string LogText(DiplomaticAction Action)
+        public override string LogText(DiplomaticAction action)
         {
-            var subject = AbilityRules.TranslateRStr(GameText.P5BreakAllianceRStr);
-            return Outcome(Action, AbilityRules.TranslateRStr(P5BreakAllianceSuggestionRStr), subject, AcceptedLine(subject), "");
+            var subject = AbilityRules.TranslateResourceString(GameText.s_breakAllianceText);
+            return Outcome(action, AbilityRules.TranslateResourceString(s_breakAllianceSuggestionText), subject, AcceptedLine(subject), "");
         }
 
-        public override void DefaultMessage(DiplomaticMessageText Text, DiplomaticActionReaction Reaction, DiplomaticRelation Relation) =>
-            Text.Exchange(Reaction, 160, 139, 142, true);
+        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
+            text.Exchange(reaction, 160, 139, 142, true);
 
-        public override void Sent(DiplomaticAction Action) => Deliver(Action);
+        public override void Sent(DiplomaticAction action) => Deliver(action);
 
-        public override bool LapsesUnanswered(DiplomaticAction Action) =>
-            Relation(Action.FTarget, Action.FOtherPlayer) != DiplomaticRelation.Alliance;
+        public override bool LapsesUnanswered(DiplomaticAction action) =>
+            Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.Alliance;
 
-        public override void Accepted(DiplomaticAction Action)
+        public override void Accepted(DiplomaticAction action)
         {
-            if (Relation(Action.FTarget, Action.FOtherPlayer) == DiplomaticRelation.Alliance)
+            if (Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.Alliance)
             {
-                AoWHSMap.Current.FPlayers.SetDiplomaticRelation((sbyte)(byte)Action.FTarget, (sbyte)(byte)Action.FOtherPlayer, DiplomaticRelation.Peace);
-                var broken = AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).CreateDiplomaticAction(new BreakAlliance(), Action.FOtherPlayer, -1);
+                AoWHSMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Target, (sbyte)(byte)action.OtherPlayer, DiplomaticRelation.Peace);
+                var broken = AoWHSMap.Current.Players.GetPlayers(action.Target).CreateDiplomaticAction(new BreakAlliance(), action.OtherPlayer, -1);
                 if (broken != null)
                 {
-                    Broadcast(broken, Action.FSource, Action.FOtherPlayer);
+                    Broadcast(broken, action.Source, action.OtherPlayer);
                     broken.Release();
                 }
             }
 
-            ReturnToSource(Action);
+            ReturnToSource(action);
         }
 
-        public override DiplomaticActionReaction RejectReaction(DiplomaticAction Action) =>
-            Relation(Action.FTarget, Action.FOtherPlayer) == DiplomaticRelation.Alliance ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
+        public override DiplomaticActionReaction RejectReaction(DiplomaticAction action) =>
+            Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.Alliance ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
 
-        public override void AnswerAI(DiplomaticAction Action, sbyte Player, DiplomaticRelation Relation, ByteList IdealPeace, ByteList IdealWar)
+        public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
         {
-            string ErrorText = "";
-            if (DiplomaticProposal.Relation(Action.FTarget, Action.FOtherPlayer) != DiplomaticRelation.Alliance)
+            string errorText = "";
+            if (DiplomaticProposal.Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.Alliance)
             {
-                Action.Accept(ref ErrorText);
+                action.Accept(ref errorText);
             }
             else
             {
-                Action.Reject(ref ErrorText);
+                action.Reject(ref errorText);
             }
         }
 
-        public override int RelationModifier(DiplomaticAction Action, sbyte Player, sbyte Race) =>
-            Player == Action.FTarget && Relation(Action.FTarget, Action.FOtherPlayer) == DiplomaticRelation.Alliance
-                ? RaceModifier(Action.FOtherPlayer, Race, -40)
+        public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race) =>
+            player == action.Target && Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.Alliance
+                ? RaceModifier(action.OtherPlayer, race, -40)
                 : 0;
 
-        private static readonly string P5SuggestAllianceBreakWithYRStr = "Suggest alliance break with %s";
-        internal static readonly string P5BreakAllianceSuggestionRStr = "Break alliance suggestion";
+        private static readonly string s_suggestAllianceBreakFormat = "Suggest alliance break with %s";
+        internal static readonly string s_breakAllianceSuggestionText = "Break alliance suggestion";
     }
 
     // Kind 9: the source asks the target to declare war on the other player.
@@ -2054,100 +2044,110 @@ public partial class Player : EngineObject
 
         public override int Icon => 47;
 
-        public override string Name(DiplomaticAction Action)
+        public override string Name(DiplomaticAction action)
         {
-            var name = AoWHSMap.Current.FPlayers.GetPlayers(Action.FOtherPlayer).GetName();
-            return AbilityRules.Format(AbilityRules.TranslateRStr(P5SuggestWarWithYRStr), [name]);
+            var name = AoWHSMap.Current.Players.GetPlayers(action.OtherPlayer).GetName();
+            return AbilityRules.Format(AbilityRules.TranslateResourceString(s_suggestWarFormat), [name]);
         }
 
-        public override string LogText(DiplomaticAction Action)
+        public override string LogText(DiplomaticAction action)
         {
-            var subject = AbilityRules.TranslateRStr(GameText.P5DeclareWarRStr);
-            return Outcome(Action, AbilityRules.TranslateRStr(P5DeclareWarSuggestionRStr), subject, AcceptedLine(subject), "");
+            var subject = AbilityRules.TranslateResourceString(GameText.s_declareWarText);
+            return Outcome(action, AbilityRules.TranslateResourceString(s_declareWarSuggestionText), subject, AcceptedLine(subject), "");
         }
 
-        public override int MiddleIcon(DiplomaticAction Action) =>
-            Action.FReaction == DiplomaticActionReaction.Accept ? 0x15 : 0x16;
+        public override int MiddleIcon(DiplomaticAction action) =>
+            action.Reaction == DiplomaticActionReaction.Accept ? 0x15 : 0x16;
 
-        public override void DefaultMessage(DiplomaticMessageText Text, DiplomaticActionReaction Reaction, DiplomaticRelation Relation) =>
-            Text.Exchange(Reaction, 157, 145, 148, true);
+        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
+            text.Exchange(reaction, 157, 145, 148, true);
 
-        public override void Sent(DiplomaticAction Action) => Deliver(Action);
+        public override void Sent(DiplomaticAction action) => Deliver(action);
 
-        public override bool LapsesUnanswered(DiplomaticAction Action) =>
-            Relation(Action.FTarget, Action.FOtherPlayer) != DiplomaticRelation.War;
+        public override bool LapsesUnanswered(DiplomaticAction action) =>
+            Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.War;
 
-        public override void Accepted(DiplomaticAction Action)
+        public override void Accepted(DiplomaticAction action)
         {
-            if (Relation(Action.FTarget, Action.FOtherPlayer) != DiplomaticRelation.War)
+            if (Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.War)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(Action.FOtherPlayer).PlayerSeen((sbyte)(byte)Action.FTarget);
-                AoWHSMap.Current.FPlayers.SetDiplomaticRelation((sbyte)(byte)Action.FTarget, (sbyte)(byte)Action.FOtherPlayer, DiplomaticRelation.War);
-                var war = AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).CreateDiplomaticAction(new DeclareWar(), Action.FOtherPlayer, -1);
+                AoWHSMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerSeen((sbyte)(byte)action.Target);
+                AoWHSMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Target, (sbyte)(byte)action.OtherPlayer, DiplomaticRelation.War);
+                var war = AoWHSMap.Current.Players.GetPlayers(action.Target).CreateDiplomaticAction(new DeclareWar(), action.OtherPlayer, -1);
                 if (war != null)
                 {
-                    Broadcast(war, Action.FSource, Action.FOtherPlayer);
+                    Broadcast(war, action.Source, action.OtherPlayer);
                     war.Release();
                 }
             }
 
-            ReturnToSource(Action);
+            ReturnToSource(action);
         }
 
-        public override DiplomaticActionReaction RejectReaction(DiplomaticAction Action) =>
-            Relation(Action.FTarget, Action.FOtherPlayer) != DiplomaticRelation.War ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
+        public override DiplomaticActionReaction RejectReaction(DiplomaticAction action) =>
+            Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.War ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
 
-        public override void AnswerAI(DiplomaticAction Action, sbyte Player, DiplomaticRelation Relation, ByteList IdealPeace, ByteList IdealWar)
+        public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
         {
-            string ErrorText = "";
-            if (DiplomaticProposal.Relation(Action.FTarget, Action.FOtherPlayer) == DiplomaticRelation.War)
+            string errorText = "";
+            if (DiplomaticProposal.Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.War)
             {
-                Action.Accept(ref ErrorText);
+                action.Accept(ref errorText);
             }
             else
             {
-                if (IdealWar.IndexOf((byte)Action.FOtherPlayer) != -1)
+                if (idealWar.IndexOf((byte)action.OtherPlayer) != -1)
                 {
-                    if (AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).FAIControl.CanDeclareWar((byte)Action.FOtherPlayer))
+                    if (AoWHSMap.Current.Players.GetPlayers(action.Target).AIControl.CanDeclareWar((byte)action.OtherPlayer))
                     {
-                        if (AoWHSMap.Current.Random(5) == 1 && AoWHSMap.Current.Random(550) + 250 < Action.FEscrowGold + Action.FEscrowMana)
+                        if (AoWHSMap.Current.Random(5) == 1 && AoWHSMap.Current.Random(550) + 250 < action.EscrowGold + action.EscrowMana)
                         {
-                            Action.Accept(ref ErrorText);
+                            action.Accept(ref errorText);
                         }
                         else
                         {
-                            Action.Reject(ref ErrorText);
+                            action.Reject(ref errorText);
                         }
                     }
                     else
                     {
-                        Action.Reject(ref ErrorText);
+                        action.Reject(ref errorText);
                     }
                 }
                 else
                 {
-                    Action.Reject(ref ErrorText);
+                    action.Reject(ref errorText);
                 }
             }
         }
 
-        public override int RelationModifier(DiplomaticAction Action, sbyte Player, sbyte Race)
+        public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
         {
-            if (Player == Action.FTarget && Relation(Action.FTarget, Action.FOtherPlayer) != DiplomaticRelation.War)
+            if (player == action.Target && Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.War)
             {
-                int Modifier = Relation(Action.FTarget, Action.FOtherPlayer) == DiplomaticRelation.Alliance ? -60 : -20;
-                return RaceModifier(Action.FOtherPlayer, Race, Modifier);
+                int modifier = Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.Alliance ? -60 : -20;
+                return RaceModifier(action.OtherPlayer, race, modifier);
             }
 
             return 0;
         }
 
-        private static readonly string P5SuggestWarWithYRStr = "Suggest war with %s";
-        internal static readonly string P5DeclareWarSuggestionRStr = "Declare war suggestion";
+        private static readonly string s_suggestWarFormat = "Suggest war with %s";
+        internal static readonly string s_declareWarSuggestionText = "Declare war suggestion";
     }
 
     // intf_P1_03.inc:248
 
     // intf_P1_03.inc:248
 
+}
+
+public enum PlayerBehavior : byte
+{
+    Normal = 0, Aggressor = 1, Defender = 2, Expander = 3, Scorcher = 4, Random = 5
+}
+
+public enum PlayerStatus : byte
+{
+    Idle = 0, Playing = 1, Terminated = 2
 }

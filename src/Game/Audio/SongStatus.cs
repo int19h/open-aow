@@ -5,23 +5,23 @@ namespace Aow.Game.Audio;
 // FFileName. What BackupSongStatus saves. the sound system adds its own position
 public partial class SongStatus
 {
-    protected internal string FFileName = "";
+    protected internal string _fileName = "";
 
-    public string FileName { get => FFileName; }
+    public string FileName { get => _fileName; }
 
-    internal static bool RestoreSongStatus(SongStatus Status)
+    internal static bool RestoreSongStatus(SongStatus status)
     {
-        bool Result;
+        bool result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = AudioHost.SoundSystem.RestoreSongStatus(Status);
+            result = AudioHost.SoundSystem.RestoreSongStatus(status);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
 }

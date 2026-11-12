@@ -36,7 +36,7 @@ public sealed class SdlHost : IRtlHost, IDisposable
     public IShellService Shell { get; } = new SdlShell();
     public SdlDisplayHost Display { get; }
     public string GameRoot { get; }
-    public string ExeName => ((LayeredFileSystem)Files).ExpandPath(Path.Combine(GameRoot, "AoW.exe"));
+    public string ExecutableName => ((LayeredFileSystem)Files).ExpandPath(Path.Combine(GameRoot, "AoW.exe"));
 
     public void Dispose() => Display.Dispose();
 
@@ -56,20 +56,20 @@ public sealed class SdlHost : IRtlHost, IDisposable
     {
         // The game's catch blocks drop the exception and show only a message (as the original
         // did), so the host keeps the last one thrown on each thread for the log.
-        [ThreadStatic] private static System.Exception? last;
-        private readonly SdlDisplayHost display;
+        [ThreadStatic] private static System.Exception? t_last;
+        private readonly SdlDisplayHost _display;
 
         public DisplayDialogs(SdlDisplayHost display)
         {
-            this.display = display;
-            AppDomain.CurrentDomain.FirstChanceException += (_, e) => last = e.Exception;
+            this._display = display;
+            AppDomain.CurrentDomain.FirstChanceException += (_, e) => t_last = e.Exception;
         }
 
         public int Show(DialogRequest request)
         {
             Console.Error.WriteLine("Message: " + request.Text);
-            if (request.Text.StartsWith("Exception", StringComparison.Ordinal) && last is { } error) Console.Error.WriteLine(error);
-            return display.ShowMessageBox(request);
+            if (request.Text.StartsWith("Exception", StringComparison.Ordinal) && t_last is { } error) Console.Error.WriteLine(error);
+            return _display.ShowMessageBox(request);
         }
     }
 }

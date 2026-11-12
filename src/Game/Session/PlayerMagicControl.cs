@@ -36,47 +36,47 @@ public partial class PlayerMagicControl : EngineObject
     // power sources, active/enemy enchantments, change events
     public PlayerMagicControl(ECustomNode owner) : base(owner)
     {
-        ExternalPowerSource Source;
+        ExternalPowerSource source;
 
-        FSpells = new Int32List();
-        FChangedEventsStore = new();
-        FEnchantments = new EnchantmentList(null);
-        FPowerSources = new PowerSourceList(null);
-        Source = new ExternalPowerSource(null);
-        FExternalPowerSource = Source;
-        Source.FExternalPowerControl = this;
-        FPowerSources.AddChild(Source);
-        FResearchPointsLeft = 0;
-        FResearchSpellID = 0;
-        FResearchPercentage = 50;
-        FSpheres = Set<MagicSphere>.Of().WithRange(MagicSphere.Cosmos, MagicSphere.Secret);
-        FNextEnchantmentID = 1;
+        Spells = new Int32List();
+        _changedEventsStore = new();
+        Enchantments = new EnchantmentList(null);
+        PowerSources = new PowerSourceList(null);
+        source = new ExternalPowerSource(null);
+        ExternalPowerSource = source;
+        source.ExternalPowerControl = this;
+        PowerSources.AddChild(source);
+        ResearchPointsLeft = 0;
+        ResearchSpellId = 0;
+        ResearchPercentage = 50;
+        Spheres = Set<MagicSphere>.Of().WithRange(MagicSphere.Cosmos, MagicSphere.Secret);
+        NextEnchantmentId = 1;
     }
 
-    public int FNextEnchantmentID;
-    public bool FCheatEnabled;
-    public Player FPlayer;
-    public int FUpdateCount;
-    public int FExternalMana;
-    public int FExternalPower;
-    public ExternalPowerSource FExternalPowerSource;
-    public int FMana;
-    public Set<MagicSphere> FSpheres;
-    public int FResearchPercentage;
-    public Int32List FSpells;
-    public int FResearchSpellID;
-    public int FResearchPointsLeft;
-    public EnchantmentList FEnchantments;
-    public PowerSourceList FPowerSources;
-    public Set<PlayerEnchantmentType> FActiveEnchantments;
-    public Set<PlayerEnchantmentType> FEnemyEnchantments;
+    public int NextEnchantmentId;
+    public bool CheatEnabled;
+    public Player Player;
+    public int UpdateCount;
+    public int ExternalMana;
+    public int ExternalPower;
+    public ExternalPowerSource ExternalPowerSource;
+    public int Mana;
+    public Set<MagicSphere> Spheres;
+    public int ResearchPercentage;
+    public Int32List Spells;
+    public int ResearchSpellId;
+    public int ResearchPointsLeft;
+    public EnchantmentList Enchantments;
+    public PowerSourceList PowerSources;
+    public Set<PlayerEnchantmentType> ActiveEnchantments;
+    public Set<PlayerEnchantmentType> EnemyEnchantments;
 
-    internal EventStore<PlayerMagicControl> FChangedEventsStore;
+    internal EventStore<PlayerMagicControl> _changedEventsStore;
 
     public event NotifyEvent<PlayerMagicControl> FChangedEvents
     {
-        add => FChangedEventsStore.Add(value);
-        remove => FChangedEventsStore.Remove(value);
+        add => _changedEventsStore.Add(value);
+        remove => _changedEventsStore.Remove(value);
     }
 
     // Spells.PAS:1927
@@ -84,11 +84,11 @@ public partial class PlayerMagicControl : EngineObject
     {
         try
         {
-            FSpells?.Dispose();
-            FEnchantments?.Dispose();
-            FChangedEventsStore.Clear();
-            FPowerSources.RemoveChild(FExternalPowerSource);
-            if (FPowerSources.GetCount() != 0 && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+            Spells?.Dispose();
+            Enchantments?.Dispose();
+            _changedEventsStore.Clear();
+            PowerSources.RemoveChild(ExternalPowerSource);
+            if (PowerSources.GetCount() != 0 && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
             {
                 try
                 {
@@ -100,8 +100,8 @@ public partial class PlayerMagicControl : EngineObject
             }
 
             // { Original bug: the diagnostic exception is swallowed. }
-            FPowerSources?.Dispose();
-            FExternalPowerSource?.Dispose();
+            PowerSources?.Dispose();
+            ExternalPowerSource?.Dispose();
             base.Dispose();
         }
         catch
@@ -111,59 +111,59 @@ public partial class PlayerMagicControl : EngineObject
 
     // Spells.PAS:1947
     // { Original bug: cleanup errors are silently swallowed. }
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FMana, 20);
-        Stream.rwIntegerEx(ref FResearchPercentage, 50, 21);
-        Stream.rwStreamProc(22, FSpells.LoadFromStream, FSpells.SaveToStream);
-        Stream.rwInteger(ref FResearchSpellID, 23);
-        Stream.rwInteger(ref FResearchPointsLeft, 24);
-        Stream.rwEObject(FEnchantments, 25);
-        RwSet(ref FActiveEnchantments, 1, 26, Stream.rwData, 0);
-        Stream.rwInteger(ref FExternalMana, 27);
-        Stream.rwInteger(ref FExternalPower, 28);
-        Stream.rwBool(ref FCheatEnabled, 29);
-        Stream.rwInteger(ref FNextEnchantmentID, 30);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Mana, 20);
+        stream.rwIntegerEx(ref ResearchPercentage, 50, 21);
+        stream.rwStreamProc(22, Spells.LoadFromStream, Spells.SaveToStream);
+        stream.rwInteger(ref ResearchSpellId, 23);
+        stream.rwInteger(ref ResearchPointsLeft, 24);
+        stream.rwEObject(Enchantments, 25);
+        RwSet(ref ActiveEnchantments, 1, 26, stream.rwData, 0);
+        stream.rwInteger(ref ExternalMana, 27);
+        stream.rwInteger(ref ExternalPower, 28);
+        stream.rwBool(ref CheatEnabled, 29);
+        stream.rwInteger(ref NextEnchantmentId, 30);
     }
 
     // Spells.PAS:2243
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayer.FPlayerIndex)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001986 && message.Payload.Int == Player.PlayerIndex)
         {
             NewTurn();
         }
 
-        FEnchantments.MsgProc(ref Msg, Sender);
+        Enchantments.MessageProc(ref message, sender);
     }
 
     // Spells.PAS:1962
     public bool GetCheatEnabled()
     {
-        bool Result;
-        if (FPlayer.FPlayerType == PlayerType.Human)
+        bool result;
+        if (Player.PlayerType == PlayerType.Human)
         {
-            Result = FCheatEnabled;
+            result = CheatEnabled;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:1967
-    public void SetActiveEnchantments(Set<PlayerEnchantmentType> Value)
+    public void SetActiveEnchantments(Set<PlayerEnchantmentType> value)
     {
-        FActiveEnchantments = Value;
-        for (int I = AoWHSMap.Current.FPlayers.GetCount() - 1; I >= 1; I--)
+        ActiveEnchantments = value;
+        for (int I = AoWHSMap.Current.Players.GetCount() - 1; I >= 1; I--)
         {
-            if (I != FPlayer.FPlayerIndex)
+            if (I != Player.PlayerIndex)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl.UpdateEnemyEnchantments();
+                AoWHSMap.Current.Players.GetPlayers(I).MagicControl.UpdateEnemyEnchantments();
             }
         }
     }
@@ -171,33 +171,33 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:1976
     public void UpdateEnemyEnchantments()
     {
-        PlayerMagicControl Magic;
-        FEnemyEnchantments = Set<PlayerEnchantmentType>.Of();
-        for (int I = AoWHSMap.Current.FPlayers.GetCount() - 1; I >= 1; I--)
+        PlayerMagicControl magic;
+        EnemyEnchantments = Set<PlayerEnchantmentType>.Of();
+        for (int I = AoWHSMap.Current.Players.GetCount() - 1; I >= 1; I--)
         {
-            if (I != FPlayer.FPlayerIndex)
+            if (I != Player.PlayerIndex)
             {
-                if (AoWHSMap.Current.FPlayers.GetPlayers(I).FDiplomaticRelations.GetDiplomaticRelation(FPlayer.FPlayerIndex) == DiplomaticRelation.War)
+                if (AoWHSMap.Current.Players.GetPlayers(I).DiplomaticRelations.GetDiplomaticRelation(Player.PlayerIndex) == DiplomaticRelation.War)
                 {
-                    Magic = AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl;
-                    if (Magic.FActiveEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
+                    magic = AoWHSMap.Current.Players.GetPlayers(I).MagicControl;
+                    if (magic.ActiveEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
                     {
-                        FEnemyEnchantments = FEnemyEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery);
+                        EnemyEnchantments = EnemyEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery);
                     }
 
-                    if (Magic.FActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
+                    if (magic.ActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
                     {
-                        FEnemyEnchantments = FEnemyEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery);
+                        EnemyEnchantments = EnemyEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery);
                     }
 
-                    if (Magic.FActiveEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
+                    if (magic.ActiveEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
                     {
-                        FEnemyEnchantments = FEnemyEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery);
+                        EnemyEnchantments = EnemyEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery);
                     }
 
-                    if (Magic.FActiveEnchantments.Contains(PlayerEnchantmentType.AirMastery))
+                    if (magic.ActiveEnchantments.Contains(PlayerEnchantmentType.AirMastery))
                     {
-                        FEnemyEnchantments = FEnemyEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.AirMastery);
+                        EnemyEnchantments = EnemyEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.AirMastery);
                     }
                 }
             }
@@ -210,30 +210,30 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:1995
     public int GetManaUpkeep()
     {
-        int Result = 0;
-        for (int I = FEnchantments.GetCount() - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = Enchantments.GetCount() - 1; I >= 0; I--)
         {
-            Result += FEnchantments.GetEnchantments(I).FUpkeep;
+            result += Enchantments.GetEnchantments(I).Upkeep;
         }
 
-        Result += AoWHSMap.Current.FGlobalMagicControl.GetEnchantmentUpkeep(FPlayer.FPlayerIndex);
-        return Result;
+        result += AoWHSMap.Current.GlobalMagicControl.GetEnchantmentUpkeep(Player.PlayerIndex);
+        return result;
     }
 
     // Spells.PAS:2004
-    public void SetMana(int Value)
+    public void SetMana(int value)
     {
-        if (Value < 0)
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        if (Value != FMana)
+        if (value != Mana)
         {
-            FMana = Value;
-            if (AoWHSMap.Current.FVictoryCondition == AoWHSMap.VictoryCondition.AccumulateMana && AoWHSMap.Current.FVictoryMana <= FMana)
+            Mana = value;
+            if (AoWHSMap.Current.VictoryCondition == AoWHSMapVictoryCondition.AccumulateMana && AoWHSMap.Current.VictoryMana <= Mana)
             {
-                AoWHSMap.Current.GameOver(FPlayer.FPlayerIndex, GameOverStatus.Won);
+                AoWHSMap.Current.GameOver(Player.PlayerIndex, GameOverStatus.Won);
             }
 
             Update();
@@ -243,97 +243,97 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2015
     public int GetPower()
     {
-        int Result = 0;
-        for (int I = FPowerSources.GetCount() - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = PowerSources.GetCount() - 1; I >= 0; I--)
         {
-            Result += FPowerSources.GetItems(I).Power();
+            result += PowerSources.GetItems(I).Power();
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2023
-    public void OutOfMana(int Mana)
+    public void OutOfMana(int mana)
     {
         int I;
-        int Index;
-        PlayerMagicEventLog Log;
-        while (Mana > 0 && FEnchantments.GetCount() != 0)
+        int index;
+        PlayerMagicEventLog log;
+        while (mana > 0 && Enchantments.GetCount() != 0)
         {
-            I = FEnchantments.GetCount();
-            Index = I - 1;
+            I = Enchantments.GetCount();
+            index = I - 1;
             while (I != 0)
             {
                 I -= 1;
-                var enchantments = FEnchantments.GetEnchantments(I);
-                var fEnchantmentsEnchantments = FEnchantments.GetEnchantments(Index);
-                if (enchantments.FUpkeep < fEnchantmentsEnchantments.FUpkeep)
+                var enchantments = Enchantments.GetEnchantments(I);
+                var fEnchantmentsEnchantments = Enchantments.GetEnchantments(index);
+                if (enchantments.Upkeep < fEnchantmentsEnchantments.Upkeep)
                 {
-                    Index = I;
+                    index = I;
                 }
             }
 
-            if (Index != -1)
+            if (index != -1)
             {
-                Mana -= FEnchantments.GetEnchantments(Index).FUpkeep;
-                Log = new PlayerMagicEventLog(null);
-                Log.FPlayer = FPlayer.FPlayerIndex;
-                Log.FMode = PlayerMagicEventLog.EventMode.OutOfMana;
-                FEnchantments.GetEnchantments(Index).GetLocation(ref Log.FLocation.X, ref Log.FLocation.Y, ref Log.FLocation.L);
-                Log.FEnchantmentName = FEnchantments.GetEnchantments(Index).GetName();
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer.FPlayerIndex).FEventLogbook.AddEvent(Log);
-                Log.Release();
-                ExecuteDispelEnchantment(Index);
+                mana -= Enchantments.GetEnchantments(index).Upkeep;
+                log = new PlayerMagicEventLog(null);
+                log._player = Player.PlayerIndex;
+                log.Mode = PlayerMagicEventLog.EventMode.OutOfMana;
+                Enchantments.GetEnchantments(index).GetLocation(ref log.Location.X, ref log.Location.Y, ref log.Location.MapLevel);
+                log.EnchantmentName = Enchantments.GetEnchantments(index).GetName();
+                AoWHSMap.Current.Players.GetPlayers(Player.PlayerIndex).EventLogbook.AddEvent(log);
+                log.Release();
+                ExecuteDispelEnchantment(index);
             }
         }
 
-        if (Mana > 0)
+        if (mana > 0)
         {
-            AoWHSMap.Current.FGlobalMagicControl.OutOfMana((sbyte)(byte)FPlayer.FPlayerIndex, Mana);
+            AoWHSMap.Current.GlobalMagicControl.OutOfMana((sbyte)(byte)Player.PlayerIndex, mana);
         }
     }
 
     // Spells.PAS:2052
     public void RemoveEnchantments()
     {
-        while (FEnchantments.GetCount() != 0)
+        while (Enchantments.GetCount() != 0)
         {
-            ExecuteDispelEnchantment(FEnchantments.GetCount() - 1);
+            ExecuteDispelEnchantment(Enchantments.GetCount() - 1);
         }
     }
 
     // Spells.PAS:2056
     public bool ValidateEnchantmentsUpkeep()
     {
-        bool Result;
-        int Balance;
+        bool result;
+        int balance;
         var manaIncome = GetManaIncome();
         var manaUpkeep = GetManaUpkeep();
-        Balance = FMana + manaIncome - manaUpkeep;
-        if (Balance < 0 && GetManaUpkeep() != 0)
+        balance = Mana + manaIncome - manaUpkeep;
+        if (balance < 0 && GetManaUpkeep() != 0)
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2064
-    public bool ExecuteSpellResearched(int SpellID)
+    public bool ExecuteSpellResearched(int spellId)
     {
-        if (FSpells.IndexOf(SpellID) == -1)
+        if (Spells.IndexOf(spellId) == -1)
         {
-            FSpells.Add(SpellID);
+            Spells.Add(spellId);
         }
 
-        if (SpellID == FResearchSpellID)
+        if (spellId == ResearchSpellId)
         {
-            FResearchPointsLeft = 0;
-            FResearchSpellID = 0;
+            ResearchPointsLeft = 0;
+            ResearchSpellId = 0;
         }
 
         return true;
@@ -342,241 +342,241 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2074
     public void NewTurn()
     {
-        SpellType Kind = default;
-        Int32List Candidates = default;
-        int Index = default;
-        Spell Spell = default;
-        PlayerMagicEventLog Log;
-        if (AoWHSMap.Current.FDay == 1 && FPlayer.FPlayerIndex != 0 && (AoWHSMap.Current.FGameType != GameType.Campaign || FSpells.Count == 0))
+        SpellType kind = default;
+        Int32List candidates = default;
+        int index = default;
+        Spell spell = default;
+        PlayerMagicEventLog log;
+        if (AoWHSMap.Current.Day == 1 && Player.PlayerIndex != 0 && (AoWHSMap.Current.GameType != GameType.Campaign || Spells.Count == 0))
         {
-            Candidates = new Int32List();
+            candidates = new Int32List();
             for (int kindOrdinal = (int)(SpellType)0; kindOrdinal <= (int)(SpellType)2; kindOrdinal++)
             {
-                Kind = (SpellType)kindOrdinal;
-                Candidates.Clear();
-                for (int I = 0, last = AoWHSSet.Current.FSpellControl.GetCount() - 1; I <= last; I++)
+                kind = (SpellType)kindOrdinal;
+                candidates.Clear();
+                for (int I = 0, last = AoWHSSet.Current.SpellControl.GetCount() - 1; I <= last; I++)
                 {
-                    Spell = AoWHSSet.Current.FSpellControl.GetSpell(I);
-                    if (Spell != null && FSpells.IndexOf(I) == -1 && Spell.FSpellType == Kind && (Spell.FMagicSphere == MagicSphere.Cosmos || FPlayer.FLeader.GetSpherePicks(Spell.FMagicSphere) > 0) && Spell.FSpellLevel == 1)
+                    spell = AoWHSSet.Current.SpellControl.GetSpell(I);
+                    if (spell != null && Spells.IndexOf(I) == -1 && spell.SpellType == kind && (spell.MagicSphere == MagicSphere.Cosmos || Player.Leader.GetSpherePicks(spell.MagicSphere) > 0) && spell.SpellLevel == 1)
                     {
-                        Candidates.Add(I);
+                        candidates.Add(I);
                     }
                 }
 
-                if (Candidates.Count > 0)
+                if (candidates.Count > 0)
                 {
-                    Index = AoWHSMap.Current.Random(Candidates.Count);
-                    var item = Candidates[Index];
-                    FSpells.Add(item);
+                    index = AoWHSMap.Current.Random(candidates.Count);
+                    var item = candidates[index];
+                    Spells.Add(item);
                 }
             }
 
-            Candidates?.Dispose();
+            candidates?.Dispose();
         }
 
-        if (FResearchSpellID != 0)
+        if (ResearchSpellId != 0)
         {
-            if (FSpells.IndexOf(FResearchSpellID) == -1)
+            if (Spells.IndexOf(ResearchSpellId) == -1)
             {
                 var netPowerToResearch = GetNetPowerToResearch();
-                FResearchPointsLeft -= netPowerToResearch;
-                if (FResearchPointsLeft <= 0)
+                ResearchPointsLeft -= netPowerToResearch;
+                if (ResearchPointsLeft <= 0)
                 {
-                    if (FResearchPointsLeft < 0)
+                    if (ResearchPointsLeft < 0)
                     {
-                        FMana += Math.Abs(FResearchPointsLeft);
+                        Mana += Math.Abs(ResearchPointsLeft);
                     }
 
-                    Log = new PlayerMagicEventLog(null);
-                    Log.FPlayer = FPlayer.FPlayerIndex;
-                    Log.FMode = PlayerMagicEventLog.EventMode.SpellResearched;
-                    Log.FSpellID = FResearchSpellID;
-                    FPlayer.FEventLogbook.AddEvent(Log);
-                    ExecuteSpellResearched(FResearchSpellID);
-                    if (FPlayer.FPlayerIndex == AoWHSMap.Current.FSeatedPlayer && FPlayer.FPlayerType == PlayerType.Human)
+                    log = new PlayerMagicEventLog(null);
+                    log._player = Player.PlayerIndex;
+                    log.Mode = PlayerMagicEventLog.EventMode.SpellResearched;
+                    log.SpellId = ResearchSpellId;
+                    Player.EventLogbook.AddEvent(log);
+                    ExecuteSpellResearched(ResearchSpellId);
+                    if (Player.PlayerIndex == AoWHSMap.Current.SeatedPlayer && Player.PlayerType == PlayerType.Human)
                     {
-                        Log.Execute(false, ExecuteTrigger.Event, null);
+                        log.Execute(false, ExecuteTrigger.Event, null);
                     }
 
-                    Log.Release();
+                    log.Release();
                 }
             }
             else
             {
-                FResearchSpellID = 0;
+                ResearchSpellId = 0;
                 var netPowerToResearch = GetNetPowerToResearch();
-                FMana += netPowerToResearch;
+                Mana += netPowerToResearch;
             }
         }
         else
         {
             var netPowerToResearch = GetNetPowerToResearch();
-            FMana += netPowerToResearch;
+            Mana += netPowerToResearch;
         }
 
         var manaIncome = GetManaIncome();
         var manaUpkeep = GetManaUpkeep();
-        FMana = FMana + manaIncome - manaUpkeep;
-        if (FMana < 0)
+        Mana = Mana + manaIncome - manaUpkeep;
+        if (Mana < 0)
         {
-            OutOfMana(-FMana);
-            FMana = 0;
+            OutOfMana(-Mana);
+            Mana = 0;
         }
 
         // { Original bug: SetMana sees the value already stored and skips its victory check. }
-        SetMana(FMana);
+        SetMana(Mana);
         Update();
     }
 
     // Spells.PAS:2140
-    public void SetSpheres(Set<MagicSphere> Value)
+    public void SetSpheres(Set<MagicSphere> value)
     {
-        if ((Value & Set<MagicSphere>.Of(MagicSphere.Earth, MagicSphere.Air)) != Set<MagicSphere>.Of(MagicSphere.Earth, MagicSphere.Air) && (Value & Set<MagicSphere>.Of(MagicSphere.Fire, MagicSphere.Water)) != Set<MagicSphere>.Of(MagicSphere.Fire, MagicSphere.Water) && (Value & Set<MagicSphere>.Of(MagicSphere.Life, MagicSphere.Death)) != Set<MagicSphere>.Of(MagicSphere.Life, MagicSphere.Death))
+        if ((value & Set<MagicSphere>.Of(MagicSphere.Earth, MagicSphere.Air)) != Set<MagicSphere>.Of(MagicSphere.Earth, MagicSphere.Air) && (value & Set<MagicSphere>.Of(MagicSphere.Fire, MagicSphere.Water)) != Set<MagicSphere>.Of(MagicSphere.Fire, MagicSphere.Water) && (value & Set<MagicSphere>.Of(MagicSphere.Life, MagicSphere.Death)) != Set<MagicSphere>.Of(MagicSphere.Life, MagicSphere.Death))
         {
-            FSpheres = Value;
+            Spheres = value;
         }
     }
 
     // Spells.PAS:2146
     public int GetNetPower()
     {
-        int Result = GetPower();
-        if (AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(GlobalEnchantmentType.PowerLeak))
+        int result = GetPower();
+        if (AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.PowerLeak))
         {
-            Result = (Result + 1) / 2;
+            result = (result + 1) / 2;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2151
     public int GetNetPowerToMana()
     {
-        int Result = GetNetPower() - GetNetPowerToResearch();
-        switch (FPlayer.FPlayerType)
+        int result = GetNetPower() - GetNetPowerToResearch();
+        switch (Player.PlayerType)
         {
-            case PlayerType.CPU2:
-                Result = Round((double)Result * 1.25);
+            case PlayerType.Cpu2:
+                result = Round((double)result * 1.25);
                 break;
-            case PlayerType.CPU3:
-                Result = Round((double)Result * 1.5);
+            case PlayerType.Cpu3:
+                result = Round((double)result * 1.5);
                 break;
-            case PlayerType.CPU4:
-                Result = Round((double)Result * 1.75);
+            case PlayerType.Cpu4:
+                result = Round((double)result * 1.75);
                 break;
-            case PlayerType.CPU5:
-                Result = Round((double)Result * 2);
+            case PlayerType.Cpu5:
+                result = Round((double)result * 2);
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2161
-    public int GetNetPowerToResearch() => Round((double)(GetNetPower() * FResearchPercentage) * 0.01);
+    public int GetNetPowerToResearch() => Round((double)(GetNetPower() * ResearchPercentage) * 0.01);
 
     // Spells.PAS:2163
-    public int ResearchTurns(int Power, int Points)
+    public int ResearchTurns(int power, int points)
     {
-        int Result;
-        if (Power > 0)
+        int result;
+        if (power > 0)
         {
-            Result = Points / Power;
-            if (Points % Power != 0)
+            result = points / power;
+            if (points % power != 0)
             {
-                Result += 1;
+                result += 1;
             }
         }
         else
         {
-            Result = 999;
+            result = 999;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2172
-    public int GetResearchTurnsLeft() => ResearchTurns(GetNetPowerToResearch(), FResearchPointsLeft);
+    public int GetResearchTurnsLeft() => ResearchTurns(GetNetPowerToResearch(), ResearchPointsLeft);
 
     // Spells.PAS:2176
-    public bool ValidResearchSpell(Spell Spell)
+    public bool ValidResearchSpell(Spell spell)
     {
-        bool Result;
-        Int32Array4 Counts;
-        int Level;
-        Spell Known;
-        if (FPlayer.FLeader.GetSpherePicks(Spell.FMagicSphere) >= Spell.FSpellLevel && FSpells.IndexOf(Spell.FSpellID) == -1)
+        bool result;
+        Int32Array4 counts;
+        int level;
+        Spell known;
+        if (Player.Leader.GetSpherePicks(spell.MagicSphere) >= spell.SpellLevel && Spells.IndexOf(spell.SpellId) == -1)
         {
-            Counts = default;
-            for (int I = FSpells.Count - 1; I >= 0; I--)
+            counts = default;
+            for (int I = Spells.Count - 1; I >= 0; I--)
             {
-                var item = FSpells[I];
-                Known = AoWHSSet.Current.FSpellControl.GetSpell(item);
-                if (Known.FSpellLevel > 0 && Known.GetEnabled() && Spell.FMagicSphere == Known.FMagicSphere)
+                var item = Spells[I];
+                known = AoWHSSet.Current.SpellControl.GetSpell(item);
+                if (known.SpellLevel > 0 && known.GetEnabled() && spell.MagicSphere == known.MagicSphere)
                 {
-                    Counts[Known.FSpellLevel - 1] += 1;
+                    counts[known.SpellLevel - 1] += 1;
                 }
             }
 
-            Level = 1;
-            while (Counts[Level - 1] >= 2 && Level < 4)
+            level = 1;
+            while (counts[level - 1] >= 2 && level < 4)
             {
-                Level += 1;
+                level += 1;
             }
 
-            if (GameTables.AoWEngine.FDemo)
+            if (GameTables.GameEngine.Demo)
             {
-                Level = 2;
+                level = 2;
             }
 
-            Result = Level >= Spell.FSpellLevel;
+            result = level >= spell.SpellLevel;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2199
-    public void ListResearchSpells(ref SpellList List, Set<SpellType> SpellTypes)
+    public void ListResearchSpells(ref SpellList list, Set<SpellType> spellTypes)
     {
-        Spell Spell;
-        for (int I = 0, last = AoWHSSet.Current.FSpellControl.GetCount() - 1; I <= last; I++)
+        Spell spell;
+        for (int I = 0, last = AoWHSSet.Current.SpellControl.GetCount() - 1; I <= last; I++)
         {
-            Spell = AoWHSSet.Current.FSpellControl.GetSpell(I);
-            if (Spell != null && SpellTypes.Contains(Spell.FSpellType) && ValidResearchSpell(Spell))
+            spell = AoWHSSet.Current.SpellControl.GetSpell(I);
+            if (spell != null && spellTypes.Contains(spell.SpellType) && ValidResearchSpell(spell))
             {
-                List.Add(Spell);
+                list.Add(spell);
             }
         }
     }
 
     // Spells.PAS:2211
-    public void ListSpells(ref SpellList List, Set<SpellType> SpellTypes)
+    public void ListSpells(ref SpellList list, Set<SpellType> spellTypes)
     {
-        Spell Spell;
-        if (FCheatEnabled && FPlayer.FPlayerType == PlayerType.Human)
+        Spell spell;
+        if (CheatEnabled && Player.PlayerType == PlayerType.Human)
         {
-            for (int I = 0, last = AoWHSSet.Current.FSpellControl.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = AoWHSSet.Current.SpellControl.GetCount() - 1; I <= last; I++)
             {
-                Spell = AoWHSSet.Current.FSpellControl.GetSpell(I);
-                if (Spell != null && Spell.GetEnabled() && SpellTypes.Contains(Spell.FSpellType))
+                spell = AoWHSSet.Current.SpellControl.GetSpell(I);
+                if (spell != null && spell.GetEnabled() && spellTypes.Contains(spell.SpellType))
                 {
-                    List.Add(Spell);
+                    list.Add(spell);
                 }
             }
         }
         else
         {
-            for (int I = 0, last = FSpells.Count - 1; I <= last; I++)
+            for (int I = 0, last = Spells.Count - 1; I <= last; I++)
             {
-                var item = FSpells[I];
-                Spell = AoWHSSet.Current.FSpellControl.GetSpell(item);
-                if (Spell != null && Spell.GetEnabled() && SpellTypes.Contains(Spell.FSpellType))
+                var item = Spells[I];
+                spell = AoWHSSet.Current.SpellControl.GetSpell(item);
+                if (spell != null && spell.GetEnabled() && spellTypes.Contains(spell.SpellType))
                 {
-                    List.Add(Spell);
+                    list.Add(spell);
                 }
             }
         }
@@ -585,14 +585,14 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2231
     public void BeginUpdate()
     {
-        FUpdateCount += 1;
+        UpdateCount += 1;
     }
 
     // Spells.PAS:2233
     public void EndUpdate()
     {
-        FUpdateCount -= 1;
-        if (FUpdateCount == 0)
+        UpdateCount -= 1;
+        if (UpdateCount == 0)
         {
             Update();
         }
@@ -601,278 +601,278 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2235
     public void Update()
     {
-        if (FUpdateCount == 0)
+        if (UpdateCount == 0)
         {
             UpdateEnemyEnchantments();
-            FChangedEventsStore.Raise(this);
+            _changedEventsStore.Raise(this);
         }
     }
 
     // Spells.PAS:2249
-    public void ValidateEnchantmentID(Enchantment Enchantment)
+    public void ValidateEnchantmentId(Enchantment enchantment)
     {
-        int ID;
+        int id;
         // { Preserve a valid unused ID before allocating a new one. }
-        if (Enchantment.FEnchantmentID != 0 && (int)(((uint)Enchantment.FEnchantmentID) >> 24) == FPlayer.FPlayerIndex)
+        if (enchantment.EnchantmentId != 0 && (int)(((uint)enchantment.EnchantmentId) >> 24) == Player.PlayerIndex)
         {
-            ID = Enchantment.FEnchantmentID;
-            Enchantment.FEnchantmentID = 0;
-            if (FEnchantments.IndexOfID(ID) == -1)
+            id = enchantment.EnchantmentId;
+            enchantment.EnchantmentId = 0;
+            if (Enchantments.IndexOfId(id) == -1)
             {
-                Enchantment.FEnchantmentID = ID;
+                enchantment.EnchantmentId = id;
             }
         }
         else
         {
-            Enchantment.FEnchantmentID = 0;
+            enchantment.EnchantmentId = 0;
         }
 
-        if (Enchantment.FEnchantmentID == 0)
+        if (enchantment.EnchantmentId == 0)
         {
-            if (FNextEnchantmentID == 0)
+            if (NextEnchantmentId == 0)
             {
-                FNextEnchantmentID = 1;
+                NextEnchantmentId = 1;
             }
 
-            ID = (FPlayer.FPlayerIndex << 24) + FNextEnchantmentID;
-            FNextEnchantmentID += 1;
-            if (FNextEnchantmentID > 1048575)
+            id = (Player.PlayerIndex << 24) + NextEnchantmentId;
+            NextEnchantmentId += 1;
+            if (NextEnchantmentId > 1048575)
             {
-                FNextEnchantmentID = 1;
+                NextEnchantmentId = 1;
             }
 
-            while (FEnchantments.IndexOfID(ID) != -1)
+            while (Enchantments.IndexOfId(id) != -1)
             {
-                ID = (FPlayer.FPlayerIndex << 24) + FNextEnchantmentID;
-                FNextEnchantmentID += 1;
-                if (FNextEnchantmentID > 1048575)
+                id = (Player.PlayerIndex << 24) + NextEnchantmentId;
+                NextEnchantmentId += 1;
+                if (NextEnchantmentId > 1048575)
                 {
-                    FNextEnchantmentID = 1;
+                    NextEnchantmentId = 1;
                 }
             }
 
-            Enchantment.FEnchantmentID = ID;
+            enchantment.EnchantmentId = id;
         }
     }
 
     // Spells.PAS:2275
-    public bool RegisterEnchantment(Enchantment Enchantment)
+    public bool RegisterEnchantment(Enchantment enchantment)
     {
-        bool Result;
-        if (FEnchantments.FChildren.IndexOf(Enchantment) == -1)
+        bool result;
+        if (Enchantments._children.IndexOf(enchantment) == -1)
         {
-            FEnchantments.AddChild(Enchantment);
-            ValidateEnchantmentID(Enchantment);
+            Enchantments.AddChild(enchantment);
+            ValidateEnchantmentId(enchantment);
             Update();
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2286
-    public bool UnregisterEnchantment(Enchantment Enchantment)
+    public bool UnregisterEnchantment(Enchantment enchantment)
     {
-        bool Result = FEnchantments.FChildren.Remove(Enchantment) != -1;
-        if (Result)
+        bool result = Enchantments._children.Remove(enchantment) != -1;
+        if (result)
         {
             Update();
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2291
-    public bool RegisterPowerSource(PowerSource Source)
+    public bool RegisterPowerSource(PowerSource source)
     {
-        bool Result;
-        if (FPowerSources.FindChildIndex(Source) == -1)
+        bool result;
+        if (PowerSources.FindChildIndex(source) == -1)
         {
-            FPowerSources.AddChild(Source);
+            PowerSources.AddChild(source);
             Update();
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2301
-    public bool UnregisterPowerSource(PowerSource Source)
+    public bool UnregisterPowerSource(PowerSource source)
     {
-        bool Result = FPowerSources.RemoveChild(Source) != -1;
-        if (Result)
+        bool result = PowerSources.RemoveChild(source) != -1;
+        if (result)
         {
             Update();
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2306
-    public ChangePlayerMagicTokenEvent CreateChangeMagicTE()
+    public ChangePlayerMagicTokenEvent CreateChangeMagicTokenEvent()
     {
-        ChangePlayerMagicTokenEvent Result = new ChangePlayerMagicTokenEvent(null);
-        Result.FPlayerIndex = (byte)FPlayer.FPlayerIndex;
-        return Result;
+        ChangePlayerMagicTokenEvent result = new ChangePlayerMagicTokenEvent(null);
+        result.PlayerIndex = (byte)Player.PlayerIndex;
+        return result;
     }
 
     // Spells.PAS:2311
-    public bool ExecuteDispelEnchantment(int Index)
+    public bool ExecuteDispelEnchantment(int index)
     {
-        bool Result;
-        if (Index < FEnchantments.GetCount())
+        bool result;
+        if (index < Enchantments.GetCount())
         {
-            Result = FEnchantments.GetEnchantments(Index).Dispel();
+            result = Enchantments.GetEnchantments(index).Dispel();
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2316
-    public bool DispelEnchantment(Enchantment Enchantment)
+    public bool DispelEnchantment(Enchantment enchantment)
     {
-        bool Result;
-        int Index;
-        ChangePlayerMagicTokenEvent Event;
-        Index = FEnchantments.FChildren.IndexOf(Enchantment);
-        if (!FPlayer.GetBusy() && Index != -1)
+        bool result;
+        int index;
+        ChangePlayerMagicTokenEvent eventValue;
+        index = Enchantments._children.IndexOf(enchantment);
+        if (!Player.GetBusy() && index != -1)
         {
-            Event = CreateChangeMagicTE();
-            Event.FMode = ChangePlayerMagicTokenEvent.Mode.DispelEnchantment;
-            Event.FValue = Index;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer.FPlayerIndex).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = CreateChangeMagicTokenEvent();
+            eventValue.Mode = ChangePlayerMagicTokenEventMode.DispelEnchantment;
+            eventValue.Value = index;
+            AoWHSMap.Current.TokenManager.GetTokenControl(Player.PlayerIndex).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2333
-    public bool ExecuteChangePowerSettings(int Percentage)
+    public bool ExecuteChangePowerSettings(int percentage)
     {
-        FResearchPercentage = Percentage;
+        ResearchPercentage = percentage;
         Update();
         return true;
     }
 
     // Spells.PAS:2339
-    public bool ChangePowerSettings(int Percentage)
+    public bool ChangePowerSettings(int percentage)
     {
-        bool Result;
-        ChangePlayerMagicTokenEvent Event;
-        if (!FPlayer.GetBusy())
+        bool result;
+        ChangePlayerMagicTokenEvent eventValue;
+        if (!Player.GetBusy())
         {
-            if (Percentage != FResearchPercentage)
+            if (percentage != ResearchPercentage)
             {
-                Event = CreateChangeMagicTE();
-                Event.FMode = ChangePlayerMagicTokenEvent.Mode.ChangePowerSettings;
-                Event.FValue = Percentage;
-                AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer.FPlayerIndex).AddEvent(Event);
-                Event.Release();
+                eventValue = CreateChangeMagicTokenEvent();
+                eventValue.Mode = ChangePlayerMagicTokenEventMode.ChangePowerSettings;
+                eventValue.Value = percentage;
+                AoWHSMap.Current.TokenManager.GetTokenControl(Player.PlayerIndex).AddEvent(eventValue);
+                eventValue.Release();
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2357
-    public bool ExecuteResearchSpell(int SpellID)
+    public bool ExecuteResearchSpell(int spellId)
     {
-        bool Result;
-        if (FSpells.IndexOf(SpellID) == -1 && SpellID != FResearchSpellID)
+        bool result;
+        if (Spells.IndexOf(spellId) == -1 && spellId != ResearchSpellId)
         {
-            FResearchSpellID = SpellID;
-            if (SpellID != 0)
+            ResearchSpellId = spellId;
+            if (spellId != 0)
             {
-                FResearchPointsLeft = AoWHSSet.Current.FSpellControl.GetSpell(SpellID).FResearchCost;
+                ResearchPointsLeft = AoWHSSet.Current.SpellControl.GetSpell(spellId).ResearchCost;
             }
             else
             {
-                FResearchPointsLeft = 0;
+                ResearchPointsLeft = 0;
             }
 
             Update();
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2369
-    public bool ResearchSpell(int SpellID)
+    public bool ResearchSpell(int spellId)
     {
-        bool Result;
-        ChangePlayerMagicTokenEvent Event;
-        if (!FPlayer.GetBusy())
+        bool result;
+        ChangePlayerMagicTokenEvent eventValue;
+        if (!Player.GetBusy())
         {
-            Event = CreateChangeMagicTE();
-            Event.FMode = ChangePlayerMagicTokenEvent.Mode.ResearchSpell;
-            Event.FValue = SpellID;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer.FPlayerIndex).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = CreateChangeMagicTokenEvent();
+            eventValue.Mode = ChangePlayerMagicTokenEventMode.ResearchSpell;
+            eventValue.Value = spellId;
+            AoWHSMap.Current.TokenManager.GetTokenControl(Player.PlayerIndex).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2384
-    public int AIRequestOverrideUpkeep(int Priority)
+    public int AIRequestOverrideUpkeep(int priority)
     {
-        GlobalEnchantment Enchantment;
-        GlobalMagicControl GlobalControl;
-        int Result = 0;
-        for (int I = 0, last = FEnchantments.GetCount() - 1; I <= last; I++)
+        GlobalEnchantment enchantment;
+        GlobalMagicControl globalControl;
+        int result = 0;
+        for (int I = 0, last = Enchantments.GetCount() - 1; I <= last; I++)
         {
-            if (Priority >= FEnchantments.GetEnchantments(I).GetAIUpkeepPriority())
+            if (priority >= Enchantments.GetEnchantments(I).GetAIUpkeepPriority())
             {
-                Result += FEnchantments.GetEnchantments(I).FUpkeep;
+                result += Enchantments.GetEnchantments(I).Upkeep;
             }
         }
 
         // { Original bug: this estimate also counts global enchantments owned by other players. }
-        GlobalControl = AoWHSMap.Current.FGlobalMagicControl;
-        for (int I = GlobalControl.FEnchantments.GetCount() - 1; I >= 0; I--)
+        globalControl = AoWHSMap.Current.GlobalMagicControl;
+        for (int I = globalControl.Enchantments.GetCount() - 1; I >= 0; I--)
         {
-            Enchantment = AoWHSMap.Current.FGlobalMagicControl.FEnchantments.GetEnchantments(I);
-            if (Priority >= Enchantment.GetAIUpkeepPriority())
+            enchantment = AoWHSMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(I);
+            if (priority >= enchantment.GetAIUpkeepPriority())
             {
-                Result += Enchantment.GetUpkeep();
+                result += enchantment.GetUpkeep();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P4_01.inc:135
@@ -889,35 +889,35 @@ public partial class PlayerMagicControl : EngineObject
     public int AIOverrideUpkeep(int priority, int amount)
     {
         var list = new RecordList<UpkeepCandidate>();
-        for (int i = 0; i < FEnchantments.GetCount(); i++)
+        for (int i = 0; i < Enchantments.GetCount(); i++)
         {
-            var enchantment = FEnchantments.GetEnchantments(i);
+            var enchantment = Enchantments.GetEnchantments(i);
             int order = enchantment.GetAIUpkeepPriority();
-            if (order <= priority) list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.FUpkeep, Enchantment = enchantment });
+            if (order <= priority) list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.Upkeep, Enchantment = enchantment });
         }
-        var global = AoWHSMap.Current.FGlobalMagicControl;
-        for (int i = global.FEnchantments.GetCount() - 1; i >= 0; i--)
+        var global = AoWHSMap.Current.GlobalMagicControl;
+        for (int i = global.Enchantments.GetCount() - 1; i >= 0; i--)
         {
-            var enchantment = AoWHSMap.Current.FGlobalMagicControl.FEnchantments.GetEnchantments(i);
-            if (enchantment.FPlayerIndex != FPlayer.FPlayerIndex) continue;
+            var enchantment = AoWHSMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i);
+            if (enchantment.PlayerIndex != Player.PlayerIndex) continue;
             int order = enchantment.GetAIUpkeepPriority();
             if (order <= priority) list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.GetUpkeep(), GlobalEnchantment = enchantment });
         }
         if (list.Count != 0)
         {
             int total = 0;
-            list.Sort(static (in Item1, in Item2) => Item1.Order - Item2.Order);
-            while (total < amount && list.Count != 0 && FPlayer.FGameOverStatus != GameOverStatus.Lost)
+            list.Sort(static (in item1, in item2) => item1.Order - item2.Order);
+            while (total < amount && list.Count != 0 && Player.GameOverStatus != GameOverStatus.Lost)
             {
                 var item = list[0];
                 total += item.Upkeep;
                 if (item.Enchantment != null)
-                    ExecuteDispelEnchantment(FEnchantments.FChildren.IndexOf(item.Enchantment));
+                    ExecuteDispelEnchantment(Enchantments._children.IndexOf(item.Enchantment));
                 else
                 {
                     var enchantment = item.GlobalEnchantment;
                     enchantment.AddRef();
-                    enchantment.Remove((byte)FPlayer.FPlayerIndex);
+                    enchantment.Remove((byte)Player.PlayerIndex);
                     enchantment.Release();
                 }
                 list.Delete(0);

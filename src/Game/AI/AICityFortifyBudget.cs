@@ -6,7 +6,7 @@ namespace Aow.Game.AI;
 public partial class AICityFortifyBudget : AIBudget
 {
     // City.pas:2785
-    public new const int ClassID = 131351;
+    public new const int ClassId = 131351;
 
     public AICityFortifyBudget(ECustomNode owner) : base(owner)
     { }

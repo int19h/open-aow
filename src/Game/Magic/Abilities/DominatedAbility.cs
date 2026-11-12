@@ -8,9 +8,9 @@ public partial class DominatedAbility : CommandedAbility
     // AoWAb.PAS:5315
     public DominatedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityID = 150;
-        FAbilityName = AbilityRules.TranslateRStr(DominatedRStr);
+        AbilityId = 150;
+        AbilityName = AbilityRules.TranslateResourceString(s_dominatedText);
     }
 
-    private static readonly string DominatedRStr = "Dominated";
+    private static readonly string s_dominatedText = "Dominated";
 }

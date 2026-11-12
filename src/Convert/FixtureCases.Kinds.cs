@@ -59,12 +59,12 @@ public static partial class Fixtures
         return action;
     }
 
-    private static JsonObject Mapped(string cls, int slot, string kind, (string, JsonValue)[] fields, JsonObject? residue)
+    private static JsonObject Mapped(string classValue, int slot, string kind, (string, JsonValue)[] fields, JsonObject? residue)
     {
-        var obj = new JsonObject().Add("$class", new JsonString(cls)).Add("$case", new JsonString(kind)).Add("$slot", new JsonInteger(slot));
-        if (residue is not null) obj.Add("$residue", residue);
-        foreach (var (name, value) in fields) obj.Add(name, value);
-        return obj;
+        var objectValue = new JsonObject().Add("$class", new JsonString(classValue)).Add("$case", new JsonString(kind)).Add("$slot", new JsonInteger(slot));
+        if (residue is not null) objectValue.Add("$residue", residue);
+        foreach (var (name, value) in fields) objectValue.Add(name, value);
+        return objectValue;
     }
 
     /// <summary>The shipped save with the items in its first empty production queue and the actions in player 1's list.</summary>
@@ -78,8 +78,8 @@ public static partial class Fixtures
         }
         if (actions.Length > 0)
         {
-            var player = Obj(Arr(Obj(Root(document)["Players"])["Children"]).Items[1]);
-            foreach (var action in actions) Arr(Obj(player["DiplomaticActions"])["Children"]).Add(action);
+            var player = Object(Arr(Object(Root(document)["Players"])["Children"]).Items[1]);
+            foreach (var action in actions) Arr(Object(player["DiplomaticActions"])["Children"]).Add(action);
         }
         return document;
     }
@@ -88,9 +88,9 @@ public static partial class Fixtures
     {
         switch (value)
         {
-            case JsonObject obj:
-                if (obj["Queue"] is JsonObject queue && queue["Children"] is JsonArray { Items.Count: 0 }) return queue;
-                foreach (var m in obj.Members)
+            case JsonObject objectValue:
+                if (objectValue["Queue"] is JsonObject queue && queue["Children"] is JsonArray { Items.Count: 0 }) return queue;
+                foreach (var m in objectValue.Members)
                     if (FirstQueue(m.Value) is { } found) return found;
                 break;
             case JsonArray array:
@@ -102,21 +102,21 @@ public static partial class Fixtures
     }
 
     /// <summary>The cases of every object of a class, in document order, with their fields.</summary>
-    private static string CasesOf(JsonValue value, string cls)
+    private static string CasesOf(JsonValue value, string classValue)
     {
         var found = new List<string>();
         void Walk(JsonValue v)
         {
             switch (v)
             {
-                case JsonObject obj:
-                    if (obj["$class"] is JsonString { } name && name.Value == cls && obj["$case"] is JsonString kind)
+                case JsonObject objectValue:
+                    if (objectValue["$class"] is JsonString { } name && name.Value == classValue && objectValue["$case"] is JsonString kind)
                     {
-                        var fields = obj.Members.Where(m => !m.Name.StartsWith('$') && m.Name is not ("Source" or "Target" or "OtherPlayer"))
+                        var fields = objectValue.Members.Where(m => !m.Name.StartsWith('$') && m.Name is not ("Source" or "Target" or "OtherPlayer"))
                             .Select(m => m.Name + "=" + (m.Value is JsonInteger i ? i.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "\"" + ((JsonString)m.Value).Value + "\""));
-                        found.Add(kind.Value + "{" + (obj["$residue"] is null ? string.Join(",", fields) : "$residue") + "}");
+                        found.Add(kind.Value + "{" + (objectValue["$residue"] is null ? string.Join(",", fields) : "$residue") + "}");
                     }
-                    foreach (var m in obj.Members) Walk(m.Value);
+                    foreach (var m in objectValue.Members) Walk(m.Value);
                     break;
                 case JsonArray array:
                     foreach (var item in array.Items) Walk(item);

@@ -14,189 +14,189 @@ namespace Aow.Game.Draw;
 
 public partial class ArmyHexSprite
 {
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
-        int Frame;
-        int Xhp = default;
-        int Yhp = default;
-        int DX = default;
-        int DY = default;
-        double Part;
-        if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FFieldFlags).Hi).Lo != 0 || !AoWHSMap.Current.FFogEnabled)
+        ImageSequence sequence;
+        int frame;
+        int pixelX = default;
+        int pixelY = default;
+        int deltaX = default;
+        int deltaY = default;
+        double part;
+        if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FieldFlags).Hi).Lo != 0 || !AoWHSMap.Current.FogEnabled)
         {
-            if (FDirection >= FUnitGFXResource.FSequences.Count)
+            if (Direction >= UnitGraphicsResource.Sequences.Count)
             {
                 /* TODO: Implement the inline assembly operation. */
                 throw new NotImplementedException();
             }
 
-            HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-            XhpSurf = Xhp - XhpSurf;
-            YhpSurf = Yhp - YhpSurf;
-            if (FMoveStep != -1)
+            HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+            pixelXSurface = pixelX - pixelXSurface;
+            pixelYSurface = pixelY - pixelYSurface;
+            if (MoveStep != -1)
             {
-                HexGeometry.HNtoHP(FDirection, ref DX, ref DY);
-                if ((FStatus & 16) == 0)
+                HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
+                if ((Status & 16) == 0)
                 {
-                    Part = (double)FMoveStep / FMoveSteps;
-                    XhpSurf += Round((double)Part * DX);
-                    YhpSurf += Round((double)Part * DY);
+                    part = (double)MoveStep / MoveSteps;
+                    pixelXSurface += Round((double)part * deltaX);
+                    pixelYSurface += Round((double)part * deltaY);
                 }
 
-                if ((FStatus & 8) == 0)
+                if ((Status & 8) == 0)
                 {
-                    if (FDirection == 0)
+                    if (Direction == 0)
                     {
-                        Sequence = (ImageSequence)FUnitGFXResource.FSequences.List[9];
+                        sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[9];
                     }
                     else
                     {
-                        Sequence = (ImageSequence)FUnitGFXResource.FSequences.List[FDirection + 5];
+                        sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[Direction + 5];
                     }
                 }
                 else
                 {
-                    if (FDirection == 0)
+                    if (Direction == 0)
                     {
-                        Sequence = (ImageSequence)FUnitGFXResource.FSequences.List[3];
+                        sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[3];
                     }
                     else
                     {
-                        Sequence = (ImageSequence)FUnitGFXResource.FSequences.List[FDirection - 1];
+                        sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[Direction - 1];
                     }
                 }
             }
             else
             {
-                if (FDirection == 0)
+                if (Direction == 0)
                 {
-                    Sequence = (ImageSequence)FUnitGFXResource.FSequences.List[3];
+                    sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[3];
                 }
                 else
                 {
-                    Sequence = (ImageSequence)FUnitGFXResource.FSequences.List[FDirection - 1];
+                    sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[Direction - 1];
                 }
             }
 
-            if (!FArmy.FStatus.Contains(ArmyStatusElement.Concealed))
+            if (!Army.Status.Contains(ArmyStatusElement.Concealed))
             {
-                if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || AoWHSMap.Current.FSeatedPlayer != FArmy.FPlayer || FArmy.Count != FArmy.ConcealedUnitsCount())
+                if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || AoWHSMap.Current.SeatedPlayer != Army.Player || Army.Count != Army.ConcealedUnitsCount())
                 {
-                    while (Sequence != null)
+                    while (sequence != null)
                     {
-                        Frame = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                        if (Frame != -1)
+                        frame = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        if (frame != -1)
                         {
-                            Sequence.ImageLibrary[Frame].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift + FUnitYOffset, SurfaceDesc);
+                            sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + UnitYOffset, lockedSurface);
                         }
 
-                        Sequence = Sequence.Next;
+                        sequence = sequence.Next;
                     }
 
-                    ShowEnchantments(XhpSurf, YhpSurf + FUnitYOffset, SurfaceDesc);
-                    if (!FArmy.FStatus.Contains(ArmyStatusElement.Selected) || (AoWHSMap.Current.Frame & 6) != 6)
+                    ShowEnchantments(pixelXSurface, pixelYSurface + UnitYOffset, lockedSurface);
+                    if (!Army.Status.Contains(ArmyStatusElement.Selected) || (AoWHSMap.Current.Frame & 6) != 6)
                     {
-                        if (FFlagID == 32)
+                        if (FlagId == 32)
                         {
-                            var count = FArmy.Count;
-                            AoWHSSet.Current.FFlagControl.FFlags[count + 39].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
+                            var count = Army.Count;
+                            AoWHSSet.Current.FlagControl.Flags[count + 39].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                         }
                         else
                         {
-                            var count = FArmy.Count;
-                            AoWHSSet.Current.FRaceResources.GetRaceResource(FFlagID).FImageLibrary[count + 29].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
-                            if (FArmy.FStatus.Contains(ArmyStatusElement.ShowCrown))
+                            var count = Army.Count;
+                            AoWHSSet.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
+                            if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
                             {
-                                AoWHSSet.Current.FFlagControl.FFlags[FFlagID + 80].Show(XhpSurf - 5, YhpSurf - 14, SurfaceDesc);
+                                AoWHSSet.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
                             }
                         }
                     }
                 }
                 else
                 {
-                    while (Sequence != null)
+                    while (sequence != null)
                     {
-                        Frame = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                        if (Frame != -1)
+                        frame = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        if (frame != -1)
                         {
-                            Sequence.ImageLibrary[Frame].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift + FUnitYOffset, SurfaceDesc);
+                            sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + UnitYOffset, lockedSurface);
                         }
 
-                        Sequence = Sequence.Next;
+                        sequence = sequence.Next;
                     }
 
-                    ShowEnchantments(XhpSurf, YhpSurf + FUnitYOffset, SurfaceDesc);
-                    if (FArmy.FStatus.Contains(ArmyStatusElement.Selected))
+                    ShowEnchantments(pixelXSurface, pixelYSurface + UnitYOffset, lockedSurface);
+                    if (Army.Status.Contains(ArmyStatusElement.Selected))
                     {
                         if ((AoWHSMap.Current.Frame & 6) != 6)
                         {
-                            if (FFlagID != 32)
+                            if (FlagId != 32)
                             {
-                                var count = FArmy.Count;
-                                AoWHSSet.Current.FRaceResources.GetRaceResource(FFlagID).FImageLibrary[count + 29].ShowBlended(XhpSurf - 5, YhpSurf - 12, SurfaceDesc, GraphicsState.AlphaBlendTable.LookupTables[50]);
-                                if (FArmy.FStatus.Contains(ArmyStatusElement.ShowCrown))
+                                var count = Army.Count;
+                                AoWHSSet.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[50]);
+                                if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
                                 {
-                                    AoWHSSet.Current.FFlagControl.FFlags[FFlagID + 80].Show(XhpSurf - 5, YhpSurf - 14, SurfaceDesc);
+                                    AoWHSSet.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
                                 }
                             }
                             else
                             {
-                                var count = FArmy.Count;
-                                AoWHSSet.Current.FFlagControl.FFlags[count + 39].ShowBlended(XhpSurf - 5, YhpSurf - 12, SurfaceDesc, GraphicsState.AlphaBlendTable.LookupTables[50]);
+                                var count = Army.Count;
+                                AoWHSSet.Current.FlagControl.Flags[count + 39].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[50]);
                             }
                         }
                     }
                     else
                     {
-                        if (FFlagID != 32)
+                        if (FlagId != 32)
                         {
-                            var count = FArmy.Count;
-                            AoWHSSet.Current.FRaceResources.GetRaceResource(FFlagID).FImageLibrary[count + 29].ShowBlended(XhpSurf - 5, YhpSurf - 12, SurfaceDesc, GraphicsState.AlphaBlendTable.LookupTables[Math.Abs((AoWHSMap.Current.Frame << 2) % 60 - 30) + 40]);
-                            if (FArmy.FStatus.Contains(ArmyStatusElement.ShowCrown))
+                            var count = Army.Count;
+                            AoWHSSet.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[Math.Abs((AoWHSMap.Current.Frame << 2) % 60 - 30) + 40]);
+                            if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
                             {
-                                AoWHSSet.Current.FFlagControl.FFlags[FFlagID + 80].Show(XhpSurf - 5, YhpSurf - 14, SurfaceDesc);
+                                AoWHSSet.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
                             }
                         }
                         else
                         {
-                            var count = FArmy.Count;
-                            AoWHSSet.Current.FFlagControl.FFlags[count + 39].ShowBlended(XhpSurf - 5, YhpSurf - 12, SurfaceDesc, GraphicsState.AlphaBlendTable.LookupTables[Math.Abs((AoWHSMap.Current.Frame << 2) % 60 - 30) + 40]);
+                            var count = Army.Count;
+                            AoWHSSet.Current.FlagControl.Flags[count + 39].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[Math.Abs((AoWHSMap.Current.Frame << 2) % 60 - 30) + 40]);
                         }
                     }
                 }
             }
             else
             {
-                if (!FArmy.FStatus.Contains(ArmyStatusElement.FullyConcealed))
+                if (!Army.Status.Contains(ArmyStatusElement.FullyConcealed))
                 {
-                    while (Sequence != null)
+                    while (sequence != null)
                     {
-                        Frame = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                        if (Frame != -1)
+                        frame = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        if (frame != -1)
                         {
-                            Sequence.ImageLibrary[Frame].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift + FUnitYOffset, SurfaceDesc);
+                            sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + UnitYOffset, lockedSurface);
                         }
 
-                        Sequence = Sequence.Next;
+                        sequence = sequence.Next;
                     }
 
-                    if (!FArmy.FStatus.Contains(ArmyStatusElement.Selected) || (AoWHSMap.Current.Frame & 6) != 6)
+                    if (!Army.Status.Contains(ArmyStatusElement.Selected) || (AoWHSMap.Current.Frame & 6) != 6)
                     {
-                        if (FFlagID == 32)
+                        if (FlagId == 32)
                         {
-                            var count = FArmy.Count;
-                            var concealedUnitsCount = FArmy.ConcealedUnitsCount();
-                            AoWHSSet.Current.FFlagControl.FFlags[count - concealedUnitsCount + 39].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
+                            var count = Army.Count;
+                            var concealedUnitsCount = Army.ConcealedUnitsCount();
+                            AoWHSSet.Current.FlagControl.Flags[count - concealedUnitsCount + 39].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                         }
                         else
                         {
-                            var count = FArmy.Count;
-                            var concealedUnitsCount = FArmy.ConcealedUnitsCount();
-                            AoWHSSet.Current.FRaceResources.GetRaceResource(FFlagID).FImageLibrary[count - concealedUnitsCount + 29].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
-                            if (FArmy.FStatus.Contains(ArmyStatusElement.ShowCrown))
+                            var count = Army.Count;
+                            var concealedUnitsCount = Army.ConcealedUnitsCount();
+                            AoWHSSet.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count - concealedUnitsCount + 29].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
+                            if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
                             {
-                                AoWHSSet.Current.FFlagControl.FFlags[FFlagID + 80].Show(XhpSurf - 5, YhpSurf - 14, SurfaceDesc);
+                                AoWHSSet.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
                             }
                         }
                     }
@@ -205,71 +205,71 @@ public partial class ArmyHexSprite
         }
     }
 
-    public override void ShowShadow(int X, int Y, in LockedSurface SurfaceDesc)
+    public override void ShowShadow(int X, int Y, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
-        float Part;
-        int Xhp = default;
-        int Yhp = default;
-        int DX = default;
-        int DY = default;
-        int Frame;
-        if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FFieldFlags).Hi).Lo != 0 || !AoWHSMap.Current.FFogEnabled) && !FArmy.FStatus.Contains(ArmyStatusElement.FullyConcealed))
+        ImageSequence sequence;
+        float part;
+        int pixelX = default;
+        int pixelY = default;
+        int deltaX = default;
+        int deltaY = default;
+        int frame;
+        if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FieldFlags).Hi).Lo != 0 || !AoWHSMap.Current.FogEnabled) && !Army.Status.Contains(ArmyStatusElement.FullyConcealed))
         {
-            HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-            X = Xhp - X;
-            Y = Yhp - Y;
-            if (FMoveStep != -1)
+            HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+            X = pixelX - X;
+            Y = pixelY - Y;
+            if (MoveStep != -1)
             {
-                HexGeometry.HNtoHP(FDirection, ref DX, ref DY);
-                if ((FStatus & 16) == 0)
+                HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
+                if ((Status & 16) == 0)
                 {
                     var moveSteps = GetMoveSteps();
-                    Part = (float)((double)FMoveStep / moveSteps);
-                    X += Round((double)Part * DX);
-                    Y += Round((double)Part * DY);
+                    part = (float)((double)MoveStep / moveSteps);
+                    X += Round((double)part * deltaX);
+                    Y += Round((double)part * deltaY);
                 }
             }
 
-            if (FDirection == 0)
+            if (Direction == 0)
             {
-                Sequence = FUnitGFXResource.FSequences.GetImageSequence(27);
+                sequence = UnitGraphicsResource.Sequences.GetImageSequence(27);
             }
             else
             {
-                Sequence = FUnitGFXResource.FSequences.GetImageSequence(FDirection + 23);
+                sequence = UnitGraphicsResource.Sequences.GetImageSequence(Direction + 23);
             }
 
-            while (Sequence != null)
+            while (sequence != null)
             {
-                Frame = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                Sequence.ImageLibrary[Frame].Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
-                Sequence = Sequence.Next;
+                frame = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                sequence.ImageLibrary[frame].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
+                sequence = sequence.Next;
             }
         }
     }
 
-    public void PlayMoveSFX()
+    public void PlayMoveSfx()
     {
-        ImageSequence Sequence;
-        int Frame;
-        if (FMoveStep != -1 && (FStatus & 8) == 0)
+        ImageSequence sequence;
+        int frame;
+        if (MoveStep != -1 && (Status & 8) == 0)
         {
-            if (FDirection == 0)
+            if (Direction == 0)
             {
-                Sequence = (ImageSequence)FUnitGFXResource.FSequences.List[9];
+                sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[9];
             }
             else
             {
-                Sequence = (ImageSequence)FUnitGFXResource.FSequences.List[FDirection + 5];
+                sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[Direction + 5];
             }
 
-            if (Sequence != null)
+            if (sequence != null)
             {
-                Frame = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                if (Sequence.SpeedCount == Sequence.SequenceSpeed)
+                frame = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                if (sequence.SpeedCount == sequence.SequenceSpeed)
                 {
-                    FUnitGFXResource.FSFXLibraries[1].Play(Frame % 100);
+                    UnitGraphicsResource.SfxLibraries[1].Play(frame % 100);
                 }
             }
         }

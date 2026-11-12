@@ -8,9 +8,9 @@ public partial class CharmedAbility : CommandedAbility
     // AoWAb.PAS:5333
     public CharmedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityID = 149;
-        FAbilityName = AbilityRules.TranslateRStr(CharmedRStr);
+        AbilityId = 149;
+        AbilityName = AbilityRules.TranslateResourceString(s_charmedText);
     }
 
-    private static readonly string CharmedRStr = "Charmed";
+    private static readonly string s_charmedText = "Charmed";
 }

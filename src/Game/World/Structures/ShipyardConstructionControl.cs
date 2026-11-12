@@ -15,72 +15,72 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
     { }
 
     // Shipyard.pas:93
-    public override void GetInfo(Troop AUnit, ref string Text, ref int Gold, ref int Days)
+    public override void GetInfo(Troop troop, ref string text, ref int gold, ref int days)
     {
-        var shipyard = AbilityRules.TranslateRStr(GameText.ShipyardRStr);
-        Text = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.BuildXRStr), [shipyard]);
-        Gold = 50;
-        Days = 2;
+        var shipyard = AbilityRules.TranslateResourceString(GameText.s_shipyardText);
+        text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_buildFormat), [shipyard]);
+        gold = 50;
+        days = 2;
     }
 
     // Shipyard.pas:100
-    public override bool ValidateLocation(Troop AUnit, ref string Reason)
+    public override bool ValidateLocation(Troop troop, ref string reason)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        MapLevel MapLevel;
-        HexNumberWalkData Walk = default;
-        bool Result = base.ValidateLocation(AUnit, ref Reason);
-        if (Result)
+        MapLevel mapLevel;
+        HexNumberWalkData walk = default;
+        bool result = base.ValidateLocation(troop, ref reason);
+        if (result)
         {
-            Result = false;
-            AUnit.GetLocation(ref X, ref Y, ref L);
-            MapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(L);
-            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-            while (Walk.HN < 7 && !Result)
+            result = false;
+            troop.GetLocation(ref X, ref Y, ref L);
+            mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            while (walk.HexNumber < 7 && !result)
             {
-                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
+                if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
-                    var fieldValue = MapLevel.GetField(Walk.X, Walk.Y);
-                    Result = Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)fieldValue.TerrainType);
+                    var fieldValue = mapLevel.GetField(walk.X, walk.Y);
+                    result = Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)fieldValue.TerrainType);
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
 
-            if (!Result)
+            if (!result)
             {
-                Reason = AbilityRules.TranslateRStr(CanOnlyBuildNextToWaterRStr);
+                reason = AbilityRules.TranslateResourceString(s_canOnlyBuildNextToWaterText);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Shipyard.pas:81
-    public override StructureResource StructureResource(Troop AUnit)
+    public override StructureResource StructureResource(Troop troop)
     {
-        StructureResource Result;
+        StructureResource result;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        AUnit.GetLocation(ref X, ref Y, ref L);
+        troop.GetLocation(ref X, ref Y, ref L);
         if (L == 0)
         {
-            Result = (StructureResource)AoWHSSet.Current.MapObjectResourceList.FindResource(60);
+            result = (StructureResource)AoWHSSet.Current.MapObjectResourceList.FindResource(60);
         }
         else
         {
-            Result = (StructureResource)AoWHSSet.Current.MapObjectResourceList.FindResource(107);
+            result = (StructureResource)AoWHSSet.Current.MapObjectResourceList.FindResource(107);
         }
 
-        return Result;
+        return result;
     }
 
     // Shipyard.pas:78
-    public override int ID() => 4;
+    public override int Id() => 4;
 
-    private static readonly string CanOnlyBuildNextToWaterRStr = "Can only be built next to water";
+    private static readonly string s_canOnlyBuildNextToWaterText = "Can only be built next to water";
 
 }

@@ -5,9 +5,9 @@ namespace Aow.Game.World.Map;
 
 public struct MapFieldMessage
 {
-    public int MsgID;
+    public int MessageId;
     public MapField MapField;
     public MapFieldMessageParameters Param;
-    public int HN;
+    public int HexNumber;
     public MsgArg Result;
 }

@@ -147,15 +147,15 @@ public sealed partial class SpellConstructionTests
     {
         using var fixture = new Fixture();
         var owner = new SpellOwner();
-        var raw = (Spell)EngineClass.Of(type).Create(owner);
+        var raw = (Spell)EngineClass.Of(type).CreateInstance(owner);
         Assert.IsType(type, raw);
-        Assert.NotNull(raw.FSpellText);
+        Assert.NotNull(raw.SpellText);
         try
         {
             Assert.Same(raw, Assert.Single(owner.Members));
-            Assert.Equal(SpellType.Global, raw.FSpellType);
-            Assert.Equal(1, raw.FResearchCost);
-            Assert.Same(fixture.Manager, raw.FCastImages.FILManager);
+            Assert.Equal(SpellType.Global, raw.SpellType);
+            Assert.Equal(1, raw.ResearchCost);
+            Assert.Same(fixture.Manager, raw.CastImages._imageLibraryManager);
         }
         finally { raw.Dispose(); }
         Assert.Empty(owner.Members);

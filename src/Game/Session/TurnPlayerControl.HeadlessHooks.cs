@@ -10,10 +10,10 @@ public partial class TurnPlayerControl
     public override void NewDay()
     {
         var map = AoWHSMap.Current;
-        int player = map.FSeatedPlayer;
-        if (map.FRequestCombatType) map.FSeatedPlayer = -1;
+        int player = map.SeatedPlayer;
+        if (map.RequestCombatType) map.SeatedPlayer = -1;
         base.NewDay();
-        if (map.FRequestCombatType) map.FSeatedPlayer = (sbyte)player;
+        if (map.RequestCombatType) map.SeatedPlayer = (sbyte)player;
         HeadlessHooks.AfterNewDay?.Invoke(this);
     }
 }

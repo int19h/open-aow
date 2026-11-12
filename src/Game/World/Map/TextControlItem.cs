@@ -9,34 +9,34 @@ namespace Aow.Game.World.Map;
 // ID, Text, Name
 public partial class TextControlItem : EngineObject
 {
-    public new const int ClassID = 131738;
+    public new const int ClassId = 131738;
 
     // Structur.PAS:4394
     public TextControlItem(ECustomNode owner) : base(owner)
     {
-        FText = new StringList();
+        Text = new StringList();
     }
 
-    public int FID;
-    public StringCollection FText;
-    public string FName = "";
+    public int Id;
+    public StringCollection Text;
+    public string Name = "";
 
     // Structur.PAS:4400
     public override void Dispose()
     {
-        FText?.Dispose();
+        Text?.Dispose();
         base.Dispose();
     }
 
     // Structur.PAS:4411
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FID, 9);
-        Stream.rwStrings(FText, 10);
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Id, 9);
+        stream.rwStrings(Text, 10);
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            Stream.rwString(ref FName, 11);
+            stream.rwString(ref Name, 11);
         }
     }
 

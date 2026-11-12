@@ -26,7 +26,7 @@ public sealed class ObjectCastCrashTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly AoWHSMap previous = AoWHSMap.Current;
+        private readonly AoWHSMap _previous = AoWHSMap.Current;
 
         public MapScope()
         {
@@ -34,8 +34,8 @@ public sealed class ObjectCastCrashTests
             var container = new MapContainer(null!);
             var level = new MapLevel(container);
             level.CreateMapFieldList(1, 1);
-            container.FMap = Map;
-            Map.FMapContainer = container;
+            container._map = Map;
+            Map._mapContainer = container;
             Field = container.GetField(0, 0, 0);
             AoWHSMap.Current = Map;
         }
@@ -44,7 +44,7 @@ public sealed class ObjectCastCrashTests
 
         public MapField Field { get; }
 
-        public void Dispose() => AoWHSMap.Current = previous;
+        public void Dispose() => AoWHSMap.Current = _previous;
     }
 
     private sealed class MasteryUnit : Troop
@@ -53,13 +53,13 @@ public sealed class ObjectCastCrashTests
         {
         }
 
-        public override bool ExpandAbility(int AbilityID)
+        public override bool ExpandAbility(int abilityId)
         {
             var data = new UnitEnchantmentAbilityData(null!);
-            data.FEnchantmentAbilityID = (ushort)AbilityID;
-            data.FEnchantment = new UnitEnchantment(null!);
-            data.FEnchantment.FUpkeep = 5;
-            data.FEnchantment.FSource = -3;
+            data.EnchantmentAbilityId = (ushort)abilityId;
+            data.Enchantment = new UnitEnchantment(null!);
+            data.Enchantment.Upkeep = 5;
+            data.Enchantment.Source = -3;
             AddAbilityData(data);
             return true;
         }
@@ -100,16 +100,16 @@ public sealed class ObjectCastCrashTests
 
     private static void Own(MapObject sprite, MapField field)
     {
-        sprite.FResource = new MapObjectResource(null!);
+        sprite._resource = new MapObjectResource(null!);
         sprite.Owner = field;
     }
 
     private static Animation AnimationAtOrigin()
     {
         var animation = new Animation(null!);
-        animation.FXhx = 0;
-        animation.FYhx = 0;
-        animation.FLhx = 0;
+        animation._hexX = 0;
+        animation._hexY = 0;
+        animation._hexLevel = 0;
         return animation;
     }
 
@@ -121,41 +121,41 @@ public sealed class ObjectCastCrashTests
 
         var holy = new HolyGround(null!);
         Own(holy, scope.Field);
-        holy.FMode = Set<HolySummoning>.Of(HolySummoning.Summoning);
+        holy.Mode = Set<HolySummoning>.Of(HolySummoning.Summoning);
         holy.NewFrameSummonAnimation(animation, 8);
-        Assert.True(holy.FMode.Contains(HolySummoning.Summoning));
+        Assert.True(holy.Mode.Contains(HolySummoning.Summoning));
         holy.NewFrameSummonAnimation(animation, 9);
-        Assert.False(holy.FMode.Contains(HolySummoning.Summoning));
+        Assert.False(holy.Mode.Contains(HolySummoning.Summoning));
 
         var unholy = new UnholyGround(null!);
         Own(unholy, scope.Field);
-        unholy.FMode = Set<UnholySummoning>.Of(UnholySummoning.Summoning);
+        unholy.Mode = Set<UnholySummoning>.Of(UnholySummoning.Summoning);
         unholy.NewFrameSummonAnimation(animation, 8);
-        Assert.True(unholy.FMode.Contains(UnholySummoning.Summoning));
+        Assert.True(unholy.Mode.Contains(UnholySummoning.Summoning));
         unholy.NewFrameSummonAnimation(animation, 9);
-        Assert.False(unholy.FMode.Contains(UnholySummoning.Summoning));
+        Assert.False(unholy.Mode.Contains(UnholySummoning.Summoning));
 
         var plant = new PoisonPlant(null!);
         Own(plant, scope.Field);
-        plant.FPlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
+        plant.PlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
         plant.NewFrameSummonAnimation(animation, 8);
-        Assert.True(plant.FPlantStatus.Contains(PoisonPlantStatusElement.Summoning));
+        Assert.True(plant.PlantStatus.Contains(PoisonPlantStatusElement.Summoning));
         plant.NewFrameSummonAnimation(animation, 9);
-        Assert.False(plant.FPlantStatus.Contains(PoisonPlantStatusElement.Summoning));
+        Assert.False(plant.PlantStatus.Contains(PoisonPlantStatusElement.Summoning));
 
         var mountain = new RaisedMountain(null!);
         Own(mountain, scope.Field);
-        mountain.FMode = Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
+        mountain.Mode = Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
         mountain.NewFrameRaiseTerrainAnimation(animation, 8);
-        Assert.True(mountain.FMode.Contains(RaisedMountainMode.Raising));
+        Assert.True(mountain.Mode.Contains(RaisedMountainMode.Raising));
         mountain.NewFrameRaiseTerrainAnimation(animation, 9);
-        Assert.False(mountain.FMode.Contains(RaisedMountainMode.Raising));
+        Assert.False(mountain.Mode.Contains(RaisedMountainMode.Raising));
     }
 
     [Fact]
     public void MasterySettersWriteUpkeepSourceAndResistance()
     {
-        var control = AoWHSSet.Current.FSpellControl;
+        var control = AoWHSSet.Current.SpellControl;
         control.RegisterSpell(new StoneSkin(null!));
         control.RegisterSpell(new Bless(null!));
         try
@@ -165,29 +165,29 @@ public sealed class ObjectCastCrashTests
             unit.SetFireMasteryProtection();
             unit.SetLifeMasteryBlessing();
 
-            var earth = ((UnitEnchantmentAbilityData)unit.GetAbilityData(153)).FEnchantment;
-            var fire = ((UnitEnchantmentAbilityData)unit.GetAbilityData(167)).FEnchantment;
-            var life = ((UnitEnchantmentAbilityData)unit.GetAbilityData(158)).FEnchantment;
-            Assert.Equal(0, earth.FUpkeep);
-            Assert.Equal(-2, earth.FSource);
-            Assert.Equal(3, earth.FDispelResistance);
-            Assert.Equal(0, fire.FUpkeep);
-            Assert.Equal(-2, fire.FSource);
-            Assert.Equal(7, fire.FDispelResistance);
-            Assert.Equal(0, life.FUpkeep);
-            Assert.Equal(-2, life.FSource);
-            Assert.Equal(3, life.FDispelResistance);
+            var earth = ((UnitEnchantmentAbilityData)unit.GetAbilityData(153)).Enchantment;
+            var fire = ((UnitEnchantmentAbilityData)unit.GetAbilityData(167)).Enchantment;
+            var life = ((UnitEnchantmentAbilityData)unit.GetAbilityData(158)).Enchantment;
+            Assert.Equal(0, earth.Upkeep);
+            Assert.Equal(-2, earth.Source);
+            Assert.Equal(3, earth.DispelResistance);
+            Assert.Equal(0, fire.Upkeep);
+            Assert.Equal(-2, fire.Source);
+            Assert.Equal(7, fire.DispelResistance);
+            Assert.Equal(0, life.Upkeep);
+            Assert.Equal(-2, life.Source);
+            Assert.Equal(3, life.DispelResistance);
         }
         finally
         {
             if (control.GetSpell(17) != null)
             {
-                control.UnregisterSpellID(17);
+                control.UnregisterSpellId(17);
             }
 
             if (control.GetSpell(56) != null)
             {
-                control.UnregisterSpellID(56);
+                control.UnregisterSpellId(56);
             }
         }
     }
@@ -199,26 +199,26 @@ public sealed class ObjectCastCrashTests
         try
         {
             var list = new MapObjectResourceList(null!);
-            list.FChildren.Add(new MapObjectResource(null!));
+            list._children.Add(new MapObjectResource(null!));
             var match = new TerrainMapObjectResource(null!);
-            match.FTerrainType = 4;
-            match.FDecorationType = 2;
-            list.FChildren.Add(match);
+            match._terrainType = 4;
+            match._decorationType = 2;
+            list._children.Add(match);
 
             var resource = new TerrainMapObjectResource(null!);
-            resource.FTerrainType = 4;
-            resource.FDecorationType = 9;
+            resource._terrainType = 4;
+            resource._decorationType = 9;
             var finder = new ListedTerrain(list);
-            finder.FResource = resource;
+            finder._resource = resource;
             Assert.Same(match, finder.FindDecorationResource(2));
 
             var clearing = new MapObjectResourceList(null!);
-            clearing.FChildren.Add(new MapObjectResource(null!));
+            clearing._children.Add(new MapObjectResource(null!));
             var wide = new TerrainMapObjectResource(null!);
             wide.TerrainList.SetTerrain(0, 1);
             wide.TerrainList.SetTerrain(1, 1);
             var terrain = new ListedTerrain(clearing);
-            terrain.FResource = wide;
+            terrain._resource = wide;
             terrain.ClearTerrain(null!, 0);
             Assert.True(terrain.Destroyed);
         }
@@ -304,26 +304,26 @@ public sealed class ObjectCastCrashTests
             window.RelWindowCreate();
 
             window.ShowRelations(0);
-            Assert.False(window.R12I.FChecked);
+            Assert.False(window.R12I._checked);
             Assert.False(window.P1CB.Checked);
             Assert.Equal(0, window.ShowCount);
 
             window.ShowRelations(1);
-            Assert.False(window.R12I.FChecked);
+            Assert.False(window.R12I._checked);
             Assert.True(window.P1CB.Checked);
-            Assert.False(window.RelPnl.FAligned);
-            Assert.False(window.RelWin.FDrawn);
+            Assert.False(window.RelPnl.Aligned);
+            Assert.False(window.RelWin.Drawn);
             Assert.Equal(0, window.ShowCount);
 
-            var player = scope.Map.FPlayers.GetPlayers(1);
-            player.FPlayerIndex = 1;
-            player.FStatus = Player.Status.Playing;
-            scope.Map.FSeatedPlayer = 1;
+            var player = scope.Map.Players.GetPlayers(1);
+            player.PlayerIndex = 1;
+            player.Status = PlayerStatus.Playing;
+            scope.Map.SeatedPlayer = 1;
             window.ShowRelations(1);
             Assert.Equal(1, window.ShowCount);
             Assert.Equal(1, window.ShownPlayer);
             Assert.True(window.P1CB.Checked);
-            Assert.False(window.R12I.FChecked);
+            Assert.False(window.R12I._checked);
         }
         finally
         {
@@ -333,20 +333,20 @@ public sealed class ObjectCastCrashTests
     }
 
     [Fact]
-    public void PlaceHXAcceptsANonSpriteOwner()
+    public void PlaceHexAcceptsANonSpriteOwner()
     {
         using (var scope = new MapScope())
         {
             var level = (MapLevel)scope.Field.Owner;
             var marker = new MapField(level);
-            marker.FXhx = 20;
-            marker.FYhx = 20;
+            marker._hexX = 20;
+            marker._hexY = 20;
             marker.OverlayType = 4;
             var holder = new EngineFixture.Owner();
-            holder.FOwner = marker;
+            holder._owner = marker;
             var bridge = new HexBridge(holder);
-            bridge.FResource = new MapObjectResource(null!);
-            Assert.False(bridge.PlaceHX(scope.Map.FMapContainer, 0, 0, 0));
+            bridge._resource = new MapObjectResource(null!);
+            Assert.False(bridge.PlaceHex(scope.Map._mapContainer, 0, 0, 0));
             Assert.Same(scope.Field, bridge.Owner);
             Assert.Equal(-1, marker.OverlayType);
         }
@@ -355,14 +355,14 @@ public sealed class ObjectCastCrashTests
         {
             var level = (MapLevel)scope.Field.Owner;
             var marker = new MapField(level);
-            marker.FXhx = 20;
-            marker.FYhx = 20;
+            marker._hexX = 20;
+            marker._hexY = 20;
             marker.OverlayType = 4;
             var holder = new EngineFixture.Owner();
-            holder.FOwner = level;
+            holder._owner = level;
             var bridge = new HexBridge(holder);
-            bridge.FResource = new MapObjectResource(null!);
-            Assert.False(bridge.PlaceHX(scope.Map.FMapContainer, 0, 0, 0));
+            bridge._resource = new MapObjectResource(null!);
+            Assert.False(bridge.PlaceHex(scope.Map._mapContainer, 0, 0, 0));
             Assert.Same(scope.Field, bridge.Owner);
             Assert.Equal(4, marker.OverlayType);
         }
@@ -372,9 +372,9 @@ public sealed class ObjectCastCrashTests
     public void MasteryGuardianDefaultsNeedNoSummonedSpell()
     {
         // MasterySpellCast and TSummonSpell read these through GetSpell(155), which has no spell.
-        Assert.Null(AoWHSSet.Current.FSpellControl.GetSpell(155));
+        Assert.Null(AoWHSSet.Current.SpellControl.GetSpell(155));
         var unit = new Unit(null!);
-        unit.FUnitResource = new UnitResource(null!) { FLevel = 2 };
+        unit.UnitResource = new UnitResource(null!) { Level = 2 };
         Assert.Equal(6, SummonedAbility.GetDefaultManaUpkeep(unit));
         Assert.Equal(5, SummonedAbility.GetDefaultDispelResistance(unit));
         Assert.Equal(5, new SummonSyron(null!).GetDispelResistance(unit));
@@ -391,16 +391,16 @@ public sealed class ObjectCastCrashTests
             var container = new MapContainer(null!);
             var level = new MapLevel(container);
             level.CreateMapFieldList(2, 1);
-            container.FMap = map;
-            map.FMapContainer = container;
+            container._map = map;
+            map._mapContainer = container;
             AoWHSMap.Current = map;
             var first = container.GetField(0, 0, 0);
             var second = container.GetField(1, 0, 0);
             var bridge = new Bridge(null!);
-            bridge.FResource = new Bridge.Resource(null!);
-            Assert.True(bridge.PlaceHX(container, 0, 0, 0));
+            bridge._resource = new Bridge.Resource(null!);
+            Assert.True(bridge.PlaceHex(container, 0, 0, 0));
             Assert.Same(first, bridge.Owner);
-            Assert.True(bridge.PlaceHX(container, 1, 0, 0));
+            Assert.True(bridge.PlaceHex(container, 1, 0, 0));
             Assert.Same(second, bridge.Owner);
             Assert.Same(level, first.Owner);
         }

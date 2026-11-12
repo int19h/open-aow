@@ -9,7 +9,7 @@ public partial class IncomeSourceList : ENode
     { }
 
     // Player.PAS:231
-    public IncomeSource GetItems(int Index) => (IncomeSource)FChildren.List[Index];
+    public IncomeSource GetItems(int index) => (IncomeSource)_children.List[index];
 
     // Engine.pas:631
 

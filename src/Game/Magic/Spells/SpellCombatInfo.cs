@@ -15,9 +15,9 @@ public struct SpellCombatInfo
     [FieldOffset(1)]
     public sbyte Damage;
     [FieldOffset(2)]
-    public ushort DamageTypes__image;
+    public ushort DamageTypesImage;
 
-    public Set<DamageType> DamageTypes { get => Set<DamageType>.FromMask(DamageTypes__image); set => DamageTypes__image = (ushort)value.Image; }
+    public Set<DamageType> DamageTypes { get => Set<DamageType>.FromMask(DamageTypesImage); set => DamageTypesImage = (ushort)value.Image; }
 
     [FieldOffset(4)]
     public sbyte RepeatCount;
@@ -26,7 +26,7 @@ public struct SpellCombatInfo
     [FieldOffset(6)]
     public sbyte Radius;
     [FieldOffset(7)]
-    public byte TargetTypes__image;
+    public byte TargetTypesImage;
 
-    public Set<CombatTargetTypeElement> TargetTypes { get => Set<CombatTargetTypeElement>.FromMask(TargetTypes__image); set => TargetTypes__image = (byte)value.Image; }
+    public Set<CombatTargetTypeElement> TargetTypes { get => Set<CombatTargetTypeElement>.FromMask(TargetTypesImage); set => TargetTypesImage = (byte)value.Image; }
 }

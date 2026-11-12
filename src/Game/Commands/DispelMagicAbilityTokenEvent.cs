@@ -21,104 +21,104 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
     public DispelMagicAbilityTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131827;
+    public new const int ClassId = 131827;
 
-    public int FSourceID;
-    public byte FSourcePlayer;
-    public int FTargetID;
-    public byte FTargetPlayer;
+    public int SourceId;
+    public byte SourcePlayer;
+    public int TargetId;
+    public byte TargetPlayer;
 
     // AoWAb.PAS:4337
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FSourceID, 25);
-        Stream.rwByte(ref FSourcePlayer, 26);
-        Stream.rwInteger(ref FTargetID, 27);
-        Stream.rwByte(ref FTargetPlayer, 28);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref SourceId, 25);
+        stream.rwByte(ref SourcePlayer, 26);
+        stream.rwInteger(ref TargetId, 27);
+        stream.rwByte(ref TargetPlayer, 28);
     }
 
     // AoWAb.PAS:4345
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult Result;
-        int Count;
-        int Mana;
-        DispelMagicAbility Ability;
-        EnchantmentList Enchantments;
-        Troop Source;
-        Troop Target;
+        ExecuteResult result;
+        int count;
+        int mana;
+        DispelMagicAbility ability;
+        EnchantmentList enchantments;
+        Troop source;
+        Troop target;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        bool Success;
-        int Chance;
-        ImageSequenceAnimation Anim;
-        base.Execute(TE);
-        Enchantments = new EnchantmentList(null);
-        Source = AoWHSMap.Current.FUnitControl.FindUnit(FSourceID);
-        Target = AoWHSMap.Current.FUnitControl.FindUnit(FTargetID);
-        Ability = (DispelMagicAbility)AoWHSSet.Current.FAbilityControl.GetAbility(60);
-        Success = Source != null && (byte)Source.FPlayer == FSourcePlayer && Target != null && (byte)Target.FPlayer == FTargetPlayer;
-        Success = Success && Ability.GetEnabled(Source);
-        if (Success)
+        bool success;
+        int chance;
+        ImageSequenceAnimation animation;
+        base.Execute(tokenEvent);
+        enchantments = new EnchantmentList(null);
+        source = AoWHSMap.Current.UnitControl.FindUnit(SourceId);
+        target = AoWHSMap.Current.UnitControl.FindUnit(TargetId);
+        ability = (DispelMagicAbility)AoWHSSet.Current.AbilityControl.GetAbility(60);
+        success = source != null && (byte)source.Player == SourcePlayer && target != null && (byte)target.Player == TargetPlayer;
+        success = success && ability.GetEnabled(source);
+        if (success)
         {
-            Target.ListEnchantments(Enchantments);
-            Success = Enchantments.GetCount() > 0;
+            target.ListEnchantments(enchantments);
+            success = enchantments.GetCount() > 0;
         }
 
-        if (Success)
+        if (success)
         {
-            Count = 0;
-            Mana = ((DispelMagicAbility)AoWHSSet.Current.FAbilityControl.GetAbility(60)).GetDispelMana(Source);
-            for (int I = Enchantments.GetCount() - 1; I >= 0; I--)
+            count = 0;
+            mana = ((DispelMagicAbility)AoWHSSet.Current.AbilityControl.GetAbility(60)).GetDispelMana(source);
+            for (int I = enchantments.GetCount() - 1; I >= 0; I--)
             {
-                Chance = Enchantments.GetEnchantments(I).DispelChance(Mana);
-                if (Chance > AoWHSMap.Current.Random(100))
+                chance = enchantments.GetEnchantments(I).DispelChance(mana);
+                if (chance > AoWHSMap.Current.Random(100))
                 {
-                    Count += 1;
-                    Enchantments.GetEnchantments(I).Dispel();
+                    count += 1;
+                    enchantments.GetEnchantments(I).Dispel();
                 }
             }
 
-            if (Source.FPlayer == AoWHSMap.Current.FSeatedPlayer)
+            if (source.Player == AoWHSMap.Current.SeatedPlayer)
             {
-                if (Count > 0)
+                if (count > 0)
                 {
-                    var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.XSpellsSuccessfullyDispelledRStr), [IntToStr(Count)]);
+                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_spellsSuccessfullyDispelledFormat), [IntToStr(count)]);
                     AoWHSMap.Current.ShowMessage(format);
                 }
                 else
                 {
-                    var dispelMagicFailed = AbilityRules.TranslateRStr(GameText.DispelMagicFailedRStr);
+                    var dispelMagicFailed = AbilityRules.TranslateResourceString(GameText.s_dispelMagicFailedText);
                     AoWHSMap.Current.ShowMessage(dispelMagicFailed);
                 }
             }
 
-            Ability.SetEnabled(Source, false);
-            Target.GetLocation(ref X, ref Y, ref L);
-            AoWHSMap.Current.ValidateObservation((sbyte)FSourcePlayer, X, Y, L, 0);
+            ability.SetEnabled(source, false);
+            target.GetLocation(ref X, ref Y, ref L);
+            AoWHSMap.Current.ValidateObservation((sbyte)SourcePlayer, X, Y, L, 0);
             if (AoWHSMap.Current.Visible(X, Y, L, 0))
             {
-                Anim = new ImageSequenceAnimation(null);
-                Anim.SetImageSequence(Ability.FImageSequences.GetImageSequence(0));
-                AoWHSMap.Current.PlaceHX(Anim, X, Y, L);
+                animation = new ImageSequenceAnimation(null);
+                animation.SetImageSequence(ability.ImageSequences.GetImageSequence(0));
+                AoWHSMap.Current.PlaceHex(animation, X, Y, L);
             }
 
-            if ((byte)AoWHSMap.Current.FSeatedPlayer == FSourcePlayer || AoWHSMap.Current.Watching(X, Y, L, 0))
+            if ((byte)AoWHSMap.Current.SeatedPlayer == SourcePlayer || AoWHSMap.Current.Watching(X, Y, L, 0))
             {
-                Ability.FSFXLibrary.Play(0);
+                ability.SfxLibrary.Play(0);
             }
 
-            Result = ExecuteResult.Done;
+            result = ExecuteResult.Done;
         }
         else
         {
-            Result = ExecuteResult.DoneHalt;
+            result = ExecuteResult.DoneHalt;
         }
 
-        Enchantments?.Dispose();
-        return Result;
+        enchantments?.Dispose();
+        return result;
     }
 
     // NetworkE.pas:230

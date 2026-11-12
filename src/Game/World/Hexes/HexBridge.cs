@@ -9,48 +9,48 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Hexes;
 
-// FTerrain, FDirection (-1 invalid), FSideA, FSideB
+// _terrain, Direction (-1 invalid), SideA, SideB
 public partial class HexBridge : AbstractRoad
 {
     public HexBridge(ECustomNode owner) : base(owner)
     {
-        FDirection = -1;
-        FSideA = new ByteList();
-        FSideB = new ByteList();
+        Direction = -1;
+        SideA = new ByteList();
+        SideB = new ByteList();
     }
 
     // HxBridge.pas:84
-    public new const int ClassID = 133242;
+    public new const int ClassId = 133242;
 
-    public sbyte FTerrain;
-    public sbyte FDirection;
-    public ByteList FSideA;
-    public ByteList FSideB;
+    public sbyte _terrain;
+    public sbyte Direction;
+    public ByteList SideA;
+    public ByteList SideB;
 
     // HxBridge.pas:77
     public override void Dispose()
     {
         base.Dispose();
-        FSideA?.Dispose();
-        FSideB?.Dispose();
+        SideA?.Dispose();
+        SideB?.Dispose();
     }
 
     // HxBridge.pas:69
 
     // HxBridge.pas:100
-    public override sbyte GetTerrain(int Index)
+    public override sbyte GetTerrain(int index)
     {
-        sbyte Result;
-        if (Index == 0)
+        sbyte result;
+        if (index == 0)
         {
-            Result = FTerrain;
+            result = _terrain;
         }
         else
         {
-            Result = -2;
+            result = -2;
         }
 
-        return Result;
+        return result;
     }
 
     // HxBridge.pas:89
@@ -59,29 +59,29 @@ public partial class HexBridge : AbstractRoad
     // HxBridge.pas:105
     public override int GetShowPriority()
     {
-        int Xhp;
-        int Yhp;
+        int pixelX;
+        int pixelY;
         var mapField = (MapField)Owner;
-        Xhp = mapField.Xhx * 32 + 8;
-        Yhp = (mapField.Xhx & 1) * 16 + mapField.Yhx * 32;
+        pixelX = mapField.HexX * 32 + 8;
+        pixelY = (mapField.HexX & 1) * 16 + mapField.HexY * 32;
 
-        return 1744830464 + (Yhp << 13) + (Xhp + 8);
+        return 1744830464 + (pixelY << 13) + (pixelX + 8);
     }
 
     // HxBridge.pas:117
     public override void Connect()
     {
-        HexNumberWalkData Walk = default;
-        MapLevel Level;
-        Level = (MapLevel)Owner.Owner;
-        HexNumberWalkData.InitHNWalk(ref Walk, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, 1);
-        while (Walk.Radius <= 1)
+        HexNumberWalkData walk = default;
+        MapLevel level;
+        level = (MapLevel)Owner.Owner;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, ((MapField)Owner).HexX, ((MapField)Owner).HexY, 1);
+        while (walk.Radius <= 1)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                Level.GetField(Walk.X, Walk.Y).AddHS(this, Walk.HN);
+                level.GetField(walk.X, walk.Y).AddHexSprite(this, walk.HexNumber);
                 // { Original bug: the walk never advances when a neighbour is out of bounds. }
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
 
@@ -91,17 +91,17 @@ public partial class HexBridge : AbstractRoad
     // HxBridge.pas:135
     public override void Disconnect()
     {
-        HexNumberWalkData Walk = default;
-        MapLevel Level;
-        Level = (MapLevel)Owner.Owner;
-        HexNumberWalkData.InitHNWalk(ref Walk, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, 1);
-        while (Walk.Radius <= 1)
+        HexNumberWalkData walk = default;
+        MapLevel level;
+        level = (MapLevel)Owner.Owner;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, ((MapField)Owner).HexX, ((MapField)Owner).HexY, 1);
+        while (walk.Radius <= 1)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                Level.GetField(Walk.X, Walk.Y).RemoveHS(this);
+                level.GetField(walk.X, walk.Y).RemoveHexSprite(this);
                 // { Original bug: the walk never advances when a neighbour is out of bounds. }
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
 
@@ -109,58 +109,58 @@ public partial class HexBridge : AbstractRoad
     }
 
     // HxBridge.pas:327
-    public override void ChangeTerrain(in HexSpriteTerrainInfo Msg)
+    public override void ChangeTerrain(in HexSpriteTerrainInfo message)
     {
-        base.ChangeTerrain(Msg);
+        base.ChangeTerrain(message);
     }
 
     // HxBridge.pas:321
-    public override void NeighbourTerrainChanged(int HN, in HexSpriteTerrainInfo Msg)
+    public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo message)
     {
         UpdateTransitions();
-        if (FDirection == -1)
+        if (Direction == -1)
         {
             Dispose();
         }
     }
 
     // HxBridge.pas:186
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-        FResource.ImageLibrary[FDirection].Show(Xhp - XhpSurf - 23, Yhp - YhpSurf - 20, SurfaceDesc);
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        _resource.ImageLibrary[Direction].Show(pixelX - pixelXSurface - 23, pixelY - pixelYSurface - 20, lockedSurface);
     }
 
     // HxBridge.pas:160
-    public override void MoveExclusive(in HexSpriteSenderInfo Info)
+    public override void MoveExclusive(in HexSpriteSenderInfo info)
     {
-        int Xhx = default;
-        int Yhx = default;
-        MapField MapField;
-        if (Info.HN != 0)
+        int hexX = default;
+        int hexY = default;
+        MapField mapField;
+        if (info.HexNumber != 0)
         {
-            if (FSideA.IndexOf((byte)Info.HN) != -1)
+            if (SideA.IndexOf((byte)info.HexNumber) != -1)
             {
-                for (int I = 0, last = FSideB.Count - 1; I <= last; I++)
+                for (int I = 0, last = SideB.Count - 1; I <= last; I++)
                 {
-                    var sideB = FSideB[I];
-                    HexGeometry.CenterHNtoHX(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, sideB, ref Xhx, ref Yhx);
-                    MapField = AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, ((MapField)Owner).Lhx);
-                    ((MoveControl)Info.Sender).ExecuteExternalMove((AoWMapField)Info.MapField, (AoWMapField)MapField, ((MoveControl)Info.Sender).FMovePointTable[MapField.TerrainType][MapField.OverlayType - -1]);
+                    var sideB = SideB[I];
+                    HexGeometry.CenterHexNumberToHex(((MapField)Owner).HexX, ((MapField)Owner).HexY, sideB, ref hexX, ref hexY);
+                    mapField = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, ((MapField)Owner).HexLevel);
+                    ((MoveControl)info.Sender).ExecuteExternalMove((AoWMapField)info.MapField, (AoWMapField)mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - -1]);
                 }
             }
             else
             {
-                if (FSideB.IndexOf((byte)Info.HN) != -1)
+                if (SideB.IndexOf((byte)info.HexNumber) != -1)
                 {
-                    for (int I = 0, last = FSideA.Count - 1; I <= last; I++)
+                    for (int I = 0, last = SideA.Count - 1; I <= last; I++)
                     {
-                        var sideA = FSideA[I];
-                        HexGeometry.CenterHNtoHX(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, sideA, ref Xhx, ref Yhx);
-                        MapField = AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, ((MapField)Owner).Lhx);
-                        ((MoveControl)Info.Sender).ExecuteExternalMove((AoWMapField)Info.MapField, (AoWMapField)MapField, ((MoveControl)Info.Sender).FMovePointTable[MapField.TerrainType][MapField.OverlayType - -1]);
+                        var sideA = SideA[I];
+                        HexGeometry.CenterHexNumberToHex(((MapField)Owner).HexX, ((MapField)Owner).HexY, sideA, ref hexX, ref hexY);
+                        mapField = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, ((MapField)Owner).HexLevel);
+                        ((MoveControl)info.Sender).ExecuteExternalMove((AoWMapField)info.MapField, (AoWMapField)mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - -1]);
                     }
                 }
             }
@@ -175,46 +175,46 @@ public partial class HexBridge : AbstractRoad
     }
 
     // HxBridge.pas:153
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (Info.HN != 0)
+        if (info.HexNumber != 0)
         {
-            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 32768;
+            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 32768;
         }
     }
 
     // HxBridge.pas:94
-    public override bool LinkToResource(GameEngine AEngine)
+    public override bool LinkToResource(GameEngine engine)
     {
-        bool Result = base.LinkToResource(AEngine);
-        FTerrain = FResource.TerrainList.Terrain[0];
-        return Result;
+        bool result = base.LinkToResource(engine);
+        _terrain = _resource.TerrainList.Terrain[0];
+        return result;
     }
 
     // HxBridge.pas:200
-    public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField MapField;
-        MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
-        return base.CanPlace(MapContainer, Xhx, Yhx, Lhx) && (DirectionValid(MapField, 0) || DirectionValid(MapField, 1) || DirectionValid(MapField, 2));
+        MapField mapField;
+        mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+        return base.CanPlace(mapContainer, hexX, hexY, hexLevel) && (DirectionValid(mapField, 0) || DirectionValid(mapField, 1) || DirectionValid(mapField, 2));
     }
 
     // HxBridge.pas:209
-    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        HexSprite Road;
-        MapField MapField;
-        MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
-        Road = MapField.FindHS(typeof(AbstractRoad));
-        if (Road != null)
+        HexSprite road;
+        MapField mapField;
+        mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+        road = mapField.FindHexSprite(typeof(AbstractRoad));
+        if (road != null)
         {
-            Road.Dispose();
+            road.Dispose();
         }
 
         ECustomNode previous = Owner;
-        Owner = MapField;
-        FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
-        FTerrain = MapField.TerrainType;
+        Owner = mapField;
+        _status = _status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
+        _terrain = mapField.TerrainType;
         // { Original bug: refresh the old owner's owner as a map field. }
         // FOwner lives on TEObject, so the old owner has it. A nil owner or a non-field owner is undefined in the original, so skip it.
         if (previous?.Owner is MapField field)
@@ -222,38 +222,38 @@ public partial class HexBridge : AbstractRoad
             field.UpdateOverlayType();
         }
 
-        MapField.UpdateOverlayType();
-        MapContainer.Map.InvalidateStaticScene(Xhx, Yhx, Lhx);
+        mapField.UpdateOverlayType();
+        mapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
         UpdateTransitions();
-        return FDirection != -1;
+        return Direction != -1;
     }
 
     // HxBridge.pas:309
     public override void UpdateTransitions()
     {
-        if (FDirection == -1 || !DirectionValid((MapField)Owner, FDirection))
+        if (Direction == -1 || !DirectionValid((MapField)Owner, Direction))
         {
             if (DirectionValid((MapField)Owner, 1))
             {
-                FDirection = 1;
+                Direction = 1;
             }
             else
             {
                 if (DirectionValid((MapField)Owner, 2))
                 {
-                    FDirection = 2;
+                    Direction = 2;
                 }
                 else
                 {
                     if (DirectionValid((MapField)Owner, 0))
                     {
-                        FDirection = 0;
+                        Direction = 0;
                     }
                     else
                     {
                         if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                         {
-                            FDirection = -1;
+                            Direction = -1;
                         }
                     }
                 }
@@ -264,122 +264,122 @@ public partial class HexBridge : AbstractRoad
     }
 
     // HxBridge.pas:229
-    public bool DirectionValid(MapField MapField, sbyte Direction)
+    public bool DirectionValid(MapField mapField, sbyte direction)
     {
-        MapLevel Level;
-        int Xhx = default;
-        int Yhx = default;
-        bool Result = false;
-        Level = (MapLevel)MapField.Owner;
-        HexGeometry.CenterHNtoHX(MapField.Xhx, MapField.Yhx, Direction + 1, ref Xhx, ref Yhx);
-        if (Xhx >= 0 && Yhx >= 0 && Xhx < Level.Width && Yhx < Level.Height)
+        MapLevel level;
+        int hexX = default;
+        int hexY = default;
+        bool result = false;
+        level = (MapLevel)mapField.Owner;
+        HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, direction + 1, ref hexX, ref hexY);
+        if (hexX >= 0 && hexY >= 0 && hexX < level.Width && hexY < level.Height)
         {
-            if (Land(Level.GetField(Xhx, Yhx).TerrainType))
+            if (Land(level.GetField(hexX, hexY).TerrainType))
             {
-                HexGeometry.CenterHNtoHX(MapField.Xhx, MapField.Yhx, Direction + 4, ref Xhx, ref Yhx);
-                if (Xhx >= 0 && Yhx >= 0 && Xhx < Level.Width && Yhx < Level.Height)
+                HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, direction + 4, ref hexX, ref hexY);
+                if (hexX >= 0 && hexY >= 0 && hexX < level.Width && hexY < level.Height)
                 {
-                    Result = Land(Level.GetField(Xhx, Yhx).TerrainType);
+                    result = Land(level.GetField(hexX, hexY).TerrainType);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // HxBridge.pas:246
     public void UpdateExclusiveMoves()
     {
-        int Xhx;
-        int Yhx;
+        int hexX;
+        int hexY;
         int X = default;
         int Y = default;
-        MapLevel Level;
-        FSideB.Clear();
-        FSideA.Clear();
-        if (FDirection != -1)
+        MapLevel level;
+        SideB.Clear();
+        SideA.Clear();
+        if (Direction != -1)
         {
-            Level = (MapLevel)Owner.Owner;
-            Xhx = ((MapField)Owner).Xhx;
-            Yhx = ((MapField)Owner).Yhx;
+            level = (MapLevel)Owner.Owner;
+            hexX = ((MapField)Owner).HexX;
+            hexY = ((MapField)Owner).HexY;
             // { Original bug: the neighbour lookups here have no bounds checks. }
-            switch (FDirection)
+            switch (Direction)
             {
                 case 0:
-                    HexGeometry.CenterHNtoHX(Xhx, Yhx, 2, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 2, ref X, ref Y);
+                    if (!Land(level.GetField(X, Y).TerrainType))
                     {
-                        FSideB.Add(2);
+                        SideB.Add(2);
                     }
 
-                    HexGeometry.CenterHNtoHX(Xhx, Yhx, 3, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 3, ref X, ref Y);
+                    if (!Land(level.GetField(X, Y).TerrainType))
                     {
-                        FSideB.Add(3);
+                        SideB.Add(3);
                     }
 
-                    HexGeometry.CenterHNtoHX(Xhx, Yhx, 5, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 5, ref X, ref Y);
+                    if (!Land(level.GetField(X, Y).TerrainType))
                     {
-                        FSideA.Add(5);
+                        SideA.Add(5);
                     }
 
-                    HexGeometry.CenterHNtoHX(Xhx, Yhx, 6, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 6, ref X, ref Y);
+                    if (!Land(level.GetField(X, Y).TerrainType))
                     {
-                        FSideA.Add(6);
+                        SideA.Add(6);
                     }
 
                     break;
                 case 1:
-                    HexGeometry.CenterHNtoHX(Xhx, Yhx, 3, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 3, ref X, ref Y);
+                    if (!Land(level.GetField(X, Y).TerrainType))
                     {
-                        FSideB.Add(3);
+                        SideB.Add(3);
                     }
 
-                    HexGeometry.CenterHNtoHX(Xhx, Yhx, 4, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 4, ref X, ref Y);
+                    if (!Land(level.GetField(X, Y).TerrainType))
                     {
-                        FSideB.Add(4);
+                        SideB.Add(4);
                     }
 
-                    HexGeometry.CenterHNtoHX(Xhx, Yhx, 6, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 6, ref X, ref Y);
+                    if (!Land(level.GetField(X, Y).TerrainType))
                     {
-                        FSideA.Add(6);
+                        SideA.Add(6);
                     }
 
-                    HexGeometry.CenterHNtoHX(Xhx, Yhx, 1, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 1, ref X, ref Y);
+                    if (!Land(level.GetField(X, Y).TerrainType))
                     {
-                        FSideA.Add(1);
+                        SideA.Add(1);
                     }
 
                     break;
                 case 2:
-                    HexGeometry.CenterHNtoHX(Xhx, Yhx, 1, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 1, ref X, ref Y);
+                    if (!Land(level.GetField(X, Y).TerrainType))
                     {
-                        FSideB.Add(1);
+                        SideB.Add(1);
                     }
 
-                    HexGeometry.CenterHNtoHX(Xhx, Yhx, 2, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 2, ref X, ref Y);
+                    if (!Land(level.GetField(X, Y).TerrainType))
                     {
-                        FSideB.Add(2);
+                        SideB.Add(2);
                     }
 
-                    HexGeometry.CenterHNtoHX(Xhx, Yhx, 4, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 4, ref X, ref Y);
+                    if (!Land(level.GetField(X, Y).TerrainType))
                     {
-                        FSideA.Add(4);
+                        SideA.Add(4);
                     }
 
-                    HexGeometry.CenterHNtoHX(Xhx, Yhx, 5, ref X, ref Y);
-                    if (!Land(Level.GetField(X, Y).TerrainType))
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, 5, ref X, ref Y);
+                    if (!Land(level.GetField(X, Y).TerrainType))
                     {
-                        FSideA.Add(5);
+                        SideA.Add(5);
                     }
 
                     break;
@@ -387,13 +387,13 @@ public partial class HexBridge : AbstractRoad
         }
     }
 
-    private static bool Land(sbyte Terrain)
+    private static bool Land(sbyte terrain)
     {
         return !Set<byte>.WithBounds(0, 255).With((byte)0).With((byte)6)
             .With((byte)9)
             .With((byte)10)
             .With((byte)13)
-            .Contains((byte)Terrain);
+            .Contains((byte)terrain);
     }
 
     public new partial class Resource : AbstractRoadResource
@@ -404,17 +404,17 @@ public partial class HexBridge : AbstractRoad
         }
 
         // HxBridge.pas:348
-        public new const int ClassID = 133243;
+        public new const int ClassId = 133243;
 
         // HxBridge.pas:332
 
         // HxBridge.pas:338
-        public override int ResourceUserClassID() => 133242;
+        public override int ResourceUserClassId() => 133242;
 
         // HxBridge.pas:49
 
         // HxBridge.pas:343
-        public override string ResourceEditName() => HexText.BridgeStr;
+        public override string ResourceEditName() => HexText.s_bridgeText;
 
     }
 

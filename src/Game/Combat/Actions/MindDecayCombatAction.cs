@@ -10,34 +10,34 @@ namespace Aow.Game.Combat.Actions;
 public partial class MindDecayCombatAction : ExclusiveCombatSpellCombatAction
 {
     // CombatSpells.pas:1162
-    public new const int ClassID = 131787;
+    public new const int ClassId = 131787;
 
     public MindDecayCombatAction(ECustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:1168
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatObject Source;
-        CombatUnit Target;
-        base.Execute(Combat);
-        if (FSucceeded)
+        CombatObject source;
+        CombatUnit target;
+        base.Execute(combat);
+        if (Succeeded)
         {
-            Source = Combat.FCombatData.FindID(FSourceID);
-            Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
-            Source.SetExperience(Source.GetExperience() + Target.GetLevel());
+            source = combat.CombatData.FindId(SourceId);
+            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            source.SetExperience(source.GetExperience() + target.GetLevel());
             for (int I = 0; I <= 2; I++)
             {
-                ((CommandAbility)AoWHSSet.Current.FAbilityControl.GetAbility(AbilityRules.CommandAbilityIDs[I])).ResetCommandedUnits(Target);
+                ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityRules.s_commandAbilityIds[I])).ResetCommandedUnits(target);
             }
 
             for (int I = 0; I <= 2; I++)
             {
-                ((CommandAbility)AoWHSSet.Current.FAbilityControl.GetAbility(AbilityRules.CommandAbilityIDs[I])).Uncommand(Target);
+                ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityRules.s_commandAbilityIds[I])).Uncommand(target);
             }
 
-            AoWHSSet.Current.FAbilityControl.GetAbility(131).Expand(Target.FUnit);
-            Target.SetCombatPlayer((byte)Source.FCombatPlayer);
+            AoWHSSet.Current.AbilityControl.GetAbility(131).Expand(target.Troop);
+            target.SetCombatPlayer((byte)source.CombatPlayer);
         }
     }
 

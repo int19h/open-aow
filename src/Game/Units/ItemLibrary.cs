@@ -15,75 +15,75 @@ public partial class ItemLibrary : ItemList
     public ItemLibrary(ECustomNode owner) : base(owner)
     { }
 
-    public string FName = "";
-    public int FLastID;
+    public string Name = "";
+    public int LastId;
 
     // Army.PAS:4933
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwString(ref FName, 20);
-        Stream.rwInteger(ref FLastID, 21);
+        base.ReadWrite(stream);
+        stream.rwString(ref Name, 20);
+        stream.rwInteger(ref LastId, 21);
     }
 
     // Army.PAS:4909
-    public override int AddChild(EngineObject Child)
+    public override int AddChild(EngineObject child)
     {
-        var item = (Item)Child;
+        var item = (Item)child;
         // { Original checks the world item ID, not the library ID. }
-        if (item.FLibraryID <= 0 || FindItem(item.FLibraryID) != null)
+        if (item.LibraryId <= 0 || FindItem(item.LibraryId) != null)
         {
-            item.FLibraryID = CreateUniqueLibraryID();
+            item.LibraryId = CreateUniqueLibraryId();
         }
 
-        return base.AddChild(Child);
+        return base.AddChild(child);
     }
 
     // Army.PAS:4940
     public virtual string GetName()
     {
-        string Result = FName;
-        if (IsEmpty(Result))
+        string result = Name;
+        if (IsEmpty(result))
         {
-            Result = AbilityRules.TranslateRStr(SystemItemLibraryRStr);
+            result = AbilityRules.TranslateResourceString(s_systemItemLibraryText);
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:4897
-    public int CreateUniqueLibraryID()
+    public int CreateUniqueLibraryId()
     {
         int I;
         do
         {
             I = 0;
-            FLastID += 1;
-            if (FLastID > 268435455)
+            LastId += 1;
+            if (LastId > 268435455)
             {
-                FLastID = 0;
+                LastId = 0;
             }
 
-            while (I != FChildren.Count && ((Item)FChildren.List[I]).FLibraryID != FLastID)
+            while (I != _children.Count && ((Item)_children.List[I]).LibraryId != LastId)
             {
                 I += 1;
             }
         }
-        while (!(I == FChildren.Count));
-        return FLastID;
+        while (!(I == _children.Count));
+        return LastId;
     }
 
     // Army.PAS:4917
-    public Item FindLibraryID(int LibraryID)
+    public Item FindLibraryId(int libraryId)
     {
         int I;
-        I = FChildren.Count;
+        I = _children.Count;
         while (I != 0)
         {
             I -= 1;
-            if (((Item)FChildren.List[I]).FLibraryID == LibraryID)
+            if (((Item)_children.List[I]).LibraryId == libraryId)
             {
-                return (Item)FChildren.List[I];
+                return (Item)_children.List[I];
             }
         }
 
@@ -93,28 +93,28 @@ public partial class ItemLibrary : ItemList
     // Army.PAS:4946
     public Item CreateItem()
     {
-        Item Item;
-        Item = new Item(null);
-        Item.FLibraryID = CreateUniqueLibraryID();
-        Item.FLibraryName = FName;
-        Item.SetOwner(this);
-        Item.Release();
-        return Item;
+        Item item;
+        item = new Item(null);
+        item.LibraryId = CreateUniqueLibraryId();
+        item.LibraryName = Name;
+        item.SetOwner(this);
+        item.Release();
+        return item;
     }
 
     // Army.PAS:4957
-    public void LoadFromFile(string FileName)
+    public void LoadFromFile(string fileName)
     {
-        GameTables.AoWEngine.ReadFromFile(FileName, this, null, GameProfile.ItemList);
+        GameTables.GameEngine.ReadFromFile(fileName, this, null, GameProfile.ItemList);
     }
 
     // Army.PAS:4962
-    public void SaveToFile(string FileName)
+    public void SaveToFile(string fileName)
     {
-        GameTables.AoWEngine.WriteToFile(FileName, this, null, GameProfile.ItemList);
+        GameTables.GameEngine.WriteToFile(fileName, this, null, GameProfile.ItemList);
     }
 
-    private static readonly string SystemItemLibraryRStr = "System";
+    private static readonly string s_systemItemLibraryText = "System";
 
     // intf_P2_04.inc:118
 

@@ -19,48 +19,48 @@ public partial class SaveGameTokenEvent : TokenEvent
     public SaveGameTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135444;
+    public new const int ClassId = 135444;
 
-    public string FFileName = "";
+    public string FileName = "";
 
     // MoveT.PAS:1848
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwString(ref FFileName, 15);
+        base.ReadWrite(stream);
+        stream.rwString(ref FileName, 15);
     }
 
     // MoveT.PAS:1854
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult Result = default;
-        base.Execute(TE);
-        if (AoWHSMap.Current.FSeatedPlayer == TE.ActiveTCIndex)
+        ExecuteResult result = default;
+        base.Execute(tokenEvent);
+        if (AoWHSMap.Current.SeatedPlayer == tokenEvent.ActiveTacticalBattleIndex)
         {
-            if (TE.ExecuteCount == 0)
+            if (tokenEvent.ExecuteCount == 0)
             {
-                var fileName = ExtractFileName(FFileName);
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(P5SavingGameRStr), [fileName]);
+                var fileName = ExtractFileName(FileName);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_savingGameFormat), [fileName]);
                 AoWHSMap.Current.ShowMessage(format);
-                Result = ExecuteResult.Retry;
+                result = ExecuteResult.Retry;
             }
             else
             {
-                var fileName = ExtractFileName(FFileName);
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.GameSavedRStr), [fileName]);
+                var fileName = ExtractFileName(FileName);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_gameSavedFormat), [fileName]);
                 AoWHSMap.Current.ShowMessage(format);
                 try
                 {
                     AoWHSMap.Current.DisableTurnTimer();
-                    if (GameTables.AoWEngine.FCampaign != null)
+                    if (GameTables.GameEngine.Campaign != null)
                     {
-                        GameTables.AoWEngine.SaveCampaign(FFileName);
-                        GameTables.AoWEngine.FCampaign.FFileName = FFileName;
+                        GameTables.GameEngine.SaveCampaign(FileName);
+                        GameTables.GameEngine.Campaign.FileName = FileName;
                     }
                     else
                     {
-                        GameTables.AoWEngine.SaveHSM(FFileName, null, GameProfile.WorldMap);
-                        AoWHSMap.Current.FileName = FFileName;
+                        GameTables.GameEngine.SaveHsm(FileName, null, GameProfile.WorldMap);
+                        AoWHSMap.Current.FileName = FileName;
                     }
 
                     AoWHSMap.Current.EnableTurnTimer();
@@ -68,23 +68,23 @@ public partial class SaveGameTokenEvent : TokenEvent
                 catch
                 {
                     // { Original leaves the turn timer disabled after a save failure. }
-                    var aoWEFormat = AbilityRules.Format(AbilityRules.TranslateRStr(P5ErrorSavingRStr), [FFileName]);
-                    AoWHSMap.Current.ShowMessage(aoWEFormat);
+                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_errorSavingFormat), [FileName]);
+                    AoWHSMap.Current.ShowMessage(formattedText);
                 }
 
-                Result = ExecuteResult.Done;
+                result = ExecuteResult.Done;
             }
         }
         else
         {
-            Result = ExecuteResult.Done;
+            result = ExecuteResult.Done;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string P5SavingGameRStr = "saving: %s";
-    private static readonly string P5ErrorSavingRStr = "Error saving: %s";
+    private static readonly string s_savingGameFormat = "saving: %s";
+    private static readonly string s_errorSavingFormat = "Error saving: %s";
 
     // NetworkE.pas:230
 

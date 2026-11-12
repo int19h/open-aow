@@ -19,162 +19,162 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
     public ArmyNegotiateMoveTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135430;
+    public new const int ClassId = 135430;
 
     // MoveT.PAS:2400
     public override bool Validate()
     {
         // { Matches: Assign inherited Validate to Result before the conjunction. }
-        bool Result = base.Validate();
-        return Result && ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(FTargetX, FTargetY, FTargetL)).GetMoveAction(FArmyHS.FArmy.FPlayer) == MoveAction.Negotiate;
+        bool result = base.Validate();
+        return result && ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(TargetX, TargetY, TargetL)).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate;
     }
 
     // MoveT.PAS:2442
     public override bool Animating()
     {
-        bool Result;
-        if (FMoveIndex == 1)
+        bool result;
+        if (MoveIndex == 1)
         {
-            if (FArmyHS.GetMoveStatus() != -1)
+            if (ArmyHexSprite.GetMoveStatus() != -1)
             {
                 // { Process the negotiate or ordinary move animation. }
                 // { Evaluate the map field directly. }
-                if (GetMapF(FPath[0]).GetMoveAction(FArmyHS.FArmy.FPlayer) == MoveAction.Negotiate)
+                if (GetMapField(Path[0]).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate)
                 {
-                    Result = FArmyHS.GetMoveStatus() < 50;
+                    result = ArmyHexSprite.GetMoveStatus() < 50;
                 }
                 else
                 {
-                    Result = FArmyHS.GetMoveStatus() < 100;
+                    result = ArmyHexSprite.GetMoveStatus() < 100;
                 }
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = base.Animating();
+            result = base.Animating();
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:2407
     public override bool CanMoveNext()
     {
-        bool Result;
-        if (FMoveIndex == 1)
+        bool result;
+        if (MoveIndex == 1)
         {
             // { Evaluate the map field directly. }
-            Result = GetMapF(FPath[0]).GetMoveAction(FArmyHS.FArmy.FPlayer) == MoveAction.Negotiate || base.CanMoveNext();
+            result = GetMapField(Path[0]).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate || base.CanMoveNext();
         }
         else
         {
             // { Otherwise retain the successful negotiation test. }
-            Result = base.CanMoveNext();
+            result = base.CanMoveNext();
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:2419
     public override MoveStatus ExecuteMove()
     {
-        MoveStatus Result;
-        AoWMapField Field;
-        int Direction;
-        if (FMoveIndex == 1)
+        MoveStatus result;
+        AoWMapField field;
+        int direction;
+        if (MoveIndex == 1)
         {
-            Field = GetMapF(FPath[0]);
-            if (Field.GetMoveAction(FArmyHS.FArmy.FPlayer) == MoveAction.Negotiate)
+            field = GetMapField(Path[0]);
+            if (field.GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate)
             {
-                Direction = GetDirection(1);
-                if (Direction == 0)
+                direction = GetDirection(1);
+                if (direction == 0)
                 {
-                    Direction = GetHT(1);
+                    direction = GetHexDirection(1);
                 }
 
-                if (Direction > 0 && Direction <= 6)
+                if (direction > 0 && direction <= 6)
                 {
-                    FArmyHS.SetDirection((byte)Direction);
+                    ArmyHexSprite.SetDirection((byte)direction);
                 }
                 else
                 {
-                    FArmyHS.SetDirection(0);
+                    ArmyHexSprite.SetDirection(0);
                 }
 
-                var item = FPath[0];
-                var fPathItem = FPath[0];
-                var item2 = FPath[0];
-                var item3 = FPath[0];
-                NegotiateArmy(FArmyHS.FArmy.FPlayer, FArmyHS, FSelection, item.X, fPathItem.Y, item2.L, item3.Flag);
-                Result = MoveStatus.Done;
+                var item = Path[0];
+                var fPathItem = Path[0];
+                var item2 = Path[0];
+                var item3 = Path[0];
+                NegotiateArmy(ArmyHexSprite.Army.Player, ArmyHexSprite, Selection, item.X, fPathItem.Y, item2.MapLevel, item3.Tag);
+                result = MoveStatus.Done;
             }
             else
             {
-                Result = base.ExecuteMove();
+                result = base.ExecuteMove();
             }
         }
         else
         {
-            Result = base.ExecuteMove();
+            result = base.ExecuteMove();
         }
 
-        return Result;
+        return result;
     }
 
-    private static void NegotiateArmy(sbyte Player, ArmyHexSprite ArmyHS, byte Selection, sbyte X, sbyte Y, sbyte L, int MovePoints)
+    private static void NegotiateArmy(sbyte player, ArmyHexSprite armyHexSprite, byte selection, sbyte X, sbyte Y, sbyte L, int movePoints)
     {
-        string ErrorText = "";
+        string errorText = "";
         MapFieldMessage message = default(MapFieldMessage);
-        if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
+        if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
         {
-            if (Player == AoWHSMap.Current.FSeatedPlayer)
+            if (player == AoWHSMap.Current.SeatedPlayer)
             {
-                NegotiateRequestEventLog tNegotiateRequestEventLog = new NegotiateRequestEventLog(null);
-                tNegotiateRequestEventLog.FArmyID = ArmyHS.FArmy.CreateID(Selection);
-                tNegotiateRequestEventLog.FMovePoints = MovePoints;
-                tNegotiateRequestEventLog.FX = (sbyte)(byte)X;
-                tNegotiateRequestEventLog.FY = (sbyte)(byte)Y;
-                tNegotiateRequestEventLog.FL = (sbyte)(byte)L;
-                tNegotiateRequestEventLog.FPlayer = (sbyte)(byte)Player;
-                message.MsgID = 4366;
-                message.Param[0] = new MsgArg((object)tNegotiateRequestEventLog);
+                NegotiateRequestEventLog negotiateRequestEventLog = new NegotiateRequestEventLog(null);
+                negotiateRequestEventLog.ArmyId = armyHexSprite.Army.CreateId(selection);
+                negotiateRequestEventLog.MovePoints = movePoints;
+                negotiateRequestEventLog.X = (sbyte)(byte)X;
+                negotiateRequestEventLog.Y = (sbyte)(byte)Y;
+                negotiateRequestEventLog.MapLevel = (sbyte)(byte)L;
+                negotiateRequestEventLog._player = (sbyte)(byte)player;
+                message.MessageId = 4366;
+                message.Param[0] = new MsgArg((object)negotiateRequestEventLog);
                 message.Param[1] = (MsgArg)(0);
                 message.Result = (MsgArg)(0);
-                AoWHSMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMsg(ref message);
+                AoWHSMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
                 if (message.Param[1].Int != 0)
                 {
-                    tNegotiateRequestEventLog.Execute(mode: true, ExecuteTrigger.Event, null);
+                    negotiateRequestEventLog.Execute(mode: true, ExecuteTrigger.Event, null);
                 }
-                tNegotiateRequestEventLog.Release();
+                negotiateRequestEventLog.Release();
             }
         }
-        else if (AoWHSMap.Current.FPlayers.GetPlayers(Player).GetLocal())
+        else if (AoWHSMap.Current.Players.GetPlayers(player).GetLocal())
         {
-            NegotiateRequestEventLog tNegotiateRequestEventLog = new NegotiateRequestEventLog(null);
-            tNegotiateRequestEventLog.FArmyID = ArmyHS.FArmy.CreateID(Selection);
-            tNegotiateRequestEventLog.FMovePoints = MovePoints;
-            tNegotiateRequestEventLog.FX = (sbyte)(byte)X;
-            tNegotiateRequestEventLog.FY = (sbyte)(byte)Y;
-            tNegotiateRequestEventLog.FL = (sbyte)(byte)L;
-            tNegotiateRequestEventLog.FPlayer = (sbyte)(byte)Player;
-            message.MsgID = 4366;
-            message.Param[0] = new MsgArg((object)tNegotiateRequestEventLog);
+            NegotiateRequestEventLog negotiateRequestEventLog = new NegotiateRequestEventLog(null);
+            negotiateRequestEventLog.ArmyId = armyHexSprite.Army.CreateId(selection);
+            negotiateRequestEventLog.MovePoints = movePoints;
+            negotiateRequestEventLog.X = (sbyte)(byte)X;
+            negotiateRequestEventLog.Y = (sbyte)(byte)Y;
+            negotiateRequestEventLog.MapLevel = (sbyte)(byte)L;
+            negotiateRequestEventLog._player = (sbyte)(byte)player;
+            message.MessageId = 4366;
+            message.Param[0] = new MsgArg((object)negotiateRequestEventLog);
             message.Param[1] = (MsgArg)(0);
             message.Result = (MsgArg)(0);
-            AoWHSMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMsg(ref message);
-            if (message.Param[1].Int != 0 && AoWHSMap.Current.FPlayers.GetPlayers(Player).FGems >= tNegotiateRequestEventLog.FGold)
+            AoWHSMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
+            if (message.Param[1].Int != 0 && AoWHSMap.Current.Players.GetPlayers(player).Gems >= negotiateRequestEventLog.Gold)
             {
-                tNegotiateRequestEventLog.Accept(ref ErrorText);
+                negotiateRequestEventLog.Accept(ref errorText);
             }
             else
             {
-                tNegotiateRequestEventLog.Reject(ref ErrorText);
+                negotiateRequestEventLog.Reject(ref errorText);
             }
-            tNegotiateRequestEventLog.Release();
+            negotiateRequestEventLog.Release();
         }
     }
 

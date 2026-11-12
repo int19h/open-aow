@@ -5,79 +5,79 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
 
-// a surface in memory. FWidth, FHeight, FMem, FData (FMem aligned to 8), FBitCount (Byte),
+// a surface in memory. _width, _height, _memory, FData (_memory aligned to 8), _bitCount (Byte),
 // FPitch, FPixelFormatID, FX, FY (origin of the captured rectangle), FPalette. The port's FMem
 // is the pixel array and its first byte is the first pixel, so FData has no field of its own
 // (graphics.md 3.4).
 public partial class DataSurface : Surface
 {
 
-    internal int FWidth;
-    internal int FHeight;
-    internal byte[] FMem;
-    internal byte FBitCount;
-    internal int FPitch;
-    internal int FPixelFormatID;
-    internal int FX;
-    internal int FY;
-    internal Palette FPalette;
+    internal int _width;
+    internal int _height;
+    internal byte[] _memory;
+    internal byte _bitCount;
+    internal int _pitch;
+    internal int _pixelFormatId;
+    internal int _x;
+    internal int _y;
+    internal Palette _palette;
 
     // GFXE.pas:12387
-    public DataSurface(int AWidth, int AHeight, int APixelFormatID, Palette APalette)
+    public DataSurface(int width, int height, int pixelFormatId, Palette palette)
     {
-        FBitCount = (byte)(APixelFormatID & 255);
-        FPixelFormatID = APixelFormatID;
-        SetPalette(APalette);
-        Resize(AWidth, AHeight);
+        _bitCount = (byte)(pixelFormatId & 255);
+        _pixelFormatId = pixelFormatId;
+        SetPalette(palette);
+        Resize(width, height);
     }
 
     // GFXE.pas:12396
-    public DataSurface(Surface Surface, Rect? R)
+    public DataSurface(Surface surface, Rect? R)
     {
-        CaptureSurface(Surface, R);
+        CaptureSurface(surface, R);
     }
 
     // GFXE.pas:12402
     public override void Dispose()
     {
-        FPalette = null;
-        FMem = null;
+        _palette = null;
+        _memory = null;
         base.Dispose();
     }
 
     // GFXE.pas:12410
-    public override int GetPixelFormatID() => FPixelFormatID;
+    public override int GetPixelFormatId() => _pixelFormatId;
 
     // GFXE.pas:12415
-    public override int GetWidth() => FWidth;
+    public override int GetWidth() => _width;
 
     // GFXE.pas:12420
-    public override int GetHeight() => FHeight;
+    public override int GetHeight() => _height;
 
     // GFXE.pas:12441
     public override int Unlock() => PixelFormats.GFXE_OK;
 
     // GFXE.pas:12446
-    public int CaptureSurface(Surface Surface, Rect? R)
+    public int CaptureSurface(Surface surface, Rect? R)
     {
-        LockedSurface SD = default;
-        Rect RR = default;
+        LockedSurface lockedSurface = default;
+        Rect rr = default;
         int W;
         int H;
-        int Result = Surface.Lock(ref SD);
-        if (Succeeded(Result))
+        int result = surface.Lock(ref lockedSurface);
+        if (Succeeded(result))
         {
             try
             {
-                FBitCount = (byte)SD.BitCount;
-                FPixelFormatID = SD.PixelFormatID;
+                _bitCount = (byte)lockedSurface.BitCount;
+                _pixelFormatId = lockedSurface.PixelFormatId;
                 if (R is null)
                 {
-                    RR.Left = 0;
-                    RR.Right = SD.Width;
-                    RR.Top = 0;
-                    RR.Bottom = SD.Height;
-                    R = RR;
+                    rr.Left = 0;
+                    rr.Right = lockedSurface.Width;
+                    rr.Top = 0;
+                    rr.Bottom = lockedSurface.Height;
+                    R = rr;
                 }
 
                 W = R.Value.Right - R.Value.Left;
@@ -85,70 +85,70 @@ public partial class DataSurface : Surface
                 if (W > 0 && H > 0)
                 {
                     Resize(W, H);
-                    SetPalette(SD.Palette);
-                    FX = R.Value.Left;
-                    FY = R.Value.Top;
-                    BlitRects.BltRect(SD.View(FY * SD.Pitch + (int)(((uint)(FX * FBitCount)) >> 3)), new SurfaceView(FMem, 0, FPitch), (int)(((uint)(FWidth * FBitCount)) >> 3), FHeight);
+                    SetPalette(lockedSurface.Palette);
+                    _x = R.Value.Left;
+                    _y = R.Value.Top;
+                    BlitRects.BlitRectangle(lockedSurface.View(_y * lockedSurface.Pitch + (int)(((uint)(_x * _bitCount)) >> 3)), new SurfaceView(_memory, 0, _pitch), (int)(((uint)(_width * _bitCount)) >> 3), _height);
                 }
             }
             catch
             {
-                FX = 30;
+                _x = 30;
             }
 
-            Surface.Unlock();
-            Result = PixelFormats.GFXE_OK;
+            surface.Unlock();
+            result = PixelFormats.GFXE_OK;
         }
 
-        return Result;
+        return result;
     }
 
     // GFXE.pas:12485
-    public void SetPalette(Palette Palette)
+    public void SetPalette(Palette palette)
     {
-        if (Palette != null)
+        if (palette != null)
         {
-            if (FPalette == null)
+            if (_palette == null)
             {
-                FPalette = new Palette();
+                _palette = new Palette();
             }
 
-            FPalette.Assign(Palette);
+            _palette.Assign(palette);
         }
         else
         {
-            FPalette = null;
+            _palette = null;
         }
     }
 
     // GFXE.pas:12499
-    public override int Resize(int AWidth, int AHeight)
+    public override int Resize(int width, int height)
     {
-        int Result;
-        int Size;
-        if (AWidth != FWidth || AHeight != FHeight)
+        int result;
+        int size;
+        if (width != _width || height != _height)
         {
-            FWidth = AWidth;
-            FHeight = AHeight;
-            FPitch = ((int)(((uint)(FBitCount + 7)) >> 3) * FWidth + 7) & ~7;
+            _width = width;
+            _height = height;
+            _pitch = ((int)(((uint)(_bitCount + 7)) >> 3) * _width + 7) & ~7;
             // The original allocates 7 bytes more and aligns FData to 8 for MMX. The alignment has
             // no effect on pixels, so the port's data is the array from its first byte. The 7
             // bytes stay after the last row: the 24-bit pixel readers read 4 bytes at the last
             // pixel, which the original's slack absorbs.
-            Size = FPitch * FHeight + 7;
-            FMem = MemorySurfaces.Reallocate(FMem, Size);
-            Result = PixelFormats.GFXE_OK;
+            size = _pitch * _height + 7;
+            _memory = MemorySurfaces.Reallocate(_memory, size);
+            result = PixelFormats.GFXE_OK;
         }
         else
         {
-            Result = PixelFormats.GFXE_OK;
+            result = PixelFormats.GFXE_OK;
         }
 
-        return Result;
+        return result;
     }
 
-    public byte[] Data { get => FMem; }
-    public int Pitch { get => FPitch; }
-    public Palette Palette { get => FPalette; set => SetPalette(value); }
+    public byte[] Data { get => _memory; }
+    public int Pitch { get => _pitch; }
+    public Palette Palette { get => _palette; set => SetPalette(value); }
 
 }

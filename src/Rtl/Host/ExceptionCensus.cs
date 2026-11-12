@@ -20,21 +20,21 @@ public static class ExceptionCensus
     public static IReadOnlyList<string> Kinds { get; } = ["NullReferenceException", "IndexOutOfRangeException",
         "ArgumentOutOfRangeException", "AccessViolationException", "FormatException", "NullStringException"];
 
-    private static readonly long[] counts = new long[6];
-    private static string host = "", path = "";
-    private static string[] arguments = [];
-    private static int started, written;
+    private static readonly long[] s_counts = new long[6];
+    private static string s_host = "", s_path = "";
+    private static string[] s_arguments = [];
+    private static int s_started, s_written;
 
-    public static bool Active => Volatile.Read(ref started) != 0;
+    public static bool Active => Volatile.Read(ref s_started) != 0;
 
     /// <summary>Registers the census for this process when the variable names a file. A second call does nothing.</summary>
-    public static void Start(string hostName, string[] args)
+    public static void Start(string hostName, string[] arguments)
     {
         string? file = Environment.GetEnvironmentVariable(Variable);
-        if (string.IsNullOrWhiteSpace(file) || Interlocked.Exchange(ref started, 1) != 0) return;
-        path = Path.GetFullPath(file);
-        host = hostName;
-        arguments = [.. args];
+        if (string.IsNullOrWhiteSpace(file) || Interlocked.Exchange(ref s_started, 1) != 0) return;
+        s_path = Path.GetFullPath(file);
+        s_host = hostName;
+        s_arguments = [.. arguments];
         AppDomain.CurrentDomain.FirstChanceException += Count;
         AppDomain.CurrentDomain.ProcessExit += (_, _) => Finish();
         AppDomain.CurrentDomain.UnhandledException += (_, _) => Finish();
@@ -52,19 +52,19 @@ public static class ExceptionCensus
     private static void Count(object? sender, FirstChanceExceptionEventArgs e)
     {
         int index = KindOf(e.Exception);
-        if (index >= 0) Interlocked.Increment(ref counts[index]);
+        if (index >= 0) Interlocked.Increment(ref s_counts[index]);
     }
 
     /// <summary>Appends this run's line once. The process exit and an unhandled exception both call it.</summary>
     public static void Finish()
     {
-        if (!Active || Interlocked.Exchange(ref written, 1) != 0) return;
-        long[] snapshot = Enumerable.Range(0, counts.Length).Select(index => Interlocked.Read(ref counts[index])).ToArray();
-        Append(path, Line(host, arguments, snapshot));
+        if (!Active || Interlocked.Exchange(ref s_written, 1) != 0) return;
+        long[] snapshot = Enumerable.Range(0, s_counts.Length).Select(index => Interlocked.Read(ref s_counts[index])).ToArray();
+        Append(s_path, Line(s_host, s_arguments, snapshot));
     }
 
     /// <summary>One run as a JSON object on one line: the host, its arguments and the count of each kind.</summary>
-    public static string Line(string hostName, IReadOnlyList<string> args, IReadOnlyList<long> values)
+    public static string Line(string hostName, IReadOnlyList<string> arguments, IReadOnlyList<long> values)
     {
         if (values.Count != Kinds.Count) throw new ArgumentException("one count per kind", nameof(values));
         using var buffer = new MemoryStream();
@@ -73,7 +73,7 @@ public static class ExceptionCensus
             writer.WriteStartObject();
             writer.WriteString("host", hostName);
             writer.WriteStartArray("arguments");
-            foreach (string argument in args) writer.WriteStringValue(argument);
+            foreach (string argument in arguments) writer.WriteStringValue(argument);
             writer.WriteEndArray();
             writer.WriteStartObject("counts");
             for (int index = 0; index < Kinds.Count; index++) writer.WriteNumber(Kinds[index], values[index]);

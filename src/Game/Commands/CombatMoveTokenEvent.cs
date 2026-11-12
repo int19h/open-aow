@@ -22,133 +22,133 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
     { }
 
     // CombatTE.pas:206
-    public new const int ClassID = 2236416;
+    public new const int ClassId = 2236416;
 
-    public TacticalBattleUnit FUnit;
-    public int FDelay;
-    public List<TacticalBattleUnit> FObjects;
-    public TacticalBattleUnit FPreviousUnit;
-    public TacticalBattleUnit FFreeStrikeUnit;
-    public sbyte FNeighbour;
-    public TokenStep FStep;
-    public StrikeCombatAction FStrike;
+    public TacticalBattleUnit Unit;
+    public int Delay;
+    public List<TacticalBattleUnit> Objects;
+    public TacticalBattleUnit PreviousUnit;
+    public TacticalBattleUnit FreeStrikeUnit;
+    public sbyte Neighbour;
+    public TokenStep Step;
+    public StrikeCombatAction Strike;
 
     // CombatTE.pas:214
     public override void Dispose()
     {
-        if (FObjects != null)
+        if (Objects != null)
         {
-            FObjects?.Clear();
+            Objects?.Clear();
         }
 
         base.Dispose();
     }
 
     // CombatTE.pas:209
-    public override AoWMapField GetMapF(MapCoordinate Location) => (AoWMapField)CombatMap.Current.MapContainer.GetField(Location.X, Location.Y, 0);
+    public override AoWMapField GetMapField(MapCoordinate location) => (AoWMapField)CombatMap.Current.MapContainer.GetField(location.X, location.Y, 0);
 
     // CombatTE.pas:234
     public override bool Validate()
     {
-        bool Result;
-        AoWMapField MapField;
-        int Index;
-        TacticalBattleUnitHexSprite HS;
+        bool result;
+        AoWMapField mapField;
+        int index;
+        TacticalBattleUnitHexSprite hexSprite;
         base.Validate();
-        Index = FPath.Count - 1;
-        MapField = GetMapF(FPath[Index]);
-        HS = (TacticalBattleUnitHexSprite)MapField.FindOwnedChild(2228484);
-        if (HS != null)
+        index = Path.Count - 1;
+        mapField = GetMapField(Path[index]);
+        hexSprite = (TacticalBattleUnitHexSprite)mapField.FindOwnedChild(2228484);
+        if (hexSprite != null)
         {
-            FObjects = new List<TacticalBattleUnit>();
-            FUnit = HS.FUnit;
-            Result = true;
+            Objects = new List<TacticalBattleUnit>();
+            Unit = hexSprite.Unit;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // CombatTE.pas:299
     public override MoveStatus DefaultMove()
     {
-        AoWMapField MapField;
-        int Direction;
+        AoWMapField mapField;
+        int direction;
         int X = default;
         int Y = default;
         void CheckFreeStrike()
         {
-            int HN = default;
-            int NX = default;
-            int NY = default;
-            TacticalBattleUnitHexSprite HS = default;
-            if (FUnit.GetEnabled() && FFreeStrikeUnit == null)
+            int hexNumber = default;
+            int hexX = default;
+            int hexY = default;
+            TacticalBattleUnitHexSprite hexSprite = default;
+            if (Unit.GetEnabled() && FreeStrikeUnit == null)
             {
-                MapField = (AoWMapField)FUnit.FUnitHS.Owner;
-                HN = FNeighbour + 1;
-                while (HN <= 6)
+                mapField = (AoWMapField)Unit.UnitHexSprite.Owner;
+                hexNumber = Neighbour + 1;
+                while (hexNumber <= 6)
                 {
-                    var yhx = FUnit.FUnitHS.Yhx;
-                    HexGeometry.CenterHNtoHX(FUnit.FUnitHS.Xhx, yhx, HN, ref NX, ref NY);
-                    HS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(NX, NY).FindOwnedChild(2228484);
-                    if (HS != null && FPreviousUnit != HS.FUnit && HS.FUnit.GetEnabled() && !HS.FUnit.GetLocked() && CombatObject.MeleeDamageTypes(HS.FUnit) != Set<DamageType>.Of() && HS.FUnit.GetSide() != FUnit.GetSide() && HS.FAction == TacticalBattleUnitHexSprite.SpriteAction.Move && HS.FUnit.GetAbilityEnabled(1) == FUnit.GetAbilityEnabled(1))
+                    var yhx = Unit.UnitHexSprite.HexY;
+                    HexGeometry.CenterHexNumberToHex(Unit.UnitHexSprite.HexX, yhx, hexNumber, ref hexX, ref hexY);
+                    hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(hexX, hexY).FindOwnedChild(2228484);
+                    if (hexSprite != null && PreviousUnit != hexSprite.Unit && hexSprite.Unit.GetEnabled() && !hexSprite.Unit.GetLocked() && CombatObject.MeleeDamageTypes(hexSprite.Unit) != Set<DamageType>.Of() && hexSprite.Unit.GetSide() != Unit.GetSide() && hexSprite.Action == TacticalBattleUnitHexSprite.SpriteAction.Move && hexSprite.Unit.GetAbilityEnabled(1) == Unit.GetAbilityEnabled(1))
                     {
-                        FNeighbour = (sbyte)HN;
-                        FFreeStrikeUnit = HS.FUnit;
-                        NX = 0;
-                        int last = FObjects.Count - 1;
-                        for (; NX <= last; NX += 1)
+                        Neighbour = (sbyte)hexNumber;
+                        FreeStrikeUnit = hexSprite.Unit;
+                        hexX = 0;
+                        int last = Objects.Count - 1;
+                        for (; hexX <= last; hexX += 1)
                         {
-                            if (FObjects[NX] == FFreeStrikeUnit)
+                            if (Objects[hexX] == FreeStrikeUnit)
                             {
-                                FFreeStrikeUnit = null;
+                                FreeStrikeUnit = null;
                             }
                         }
 
-                        if (FFreeStrikeUnit != null)
+                        if (FreeStrikeUnit != null)
                         {
-                            HN = 6;
-                            FStep = TokenStep.Start;
+                            hexNumber = 6;
+                            Step = TokenStep.Start;
                         }
                     }
 
-                    HN = HN + 1;
+                    hexNumber = hexNumber + 1;
                 }
 
-                if (FFreeStrikeUnit == null)
+                if (FreeStrikeUnit == null)
                 {
-                    FNeighbour = 0;
+                    Neighbour = 0;
                 }
                 else
                 {
-                    FObjects.Add(FFreeStrikeUnit);
+                    Objects.Add(FreeStrikeUnit);
                 }
             }
         }
 
-        MoveStatus Result = MoveStatus.Moving;
+        MoveStatus result = MoveStatus.Moving;
         try
         {
-            if (FFreeStrikeUnit != null)
+            if (FreeStrikeUnit != null)
             {
-                Result = MoveStatus.Moving;
-                switch (FStep)
+                result = MoveStatus.Moving;
+                switch (Step)
                 {
                     case TokenStep.Start:
                         try
                         {
-                            FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Busy);
-                            FFreeStrikeUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepUp);
-                            var yhx = FFreeStrikeUnit.FUnitHS.Yhx;
-                            var fUnitHSYhx = FUnit.FUnitHS.Yhx;
-                            var xhx = FFreeStrikeUnit.FUnitHS.Xhx;
-                            var fUnitHSXhx = FUnit.FUnitHS.Xhx;
-                            var meleeDirIndex = TacticalTables.GetMeleeDirIndex(FFreeStrikeUnit.FUnitHS.Xhx, xhx - fUnitHSXhx, yhx - fUnitHSYhx);
-                            FFreeStrikeUnit.FUnitHS.SetDirection((byte)meleeDirIndex);
-                            FStep = TokenStep.InitStrike;
+                            Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Busy);
+                            FreeStrikeUnit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepUp);
+                            var hexY = FreeStrikeUnit.UnitHexSprite.HexY;
+                            var fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
+                            var hexX = FreeStrikeUnit.UnitHexSprite.HexX;
+                            var fUnitHexSpriteHexX = Unit.UnitHexSprite.HexX;
+                            var meleeDirIndex = TacticalTables.GetMeleeDirectionIndex(FreeStrikeUnit.UnitHexSprite.HexX, hexX - fUnitHexSpriteHexX, hexY - fUnitHexSpriteHexY);
+                            FreeStrikeUnit.UnitHexSprite.SetDirection((byte)meleeDirIndex);
+                            Step = TokenStep.InitializeStrike;
                         }
                         catch
                         {
@@ -156,24 +156,24 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                         }
 
                         break;
-                    case TokenStep.InitStrike:
+                    case TokenStep.InitializeStrike:
                         try
                         {
-                            if (FFreeStrikeUnit.FUnitHS.FActionDone)
+                            if (FreeStrikeUnit.UnitHexSprite.ActionDone)
                             {
                                 RandSeed = AoWHSMap.Current.Random(16777215);
-                                FStrike = CombatObject.CreateStrikeCA(FFreeStrikeUnit, FUnit, true);
-                                if (FStrike.FDamage == 0)
+                                Strike = CombatObject.CreateStrikeCombatAction(FreeStrikeUnit, Unit, true);
+                                if (Strike.Damage == 0)
                                 {
-                                    FFreeStrikeUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.MeleeMiss);
+                                    FreeStrikeUnit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.MeleeMiss);
                                 }
                                 else
                                 {
-                                    FFreeStrikeUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.MeleeHit);
+                                    FreeStrikeUnit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.MeleeHit);
                                 }
 
-                                FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Busy);
-                                FStep = TokenStep.ExeStrike;
+                                Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Busy);
+                                Step = TokenStep.ExecuteStrike;
                             }
                         }
                         catch
@@ -182,30 +182,30 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                         }
 
                         break;
-                    case TokenStep.ExeStrike:
+                    case TokenStep.ExecuteStrike:
                         try
                         {
-                            if (FFreeStrikeUnit.FUnitHS.FActionDone)
+                            if (FreeStrikeUnit.UnitHexSprite.ActionDone)
                             {
-                                if (FStrike.FDamage > 0)
+                                if (Strike.Damage > 0)
                                 {
-                                    FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
-                                    TacticalBattleUnit.MakeHitBlood(FUnit, FStrike.FDamage);
+                                    Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
+                                    TacticalBattleUnit.MakeHitBlood(Unit, Strike.Damage);
                                 }
 
-                                var yhx = FUnit.FUnitHS.Yhx;
-                                HexGeometry.HXtoHP(FUnit.FUnitHS.Xhx, yhx, ref X, ref Y);
-                                if (FStrike.FDamageTypes.Value - FStrike.FEffects.Value != Set<DamageType>.Of())
+                                var hexY = Unit.UnitHexSprite.HexY;
+                                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, ref X, ref Y);
+                                if (Strike.DamageTypes.Value - Strike.Effects.Value != Set<DamageType>.Of())
                                 {
-                                    CombatEvents.MakeDEHSList(X, Y, FStrike.FDamageTypes.Value - FStrike.FEffects.Value, false);
+                                    CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.DamageTypes.Value - Strike.Effects.Value, false);
                                 }
 
-                                if (FStrike.FEffects.Value != Set<DamageType>.Of())
+                                if (Strike.Effects.Value != Set<DamageType>.Of())
                                 {
-                                    CombatEvents.MakeDEHSList(X, Y, FStrike.FEffects.Value, true);
+                                    CombatEvents.MakeDamageEffectHexSpriteList(X, Y, Strike.Effects.Value, true);
                                 }
 
-                                FStep = TokenStep.EndStrike;
+                                Step = TokenStep.EndStrike;
                             }
                         }
                         catch
@@ -217,15 +217,15 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                     case TokenStep.EndStrike:
                         try
                         {
-                            if (FUnit.FUnitHS.FActionDone || FStrike.FDamage == 0)
+                            if (Unit.UnitHexSprite.ActionDone || Strike.Damage == 0)
                             {
-                                if (FStrike.FDamage > 0)
+                                if (Strike.Damage > 0)
                                 {
-                                    CombatMap.Current.FCombat.ExecuteCombatAction(FStrike);
+                                    CombatMap.Current.Combat.ExecuteCombatAction(Strike);
                                 }
 
-                                FStep = TokenStep.End;
-                                FFreeStrikeUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepBack);
+                                Step = TokenStep.End;
+                                FreeStrikeUnit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepBack);
                             }
                         }
                         catch
@@ -237,34 +237,34 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                     case TokenStep.End:
                         try
                         {
-                            if (FFreeStrikeUnit.FUnitHS.FActionDone)
+                            if (FreeStrikeUnit.UnitHexSprite.ActionDone)
                             {
-                                if (!FUnit.GetEnabled())
+                                if (!Unit.GetEnabled())
                                 {
-                                    Result = MoveStatus.Done;
+                                    result = MoveStatus.Done;
                                 }
                                 else
                                 {
-                                    if (FUnit.GetLocked())
+                                    if (Unit.GetLocked())
                                     {
-                                        FUnit.FUnitHS.CancelMove();
-                                        Result = MoveStatus.Done;
+                                        Unit.UnitHexSprite.CancelMove();
+                                        result = MoveStatus.Done;
                                     }
                                     else
                                     {
-                                        FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Move);
+                                        Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Move);
                                     }
                                 }
 
-                                if (FStrike != null)
+                                if (Strike != null)
                                 {
-                                    FStrike.Release();
-                                    FStrike = null;
+                                    Strike.Release();
+                                    Strike = null;
                                 }
 
-                                FFreeStrikeUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Move);
-                                FStep = TokenStep.Start;
-                                FFreeStrikeUnit = null;
+                                FreeStrikeUnit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Move);
+                                Step = TokenStep.Start;
+                                FreeStrikeUnit = null;
                                 CheckFreeStrike();
                             }
                         }
@@ -278,88 +278,88 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
             }
             else
             {
-                if (FUnit.GetEnabled())
+                if (Unit.GetEnabled())
                 {
-                    if (FUnit.FUnitHS.Moving())
+                    if (Unit.UnitHexSprite.Moving())
                     {
-                        if (FUnit.FUnitHS.MoveNext() == 100 || !FUnit.FUnitHS.GetVisible())
+                        if (Unit.UnitHexSprite.MoveNext() == 100 || !Unit.UnitHexSprite.GetVisible())
                         {
-                            Result = ExecuteDefaultMove();
-                            if (Result == MoveStatus.Moving)
+                            result = ExecuteDefaultMove();
+                            if (result == MoveStatus.Moving)
                             {
                                 CheckFreeStrike();
                             }
                         }
                         else
                         {
-                            Result = MoveStatus.Moving;
+                            result = MoveStatus.Moving;
                         }
                     }
                     else
                     {
-                        if (FMoveIndex != 0)
+                        if (MoveIndex != 0)
                         {
-                            bool notExplorationEnabled = !CombatMap.Current.FExplorationEnabled;
+                            bool notExplorationEnabled = !CombatMap.Current.ExplorationEnabled;
                             if (!notExplorationEnabled)
                             {
-                                var yhx = FUnit.FUnitHS.Yhx;
-                                var xhx = FUnit.FUnitHS.Xhx;
-                                notExplorationEnabled = ((AoWMapField)CombatMap.Current.MapContainer.GetField(xhx, yhx, 0)).GetExplored(CombatMap.Current.FSeatedPlayer);
+                                var hexY = Unit.UnitHexSprite.HexY;
+                                var hexX = Unit.UnitHexSprite.HexX;
+                                notExplorationEnabled = ((AoWMapField)CombatMap.Current.MapContainer.GetField(hexX, hexY, 0)).GetExplored(CombatMap.Current.SeatedPlayer);
                             }
 
                             if (notExplorationEnabled)
                             {
-                                var yhx = FUnit.FUnitHS.Yhx;
-                                var xhx = FUnit.FUnitHS.Xhx;
-                                CombatMap.Current.MakeVisible(xhx, yhx, 0, 3);
+                                var hexY = Unit.UnitHexSprite.HexY;
+                                var hexX = Unit.UnitHexSprite.HexX;
+                                CombatMap.Current.MakeVisible(hexX, hexY, 0, 3);
                             }
 
-                            Direction = GetDirection(FMoveIndex);
-                            MapField = GetMapF(FPath[FMoveIndex - 1]);
-                            if (MapField.GetPlayer() == -1)
+                            direction = GetDirection(MoveIndex);
+                            mapField = GetMapField(Path[MoveIndex - 1]);
+                            if (mapField.GetPlayer() == -1)
                             {
-                                if (Direction != 0)
+                                if (direction != 0)
                                 {
-                                    if (FUnit.FUnitHS.MoveFirst(Direction, false) == -1)
+                                    if (Unit.UnitHexSprite.MoveFirst(direction, false) == -1)
                                     {
-                                        Result = MoveStatus.Failed;
+                                        result = MoveStatus.Failed;
                                     }
                                     else
                                     {
-                                        Result = MoveStatus.Moving;
+                                        result = MoveStatus.Moving;
                                     }
 
-                                    if (Result == MoveStatus.Moving)
+                                    if (result == MoveStatus.Moving)
                                     {
                                         CheckFreeStrike();
                                     }
                                 }
                                 else
                                 {
-                                    Result = ExecuteDefaultMove();
+                                    result = ExecuteDefaultMove();
                                 }
                             }
                             else
                             {
-                                Result = MoveStatus.Done;
+                                result = MoveStatus.Done;
                             }
                         }
                         else
                         {
-                            Result = MoveStatus.Done;
+                            result = MoveStatus.Done;
                         }
                     }
                 }
             }
 
-            if (Result == MoveStatus.Done)
+            if (result == MoveStatus.Done)
             {
-                if (FUnit.GetEnabled() && FUnit.FCombatPlayer == CombatMap.Current.FCurrentCombatPlayer)
+                if (Unit.GetEnabled() && Unit.CombatPlayer == CombatMap.Current.CurrentCombatPlayer)
                 {
-                    var xhx = FUnit.FUnitHS.Xhx;
-                    CombatMap.Current.FPlayers.GetPlayers(CombatMap.Current.FCurrentCombatPlayer).FLastX = xhx;
-                    var yhx = FUnit.FUnitHS.Yhx;
-                    CombatMap.Current.FPlayers.GetPlayers(CombatMap.Current.FCurrentCombatPlayer).FLastY = yhx;
+                    var hexX = Unit.UnitHexSprite.HexX;
+                    CombatMap.Current.Players.GetPlayers(CombatMap.Current.CurrentCombatPlayer).LastX = hexX;
+                    var hexY = Unit.UnitHexSprite.HexY;
+                    CombatMap.Current.Players.GetPlayers(CombatMap.Current.CurrentCombatPlayer).LastY = hexY;
                 }
             }
         }
@@ -368,106 +368,106 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
             MessageBox(0, "Error during Token", "Error - TCMoveToken", 0);
         }
 
-        return Result;
+        return result;
     }
 
     // CombatTE.pas:220
-    public virtual bool Setup(TacticalBattleUnit UnitObject, MovePath Path)
+    public virtual bool Setup(TacticalBattleUnit unitObject, MovePath path)
     {
-        bool Result;
-        int StartIndex;
-        FPath.Clear();
-        StartIndex = Path.MovePointsToPos(UnitObject.FMovePoints);
-        if (StartIndex != Path.Count - 1)
+        bool result;
+        int startIndex;
+        Path.Clear();
+        startIndex = path.MovePointsToPosition(unitObject.MovePoints);
+        if (startIndex != path.Count - 1)
         {
-            for (int I = StartIndex, last = Path.Count - 1; I <= last; I++)
+            for (int I = startIndex, last = path.Count - 1; I <= last; I++)
             {
-                var path = Path[I];
-                FPath.Add(path);
+                var pathLocal = path[I];
+                Path.Add((MapCoordinate)pathLocal);
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // CombatTE.pas:253
     public MoveStatus ExecuteDefaultMove()
     {
-        MoveStatus Result;
-        AoWMapField NewField;
-        AoWMapField OldField;
+        MoveStatus result;
+        AoWMapField newField;
+        AoWMapField oldField;
         Rect R;
         Move();
-        OldField = (AoWMapField)FUnit.FUnitHS.Owner;
-        NewField = GetMapF(FPath[FMoveIndex]);
-        FUnit.FUnitHS.MoveTo(NewField, 0);
-        if (NewField.FindChildIndex(FUnit.FUnitHS) != -1)
+        oldField = (AoWMapField)Unit.UnitHexSprite.Owner;
+        newField = GetMapField(Path[MoveIndex]);
+        Unit.UnitHexSprite.MoveTo(newField, 0);
+        if (newField.FindChildIndex(Unit.UnitHexSprite) != -1)
         {
-            Result = ProcessMove();
-            var path = FPath[FMoveIndex];
-            FUnit.MovedTo(OldField, NewField, path.Flag);
-            var rect = new Rect(OldField.Xhx, OldField.Yhx, OldField.Xhx + 1, OldField.Yhx + 1);
-            CombatMap.Current.TriggerMapChangedEvent(rect, 0);
-            if (FMoveIndex == 0 && NewField.FindChild(2229544) != null && FUnit.FCombatPlayer != CombatMap.Current.FCombat.FCombatData.FDefenderPlayer)
+            result = ProcessMove();
+            var path = Path[MoveIndex];
+            Unit.MovedTo(oldField, newField, path.Tag);
+            var rectangle = new Rect(oldField.HexX, oldField.HexY, oldField.HexX + 1, oldField.HexY + 1);
+            CombatMap.Current.TriggerMapChangedEvent(rectangle, 0);
+            if (MoveIndex == 0 && newField.FindChild(2229544) != null && Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
             {
-                FUnit.SetStatus(Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Fled));
-                var yhx = FUnit.FUnitHS.Yhx;
-                var xhx = FUnit.FUnitHS.Xhx;
-                var fUnitHSYhx = FUnit.FUnitHS.Yhx;
-                R = new Rect(FUnit.FUnitHS.Xhx, fUnitHSYhx, xhx + 1, yhx + 1);
-                FUnit.FUnitHS?.Dispose();
+                Unit.SetStatus(Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Fled));
+                var hexY = Unit.UnitHexSprite.HexY;
+                var hexX = Unit.UnitHexSprite.HexX;
+                var fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
+                R = new Rect(Unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, hexX + 1, hexY + 1);
+                Unit.UnitHexSprite?.Dispose();
                 CombatMap.Current.TriggerMapChangedEvent(R, 0);
-                FUnit.FUnitHS = null;
-                Result = MoveStatus.Done;
+                Unit.UnitHexSprite = null;
+                result = MoveStatus.Done;
             }
             else
             {
-                if (CombatMap.Current.FExplorationEnabled)
+                if (CombatMap.Current.ExplorationEnabled)
                 {
-                    var player = FUnit.GetPlayer();
-                    var visibilityRange = FUnit.GetVisibilityRange();
-                    var yhx = FUnit.FUnitHS.Yhx;
-                    var xhx = FUnit.FUnitHS.Xhx;
-                    CombatMap.Current.ExploreArea(xhx, yhx, 0, player, visibilityRange);
-                    var fUnitVisibilityRange = FUnit.GetVisibilityRange();
-                    var fUnitHSYhx = FUnit.FUnitHS.Yhx;
-                    var fUnitHSXhx = FUnit.FUnitHS.Xhx;
-                    CombatMap.Current.MapChangedRad(fUnitHSXhx, fUnitHSYhx, 0, fUnitVisibilityRange + 1);
+                    var player = Unit.GetPlayer();
+                    var visibilityRange = Unit.GetVisibilityRange();
+                    var hexY = Unit.UnitHexSprite.HexY;
+                    var hexX = Unit.UnitHexSprite.HexX;
+                    CombatMap.Current.ExploreArea(hexX, hexY, 0, player, visibilityRange);
+                    var fUnitVisibilityRange = Unit.GetVisibilityRange();
+                    var fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
+                    var fUnitHexSpriteHexX = Unit.UnitHexSprite.HexX;
+                    CombatMap.Current.MapChangedRadius(fUnitHexSpriteHexX, fUnitHexSpriteHexY, 0, fUnitVisibilityRange + 1);
                 }
                 else
                 {
-                    var yhx = FUnit.FUnitHS.Yhx;
-                    var xhx = FUnit.FUnitHS.Xhx;
-                    var fUnitHSYhx = FUnit.FUnitHS.Yhx;
-                    var rect2 = new Rect(FUnit.FUnitHS.Xhx, fUnitHSYhx, xhx + 1, yhx + 1);
-                    CombatMap.Current.TriggerMapChangedEvent(rect2, 0);
+                    var hexY = Unit.UnitHexSprite.HexY;
+                    var hexX = Unit.UnitHexSprite.HexX;
+                    var fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
+                    var rectangle2 = new Rect(Unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, hexX + 1, hexY + 1);
+                    CombatMap.Current.TriggerMapChangedEvent(rectangle2, 0);
                 }
 
-                var fUnitPlayer = FUnit.GetPlayer();
-                if (AoWHSMap.Current.FPlayers.GetPlayers(fUnitPlayer).FPlayerType != PlayerType.Human || CombatMap.Current.FPlayers.GetPlayers(FUnit.FCombatPlayer).FAuto)
+                var fUnitPlayer = Unit.GetPlayer();
+                if (AoWHSMap.Current.Players.GetPlayers(fUnitPlayer).PlayerType != PlayerType.Human || CombatMap.Current.Players.GetPlayers(Unit.CombatPlayer).Auto)
                 {
-                    FUnit.FMovePoints = 0;
+                    Unit.MovePoints = 0;
                 }
             }
         }
         else
         {
-            FUnit.FUnitHS = null;
-            Result = MoveStatus.Done;
+            Unit.UnitHexSprite = null;
+            result = MoveStatus.Done;
         }
 
-        return Result;
+        return result;
     }
 
     public enum TokenStep : byte
     {
-        Start = 0, End = 1, FirstStrike = 2, InitStrike = 3, ExeStrike = 4, EndStrike = 5, ExeEndStrike = 6, StepUp = 7, DelayStrike = 8
+        Start = 0, End = 1, FirstStrike = 2, InitializeStrike = 3, ExecuteStrike = 4, EndStrike = 5, ExecuteEndStrike = 6, StepUp = 7, DelayStrike = 8
     }
 
     // intf_P5_07.inc:765

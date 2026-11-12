@@ -6,13 +6,13 @@ namespace Aow.Engine.Nodes;
 // resources with unique ids
 public partial class EResourceList : ECustomOwner
 {
-    public new const int ClassID = 1025;
+    public new const int ClassId = 1025;
 
     public EResourceList(ECustomNode owner) : base(owner)
     { }
 
     // Engine.pas:8573
-    protected internal EngineResource GetResource(int Index) => (EngineResource)FChildren.List[Index];
+    protected internal EngineResource GetResource(int index) => (EngineResource)_children.List[index];
 
     // Engine.pas:8578
     public virtual void ResourceChanged()
@@ -20,75 +20,75 @@ public partial class EResourceList : ECustomOwner
     }
 
     // Engine.pas:8582
-    public EngineResource FindResource(int ID)
+    public EngineResource FindResource(int id)
     {
-        EngineResource Result;
+        EngineResource result;
         int I;
-        bool Found;
-        Found = false;
+        bool found;
+        found = false;
         I = 0;
-        while (!Found && I != this.FChildren.Count)
+        while (!found && I != this._children.Count)
         {
-            Found = this.FChildren.List[I] != null && ID == ((EngineResource)this.FChildren.List[I]).FResourceID;
+            found = this._children.List[I] != null && id == ((EngineResource)this._children.List[I])._resourceId;
             I += 1;
         }
 
-        if (Found)
+        if (found)
         {
-            Result = (EngineResource)this.FChildren.List[I - 1];
+            result = (EngineResource)this._children.List[I - 1];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:8600
-    public void ValidateResourceID(int Index)
+    public void ValidateResourceId(int index)
     {
-        int ID;
-        int NewID;
-        int Tries;
-        bool Found;
-        if (Index < FChildren.Count)
+        int id;
+        int newId;
+        int tries;
+        bool found;
+        if (index < _children.Count)
         {
-            ID = GetResource(Index).FResourceID;
-            var resource = GetResource(Index);
-            resource.FResourceID = resource.FResourceID ^ 65535;
+            id = GetResource(index)._resourceId;
+            var resource = GetResource(index);
+            resource._resourceId = resource._resourceId ^ 65535;
 
-            if (FindResource(ID) != null)
+            if (FindResource(id) != null)
             {
-                Tries = 10;
-                Found = false;
-                NewID = 0;
-                while (Tries > 0 && !Found)
+                tries = 10;
+                found = false;
+                newId = 0;
+                while (tries > 0 && !found)
                 {
-                    NewID = Random(268435455);
-                    Found = FindResource(NewID) == null;
-                    Tries -= 1;
+                    newId = Random(268435455);
+                    found = FindResource(newId) == null;
+                    tries -= 1;
                 }
 
-                while (!Found)
+                while (!found)
                 {
-                    NewID = Tries;
-                    Found = FindResource(NewID) == null;
-                    Tries += 1;
+                    newId = tries;
+                    found = FindResource(newId) == null;
+                    tries += 1;
                 }
 
-                GetResource(Index).FResourceID = NewID;
+                GetResource(index)._resourceId = newId;
             }
             else
             {
-                GetResource(Index).FResourceID = ID;
+                GetResource(index)._resourceId = id;
             }
         }
     }
 
     public sealed class ResourcesAccessor(EResourceList target)
     {
-        public EngineResource this[int Index] { get => target.GetResource(Index); }
+        public EngineResource this[int index] { get => target.GetResource(index); }
     }
 
     public ResourcesAccessor Resources => new ResourcesAccessor(this);

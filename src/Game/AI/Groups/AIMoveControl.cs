@@ -21,55 +21,55 @@ public partial class AIMoveControl : EngineObject
     // AIGroup.pas:3911
     public AIMoveControl(ECustomNode owner) : base(owner)
     {
-        FPathSettings = new MoveControlSettings(null);
+        PathSettings = new MoveControlSettings(null);
         Clear();
     }
 
-    public AIMoveControlStatus FStatus;
-    public AIMoveControlSettings FSettings;
-    public int FProcessCycles;
-    public SByteArray16By16 FMovePointTable;
-    public SByteArray16By16 FTransportMovePointTable;
-    public bool FMultipleTransportGaps;
-    public Mode FMode;
-    public int FState;
-    public MoveControlSettings FPathSettings;
+    public AIMoveControlStatus Status;
+    public AIMoveControlSettings Settings;
+    public int ProcessCycles;
+    public SByteArray16By16 MovePointTable;
+    public SByteArray16By16 TransportMovePointTable;
+    public bool MultipleTransportGaps;
+    public AIMoveControlMode Mode;
+    public int State;
+    public MoveControlSettings PathSettings;
 
     // AIGroup.pas:3918
     public override void Dispose()
     {
         Clear();
-        FPathSettings.Release();
+        PathSettings.Release();
         base.Dispose();
     }
 
     // AIGroup.pas:3925
     public override void Clear()
     {
-        AIMoveControlSettings Settings;
-        Settings = FSettings;
-        if (Settings != null)
+        AIMoveControlSettings settings;
+        settings = Settings;
+        if (settings != null)
         {
-            Settings.Release();
-            FSettings = null;
+            settings.Release();
+            Settings = null;
         }
 
-        FStatus = AIMoveControlStatus.Idle;
-        FProcessCycles = 0;
-        FPathSettings.Reset();
-        FPathSettings.FMode = FPathSettings.FMode + Set<MoveModeElement>.Of(MoveModeElement.AI);
+        Status = AIMoveControlStatus.Idle;
+        ProcessCycles = 0;
+        PathSettings.Reset();
+        PathSettings.Mode = PathSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
     }
 
     // AIGroup.pas:3941
-    public void ProcessingDone(AIMoveControlStatus Status)
+    public void ProcessingDone(AIMoveControlStatus status)
     {
-        if (FSettings != null)
+        if (Settings != null)
         {
-            FStatus = Status;
-            FSettings.FStatus = Status;
-            if (FSettings.FOnDone != null)
+            Status = status;
+            Settings.Status = status;
+            if (Settings.OnDone != null)
             {
-                FSettings.FOnDone(this);
+                Settings.OnDone(this);
             }
         }
     }
@@ -77,21 +77,21 @@ public partial class AIMoveControl : EngineObject
     // AIGroup.pas:3951
     public void ProcessCanMove()
     {
-        int Points;
-        switch (FState)
+        int points;
+        switch (State)
         {
             case 0:
-                FPathSettings.FMovePointsMax = FSettings.FQuickMovePointsMax;
-                Points = AoWHSMap.Current.FMoveControl.CanMove(FPathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
-                FSettings.FMovePoints = Points;
-                if (Points != -1)
+                PathSettings.MovePointsMax = Settings.QuickMovePointsMax;
+                points = AoWHSMap.Current.MoveControl.CanMove(PathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                Settings.MovePoints = points;
+                if (points != -1)
                 {
                     ProcessingDone(AIMoveControlStatus.Done);
                 }
                 else
                 {
-                    FState += 1;
-                    if (AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 6)
+                    State += 1;
+                    if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
                     {
                         ProcessCanMove();
                     }
@@ -99,10 +99,10 @@ public partial class AIMoveControl : EngineObject
 
                 break;
             case 1:
-                FPathSettings.FMovePointsMax = FSettings.FMovePointsMax;
-                var canMove = AoWHSMap.Current.FMoveControl.CanMove(FPathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
-                FSettings.FMovePoints = canMove;
-                FSettings.FTransportPath.Assign(FPathSettings.FPath);
+                PathSettings.MovePointsMax = Settings.MovePointsMax;
+                var canMove = AoWHSMap.Current.MoveControl.CanMove(PathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
+                Settings.MovePoints = canMove;
+                Settings.TransportPath.Assign(PathSettings.Path);
                 ProcessingDone(AIMoveControlStatus.Done);
                 break;
         }
@@ -111,113 +111,113 @@ public partial class AIMoveControl : EngineObject
     // AIGroup.pas:3978
     public void SelectCombinedTransporterArmyMpT()
     {
-        sbyte Points;
-        for (int Terrain = 0; Terrain <= 15; Terrain++)
+        sbyte points;
+        for (int terrain = 0; terrain <= 15; terrain++)
         {
-            for (int Overlay = -1; Overlay <= 11; Overlay++)
+            for (int overlay = -1; overlay <= 11; overlay++)
             {
-                Points = FMovePointTable[Terrain][Overlay - -1];
-                if (Points == -1)
+                points = MovePointTable[terrain][overlay - -1];
+                if (points == -1)
                 {
-                    Points = FTransportMovePointTable[Terrain][Overlay - -1];
-                    if (Points != -1)
+                    points = TransportMovePointTable[terrain][overlay - -1];
+                    if (points != -1)
                     {
-                        Points = 8;
+                        points = 8;
                     }
                 }
 
-                FPathSettings.FMovePointTable[Terrain][Overlay - -1] = Points;
+                PathSettings.MovePointTable[terrain][overlay - -1] = points;
             }
         }
     }
 
     // AIGroup.pas:3993
-    public bool CalculateTransportGaps(MovePath Path, SByteArray16By16 Table)
+    public bool CalculateTransportGaps(MovePath path, SByteArray16By16 table)
     {
-        bool Result;
+        bool result;
         int I;
-        int FirstGap;
-        int LastGap;
-        int Gaps;
-        bool InGap;
-        AoWMapField MapF;
-        Gaps = 0;
-        FirstGap = -1;
-        LastGap = -1;
-        I = Path.Count - 1;
-        InGap = false;
+        int firstGap;
+        int lastGap;
+        int gaps;
+        bool inGap;
+        AoWMapField mapField;
+        gaps = 0;
+        firstGap = -1;
+        lastGap = -1;
+        I = path.Count - 1;
+        inGap = false;
         while (I > 1)
         {
             I -= 1;
-            var item = Path[I];
-            var pathItem = Path[I];
-            var item2 = Path[I];
-            MapF = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(item2.X, pathItem.Y, item.L);
-            if (Table[MapF.TerrainType][MapF.OverlayType - -1] == -1)
+            var item = path[I];
+            var pathItem = path[I];
+            var item2 = path[I];
+            mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(item2.X, pathItem.Y, item.MapLevel);
+            if (table[mapField.TerrainType][mapField.OverlayType - -1] == -1)
             {
-                if (!InGap)
+                if (!inGap)
                 {
-                    if (FirstGap == -1)
+                    if (firstGap == -1)
                     {
-                        FirstGap = I;
+                        firstGap = I;
                     }
 
-                    Gaps += 1;
-                    InGap = true;
+                    gaps += 1;
+                    inGap = true;
                 }
             }
             else
             {
-                if (InGap)
+                if (inGap)
                 {
-                    LastGap = I + 1;
-                    InGap = false;
+                    lastGap = I + 1;
+                    inGap = false;
                 }
             }
         }
 
-        if (InGap)
+        if (inGap)
         {
-            LastGap = 1;
+            lastGap = 1;
         }
 
-        if (Gaps != 0)
+        if (gaps != 0)
         {
-            var item = Path[FirstGap + 1];
-            FSettings.FBoardingPoint = item;
-            var pathItem = Path[FirstGap];
-            FSettings.FTransportSource = pathItem;
-            var item2 = Path[LastGap - 1];
-            FSettings.FArrivalPoint = item2;
-            var item3 = Path[LastGap];
-            FSettings.FTransportDestination = item3;
-            Result = true;
-            FMultipleTransportGaps = Gaps > 1;
+            var item = path[firstGap + 1];
+            Settings.BoardingPoint = item;
+            var pathItem = path[firstGap];
+            Settings.TransportSource = pathItem;
+            var item2 = path[lastGap - 1];
+            Settings.ArrivalPoint = item2;
+            var item3 = path[lastGap];
+            Settings.TransportDestination = item3;
+            result = true;
+            MultipleTransportGaps = gaps > 1;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:4037
     public void ProcessTransporterCanMove()
     {
-        int Points;
+        int points;
         MapCoordinate Location = default;
-        switch (FState)
+        switch (State)
         {
             case 0:
-                FPathSettings.FMovePointTable = FMovePointTable;
-                FPathSettings.FMovePointsMax = FSettings.FQuickMovePointsMax;
-                Points = AoWHSMap.Current.FMoveControl.CanMove(FPathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
-                FSettings.FMovePoints = Points;
-                if (Points == -1)
+                PathSettings.MovePointTable = MovePointTable;
+                PathSettings.MovePointsMax = Settings.QuickMovePointsMax;
+                points = AoWHSMap.Current.MoveControl.CanMove(PathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                Settings.MovePoints = points;
+                if (points == -1)
                 {
-                    FState += 1;
-                    if (AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 6)
+                    State += 1;
+                    if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
                     {
                         ProcessTransporterCanMove();
                     }
@@ -230,27 +230,27 @@ public partial class AIMoveControl : EngineObject
                 break;
             case 1:
                 SelectCombinedTransporterArmyMpT();
-                FPathSettings.FMovePointsMax = FSettings.FMovePointsMax;
-                FPathSettings.FMode = FSettings.FMoveMode + Set<MoveModeElement>.Of(MoveModeElement.AvoidArmies);
-                AoWHSMap.Current.FMoveControl.ProcessMove(FPathSettings);
-                if (FPathSettings.FPath.Count != 0)
+                PathSettings.MovePointsMax = Settings.MovePointsMax;
+                PathSettings.Mode = Settings.MoveMode + Set<MoveModeElement>.Of(MoveModeElement.AvoidArmies);
+                AoWHSMap.Current.MoveControl.ProcessMove(PathSettings);
+                if (PathSettings.Path.Count != 0)
                 {
-                    var item = FPathSettings.FPath[0];
-                    var fPathItem = FPathSettings.FPath[0];
-                    var item2 = FPathSettings.FPath[0];
-                    var movePoints = FPathSettings.GetMovePoints(item2.X, fPathItem.Y, item.L);
-                    FSettings.FMovePoints = movePoints;
-                    FSettings.FTransportPath.Assign(FPathSettings.FPath);
-                    if (CalculateTransportGaps(FPathSettings.FPath, FMovePointTable))
+                    var item = PathSettings.Path[0];
+                    var fPathItem = PathSettings.Path[0];
+                    var item2 = PathSettings.Path[0];
+                    var movePoints = PathSettings.GetMovePoints(item2.X, fPathItem.Y, item.MapLevel);
+                    Settings.MovePoints = movePoints;
+                    Settings.TransportPath.Assign(PathSettings.Path);
+                    if (CalculateTransportGaps(PathSettings.Path, MovePointTable))
                     {
-                        FState = 2;
-                        FPathSettings.FMovePointTable = FTransportMovePointTable;
-                        FSettings.FTransporter.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
-                        FPathSettings.SetSourcePos(Location.X, Location.Y, Location.L);
-                        ref var location = ref FSettings.FTransportSource;
-                        FPathSettings.SetDestinationPos(location.X, location.Y, location.L);
+                        State = 2;
+                        PathSettings.MovePointTable = TransportMovePointTable;
+                        Settings.Transporter.GetLocation(ref Location.X, ref Location.Y, ref Location.MapLevel);
+                        PathSettings.SetSourcePosition(Location.X, Location.Y, Location.MapLevel);
+                        ref var location = ref Settings.TransportSource;
+                        PathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
 
-                        if (AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 1)
+                        if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                         {
                             ProcessTransporterCanMove();
                         }
@@ -267,27 +267,27 @@ public partial class AIMoveControl : EngineObject
 
                 break;
             case 2:
-                FPathSettings.FMovePointsMax = FSettings.FQuickMovePointsMax;
-                Points = AoWHSMap.Current.FMoveControl.CanMove(FPathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
-                if (Points == -1)
+                PathSettings.MovePointsMax = Settings.QuickMovePointsMax;
+                points = AoWHSMap.Current.MoveControl.CanMove(PathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                if (points == -1)
                 {
-                    FState = 3;
-                    if (AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 6)
+                    State = 3;
+                    if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
                     {
                         ProcessTransporterCanMove();
                     }
                 }
                 else
                 {
-                    FSettings.FMovePoints += Points;
-                    if (FMultipleTransportGaps)
+                    Settings.MovePoints += points;
+                    if (MultipleTransportGaps)
                     {
                         // { Original repeats the first gap source before continuing. }
-                        ref var location = ref FSettings.FTransportSource;
-                        FPathSettings.SetDestinationPos(location.X, location.Y, location.L);
+                        ref var location = ref Settings.TransportSource;
+                        PathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
 
-                        FMultipleTransportGaps = false;
-                        if (AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 1)
+                        MultipleTransportGaps = false;
+                        if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                         {
                             ProcessTransporterCanMove();
                         }
@@ -300,25 +300,25 @@ public partial class AIMoveControl : EngineObject
 
                 break;
             case 3:
-                FPathSettings.FMovePointTable = FTransportMovePointTable;
-                FPathSettings.FMovePointsMax = FSettings.FMovePointsMax;
-                Points = AoWHSMap.Current.FMoveControl.CanMove(FPathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
-                if (Points == -1)
+                PathSettings.MovePointTable = TransportMovePointTable;
+                PathSettings.MovePointsMax = Settings.MovePointsMax;
+                points = AoWHSMap.Current.MoveControl.CanMove(PathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
+                if (points == -1)
                 {
-                    FSettings.FMovePoints = -1;
+                    Settings.MovePoints = -1;
                     ProcessingDone(AIMoveControlStatus.Done);
                 }
                 else
                 {
-                    FSettings.FMovePoints += Points;
-                    if (FMultipleTransportGaps)
+                    Settings.MovePoints += points;
+                    if (MultipleTransportGaps)
                     {
-                        ref var location = ref FSettings.FTransportDestination;
-                        FPathSettings.SetDestinationPos(location.X, location.Y, location.L);
+                        ref var location = ref Settings.TransportDestination;
+                        PathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
 
-                        FMultipleTransportGaps = false;
-                        FState = 2;
-                        if (AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 1)
+                        MultipleTransportGaps = false;
+                        State = 2;
+                        if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                         {
                             ProcessTransporterCanMove();
                         }
@@ -334,99 +334,99 @@ public partial class AIMoveControl : EngineObject
     }
 
     // AIGroup.pas:4128
-    public void Initialize(AIMoveControlSettings Settings)
+    public void Initialize(AIMoveControlSettings settings)
     {
-        AIMoveControlSettings OldSettings;
-        Troop Transporter;
-        OldSettings = FSettings;
-        if (OldSettings != null)
+        AIMoveControlSettings oldSettings;
+        Troop transporter;
+        oldSettings = Settings;
+        if (oldSettings != null)
         {
-            OldSettings.Release();
+            oldSettings.Release();
         }
 
-        FSettings = Settings;
-        if (FSettings != null)
+        Settings = settings;
+        if (Settings != null)
         {
-            FSettings.AddRef();
-            FSettings.FMovePoints = -1;
-            FSettings.FTransportSource.X = -1;
-            FSettings.FTransportDestination.X = -1;
-            FSettings.FBoardingPoint.X = -1;
-            FSettings.FArrivalPoint.X = -1;
-            FSettings.FStatus = AIMoveControlStatus.Processing;
-            FMovePointTable = FSettings.FMovePointTable;
-            Transporter = FSettings.FTransporter;
-            if (Transporter != null)
+            Settings.AddRef();
+            Settings.MovePoints = -1;
+            Settings.TransportSource.X = -1;
+            Settings.TransportDestination.X = -1;
+            Settings.BoardingPoint.X = -1;
+            Settings.ArrivalPoint.X = -1;
+            Settings.Status = AIMoveControlStatus.Processing;
+            MovePointTable = Settings.MovePointTable;
+            transporter = Settings.Transporter;
+            if (transporter != null)
             {
-                var moveTypesToInt = MovementTables.MoveTypesToInt(Transporter.GetMoveTypes());
-                FTransportMovePointTable = MovementTables.MovePointTables[moveTypesToInt];
+                var moveTypesToInt32 = MovementTables.MoveTypesToInt32(transporter.GetMoveTypes());
+                TransportMovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
             }
         }
     }
 
     // AIGroup.pas:4152
-    public bool CanMove(AIMoveControlSettings Settings)
+    public bool CanMove(AIMoveControlSettings settings)
     {
-        bool Result;
+        bool result;
         Reset();
-        Initialize(Settings);
-        FStatus = AIMoveControlStatus.Processing;
-        FPathSettings.Reset();
-        FPathSettings.SetSourcePos(this.FSettings.FSourceX, this.FSettings.FSourceY, this.FSettings.FSourceL);
+        Initialize(settings);
+        Status = AIMoveControlStatus.Processing;
+        PathSettings.Reset();
+        PathSettings.SetSourcePosition(this.Settings.SourceX, this.Settings.SourceY, this.Settings.SourceL);
 
-        FPathSettings.FPlayer = FSettings.FPlayer;
-        FPathSettings.SetDestinationPos(FSettings.FDestinationX, FSettings.FDestinationY, FSettings.FDestinationL);
-        FPathSettings.FMovePointsMax = FSettings.FMovePointsMax;
-        FPathSettings.FArmyHS = FSettings.FArmyHS;
-        FPathSettings.FSelection = FSettings.FSelection;
-        FPathSettings.FMode = FSettings.FMoveMode;
-        if (FSettings.FTransporter == null)
+        PathSettings.Player = Settings.Player;
+        PathSettings.SetDestinationPosition(Settings.DestinationX, Settings.DestinationY, Settings.DestinationL);
+        PathSettings.MovePointsMax = Settings.MovePointsMax;
+        PathSettings.ArmyHexSprite = Settings.ArmyHexSprite;
+        PathSettings.Selection = Settings.Selection;
+        PathSettings.Mode = Settings.MoveMode;
+        if (Settings.Transporter == null)
         {
-            FMode = Mode.CanMove;
-            FPathSettings.FMovePointTable = FMovePointTable;
-            if (FSettings.FSourceL == FSettings.FDestinationL)
+            Mode = AIMoveControlMode.CanMove;
+            PathSettings.MovePointTable = MovePointTable;
+            if (Settings.SourceL == Settings.DestinationL)
             {
-                FState = 0;
-                if (AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 1)
+                State = 0;
+                if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                 {
                     ProcessCanMove();
                 }
             }
             else
             {
-                FState = 1;
+                State = 1;
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            FMode = Mode.TransporterCanMove;
-            var armyHS = FSettings.FTransporter.Owner is HeroList ? null : FSettings.FTransporter.ArmyOwner.GetArmyHS();
-            FPathSettings.FTransporterArmy = armyHS;
-            if (FSettings.FSourceL == FSettings.FDestinationL)
+            Mode = AIMoveControlMode.TransporterCanMove;
+            var armyHexSprite = Settings.Transporter.Owner is HeroList ? null : Settings.Transporter.ArmyOwner.GetArmyHexSprite();
+            PathSettings.TransporterArmy = armyHexSprite;
+            if (Settings.SourceL == Settings.DestinationL)
             {
-                FState = 0;
-                if (AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 1)
+                State = 0;
+                if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                 {
                     ProcessTransporterCanMove();
                 }
             }
             else
             {
-                FState = 1;
+                State = 1;
             }
 
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:4191
     public void Cancel()
     {
-        if (FStatus == AIMoveControlStatus.Processing)
+        if (Status == AIMoveControlStatus.Processing)
         {
             ProcessingDone(AIMoveControlStatus.Canceled);
         }
@@ -442,28 +442,28 @@ public partial class AIMoveControl : EngineObject
     // AIGroup.pas:4202
     public bool Process()
     {
-        if (FStatus == AIMoveControlStatus.Processing)
+        if (Status == AIMoveControlStatus.Processing)
         {
-            FProcessCycles += 1;
-            switch (FMode)
+            ProcessCycles += 1;
+            switch (Mode)
             {
-                case Mode.CanMove:
+                case AIMoveControlMode.CanMove:
                     ProcessCanMove();
                     break;
-                case Mode.TransporterCanMove:
+                case AIMoveControlMode.TransporterCanMove:
                     ProcessTransporterCanMove();
                     break;
             }
         }
 
-        return FStatus == AIMoveControlStatus.Processing;
-    }
-
-    public enum Mode : byte
-    {
-        CanMove = 0, TransporterCanMove = 1
+        return Status == AIMoveControlStatus.Processing;
     }
 
     // intf_P5_06.inc:180
 
+}
+
+public enum AIMoveControlMode : byte
+{
+    CanMove = 0, TransporterCanMove = 1
 }

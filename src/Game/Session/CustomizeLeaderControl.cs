@@ -10,9 +10,9 @@ public partial class CustomizeLeaderControl : LeaderSetupControl
     public CustomizeLeaderControl(ECustomNode owner) : base(owner)
     { }
 
-    public SetupControl FSetupControl;
-    public int FPlayerIndex;
+    public SetupControl SetupControl;
+    public int PlayerIndex;
 
     // intf_P1_03.inc:99
-    public override bool Done() { FSetupControl.LeaderCustomized(this); return true; }
+    public override bool Done() { SetupControl.LeaderCustomized(this); return true; }
 }

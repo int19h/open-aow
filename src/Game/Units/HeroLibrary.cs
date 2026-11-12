@@ -9,100 +9,100 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units;
 
-// FLibraryName. FNextLibraryID
+// LibraryName. NextLibraryId
 public partial class HeroLibrary : HeroList
 {
     public HeroLibrary(ECustomNode owner) : base(owner)
     { }
 
-    public string FLibraryName = "";
-    public int FNextLibraryID;
+    public string LibraryName = "";
+    public int NextLibraryId;
 
     // Hero.PAS:2639
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwString(ref FLibraryName, 20);
-        Stream.rwInteger(ref FNextLibraryID, 21);
+        base.ReadWrite(stream);
+        stream.rwString(ref LibraryName, 20);
+        stream.rwInteger(ref NextLibraryId, 21);
     }
 
     // Hero.PAS:2592
-    public override int AddChild(EngineObject Child)
+    public override int AddChild(EngineObject child)
     {
-        var hero = (Hero)Child;
+        var hero = (Hero)child;
         // { Original checks unit IDs rather than library IDs for a collision. }
-        if (hero.FLibraryID == 0 || FindHero(hero.FLibraryID) != null)
+        if (hero.LibraryId == 0 || FindHero(hero.LibraryId) != null)
         {
-            hero.FLibraryID = CreateUniqueLibraryID();
+            hero.LibraryId = CreateUniqueLibraryId();
         }
 
-        FChildren.Add(Child);
-        if (Child.AddRef() == -1)
+        _children.Add(child);
+        if (child.AddRef() == -1)
         {
             throw new NotSupportedException("EObject doesn't support ReferenceCounting");
         }
 
-        return FChildren.Count - 1;
+        return _children.Count - 1;
     }
 
     // Hero.PAS:2580
-    public int CreateUniqueLibraryID()
+    public int CreateUniqueLibraryId()
     {
         int I;
         do
         {
             I = 0;
-            FNextLibraryID += 1;
-            if (FNextLibraryID > 268435455)
+            NextLibraryId += 1;
+            if (NextLibraryId > 268435455)
             {
-                FNextLibraryID = 0;
+                NextLibraryId = 0;
             }
 
-            while (I != FChildren.Count && ((Hero)FChildren.List[I]).FLibraryID != FNextLibraryID)
+            while (I != _children.Count && ((Hero)_children.List[I]).LibraryId != NextLibraryId)
             {
                 I += 1;
             }
         }
-        while (!(I == FChildren.Count));
-        return FNextLibraryID;
+        while (!(I == _children.Count));
+        return NextLibraryId;
     }
 
     // Hero.PAS:2602
     public Hero CreateHero()
     {
-        Hero Hero;
-        Hero = new Hero(null);
-        Hero.SetHeroResourceIndex(0);
-        Hero.FLibraryID = CreateUniqueLibraryID();
-        Hero.FLibraryName = FLibraryName;
-        Hero.SetOwner(this);
-        Hero.Release();
-        return Hero;
+        Hero hero;
+        hero = new Hero(null);
+        hero.SetHeroResourceIndex(0);
+        hero.LibraryId = CreateUniqueLibraryId();
+        hero.LibraryName = LibraryName;
+        hero.SetOwner(this);
+        hero.Release();
+        return hero;
     }
 
     // Hero.PAS:2614
     public string GetName()
     {
-        string Result = FLibraryName;
-        if (IsEmpty(Result))
+        string result = LibraryName;
+        if (IsEmpty(result))
         {
-            Result = AbilityRules.TranslateRStr(GameText.SystemRStr);
+            result = AbilityRules.TranslateResourceString(GameText.s_systemText);
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2620
-    public Hero FindLibraryID(int ID)
+    public Hero FindLibraryId(int id)
     {
         int I;
-        I = FChildren.Count;
+        I = _children.Count;
         while (I != 0)
         {
             I -= 1;
-            if (ID == ((Hero)FChildren.List[I]).FLibraryID)
+            if (id == ((Hero)_children.List[I]).LibraryId)
             {
-                return (Hero)FChildren.List[I];
+                return (Hero)_children.List[I];
             }
         }
 
@@ -110,15 +110,15 @@ public partial class HeroLibrary : HeroList
     }
 
     // Hero.PAS:2633
-    public void LoadFromFile(string FileName)
+    public void LoadFromFile(string fileName)
     {
-        GameTables.AoWEngine.ReadFromFile(FileName, this, null, GameProfile.HeroList);
+        GameTables.GameEngine.ReadFromFile(fileName, this, null, GameProfile.HeroList);
     }
 
     // Hero.PAS:2636
-    public void SaveToFile(string FileName)
+    public void SaveToFile(string fileName)
     {
-        GameTables.AoWEngine.WriteToFile(FileName, this, null, GameProfile.HeroList);
+        GameTables.GameEngine.WriteToFile(fileName, this, null, GameProfile.HeroList);
     }
 
     // Engine.pas:631

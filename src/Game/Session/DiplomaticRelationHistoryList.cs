@@ -5,51 +5,51 @@ namespace Aow.Game.Session;
 
 public partial class DiplomaticRelationHistoryList : ENode
 {
-    public new const int ClassID = 131355;
+    public new const int ClassId = 131355;
 
     public DiplomaticRelationHistoryList(ECustomNode owner) : base(owner)
     { }
 
     // Player.PAS:45
-    public DiplomaticRelationHistoryItem GetItems(int Index) => (DiplomaticRelationHistoryItem)FChildren.EObjects[Index];
+    public DiplomaticRelationHistoryItem GetItems(int index) => (DiplomaticRelationHistoryItem)_children.EObjects[index];
 
     // Player.PAS:50
     public int GetLastModifiedOnDay()
     {
-        int Result;
+        int result;
         if (Count != 0)
         {
-            Result = GetItems(Count - 1).FDay;
+            result = GetItems(Count - 1).Day;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:56
-    public DiplomaticRelation GetRelationOnDay(int Day)
+    public DiplomaticRelation GetRelationOnDay(int day)
     {
         int I;
-        DiplomaticRelation Result = DiplomaticRelation.Unknown;
+        DiplomaticRelation result = DiplomaticRelation.Unknown;
         I = 0;
-        while (I < Count && GetItems(I).FDay <= Day)
+        while (I < Count && GetItems(I).Day <= day)
         {
-            Result = GetItems(I).FRelation;
+            result = GetItems(I).Relation;
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:69
-    public void Add(DiplomaticRelation Relation, int Day)
+    public void Add(DiplomaticRelation relation, int day)
     {
         var diplomaticRelationHistoryItem = new DiplomaticRelationHistoryItem(this);
-        diplomaticRelationHistoryItem.FDay = Day;
-        diplomaticRelationHistoryItem.FRelation = Relation;
+        diplomaticRelationHistoryItem.Day = day;
+        diplomaticRelationHistoryItem.Relation = relation;
     }
 
     // Engine.pas:631

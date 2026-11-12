@@ -15,43 +15,43 @@ public partial class LevelTerrainTokenEvent : GlobalTargetSpellTokenEvent
     { }
 
     // GlobalTargetSpells.pas:940
-    public new const int ClassID = 135945;
+    public new const int ClassId = 135945;
 
     // GlobalTargetSpells.pas:968
     public override bool Process(Troop source, int value)
     {
         base.Process(source, value);
-        PlayDefaultEffects(FLocation.X, FLocation.Y, FLocation.L);
+        PlayDefaultEffects(Location.X, Location.Y, Location.MapLevel);
         LevelTerrain();
-        var spell = AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);
-        AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
+        var spell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
+        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
         return false;
     }
 
     // GlobalTargetSpells.pas:943
     public void LevelTerrain()
     {
-        HexNumberWalkData Walk = default;
-        MapLevel Level;
-        AoWMapField MapF;
-        Level = AoWHSMap.Current.MapContainer.MapLevels[FLocation.L];
-        HexNumberWalkData.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
-        while (Walk.Radius <= 1)
+        HexNumberWalkData walk = default;
+        MapLevel level;
+        AoWMapField mapField;
+        level = AoWHSMap.Current.MapContainer.MapLevels[Location.MapLevel];
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, Location.X, Location.Y, 0);
+        while (walk.Radius <= 1)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                MapF = (AoWMapField)Level.Field[Walk.X, Walk.Y];
-                if (((GlobalTargetSpell)(object)AoWHSSet.Current.FSpellControl.GetSpell(18)).ValidTargetMapF((MapField)(object)MapF) && MapF.GetArmyHS() == null)
+                mapField = (AoWMapField)level.Field[walk.X, walk.Y];
+                if (((GlobalTargetSpell)(object)AoWHSSet.Current.SpellControl.GetSpell(18)).ValidTargetMapField((MapField)(object)mapField) && mapField.GetArmyHexSprite() == null)
                 {
-                    AoWHSMap.Current.ClearTerrain(Walk.X, Walk.Y, FLocation.L, 0, -1);
-                    if (MapF.TerrainType == (int)TerrainType.Earth)
+                    AoWHSMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
+                    if (mapField.TerrainType == (int)TerrainType.Earth)
                     {
-                        AoWHSMap.Current.ChangeTerrain(null, Walk.X, Walk.Y, FLocation.L, 0, (int)TerrainType.Dirt);
+                        AoWHSMap.Current.ChangeTerrain(null, walk.X, walk.Y, Location.MapLevel, 0, (int)TerrainType.Dirt);
                     }
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
 

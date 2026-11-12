@@ -14,22 +14,22 @@ public partial class SlowEnchantmentAbility : UnitEnchantmentAbility
     // PassiveAb.pas:601
     public SlowEnchantmentAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(GameText.SlowRStr);
-        FAbilityID = 132;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityName = AbilityRules.TranslateResourceString(GameText.s_slowText);
+        AbilityId = 132;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:615
-    public override void CombatDone(CombatObject CombatObject)
+    public override void CombatDone(CombatObject combatObject)
     {
-        CombatObject.GetAbilityOwner().RemoveAbility(FAbilityID);
+        combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
     }
 
     // PassiveAb.pas:609
     public override UnitEnchantment CreateEnchantment()
     {
-        UnitEnchantment Result = base.CreateEnchantment();
-        Result.FDispelResistance = 3;
-        return Result;
+        UnitEnchantment result = base.CreateEnchantment();
+        result.DispelResistance = 3;
+        return result;
     }
 }

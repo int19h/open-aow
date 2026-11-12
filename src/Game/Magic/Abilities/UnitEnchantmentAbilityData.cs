@@ -11,67 +11,67 @@ namespace Aow.Game.Magic.Abilities;
 // (ability ID, duration, player, enchantment)
 public partial class UnitEnchantmentAbilityData : AbilityData
 {
-    public new const int ClassID = 131756;
+    public new const int ClassId = 131756;
 
     // AoWAb.PAS:555
     public UnitEnchantmentAbilityData(ECustomNode owner) : base(owner)
     {
-        FEnchantmentPlayerIndex = -1;
-        FEnchantmentDuration = -1;
+        EnchantmentPlayerIndex = -1;
+        EnchantmentDuration = -1;
     }
 
-    public ushort FEnchantmentAbilityID;
-    public sbyte FEnchantmentDuration;
+    public ushort EnchantmentAbilityId;
+    public sbyte EnchantmentDuration;
     // -1 is permanent
-    public sbyte FEnchantmentPlayerIndex;
-    public UnitEnchantment FEnchantment;
+    public sbyte EnchantmentPlayerIndex;
+    public UnitEnchantment Enchantment;
 
     // AoWAb.PAS:567
     public override void Dispose()
     {
-        UnitEnchantment Enchantment;
-        Enchantment = FEnchantment;
-        if (Enchantment != null)
+        UnitEnchantment enchantment;
+        enchantment = Enchantment;
+        if (enchantment != null)
         {
-            Enchantment?.Dispose();
+            enchantment?.Dispose();
         }
 
         base.Dispose();
     }
 
     // AoWAb.PAS:592
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwWord(ref FEnchantmentAbilityID, 15);
-        Stream.rwCreateEObject(ref FEnchantment, null, 16);
-        Stream.rwShortintEx(ref FEnchantmentPlayerIndex, -1, 17);
-        Stream.rwShortintEx(ref FEnchantmentDuration, -1, 18);
+        base.ReadWrite(stream);
+        stream.rwWord(ref EnchantmentAbilityId, 15);
+        stream.rwCreateEObject(ref Enchantment, null, 16);
+        stream.rwShortintEx(ref EnchantmentPlayerIndex, -1, 17);
+        stream.rwShortintEx(ref EnchantmentDuration, -1, 18);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.UShort("EnchantmentAbilityID", ref FEnchantmentAbilityID);
-        persister.Created("Enchantment", ref FEnchantment);
-        persister.SByte("EnchantmentPlayerIndex", ref FEnchantmentPlayerIndex, -1);
-        persister.SByte("EnchantmentDuration", ref FEnchantmentDuration, -1);
+        persister.UInt16("EnchantmentAbilityID", ref EnchantmentAbilityId);
+        persister.Created("Enchantment", ref Enchantment);
+        persister.SByte("EnchantmentPlayerIndex", ref EnchantmentPlayerIndex, -1);
+        persister.SByte("EnchantmentDuration", ref EnchantmentDuration, -1);
     }
 
     // AoWAb.PAS:577
-    public override int GetAbilityID() => FEnchantmentAbilityID;
+    public override int GetAbilityId() => EnchantmentAbilityId;
 
     // AoWAb.PAS:582
-    public void SetEnchantment(UnitEnchantment Enchantment)
+    public void SetEnchantment(UnitEnchantment enchantment)
     {
-        UnitEnchantment OldEnchantment;
-        OldEnchantment = FEnchantment;
-        if (OldEnchantment != null)
+        UnitEnchantment oldEnchantment;
+        oldEnchantment = Enchantment;
+        if (oldEnchantment != null)
         {
-            OldEnchantment?.Dispose();
+            oldEnchantment?.Dispose();
         }
 
-        FEnchantment = Enchantment;
+        Enchantment = enchantment;
     }
 
     // intf_P4_02.inc:789

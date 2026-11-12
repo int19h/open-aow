@@ -22,249 +22,249 @@ public partial class CommandAbility : TouchAbility
     // AoWAb.PAS:5088
     public CommandAbility(ECustomNode owner) : base(owner)
     {
-        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
+        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
     }
 
-    public int FCommandedAbilityID;
+    public int CommandedAbilityId;
 
     // AoWAb.PAS:5190
     public override AbilityType GetAbilityType() => AbilityType.Combat;
 
     // AoWAb.PAS:5288
-    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
+    public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
-        int Distance;
-        CombatObject Target;
-        AbilityDamageValues Values = default;
-        FastBattleCommand Command;
-        Distance = Commands.FCombat.GetRoundDistance();
-        if (Commands.FSource.GetMoves() >= 32)
+        int distance;
+        CombatObject target;
+        AbilityDamageValues values = default;
+        FastBattleCommand command;
+        distance = commands.Combat.GetRoundDistance();
+        if (commands.Source.GetMoves() >= 32)
         {
-            Distance += 2;
+            distance += 2;
         }
 
-        for (int I = 0, last = Commands.FTargetSide.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = commands.TargetSide.GetCount() - 1; I <= last; I++)
         {
-            Target = Commands.FTargetSide.GetObjects(I);
-            if (Target.GetEnabled() && Target.fcRoundDistance() <= Distance && CanTouch(Commands.FSource, Target))
+            target = commands.TargetSide.GetObjects(I);
+            if (target.GetEnabled() && target.FastBattleRoundDistance() <= distance && CanTouch(commands.Source, target))
             {
-                fcGetDamageValueEx(Commands.FSource, Target, WallSituation.None, ref Values);
-                if (Values.SourceDamage != 0)
+                FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
+                if (values.SourceDamage != 0)
                 {
-                    Command = new FastBattleCommand(FAbilityID);
-                    Command.FTarget = Commands.FTargetSide.GetObjects(I);
-                    Command.FExpectedDV = AbilityRules.DVtoDEV(Values.SourceDamage, Values.TargetDamage, Commands.FSource, Target);
-                    Command.FMoveCost = 0;
-                    Commands.Add(Command);
+                    command = new FastBattleCommand(AbilityId);
+                    command.Target = commands.TargetSide.GetObjects(I);
+                    command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target);
+                    command.MoveCost = 0;
+                    commands.Add(command);
                 }
             }
         }
     }
 
     // AoWAb.PAS:5266
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
+    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
     {
-        CombatObject Target;
-        CommandCombatAction Action;
-        StrikeCombatAction Strike;
-        Target = Command.FTarget;
-        fcValidateMoveOutsideWall(Source, Target);
-        Action = CreateCommandCA((CombatUnit)Source, (CombatUnit)Target);
-        Source.FCombat.ExecuteCombatAction(Action);
-        if (!Action.FSuccessful)
+        CombatObject target;
+        CommandCombatAction action;
+        StrikeCombatAction strike;
+        target = command.Target;
+        FastBattleValidateMoveOutsideWall(source, target);
+        action = CreateCommandCombatAction((CombatUnit)source, (CombatUnit)target);
+        source.Combat.ExecuteCombatAction(action);
+        if (!action.Successful)
         {
-            Strike = CombatObject.CreateStrikeCA(Target, Source, true);
-            if (Strike != null)
+            strike = CombatObject.CreateStrikeCombatAction(target, source, true);
+            if (strike != null)
             {
-                Source.FCombat.ExecuteCombatAction(Strike);
-                Strike.Release();
+                source.Combat.ExecuteCombatAction(strike);
+                strike.Release();
             }
         }
 
-        Action.Release();
+        action.Release();
         return true;
     }
 
     // AoWAb.PAS:5097
     public override bool Remove(AbilityOwner owner)
     {
-        bool Result = base.Remove(owner);
-        if (Result)
+        bool result = base.Remove(owner);
+        if (result)
         {
-            owner.RemoveAbilityDataID(FAbilityID);
+            owner.RemoveAbilityDataId(AbilityId);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:5194
-    public override int GetDamageValue(Troop Attacker, Troop Defender)
+    public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        int Result;
-        float Probability;
-        if (CanTouchUnit(Attacker, Defender))
+        int result;
+        float probability;
+        if (CanTouchUnit(attacker, defender))
         {
-            Probability = TouchRoleProbability(Attacker, Defender);
-            Result = Round((double)(Defender.GetHitPoints() * 200) * Probability);
+            probability = TouchRoleProbability(attacker, defender);
+            result = Round((double)(defender.GetHitPoints() * 200) * probability);
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:5213
-    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        float Probability;
-        if (WallSituation == WallSituation.None && (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1)) && Defender.GetUnitType() != UnitType.Machine)
+        float probability;
+        if (wallSituation == WallSituation.None && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && defender.GetUnitType() != UnitType.Machine)
         {
-            Probability = TouchRoleProbability(Attacker, Defender);
-            var hitPoints = Defender.GetHitPoints();
-            DamageValues.SourceDamage = Round((double)(hitPoints * 200) * Probability);
-            var defenderHitPoints = Defender.GetHitPoints();
-            DamageValues.SourceCost = defenderHitPoints * 2;
-            var p4UnitStrikeDV = Troop.P4UnitStrikeDV(Defender, Attacker);
-            DamageValues.TargetDamage = Round((double)p4UnitStrikeDV * ((double)1 - Probability));
-            var damage = Defender.GetDamage();
-            DamageValues.TargetCost = damage;
+            probability = TouchRoleProbability(attacker, defender);
+            var hitPoints = defender.GetHitPoints();
+            damageValues.SourceDamage = Round((double)(hitPoints * 200) * probability);
+            var defenderHitPoints = defender.GetHitPoints();
+            damageValues.SourceCost = defenderHitPoints * 2;
+            var unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
+            damageValues.TargetDamage = Round((double)unitStrikeDamageValue * ((double)1 - probability));
+            var damage = defender.GetDamage();
+            damageValues.TargetCost = damage;
         }
         else
         {
             // { Original leaves DamageTypes unchanged on this path. }
-            DamageValues.SourceDamage = 0;
-            DamageValues.SourceCost = 0;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
-            DamageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.SourceDamage = 0;
+            damageValues.SourceCost = 0;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
+            damageValues.DamageTypes = Set<DamageType>.Of();
         }
     }
 
     // AoWAb.PAS:5205
-    public override void GetOffensiveStrength(AbilityOwner Owner, ref int Strength, ref Set<DamageType> Types)
+    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
     {
-        if (Owner is Troop unit)
+        if (owner is Troop troop)
         {
-            Strength = Round((double)(GetTouchAttack(GetLevel(unit)) * (unit.GetAttack() * 5)) * 0.1);
-            Types = Set<DamageType>.Of(DamageType.None);
+            strength = Round((double)(GetTouchAttack(GetLevel(troop)) * (troop.GetAttack() * 5)) * 0.1);
+            types = Set<DamageType>.Of(DamageType.None);
         }
     }
 
     // AoWAb.PAS:5237
-    public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        float Probability;
-        if (CanTouch(Attacker, Defender) && !(((CombatUnit)Defender).FUnit is Leader))
+        float probability;
+        if (CanTouch(attacker, defender) && !(((CombatUnit)defender).Troop is Leader))
         {
-            Probability = CombatTouchRoleProbability((CombatUnit)Attacker, Defender);
-            var hitPoints = Defender.GetHitPoints();
-            DamageValues.SourceDamage = Round((double)(hitPoints * 200) * Probability);
-            var defenderHitPoints = Defender.GetHitPoints();
-            DamageValues.SourceCost = defenderHitPoints * 2;
-            var strikeDV = CombatObject.StrikeDV(Defender, Attacker);
-            DamageValues.TargetDamage = Round((double)strikeDV * ((double)1 - Probability));
-            var damage = Defender.GetDamage();
-            DamageValues.TargetCost = damage;
+            probability = CombatTouchRoleProbability((CombatUnit)attacker, defender);
+            var hitPoints = defender.GetHitPoints();
+            damageValues.SourceDamage = Round((double)(hitPoints * 200) * probability);
+            var defenderHitPoints = defender.GetHitPoints();
+            damageValues.SourceCost = defenderHitPoints * 2;
+            var strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
+            damageValues.TargetDamage = Round((double)strikeDamageValue * ((double)1 - probability));
+            var damage = defender.GetDamage();
+            damageValues.TargetCost = damage;
         }
         else
         {
             // { Original leaves DamageTypes unchanged on this path. }
-            DamageValues.SourceDamage = 0;
-            DamageValues.SourceCost = 0;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
-            DamageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.SourceDamage = 0;
+            damageValues.SourceCost = 0;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
+            damageValues.DamageTypes = Set<DamageType>.Of();
         }
     }
 
     // AoWAb.PAS:5106
-    public override void CombatObjectDestroyed(CombatObject CombatObject)
+    public override void CombatObjectDestroyed(CombatObject combatObject)
     {
-        ResetCommandedUnits((CombatUnit)CombatObject);
+        ResetCommandedUnits((CombatUnit)combatObject);
     }
 
     // AoWAb.PAS:5102
-    public override void CombatDone(CombatObject CombatObject)
+    public override void CombatDone(CombatObject combatObject)
     {
-        CombatObject.GetAbilityOwner().RemoveAbilityDataID(FAbilityID);
+        combatObject.GetAbilityOwner().RemoveAbilityDataId(AbilityId);
     }
 
     // AoWAb.PAS:5176
-    public override bool CanTouch(CombatObject Source, CombatObject Target) => base.CanTouch(Source, Target) && (Source is CombatUnit && Target is CombatUnit && ((CombatUnit)Target).FUnit.GetUnitType() != UnitType.Machine && !Target.GetAbilityEnabled(107));
+    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && (source is CombatUnit && target is CombatUnit && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine && !target.GetAbilityEnabled(107));
 
     // AoWAb.PAS:5184
-    public override bool CanTouchUnit(Troop Source, Troop Target)
+    public override bool CanTouchUnit(Troop source, Troop target)
     {
-        bool Result;
-        if (base.CanTouchUnit(Source, Target))
+        bool result;
+        if (base.CanTouchUnit(source, target))
         {
-            Result = Target.GetUnitType() != UnitType.Machine;
+            result = target.GetUnitType() != UnitType.Machine;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:5110
-    public virtual void Command(CombatUnit Source, CombatUnit Target)
+    public virtual void Command(CombatUnit source, CombatUnit target)
     {
-        CommandedAbilityData TargetData;
-        CommandAbilityData SourceData;
+        CommandedAbilityData targetData;
+        CommandAbilityData sourceData;
         // { The returned class is consumed by its constructor. }
-        Uncommand(Target);
+        Uncommand(target);
         // { Inline the returned class receiver. }
-        TargetData = (CommandedAbilityData)AoWHSSet.Current.FAbilityControl.GetAbility(FCommandedAbilityID).AbilityDataClass().Create(null);
-        TargetData.FAbilityID = FCommandedAbilityID;
-        TargetData.FCommandAbilityID = FAbilityID;
-        TargetData.FSourceID = Source.FID;
-        TargetData.FOriginalCombatPlayer = (byte)Target.FCombatPlayer;
-        SetAb(Target.FUnit, FCommandedAbilityID, 1);
-        Target.FUnit.AddAbilityData(TargetData);
-        Target.SetCombatPlayer((byte)Source.FCombatPlayer);
-        SourceData = (CommandAbilityData)Source.FUnit.GetAbilityData(FAbilityID);
-        if (SourceData == null)
+        targetData = (CommandedAbilityData)AoWHSSet.Current.AbilityControl.GetAbility(CommandedAbilityId).AbilityDataClass().CreateInstance(null);
+        targetData.AbilityId = CommandedAbilityId;
+        targetData.CommandAbilityId = AbilityId;
+        targetData.SourceId = source.Id;
+        targetData.OriginalCombatPlayer = (byte)target.CombatPlayer;
+        SetAbility(target.Troop, CommandedAbilityId, 1);
+        target.Troop.AddAbilityData(targetData);
+        target.SetCombatPlayer((byte)source.CombatPlayer);
+        sourceData = (CommandAbilityData)source.Troop.GetAbilityData(AbilityId);
+        if (sourceData == null)
         {
-            SourceData = new CommandAbilityData(null);
-            SourceData.FAbilityID = FAbilityID;
-            Source.FUnit.AddAbilityData(SourceData);
+            sourceData = new CommandAbilityData(null);
+            sourceData.AbilityId = AbilityId;
+            source.Troop.AddAbilityData(sourceData);
         }
 
-        SourceData.FCommandedUnits.Add(Target.FID);
+        sourceData.CommandedUnits.Add(target.Id);
     }
 
     // AoWAb.PAS:5259
-    public virtual CommandCombatAction CreateCommandCA(CombatUnit Source, CombatUnit Target)
+    public virtual CommandCombatAction CreateCommandCombatAction(CombatUnit source, CombatUnit target)
     {
-        CommandCombatAction Result = new CommandCombatAction(null);
-        bool condition = !(Target.FUnit is Leader) && CombatTouchRole(Source, Target);
-        Result.Initialize(Source.FID, Target.FID, condition);
-        Result.FAbilityID = FAbilityID;
-        return Result;
+        CommandCombatAction result = new CommandCombatAction(null);
+        bool condition = !(target.Troop is Leader) && CombatTouchRole(source, target);
+        result.Initialize(source.Id, target.Id, condition);
+        result.AbilityId = AbilityId;
+        return result;
     }
 
     // AoWAb.PAS:5157
-    public virtual void ResetCommandedUnits(CombatUnit Source)
+    public virtual void ResetCommandedUnits(CombatUnit source)
     {
-        Troop UnitOwner;
-        CommandAbilityData Data;
-        CombatUnit Target;
-        UnitOwner = Source.FUnit;
-        if (UnitOwner.GetAbilityEnabled(FAbilityID))
+        Troop troopOwner;
+        CommandAbilityData data;
+        CombatUnit target;
+        troopOwner = source.Troop;
+        if (troopOwner.GetAbilityEnabled(AbilityId))
         {
-            Data = (CommandAbilityData)Source.FUnit.GetAbilityData(FAbilityID);
-            if (Data != null)
+            data = (CommandAbilityData)source.Troop.GetAbilityData(AbilityId);
+            if (data != null)
             {
-                for (int I = Data.FCommandedUnits.Count - 1; I >= 0; I--)
+                for (int I = data.CommandedUnits.Count - 1; I >= 0; I--)
                 {
-                    Target = (CombatUnit)Source.FCombat.FCombatData.FindID(Data.FCommandedUnits.List[I]);
-                    if (Target != null)
+                    target = (CombatUnit)source.Combat.CombatData.FindId(data.CommandedUnits.List[I]);
+                    if (target != null)
                     {
-                        Uncommand(Target);
+                        Uncommand(target);
                     }
                 }
             }
@@ -272,38 +272,38 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5135
-    public virtual void Uncommand(CombatUnit Target)
+    public virtual void Uncommand(CombatUnit target)
     {
-        Troop UnitOwner;
-        CommandedAbilityData Data;
-        CombatUnit Source;
-        CommandAbilityData SourceData;
-        UnitOwner = Target.FUnit;
-        if (UnitOwner.GetAbilityEnabled(FCommandedAbilityID))
+        Troop troopOwner;
+        CommandedAbilityData data;
+        CombatUnit source;
+        CommandAbilityData sourceData;
+        troopOwner = target.Troop;
+        if (troopOwner.GetAbilityEnabled(CommandedAbilityId))
         {
-            Data = (CommandedAbilityData)UnitOwner.GetAbilityData(FCommandedAbilityID);
+            data = (CommandedAbilityData)troopOwner.GetAbilityData(CommandedAbilityId);
             // { Original reads Data before checking it for nil. }
-            Source = (CombatUnit)Target.FCombat.FCombatData.FindID(Data.FSourceID);
-            if (Data != null)
+            source = (CombatUnit)target.Combat.CombatData.FindId(data.SourceId);
+            if (data != null)
             {
-                Target.SetCombatPlayer(Data.FOriginalCombatPlayer);
+                target.SetCombatPlayer(data.OriginalCombatPlayer);
             }
 
-            AoWHSSet.Current.FAbilityControl.GetAbility(FCommandedAbilityID).Remove(Target.FUnit);
-            if (Source != null)
+            AoWHSSet.Current.AbilityControl.GetAbility(CommandedAbilityId).Remove(target.Troop);
+            if (source != null)
             {
-                SourceData = (CommandAbilityData)Source.FUnit.GetAbilityData(FAbilityID);
-                if (SourceData != null)
+                sourceData = (CommandAbilityData)source.Troop.GetAbilityData(AbilityId);
+                if (sourceData != null)
                 {
-                    SourceData.FCommandedUnits.Remove(Target.FID);
+                    sourceData.CommandedUnits.Remove(target.Id);
                 }
             }
         }
     }
 
     // AoWAb.PAS:5093
-    public override EngineClass AbilityDataClass() => P4CommandDataClass;
+    public override EngineClass AbilityDataClass() => s_commandDataClass;
 
-    internal static EngineClass P4CommandDataClass = EngineClass.Of<CommandAbilityData>();
+    internal static EngineClass s_commandDataClass = EngineClass.Of<CommandAbilityData>();
 
 }

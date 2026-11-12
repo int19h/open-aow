@@ -18,27 +18,27 @@ public partial class ArmyCombineMoveTokenEvent : MoveArmyTokenEvent
     public ArmyCombineMoveTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135427;
+    public new const int ClassId = 135427;
 
     // MoveT.PAS:2471
     public override bool CanMoveNext()
     {
-        ArmyHexSprite ArmyHS;
-        Army SourceArmy;
-        Army TargetArmy;
-        AddUnitsResult CombineResult;
-        if (FMoveIndex == 1 && FPath[0].X == FTargetX && FPath[0].Y == FTargetY && FPath[0].L == FTargetL && FArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
+        ArmyHexSprite armyHexSprite;
+        Army sourceArmy;
+        Army targetArmy;
+        AddUnitsResult combineResult;
+        if (MoveIndex == 1 && Path[0].X == TargetX && Path[0].Y == TargetY && Path[0].MapLevel == TargetL && ArmyHexSprite.Army.Player == AoWHSMap.Current.SeatedPlayer)
         {
-            ArmyHS = GetMapF(FPath[0]).GetArmyHS();
-            if (ArmyHS != null && ArmyHS.FArmy.FPlayer == FArmyHS.FArmy.FPlayer)
+            armyHexSprite = GetMapField(Path[0]).GetArmyHexSprite();
+            if (armyHexSprite != null && armyHexSprite.Army.Player == ArmyHexSprite.Army.Player)
             {
-                SourceArmy = FArmyHS.FArmy;
-                TargetArmy = ArmyHS.FArmy;
-                CombineResult = TargetArmy.CanAddUnitSelection(SourceArmy, 255);
-                if (CombineResult != AddUnitsResult.OK)
+                sourceArmy = ArmyHexSprite.Army;
+                targetArmy = armyHexSprite.Army;
+                combineResult = targetArmy.CanAddUnitSelection(sourceArmy, 255);
+                if (combineResult != AddUnitsResult.Ok)
                 {
-                    ShowCombineFailure(CombineResult);
-                    FMode = FMode - Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation);
+                    ShowCombineFailure(combineResult);
+                    Mode = Mode - Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation);
                 }
             }
         }
@@ -47,27 +47,27 @@ public partial class ArmyCombineMoveTokenEvent : MoveArmyTokenEvent
     }
 
     // MoveT.PAS:2462
-    public void ShowCombineFailure(AddUnitsResult Reason)
+    public void ShowCombineFailure(AddUnitsResult reason)
     {
-        switch (Reason)
+        switch (reason)
         {
             case AddUnitsResult.InvalidMoveType:
-                var p5CannotCombineArmies = AbilityRules.TranslateRStr(P5CannotCombineArmiesRStr);
-                AoWHSMap.Current.ShowMessage(p5CannotCombineArmies);
+                var cannotCombineArmies = AbilityRules.TranslateResourceString(s_cannotCombineArmiesText);
+                AoWHSMap.Current.ShowMessage(cannotCombineArmies);
                 break;
             case AddUnitsResult.TooManyUnits:
-                var aoWETranslateRStr = AbilityRules.TranslateRStr(P5CannotCombineArmiesRStr);
-                AoWHSMap.Current.ShowMessage(aoWETranslateRStr);
+                var translatedText = AbilityRules.TranslateResourceString(s_cannotCombineArmiesText);
+                AoWHSMap.Current.ShowMessage(translatedText);
                 break;
             case AddUnitsResult.MultipleTransporters:
-                var p5CannotCombineTransporters = AbilityRules.TranslateRStr(P5CannotCombineTransportersRStr);
-                AoWHSMap.Current.ShowMessage(p5CannotCombineTransporters);
+                var cannotCombineTransporters = AbilityRules.TranslateResourceString(s_cannotCombineTransportersText);
+                AoWHSMap.Current.ShowMessage(cannotCombineTransporters);
                 break;
         }
     }
 
-    private static readonly string P5CannotCombineArmiesRStr = "Cannot combine armies";
-    private static readonly string P5CannotCombineTransportersRStr = "Cannot combine two transporters";
+    private static readonly string s_cannotCombineArmiesText = "Cannot combine armies";
+    private static readonly string s_cannotCombineTransportersText = "Cannot combine two transporters";
 
     // intf_P5_07.inc:816
 

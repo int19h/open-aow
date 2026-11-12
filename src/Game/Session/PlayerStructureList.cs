@@ -11,10 +11,10 @@ public partial class PlayerStructureList : EChangeNotifyEventList
     public PlayerStructureList(ECustomNode owner) : base(owner)
     { }
 
-    public Player FPlayer;
+    public Player Player;
 
     // Player.PAS:1
-    public PlayerStructure GetStructure(int Index) => (PlayerStructure)FChildren.List[Index];
+    public PlayerStructure GetStructure(int index) => (PlayerStructure)_children.List[index];
 
     // Engine.pas:708
 

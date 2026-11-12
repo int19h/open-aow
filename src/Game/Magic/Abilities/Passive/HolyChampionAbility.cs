@@ -11,20 +11,20 @@ public partial class HolyChampionAbility : EnhancementAbility
     // PassiveAb.pas:484
     public HolyChampionAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(GameText.HolyChampionRStr);
-        FAbilityID = 146;
-        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.s_holyChampionText);
+        AbilityId = 146;
+        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
     }
 
     // PassiveAb.pas:492
     public override bool CanExpand(AbilityOwner owner)
     {
-        bool Result = base.CanExpand(owner);
-        if (Result && owner is Troop)
+        bool result = base.CanExpand(owner);
+        if (result && owner is Troop)
         {
-            Result = AlignmentTables.alsPureGood.Contains(((Troop)owner).GetAlignment());
+            result = AlignmentTables.s_pureGoodAlignments.Contains(((Troop)owner).GetAlignment());
         }
 
-        return Result;
+        return result;
     }
 }

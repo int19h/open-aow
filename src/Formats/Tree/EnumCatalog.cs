@@ -13,19 +13,19 @@ public interface IEnumCatalog
 /// <summary>A catalog built from explicit types. Tests register the enums a fixture names.</summary>
 internal sealed class DictionaryEnumCatalog : IEnumCatalog
 {
-    private readonly Dictionary<string, EnumTypeInfo> types = new();
+    private readonly Dictionary<string, EnumTypeInfo> _types = new();
 
     public DictionaryEnumCatalog(params Type[] enums)
     {
         foreach (var type in enums)
         {
             var info = EnumTypeInfo.Describe(type);
-            if (!types.TryAdd(info.Name, info))
+            if (!_types.TryAdd(info.Name, info))
                 throw new InvalidOperationException("The enum " + info.Name + " is registered twice.");
         }
     }
 
-    public bool TryGet(string typeName, out EnumTypeInfo type) => types.TryGetValue(typeName, out type!);
+    public bool TryGet(string typeName, out EnumTypeInfo type) => _types.TryGetValue(typeName, out type!);
 }
 
 /// <summary>
@@ -35,29 +35,29 @@ internal sealed class DictionaryEnumCatalog : IEnumCatalog
 /// </summary>
 public static class EnumCatalog
 {
-    private static readonly object gate = new();
-    private static readonly List<IEnumCatalog> catalogs = [];
-    private static readonly HashSet<Assembly> assemblies = [];
+    private static readonly object s_gate = new();
+    private static readonly List<IEnumCatalog> s_catalogs = [];
+    private static readonly HashSet<Assembly> s_assemblies = [];
 
     public static void Register(IEnumCatalog catalog)
     {
         ArgumentNullException.ThrowIfNull(catalog);
-        lock (gate) catalogs.Add(catalog);
+        lock (s_gate) s_catalogs.Add(catalog);
     }
 
     public static void RegisterReflection(Assembly assembly)
     {
         ArgumentNullException.ThrowIfNull(assembly);
-        lock (gate)
+        lock (s_gate)
         {
-            if (!assemblies.Add(assembly)) return;
-            catalogs.Add(new ReflectionEnumCatalog(assembly));
+            if (!s_assemblies.Add(assembly)) return;
+            s_catalogs.Add(new ReflectionEnumCatalog(assembly));
         }
     }
 
     public static EnumTypeInfo? Find(string typeName)
     {
-        lock (gate)
+        lock (s_gate)
         {
             var found = Lookup(typeName);
             if (found is not null) return found;
@@ -70,7 +70,7 @@ public static class EnumCatalog
     private static EnumTypeInfo? Lookup(string typeName)
     {
         EnumTypeInfo? found = null;
-        foreach (var catalog in catalogs)
+        foreach (var catalog in s_catalogs)
         {
             if (!catalog.TryGet(typeName, out var type)) continue;
             if (found is not null)
@@ -87,7 +87,7 @@ public static class EnumCatalog
 
 sealed class ReflectionEnumCatalog : IEnumCatalog
 {
-    private readonly Dictionary<string, List<EnumTypeInfo>> types = new();
+    private readonly Dictionary<string, List<EnumTypeInfo>> _types = new();
 
     public ReflectionEnumCatalog(Assembly assembly)
     {
@@ -104,10 +104,10 @@ sealed class ReflectionEnumCatalog : IEnumCatalog
         {
             if (type is null || !type.IsEnum || type.IsGenericType) continue;
             string stored = NameTable.Stored(type);
-            if (!types.TryGetValue(stored, out var list))
+            if (!_types.TryGetValue(stored, out var list))
             {
                 list = [];
-                types.Add(stored, list);
+                _types.Add(stored, list);
             }
             list.Add(EnumTypeInfo.Describe(type));
         }
@@ -115,7 +115,7 @@ sealed class ReflectionEnumCatalog : IEnumCatalog
 
     public bool TryGet(string typeName, out EnumTypeInfo type)
     {
-        if (!types.TryGetValue(typeName, out var list))
+        if (!_types.TryGetValue(typeName, out var list))
         {
             type = null!;
             return false;

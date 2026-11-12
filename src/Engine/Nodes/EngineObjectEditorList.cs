@@ -6,17 +6,17 @@ namespace Aow.Engine.Nodes;
 //   (an EditorClass per editor class since 9.4-4, a list of editor metaclasses before) }
 public partial class EngineObjectEditorList
 {
-    private readonly List<EditorClass> FList = new();
+    private readonly List<EditorClass> _list = new();
 
-    public int Count { get => FList.Count; }
-    public EditorClass this[int Index] { get => FList[Index]; }
+    public int Count { get => _list.Count; }
+    public EditorClass this[int index] { get => _list[index]; }
 
     // Engine.pas:8356
-    public void RegisterClass(EditorClass AClass)
+    public void RegisterClass(EditorClass classValue)
     {
-        if (FindEditor(AClass.EditorClassID) == null)
+        if (FindEditor(classValue.EditorClassId) == null)
         {
-            FList.Add(AClass);
+            _list.Add(classValue);
         }
         else
         {
@@ -25,25 +25,25 @@ public partial class EngineObjectEditorList
     }
 
     // Engine.pas:8364
-    public EditorClass FindEditor(int AClassID)
+    public EditorClass FindEditor(int classId)
     {
-        EditorClass Result;
+        EditorClass result;
         int I;
         I = 0;
-        while (I != Count && AClassID != FList[I].EditorClassID)
+        while (I != Count && classId != _list[I].EditorClassId)
         {
             I += 1;
         }
 
         if (I != Count)
         {
-            Result = FList[I];
+            result = _list[I];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 }

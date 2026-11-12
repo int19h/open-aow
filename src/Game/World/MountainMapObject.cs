@@ -14,52 +14,52 @@ public partial class MountainMapObject : Hexes.Terrain
     { }
 
     // Mountain.pas:101
-    public new const int ClassID = 131432;
+    public new const int ClassId = 131432;
 
     // Mountain.pas:104
-    public override sbyte GetOverlay(int Index)
+    public override sbyte GetOverlay(int index)
     {
-        sbyte Result = FResource.TerrainList.Overlay[Index];
-        if (Result >= 0)
+        sbyte result = _resource.TerrainList.Overlay[index];
+        if (result >= 0)
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Mountain.pas:110
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo Info) => true;
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => true;
 
     // Mountain.pas:136
-    public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         int I;
-        bool Valid;
-        TerrainList List;
-        MapField MapField;
+        bool valid;
+        TerrainList list;
+        MapField mapField;
         int X = default;
         int Y = default;
-        HexSprite HS;
+        HexSprite hexSprite;
         I = 0;
-        Valid = true;
-        List = FResource.TerrainList;
-        while (Valid && I < List.Count)
+        valid = true;
+        list = _resource.TerrainList;
+        while (valid && I < list.Count)
         {
-            if (List.Terrain[I] >= 0 || List.Overlay[I] >= 0)
+            if (list.Terrain[I] >= 0 || list.Overlay[I] >= 0)
             {
-                HexGeometry.CenterHNtoHX(Xhx, Yhx, I, ref X, ref Y);
-                if (X >= 0 && Y >= 0 && X < MapContainer.Width && Y < MapContainer.Height)
+                HexGeometry.CenterHexNumberToHex(hexX, hexY, I, ref X, ref Y);
+                if (X >= 0 && Y >= 0 && X < mapContainer.Width && Y < mapContainer.Height)
                 {
-                    MapField = MapContainer.GetField(X, Y, Lhx);
-                    HS = MapField.GetMaxLevelNoneTransparentHS();
-                    if (HS != null && HS.EClass.ClassID == 131432)
+                    mapField = mapContainer.GetField(X, Y, hexLevel);
+                    hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
+                    if (hexSprite != null && hexSprite.EngineClass.ClassId == 131432)
                     {
-                        Valid = ValidMountainOverlap(MapField, List.Overlay[I]);
+                        valid = ValidMountainOverlap(mapField, list.Overlay[I]);
                     }
                     else
                     {
-                        Valid = HS == null || HS.GetLevel() < 10;
+                        valid = hexSprite == null || hexSprite.GetLevel() < 10;
                     }
                 }
             }
@@ -67,32 +67,32 @@ public partial class MountainMapObject : Hexes.Terrain
             I += 1;
         }
 
-        return Valid && MapContainer.Map.CanChangeTerrain(this, Xhx, Yhx, Lhx, FResource.TerrainList);
+        return valid && mapContainer.Map.CanChangeTerrain(this, hexX, hexY, hexLevel, _resource.TerrainList);
     }
 
     // Mountain.pas:113
-    public bool ValidMountainOverlap(MapField MapField, sbyte Overlay)
+    public bool ValidMountainOverlap(MapField mapField, sbyte overlay)
     {
-        bool Valid;
+        bool valid;
         int I;
-        MapObject HS;
-        sbyte OtherOverlay;
-        Valid = true;
+        MapObject hexSprite;
+        sbyte otherOverlay;
+        valid = true;
         I = 0;
-        while (I != MapField.Count && Valid)
+        while (I != mapField.Count && valid)
         {
-            HS = (MapObject)MapField.HSList[I];
-            if (HS.EClass.ClassID == 131432)
+            hexSprite = (MapObject)mapField.HexSpriteList[I];
+            if (hexSprite.EngineClass.ClassId == 131432)
             {
-                var hNofHS = MapField.GetHNofHS(HS);
-                OtherOverlay = HS.Resource.TerrainList.Overlay[hNofHS];
-                Valid = !((OtherOverlay == 0 && Overlay == 0) || (OtherOverlay == 1 && Overlay == 1));
+                var hexNumberOfHexSprite = mapField.GetHexNumberOfHexSprite(hexSprite);
+                otherOverlay = hexSprite.Resource.TerrainList.Overlay[hexNumberOfHexSprite];
+                valid = !((otherOverlay == 0 && overlay == 0) || (otherOverlay == 1 && overlay == 1));
             }
 
             I += 1;
         }
 
-        return Valid;
+        return valid;
     }
 
 }

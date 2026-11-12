@@ -16,9 +16,9 @@ public partial class WindsOfFury : CombatSpell
     // CombatSpells.pas:1889
     public WindsOfFury(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(WindsOfFuryRStr);
-        FSpellID = 126;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_windsOfFuryText);
+        SpellId = 126;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
@@ -27,27 +27,27 @@ public partial class WindsOfFury : CombatSpell
     }
 
     // CombatSpells.pas:1904
-    public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
+    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        CombatSpellCombatAction Action;
-        Action = new CombatSpellCombatAction(null);
-        Action.FSpellID = FSpellID;
-        if (Target.GetAbilityEnabled(1) || Target.GetAbilityEnabled(59))
+        CombatSpellCombatAction action;
+        action = new CombatSpellCombatAction(null);
+        action.SpellId = SpellId;
+        if (target.GetAbilityEnabled(1) || target.GetAbilityEnabled(59))
         {
-            Action.Generate(Source, Target, (sbyte)(FCombatInfo.Attack + 2), FCombatInfo.Damage, FCombatInfo.DamageTypes);
+            action.Generate(source, target, (sbyte)(CombatInfo.Attack + 2), CombatInfo.Damage, CombatInfo.DamageTypes);
         }
         else
         {
-            Action.Generate(Source, Target, FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes);
+            action.Generate(source, target, CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes);
         }
 
-        if (ChargeMana)
+        if (chargeMana)
         {
-            Action.FManaCost = ((Hero)((CombatUnit)Source).FUnit).CastingMana(this);
+            action.ManaCost = ((Hero)((CombatUnit)source).Troop).CastingMana(this);
         }
 
-        return Action;
+        return action;
     }
 
-    private static readonly string WindsOfFuryRStr = "Winds Of Fury";
+    private static readonly string s_windsOfFuryText = "Winds Of Fury";
 }

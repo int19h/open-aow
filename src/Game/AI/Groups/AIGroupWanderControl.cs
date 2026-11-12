@@ -14,142 +14,142 @@ namespace Aow.Game.AI.Groups;
 // mode, move limit, move settings, control
 public partial class AIGroupWanderControl : AIGroupTask
 {
-    public Set<ModeElement> FMode;
-    public int FMovePointsMax;
-    public MoveControlSettings FMoveSettings;
-    public AIGroupControl FControl;
+    public Set<ModeElement> Mode;
+    public int MovePointsMax;
+    public MoveControlSettings MoveSettings;
+    public AIGroupControl Control;
 
     // AGCPlugins.pas:303
     public override void Dispose()
     {
-        FMoveSettings.Release();
+        MoveSettings.Release();
         base.Dispose();
     }
 
     // AGCPlugins.pas:297
     public AIGroupWanderControl(ECustomNode owner) : base(owner)
     {
-        FMoveSettings = new MoveControlSettings(null);
+        MoveSettings = new MoveControlSettings(null);
     }
 
     // AGCPlugins.pas:319
-    public override bool Activate(AIGroupControl Control)
+    public override bool Activate(AIGroupControl control)
     {
-        FControl = Control;
-        FState = 0;
+        Control = control;
+        State = 0;
         return true;
     }
 
     // AGCPlugins.pas:329
     public override bool Process()
     {
-        bool Result = default;
-        AIGroupControl Control = default;
-        MoveControlSettings Settings = default;
-        DoubleItemList<AoWMapField> Fields = default;
-        AoWMapField Field = default;
+        bool result = default;
+        AIGroupControl control = default;
+        MoveControlSettings settings = default;
+        DoubleItemList<AoWMapField> fields = default;
+        AoWMapField field = default;
         int I = default;
-        int TargetWeight = default;
-        MapCoordinate Location = default;
-        switch (FState)
+        int targetWeight = default;
+        MapCoordinate location = default;
+        switch (State)
         {
             case 0:
-                Control = FControl;
-                FMoveSettings.Reset();
+                control = Control;
+                MoveSettings.Reset();
                 {
-                    this.FMoveSettings.FPlayer = Control.FGroup.FPlayer;
-                    this.FMoveSettings.FMode = this.FMoveSettings.FMode + Set<MoveModeElement>.Of(MoveModeElement.AI);
-                    this.FMoveSettings.SetSourcePos(Control.FLocation.X, Control.FLocation.Y, Control.FLocation.L);
+                    this.MoveSettings.Player = control.Group.Player;
+                    this.MoveSettings.Mode = this.MoveSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
+                    this.MoveSettings.SetSourcePosition(control.Location.X, control.Location.Y, control.Location.MapLevel);
                 }
 
                 {
-                    var moveControlSettings = FMoveSettings;
-                    moveControlSettings.FMovePointsMax = this.FMovePointsMax;
-                    moveControlSettings.FArmyHS = Control.FArmyHS;
-                    moveControlSettings.FSelection = Control.FSelection;
-                    moveControlSettings.FMovePointTable = Control.FMovePointTable;
-                    moveControlSettings.FMode = moveControlSettings.FMode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
-                    AoWHSMap.Current.FMoveControl.ProcessMove(FMoveSettings);
+                    var moveControlSettings = MoveSettings;
+                    moveControlSettings.MovePointsMax = this.MovePointsMax;
+                    moveControlSettings.ArmyHexSprite = control.ArmyHexSprite;
+                    moveControlSettings.Selection = control.Selection;
+                    moveControlSettings.MovePointTable = control.MovePointTable;
+                    moveControlSettings.Mode = moveControlSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
+                    AoWHSMap.Current.MoveControl.ProcessMove(MoveSettings);
                 }
 
                 {
-                    var group = Control.FGroup;
+                    var group = control.Group;
                     // { Original reloads the current control. }
-                    if (group.FTargetMode == 1 && this.FControl.FGroup.FTargetXYL.X > 0 && FMoveSettings.GetMovePoints(group.FTargetXYL.X, group.FTargetXYL.Y, group.FTargetXYL.L) != 16777215 && Unsafe.As<MapCoordinate, int>(ref this.FControl.FGroup.FTargetXYL) != Unsafe.As<MapCoordinate, int>(ref Control.FLocation))
+                    if (group.TargetMode == 1 && this.Control.Group.TargetMapCoordinate.X > 0 && MoveSettings.GetMovePoints(group.TargetMapCoordinate.X, group.TargetMapCoordinate.Y, group.TargetMapCoordinate.MapLevel) != 16777215 && Unsafe.As<MapCoordinate, int>(ref this.Control.Group.TargetMapCoordinate) != Unsafe.As<MapCoordinate, int>(ref control.Location))
                     {
-                        FState = 2;
+                        State = 2;
                     }
                     else
                     {
-                        FState = 1;
+                        State = 1;
                     }
                 }
 
-                Result = false;
+                result = false;
                 break;
             case 1:
-                Settings = FMoveSettings;
-                Fields = new DoubleItemList<AoWMapField>();
-                if (Settings.FProcessedMapFields.Count > 40)
+                settings = MoveSettings;
+                fields = new DoubleItemList<AoWMapField>();
+                if (settings.ProcessedMapFields.Count > 40)
                 {
-                    I = Settings.FProcessedMapFields.Count - 1;
+                    I = settings.ProcessedMapFields.Count - 1;
                     for (; I >= 0; I -= 1)
                     {
                         if ((I & 3) == 3)
                         {
-                            Field = (AoWMapField)Settings.FProcessedMapFields[I];
-                            if (FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx) != 16777215)
+                            field = (AoWMapField)settings.ProcessedMapFields[I];
+                            if (MoveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) != 16777215)
                             {
-                                var movePoints = FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx);
-                                Fields.AddAB(Field, movePoints);
+                                var movePoints = MoveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
+                                fields.AddAbility(field, movePoints);
                             }
                         }
                     }
                 }
                 else
                 {
-                    I = Settings.FProcessedMapFields.Count - 1;
+                    I = settings.ProcessedMapFields.Count - 1;
                     for (; I >= 0; I -= 1)
                     {
-                        Field = (AoWMapField)Settings.FProcessedMapFields[I];
-                        if (FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx) != 16777215)
+                        field = (AoWMapField)settings.ProcessedMapFields[I];
+                        if (MoveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) != 16777215)
                         {
-                            var movePoints = FMoveSettings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx);
-                            Fields.AddAB(Field, movePoints);
+                            var movePoints = MoveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
+                            fields.AddAbility(field, movePoints);
                         }
                     }
                 }
 
-                if (Fields.Count > 0)
+                if (fields.Count > 0)
                 {
-                    Fields.Sort(CompareWanderFields);
-                    Field = null;
+                    fields.Sort(CompareWanderFields);
+                    field = null;
                     I = 0;
-                    while (Fields.Count != 0 && Field == null)
+                    while (fields.Count != 0 && field == null)
                     {
-                        I = AoWHSMap.Current.Random(Round((double)Fields.Count * 0.1) + 1);
-                        Field = Fields[I].A;
-                        if (Field.GetPlayer() != -1)
+                        I = AoWHSMap.Current.Random(Round((double)fields.Count * 0.1) + 1);
+                        field = fields[I].First;
+                        if (field.GetPlayer() != -1)
                         {
-                            Fields.Delete(I);
-                            Field = null;
+                            fields.Delete(I);
+                            field = null;
                         }
                     }
 
-                    if (Field != null)
+                    if (field != null)
                     {
                         // { Original reads the list item before GetXYL. }
-                        TargetWeight = Fields[I].B;
-                        Location.Packed = Field.GetXYL();
-                        FControl.FGroup.SetupTargetEx(Location, TargetWeight, AIGroupTargetStatus.Execute, 1, -1, 0, 0);
-                        FState += 1;
+                        targetWeight = fields[I].Second;
+                        location.Packed = field.GetMapCoordinate();
+                        Control.Group.SetupTarget(location, targetWeight, AIGroupTargetStatus.Execute, 1, -1, 0, 0);
+                        State += 1;
                     }
                     else
                     {
                         Done();
                     }
 
-                    Fields?.Dispose();
+                    fields?.Dispose();
                 }
                 else
                 {
@@ -157,48 +157,48 @@ public partial class AIGroupWanderControl : AIGroupTask
                     Done();
                 }
 
-                Result = false;
+                result = false;
                 break;
             case 2:
                 {
-                    var aiGroupControl = FControl;
+                    var aiGroupControl = Control;
                     aiGroupControl.SetupME();
-                    aiGroupControl.ExecuteME(aiGroupControl.FGroup.FTargetXYL.X, aiGroupControl.FGroup.FTargetXYL.Y, aiGroupControl.FGroup.FTargetXYL.L);
+                    aiGroupControl.ExecuteME(aiGroupControl.Group.TargetMapCoordinate.X, aiGroupControl.Group.TargetMapCoordinate.Y, aiGroupControl.Group.TargetMapCoordinate.MapLevel);
                 }
 
-                FState += 1;
-                Result = false;
+                State += 1;
+                result = false;
                 break;
             case 3:
                 Done();
-                Result = false;
+                result = false;
                 break;
             default:
-                Result = false;
+                result = false;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // AGCPlugins.pas:309
     public void Reset()
     {
-        FMode = Set<ModeElement>.Of();
-        FMovePointsMax = 75;
-        FMoveSettings.Reset();
+        Mode = Set<ModeElement>.Of();
+        MovePointsMax = 75;
+        MoveSettings.Reset();
     }
 
     // AGCPlugins.pas:316
-    public bool Setup(AIGroupControl Control)
+    public bool Setup(AIGroupControl control)
     {
         Reset();
         return true;
     }
 
-    private static int CompareWanderFields(in DoubleItem<AoWMapField> Item1, in DoubleItem<AoWMapField> Item2)
+    private static int CompareWanderFields(in DoubleItem<AoWMapField> item1, in DoubleItem<AoWMapField> item2)
     {
-        return Item2.B - Item1.B;
+        return item2.Second - item1.Second;
     }
 
     public enum ModeElement : byte

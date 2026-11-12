@@ -1,6 +1,6 @@
 namespace Aow.Rtl.Host;
 
-public readonly record struct RtlFileEntry(string Name, int Size, int Attr, DateTime Modified);
+public readonly record struct RtlFileEntry(string Name, int Size, int Attribute, DateTime Modified);
 
 // The host brief replaces these defaults through Rtl.Files and Rtl.Clock.
 public interface IFileSystem
@@ -40,15 +40,15 @@ public interface IFileSystem
 
 public sealed class PhysicalFileSystem : IFileSystem
 {
-    private string? currentDirectory;
+    private string? _currentDirectory;
 
-    public string CurrentDirectory => currentDirectory ?? Directory.GetCurrentDirectory();
+    public string CurrentDirectory => _currentDirectory ?? Directory.GetCurrentDirectory();
 
     public bool SetCurrentDirectory(string path)
     {
         string resolved = Resolve(path);
         if (!Directory.Exists(resolved)) return false;
-        currentDirectory = resolved;
+        _currentDirectory = resolved;
         return true;
     }
 
@@ -96,8 +96,8 @@ public sealed class PhysicalFileSystem : IFileSystem
         if (!DirectoryExists(directory)) yield break;
         foreach (string path in Directory.EnumerateFileSystemEntries(Resolve(directory)))
         {
-            FileAttributes attr = File.GetAttributes(path);
-            yield return new(Path.GetFileName(path), (attr & FileAttributes.Directory) != 0 ? 0 : unchecked((int)new FileInfo(path).Length), (int)attr, RtlFileTime.LastWriteTime(path));
+            FileAttributes attribute = File.GetAttributes(path);
+            yield return new(Path.GetFileName(path), (attribute & FileAttributes.Directory) != 0 ? 0 : unchecked((int)new FileInfo(path).Length), (int)attribute, RtlFileTime.LastWriteTime(path));
         }
     }
 }

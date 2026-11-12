@@ -16,33 +16,33 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
     public FrozenWaterHexSprite(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131436;
+    public new const int ClassId = 131436;
 
-    public sbyte FDaysRemaining;
-    public sbyte FCasterPlayer;
+    public sbyte DaysRemaining;
+    public sbyte CasterPlayer;
 
     // Structur.PAS:4487
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwShortint(ref FDaysRemaining, 30);
-        Stream.rwShortint(ref FCasterPlayer, 31);
+        base.ReadWrite(stream);
+        stream.rwShortint(ref DaysRemaining, 30);
+        stream.rwShortint(ref CasterPlayer, 31);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.SByte("DaysRemaining", ref FDaysRemaining);
-        persister.SByte("CasterPlayer", ref FCasterPlayer);
+        persister.SByte("DaysRemaining", ref DaysRemaining);
+        persister.SByte("CasterPlayer", ref CasterPlayer);
     }
 
     // Structur.PAS:4518
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001986)
         {
-            NewTurn((sbyte)Msg.Payload.Int);
+            NewTurn((sbyte)message.Payload.Int);
         }
     }
 
@@ -50,28 +50,28 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
     public override byte GetLevel() => 28;
 
     // Structur.PAS:4503
-    public override void TerrainChanged(in HexSpriteTerrainInfo Info)
+    public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        base.TerrainChanged(Info);
-        if (Info.HN == 0 && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)Info.TerrainType))
+        base.TerrainChanged(info);
+        if (info.HexNumber == 0 && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)info.TerrainType))
         {
             Dispose();
         }
     }
 
     // Structur.PAS:4524
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        var yhx = Yhx;
-        HexGeometry.HXtoHP(Xhx, yhx, ref X, ref Y);
-        X = X - XhpSurf + 16;
-        Y = Y - YhpSurf + 16;
-        var xhx = Xhx;
-        var yhx2 = Yhx;
-        var yhx3 = Yhx;
-        AoWHSSet.Current.FImageSequences.ShowLoopedEx(70, X, Y, AoWHSMap.Current.Frame, xhx + yhx2 + yhx3 * 2, SurfaceDesc);
+        var hexY = HexY;
+        HexGeometry.HexToPixel(HexX, hexY, ref X, ref Y);
+        X = X - pixelXSurface + 16;
+        Y = Y - pixelYSurface + 16;
+        var hexX = HexX;
+        var hexY2 = HexY;
+        var hexY3 = HexY;
+        AoWHSSet.Current.ImageSequences.ShowLooped(70, X, Y, AoWHSMap.Current.Frame, hexX + hexY2 + hexY3 * 2, lockedSurface);
     }
 
     // Structur.PAS:4494
@@ -79,17 +79,17 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
     {
         if (((MapField)Owner).TerrainType == 6)
         {
-            var yhx = Yhx;
-            var xhx = Xhx;
-            AoWHSMap.Current.ChangeTerrain(this, xhx, yhx, Lhx, 0, 0);
+            var hexY = HexY;
+            var hexX = HexX;
+            AoWHSMap.Current.ChangeTerrain(this, hexX, hexY, HexLevel, 0, 0);
         }
         else
         {
             if (((MapField)Owner).TerrainType == 13)
             {
-                var yhx = Yhx;
-                var xhx = Xhx;
-                AoWHSMap.Current.ChangeTerrain(this, xhx, yhx, Lhx, 0, 10);
+                var hexY = HexY;
+                var hexX = HexX;
+                AoWHSMap.Current.ChangeTerrain(this, hexX, hexY, HexLevel, 0, 10);
             }
             else
             {
@@ -99,12 +99,12 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
     }
 
     // Structur.PAS:4509
-    public void NewTurn(sbyte Player)
+    public void NewTurn(sbyte player)
     {
-        if (Player == FCasterPlayer)
+        if (player == CasterPlayer)
         {
-            FDaysRemaining = (sbyte)(FDaysRemaining - 1);
-            if (FDaysRemaining <= 0)
+            DaysRemaining = (sbyte)(DaysRemaining - 1);
+            if (DaysRemaining <= 0)
             {
                 MeltIce();
             }

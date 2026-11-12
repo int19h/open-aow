@@ -16,39 +16,39 @@ public partial class CombatHex : AbstractHexagon
     public CombatHex(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 2229504;
+    public new const int ClassId = 2229504;
 
-    public byte FImageVariant;
-    public ByteArray3 FTransitions;
+    public byte ImageVariant;
+    public ByteArray3 Transitions;
 
     // CombatHex.pas:174
-    public override void TerrainChanged(in HexSpriteTerrainInfo Msg)
+    public override void TerrainChanged(in HexSpriteTerrainInfo message)
     {
-        if (Set<byte>.WithBounds(0, 255).With(0).With(6).With(14).Contains((byte)Msg.TerrainType))
+        if (Set<byte>.WithBounds(0, 255).With(0).With(6).With(14).Contains((byte)message.TerrainType))
         {
-            if (Msg.TerrainType != 14)
+            if (message.TerrainType != 14)
             {
-                var lhx = GetLhx();
-                var yhx = GetYhx();
-                var xhx = GetXhx();
-                ((AoWHSSet)FResource.Engine.HSSet).FCombatHexagons.Place(CombatMap.Current.MapContainer, xhx, yhx, lhx, Msg.TerrainType);
+                var hexLevel = GetHexLevel();
+                var hexY = GetHexY();
+                var hexX = GetHexX();
+                ((AoWHSSet)_resource.Engine.HexSpriteSet).CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
             else
             {
-                var lhx = GetLhx();
-                var yhx = GetYhx();
-                var xhx = GetXhx();
-                ((AoWHSSet)FResource.Engine.HSSet).FCombatHexagons.Place(CombatMap.Current.MapContainer, xhx, yhx, lhx, 0);
+                var hexLevel = GetHexLevel();
+                var hexY = GetHexY();
+                var hexX = GetHexX();
+                ((AoWHSSet)_resource.Engine.HexSpriteSet).CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
             }
         }
     }
 
     // CombatHex.pas:138
-    public override void NeighbourTerrainChanged(int HN, in HexSpriteTerrainInfo Info)
+    public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo info)
     {
-        if (HN == 0)
+        if (hexNumber == 0)
         {
-            switch (Info.HN)
+            switch (info.HexNumber)
             {
                 case 6:
                     UpdateTransition(1);
@@ -64,24 +64,24 @@ public partial class CombatHex : AbstractHexagon
     }
 
     // CombatHex.pas:148
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        CustomImageLibrary Images;
+        int pixelX = default;
+        int pixelY = default;
+        CustomImageLibrary images;
         if (((MapField)Owner).OverlayType != 4)
         {
-            HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-            Xhp = Xhp - XhpSurf - 8;
-            Yhp = Yhp - YhpSurf;
-            Images = FResource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
-            Images[FImageVariant].Show(Xhp, Yhp, SurfaceDesc);
-            Images = ((Resource)FResource).FTransitionLibrary;
-            for (int Side = 1; Side <= 3; Side++)
+            HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+            pixelX = pixelX - pixelXSurface - 8;
+            pixelY = pixelY - pixelYSurface;
+            images = _resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
+            images[ImageVariant].Show(pixelX, pixelY, lockedSurface);
+            images = ((Resource)_resource).TransitionLibrary;
+            for (int side = 1; side <= 3; side++)
             {
-                if (FTransitions[Side - 1] != 255)
+                if (Transitions[side - 1] != 255)
                 {
-                    Images[FTransitions[Side - 1]].Show(Xhp - 8, Yhp - 16, SurfaceDesc);
+                    images[Transitions[side - 1]].Show(pixelX - 8, pixelY - 16, lockedSurface);
                 }
             }
         }
@@ -91,131 +91,131 @@ public partial class CombatHex : AbstractHexagon
     public override void Activate()
     {
         base.Activate();
-        FImageVariant = (byte)Random(12);
+        ImageVariant = (byte)Random(12);
     }
 
     // CombatHex.pas:73
-    public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
 
     // CombatHex.pas:134
     public override void UpdateTransitions()
     {
-        for (int Side = 1; Side <= 3; Side++)
+        for (int side = 1; side <= 3; side++)
         {
-            UpdateTransition((byte)Side);
+            UpdateTransition((byte)side);
         }
     }
 
     // CombatHex.pas:76
-    public void UpdateTransition(byte Side)
+    public void UpdateTransition(byte side)
     {
-        MapLevel MapLevel;
-        int ImageIndex;
-        sbyte NeighbourTerrain;
-        sbyte TerrainType;
+        MapLevel mapLevel;
+        int imageIndex;
+        sbyte neighbourTerrain;
+        sbyte terrainType;
         int X = default;
         int Y = default;
-        MapLevel = (MapLevel)Owner.Owner;
-        HexGeometry.CenterHNtoHX(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, TransitionNeighbours[Side - 1], ref X, ref Y);
-        if (X >= 0 && Y >= 0 && X < MapLevel.Width && Y < MapLevel.Height)
+        mapLevel = (MapLevel)Owner.Owner;
+        HexGeometry.CenterHexNumberToHex(((MapField)Owner).HexX, ((MapField)Owner).HexY, s_transitionNeighbours[side - 1], ref X, ref Y);
+        if (X >= 0 && Y >= 0 && X < mapLevel.Width && Y < mapLevel.Height)
         {
-            NeighbourTerrain = MapLevel.GetField(X, Y).TerrainType;
-            TerrainType = FResource.TerrainList.GetTerrain(0);
-            ImageIndex = -1;
-            if (NeighbourTerrain != TerrainType && NeighbourTerrain != 7)
+            neighbourTerrain = mapLevel.GetField(X, Y).TerrainType;
+            terrainType = _resource.TerrainList.GetTerrain(0);
+            imageIndex = -1;
+            if (neighbourTerrain != terrainType && neighbourTerrain != 7)
             {
-                if (TerrainType == 0)
+                if (terrainType == 0)
                 {
-                    if (NeighbourTerrain == 6)
+                    if (neighbourTerrain == 6)
                     {
-                        ImageIndex = 10;
+                        imageIndex = 10;
                     }
                     else
                     {
-                        ImageIndex = NeighbourTerrain + 4;
+                        imageIndex = neighbourTerrain + 4;
                     }
                 }
                 else
                 {
-                    if (TerrainType == 6)
+                    if (terrainType == 6)
                     {
-                        if (NeighbourTerrain == 0)
+                        if (neighbourTerrain == 0)
                         {
-                            ImageIndex = 16;
+                            imageIndex = 16;
                         }
                         else
                         {
-                            ImageIndex = NeighbourTerrain + 10;
+                            imageIndex = neighbourTerrain + 10;
                         }
                     }
                     else
                     {
-                        if (TerrainType == 12)
+                        if (terrainType == 12)
                         {
-                            ImageIndex = 17;
+                            imageIndex = 17;
                         }
                         else
                         {
-                            if (TerrainType == 10)
+                            if (terrainType == 10)
                             {
-                                if (NeighbourTerrain == 12)
+                                if (neighbourTerrain == 12)
                                 {
-                                    ImageIndex = 18;
+                                    imageIndex = 18;
                                 }
                                 else
                                 {
-                                    if (NeighbourTerrain == 13)
+                                    if (neighbourTerrain == 13)
                                     {
-                                        ImageIndex = 19;
+                                        imageIndex = 19;
                                     }
                                     else
                                     {
-                                        if (NeighbourTerrain == 9)
+                                        if (neighbourTerrain == 9)
                                         {
-                                            ImageIndex = 20;
+                                            imageIndex = 20;
                                         }
                                     }
                                 }
                             }
                             else
                             {
-                                if (TerrainType == 13)
+                                if (terrainType == 13)
                                 {
-                                    if (NeighbourTerrain == 12)
+                                    if (neighbourTerrain == 12)
                                     {
-                                        ImageIndex = 21;
+                                        imageIndex = 21;
                                     }
                                     else
                                     {
-                                        if (NeighbourTerrain == 10)
+                                        if (neighbourTerrain == 10)
                                         {
-                                            ImageIndex = 22;
+                                            imageIndex = 22;
                                         }
                                         else
                                         {
-                                            if (NeighbourTerrain == 9)
+                                            if (neighbourTerrain == 9)
                                             {
-                                                ImageIndex = 23;
+                                                imageIndex = 23;
                                             }
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    if (TerrainType == 9)
+                                    if (terrainType == 9)
                                     {
-                                        if (NeighbourTerrain == 12)
+                                        if (neighbourTerrain == 12)
                                         {
-                                            ImageIndex = 24;
+                                            imageIndex = 24;
                                         }
                                         else
                                         {
-                                            ImageIndex = 25;
+                                            imageIndex = 25;
                                         }
                                     }
                                     else
                                     {
-                                        ImageIndex = TerrainType - 1;
+                                        imageIndex = terrainType - 1;
                                     }
                                 }
                             }
@@ -224,40 +224,40 @@ public partial class CombatHex : AbstractHexagon
                 }
             }
 
-            if (ImageIndex != -1)
+            if (imageIndex != -1)
             {
-                ImageIndex = Random(2) * 3 + ImageIndex * 6 + (Side - 1);
-                if (((Resource)FResource).FTransitionLibrary.GetSafe(ImageIndex) != null)
+                imageIndex = Random(2) * 3 + imageIndex * 6 + (side - 1);
+                if (((Resource)_resource).TransitionLibrary.GetSafe(imageIndex) != null)
                 {
-                    FTransitions[Side - 1] = (byte)ImageIndex;
+                    Transitions[side - 1] = (byte)imageIndex;
                 }
                 else
                 {
-                    FTransitions[Side - 1] = 255;
+                    Transitions[side - 1] = 255;
                 }
             }
             else
             {
-                FTransitions[Side - 1] = 255;
+                Transitions[side - 1] = 255;
             }
         }
     }
 
-    private static ByteArray3 TransitionNeighbours = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 6, 1, 2 });
+    private static ByteArray3 s_transitionNeighbours = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 6, 1, 2 });
 
     public new partial class Resource : AbstractHexagonResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }
 
-        public new const int ClassID = 2229505;
+        public new const int ClassId = 2229505;
 
-        public CustomImageLibrary FTransitionLibrary;
+        public CustomImageLibrary TransitionLibrary;
 
         // CombatHex.pas:194
-        public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+        public override void MessageProc(ref EngineMessage message, EngineObject sender)
         {
-            bool condition = Msg.MsgID != 65556;
+            bool condition = message.MessageId != 65556;
             if (!condition)
             {
                 var terrain = TerrainList.GetTerrain(0);
@@ -266,42 +266,42 @@ public partial class CombatHex : AbstractHexagon
 
             if (condition)
             {
-                base.MsgProc(ref Msg, Sender);
+                base.MessageProc(ref message, sender);
             }
 
-            if (Msg.MsgID == 65621)
+            if (message.MessageId == 65621)
             {
-                Msg.Result = 5;
+                message.Result = 5;
             }
 
-            if (Msg.MsgID == 536870920)
+            if (message.MessageId == 536870920)
             {
-                FTransitionLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCombat\\Base_Hex\\CTransHx.ILB");
+                TransitionLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCombat\\Base_Hex\\CTransHx.ILB");
             }
         }
 
         // CombatHex.pas:207
         public override LibraryImage GetCellImage()
         {
-            LibraryImage Result = null;
+            LibraryImage result = null;
             if (ImageSequenceList != null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) != null)
             {
-                Result = ImageSequenceList.GetImageSequence(0).ImageLibrary[10];
+                result = ImageSequenceList.GetImageSequence(0).ImageLibrary[10];
             }
 
-            if (Result == null)
+            if (result == null)
             {
-                Result = base.GetCellImage();
+                result = base.GetCellImage();
             }
 
-            return Result;
+            return result;
         }
 
         // CombatHex.pas:204
-        public override int ResourceUserClassID() => 2229504;
+        public override int ResourceUserClassId() => 2229504;
 
         // CombatHex.pas:191
-        public override HexControl GetHexagonControl() => ((AoWHSSet)Engine.HSSet).FCombatHexagons;
+        public override HexControl GetHexControl() => ((AoWHSSet)Engine.HexSpriteSet).CombatHexes;
 
         // CombatHex.pas:188
         public override string ResourceEditName() => "Combat Hexagon";

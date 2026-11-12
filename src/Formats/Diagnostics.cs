@@ -75,7 +75,7 @@ public static class Codes
     public const string Unrepresentable = "E_UNREPRESENTABLE";
     public const string Reference = "E_REFERENCE";
     public const string Required = "E_REQUIRED";
-    public const string G1 = "E_G1";
+    public const string OriginalRoundTripDiffers = "E_G1";
     public const string Case = "E_CASE";
     public const string Mapping = "E_MAPPING";
     public const string LegacyShape = "E_LEGACY_SHAPE";

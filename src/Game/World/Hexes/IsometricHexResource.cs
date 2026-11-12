@@ -5,63 +5,63 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Hexes;
 
-// FDynamicLevel (26)
+// DynamicLevel (26)
 public partial class IsometricHexResource : AbstractHexagonResource
 {
     public IsometricHexResource(ECustomNode owner) : base(owner)
     {
-        FDynamicLevel = 26;
+        DynamicLevel = 26;
     }
 
     // IsoHex.pas:268
-    public new const int ClassID = 131438;
+    public new const int ClassId = 131438;
 
-    protected internal byte FDynamicLevel;
+    protected internal byte DynamicLevel;
 
     // IsoHex.pas:262
 
     // IsoHex.pas:302
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 65621)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 65621)
         {
-            Msg.Result = 5;
+            message.Result = 5;
         }
     }
 
     // IsoHex.pas:273
-    public override MapObject PlaceResourceUser(HSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override MapObject PlaceResourceUser(HSMap map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField MapField;
-        MapField = Map.MapContainer.GetField(Xhx, Yhx, Lhx);
-        MapObject Result = (MapObject)MapField.FindOwnedHS(typeof(IsometricHex));
-        if (Result != null)
+        MapField mapField;
+        mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
+        MapObject result = (MapObject)mapField.FindOwnedHexSprite(typeof(IsometricHex));
+        if (result != null)
         {
-            if (Result.GetTerrain(0) != FTerrainList.GetTerrain(0))
+            if (result.GetTerrain(0) != _terrainList.GetTerrain(0))
             {
-                Result.SetResource(this);
-                MapField.UpdateTerrainType();
-                ((AbstractHexagon)Result).UpdateTransitions();
+                result.SetResource(this);
+                mapField.UpdateTerrainType();
+                ((AbstractHexagon)result).UpdateTransitions();
             }
             else
             {
-                Result.SetResource(this);
+                result.SetResource(this);
             }
 
-            Map.InvalidateStaticScene(Xhx, Yhx, Lhx);
+            map.InvalidateStaticScene(hexX, hexY, hexLevel);
         }
         else
         {
-            Result = (MapObject)CreateResourceUser();
-            if (!Map.PlaceHX(Result, Xhx, Yhx, Lhx))
+            result = (MapObject)CreateResourceUser();
+            if (!map.PlaceHex(result, hexX, hexY, hexLevel))
             {
-                Result?.Dispose();
-                Result = null;
+                result?.Dispose();
+                result = null;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // IsoHex.pas:64

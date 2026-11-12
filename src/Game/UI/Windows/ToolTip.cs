@@ -9,58 +9,58 @@ namespace Aow.Game.UI.Windows;
 
 // { The ToolTip unit of aowInt.dpl: TAOWToolTip, the small window that TAOWControl shows with a
 //   control's tool tip text after the mouse rested on it for ToolTipDelay updates. }
-// Fields: FItems, FOnDrawItem, FToolTipStatic, FToolTipDelay, FShowDuration, FItemHeight,
+// Fields: _items, _onDrawItem, _toolTipStatic, _toolTipDelay, _showDuration, _itemHeight,
 // FShowing, FControlRect (the control on the screen. the tip shows at its bottom right),
 // FItemIndex, FItemRect (the line being drawn, for OnDrawItem), FLines (Items broken into lines
 // that fit)
 public partial class ToolTip : GenericWindow
 {
-    public StringList FItems;
-    public NotifyEvent<ToolTip> FOnDrawItem;
-    public bool FToolTipStatic;
-    public int FToolTipDelay;
-    public int FShowDuration;
-    public int FItemHeight;
-    public bool FShowing;
-    public Rect FControlRect;
-    public int FItemIndex;
-    public Rect FItemRect;
-    public StringList FLines;
+    public StringList _items;
+    public NotifyEvent<ToolTip> _onDrawItem;
+    public bool _toolTipStatic;
+    public int _toolTipDelay;
+    public int _showDuration;
+    public int _itemHeight;
+    public bool Showing;
+    public Rect ControlRectangle;
+    public int ItemIndex;
+    public Rect ItemRectangle;
+    public StringList Lines;
 
     // AOWToolTip.pas:62
     public ToolTip(Component owner) : base(owner)
     {
-        FLines = new StringList();
-        FItems = new StringList();
-        FItems.OnChange = OnChangeText;
-        FShowDuration = 100;
-        FItemHeight = 10;
+        Lines = new StringList();
+        _items = new StringList();
+        _items.OnChange = OnChangeText;
+        _showDuration = 100;
+        _itemHeight = 10;
     }
 
     // AOWToolTip.pas:72
     public override void Dispose()
     {
-        FLines.Dispose();
-        FItems.Dispose();
+        Lines.Dispose();
+        _items.Dispose();
         base.Dispose();
     }
 
     // AOWToolTip.pas:79
     public override void Validate()
     {
-        if (FILFrame != null)
+        if (_imageLibraryFrame != null)
         {
-            FILFrame = FILFrame.CheckIL(FILIndexFrame, 8, this);
+            _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
         }
 
-        if (FILTexture != null)
+        if (_imageLibraryTexture != null)
         {
-            FILTexture = FILTexture.CheckIL(FILIndexTexture, 1, this);
+            _imageLibraryTexture = _imageLibraryTexture.CheckImageLibrary(_imageLibraryIndexTexture, 1, this);
         }
 
-        if (FAOWOwner != null && FILFrame != null && FILTexture != null && FAOWFont != null)
+        if (_ownerComponent != null && _imageLibraryFrame != null && _imageLibraryTexture != null && _font != null)
         {
-            FValid = true;
+            Valid = true;
         }
 
         base.Validate();
@@ -76,144 +76,144 @@ public partial class ToolTip : GenericWindow
     {
         int I;
         int W;
-        bool Moved;
-        bool Done;
-        if (FOwnerItem != 0)
+        bool moved;
+        bool done;
+        if (_ownerItem != 0)
         {
-            FWinWidth = FOwnerItem;
+            _winWidth = _ownerItem;
         }
         else
         {
-            FOwnerItem = FWinWidth;
+            _ownerItem = _winWidth;
         }
 
-        var ilFrameHeight = FILFrame[FILIndexFrame];
-        var ilFrame = FILFrame[FILIndexFrame + 5];
-        if (ilFrameHeight.Height + ilFrame.Height > FWinHeight)
+        var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
+        var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+        if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > _winHeight)
         {
-            var ilFrame2 = FILFrame[FILIndexFrame];
-            var ilFrame3 = FILFrame[FILIndexFrame + 5];
-            FWinHeight = ilFrame2.Height + ilFrame3.Height;
+            var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
+            var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+            _winHeight = imageLibraryFrame2.Height + imageLibraryFrame3.Height;
         }
 
-        var ilFrameWidth = FILFrame[FILIndexFrame];
-        var ilFrame4 = FILFrame[FILIndexFrame + 2];
-        if (ilFrameWidth.Width + ilFrame4.Width > FWinWidth)
+        var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame];
+        var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+        if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > _winWidth)
         {
-            var ilFrame2 = FILFrame[FILIndexFrame];
-            var ilFrame3 = FILFrame[FILIndexFrame];
-            FWinWidth = ilFrame2.Width + ilFrame3.Width;
+            var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
+            var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame];
+            _winWidth = imageLibraryFrame2.Width + imageLibraryFrame3.Width;
         }
 
-        FLines.Clear();
+        Lines.Clear();
         I = 0;
-        int last = FItems.Count - 1;
+        int last = _items.Count - 1;
         for (; I <= last; I += 1)
         {
-            var item = FItems[I];
-            FLines.Add(item);
+            var item = _items[I];
+            Lines.Add(item);
         }
 
-        if (FLines.Count > 0)
+        if (Lines.Count > 0)
         {
             I = 0;
-            while (I < FLines.Count)
+            while (I < Lines.Count)
             {
-                Moved = false;
-                Done = true;
+                moved = false;
+                done = true;
                 while (true)
                 {
-                    bool notDone = !Done;
+                    bool notDone = !done;
                     if (!notDone)
                     {
-                        var line = FLines[I];
-                        var textWidth = FAOWFont.GetTextWidth(line);
-                        var ilFrame2 = FILFrame[3];
-                        var ilFrame3 = FILFrame[4];
-                        notDone = textWidth > FWinWidth - ilFrame2.Width - ilFrame3.Width - FBorderWidth * 2;
+                        var line = Lines[I];
+                        var textWidth = _font.GetTextWidth(line);
+                        var imageLibraryFrame2 = _imageLibraryFrame[3];
+                        var imageLibraryFrame3 = _imageLibraryFrame[4];
+                        notDone = textWidth > _winWidth - imageLibraryFrame2.Width - imageLibraryFrame3.Width - _borderWidth * 2;
                     }
 
-                    if (!(notDone && FLines[I].Length > 1))
+                    if (!(notDone && Lines[I].Length > 1))
                         break;
-                    Done = false;
-                    if (I < FLines.Count - 1)
+                    done = false;
+                    if (I < Lines.Count - 1)
                     {
-                        if (Moved == true)
+                        if (moved == true)
                         {
-                            var lineLength = FLines[I];
-                            var line = FLines[I];
-                            var line2 = FLines[I + 1];
-                            FLines[I + 1] = Copy(line, lineLength.Length, 1) + line2;
+                            var lineLength = Lines[I];
+                            var line = Lines[I];
+                            var line2 = Lines[I + 1];
+                            Lines[I + 1] = Copy(line, lineLength.Length, 1) + line2;
                         }
                         else
                         {
-                            var lineLength = FLines[I];
-                            var line = FLines[I];
-                            FLines.Insert(I + 1, Copy(line, lineLength.Length, 1));
+                            var lineLength = Lines[I];
+                            var line = Lines[I];
+                            Lines.Insert(I + 1, Copy(line, lineLength.Length, 1));
                         }
                     }
                     else
                     {
-                        var lineLength = FLines[I];
-                        var line = FLines[I];
-                        FLines.Add(Copy(line, lineLength.Length, 1));
+                        var lineLength = Lines[I];
+                        var line = Lines[I];
+                        Lines.Add(Copy(line, lineLength.Length, 1));
                     }
 
-                    var line3 = FLines[I];
-                    var line4 = FLines[I];
-                    FLines[I] = Copy(line4, 1, line3.Length - 1);
-                    Moved = true;
-                    var line5 = FLines[I];
-                    if (Copy(FLines[I], line5.Length, 1) == " ")
+                    var line3 = Lines[I];
+                    var line4 = Lines[I];
+                    Lines[I] = Copy(line4, 1, line3.Length - 1);
+                    moved = true;
+                    var line5 = Lines[I];
+                    if (Copy(Lines[I], line5.Length, 1) == " ")
                     {
-                        Done = true;
+                        done = true;
                     }
                 }
 
                 I += 1;
             }
 
-            var ilFrame5 = FILFrame[FILIndexFrame + 1];
-            var ilFrame6 = FILFrame[FILIndexFrame + 6];
-            var count = FLines.Count;
-            FWinHeight = ilFrame5.Height + ilFrame6.Height + FBorderHeight * 2 + count * FItemHeight;
-            var line6 = FLines[0];
-            W = FAOWFont.GetTextWidth(line6);
-            var ilFrame7 = FILFrame[FILIndexFrame];
-            var ilFrame8 = FILFrame[FILIndexFrame + 2];
-            if (W < FWinWidth - ilFrame7.Width - ilFrame8.Width - FBorderWidth * 2)
+            var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+            var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+            var count = Lines.Count;
+            _winHeight = imageLibraryFrame5.Height + imageLibraryFrame6.Height + _borderHeight * 2 + count * _itemHeight;
+            var line6 = Lines[0];
+            W = _font.GetTextWidth(line6);
+            var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame];
+            var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+            if (W < _winWidth - imageLibraryFrame7.Width - imageLibraryFrame8.Width - _borderWidth * 2)
             {
-                var ilFrame2 = FILFrame[FILIndexFrame];
-                var ilFrame3 = FILFrame[FILIndexFrame + 2];
-                FWinWidth = W + ilFrame2.Width + ilFrame3.Width + FBorderWidth * 2;
+                var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
+                var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                _winWidth = W + imageLibraryFrame2.Width + imageLibraryFrame3.Width + _borderWidth * 2;
             }
         }
 
-        if (FMasked)
+        if (_masked)
         {
-            FFrameLeft = FILFrame[FILIndexFrame + 3].Width;
-            var ilFrame2 = FILFrame[FILIndexFrame + 4];
-            FFrameRight = FWinWidth - ilFrame2.Width;
-            FFrameTop = FILFrame[FILIndexFrame + 1].Height;
-            var ilFrame3 = FILFrame[FILIndexFrame + 6];
-            FFrameBottom = FWinHeight - ilFrame3.Height;
+            FrameLeft = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width;
+            var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+            FrameRight = _winWidth - imageLibraryFrame2.Width;
+            FrameTop = _imageLibraryFrame[_imageLibraryIndexFrame + 1].Height;
+            var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+            FrameBottom = _winHeight - imageLibraryFrame3.Height;
         }
 
-        FWinLeft = FControlRect.Right;
-        FWinTop = FControlRect.Bottom;
-        if (FWinManager.FWinWidth < FWinLeft + FWinWidth)
+        _winLeft = ControlRectangle.Right;
+        _winTop = ControlRectangle.Bottom;
+        if (_windowManager._winWidth < _winLeft + _winWidth)
         {
-            FWinLeft = FWinManager.FWinWidth - FWinWidth;
+            _winLeft = _windowManager._winWidth - _winWidth;
         }
 
-        if (FWinTop + FWinHeight > FWinManager.FWinHeight)
+        if (_winTop + _winHeight > _windowManager._winHeight)
         {
-            FWinTop = FControlRect.Top - FWinHeight;
+            _winTop = ControlRectangle.Top - _winHeight;
         }
 
-        if (FWinTop < 0)
+        if (_winTop < 0)
         {
-            FWinTop = 0;
+            _winTop = 0;
         }
 
         base.SetSize();
@@ -223,117 +223,117 @@ public partial class ToolTip : GenericWindow
     public override void Update()
     {
         bool B;
-        B = FDoubleBuffered;
-        FDoubleBuffered = false;
+        B = _doubleBuffered;
+        _doubleBuffered = false;
         base.Update();
-        FDoubleBuffered = B;
+        _doubleBuffered = B;
     }
 
     // AOWToolTip.pas:186
-    public override void SetVisible(bool Value)
+    public override void SetVisible(bool value)
     {
-        if (Value != FVisible)
+        if (value != _visible)
         {
-            FVisible = Value;
-            if (!FVisible)
+            _visible = value;
+            if (!_visible)
             {
-                FHidden = true;
-                if (FOnHide != null)
+                Hidden = true;
+                if (_onHide != null)
                 {
-                    FOnHide(this);
+                    _onHide(this);
                 }
             }
             else
             {
-                if (FDoubleBuffered)
+                if (_doubleBuffered)
                 {
-                    FSurfaceValid = false;
+                    SurfaceValid = false;
                 }
                 else
                 {
-                    FDrawn = false;
+                    Drawn = false;
                 }
 
-                if (!FHidden)
+                if (!Hidden)
                 {
-                    FBackRect.Right = FWinWidth;
-                    FBackRect.Bottom = FWinHeight;
-                    FBackRect.Top = FWinTop;
-                    FBackRect.Left = FWinLeft;
+                    BackRectangle.Right = _winWidth;
+                    BackRectangle.Bottom = _winHeight;
+                    BackRectangle.Top = _winTop;
+                    BackRectangle.Left = _winLeft;
                 }
 
-                if (FOnShow != null)
+                if (_onShow != null)
                 {
-                    FOnShow(this);
+                    _onShow(this);
                 }
             }
 
-            if (FVisible == true)
+            if (_visible == true)
             {
-                FHidden = false;
-                SetPriority(FPriority);
+                Hidden = false;
+                SetPriority(_priority);
             }
         }
 
-        FBackRect.Right = 0;
-        FBackRect.Bottom = 0;
+        BackRectangle.Right = 0;
+        BackRectangle.Bottom = 0;
     }
 
     // AOWToolTip.pas:223
-    public override void Draw(LockedSurface SurfDesc)
+    public override void Draw(LockedSurface lockedSurface)
     {
-        Rect OldClip;
+        Rect oldClip;
         try
         {
-            if (FValid && FVisible)
+            if (Valid && _visible)
             {
-                var rect = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
-                FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
-                var ilFrameHeight = FILFrame[FILIndexFrame + 1];
-                var ilFrame = FILFrame[FILIndexFrame + 6];
-                var ilFrameWidth = FILFrame[FILIndexFrame + 3];
-                var ilFrame2 = FILFrame[FILIndexFrame + 4];
-                var ilFrame3 = FILFrame[FILIndexFrame + 1];
-                var ilFrame4 = FILFrame[FILIndexFrame + 3];
-                var rect2 = new Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
-                FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
-                FAOWFont.Color = FColor;
-                OldClip = SurfDesc.ClipRect;
-                if (FLines.Count > 0)
+                var rectangle = new Rect(_winLeft, _winTop, _winWidth, _winHeight);
+                _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
+                var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                var rectangle2 = new Rect(_winLeft + imageLibraryFrame4.Width, _winTop + imageLibraryFrame3.Height, _winWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, _winHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle2, ref lockedSurface);
+                _font.Color = Color;
+                oldClip = lockedSurface.ClipRectangle;
+                if (Lines.Count > 0)
                 {
-                    for (int I = 0, last = FLines.Count - 1; I <= last; I++)
+                    for (int I = 0, last = Lines.Count - 1; I <= last; I++)
                     {
-                        var ilFrame5 = FILFrame[FILIndexFrame + 4];
-                        if (FWinLeft + FWinWidth - ilFrame5.Width < OldClip.Right)
+                        var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                        if (_winLeft + _winWidth - imageLibraryFrame5.Width < oldClip.Right)
                         {
-                            var ilFrame6 = FILFrame[FILIndexFrame + 4];
-                            SurfDesc.ClipRect.Right = FWinLeft + FWinWidth - ilFrame6.Width;
+                            var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                            lockedSurface.ClipRectangle.Right = _winLeft + _winWidth - imageLibraryFrame6.Width;
                         }
 
-                        if (I < FLines.Count && FLines.Count > 0)
+                        if (I < Lines.Count && Lines.Count > 0)
                         {
-                            var line = FLines[I];
-                            var ilFrame6 = FILFrame[FILIndexFrame];
-                            var ilFrame7 = FILFrame[FILIndexFrame + 3];
-                            FAOWFont.SetText(FWinLeft + FBorderWidth + ilFrame7.Width, FWinTop + FBorderHeight + ilFrame6.Height + FItemHeight * I, line, SurfDesc);
-                            FItemIndex = I;
-                            var ilFrame8 = FILFrame[FILIndexFrame + 1];
-                            var ilFrame9 = FILFrame[FILIndexFrame + 1];
-                            var libraryImage = FILFrame[FILIndexFrame + 3];
-                            FItemRect = new Rect(FWinLeft + libraryImage.Width, FWinTop + ilFrame9.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + ilFrame8.Height + (I + 1) * FItemHeight);
-                            if (FOnDrawItem != null)
+                            var line = Lines[I];
+                            var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame];
+                            var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                            _font.SetText(_winLeft + _borderWidth + imageLibraryFrame7.Width, _winTop + _borderHeight + imageLibraryFrame6.Height + _itemHeight * I, line, lockedSurface);
+                            ItemIndex = I;
+                            var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                            var imageLibraryFrame9 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                            var libraryImage = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                            ItemRectangle = new Rect(_winLeft + libraryImage.Width, _winTop + imageLibraryFrame9.Height + _itemHeight * I, _winLeft + _winWidth, _winTop + imageLibraryFrame8.Height + (I + 1) * _itemHeight);
+                            if (_onDrawItem != null)
                             {
-                                FOnDrawItem(this);
+                                _onDrawItem(this);
                             }
                         }
 
-                        SurfDesc.ClipRect = OldClip;
+                        lockedSurface.ClipRectangle = oldClip;
                     }
                 }
 
-                if (FOnDraw != null)
+                if (_onDraw != null)
                 {
-                    FOnDraw(this, SurfDesc);
+                    _onDraw(this, lockedSurface);
                 }
             }
         }
@@ -344,148 +344,148 @@ public partial class ToolTip : GenericWindow
     }
 
     // AOWToolTip.pas:266
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        FShowing = false;
+        Showing = false;
         SetVisible(false);
     }
 
     // AOWToolTip.pas:172
-    public void SetFStrings(StringList Value)
+    public void SetFStrings(StringList value)
     {
-        FLines.Clear();
-        FItems.Clear();
-        for (int I = 0, last = Value.Count - 1; I <= last; I++)
+        Lines.Clear();
+        _items.Clear();
+        for (int I = 0, last = value.Count - 1; I <= last; I++)
         {
-            var valueValue = Value[I];
-            FLines.Add(valueValue);
-            var valueValue2 = Value[I];
-            FItems.Add(valueValue2);
+            var valueValue = value[I];
+            Lines.Add(valueValue);
+            var valueValue2 = value[I];
+            _items.Add(valueValue2);
         }
 
-        FSized = false;
+        Sized = false;
     }
 
     [Published]
-    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont Font { get => _font; set => _font = value; }
 
     [Published]
-    public StringList Items { get => FItems; set => SetFStrings(value); }
+    public StringList Items { get => _items; set => SetFStrings(value); }
 
     [Published]
-    public NotifyEvent<ToolTip> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+    public NotifyEvent<ToolTip> OnDrawItem { get => _onDrawItem; set => _onDrawItem = value; }
 
     [Published]
-    public bool ToolTipStatic { get => FToolTipStatic; set => FToolTipStatic = value; }
+    public bool ToolTipStatic { get => _toolTipStatic; set => _toolTipStatic = value; }
 
     [Published]
-    public int ToolTipDelay { get => FToolTipDelay; set => FToolTipDelay = value; }
+    public int ToolTipDelay { get => _toolTipDelay; set => _toolTipDelay = value; }
 
     [Published]
-    public int ShowDuration { get => FShowDuration; set => FShowDuration = value; }
+    public int ShowDuration { get => _showDuration; set => _showDuration = value; }
 
     [Published]
-    public int ItemHeight { get => FItemHeight; set => FItemHeight = value; }
+    public int ItemHeight { get => _itemHeight; set => _itemHeight = value; }
 
     public new NotifyEvent<ToolTip> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<ToolTip> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<ToolTip> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<ToolTip> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<ToolTip> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<ToolTip> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<ToolTip> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<ToolTip> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<ToolTip> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 
     public new AoWOnDrawBackEvent<ToolTip> OnDrawBack
     {
-        get => EventSlot.Get(this, FOnDrawBack);
-        set => EventSlot.Set(this, ref FOnDrawBack, value);
+        get => EventSlot.Get(this, _onDrawBack);
+        set => EventSlot.Set(this, ref _onDrawBack, value);
     }
 
     public new NotifyEvent<ToolTip> OnEnter
     {
-        get => EventSlot.Get(this, FOnEnter);
-        set => EventSlot.Set(this, ref FOnEnter, value);
+        get => EventSlot.Get(this, _onEnter);
+        set => EventSlot.Set(this, ref _onEnter, value);
     }
 
     public new NotifyEvent<ToolTip> OnExit
     {
-        get => EventSlot.Get(this, FOnExit);
-        set => EventSlot.Set(this, ref FOnExit, value);
+        get => EventSlot.Get(this, _onExit);
+        set => EventSlot.Set(this, ref _onExit, value);
     }
 
     public new NotifyEvent<ToolTip> OnChangeCursor
     {
-        get => EventSlot.Get(this, FOnChangeCursor);
-        set => EventSlot.Set(this, ref FOnChangeCursor, value);
+        get => EventSlot.Get(this, _onChangeCursor);
+        set => EventSlot.Set(this, ref _onChangeCursor, value);
     }
 
     public new AoWOnDrawSurface<ToolTip> OnDrawSurface
     {
-        get => EventSlot.Get(this, FOnDrawSurface);
-        set => EventSlot.Set(this, ref FOnDrawSurface, value);
+        get => EventSlot.Get(this, _onDrawSurface);
+        set => EventSlot.Set(this, ref _onDrawSurface, value);
     }
 
     public new AoWOnDrawSurface<ToolTip> OnPreDrawSurface
     {
-        get => EventSlot.Get(this, FOnPreDrawSurface);
-        set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
+        get => EventSlot.Get(this, _onPreDrawSurface);
+        set => EventSlot.Set(this, ref _onPreDrawSurface, value);
     }
 
     public new NotifyEvent<ToolTip> OnHide
     {
-        get => EventSlot.Get(this, FOnHide);
-        set => EventSlot.Set(this, ref FOnHide, value);
+        get => EventSlot.Get(this, _onHide);
+        set => EventSlot.Set(this, ref _onHide, value);
     }
 
     public new NotifyEvent<ToolTip> OnShow
     {
-        get => EventSlot.Get(this, FOnShow);
-        set => EventSlot.Set(this, ref FOnShow, value);
+        get => EventSlot.Get(this, _onShow);
+        set => EventSlot.Set(this, ref _onShow, value);
     }
 }

@@ -9,64 +9,64 @@ namespace Aow.Game.Audio;
 // FID. A sound effect: its children are TSFX, one of them plays (at random)
 public partial class SfxSequence : ENode
 {
-    public new const int ClassID = 2162690;
+    public new const int ClassId = 2162690;
 
     public SfxSequence(ECustomNode owner) : base(owner)
     { }
 
-    internal int FID;
+    internal int _id;
 
     // Sound.pas:1057
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FID, 5);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref _id, 5);
     }
 
     // Sound.pas:1052
-    public Sfx GetSFX(int Index) => (Sfx)this.FChildren.List[Index];
+    public Sfx GetSfx(int index) => (Sfx)this._children.List[index];
 
     // Sound.pas:1063
     public Sample Play()
     {
-        Sample Result;
-        if (this.FChildren.Count != 0)
+        Sample result;
+        if (this._children.Count != 0)
         {
-            var random = Random(this.FChildren.Count);
-            Result = ((Sfx)this.FChildren.List[random]).Play();
+            var random = Random(this._children.Count);
+            result = ((Sfx)this._children.List[random]).Play();
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Sound.pas:1071
-    public Sample PlayEx(int Volume, bool Looped, int Delay, SamplePanning Panning, SampleCallBack CallBack)
+    public Sample Play(int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback)
     {
-        Sample Result = default;
-        if (this.FChildren.Count != 0)
+        Sample result = default;
+        if (this._children.Count != 0)
         {
-            var random = Random(this.FChildren.Count);
-            Result = ((Sfx)this.FChildren.List[random]).PlayEx(Volume, Looped, Delay, Panning, CallBack);
+            var random = Random(this._children.Count);
+            result = ((Sfx)this._children.List[random]).Play(volume, looped, delay, panning, callback);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
-    public int ID { get => FID; set => FID = value; }
+    public int Id { get => _id; set => _id = value; }
 
     public sealed class SfxAccessor(SfxSequence target)
     {
-        public Sfx this[int Index] { get => target.GetSFX(Index); }
+        public Sfx this[int index] { get => target.GetSfx(index); }
     }
 
-    public SfxAccessor SFX => new SfxAccessor(this);
+    public SfxAccessor Sfx => new SfxAccessor(this);
 
 }

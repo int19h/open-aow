@@ -15,178 +15,178 @@ public partial class GenericWindow : BaseWindow
     // AoWWinGeneric.pas:39
     public override void Dispose()
     {
-        (FBuffer as IDisposable)?.Dispose();
+        (Buffer as IDisposable)?.Dispose();
         base.Dispose();
     }
 
     // AoWWinGeneric.pas:45
-    public override void SetOwner(UIComponent Value)
+    public override void SetOwner(UIComponent value)
     {
-        base.SetOwner(Value);
-        FWinManager = (WindowManager)FAOWOwner;
+        base.SetOwner(value);
+        _windowManager = (WindowManager)_ownerComponent;
     }
 
     // AoWWinGeneric.pas:51
-    public void SetCursor(int Value)
+    public void SetCursor(int value)
     {
-        if (Value != FCursor)
+        if (value != _cursor)
         {
-            FCursor = Value;
-            FWindowCursor = Value;
-            if (FOnChangeCursor != null)
+            _cursor = value;
+            WindowCursor = value;
+            if (_onChangeCursor != null)
             {
-                FOnChangeCursor(this);
+                _onChangeCursor(this);
             }
         }
     }
 
     // AoWWinGeneric.pas:62
-    public void SetBuffer(bool Value)
+    public void SetBuffer(bool value)
     {
-        if (Value != FDoubleBuffered)
+        if (value != _doubleBuffered)
         {
-            FDrawn = false;
-            FDoubleBuffered = Value;
-            if (!FDoubleBuffered)
+            Drawn = false;
+            _doubleBuffered = value;
+            if (!_doubleBuffered)
             {
-                if (FBackSurface != null)
+                if (BackSurface != null)
                 {
-                    FBackSurface?.Dispose();
-                    FBackSurface = null;
+                    BackSurface?.Dispose();
+                    BackSurface = null;
                 }
             }
         }
     }
 
     [Published]
-    public WindowManager WinManager { get => FWinManager; set => SetManager(value); }
+    public WindowManager WindowManager { get => _windowManager; set => SetManager(value); }
 
     [Published]
-    public bool UseVMem { get => FUseVMem; set => FUseVMem = value; }
+    public bool UseVideoMemory { get => _useVideoMemory; set => _useVideoMemory = value; }
 
     [Published]
-    public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
+    public int BorderWidth { get => _borderWidth; set => _borderWidth = value; }
 
     [Published]
-    public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
+    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
 
     [Published]
-    public bool OverlapTopCorners { get => FOverlapTopCorners; set => SetOverlap(value); }
+    public bool OverlapTopCorners { get => _overlapTopCorners; set => SetOverlap(value); }
 
     [Published]
-    public int Cursor { get => FCursor; set => SetCursor(value); }
+    public int Cursor { get => _cursor; set => SetCursor(value); }
 
     [Published]
-    public bool DoubleBuffered { get => FDoubleBuffered; set => SetBuffer(value); }
+    public bool DoubleBuffered { get => _doubleBuffered; set => SetBuffer(value); }
 
     [Published]
     public NotifyEvent<GenericWindow> OnChangeCursor
     {
-        get => EventSlot.Get(this, FOnChangeCursor);
-        set => EventSlot.Set(this, ref FOnChangeCursor, value);
+        get => EventSlot.Get(this, _onChangeCursor);
+        set => EventSlot.Set(this, ref _onChangeCursor, value);
     }
 
     [Published]
-    public int MaskColor { get => FMaskColor; set => FMaskColor = value; }
+    public int MaskColor { get => _maskColor; set => _maskColor = value; }
 
     [Published]
     public AoWOnDrawSurface<GenericWindow> OnDrawSurface
     {
-        get => EventSlot.Get(this, FOnDrawSurface);
-        set => EventSlot.Set(this, ref FOnDrawSurface, value);
+        get => EventSlot.Get(this, _onDrawSurface);
+        set => EventSlot.Set(this, ref _onDrawSurface, value);
     }
 
     [Published]
     public AoWOnDrawSurface<GenericWindow> OnPreDrawSurface
     {
-        get => EventSlot.Get(this, FOnPreDrawSurface);
-        set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
+        get => EventSlot.Get(this, _onPreDrawSurface);
+        set => EventSlot.Set(this, ref _onPreDrawSurface, value);
     }
 
     [Published]
-    public bool FreeSurfaceOnHide { get => FFreeSurfaceOnHide; set => FFreeSurfaceOnHide = value; }
+    public bool FreeSurfaceOnHide { get => _freeSurfaceOnHide; set => _freeSurfaceOnHide = value; }
 
     public new NotifyEvent<GenericWindow> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<GenericWindow> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<GenericWindow> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<GenericWindow> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<GenericWindow> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<GenericWindow> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<GenericWindow> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<GenericWindow> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<GenericWindow> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 
     public new AoWOnDrawBackEvent<GenericWindow> OnDrawBack
     {
-        get => EventSlot.Get(this, FOnDrawBack);
-        set => EventSlot.Set(this, ref FOnDrawBack, value);
+        get => EventSlot.Get(this, _onDrawBack);
+        set => EventSlot.Set(this, ref _onDrawBack, value);
     }
 
     public new NotifyEvent<GenericWindow> OnEnter
     {
-        get => EventSlot.Get(this, FOnEnter);
-        set => EventSlot.Set(this, ref FOnEnter, value);
+        get => EventSlot.Get(this, _onEnter);
+        set => EventSlot.Set(this, ref _onEnter, value);
     }
 
     public new NotifyEvent<GenericWindow> OnExit
     {
-        get => EventSlot.Get(this, FOnExit);
-        set => EventSlot.Set(this, ref FOnExit, value);
+        get => EventSlot.Get(this, _onExit);
+        set => EventSlot.Set(this, ref _onExit, value);
     }
 
     public new NotifyEvent<GenericWindow> OnHide
     {
-        get => EventSlot.Get(this, FOnHide);
-        set => EventSlot.Set(this, ref FOnHide, value);
+        get => EventSlot.Get(this, _onHide);
+        set => EventSlot.Set(this, ref _onHide, value);
     }
 
     public new NotifyEvent<GenericWindow> OnShow
     {
-        get => EventSlot.Get(this, FOnShow);
-        set => EventSlot.Set(this, ref FOnShow, value);
+        get => EventSlot.Get(this, _onShow);
+        set => EventSlot.Set(this, ref _onShow, value);
     }
 }

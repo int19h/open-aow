@@ -20,204 +20,204 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
     // state, casting heroes, idle heroes, pending hero IDs, candidate actions
     public CastSpellAIPlayerAction(ECustomNode owner) : base(owner)
     {
-        FCastingHeroes = new Int32List();
-        FIdleHeroes = new Int32List();
-        FPendingHeroes = new Int32List();
-        FCastSpellActions = new AICastSpellActionList(null);
+        CastingHeroes = new Int32List();
+        IdleHeroes = new Int32List();
+        PendingHeroes = new Int32List();
+        CastSpellActions = new AICastSpellActionList(null);
     }
 
-    public int FState;
-    public Int32List FCastingHeroes;
-    public Int32List FIdleHeroes;
-    public Int32List FPendingHeroes;
-    public AICastSpellActionList FCastSpellActions;
+    public int State;
+    public Int32List CastingHeroes;
+    public Int32List IdleHeroes;
+    public Int32List PendingHeroes;
+    public AICastSpellActionList CastSpellActions;
 
     // Spells.PAS:1551
     public override void Dispose()
     {
-        FIdleHeroes?.Dispose();
-        FCastingHeroes?.Dispose();
-        FPendingHeroes?.Dispose();
-        FCastSpellActions?.Dispose();
+        IdleHeroes?.Dispose();
+        CastingHeroes?.Dispose();
+        PendingHeroes?.Dispose();
+        CastSpellActions?.Dispose();
         base.Dispose();
     }
 
     // Spells.PAS:1561
     public override bool Activate()
     {
-        Player Player;
-        Hero Hero;
-        bool Result = base.Activate();
-        Player = FControl.FPlayer;
-        if (Player.FPlayerIndex != 0)
+        Player player;
+        Hero hero;
+        bool result = base.Activate();
+        player = Control.Player;
+        if (player.PlayerIndex != 0)
         {
-            FState = 0;
-            for (int I = 0, last = Player.FHeroes.GetCount() - 1; I <= last; I++)
+            State = 0;
+            for (int I = 0, last = player.Heroes.GetCount() - 1; I <= last; I++)
             {
-                Hero = Player.FHeroes.GetHero(I);
-                if (Hero.GetAbilityEnabled(52) && Hero.Owner != null)
+                hero = player.Heroes.GetHero(I);
+                if (hero.GetAbilityEnabled(52) && hero.Owner != null)
                 {
-                    if (Hero.FCastingSpellID == 0)
+                    if (hero.CastingSpellId == 0)
                     {
-                        FIdleHeroes.Add(Hero.FUnitID);
+                        IdleHeroes.Add(hero.UnitId);
                     }
                     else
                     {
-                        FCastingHeroes.Add(Hero.FUnitID);
+                        CastingHeroes.Add(hero.UnitId);
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:1678
     public override bool Process()
     {
-        bool Result;
-        Player Player;
-        Player = FControl.FPlayer;
-        if (Player.FPlayerIndex != 0)
+        bool result;
+        Player player;
+        player = Control.Player;
+        if (player.PlayerIndex != 0)
         {
-            while (FState != -1 && AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 0 && !Player.GetBusy())
+            while (State != -1 && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && !player.GetBusy())
             {
                 ProcessStates();
             }
 
-            Result = FState != -1;
+            result = State != -1;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:1581
-    public void PrefetchCastSpellActions(Hero Hero)
+    public void PrefetchCastSpellActions(Hero hero)
     {
-        SpellList Spells;
-        Spells = new SpellList();
-        FControl.FPlayer.FMagicControl.ListSpells(ref Spells, Set<SpellType>.Of(SpellType.Unit, SpellType.Global));
-        for (int I = 0, last = Spells.GetCount() - 1; I <= last; I++)
+        SpellList spells;
+        spells = new SpellList();
+        Control.Player.MagicControl.ListSpells(ref spells, Set<SpellType>.Of(SpellType.Unit, SpellType.Global));
+        for (int I = 0, last = spells.GetCount() - 1; I <= last; I++)
         {
-            if (Hero.CastingTurns(Spells.GetSpell(I)) < 8)
+            if (hero.CastingTurns(spells.GetSpell(I)) < 8)
             {
-                Spells.GetSpell(I).AIPrefetchCastSpellActions(Hero, FCastSpellActions);
+                spells.GetSpell(I).AIPrefetchCastSpellActions(hero, CastSpellActions);
             }
         }
 
-        Spells?.Dispose();
+        spells?.Dispose();
     }
 
     // Spells.PAS:1593
     public int CastingHeroesMax()
     {
-        Player Player;
-        Player = FControl.FPlayer;
-        return Player.FMagicControl.FMana / 250 + 1;
+        Player player;
+        player = Control.Player;
+        return player.MagicControl.Mana / 250 + 1;
     }
 
     // Spells.PAS:1600
     public void ProcessStates()
     {
-        Hero Hero;
-        bool Done;
+        Hero hero;
+        bool done;
         int I;
-        int Index;
-        switch (FState)
+        int index;
+        switch (State)
         {
             case 0:
-                if (FCastingHeroes.Count != 0)
+                if (CastingHeroes.Count != 0)
                 {
-                    FPendingHeroes.Assign(FCastingHeroes);
-                    FState += 1;
+                    PendingHeroes.Assign(CastingHeroes);
+                    State += 1;
                 }
                 else
                 {
-                    FState = 2;
+                    State = 2;
                 }
 
                 break;
             case 1:
-                if (FPendingHeroes.Count != 0)
+                if (PendingHeroes.Count != 0)
                 {
-                    Done = false;
-                    var item = FPendingHeroes[0];
-                    Hero = AoWHSMap.Current.FUnitControl.FindUnit<Hero>(item);
-                    if (Hero != null && Hero.Owner != null && (((byte)Hero.FUnitStatus.Image) & 16) == 0)
+                    done = false;
+                    var item = PendingHeroes[0];
+                    hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(item);
+                    if (hero != null && hero.Owner != null && (((byte)hero.UnitStatus.Image) & 16) == 0)
                     {
-                        if (Hero.FCastingSpellID != 0)
+                        if (hero.CastingSpellId != 0)
                         {
-                            Done = AoWHSSet.Current.FSpellControl.GetSpell(Hero.FCastingSpellID).AIExecuteCastSpellAction(Hero);
+                            done = AoWHSSet.Current.SpellControl.GetSpell(hero.CastingSpellId).AIExecuteCastSpellAction(hero);
                         }
 
-                        if (!Done)
+                        if (!done)
                         {
-                            FIdleHeroes.Add(Hero.FUnitID);
-                            FCastingHeroes.Remove(Hero.FUnitID);
-                            Hero.ExecuteCancelCasting();
+                            IdleHeroes.Add(hero.UnitId);
+                            CastingHeroes.Remove(hero.UnitId);
+                            hero.ExecuteCancelCasting();
                         }
                     }
 
-                    FPendingHeroes.Delete(0);
+                    PendingHeroes.Delete(0);
                 }
                 else
                 {
-                    FState += 1;
+                    State += 1;
                 }
 
                 break;
             case 2:
                 var castingHeroesMax = CastingHeroesMax();
-                if (FCastingHeroes.Count < castingHeroesMax && FIdleHeroes.Count != 0)
+                if (CastingHeroes.Count < castingHeroesMax && IdleHeroes.Count != 0)
                 {
-                    FPendingHeroes.Assign(FIdleHeroes);
-                    FCastSpellActions.Clear();
-                    FState += 1;
+                    PendingHeroes.Assign(IdleHeroes);
+                    CastSpellActions.Clear();
+                    State += 1;
                 }
                 else
                 {
-                    FState = -1;
+                    State = -1;
                 }
 
                 break;
             case 3:
-                if (FPendingHeroes.Count != 0)
+                if (PendingHeroes.Count != 0)
                 {
-                    var item = FPendingHeroes[0];
-                    Hero = AoWHSMap.Current.FUnitControl.FindUnit<Hero>(item);
-                    if (Hero != null && (((byte)Hero.FUnitStatus.Image) & 16) == 0)
+                    var item = PendingHeroes[0];
+                    hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(item);
+                    if (hero != null && (((byte)hero.UnitStatus.Image) & 16) == 0)
                     {
-                        PrefetchCastSpellActions(Hero);
+                        PrefetchCastSpellActions(hero);
                     }
 
-                    FPendingHeroes.Delete(0);
+                    PendingHeroes.Delete(0);
                 }
                 else
                 {
-                    FState += 1;
+                    State += 1;
                 }
 
                 break;
             case 4:
-                if (FCastSpellActions.GetCount() != 0)
+                if (CastSpellActions.GetCount() != 0)
                 {
-                    FCastSpellActions.SortOnPriority();
-                    Done = false;
-                    while (!Done && FCastSpellActions.GetCount() != 0)
+                    CastSpellActions.SortOnPriority();
+                    done = false;
+                    while (!done && CastSpellActions.GetCount() != 0)
                     {
                         I = 0;
                         while (true)
                         {
-                            bool condition = I < FCastSpellActions.GetCount();
+                            bool condition = I < CastSpellActions.GetCount();
                             if (condition)
                             {
-                                var castSpellActions = FCastSpellActions.GetCastSpellActions(I);
-                                var fCastSpellActionsCastSpellActions = FCastSpellActions.GetCastSpellActions(0);
-                                condition = (double)castSpellActions.FPriority >= (double)fCastSpellActionsCastSpellActions.FPriority * 0.75;
+                                var castSpellActions = CastSpellActions.GetCastSpellActions(I);
+                                var fCastSpellActionsCastSpellActions = CastSpellActions.GetCastSpellActions(0);
+                                condition = (double)castSpellActions.Priority >= (double)fCastSpellActionsCastSpellActions.Priority * 0.75;
                             }
 
                             if (!condition)
@@ -225,35 +225,35 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                             I += 1;
                         }
 
-                        Index = AoWHSMap.Current.Random(I);
-                        var castSpellActions2 = FCastSpellActions.GetCastSpellActions(Index);
-                        Hero = AoWHSMap.Current.FUnitControl.FindUnit<Hero>(castSpellActions2.FSourceUnitID);
-                        if (Hero != null && (((byte)Hero.FUnitStatus.Image) & 16) == 0)
+                        index = AoWHSMap.Current.Random(I);
+                        var castSpellActions2 = CastSpellActions.GetCastSpellActions(index);
+                        hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(castSpellActions2.SourceUnitId);
+                        if (hero != null && (((byte)hero.UnitStatus.Image) & 16) == 0)
                         {
-                            var castSpellActions = FCastSpellActions.GetCastSpellActions(Index);
-                            if (AoWHSSet.Current.FSpellControl.GetSpell(castSpellActions.FSpellID).AIExecuteCastSpellAction(Hero))
+                            var castSpellActions = CastSpellActions.GetCastSpellActions(index);
+                            if (AoWHSSet.Current.SpellControl.GetSpell(castSpellActions.SpellId).AIExecuteCastSpellAction(hero))
                             {
-                                FCastingHeroes.Add(Hero.FUnitID);
-                                FIdleHeroes.Remove(Hero.FUnitID);
-                                Done = true;
+                                CastingHeroes.Add(hero.UnitId);
+                                IdleHeroes.Remove(hero.UnitId);
+                                done = true;
                             }
                         }
 
-                        FCastSpellActions.GetCastSpellActions(Index)?.Dispose();
+                        CastSpellActions.GetCastSpellActions(index)?.Dispose();
                     }
 
-                    if (Done)
+                    if (done)
                     {
-                        FState = 2;
+                        State = 2;
                     }
                     else
                     {
-                        FState = -1;
+                        State = -1;
                     }
                 }
                 else
                 {
-                    FState = -1;
+                    State = -1;
                 }
 
                 break;

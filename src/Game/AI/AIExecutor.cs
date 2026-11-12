@@ -22,160 +22,160 @@ public partial class AIExecutor : EngineObject
     // AI.pas:559
     public AIExecutor(ECustomNode owner) : base(owner)
     {
-        FPlayers = new ByteList();
-        FPlayer = -1;
-        FProcessTimeMode = ProcessTimeMode.Static;
-        FProcessTime = 5000;
-        FTokenCycles = 5;
+        Players = new ByteList();
+        Player = -1;
+        ProcessTimeMode = AIExecutorProcessTimeMode.Static;
+        ProcessTime = 5000;
+        TokenCycles = 5;
     }
 
-    public int FProcessCycles;
-    public ByteList FPlayers;
-    public sbyte FPlayer;
-    public int FPlayerProcessCycles;
-    public Set<AIExecutorStatusElement> FStatus;
-    public bool FTokenControlDone;
-    public ProcessTimeMode FProcessTimeMode;
-    public int FProcessTime;
-    public int FProcessTimeUsed;
-    public int FProcessStarted;
-    public int FTokenCycles;
-    public int FTokenCycle;
-    public int FLockCount;
+    public int ProcessCycles;
+    public ByteList Players;
+    public sbyte Player;
+    public int PlayerProcessCycles;
+    public Set<AIExecutorStatusElement> Status;
+    public bool TokenControlDone;
+    public AIExecutorProcessTimeMode ProcessTimeMode;
+    public int ProcessTime;
+    public int ProcessTimeUsed;
+    public int ProcessStarted;
+    public int TokenCycles;
+    public int TokenCycle;
+    public int LockCount;
 
     // AI.pas:569
     public override void Dispose()
     {
-        FPlayers?.Dispose();
+        Players?.Dispose();
         base.Dispose();
     }
 
     // AI.pas:575
-    public bool RequestProcessTime(int Time)
+    public bool RequestProcessTime(int time)
     {
-        bool Result;
-        int Used;
-        switch (FProcessTimeMode)
+        bool result;
+        int used;
+        switch (ProcessTimeMode)
         {
-            case ProcessTimeMode.Static:
-                Used = FProcessTimeUsed;
-                if (Used != 0)
+            case AIExecutorProcessTimeMode.Static:
+                used = ProcessTimeUsed;
+                if (used != 0)
                 {
-                    Result = Time <= FProcessTime - Used;
+                    result = time <= ProcessTime - used;
                 }
                 else
                 {
-                    Result = true;
+                    result = true;
                 }
 
                 break;
-            case ProcessTimeMode.Dynamic:
-                if (FProcessTimeUsed != 0)
+            case AIExecutorProcessTimeMode.Dynamic:
+                if (ProcessTimeUsed != 0)
                 {
-                    Result = Time < GetProcessTimeLeft();
+                    result = time < GetProcessTimeLeft();
                 }
                 else
                 {
-                    Result = true;
+                    result = true;
                 }
 
                 break;
             default:
-                Result = false;
+                result = false;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:593
     public int GetProcessTimeLeft()
     {
-        int Result;
-        switch (FProcessTimeMode)
+        int result;
+        switch (ProcessTimeMode)
         {
-            case ProcessTimeMode.Static:
-                Result = FProcessTime - FProcessTimeUsed;
+            case AIExecutorProcessTimeMode.Static:
+                result = ProcessTime - ProcessTimeUsed;
                 break;
-            case ProcessTimeMode.Dynamic:
+            case AIExecutorProcessTimeMode.Dynamic:
                 // { Original behavior: the millisecond delta is multiplied by 1000. }
-                var elapsedMilliSeconds = PixelFormats.GetElapsedMilliSeconds();
-                Result = FProcessTime - (elapsedMilliSeconds - FProcessStarted) * 1000;
+                var elapsedMilliseconds = PixelFormats.GetElapsedMilliseconds();
+                result = ProcessTime - (elapsedMilliseconds - ProcessStarted) * 1000;
                 break;
             default:
-                Result = -1;
+                result = -1;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:603
     public int GetProcessTimeElapsed()
     {
-        int Result;
-        switch (FProcessTimeMode)
+        int result;
+        switch (ProcessTimeMode)
         {
-            case ProcessTimeMode.Static:
-                Result = FProcessTimeUsed;
+            case AIExecutorProcessTimeMode.Static:
+                result = ProcessTimeUsed;
                 break;
-            case ProcessTimeMode.Dynamic:
-                Result = (PixelFormats.GetElapsedMilliSeconds() - FProcessStarted) * 1000;
+            case AIExecutorProcessTimeMode.Dynamic:
+                result = (PixelFormats.GetElapsedMilliseconds() - ProcessStarted) * 1000;
                 break;
             default:
-                Result = -1;
+                result = -1;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:617
-    public bool ActivatePlayer(sbyte Player)
+    public bool ActivatePlayer(sbyte player)
     {
-        bool Result;
-        if (FPlayers.IndexOf((byte)Player) == -1)
+        bool result;
+        if (Players.IndexOf((byte)player) == -1)
         {
-            FPlayers.Add((byte)Player);
-            FStatus = FStatus + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Enabled);
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).FAIControl.Activate(this);
-            if (FPlayer == -1)
+            Players.Add((byte)player);
+            Status = Status + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Enabled);
+            AoWHSMap.Current.Players.GetPlayers(player).AIControl.Activate(this);
+            if (Player == -1)
             {
-                FPlayer = Player;
+                Player = player;
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:630
-    public void DeactivatePlayer(sbyte Player)
+    public void DeactivatePlayer(sbyte player)
     {
-        if (FPlayers.IndexOf((byte)Player) != -1)
+        if (Players.IndexOf((byte)player) != -1)
         {
-            FPlayers.Remove((byte)Player);
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).FAIControl.Deactivate();
-            if (FPlayers.Count == 0)
+            Players.Remove((byte)player);
+            AoWHSMap.Current.Players.GetPlayers(player).AIControl.Deactivate();
+            if (Players.Count == 0)
             {
-                FPlayer = -1;
-                FStatus = FStatus - Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Enabled);
+                Player = -1;
+                Status = Status - Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Enabled);
             }
         }
     }
 
     // AI.pas:644
-    public void TokenControlDoneEvent(object Sender)
+    public void TokenControlDoneEvent(object sender)
     {
-        if (FStatus.Contains(AIExecutorStatusElement.Enabled) && AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous)
+        if (Status.Contains(AIExecutorStatusElement.Enabled) && AoWHSMap.Current.PlayMode == PlayMode.Simultaneous)
         {
-            FTokenControlDone = true;
-            if (AoWHSMap.Current.FCurrentPlayer == 0 && AoWHSMap.Current.FCombatMap == null)
+            TokenControlDone = true;
+            if (AoWHSMap.Current.CurrentPlayer == 0 && AoWHSMap.Current.CombatMap == null)
             {
                 CaptureTokenCycles(5);
             }
@@ -185,79 +185,79 @@ public partial class AIExecutor : EngineObject
     // AI.pas:654
     public void Lock()
     {
-        FLockCount += 1;
+        LockCount += 1;
     }
 
     // AI.pas:659
     public void Unlock()
     {
-        Assert(FLockCount != 0, "", "AI.pas", 931);
-        FLockCount -= 1;
+        Assert(LockCount != 0, "", "AI.pas", 931);
+        LockCount -= 1;
     }
 
     // AI.pas:935
-    public void CaptureTokenCycles(int Cycles)
+    public void CaptureTokenCycles(int cycles)
     {
-        Assert(!FStatus.Contains(AIExecutorStatusElement.TokenLocked), "", "AI.pas", 937);
-        FStatus = FStatus + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
-        AoWHSMap.Current.FTokenManager.TokenExecuter.Lock();
-        FTokenCycle = 0;
-        FTokenCycles = Cycles;
+        Assert(!Status.Contains(AIExecutorStatusElement.TokenLocked), "", "AI.pas", 937);
+        Status = Status + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
+        AoWHSMap.Current.TokenManager.TokenExecutor.Lock();
+        TokenCycle = 0;
+        TokenCycles = cycles;
     }
 
     // AI.pas:944
     public void TokenCyclesCaptured()
     {
-        Assert(FStatus.Contains(AIExecutorStatusElement.TokenLocked), "", "AI.pas", 947);
-        FStatus = FStatus - Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
-        AoWHSMap.Current.FTokenManager.TokenExecuter.Unlock();
+        Assert(Status.Contains(AIExecutorStatusElement.TokenLocked), "", "AI.pas", 947);
+        Status = Status - Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
+        AoWHSMap.Current.TokenManager.TokenExecutor.Unlock();
     }
 
     // AI.pas:952
     public void Process()
     {
-        bool Done;
+        bool done;
         int I;
-        int Index;
-        if (FStatus.Contains(AIExecutorStatusElement.Enabled) && FLockCount == 0)
+        int index;
+        if (Status.Contains(AIExecutorStatusElement.Enabled) && LockCount == 0)
         {
-            FStatus = FStatus + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
-            AoWHSMap.Current.SynchroniseBegin();
-            FProcessTimeUsed = 0;
-            if (FProcessTimeMode == ProcessTimeMode.Dynamic)
+            Status = Status + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
+            AoWHSMap.Current.SynchronizeBegin();
+            ProcessTimeUsed = 0;
+            if (ProcessTimeMode == AIExecutorProcessTimeMode.Dynamic)
             {
-                FProcessStarted = PixelFormats.GetElapsedMilliSeconds();
+                ProcessStarted = PixelFormats.GetElapsedMilliseconds();
             }
             else
             {
-                FProcessStarted = 0;
+                ProcessStarted = 0;
             }
 
             try
             {
-                switch (AoWHSMap.Current.FPlayMode)
+                switch (AoWHSMap.Current.PlayMode)
                 {
                     case PlayMode.Turn:
-                        if (!AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy() && AoWHSMap.Current.FTokenManager.PlayerReady(FPlayer))
+                        if (!AoWHSMap.Current.Players.GetPlayers(Player).GetBusy() && AoWHSMap.Current.TokenManager.PlayerReady(Player))
                         {
-                            FProcessCycles += 1;
-                            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIControl.Process(this, FTokenControlDone);
-                            FTokenControlDone = false;
+                            ProcessCycles += 1;
+                            AoWHSMap.Current.Players.GetPlayers(Player).AIControl.Process(this, TokenControlDone);
+                            TokenControlDone = false;
                         }
 
                         break;
                     case PlayMode.Simultaneous:
-                        if (FStatus.Contains(AIExecutorStatusElement.TokenLocked))
+                        if (Status.Contains(AIExecutorStatusElement.TokenLocked))
                         {
-                            FProcessCycles += 1;
-                            Done = false;
+                            ProcessCycles += 1;
+                            done = false;
                             I = 0;
-                            while (!Done && GetProcessTimeLeft() > 0 && FStatus.Contains(AIExecutorStatusElement.Enabled) && I < FPlayers.Count)
+                            while (!done && GetProcessTimeLeft() > 0 && Status.Contains(AIExecutorStatusElement.Enabled) && I < Players.Count)
                             {
-                                Done = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIControl.Process(this, FTokenControlDone);
-                                if (Done)
+                                done = AoWHSMap.Current.Players.GetPlayers(Player).AIControl.Process(this, TokenControlDone);
+                                if (done)
                                 {
-                                    FPlayerProcessCycles += 1;
+                                    PlayerProcessCycles += 1;
                                     I = 0;
                                 }
                                 else
@@ -265,24 +265,24 @@ public partial class AIExecutor : EngineObject
                                     I += 1;
                                 }
 
-                                FTokenControlDone = false;
-                                if (!Done || AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIControl.GetProcessCyclesMax() <= FPlayerProcessCycles)
+                                TokenControlDone = false;
+                                if (!done || AoWHSMap.Current.Players.GetPlayers(Player).AIControl.GetProcessCyclesMax() <= PlayerProcessCycles)
                                 {
-                                    Index = FPlayers.IndexOf((byte)FPlayer);
-                                    Index += 1;
-                                    FPlayerProcessCycles = 0;
+                                    index = Players.IndexOf((byte)Player);
+                                    index += 1;
+                                    PlayerProcessCycles = 0;
                                     // { Original behavior: Index = Count is not wrapped here. }
-                                    if (Index > FPlayers.Count)
+                                    if (index > Players.Count)
                                     {
-                                        Index = 0;
+                                        index = 0;
                                     }
 
-                                    FPlayer = (sbyte)FPlayers[Index];
+                                    Player = (sbyte)Players[index];
                                 }
                             }
 
-                            FTokenCycle += 1;
-                            if (I >= FPlayers.Count || FTokenCycle >= FTokenCycles)
+                            TokenCycle += 1;
+                            if (I >= Players.Count || TokenCycle >= TokenCycles)
                             {
                                 TokenCyclesCaptured();
                             }
@@ -296,16 +296,16 @@ public partial class AIExecutor : EngineObject
                 ShowMessage("AI ERROR");
             }
 
-            AoWHSMap.Current.SynchroniseEnd();
-            FStatus = FStatus - Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
+            AoWHSMap.Current.SynchronizeEnd();
+            Status = Status - Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
         }
-    }
-
-    public enum ProcessTimeMode : byte
-    {
-        Static = 0, Dynamic = 1
     }
 
     // intf_P5_06.inc:108
 
+}
+
+public enum AIExecutorProcessTimeMode : byte
+{
+    Static = 0, Dynamic = 1
 }

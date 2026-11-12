@@ -12,16 +12,16 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Engine.Nodes;
 
-// FOwner
+// _owner
 public partial class EngineObject : IDisposable, IPersistable
 {
     // Engine.pas:2461
-    public const int ClassID = 80;
+    public const int ClassId = 80;
 
-    private EngineClass eclass;
+    private EngineClass _engineClass;
 
     // The engine class descriptor of the instance's exact type, read once and cached.
-    public EngineClass EClass => eclass ??= EngineClass.Of(GetType());
+    public EngineClass EngineClass => _engineClass ??= EngineClass.Of(GetType());
 
     // The Delphi pre-inherited statements run after capture and before any inherited body.
     private protected virtual void InitializeBeforeInherited() { }
@@ -35,19 +35,19 @@ public partial class EngineObject : IDisposable, IPersistable
         SetOwner(owner);
     }
 
-    protected internal ECustomNode FOwner;
+    protected internal ECustomNode _owner;
 
     // Engine.pas:2487
-    internal string GetEObjectPath()
+    internal string GetEngineObjectPath()
     {
         EngineObject P;
         string S;
         S = this.GetType().Name;
-        P = FOwner;
+        P = _owner;
         while (P != null)
         {
             S = P.GetType().Name + "" + S;
-            P = P.FOwner;
+            P = P._owner;
         }
 
         return S;
@@ -57,39 +57,39 @@ public partial class EngineObject : IDisposable, IPersistable
     public virtual int ClassVersion() => 0;
 
     // Engine.pas:2563
-    public virtual Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.csStored);
+    public virtual Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Stored);
 
     // Engine.pas:2568
-    public virtual void SetOwner(ECustomNode AOwner)
+    public virtual void SetOwner(ECustomNode owner)
     {
-        if (AOwner != FOwner)
+        if (owner != _owner)
         {
-            if (FOwner != null)
+            if (_owner != null)
             {
-                FOwner.RemoveChild(this);
+                _owner.RemoveChild(this);
             }
 
-            FOwner = AOwner;
-            if (FOwner != null)
+            _owner = owner;
+            if (_owner != null)
             {
-                FOwner.AddChild(this);
+                _owner.AddChild(this);
             }
         }
     }
 
     // Engine.pas:2558
-    public virtual GameEngine GetEngine() => FOwner.GetEngine();
+    public virtual GameEngine GetEngine() => _owner.GetEngine();
 
     // Engine.pas:2502
-    public virtual int GetLastMsg() => 2147483647;
+    public virtual int GetLastMessage() => 2147483647;
 
     // Engine.pas:2507
-    public virtual void SetLastMsg(int Value)
+    public virtual void SetLastMessage(int value)
     {
     }
 
     // Engine.pas:2590
-    public virtual void ReadWrite(EStorageStream Stream)
+    public virtual void ReadWrite(EStorageStream stream)
     {
     }
 
@@ -112,16 +112,16 @@ public partial class EngineObject : IDisposable, IPersistable
     /// </summary>
     public static string TreePersistenceRefusal(Type type)
     {
-        const BindingFlags declared = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
+        const BindingFlags Declared = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
         for (var current = type; current is not null && current != typeof(object); current = current.BaseType)
         {
-            bool image = current.GetMethod(nameof(MainReadWrite), declared) is not null
-                || current.GetMethod("ReadWriteChildren", declared) is not null;
-            bool tree = current.GetMethod(nameof(MainPersist), declared) is not null;
+            bool image = current.GetMethod(nameof(MainReadWrite), Declared) is not null
+                || current.GetMethod("ReadWriteChildren", Declared) is not null;
+            bool tree = current.GetMethod(nameof(MainPersist), Declared) is not null;
             if (image && !tree)
                 return "Class " + current.Name + " overrides MainReadWrite or ReadWriteChildren and has no MainPersist.";
-            bool fields = current.GetMethod(nameof(ReadWrite), declared) is not null;
-            bool persisted = current.GetMethod(nameof(PersistFields), declared) is not null;
+            bool fields = current.GetMethod(nameof(ReadWrite), Declared) is not null;
+            bool persisted = current.GetMethod(nameof(PersistFields), Declared) is not null;
             if (fields && !persisted)
                 return "Class " + current.Name + " overrides ReadWrite and has no PersistFields.";
         }
@@ -139,14 +139,14 @@ public partial class EngineObject : IDisposable, IPersistable
     }
 
     // Engine.pas:2594
-    public virtual void MainReadWrite(EStorageStream Stream)
+    public virtual void MainReadWrite(EStorageStream stream)
     {
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             Clear();
         }
 
-        ReadWrite(Stream);
+        ReadWrite(stream);
     }
 
     // Engine.pas:2447
@@ -167,72 +167,72 @@ public partial class EngineObject : IDisposable, IPersistable
     }
 
     // Engine.pas:2511
-    public virtual bool Compare(EngineObject Obj, GameEngine AEngine)
+    public virtual bool Compare(EngineObject objectValue, GameEngine engine)
     {
-        MemoryStream S1;
-        MemoryStream S2;
-        bool Result = false;
-        if (EClass.ClassID != Obj.EClass.ClassID)
+        MemoryStream s1;
+        MemoryStream s2;
+        bool result = false;
+        if (EngineClass.ClassId != objectValue.EngineClass.ClassId)
         {
-            return Result;
+            return result;
         }
 
-        S1 = new MemoryStream();
-        S2 = new MemoryStream();
+        s1 = new MemoryStream();
+        s2 = new MemoryStream();
         try
         {
-            AEngine.WriteEObject(S1, this, null);
-            AEngine.WriteEObject(S2, Obj, null);
-            bool condition = S1.Length == S2.Length;
+            engine.WriteEngineObject(s1, this, null);
+            engine.WriteEngineObject(s2, objectValue, null);
+            bool condition = s1.Length == s2.Length;
             if (condition)
             {
-                var size = (int)S1.Length;
-                condition = CompareMem(S1.GetBuffer().AsSpan(0, size), S2.GetBuffer().AsSpan(0, size), size);
+                var size = (int)s1.Length;
+                condition = CompareMem(s1.GetBuffer().AsSpan(0, size), s2.GetBuffer().AsSpan(0, size), size);
             }
 
-            Result = condition;
+            result = condition;
         }
         finally
         {
-            S1?.Dispose();
-            S2?.Dispose();
+            s1?.Dispose();
+            s2?.Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:2466
     public virtual EditorClass Editor()
     {
         GameEngine E;
-        EditorClass Result = null;
+        EditorClass result = null;
         E = GetEngine();
         if (E != null)
         {
-            for (var C = EClass; C.Type != typeof(EngineObject) && Result == null; C = C.Parent)
+            for (var C = EngineClass; C.Type != typeof(EngineObject) && result == null; C = C.Parent)
             {
-                Result = E.FEditors.FindEditor(C.ClassID);
+                result = E._editors.FindEditor(C.ClassId);
             }
         }
 
-        if (Result == null)
+        if (result == null)
         {
-            Result = EditorClass.Of<EngineObjectEditor>();
+            result = EditorClass.Of<EngineObjectEditor>();
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:2529
-    public virtual void Assign(EngineObject Source, GameEngine AEngine)
+    public virtual void Assign(EngineObject source, GameEngine engine)
     {
         MemoryStream S;
         S = new MemoryStream();
         try
         {
-            AEngine.WriteEObject(S, Source, null);
+            engine.WriteEngineObject(S, source, null);
             S.Position = 0;
-            AEngine.ReadEObject(S, this, null);
+            engine.ReadEngineObject(S, this, null);
         }
         finally
         {
@@ -241,31 +241,31 @@ public partial class EngineObject : IDisposable, IPersistable
     }
 
     // Engine.pas:2483
-    public virtual void TimerEvent(int Tick, EngineObject Sender)
+    public virtual void TimerEvent(int tick, EngineObject sender)
     {
     }
 
     // Engine.pas:2585
-    public virtual void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public virtual void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        if (Msg.MsgID == 1)
+        if (message.MessageId == 1)
         {
-            SetLastMsg(2147483647);
+            SetLastMessage(2147483647);
         }
     }
 
     // Engine.pas:2578
-    public virtual void SetArrayOwner(ECustomNode AOwner, int Index)
+    public virtual void SetArrayOwner(ECustomNode owner, int index)
     {
-        if (FOwner != null)
+        if (_owner != null)
         {
-            FOwner.RemoveChild(this);
+            _owner.RemoveChild(this);
         }
 
-        FOwner = AOwner;
-        if (FOwner != null)
+        _owner = owner;
+        if (_owner != null)
         {
-            FOwner.SetChild(Index, this);
+            _owner.SetChild(index, this);
         }
     }
 
@@ -276,28 +276,28 @@ public partial class EngineObject : IDisposable, IPersistable
     }
 
     // Engine.pas:2543
-    public EngineObject Copy(GameEngine AEngine)
+    public EngineObject Copy(GameEngine engine)
     {
-        EngineObject Result = default;
+        EngineObject result = default;
         MemoryStream S;
         S = new MemoryStream();
         try
         {
-            AEngine.WriteEObject(S, this, null);
+            engine.WriteEngineObject(S, this, null);
             S.Position = 0;
-            Result = EClass.Create(null);
-            AEngine.ReadEObject(S, Result, null);
+            result = EngineClass.CreateInstance(null);
+            engine.ReadEngineObject(S, result, null);
         }
         finally
         {
             S.Dispose();
         }
 
-        return Result;
+        return result;
     }
 
-    public ECustomNode Owner { get => FOwner; set => SetOwner(value); }
-    public string EObjectPath { get => GetEObjectPath(); }
-    public int LastMsg { get => GetLastMsg(); set => SetLastMsg(value); }
+    public ECustomNode Owner { get => _owner; set => SetOwner(value); }
+    public string EngineObjectPath { get => GetEngineObjectPath(); }
+    public int LastMessage { get => GetLastMessage(); set => SetLastMessage(value); }
 
 }

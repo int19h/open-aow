@@ -11,11 +11,11 @@ public partial class AnimatedAbility : AdjustableAbility
     // PassiveAb.pas:902
     public AnimatedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(AnimatedRStr);
-        FAbilityID = 129;
-        FAbilityType = AbilityType.Handicap;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityName = AbilityRules.TranslateResourceString(s_animatedText);
+        AbilityId = 129;
+        AbilityType = AbilityType.Handicap;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
-    private static readonly string AnimatedRStr = "Animated";
+    private static readonly string s_animatedText = "Animated";
 }

@@ -17,42 +17,42 @@ public partial class TutorialControl : EngineObject
     // AoWHSMap.PAS:1
     public TutorialControl(ECustomNode owner) : base(owner)
     {
-        FShownMessages = new Int32List();
+        ShownMessages = new Int32List();
     }
 
-    public Int32List FShownMessages;
+    public Int32List ShownMessages;
 
     // AoWHSMap.PAS:6
     public override void Dispose()
     {
-        FShownMessages?.Dispose();
+        ShownMessages?.Dispose();
         base.Dispose();
     }
 
     // AoWHSMap.PAS:11
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStreamProc(20, FShownMessages.LoadFromStream, FShownMessages.SaveToStream);
+        base.ReadWrite(stream);
+        stream.rwStreamProc(20, ShownMessages.LoadFromStream, ShownMessages.SaveToStream);
     }
 
     // AoWHSMap.PAS:16
-    public void ShowMessage(int ID, bool Immediate, bool OnceOnly)
+    public void ShowMessage(int id, bool immediate, bool onceOnly)
     {
-        TutorialMessageEventLog Log;
-        if (AoWHSMap.Current.FGameType == GameType.Tutorial && AoWHSMap.Current.FTextControl.FindID(ID) != null)
+        TutorialMessageEventLog log;
+        if (AoWHSMap.Current.GameType == GameType.Tutorial && AoWHSMap.Current.TextControl.FindId(id) != null)
         {
-            if (OnceOnly && FShownMessages.IndexOf(ID) != -1)
+            if (onceOnly && ShownMessages.IndexOf(id) != -1)
             {
                 return;
             }
 
-            Log = new TutorialMessageEventLog(null);
-            var id = AoWHSMap.Current.FTextControl.FindID(ID);
-            Log.FMessage.Assign(id.FText);
-            AoWHSMap.Current.TriggerExecuteEventLog(Log, Immediate, null);
-            Log.Release();
-            FShownMessages.Add(ID);
+            log = new TutorialMessageEventLog(null);
+            var idLocal = AoWHSMap.Current.TextControl.FindId(id);
+            log.Message.Assign(idLocal.Text);
+            AoWHSMap.Current.TriggerExecuteEventLog(log, immediate, null);
+            log.Release();
+            ShownMessages.Add(id);
         }
     }
 

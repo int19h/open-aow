@@ -14,18 +14,18 @@ public partial class MoveTargetList : EReferenceNode
     { }
 
     // AIGroup.pas:4240
-    public MoveTarget GetTarget(int Index) => (MoveTarget)FChildren.List[Index];
+    public MoveTarget GetTarget(int index) => (MoveTarget)_children.List[index];
 
     // AIGroup.pas:4245
-    public int IndexOfXYL(int Location)
+    public int IndexOfMapCoordinate(int location)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (Unsafe.As<MapCoordinate, int>(ref ((MoveTarget)FChildren.List[Result]).FLocation) == Location)
+            result -= 1;
+            if (Unsafe.As<MapCoordinate, int>(ref ((MoveTarget)_children.List[result]).Location) == location)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -33,27 +33,27 @@ public partial class MoveTargetList : EReferenceNode
     }
 
     // AIGroup.pas:4256
-    public void AddTargetEx(int Location, int MovePoints, int TransporterID, in AITargetData Data)
+    public void AddTarget(int location, int movePoints, int transporterId, in AITargetData data)
     {
-        MoveTarget Target;
-        Target = new MoveTarget(null);
-        Unsafe.As<MapCoordinate, int>(ref Target.FLocation) = Location;
-        Target.FMovePoints = MovePoints;
-        Target.FTransporterID = TransporterID;
-        Target.FData = Data;
-        AddChild(Target);
-        Target.Release();
+        MoveTarget target;
+        target = new MoveTarget(null);
+        Unsafe.As<MapCoordinate, int>(ref target.Location) = location;
+        target.MovePoints = movePoints;
+        target.TransporterId = transporterId;
+        target.Data = data;
+        AddChild(target);
+        target.Release();
     }
 
     // AIGroup.pas:4275
     public void SortOnMovePoints()
     {
-        FChildren.Sort(CompareMoveTargets);
+        _children.Sort(CompareMoveTargets);
     }
 
-    private static int CompareMoveTargets(object Item1, object Item2)
+    private static int CompareMoveTargets(object item1, object item2)
     {
-        return ((MoveTarget)Item1).FMovePoints - ((MoveTarget)Item2).FMovePoints;
+        return ((MoveTarget)item1).MovePoints - ((MoveTarget)item2).MovePoints;
     }
 
     // Engine.pas:631

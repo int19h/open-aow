@@ -15,9 +15,9 @@ public partial class IceShards : CombatSpell
     // CombatSpells.pas:1537
     public IceShards(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(IceShardsRStr);
-        FSpellID = 119;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_iceShardsText);
+        SpellId = 119;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 4;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
@@ -25,5 +25,5 @@ public partial class IceShards : CombatSpell
         spellCombatInfo.Range = 12;
     }
 
-    private static readonly string IceShardsRStr = "Ice Shards";
+    private static readonly string s_iceShardsText = "Ice Shards";
 }

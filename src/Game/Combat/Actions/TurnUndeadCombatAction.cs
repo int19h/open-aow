@@ -11,59 +11,59 @@ namespace Aow.Game.Combat.Actions;
 
 public partial class TurnUndeadCombatAction : DamageCombatAction
 {
-    public new const int ClassID = 131769;
+    public new const int ClassId = 131769;
 
     public TurnUndeadCombatAction(ECustomNode owner) : base(owner)
     { }
 
     // AoWAb.PAS:3088
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatUnit Source;
-        CombatUnit Target;
-        UnitEnchantmentAbilityData Data;
-        base.Execute(Combat);
-        if (FDamage != 0)
+        CombatUnit source;
+        CombatUnit target;
+        UnitEnchantmentAbilityData data;
+        base.Execute(combat);
+        if (Damage != 0)
         {
-            Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
-            Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
-            if (!Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
+            source = (CombatUnit)combat.CombatData.FindId(SourceId);
+            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                AoWHSSet.Current.FAbilityControl.GetAbility(34).Expand(Target.FUnit);
-                Data = (UnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(34);
+                AoWHSSet.Current.AbilityControl.GetAbility(34).Expand(target.Troop);
+                data = (UnitEnchantmentAbilityData)target.Troop.GetAbilityData(34);
 
-                if (Data != null)
+                if (data != null)
                 {
-                    Data.FEnchantmentPlayerIndex = Source.FCombatPlayer;
+                    data.EnchantmentPlayerIndex = source.CombatPlayer;
                 }
             }
         }
     }
 
     // AoWAb.PAS:3115
-    public override bool Play(CombatViewer Viewer)
+    public override bool Play(CombatViewer viewer)
     {
-        bool Result = base.Play(Viewer);
-        if (Viewer.FTime == 0)
+        bool result = base.Play(viewer);
+        if (viewer.Time == 0)
         {
-            AoWHSSet.Current.FAbilityControl.GetAbility(38).FSFXLibrary.Play(0);
+            AoWHSSet.Current.AbilityControl.GetAbility(38).SfxLibrary.Play(0);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:3108
-    public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override void ShowObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
-        if (Obj.FID == FTargetID)
+        base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
+        if (objectValue.Id == TargetId)
         {
-            AoWHSSet.Current.FAbilityControl.GetAbility(38).FImageSequences.Show(0, X + 32, Y + 32, Viewer.FTime, Surface);
+            AoWHSSet.Current.AbilityControl.GetAbility(38).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 
     // AoWAb.PAS:3084
-    public bool GetSuccessfull() => FDamage != 0;
+    public bool GetSuccessful() => Damage != 0;
 
     // intf_P3_02.inc:38
 

@@ -28,44 +28,44 @@ public partial class HelpWindow : DataModule
     public Memo HeaderMemo;
     public Memo HelpMemo;
     public IvTranslator Translator;
-    public ExecuteDoneEvent FDone;
-    public HelpMessageEventLog FHelpEvent;
+    public ExecuteDoneEvent Done;
+    public HelpMessageEventLog HelpEvent;
 
     // aowHelpWin.pas:53
     public void FinishDialog()
     {
-        ExecuteDoneEvent Done;
-        HelpMessageEventLog Event;
-        Done = FDone;
-        Event = FHelpEvent;
-        FDone = null;
-        FHelpEvent = null;
-        if (Done != null)
+        ExecuteDoneEvent done;
+        HelpMessageEventLog eventValue;
+        done = Done;
+        eventValue = HelpEvent;
+        Done = null;
+        HelpEvent = null;
+        if (done != null)
         {
-            Done(Event);
+            done(eventValue);
         }
 
-        if (Event != null)
+        if (eventValue != null)
         {
-            Event.Release();
+            eventValue.Release();
         }
     }
 
     // aowHelpWin.pas:66
-    public void ShowHelpEvent(HelpMessageEventLog Event, bool Unused, ExecuteDoneEvent Done)
+    public void ShowHelpEvent(HelpMessageEventLog eventValue, bool unused, ExecuteDoneEvent done)
     {
         FinishDialog();
-        FHelpEvent = Event;
-        FHelpEvent.AddRef();
+        HelpEvent = eventValue;
+        HelpEvent.AddRef();
         HeaderMemo.Items.Clear();
-        if (Event.FMessage.Count > 0)
+        if (eventValue.Message.Count > 0)
         {
-            var message = Event.FMessage[0];
+            var message = eventValue.Message[0];
             HeaderMemo.Items.Add(message);
         }
 
         HelpMemo.Items.Clear();
-        HelpMemo.Items.AddStrings(Event.FMessage);
+        HelpMemo.Items.AddStrings(eventValue.Message);
         if (HelpMemo.Items.Count > 0)
         {
             HelpMemo.Items.Delete(0);
@@ -76,15 +76,15 @@ public partial class HelpWindow : DataModule
             HelpMemo.Items.Delete(0);
         }
 
-        if (Event.FMode != 0)
+        if (eventValue.Mode != 0)
         {
-            FDone = Done;
+            Done = done;
         }
         else
         {
-            if (Done != null)
+            if (done != null)
             {
-                Done(FHelpEvent);
+                done(HelpEvent);
             }
         }
 
@@ -112,26 +112,26 @@ public partial class HelpWindow : DataModule
         this.HelpWin.Alignment.AlignWidth = AlignWidth.Left;
     }
 
-    internal static void ShowHelp(int HelpID)
+    internal static void ShowHelp(int helpId)
     {
-        StringList Lines;
+        StringList lines;
         if (DialogHosts.HelpWindow.HelpWin.Visible)
         {
             DialogHosts.HelpWindow.FinishDialog();
         }
 
-        Lines = new StringList();
-        AoWHSSet.Current.FTextControl.RetrieveText(HelpID, Lines);
+        lines = new StringList();
+        AoWHSSet.Current.TextControl.RetrieveText(helpId, lines);
         DialogHosts.HelpWindow.HelpSB.Position = 0;
         DialogHosts.HelpWindow.HeaderMemo.Items.Clear();
-        if (Lines.Count > 0)
+        if (lines.Count > 0)
         {
-            var line = Lines[0];
+            var line = lines[0];
             DialogHosts.HelpWindow.HeaderMemo.Items.Add(line);
         }
 
         DialogHosts.HelpWindow.HelpMemo.Items.Clear();
-        DialogHosts.HelpWindow.HelpMemo.Items.AddStrings(Lines);
+        DialogHosts.HelpWindow.HelpMemo.Items.AddStrings(lines);
         if (DialogHosts.HelpWindow.HelpMemo.Items.Count > 0)
         {
             DialogHosts.HelpWindow.HelpMemo.Items.Delete(0);
@@ -143,7 +143,7 @@ public partial class HelpWindow : DataModule
         }
 
         DialogHosts.HelpWindow.HelpWin.Visible = true;
-        Lines?.Dispose();
+        lines?.Dispose();
     }
 
 }

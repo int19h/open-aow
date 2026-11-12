@@ -31,8 +31,8 @@ public partial class ItemsFoundDialog : DataModule
     public Frame BCeltL;
     public Frame TCeltL;
     public Image TCeltLineL;
-    public Image AOWImage1;
-    public Image AOWImage2;
+    public Image Image1;
+    public Image Image2;
     public Button CloseBtn2;
     public Panel OKPnl;
     public Memo MessageMemo;
@@ -46,52 +46,52 @@ public partial class ItemsFoundDialog : DataModule
     public CheckBox Gnd5;
     public Button LeftBtn;
     public Button RightBtn;
-    public int FItemOffset;
-    public ExecuteDoneEvent FOnDone;
-    public ItemExplorationSiteEventLog FEvent;
+    public int ItemOffset;
+    public ExecuteDoneEvent OnDone;
+    public ItemExplorationSiteEventLog Event;
 
     // AoWItemsFoundDlg.pas:80
     public Hero GetHero()
     {
-        ArmyHexSprite Army;
-        Hero Result = null;
-        if (FEvent != null)
+        ArmyHexSprite army;
+        Hero result = null;
+        if (Event != null)
         {
-            Army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(Unsafe.As<MapCoordinate, int>(ref FEvent.FLocation))).GetArmyHS();
-            if (Army != null && Army.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
+            army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref Event.Location))).GetArmyHexSprite();
+            if (army != null && army.Army.Player == AoWHSMap.Current.SeatedPlayer)
             {
-                Result = Army.FArmy.Hero(255, RosterTables.AllHeroTypes);
+                result = army.Army.Hero(255, RosterTables.AllHeroTypes);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWItemsFoundDlg.pas:66
     public void Finish()
     {
-        ExecuteDoneEvent Done;
-        ItemExplorationSiteEventLog Event;
+        ExecuteDoneEvent done;
+        ItemExplorationSiteEventLog eventValue;
         Dlg.Visible = false;
-        Done = FOnDone;
-        Event = FEvent;
-        FOnDone = null;
-        FEvent = null;
-        if (Done != null)
+        done = OnDone;
+        eventValue = Event;
+        OnDone = null;
+        Event = null;
+        if (done != null)
         {
-            Done(Event);
+            done(eventValue);
         }
 
-        if (Event != null)
+        if (eventValue != null)
         {
-            Event.Release();
+            eventValue.Release();
         }
     }
 
     // AoWItemsFoundDlg.pas:62
     public void Reset()
     {
-        FItemOffset = 0;
+        ItemOffset = 0;
         PickupPnl.Visible = false;
         OKPnl.Visible = false;
     }
@@ -109,20 +109,20 @@ public partial class ItemsFoundDialog : DataModule
     }
 
     // AoWItemsFoundDlg.pas:95
-    public void Gnd3Draw(CheckBox Sender, LockedSurface SD, int Slot)
+    public void Gnd3Draw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        ItemExplorationSiteEventLog Event;
-        Item Item;
-        Event = FEvent;
-        if (Event != null)
+        ItemExplorationSiteEventLog eventValue;
+        Item item;
+        eventValue = Event;
+        if (eventValue != null)
         {
-            if (Slot + FItemOffset < Event.FItemIDs.Count)
+            if (slot + ItemOffset < eventValue.ItemIds.Count)
             {
-                var itemID = FEvent.FItemIDs[Slot + FItemOffset];
-                Item = AoWHSMap.Current.FItemControl.FindItem(itemID);
-                if (Item != null)
+                var itemId = Event.ItemIds[slot + ItemOffset];
+                item = AoWHSMap.Current.ItemControl.FindItem(itemId);
+                if (item != null)
                 {
-                    Item.Show(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, SD);
+                    item.Show(Dlg.WinLeft + sender.WinLeft, Dlg.WinTop + sender.WinTop, lockedSurface);
                 }
             }
         }
@@ -131,26 +131,26 @@ public partial class ItemsFoundDialog : DataModule
     // AoWItemsFoundDlg.pas:110
     public void PickupBtnClick()
     {
-        Hero Hero;
-        TutorialMessageEventLog Event;
-        Hero = GetHero();
-        if (Hero != null)
+        Hero hero;
+        TutorialMessageEventLog eventValue;
+        hero = GetHero();
+        if (hero != null)
         {
-            DialogHosts.General.FSelectedUnit = Hero;
+            DialogHosts.General.SelectedUnit = hero;
             DialogHosts.UnitWindow.ShowUnit();
             DialogHosts.UnitWindow.UnitTab.Selected = 2;
-            if (AoWHSMap.Current.FGameType == GameType.Tutorial)
+            if (AoWHSMap.Current.GameType == GameType.Tutorial)
             {
-                Event = new TutorialMessageEventLog(null);
-                Event.FHelpFileName = AbilityRules.TranslateRStr(GameText.TutorialRStr);
-                if (AoWHSMap.Current.FTextControl.FindID(55) != null)
+                eventValue = new TutorialMessageEventLog(null);
+                eventValue.HelpFileName = AbilityRules.TranslateResourceString(GameText.s_tutorialText);
+                if (AoWHSMap.Current.TextControl.FindId(55) != null)
                 {
-                    var id = AoWHSMap.Current.FTextControl.FindID(55);
-                    Event.FMessage.Assign(id.FText);
-                    AoWHSMap.Current.TriggerExecuteEventLog(Event, true, null);
+                    var id = AoWHSMap.Current.TextControl.FindId(55);
+                    eventValue.Message.Assign(id.Text);
+                    AoWHSMap.Current.TriggerExecuteEventLog(eventValue, true, null);
                 }
 
-                Event.Release();
+                eventValue.Release();
             }
         }
 
@@ -158,22 +158,22 @@ public partial class ItemsFoundDialog : DataModule
     }
 
     // AoWItemsFoundDlg.pas:136
-    public void Gnd3MouseDown(CheckBox Sender, MouseButton Button, Set<ShiftState> Shift, int X, int Y, int Slot)
+    public void Gnd3MouseDown(CheckBox sender, MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
     {
-        Item Item;
-        CheckBox Box;
-        Box = Sender;
-        if (Button == MouseButton.Right)
+        Item item;
+        CheckBox box;
+        box = sender;
+        if (button == MouseButton.Right)
         {
-            Box.PopupMenu = null;
-            if (FItemOffset + Slot < FEvent.FItemIDs.Count)
+            box.PopupMenu = null;
+            if (ItemOffset + slot < Event.ItemIds.Count)
             {
-                var itemID = FEvent.FItemIDs[FItemOffset + Slot];
-                Item = AoWHSMap.Current.FItemControl.FindItem(itemID);
-                if (Item != null)
+                var itemId = Event.ItemIds[ItemOffset + slot];
+                item = AoWHSMap.Current.ItemControl.FindItem(itemId);
+                if (item != null)
                 {
-                    Box.PopupMenu = DialogHosts.ItemBanner.IBannerPopup;
-                    ItemBanner.ItemID = Item.FItemID;
+                    box.PopupMenu = DialogHosts.ItemBanner.IBannerPopup;
+                    ItemBanner.s_itemId = item.ItemId;
                 }
             }
         }
@@ -182,57 +182,57 @@ public partial class ItemsFoundDialog : DataModule
     // AoWItemsFoundDlg.pas:155
     public void LeftBtnClick()
     {
-        if (FItemOffset > 0)
+        if (ItemOffset > 0)
         {
-            FItemOffset -= 1;
-            Dlg.FDrawn = false;
+            ItemOffset -= 1;
+            Dlg.Drawn = false;
         }
     }
 
     // AoWItemsFoundDlg.pas:164
     public void RightBtnClick()
     {
-        if (FItemOffset + 5 < FEvent.FItemIDs.Count)
+        if (ItemOffset + 5 < Event.ItemIds.Count)
         {
-            FItemOffset += 1;
-            Dlg.FDrawn = false;
+            ItemOffset += 1;
+            Dlg.Drawn = false;
         }
     }
 
     // AoWItemsFoundDlg.pas:173
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             Dlg.Visible = false;
         }
     }
 
-    internal static void ShowItemsFound(ItemsFoundDialog Dialog, ItemExplorationSiteEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowItemsFound(ItemsFoundDialog dialog, ItemExplorationSiteEventLog eventValue, ExecuteDoneEvent done)
     {
-        ItemExplorationSiteEventLog Log;
-        Dialog.Reset();
-        Dialog.FOnDone = Done;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Log = Dialog.FEvent;
-        Dialog.TitleLbl.Text = Log.FTitle;
-        var text = Log.FMessages.Text;
-        Dialog.MessageMemo.Items.Text = text;
-        Dialog.LeftBtn.Visible = Log.FItemIDs.Count > 5;
-        Dialog.RightBtn.Visible = Log.FItemIDs.Count > 5;
-        if (Dialog.GetHero() == null)
+        ItemExplorationSiteEventLog log;
+        dialog.Reset();
+        dialog.OnDone = done;
+        dialog.Event = eventValue;
+        dialog.Event.AddRef();
+        log = dialog.Event;
+        dialog.TitleLbl.Text = log.Title;
+        var text = log.Messages.Text;
+        dialog.MessageMemo.Items.Text = text;
+        dialog.LeftBtn.Visible = log.ItemIds.Count > 5;
+        dialog.RightBtn.Visible = log.ItemIds.Count > 5;
+        if (dialog.GetHero() == null)
         {
-            Dialog.OKPnl.Visible = true;
+            dialog.OKPnl.Visible = true;
         }
         else
         {
-            Dialog.PickupPnl.Visible = true;
+            dialog.PickupPnl.Visible = true;
         }
 
-        AoWHSMap.Current.FTutorialControl.ShowMessage(54, true, true);
-        Dialog.Dlg.FDrawn = false;
-        Dialog.Dlg.Visible = true;
+        AoWHSMap.Current.TutorialControl.ShowMessage(54, true, true);
+        dialog.Dlg.Drawn = false;
+        dialog.Dlg.Visible = true;
     }
 
 }

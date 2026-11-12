@@ -6,9 +6,9 @@ namespace Aow.Game.World.Structures;
 
 public partial class ExplorationSite
 {
-    public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.ExplorationSite;
+    public override StructureView InfoPanel(sbyte viewer) => StatePanel() ?? StructureView.ExplorationSite;
 
-    public override StructureView InfoButton(sbyte Viewer)
+    public override StructureView InfoButton(sbyte viewer)
     {
         Search();
         return StructureView.None;
@@ -16,20 +16,20 @@ public partial class ExplorationSite
 
     // A site fight takes one of Variants maps and fixes every neighbor tag. Another fight at the
     // site takes the blank map.
-    protected static string SiteCombatMapName(CombatMapSite Site, string Prefix, int Variants, bool TakesItems)
+    protected static string SiteCombatMapName(CombatMapSite site, string prefix, int variants, bool takesItems)
     {
-        if (!Site.SiteCombat)
+        if (!site.SiteCombat)
         {
             return "Blank000";
         }
 
-        Site.TakesCombatItems = TakesItems;
-        string Stem = Prefix + IntToStr(Random(Variants));
+        site.TakesCombatItems = takesItems;
+        string stem = prefix + IntToStr(Random(variants));
         for (int I = 1; I <= 6; I += 1)
         {
-            Site.FixTag(I);
+            site.FixTag(I);
         }
 
-        return Stem;
+        return stem;
     }
 }

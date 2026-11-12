@@ -11,54 +11,54 @@ namespace Aow.Game.UI.Controls;
 //   owns the windows (its children, sorted by priority), draws the background and foreground
 //   textures and the windows into the display surface, keeps the dirty rectangles of the whole
 //   screen and passes the mouse and keyboard input to the windows from the top down. }
-// Fields: FForegroundTexture, FBackgroundTexture, FOverlayPriority (windows below it get no
-// input), FNewOverlayPriority (applied by Draw), FBorderLeft, FBorderTop, FBorderRight,
+// Fields: _foregroundTexture, _backgroundTexture, _overlayPriority (windows below it get no
+// input), NewOverlayPriority (applied by Draw), _borderLeft, _borderTop, _borderRight,
 // FBorderBottom, FOldCursor (the cursor before CheckMouseMove), FDefaultCursor (the cursor when
 // no window claims the mouse), FOnChangeCursor, FILIndexTBack, FILIndexTFore, FDrawOverlay
 // (draw the foreground texture over the windows below the overlay priority)
 public partial class WindowManager : UIComponent
 {
-    public InterfaceImageLibrary FForegroundTexture;
-    public InterfaceImageLibrary FBackgroundTexture;
-    public int FOverlayPriority;
-    public int FNewOverlayPriority;
-    public int FBorderLeft;
-    public int FBorderTop;
-    public int FBorderRight;
-    public int FBorderBottom;
-    public int FOldCursor;
-    public int FDefaultCursor;
-    public NotifyEvent<WindowManager> FOnChangeCursor;
-    public int FILIndexTBack;
-    public int FILIndexTFore;
-    public bool FDrawOverlay;
+    public InterfaceImageLibrary _foregroundTexture;
+    public InterfaceImageLibrary _backgroundTexture;
+    public int _overlayPriority;
+    public int NewOverlayPriority;
+    public int _borderLeft;
+    public int _borderTop;
+    public int _borderRight;
+    public int _borderBottom;
+    public int OldCursor;
+    public int DefaultCursor;
+    public NotifyEvent<WindowManager> _onChangeCursor;
+    public int _imageLibraryIndexTBack;
+    public int _imageLibraryIndexTFore;
+    public bool _drawOverlay;
 
     // AOWWinManager.pas:81
     public WindowManager(Component owner) : base(owner)
     {
-        FWinHeight = 480;
-        FWinWidth = 640;
-        FOldCursor = -2;
-        FDefaultCursor = -2;
-        FDrawOverlay = true;
+        _winHeight = 480;
+        _winWidth = 640;
+        OldCursor = -2;
+        DefaultCursor = -2;
+        _drawOverlay = true;
     }
 
     // AOWWinManager.pas:91
     public override void Validate()
     {
-        if (FBackgroundTexture != null)
+        if (_backgroundTexture != null)
         {
-            FBackgroundTexture = FBackgroundTexture.CheckIL(FILIndexTBack, 1, this);
+            _backgroundTexture = _backgroundTexture.CheckImageLibrary(_imageLibraryIndexTBack, 1, this);
         }
 
-        if (FForegroundTexture != null)
+        if (_foregroundTexture != null)
         {
-            FForegroundTexture = FForegroundTexture.CheckIL(FILIndexTFore, 1, this);
+            _foregroundTexture = _foregroundTexture.CheckImageLibrary(_imageLibraryIndexTFore, 1, this);
         }
 
-        if (FBackgroundTexture != null)
+        if (_backgroundTexture != null)
         {
-            FValid = true;
+            Valid = true;
         }
 
         base.Validate();
@@ -70,23 +70,23 @@ public partial class WindowManager : UIComponent
         UIComponent C = default;
         try
         {
-            if (FValid && FVisible)
+            if (Valid && _visible)
             {
-                if (FOnUpdate != null)
+                if (_onUpdate != null)
                 {
-                    FOnUpdate(this);
+                    _onUpdate(this);
                 }
 
-                for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+                for (int I = 0, last = Children.Count - 1; I <= last; I++)
                 {
-                    C = (UIComponent)FChildren[I];
-                    if (C.FVisible && C.FPriority >= FOverlayPriority)
+                    C = (UIComponent)Children[I];
+                    if (C._visible && C._priority >= _overlayPriority)
                     {
                         C.Update();
                     }
                 }
 
-                if (!FValid || !FAligned || !FSized)
+                if (!Valid || !Aligned || !Sized)
                 {
                     Setup();
                 }
@@ -103,27 +103,27 @@ public partial class WindowManager : UIComponent
     //   (a rectangle from a window only when that window is not below the overlay priority): a
     //   double-buffered window adds it, in its own coordinates, to its blit list, any other window adds
     //   it to its draw list. The window itself is passed as the Sender. }
-    public override void InvalidateRect(int Index, ref Rect ARect, UIComponent Sender)
+    public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
     {
         UIComponent C;
         Rect R = default;
-        if (FValid && FVisible)
+        if (Valid && _visible)
         {
-            if (Sender == null || Sender != null && Sender is WindowControl && ((UIComponent)FChildren[Index]).FPriority >= FOverlayPriority)
+            if (sender == null || sender != null && sender is WindowControl && ((UIComponent)Children[index])._priority >= _overlayPriority)
             {
-                for (int I = Index, last = FChildren.Count - 1; I <= last; I++)
+                for (int I = index, last = Children.Count - 1; I <= last; I++)
                 {
-                    C = (UIComponent)FChildren[I];
-                    if (C.FValid && C.FVisible && FWinLeft + C.FWinLeft <= ARect.Right && FWinLeft + C.FWinLeft + C.FWinWidth >= ARect.Left && FWinTop + C.FWinTop <= ARect.Bottom && FWinTop + C.FWinTop + C.FWinHeight >= ARect.Top && ARect.Left <= ARect.Right && ARect.Top <= ARect.Bottom)
+                    C = (UIComponent)Children[I];
+                    if (C.Valid && C._visible && _winLeft + C._winLeft <= rectangle.Right && _winLeft + C._winLeft + C._winWidth >= rectangle.Left && _winTop + C._winTop <= rectangle.Bottom && _winTop + C._winTop + C._winHeight >= rectangle.Top && rectangle.Left <= rectangle.Right && rectangle.Top <= rectangle.Bottom)
                     {
-                        if (C.FDoubleBuffered)
+                        if (C._doubleBuffered)
                         {
-                            R = new Rect(ARect.Left - C.FWinLeft, ARect.Top - C.FWinTop, ARect.Right - C.FWinLeft, ARect.Bottom - C.FWinTop);
-                            C.AddBltRect(ref R, C);
+                            R = new Rect(rectangle.Left - C._winLeft, rectangle.Top - C._winTop, rectangle.Right - C._winLeft, rectangle.Bottom - C._winTop);
+                            C.AddBlitRectangle(ref R, C);
                         }
                         else
                         {
-                            C.AddDrawRect(ref ARect, C);
+                            C.AddDrawRectangle(ref rectangle, C);
                         }
                     }
                 }
@@ -139,267 +139,267 @@ public partial class WindowManager : UIComponent
     //   on to the windows above it, and the foreground texture is drawn again over them when the window
     //   is below the overlay priority. FBackRect holds the window's last place as (Left, Top, Width,
     //   Height). }
-    public override void DrawSurface(Surface Surface)
+    public override void DrawSurface(Surface surface)
     {
         WindowControl C;
         DirtyRectangle D;
-        bool WasValid;
-        LockedSurface SD = default;
+        bool wasValid;
+        LockedSurface lockedSurface = default;
         Rect R = default;
         try
         {
             Setup();
             Update();
-            if (FValid)
+            if (Valid)
             {
                 {
-                    for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+                    for (int I = 0, last = Children.Count - 1; I <= last; I++)
                     {
-                        C = (WindowControl)FChildren[I];
-                        if (C.FValid)
+                        C = (WindowControl)Children[I];
+                        if (C.Valid)
                         {
-                            if (!FDrawn)
+                            if (!Drawn)
                             {
-                                if (C.FDoubleBuffered)
+                                if (C._doubleBuffered)
                                 {
-                                    C.FSurfaceValid = false;
+                                    C.SurfaceValid = false;
                                 }
                                 else
                                 {
-                                    C.FDrawn = false;
+                                    C.Drawn = false;
                                 }
                             }
 
-                            if (C.FHidden == true)
+                            if (C.Hidden == true)
                             {
-                                C.FHidden = false;
-                                R = new Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
-                                AddDrawRect(ref R, C);
+                                C.Hidden = false;
+                                R = new Rect(C._winLeft, C._winTop, C._winLeft + C._winWidth, C._winTop + C._winHeight);
+                                AddDrawRectangle(ref R, C);
                             }
                             else
                             {
-                                if (C.FVisible && FDrawn && C.FBackRect.Right > 0 && C.FBackRect.Bottom > 0)
+                                if (C._visible && Drawn && C.BackRectangle.Right > 0 && C.BackRectangle.Bottom > 0)
                                 {
                                     // { the window moved: add the parts of its old place it no longer covers. For a
                                     //                 masked window the strips are off (original bugs): the third strip of the left
                                     //                 and right cases is everything below the top frame, and the right case starts
                                     //                 at FWinLeft + FFrameRight }
-                                    if (C.FBackRect.Left < C.FWinLeft)
+                                    if (C.BackRectangle.Left < C._winLeft)
                                     {
-                                        if (C.FMasked)
+                                        if (C._masked)
                                         {
-                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FWinLeft + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
-                                            AddDrawRect(ref R, C);
-                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FFrameBottom);
-                                            AddDrawRect(ref R, C);
-                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top + C.FFrameBottom, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
-                                            AddDrawRect(ref R, C);
+                                            R = new Rect(C.BackRectangle.Left, C.BackRectangle.Top, C._winLeft + C.FrameLeft, C.BackRectangle.Top + C.BackRectangle.Bottom);
+                                            AddDrawRectangle(ref R, C);
+                                            R = new Rect(C.BackRectangle.Left, C.BackRectangle.Top, C.BackRectangle.Left + C.BackRectangle.Right, C.BackRectangle.Top + C.FrameBottom);
+                                            AddDrawRectangle(ref R, C);
+                                            R = new Rect(C.BackRectangle.Left, C.BackRectangle.Top + C.FrameBottom, C.BackRectangle.Left + C.BackRectangle.Right, C.BackRectangle.Top + C.BackRectangle.Bottom);
+                                            AddDrawRectangle(ref R, C);
                                         }
                                         else
                                         {
-                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FWinLeft, C.FBackRect.Top + C.FBackRect.Bottom);
-                                            AddDrawRect(ref R, C);
+                                            R = new Rect(C.BackRectangle.Left, C.BackRectangle.Top, C._winLeft, C.BackRectangle.Top + C.BackRectangle.Bottom);
+                                            AddDrawRectangle(ref R, C);
                                         }
                                     }
 
-                                    if (C.FBackRect.Top < C.FWinTop)
+                                    if (C.BackRectangle.Top < C._winTop)
                                     {
-                                        if (C.FMasked)
+                                        if (C._masked)
                                         {
-                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FWinTop + C.FFrameTop);
-                                            AddDrawRect(ref R, C);
-                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
-                                            AddDrawRect(ref R, C);
-                                            R = new Rect(C.FBackRect.Left + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
-                                            AddDrawRect(ref R, C);
+                                            R = new Rect(C.BackRectangle.Left, C.BackRectangle.Top, C.BackRectangle.Left + C.BackRectangle.Right, C._winTop + C.FrameTop);
+                                            AddDrawRectangle(ref R, C);
+                                            R = new Rect(C.BackRectangle.Left, C.BackRectangle.Top, C.BackRectangle.Left + C.FrameLeft, C.BackRectangle.Top + C.BackRectangle.Bottom);
+                                            AddDrawRectangle(ref R, C);
+                                            R = new Rect(C.BackRectangle.Left + C.FrameRight, C.BackRectangle.Top, C.BackRectangle.Left + C.BackRectangle.Right, C.BackRectangle.Top + C.BackRectangle.Bottom);
+                                            AddDrawRectangle(ref R, C);
                                         }
                                         else
                                         {
-                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FWinTop);
-                                            AddDrawRect(ref R, C);
+                                            R = new Rect(C.BackRectangle.Left, C.BackRectangle.Top, C.BackRectangle.Left + C.BackRectangle.Right, C._winTop);
+                                            AddDrawRectangle(ref R, C);
                                         }
                                     }
 
-                                    if (C.FBackRect.Left + C.FBackRect.Right > C.FWinLeft + C.FWinWidth)
+                                    if (C.BackRectangle.Left + C.BackRectangle.Right > C._winLeft + C._winWidth)
                                     {
-                                        if (C.FMasked)
+                                        if (C._masked)
                                         {
-                                            R = new Rect(C.FWinLeft + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
-                                            AddDrawRect(ref R, C);
-                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FFrameBottom);
-                                            AddDrawRect(ref R, C);
-                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top + C.FFrameBottom, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
-                                            AddDrawRect(ref R, C);
+                                            R = new Rect(C._winLeft + C.FrameRight, C.BackRectangle.Top, C.BackRectangle.Left + C.BackRectangle.Right, C.BackRectangle.Top + C.BackRectangle.Bottom);
+                                            AddDrawRectangle(ref R, C);
+                                            R = new Rect(C.BackRectangle.Left, C.BackRectangle.Top, C.BackRectangle.Left + C.BackRectangle.Right, C.BackRectangle.Top + C.FrameBottom);
+                                            AddDrawRectangle(ref R, C);
+                                            R = new Rect(C.BackRectangle.Left, C.BackRectangle.Top + C.FrameBottom, C.BackRectangle.Left + C.BackRectangle.Right, C.BackRectangle.Top + C.BackRectangle.Bottom);
+                                            AddDrawRectangle(ref R, C);
                                         }
                                         else
                                         {
-                                            R = new Rect(C.FWinLeft + C.FWinWidth, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
-                                            AddDrawRect(ref R, C);
+                                            R = new Rect(C._winLeft + C._winWidth, C.BackRectangle.Top, C.BackRectangle.Left + C.BackRectangle.Right, C.BackRectangle.Top + C.BackRectangle.Bottom);
+                                            AddDrawRectangle(ref R, C);
                                         }
                                     }
 
-                                    if (C.FBackRect.Top + C.FBackRect.Bottom > C.FWinTop + C.FWinHeight)
+                                    if (C.BackRectangle.Top + C.BackRectangle.Bottom > C._winTop + C._winHeight)
                                     {
-                                        if (C.FMasked)
+                                        if (C._masked)
                                         {
-                                            R = new Rect(C.FBackRect.Left, C.FWinTop + C.FFrameTop, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
-                                            AddDrawRect(ref R, C);
-                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
-                                            AddDrawRect(ref R, C);
-                                            R = new Rect(C.FBackRect.Left + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
-                                            AddDrawRect(ref R, C);
+                                            R = new Rect(C.BackRectangle.Left, C._winTop + C.FrameTop, C.BackRectangle.Left + C.BackRectangle.Right, C.BackRectangle.Top + C.BackRectangle.Bottom);
+                                            AddDrawRectangle(ref R, C);
+                                            R = new Rect(C.BackRectangle.Left, C.BackRectangle.Top, C.BackRectangle.Left + C.FrameLeft, C.BackRectangle.Top + C.BackRectangle.Bottom);
+                                            AddDrawRectangle(ref R, C);
+                                            R = new Rect(C.BackRectangle.Left + C.FrameRight, C.BackRectangle.Top, C.BackRectangle.Left + C.BackRectangle.Right, C.BackRectangle.Top + C.BackRectangle.Bottom);
+                                            AddDrawRectangle(ref R, C);
                                         }
                                         else
                                         {
-                                            R = new Rect(C.FBackRect.Left, C.FWinTop + C.FWinHeight, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
-                                            AddDrawRect(ref R, C);
+                                            R = new Rect(C.BackRectangle.Left, C._winTop + C._winHeight, C.BackRectangle.Left + C.BackRectangle.Right, C.BackRectangle.Top + C.BackRectangle.Bottom);
+                                            AddDrawRectangle(ref R, C);
                                         }
                                     }
                                 }
 
-                                C.FBackRect.Top = C.FWinTop;
-                                C.FBackRect.Left = C.FWinLeft;
-                                C.FBackRect.Right = C.FWinWidth;
-                                C.FBackRect.Bottom = C.FWinHeight;
+                                C.BackRectangle.Top = C._winTop;
+                                C.BackRectangle.Left = C._winLeft;
+                                C.BackRectangle.Right = C._winWidth;
+                                C.BackRectangle.Bottom = C._winHeight;
                             }
                         }
                     }
                 }
             }
 
-            if (!FDrawn)
+            if (!Drawn)
             {
-                if (Surface.Lock(ref SD) >= 0)
+                if (surface.Lock(ref lockedSurface) >= 0)
                 {
-                    Draw(SD);
-                    if (FDrawOverlay && FOverlayPriority > 0)
+                    Draw(lockedSurface);
+                    if (_drawOverlay && _overlayPriority > 0)
                     {
-                        var rect = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
-                        FForegroundTexture.DrawILT(FILIndexTFore, rect, ref SD);
+                        var rectangle = new Rect(_winLeft, _winTop, _winWidth, _winHeight);
+                        _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle, ref lockedSurface);
                     }
 
-                    Surface.Unlock();
+                    surface.Unlock();
                 }
             }
             else
             {
-                if (Surface.Lock(ref SD) >= 0)
+                if (surface.Lock(ref lockedSurface) >= 0)
                 {
-                    for (int J = 0, last = FDrawCount - 1; J <= last; J++)
+                    for (int J = 0, last = DrawCount - 1; J <= last; J++)
                     {
-                        D = FDrawList[J];
-                        if (FWinLeft > D.R.Left)
+                        D = DrawList[J];
+                        if (_winLeft > D.Rectangle.Left)
                         {
-                            D.R.Left = FWinLeft;
+                            D.Rectangle.Left = _winLeft;
                         }
 
-                        if (FWinTop > D.R.Top)
+                        if (_winTop > D.Rectangle.Top)
                         {
-                            D.R.Top = FWinTop;
+                            D.Rectangle.Top = _winTop;
                         }
 
-                        D.R.Right += 1;
-                        D.R.Bottom += 1;
-                        if (FWinLeft + FWinWidth < D.R.Right)
+                        D.Rectangle.Right += 1;
+                        D.Rectangle.Bottom += 1;
+                        if (_winLeft + _winWidth < D.Rectangle.Right)
                         {
-                            D.R.Right = FWinLeft + FWinWidth;
+                            D.Rectangle.Right = _winLeft + _winWidth;
                         }
 
-                        if (FWinTop + FWinHeight < D.R.Bottom)
+                        if (_winTop + _winHeight < D.Rectangle.Bottom)
                         {
-                            D.R.Bottom = FWinTop + FWinHeight;
+                            D.Rectangle.Bottom = _winTop + _winHeight;
                         }
 
-                        var rect = new Rect(D.R.Left, D.R.Top, D.R.Right, D.R.Bottom);
-                        SD.ClipRect = rect;
-                        Draw(SD);
-                        if (FDrawOverlay && FOverlayPriority > 0)
+                        var rectangle = new Rect(D.Rectangle.Left, D.Rectangle.Top, D.Rectangle.Right, D.Rectangle.Bottom);
+                        lockedSurface.ClipRectangle = rectangle;
+                        Draw(lockedSurface);
+                        if (_drawOverlay && _overlayPriority > 0)
                         {
-                            var rect2 = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
-                            FForegroundTexture.DrawILT(FILIndexTFore, rect2, ref SD);
+                            var rectangle2 = new Rect(_winLeft, _winTop, _winWidth, _winHeight);
+                            _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle2, ref lockedSurface);
                         }
 
-                        InvalidateRect(0, ref D.R, null);
+                        InvalidateRectangle(0, ref D.Rectangle, null);
                     }
 
-                    FDrawCount = 0;
-                    Surface.Unlock();
+                    DrawCount = 0;
+                    surface.Unlock();
                 }
             }
 
-            for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+            for (int I = 0, last = Children.Count - 1; I <= last; I++)
             {
-                C = (WindowControl)FChildren[I];
-                C.FHidden = false;
-                if (C.FValid && C.FVisible)
+                C = (WindowControl)Children[I];
+                C.Hidden = false;
+                if (C.Valid && C._visible)
                 {
-                    WasValid = C.FSurfaceValid;
-                    if (!C.FDrawn)
+                    wasValid = C.SurfaceValid;
+                    if (!C.Drawn)
                     {
-                        WasValid = false;
+                        wasValid = false;
                     }
 
-                    C.DrawSurface(Surface);
-                    if (!WasValid || !C.FSurfaceValid)
+                    C.DrawSurface(surface);
+                    if (!wasValid || !C.SurfaceValid)
                     {
-                        R = new Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
-                        AddBltRect(ref R, C);
+                        R = new Rect(C._winLeft, C._winTop, C._winLeft + C._winWidth, C._winTop + C._winHeight);
+                        AddBlitRectangle(ref R, C);
                     }
 
-                    C.FDrawn = true;
-                    C.FSurfaceValid = true;
-                    for (int J = 0, lastJ = FBltCount - 1; J <= lastJ; J++)
+                    C.Drawn = true;
+                    C.SurfaceValid = true;
+                    for (int J = 0, lastJ = BlitCount - 1; J <= lastJ; J++)
                     {
-                        D = FBltList[J];
-                        InvalidateRect(I + 1, ref D.R, null);
+                        D = BlitList[J];
+                        InvalidateRectangle(I + 1, ref D.Rectangle, null);
                     }
 
-                    if (FDrawOverlay && C.FPriority < FOverlayPriority)
+                    if (_drawOverlay && C._priority < _overlayPriority)
                     {
-                        if (Surface.Lock(ref SD) >= 0)
+                        if (surface.Lock(ref lockedSurface) >= 0)
                         {
-                            for (int J = 0, lastJ = FBltCount - 1; J <= lastJ; J++)
+                            for (int J = 0, lastJ = BlitCount - 1; J <= lastJ; J++)
                             {
-                                D = FBltList[J];
-                                if (C.FWinLeft > D.R.Left)
+                                D = BlitList[J];
+                                if (C._winLeft > D.Rectangle.Left)
                                 {
-                                    D.R.Left = C.FWinLeft;
+                                    D.Rectangle.Left = C._winLeft;
                                 }
 
-                                if (C.FWinTop > D.R.Top)
+                                if (C._winTop > D.Rectangle.Top)
                                 {
-                                    D.R.Top = C.FWinTop;
+                                    D.Rectangle.Top = C._winTop;
                                 }
 
-                                D.R.Right += 1;
-                                D.R.Bottom += 1;
-                                if (C.FWinLeft + C.FWinWidth < D.R.Right)
+                                D.Rectangle.Right += 1;
+                                D.Rectangle.Bottom += 1;
+                                if (C._winLeft + C._winWidth < D.Rectangle.Right)
                                 {
-                                    D.R.Right = C.FWinLeft + C.FWinWidth;
+                                    D.Rectangle.Right = C._winLeft + C._winWidth;
                                 }
 
-                                if (C.FWinTop + C.FWinHeight < D.R.Bottom)
+                                if (C._winTop + C._winHeight < D.Rectangle.Bottom)
                                 {
-                                    D.R.Bottom = C.FWinTop + C.FWinHeight;
+                                    D.Rectangle.Bottom = C._winTop + C._winHeight;
                                 }
 
-                                var rect = new Rect(D.R.Left, D.R.Top, D.R.Right, D.R.Bottom);
-                                SD.ClipRect = rect;
-                                var rect2 = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
-                                FForegroundTexture.DrawILT(FILIndexTFore, rect2, ref SD);
+                                var rectangle = new Rect(D.Rectangle.Left, D.Rectangle.Top, D.Rectangle.Right, D.Rectangle.Bottom);
+                                lockedSurface.ClipRectangle = rectangle;
+                                var rectangle2 = new Rect(_winLeft, _winTop, _winWidth, _winHeight);
+                                _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle2, ref lockedSurface);
                             }
 
-                            Surface.Unlock();
+                            surface.Unlock();
                         }
                     }
 
-                    FBltCount = 0;
+                    BlitCount = 0;
                 }
             }
 
-            FDrawn = true;
+            Drawn = true;
             ClearDrawList();
-            ClearBltList();
+            ClearBlitList();
         }
         catch
         {
@@ -408,93 +408,93 @@ public partial class WindowManager : UIComponent
     }
 
     // AOWWinManager.pas:157
-    public override void Draw(LockedSurface SurfDesc)
+    public override void Draw(LockedSurface lockedSurface)
     {
         UIComponent C;
-        if (FOverlayPriority > FNewOverlayPriority)
+        if (_overlayPriority > NewOverlayPriority)
         {
-            for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+            for (int I = 0, last = Children.Count - 1; I <= last; I++)
             {
-                C = (UIComponent)FChildren[I];
-                if (C.FPriority >= FNewOverlayPriority && C.FPriority < FOverlayPriority && C.FVisible)
+                C = (UIComponent)Children[I];
+                if (C._priority >= NewOverlayPriority && C._priority < _overlayPriority && C._visible)
                 {
-                    C.FDrawn = false;
-                    C.FSurfaceValid = false;
+                    C.Drawn = false;
+                    C.SurfaceValid = false;
                 }
             }
         }
 
-        FOverlayPriority = FNewOverlayPriority;
-        var rect = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
-        FBackgroundTexture.DrawILT(FILIndexTBack, rect, ref SurfDesc);
+        _overlayPriority = NewOverlayPriority;
+        var rectangle = new Rect(_winLeft, _winTop, _winWidth, _winHeight);
+        _backgroundTexture.DrawTiled(_imageLibraryIndexTBack, rectangle, ref lockedSurface);
     }
 
     // AOWWinManager.pas:449
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         UIComponent C = default;
-        bool Redraw = default;
-        FHandled = false;
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        bool redraw = default;
+        Handled = false;
+        for (int I = Children.Count - 1; I >= 0; I--)
         {
-            C = (UIComponent)FChildren[I];
-            if (C.FPriority >= FOverlayPriority)
+            C = (UIComponent)Children[I];
+            if (C._priority >= _overlayPriority)
             {
-                Redraw = C.FRedraw;
-                C.FHandled = false;
-                if (!FHandled || Redraw == true)
+                redraw = C.Redraw;
+                C.Handled = false;
+                if (!Handled || redraw == true)
                 {
-                    C.CheckMouseDown(Button, Shift, X, Y);
+                    C.CheckMouseDown(button, shift, X, Y);
                 }
 
-                if (C.FHandled)
+                if (C.Handled)
                 {
-                    FHandled = true;
+                    Handled = true;
                 }
             }
         }
 
-        if (FOnMouseDown != null)
+        if (_onMouseDown != null)
         {
-            FOnMouseDown(this, Button, Shift, X, Y);
+            _onMouseDown(this, button, shift, X, Y);
         }
     }
 
     // AOWWinManager.pas:473
-    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         UIComponent C = default;
-        FHandled = false;
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        Handled = false;
+        for (int I = Children.Count - 1; I >= 0; I--)
         {
-            C = (UIComponent)FChildren[I];
-            if (C.FPriority >= FOverlayPriority)
+            C = (UIComponent)Children[I];
+            if (C._priority >= _overlayPriority)
             {
-                if (!FHandled || C.FRedraw == true)
+                if (!Handled || C.Redraw == true)
                 {
-                    C.CheckMouseUp(Button, Shift, X, Y);
+                    C.CheckMouseUp(button, shift, X, Y);
                 }
 
-                if (C.FHandled == true)
+                if (C.Handled == true)
                 {
-                    FHandled = true;
+                    Handled = true;
                 }
             }
         }
 
-        if (FOnMouseUp != null)
+        if (_onMouseUp != null)
         {
-            FOnMouseUp(this, Button, Shift, X, Y);
+            _onMouseUp(this, button, shift, X, Y);
         }
     }
 
     // AOWWinManager.pas:494
-    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
         WindowControl C = default;
-        FHandled = false;
-        FOldCursor = FCursor;
-        FCursor = FDefaultCursor;
+        Handled = false;
+        OldCursor = _cursor;
+        _cursor = DefaultCursor;
         if (X < 0)
         {
             X = 0;
@@ -505,290 +505,290 @@ public partial class WindowManager : UIComponent
             Y = 0;
         }
 
-        if (FWinWidth <= X)
+        if (_winWidth <= X)
         {
-            X = FWinWidth - 1;
+            X = _winWidth - 1;
         }
 
-        if (FWinHeight <= Y)
+        if (_winHeight <= Y)
         {
-            Y = FWinHeight - 1;
+            Y = _winHeight - 1;
         }
 
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        for (int I = Children.Count - 1; I >= 0; I--)
         {
-            C = (WindowControl)FChildren[I];
-            if (C.FPriority >= FOverlayPriority)
+            C = (WindowControl)Children[I];
+            if (C._priority >= _overlayPriority)
             {
-                if (!FHandled || C.FRedraw == true)
+                if (!Handled || C.Redraw == true)
                 {
-                    C.CheckMouseMove(Shift, X, Y);
-                    if (C.FHandled == true)
+                    C.CheckMouseMove(shift, X, Y);
+                    if (C.Handled == true)
                     {
-                        if (!FHandled)
+                        if (!Handled)
                         {
-                            FCursor = C.FCursor;
-                            if (!C.FMouseInside)
+                            _cursor = C._cursor;
+                            if (!C.MouseInside)
                             {
-                                C.FMouseInside = true;
-                                if (C.FOnEnter != null)
+                                C.MouseInside = true;
+                                if (C._onEnter != null)
                                 {
-                                    C.FOnEnter(C);
+                                    C._onEnter(C);
                                 }
                             }
                         }
                         else
                         {
-                            if (C.FMouseInside)
+                            if (C.MouseInside)
                             {
-                                C.FMouseInside = false;
-                                if (C.FOnExit != null)
+                                C.MouseInside = false;
+                                if (C._onExit != null)
                                 {
-                                    C.FOnExit(C);
+                                    C._onExit(C);
                                 }
                             }
                         }
 
-                        FHandled = true;
+                        Handled = true;
                     }
                     else
                     {
-                        if (C.FMouseInside)
+                        if (C.MouseInside)
                         {
-                            C.FMouseInside = false;
-                            if (C.FOnExit != null)
+                            C.MouseInside = false;
+                            if (C._onExit != null)
                             {
-                                C.FOnExit(C);
+                                C._onExit(C);
                             }
                         }
                     }
                 }
                 else
                 {
-                    if (C.FMouseInside)
+                    if (C.MouseInside)
                     {
-                        C.FMouseInside = false;
-                        if (C.FOnExit != null)
+                        C.MouseInside = false;
+                        if (C._onExit != null)
                         {
-                            C.FOnExit(C);
+                            C._onExit(C);
                         }
                     }
                 }
             }
         }
 
-        if (FCursor != FOldCursor)
+        if (_cursor != OldCursor)
         {
-            if (FOnChangeCursor != null)
+            if (_onChangeCursor != null)
             {
-                FOnChangeCursor(this);
+                _onChangeCursor(this);
             }
         }
 
-        if (FOnMouseMove != null)
+        if (_onMouseMove != null)
         {
-            FOnMouseMove(this, Shift, X, Y);
+            _onMouseMove(this, shift, X, Y);
         }
     }
 
     // AOWWinManager.pas:558
-    public override void CheckKeyPress(ref byte Key)
+    public override void CheckKeyPress(ref byte key)
     {
         UIComponent C = default;
-        FHandled = false;
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        Handled = false;
+        for (int I = Children.Count - 1; I >= 0; I--)
         {
-            C = (UIComponent)FChildren[I];
-            if (C.FPriority >= FOverlayPriority)
+            C = (UIComponent)Children[I];
+            if (C._priority >= _overlayPriority)
             {
-                C.CheckKeyPress(ref Key);
-                if (C.FHandled == true)
+                C.CheckKeyPress(ref key);
+                if (C.Handled == true)
                 {
-                    FHandled = true;
+                    Handled = true;
                 }
             }
         }
 
-        if (FOnKeyPress != null)
+        if (_onKeyPress != null)
         {
-            FOnKeyPress(this, ref Key);
+            _onKeyPress(this, ref key);
         }
     }
 
     // AOWWinManager.pas:578
-    public override void CheckKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
     {
         UIComponent C = default;
-        FHandled = false;
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        Handled = false;
+        for (int I = Children.Count - 1; I >= 0; I--)
         {
-            C = (UIComponent)FChildren[I];
-            if (!FHandled && C.FPriority >= FOverlayPriority && C.FVisible)
+            C = (UIComponent)Children[I];
+            if (!Handled && C._priority >= _overlayPriority && C._visible)
             {
-                C.CheckKeyDown(ref Key, Shift);
-                if (C.FHandled == true)
+                C.CheckKeyDown(ref key, shift);
+                if (C.Handled == true)
                 {
-                    FHandled = true;
+                    Handled = true;
                 }
             }
         }
 
-        if (!FHandled && FOnKeyDown != null)
+        if (!Handled && _onKeyDown != null)
         {
-            FOnKeyDown(this, ref Key, Shift);
+            _onKeyDown(this, ref key, shift);
         }
     }
 
     // AOWWinManager.pas:102
-    public virtual void SetILTB(InterfaceImageLibrary Value)
+    public virtual void SetILTB(InterfaceImageLibrary value)
     {
-        if (Value != FBackgroundTexture)
+        if (value != _backgroundTexture)
         {
-            FValid = false;
-            FBackgroundTexture = Value;
+            Valid = false;
+            _backgroundTexture = value;
         }
     }
 
     // AOWWinManager.pas:111
-    public virtual void SetILTF(InterfaceImageLibrary Value)
+    public virtual void SetILTF(InterfaceImageLibrary value)
     {
-        if (Value != FForegroundTexture)
+        if (value != _foregroundTexture)
         {
-            FValid = false;
-            FForegroundTexture = Value;
+            Valid = false;
+            _foregroundTexture = value;
         }
     }
 
     // AOWWinManager.pas:120
-    public void SetILBIndex(int Value)
+    public void SetImageLibraryIndex(int value)
     {
-        if (Value != FILIndexTBack)
+        if (value != _imageLibraryIndexTBack)
         {
-            FILIndexTBack = Value;
-            FValid = false;
+            _imageLibraryIndexTBack = value;
+            Valid = false;
         }
     }
 
     // AOWWinManager.pas:129
-    public void SetILFIndex(int Value)
+    public void SetILFIndex(int value)
     {
-        if (Value != FILIndexTFore)
+        if (value != _imageLibraryIndexTFore)
         {
-            FILIndexTFore = Value;
-            FValid = false;
+            _imageLibraryIndexTFore = value;
+            Valid = false;
         }
     }
 
     // AOWWinManager.pas:138
-    public void SetOverPri(int Value)
+    public void SetOverPriority(int value)
     {
-        if (Value != FOverlayPriority || Value != FNewOverlayPriority)
+        if (value != _overlayPriority || value != NewOverlayPriority)
         {
-            FNewOverlayPriority = Value;
-            FDrawn = false;
+            NewOverlayPriority = value;
+            Drawn = false;
         }
     }
 
     // AOWWinManager.pas:147
-    public void SetCursor(int Value)
+    public void SetCursor(int value)
     {
-        if (Value != FCursor)
+        if (value != _cursor)
         {
-            FCursor = Value;
-            if (FOnChangeCursor != null)
+            _cursor = value;
+            if (_onChangeCursor != null)
             {
-                FOnChangeCursor(this);
+                _onChangeCursor(this);
             }
         }
     }
 
     [Published]
-    public int Cursor { get => FCursor; set => SetCursor(value); }
+    public int Cursor { get => _cursor; set => SetCursor(value); }
 
     [Published]
-    public NotifyEvent<WindowManager> OnChangeCursor { get => FOnChangeCursor; set => FOnChangeCursor = value; }
+    public NotifyEvent<WindowManager> OnChangeCursor { get => _onChangeCursor; set => _onChangeCursor = value; }
 
     [Published]
-    public InterfaceImageLibrary BackgroundTexture { get => FBackgroundTexture; set => SetILTB(value); }
+    public InterfaceImageLibrary BackgroundTexture { get => _backgroundTexture; set => SetILTB(value); }
 
     [Published]
-    public InterfaceImageLibrary ForegroundTexture { get => FForegroundTexture; set => SetILTF(value); }
+    public InterfaceImageLibrary ForegroundTexture { get => _foregroundTexture; set => SetILTF(value); }
 
     [Published]
-    public int ILIndexTBack { get => FILIndexTBack; set => SetILBIndex(value); }
+    public int ImageLibraryIndexTBack { get => _imageLibraryIndexTBack; set => SetImageLibraryIndex(value); }
 
     [Published]
-    public int ILIndexTFore { get => FILIndexTFore; set => SetILFIndex(value); }
+    public int ImageLibraryIndexTFore { get => _imageLibraryIndexTFore; set => SetILFIndex(value); }
 
     [Published]
-    public int OverlayPriority { get => FOverlayPriority; set => SetOverPri(value); }
+    public int OverlayPriority { get => _overlayPriority; set => SetOverPriority(value); }
 
     [Published]
-    public int BorderLeft { get => FBorderLeft; set => FBorderLeft = value; }
+    public int BorderLeft { get => _borderLeft; set => _borderLeft = value; }
 
     [Published]
-    public int BorderRight { get => FBorderRight; set => FBorderRight = value; }
+    public int BorderRight { get => _borderRight; set => _borderRight = value; }
 
     [Published]
-    public int BorderTop { get => FBorderTop; set => FBorderTop = value; }
+    public int BorderTop { get => _borderTop; set => _borderTop = value; }
 
     [Published]
-    public int BorderBottom { get => FBorderBottom; set => FBorderBottom = value; }
+    public int BorderBottom { get => _borderBottom; set => _borderBottom = value; }
 
     [Published]
-    public bool DrawOverlay { get => FDrawOverlay; set => FDrawOverlay = value; }
+    public bool DrawOverlay { get => _drawOverlay; set => _drawOverlay = value; }
 
     public new NotifyEvent<WindowManager> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<WindowManager> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<WindowManager> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<WindowManager> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<WindowManager> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<WindowManager> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<WindowManager> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<WindowManager> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<WindowManager> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 }

@@ -38,53 +38,53 @@ public partial class ArenaDialog : DataModule
     public CheckBox U8;
     public Image DecoL;
     public Image DecoR;
-    public Frame AoWFrame1;
+    public Frame Frame1;
     public Panel SelectionInfoPnl;
     public Label SelectionInfoLbl;
     public Label SelectionLbl;
     public UserDrawBox MapView;
     public Image InfoSep;
     public IvTranslator Translator;
-    public EnterArenaEventLog FEvent;
-    public ExecuteDoneEvent FOnClose;
+    public EnterArenaEventLog Event;
+    public ExecuteDoneEvent OnClose;
 
     // AoWArenaDlg.pas:104
-    public void DrawUnit(int Index, int X, int Y, ref LockedSurface SD)
+    public void DrawUnit(int index, int X, int Y, ref LockedSurface lockedSurface)
     {
-        Rect SaveRect;
-        UnitShowInfo Info;
-        LibraryImage Img;
+        Rect saveRectangle;
+        UnitShowInfo info;
+        LibraryImage image;
         Troop U;
-        Units.Alignment Alignment;
-        if (Index < FEvent.GetCount())
+        Units.Alignment alignment;
+        if (index < Event.GetCount())
         {
-            U = FEvent.GetUnit(Index);
-            SaveRect = SD.ClipRect;
-            var rect = new Rect(X + 5, Y + 4, X + 46, Y + 56);
-            SD.ClipRect = rect;
-            Alignment = U.GetAlignment();
-            if ((byte)Alignment < DialogHosts.IntGfxMod.UnitBGs.Count)
+            U = Event.GetUnit(index);
+            saveRectangle = lockedSurface.ClipRectangle;
+            var rectangle = new Rect(X + 5, Y + 4, X + 46, Y + 56);
+            lockedSurface.ClipRectangle = rectangle;
+            alignment = U.GetAlignment();
+            if ((byte)alignment < DialogHosts.UIGraphics.UnitBGs.Count)
             {
-                Img = DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
-                Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
+                image = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
+                image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
             }
 
-            Info = default;
-            Info.Direction = 3;
-            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            U.ShowEx(X - 8, Y - 5, SD, Info);
-            if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) == 0)
+            info = default;
+            info.Direction = 3;
+            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
+            U.Show(X - 8, Y - 5, lockedSurface, info);
+            if ((((int)(((uint)Event.Trainable) >> index)) & 1) == 0)
             {
-                Img = DialogHosts.IntGfxMod.UnitBGs[7];
-                Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
+                image = DialogHosts.UIGraphics.UnitBGs[7];
+                image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
             }
 
-            SD.ClipRect = SaveRect;
-            if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) != 0)
+            lockedSurface.ClipRectangle = saveRectangle;
+            if ((((int)(((uint)Event.Trainable) >> index)) & 1) != 0)
             {
-                DialogHosts.FontModule.Age8.Color = 0;
-                var unitTrainCost = FEvent.FArena.UnitTrainCost(U);
-                DialogHosts.FontModule.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), SD);
+                DialogHosts.UIFonts.Age8.Color = 0;
+                var unitTrainCost = Event.Arena.UnitTrainCost(U);
+                DialogHosts.UIFonts.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), lockedSurface);
             }
         }
     }
@@ -92,21 +92,21 @@ public partial class ArenaDialog : DataModule
     // AoWArenaDlg.pas:140
     public void ClearEvent()
     {
-        EnterArenaEventLog Event;
-        ExecuteDoneEvent Notify;
+        EnterArenaEventLog eventValue;
+        ExecuteDoneEvent notify;
         DialogHosts.General.Manager.OverlayPriority = 0;
-        Notify = FOnClose;
-        Event = FEvent;
-        FOnClose = null;
-        FEvent = null;
-        if (Notify != null)
+        notify = OnClose;
+        eventValue = Event;
+        OnClose = null;
+        Event = null;
+        if (notify != null)
         {
-            Notify(Event);
+            notify(eventValue);
         }
 
-        if (Event != null)
+        if (eventValue != null)
         {
-            Event.Release();
+            eventValue.Release();
         }
     }
 
@@ -120,42 +120,42 @@ public partial class ArenaDialog : DataModule
     // AoWArenaDlg.pas:158
     public void SelectBtnClick()
     {
-        string Reason = "";
+        string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (FEvent.Train(ref Reason))
+        if (Event.Train(ref reason))
         {
             Dlg.Visible = false;
         }
         else
         {
-            AoWHSMap.Current.ShowWarning(Reason);
+            AoWHSMap.Current.ShowWarning(reason);
         }
     }
 
     // AoWArenaDlg.pas:170
-    public void U1Change(CheckBox Sender, int Slot)
+    public void U1Change(CheckBox sender, int slot)
     {
-        string Reason = "";
-        if (Sender.Checked)
+        string reason = "";
+        if (sender.Checked)
         {
-            FEvent.SetSelection((byte)(FEvent.FSelection | (1 << Slot)));
+            Event.SetSelection((byte)(Event.Selection | (1 << slot)));
         }
         else
         {
-            FEvent.SetSelection((byte)(FEvent.FSelection & ~(1 << Slot)));
+            Event.SetSelection((byte)(Event.Selection & ~(1 << slot)));
         }
 
-        U1.Checked = (FEvent.FSelection & 1) != 0;
-        U2.Checked = (FEvent.FSelection & 2) != 0;
-        U3.Checked = (FEvent.FSelection & 4) != 0;
-        U4.Checked = (FEvent.FSelection & 8) != 0;
-        U5.Checked = (FEvent.FSelection & 16) != 0;
-        U6.Checked = (FEvent.FSelection & 32) != 0;
-        U7.Checked = (FEvent.FSelection & 64) != 0;
-        U8.Checked = (FEvent.FSelection & 128) != 0;
-        if ((FEvent.FTrainable & (1 << Slot)) != 0)
+        U1.Checked = (Event.Selection & 1) != 0;
+        U2.Checked = (Event.Selection & 2) != 0;
+        U3.Checked = (Event.Selection & 4) != 0;
+        U4.Checked = (Event.Selection & 8) != 0;
+        U5.Checked = (Event.Selection & 16) != 0;
+        U6.Checked = (Event.Selection & 32) != 0;
+        U7.Checked = (Event.Selection & 64) != 0;
+        U8.Checked = (Event.Selection & 128) != 0;
+        if ((Event.Trainable & (1 << slot)) != 0)
         {
-            if (Sender.Checked)
+            if (sender.Checked)
             {
                 DialogHosts.General.PlayButtonSound(1);
             }
@@ -165,9 +165,9 @@ public partial class ArenaDialog : DataModule
             }
         }
 
-        if (FEvent.FSelection != 0)
+        if (Event.Selection != 0)
         {
-            if (FEvent.CanTrain(ref Reason))
+            if (Event.CanTrain(ref reason))
             {
                 SelectionInfoLbl.TextColor = 0;
             }
@@ -176,7 +176,7 @@ public partial class ArenaDialog : DataModule
                 SelectionInfoLbl.TextColor = 149;
             }
 
-            var selectionInfo = FEvent.GetSelectionInfo();
+            var selectionInfo = Event.GetSelectionInfo();
             SelectionInfoLbl.Text = selectionInfo;
         }
         else
@@ -186,9 +186,9 @@ public partial class ArenaDialog : DataModule
     }
 
     // AoWArenaDlg.pas:196
-    public void U1PreDraw(CheckBox Sender, LockedSurface SD, int Slot)
+    public void U1PreDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        DrawUnit(Slot, UnitPnl.WinLeft + Sender.WinLeft, UnitPnl.WinTop + Sender.WinTop, ref SD);
+        DrawUnit(slot, UnitPnl.WinLeft + sender.WinLeft, UnitPnl.WinTop + sender.WinTop, ref lockedSurface);
     }
 
     // AoWArenaDlg.pas:201
@@ -198,19 +198,19 @@ public partial class ArenaDialog : DataModule
     }
 
     // AoWArenaDlg.pas:206
-    public void MapViewDraw(UIComponent Sender, LockedSurface SD)
+    public void MapViewDraw(UIComponent sender, LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        LockedSurface MapSD = default;
+        LockedSurface mapSurfaceDescription = default;
         Rect R;
         int W;
         int H;
-        R = new Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
+        R = new Rect(Dlg.WinLeft + sender.WinLeft, Dlg.WinTop + sender.WinTop, Dlg.WinLeft + sender.WinLeft + sender.WinWidth, Dlg.WinTop + sender.WinTop + sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
-        var yhx = FEvent.FArena.GetYhx();
-        HexGeometry.HXtoHP(FEvent.FArena.GetXhx(), yhx, ref X, ref Y);
+        var hexY = Event.Arena.GetHexY();
+        HexGeometry.HexToPixel(Event.Arena.GetHexX(), hexY, ref X, ref Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -223,19 +223,19 @@ public partial class ArenaDialog : DataModule
             Y = 16;
         }
 
-        LockedSurface.CreateSDfromSD(SD, R, ref MapSD);
-        var lhx = FEvent.FArena.GetLhx();
-        AoWHSMap.Current.SetViewPort(X, Y, lhx, R.Right - R.Left, R.Bottom - R.Top);
+        LockedSurface.CreateFrom(lockedSurface, R, ref mapSurfaceDescription);
+        var hexLevel = Event.Arena.GetHexLevel();
+        AoWHSMap.Current.SetViewPort(X, Y, hexLevel, R.Right - R.Left, R.Bottom - R.Top);
         AoWHSMap.Current.UpdateStaticScene();
         AoWHSMap.Current.UpdateDynamicScene();
-        AoWHSMap.Current.DrawStaticScene(ref MapSD);
-        AoWHSMap.Current.DrawDynamicScene(ref MapSD);
+        AoWHSMap.Current.DrawStaticScene(ref mapSurfaceDescription);
+        AoWHSMap.Current.DrawDynamicScene(ref mapSurfaceDescription);
     }
 
     // AoWArenaDlg.pas:224
     public void MapViewUpdate()
     {
-        MapView.FDrawn = MapView.FDrawn && (AoWHSMap.Current.Frame & 1) != 0;
+        MapView.Drawn = MapView.Drawn && (AoWHSMap.Current.Frame & 1) != 0;
     }
 
     // AoWArenaDlg.pas:229
@@ -244,36 +244,36 @@ public partial class ArenaDialog : DataModule
     }
 
     // AoWArenaDlg.pas:232
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             Dlg.Visible = false;
         }
     }
 
-    internal static void ShowArena(ArenaDialog Dialog, EnterArenaEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowArena(ArenaDialog dialog, EnterArenaEventLog eventValue, ExecuteDoneEvent done)
     {
-        Assert(Dialog.FEvent == null, "", "AoWArenaDlg.pas", 94);
-        ResetArena(Dialog);
-        Dialog.FOnClose = Done;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
+        Assert(dialog.Event == null, "", "AoWArenaDlg.pas", 94);
+        ResetArena(dialog);
+        dialog.OnClose = done;
+        dialog.Event = eventValue;
+        dialog.Event.AddRef();
         DialogHosts.General.Manager.OverlayPriority = 49;
-        Dialog.Dlg.Visible = true;
+        dialog.Dlg.Visible = true;
     }
 
-    internal static void ResetArena(ArenaDialog Dialog)
+    internal static void ResetArena(ArenaDialog dialog)
     {
-        Dialog.U1.Checked = false;
-        Dialog.U2.Checked = false;
-        Dialog.U3.Checked = false;
-        Dialog.U4.Checked = false;
-        Dialog.U5.Checked = false;
-        Dialog.U6.Checked = false;
-        Dialog.U7.Checked = false;
-        Dialog.U8.Checked = false;
-        Dialog.SelectionInfoLbl.Text = "";
+        dialog.U1.Checked = false;
+        dialog.U2.Checked = false;
+        dialog.U3.Checked = false;
+        dialog.U4.Checked = false;
+        dialog.U5.Checked = false;
+        dialog.U6.Checked = false;
+        dialog.U7.Checked = false;
+        dialog.U8.Checked = false;
+        dialog.SelectionInfoLbl.Text = "";
     }
 
 }

@@ -7,27 +7,27 @@ namespace Aow.Engine.Nodes;
 // One explicit registration per editor class keeps descriptor identity in the editor list.
 public sealed class EditorClass
 {
-    private static readonly Catalog<Type, EditorClass> catalog = new("editor class");
-    private readonly Action<EngineObject, GameEngine, EditDoneEvent> edit;
+    private static readonly Catalog<Type, EditorClass> s_catalog = new("editor class");
+    private readonly Action<EngineObject, GameEngine, EditDoneEvent> _edit;
 
-    private EditorClass(EngineClass eclass, int editorClassId, Action<EngineObject, GameEngine, EditDoneEvent> edit)
+    private EditorClass(EngineClass engineClass, int editorClassId, Action<EngineObject, GameEngine, EditDoneEvent> edit)
     {
-        Class = eclass;
-        EditorClassID = editorClassId;
-        this.edit = edit;
+        Class = engineClass;
+        EditorClassId = editorClassId;
+        this._edit = edit;
     }
 
     public EngineClass Class { get; }
-    public string ClassName => Class.ClassName;
-    public int EditorClassID { get; }
+    public string StorageKey => Class.StorageKey;
+    public int EditorClassId { get; }
 
-    public void Edit(EngineObject Obj, GameEngine AEngine, EditDoneEvent Done) => edit(Obj, AEngine, Done);
+    public void Edit(EngineObject objectValue, GameEngine engine, EditDoneEvent done) => _edit(objectValue, engine, done);
 
     public static EditorClass Register<T>() where T : EngineObjectEditor, IEngineObjectEditorClass =>
-        catalog.Add(typeof(T), new EditorClass(EngineClass.Of<T>(), T.EditorClassID, static (obj, engine, done) => T.Edit(obj, engine, done)));
+        s_catalog.Add(typeof(T), new EditorClass(EngineClass.Of<T>(), T.EditorClassId, static (objectValue, engine, done) => T.Edit(objectValue, engine, done)));
 
-    public static EditorClass Of<T>() where T : EngineObjectEditor, IEngineObjectEditorClass => catalog[typeof(T)];
-    public static EditorClass Of(Type type) => catalog[type];
+    public static EditorClass Of<T>() where T : EngineObjectEditor, IEngineObjectEditorClass => s_catalog[typeof(T)];
+    public static EditorClass Of(Type type) => s_catalog[type];
 
-    public static IReadOnlyList<EditorClass> All => catalog.All;
+    public static IReadOnlyList<EditorClass> All => s_catalog.All;
 }

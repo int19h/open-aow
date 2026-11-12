@@ -44,35 +44,35 @@ public sealed partial class RuleConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly AoWHSSet previousSet = AoWHSSet.Current;
-        private readonly GameEngine previousEngine = GameTables.AoWEngine;
-        private readonly AoWHSMap previousMap = AoWHSMap.Current;
+        private readonly AoWHSSet _previousSet = AoWHSSet.Current;
+        private readonly GameEngine _previousEngine = GameTables.GameEngine;
+        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
         internal readonly AoWHSMap Map;
 
         internal Fixture()
         {
-            GameTables.AoWEngine = EngineFixture.Engine;
+            GameTables.GameEngine = EngineFixture.Engine;
             Map = new AoWHSMap(null!);
             var set = EngineFixture.CreateGameSet(Manager);
             AoWHSSet.Current = set;
-            GameTables.AoWEngine = null!;
-            Map.FStatus = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
-            Map.FRaces = new RaceList(null!);
-            Map.FUnitControl = new UnitControl(null!);
-            Map.FHeroControl = new HeroControl(null!);
+            GameTables.GameEngine = null!;
+            Map._status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
+            Map.Races = new RaceList(null!);
+            Map.UnitControl = new UnitControl(null!);
+            Map.HeroControl = new HeroControl(null!);
             AoWHSMap.Current = Map;
         }
 
         public void Dispose()
         {
-            AoWHSSet.Current = previousSet;
-            GameTables.AoWEngine = previousEngine;
-            AoWHSMap.Current = previousMap;
+            AoWHSSet.Current = _previousSet;
+            GameTables.GameEngine = _previousEngine;
+            AoWHSMap.Current = _previousMap;
             Manager.Dispose();
-            Map.FRaces.Dispose();
-            Map.FUnitControl.Dispose();
-            Map.FHeroControl.Dispose();
+            Map.Races.Dispose();
+            Map.UnitControl.Dispose();
+            Map.HeroControl.Dispose();
         }
     }
 
@@ -100,16 +100,16 @@ public sealed partial class RuleConstructionTests
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
-                    if (field.Name is "eclass" or "actionClass" or "groupClass") continue; // the descriptor caches are not constructor state
+                    if (field.Name is "_engineClass" or "_actionClass" or "_groupClass") continue; // the descriptor caches are not constructor state
                     // CF-2 stores priority as a delegate. Keep its value in the base recording's key.
-                    if (item is AIPlayerActionClass actionClass && field.Name == "priority")
+                    if (item is AIPlayerActionClass actionClass && field.Name == "_priority")
                     {
                         fields[current.Name + ".<Priority>k__BackingField"] = actionClass.Priority;
                         continue;
                     }
                     string key = current.Name + "." + field.Name;
                     object? child = field.GetValue(item);
-                    if (field.Name == "FOwner") { fields[key] = child is null ? null : "$owner"; continue; }
+                    if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     fields[key] = State(child, path + "." + key);
                 }
             return fields;
@@ -120,57 +120,57 @@ public sealed partial class RuleConstructionTests
     private static void AssertPrivateArrayChildren(object value)
     {
         if (value is AbilityControl control)
-            for (int i = 0; i < 5; i++) Assert.Equal(0, control.FAbilitiesByType[i].Count);
+            for (int i = 0; i < 5; i++) Assert.Equal(0, control.AbilitiesByType[i].Count);
         if (value is UnitResource resource)
             for (int i = 0; i < 3; i++)
             {
-                Assert.NotNull(resource.FAbilities[i]);
-                if (i > 0) Assert.NotSame(resource.FAbilities[0], resource.FAbilities[i]);
+                Assert.NotNull(resource.Abilities[i]);
+                if (i > 0) Assert.NotSame(resource.Abilities[0], resource.Abilities[i]);
             }
         if (value is UnitGraphicsResource graphics)
-            for (int i = 0; i < 5; i++) Assert.NotNull(graphics.FSFXLibraries[i]);
+            for (int i = 0; i < 5; i++) Assert.NotNull(graphics.SfxLibraries[i]);
         if (value is CombatPredictor predictor)
         {
-            Assert.NotNull(predictor.FSides[0]);
-            Assert.NotNull(predictor.FSides[1]);
-            Assert.NotSame(predictor.FSides[0], predictor.FSides[1]);
+            Assert.NotNull(predictor.Sides[0]);
+            Assert.NotNull(predictor.Sides[1]);
+            Assert.NotSame(predictor.Sides[0], predictor.Sides[1]);
         }
         if (value is SpellCastingAbility casting)
-            for (int i = 1; i <= 5; i++) Assert.Equal(20, casting.FLevelCosts[i]);
-        if (value is LeadershipAbility leadership) Assert.Equal(10, leadership.FLevelCosts[1]);
+            for (int i = 1; i <= 5; i++) Assert.Equal(20, casting.LevelCosts[i]);
+        if (value is LeadershipAbility leadership) Assert.Equal(10, leadership.LevelCosts[1]);
     }
 
     private static object Create(Type type, ECustomNode owner, int route, Fixture fixture)
     {
-        if (route == 1) return EngineClass.Of(type).Create(owner);
+        if (route == 1) return EngineClass.Of(type).CreateInstance(owner);
         if (route == 2)
         {
             if (EngineHost.Engines is null) EngineHost.Initialize();
             using GameEngine engine = new GameEngine(null!);
             var meta = EngineClass.Of(type);
-            engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
-            try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
+            engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+            try { engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]); }
             catch (Exception error) when (PortedExceptions.Is(error)) { }
-            engine.RegisterEClasses([EngineClass.Of(type)]);
-            return engine.CreateEObject(meta.ClassID, owner);
+            engine.RegisterEngineClasses([EngineClass.Of(type)]);
+            return engine.CreateEngineObject(meta.ClassId, owner);
         }
         if (route == 3)
         {
             var meta = EngineClass.Of(type);
-            return (object)Invoke(() => meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
+            return (object)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
         var constructor = typeof(EngineObject).IsAssignableFrom(type) ? type.GetConstructor([typeof(ECustomNode)]) : type.GetConstructors().OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();
         Assert.True(factory is not null || constructor is not null, type.Name + " needs its own completed creation signature.");
         ParameterInfo[] parameters = factory?.GetParameters() ?? constructor!.GetParameters();
-        object?[] args = parameters.Select(p => p.ParameterType == typeof(ECustomNode) ? owner
+        object?[] arguments = parameters.Select(p => p.ParameterType == typeof(ECustomNode) ? owner
             : p.ParameterType == typeof(int) ? (object)37
             : p.ParameterType == typeof(HSMap) ? fixture.Map
             : p.ParameterType == typeof(FastBattle) ? new FastBattle(null!)
             : p.ParameterType == typeof(CombatSide) ? new CombatSide(null!)
             : null).ToArray();
-        try { return (object)Invoke(() => factory is not null ? factory.Invoke(null, args) : constructor!.Invoke(args))!; }
-        finally { foreach (object? arg in args) if (arg is FastBattle or CombatSide) ((((object)arg) ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
+        try { return (object)Invoke(() => factory is not null ? factory.Invoke(null, arguments) : constructor!.Invoke(arguments))!; }
+        finally { foreach (object? argument in arguments) if (argument is FastBattle or CombatSide) ((((object)argument) ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
     }
 
     private static object? Invoke(Func<object?> action)
@@ -183,7 +183,7 @@ public sealed partial class RuleConstructionTests
         }
     }
 
-    public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
+    public static IEnumerable<object[]> Classes => s_names.Select(name => new object[] { name });
     public static IEnumerable<object[]> EngineClasses => Classes.Where(row => typeof(EngineObject).IsAssignableFrom(TypeNamed((string)row[0])));
 
     // The AoWE unit namespace is gone. A simple name that one top-level type carries selects that type.
@@ -243,7 +243,7 @@ public sealed partial class RuleConstructionTests
             var value = (EngineObject)Create(type, null!, route, fixture);
             Assert.IsType(type, value);
             Assert.Null(value.Owner);
-            Assert.Same(EngineClass.Of(type), value.EClass);
+            Assert.Same(EngineClass.Of(type), value.EngineClass);
             string state = Snapshot(value);
             try { value.Dispose(); }
             catch (Exception error) { state += "\n" + error.GetType().FullName + ":" + error.Message; }
@@ -258,7 +258,7 @@ public sealed partial class RuleConstructionTests
 
         public override void Clear()
         {
-            SawInitializedFields = FTransportPath is not null && FRefCount == 1;
+            SawInitializedFields = TransportPath is not null && RefCount == 1;
             base.Clear();
         }
     }
@@ -267,27 +267,27 @@ public sealed partial class RuleConstructionTests
     {
         internal bool SawPreAssignmentFields;
 
-        public override MoveControlSettings CreateMCS()
+        public override MoveControlSettings CreateMoveControlSettings()
         {
-            SawPreAssignmentFields = FMoveControlSettings is null && FMoveSettingsList is null && FCurrentMove == 0 && FMap is null;
-            return base.CreateMCS();
+            SawPreAssignmentFields = MoveControlSettings is null && MoveSettingsList is null && CurrentMove == 0 && Map is null;
+            return base.CreateMoveControlSettings();
         }
     }
 
     [Fact]
-    public void VirtualClearAndCreateMCSKeepTheirOriginalPositions()
+    public void VirtualClearAndCreateMoveControlSettingsKeepTheirOriginalPositions()
     {
         using var fixture = new Fixture();
         var settings = new ObservedAISettings(null!);
         Assert.True(settings.SawInitializedFields);
-        Assert.Equal(175, settings.FMovePointsMax);
-        Assert.Equal(-1, settings.FDestinationX);
+        Assert.Equal(175, settings.MovePointsMax);
+        Assert.Equal(-1, settings.DestinationX);
         settings.Dispose();
         using var selector = new ObservedSelector();
         Assert.True(selector.SawPreAssignmentFields);
-        Assert.NotNull(selector.FMoveControlSettings);
-        Assert.NotNull(selector.FMoveSettingsList);
-        Assert.Equal(-1, selector.FCurrentMove);
+        Assert.NotNull(selector.MoveControlSettings);
+        Assert.NotNull(selector.MoveSettingsList);
+        Assert.Equal(-1, selector.CurrentMove);
     }
 
     [Fact]
@@ -305,12 +305,12 @@ public sealed partial class RuleConstructionTests
         var value = new CombatUnitSelectionControl();
         try
         {
-            Assert.IsType<CombatMoveControlSettings>(value.FMoveControlSettings);
-            Assert.NotNull(value.FMoveControlSettings.FPath);
-            Assert.NotNull(value.FMoveControlSettings.FSubMoves);
-            Assert.NotNull(value.FMoveControlSettings.FUnits);
-            Assert.Equal(0, value.FMoveSettingsList.FChildren.Count);
-            Assert.Equal(-1, value.FCurrentMove);
+            Assert.IsType<CombatMoveControlSettings>(value.MoveControlSettings);
+            Assert.NotNull(value.MoveControlSettings.Path);
+            Assert.NotNull(value.MoveControlSettings.SubMoves);
+            Assert.NotNull(value.MoveControlSettings.Units);
+            Assert.Equal(0, value.MoveSettingsList._children.Count);
+            Assert.Equal(-1, value.CurrentMove);
         }
         finally { value.Dispose(); }
     }
@@ -329,7 +329,7 @@ public sealed partial class RuleConstructionTests
             Assert.Same(owner, value.Owner);
             Assert.Same(value, Assert.Single(owner.Members));
             Assert.Equal(0, owner.Removals);
-            if (value is ArmyHexSprite army) Assert.NotNull(army.FArmy);
+            if (value is ArmyHexSprite army) Assert.NotNull(army.Army);
             value.SetOwner(null!);
             value.Dispose();
             Assert.Empty(owner.Members);

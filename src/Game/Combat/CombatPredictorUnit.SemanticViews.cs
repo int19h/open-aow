@@ -5,17 +5,17 @@ namespace Aow.Game.Combat;
 
 public partial class CombatPredictorUnit
 {
-    public void Setup(Troop unit, CombatPredictor predictor, byte side)
+    public void Setup(Troop troop, CombatPredictor predictor, byte side)
     {
-        FUnit = unit;
-        unit.AddRef();
-        FPredictor = predictor;
-        FCPUID = predictor.CreateUniqueCPUID();
-        FSide = side;
-        FInitialHitPoints = unit.GetHitPoints() * 100;
-        FEnabled = 1;
-        FTargetsInvalid = 1;
-        FWallTargetsInvalid = 1;
-        FOpponents = predictor.FSides[side == 0 ? 1 : 0];
+        Troop = troop;
+        troop.AddRef();
+        Predictor = predictor;
+        CpuId = predictor.CreateUniqueCpuId();
+        Side = side;
+        InitialHitPoints = troop.GetHitPoints() * 100;
+        Enabled = 1;
+        TargetsInvalid = 1;
+        WallTargetsInvalid = 1;
+        Opponents = predictor.Sides[side == 0 ? 1 : 0];
     }
 }

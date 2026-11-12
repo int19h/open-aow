@@ -10,67 +10,67 @@ namespace Aow.Game.Magic.Abilities;
 // (ability ID, commanded combat-unit IDs)
 public partial class CommandAbilityData : AbilityData
 {
-    public new const int ClassID = 131755;
+    public new const int ClassId = 131755;
 
     // AoWAb.PAS:4949
     public CommandAbilityData(ECustomNode owner) : base(owner)
     {
-        FCommandedUnits = new ByteList();
+        CommandedUnits = new ByteList();
     }
 
-    public int FAbilityID;
-    public ByteList FCommandedUnits;
+    public int AbilityId;
+    public ByteList CommandedUnits;
 
     // AoWAb.PAS:4954
     public override void Dispose()
     {
-        FCommandedUnits?.Dispose();
+        CommandedUnits?.Dispose();
         base.Dispose();
     }
 
     // AoWAb.PAS:4967
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FAbilityID, 20);
-        Stream.rwStreamProc(21, FCommandedUnits.LoadFromStream, FCommandedUnits.SaveToStream);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref AbilityId, 20);
+        stream.rwStreamProc(21, CommandedUnits.LoadFromStream, CommandedUnits.SaveToStream);
     }
 
     // AoWAb.PAS:4963
-    public override int GetAbilityID() => FAbilityID;
+    public override int GetAbilityId() => AbilityId;
 
     // AoWAb.PAS:4973
-    public int CommandingTargetPriority(Combat.Battle Combat)
+    public int CommandingTargetPriority(Combat.Battle combat)
     {
-        CombatObject Target;
-        int Result = 0;
-        for (int I = FCommandedUnits.Count - 1; I >= 0; I--)
+        CombatObject target;
+        int result = 0;
+        for (int I = CommandedUnits.Count - 1; I >= 0; I--)
         {
-            Target = Combat.FCombatData.FindID(FCommandedUnits.List[I]);
-            if (Target != null)
+            target = combat.CombatData.FindId(CommandedUnits.List[I]);
+            if (target != null)
             {
-                Result += Target.GetTargetPriority();
+                result += target.GetTargetPriority();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:4985
-    public int CommandingTargetStrength(Combat.Battle Combat)
+    public int CommandingTargetStrength(Combat.Battle combat)
     {
-        CombatObject Target;
-        int Result = 0;
-        for (int I = FCommandedUnits.Count - 1; I >= 0; I--)
+        CombatObject target;
+        int result = 0;
+        for (int I = CommandedUnits.Count - 1; I >= 0; I--)
         {
-            Target = Combat.FCombatData.FindID(FCommandedUnits.List[I]);
-            if (Target != null)
+            target = combat.CombatData.FindId(CommandedUnits.List[I]);
+            if (target != null)
             {
-                Result += Target.GetTargetStrength();
+                result += target.GetTargetStrength();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P4_02.inc:475

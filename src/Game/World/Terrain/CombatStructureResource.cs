@@ -9,10 +9,10 @@ public partial class CombatStructureResource : CombatFixedImageLibraryTerrain.Re
     { }
 
     // CombatStructure.pas:256
-    public new const int ClassID = 2229511;
+    public new const int ClassId = 2229511;
 
     // CombatStructure.pas:262
-    public override int ResourceUserClassID() => 2229510;
+    public override int ResourceUserClassId() => 2229510;
 
     // CombatStructure.pas:259
     public override string ResourceEditName() => "Combat Structure";

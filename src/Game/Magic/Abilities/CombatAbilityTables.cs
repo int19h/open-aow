@@ -10,9 +10,9 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class CombatAbilityTables
 {
-    internal static Int32Array3 TCombatUnit_CommandingTargetPriority__CommandAbilityIDs = Int32Array3.From([29, 28, 148]);
+    internal static Int32Array3 s_commandingPriorityAbilityIds = Int32Array3.From([29, 28, 148]);
 
-    internal static Int32Array3 TCombatUnit_CommandingTargetStrength__CommandAbilityIDs = Int32Array3.From([29, 28, 148]);
+    internal static Int32Array3 s_commandingStrengthAbilityIds = Int32Array3.From([29, 28, 148]);
 
     internal static CombatPredictor_AddWall__TOriginalAssertText TCombatPredictor_AddWall__OriginalAssertFile = new CombatPredictor_AddWall__TOriginalAssertText
     {
@@ -28,60 +28,60 @@ internal static class CombatAbilityTables
         Text = ByteArray128.From([85, 115, 101, 32, 68, 101, 108, 101, 116, 101, 87, 97, 108, 108, 32, 105, 110, 115, 116, 101, 97, 100, 33, 0])
     };
 
-    internal static CombatSideIndex GetCombatSide(sbyte Attacker, sbyte AttackerRelation, sbyte Defender, sbyte DefenderRelation, sbyte Player, sbyte Relation)
+    internal static CombatSideIndex GetCombatSide(sbyte attacker, sbyte attackerRelation, sbyte defender, sbyte defenderRelation, sbyte player, sbyte relation)
     {
-        CombatSideIndex Result;
-        if (Player != 0 && Attacker == 0 && Defender == 0)
+        CombatSideIndex result;
+        if (player != 0 && attacker == 0 && defender == 0)
         {
-            Result = CombatSideIndex.Neutral;
+            result = CombatSideIndex.Neutral;
         }
         else
         {
-            if (Player == Attacker && (Player != 0 || AttackerRelation == Relation))
+            if (player == attacker && (player != 0 || attackerRelation == relation))
             {
-                Result = CombatSideIndex.Attacker;
+                result = CombatSideIndex.Attacker;
             }
             else
             {
-                if (Player == Defender && (Player != 0 || DefenderRelation == Relation))
+                if (player == defender && (player != 0 || defenderRelation == relation))
                 {
-                    Result = CombatSideIndex.Defender;
+                    result = CombatSideIndex.Defender;
                 }
                 else
                 {
-                    if (Player == 0)
+                    if (player == 0)
                     {
-                        if (Attacker != 0 && AbilityRules.DiplomaticRelation(Attacker, AttackerRelation, Player, Relation) == DiplomaticRelation.Peace && AbilityRules.DiplomaticRelation(Defender, DefenderRelation, Player, Relation) != DiplomaticRelation.Peace)
+                        if (attacker != 0 && AbilityRules.DiplomaticRelation(attacker, attackerRelation, player, relation) == DiplomaticRelation.Peace && AbilityRules.DiplomaticRelation(defender, defenderRelation, player, relation) != DiplomaticRelation.Peace)
                         {
-                            Result = CombatSideIndex.Attacker;
+                            result = CombatSideIndex.Attacker;
                         }
                         else
                         {
-                            if (Defender != 0 && AbilityRules.DiplomaticRelation(Defender, DefenderRelation, Player, Relation) == DiplomaticRelation.Peace && AbilityRules.DiplomaticRelation(Attacker, AttackerRelation, Player, Relation) != DiplomaticRelation.Peace)
+                            if (defender != 0 && AbilityRules.DiplomaticRelation(defender, defenderRelation, player, relation) == DiplomaticRelation.Peace && AbilityRules.DiplomaticRelation(attacker, attackerRelation, player, relation) != DiplomaticRelation.Peace)
                             {
-                                Result = CombatSideIndex.Defender;
+                                result = CombatSideIndex.Defender;
                             }
                             else
                             {
-                                Result = CombatSideIndex.Neutral;
+                                result = CombatSideIndex.Neutral;
                             }
                         }
                     }
                     else
                     {
-                        if (Attacker != 0 && AbilityRules.DiplomaticRelation(Attacker, AttackerRelation, Player, Relation) == DiplomaticRelation.Alliance && AbilityRules.DiplomaticRelation(Defender, DefenderRelation, Player, Relation) != DiplomaticRelation.Alliance)
+                        if (attacker != 0 && AbilityRules.DiplomaticRelation(attacker, attackerRelation, player, relation) == DiplomaticRelation.Alliance && AbilityRules.DiplomaticRelation(defender, defenderRelation, player, relation) != DiplomaticRelation.Alliance)
                         {
-                            Result = CombatSideIndex.Attacker;
+                            result = CombatSideIndex.Attacker;
                         }
                         else
                         {
-                            if (Defender != 0 && AbilityRules.DiplomaticRelation(Defender, DefenderRelation, Player, Relation) == DiplomaticRelation.Alliance && AbilityRules.DiplomaticRelation(Attacker, AttackerRelation, Player, Relation) != DiplomaticRelation.Alliance)
+                            if (defender != 0 && AbilityRules.DiplomaticRelation(defender, defenderRelation, player, relation) == DiplomaticRelation.Alliance && AbilityRules.DiplomaticRelation(attacker, attackerRelation, player, relation) != DiplomaticRelation.Alliance)
                             {
-                                Result = CombatSideIndex.Defender;
+                                result = CombatSideIndex.Defender;
                             }
                             else
                             {
-                                Result = CombatSideIndex.Neutral;
+                                result = CombatSideIndex.Neutral;
                             }
                         }
                     }
@@ -89,11 +89,11 @@ internal static class CombatAbilityTables
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int CombatDID;
+    internal static int s_combatDebugChannel;
 
-    internal static EngineClass P4CombatCasterClass = EngineClass.Of<CombatSpellCaster>();
+    internal static EngineClass s_combatCasterClass = EngineClass.Of<CombatSpellCaster>();
 
 }

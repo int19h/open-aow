@@ -14,49 +14,49 @@ namespace Aow.Game.Magic.Spells;
 public partial class EnchantedRoadsEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:535
-    public new const int ClassID = 135955;
+    public new const int ClassId = 135955;
 
     // GlobalEnchantmentSpells.pas:527
     public EnchantedRoadsEnchantment(ECustomNode owner) : base(owner)
     {
-        FName = AbilityRules.TranslateRStr(GameText.EnchantedRoadsRStr);
-        FEnchantmentType = GlobalEnchantmentType.None;
-        FDispelMana = 50;
+        Name = AbilityRules.TranslateResourceString(GameText.s_enchantedRoadsText);
+        EnchantmentType = GlobalEnchantmentType.None;
+        DispelMana = 50;
     }
 
     // GlobalEnchantmentSpells.pas:540
     public override int GetAIUpkeepPriority() => 900;
 
     // GlobalEnchantmentSpells.pas:563
-    public override bool Deactivate(byte Player)
+    public override bool Deactivate(byte player)
     {
-        base.Deactivate(Player);
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
-        AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EnchantedRoads));
+        base.Deactivate(player);
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EnchantedRoads));
         return true;
     }
 
     // GlobalEnchantmentSpells.pas:545
-    public override bool CanActivate(sbyte Player, ref string Reason)
+    public override bool CanActivate(sbyte player, ref string reason)
     {
-        bool Result = base.CanActivate(Player, ref Reason);
-        if (Result && AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.EnchantedRoads))
+        bool result = base.CanActivate(player, ref reason);
+        if (result && AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EnchantedRoads))
         {
-            var xIsAlreadyActive = AbilityRules.TranslateRStr(GameText.XIsAlreadyActiveRStr);
+            var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.s_isAlreadyActiveFormat);
             var name = GetName();
-            Reason = RtlUnit.Format(xIsAlreadyActive, [name]);
-            Result = false;
+            reason = RtlUnit.Format(xIsAlreadyActive, [name]);
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:555
-    public override bool Activate(sbyte Player)
+    public override bool Activate(sbyte player)
     {
-        base.Activate(Player);
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
-        AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EnchantedRoads));
+        base.Activate(player);
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EnchantedRoads));
         return true;
     }
 

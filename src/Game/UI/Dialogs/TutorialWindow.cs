@@ -20,26 +20,26 @@ public partial class TutorialWindow : DataModule
     public Memo HeaderMemo;
     public VerticalScrollBar AbVSB;
     public IvTranslator Translator;
-    public ExecuteDoneEvent FDone;
-    public EventLog FEvent;
+    public ExecuteDoneEvent Done;
+    public EventLog Event;
 
     // AoWTutorialWin.pas:51
     public void FinishDialog()
     {
-        ExecuteDoneEvent Done;
-        EventLog Log;
-        Done = FDone;
-        Log = FEvent;
-        FDone = null;
-        FEvent = null;
-        if (Done != null)
+        ExecuteDoneEvent done;
+        EventLog log;
+        done = Done;
+        log = Event;
+        Done = null;
+        Event = null;
+        if (done != null)
         {
-            Done(Log);
+            done(log);
         }
 
-        if (Log != null)
+        if (log != null)
         {
-            Log.Release();
+            log.Release();
         }
     }
 
@@ -55,55 +55,55 @@ public partial class TutorialWindow : DataModule
         Dlg.Visible = false;
     }
 
-    internal static void ShowTutorialMessage(TutorialWindow Dialog)
+    internal static void ShowTutorialMessage(TutorialWindow dialog)
     {
-        if (Dialog.MessageMemo.Items.Count > 0)
+        if (dialog.MessageMemo.Items.Count > 0)
         {
-            Dialog.Dlg.Visible = true;
+            dialog.Dlg.Visible = true;
         }
     }
 
-    internal static void ShowTutorialEvent(TutorialWindow Dialog, TutorialMessageEventLog Event, bool Unused, ExecuteDoneEvent Done)
+    internal static void ShowTutorialEvent(TutorialWindow dialog, TutorialMessageEventLog eventValue, bool unused, ExecuteDoneEvent done)
     {
-        Dialog.AbVSB.Position = 0;
-        Dialog.FinishDialog();
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Dialog.FDone = Done;
-        Dialog.HeaderMemo.Items.Clear();
-        if (Event.FMessage.Count > 0)
+        dialog.AbVSB.Position = 0;
+        dialog.FinishDialog();
+        dialog.Event = eventValue;
+        dialog.Event.AddRef();
+        dialog.Done = done;
+        dialog.HeaderMemo.Items.Clear();
+        if (eventValue.Message.Count > 0)
         {
-            var message = Event.FMessage[0];
-            Dialog.HeaderMemo.Items.Add(message);
+            var message = eventValue.Message[0];
+            dialog.HeaderMemo.Items.Add(message);
         }
 
-        Dialog.MessageMemo.Items.Clear();
-        Dialog.MessageMemo.Items.AddStrings(Event.FMessage);
-        if (Dialog.MessageMemo.Items.Count > 0)
+        dialog.MessageMemo.Items.Clear();
+        dialog.MessageMemo.Items.AddStrings(eventValue.Message);
+        if (dialog.MessageMemo.Items.Count > 0)
         {
-            Dialog.MessageMemo.Items.Delete(0);
+            dialog.MessageMemo.Items.Delete(0);
         }
 
-        if (Dialog.MessageMemo.Items.Count > 0 && IsEmpty(Dialog.MessageMemo.Items[0]))
+        if (dialog.MessageMemo.Items.Count > 0 && IsEmpty(dialog.MessageMemo.Items[0]))
         {
-            Dialog.MessageMemo.Items.Delete(0);
+            dialog.MessageMemo.Items.Delete(0);
         }
 
-        Dialog.Dlg.Visible = true;
+        dialog.Dlg.Visible = true;
     }
 
-    internal static void ShowFlagMessage(TutorialWindow Dialog, FlagMessageEventLog Event, bool Unused, ExecuteDoneEvent Done)
+    internal static void ShowFlagMessage(TutorialWindow dialog, FlagMessageEventLog eventValue, bool unused, ExecuteDoneEvent done)
     {
-        Dialog.AbVSB.Position = 0;
-        Dialog.FinishDialog();
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Dialog.FDone = Done;
-        Dialog.HeaderMemo.Items.Clear();
-        Dialog.HeaderMemo.Items.Add(Event.FHelpFileName);
-        Dialog.MessageMemo.Items.Clear();
-        Dialog.MessageMemo.Items.AddStrings(Event.FMessage);
-        Dialog.Dlg.Visible = true;
+        dialog.AbVSB.Position = 0;
+        dialog.FinishDialog();
+        dialog.Event = eventValue;
+        dialog.Event.AddRef();
+        dialog.Done = done;
+        dialog.HeaderMemo.Items.Clear();
+        dialog.HeaderMemo.Items.Add(eventValue.HelpFileName);
+        dialog.MessageMemo.Items.Clear();
+        dialog.MessageMemo.Items.AddStrings(eventValue.Message);
+        dialog.Dlg.Visible = true;
     }
 
 }

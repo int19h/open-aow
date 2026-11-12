@@ -12,5 +12,5 @@ public struct MapFieldMessageParameters
 {
     public const int Arity = 4;
 
-    private MsgArg element0;
+    private MsgArg _element0;
 }

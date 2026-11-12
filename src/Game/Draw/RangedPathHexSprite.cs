@@ -14,110 +14,110 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
 
-// FMiscImages. FTargetImages. FFrame. FFrameCount. FSelection. FRange
+// MiscellaneousImages. TargetImages. Frame. FrameCount. Selection. Range
 public partial class RangedPathHexSprite : FixedVisibleHexSprite
 {
     public RangedPathHexSprite(ECustomNode owner) : base(owner)
     { }
 
     // AoWTC.pas:4846
-    public new const int ClassID = 2228485;
+    public new const int ClassId = 2228485;
 
-    public CustomImageLibrary FMiscImages;
-    public CustomImageLibrary FTargetImages;
-    public ushort FFrame;
-    public ushort FFrameCount;
-    public CombatUnitSelectionControl FSelection;
-    public ushort FRange;
+    public CustomImageLibrary MiscellaneousImages;
+    public CustomImageLibrary TargetImages;
+    public ushort Frame;
+    public ushort FrameCount;
+    public CombatUnitSelectionControl Selection;
+    public ushort Range;
 
     // AoWTC.pas:4849
     public override int GetShowPriority() => 1811939328;
 
     // AoWTC.pas:4859
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
         int Count;
-        int First;
+        int first;
         int Last;
-        int NX = default;
-        int NY = default;
-        int PX = default;
-        int PY = default;
-        BattleEffectType EffectType;
-        if (FSelection != null)
+        int hexX = default;
+        int hexY = default;
+        int pixelX = default;
+        int pixelY = default;
+        BattleEffectType effectType;
+        if (Selection != null)
         {
-            if (FRange < 100)
+            if (Range < 100)
             {
                 Count = 6;
-                First = 1;
-                for (int I = 0, last = FRange - 2; I <= last; I++)
+                first = 1;
+                for (int I = 0, last = Range - 2; I <= last; I++)
                 {
-                    First += Count;
+                    first += Count;
                     Count += 6;
                 }
 
-                Last = First + Count;
-                for (int I = First; I <= Last - 1; I++)
+                Last = first + Count;
+                for (int I = first; I <= Last - 1; I++)
                 {
-                    var yhx = FSelection.GetTCUnitHS().GetYhx();
-                    HexGeometry.CenterHNtoHX(FSelection.GetTCUnitHS().GetXhx(), yhx, I, ref NX, ref NY);
-                    HexGeometry.HXtoHP(NX, NY, ref PX, ref PY);
-                    FTargetImages[2].Show(PX - XhpSurf - 8, PY - YhpSurf + 2, SurfaceDesc);
+                    var yhx = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
+                    HexGeometry.CenterHexNumberToHex(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), yhx, I, ref hexX, ref hexY);
+                    HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+                    TargetImages[2].Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface + 2, lockedSurface);
                 }
             }
 
-            if (FSelection.FRangedPath.Count > 0)
+            if (Selection.RangedPath.Count > 0)
             {
-                FFrameCount = (ushort)(FFrameCount + 1);
-                if (FFrameCount >= 5)
+                FrameCount = (ushort)(FrameCount + 1);
+                if (FrameCount >= 5)
                 {
-                    FFrameCount = 0;
-                    FFrame = (ushort)(FFrame + 1);
+                    FrameCount = 0;
+                    Frame = (ushort)(Frame + 1);
                 }
 
-                if (FFrame > 1)
+                if (Frame > 1)
                 {
-                    FFrame = 0;
+                    Frame = 0;
                 }
 
-                if (FSelection.GetTCUnitHS().FSelectedAbility == 52)
+                if (Selection.GetTacticalBattleUnitHexSprite().SelectedAbility == 52)
                 {
-                    var tcUnitHS = FSelection.GetTCUnitHS();
-                    EffectType = TacticalTables.SpellTypes[tcUnitHS.FSelectedSpell];
+                    var tacticalBattleUnitHexSprite = Selection.GetTacticalBattleUnitHexSprite();
+                    effectType = TacticalTables.SpellTypes[tacticalBattleUnitHexSprite.SelectedSpell];
                 }
                 else
                 {
-                    var tcUnitHS = FSelection.GetTCUnitHS();
-                    EffectType = TacticalTables.AbilTypes[tcUnitHS.FSelectedAbility];
+                    var tacticalBattleUnitHexSprite = Selection.GetTacticalBattleUnitHexSprite();
+                    effectType = TacticalTables.s_abilityTypes[tacticalBattleUnitHexSprite.SelectedAbility];
                 }
 
-                switch (EffectType)
+                switch (effectType)
                 {
                     case BattleEffectType.Breath:
-                        var count = FSelection.FRangedPath.Count;
-                        var rangedPath = FSelection.FRangedPath[count - 1];
-                        var fRangedPathCount = FSelection.FRangedPath.Count;
-                        HexGeometry.HPtoHX(FSelection.FRangedPath[fRangedPathCount - 1].X, rangedPath.Y, ref X, ref Y);
+                        var count = Selection.RangedPath.Count;
+                        var rangedPath = Selection.RangedPath[count - 1];
+                        var fRangedPathCount = Selection.RangedPath.Count;
+                        HexGeometry.PixelToHex(Selection.RangedPath[fRangedPathCount - 1].X, rangedPath.Y, ref X, ref Y);
                         {
                             for (int I = 0; I <= 11; I++)
                             {
-                                var yhx = FSelection.GetTCUnitHS().GetYhx();
-                                var dHXtoHN2 = HexGeometry.dHXtoHN(FSelection.GetTCUnitHS().GetXhx(), yhx, X, Y);
-                                var yhx2 = FSelection.GetTCUnitHS().GetYhx();
-                                HexGeometry.CenterHNtoHX(FSelection.GetTCUnitHS().GetXhx(), yhx2, TacticalTables.BreathHN[dHXtoHN2 * 12 + I - 12], ref NX, ref NY);
-                                HexGeometry.HXtoHP(NX, NY, ref PX, ref PY);
-                                FTargetImages[0].ShowClipped(PX - 8 - XhpSurf, PY + 2 - YhpSurf, SurfaceDesc);
+                                var yhx = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
+                                var deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), yhx, X, Y);
+                                var hexY2 = Selection.GetTacticalBattleUnitHexSprite().GetHexY();
+                                HexGeometry.CenterHexNumberToHex(Selection.GetTacticalBattleUnitHexSprite().GetHexX(), hexY2, TacticalTables.s_breathHexNumber[deltaHexToHexNumber2 * 12 + I - 12], ref hexX, ref hexY);
+                                HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+                                TargetImages[0].ShowClipped(pixelX - 8 - pixelXSurface, pixelY + 2 - pixelYSurface, lockedSurface);
                             }
                         }
 
                         break;
                     default:
-                        switch (FSelection.GetTCUnitHS().FSelectedAbility)
+                        switch (Selection.GetTacticalBattleUnitHexSprite().SelectedAbility)
                         {
                             case 52:
-                                switch (FSelection.GetTCUnitHS().FSelectedSpell)
+                                switch (Selection.GetTacticalBattleUnitHexSprite().SelectedSpell)
                                 {
                                     case 104:
                                     case 106:
@@ -129,13 +129,13 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                                         {
                                             for (int I = 0; I <= 18; I++)
                                             {
-                                                var count2 = FSelection.FRangedPath.Count;
-                                                var rangedPathY = FSelection.FRangedPath[count2 - 1];
-                                                var count3 = FSelection.FRangedPath.Count;
-                                                HexGeometry.HPtoHX(FSelection.FRangedPath[count3 - 1].X, rangedPathY.Y, ref X, ref Y);
-                                                HexGeometry.CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                HexGeometry.HXtoHP(NX, NY, ref PX, ref PY);
-                                                FTargetImages[0].ShowClipped(PX - 8 - XhpSurf, PY + 2 - YhpSurf, SurfaceDesc);
+                                                var count2 = Selection.RangedPath.Count;
+                                                var rangedPathY = Selection.RangedPath[count2 - 1];
+                                                var count3 = Selection.RangedPath.Count;
+                                                HexGeometry.PixelToHex(Selection.RangedPath[count3 - 1].X, rangedPathY.Y, ref X, ref Y);
+                                                HexGeometry.CenterHexNumberToHex(X, Y, I, ref hexX, ref hexY);
+                                                HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+                                                TargetImages[0].ShowClipped(pixelX - 8 - pixelXSurface, pixelY + 2 - pixelYSurface, lockedSurface);
                                             }
                                         }
 
@@ -145,65 +145,65 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                                         {
                                             for (int I = 0; I <= 6; I++)
                                             {
-                                                var count2 = FSelection.FRangedPath.Count;
-                                                var rangedPathY = FSelection.FRangedPath[count2 - 1];
-                                                var count3 = FSelection.FRangedPath.Count;
-                                                HexGeometry.HPtoHX(FSelection.FRangedPath[count3 - 1].X, rangedPathY.Y, ref X, ref Y);
-                                                HexGeometry.CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                HexGeometry.HXtoHP(NX, NY, ref PX, ref PY);
-                                                FTargetImages[0].ShowClipped(PX - 8 - XhpSurf, PY + 2 - YhpSurf, SurfaceDesc);
+                                                var count2 = Selection.RangedPath.Count;
+                                                var rangedPathY = Selection.RangedPath[count2 - 1];
+                                                var count3 = Selection.RangedPath.Count;
+                                                HexGeometry.PixelToHex(Selection.RangedPath[count3 - 1].X, rangedPathY.Y, ref X, ref Y);
+                                                HexGeometry.CenterHexNumberToHex(X, Y, I, ref hexX, ref hexY);
+                                                HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+                                                TargetImages[0].ShowClipped(pixelX - 8 - pixelXSurface, pixelY + 2 - pixelYSurface, lockedSurface);
                                             }
                                         }
 
                                         break;
                                     default:
-                                        var count4 = FSelection.FRangedPath.Count;
-                                        var rangedPath2 = FSelection.FRangedPath[count4 - 1];
-                                        var count5 = FSelection.FRangedPath.Count;
-                                        var rangedPathX = FSelection.FRangedPath[count5 - 1];
-                                        FMiscImages[FFrame + 3].ShowClipped(rangedPathX.X - 21 - XhpSurf, rangedPath2.Y - 20 - YhpSurf, SurfaceDesc);
+                                        var count4 = Selection.RangedPath.Count;
+                                        var rangedPath2 = Selection.RangedPath[count4 - 1];
+                                        var count5 = Selection.RangedPath.Count;
+                                        var rangedPathX = Selection.RangedPath[count5 - 1];
+                                        MiscellaneousImages[Frame + 3].ShowClipped(rangedPathX.X - 21 - pixelXSurface, rangedPath2.Y - 20 - pixelYSurface, lockedSurface);
                                         break;
                                 }
 
                                 break;
                             default:
-                                var count6 = FSelection.FRangedPath.Count;
-                                var rangedPath3 = FSelection.FRangedPath[count6 - 1];
-                                var count7 = FSelection.FRangedPath.Count;
-                                var rangedPath4 = FSelection.FRangedPath[count7 - 1];
-                                FMiscImages[FFrame + 3].ShowClipped(rangedPath4.X - 21 - XhpSurf, rangedPath3.Y - 20 - YhpSurf, SurfaceDesc);
+                                var count6 = Selection.RangedPath.Count;
+                                var rangedPath3 = Selection.RangedPath[count6 - 1];
+                                var count7 = Selection.RangedPath.Count;
+                                var rangedPath4 = Selection.RangedPath[count7 - 1];
+                                MiscellaneousImages[Frame + 3].ShowClipped(rangedPath4.X - 21 - pixelXSurface, rangedPath3.Y - 20 - pixelYSurface, lockedSurface);
                                 break;
                         }
 
                         break;
                 }
 
-                for (int I = 0, last = FSelection.FRangedPath.Count - 1; I <= last; I++)
+                for (int I = 0, last = Selection.RangedPath.Count - 1; I <= last; I++)
                 {
-                    var rangedPathY = FSelection.FRangedPath[I];
-                    var rangedPathX = FSelection.FRangedPath[I];
-                    FMiscImages[2].Show(rangedPathX.X - XhpSurf, rangedPathY.Y - YhpSurf, SurfaceDesc);
+                    var rangedPathY = Selection.RangedPath[I];
+                    var rangedPathX = Selection.RangedPath[I];
+                    MiscellaneousImages[2].Show(rangedPathX.X - pixelXSurface, rangedPathY.Y - pixelYSurface, lockedSurface);
                 }
 
-                for (int I = 0, last = FSelection.FRangedPath.Count - 1; I <= last; I++)
+                for (int I = 0, last = Selection.RangedPath.Count - 1; I <= last; I++)
                 {
-                    var rangedPathY = FSelection.FRangedPath[I];
-                    var rangedPathZ = FSelection.FRangedPath[I];
-                    var rangedPathX = FSelection.FRangedPath[I];
-                    FMiscImages[0].Show(rangedPathX.X - XhpSurf, rangedPathY.Y - rangedPathZ.Z - 8 - YhpSurf, SurfaceDesc);
+                    var rangedPathY = Selection.RangedPath[I];
+                    var rangedPathZ = Selection.RangedPath[I];
+                    var rangedPathX = Selection.RangedPath[I];
+                    MiscellaneousImages[0].Show(rangedPathX.X - pixelXSurface, rangedPathY.Y - rangedPathZ.Z - 8 - pixelYSurface, lockedSurface);
                 }
 
-                for (int I = 0, last = FSelection.FObstacles.Count - 1; I <= last; I++)
+                for (int I = 0, last = Selection.Obstacles.Count - 1; I <= last; I++)
                 {
-                    var obstacle = FSelection.FObstacles[I];
-                    var rangedPath = FSelection.FRangedPath[((RangedObstacle)obstacle).PathIndex];
-                    var obstacle2 = FSelection.FObstacles[I];
-                    HexGeometry.HPtoHX(FSelection.FRangedPath[((RangedObstacle)obstacle2).PathIndex].X, rangedPath.Y, ref NX, ref NY);
-                    HexGeometry.HXtoHP(NX, NY, ref PX, ref PY);
-                    FMiscImages[1].Show(PX + 5 - XhpSurf, PY + 5 - YhpSurf, SurfaceDesc);
-                    GameTables.AoWEngine.FCombatFont.Color = 0;
-                    var obstacle3 = FSelection.FObstacles[I];
-                    GameTables.AoWEngine.FCombatFont.SetTextCentered(PX + 16 - XhpSurf, PY + 12 - YhpSurf, IntToStr(((RangedObstacle)obstacle3).Chance), SurfaceDesc);
+                    var obstacle = Selection.Obstacles[I];
+                    var rangedPath = Selection.RangedPath[((RangedObstacle)obstacle).PathIndex];
+                    var obstacle2 = Selection.Obstacles[I];
+                    HexGeometry.PixelToHex(Selection.RangedPath[((RangedObstacle)obstacle2).PathIndex].X, rangedPath.Y, ref hexX, ref hexY);
+                    HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+                    MiscellaneousImages[1].Show(pixelX + 5 - pixelXSurface, pixelY + 5 - pixelYSurface, lockedSurface);
+                    GameTables.GameEngine.CombatFont.Color = 0;
+                    var obstacle3 = Selection.Obstacles[I];
+                    GameTables.GameEngine.CombatFont.SetTextCentered(pixelX + 16 - pixelXSurface, pixelY + 12 - pixelYSurface, IntToStr(((RangedObstacle)obstacle3).Chance), lockedSurface);
                 }
             }
         }
@@ -213,15 +213,15 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
     public override void Activate()
     {
         base.Activate();
-        FMiscImages = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCombat\\Misc.ILB");
-        FTargetImages = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TargHex.ILB");
+        MiscellaneousImages = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCombat\\Misc.ILB");
+        TargetImages = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TargHex.ILB");
     }
 
     // AoWTC.pas:4839
     public override void Deactivate()
     {
-        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCombat\\Misc.ILB");
-        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TargHex.ILB");
+        AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCombat\\Misc.ILB");
+        AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TargHex.ILB");
         base.Deactivate();
     }
 

@@ -15,18 +15,18 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
     { }
 
     // IndependentAG.pas:189
-    public override void MoveExecuterDone(object Sender)
+    public override void MoveExecutorDone(object sender)
     {
-        switch (FState)
+        switch (State)
         {
             case 1:
-                if (FMoveExecuter.FStatus == AIMoveExecutor.Status.OutOfMovePoints)
+                if (MoveExecutor.Status == AIMoveExecutorStatus.OutOfMovePoints)
                 {
                     Done();
                 }
                 else
                 {
-                    if (FMoveExecuter.FStatus == AIMoveExecutor.Status.Invalidated)
+                    if (MoveExecutor.Status == AIMoveExecutorStatus.Invalidated)
                     {
                         Done();
                     }
@@ -34,9 +34,9 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
 
                 break;
             case 2:
-                if (FMoveExecuter.FStatus == AIMoveExecutor.Status.Failed)
+                if (MoveExecutor.Status == AIMoveExecutorStatus.Failed)
                 {
-                    ((GuardAreaAIGroup)FGroup).FGuardLocation.Packed = 16777215;
+                    ((GuardAreaAIGroup)Group).GuardLocation.Packed = 16777215;
                     Done();
                 }
                 else
@@ -49,18 +49,18 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
     }
 
     // IndependentAG.pas:176
-    public override void TargetFoundEvent(AIGroupTargetFinder Sender, AIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
-        SetupCP(Target);
+        SetupCP(target);
         // { Original also accepts crDefeat when the subsequent efficiency tests pass. }
-        var execute = FCombatPredictor.Execute();
+        var execute = CombatPredictor.Execute();
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
         {
-            if (FCombatPredictor.GetEfficiency() > 0)
+            if (CombatPredictor.GetEfficiency() > 0)
             {
-                var efficiency = FCombatPredictor.GetEfficiency();
-                Target.FData.Priority = efficiency + (Target.FData.Priority * 100 - Target.FMovePoints * 5);
-                base.TargetFoundEvent(Sender, Target, ref SearchDone);
+                var efficiency = CombatPredictor.GetEfficiency();
+                target.Data.Priority = efficiency + (target.Data.Priority * 100 - target.MovePoints * 5);
+                base.TargetFoundEvent(sender, target, ref searchDone);
             }
         }
     }
@@ -68,85 +68,85 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
     // IndependentAG.pas:205
     public override void ProcessStates()
     {
-        AoWMapField MapF;
-        AIGroupTargetFinder Finder;
-        MoveControlSettings Settings;
-        switch (FState)
+        AoWMapField mapField;
+        AIGroupTargetFinder finder;
+        MoveControlSettings settings;
+        switch (State)
         {
             case 0:
-                if (((GuardAreaAIGroup)FGroup).FGuardLocation.X == -1)
+                if (((GuardAreaAIGroup)Group).GuardLocation.X == -1)
                 {
-                    ((GuardAreaAIGroup)FGroup).FGuardLocation = FLocation;
+                    ((GuardAreaAIGroup)Group).GuardLocation = Location;
                 }
 
-                Finder = new AIGroupTargetFinder(null);
-                Finder.Setup(this);
+                finder = new AIGroupTargetFinder(null);
+                finder.Setup(this);
                 {
-                    Finder.FSelector.FSourceLocation = ((GuardAreaAIGroup)FGroup).FGuardLocation;
-                    Finder.FSelector.FTargetInfo.Mode = AITargetMode.GuardArea;
+                    finder.Selector.SourceLocation = ((GuardAreaAIGroup)Group).GuardLocation;
+                    finder.Selector.TargetInfo.Mode = AITargetMode.GuardArea;
                 }
 
-                var moves = FArmy.Moves(FSelection);
-                Finder.FSelector.FMovePointsMax = moves;
-                ActivatePlugin(Finder);
-                Finder.Release();
-                FState += 1;
+                var moves = Army.Moves(Selection);
+                finder.Selector.MovePointsMax = moves;
+                ActivatePlugin(finder);
+                finder.Release();
+                State += 1;
                 break;
             case 1:
-                FTargets.Validate();
-                if (FTargets.Count != 0)
+                Targets.Validate();
+                if (Targets.Count != 0)
                 {
-                    if (FArmy.Moves(FSelection) != FArmy.MovePoints(FSelection) || ((GuardAreaAIGroup)FGroup).FGuardLocation.Packed != FLocation.Packed)
+                    if (Army.Moves(Selection) != Army.MovePoints(Selection) || ((GuardAreaAIGroup)Group).GuardLocation.Packed != Location.Packed)
                     {
-                        Settings = new MoveControlSettings(null);
-                        Settings.FPlayer = FArmy.FPlayer;
-                        Settings.FMode = Settings.FMode + Set<MoveModeElement>.Of(MoveModeElement.AI);
-                        Settings.SetSourcePos(FArmy.FX, FArmy.FY, FArmy.FL);
-                        Settings.FMovePointsMax = FArmy.MovePoints(FSelection);
-                        Settings.FArmyHS = FArmyHS;
-                        Settings.FSelection = FSelection;
-                        Settings.FMovePointTable = FMovePointTable;
-                        AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
-                        for (int I = FTargets.Count - 1; I >= 0; I--)
+                        settings = new MoveControlSettings(null);
+                        settings.Player = Army.Player;
+                        settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
+                        settings.SetSourcePosition(Army.X, Army.Y, Army.MapLevel);
+                        settings.MovePointsMax = Army.MovePoints(Selection);
+                        settings.ArmyHexSprite = ArmyHexSprite;
+                        settings.Selection = Selection;
+                        settings.MovePointTable = MovePointTable;
+                        AoWHSMap.Current.MoveControl.ProcessMove(settings);
+                        for (int I = Targets.Count - 1; I >= 0; I--)
                         {
-                            if (Settings.GetMovePointsXYL(FTargets.GetTargets(I).FLocation.Packed) == 16777215)
+                            if (settings.GetMovePointsMapCoordinate(Targets.GetTargets(I).Location.Packed) == 16777215)
                             {
-                                FTargets.Delete(I);
+                                Targets.Delete(I);
                             }
                         }
 
-                        Settings.Release();
+                        settings.Release();
                     }
 
-                    if (FTargets.Count != 0)
+                    if (Targets.Count != 0)
                     {
-                        FTargets.SortOnPriority();
+                        Targets.SortOnPriority();
                         SetupME();
-                        var targetLocation = FTargets.GetTargets(0);
-                        var target = FTargets.GetTargets(0);
-                        ExecuteME(FTargets.GetTargets(0).FLocation.X, target.FLocation.Y, targetLocation.FLocation.L);
-                        FTargets.Delete(0);
+                        var targetLocation = Targets.GetTargets(0);
+                        var target = Targets.GetTargets(0);
+                        ExecuteME(Targets.GetTargets(0).Location.X, target.Location.Y, targetLocation.Location.MapLevel);
+                        Targets.Delete(0);
                     }
                     else
                     {
-                        FState = 2;
+                        State = 2;
                     }
                 }
                 else
                 {
-                    FState = 2;
+                    State = 2;
                 }
 
                 break;
             case 2:
-                if (((GuardAreaAIGroup)FGroup).FGuardLocation.Packed != FLocation.Packed)
+                if (((GuardAreaAIGroup)Group).GuardLocation.Packed != Location.Packed)
                 {
-                    MapF = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(((GuardAreaAIGroup)FGroup).FGuardLocation.Packed);
-                    if (MapF.GetPlayer() == -1 || MapF.GetPlayer() == FGroup.FPlayer)
+                    mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(((GuardAreaAIGroup)Group).GuardLocation.Packed);
+                    if (mapField.GetPlayer() == -1 || mapField.GetPlayer() == Group.Player)
                     {
                         SetupME();
-                        var guardAreaAG = (GuardAreaAIGroup)FGroup;
-                        ExecuteME(guardAreaAG.FGuardLocation.X, guardAreaAG.FGuardLocation.Y, guardAreaAG.FGuardLocation.L);
+                        var guardAreaAIGroup = (GuardAreaAIGroup)Group;
+                        ExecuteME(guardAreaAIGroup.GuardLocation.X, guardAreaAIGroup.GuardLocation.Y, guardAreaAIGroup.GuardLocation.MapLevel);
                     }
                     else
                     {

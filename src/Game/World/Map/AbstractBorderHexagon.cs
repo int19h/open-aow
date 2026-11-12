@@ -5,7 +5,7 @@ namespace Aow.Game.World.Map;
 
 public partial class AbstractBorderHexagon : AbstractHexagon
 {
-    public new const int ClassID = 65905;
+    public new const int ClassId = 65905;
 
     public AbstractBorderHexagon(ECustomNode owner) : base(owner)
     { }

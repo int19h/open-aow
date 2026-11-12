@@ -13,25 +13,25 @@ public partial class DiplomaticRelationList : ByteList
     }
 
     // Player.PAS:17
-    public DiplomaticRelation GetDiplomaticRelation(int Index)
+    public DiplomaticRelation GetDiplomaticRelation(int index)
     {
-        DiplomaticRelation Result;
-        if (Index < Count)
+        DiplomaticRelation result;
+        if (index < Count)
         {
-            Result = (DiplomaticRelation)List[Index];
+            result = (DiplomaticRelation)List[index];
         }
         else
         {
-            Result = DiplomaticRelation.Unknown;
+            result = DiplomaticRelation.Unknown;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:23
-    public void SetDiplomaticRelation(int Index, DiplomaticRelation Value)
+    public void SetDiplomaticRelation(int index, DiplomaticRelation value)
     {
-        this[Index] = (byte)(int)Value;
+        this[index] = (byte)(int)value;
     }
 
     // intf_P1_03.inc:46

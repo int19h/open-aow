@@ -9,144 +9,144 @@ namespace Aow.Game.Draw.Images;
 // manager of FOwner, or the library of FOwner), FImageLibraryName, FSequenceSpeed (frames per
 // image - 1), FSequenceMode, FFrameTable (the image indices of smFrameTable and
 // smRndFrameTable), FImageIndex (the image of smNone, the random start of smRandom and
-// smRndFrameTable), FdXshift, FdYshift, FLastFrame, FSpeedCount, FFrameCounter
+// smRndFrameTable), _offsetX, _offsetY, _lastFrame, _speedCount, _frameCounter
 public partial class ImageSequence : IDisposable
 {
-    internal ImageSequenceList FOwner;
-    internal byte FLayer;
-    internal ImageSequence FNext;
-    internal CustomImageLibrary FImageLibrary;
-    internal string FImageLibraryName = "";
-    internal byte FSequenceSpeed;
-    internal SequenceMode FSequenceMode;
-    internal FrameTableList FFrameTable;
-    internal int FImageIndex;
-    internal int FdXshift;
-    internal int FdYshift;
-    internal int FLastFrame;
-    internal byte FSpeedCount;
-    internal int FFrameCounter;
+    internal ImageSequenceList _owner;
+    internal byte _layer;
+    internal ImageSequence _next;
+    internal CustomImageLibrary _imageLibrary;
+    internal string _imageLibraryName = "";
+    internal byte _sequenceSpeed;
+    internal SequenceMode _sequenceMode;
+    internal FrameTableList _frameTable;
+    internal int _imageIndex;
+    internal int _offsetX;
+    internal int _offsetY;
+    internal int _lastFrame;
+    internal byte _speedCount;
+    internal int _frameCounter;
 
     // ImageLib.pas:8606
-    internal void SetImageLibraryName(string Value)
+    internal void SetImageLibraryName(string value)
     {
-        ReleaseIL();
-        FImageLibraryName = Value;
-        if (FOwner.FLinked)
+        ReleaseImageLibrary();
+        _imageLibraryName = value;
+        if (_owner._linked)
         {
-            LinkToIL();
+            LinkToImageLibrary();
         }
     }
 
     // ImageLib.pas:8613
-    internal void SetSequenceMode(SequenceMode Value)
+    internal void SetSequenceMode(SequenceMode value)
     {
-        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RndFrameTable).Contains(Value) && FFrameTable == null)
+        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(value) && _frameTable == null)
         {
-            FFrameTable = new FrameTableList();
+            _frameTable = new FrameTableList();
         }
 
-        FSequenceMode = Value;
+        _sequenceMode = value;
     }
 
     // ImageLib.pas:8553
     public ImageSequence(ImageSequenceList owner)
     {
-        FOwner = owner;
+        _owner = owner;
     }
 
     // ImageLib.pas:8559
     public virtual void Dispose()
     {
-        FFrameTable?.Dispose();
-        ReleaseIL();
-        if (FNext != null)
+        _frameTable?.Dispose();
+        ReleaseImageLibrary();
+        if (_next != null)
         {
-            FNext.Dispose();
+            _next.Dispose();
         }
     }
 
     // ImageLib.pas:8567
-    public ImageSequence Copy(ImageSequenceList AOwner)
+    public ImageSequence Copy(ImageSequenceList owner)
     {
-        ImageSequence Result = default;
-        MemoryStream Stream;
-        Stream = new MemoryStream();
+        ImageSequence result = default;
+        MemoryStream stream;
+        stream = new MemoryStream();
         try
         {
-            Result = new ImageSequence(AOwner);
-            SaveToStream(Stream);
-            Stream.Position = 0;
-            Result.LoadFromStream(Stream);
+            result = new ImageSequence(owner);
+            SaveToStream(stream);
+            stream.Position = 0;
+            result.LoadFromStream(stream);
         }
         finally
         {
-            Stream?.Dispose();
+            stream?.Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:8582
     public LibraryImage GetPreviewImage()
     {
-        LibraryImage Result;
+        LibraryImage result;
         int I;
         if (this != null)
         {
-            Result = null;
-            if (FFrameTable != null && FFrameTable.FCount != 0)
+            result = null;
+            if (_frameTable != null && _frameTable._count != 0)
             {
-                Result = FImageLibrary.GetSafe(FFrameTable.FList[0]);
+                result = _imageLibrary.GetSafe(_frameTable._list[0]);
             }
 
-            if (FSequenceMode == SequenceMode.None)
+            if (_sequenceMode == SequenceMode.None)
             {
-                Result = FImageLibrary.GetSafe(FImageIndex);
+                result = _imageLibrary.GetSafe(_imageIndex);
             }
 
-            if (Result == null)
+            if (result == null)
             {
                 I = 0;
-                while (I != FImageLibrary.Count && Result == null)
+                while (I != _imageLibrary.Count && result == null)
                 {
-                    Result = FImageLibrary[I];
+                    result = _imageLibrary[I];
                     I += 1;
                 }
             }
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:8620
     public void GetDimensions(ref Rect R)
     {
-        LibraryImage Image;
-        Rect IR = default;
+        LibraryImage image;
+        Rect ir = default;
         R.Left = 0;
         R.Right = 0;
         R.Top = 0;
         R.Bottom = 0;
-        if (FImageLibrary != null)
+        if (_imageLibrary != null)
         {
-            switch (FSequenceMode)
+            switch (_sequenceMode)
             {
                 case SequenceMode.FrameTable:
-                case SequenceMode.RndFrameTable:
+                case SequenceMode.RandomFrameTable:
                     {
-                        for (int I = 0, last = FFrameTable.Count - 1; I <= last; I++)
+                        for (int I = 0, last = _frameTable.Count - 1; I <= last; I++)
                         {
-                            var item = FFrameTable[I];
-                            Image = FImageLibrary.GetSafe(item);
-                            if (Image != null)
+                            var item = _frameTable[I];
+                            image = _imageLibrary.GetSafe(item);
+                            if (image != null)
                             {
-                                Image.GetVisualDimensions(ref IR);
-                                UnionRect(ref R, R, IR);
+                                image.GetVisualDimensions(ref ir);
+                                UnionRect(ref R, R, ir);
                             }
                         }
                     }
@@ -156,372 +156,372 @@ public partial class ImageSequence : IDisposable
                 case SequenceMode.UpDown:
                 case SequenceMode.Random:
                     {
-                        for (int I = 0, last = FImageLibrary.Count - 1; I <= last; I++)
+                        for (int I = 0, last = _imageLibrary.Count - 1; I <= last; I++)
                         {
-                            Image = FImageLibrary.GetSafe(I);
-                            if (Image != null)
+                            image = _imageLibrary.GetSafe(I);
+                            if (image != null)
                             {
-                                Image.GetVisualDimensions(ref IR);
-                                UnionRect(ref R, R, IR);
+                                image.GetVisualDimensions(ref ir);
+                                UnionRect(ref R, R, ir);
                             }
                         }
                     }
 
                     break;
                 case SequenceMode.None:
-                    Image = FImageLibrary.GetSafe(FImageIndex);
-                    if (Image != null)
+                    image = _imageLibrary.GetSafe(_imageIndex);
+                    if (image != null)
                     {
-                        Image.GetVisualDimensions(ref R);
+                        image.GetVisualDimensions(ref R);
                     }
 
                     break;
             }
 
-            R.Left += FdXshift;
-            R.Right += FdXshift;
-            R.Top += FdYshift;
-            R.Bottom += FdYshift;
+            R.Left += _offsetX;
+            R.Right += _offsetX;
+            R.Top += _offsetY;
+            R.Bottom += _offsetY;
         }
     }
 
     // ImageLib.pas:8666
     public int GetTotalSequenceFrames()
     {
-        int Result;
-        switch (FSequenceMode)
+        int result;
+        switch (_sequenceMode)
         {
             case SequenceMode.FrameTable:
-                Result = FFrameTable.Count * (FSequenceSpeed + 1);
+                result = _frameTable.Count * (_sequenceSpeed + 1);
                 break;
             case SequenceMode.Up:
-                Result = FImageLibrary.Count * (FSequenceSpeed + 1);
+                result = _imageLibrary.Count * (_sequenceSpeed + 1);
                 break;
             case SequenceMode.UpDown:
-                Result = FImageLibrary.Count * (FSequenceSpeed + 1) * 2;
+                result = _imageLibrary.Count * (_sequenceSpeed + 1) * 2;
                 break;
             default:
-                Result = FSequenceSpeed + 1;
+                result = _sequenceSpeed + 1;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:8677
-    public int GetFrameIndex(int Frame, int Offset)
+    public int GetFrameIndex(int frame, int offset)
     {
-        int Result;
-        if (Frame >= 0)
+        int result;
+        if (frame >= 0)
         {
-            if (FSequenceMode != SequenceMode.None)
+            if (_sequenceMode != SequenceMode.None)
             {
-                switch (FSequenceMode)
+                switch (_sequenceMode)
                 {
                     case SequenceMode.FrameTable:
-                        if (Frame != FLastFrame)
+                        if (frame != _lastFrame)
                         {
-                            if (FSpeedCount == 0)
+                            if (_speedCount == 0)
                             {
-                                FFrameCounter = (FFrameCounter + 1) & 16777215;
-                                FSpeedCount = FSequenceSpeed;
+                                _frameCounter = (_frameCounter + 1) & 16777215;
+                                _speedCount = _sequenceSpeed;
                             }
                             else
                             {
-                                FSpeedCount = (byte)(FSpeedCount - 1);
+                                _speedCount = (byte)(_speedCount - 1);
                             }
 
-                            FLastFrame = Frame;
+                            _lastFrame = frame;
                         }
 
-                        Result = FFrameCounter + Offset;
-                        if (FFrameTable.Count != 0)
+                        result = _frameCounter + offset;
+                        if (_frameTable.Count != 0)
                         {
-                            Result = Result % FFrameTable.Count;
-                            Result = FFrameTable.FList[Result];
+                            result = result % _frameTable.Count;
+                            result = _frameTable._list[result];
                         }
                         else
                         {
-                            Result = -1;
+                            result = -1;
                         }
 
                         break;
                     case SequenceMode.Up:
-                        if (Frame != FLastFrame)
+                        if (frame != _lastFrame)
                         {
-                            if (FSpeedCount == 0)
+                            if (_speedCount == 0)
                             {
-                                FFrameCounter = (FFrameCounter + 1) & 16777215;
-                                FSpeedCount = FSequenceSpeed;
+                                _frameCounter = (_frameCounter + 1) & 16777215;
+                                _speedCount = _sequenceSpeed;
                             }
                             else
                             {
-                                FSpeedCount = (byte)(FSpeedCount - 1);
+                                _speedCount = (byte)(_speedCount - 1);
                             }
 
-                            FLastFrame = Frame;
+                            _lastFrame = frame;
                         }
 
-                        Result = FFrameCounter + Offset;
-                        Result = Result % FImageLibrary.Count;
+                        result = _frameCounter + offset;
+                        result = result % _imageLibrary.Count;
                         break;
                     case SequenceMode.UpDown:
-                        if (Frame != FLastFrame)
+                        if (frame != _lastFrame)
                         {
-                            if (FSpeedCount == 0)
+                            if (_speedCount == 0)
                             {
-                                FFrameCounter = (FFrameCounter + 1) & 16777215;
-                                FSpeedCount = FSequenceSpeed;
+                                _frameCounter = (_frameCounter + 1) & 16777215;
+                                _speedCount = _sequenceSpeed;
                             }
                             else
                             {
-                                FSpeedCount = (byte)(FSpeedCount - 1);
+                                _speedCount = (byte)(_speedCount - 1);
                             }
 
-                            FLastFrame = Frame;
+                            _lastFrame = frame;
                         }
 
-                        Result = (FFrameCounter + Offset) % ((FImageLibrary.Count - 1) * 2);
-                        Result = Math.Abs(Result - (FImageLibrary.Count - 2));
+                        result = (_frameCounter + offset) % ((_imageLibrary.Count - 1) * 2);
+                        result = Math.Abs(result - (_imageLibrary.Count - 2));
                         break;
-                    case SequenceMode.RndFrameTable:
-                        if (Frame != FLastFrame && Frame % (FSequenceSpeed + 1) == 0)
+                    case SequenceMode.RandomFrameTable:
+                        if (frame != _lastFrame && frame % (_sequenceSpeed + 1) == 0)
                         {
-                            FImageIndex = Random(FFrameTable.Count);
-                            FLastFrame = Frame;
+                            _imageIndex = Random(_frameTable.Count);
+                            _lastFrame = frame;
                         }
 
-                        if (FFrameTable.Count != 0)
+                        if (_frameTable.Count != 0)
                         {
-                            Result = FFrameTable.FList[(FImageIndex + Offset) % FFrameTable.Count];
+                            result = _frameTable._list[(_imageIndex + offset) % _frameTable.Count];
                         }
                         else
                         {
-                            Result = -1;
+                            result = -1;
                         }
 
                         break;
                     case SequenceMode.Random:
-                        if (Frame != FLastFrame && Frame % (FSequenceSpeed + 1) == 0)
+                        if (frame != _lastFrame && frame % (_sequenceSpeed + 1) == 0)
                         {
-                            FImageIndex = Random(FImageLibrary.Count);
-                            FLastFrame = Frame;
+                            _imageIndex = Random(_imageLibrary.Count);
+                            _lastFrame = frame;
                         }
 
-                        Result = (FImageIndex + Offset) % FImageLibrary.Count;
+                        result = (_imageIndex + offset) % _imageLibrary.Count;
                         break;
                     default:
-                        Result = -1;
+                        result = -1;
                         break;
                 }
             }
             else
             {
-                Result = FImageIndex;
+                result = _imageIndex;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:8768
-    public int GetUnloopedFrameIndex(int Frame)
+    public int GetUnloopedFrameIndex(int frame)
     {
-        int Result;
-        if (Frame >= 0)
+        int result;
+        if (frame >= 0)
         {
-            if (FSequenceMode != SequenceMode.None)
+            if (_sequenceMode != SequenceMode.None)
             {
-                switch (FSequenceMode)
+                switch (_sequenceMode)
                 {
                     case SequenceMode.FrameTable:
-                        Result = Frame / (FSequenceSpeed + 1);
-                        if (Result < FFrameTable.Count)
+                        result = frame / (_sequenceSpeed + 1);
+                        if (result < _frameTable.Count)
                         {
-                            Result = FFrameTable.FList[Result];
+                            result = _frameTable._list[result];
                         }
                         else
                         {
-                            Result = -1;
+                            result = -1;
                         }
 
                         break;
                     case SequenceMode.Up:
-                        Result = Frame / (FSequenceSpeed + 1);
-                        if (Result >= FImageLibrary.Count)
+                        result = frame / (_sequenceSpeed + 1);
+                        if (result >= _imageLibrary.Count)
                         {
-                            Result = -1;
+                            result = -1;
                         }
 
                         break;
                     case SequenceMode.UpDown:
-                        Result = -1;
+                        result = -1;
                         break;
-                    case SequenceMode.RndFrameTable:
-                        Result = -1;
+                    case SequenceMode.RandomFrameTable:
+                        result = -1;
                         break;
                     case SequenceMode.Random:
-                        Result = -1;
+                        result = -1;
                         break;
                     default:
-                        Result = -1;
+                        result = -1;
                         break;
                 }
             }
             else
             {
-                return FImageIndex;
+                return _imageIndex;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:8803
-    public void LinkToIL()
+    public void LinkToImageLibrary()
     {
-        if (FImageLibrary != null)
+        if (_imageLibrary != null)
         {
-            ReleaseIL();
+            ReleaseImageLibrary();
         }
 
-        if (!IsEmpty(FImageLibraryName))
+        if (!IsEmpty(_imageLibraryName))
         {
-            FImageLibrary = FOwner.FILManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
+            _imageLibrary = _owner._imageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
         }
         else
         {
-            FImageLibrary = FOwner.FImageLibrary;
+            _imageLibrary = _owner._imageLibrary;
         }
     }
 
     // ImageLib.pas:8812
-    public void ReleaseIL()
+    public void ReleaseImageLibrary()
     {
-        if (FImageLibrary != null)
+        if (_imageLibrary != null)
         {
-            if (!IsEmpty(FImageLibraryName))
+            if (!IsEmpty(_imageLibraryName))
             {
-                FOwner.FILManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
+                _owner._imageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
             }
 
-            FImageLibrary = null;
+            _imageLibrary = null;
         }
     }
 
     // ImageLib.pas:8822
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
-        bool HasNext;
-        LibraryDrawing.WriteStringToStream(FImageLibraryName, Stream);
-        Stream.Write(Bytes.Of(ref FLayer, 1));
-        Stream.Write(Bytes.Of(ref FSequenceSpeed, 1));
-        Stream.Write(Bytes.Of(ref FSequenceMode, 1));
-        Stream.Write(Bytes.Of(ref FImageIndex, 4));
-        Stream.Write(Bytes.Of(ref FdXshift, 4));
-        Stream.Write(Bytes.Of(ref FdYshift, 4));
-        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RndFrameTable).Contains(FSequenceMode))
+        bool hasNext;
+        LibraryDrawing.WriteStringToStream(_imageLibraryName, stream);
+        stream.Write(Bytes.Of(ref _layer, 1));
+        stream.Write(Bytes.Of(ref _sequenceSpeed, 1));
+        stream.Write(Bytes.Of(ref _sequenceMode, 1));
+        stream.Write(Bytes.Of(ref _imageIndex, 4));
+        stream.Write(Bytes.Of(ref _offsetX, 4));
+        stream.Write(Bytes.Of(ref _offsetY, 4));
+        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(_sequenceMode))
         {
-            FFrameTable.SaveToStream(Stream);
+            _frameTable.SaveToStream(stream);
         }
 
-        HasNext = FNext != null;
-        Stream.Write(Bytes.Of(ref HasNext, 1));
-        if (HasNext)
+        hasNext = _next != null;
+        stream.Write(Bytes.Of(ref hasNext, 1));
+        if (hasNext)
         {
-            FNext.SaveToStream(Stream);
+            _next.SaveToStream(stream);
         }
     }
 
     // ImageLib.pas:8839
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
-        bool HasNext = default;
-        ReleaseIL();
-        LibraryDrawing.ReadStringFromStream(ref FImageLibraryName, Stream);
-        Stream.ReadExactly(Bytes.Of(ref FLayer, 1));
-        Stream.ReadExactly(Bytes.Of(ref FSequenceSpeed, 1));
-        Stream.ReadExactly(Bytes.Of(ref FSequenceMode, 1));
-        Stream.ReadExactly(Bytes.Of(ref FImageIndex, 4));
-        Stream.ReadExactly(Bytes.Of(ref FdXshift, 4));
-        Stream.ReadExactly(Bytes.Of(ref FdYshift, 4));
-        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RndFrameTable).Contains(FSequenceMode))
+        bool hasNext = default;
+        ReleaseImageLibrary();
+        LibraryDrawing.ReadStringFromStream(ref _imageLibraryName, stream);
+        stream.ReadExactly(Bytes.Of(ref _layer, 1));
+        stream.ReadExactly(Bytes.Of(ref _sequenceSpeed, 1));
+        stream.ReadExactly(Bytes.Of(ref _sequenceMode, 1));
+        stream.ReadExactly(Bytes.Of(ref _imageIndex, 4));
+        stream.ReadExactly(Bytes.Of(ref _offsetX, 4));
+        stream.ReadExactly(Bytes.Of(ref _offsetY, 4));
+        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(_sequenceMode))
         {
-            if (FFrameTable == null)
+            if (_frameTable == null)
             {
-                FFrameTable = new FrameTableList();
+                _frameTable = new FrameTableList();
             }
 
-            FFrameTable.LoadFromStream(Stream);
-            FImageIndex = Random(FFrameTable.Count);
+            _frameTable.LoadFromStream(stream);
+            _imageIndex = Random(_frameTable.Count);
         }
 
-        Stream.ReadExactly(Bytes.Of(ref HasNext, 1));
-        if (HasNext)
+        stream.ReadExactly(Bytes.Of(ref hasNext, 1));
+        if (hasNext)
         {
-            FNext = new ImageSequence(FOwner);
-            FNext.LoadFromStream(Stream);
+            _next = new ImageSequence(_owner);
+            _next.LoadFromStream(stream);
         }
     }
 
     // ImageLib.pas:8865
-    public void SaveToIniFile(string Section, IniFile IniFile)
+    public void SaveToIniFile(string section, IniFile iniFile)
     {
         /* TODO: Implement IniFiles.WriteString in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // ImageLib.pas:8880
-    public void LoadFromIniFile(string Section, IniFile IniFile)
+    public void LoadFromIniFile(string section, IniFile iniFile)
     {
         /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
         throw new NotImplementedException();
     }
 
-    public ImageSequenceList Owner { get => FOwner; }
-    public byte Layer { get => FLayer; set => FLayer = value; }
-    public ImageSequence Next { get => FNext; set => FNext = value; }
-    public CustomImageLibrary ImageLibrary { get => FImageLibrary; }
-    public string ImageLibraryName { get => FImageLibraryName; set => SetImageLibraryName(value); }
-    public byte SequenceSpeed { get => FSequenceSpeed; set => FSequenceSpeed = value; }
-    public byte SpeedCount { get => FSpeedCount; }
-    public SequenceMode SequenceMode { get => FSequenceMode; set => SetSequenceMode(value); }
-    public FrameTableList FrameTable { get => FFrameTable; }
-    public int ImageIndex { get => FImageIndex; set => FImageIndex = value; }
-    public int dXshift { get => FdXshift; set => FdXshift = value; }
-    public int dYshift { get => FdYshift; set => FdYshift = value; }
+    public ImageSequenceList Owner { get => _owner; }
+    public byte Layer { get => _layer; set => _layer = value; }
+    public ImageSequence Next { get => _next; set => _next = value; }
+    public CustomImageLibrary ImageLibrary { get => _imageLibrary; }
+    public string ImageLibraryName { get => _imageLibraryName; set => SetImageLibraryName(value); }
+    public byte SequenceSpeed { get => _sequenceSpeed; set => _sequenceSpeed = value; }
+    public byte SpeedCount { get => _speedCount; }
+    public SequenceMode SequenceMode { get => _sequenceMode; set => SetSequenceMode(value); }
+    public FrameTableList FrameTable { get => _frameTable; }
+    public int ImageIndex { get => _imageIndex; set => _imageIndex = value; }
+    public int OffsetX { get => _offsetX; set => _offsetX = value; }
+    public int OffsetY { get => _offsetY; set => _offsetY = value; }
 
-    internal static void BltImageSequence(ImageSequence Sequence, int DC, int X, int Y, in Rect R, int Frame, int BkColor)
+    internal static void BlitImageSequence(ImageSequence sequence, int displayController, int X, int Y, in Rect R, int frame, int bkColor)
     {
-        LockedSurface SD = default;
-        Dib16Surface Surface;
-        int Index;
-        Surface = new Dib16Surface(R.Right - R.Left, R.Bottom - R.Top, PixelFormats.pfRGB565);
-        Surface.Cls(BkColor);
-        Surface.Lock(ref SD);
-        while (Sequence != null)
+        LockedSurface lockedSurface = default;
+        Dib16Surface surface;
+        int index;
+        surface = new Dib16Surface(R.Right - R.Left, R.Bottom - R.Top, PixelFormats.pfRGB565);
+        surface.Clear(bkColor);
+        surface.Lock(ref lockedSurface);
+        while (sequence != null)
         {
-            Index = Sequence.GetUnloopedFrameIndex(Frame);
-            if (Index != -1 && Sequence.FImageLibrary != null && Sequence.FImageLibrary.GetSafe(Index) != null)
+            index = sequence.GetUnloopedFrameIndex(frame);
+            if (index != -1 && sequence._imageLibrary != null && sequence._imageLibrary.GetSafe(index) != null)
             {
-                Sequence.FImageLibrary[Index].Show(X + Sequence.FdXshift, Y + Sequence.FdYshift, SD);
+                sequence._imageLibrary[index].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
             }
 
-            Sequence = Sequence.FNext;
+            sequence = sequence._next;
         }
 
-        Surface.Unlock();
+        surface.Unlock();
         /* TODO: Implement cell or array backing for this address. */
         throw new NotImplementedException();
-        Surface?.Dispose();
+        surface?.Dispose();
     }
 
 }

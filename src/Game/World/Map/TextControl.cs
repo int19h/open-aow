@@ -12,27 +12,27 @@ public partial class TextControl : ENode
     { }
 
     // Structur.PAS:4419
-    public TextControlItem GetItem(int Index)
+    public TextControlItem GetItem(int index)
     {
-        TextControlItem Result;
-        if (Index >= 0 && Index < FChildren.Count)
+        TextControlItem result;
+        if (index >= 0 && index < _children.Count)
         {
-            Result = (TextControlItem)FChildren.List[Index];
+            result = (TextControlItem)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:4426
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        if (GetItem(Index) != null)
+        if (GetItem(index) != null)
         {
-            GetItem(Index)?.Dispose();
+            GetItem(index)?.Dispose();
         }
     }
 
@@ -40,52 +40,52 @@ public partial class TextControl : ENode
     public TextControlItem New() => new TextControlItem(this);
 
     // Structur.PAS:4436
-    public TextControlItem FindID(int ID)
+    public TextControlItem FindId(int id)
     {
         int I;
         I = Count;
-        TextControlItem Result = null;
-        while (Result == null && I != 0)
+        TextControlItem result = null;
+        while (result == null && I != 0)
         {
             I -= 1;
-            if (((TextControlItem)FChildren.List[I]).FID == ID)
+            if (((TextControlItem)_children.List[I]).Id == id)
             {
-                Result = (TextControlItem)FChildren.List[I];
+                result = (TextControlItem)_children.List[I];
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:4458
     public void Sort()
     {
-        FChildren.SortStable(CompareTextControlItems);
+        _children.SortStable(CompareTextControlItems);
     }
 
     // Structur.PAS:4463
-    public int IndexOf(TextControlItem Item) => FindChildIndex(Item);
+    public int IndexOf(TextControlItem item) => FindChildIndex(item);
 
     // Structur.PAS:4468
-    public void RetrieveText(int ID, StringCollection Text)
+    public void RetrieveText(int id, StringCollection text)
     {
-        TextControlItem Item;
-        Text.Clear();
-        Item = FindID(ID);
-        if (Item != null)
+        TextControlItem item;
+        text.Clear();
+        item = FindId(id);
+        if (item != null)
         {
-            Text.Text = Item.FText.Text;
+            text.Text = item.Text.Text;
         }
     }
 
-    public static int CompareTextControlItems(object Item1, object Item2)
+    public static int CompareTextControlItems(object item1, object item2)
     {
-        int num = ((TextControlItem)Item1).FID - ((TextControlItem)Item2).FID;
-        if (num == 0)
+        int number = ((TextControlItem)item1).Id - ((TextControlItem)item2).Id;
+        if (number == 0)
         {
-            num = ((TextControlItem)Item1).FText.Count - ((TextControlItem)Item2).FText.Count;
+            number = ((TextControlItem)item1).Text.Count - ((TextControlItem)item2).Text.Count;
         }
-        return num;
+        return number;
     }
 
     // Engine.pas:631

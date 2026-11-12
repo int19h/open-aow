@@ -11,18 +11,18 @@ public partial class PasswordEventLog : EventLog
     // EventLog.pas:877
     public PasswordEventLog(ECustomNode owner) : base(owner)
     {
-        FPassword = "";
-        FPrompt = AbilityRules.TranslateRStr(EnterPasswordRStr);
-        FTitle = AbilityRules.TranslateRStr(PasswordVerificationRStr);
-        FPressedButton = PressedEventLogButton.None;
+        Password = "";
+        Prompt = AbilityRules.TranslateResourceString(s_enterPasswordText);
+        Title = AbilityRules.TranslateResourceString(s_passwordVerificationText);
+        PressedButton = PressedEventLogButton.None;
     }
 
-    public string FPassword = "";
-    public string FTitle = "";
-    public string FPrompt = "";
-    public PressedEventLogButton FPressedButton;
+    public string Password = "";
+    public string Title = "";
+    public string Prompt = "";
+    public PressedEventLogButton PressedButton;
 
-    private static readonly string EnterPasswordRStr = "Enter password:";
-    private static readonly string PasswordVerificationRStr = "Password Verification";
+    private static readonly string s_enterPasswordText = "Enter password:";
+    private static readonly string s_passwordVerificationText = "Password Verification";
 
 }

@@ -211,7 +211,7 @@ integer, the empty slot or another type. `Value` boxes and serves reflection onl
 the cases through `TryGetValue`. Equality (`==`, `Equals`) is the equality of the original word:
 an integer equals the same integer, a reference the same object, the empty slot, the nil
 reference and the integer 0 are all the word 0, and a nonzero integer never equals a reference.
-`MapField.SendMapFieldMsg` (Delphi `TMapField`) compares the answer slot that way to tell whether a handler answered.
+`MapField.SendMapFieldMessage` (Delphi `TMapField`) compares the answer slot that way to tell whether a handler answered.
 
 The parameter arrays are inline arrays of `MsgArg` named by their role, with the arity of the
 message protocol as a named constant: `EngineMessageParameters` (Delphi `TEMsgParams`) (`Engine.cs`, `Arity = 3`) for `EngineMessage.Param` (Delphi `TEMsg`)

@@ -12,18 +12,18 @@ public partial class AIMoveExecutorUnitList : ENode
     { }
 
     // AIGroup.pas:4328
-    public AIMoveExecutorUnit GetUnits(int Index) => (AIMoveExecutorUnit)FChildren.List[Index];
+    public AIMoveExecutorUnit GetUnits(int index) => (AIMoveExecutorUnit)_children.List[index];
 
     // AIGroup.pas:4333
-    public int IndexOfUnitID(int ID)
+    public int IndexOfUnitId(int id)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (((AIMoveExecutorUnit)FChildren.List[Result]).FUnitID == ID)
+            result -= 1;
+            if (((AIMoveExecutorUnit)_children.List[result]).UnitId == id)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -31,15 +31,15 @@ public partial class AIMoveExecutorUnitList : ENode
     }
 
     // AIGroup.pas:4344
-    public int IndexOfUnit(Troop AUnit)
+    public int IndexOfUnit(Troop troop)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (((AIMoveExecutorUnit)FChildren.List[Result]).FUnit == AUnit)
+            result -= 1;
+            if (((AIMoveExecutorUnit)_children.List[result]).Troop == troop)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -47,15 +47,15 @@ public partial class AIMoveExecutorUnitList : ENode
     }
 
     // AIGroup.pas:4355
-    public int FindStatusUnit(AIMoveExecutorUnitStatus Status)
+    public int FindStatusUnit(AIMoveExecutorUnitStatus status)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (((AIMoveExecutorUnit)FChildren.List[Result]).FStatus == Status)
+            result -= 1;
+            if (((AIMoveExecutorUnit)_children.List[result]).Status == status)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -63,96 +63,96 @@ public partial class AIMoveExecutorUnitList : ENode
     }
 
     // AIGroup.pas:4366
-    public byte ValidateSelection(byte Selection)
+    public byte ValidateSelection(byte selection)
     {
         int N;
-        N = FChildren.Count;
+        N = _children.Count;
         if (N > 8)
         {
             N = 8;
         }
 
-        return (byte)(Selection & AbilityRules.ArmySelectionMasks[N]);
+        return (byte)(selection & AbilityRules.ArmySelectionMasks[N]);
     }
 
     // AIGroup.pas:4375
-    public int SelectionCount(byte Selection)
+    public int SelectionCount(byte selection)
     {
-        Selection = ValidateSelection(Selection);
-        int Result = 0;
-        while (Selection != 0)
+        selection = ValidateSelection(selection);
+        int result = 0;
+        while (selection != 0)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                Result += 1;
+                result += 1;
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:4386
-    public AIMoveExecutorUnit Transporter(byte Selection)
+    public AIMoveExecutorUnit Transporter(byte selection)
     {
-        AIMoveExecutorUnit Result = null;
+        AIMoveExecutorUnit result = null;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                if (((AIMoveExecutorUnit)FChildren.List[I]).FUnit.GetTransporter())
+                if (((AIMoveExecutorUnit)_children.List[I]).Troop.GetTransporter())
                 {
-                    Result = (AIMoveExecutorUnit)FChildren.List[I];
+                    result = (AIMoveExecutorUnit)_children.List[I];
                     break;
                 }
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:4403
-    public void SetMoveResult(byte Selection, byte MoveResult)
+    public void SetMoveResult(byte selection, byte moveResult)
     {
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                ((AIMoveExecutorUnit)FChildren.List[I]).FMoveResult = MoveResult;
+                ((AIMoveExecutorUnit)_children.List[I]).MoveResult = moveResult;
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
     }
 
     // AIGroup.pas:4415
-    public void SetTransportStatus(byte Selection, AIMoveExecutorTransportStatus Status)
+    public void SetTransportStatus(byte selection, AIMoveExecutorTransportStatus status)
     {
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                ((AIMoveExecutorUnit)FChildren.List[I]).FTransportStatus = Status;
+                ((AIMoveExecutorUnit)_children.List[I]).TransportStatus = status;
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
     }
 
     // AIGroup.pas:4428
-    public void SetStatus(byte Selection, AIMoveExecutorUnitStatus Status)
+    public void SetStatus(byte selection, AIMoveExecutorUnitStatus status)
     {
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                ((AIMoveExecutorUnit)FChildren.List[I]).FStatus = Status;
+                ((AIMoveExecutorUnit)_children.List[I]).Status = status;
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
     }
 

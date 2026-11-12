@@ -27,26 +27,26 @@ public sealed class StableOrderTests
     public void ItemNameKeepsEqualNamesInInsertionOrder()
     {
         using var list = new ItemList(null!);
-        var high = new Item(list) { FOwnerName = "m" };
-        var low = new Item(list) { FOwnerName = "a" };
-        var tied = new Item(list) { FOwnerName = "a" };
+        var high = new Item(list) { OwnerName = "m" };
+        var low = new Item(list) { OwnerName = "a" };
+        var tied = new Item(list) { OwnerName = "a" };
         list.SortOnName();
-        Assert.Same(low, list.FChildren[0]);
-        Assert.Same(tied, list.FChildren[1]);
-        Assert.Same(high, list.FChildren[2]);
+        Assert.Same(low, list._children[0]);
+        Assert.Same(tied, list._children[1]);
+        Assert.Same(high, list._children[2]);
     }
 
     [Fact]
     public void ItemTypeKeepsEqualTypesInInsertionOrder()
     {
         using var list = new ItemList(null!);
-        var high = new Item(list) { FItemType = ItemType.Scroll };
-        var low = new Item(list) { FItemType = ItemType.Head };
-        var tied = new Item(list) { FItemType = ItemType.Head };
+        var high = new Item(list) { ItemType = ItemType.Scroll };
+        var low = new Item(list) { ItemType = ItemType.Head };
+        var tied = new Item(list) { ItemType = ItemType.Head };
         list.SortOnType();
-        Assert.Same(low, list.FChildren[0]);
-        Assert.Same(tied, list.FChildren[1]);
-        Assert.Same(high, list.FChildren[2]);
+        Assert.Same(low, list._children[0]);
+        Assert.Same(tied, list._children[1]);
+        Assert.Same(high, list._children[2]);
     }
 
     [Fact]
@@ -58,15 +58,15 @@ public sealed class StableOrderTests
         var third = new EngineObject(pools);
         Assert.Equal(0, ReflectingPool.ComparePools(first, third));
         pools.SortStable(ReflectingPool.ComparePools);
-        Assert.Same(first, pools.FChildren[0]);
-        Assert.Same(second, pools.FChildren[1]);
-        Assert.Same(third, pools.FChildren[2]);
+        Assert.Same(first, pools._children[0]);
+        Assert.Same(second, pools._children[1]);
+        Assert.Same(third, pools._children[2]);
     }
 
     private static TextControlItem Item(TextControl control, int id, string name)
     {
-        var item = new TextControlItem(control) { FID = id, FName = name };
-        item.FText.Add("line");
+        var item = new TextControlItem(control) { Id = id, Name = name };
+        item.Text.Add("line");
         return item;
     }
 }

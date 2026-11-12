@@ -18,134 +18,134 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
-// FDefendersMode, FDefenders
+// DefendersMode, Defenders
 public partial class ExplorationSite : Structure
 {
     public ExplorationSite(ECustomNode owner) : base(owner)
     {
-        FDefendersMode = DefendersMode.Normal;
-        FDefenders = new DefendersArmy(null);
+        DefendersMode = ExplorationSiteDefendersMode.Normal;
+        Defenders = new DefendersArmy(null);
     }
 
     // ExploreS.pas:90
-    public new const int ClassID = 132033;
+    public new const int ClassId = 132033;
 
-    public DefendersMode FDefendersMode;
-    public DefendersArmy FDefenders;
+    public ExplorationSiteDefendersMode DefendersMode;
+    public DefendersArmy Defenders;
 
     // ExploreS.pas:84
     public override void Dispose()
     {
         base.Dispose();
-        FDefenders?.Dispose();
+        Defenders?.Dispose();
     }
 
     // ExploreS.pas:293
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FDefenders, 5);
-        Stream.rwData(Bytes.Of(ref FDefendersMode, 1), 1, 6);
+        base.ReadWrite(stream);
+        stream.rwEObject(Defenders, 5);
+        stream.rwData(Bytes.Of(ref DefendersMode, 1), 1, 6);
     }
 
     // ExploreS.pas:77
 
     // ExploreS.pas:351
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        FDefenders.MsgProc(ref Msg, Sender);
+        base.MessageProc(ref message, sender);
+        Defenders.MessageProc(ref message, sender);
     }
 
     // ExploreS.pas:339
     public override void Activate()
     {
         base.Activate();
-        FDefenders.Activate();
+        Defenders.Activate();
     }
 
     // ExploreS.pas:345
     public override void Deactivate()
     {
-        FDefenders.Deactivate();
+        Defenders.Deactivate();
         base.Deactivate();
     }
 
     // ExploreS.pas:217
-    public override bool CanSelect(int Xhp, int Yhp)
+    public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool Result;
-        int Xhx = default;
-        int Yhx = default;
+        bool result;
+        int hexX = default;
+        int hexY = default;
         if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-            if (((MapField)Owner).Xhx == Xhx && ((MapField)Owner).Yhx == Yhx)
+            HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
+            if (((MapField)Owner).HexX == hexX && ((MapField)Owner).HexY == hexY)
             {
-                Result = base.CanSelect(Xhp, Yhp);
+                result = base.CanSelect(pixelX, pixelY);
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = base.CanSelect(Xhp, Yhp);
+            result = base.CanSelect(pixelX, pixelY);
         }
 
-        return Result;
+        return result;
     }
 
     // ExploreS.pas:96
-    public override int GetTerrainTypeImage(int TerrainType)
+    public override int GetTerrainTypeImage(int terrainType)
     {
-        int Result;
-        int Image;
-        if (!GetExplored() || AoWHSMap.Current.FDay == 0)
+        int result;
+        int image;
+        if (!GetExplored() || AoWHSMap.Current.Day == 0)
         {
-            Result = TerrainType;
+            result = terrainType;
         }
         else
         {
-            Image = TerrainType + 100;
-            if (FResource.ImageSequenceList.ImageSequences[Image << 0] != null)
+            image = terrainType + 100;
+            if (_resource.ImageSequenceList.ImageSequences[image << 0] != null)
             {
-                Result = Image;
+                result = image;
             }
             else
             {
-                Result = TerrainType;
+                result = terrainType;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // ExploreS.pas:209
-    public override ExecuteResult ExecuteTE(StructureTokenEvent TE, TokenExecutor Executer)
+    public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
     {
-        ExecuteResult Result = base.ExecuteTE(TE, Executer);
-        if (TE.FAction == 0)
+        ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
+        if (tokenEvent.Action == 0)
         {
-            if (ExecuteSearch((CombatType)TE.FParam))
+            if (ExecuteSearch((CombatType)tokenEvent.Param))
             {
-                Result = ExecuteResult.Done;
+                result = ExecuteResult.Done;
             }
             else
             {
-                Result = ExecuteResult.DoneHalt;
+                result = ExecuteResult.DoneHalt;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // ExploreS.pas:326
     public override void NewDay()
     {
         base.NewDay();
-        if (AoWHSMap.Current.FDay == 1 && FDefendersMode != DefendersMode.UserDefined)
+        if (AoWHSMap.Current.Day == 1 && DefendersMode != ExplorationSiteDefendersMode.UserDefined)
         {
             GenerateDefenders();
         }
@@ -155,222 +155,222 @@ public partial class ExplorationSite : Structure
     public override void Update()
     {
         base.Update();
-        FImageIndex = GetTerrainTypeImage(FTerrainType);
+        _imageIndex = GetTerrainTypeImage(_terrainType);
     }
 
     // ExploreS.pas:93
     public virtual bool GetExplored() => true;
 
     // ExploreS.pas:138
-    public virtual void SetupCombat(Combat.Battle Combat, ArmyHexSprite Army)
+    public virtual void SetupCombat(Combat.Battle combat, ArmyHexSprite army)
     {
-        Combat.FOnExecuted = CombatExecuted;
-        var yhx = Army.GetYhx();
-        var lhx = Army.GetLhx();
-        var xhx = GetXhx();
-        var yhx2 = GetYhx();
-        var lhx2 = GetLhx();
-        var armyXhx = Army.GetXhx();
-        Combat.Setup((byte)Army.FArmy.FPlayer, (byte)Army.FArmy.FIndependentRelation, armyXhx, yhx, lhx, (byte)FDefenders.FPlayer, (byte)FDefenders.FIndependentRelation, xhx, yhx2, lhx2, true);
-        var yhx3 = GetYhx();
-        var lhx3 = GetLhx();
-        var xhx2 = GetXhx();
-        Combat.AddArmy(Army.FArmy, CombatSideIndex.Attacker, xhx2, yhx3, lhx3);
-        Combat.AddArmyEx(FDefenders, CombatSideIndex.Defender, -1, -1, -1, 1);
-        Combat.FExplorationSite = 1;
+        combat.OnExecuted = CombatExecuted;
+        var hexY = army.GetHexY();
+        var hexLevel = army.GetHexLevel();
+        var hexX = GetHexX();
+        var hexY2 = GetHexY();
+        var hexLevel2 = GetHexLevel();
+        var armyHexX = army.GetHexX();
+        combat.Setup((byte)army.Army.Player, (byte)army.Army.IndependentRelation, armyHexX, hexY, hexLevel, (byte)Defenders.Player, (byte)Defenders.IndependentRelation, hexX, hexY2, hexLevel2, true);
+        var hexY3 = GetHexY();
+        var hexLevel3 = GetHexLevel();
+        var hexX2 = GetHexX();
+        combat.AddArmy(army.Army, CombatSideIndex.Attacker, hexX2, hexY3, hexLevel3);
+        combat.AddArmy(Defenders, CombatSideIndex.Defender, -1, -1, -1, 1);
+        combat.ExplorationSite = 1;
     }
 
     // ExploreS.pas:110
-    public virtual void ExecuteSearchDone(CombatType CombatType, CombatResult CombatResult)
+    public virtual void ExecuteSearchDone(CombatType combatType, CombatResult combatResult)
     {
     }
 
     // ExploreS.pas:148
-    public virtual bool ExecuteSearch(CombatType CombatType)
+    public virtual bool ExecuteSearch(CombatType combatType)
     {
-        bool Result = default;
-        ArmyHexSprite ArmyHS;
-        Combat.Battle Combat;
-        sbyte Player;
-        CombatEventLog Event;
-        ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
-        if (ArmyHS != null && CanSearch(ArmyHS.FArmy.FPlayer))
+        bool result = default;
+        ArmyHexSprite armyHexSprite;
+        Combat.Battle combat;
+        sbyte player;
+        CombatEventLog eventValue;
+        armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+        if (armyHexSprite != null && CanSearch(armyHexSprite.Army.Player))
         {
-            Player = ArmyHS.FArmy.FPlayer;
-            if (FDefenders.GetCount() == 0)
+            player = armyHexSprite.Army.Player;
+            if (Defenders.GetCount() == 0)
             {
                 ExecuteSearchDone(CombatType.Fast, CombatResult.Victory);
             }
             else
             {
-                if (CombatType == CombatType.Fast)
+                if (combatType == CombatType.Fast)
                 {
                     AoWHSMap.Current.LockGameOverEvent();
-                    Combat = AoWHSMap.Current.CreateCombat(131760);
-                    SetupCombat(Combat, ArmyHS);
-                    Combat.LockExecuted();
-                    Combat.Initialize();
-                    Combat.Activate();
-                    Combat.Execute();
-                    Combat.Deactivate();
-                    Combat.Finalize();
+                    combat = AoWHSMap.Current.CreateCombat(131760);
+                    SetupCombat(combat, armyHexSprite);
+                    combat.LockExecuted();
+                    combat.Initialize();
+                    combat.Activate();
+                    combat.Execute();
+                    combat.Deactivate();
+                    combat.Finalize();
                     var name = GetName();
-                    Combat.FLogbook.FFinalData.FHeader = name + " " + Combat.FLogbook.FFinalData.FHeader;
-                    Event = new CombatEventLog(null);
-                    Event.SetCombatLogbook(Combat.FLogbook);
-                    AoWHSMap.Current.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
-                    if (AoWHSMap.Current.FSeatedPlayer == Player && AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
+                    combat.Logbook.FinalData.Header = name + " " + combat.Logbook.FinalData.Header;
+                    eventValue = new CombatEventLog(null);
+                    eventValue.SetCombatLogbook(combat.Logbook);
+                    AoWHSMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
+                    if (AoWHSMap.Current.SeatedPlayer == player && AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
                     {
-                        Event.Execute(false, ExecuteTrigger.Event, null);
+                        eventValue.Execute(false, ExecuteTrigger.Event, null);
                     }
 
-                    Event.Release();
-                    Combat.UnlockExecuted();
+                    eventValue.Release();
+                    combat.UnlockExecuted();
                     AoWHSMap.Current.DestroyCombat();
                     AoWHSMap.Current.UnlockGameOverEvent();
                 }
                 else
                 {
-                    Combat = AoWHSMap.Current.CreateCombat(2228496);
-                    SetupCombat(Combat, ArmyHS);
-                    Combat.Initialize();
-                    Combat.Activate();
-                    if (Combat.Execute() != CombatResult.Busy)
+                    combat = AoWHSMap.Current.CreateCombat(2228496);
+                    SetupCombat(combat, armyHexSprite);
+                    combat.Initialize();
+                    combat.Activate();
+                    if (combat.Execute() != CombatResult.Busy)
                     {
-                        Combat.Deactivate();
-                        Combat.Finalize();
+                        combat.Deactivate();
+                        combat.Finalize();
                         var name = GetName();
-                        Combat.FLogbook.FFinalData.FHeader = name + " " + Combat.FLogbook.FFinalData.FHeader;
-                        Event = new CombatEventLog(null);
-                        Event.SetCombatLogbook(Combat.FLogbook);
-                        AoWHSMap.Current.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
-                        if (AoWHSMap.Current.FSeatedPlayer == Player && AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
+                        combat.Logbook.FinalData.Header = name + " " + combat.Logbook.FinalData.Header;
+                        eventValue = new CombatEventLog(null);
+                        eventValue.SetCombatLogbook(combat.Logbook);
+                        AoWHSMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
+                        if (AoWHSMap.Current.SeatedPlayer == player && AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
                         {
-                            Event.Execute(false, ExecuteTrigger.Event, null);
+                            eventValue.Execute(false, ExecuteTrigger.Event, null);
                         }
 
-                        Event.Release();
+                        eventValue.Release();
                         AoWHSMap.Current.DestroyCombat();
                     }
                 }
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // ExploreS.pas:258
     public virtual bool Search()
     {
-        bool Result = default;
-        ArmyHexSprite ArmyHS = default;
-        CombatTypeRequestEventLog Request = default;
-        StructureTokenEvent TE = default;
-        ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
-        if (ArmyHS != null && CanSearch(ArmyHS.FArmy.FPlayer))
+        bool result = default;
+        ArmyHexSprite armyHexSprite = default;
+        CombatTypeRequestEventLog request = default;
+        StructureTokenEvent tokenEvent = default;
+        armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+        if (armyHexSprite != null && CanSearch(armyHexSprite.Army.Player))
         {
-            var playerList = AoWHSMap.Current.FPlayers;
-            if (playerList.FLocalPlayers.Count == 1 || AoWHSMap.Current.FRequestCombatType)
+            var playerList = AoWHSMap.Current.Players;
+            if (playerList.LocalPlayers.Count == 1 || AoWHSMap.Current.RequestCombatType)
             {
-                Request = new CombatTypeRequestEventLog(null);
-                var lhx = GetLhx();
-                var yhx = GetYhx();
-                Request.SetCenterLocation((byte)GetXhx(), (byte)yhx, lhx);
-                Request.FPlayer = ArmyHS.FArmy.FPlayer;
-                Request.FDefenderPlayer = 0;
-                AoWHSMap.Current.TriggerExecuteEventLog(Request, true, RequestCombatTypeCallBack);
-                Request.Release();
-                Result = true;
+                request = new CombatTypeRequestEventLog(null);
+                var hexLevel = GetHexLevel();
+                var hexY = GetHexY();
+                request.SetCenterLocation((byte)GetHexX(), (byte)hexY, hexLevel);
+                request._player = armyHexSprite.Army.Player;
+                request.DefenderPlayer = 0;
+                AoWHSMap.Current.TriggerExecuteEventLog(request, true, RequestCombatTypeCallback);
+                request.Release();
+                result = true;
             }
             else
             {
-                if (!playerList.GetPlayers(ArmyHS.FArmy.FPlayer).GetBusy())
+                if (!playerList.GetPlayers(armyHexSprite.Army.Player).GetBusy())
                 {
-                    TE = CreateTE();
-                    SetupTE(TE);
-                    TE.FAction = 0;
-                    TE.FParam = 1;
-                    AoWHSMap.Current.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
-                    TE.Release();
-                    Result = true;
+                    tokenEvent = CreateTokenEvent();
+                    SetupTokenEvent(tokenEvent);
+                    tokenEvent.Action = 0;
+                    tokenEvent.Param = 1;
+                    AoWHSMap.Current.TokenManager.GetTokenControl(tokenEvent.Player).AddEvent(tokenEvent);
+                    tokenEvent.Release();
+                    result = true;
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // ExploreS.pas:113
-    public void CombatExecuted(Combat.Battle Combat)
+    public void CombatExecuted(Combat.Battle combat)
     {
-        CombatData Data;
-        CombatObject Obj;
-        Troop AUnit;
-        Data = Combat.FCombatData;
-        for (int I = 0, last = Data.GetCount() - 1; I <= last; I++)
+        CombatData data;
+        CombatObject objectValue;
+        Troop troop;
+        data = combat.CombatData;
+        for (int I = 0, last = data.GetCount() - 1; I <= last; I++)
         {
-            Obj = Data.GetObjects(I);
-            if (Obj is CombatUnit && Obj.GetPlayer() == 0)
+            objectValue = data.GetObjects(I);
+            if (objectValue is CombatUnit && objectValue.GetPlayer() == 0)
             {
-                AUnit = ((CombatUnit)Obj).FUnit;
-                AUnit.AddRef();
-                ((CombatUnit)Obj).SetUnit(null);
-                FDefenders.AddUnit(AUnit);
-                AUnit.Release();
+                troop = ((CombatUnit)objectValue).Troop;
+                troop.AddRef();
+                ((CombatUnit)objectValue).SetUnit(null);
+                Defenders.AddUnit(troop);
+                troop.Release();
             }
         }
 
-        if (Combat is FastBattle)
+        if (combat is FastBattle)
         {
-            ExecuteSearchDone(CombatType.Fast, Combat.FCombatResult);
+            ExecuteSearchDone(CombatType.Fast, combat.CombatResult);
         }
         else
         {
-            ExecuteSearchDone(CombatType.Tactical, Combat.FCombatResult);
+            ExecuteSearchDone(CombatType.Tactical, combat.CombatResult);
         }
     }
 
     // ExploreS.pas:230
-    public void RequestCombatTypeCallBack(EventLog Log)
+    public void RequestCombatTypeCallback(EventLog log)
     {
-        StructureTokenEvent TE;
-        var combatTypeRequestEventLog = (CombatTypeRequestEventLog)Log;
-        if (combatTypeRequestEventLog.FCombatType != CombatType.None)
+        StructureTokenEvent tokenEvent;
+        var combatTypeRequestEventLog = (CombatTypeRequestEventLog)log;
+        if (combatTypeRequestEventLog.CombatType != CombatType.None)
         {
-            TE = CreateTE();
-            SetupTE(TE);
-            TE.FAction = 0;
-            TE.FParam = (int)combatTypeRequestEventLog.FCombatType;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
-            TE.Release();
+            tokenEvent = CreateTokenEvent();
+            SetupTokenEvent(tokenEvent);
+            tokenEvent.Action = 0;
+            tokenEvent.Param = (int)combatTypeRequestEventLog.CombatType;
+            AoWHSMap.Current.TokenManager.GetTokenControl(tokenEvent.Player).AddEvent(tokenEvent);
+            tokenEvent.Release();
         }
     }
 
     // ExploreS.pas:246
-    public bool CanSearch(sbyte Player)
+    public bool CanSearch(sbyte player)
     {
-        bool Result;
-        ArmyHexSprite ArmyHS;
+        bool result;
+        ArmyHexSprite armyHexSprite;
         if (!GetExplored())
         {
-            ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
-            if (ArmyHS == null || ArmyHS.FArmy.FPlayer != Player)
+            armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+            if (armyHexSprite == null || armyHexSprite.Army.Player != player)
             {
-                Result = false;
+                result = false;
             }
             else
             {
@@ -379,52 +379,52 @@ public partial class ExplorationSite : Structure
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // ExploreS.pas:300
     public void GenerateDefenders()
     {
-        int Collection;
-        UnitIndexList List;
-        UnitIndexListCollection Collections;
-        RandSeed = AoWHSMap.Current.FDefendersSeed;
-        if (FDefendersMode == DefendersMode.Random)
+        int collection;
+        UnitIndexList list;
+        UnitIndexListCollection collections;
+        RandSeed = AoWHSMap.Current.DefendersSeed;
+        if (DefendersMode == ExplorationSiteDefendersMode.Random)
         {
-            FDefendersMode = (DefendersMode)(Random(3) + 1);
+            DefendersMode = (ExplorationSiteDefendersMode)(Random(3) + 1);
         }
 
-        Collection = ((ExplorationSiteResource)FResource).FDefenderCollections.GetRndCollection();
-        if (Collection != -1)
+        collection = ((ExplorationSiteResource)_resource).DefenderCollections.GetRandomCollection();
+        if (collection != -1)
         {
-            List = new UnitIndexList();
-            Collections = ((ExplorationSiteResource)FResource).FDefenderCollections;
-            for (int I = Collections.GetCollectionCount(Collection) - 1; I >= 0; I--)
+            list = new UnitIndexList();
+            collections = ((ExplorationSiteResource)_resource).DefenderCollections;
+            for (int I = collections.GetCollectionCount(collection) - 1; I >= 0; I--)
             {
-                List.Add(Collections.GetU(Collection, I));
+                list.Add(collections.GetU(collection, I));
             }
 
             try
             {
-                Int32List.FillWithRandomUnits(List, FDefenders, 4, (int)FDefendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+                Int32List.FillWithRandomUnits(list, Defenders, 4, (int)DefendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             }
             catch
             {
             }
 
             // { Original silently ignores defender-generation failures. }
-            List?.Dispose();
+            list?.Dispose();
         }
-    }
-
-    public enum DefendersMode : byte
-    {
-        UserDefined = 0, Low = 1, Normal = 2, High = 3, Random = 4
     }
 
     // ExploreS.pas:33
 
+}
+
+public enum ExplorationSiteDefendersMode : byte
+{
+    UserDefined = 0, Low = 1, Normal = 2, High = 3, Random = 4
 }

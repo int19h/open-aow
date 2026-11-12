@@ -7,7 +7,7 @@ public partial class MoveTokenEvent
 {
     public virtual void InitializeMove()
     {
-        FMoveIndex = FPath.Count - 1;
+        MoveIndex = Path.Count - 1;
         HeadlessHooks.BeforeMove?.Invoke(this);
     }
 }

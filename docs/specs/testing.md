@@ -104,14 +104,14 @@ steps whatever the frame rate.
 
 `tools/playtest.py` in the `aow` repository runs the original and the rebuilt game under a debugger
 on a hidden desktop. It prepares a scenario as a save with every player set to computer and the
-map's two seed properties (`AoWHSMap` (Delphi `TAoWHSMap`) ids `$1C FDefendersSeed` and `$24 FInitialRandomSeed`) set to
+map's two seed properties (`AoWHSMap` (Delphi `TAoWHSMap`) ids `$1C DefendersSeed` and `$24 InitialRandomSeed`) set to
 the seed, forces `System.RandSeed` to the seed through a breakpoint that returns from
 `System.Randomize` without running it, starts `AoW.exe <save>` with the registry's root and startup
 directory pointed at a copy of the game, lets the game play, and collects one save per day. The
 game's own `AutoSave` runs only for human players (`PlayerC.PAS:643-644`), so the harness breaks on
 `TurnPlayerControl.NewDay` (Delphi `TTurnPlayerControl`), steps out of it and calls `AutoSave` itself. Day 01 is the initialized
 state and day 21 follows twenty completed turns. `compare_runs` inflates each pair of saves,
-normalizes them (it ignores `AoWHSMap.FTurnTimeElapsed`, id `$37`, and `FTurnTimeBeep`, id `$3A`,
+normalizes them (it ignores `AoWHSMap.TurnTimeElapsed`, id `$37`, and `TurnTimeBeep`, id `$3A`,
 the two fields fed by the turn timer's `timeGetTime` reads), compares the bytes, dumps both with
 `asg_dump.py` and writes the first difference as a unified diff and as a list of changed fields.
 The rebuilt game equals the original on all seven scenarios for 20 turns, and on Mountain Clash
@@ -169,8 +169,8 @@ The port is driven by calls, not by a debugger. `tools/oracle/run.py` does, for 
      umSynchrone` and `FrameRate` 30, so `CustomDisplay.StartUpdateFrameLoop` (Delphi `TCustomDisplay`) calls `UpdateFrame`
      and `Application.ProcessMessages` in the main thread. No thread or timer is involved;
      `UpdateFrameThread` (Delphi `TUpdateFrameThread`) serves only the editor's asynchronous mode.
-   - `AoWHSMap.Activate` with `FDay = 0` runs `StartNewMap`, `TurnPlayerControl.StartNewMap`,
-     `NewDay` (day 1, which calls `Randomize` and stores `RandSeed` in `FInitialRandomSeed` for
+   - `AoWHSMap.Activate` with `Day = 0` runs `StartNewMap`, `TurnPlayerControl.StartNewMap`,
+     `NewDay` (day 1, which calls `Randomize` and stores `RandSeed` in `InitialRandomSeed` for
      local games), `NewTurn` of the first player and `FAIExecuter.ActivatePlayer` for a CPU player.
    - Every frame, `AoWHSMap.NewFrame` calls `FPlayerControl.NewFrame`,
      `FPlayerCommunicator.Process`, `FAIExecuter.Process` and `FTokenManager.Process`, in that
@@ -257,8 +257,8 @@ the same input give identical saves. What the recovery verified about the origin
   fixed costs. The wall-clock branch (`AI.pas:598, 962`) is dead code and stays so in the port.
 - Combat. With no human in a battle, `SetupCombat` falls back to `ctFast` (`MoveT.PAS:2692,
   2710-2711`), so all-CPU runs exercise fast combat only. The recovery's `--tactical` runs forced
-  `ArmyCombatMoveTokenEvent.FCombatType` (Delphi `TArmyCombatMoveTE`) to `ctTactical` when `ExecuteCombat` starts and set
-  `TacticalCombat.FHostPlayer` (Delphi `TTacticalCombat`) to 0 in `Execute`, because without a human it stays -1
+  `ArmyCombatMoveTokenEvent.CombatType` (Delphi `TArmyCombatMoveTE`) to `ctTactical` when `ExecuteCombat` starts and set
+  `TacticalCombat.HostPlayer` (Delphi `TTacticalCombat`) to 0 in `Execute`, because without a human it stays -1
   (`AoWTC.pas:5103-5107`). The harness has the same option (`--tactical`), applied at the same two
   points, so the tactical resolver is covered by the `heroes` tactical runs.
 - Object addresses: `IdentityHash.Of` replaces them (`transpiler.md` N7). Fixture captures pin
@@ -323,7 +323,7 @@ after the pass. `python tools/check.py` in the private repository runs them.
 | strings check | no `AnsiString` (the shim type 9.5-1 retired) in the tree, no explicit conversion from `char` to `byte` or to `char` from a non-constant integer or a constant of 128 and above, no `==` or relational operator between a `char` and a `byte`, no sort, search or sorted collection over strings without a comparer, no `Cp1252` call in a `ReadWrite` override, and in `src/Game`, `src/Engine` and the text routines of `src/Rtl` no .NET comparison, case, character class, trim, split, search or encoding call that differs from Delphi (`strings.md` 3.4) | `StringsRewrite --check <product>/src --allow tools/rewrite/strings/allow.txt`, a step of the `product` layer after the build. It prints `Strings check: N findings`, and the layer fails unless N is 0. The allowlist names 31 members by documentation comment id, each group with its reason |
 | strict strings | a null game string throws `NullStringException` in every routine that reads the switch, instead of reading as empty (`rtl-shim.md` 1.2) | `check.py` sets `AOW_STRICT_STRINGS=1` for every command it starts. Game, Headless, HostChecks and Localization.Tests read it at entry through `GateSwitches.Enter`. `Rtl.Tests` and `Aow.Game.Tests` turn the switch on in a module initializer |
 | exception census | a null or range error swallowed by a broad catch, `Rtl.Wrap` or `AoWE.Format` still moves a number | `ExceptionCensus` in `src/Rtl`. When `AOW_EXCEPTION_CENSUS` names a file, a host counts first-chance exceptions of six kinds, `NullReferenceException`, `IndexOutOfRangeException`, `ERangeError`, `EAccessViolation`, `EConvertError` and `NullStringException`, each under the first kind among its type and its bases, and appends one JSON line per run with the host, its arguments and the counts. Game, Headless, HostChecks, Localization.Tests and RoundTrip.Tests start it. `check.py` points the variable at one file per layer and copies the files to `census/` in the log folder |
-| sort dump | the order of the Units comparisons and of a sorted `StringList` over the English and German names of units, items, abilities, spells and texts (`CompareItemNames`, `CompareAbilityNames`, `P4CompareSpellNames`, `P4CompareSpellLevels`, `CompareTextControlItems`) | HostChecks `--sort-dump <file>`, one child process per language, in the `product` layer. The gate copies the dump to `sorts.txt` in the log folder, and two dumps compare with a plain file comparison |
+| sort dump | the order of the Units comparisons and of a sorted `StringList` over the English and German names of units, items, abilities, spells and texts (`CompareItemNames`, `CompareAbilityNames`, `CompareSpellNames`, `CompareSpellLevels`, `CompareTextControlItems`) | HostChecks `--sort-dump <file>`, one child process per language, in the `product` layer. The gate copies the dump to `sorts.txt` in the log folder, and two dumps compare with a plain file comparison |
 | glyph index | for every byte `b` of every installed font, `TextWidth` and the glyph `ShowText` draws for the one-char string of `b` equal glyph `b`, so bytes 128 to 159 reach the font as their letters | `GlyphIndexTests` in `Aow.Game.Tests`, skipped with the path when the installed fonts are absent |
 | typed-name round trip | a leader name typed through `InputMapper.Text` with €, „, ä and ß keeps the bytes 0x80, 0x84, 0xE4 and 0xDF through save and load | byte mode: `TypedNameRoundTripTests` in `Aow.Game.Tests`. Model mode: `tools/oracle/typed_name.py` in the private repository, where the Headless host saves a game with that leader name and the oracle's independent model reader finds the bytes |
 | dictionary order | the sorted entries of each of the eight dictionaries are in `Cp1252.Compare` order | `tests/localization` in the `localization` layer |

@@ -14,16 +14,16 @@ namespace Aow.Formats.Schema;
 /// </summary>
 public sealed class FormatSchema
 {
-    private readonly Dictionary<string, SchemaClass> classes = new(StringComparer.Ordinal);
-    private readonly Dictionary<string, Dictionary<int, SchemaClass>> engines = new(StringComparer.Ordinal);
-    private readonly List<string> ambiguities = [];
-    private readonly List<(string Engine, int Id)> ambiguous = [];
+    private readonly Dictionary<string, SchemaClass> _classes = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, Dictionary<int, SchemaClass>> _engines = new(StringComparer.Ordinal);
+    private readonly List<string> _ambiguities = [];
+    private readonly List<(string Engine, int Id)> _ambiguous = [];
 
     /// <summary>Class ids that one engine table enlists for two classes, measured at load.</summary>
-    public IReadOnlyList<string> RegistrationAmbiguities => ambiguities;
+    public IReadOnlyList<string> RegistrationAmbiguities => _ambiguities;
 
     /// <summary>The engine tables, by context name.</summary>
-    public IReadOnlyCollection<string> Engines => engines.Keys;
+    public IReadOnlyCollection<string> Engines => _engines.Keys;
 
     public int Version { get; }
 
@@ -33,9 +33,29 @@ public sealed class FormatSchema
     /// <summary>SHA-256 of the normalized schema text, pinned in versions.json.</summary>
     public string Hash { get; }
 
-    public IReadOnlyCollection<SchemaClass> Classes => classes.Values;
+    public IReadOnlyCollection<SchemaClass> Classes => _classes.Values;
 
-    private static readonly Lazy<FormatSchema> embedded = new(LoadEmbedded);
+    private Dictionary<string, List<string>>? _oldNames;
+
+    /// <summary>The old stored names of the properties that now have this name, over every class.</summary>
+    public IReadOnlyList<string> OldNamesOf(string name)
+    {
+        if (_oldNames is null)
+        {
+            var oldNames = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+            foreach (var schemaClass in _classes.Values)
+                foreach (var property in schemaClass.Own)
+                    foreach (string old in property.OldNames)
+                    {
+                        if (!oldNames.TryGetValue(property.Name, out var list)) oldNames[property.Name] = list = [];
+                        if (!list.Contains(old)) list.Add(old);
+                    }
+            _oldNames = oldNames;
+        }
+        return _oldNames.TryGetValue(name, out var found) ? found : [];
+    }
+
+    private static readonly Lazy<FormatSchema> s_embedded = new(LoadEmbedded);
 
     /// <summary>
     /// A test installs a schema here so one migration step can be observed not to read <see cref="Current"/>.
@@ -44,7 +64,7 @@ public sealed class FormatSchema
     /// </summary>
     internal static FormatSchema? Substituted;
 
-    public static FormatSchema Current => Substituted ?? embedded.Value;
+    public static FormatSchema Current => Substituted ?? s_embedded.Value;
 
     private static FormatSchema LoadEmbedded()
     {
@@ -71,36 +91,36 @@ public sealed class FormatSchema
         foreach (var item in list.Items)
         {
             var c = new SchemaClass((JsonObject)item, this);
-            classes.Add(c.Name, c);
+            _classes.Add(c.Name, c);
         }
         if (root["legacyShapes"] is JsonArray shapes)
             foreach (var item in shapes.Items)
             {
                 var shape = (JsonObject)item;
                 var c = new SchemaClass(shape, this, ((JsonString)shape["class"]!).Value);
-                legacyShapes.Add((((JsonString)shape["context"]!).Value, c.Name), (((JsonString)shape["name"]!).Value, c));
+                _legacyShapes.Add((((JsonString)shape["context"]!).Value, c.Name), (((JsonString)shape["name"]!).Value, c));
             }
-        foreach (var c in classes.Values) c.Link(this);
-        foreach (var (_, c) in legacyShapes.Values) c.Complete();
-        foreach (var c in classes.Values) c.Complete();
-        foreach (var c in classes.Values)
+        foreach (var c in _classes.Values) c.Link(this);
+        foreach (var (_, c) in _legacyShapes.Values) c.Complete();
+        foreach (var c in _classes.Values) c.Complete();
+        foreach (var c in _classes.Values)
         {
             foreach (var engine in c.Engines)
             {
                 if (c.Id is not int id) throw new InvalidOperationException($"Class {c.Name} is enlisted without an id.");
-                if (!engines.TryGetValue(engine, out var table)) engines[engine] = table = [];
+                if (!_engines.TryGetValue(engine, out var table)) _engines[engine] = table = [];
                 if (!table.TryAdd(id, c))
                 {
-                    ambiguities.Add($"engine {engine} class id {id}: {table[id].Name} and {c.Name}");
-                    ambiguous.Add((engine, id));
+                    _ambiguities.Add($"engine {engine} class id {id}: {table[id].Name} and {c.Name}");
+                    _ambiguous.Add((engine, id));
                 }
             }
         }
-        // An ambiguous id resolves to nothing, so a stored instance of it is refused, not guessed.
-        foreach (var (engine, id) in ambiguous) engines[engine].Remove(id);
+        // An _ambiguous id resolves to nothing, so a stored instance of it is refused, not guessed.
+        foreach (var (engine, id) in _ambiguous) _engines[engine].Remove(id);
     }
 
-    private readonly Dictionary<(string Context, string Class), (string Rule, SchemaClass Shape)> legacyShapes = [];
+    private readonly Dictionary<(string Context, string Class), (string Rule, SchemaClass Shape)> _legacyShapes = [];
 
     /// <summary>A named legacy shape of a class in one context, such as LEGACY_VALLEY01_SPRITE.</summary>
     public (string Rule, SchemaClass Shape)? LegacyShape(string context, string className)
@@ -115,9 +135,9 @@ public sealed class FormatSchema
 
     private (string Rule, SchemaClass Shape)? Lookup(string context, string className)
     {
-        if (legacyShapes.TryGetValue((context, className), out var shape)) return shape;
+        if (_legacyShapes.TryGetValue((context, className), out var shape)) return shape;
         string? resolved = NameTable.ResolveStored(className);
-        if (resolved is null || resolved == className || !legacyShapes.TryGetValue((context, resolved), out shape)) return null;
+        if (resolved is null || resolved == className || !_legacyShapes.TryGetValue((context, resolved), out shape)) return null;
         return shape;
     }
 
@@ -137,12 +157,12 @@ public sealed class FormatSchema
 
     public SchemaClass? Find(string name)
     {
-        if (classes.TryGetValue(name, out var found)) return found;
+        if (_classes.TryGetValue(name, out var found)) return found;
         string? resolved = NameTable.ResolveStored(name);
-        if (resolved is not null && resolved != name && classes.TryGetValue(resolved, out found)) return found;
+        if (resolved is not null && resolved != name && _classes.TryGetValue(resolved, out found)) return found;
         // A current schema answers a Delphi name. A version 1 or 2 schema answers the current name.
         string? delphi = resolved is null ? null : NameTable.DelphiName(resolved);
-        if (delphi is not null && delphi != name && classes.TryGetValue(delphi, out found)) return found;
+        if (delphi is not null && delphi != name && _classes.TryGetValue(delphi, out found)) return found;
         return null;
     }
 
@@ -151,9 +171,9 @@ public sealed class FormatSchema
 
     /// <summary>Resolves a stored class id through one engine table only (own-formats.md 2.2).</summary>
     public SchemaClass? Resolve(string engine, int classId) =>
-        engines.TryGetValue(engine, out var table) ? table.GetValueOrDefault(classId) : null;
+        _engines.TryGetValue(engine, out var table) ? table.GetValueOrDefault(classId) : null;
 
-    public IReadOnlyDictionary<int, SchemaClass> EngineTable(string engine) => engines[engine];
+    public IReadOnlyDictionary<int, SchemaClass> EngineTable(string engine) => _engines[engine];
 }
 
 /// <summary>
@@ -163,7 +183,7 @@ public sealed class FormatSchema
 /// </summary>
 public static class FormatVersions
 {
-    private static readonly Lazy<JsonObject> current = new(() =>
+    private static readonly Lazy<JsonObject> s_current = new(() =>
     {
         using var stream = typeof(FormatSchema).Assembly.GetManifestResourceStream("Aow.Formats.versions.json")
             ?? throw new InvalidOperationException("The embedded versions.json is missing.");
@@ -178,33 +198,34 @@ public static class FormatVersions
     public static IReadOnlyList<string> FlatMappings => Names("flatMappings");
 
     private static string[] Names(string member) =>
-        current.Value[member] is JsonArray names ? names.Items.Select(n => ((JsonString)n).Value).ToArray() : [];
+        s_current.Value[member] is JsonArray names ? names.Items.Select(n => ((JsonString)n).Value).ToArray() : [];
 }
 
 public sealed class SchemaClass
 {
-    private readonly JsonObject source;
-    private readonly List<SchemaProperty> own = [];
-    private List<SchemaProperty> effective = [];
-    private readonly Dictionary<int, SchemaProperty> byId = [];
-    private readonly Dictionary<string, SchemaProperty> byName = new(StringComparer.Ordinal);
-    private readonly List<SchemaProperty> dynamic = [];
-    private readonly string? parentName;
-    private bool completed;
+    private readonly JsonObject _source;
+    private readonly List<SchemaProperty> _own = [];
+    private List<SchemaProperty> _effective = [];
+    private readonly Dictionary<int, SchemaProperty> _byId = [];
+    private readonly Dictionary<string, SchemaProperty> _byName = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, SchemaProperty> _byOldName = new(StringComparer.Ordinal);
+    private readonly List<SchemaProperty> _dynamic = [];
+    private readonly string? _parentName;
+    private bool _completed;
 
     internal SchemaClass(JsonObject source, FormatSchema schema, string? shapeOf = null)
     {
-        this.source = source;
+        this._source = source;
         Name = shapeOf ?? ((JsonString)source["name"]!).Value;
         if (shapeOf is not null)
         {
             Inherits = false;
             KeepsChildren = false;
             Engines = [];
-            foreach (var p in ((JsonArray)source["properties"]!).Items) own.Add(new SchemaProperty((JsonObject)p, this, schema));
+            foreach (var p in ((JsonArray)source["properties"]!).Items) _own.Add(new SchemaProperty((JsonObject)p, this, schema));
             return;
         }
-        parentName = (source["parent"] as JsonString)?.Value;
+        _parentName = (source["parent"] as JsonString)?.Value;
         Id = source["id"] is JsonInteger id ? (int)id.Value : null;
         Engines = source["engines"] is JsonArray e ? e.Items.Select(i => ((JsonString)i).Value).ToArray() : [];
         Inherits = source["inherits"] is not JsonBoolean { Value: false };
@@ -212,7 +233,7 @@ public sealed class SchemaClass
         FieldClassName = (source["fieldClass"] as JsonString)?.Value;
         Mapping = source["mapping"] is JsonObject mapping ? new SchemaMapping(mapping) : null;
         if (source["properties"] is JsonArray props)
-            foreach (var p in props.Items) own.Add(new SchemaProperty((JsonObject)p, this, schema));
+            foreach (var p in props.Items) _own.Add(new SchemaProperty((JsonObject)p, this, schema));
     }
 
     public string Name { get; }
@@ -229,15 +250,15 @@ public sealed class SchemaClass
     /// <summary>The class of the fields of a map level, inherited along the chain.</summary>
     public string? FieldClass => FieldClassName ?? Parent?.FieldClass;
 
-    public IReadOnlyList<SchemaProperty> Own => own;
+    public IReadOnlyList<SchemaProperty> Own => _own;
 
     /// <summary>The members in canonical order.</summary>
-    public IReadOnlyList<SchemaProperty> Properties => effective;
+    public IReadOnlyList<SchemaProperty> Properties => _effective;
 
     internal void Link(FormatSchema schema)
     {
-        if (parentName is not null) Parent = schema.Find(parentName)
-            ?? throw new InvalidOperationException($"Class {Name} names an unknown parent {parentName}.");
+        if (_parentName is not null) Parent = schema.Find(_parentName)
+            ?? throw new InvalidOperationException($"Class {Name} names an unknown parent {_parentName}.");
     }
 
     public bool InheritsFrom(SchemaClass ancestor)
@@ -269,8 +290,8 @@ public sealed class SchemaClass
 
     internal void Complete()
     {
-        if (completed) return;
-        completed = true;
+        if (_completed) return;
+        _completed = true;
         Parent?.Complete();
         var readWrite = new List<SchemaProperty>();
         var children = new List<SchemaProperty>();
@@ -286,7 +307,7 @@ public sealed class SchemaClass
         }
         chain.Reverse();
         foreach (var c in chain)
-            foreach (var p in c.own)
+            foreach (var p in c._own)
             {
                 // A subclass property with an inherited id shadows the inherited one: the base
                 // never writes it for this class (THuntAG id 30, TAoWTerrainResource id 20).
@@ -297,12 +318,12 @@ public sealed class SchemaClass
         {
             // Children come from TECustomNode.MainReadWrite even when ReadWrite skips the base.
             for (var c = Parent; c is not null; c = c.Parent)
-                foreach (var p in c.own)
+                foreach (var p in c._own)
                     if (p.IsChildrenPhase && !children.Contains(p)) children.Add(p);
         }
         if (!keepChildren) children.Clear();
         var all = readWrite.Concat(children).ToList();
-        if (source["order"] is JsonArray order)
+        if (_source["order"] is JsonArray order)
         {
             var named = all.ToDictionary(p => p.Name, StringComparer.Ordinal);
             var ordered = new List<SchemaProperty>();
@@ -315,28 +336,31 @@ public sealed class SchemaClass
             if (named.Count != 0) throw new InvalidOperationException($"Class {Name} leaves {string.Join(", ", named.Keys)} out of its order.");
             all = ordered;
         }
-        effective = all;
-        foreach (var p in effective)
+        _effective = all;
+        foreach (var p in _effective)
         {
-            if (!byName.TryAdd(p.Name, p)) throw new InvalidOperationException($"Class {Name} has two members named {p.Name}.");
-            if (p.Id is int id && !byId.TryAdd(id, p)) throw new InvalidOperationException($"Class {Name} has two properties with id {id}.");
-            if (p.DataId is int dataId && !byId.TryAdd(dataId, p)) throw new InvalidOperationException($"Class {Name} has two properties with id {dataId}.");
-            if (p.DynamicMinimum is not null) dynamic.Add(p);
+            if (!_byName.TryAdd(p.Name, p)) throw new InvalidOperationException($"Class {Name} has two members named {p.Name}.");
+            foreach (string old in p.OldNames)
+                if (!_byOldName.TryAdd(old, p)) throw new InvalidOperationException($"Class {Name} has two members with the old name {old}.");
+            if (p.Id is int id && !_byId.TryAdd(id, p)) throw new InvalidOperationException($"Class {Name} has two properties with id {id}.");
+            if (p.DataId is int dataId && !_byId.TryAdd(dataId, p)) throw new InvalidOperationException($"Class {Name} has two properties with id {dataId}.");
+            if (p.DynamicMinimum is not null) _dynamic.Add(p);
         }
-        dynamic.Sort((a, b) => b.DynamicMinimum!.Value.CompareTo(a.DynamicMinimum!.Value));
+        _dynamic.Sort((a, b) => b.DynamicMinimum!.Value.CompareTo(a.DynamicMinimum!.Value));
     }
 
     public SchemaProperty? PropertyById(int id)
     {
-        if (byId.TryGetValue(id, out var p)) return p;
-        foreach (var d in dynamic)
+        if (_byId.TryGetValue(id, out var p)) return p;
+        foreach (var d in _dynamic)
             if (id >= d.DynamicMinimum) return d;
         return null;
     }
 
-    public SchemaProperty? PropertyByName(string name) => byName.GetValueOrDefault(name);
+    /// <summary>The property of that stored name, or of an old stored name a renamed property still loads from.</summary>
+    public SchemaProperty? PropertyByName(string name) => _byName.GetValueOrDefault(name) ?? _byOldName.GetValueOrDefault(name);
 
-    public int Ordinal(SchemaProperty property) => effective.IndexOf(property);
+    public int Ordinal(SchemaProperty property) => _effective.IndexOf(property);
 
     public override string ToString() => Name;
 }
@@ -352,6 +376,7 @@ public sealed class SchemaProperty
         DynamicMinimum = source["dynamic"] is JsonInteger d ? (int)d.Value : null;
         SlotBase = source["slotBase"] is JsonInteger s ? (int)s.Value : null;
         IsChildrenPhase = source["phase"] is JsonString { Value: "children" };
+        OldNames = source["oldNames"] is JsonArray old ? [.. old.Items.Cast<JsonString>().Select(item => item.Value)] : [];
         Codec = PropertyCodec.Create(source, schema, owner.Name + "." + Name);
     }
 
@@ -366,6 +391,10 @@ public sealed class SchemaProperty
     /// <summary>The id of a dynamic member minus this value is its slot. Null for sprites.</summary>
     public int? SlotBase { get; }
     public bool IsChildrenPhase { get; }
+
+    /// <summary>Stored names this property had before a rename. An older document still loads with them.</summary>
+    public IReadOnlyList<string> OldNames { get; }
+
     public PropertyCodec Codec { get; }
     public bool IsDynamic => DynamicMinimum is not null;
 

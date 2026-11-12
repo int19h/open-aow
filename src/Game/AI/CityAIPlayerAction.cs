@@ -13,96 +13,96 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.AI;
 
-// FCityCount, FProductionLevelCounts, FMaxProductionLevel, FProductionRatio
+// CityCount, ProductionLevelCounts, MaxProductionLevel, ProductionRatio
 public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 {
     public CityAIPlayerAction(ECustomNode owner) : base(owner)
     { }
 
-    public int FCityCount;
-    public Int32Array4 FProductionLevelCounts;
-    public int FMaxProductionLevel;
-    public float FProductionRatio;
+    public int CityCount;
+    public Int32Array4 ProductionLevelCounts;
+    public int MaxProductionLevel;
+    public float ProductionRatio;
 
     // City.pas:3130
     public override bool Process()
     {
-        Player Player;
-        AIBudgetManager Manager;
-        AIBudget UpgradeBudget;
-        AIBudget ResearchBudget;
-        AIBudget FortifyBudget;
+        Player player;
+        AIBudgetManager manager;
+        AIBudget upgradeBudget;
+        AIBudget researchBudget;
+        AIBudget fortifyBudget;
         UpdateStatistics();
-        Player = FControl.FPlayer;
-        if (Player.FPlayerIndex != 0)
+        player = Control.Player;
+        if (player.PlayerIndex != 0)
         {
-            Manager = Player.FAIBudget;
-            UpgradeBudget = (AIBudget)Manager.FBudgets.FindChild(131349);
-            if (UpgradeBudget == null)
+            manager = player.AIBudget;
+            upgradeBudget = (AIBudget)manager.Budgets.FindChild(131349);
+            if (upgradeBudget == null)
             {
-                UpgradeBudget = new AICityUpgradeBudget(null);
-                UpgradeBudget.Owner = Manager.FBudgets;
-                UpgradeBudget.FRequiredGold = 250;
-                UpgradeBudget.FDays = 7;
+                upgradeBudget = new AICityUpgradeBudget(null);
+                upgradeBudget.Owner = manager.Budgets;
+                upgradeBudget.RequiredGold = 250;
+                upgradeBudget.Days = 7;
             }
 
-            ResearchBudget = (AIBudget)Manager.FBudgets.FindChild(131350);
-            if (ResearchBudget != null)
+            researchBudget = (AIBudget)manager.Budgets.FindChild(131350);
+            if (researchBudget != null)
             {
-                if (ResearchBudget.FGold + UpgradeBudget.FGold > 125)
+                if (researchBudget.Gold + upgradeBudget.Gold > 125)
                 {
-                    if (ResearchProduction(ResearchBudget, UpgradeBudget))
+                    if (ResearchProduction(researchBudget, upgradeBudget))
                     {
-                        ResearchBudget.FDays = 7;
-                        ResearchBudget.FRequiredGold = 125;
+                        researchBudget.Days = 7;
+                        researchBudget.RequiredGold = 125;
                     }
                 }
             }
             else
             {
-                ResearchBudget = new AICityResearchBudget(null);
-                ResearchBudget.FDays = 7;
-                ResearchBudget.FRequiredGold = 125;
-                ResearchBudget.Owner = Manager.FBudgets;
+                researchBudget = new AICityResearchBudget(null);
+                researchBudget.Days = 7;
+                researchBudget.RequiredGold = 125;
+                researchBudget.Owner = manager.Budgets;
             }
 
-            ValidateResearchBudget(ResearchBudget);
-            if (UpgradeBudget.GetReady())
+            ValidateResearchBudget(researchBudget);
+            if (upgradeBudget.GetReady())
             {
-                if (UpgradeCity(UpgradeBudget))
+                if (UpgradeCity(upgradeBudget))
                 {
-                    UpgradeBudget.FRequiredGold = 250;
-                    UpgradeBudget.FDays = 7;
+                    upgradeBudget.RequiredGold = 250;
+                    upgradeBudget.Days = 7;
                 }
             }
 
-            ValidateUpgradeBudget(UpgradeBudget);
-            FortifyBudget = (AIBudget)Manager.FBudgets.FindChild(131351);
-            if (FortifyBudget != null)
+            ValidateUpgradeBudget(upgradeBudget);
+            fortifyBudget = (AIBudget)manager.Budgets.FindChild(131351);
+            if (fortifyBudget != null)
             {
-                if (FortifyBudget.GetReady())
+                if (fortifyBudget.GetReady())
                 {
-                    if (FortifyCity(FortifyBudget))
+                    if (FortifyCity(fortifyBudget))
                     {
-                        FortifyBudget.FDays = 7;
-                        FortifyBudget.FRequiredGold = 80;
+                        fortifyBudget.Days = 7;
+                        fortifyBudget.RequiredGold = 80;
                     }
                 }
             }
             else
             {
-                if (AoWHSMap.Current.FDay > 5)
+                if (AoWHSMap.Current.Day > 5)
                 {
-                    FortifyBudget = new AICityFortifyBudget(null);
-                    FortifyBudget.FDays = 7;
-                    FortifyBudget.FRequiredGold = 80;
-                    FortifyBudget.Owner = Manager.FBudgets;
+                    fortifyBudget = new AICityFortifyBudget(null);
+                    fortifyBudget.Days = 7;
+                    fortifyBudget.RequiredGold = 80;
+                    fortifyBudget.Owner = manager.Budgets;
                 }
             }
 
-            if (FortifyBudget != null)
+            if (fortifyBudget != null)
             {
-                ValidateFortifyBudget(FortifyBudget);
+                ValidateFortifyBudget(fortifyBudget);
             }
         }
 
@@ -110,18 +110,18 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     }
 
     // City.pas:2795
-    public bool ValidResearchCity(City City)
+    public bool ValidResearchCity(City city)
     {
-        bool Result = City.FProduction.GetProduceUnitLevelMax() < City.FUpgradeLevel;
+        bool Result = city.Production.GetProduceUnitLevelMax() < city.UpgradeLevel;
         bool result = Result;
         if (result)
         {
-            var activeAction = City.GetActiveAction();
+            var activeAction = city.GetActiveAction();
             bool contains = Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(activeAction);
             if (!contains)
             {
-                var cityActiveAction = City.GetActiveAction();
-                contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && City.FProduction.FSettings.FTurnsLeft == City.FProduction.FSettings.FTurnsTotal;
+                var cityActiveAction = city.GetActiveAction();
+                contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
             result = contains;
@@ -131,155 +131,155 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     }
 
     // City.pas:2802
-    public bool ValidResearchBudgetCity(City City) => City.FProduction.GetProduceUnitLevelMax() != City.FUpgradeLevel || City.GetActiveAction() == CityAction.Upgrade;
+    public bool ValidResearchBudgetCity(City city) => city.Production.GetProduceUnitLevelMax() != city.UpgradeLevel || city.GetActiveAction() == CityAction.Upgrade;
 
     // City.pas:2807
-    public void ValidateResearchBudget(AIBudget Budget)
+    public void ValidateResearchBudget(AIBudget budget)
     {
-        Player Player;
-        int Count;
-        int Total;
-        int Priority;
-        PlayerStructure Structure;
-        Player = FControl.FPlayer;
-        Count = 0;
-        Total = 0;
-        for (int I = Player.FStructures.Count - 1; I >= 0; I--)
+        Player player;
+        int count;
+        int total;
+        int priority;
+        PlayerStructure structure;
+        player = Control.Player;
+        count = 0;
+        total = 0;
+        for (int I = player.Structures.Count - 1; I >= 0; I--)
         {
-            Structure = Player.FStructures.GetStructure(I);
-            if (Structure is City)
+            structure = player.Structures.GetStructure(I);
+            if (structure is City)
             {
-                Total += 1;
-                if (ValidResearchBudgetCity((City)Structure))
+                total += 1;
+                if (ValidResearchBudgetCity((City)structure))
                 {
-                    Count += 1;
+                    count += 1;
                 }
             }
         }
 
-        if (Count == 0)
+        if (count == 0)
         {
-            Player.FAIBudget.ReturnExpense(Budget.FGold, Budget.FMana);
-            Budget.FGold = 0;
-            Budget.FMana = 0;
-            Budget.FRequiredGold = 0;
+            player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
+            budget.Gold = 0;
+            budget.Mana = 0;
+            budget.RequiredGold = 0;
             // { Original limits days, not priority. }
-            Budget.FDays = 7;
+            budget.Days = 7;
         }
         else
         {
-            Budget.FRequiredGold = 125;
-            Priority = 7 - Count * Total / 3;
-            if (Priority < 3)
+            budget.RequiredGold = 125;
+            priority = 7 - count * total / 3;
+            if (priority < 3)
             {
-                Priority = 3;
+                priority = 3;
             }
 
-            if (Priority < Budget.FDays)
+            if (priority < budget.Days)
             {
-                Budget.FDays = Priority;
+                budget.Days = priority;
             }
         }
     }
 
     // City.pas:2842
-    public bool ResearchProduction(AIBudget ResearchBudget, AIBudget UpgradeBudget)
+    public bool ResearchProduction(AIBudget researchBudget, AIBudget upgradeBudget)
     {
-        DoubleItemList<City> Cities;
-        bool Valid;
-        Player Player;
-        int UnitIndex;
-        int Index;
-        int Value;
-        int Priority;
-        PlayerStructure Structure;
-        City City;
-        ProductionItem Production;
-        bool Result = false;
-        Player = FControl.FPlayer;
-        Cities = new DoubleItemList<City>();
-        for (int I = Player.FStructures.Count - 1; I >= 0; I--)
+        DoubleItemList<City> cities;
+        bool valid;
+        Player player;
+        int unitIndex;
+        int index;
+        int value;
+        int priority;
+        PlayerStructure structure;
+        City city;
+        ProductionItem production;
+        bool result = false;
+        player = Control.Player;
+        cities = new DoubleItemList<City>();
+        for (int I = player.Structures.Count - 1; I >= 0; I--)
         {
-            Structure = Player.FStructures.GetStructure(I);
-            if (Structure is City && ValidResearchCity((City)Structure))
+            structure = player.Structures.GetStructure(I);
+            if (structure is City && ValidResearchCity((City)structure))
             {
-                City = (City)Structure;
-                Valid = false;
-                for (int J = City.FProduction.FUnitProductions.Count - 1; J >= 0; J--)
+                city = (City)structure;
+                valid = false;
+                for (int J = city.Production.UnitProductions.Count - 1; J >= 0; J--)
                 {
-                    UnitIndex = City.FProduction.FUnitProductions.GetItem(J).FUnitIndex;
-                    if (UnitIndex != -1)
+                    unitIndex = city.Production.UnitProductions.GetItem(J).UnitIndex;
+                    if (unitIndex != -1)
                     {
-                        Valid = Valid || AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex).FLevel == City.FUpgradeLevel && !City.FProduction.FUnitProductions.GetItem(J).FResearched && City.ResearchCost(J) <= ResearchBudget.FGold + UpgradeBudget.FGold;
+                        valid = valid || AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex).Level == city.UpgradeLevel && !city.Production.UnitProductions.GetItem(J).Researched && city.ResearchCost(J) <= researchBudget.Gold + upgradeBudget.Gold;
                     }
                 }
 
-                if (Valid)
+                if (valid)
                 {
-                    Priority = City.GetSize() * 2 + (City.FProductionPriority + City.FWallType * 3);
-                    Cities.AddAB(City, Priority);
+                    priority = city.GetSize() * 2 + (city.ProductionPriority + city.WallType * 3);
+                    cities.AddAbility(city, priority);
                 }
             }
         }
 
-        Cities.SortDescendingItemB();
-        if (Cities.Count != 0)
+        cities.SortDescendingItemB();
+        if (cities.Count != 0)
         {
-            Index = 0;
-            Value = Round((double)Cities[0].B * 0.75);
-            while (Index + 1 < Cities.Count && Value <= Cities[Index + 1].B)
+            index = 0;
+            value = Round((double)cities[0].Second * 0.75);
+            while (index + 1 < cities.Count && value <= cities[index + 1].Second)
             {
-                Index += 1;
+                index += 1;
             }
 
-            Index = AoWHSMap.Current.Random(Index + 1);
-            City = Cities[Index].A;
+            index = AoWHSMap.Current.Random(index + 1);
+            city = cities[index].First;
             RandSeed = AoWHSMap.Current.Random(16777215);
-            Index = Cities[Index].A.FProduction.FindOptimalResearchProduction(null, ResearchBudget.FGold + UpgradeBudget.FGold);
-            if (Index != -1)
+            index = cities[index].First.Production.FindOptimalResearchProduction(null, researchBudget.Gold + upgradeBudget.Gold);
+            if (index != -1)
             {
-                City.FProduction.ExecuteDeleteProductions();
-                Production = new ProductionItem(null);
-                Production.Order = new ResearchSpell(Index);
-                City.FProduction.ExecuteAddProduction(Production);
-                Production?.Dispose();
-                Index = City.ResearchCost(Index);
-                if (Index > ResearchBudget.FGold)
+                city.Production.ExecuteDeleteProductions();
+                production = new ProductionItem(null);
+                production.Order = new ResearchSpell(index);
+                city.Production.ExecuteAddProduction(production);
+                production?.Dispose();
+                index = city.ResearchCost(index);
+                if (index > researchBudget.Gold)
                 {
-                    Index -= ResearchBudget.FGold;
-                    Player.FAIBudget.BudgetExpenseMade(ResearchBudget.FGold, 0, ResearchBudget, AIBudgetManager.ExpenseMode.Budget);
-                    Player.FAIBudget.BudgetExpenseMade(Index, 0, UpgradeBudget, AIBudgetManager.ExpenseMode.Budget);
+                    index -= researchBudget.Gold;
+                    player.AIBudget.BudgetExpenseMade(researchBudget.Gold, 0, researchBudget, AIBudgetManager.ExpenseMode.Budget);
+                    player.AIBudget.BudgetExpenseMade(index, 0, upgradeBudget, AIBudgetManager.ExpenseMode.Budget);
                 }
                 else
                 {
-                    Player.FAIBudget.BudgetExpenseMade(Index, 0, ResearchBudget, AIBudgetManager.ExpenseMode.Budget);
+                    player.AIBudget.BudgetExpenseMade(index, 0, researchBudget, AIBudgetManager.ExpenseMode.Budget);
                 }
 
-                Result = true;
+                result = true;
             }
         }
 
-        Cities?.Dispose();
-        return Result;
+        cities?.Dispose();
+        return result;
     }
 
     // City.pas:2909
-    public bool ValidUpgradeCity(City City)
+    public bool ValidUpgradeCity(City city)
     {
-        string Reason = "";
-        int Level;
-        Level = City.FProduction.GetProduceUnitLevelMax();
-        bool Result = City.CanUpgrade(false, ref Reason);
-        Result = Result && City.GetSize() > City.FUpgradeLevel && !(Level == FMaxProductionLevel && FProductionLevelCounts[Level - 1] == 1) && Level == City.FUpgradeLevel;
+        string reason = "";
+        int level;
+        level = city.Production.GetProduceUnitLevelMax();
+        bool Result = city.CanUpgrade(false, ref reason);
+        Result = Result && city.GetSize() > city.UpgradeLevel && !(level == MaxProductionLevel && ProductionLevelCounts[level - 1] == 1) && level == city.UpgradeLevel;
         bool result = Result;
         if (result)
         {
-            var activeAction = City.GetActiveAction();
+            var activeAction = city.GetActiveAction();
             bool contains = Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(activeAction);
             if (!contains)
             {
-                var cityActiveAction = City.GetActiveAction();
-                contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && City.FProduction.FSettings.FTurnsLeft == City.FProduction.FSettings.FTurnsTotal;
+                var cityActiveAction = city.GetActiveAction();
+                contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
             result = contains;
@@ -289,130 +289,130 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     }
 
     // City.pas:2921
-    public bool ValidUpgradeBudgetCity(City City)
+    public bool ValidUpgradeBudgetCity(City city)
     {
-        bool Result;
-        int Level;
-        Level = City.FProduction.GetProduceUnitLevelMax();
-        if (City.GetSize() <= City.FUpgradeLevel || Level != City.FUpgradeLevel)
+        bool result;
+        int level;
+        level = city.Production.GetProduceUnitLevelMax();
+        if (city.GetSize() <= city.UpgradeLevel || level != city.UpgradeLevel)
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:2928
-    public bool UpgradeCity(AIBudget Budget)
+    public bool UpgradeCity(AIBudget budget)
     {
-        bool Result;
-        Player Player;
-        DoubleItemList<City> Cities;
-        int Priority;
-        PlayerStructure Structure;
-        City City;
-        ProductionItem Production;
-        Player = FControl.FPlayer;
-        Cities = new DoubleItemList<City>();
-        for (int I = Player.FStructures.Count - 1; I >= 0; I--)
+        bool result;
+        Player player;
+        DoubleItemList<City> cities;
+        int priority;
+        PlayerStructure structure;
+        City city;
+        ProductionItem production;
+        player = Control.Player;
+        cities = new DoubleItemList<City>();
+        for (int I = player.Structures.Count - 1; I >= 0; I--)
         {
             // { Preserve the original runtime class check. }
-            Structure = Player.FStructures.GetStructure(I);
-            if (Structure is City && ValidUpgradeCity((City)Structure))
+            structure = player.Structures.GetStructure(I);
+            if (structure is City && ValidUpgradeCity((City)structure))
             {
-                City = (City)Structure;
-                Priority = City.GetSize() * 2 + (City.FProductionPriority + City.FWallType * 3);
-                Cities.AddAB(City, Priority);
+                city = (City)structure;
+                priority = city.GetSize() * 2 + (city.ProductionPriority + city.WallType * 3);
+                cities.AddAbility(city, priority);
             }
         }
 
-        Cities.SortDescendingItemB();
-        if (Cities.Count != 0)
+        cities.SortDescendingItemB();
+        if (cities.Count != 0)
         {
-            City = Cities[0].A;
-            City.FProduction.ExecuteDeleteProductions();
-            Production = new ProductionItem(null);
-            Production.Order = new Upgrade();
-            City.FProduction.ExecuteAddProduction(Production);
-            Production?.Dispose();
-            Player.FAIBudget.BudgetExpenseMade(250, 0, Budget, AIBudgetManager.ExpenseMode.Budget);
+            city = cities[0].First;
+            city.Production.ExecuteDeleteProductions();
+            production = new ProductionItem(null);
+            production.Order = new Upgrade();
+            city.Production.ExecuteAddProduction(production);
+            production?.Dispose();
+            player.AIBudget.BudgetExpenseMade(250, 0, budget, AIBudgetManager.ExpenseMode.Budget);
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        Cities?.Dispose();
-        return Result;
+        cities?.Dispose();
+        return result;
     }
 
     // City.pas:2964
-    public void ValidateUpgradeBudget(AIBudget Budget)
+    public void ValidateUpgradeBudget(AIBudget budget)
     {
-        Player Player;
-        int Count;
-        int Priority;
-        PlayerStructure Structure;
-        Player = FControl.FPlayer;
-        Count = 0;
-        for (int I = Player.FStructures.Count - 1; I >= 0; I--)
+        Player player;
+        int count;
+        int priority;
+        PlayerStructure structure;
+        player = Control.Player;
+        count = 0;
+        for (int I = player.Structures.Count - 1; I >= 0; I--)
         {
-            Structure = Player.FStructures.GetStructure(I);
-            if (Structure is City)
+            structure = player.Structures.GetStructure(I);
+            if (structure is City)
             {
-                if (ValidUpgradeBudgetCity((City)Structure))
+                if (ValidUpgradeBudgetCity((City)structure))
                 {
-                    Count += 1;
+                    count += 1;
                 }
             }
         }
 
-        if (Count == 0)
+        if (count == 0)
         {
-            Player.FAIBudget.ReturnExpense(Budget.FGold, Budget.FMana);
-            Budget.FGold = 0;
-            Budget.FMana = 0;
-            Budget.FRequiredGold = 0;
+            player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
+            budget.Gold = 0;
+            budget.Mana = 0;
+            budget.RequiredGold = 0;
             // { Original limits days, not priority. }
-            Budget.FDays = 7;
+            budget.Days = 7;
         }
         else
         {
-            Budget.FRequiredGold = 250;
-            Priority = 8 - Count / 2;
-            if (Priority < 5)
+            budget.RequiredGold = 250;
+            priority = 8 - count / 2;
+            if (priority < 5)
             {
-                Priority = 5;
+                priority = 5;
             }
 
-            if (Priority < Budget.FDays)
+            if (priority < budget.Days)
             {
-                Budget.FDays = Priority;
+                budget.Days = priority;
             }
         }
     }
 
     // City.pas:2999
-    public bool ValidFortifyCity(City City)
+    public bool ValidFortifyCity(City city)
     {
-        string Reason = "";
-        bool Result = City.CanFortify(false, ref Reason);
-        Result = Result && City.FWallType == 0 || City.FWallType == 1 && City.GetSize() > 2 && City.FUpgradeLevel > 1 && AoWHSMap.Current.FDay >= 30;
+        string reason = "";
+        bool Result = city.CanFortify(false, ref reason);
+        Result = Result && city.WallType == 0 || city.WallType == 1 && city.GetSize() > 2 && city.UpgradeLevel > 1 && AoWHSMap.Current.Day >= 30;
         bool result = Result;
         if (result)
         {
-            var activeAction = City.GetActiveAction();
+            var activeAction = city.GetActiveAction();
             bool contains = Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(activeAction);
             if (!contains)
             {
-                var cityActiveAction = City.GetActiveAction();
-                contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && City.FProduction.FSettings.FTurnsLeft == City.FProduction.FSettings.FTurnsTotal;
+                var cityActiveAction = city.GetActiveAction();
+                contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
             result = contains;
@@ -422,102 +422,102 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     }
 
     // City.pas:3009
-    public bool ValidFortifyBudgetCity(City City) => City.FWallType == 0 || City.FWallType == 1 && City.GetSize() > 2 && City.FUpgradeLevel > 1 && AoWHSMap.Current.FDay >= 30;
+    public bool ValidFortifyBudgetCity(City city) => city.WallType == 0 || city.WallType == 1 && city.GetSize() > 2 && city.UpgradeLevel > 1 && AoWHSMap.Current.Day >= 30;
 
     // City.pas:3015
-    public bool FortifyCity(AIBudget Budget)
+    public bool FortifyCity(AIBudget budget)
     {
-        bool Result;
-        Player Player;
-        DoubleItemList<City> Cities;
-        int Priority;
-        PlayerStructure Structure;
-        City City;
-        ProductionItem Production;
-        Player = FControl.FPlayer;
-        Cities = new DoubleItemList<City>();
-        for (int I = Player.FStructures.Count - 1; I >= 0; I--)
+        bool result;
+        Player player;
+        DoubleItemList<City> cities;
+        int priority;
+        PlayerStructure structure;
+        City city;
+        ProductionItem production;
+        player = Control.Player;
+        cities = new DoubleItemList<City>();
+        for (int I = player.Structures.Count - 1; I >= 0; I--)
         {
             // { Preserve the original runtime class check. }
-            Structure = Player.FStructures.GetStructure(I);
-            if (Structure is City && ValidFortifyCity((City)Structure))
+            structure = player.Structures.GetStructure(I);
+            if (structure is City && ValidFortifyCity((City)structure))
             {
-                City = (City)Structure;
-                Priority = City.GetSize() * 2 + City.FProductionPriority;
-                if (City.FWallType == 0)
+                city = (City)structure;
+                priority = city.GetSize() * 2 + city.ProductionPriority;
+                if (city.WallType == 0)
                 {
-                    Priority += 3;
+                    priority += 3;
                 }
 
-                Cities.AddAB(City, Priority);
+                cities.AddAbility(city, priority);
             }
         }
 
-        Cities.SortDescendingItemB();
-        if (Cities.Count != 0)
+        cities.SortDescendingItemB();
+        if (cities.Count != 0)
         {
-            City = Cities[0].A;
-            City.FProduction.ExecuteDeleteProductions();
-            var fortifyCost = City.FortifyCost();
-            Player.FAIBudget.BudgetExpenseMade(fortifyCost, 0, Budget, AIBudgetManager.ExpenseMode.Budget);
-            Production = new ProductionItem(null);
-            Production.Order = new Fortify();
-            City.FProduction.ExecuteAddProduction(Production);
-            Production?.Dispose();
+            city = cities[0].First;
+            city.Production.ExecuteDeleteProductions();
+            var fortifyCost = city.FortifyCost();
+            player.AIBudget.BudgetExpenseMade(fortifyCost, 0, budget, AIBudgetManager.ExpenseMode.Budget);
+            production = new ProductionItem(null);
+            production.Order = new Fortify();
+            city.Production.ExecuteAddProduction(production);
+            production?.Dispose();
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        Cities?.Dispose();
-        return Result;
+        cities?.Dispose();
+        return result;
     }
 
     // City.pas:3052
-    public void ValidateFortifyBudget(AIBudget Budget)
+    public void ValidateFortifyBudget(AIBudget budget)
     {
-        Player Player;
-        int Count;
-        int Priority;
-        PlayerStructure Structure;
-        Player = FControl.FPlayer;
-        Count = 0;
-        for (int I = Player.FStructures.Count - 1; I >= 0; I--)
+        Player player;
+        int count;
+        int priority;
+        PlayerStructure structure;
+        player = Control.Player;
+        count = 0;
+        for (int I = player.Structures.Count - 1; I >= 0; I--)
         {
-            Structure = Player.FStructures.GetStructure(I);
-            if (Structure is City)
+            structure = player.Structures.GetStructure(I);
+            if (structure is City)
             {
-                if (ValidFortifyBudgetCity((City)Structure))
+                if (ValidFortifyBudgetCity((City)structure))
                 {
-                    Count += 1;
+                    count += 1;
                 }
             }
         }
 
-        if (Count == 0)
+        if (count == 0)
         {
-            Player.FAIBudget.ReturnExpense(Budget.FGold, Budget.FMana);
-            Budget.FGold = 0;
-            Budget.FMana = 0;
-            Budget.FRequiredGold = 0;
+            player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
+            budget.Gold = 0;
+            budget.Mana = 0;
+            budget.RequiredGold = 0;
             // { Original limits days, not priority. }
-            Budget.FDays = 7;
+            budget.Days = 7;
         }
         else
         {
-            Budget.FRequiredGold = 80;
-            Priority = 8 - Count / 2;
-            if (Priority < 4)
+            budget.RequiredGold = 80;
+            priority = 8 - count / 2;
+            if (priority < 4)
             {
-                Priority = 4;
+                priority = 4;
             }
 
-            if (Priority < Budget.FDays)
+            if (priority < budget.Days)
             {
-                Budget.FDays = Priority;
+                budget.Days = priority;
             }
         }
     }
@@ -525,73 +525,73 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     // City.pas:3087
     public int UpgradeableCities()
     {
-        int Count;
-        PlayerStructure Structure;
-        Count = 0;
-        for (int I = FControl.FPlayer.FStructures.Count - 1; I >= 0; I--)
+        int count;
+        PlayerStructure structure;
+        count = 0;
+        for (int I = Control.Player.Structures.Count - 1; I >= 0; I--)
         {
-            Structure = FControl.FPlayer.FStructures.GetStructure(I);
-            if (Structure is City)
+            structure = Control.Player.Structures.GetStructure(I);
+            if (structure is City)
             {
-                _ = (City)Structure;
-                var city = (City)Structure;
-                if (city.GetSize() > city.FUpgradeLevel)
+                _ = (City)structure;
+                var city = (City)structure;
+                if (city.GetSize() > city.UpgradeLevel)
                 {
-                    Count += 1;
+                    count += 1;
                 }
             }
         }
 
-        return Count;
+        return count;
     }
 
     // City.pas:3102
     public void UpdateStatistics()
     {
-        int Level;
-        int Available;
-        int Busy;
-        City City;
-        FCityCount = 0;
-        FMaxProductionLevel = 0;
-        Available = 0;
-        Busy = 0;
-        FProductionLevelCounts = default;
-        for (int I = FControl.FPlayer.FStructures.Count - 1; I >= 0; I--)
+        int level;
+        int available;
+        int busy;
+        City city;
+        CityCount = 0;
+        MaxProductionLevel = 0;
+        available = 0;
+        busy = 0;
+        ProductionLevelCounts = default;
+        for (int I = Control.Player.Structures.Count - 1; I >= 0; I--)
         {
-            if (FControl.FPlayer.FStructures.GetStructure(I) is City)
+            if (Control.Player.Structures.GetStructure(I) is City)
             {
-                FCityCount += 1;
-                City = (City)FControl.FPlayer.FStructures.GetStructure(I);
-                if (Set<CityAction>.Of(CityAction.None, CityAction.Trade, CityAction.Produce).Contains(City.GetActiveAction()))
+                CityCount += 1;
+                city = (City)Control.Player.Structures.GetStructure(I);
+                if (Set<CityAction>.Of(CityAction.None, CityAction.Trade, CityAction.Produce).Contains(city.GetActiveAction()))
                 {
-                    Available += (City.GetSize() + 1) / 2;
-                    Level = City.FProduction.GetProduceUnitLevelMax();
-                    if (Level > 0)
+                    available += (city.GetSize() + 1) / 2;
+                    level = city.Production.GetProduceUnitLevelMax();
+                    if (level > 0)
                     {
-                        FProductionLevelCounts[Level - 1] += 1;
+                        ProductionLevelCounts[level - 1] += 1;
                     }
 
-                    if (Level > FMaxProductionLevel)
+                    if (level > MaxProductionLevel)
                     {
-                        FMaxProductionLevel = Level;
+                        MaxProductionLevel = level;
                     }
                 }
                 else
                 {
-                    Busy += (City.GetSize() + 1) / 2;
+                    busy += (city.GetSize() + 1) / 2;
                 }
             }
         }
 
-        if (FCityCount != 0)
+        if (CityCount != 0)
         {
             // { Original rounds the fraction before storing it. }
-            FProductionRatio = Round((double)Available / (Available + Busy));
+            ProductionRatio = Round((double)available / (available + busy));
         }
         else
         {
-            FProductionRatio = 0;
+            ProductionRatio = 0;
         }
     }
 

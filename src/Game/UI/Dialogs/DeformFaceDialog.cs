@@ -27,7 +27,7 @@ public partial class DeformFaceDialog : DataModule
     public Button Close;
     public Frame LeftFace;
     public Frame RightFace;
-    public Frame AoWFrame1;
+    public Frame Frame1;
     public Image CeltM;
     public Image CeltL;
     public Image CeltR;
@@ -35,15 +35,15 @@ public partial class DeformFaceDialog : DataModule
     public Button NextFaceBtn;
     public Label UnitNameLbl;
     public IvTranslator Translator;
-    public CosmeticSurgerySpellCaster FCaster;
+    public CosmeticSurgerySpellCaster Caster;
 
     // AoWDeformFaceDlg.pas:127
-    public void Execute(CosmeticSurgerySpellCaster Caster)
+    public void Execute(CosmeticSurgerySpellCaster caster)
     {
         Troop U;
-        FCaster = Caster;
-        FCaster.AddRef();
-        U = AoWHSMap.Current.FUnitControl.FindUnit(FCaster.FTargetUnitID);
+        Caster = caster;
+        Caster.AddRef();
+        U = AoWHSMap.Current.UnitControl.FindUnit(Caster.TargetUnitId);
         if (U != null)
         {
             var name = U.GetName();
@@ -59,8 +59,8 @@ public partial class DeformFaceDialog : DataModule
     // AoWDeformFaceDlg.pas:121
     public void Finish()
     {
-        FCaster.Release();
-        FCaster = null;
+        Caster.Release();
+        Caster = null;
     }
 
     // AoWDeformFaceDlg.pas:55
@@ -73,45 +73,45 @@ public partial class DeformFaceDialog : DataModule
     // AoWDeformFaceDlg.pas:61
     public void CastBtnClick()
     {
-        string Reason = "";
+        string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (FCaster.CanCast(ref Reason))
+        if (Caster.CanCast(ref reason))
         {
-            FCaster.Cast();
+            Caster.Cast();
             Dlg.Visible = false;
         }
         else
         {
-            AoWHSMap.Current.ShowMessage(Reason);
+            AoWHSMap.Current.ShowMessage(reason);
         }
     }
 
     // AoWDeformFaceDlg.pas:73
-    public void DrawFace(Frame Sender, LockedSurface SD, int Offset)
+    public void DrawFace(Frame sender, LockedSurface lockedSurface, int offset)
     {
         Rect R;
-        int Face;
-        FaceResource Resource;
-        Face = FCaster.FFaceIndex;
-        while (Offset < 0)
+        int face;
+        FaceResource resource;
+        face = Caster.FaceIndex;
+        while (offset < 0)
         {
-            Offset += 1;
-            Face = AoWHSSet.Current.FFaceResources.PrevFace(Face);
+            offset += 1;
+            face = AoWHSSet.Current.FaceResources.PreviousFace(face);
         }
 
-        while (Offset > 0)
+        while (offset > 0)
         {
-            Offset -= 1;
-            Face = AoWHSSet.Current.FFaceResources.NextFace(Face);
+            offset -= 1;
+            face = AoWHSSet.Current.FaceResources.NextFace(face);
         }
 
-        R = new Rect(Dlg.WinLeft + Sender.WinLeft + 2, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth - 2, Dlg.WinTop + Sender.WinTop + Sender.WinHeight - 2);
-        if (Face != -1)
+        R = new Rect(Dlg.WinLeft + sender.WinLeft + 2, Dlg.WinTop + sender.WinTop, Dlg.WinLeft + sender.WinLeft + sender.WinWidth - 2, Dlg.WinTop + sender.WinTop + sender.WinHeight - 2);
+        if (face != -1)
         {
-            Resource = AoWHSSet.Current.FFaceResources.GetFaceResource(Face);
-            Resource.AddRef();
-            Resource.GetFaceImage().ShowStretched(R, SD);
-            Resource.Release();
+            resource = AoWHSSet.Current.FaceResources.GetFaceResource(face);
+            resource.AddRef();
+            resource.GetFaceImage().ShowStretched(R, lockedSurface);
+            resource.Release();
         }
     }
 
@@ -119,18 +119,18 @@ public partial class DeformFaceDialog : DataModule
     public void PrevFaceBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var prevFace = AoWHSSet.Current.FFaceResources.PrevFace(FCaster.FFaceIndex);
-        FCaster.FFaceIndex = prevFace;
-        Dlg.FDrawn = false;
+        var previousFace = AoWHSSet.Current.FaceResources.PreviousFace(Caster.FaceIndex);
+        Caster.FaceIndex = previousFace;
+        Dlg.Drawn = false;
     }
 
     // AoWDeformFaceDlg.pas:111
     public void NextFaceBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var nextFace = AoWHSSet.Current.FFaceResources.NextFace(FCaster.FFaceIndex);
-        FCaster.FFaceIndex = nextFace;
-        Dlg.FDrawn = false;
+        var nextFace = AoWHSSet.Current.FaceResources.NextFace(Caster.FaceIndex);
+        Caster.FaceIndex = nextFace;
+        Dlg.Drawn = false;
     }
 
     // AoWDeformFaceDlg.pas:118
@@ -140,9 +140,9 @@ public partial class DeformFaceDialog : DataModule
     }
 
     // AoWDeformFaceDlg.pas:142
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             Dlg.Visible = false;
         }

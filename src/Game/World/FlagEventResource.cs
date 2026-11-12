@@ -13,7 +13,7 @@ public partial class FlagEventResource : MapObjectResource
     // FlagEvents.pas:169
 
     // FlagEvents.pas:175
-    public override void SetLevel(byte Value)
+    public override void SetLevel(byte value)
     {
         base.SetLevel(27);
     }

@@ -14,7 +14,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Magic.Abilities;
 
-// (FAbilityData,)
+// (AbilityData,)
 public partial class AbilityOwner : CustomAbilityList
 {
 
@@ -24,78 +24,78 @@ public partial class AbilityOwner : CustomAbilityList
 
     }
 
-    public AbilityData FAbilityData;
+    public AbilityData AbilityData;
 
     // Ability.PAS:1762
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        AbilityData Previous = default;
-        AbilityData Data = default;
-        Int32List IDs = default;
-        base.ReadWrite(Stream);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        AbilityData previous = default;
+        AbilityData data = default;
+        Int32List ids = default;
+        base.ReadWrite(stream);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             // The original tests property 3 before reading the data-ID list.
-            if (Stream.PropertyTable.PropertyExist(3))
+            if (stream.PropertyTable.PropertyExist(3))
             {
-                Previous = null;
-                IDs = new Int32List();
-                Stream.rwStreamProc(49, IDs.LoadFromStream, IDs.SaveToStream);
-                for (int I = 0, last = IDs.Count - 1; I <= last; I++)
+                previous = null;
+                ids = new Int32List();
+                stream.rwStreamProc(49, ids.LoadFromStream, ids.SaveToStream);
+                for (int I = 0, last = ids.Count - 1; I <= last; I++)
                 {
-                    var item = IDs[I];
-                    Stream.rwCreateEObject(ref Data, null, item + 50);
-                    if (Previous != null)
+                    var item = ids[I];
+                    stream.rwCreateEObject(ref data, null, item + 50);
+                    if (previous != null)
                     {
-                        Previous.FNext = Data;
+                        previous.Next = data;
                     }
 
-                    Previous = Data;
-                    if (FAbilityData == null)
+                    previous = data;
+                    if (AbilityData == null)
                     {
-                        FAbilityData = Data;
+                        AbilityData = data;
                     }
                 }
 
-                IDs?.Dispose();
+                ids?.Dispose();
             }
         }
         else
         {
-            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Write)) == Set<StorageModeElement>.Of(StorageModeElement.Write))
+            if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Write)) == Set<StorageModeElement>.Of(StorageModeElement.Write))
             {
-                if (FAbilityData != null)
+                if (AbilityData != null)
                 {
-                    IDs = new Int32List();
-                    Data = FAbilityData;
-                    while (Data != null)
+                    ids = new Int32List();
+                    data = AbilityData;
+                    while (data != null)
                     {
-                        IDs.Add(Data.GetAbilityID());
-                        Data = Data.FNext;
+                        ids.Add(data.GetAbilityId());
+                        data = data.Next;
                     }
 
-                    Stream.rwStreamProc(49, IDs.LoadFromStream, IDs.SaveToStream);
-                    Data = FAbilityData;
-                    while (Data != null)
+                    stream.rwStreamProc(49, ids.LoadFromStream, ids.SaveToStream);
+                    data = AbilityData;
+                    while (data != null)
                     {
-                        var abilityID = Data.GetAbilityID();
-                        Stream.rwCreateEObject(ref Data, null, abilityID + 50);
-                        Data = Data.FNext;
+                        var abilityId = data.GetAbilityId();
+                        stream.rwCreateEObject(ref data, null, abilityId + 50);
+                        data = data.Next;
                     }
 
-                    IDs?.Dispose();
+                    ids?.Dispose();
                 }
             }
             else
             {
-                if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Compare))
+                if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Compare))
                 {
-                    Data = FAbilityData;
-                    while (Data != null)
+                    data = AbilityData;
+                    while (data != null)
                     {
-                        var abilityID = Data.GetAbilityID();
-                        Stream.rwCreateEObject(ref Data, null, abilityID + 50);
-                        Data = Data.FNext;
+                        var abilityId = data.GetAbilityId();
+                        stream.rwCreateEObject(ref data, null, abilityId + 50);
+                        data = data.Next;
                     }
                 }
             }
@@ -106,48 +106,48 @@ public partial class AbilityOwner : CustomAbilityList
     public override void Clear()
     {
         base.Clear();
-        while (FAbilityData != null)
+        while (AbilityData != null)
         {
-            RemoveAbilityData(FAbilityData);
+            RemoveAbilityData(AbilityData);
         }
     }
 
     // Ability.PAS:1998
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001985)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001985)
         {
             TriggerNewDay();
         }
         else
         {
-            if (Msg.MsgID == 537001986)
+            if (message.MessageId == 537001986)
             {
-                TriggerNewTurn((sbyte)Msg.Payload.Int);
+                TriggerNewTurn((sbyte)message.Payload.Int);
             }
         }
     }
 
     // Ability.PAS:1754
-    public override void SetAbSet(int index, byte value)
+    public override void SetAbilitySet(int index, byte value)
     {
-        base.SetAbSet(index, value);
+        base.SetAbilitySet(index, value);
     }
 
     // Ability.PAS:2004
-    public override void ListAbilitiesEx(StringCollection Text, Set<AbilitySelectionType> Types)
+    public override void ListAbilities(StringCollection text, Set<AbilitySelectionType> types)
     {
-        Ability Ability;
-        Text.Clear();
-        for (int I = 0, last = FAbilityCount - 1; I <= last; I++)
+        Ability ability;
+        text.Clear();
+        for (int I = 0, last = AbilityCount - 1; I <= last; I++)
         {
-            if (GetAbSet(I))
+            if (GetAbilitySetAt(I))
             {
-                Ability = AoWHSSet.Current.FAbilityControl.GetAbility(I);
-                if ((Ability.FSelectionTypes & Types) != Set<AbilitySelectionType>.Of())
+                ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
+                if ((ability.SelectionTypes & types) != Set<AbilitySelectionType>.Of())
                 {
-                    Text.AddObject(Ability.GetName(this), IntToObject(I));
+                    text.AddObject(ability.GetName(this), IntToObject(I));
                 }
             }
         }
@@ -160,34 +160,34 @@ public partial class AbilityOwner : CustomAbilityList
     public virtual string GetOwnerName() => "";
 
     // Ability.PAS:1927
-    public virtual string GetAbName(int AbilityID) => AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetName(this);
+    public virtual string GetAbName(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetName(this);
 
     // Ability.PAS:1931
-    public virtual sbyte GetAbAttack(int AbilityID) => AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetAttack(this);
+    public virtual sbyte GetAbilityAttack(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetAttack(this);
 
     // Ability.PAS:1935
-    public virtual sbyte GetAbDefense(int AbilityID) => AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetDefense(this);
+    public virtual sbyte GetAbilityDefense(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetDefense(this);
 
     // Ability.PAS:1939
-    public virtual sbyte GetAbResistance(int AbilityID) => AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetResistance(this);
+    public virtual sbyte GetAbilityResistance(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetResistance(this);
 
     // Ability.PAS:1943
-    public virtual sbyte GetAbDamage(int AbilityID) => AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetDamage(this);
+    public virtual sbyte GetAbilityDamage(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetDamage(this);
 
     // Ability.PAS:1947
-    public virtual Set<MoveType> GetAbMoveTypes(int AbilityID) => AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetMoveTypes(this);
+    public virtual Set<MoveType> GetAbilityMoveTypes(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetMoveTypes(this);
 
     // Ability.PAS:1951
-    public virtual Set<DamageType> GetAbProtectionTypes(int AbilityID) => AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetProtectionTypes(this);
+    public virtual Set<DamageType> GetAbilityProtectionTypes(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetProtectionTypes(this);
 
     // Ability.PAS:1955
-    public virtual Set<DamageType> GetAbImmunityTypes(int AbilityID) => AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetImmunityTypes(this);
+    public virtual Set<DamageType> GetAbilityImmunityTypes(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetImmunityTypes(this);
 
     // Ability.PAS:1959
-    public virtual int GetAbLevel(int AbilityID) => AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetLevel(this);
+    public virtual int GetAbLevel(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetLevel(this);
 
     // Ability.PAS:1963
-    public virtual bool GetAbEnabled(int AbilityID) => GetAbSet(AbilityID) && AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetEnabled(this);
+    public virtual bool GetAbEnabled(int abilityId) => GetAbilitySetAt(abilityId) && AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetEnabled(this);
 
     // Ability.PAS:1672
     public virtual Set<AbilitySelectionType> GetAbilitySelectionTypes() => Set<AbilitySelectionType>.Of();
@@ -198,384 +198,384 @@ public partial class AbilityOwner : CustomAbilityList
     }
 
     // Ability.PAS:1840
-    public virtual bool ExpandAbility(int AbilityID)
+    public virtual bool ExpandAbility(int abilityId)
     {
-        bool Result = AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).Expand(this);
-        if (Result)
+        bool result = AoWHSSet.Current.AbilityControl.GetAbility(abilityId).Expand(this);
+        if (result)
         {
             Changed();
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:1845
-    public virtual bool RemoveAbility(int AbilityID)
+    public virtual bool RemoveAbility(int abilityId)
     {
-        bool Result = AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).Remove(this);
-        if (Result)
+        bool result = AoWHSSet.Current.AbilityControl.GetAbility(abilityId).Remove(this);
+        if (result)
         {
             Changed();
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:1678
     public void ValidateOwnerTypeAbilities()
     {
-        Set<AbilitySelectionType> Types;
-        Types = GetAbilitySelectionTypes();
+        Set<AbilitySelectionType> types;
+        types = GetAbilitySelectionTypes();
         for (int I = GetAbCount() - 1; I >= 0; I--)
         {
-            if (GetAbSet(I) && (AoWHSSet.Current.FAbilityControl.GetAbility(I).FSelectionTypes & Types) == Set<AbilitySelectionType>.Of())
+            if (GetAbilitySetAt(I) && (AoWHSSet.Current.AbilityControl.GetAbility(I).SelectionTypes & types) == Set<AbilitySelectionType>.Of())
             {
-                SetAbSet(I, 0);
+                SetAbilitySet(I, 0);
             }
         }
     }
 
     // Ability.PAS:1688
-    public AbilityData GetAbilityData(int AbilityID)
+    public AbilityData GetAbilityData(int abilityId)
     {
-        AbilityData Data;
-        Data = FAbilityData;
-        while (Data != null && Data.GetAbilityID() != AbilityID)
+        AbilityData data;
+        data = AbilityData;
+        while (data != null && data.GetAbilityId() != abilityId)
         {
-            Data = Data.FNext;
+            data = data.Next;
         }
 
-        return Data;
+        return data;
     }
 
     // Ability.PAS:1696
-    public void AssignAb(AbilityOwner Source)
+    public void AssignAbility(AbilityOwner source)
     {
-        AbilityData Data;
-        while (FAbilityData != null)
+        AbilityData data;
+        while (AbilityData != null)
         {
-            RemoveAbilityData(FAbilityData);
+            RemoveAbilityData(AbilityData);
         }
 
-        SetAbCount(Source.GetAbCount());
-        for (int I = Source.GetAbCount() - 1; I >= 0; I--)
+        SetAbilityCount(source.GetAbCount());
+        for (int I = source.GetAbCount() - 1; I >= 0; I--)
         {
-            if (Source.GetAbSet(I) != GetAbSet(I))
+            if (source.GetAbilitySetAt(I) != GetAbilitySetAt(I))
             {
-                SetAbSet(I, (byte)(Source.GetAbSet(I) ? 1 : 0));
+                SetAbilitySet(I, (byte)(source.GetAbilitySetAt(I) ? 1 : 0));
             }
         }
 
-        Data = Source.FAbilityData;
-        while (Data != null)
+        data = source.AbilityData;
+        while (data != null)
         {
-            AddAbilityData((AbilityData)Data.Copy(GameTables.AoWEngine));
-            Data = Data.FNext;
+            AddAbilityData((AbilityData)data.Copy(GameTables.GameEngine));
+            data = data.Next;
         }
     }
 
     // Ability.PAS:1712
-    public void AddAbilityData(AbilityData Data)
+    public void AddAbilityData(AbilityData data)
     {
-        Data.FNext = FAbilityData;
-        FAbilityData = Data;
+        data.Next = AbilityData;
+        AbilityData = data;
     }
 
     // Ability.PAS:1717
-    public void RemoveAbilityData(AbilityData Data)
+    public void RemoveAbilityData(AbilityData data)
     {
-        AbilityData Current;
-        AbilityData Previous;
-        Current = FAbilityData;
-        Previous = null;
-        while (Current != null && Current != Data)
+        AbilityData current;
+        AbilityData previous;
+        current = AbilityData;
+        previous = null;
+        while (current != null && current != data)
         {
-            Previous = Current;
-            Current = Current.FNext;
+            previous = current;
+            current = current.Next;
         }
 
-        if (Current == Data)
+        if (current == data)
         {
             // { Original dereferences nil when Data is nil. }
-            if (Previous != null)
+            if (previous != null)
             {
-                Previous.FNext = Current.FNext;
+                previous.Next = current.Next;
             }
             else
             {
-                FAbilityData = Current.FNext;
+                AbilityData = current.Next;
             }
 
-            Current?.Dispose();
+            current?.Dispose();
         }
     }
 
     // Ability.PAS:1736
-    public void RemoveAbilityDataID(int AbilityID)
+    public void RemoveAbilityDataId(int abilityId)
     {
-        AbilityData Current;
-        AbilityData Previous;
-        Current = FAbilityData;
-        Previous = null;
-        while (Current != null && Current.GetAbilityID() != AbilityID)
+        AbilityData current;
+        AbilityData previous;
+        current = AbilityData;
+        previous = null;
+        while (current != null && current.GetAbilityId() != abilityId)
         {
-            Previous = Current;
-            Current = Current.FNext;
+            previous = current;
+            current = current.Next;
         }
 
-        if (Current != null && Current.GetAbilityID() == AbilityID)
+        if (current != null && current.GetAbilityId() == abilityId)
         {
-            if (Previous != null)
+            if (previous != null)
             {
-                Previous.FNext = Current.FNext;
+                previous.Next = current.Next;
             }
             else
             {
-                FAbilityData = Current.FNext;
+                AbilityData = current.Next;
             }
 
-            Current?.Dispose();
+            current?.Dispose();
         }
     }
 
     // Ability.PAS:1818
-    public void UpdateDefaultAbilities(AbilityOwner Source)
+    public void UpdateDefaultAbilities(AbilityOwner source)
     {
-        AbilityData Data;
-        for (int I = Source.GetAbCount() - 1; I >= 0; I--)
+        AbilityData data;
+        for (int I = source.GetAbCount() - 1; I >= 0; I--)
         {
-            if (Source.GetAbSet(I) && (!GetAbSet(I) || Source.GetAbLevel(I) > GetAbLevel(I)))
+            if (source.GetAbilitySetAt(I) && (!GetAbilitySetAt(I) || source.GetAbLevel(I) > GetAbLevel(I)))
             {
-                Data = Source.GetAbilityData(I);
-                if (Data != null)
+                data = source.GetAbilityData(I);
+                if (data != null)
                 {
-                    RemoveAbilityDataID(I);
-                    Data = (AbilityData)Data.Copy(GameTables.AoWEngine);
-                    AddAbilityData(Data);
+                    RemoveAbilityDataId(I);
+                    data = (AbilityData)data.Copy(GameTables.GameEngine);
+                    AddAbilityData(data);
                 }
 
-                SetAbSet(I, 1);
+                SetAbilitySet(I, 1);
             }
         }
     }
 
     // Ability.PAS:1850
-    public sbyte GetAbAttackAll()
+    public sbyte GetAbilityAttackAll()
     {
-        sbyte Result = 0;
+        sbyte result = 0;
         for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
         {
             if (GetAbEnabled(I))
             {
-                Result = (sbyte)(Result + AoWHSSet.Current.FAbilityControl.GetAbility(I).GetAttack(this));
+                result = (sbyte)(result + AoWHSSet.Current.AbilityControl.GetAbility(I).GetAttack(this));
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:1858
-    public sbyte GetAbDefenseAll()
+    public sbyte GetAbilityDefenseAll()
     {
-        sbyte Result = 0;
+        sbyte result = 0;
         for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
         {
             if (GetAbEnabled(I))
             {
-                Result = (sbyte)(Result + AoWHSSet.Current.FAbilityControl.GetAbility(I).GetDefense(this));
+                result = (sbyte)(result + AoWHSSet.Current.AbilityControl.GetAbility(I).GetDefense(this));
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:1866
-    public sbyte GetAbResistanceAll()
+    public sbyte GetAbilityResistanceAll()
     {
-        sbyte Result = 0;
+        sbyte result = 0;
         for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
         {
             if (GetAbEnabled(I))
             {
-                Result = (sbyte)(Result + AoWHSSet.Current.FAbilityControl.GetAbility(I).GetResistance(this));
+                result = (sbyte)(result + AoWHSSet.Current.AbilityControl.GetAbility(I).GetResistance(this));
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:1874
-    public sbyte GetAbDamageAll()
+    public sbyte GetAbilityDamageAll()
     {
-        sbyte Result = 0;
+        sbyte result = 0;
         for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
         {
             if (GetAbEnabled(I))
             {
-                Result = (sbyte)(Result + AoWHSSet.Current.FAbilityControl.GetAbility(I).GetDamage(this));
+                result = (sbyte)(result + AoWHSSet.Current.AbilityControl.GetAbility(I).GetDamage(this));
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:1882
-    public Set<MoveType> GetAbMoveTypesAll()
+    public Set<MoveType> GetAbilityMoveTypesAll()
     {
-        Set<MoveType> Result = Set<MoveType>.Of();
+        Set<MoveType> result = Set<MoveType>.Of();
         if (GetAbEnabled(0))
         {
-            Result = Result + Set<MoveType>.Of(MoveType.Walking);
+            result = result + Set<MoveType>.Of(MoveType.Walking);
         }
 
         if (GetAbEnabled(1) || GetAbEnabled(165) || GetAbEnabled(59))
         {
-            Result = Result + Set<MoveType>.Of(MoveType.Flying);
+            result = result + Set<MoveType>.Of(MoveType.Flying);
         }
 
         if (GetAbEnabled(2) || GetAbEnabled(23) || GetAbEnabled(164) || GetAbEnabled(166))
         {
-            Result = Result + Set<MoveType>.Of(MoveType.Swimming);
+            result = result + Set<MoveType>.Of(MoveType.Swimming);
         }
 
         if (GetAbEnabled(3) || GetAbEnabled(157))
         {
-            Result = Result + Set<MoveType>.Of(MoveType.Forestry);
+            result = result + Set<MoveType>.Of(MoveType.Forestry);
         }
 
         if (GetAbEnabled(4) || GetAbEnabled(157))
         {
-            Result = Result + Set<MoveType>.Of(MoveType.CaveCrawling);
+            result = result + Set<MoveType>.Of(MoveType.CaveCrawling);
         }
 
         if (GetAbEnabled(5) || GetAbEnabled(157))
         {
-            Result = Result + Set<MoveType>.Of(MoveType.Mountaineering);
+            result = result + Set<MoveType>.Of(MoveType.Mountaineering);
         }
 
         if (GetAbEnabled(7) || GetAbEnabled(163))
         {
             // The original set constant is $40.
-            Result = Result + Set<MoveType>.Of(MoveType.LavaCrossing);
+            result = result + Set<MoveType>.Of(MoveType.LavaCrossing);
         }
 
         if (GetAbEnabled(42))
         {
             // The original set constant is $80.
-            Result = Result + Set<MoveType>.Of(MoveType.Tunneling);
+            result = result + Set<MoveType>.Of(MoveType.Tunneling);
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:1894
-    public Set<WallCombatFeaturesElement> GetAbWallCombatFeatures()
+    public Set<WallCombatFeaturesElement> GetAbilityWallCombatFeatures()
     {
-        Set<WallCombatFeaturesElement> Result = Set<WallCombatFeaturesElement>.Of();
+        Set<WallCombatFeaturesElement> result = Set<WallCombatFeaturesElement>.Of();
         // { Original intersects into an empty set, so the result is always empty. }
         for (int I = GetAbCount() - 1; I >= 0; I--)
         {
             if (GetAbEnabled(I))
             {
-                Result = Result & AoWHSSet.Current.FAbilityControl.GetAbility(I).GetWallCombatFeatures(this);
+                result = result & AoWHSSet.Current.AbilityControl.GetAbility(I).GetWallCombatFeatures(this);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:1903
-    public Set<DamageType> GetAbProtectionTypesAll()
+    public Set<DamageType> GetAbilityProtectionTypesAll()
     {
-        Set<DamageType> Result = Set<DamageType>.Of();
+        Set<DamageType> result = Set<DamageType>.Of();
         if (GetAbEnabled(77) || GetAbEnabled(166))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Physical);
+            result = result + Set<DamageType>.Of(DamageType.Physical);
         }
 
         if (GetAbEnabled(71) || GetAbEnabled(167))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Fire);
+            result = result + Set<DamageType>.Of(DamageType.Fire);
         }
 
         if (GetAbEnabled(75))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Magic);
+            result = result + Set<DamageType>.Of(DamageType.Magic);
         }
 
         if (GetAbEnabled(76))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Cold);
+            result = result + Set<DamageType>.Of(DamageType.Cold);
         }
 
         if (GetAbEnabled(74))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Lightning);
+            result = result + Set<DamageType>.Of(DamageType.Lightning);
         }
 
         if (GetAbEnabled(73))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Poison);
+            result = result + Set<DamageType>.Of(DamageType.Poison);
         }
 
         if (GetAbEnabled(70) || GetAbEnabled(158))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Death);
+            result = result + Set<DamageType>.Of(DamageType.Death);
         }
 
         if (GetAbEnabled(72))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Holy);
+            result = result + Set<DamageType>.Of(DamageType.Holy);
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:1915
-    public Set<DamageType> GetAbImmunityTypesAll()
+    public Set<DamageType> GetAbilityImmunityTypesAll()
     {
-        Set<DamageType> Result = Set<DamageType>.Of();
+        Set<DamageType> result = Set<DamageType>.Of();
         if (GetAbEnabled(13))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Physical);
+            result = result + Set<DamageType>.Of(DamageType.Physical);
         }
 
         if (GetAbEnabled(7) || GetAbEnabled(163))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Fire);
+            result = result + Set<DamageType>.Of(DamageType.Fire);
         }
 
         if (GetAbEnabled(6))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Magic);
+            result = result + Set<DamageType>.Of(DamageType.Magic);
         }
 
         if (GetAbEnabled(8))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Cold);
+            result = result + Set<DamageType>.Of(DamageType.Cold);
         }
 
         if (GetAbEnabled(9))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Lightning);
+            result = result + Set<DamageType>.Of(DamageType.Lightning);
         }
 
         if (GetAbEnabled(10))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Poison);
+            result = result + Set<DamageType>.Of(DamageType.Poison);
         }
 
         if (GetAbEnabled(11))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Death);
+            result = result + Set<DamageType>.Of(DamageType.Death);
         }
 
         if (GetAbEnabled(12))
         {
-            Result = Result + Set<DamageType>.Of(DamageType.Holy);
+            result = result + Set<DamageType>.Of(DamageType.Holy);
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:1967
@@ -585,9 +585,9 @@ public partial class AbilityOwner : CustomAbilityList
         {
             for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
             {
-                if (GetAbSet(I))
+                if (GetAbilitySetAt(I))
                 {
-                    AoWHSSet.Current.FAbilityControl.GetAbility(I).NewDay(this);
+                    AoWHSSet.Current.AbilityControl.GetAbility(I).NewDay(this);
                 }
             }
         }
@@ -597,56 +597,56 @@ public partial class AbilityOwner : CustomAbilityList
     }
 
     // Ability.PAS:1977
-    public void TriggerNewTurn(sbyte Player)
+    public void TriggerNewTurn(sbyte player)
     {
         for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
         {
-            if (GetAbSet(I))
+            if (GetAbilitySetAt(I))
             {
-                AoWHSSet.Current.FAbilityControl.GetAbility(I).NewTurn(this, Player);
+                AoWHSSet.Current.AbilityControl.GetAbility(I).NewTurn(this, player);
             }
         }
     }
 
     // Ability.PAS:1984
-    public void TriggerNewCombatTurn(CombatObject Combat, sbyte Player)
+    public void TriggerNewCombatTurn(CombatObject combat, sbyte player)
     {
         for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
         {
-            if (GetAbSet(I))
+            if (GetAbilitySetAt(I))
             {
-                AoWHSSet.Current.FAbilityControl.GetAbility(I).NewCombatTurn(Combat, Player);
+                AoWHSSet.Current.AbilityControl.GetAbility(I).NewCombatTurn(combat, player);
             }
         }
     }
 
     // Ability.PAS:1991
-    public void TriggerCombatDone(CombatObject Combat)
+    public void TriggerCombatDone(CombatObject combat)
     {
         for (int I = 0, last = GetAbCount() - 1; I <= last; I++)
         {
-            if (GetAbSet(I))
+            if (GetAbilitySetAt(I))
             {
-                AoWHSSet.Current.FAbilityControl.GetAbility(I).CombatDone(Combat);
+                AoWHSSet.Current.AbilityControl.GetAbility(I).CombatDone(combat);
             }
         }
     }
 
     // Ability.PAS:2018
-    public void ListAbilities(StringCollection Text)
+    public void ListAbilities(StringCollection text)
     {
-        Ability Ability;
-        string Name;
-        Text.Clear();
-        for (int I = 0, last = FAbilityCount - 1; I <= last; I++)
+        Ability ability;
+        string name;
+        text.Clear();
+        for (int I = 0, last = AbilityCount - 1; I <= last; I++)
         {
-            if (GetAbSet(I))
+            if (GetAbilitySetAt(I))
             {
-                Ability = AoWHSSet.Current.FAbilityControl.GetAbility(I);
-                Name = Ability.GetName(this);
-                if (!IsEmpty(Name))
+                ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
+                name = ability.GetName(this);
+                if (!IsEmpty(name))
                 {
-                    Text.AddObject(Name, IntToObject(I));
+                    text.AddObject(name, IntToObject(I));
                 }
             }
         }

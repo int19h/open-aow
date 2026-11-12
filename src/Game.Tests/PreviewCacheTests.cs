@@ -15,25 +15,25 @@ namespace Aow.Game.Tests;
 [Collection("Engine")]
 public sealed class PreviewCacheTests : IDisposable
 {
-    private readonly string directory = Path.Combine(Path.GetTempPath(), "open-aow-preview-" + Guid.NewGuid().ToString("N"));
-    private readonly IFileSystem previous = Runtime.Files;
-    private readonly Action<FileLogRecord>? previousLog = FileBoundary.Log;
-    private readonly List<FileLogRecord> log = [];
+    private readonly string _directory = Path.Combine(Path.GetTempPath(), "open-aow-preview-" + Guid.NewGuid().ToString("N"));
+    private readonly IFileSystem _previous = Runtime.Files;
+    private readonly Action<FileLogRecord>? _previousLog = FileBoundary.Log;
+    private readonly List<FileLogRecord> _log = [];
 
     public PreviewCacheTests()
     {
-        Directory.CreateDirectory(Path.Combine(directory, "root", "User"));
-        Directory.CreateDirectory(Path.Combine(directory, "user"));
-        FileBoundary.Log = log.Add;
+        Directory.CreateDirectory(Path.Combine(_directory, "root", "User"));
+        Directory.CreateDirectory(Path.Combine(_directory, "user"));
+        FileBoundary.Log = _log.Add;
         FileBoundary.Previews.Clear();
     }
 
     public void Dispose()
     {
-        Runtime.Files = previous;
-        FileBoundary.Log = previousLog;
+        Runtime.Files = _previous;
+        FileBoundary.Log = _previousLog;
         FileBoundary.Previews.Clear();
-        Directory.Delete(directory, true);
+        Directory.Delete(_directory, true);
     }
 
     // An own hero list whose name has a fixed length, so an edit keeps the file length.
@@ -41,11 +41,11 @@ public sealed class PreviewCacheTests : IDisposable
         "{\"$format\": \"OpenAoW\", \"$version\": 1, \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {\"LibraryName\": \""
         + name + "\"}}");
 
-    private string Shipped(string name) => Path.Combine(directory, "root", "User", name);
+    private string Shipped(string name) => Path.Combine(_directory, "root", "User", name);
 
-    private string UserCopy(string name) => Path.Combine(directory, "user", "User", name);
+    private string UserCopy(string name) => Path.Combine(_directory, "user", "User", name);
 
-    private void Install() => Runtime.Files = new LayeredFileSystem(Path.Combine(directory, "root"), Path.Combine(directory, "user"));
+    private void Install() => Runtime.Files = new LayeredFileSystem(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
 
     private static string Name(byte[] image) =>
         ((JsonString)((JsonObject)GameFiles.ImportImage(image, GameProfile.HeroList.Profile, "hero-list").Document["root"]!)["LibraryName"]!).Value;
@@ -58,8 +58,8 @@ public sealed class PreviewCacheTests : IDisposable
         var first = FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview");
         var second = FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview");
         Assert.Equal(first, second);
-        Assert.Equal([false, true], log.Select(r => r.Cached));
-        Assert.Equal("root", log[1].Layer);
+        Assert.Equal([false, true], _log.Select(r => r.Cached));
+        Assert.Equal("root", _log[1].Layer);
     }
 
     [Fact]
@@ -69,8 +69,8 @@ public sealed class PreviewCacheTests : IDisposable
         Install();
         FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview");
         FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList);
-        Assert.Equal([false, false], log.Select(r => r.Cached));
-        Assert.Equal("open", log[1].Report.Operation);
+        Assert.Equal([false, false], _log.Select(r => r.Cached));
+        Assert.Equal("open", _log[1].Report.Operation);
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public sealed class PreviewCacheTests : IDisposable
         File.WriteAllBytes(Shipped("a.ahl"), HeroList("Alphb"));
         File.SetLastWriteTimeUtc(Shipped("a.ahl"), time);
         Assert.Equal("Alphb", Name(FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview")!));
-        Assert.All(log, r => Assert.False(r.Cached));
+        Assert.All(_log, r => Assert.False(r.Cached));
     }
 
     [Fact]
@@ -96,8 +96,8 @@ public sealed class PreviewCacheTests : IDisposable
         File.WriteAllBytes(UserCopy("a.ahl"), HeroList("Alpha"));
         Install();
         Assert.Equal("Alpha", Name(FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview")!));
-        Assert.Equal(["root", "user"], log.Select(r => r.Layer));
-        Assert.All(log, r => Assert.False(r.Cached));
+        Assert.Equal(["root", "user"], _log.Select(r => r.Layer));
+        Assert.All(_log, r => Assert.False(r.Cached));
     }
 
     // A Save folder of more than 32 files stays cached through a second listing.
@@ -109,8 +109,8 @@ public sealed class PreviewCacheTests : IDisposable
         Install();
         foreach (var name in names) Assert.NotNull(FileBoundary.Load(Shipped(name), GameProfile.HeroList, "preview"));
         foreach (var name in names) Assert.NotNull(FileBoundary.Load(Shipped(name), GameProfile.HeroList, "preview"));
-        Assert.Equal(40, log.Take(40).Count(r => !r.Cached));
-        Assert.Equal(40, log.Skip(40).Count(r => r.Cached));
+        Assert.Equal(40, _log.Take(40).Count(r => !r.Cached));
+        Assert.Equal(40, _log.Skip(40).Count(r => r.Cached));
         Assert.Equal(40, FileBoundary.Previews.Count);
     }
 
@@ -143,6 +143,6 @@ public sealed class PreviewCacheTests : IDisposable
         Assert.Null(FileBoundary.Load(Shipped("b.ahl"), GameProfile.HeroList, "preview"));
         Assert.Equal(Shipped("b.ahl"), FileBoundary.LastFailure!.Path);
         Assert.Equal("Alpha", Name(FileBoundary.Load(Shipped("a.ahl"), GameProfile.HeroList, "preview")!));
-        Assert.True(log[^1].Cached);
+        Assert.True(_log[^1].Cached);
     }
 }

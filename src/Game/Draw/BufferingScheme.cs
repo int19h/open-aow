@@ -6,5 +6,5 @@ public enum BufferingScheme : byte
 {
     Single = 0,
     Double = 1,
-    Tripple = 2
+    Triple = 2
 }

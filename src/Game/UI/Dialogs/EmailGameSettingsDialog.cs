@@ -26,7 +26,7 @@ public partial class EmailGameSettingsDialog : DataModule
     public Label LocalEmailAdressLbl;
     public Image DecoL;
     public Image DecoR;
-    public Frame AoWFrame1;
+    public Frame Frame1;
     public Edit LocalEmailAddressEdit;
     public Label PlayerEMailAddressesLbl;
     public Edit EmailAddressEdit1;
@@ -57,19 +57,19 @@ public partial class EmailGameSettingsDialog : DataModule
     public Panel LocalPnl;
     public Button CloseBtn;
     public IvTranslator Translator;
-    public StringList FEmailAddresses;
-    public SetupControl FSetupControl;
+    public StringList EmailAddresses;
+    public SetupControl SetupControl;
 
     // AoWEmailGameSettingsDlg.pas:85
     public void EmailGameSettingsDlgCreate()
     {
-        FEmailAddresses = new StringList();
+        EmailAddresses = new StringList();
     }
 
     // AoWEmailGameSettingsDlg.pas:90
     public void EmailGameSettingsDlgDestroy()
     {
-        FEmailAddresses?.Dispose();
+        EmailAddresses?.Dispose();
     }
 
     // AoWEmailGameSettingsDlg.pas:95
@@ -79,45 +79,45 @@ public partial class EmailGameSettingsDialog : DataModule
     }
 
     // AoWEmailGameSettingsDlg.pas:100
-    public void EmailAddressEdit1Change(Edit Sender, int Slot)
+    public void EmailAddressEdit1Change(Edit sender, int slot)
     {
         int I;
-        I = Slot + PlayerSB.Position;
-        if (I < FEmailAddresses.Count)
+        I = slot + PlayerSB.Position;
+        if (I < EmailAddresses.Count)
         {
-            FEmailAddresses[I] = Sender.Text;
+            EmailAddresses[I] = sender.Text;
         }
     }
 
     // AoWEmailGameSettingsDlg.pas:108
     public void OKBtnClick()
     {
-        int Index;
+        int index;
         if (SettingsComplete())
         {
-            if (FSetupControl != null)
+            if (SetupControl != null)
             {
-                for (int I = 0, last = FEmailAddresses.Count - 1; I <= last; I++)
+                for (int I = 0, last = EmailAddresses.Count - 1; I <= last; I++)
                 {
-                    var objectValue = FEmailAddresses.Objects[I];
-                    Index = FSetupControl.FSettings.IndexOfRace((byte)ObjectToInt(objectValue));
-                    var emailAddress = FEmailAddresses[I];
-                    FSetupControl.FSettings.GetSettings(Index).FEmailAddress = emailAddress;
+                    var objectValue = EmailAddresses.Objects[I];
+                    index = SetupControl.Settings.IndexOfRace((byte)ObjectToInt(objectValue));
+                    var emailAddress = EmailAddresses[I];
+                    SetupControl.Settings.GetSettings(index).EmailAddress = emailAddress;
                 }
 
-                FSetupControl.FSettings.FEmailGameName = EmailGameNameEdit.Text;
+                SetupControl.Settings.EmailGameName = EmailGameNameEdit.Text;
                 GameHost.DeferredSetupAction = 1;
                 Dlg.Visible = false;
             }
         }
         else
         {
-            MessageDialog.ResetMessageDialog(DialogHosts.MessageDlg);
-            DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-            var pleaseFillInAllSettings = AbilityRules.TranslateRStr(PleaseFillInAllSettingsRStr);
-            DialogHosts.MessageDlg.MessageMemo.Items.Add(pleaseFillInAllSettings);
-            DialogHosts.MessageDlg.OKPnl.Visible = true;
-            DialogHosts.MessageDlg.Dlg.Visible = true;
+            MessageDialog.ResetMessageDialog(DialogHosts.MessageDialog);
+            DialogHosts.MessageDialog.MessageMemo.Items.Add("");
+            var pleaseFillInAllSettings = AbilityRules.TranslateResourceString(s_pleaseFillInAllSettingsText);
+            DialogHosts.MessageDialog.MessageMemo.Items.Add(pleaseFillInAllSettings);
+            DialogHosts.MessageDialog.OKPnl.Visible = true;
+            DialogHosts.MessageDialog.Dlg.Visible = true;
         }
     }
 
@@ -130,60 +130,60 @@ public partial class EmailGameSettingsDialog : DataModule
     // AoWEmailGameSettingsDlg.pas:141
     public void SettingsBtnClick()
     {
-        EmailSettingsDialog.ShowEmailSettings(DialogHosts.EmailSettingsDlg);
+        EmailSettingsDialog.ShowEmailSettings(DialogHosts.EmailSettingsDialog);
     }
 
     // AoWEmailGameSettingsDlg.pas:146
     public void LocalEmailAddressEditUpdate()
     {
-        if (GameTables.AoWEngine.FRegistry.GetLocalEmailAddress() != LocalEmailAddressEdit.Text)
+        if (GameTables.GameEngine.Registry.GetLocalEmailAddress() != LocalEmailAddressEdit.Text)
         {
-            var localEmailAddress = GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
+            var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
             LocalEmailAddressEdit.Text = localEmailAddress;
         }
     }
 
     // AoWEmailGameSettingsDlg.pas:152
-    public void Player6PnlDrawBack(Panel Sender, LockedSurface SD, int Slot)
+    public void Player6PnlDrawBack(Panel sender, LockedSurface lockedSurface, int slot)
     {
         RaceResource R;
         int I;
-        var panel = Sender;
-        I = Slot + PlayerSB.Position;
-        if (I < FEmailAddresses.Count)
+        var panel = sender;
+        I = slot + PlayerSB.Position;
+        if (I < EmailAddresses.Count)
         {
-            var objectValue = FEmailAddresses.Objects[I];
-            R = AoWHSSet.Current.FRaceResources.GetRaceResource(ObjectToInt(objectValue));
+            var objectValue = EmailAddresses.Objects[I];
+            R = AoWHSSet.Current.RaceResources.GetRaceResource(ObjectToInt(objectValue));
             R.AddRef();
-            R.FImageLibrary[38].Show(panel.WinLeft, panel.WinTop, SD);
+            R.ImageLibrary[38].Show(panel.WinLeft, panel.WinTop, lockedSurface);
             R.Release();
         }
     }
 
     // AoWEmailGameSettingsDlg.pas:167
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             Dlg.Visible = false;
         }
     }
 
     // AoWEmailGameSettingsDlg.pas:173
-    public void UpdatePlayer(int Index, Label NameLabel, Edit EmailEdit)
+    public void UpdatePlayer(int index, Label nameLabel, Edit emailEdit)
     {
-        if (Index < FEmailAddresses.Count)
+        if (index < EmailAddresses.Count)
         {
-            EmailEdit.CaptureInput = true;
-            EmailEdit.Text = FEmailAddresses[Index];
-            var objectValue = FEmailAddresses.Objects[Index];
-            NameLabel.Text = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[ObjectToInt(objectValue)]);
+            emailEdit.CaptureInput = true;
+            emailEdit.Text = EmailAddresses[index];
+            var objectValue = EmailAddresses.Objects[index];
+            nameLabel.Text = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[ObjectToInt(objectValue)]);
         }
         else
         {
-            EmailEdit.CaptureInput = false;
-            EmailEdit.Text = "";
-            NameLabel.Text = "";
+            emailEdit.CaptureInput = false;
+            emailEdit.Text = "";
+            nameLabel.Text = "";
         }
     }
 
@@ -191,10 +191,10 @@ public partial class EmailGameSettingsDialog : DataModule
     public void UpdatePlayers()
     {
         PlayerSB.Min = 0;
-        var count = FEmailAddresses.Count;
+        var count = EmailAddresses.Count;
         PlayerSB.Max = count - 1;
         PlayerSB.NumberVisible = 6;
-        PlayerPnl.FDrawn = false;
+        PlayerPnl.Drawn = false;
         UpdatePlayer(PlayerSB.Position, PlayerLbl1, EmailAddressEdit1);
         UpdatePlayer(PlayerSB.Position + 1, PlayerLbl2, EmailAddressEdit2);
         UpdatePlayer(PlayerSB.Position + 2, PlayerLbl3, EmailAddressEdit3);
@@ -207,61 +207,61 @@ public partial class EmailGameSettingsDialog : DataModule
     public bool SettingsComplete()
     {
         int I;
-        I = FEmailAddresses.Count;
-        bool Result = !IsEmpty(LocalEmailAddressEdit.Text) && !IsEmpty(EmailGameNameEdit.Text);
-        while (Result && I != 0)
+        I = EmailAddresses.Count;
+        bool result = !IsEmpty(LocalEmailAddressEdit.Text) && !IsEmpty(EmailGameNameEdit.Text);
+        while (result && I != 0)
         {
             I -= 1;
-            Result = !IsEmpty(FEmailAddresses[I]);
+            result = !IsEmpty(EmailAddresses[I]);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWEmailGameSettingsDlg.pas:211
     public void ResetSettings()
     {
-        FSetupControl = null;
-        FEmailAddresses.Clear();
+        SetupControl = null;
+        EmailAddresses.Clear();
         PlayerSB.Visible = true;
         PlayerSB.Position = 0;
-        var localEmailAddress = GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
+        var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
         LocalEmailAddressEdit.Text = localEmailAddress;
     }
 
     // AoWEmailGameSettingsDlg.pas:220
-    public void Execute(SetupControl Control)
+    public void Execute(SetupControl control)
     {
         SetupControl C;
         ResetSettings();
-        FSetupControl = Control;
-        C = FSetupControl;
-        for (int I = 0, last = C.FSettings.Count - 1; I <= last; I++)
+        SetupControl = control;
+        C = SetupControl;
+        for (int I = 0, last = C.Settings.Count - 1; I <= last; I++)
         {
-            if (C.FSettings.GetSettings(I).FBehavior.PlayerType == 0)
+            if (C.Settings.GetSettings(I).Behavior.PlayerType == 0)
             {
-                var setting = C.FSettings.GetSettings(I);
-                var localEmailAddress = GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
-                FEmailAddresses.AddObject(localEmailAddress, IntToObject(setting.FRace));
+                var setting = C.Settings.GetSettings(I);
+                var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
+                EmailAddresses.AddObject(localEmailAddress, IntToObject(setting.Race));
             }
         }
 
-        if (FEmailAddresses.Count > 1)
+        if (EmailAddresses.Count > 1)
         {
             UpdatePlayers();
             Dlg.Visible = true;
         }
         else
         {
-            MessageDialog.ResetMessageDialog(DialogHosts.MessageDlg);
-            DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-            var youNeed2HumanPlayersToPlayAnEmailGame = AbilityRules.TranslateRStr(YouNeed2HumanPlayersToPlayAnEmailGameRStr);
-            DialogHosts.MessageDlg.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
-            DialogHosts.MessageDlg.OKPnl.Visible = true;
-            DialogHosts.MessageDlg.Dlg.Visible = true;
+            MessageDialog.ResetMessageDialog(DialogHosts.MessageDialog);
+            DialogHosts.MessageDialog.MessageMemo.Items.Add("");
+            var youNeed2HumanPlayersToPlayAnEmailGame = AbilityRules.TranslateResourceString(s_youNeed2HumanPlayersToPlayEmailGameText);
+            DialogHosts.MessageDialog.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
+            DialogHosts.MessageDialog.OKPnl.Visible = true;
+            DialogHosts.MessageDialog.Dlg.Visible = true;
         }
     }
 
-    private static readonly string PleaseFillInAllSettingsRStr = "Please fill in all settings.";
-    private static readonly string YouNeed2HumanPlayersToPlayAnEmailGameRStr = "You need 2 human players to play an email game.";
+    private static readonly string s_pleaseFillInAllSettingsText = "Please fill in all settings.";
+    private static readonly string s_youNeed2HumanPlayersToPlayEmailGameText = "You need 2 human players to play an email game.";
 }

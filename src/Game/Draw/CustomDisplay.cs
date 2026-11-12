@@ -5,81 +5,81 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Draw;
 
 // the display control. FFSWinControl, the events (OnBltSurface, OnUpdateFrame,
-// OnSurfaceDataLost, OnResize, OnError, OnActivateDC, OnDeactivateDC, OnHide, OnShow,
-// OnResizeBackSurface, OnSwapDC), FFrameRate, FFrameTime (ms per frame), FCurrentFrameRate,
-// FUpdateFrameThread, FStatus, FOptions (2 bytes), FUpdateFrameMode, FBackSurfaceControlMode,
+// OnSurfaceDataLost, OnResize, OnError, OnActivateDisplayController, OnDeactivateDisplayController, OnHide, OnShow,
+// OnResizeBackSurface, OnSwapDisplayController), _frameRate, _frameTime (ms per frame), _currentFrameRate,
+// _updateFrameThread, Status, _options (2 bytes), _updateFrameMode, _backSurfaceControlMode,
 // FBufferingScheme, FBackSurfaceWidth, FBackSurfaceHeight, FSurfaceIndex (the back surface to
-// show), FPauseCount, FMouseAboveSurface, FPrimaryDC, FSecondaryDC, FActiveDC
+// show), _pauseCount, _mouseAboveSurface, _primaryDisplayController, _secondaryDisplayController, _activeDisplayController
 public partial class CustomDisplay : WinControl
 {
 
-    internal DirectDrawFullScreenWindowControl FFSWinControl;
-    internal NotifyEvent<object> FOnBltSurface;
-    internal UpdateFrameEvent FOnUpdateFrame;
-    internal SurfaceDataLostEvent FOnSurfaceDataLost;
-    internal NotifyEvent<object> FOnResize;
-    internal ErrorEvent FOnError;
-    internal DCNotifyEvent FOnActivateDC;
-    internal DCNotifyEvent FOnDeactivateDC;
-    internal NotifyEvent<object> FOnHide;
-    internal NotifyEvent<object> FOnShow;
-    internal ResizeBackSurfaceEvent FOnResizeBackSurface;
-    internal SwapDCEvent FOnSwapDC;
-    internal int FFrameRate;
-    internal int FFrameTime;
-    protected internal int FCurrentFrameRate;
+    internal DirectDrawFullScreenWindowControl _fullScreenWindowControl;
+    internal NotifyEvent<object> _onBlitSurface;
+    internal UpdateFrameEvent _onUpdateFrame;
+    internal SurfaceDataLostEvent _onSurfaceDataLost;
+    internal NotifyEvent<object> _onResize;
+    internal ErrorEvent _onError;
+    internal DCNotifyEvent _onActivateDisplayController;
+    internal DCNotifyEvent _onDeactivateDisplayController;
+    internal NotifyEvent<object> _onHide;
+    internal NotifyEvent<object> _onShow;
+    internal ResizeBackSurfaceEvent _onResizeBackSurface;
+    internal SwapDCEvent _onSwapDisplayController;
+    internal int _frameRate;
+    internal int _frameTime;
+    protected internal int _currentFrameRate;
 
-    public int CurrentFrameRate { get => FCurrentFrameRate; }
+    public int CurrentFrameRate { get => _currentFrameRate; }
 
-    internal UpdateFrameThread FUpdateFrameThread;
-    public Set<DisplayStatusElement> FStatus;
-    internal Set<OptionsElement> FOptions;
-    internal UpdateFrameMode FUpdateFrameMode;
-    internal BackSurfaceControlMode FBackSurfaceControlMode;
-    internal BufferingScheme FBufferingScheme;
-    internal int FBackSurfaceWidth;
-    internal int FBackSurfaceHeight;
-    public int FSurfaceIndex;
+    internal UpdateFrameThread _updateFrameThread;
+    public Set<DisplayStatusElement> Status;
+    internal Set<OptionsElement> _options;
+    internal UpdateFrameMode _updateFrameMode;
+    internal BackSurfaceControlMode _backSurfaceControlMode;
+    internal BufferingScheme _bufferingScheme;
+    internal int _backSurfaceWidth;
+    internal int _backSurfaceHeight;
+    public int SurfaceIndex;
     // direct frame blit
-    internal int FPauseCount;
-    internal bool FMouseAboveSurface;
-    internal CustomDisplayController FPrimaryDC;
-    internal CustomDisplayController FSecondaryDC;
-    internal CustomDisplayController FActiveDC;
+    internal int _pauseCount;
+    internal bool _mouseAboveSurface;
+    internal CustomDisplayController _primaryDisplayController;
+    internal CustomDisplayController _secondaryDisplayController;
+    internal CustomDisplayController _activeDisplayController;
 
     // DisplayC.pas:1397
-    internal void SetBufferingScheme(BufferingScheme Value)
+    internal void SetBufferingScheme(BufferingScheme value)
     {
-        if (FActiveDC == null)
+        if (_activeDisplayController == null)
         {
-            FBufferingScheme = Value;
+            _bufferingScheme = value;
         }
         else
         {
             ShowError("Cannot change buffering scheme when DC is activated");
         }
 
-        switch (FBufferingScheme)
+        switch (_bufferingScheme)
         {
             case BufferingScheme.Single:
-                FSurfaceIndex = 0;
+                SurfaceIndex = 0;
                 break;
             case BufferingScheme.Double:
-                FSurfaceIndex = 1;
+                SurfaceIndex = 1;
                 break;
-            case BufferingScheme.Tripple:
-                FSurfaceIndex = 2;
+            case BufferingScheme.Triple:
+                SurfaceIndex = 2;
                 break;
         }
     }
 
     // DisplayC.pas:1410
-    internal void SetUpdateFrameMode(UpdateFrameMode Value)
+    internal void SetUpdateFrameMode(UpdateFrameMode value)
     {
-        if (!FStatus.Contains(DisplayStatusElement.FrameLoopActive))
+        if (!Status.Contains(DisplayStatusElement.FrameLoopActive))
         {
-            FUpdateFrameMode = Value;
-            if (!ComponentState.Contains(Rtl.ComponentState.Designing) && FOptions.Contains(OptionsElement.AutoStartUpdateFrameLoop) && !ComponentState.Contains(Rtl.ComponentState.Loading))
+            _updateFrameMode = value;
+            if (!ComponentState.Contains(Rtl.ComponentState.Designing) && _options.Contains(OptionsElement.AutoStartUpdateFrameLoop) && !ComponentState.Contains(Rtl.ComponentState.Loading))
             {
                 StartUpdateFrameLoop();
             }
@@ -91,43 +91,43 @@ public partial class CustomDisplay : WinControl
     }
 
     // DisplayC.pas:1509
-    internal void SetBackSurfaceWidth(int Value)
+    internal void SetBackSurfaceWidth(int value)
     {
-        if (Value >= 0)
+        if (value >= 0)
         {
-            ResizeBackSurfaces(Value, FBackSurfaceHeight);
+            ResizeBackSurfaces(value, _backSurfaceHeight);
         }
     }
 
     // DisplayC.pas:1515
-    internal void SetBackSurfaceHeight(int Value)
+    internal void SetBackSurfaceHeight(int value)
     {
-        if (Value >= 0)
+        if (value >= 0)
         {
-            ResizeBackSurfaces(FBackSurfaceWidth, Value);
+            ResizeBackSurfaces(_backSurfaceWidth, value);
         }
     }
 
     // DisplayC.pas:1552
-    internal void CMWantSpecialKey(ref WMKey Message)
+    internal void CMWantSpecialKey(ref WMKey message)
     {
-        if (Message.CharCode == 37 || Message.CharCode == 39 || Message.CharCode == 38 || Message.CharCode == 40)
+        if (message.CharCode == 37 || message.CharCode == 39 || message.CharCode == 38 || message.CharCode == 40)
         {
-            Message.Result = 1;
+            message.Result = 1;
         }
     }
 
     // DisplayC.pas:1560
-    internal void CMKeyUP(ref WMKey Message)
+    internal void CMKeyUP(ref WMKey message)
     {
-        if (Message.CharCode == 37 || Message.CharCode == 39 || Message.CharCode == 38 || Message.CharCode == 40)
+        if (message.CharCode == 37 || message.CharCode == 39 || message.CharCode == 38 || message.CharCode == 40)
         {
-            Message.Result = 0;
+            message.Result = 0;
         }
     }
 
     // DisplayC.pas:1390
-    protected internal override void KeyDown(ref ushort Key, Set<ShiftState> Shift)
+    protected internal override void KeyDown(ref ushort key, Set<ShiftState> shift)
     {
         /* TODO: Implement Controls.KeyDown in the platform or editor service. */
         throw new NotImplementedException();
@@ -136,7 +136,7 @@ public partial class CustomDisplay : WinControl
     // DisplayC.pas:1327
     // (inc\TDisplay.PAS in the original) How the display works, as far as the code of this unit
     // tells: The display control has no surfaces of its own. It shows the surfaces of its
-    // active display controller (FActiveDC), which is one of PrimaryDC and SecondaryDC. SwapDC
+    // active display controller (_activeDisplayController), which is one of PrimaryDisplayController and SecondaryDisplayController. SwapDisplayController
     // (also Alt+Enter in KeyDown) switches between the two. A controller owns surface 0, the
     // output (the window through GDI, or the DirectDraw primary surface), and with double or
     // triple buffering (BufferingScheme) back surfaces 1 and 2 that the game draws on.
@@ -163,7 +163,7 @@ public partial class CustomDisplay : WinControl
     // less for the thread) and calls UpdateFrame in the main thread through Synchronize. in
     // umSynchrone mode StartUpdateFrameLoop itself loops, calling UpdateFrame and
     // Application.ProcessMessages, until the loop is stopped or the application terminates. -
-    // PauseFrameUpdateLoop and ResumeFrameUpdateLoop nest (FPauseCount) and suspend and resume
+    // PauseFrameUpdateLoop and ResumeFrameUpdateLoop nest (_pauseCount) and suspend and resume
     // the thread. StopUpdateFrameLoop resumes the thread as often as needed and terminates it.
     // - UpdateFrame switches the triple buffer, sends a MouseMove(-1, -1) when the mouse left
     // the output with no button down, calls OnUpdateFrame (the game draws the frame on the back
@@ -192,7 +192,7 @@ public partial class CustomDisplay : WinControl
     // SurfaceType): the contents of a surface were lost (a DirectDraw surface was restored, or
     // the back surfaces were resized) and must be drawn again. - OnResize(Sender): the output
     // changed its size. - OnError(ErrorStr, Error): declared and published, not called in this
-    // unit. - OnActivateDC, OnDeactivateDC(Sender, DC): a controller was activated or is
+    // unit. - OnActivateDisplayController, OnDeactivateDisplayController(Sender, DC): a controller was activated or is
     // deactivated. - OnHide, OnShow(Sender): the output is hidden or shown (Hide and Show. the
     // full screen controllers hide when the application is deactivated and show again through
     // WM_DISPLAYC with WParam 1). - OnResizeBackSurface(DC, Width, Height): the back surfaces
@@ -242,144 +242,144 @@ public partial class CustomDisplay : WinControl
     }
 
     // DisplayC.pas:1382
-    protected internal override void MouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    protected internal override void MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         /* TODO: Implement Windows.SetFocus in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:1341
-    protected internal override void CreateParams(ref CreateParams Params)
+    protected internal override void CreateParams(ref CreateParams paramsValue)
     {
         /* TODO: Implement Controls.CreateParams in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:1348
-    protected internal override void CreateWnd()
+    protected internal override void CreateWindow()
     {
         /* TODO: Implement Controls.CreateWnd in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:1588
-    protected internal override void WndProc(ref Message Message)
+    protected internal override void WindowProc(ref Message message)
     {
         /* TODO: Implement Controls.WndProc in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:1541
-    public virtual CustomDisplayController GetDC(int Index)
+    public virtual CustomDisplayController GetDisplayController(int index)
     {
-        CustomDisplayController Result;
-        switch (Index)
+        CustomDisplayController result;
+        switch (index)
         {
             case -1:
-                Result = FActiveDC;
+                result = _activeDisplayController;
                 break;
             case 0:
-                Result = FPrimaryDC;
+                result = _primaryDisplayController;
                 break;
             case 1:
-                Result = FSecondaryDC;
+                result = _secondaryDisplayController;
                 break;
             default:
-                Result = null;
+                result = null;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // DisplayC.pas:1361
-    public virtual void SetFrameRate(int Value)
+    public virtual void SetFrameRate(int value)
     {
-        FFrameRate = Value;
-        if (FFrameRate != 0)
+        _frameRate = value;
+        if (_frameRate != 0)
         {
-            FFrameTime = Round((double)1000 / FFrameRate);
+            _frameTime = Round((double)1000 / _frameRate);
         }
         else
         {
-            FFrameTime = 0;
+            _frameTime = 0;
         }
     }
 
     // DisplayC.pas:1492
-    public virtual void ResizeBackSurfaces(int AWidth, int AHeight)
+    public virtual void ResizeBackSurfaces(int width, int height)
     {
-        FBackSurfaceWidth = AWidth;
-        FBackSurfaceHeight = AHeight;
-        if (!ComponentState.Contains(Rtl.ComponentState.Designing) && FActiveDC != null && FBufferingScheme != BufferingScheme.Single)
+        _backSurfaceWidth = width;
+        _backSurfaceHeight = height;
+        if (!ComponentState.Contains(Rtl.ComponentState.Designing) && _activeDisplayController != null && _bufferingScheme != BufferingScheme.Single)
         {
-            if (FActiveDC.GetSurface(1).Width != AWidth || FActiveDC.GetSurface(1).Height != AHeight)
+            if (_activeDisplayController.GetSurface(1).Width != width || _activeDisplayController.GetSurface(1).Height != height)
             {
-                FActiveDC.ResizeBackSurfaces(FBackSurfaceWidth, FBackSurfaceHeight);
-                for (int I = 1, last = (int)FBufferingScheme; I <= last; I++)
+                _activeDisplayController.ResizeBackSurfaces(_backSurfaceWidth, _backSurfaceHeight);
+                for (int I = 1, last = (int)_bufferingScheme; I <= last; I++)
                 {
                     SurfaceDataLost(I);
                 }
             }
         }
 
-        if (FOnResizeBackSurface != null)
+        if (_onResizeBackSurface != null)
         {
-            FOnResizeBackSurface(FActiveDC, AWidth, AHeight);
+            _onResizeBackSurface(_activeDisplayController, width, height);
         }
     }
 
     // DisplayC.pas:1486
-    public virtual void SurfaceDataLost(int SurfaceType)
+    public virtual void SurfaceDataLost(int surfaceType)
     {
-        if (FOnSurfaceDataLost != null)
+        if (_onSurfaceDataLost != null)
         {
-            FOnSurfaceDataLost(FActiveDC, SurfaceType);
+            _onSurfaceDataLost(_activeDisplayController, surfaceType);
         }
     }
 
     // DisplayC.pas:1469
-    public virtual void GetMousePos(ref int X, ref int Y)
+    public virtual void GetMousePosition(ref int X, ref int Y)
     {
-        if (FActiveDC != null)
+        if (_activeDisplayController != null)
         {
-            FActiveDC.GetMousePos(ref X, ref Y);
+            _activeDisplayController.GetMousePosition(ref X, ref Y);
         }
     }
 
     // DisplayC.pas:1630
-    public virtual int ExecuteBltSurfaceEvent()
+    public virtual int ExecuteBlitSurfaceEvent()
     {
-        int Result;
+        int result;
         try
         {
-            Result = 0;
-            if (FActiveDC != null && FActiveDC.GetStatus().Contains(DisplayControllerStatusElement.Visible))
+            result = 0;
+            if (_activeDisplayController != null && _activeDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Visible))
             {
-                if (FOnBltSurface != null)
+                if (_onBlitSurface != null)
                 {
-                    FOnBltSurface(this);
+                    _onBlitSurface(this);
                 }
 
-                if (FBufferingScheme != BufferingScheme.Single)
+                if (_bufferingScheme != BufferingScheme.Single)
                 {
-                    switch (FBackSurfaceControlMode)
+                    switch (_backSurfaceControlMode)
                     {
                         case BackSurfaceControlMode.PageFlipping:
-                            Result = FActiveDC.FlipSurface(FSurfaceIndex);
+                            result = _activeDisplayController.FlipSurface(SurfaceIndex);
                             break;
-                        case BackSurfaceControlMode.BltSurface:
-                            Result = FActiveDC.BltSurface(FSurfaceIndex);
+                        case BackSurfaceControlMode.BlitSurface:
+                            result = _activeDisplayController.BlitSurface(SurfaceIndex);
                             break;
-                        case BackSurfaceControlMode.BltInvalidatedSurface:
-                            Result = FActiveDC.BltInvalidatedSurface(FSurfaceIndex);
+                        case BackSurfaceControlMode.BlitInvalidatedSurface:
+                            result = _activeDisplayController.BlitInvalidatedSurface(SurfaceIndex);
                             break;
                     }
                 }
 
-                if (FOptions.Contains(OptionsElement.ShowFrameRate))
+                if (_options.Contains(OptionsElement.ShowFrameRate))
                 {
-                    FActiveDC.ShowFrameRate();
+                    _activeDisplayController.ShowFrameRate();
                 }
             }
         }
@@ -389,7 +389,7 @@ public partial class CustomDisplay : WinControl
             throw;
         }
 
-        return Result;
+        return result;
     }
 
     // DisplayC.pas:1568
@@ -402,105 +402,105 @@ public partial class CustomDisplay : WinControl
     // DisplayC.pas:1653
     public new void Hide()
     {
-        if (FOnHide != null)
+        if (_onHide != null)
         {
-            FOnHide(this);
+            _onHide(this);
         }
 
-        if (FActiveDC != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
+        if (_activeDisplayController != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
         {
-            FActiveDC.Hide();
+            _activeDisplayController.Hide();
         }
     }
 
     // DisplayC.pas:1661
     public new void Show()
     {
-        if (FActiveDC != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
+        if (_activeDisplayController != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
         {
-            FActiveDC.Show();
+            _activeDisplayController.Show();
         }
 
-        if (FOnShow != null)
+        if (_onShow != null)
         {
-            FOnShow(this);
+            _onShow(this);
         }
     }
 
     // DisplayC.pas:1669
-    public int SupportDC(CustomDisplayController DC)
+    public int SupportDisplayController(CustomDisplayController displayController)
     {
-        int Result;
-        if (DC != null)
+        int result;
+        if (displayController != null)
         {
-            Result = DC.SupportDisplayMode(this);
+            result = displayController.SupportDisplayMode(this);
         }
         else
         {
-            Result = DisplayCodes.DCERR_NOTSUPPORTED;
+            result = DisplayCodes.DCERR_NOTSUPPORTED;
         }
 
-        return Result;
+        return result;
     }
 
     // DisplayC.pas:1755
-    public int DeactivateDC()
+    public int DeactivateDisplayController()
     {
-        if (FActiveDC != null && FActiveDC.GetStatus().Contains(DisplayControllerStatusElement.Activated))
+        if (_activeDisplayController != null && _activeDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Activated))
         {
-            if (FOnDeactivateDC != null)
+            if (_onDeactivateDisplayController != null)
             {
-                FOnDeactivateDC(this, FActiveDC);
+                _onDeactivateDisplayController(this, _activeDisplayController);
             }
 
-            FActiveDC.Deactivate();
-            FActiveDC = null;
+            _activeDisplayController.Deactivate();
+            _activeDisplayController = null;
         }
 
         return 0;
     }
 
     public new int Cursor { get => GetCursor(); set => SetCursor(value); }
-    public CustomDisplayController ActiveDC { get => FActiveDC; }
-    public DirectDrawFullScreenWindowControl FSWinControl { get => FFSWinControl; }
-    protected internal Set<OptionsElement> Options { get => FOptions; set => FOptions = value; }
-    protected internal BufferingScheme BufferingScheme { get => FBufferingScheme; set => SetBufferingScheme(value); }
-    protected internal BackSurfaceControlMode BackSurfaceControlMode { get => FBackSurfaceControlMode; set => FBackSurfaceControlMode = value; }
-    protected internal int BackSurfaceWidth { get => FBackSurfaceWidth; set => SetBackSurfaceWidth(value); }
-    protected internal int BackSurfaceHeight { get => FBackSurfaceHeight; set => SetBackSurfaceHeight(value); }
-    protected internal int FrameRate { get => FFrameRate; set => SetFrameRate(value); }
-    protected internal CustomDisplayController PrimaryDC { get => FPrimaryDC; set => FPrimaryDC = value; }
-    protected internal CustomDisplayController SecondaryDC { get => FSecondaryDC; set => FSecondaryDC = value; }
-    protected internal UpdateFrameMode UpdateFrameMode { get => FUpdateFrameMode; set => SetUpdateFrameMode(value); }
-    protected internal NotifyEvent<object> OnResize { get => FOnResize; set => FOnResize = value; }
-    protected internal NotifyEvent<object> OnBltSurface { get => FOnBltSurface; set => FOnBltSurface = value; }
-    protected internal DCNotifyEvent OnDeactivateDC { get => FOnDeactivateDC; set => FOnDeactivateDC = value; }
-    protected internal DCNotifyEvent OnActivateDC { get => FOnActivateDC; set => FOnActivateDC = value; }
-    protected internal UpdateFrameEvent OnUpdateFrame { get => FOnUpdateFrame; set => FOnUpdateFrame = value; }
-    protected internal NotifyEvent<object> OnHide { get => FOnHide; set => FOnHide = value; }
-    protected internal NotifyEvent<object> OnShow { get => FOnShow; set => FOnShow = value; }
-    protected internal ErrorEvent OnError { get => FOnError; set => FOnError = value; }
-    protected internal SurfaceDataLostEvent OnSurfaceDataLost { get => FOnSurfaceDataLost; set => FOnSurfaceDataLost = value; }
-    protected internal ResizeBackSurfaceEvent OnResizeBackSurface { get => FOnResizeBackSurface; set => FOnResizeBackSurface = value; }
-    protected internal SwapDCEvent OnSwapDC { get => FOnSwapDC; set => FOnSwapDC = value; }
+    public CustomDisplayController ActiveDisplayController { get => _activeDisplayController; }
+    public DirectDrawFullScreenWindowControl FullScreenWindowControl { get => _fullScreenWindowControl; }
+    protected internal Set<OptionsElement> Options { get => _options; set => _options = value; }
+    protected internal BufferingScheme BufferingScheme { get => _bufferingScheme; set => SetBufferingScheme(value); }
+    protected internal BackSurfaceControlMode BackSurfaceControlMode { get => _backSurfaceControlMode; set => _backSurfaceControlMode = value; }
+    protected internal int BackSurfaceWidth { get => _backSurfaceWidth; set => SetBackSurfaceWidth(value); }
+    protected internal int BackSurfaceHeight { get => _backSurfaceHeight; set => SetBackSurfaceHeight(value); }
+    protected internal int FrameRate { get => _frameRate; set => SetFrameRate(value); }
+    protected internal CustomDisplayController PrimaryDisplayController { get => _primaryDisplayController; set => _primaryDisplayController = value; }
+    protected internal CustomDisplayController SecondaryDisplayController { get => _secondaryDisplayController; set => _secondaryDisplayController = value; }
+    protected internal UpdateFrameMode UpdateFrameMode { get => _updateFrameMode; set => SetUpdateFrameMode(value); }
+    protected internal NotifyEvent<object> OnResize { get => _onResize; set => _onResize = value; }
+    protected internal NotifyEvent<object> OnBlitSurface { get => _onBlitSurface; set => _onBlitSurface = value; }
+    protected internal DCNotifyEvent OnDeactivateDisplayController { get => _onDeactivateDisplayController; set => _onDeactivateDisplayController = value; }
+    protected internal DCNotifyEvent OnActivateDisplayController { get => _onActivateDisplayController; set => _onActivateDisplayController = value; }
+    protected internal UpdateFrameEvent OnUpdateFrame { get => _onUpdateFrame; set => _onUpdateFrame = value; }
+    protected internal NotifyEvent<object> OnHide { get => _onHide; set => _onHide = value; }
+    protected internal NotifyEvent<object> OnShow { get => _onShow; set => _onShow = value; }
+    protected internal ErrorEvent OnError { get => _onError; set => _onError = value; }
+    protected internal SurfaceDataLostEvent OnSurfaceDataLost { get => _onSurfaceDataLost; set => _onSurfaceDataLost = value; }
+    protected internal ResizeBackSurfaceEvent OnResizeBackSurface { get => _onResizeBackSurface; set => _onResizeBackSurface = value; }
+    protected internal SwapDCEvent OnSwapDisplayController { get => _onSwapDisplayController; set => _onSwapDisplayController = value; }
 
     private const int DCERR_ACTIVATEFAILED = -2147414014;
 
-    private static int RemapSurface(Surface Src, Surface Dest)
+    private static int RemapSurface(Surface source, Surface destination)
     {
-        LockedSurface SD = default(LockedSurface);
-        LockedSurface SD2 = default(LockedSurface);
-        Src.Lock(ref SD);
-        Dest.Lock(ref SD2);
-        int result = LockedSurface.RemapSurfacePart(in SD, 0, 0, SD.Width, SD.Height, in SD2, 0, 0);
-        Src.Unlock();
-        Dest.Unlock();
+        LockedSurface lockedSurface = default(LockedSurface);
+        LockedSurface lockedSurface2 = default(LockedSurface);
+        source.Lock(ref lockedSurface);
+        destination.Lock(ref lockedSurface2);
+        int result = LockedSurface.RemapSurfacePart(in lockedSurface, 0, 0, lockedSurface.Width, lockedSurface.Height, in lockedSurface2, 0, 0);
+        source.Unlock();
+        destination.Unlock();
         return result;
     }
 
     public enum OptionsElement : byte
     {
-        AutoResizeBackSurface = 0, AutoSwapDC = 1, AutoStartUpdateFrameLoop = 2, AutoActivatePrimaryDC = 3, ShowFrameRate = 4, ShowErrors = 5, FocusAble = 6, RestoreSurfacesOnSwap = 7, BltOnWMPAINT = 8, AutoEnableDDraw = 9
+        AutoResizeBackSurface = 0, AutoSwapDisplayController = 1, AutoStartUpdateFrameLoop = 2, AutoActivatePrimaryDisplayController = 3, ShowFrameRate = 4, ShowErrors = 5, FocusAble = 6, RestoreSurfacesOnSwap = 7, BlitOnPaint = 8, AutoEnableDDraw = 9
     }
 
     public delegate void UpdateFrameEvent(object Sender, CustomDisplayController DC, int SurfaceType);

@@ -6,7 +6,7 @@ namespace Aow.Game.Session;
 [InlineArray(12)]
 public struct StatusArray12
 {
-    private Status element0;
+    private Status _element0;
 
     public static StatusArray12 From(ReadOnlySpan<Status> values)
     {

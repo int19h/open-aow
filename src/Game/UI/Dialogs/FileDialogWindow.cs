@@ -89,38 +89,38 @@ public partial class FileDialogWindow : DataModule
     public Panel SavedInfo3;
     public Panel SavedInfo4;
     public IvTranslator Translator;
-    public string FDirectory = "";
-    public string FLastFileName = "";
-    public SaveGameEventLog FSaveEvent;
-    public ExecuteDoneEvent FDone;
+    public string Directory = "";
+    public string LastFileName = "";
+    public SaveGameEventLog SaveEvent;
+    public ExecuteDoneEvent Done;
     // is the data pointer of FDone
-    public int FMode;
+    public int Mode;
 
     // AoWFileDialog.pas:175
     // 0 load, 1 save, 2 select map
     public void FinishDialog()
     {
-        ExecuteDoneEvent Done;
-        SaveGameEventLog Event;
-        Done = FDone;
-        Event = FSaveEvent;
-        FDone = null;
-        FSaveEvent = null;
-        if (Done != null)
+        ExecuteDoneEvent done;
+        SaveGameEventLog eventValue;
+        done = Done;
+        eventValue = SaveEvent;
+        Done = null;
+        SaveEvent = null;
+        if (done != null)
         {
-            Done(Event);
+            done(eventValue);
         }
 
-        if (Event != null)
+        if (eventValue != null)
         {
-            Event.Release();
+            eventValue.Release();
         }
     }
 
     // AoWFileDialog.pas:132
-    public void ExitForLoad(ExitGameMode Mode, bool Success)
+    public void ExitForLoad(ExitGameMode mode, bool success)
     {
-        if (Success)
+        if (success)
         {
             GameHost.DeferredSetupAction = 2;
         }
@@ -130,17 +130,17 @@ public partial class FileDialogWindow : DataModule
     // The current game closes only after the file passes its preflight, so a refused file leaves
     // it intact (own-formats.md 2.7). AoWWinMan.LoadCampaign closes the map after its preflight and
     // TAoWEngine.LoadCampaign closes the campaign. The original closed both first.
-    public void LoadSelectedGame(string Name)
+    public void LoadSelectedGame(string name)
     {
-        AoWHSMap Map = default;
-        if (DocumentKind.CampaignSave.HasExtension(ExtractFileExt(Name)))
+        AoWHSMap map = default;
+        if (DocumentKind.CampaignSave.HasExtension(ExtractFileExt(name)))
         {
-            if (!GameTables.AoWEngine.FDemo)
+            if (!GameTables.GameEngine.Demo)
             {
                 // A refused campaign keeps the current map, which is not started again.
-                var Previous = AoWHSMap.Current;
-                LoadCampaign(DialogHosts.General, Name);
-                if (AoWHSMap.Current != null && AoWHSMap.Current != Previous)
+                var previous = AoWHSMap.Current;
+                LoadCampaign(DialogHosts.General, name);
+                if (AoWHSMap.Current != null && AoWHSMap.Current != previous)
                 {
                     General.StartGame(DialogHosts.General);
                 }
@@ -148,16 +148,16 @@ public partial class FileDialogWindow : DataModule
         }
         else
         {
-            Map = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(Name, GameProfile.WorldMap);
-            if (Map != null)
+            map = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(name, GameProfile.WorldMap);
+            if (map != null)
             {
-                GameTables.AoWEngine.CloseCampaign();
-                GameTables.AoWEngine.CloseHSM(null);
+                GameTables.GameEngine.CloseCampaign();
+                GameTables.GameEngine.CloseHsm(null);
                 try
                 {
-                    if (Map.FConnectionType != PlayerConnectionType.Network)
+                    if (map.ConnectionType != PlayerConnectionType.Network)
                     {
-                        General.LoadGame(DialogHosts.General, Name);
+                        General.LoadGame(DialogHosts.General, name);
                         if (AoWHSMap.Current != null)
                         {
                             General.StartGame(DialogHosts.General);
@@ -167,14 +167,14 @@ public partial class FileDialogWindow : DataModule
                     {
                         DialogHosts.TitleScene.HideScene();
                         DialogHosts.General.HideWindows();
-                        DialogHosts.TBWindow.TaskWindow.Visible = false;
-                        var relativePath = ExtractRelativePath(GameTables.AoWEngine.StartupDirectory, Name);
+                        DialogHosts.TaskBar.TaskWindow.Visible = false;
+                        var relativePath = ExtractRelativePath(GameTables.GameEngine.StartupDirectory, name);
                         DialogHosts.MultiWindow.Execute(relativePath);
                     }
                 }
                 finally
                 {
-                    Map?.Dispose();
+                    map?.Dispose();
                 }
             }
         }
@@ -184,9 +184,9 @@ public partial class FileDialogWindow : DataModule
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FSaveEvent != null)
+        if (SaveEvent != null)
         {
-            if (!FSaveEvent.FMode.Contains(SaveGameEventLogModeElement.DisableCancel))
+            if (!SaveEvent.Mode.Contains(SaveGameEventLogModeElement.DisableCancel))
             {
                 FileDialog.Visible = false;
             }
@@ -199,27 +199,27 @@ public partial class FileDialogWindow : DataModule
 
     // The file filter of FindFiles (AoWFileDialog.pas:233). Each family lists its original and its
     // own extension (own-formats.md 2.9), so the shown name tells the two apart.
-    public static bool ListsFile(int Mode, bool Campaign, string Extension)
+    public static bool ListsFile(int mode, bool campaign, string extension)
     {
-        bool IsCampaignSave = DocumentKind.CampaignSave.HasExtension(Extension);
-        bool IsSave = DocumentKind.Save.HasExtension(Extension);
-        bool IncludeFile = false;
-        IncludeFile = IncludeFile || Mode == 1 && Campaign && IsCampaignSave;
-        IncludeFile = IncludeFile || Mode == 1 && !Campaign && IsSave;
-        IncludeFile = IncludeFile || Mode == 0 && (IsSave || IsCampaignSave);
+        bool isCampaignSave = DocumentKind.CampaignSave.HasExtension(extension);
+        bool isSave = DocumentKind.Save.HasExtension(extension);
+        bool includeFile = false;
+        includeFile = includeFile || mode == 1 && campaign && isCampaignSave;
+        includeFile = includeFile || mode == 1 && !campaign && isSave;
+        includeFile = includeFile || mode == 0 && (isSave || isCampaignSave);
         // { Original accepts .asg in every mode, including map selection. }
-        IncludeFile = IncludeFile || Mode == 2 && DocumentKind.Map.HasExtension(Extension) || IsSave;
-        return IncludeFile;
+        includeFile = includeFile || mode == 2 && DocumentKind.Map.HasExtension(extension) || isSave;
+        return includeFile;
     }
 
     // AoWFileDialog.pas:233
     public void FindFiles()
     {
-        bool IncludeFile;
-        string Extension;
-        string Directory;
-        SearchRec Search = default;
-        FileTime Stamp;
+        bool includeFile;
+        string extension;
+        string directory;
+        SearchRec search = default;
+        FileTime stamp;
         for (int I = 0, last = DateLB.Items.Count - 1; I <= last; I++)
         {
             if (DateLB.Items.Objects[I] != null)
@@ -237,39 +237,39 @@ public partial class FileDialogWindow : DataModule
         LSize.Text = "";
         LTowns.Text = "";
         LTurns.Text = "";
-        Directory = GetCurrentDir();
-        if (Copy(Directory, Directory.Length, 1) == "\\")
+        directory = GetCurrentDir();
+        if (Copy(directory, directory.Length, 1) == "\\")
         {
-            Directory = Copy(Directory, 1, Directory.Length - 1);
+            directory = Copy(directory, 1, directory.Length - 1);
         }
 
-        if (FindFirst(Directory + "\\**", 16, ref Search) == 0)
+        if (FindFirst(directory + "\\**", 16, ref search) == 0)
         {
             do
             {
-                if (Search.Name != "." && Search.Name != "..")
+                if (search.Name != "." && search.Name != "..")
                 {
-                    if ((Search.Attr & 16) == 16)
+                    if ((search.Attr & 16) == 16)
                     {
-                        Directories.Add(Search.Name);
+                        Directories.Add(search.Name);
                     }
                     else
                     {
-                        Extension = LowerCase(ExtractFileExt(Search.Name));
-                        IncludeFile = ListsFile(FMode, GameTables.AoWEngine.FCampaign != null, Extension);
-                        if (IncludeFile)
+                        extension = LowerCase(ExtractFileExt(search.Name));
+                        includeFile = ListsFile(Mode, GameTables.GameEngine.Campaign != null, extension);
+                        if (includeFile)
                         {
-                            Stamp = new FileTime();
-                            Stamp.FTime = FileDateToDateTime(Search.Time);
-                            Files.AddObject(Search.Name, Stamp);
+                            stamp = new FileTime();
+                            stamp.Time = FileDateToDateTime(search.Time);
+                            Files.AddObject(search.Name, stamp);
                         }
                     }
                 }
             }
-            while (!(FindNext(ref Search) != 0));
+            while (!(FindNext(ref search) != 0));
         }
 
-        FindClose(ref Search);
+        FindClose(ref search);
         FileLB.Selected = -1;
         SaveLB.Selected = -1;
         DateLB.Selected = -1;
@@ -284,7 +284,7 @@ public partial class FileDialogWindow : DataModule
         FileLB.Items.AddStrings(Directories);
         FileLB.Items.AddStrings(Files);
         SaveLB.Items.AddStrings(FileLB.Items);
-        PathEdit.Text = Directory + "\\";
+        PathEdit.Text = directory + "\\";
         for (int I = 0, last = Directories.Count - 1; I <= last; I++)
         {
             DateLB.Items.Add("");
@@ -292,9 +292,9 @@ public partial class FileDialogWindow : DataModule
 
         for (int I = 0, last = Files.Count - 1; I <= last; I++)
         {
-            var dateTimeToStr = DateTimeToStr(((FileTime)Files.Objects[I]).FTime);
+            var dateTimeToString = DateTimeToStr(((FileTime)Files.Objects[I]).Time);
             var objectValue = Files.Objects[I];
-            DateLB.Items.AddObject(dateTimeToStr, objectValue);
+            DateLB.Items.AddObject(dateTimeToString, objectValue);
         }
 
         RestoreSortOrder();
@@ -306,8 +306,8 @@ public partial class FileDialogWindow : DataModule
         Drives = new StringList();
         Directories = new StringList();
         Files = new StringList();
-        FDirectory = GameTables.AoWEngine.StartupDirectory + "Save\\";
-        FLastFileName = "";
+        Directory = GameTables.GameEngine.StartupDirectory + "Save\\";
+        LastFileName = "";
     }
 
     // AoWFileDialog.pas:305
@@ -329,20 +329,20 @@ public partial class FileDialogWindow : DataModule
     // AoWFileDialog.pas:316
     public void OpenbutClick()
     {
-        string Path = "";
-        string Directory = "";
+        string path = "";
+        string directory = "";
         DialogHosts.General.PlayButtonSound(0);
         var count = Directories.Count;
         if (FileLB.Selected < count && FileLB.Selected > -1)
         {
-            Directory = GetCurrentDir();
-            if (Copy(Directory, Directory.Length, 1) == "\\")
+            directory = GetCurrentDir();
+            if (Copy(directory, directory.Length, 1) == "\\")
             {
-                Directory = Copy(Directory, 1, Directory.Length - 1);
+                directory = Copy(directory, 1, directory.Length - 1);
             }
 
             var item = FileLB.Items[FileLB.Selected];
-            if (SetCurrentDir(Directory + "\\" + item))
+            if (SetCurrentDir(directory + "\\" + item))
             {
                 FindFiles();
             }
@@ -351,28 +351,28 @@ public partial class FileDialogWindow : DataModule
         }
         else
         {
-            Path = GetCurrentDir();
-            if (Path.Length > 0 && Path[Path.Length - 1] != 92)
+            path = GetCurrentDir();
+            if (path.Length > 0 && path[path.Length - 1] != 92)
             {
-                Path = Path + "\\";
+                path = path + "\\";
             }
 
-            switch (FMode)
+            switch (Mode)
             {
                 case 0:
                     if (!IsEmpty(SFileName.Text) && FileExists(SFileName.Text))
                     {
                         if (AoWHSMap.Current != null)
                         {
-                            if (AoWHSMap.Current.FCombatMap != null)
+                            if (AoWHSMap.Current.CombatMap != null)
                             {
                                 DialogHosts.General.ReturnToTitle();
                             }
                             else
                             {
-                                if (GameTables.AoWEngine.FCampaign != null)
+                                if (GameTables.GameEngine.Campaign != null)
                                 {
-                                    if (CompareText(GameTables.AoWEngine.FCampaign.FFileName, FDirectory + SFileName.Text) == 0)
+                                    if (CompareText(GameTables.GameEngine.Campaign.FileName, Directory + SFileName.Text) == 0)
                                     {
                                         AoWHSMap.Current.ExitGame(ExitGameMode.Reload, ExitForLoad);
                                     }
@@ -383,7 +383,7 @@ public partial class FileDialogWindow : DataModule
                                 }
                                 else
                                 {
-                                    if (CompareText(AoWHSMap.Current.FileName, FDirectory + SFileName.Text) == 0)
+                                    if (CompareText(AoWHSMap.Current.FileName, Directory + SFileName.Text) == 0)
                                     {
                                         AoWHSMap.Current.ExitGame(ExitGameMode.Reload, ExitForLoad);
                                     }
@@ -395,27 +395,27 @@ public partial class FileDialogWindow : DataModule
                             }
                         }
 
-                        if (AoWHSMap.Current == null || AoWHSMap.Current.FExitPending)
+                        if (AoWHSMap.Current == null || AoWHSMap.Current.ExitPending)
                         {
                             FileDialog.Visible = false;
-                            LoadSelectedGame(Path + SFileName.Text);
+                            LoadSelectedGame(path + SFileName.Text);
                         }
 
-                        FLastFileName = Path + SFileName.Text;
-                        FDirectory = Path;
+                        LastFileName = path + SFileName.Text;
+                        Directory = path;
                     }
 
                     break;
                 case 1:
                     if (!IsEmpty(SFileName.Text))
                     {
-                        FDirectory = Path;
+                        Directory = path;
                         if (Pos(".", SFileName.Text) != 0)
                         {
                             SFileName.Text = Copy(SFileName.Text, 1, Pos(".", SFileName.Text) - 1);
                         }
 
-                        if (GameTables.AoWEngine.FCampaign != null)
+                        if (GameTables.GameEngine.Campaign != null)
                         {
                             FileDialog.Visible = false;
                             // The save takes the extension the host writes, beside an original of the same name
@@ -425,9 +425,9 @@ public partial class FileDialogWindow : DataModule
                         }
                         else
                         {
-                            if (FSaveEvent != null)
+                            if (SaveEvent != null)
                             {
-                                FSaveEvent.FFileName = FileBoundary.WriteName(SFileName.Text + DocumentKind.Save.OriginalExtension, FDirectory);
+                                SaveEvent.FileName = FileBoundary.WriteName(SFileName.Text + DocumentKind.Save.OriginalExtension, Directory);
                                 FileDialog.Visible = false;
                             }
                             else
@@ -438,16 +438,16 @@ public partial class FileDialogWindow : DataModule
                             }
                         }
 
-                        FLastFileName = SFileName.Text;
-                        FDirectory = Path;
+                        LastFileName = SFileName.Text;
+                        Directory = path;
                     }
 
                     break;
                 case 2:
                     if (!IsEmpty(FileName.Text) && FileExists(FileName.Text))
                     {
-                        PickScenarioMap(DialogHosts.ScenSetup, FileName.Text);
-                        FLastFileName = FileName.Text;
+                        PickScenarioMap(DialogHosts.ScenarioSetup, FileName.Text);
+                        LastFileName = FileName.Text;
                     }
 
                     break;
@@ -480,52 +480,52 @@ public partial class FileDialogWindow : DataModule
     }
 
     // AoWFileDialog.pas:406
-    public void FileLBChange(ListBox Sender)
+    public void FileLBChange(ListBox sender)
     {
-        AoWHSMap Map;
-        ListBox List;
-        List = Sender;
-        FileLB.Selected = List.Selected;
-        SaveLB.Selected = List.Selected;
-        DateLB.Selected = List.Selected;
+        AoWHSMap map;
+        ListBox list;
+        list = sender;
+        FileLB.Selected = list.Selected;
+        SaveLB.Selected = list.Selected;
+        DateLB.Selected = list.Selected;
         if (Directories.Count - 1 < this.FileLB.Selected)
         {
             var item = FileLB.Items[FileLB.Selected];
             SFileName.Text = item;
             if (!DocumentKind.CampaignSave.HasExtension(ExtractFileExt(SFileName.Text)))
             {
-                Map = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(SFileName.Text, GameProfile.WorldMap);
-                if (Map != null)
+                map = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(SFileName.Text, GameProfile.WorldMap);
+                if (map != null)
                 {
-                    var count = Map.FPlayers.GetCount();
+                    var count = map.Players.GetCount();
                     LPlayers.Text = IntToStr(count - 1);
-                    switch (Map.MapContainer.Width)
+                    switch (map.MapContainer.Width)
                     {
                         case 48:
-                            var translateRStr = AbilityRules.TranslateRStr("S");
-                            LSize.Text = translateRStr;
+                            var translatedText = AbilityRules.TranslateResourceString("S");
+                            LSize.Text = translatedText;
                             break;
                         case 64:
-                            var translateRStr2 = AbilityRules.TranslateRStr("M");
-                            LSize.Text = translateRStr2;
+                            var translateResourceString2 = AbilityRules.TranslateResourceString("M");
+                            LSize.Text = translateResourceString2;
                             break;
                         case 96:
-                            var translateRStr3 = AbilityRules.TranslateRStr("L");
-                            LSize.Text = translateRStr3;
+                            var translateResourceString3 = AbilityRules.TranslateResourceString("L");
+                            LSize.Text = translateResourceString3;
                             break;
                         case 127:
                         case 128:
-                            var extraLargeMapAbr = AbilityRules.TranslateRStr(ExtraLargeMapAbrRStr);
-                            LSize.Text = extraLargeMapAbr;
+                            var extraLargeMapLetter = AbilityRules.TranslateResourceString(s_extraLargeMapLetter);
+                            LSize.Text = extraLargeMapLetter;
                             break;
                         default:
                             LSize.Text = "?";
                             break;
                     }
 
-                    LTowns.Text = IntToStr(Map.FStructureControl.FCityCount);
-                    LTurns.Text = IntToStr(Map.FDay);
-                    Map?.Dispose();
+                    LTowns.Text = IntToStr(map.StructureControl.CityCount);
+                    LTurns.Text = IntToStr(map.Day);
+                    map?.Dispose();
                 }
                 else
                 {
@@ -558,35 +558,35 @@ public partial class FileDialogWindow : DataModule
     }
 
     // AoWFileDialog.pas:586
-    public void FileLBDrawItem(in Rect DrawRect, int DrawItem, ref LockedSurface SurfDesc)
+    public void FileLBDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
-        if (Directories.Count > DrawItem)
+        if (Directories.Count > drawItem)
         {
-            DialogHosts.IntGfxMod.LBIcons[0].ShowClipped(DrawRect.Left + 2, DrawRect.Top + 1, SurfDesc);
+            DialogHosts.UIGraphics.LBIcons[0].ShowClipped(drawRectangle.Left + 2, drawRectangle.Top + 1, lockedSurface);
         }
     }
 
     // AoWFileDialog.pas:462
     public void FileDialogShow()
     {
-        switch (FMode)
+        switch (Mode)
         {
             case 0:
-                SetCurrentDir(FDirectory);
-                var fileName = ExtractFileName(FLastFileName);
+                SetCurrentDir(Directory);
+                var fileName = ExtractFileName(LastFileName);
                 SFileName.Text = fileName;
                 FileName.Text = SFileName.Text;
-                var selectAFileToLoad = AbilityRules.TranslateRStr(SelectAFileToLoadRStr);
-                DialogHosts.FileDlgWindow.Title.Text = selectAFileToLoad;
-                DialogHosts.FileDlgWindow.SFileName.Editable = false;
-                var open = AbilityRules.TranslateRStr(OpenRStr);
-                DialogHosts.FileDlgWindow.Openbut.Text = open;
+                var selectAFileToLoad = AbilityRules.TranslateResourceString(s_selectFileToLoadText);
+                DialogHosts.FileDialogWindow.Title.Text = selectAFileToLoad;
+                DialogHosts.FileDialogWindow.SFileName.Editable = false;
+                var open = AbilityRules.TranslateResourceString(s_openText);
+                DialogHosts.FileDialogWindow.Openbut.Text = open;
                 SavePnl.Visible = true;
                 NewPnl.Visible = false;
                 break;
             case 1:
-                SetCurrentDir(FDirectory);
-                var fileName2 = ExtractFileName(FLastFileName);
+                SetCurrentDir(Directory);
+                var fileName2 = ExtractFileName(LastFileName);
                 SFileName.Text = fileName2;
                 if (Pos(".", SFileName.Text) != 0)
                 {
@@ -596,7 +596,7 @@ public partial class FileDialogWindow : DataModule
                 if (!IsEmpty(SFileName.Text))
                 {
                     // The default name shows the file the save writes (own-formats.md 4.2).
-                    if (GameTables.AoWEngine.FCampaign != null)
+                    if (GameTables.GameEngine.Campaign != null)
                     {
                         SFileName.Text = FileBoundary.WriteName(SFileName.Text + DocumentKind.CampaignSave.OriginalExtension);
                     }
@@ -607,19 +607,19 @@ public partial class FileDialogWindow : DataModule
                 }
 
                 FileName.Text = SFileName.Text;
-                var saveGameAs = AbilityRules.TranslateRStr(SaveGameAsRStr);
-                DialogHosts.FileDlgWindow.Title.Text = saveGameAs;
-                DialogHosts.FileDlgWindow.SFileName.Editable = true;
-                var save = AbilityRules.TranslateRStr(GameText.SaveRStr);
-                DialogHosts.FileDlgWindow.Openbut.Text = save;
+                var saveGameAs = AbilityRules.TranslateResourceString(s_saveGameAsText);
+                DialogHosts.FileDialogWindow.Title.Text = saveGameAs;
+                DialogHosts.FileDialogWindow.SFileName.Editable = true;
+                var save = AbilityRules.TranslateResourceString(GameText.s_saveText);
+                DialogHosts.FileDialogWindow.Openbut.Text = save;
                 SavePnl.Visible = true;
                 NewPnl.Visible = false;
                 break;
             case 2:
-                var lastExtension = ExtractFileExt(FLastFileName);
+                var lastExtension = ExtractFileExt(LastFileName);
                 if (lastExtension == DocumentKind.Map.OriginalExtension || lastExtension == DocumentKind.Map.OwnExtension)
                 {
-                    var fileName3 = ExtractFileName(FLastFileName);
+                    var fileName3 = ExtractFileName(LastFileName);
                     FileName.Text = fileName3;
                 }
                 else
@@ -627,27 +627,27 @@ public partial class FileDialogWindow : DataModule
                     FileName.Text = "";
                 }
 
-                SetCurrentDir(GameTables.AoWEngine.StartupDirectory + "Scenario\\Custom\\");
-                var selectAMap = AbilityRules.TranslateRStr(SelectAMapRStr);
-                DialogHosts.FileDlgWindow.Title.Text = selectAMap;
-                var select = AbilityRules.TranslateRStr(SelectRStr);
-                DialogHosts.FileDlgWindow.Openbut.Text = select;
+                SetCurrentDir(GameTables.GameEngine.StartupDirectory + "Scenario\\Custom\\");
+                var selectAMap = AbilityRules.TranslateResourceString(s_selectMapText);
+                DialogHosts.FileDialogWindow.Title.Text = selectAMap;
+                var select = AbilityRules.TranslateResourceString(s_selectText);
+                DialogHosts.FileDialogWindow.Openbut.Text = select;
                 SavePnl.Visible = false;
                 NewPnl.Visible = true;
                 break;
         }
 
-        DialogHosts.FileDlgWindow.FindDrives();
+        DialogHosts.FileDialogWindow.FindDrives();
     }
 
     // AoWFileDialog.pas:502
-    public void mSBarChange(VerticalScrollBar Sender)
+    public void MSBarChange(VerticalScrollBar sender)
     {
-        VerticalScrollBar Bar;
-        Bar = Sender;
-        FileLB.ListOffset = Bar.Position;
-        SaveLB.ListOffset = Bar.Position;
-        DateLB.ListOffset = Bar.Position;
+        VerticalScrollBar bar;
+        bar = sender;
+        FileLB.ListOffset = bar.Position;
+        SaveLB.ListOffset = bar.Position;
+        DateLB.ListOffset = bar.Position;
     }
 
     // AoWFileDialog.pas:511
@@ -673,10 +673,10 @@ public partial class FileDialogWindow : DataModule
 
     internal void SortByName()
     {
-        string Selected = "";
+        string selected = "";
         if (FileLB.Selected != -1)
         {
-            Selected = FileLB.Items[FileLB.Selected];
+            selected = FileLB.Items[FileLB.Selected];
         }
 
         for (int I = 0, last = Directories.Count - 1; I <= last; I++)
@@ -685,14 +685,14 @@ public partial class FileDialogWindow : DataModule
             DateLB.Items.Delete(0);
         }
 
-        if (FMode == 1 || FMode == 0)
+        if (Mode == 1 || Mode == 0)
         {
             StringSorting.SortStringsAscending(SaveLB.Items, [DateLB.Items, FileLB.Items]);
             FileLB.Items.Assign(SaveLB.Items);
         }
         else
         {
-            if (FMode == 2)
+            if (Mode == 2)
             {
                 StringSorting.SortStringsAscending(FileLB.Items, [DateLB.Items, SaveLB.Items]);
             }
@@ -705,9 +705,9 @@ public partial class FileDialogWindow : DataModule
             DateLB.Items.Insert(I, "");
         }
 
-        if (!IsEmpty(Selected))
+        if (!IsEmpty(selected))
         {
-            var indexOf = FileLB.Items.IndexOf(Selected);
+            var indexOf = FileLB.Items.IndexOf(selected);
             FileLB.Selected = indexOf;
         }
 
@@ -724,13 +724,13 @@ public partial class FileDialogWindow : DataModule
 
     internal void SortByDate()
     {
-        string Selected = "";
+        string selected = "";
         if (FileLB.Selected != -1)
         {
-            Selected = FileLB.Items[FileLB.Selected];
+            selected = FileLB.Items[FileLB.Selected];
         }
 
-        if (FMode == 1 || FMode == 0)
+        if (Mode == 1 || Mode == 0)
         {
             for (int I = 0, last = SaveLB.Items.Count - 1; I <= last; I++)
             {
@@ -738,11 +738,11 @@ public partial class FileDialogWindow : DataModule
                 SaveLB.Items.Objects[I] = objectValue;
             }
 
-            StringSorting.SortStringsEx(SaveLB.Items, CompareFileDates, [DateLB.Items, FileLB.Items]);
+            StringSorting.SortStrings(SaveLB.Items, CompareFileDates, [DateLB.Items, FileLB.Items]);
         }
         else
         {
-            if (FMode == 2)
+            if (Mode == 2)
             {
                 for (int I = 0, last = FileLB.Items.Count - 1; I <= last; I++)
                 {
@@ -750,13 +750,13 @@ public partial class FileDialogWindow : DataModule
                     FileLB.Items.Objects[I] = objectValue;
                 }
 
-                StringSorting.SortStringsEx(FileLB.Items, CompareFileDates, [DateLB.Items, SaveLB.Items]);
+                StringSorting.SortStrings(FileLB.Items, CompareFileDates, [DateLB.Items, SaveLB.Items]);
             }
         }
 
-        if (!IsEmpty(Selected))
+        if (!IsEmpty(selected))
         {
-            var indexOf = FileLB.Items.IndexOf(Selected);
+            var indexOf = FileLB.Items.IndexOf(selected);
             FileLB.Selected = indexOf;
         }
 
@@ -776,9 +776,9 @@ public partial class FileDialogWindow : DataModule
     }
 
     // AoWFileDialog.pas:580
-    public void FileDialogKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void FileDialogKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             FileDialog.Visible = false;
         }
@@ -796,17 +796,17 @@ public partial class FileDialogWindow : DataModule
         FindFiles();
     }
 
-    private static readonly string ExtraLargeMapAbrRStr = "XL";
+    private static readonly string s_extraLargeMapLetter = "XL";
 
-    private static readonly string OpenRStr = "Open";
+    private static readonly string s_openText = "Open";
 
-    private static readonly string SaveGameAsRStr = "Save game as...";
+    private static readonly string s_saveGameAsText = "Save game as...";
 
-    private static readonly string SelectAFileToLoadRStr = "Select a File to Load...";
+    private static readonly string s_selectFileToLoadText = "Select a File to Load...";
 
-    private static readonly string SelectAMapRStr = "Select a Map...";
+    private static readonly string s_selectMapText = "Select a Map...";
 
-    private static readonly string SelectRStr = "Select";
+    private static readonly string s_selectText = "Select";
 
     internal static StringList Drives;
 
@@ -814,70 +814,70 @@ public partial class FileDialogWindow : DataModule
 
     internal static StringList Files;
 
-    internal static int CompareFileDates(string S1, string S2, object O1, object O2)
+    internal static int CompareFileDates(string s1, string s2, object o1, object o2)
     {
-        int Result;
-        if (O1 == null && O2 == null)
+        int result;
+        if (o1 == null && o2 == null)
         {
-            Result = CompareText(S1, S2);
+            result = CompareText(s1, s2);
         }
         else
         {
-            if (O1 == null)
+            if (o1 == null)
             {
-                Result = -1;
+                result = -1;
             }
             else
             {
-                if (O2 == null)
+                if (o2 == null)
                 {
-                    Result = 1;
+                    result = 1;
                 }
                 else
                 {
-                    if ((double)((FileTime)O2).FTime > ((FileTime)O1).FTime)
+                    if ((double)((FileTime)o2).Time > ((FileTime)o1).Time)
                     {
-                        Result = 1;
+                        result = 1;
                     }
                     else
                     {
-                        if ((double)((FileTime)O2).FTime < ((FileTime)O1).FTime)
+                        if ((double)((FileTime)o2).Time < ((FileTime)o1).Time)
                         {
-                            Result = -1;
+                            result = -1;
                         }
                         else
                         {
-                            Result = 0;
+                            result = 0;
                         }
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
-    private static void LoadCampaign(General Controller, string Name)
+    private static void LoadCampaign(General controller, string name)
     {
-        byte[] Image = FileBoundary.Load(Name, GameProfile.Campaign);
-        if (Image == null)
+        byte[] image = FileBoundary.Load(name, GameProfile.Campaign);
+        if (image == null)
         {
             return;
         }
 
         if (AoWHSMap.Current != null)
         {
-            GameTables.AoWEngine.CloseHSM(null);
+            GameTables.GameEngine.CloseHsm(null);
         }
 
-        GameTables.AoWEngine.LoadCampaign(Name, Image);
-        if (GameTables.AoWEngine.FCampaign != null)
+        GameTables.GameEngine.LoadCampaign(name, image);
+        if (GameTables.GameEngine.Campaign != null)
         {
-            if (GameTables.AoWEngine.FCampaign.FScenarioStarted)
+            if (GameTables.GameEngine.Campaign.ScenarioStarted)
             {
-                var e1Loading = AbilityRules.TranslateRStr(LayerText.E1LoadingRStr);
-                var fileName = ExtractFileName(Name);
-                DialogHosts.ProgressDialog.Title.Text = e1Loading + " " + fileName + "...";
+                var loading = AbilityRules.TranslateResourceString(LayerText.s_loadingText);
+                var fileName = ExtractFileName(name);
+                DialogHosts.ProgressDialog.Title.Text = loading + " " + fileName + "...";
                 DialogHosts.ProgressDialog.StatusLbl.Text = "";
                 DialogHosts.ProgressDialog.Bar.Position = 0;
                 DialogHosts.ProgressDialog.Bar.Max = 100;
@@ -890,7 +890,7 @@ public partial class FileDialogWindow : DataModule
                 AudioHost.SongPlayer.Stop(false);
                 AudioHost.SongPlayer.Songs.Clear();
                 AudioPlayback.FadeMusicVolume(0, 1);
-                GameTables.AoWEngine.LoadCampaignMap((_, Message, Progression) => Controller.MapProgress(Message, Progression));
+                GameTables.GameEngine.LoadCampaignMap((_, message, progression) => controller.MapProgress(message, progression));
                 DialogHosts.General.Manager.OverlayPriority = 0;
                 DialogHosts.ProgressDialog.ProgDlg.Visible = false;
             }
@@ -902,45 +902,45 @@ public partial class FileDialogWindow : DataModule
         }
     }
 
-    private static void SaveGame(General Controller, string Name)
+    private static void SaveGame(General controller, string name)
     {
-        AoWHSMap.Current.SaveGame(Name);
+        AoWHSMap.Current.SaveGame(name);
     }
 
-    private static void SaveCampaign(General Controller, string Name)
+    private static void SaveCampaign(General controller, string name)
     {
         // { Original campaign-save command uses the map save routine. }
-        AoWHSMap.Current.SaveGame(Name);
+        AoWHSMap.Current.SaveGame(name);
     }
 
-    private static void PickScenarioMap(ScenarioSetup Dialog, string Name)
+    private static void PickScenarioMap(ScenarioSetup dialog, string name)
     {
-        var currentDir = GetCurrentDir();
-        Name = ExtractRelativePath(GameTables.AoWEngine.StartupDirectory, currentDir + "\\" + Name);
-        DialogHosts.FileDlgWindow.FileDialog.Visible = false;
-        Dialog.FSetupControl.hPickMap(Name);
+        var currentDirectory = GetCurrentDir();
+        name = ExtractRelativePath(GameTables.GameEngine.StartupDirectory, currentDirectory + "\\" + name);
+        DialogHosts.FileDialogWindow.FileDialog.Visible = false;
+        dialog.SetupControl.PickMap(name);
     }
 
-    internal static void OpenSelectedGame(FileDialogWindow Dialog)
+    internal static void OpenSelectedGame(FileDialogWindow dialog)
     {
-        Dialog.LoadSelectedGame(Dialog.FLastFileName);
+        dialog.LoadSelectedGame(dialog.LastFileName);
     }
 
-    internal static void ShowSaveGameEvent(FileDialogWindow Dialog, SaveGameEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowSaveGameEvent(FileDialogWindow dialog, SaveGameEventLog eventValue, ExecuteDoneEvent done)
     {
-        Dialog.FDone = Done;
-        Dialog.FSaveEvent = Event;
-        Dialog.FSaveEvent.AddRef();
-        Dialog.FMode = 1;
-        Dialog.FileDialog.Visible = true;
-        if (!IsEmpty(Event.FDirectory))
+        dialog.Done = done;
+        dialog.SaveEvent = eventValue;
+        dialog.SaveEvent.AddRef();
+        dialog.Mode = 1;
+        dialog.FileDialog.Visible = true;
+        if (!IsEmpty(eventValue.Directory))
         {
-            SetCurrentDir(Event.FDirectory);
+            SetCurrentDir(eventValue.Directory);
         }
 
-        Dialog.SFileName.Text = Event.FDefaultName;
-        Dialog.Title.Text = Event.FTitle;
-        Dialog.FindFiles();
+        dialog.SFileName.Text = eventValue.DefaultName;
+        dialog.Title.Text = eventValue.Title;
+        dialog.FindFiles();
     }
 
 }

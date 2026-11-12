@@ -11,21 +11,21 @@ namespace Aow.Formats.Json;
 /// </summary>
 public sealed class JsonReader
 {
-    private readonly string text;
-    private readonly string? file;
-    private readonly bool decompressed;
-    private readonly FormatLimits limits;
-    private int position;
-    private int line = 1;
-    private int lineStart;
-    private long nodes;
+    private readonly string _text;
+    private readonly string? _file;
+    private readonly bool _decompressed;
+    private readonly FormatLimits _limits;
+    private int _position;
+    private int _line = 1;
+    private int _lineStart;
+    private long _nodes;
 
     private JsonReader(string text, string? file, bool decompressed, FormatLimits limits)
     {
-        this.text = text;
-        this.file = file;
-        this.decompressed = decompressed;
-        this.limits = limits;
+        this._text = text;
+        this._file = file;
+        this._decompressed = decompressed;
+        this._limits = limits;
     }
 
     /// <summary>Decodes strict UTF-8 and parses it. The bytes are never retried as another format.</summary>
@@ -52,57 +52,57 @@ public sealed class JsonReader
     public static JsonValue Parse(string text, string? file = null, bool decompressed = false, FormatLimits? limits = null)
     {
         var reader = new JsonReader(text, file, decompressed, limits ?? FormatLimits.Default);
-        if (reader.Peek() == '\uFEFF') reader.position++;
+        if (reader.Peek() == '\uFEFF') reader._position++;
         reader.SkipWhitespace();
         var value = reader.ReadValue(0);
         reader.SkipWhitespace();
-        if (reader.position < text.Length)
+        if (reader._position < text.Length)
             throw reader.Error(Codes.Syntax, "Content follows the document value.");
         return value;
     }
 
-    private TextSpan Here => new(position, line, ColumnAt(position));
+    private TextSpan Here => new(_position, _line, ColumnAt(_position));
 
-    private int cacheOffset;
-    private int cacheColumn = 1;
+    private int _cacheOffset;
+    private int _cacheColumn = 1;
 
     // Positions only grow, so the column advances from the last computed one on the same line.
     private int ColumnAt(int offset)
     {
-        if (cacheOffset < lineStart || cacheOffset > offset)
+        if (_cacheOffset < _lineStart || _cacheOffset > offset)
         {
-            cacheOffset = lineStart;
-            cacheColumn = 1;
+            _cacheOffset = _lineStart;
+            _cacheColumn = 1;
         }
-        for (int i = cacheOffset; i < offset; i++)
-            if (!char.IsLowSurrogate(text[i])) cacheColumn++;
-        cacheOffset = offset;
-        return cacheColumn;
+        for (int i = _cacheOffset; i < offset; i++)
+            if (!char.IsLowSurrogate(_text[i])) _cacheColumn++;
+        _cacheOffset = offset;
+        return _cacheColumn;
     }
 
-    private char Peek() => position < text.Length ? text[position] : '\0';
+    private char Peek() => _position < _text.Length ? _text[_position] : '\0';
 
     private ConversionException Error(string code, string message, TextSpan? span = null, string? value = null, string? constraint = null) =>
         new(new FormatDiagnostic(code, message)
         {
-            File = file,
+            File = _file,
             Span = span ?? Here,
-            Decompressed = decompressed,
+            Decompressed = _decompressed,
             Value = value,
             Constraint = constraint,
         });
 
     private void SkipWhitespace()
     {
-        while (position < text.Length)
+        while (_position < _text.Length)
         {
-            char c = text[position];
-            if (c == ' ' || c == '\t' || c == '\r') position++;
+            char c = _text[_position];
+            if (c == ' ' || c == '\t' || c == '\r') _position++;
             else if (c == '\n')
             {
-                position++;
-                line++;
-                lineStart = position;
+                _position++;
+                _line++;
+                _lineStart = _position;
             }
             else break;
         }
@@ -110,16 +110,16 @@ public sealed class JsonReader
 
     private void CountNode(TextSpan span)
     {
-        if (++nodes > limits.Nodes)
-            throw Error(Codes.Limit, "The document has too many values.", span, null, $"at most {limits.Nodes} values");
+        if (++_nodes > _limits.Nodes)
+            throw Error(Codes.Limit, "The document has too many values.", span, null, $"at most {_limits.Nodes} values");
     }
 
     private JsonValue ReadValue(int depth)
     {
-        if (position >= text.Length) throw Error(Codes.Syntax, "The document ends where a value is expected.");
+        if (_position >= _text.Length) throw Error(Codes.Syntax, "The document ends where a value is expected.");
         var span = Here;
         CountNode(span);
-        char c = text[position];
+        char c = _text[_position];
         JsonValue value;
         switch (c)
         {
@@ -157,26 +157,26 @@ public sealed class JsonReader
 
     private void Expect(string word)
     {
-        if (string.CompareOrdinal(text, position, word, 0, word.Length) != 0)
+        if (string.CompareOrdinal(_text, _position, word, 0, word.Length) != 0)
             throw Error(Codes.Syntax, $"Unexpected text, '{word}' or another value expected.");
-        position += word.Length;
+        _position += word.Length;
     }
 
     private void CheckDepth(int depth)
     {
-        if (depth > limits.Depth)
-            throw Error(Codes.Limit, "The document nests too deeply.", null, null, $"depth at most {limits.Depth}");
+        if (depth > _limits.Depth)
+            throw Error(Codes.Limit, "The document nests too deeply.", null, null, $"depth at most {_limits.Depth}");
     }
 
     private JsonObject ReadObject(int depth)
     {
         CheckDepth(depth);
         var result = new JsonObject();
-        position++;
+        _position++;
         SkipWhitespace();
         if (Peek() == '}')
         {
-            position++;
+            _position++;
             return result;
         }
         var names = new Dictionary<string, TextSpan>(StringComparer.Ordinal);
@@ -191,19 +191,19 @@ public sealed class JsonReader
             names.Add(name, nameSpan);
             SkipWhitespace();
             if (Peek() != ':') throw Error(Codes.Syntax, "':' is expected after a member name.");
-            position++;
+            _position++;
             SkipWhitespace();
             var value = ReadValue(depth);
             result.Members.Add(new JsonMember(name, value) { NameSpan = nameSpan });
-            if (result.Members.Count > limits.CollectionItems)
-                throw Error(Codes.Limit, "An object has too many members.", nameSpan, null, $"at most {limits.CollectionItems} members");
+            if (result.Members.Count > _limits.CollectionItems)
+                throw Error(Codes.Limit, "An object has too many members.", nameSpan, null, $"at most {_limits.CollectionItems} members");
             SkipWhitespace();
             char c = Peek();
-            position++;
+            _position++;
             if (c == '}') return result;
             if (c != ',')
             {
-                position--;
+                _position--;
                 throw Error(Codes.Syntax, "',' or '}' is expected.");
             }
         }
@@ -213,11 +213,11 @@ public sealed class JsonReader
     {
         CheckDepth(depth);
         var result = new JsonArray();
-        position++;
+        _position++;
         SkipWhitespace();
         if (Peek() == ']')
         {
-            position++;
+            _position++;
             return result;
         }
         while (true)
@@ -225,15 +225,15 @@ public sealed class JsonReader
             SkipWhitespace();
             if (Peek() == ']') throw Error(Codes.Syntax, "A trailing comma precedes ']'.");
             result.Items.Add(ReadValue(depth));
-            if (result.Items.Count > limits.CollectionItems)
-                throw Error(Codes.Limit, "An array has too many items.", null, null, $"at most {limits.CollectionItems} items");
+            if (result.Items.Count > _limits.CollectionItems)
+                throw Error(Codes.Limit, "An array has too many items.", null, null, $"at most {_limits.CollectionItems} items");
             SkipWhitespace();
             char c = Peek();
-            position++;
+            _position++;
             if (c == ']') return result;
             if (c != ',')
             {
-                position--;
+                _position--;
                 throw Error(Codes.Syntax, "',' or ']' is expected.");
             }
         }
@@ -242,23 +242,23 @@ public sealed class JsonReader
     private string ReadString()
     {
         var start = Here;
-        position++;
+        _position++;
         var builder = new StringBuilder();
         while (true)
         {
-            if (position >= text.Length) throw Error(Codes.Syntax, "The string is not closed.", start);
-            char c = text[position];
+            if (_position >= _text.Length) throw Error(Codes.Syntax, "The string is not closed.", start);
+            char c = _text[_position];
             if (c == '"')
             {
-                position++;
+                _position++;
                 break;
             }
             if (c < ' ') throw Error(Codes.Syntax, "A control character in a string is not escaped.");
             if (c == '\\')
             {
-                position++;
+                _position++;
                 char e = Peek();
-                position++;
+                _position++;
                 switch (e)
                 {
                     case '"': builder.Append('"'); break;
@@ -270,26 +270,26 @@ public sealed class JsonReader
                     case 'r': builder.Append('\r'); break;
                     case 't': builder.Append('\t'); break;
                     case 'u':
-                        if (position + 4 > text.Length || !int.TryParse(text.AsSpan(position, 4), NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out int code))
+                        if (_position + 4 > _text.Length || !int.TryParse(_text.AsSpan(_position, 4), NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out int code))
                         {
-                            position -= 2;
+                            _position -= 2;
                             throw Error(Codes.Syntax, "A \\u escape needs four hexadecimal digits.");
                         }
-                        position += 4;
+                        _position += 4;
                         builder.Append((char)code);
                         break;
                     default:
-                        position -= 2;
+                        _position -= 2;
                         throw Error(Codes.Syntax, "Unknown escape sequence.");
                 }
             }
             else
             {
                 builder.Append(c);
-                position++;
+                _position++;
             }
-            if (builder.Length > limits.StringBytes)
-                throw Error(Codes.Limit, "A string is too long.", start, null, $"at most {limits.StringBytes} characters");
+            if (builder.Length > _limits.StringBytes)
+                throw Error(Codes.Limit, "A string is too long.", start, null, $"at most {_limits.StringBytes} characters");
         }
         string result = builder.ToString();
         for (int i = 0; i < result.Length; i++)
@@ -303,20 +303,20 @@ public sealed class JsonReader
     private JsonValue ReadNumber()
     {
         var start = Here;
-        int begin = position;
-        if (Peek() == '-') position++;
-        if (Peek() == '0') position++;
+        int begin = _position;
+        if (Peek() == '-') _position++;
+        if (Peek() == '0') _position++;
         else if (Peek() is >= '1' and <= '9')
-            while (Peek() is >= '0' and <= '9') position++;
+            while (Peek() is >= '0' and <= '9') _position++;
         else throw Error(Codes.Syntax, "A digit is expected.", start);
         if (Peek() is '.' or 'e' or 'E')
         {
-            int end = position + 1;
-            while (end < text.Length && (char.IsAsciiDigit(text[end]) || text[end] is '+' or '-' or 'e' or 'E' or '.')) end++;
+            int end = _position + 1;
+            while (end < _text.Length && (char.IsAsciiDigit(_text[end]) || _text[end] is '+' or '-' or 'e' or 'E' or '.')) end++;
             throw Error(Codes.Number, "Documents hold only integers. Floating-point values use { \"$bits\": ... }.",
-                start, text[begin..end]);
+                start, _text[begin..end]);
         }
-        var digits = text.AsSpan(begin, position - begin);
+        var digits = _text.AsSpan(begin, _position - begin);
         if (!long.TryParse(digits, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out long value))
             throw Error(Codes.Range, "The integer is outside the 64-bit range.", start, digits.ToString());
         return new JsonInteger(value);

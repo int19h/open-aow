@@ -7,53 +7,53 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Movement;
 
-// FPath, FPathMovePoints, FMoveObject, FMovePoints, FPriority, FSelection, FMovePos, FValid
+// Path, PathMovePoints, MoveObject, MovePoints, Priority, Selection, MovePosition, Valid
 public partial class MoveSettings : EngineObject
 {
     // Structur.PAS:4011
     // path, path cost, object, available points, priority, selection, position, valid
     public MoveSettings(ECustomNode owner) : base(owner)
     {
-        FPath = new MovePath();
-        FPriority = 1;
+        Path = new MovePath();
+        Priority = 1;
     }
 
-    public MovePath FPath;
-    public int FPathMovePoints;
-    public object FMoveObject;
-    public int FMovePoints;
-    public int FMoves;
-    public int FPriority;
-    public int FSelection;
-    public int FMovePos;
-    public bool FValid;
+    public MovePath Path;
+    public int PathMovePoints;
+    public object MoveObject;
+    public int MovePoints;
+    public int Moves;
+    public int Priority;
+    public int Selection;
+    public int MovePosition;
+    public bool Valid;
 
     // Structur.PAS:4018
     public override void Dispose()
     {
-        FPath?.Dispose();
+        Path?.Dispose();
         base.Dispose();
     }
 
     // Structur.PAS:4024
-    public MapCoordinate GetMoveLoc()
+    public MapCoordinate GetMoveLocation()
     {
-        MapCoordinate Result = default;
-        if (FPath.Count > FMovePos && FMovePos >= 0)
+        MapCoordinate result = default;
+        if (Path.Count > MovePosition && MovePosition >= 0)
         {
-            Result = FPath.List[FMovePos];
-            Result.Flag = 0;
+            result = Path.List[MovePosition];
+            result.Tag = 0;
         }
         else
         {
-            Unsafe.As<MapCoordinate, int>(ref Result) = 16777215;
+            Unsafe.As<MapCoordinate, int>(ref result) = 16777215;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:4034
-    public int GetMovePrio() => (FPath.Count - FMovePos) * FPriority;
+    public int GetMovePrio() => (Path.Count - MovePosition) * Priority;
 
     // intf_P1_04.inc:197
 

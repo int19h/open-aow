@@ -152,17 +152,17 @@ public sealed class RelationBandTests
         Assert.False(window.P12CB.Visible);
         Assert.False(window.R1CB.Visible);
 
-        scope.Map.FPlayers.SetNumberOfPlayers(12);
-        scope.Map.FSeatedPlayer = 1;
-        var seated = scope.Map.FPlayers.GetPlayers(1);
+        scope.Map.Players.SetNumberOfPlayers(12);
+        scope.Map.SeatedPlayer = 1;
+        var seated = scope.Map.Players.GetPlayers(1);
         for (int i = 1; i <= 12; i++)
         {
-            var player = scope.Map.FPlayers.GetPlayers(i);
-            player.FStatus = Player.Status.Playing;
-            player.FName = "P" + i;
+            var player = scope.Map.Players.GetPlayers(i);
+            player.Status = PlayerStatus.Playing;
+            player.Name = "P" + i;
             if (i != 1)
             {
-                seated.FFirstDaySeen[i] = 0;
+                seated.FirstDaySeen[i] = 0;
             }
         }
 
@@ -182,20 +182,20 @@ public sealed class RelationBandTests
         using var scope = new MapScope();
         using var dialogs = new DialogScope();
         var window = CreateWindow();
-        window.P1I.FChecked = true;
-        window.R12I.FChecked = true;
+        window.P1I._checked = true;
+        window.R12I._checked = true;
 
         window.ShowRelations(0);
         Assert.False(window.P1CB.Checked);
         Assert.False(window.P12CB.Checked);
-        Assert.True(window.R12I.FChecked);
+        Assert.True(window.R12I._checked);
         Assert.Equal(0, window.ShowCount);
-        Assert.False(window.RelPnl.FAligned);
-        Assert.False(window.RelWin.FDrawn);
+        Assert.False(window.RelPnl.Aligned);
+        Assert.False(window.RelWin.Drawn);
 
         window.ShowRelations(-23);
         Assert.False(window.P1CB.Checked);
-        Assert.True(window.P1I.FChecked);
+        Assert.True(window.P1I._checked);
         Assert.Equal(0, window.ShowCount);
 
         window.ShowRelations(1);
@@ -208,17 +208,17 @@ public sealed class RelationBandTests
         Assert.True(window.P12CB.Checked);
         Assert.Equal(0, window.ShowCount);
 
-        scope.Map.FPlayers.SetNumberOfPlayers(12);
-        scope.Map.FSeatedPlayer = 12;
-        var seated = scope.Map.FPlayers.GetPlayers(12);
+        scope.Map.Players.SetNumberOfPlayers(12);
+        scope.Map.SeatedPlayer = 12;
+        var seated = scope.Map.Players.GetPlayers(12);
         for (int i = 1; i <= 12; i++)
         {
-            var player = scope.Map.FPlayers.GetPlayers(i);
-            player.FStatus = Player.Status.Playing;
-            player.FName = "S" + i;
+            var player = scope.Map.Players.GetPlayers(i);
+            player.Status = PlayerStatus.Playing;
+            player.Name = "S" + i;
             if (i != 12)
             {
-                seated.FFirstDaySeen[i] = 0;
+                seated.FirstDaySeen[i] = 0;
             }
         }
 
@@ -237,7 +237,7 @@ public sealed class RelationBandTests
         MarkChecks(window);
         window.P1I.CurrentImage = 7;
         window.ResetChecks();
-        Assert.Equal(-1, window.FSelectedIndex);
+        Assert.Equal(-1, window.SelectedIndex);
         Assert.False(window.P1CB.Checked);
         Assert.False(window.P12CB.Checked);
         Assert.False(window.R1CB.Checked);
@@ -257,7 +257,7 @@ public sealed class RelationBandTests
         var window = CreateWindow();
         MarkChecks(window);
         window.HighlightPlayer(4);
-        Assert.Equal(-1, window.FSelectedIndex);
+        Assert.Equal(-1, window.SelectedIndex);
         Assert.False(window.P1CB.Checked);
         Assert.False(window.P12CB.Checked);
         Assert.Equal(10, window.P1CB.Alignment.TopOffset);
@@ -266,26 +266,26 @@ public sealed class RelationBandTests
         Assert.Equal(5, window.R1I.CurrentImage);
         Assert.Equal(5, window.R12I.CurrentImage);
 
-        scope.Map.FSeatedPlayer = 0;
-        window.FPlayers.Add(0);
+        scope.Map.SeatedPlayer = 0;
+        window.Players.Add(0);
         window.HighlightPlayer(0);
-        Assert.Equal(0, window.FSelectedIndex);
+        Assert.Equal(0, window.SelectedIndex);
         Assert.True(window.P1CB.Checked);
         Assert.False(window.P12CB.Checked);
         Assert.Equal(20, window.P1CB.Alignment.TopOffset);
         Assert.Equal(20, window.PlyrGlow.Alignment.TopOffset);
         Assert.Equal(2, window.P1I.CurrentImage);
 
-        window.FPlayers.Clear();
+        window.Players.Clear();
         for (int i = 1; i <= 12; i++)
         {
-            window.FPlayers.Add(i);
+            window.Players.Add(i);
         }
 
-        scope.Map.FPlayers.SetNumberOfPlayers(1);
-        scope.Map.FSeatedPlayer = 0;
+        scope.Map.Players.SetNumberOfPlayers(1);
+        scope.Map.SeatedPlayer = 0;
         window.HighlightPlayer(12);
-        Assert.Equal(11, window.FSelectedIndex);
+        Assert.Equal(11, window.SelectedIndex);
         Assert.False(window.P1CB.Checked);
         Assert.True(window.P12CB.Checked);
         Assert.Equal(20, window.P12CB.Alignment.TopOffset);
@@ -302,9 +302,9 @@ public sealed class RelationBandTests
         var window = CreateWindow();
         MarkChecks(window);
         window.HighlightRace(7);
-        Assert.Equal(7, window.FSelectedRace);
-        Assert.Equal(-1, window.FSelectedPlayer);
-        Assert.Equal(19, window.FSelectedIndex);
+        Assert.Equal(7, window.SelectedRace);
+        Assert.Equal(-1, window.SelectedPlayer);
+        Assert.Equal(19, window.SelectedIndex);
         Assert.True(window.P12CB.Checked);
         Assert.Equal(175, window.P12CB.Alignment.TopOffset);
         Assert.False(window.R1CB.Checked);
@@ -315,21 +315,21 @@ public sealed class RelationBandTests
         Assert.Equal(5, window.R1I.CurrentImage);
         Assert.Equal(5, window.R12I.CurrentImage);
 
-        window.FRaces.Add(7);
+        window.Races.Add(7);
         window.HighlightRace(7);
-        Assert.Equal(20, window.FSelectedIndex);
+        Assert.Equal(20, window.SelectedIndex);
         Assert.True(window.R1CB.Checked);
         Assert.False(window.P12CB.Checked);
         Assert.Equal(175, window.R1CB.Alignment.TopOffset);
 
-        window.FRaces.Clear();
+        window.Races.Clear();
         for (int i = 0; i <= 11; i++)
         {
-            window.FRaces.Add(i);
+            window.Races.Add(i);
         }
 
         window.HighlightRace(11);
-        Assert.Equal(31, window.FSelectedIndex);
+        Assert.Equal(31, window.SelectedIndex);
         Assert.True(window.R12CB.Checked);
         Assert.False(window.P12CB.Checked);
         Assert.Equal(175, window.R12CB.Alignment.TopOffset);

@@ -15,171 +15,171 @@ namespace Aow.Game.World.Map;
 // the map
 public partial class HexSpriteSelection : EControlStyleNode
 {
-    internal List<HexSprite> FLocationHS;
+    internal List<HexSprite> _locationHexSprite;
 
-    internal EventStore<ECustomNode> FOnSelectStore;
+    internal EventStore<ECustomNode> _onSelectStore;
 
     internal event NotifyEvent<ECustomNode> FOnSelect
     {
-        add => FOnSelectStore.Add(value);
-        remove => FOnSelectStore.Remove(value);
+        add => _onSelectStore.Add(value);
+        remove => _onSelectStore.Remove(value);
     }
 
-    internal EventStore<ECustomNode> FOnDeselectStore;
+    internal EventStore<ECustomNode> _onDeselectStore;
 
     internal event NotifyEvent<ECustomNode> FOnDeselect
     {
-        add => FOnDeselectStore.Add(value);
-        remove => FOnDeselectStore.Remove(value);
+        add => _onDeselectStore.Add(value);
+        remove => _onDeselectStore.Remove(value);
     }
 
-    internal HexSprite FEventHS;
+    internal HexSprite _eventHexSprite;
 
     // HSEngine.pas:3681
     public HexSpriteSelection(ECustomNode owner) : base(owner)
     {
-        FLocationHS = new List<HexSprite>();
-        FOnSelectStore = new();
-        FOnDeselectStore = new();
+        _locationHexSprite = new List<HexSprite>();
+        _onSelectStore = new();
+        _onDeselectStore = new();
     }
 
     // HSEngine.pas:3689
     public override void Dispose()
     {
         base.Dispose();
-        FLocationHS?.Clear();
-        FOnSelectStore.Clear();
-        FOnDeselectStore.Clear();
+        _locationHexSprite?.Clear();
+        _onSelectStore.Clear();
+        _onDeselectStore.Clear();
     }
 
     // HSEngine.pas:3761
     public override void Clear()
     {
-        FChildren.Clear();
-        FLocationHS.Clear();
+        _children.Clear();
+        _locationHexSprite.Clear();
     }
 
     // HSEngine.pas:3699
-    public void TriggerDeselectEvent(HexSprite HS)
+    public void TriggerDeselectEvent(HexSprite hexSprite)
     {
-        FEventHS = HS;
-        FOnDeselectStore.Raise(Owner);
+        _eventHexSprite = hexSprite;
+        _onDeselectStore.Raise(Owner);
     }
 
     // HSEngine.pas:3705
-    public void TriggerSelectEvent(HexSprite HS)
+    public void TriggerSelectEvent(HexSprite hexSprite)
     {
-        FEventHS = HS;
-        FOnSelectStore.Raise(Owner);
+        _eventHexSprite = hexSprite;
+        _onSelectStore.Raise(Owner);
     }
 
     // HSEngine.pas:3711
-    public void Unselect(HexSprite HS)
+    public void Unselect(HexSprite hexSprite)
     {
         int I;
-        I = FChildren.IndexOf(HS);
-        FLocationHS.Remove(HS);
+        I = _children.IndexOf(hexSprite);
+        _locationHexSprite.Remove(hexSprite);
         if (I != -1)
         {
-            FChildren.Remove(HS);
-            if (FChildren.IndexOf(HS) == -1)
+            _children.Remove(hexSprite);
+            if (_children.IndexOf(hexSprite) == -1)
             {
-                if (HS.GetSelected())
+                if (hexSprite.GetSelected())
                 {
-                    HS.Unselect();
+                    hexSprite.Unselect();
                 }
             }
 
-            TriggerDeselectEvent(HS);
+            TriggerDeselectEvent(hexSprite);
         }
     }
 
     // HSEngine.pas:3727
-    public void Select(HexSprite HS)
+    public void Select(HexSprite hexSprite)
     {
-        FChildren.Add(HS);
-        HS.Select();
-        TriggerSelectEvent(HS);
+        _children.Add(hexSprite);
+        hexSprite.Select();
+        TriggerSelectEvent(hexSprite);
     }
 
     // HSEngine.pas:3734
     public void UnselectAll()
     {
-        while (FChildren.Count != 0)
+        while (_children.Count != 0)
         {
-            Unselect((HexSprite)FChildren.List[FChildren.Count - 1]);
+            Unselect((HexSprite)_children.List[_children.Count - 1]);
         }
     }
 
     // HSEngine.pas:3740
-    public HexSprite FindClass(Type AClass)
+    public HexSprite FindClass(Type classValue)
     {
-        HexSprite HS;
+        HexSprite hexSprite;
         int I;
-        HexSprite Result = null;
+        HexSprite result = null;
         I = 0;
-        while (I != Count && Result == null)
+        while (I != Count && result == null)
         {
-            HS = (HexSprite)FChildren.List[I];
-            if (AClass.IsInstanceOfType(HS))
+            hexSprite = (HexSprite)_children.List[I];
+            if (classValue.IsInstanceOfType(hexSprite))
             {
-                Result = (HexSprite)FChildren.List[I];
+                result = (HexSprite)_children.List[I];
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:3756
-    public HexSprite GetHS(int Index) => (HexSprite)FChildren.List[Index];
+    public HexSprite GetHexSprite(int index) => (HexSprite)_children.List[index];
 
     // HSEngine.pas:3790
-    public void SelectLocationHS(HexSprite HS)
+    public void SelectLocationHexSprite(HexSprite hexSprite)
     {
-        FLocationHS.Add(HS);
-        Select(HS);
+        _locationHexSprite.Add(hexSprite);
+        Select(hexSprite);
     }
 
     // HSEngine.pas:3829
-    public void SelectLocationHX(int Xhx, int Yhx, int Lhx)
+    public void SelectLocationHex(int hexX, int hexY, int hexLevel)
     {
-        int Xhp = default;
-        int Yhp = default;
-        HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
-        SelectLocation(Xhp, Yhp, Lhx);
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+        SelectLocation(pixelX, pixelY, hexLevel);
     }
 
     // HSEngine.pas:3837
     public void UnselectLocation()
     {
-        while (FLocationHS.Count != 0)
+        while (_locationHexSprite.Count != 0)
         {
-            Unselect(FLocationHS[FLocationHS.Count - 1]);
+            Unselect(_locationHexSprite[_locationHexSprite.Count - 1]);
         }
     }
 
     public sealed class HexSpriteAccessor(HexSpriteSelection target)
     {
-        public HexSprite this[int Index] { get => target.GetHS(Index); }
+        public HexSprite this[int index] { get => target.GetHexSprite(index); }
     }
 
-    public HexSpriteAccessor HS => new HexSpriteAccessor(this);
-    public List<HexSprite> LocationHS { get => FLocationHS; }
+    public HexSpriteAccessor HexSprite => new HexSpriteAccessor(this);
+    public List<HexSprite> LocationHexSprite { get => _locationHexSprite; }
 
     public event NotifyEvent<ECustomNode> OnSelect
     {
-        add => FOnSelectStore.Add(value);
-        remove => FOnSelectStore.Remove(value);
+        add => _onSelectStore.Add(value);
+        remove => _onSelectStore.Remove(value);
     }
 
     public event NotifyEvent<ECustomNode> OnDeselect
     {
-        add => FOnDeselectStore.Add(value);
-        remove => FOnDeselectStore.Remove(value);
+        add => _onDeselectStore.Add(value);
+        remove => _onDeselectStore.Remove(value);
     }
 
-    public HexSprite EventHS { get => FEventHS; }
+    public HexSprite EventHexSprite { get => _eventHexSprite; }
 
 }

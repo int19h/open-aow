@@ -9,18 +9,18 @@ public partial class EmailGameList : ENode
     { }
 
     // Diplomacy.pas:2475
-    public EmailGame GetEmailGames(int Index) => (EmailGame)FChildren.List[Index];
+    public EmailGame GetEmailGames(int index) => (EmailGame)_children.List[index];
 
     // Diplomacy.pas:2478
-    public int IndexOfUniqueLocalID(int ID)
+    public int IndexOfUniqueLocalId(int id)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (((EmailGame)FChildren.List[Result]).FUniqueLocalID == ID)
+            result -= 1;
+            if (((EmailGame)_children.List[result]).UniqueLocalId == id)
             {
-                return Result;
+                return result;
             }
         }
 

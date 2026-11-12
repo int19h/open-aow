@@ -9,78 +9,78 @@ namespace Aow.Engine;
 public partial class EngineObjectClassList : DelphiList
 {
     // Engine.pas:8296
-    protected internal EngineClass GetEClass(int Index) => (EngineClass)this[Index];
+    protected internal EngineClass GetEngineClass(int index) => (EngineClass)this[index];
 
     // Engine.pas:8301
-    public EngineClass FindClass(int AClassID)
+    public EngineClass FindClass(int classId)
     {
-        EngineClass Result;
+        EngineClass result;
         int I;
-        bool Found;
+        bool found;
         I = 0;
-        Found = false;
-        while (!Found && I < Count)
+        found = false;
+        while (!found && I < Count)
         {
-            Found = AClassID == ((EngineClass)this[I]).ClassID;
+            found = classId == ((EngineClass)this[I]).ClassId;
             I += 1;
         }
 
-        if (Found)
+        if (found)
         {
-            Result = (EngineClass)this[I - 1];
+            result = (EngineClass)this[I - 1];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:8316
-    public int FindClassIndex(int AClassID)
+    public int FindClassIndex(int classId)
     {
-        int Result;
+        int result;
         int I;
-        bool Found;
+        bool found;
         I = 0;
-        Found = false;
-        while (!Found && I < Count)
+        found = false;
+        while (!found && I < Count)
         {
-            Found = AClassID == ((EngineClass)this[I]).ClassID;
+            found = classId == ((EngineClass)this[I]).ClassId;
             I += 1;
         }
 
-        if (Found)
+        if (found)
         {
-            Result = I - 1;
+            result = I - 1;
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:8331
-    public EngineClass GetClass(int AClassID)
+    public EngineClass GetClass(int classId)
     {
-        EngineClass Result = FindClass(AClassID);
-        if (Result == null)
+        EngineClass result = FindClass(classId);
+        if (result == null)
         {
-            throw new KeyNotFoundException("Unregistered E-ClassID found (" + IntToStr(AClassID) + ")");
+            throw new KeyNotFoundException("Unregistered E-ClassID found (" + IntToStr(classId) + ")");
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:8338
-    public void RegisterClass(EngineClass AClass)
+    public void RegisterClass(EngineClass classValue)
     {
-        if (FindClass(AClass.ClassID) == null && AClass.ClassID != 0)
+        if (FindClass(classValue.ClassId) == null && classValue.ClassId != 0)
         {
-            Add(AClass);
+            Add(classValue);
         }
         else
         {
@@ -89,10 +89,10 @@ public partial class EngineObjectClassList : DelphiList
     }
 
     // Engine.pas:8346
-    public void UnregisterClass(EngineClass AClass)
+    public void UnregisterClass(EngineClass classValue)
     {
         int I;
-        I = FindClassIndex(AClass.ClassID);
+        I = FindClassIndex(classValue.ClassId);
         if (I != -1)
         {
             Delete(I);
@@ -101,8 +101,8 @@ public partial class EngineObjectClassList : DelphiList
 
     public sealed class ClassesAccessor(EngineObjectClassList target)
     {
-        public EngineClass this[int Index] { get => target.GetEClass(Index); }
+        public EngineClass this[int index] { get => target.GetEngineClass(index); }
     }
 
-    public ClassesAccessor EClasses => new ClassesAccessor(this);
+    public ClassesAccessor EngineClasses => new ClassesAccessor(this);
 }

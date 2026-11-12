@@ -20,12 +20,12 @@ public partial class MapWindow : DataModule
 
     public Window MainWindow;
     public HexSpriteMapViewer MapViewer;
-    public Rect FWorldRect;
-    public Rect FMapRect;
-    public AlignWidth FWorldAlignWidth;
-    public AlignWidth FMapAlignWidth;
-    public AlignHeight FWorldAlignHeight;
-    public AlignHeight FMapAlignHeight;
+    public Rect WorldRectangle;
+    public Rect MapRectangle;
+    public AlignWidth WorldAlignWidth;
+    public AlignWidth MapAlignWidth;
+    public AlignHeight WorldAlignHeight;
+    public AlignHeight MapAlignHeight;
 
     // AOWMWindow.pas:61
     public bool InsideMap(int X, int Y) => X > this.MainWindow.WinLeft + 12 && X < this.MainWindow.WinLeft + this.MainWindow.WinWidth - 12 && Y > this.MainWindow.WinTop + 12 && Y < this.MainWindow.WinTop + this.MainWindow.WinHeight - 12;
@@ -33,14 +33,14 @@ public partial class MapWindow : DataModule
     // AOWMWindow.pas:53
     public void MWindowCreate()
     {
-        MainWindow.ILFrame = DialogHosts.IntGfxMod.GenericF;
-        MainWindow.WinManager = DialogHosts.General.Manager;
-        FMapAlignWidth = AlignWidth.Both;
-        FMapAlignHeight = AlignHeight.Both;
+        MainWindow.ImageLibraryFrame = DialogHosts.UIGraphics.GenericF;
+        MainWindow.WindowManager = DialogHosts.General.Manager;
+        MapAlignWidth = AlignWidth.Both;
+        MapAlignHeight = AlignHeight.Both;
     }
 
     // AOWMWindow.pas:68
-    public void MapWindowMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void MapWindowMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         if (InsideMap(X, Y))
         {
@@ -49,13 +49,13 @@ public partial class MapWindow : DataModule
             // Port extension: a scene larger than the map shows the map centered (THSMapViewer.ShowScene).
             if (MapViewer.SceneToMapMouse(ref X, ref Y))
             {
-                AoWHSMap.Current.Mouse.Down(Button, Shift, X, Y);
+                AoWHSMap.Current.Mouse.Down(button, shift, X, Y);
             }
         }
     }
 
     // AOWMWindow.pas:74
-    public void MapWindowMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void MapWindowMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         if (InsideMap(X, Y))
         {
@@ -69,16 +69,16 @@ public partial class MapWindow : DataModule
                 Y = -1;
             }
 
-            AoWHSMap.Current.Mouse.Up(Button, Shift, X, Y);
+            AoWHSMap.Current.Mouse.Up(button, shift, X, Y);
         }
         else
         {
-            AoWHSMap.Current.Mouse.Up(Button, Shift, -1, -1);
+            AoWHSMap.Current.Mouse.Up(button, shift, -1, -1);
         }
     }
 
     // AOWMWindow.pas:82
-    public void MapWindowMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public void MapWindowMouseMove(Set<ShiftState> shift, int X, int Y)
     {
         var window = MainWindow;
         if (X > window.WinLeft + 11 && X < MainWindow.WinLeft + window.WinWidth - 11 && Y > window.WinTop + 11 && Y < window.WinTop + window.WinHeight - 11)
@@ -92,7 +92,7 @@ public partial class MapWindow : DataModule
                 Y = -1;
             }
 
-            AoWHSMap.Current.Mouse.Move(Shift, X, Y);
+            AoWHSMap.Current.Mouse.Move(shift, X, Y);
             MainWindow.Cursor = 9999;
         }
     }
@@ -100,39 +100,39 @@ public partial class MapWindow : DataModule
     // AOWMWindow.pas:93
     public void MapViewerSceneChanged()
     {
-        if (AoWHSMap.Current.FSeatedPlayer != -1)
+        if (AoWHSMap.Current.SeatedPlayer != -1)
         {
-            DialogHosts.SWindow.Scanner.SetTWidth(DialogHosts.MWindow.MapViewer.SceneWidth / 32);
-            DialogHosts.SWindow.Scanner.SetTHeight(DialogHosts.MWindow.MapViewer.SceneHeight / 32);
-            DialogHosts.SWindow.Scanner.SetTLeft(MapViewer.SceneX / 32 - 6);
-            DialogHosts.SWindow.Scanner.SetTTop(MapViewer.SceneY / 32 - 6);
-            DialogHosts.TCScanner.Scanner.SetTWidth(DialogHosts.MWindow.MapViewer.SceneWidth / 32);
-            DialogHosts.TCScanner.Scanner.SetTHeight(DialogHosts.MWindow.MapViewer.SceneHeight / 32);
-            DialogHosts.TCScanner.Scanner.SetTLeft(DialogHosts.MWindow.MapViewer.SceneX / 32 - 6);
-            DialogHosts.TCScanner.Scanner.SetTTop(DialogHosts.MWindow.MapViewer.SceneY / 32 - 6);
+            DialogHosts.ScannerWindow.Scanner.SetTWidth(DialogHosts.MapWindow.MapViewer.SceneWidth / 32);
+            DialogHosts.ScannerWindow.Scanner.SetTHeight(DialogHosts.MapWindow.MapViewer.SceneHeight / 32);
+            DialogHosts.ScannerWindow.Scanner.SetTLeft(MapViewer.SceneX / 32 - 6);
+            DialogHosts.ScannerWindow.Scanner.SetTTop(MapViewer.SceneY / 32 - 6);
+            DialogHosts.CombatScanner.Scanner.SetTWidth(DialogHosts.MapWindow.MapViewer.SceneWidth / 32);
+            DialogHosts.CombatScanner.Scanner.SetTHeight(DialogHosts.MapWindow.MapViewer.SceneHeight / 32);
+            DialogHosts.CombatScanner.Scanner.SetTLeft(DialogHosts.MapWindow.MapViewer.SceneX / 32 - 6);
+            DialogHosts.CombatScanner.Scanner.SetTTop(DialogHosts.MapWindow.MapViewer.SceneY / 32 - 6);
         }
 
-        if (AoWHSMap.Current.FCombatMap == null)
+        if (AoWHSMap.Current.CombatMap == null)
         {
-            if (AoWHSMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL) != DialogHosts.SWindow.Scanner.FLevel)
+            if (AoWHSMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL) != DialogHosts.ScannerWindow.Scanner.Level)
             {
-                var scanner = DialogHosts.SWindow.Scanner;
-                scanner.FUpdateStep = -1;
+                var scanner = DialogHosts.ScannerWindow.Scanner;
+                scanner.UpdateStep = -1;
                 scanner.SetLevel(AoWHSMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL));
 
-                DialogHosts.SWindow.ScannerTab.SetIndex(MapViewer.SceneL);
+                DialogHosts.ScannerWindow.ScannerTab.SetIndex(MapViewer.SceneL);
             }
         }
 
-        if (AoWHSMap.Current.FCombatMap != null)
+        if (AoWHSMap.Current.CombatMap != null)
         {
-            var hsMapMouse = AoWHSMap.Current.FCombatMap.Mouse;
-            hsMapMouse.Move(Set<ShiftState>.Of(), hsMapMouse.X, hsMapMouse.Y);
+            var hexSpriteMapMouse = AoWHSMap.Current.CombatMap.Mouse;
+            hexSpriteMapMouse.Move(Set<ShiftState>.Of(), hexSpriteMapMouse.X, hexSpriteMapMouse.Y);
         }
         else
         {
-            var hsMapMouse = AoWHSMap.Current.Mouse;
-            hsMapMouse.Move(Set<ShiftState>.Of(), hsMapMouse.X, hsMapMouse.Y);
+            var hexSpriteMapMouse = AoWHSMap.Current.Mouse;
+            hexSpriteMapMouse.Move(Set<ShiftState>.Of(), hexSpriteMapMouse.X, hexSpriteMapMouse.Y);
         }
     }
 
@@ -158,7 +158,7 @@ public partial class MapWindow : DataModule
     }
 
     // AOWMWindow.pas:150
-    public void MapWindowPreDrawSurface(Surface Surface, int X, int Y)
+    public void MapWindowPreDrawSurface(Surface surface, int X, int Y)
     {
         if (AoWHSMap.Current != null)
         {
@@ -166,40 +166,40 @@ public partial class MapWindow : DataModule
             MapViewer.SceneHeight = MainWindow.WinHeight - 24;
             if (MainWindow.DoubleBuffered)
             {
-                MapViewer.ShowScene(12, 12, MainWindow.FBackSurface);
+                MapViewer.ShowScene(12, 12, MainWindow.BackSurface);
             }
             else
             {
-                MapViewer.ShowScene(X + 12, Y + 12, Surface);
+                MapViewer.ShowScene(X + 12, Y + 12, surface);
             }
         }
     }
 
     // AOWMWindow.pas:163
-    public void MapWindowKeyDown(UIComponent Sender, ref ushort Key, Set<ShiftState> Shift)
+    public void MapWindowKeyDown(UIComponent sender, ref ushort key, Set<ShiftState> shift)
     {
         ushort K;
         if (AoWHSMap.Current != null && CombatMap.Current == null)
         {
-            AoWHSMap.Current.FKeyboard.KeyDown(ref Key, Shift);
-            PressEndTurnShortcut(Key, Shift);
+            AoWHSMap.Current.Keyboard.KeyDown(ref key, shift);
+            PressEndTurnShortcut(key, shift);
         }
 
-        K = Key;
-        switch (GameTables.AoWEngine.FLanguage)
+        K = key;
+        switch (GameTables.GameEngine.Language)
         {
             case 4:
-                switch (Key)
+                switch (key)
                 {
                     case 65:
-                        if (Shift.Contains(ShiftState.Ctrl))
+                        if (shift.Contains(ShiftState.Ctrl))
                         {
                             K = 79;
                         }
 
                         break;
                     case 71:
-                        if (Shift.Contains(ShiftState.Ctrl))
+                        if (shift.Contains(ShiftState.Ctrl))
                         {
                             K = 83;
                         }
@@ -215,34 +215,34 @@ public partial class MapWindow : DataModule
             switch (K)
             {
                 case 37:
-                    DialogHosts.MWindow.MapViewer.SceneX = DialogHosts.MWindow.MapViewer.SceneX - 32;
-                    Sender.FHandled = true;
+                    DialogHosts.MapWindow.MapViewer.SceneX = DialogHosts.MapWindow.MapViewer.SceneX - 32;
+                    sender.Handled = true;
                     break;
                 case 39:
-                    DialogHosts.MWindow.MapViewer.SceneX = DialogHosts.MWindow.MapViewer.SceneX + 32;
-                    Sender.FHandled = true;
+                    DialogHosts.MapWindow.MapViewer.SceneX = DialogHosts.MapWindow.MapViewer.SceneX + 32;
+                    sender.Handled = true;
                     break;
                 case 38:
-                    DialogHosts.MWindow.MapViewer.SceneY = DialogHosts.MWindow.MapViewer.SceneY - 32;
-                    Sender.FHandled = true;
+                    DialogHosts.MapWindow.MapViewer.SceneY = DialogHosts.MapWindow.MapViewer.SceneY - 32;
+                    sender.Handled = true;
                     break;
                 case 40:
-                    DialogHosts.MWindow.MapViewer.SceneY = DialogHosts.MWindow.MapViewer.SceneY + 32;
-                    Sender.FHandled = true;
+                    DialogHosts.MapWindow.MapViewer.SceneY = DialogHosts.MapWindow.MapViewer.SceneY + 32;
+                    sender.Handled = true;
                     break;
                 case 33:
-                    DialogHosts.MWindow.MapViewer.SceneL = DialogHosts.MWindow.MapViewer.SceneL - 1;
+                    DialogHosts.MapWindow.MapViewer.SceneL = DialogHosts.MapWindow.MapViewer.SceneL - 1;
                     break;
                 case 34:
-                    DialogHosts.MWindow.MapViewer.SceneL = DialogHosts.MWindow.MapViewer.SceneL + 1;
+                    DialogHosts.MapWindow.MapViewer.SceneL = DialogHosts.MapWindow.MapViewer.SceneL + 1;
                     break;
                 case 77:
                     if (CombatMap.Current != null)
                     {
-                        CombatMap.Current.FUnitSelection.MoveUnits();
+                        CombatMap.Current.UnitSelection.MoveUnits();
                     }
 
-                    Sender.FHandled = true;
+                    sender.Handled = true;
                     break;
                 case 78:
                     if (CombatMap.Current != null)
@@ -250,7 +250,7 @@ public partial class MapWindow : DataModule
                         CombatMap.Current.SelectNextUnit(true);
                     }
 
-                    Sender.FHandled = true;
+                    sender.Handled = true;
                     break;
                 case 80:
                     if (CombatMap.Current != null)
@@ -258,53 +258,53 @@ public partial class MapWindow : DataModule
                         CombatMap.Current.SelectNextUnit(false);
                     }
 
-                    Sender.FHandled = true;
+                    sender.Handled = true;
                     break;
                 case 69:
                 case 13:
-                    if (Shift.Contains(ShiftState.Ctrl) && CombatMap.Current != null)
+                    if (shift.Contains(ShiftState.Ctrl) && CombatMap.Current != null)
                     {
                         CombatMap.Current.EndTurn(false);
-                        Sender.FHandled = true;
+                        sender.Handled = true;
                     }
 
                     break;
                 case 79:
                 case 114:
-                    if (CombatMap.Current == null && (K == 114 || Shift.Contains(ShiftState.Ctrl)))
+                    if (CombatMap.Current == null && (K == 114 || shift.Contains(ShiftState.Ctrl)))
                     {
-                        DialogHosts.FileDlgWindow.FMode = 0;
-                        DialogHosts.FileDlgWindow.FileDialog.Visible = true;
+                        DialogHosts.FileDialogWindow.Mode = 0;
+                        DialogHosts.FileDialogWindow.FileDialog.Visible = true;
                     }
 
                     break;
                 case 83:
                 case 115:
-                    if (CombatMap.Current == null && (K == 115 || Shift.Contains(ShiftState.Ctrl)))
+                    if (CombatMap.Current == null && (K == 115 || shift.Contains(ShiftState.Ctrl)))
                     {
-                        DialogHosts.FileDlgWindow.FMode = 1;
-                        DialogHosts.FileDlgWindow.FileDialog.Visible = true;
+                        DialogHosts.FileDialogWindow.Mode = 1;
+                        DialogHosts.FileDialogWindow.FileDialog.Visible = true;
                     }
 
                     break;
                 case 116:
                     if (CombatMap.Current != null)
                     {
-                        CombatMap.Current.FShowGrid = !CombatMap.Current.FShowGrid;
+                        CombatMap.Current.ShowGrid = !CombatMap.Current.ShowGrid;
                     }
                     else
                     {
-                        AoWHSMap.Current.FShowGrid = !AoWHSMap.Current.FShowGrid;
+                        AoWHSMap.Current.ShowGrid = !AoWHSMap.Current.ShowGrid;
                     }
 
                     break;
                 case 117:
-                    if (GameTables.AoWEngine.FDebug && AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
+                    if (GameTables.GameEngine.Debug && AoWHSMap.Current.ConnectionType != PlayerConnectionType.Network)
                     {
                         if (CombatMap.Current != null)
                         {
-                            CombatMap.Current.SetFogEnabled(!CombatMap.Current.FFogEnabled);
-                            if (CombatMap.Current.FFogEnabled)
+                            CombatMap.Current.SetFogEnabled(!CombatMap.Current.FogEnabled);
+                            if (CombatMap.Current.FogEnabled)
                             {
                                 CombatMap.Current.ShowMessage("Fog Enabled");
                             }
@@ -317,8 +317,8 @@ public partial class MapWindow : DataModule
                         {
                             if (AoWHSMap.Current != null)
                             {
-                                AoWHSMap.Current.SetFogEnabled(!AoWHSMap.Current.FFogEnabled);
-                                if (AoWHSMap.Current.FFogEnabled)
+                                AoWHSMap.Current.SetFogEnabled(!AoWHSMap.Current.FogEnabled);
+                                if (AoWHSMap.Current.FogEnabled)
                                 {
                                     AoWHSMap.Current.ShowMessage("Fog Enabled");
                                 }
@@ -332,12 +332,12 @@ public partial class MapWindow : DataModule
 
                     break;
                 case 118:
-                    if (GameTables.AoWEngine.FDebug && AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
+                    if (GameTables.GameEngine.Debug && AoWHSMap.Current.ConnectionType != PlayerConnectionType.Network)
                     {
                         if (CombatMap.Current != null)
                         {
-                            CombatMap.Current.SetExplorationEnabled(!CombatMap.Current.FExplorationEnabled);
-                            if (CombatMap.Current.FExplorationEnabled)
+                            CombatMap.Current.SetExplorationEnabled(!CombatMap.Current.ExplorationEnabled);
+                            if (CombatMap.Current.ExplorationEnabled)
                             {
                                 CombatMap.Current.ShowMessage("Exploration Enabled");
                             }
@@ -351,8 +351,8 @@ public partial class MapWindow : DataModule
                         {
                             if (AoWHSMap.Current != null)
                             {
-                                AoWHSMap.Current.SetExplorationEnabled(!AoWHSMap.Current.FExplorationEnabled);
-                                if (AoWHSMap.Current.FExplorationEnabled)
+                                AoWHSMap.Current.SetExplorationEnabled(!AoWHSMap.Current.ExplorationEnabled);
+                                if (AoWHSMap.Current.ExplorationEnabled)
                                 {
                                     AoWHSMap.Current.ShowMessage("Exploration Enabled");
                                 }
@@ -366,9 +366,9 @@ public partial class MapWindow : DataModule
 
                     break;
                 case 119:
-                    if (!GameTables.AoWEngine.FDemo && GameTables.AoWEngine.FRegistry.GetDeveloper())
+                    if (!GameTables.GameEngine.Demo && GameTables.GameEngine.Registry.GetDeveloper())
                     {
-                        if (AoWHSMap.Current.FCombatMap != null)
+                        if (AoWHSMap.Current.CombatMap != null)
                         {
                             CombatMap.Current.EndCombat();
                         }
@@ -384,6 +384,6 @@ public partial class MapWindow : DataModule
     {
         if (AoWHSMap.Current is null) return;
         AoWHSMap.Current.UpdateFPS(FrameFixtureInputs.MeasuredFrameRate ?? GameHost.MainForm.Display.CurrentFrameRate);
-        MainWindow.FDrawn &= MainWindow.FDoubleBuffered;
+        MainWindow.Drawn &= MainWindow._doubleBuffered;
     }
 }

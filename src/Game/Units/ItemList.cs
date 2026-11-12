@@ -20,20 +20,20 @@ public partial class ItemList : EChangeNotifyNode
 
     }
 
-    public NotifyEvent<object> FOnChanged;
+    public NotifyEvent<object> OnChanged;
 
     // Army.PAS:4537
     // code, data
-    public override void MainReadWrite(EStorageStream Stream)
+    public override void MainReadWrite(EStorageStream stream)
     {
-        base.MainReadWrite(Stream);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        base.MainReadWrite(stream);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
-            for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+            for (int I = 0, last = _children.Count - 1; I <= last; I++)
             {
-                if (FChildren.List[I] != null)
+                if (_children.List[I] != null)
                 {
-                    ((EngineObject)FChildren.List[I]).Release();
+                    ((EngineObject)_children.List[I]).Release();
                 }
             }
         }
@@ -42,22 +42,22 @@ public partial class ItemList : EChangeNotifyNode
     // Army.PAS:4546
     public override void Clear()
     {
-        EngineObject Child;
+        EngineObject child;
         for (int I = Count - 1; I >= 0; I--)
         {
-            if (FChildren.List[I] != null)
+            if (_children.List[I] != null)
             {
-                Child = (EngineObject)FChildren.List[I];
-                if (Child != null)
+                child = (EngineObject)_children.List[I];
+                if (child != null)
                 {
-                    if (Child.Owner != this)
+                    if (child.Owner != this)
                     {
-                        Child.Release();
-                        FChildren.Delete(I);
+                        child.Release();
+                        _children.Delete(I);
                     }
                     else
                     {
-                        Child.SetOwner(null);
+                        child.SetOwner(null);
                     }
                 }
             }
@@ -74,53 +74,53 @@ public partial class ItemList : EChangeNotifyNode
     }
 
     // Army.PAS:4519
-    public override int RemoveChild(EngineObject Child)
+    public override int RemoveChild(EngineObject child)
     {
-        int Result = base.RemoveChild(Child);
-        if (Result != -1)
+        int result = base.RemoveChild(child);
+        if (result != -1)
         {
-            Child.Release();
+            child.Release();
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:4525
-    public override int AddChild(EngineObject Child)
+    public override int AddChild(EngineObject child)
     {
-        int Result = base.AddChild(Child);
-        if (Result != -1)
+        int result = base.AddChild(child);
+        if (result != -1)
         {
-            Child.AddRef();
+            child.AddRef();
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:4564
     public override void Changed()
     {
         base.Changed();
-        if (FOnChanged != null)
+        if (OnChanged != null)
         {
-            FOnChanged(this);
+            OnChanged(this);
         }
     }
 
     // Army.PAS:4587
-    public virtual Item GetItem(int Index)
+    public virtual Item GetItem(int index)
     {
-        Item Result;
-        if (Index >= 0 && Index < Count)
+        Item result;
+        if (index >= 0 && index < Count)
         {
-            Result = (Item)FChildren.List[Index];
+            result = (Item)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:4596
@@ -132,21 +132,21 @@ public partial class ItemList : EChangeNotifyNode
     }
 
     // Army.PAS:4570
-    public Item FindItem(int ItemID)
+    public Item FindItem(int itemId)
     {
-        Item Result;
+        Item result;
         int I;
-        Item Item;
+        Item item;
         if (this != null)
         {
             I = 0;
-            Result = null;
-            while (I != FChildren.Count && Result == null)
+            result = null;
+            while (I != _children.Count && result == null)
             {
-                Item = (Item)FChildren.List[I];
-                if (Item != null && ItemID == Item.FItemID)
+                item = (Item)_children.List[I];
+                if (item != null && itemId == item.ItemId)
                 {
-                    Result = Item;
+                    result = item;
                 }
 
                 I += 1;
@@ -154,10 +154,10 @@ public partial class ItemList : EChangeNotifyNode
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:4593
@@ -169,25 +169,25 @@ public partial class ItemList : EChangeNotifyNode
     // Army.PAS:4609
     public void SortOnName()
     {
-        FChildren.SortStable(CompareItemNames);
+        _children.SortStable(CompareItemNames);
     }
 
     // Army.PAS:4619
     public void SortOnType()
     {
-        FChildren.SortStable(CompareItemTypes);
+        _children.SortStable(CompareItemTypes);
     }
 
     // Army.PAS:4622
     public void RegisterItems()
     {
-        Item Item;
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        Item item;
+        for (int I = _children.Count - 1; I >= 0; I--)
         {
-            Item = (Item)FChildren.List[I];
-            if (Item != null && !Item.FStatus.Contains(ItemStatusElement.Registered))
+            item = (Item)_children.List[I];
+            if (item != null && !item.Status.Contains(ItemStatusElement.Registered))
             {
-                AoWHSMap.Current.FItemControl.RegisterItem(Item);
+                AoWHSMap.Current.ItemControl.RegisterItem(item);
             }
         }
     }
@@ -204,18 +204,18 @@ public partial class ItemList : EChangeNotifyNode
         base.UnlockChanged();
     }
 
-    public static int CompareItemNames(object Item1, object Item2)
+    public static int CompareItemNames(object item1, object item2)
     {
-        if (Item1 != null && Item2 != null)
+        if (item1 != null && item2 != null)
         {
-            return RtlUnit.CompareText(((Item)Item1).FOwnerName, ((Item)Item2).FOwnerName);
+            return RtlUnit.CompareText(((Item)item1).OwnerName, ((Item)item2).OwnerName);
         }
         return 0;
     }
 
-    private static int CompareItemTypes(object Item1, object Item2)
+    private static int CompareItemTypes(object item1, object item2)
     {
-        return ((Item)Item1).FItemType - ((Item)Item2).FItemType;
+        return ((Item)item1).ItemType - ((Item)item2).ItemType;
     }
 
     // intf_P2_04.inc:118

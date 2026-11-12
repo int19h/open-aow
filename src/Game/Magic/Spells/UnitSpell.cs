@@ -25,363 +25,363 @@ public partial class UnitSpell : Spell
     // Spells.PAS:1210
     public UnitSpell(ECustomNode owner) : base(owner)
     {
-        FAIValue = -1;
-        FSpellType = SpellType.Unit;
-        FAllowMultipleTargets = true;
-        FTargetRange = 0;
+        AIValue = -1;
+        SpellType = SpellType.Unit;
+        AllowMultipleTargets = true;
+        TargetRange = 0;
     }
 
-    public bool FAllowMultipleTargets;
-    public int FTargetRange;
-    public byte FUnitDispelResistance;
-    public int FAIValue;
+    public bool AllowMultipleTargets;
+    public int TargetRange;
+    public byte UnitDispelResistance;
+    public int AIValue;
 
     // Spells.PAS:1444
-    public override void AIPrefetchCastSpellActions(Troop Source, AICastSpellActionList Actions)
+    public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
     {
-        AICastSpellAction Action;
-        string Reason = "";
-        int Priority = default;
-        Troop Target = default;
-        bool Valid;
-        if (FAIValue != -1 && Source.Owner is Army)
+        AICastSpellAction action;
+        string reason = "";
+        int priority = default;
+        Troop target = default;
+        bool valid;
+        if (AIValue != -1 && source.Owner is Army)
         {
-            Valid = AIRequestCastSpellExpense(Source, FBaseManaCost, FManaUpkeep, 0);
-            Valid = Valid && Source.Owner is Army;
-            Valid = Valid && ((Hero)Source).CanCastSpell(FSpellID, ref Reason);
-            if (Valid && AIRetrieveOptimalTargetUnit(Source, Source.UnitListOwner, ref Target, ref Priority))
+            valid = AIRequestCastSpellExpense(source, BaseManaCost, ManaUpkeep, 0);
+            valid = valid && source.Owner is Army;
+            valid = valid && ((Hero)source).CanCastSpell(SpellId, ref reason);
+            if (valid && AIRetrieveOptimalTargetUnit(source, source.UnitListOwner, ref target, ref priority))
             {
-                Action = CreateCastSpellAction();
-                SetupCastSpellAction(Source, Action);
-                Action.FPriority = Priority;
-                Action.SetOwner(Actions);
+                action = CreateCastSpellAction();
+                SetupCastSpellAction(source, action);
+                action.Priority = priority;
+                action.SetOwner(actions);
             }
         }
     }
 
     // Spells.PAS:1466
-    public override bool AIExecuteCastSpellAction(Troop Source)
+    public override bool AIExecuteCastSpellAction(Troop source)
     {
-        bool Result;
-        string Reason = "";
-        int Priority = default;
-        Troop Target = default;
-        UnitSpellTokenEvent Event;
-        if (((Hero)Source).CanCastSpell(FSpellID, ref Reason))
+        bool result;
+        string reason = "";
+        int priority = default;
+        Troop target = default;
+        UnitSpellTokenEvent eventValue;
+        if (((Hero)source).CanCastSpell(SpellId, ref reason))
         {
-            AICastSpellExpenseMade(Source, FBaseManaCost, FManaUpkeep, 0);
-            if (((Hero)Source).CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
+            AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
+            if (((Hero)source).CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                if (Source.Owner is HeroList)
+                if (source.Owner is HeroList)
                 {
-                    Result = false;
+                    result = false;
                 }
-                else if (AIRetrieveOptimalTargetUnit(Source, Source.UnitListOwner, ref Target, ref Priority))
+                else if (AIRetrieveOptimalTargetUnit(source, source.UnitListOwner, ref target, ref priority))
                 {
-                    Event = new UnitSpellTokenEvent(null);
-                    Event.Initialize(FSpellID, Source, null, FBaseManaCost);
-                    Event.FTargetPlayer = (byte)Source.FPlayer;
-                    Event.FTargetUnitIDs.Add(Target.FUnitID);
-                    AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-                    Event.Release();
-                    Result = true;
+                    eventValue = new UnitSpellTokenEvent(null);
+                    eventValue.Initialize(SpellId, source, null, BaseManaCost);
+                    eventValue.TargetPlayer = (byte)source.Player;
+                    eventValue.TargetUnitIds.Add(target.UnitId);
+                    AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                    eventValue.Release();
+                    result = true;
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
             }
             else
             {
-                if (((Hero)Source).FCastingSpellID != FSpellID)
+                if (((Hero)source).CastingSpellId != SpellId)
                 {
-                    ((Hero)Source).ExecuteStartCasting(FSpellID);
-                    Result = true;
+                    ((Hero)source).ExecuteStartCasting(SpellId);
+                    result = true;
                 }
                 else
                 {
-                    Result = true;
+                    result = true;
                 }
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:1355
-    public override bool Activate(Troop Source)
+    public override bool Activate(Troop source)
     {
-        bool Result;
-        UnitSpellCaster Caster;
-        string Reason = "";
-        base.Activate(Source);
-        if (CanActivate(Source, ref Reason))
+        bool result;
+        UnitSpellCaster caster;
+        string reason = "";
+        base.Activate(source);
+        if (CanActivate(source, ref reason))
         {
-            if (FTargetRange == 0)
+            if (TargetRange == 0)
             {
-                Caster = new UnitSpellCaster(null);
-                if (Source.Owner is HeroList)
+                caster = new UnitSpellCaster(null);
+                if (source.Owner is HeroList)
                 {
                     var empty = new UnitUserList(null);
-                    SetupUSC(Caster, Source, empty);
+                    SetupUnitSelectionControl(caster, source, empty);
                     empty.Dispose();
                 }
                 else
                 {
-                    SetupUSC(Caster, Source, Source.UnitListOwner);
+                    SetupUnitSelectionControl(caster, source, source.UnitListOwner);
                 }
 
-                AoWHSMap.Current.FCosmeticSurgeryEventsStore.Raise(Caster);
-                Caster.Release();
+                AoWHSMap.Current._cosmeticSurgeryEventsStore.Raise(caster);
+                caster.Release();
             }
             else
             {
-                SetupTargetSelection(Source, AoWHSMap.Current.FTargetSelection);
-                AoWHSMap.Current.FTargetSelection.Activate();
+                SetupTargetSelection(source, AoWHSMap.Current.TargetSelection);
+                AoWHSMap.Current.TargetSelection.Activate();
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:1379
     public override bool CanActivateCombat(Troop source, ref string reason)
     {
-        bool Result;
-        if (!FSpellControlTypes.Contains(SpellControlTypeElement.Combat) || !base.CanActivateCombat(source, ref reason))
+        bool result;
+        if (!SpellControlTypes.Contains(SpellControlTypeElement.Combat) || !base.CanActivateCombat(source, ref reason))
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:1385
-    public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
+    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        CombatAction Result;
-        UnitSpellCombatAction Action;
-        if (FSpellControlTypes.Contains(SpellControlTypeElement.Combat))
+        CombatAction result;
+        UnitSpellCombatAction action;
+        if (SpellControlTypes.Contains(SpellControlTypeElement.Combat))
         {
-            Action = new UnitSpellCombatAction(null);
-            Action.FSpellID = FSpellID;
-            Action.FSourceID = Source.FID;
-            Action.FTargetID = Target.FID;
-            if (ChargeMana)
+            action = new UnitSpellCombatAction(null);
+            action.SpellId = SpellId;
+            action.SourceId = source.Id;
+            action.TargetId = target.Id;
+            if (chargeMana)
             {
-                Action.FMana = FBaseManaCost;
+                action.Mana = BaseManaCost;
             }
 
-            Result = Action;
+            result = action;
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:1218
-    public override void GetCombatInfo(Troop Source, ref SpellCombatInfo Info)
+    public override void GetCombatInfo(Troop source, ref SpellCombatInfo info)
     {
-        base.GetCombatInfo(Source, ref Info);
-        Info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend);
-        Info.Range = -1;
+        base.GetCombatInfo(source, ref info);
+        info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend);
+        info.Range = -1;
     }
 
     // Spells.PAS:1226
-    public virtual bool ValidTargetUnit(Troop Source, Troop Target) => true;
+    public virtual bool ValidTargetUnit(Troop source, Troop target) => true;
 
     // Spells.PAS:1228
-    public virtual void ValidateUnitSelection(Troop Source, UnitList Targets, ref byte Selection)
+    public virtual void ValidateUnitSelection(Troop source, UnitList targets, ref byte selection)
     {
-        var count = Targets.GetCount();
-        Selection = (byte)(Selection & P4SelectionMasks[count]);
-        for (int I = 0, last = Targets.GetCount() - 1; I <= last; I++)
+        var count = targets.GetCount();
+        selection = (byte)(selection & s_selectionMasks[count]);
+        for (int I = 0, last = targets.GetCount() - 1; I <= last; I++)
         {
-            if ((Selection & (1 << I)) != 0)
+            if ((selection & (1 << I)) != 0)
             {
-                if (!ValidTargetUnit(Source, Targets.GetUnit(I)))
+                if (!ValidTargetUnit(source, targets.GetUnit(I)))
                 {
-                    Selection = (byte)(Selection & ~(1 << I));
+                    selection = (byte)(selection & ~(1 << I));
                 }
             }
         }
     }
 
     // Spells.PAS:1238
-    public virtual void SetupUSC(UnitSpellCaster Caster, Troop Source, UnitList Targets)
+    public virtual void SetupUnitSelectionControl(UnitSpellCaster caster, Troop source, UnitList targets)
     {
-        Caster.FCasterSourceID = Source.FUnitID;
-        Caster.FCasterSpellID = FSpellID;
-        for (int I = 0, last = Targets.GetCount() - 1; I <= last; I++)
+        caster.CasterSourceId = source.UnitId;
+        caster.CasterSpellId = SpellId;
+        for (int I = 0, last = targets.GetCount() - 1; I <= last; I++)
         {
-            if (!((Army)Targets).GetUnitConcealedForPlayer(I, Source.FPlayer))
+            if (!((Army)targets).GetUnitConcealedForPlayer(I, source.Player))
             {
-                var unit = Targets.GetUnit(I);
-                Caster.FTargetUnits.AddUnit(unit);
+                var troop = targets.GetUnit(I);
+                caster.TargetUnits.AddUnit(troop);
             }
         }
 
-        Caster.FTargetUnits.SortUnits();
-        Caster.FAllowMultipleTargets = FAllowMultipleTargets;
-        Caster.FValidSelection = 0;
-        for (int I = Caster.FTargetUnits.GetCount() - 1; I >= 0; I--)
+        caster.TargetUnits.SortUnits();
+        caster.AllowMultipleTargets = AllowMultipleTargets;
+        caster.ValidSelection = 0;
+        for (int I = caster.TargetUnits.GetCount() - 1; I >= 0; I--)
         {
-            if (ValidTargetUnit(Source, Caster.FTargetUnits.GetUnit(I)))
+            if (ValidTargetUnit(source, caster.TargetUnits.GetUnit(I)))
             {
-                Caster.FValidSelection = (byte)(Caster.FValidSelection | (1 << I));
+                caster.ValidSelection = (byte)(caster.ValidSelection | (1 << I));
             }
         }
     }
 
     // Spells.PAS:1254
-    public virtual bool CastSpell(Troop Source, UnitList Targets)
+    public virtual bool CastSpell(Troop source, UnitList targets)
     {
-        bool Result;
-        UnitSpellTokenEvent Event;
+        bool result;
+        UnitSpellTokenEvent eventValue;
         ResetTargetSelection();
-        if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+        if (!AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            Event = new UnitSpellTokenEvent(null);
-            var castingMana = ((Hero)Source).CastingMana(this);
-            Event.Initialize(FSpellID, Source, Targets, castingMana);
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new UnitSpellTokenEvent(null);
+            var castingMana = ((Hero)source).CastingMana(this);
+            eventValue.Initialize(SpellId, source, targets, castingMana);
+            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:1344
-    public virtual bool ValidTargetParty(Troop Source, ArmyHexSprite Party) => !Party.FArmy.FStatus.Contains(ArmyStatusElement.FullyConcealed);
+    public virtual bool ValidTargetParty(Troop source, ArmyHexSprite party) => !party.Army.Status.Contains(ArmyStatusElement.FullyConcealed);
 
     // Spells.PAS:1346
-    public virtual void TargetPartySelected(Troop Source, ArmyHexSprite Party)
+    public virtual void TargetPartySelected(Troop source, ArmyHexSprite party)
     {
-        UnitSpellCaster Caster;
-        Caster = new UnitSpellCaster(null);
-        SetupUSC(Caster, Source, Party.FArmy);
-        AoWHSMap.Current.FCosmeticSurgeryEventsStore.Raise(Caster);
-        Caster.Release();
+        UnitSpellCaster caster;
+        caster = new UnitSpellCaster(null);
+        SetupUnitSelectionControl(caster, source, party.Army);
+        AoWHSMap.Current._cosmeticSurgeryEventsStore.Raise(caster);
+        caster.Release();
     }
 
     // Spells.PAS:1224
-    public virtual bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data) => false;
+    public virtual bool ExecuteSpell(Troop source, Troop target, int mana, ref Int32Array2 data) => false;
 
     // Spells.PAS:1400
-    public virtual UnitSpellCombatAction CreateCAEx(CombatObject Source, CombatObject Target, int Mana)
+    public virtual UnitSpellCombatAction CreateCombatAction(CombatObject source, CombatObject target, int mana)
     {
-        UnitSpellCombatAction Result;
-        if (FSpellControlTypes.Contains(SpellControlTypeElement.Combat))
+        UnitSpellCombatAction result;
+        if (SpellControlTypes.Contains(SpellControlTypeElement.Combat))
         {
-            Result = new UnitSpellCombatAction(null);
-            Result.FSpellID = FSpellID;
-            Result.FSourceID = Source.FID;
-            Result.FTargetID = Target.FID;
+            result = new UnitSpellCombatAction(null);
+            result.SpellId = SpellId;
+            result.SourceId = source.Id;
+            result.TargetId = target.Id;
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:1411
-    public virtual void ExecuteCA(Battle Combat, UnitSpellCombatAction Action)
+    public virtual void ExecuteCombatAction(Battle combat, UnitSpellCombatAction action)
     {
-        CombatObject Source;
-        CombatObject Target;
-        Source = Combat.FCombatData.FindID(Action.FSourceID);
-        Target = Combat.FCombatData.FindID(Action.FTargetID);
-        if (Source is CombatUnit && Target is CombatUnit)
+        CombatObject source;
+        CombatObject target;
+        source = combat.CombatData.FindId(action.SourceId);
+        target = combat.CombatData.FindId(action.TargetId);
+        if (source is CombatUnit && target is CombatUnit)
         {
-            if (ExecuteSpell(((CombatUnit)Source).FUnit, ((CombatUnit)Target).FUnit, Action.FMana, ref Action.FSpellData))
+            if (ExecuteSpell(((CombatUnit)source).Troop, ((CombatUnit)target).Troop, action.Mana, ref action.SpellData))
             {
-                if (Action.FMana != 0 && (((byte)Combat.FStatus.Image) & 1) != 0)
+                if (action.Mana != 0 && (((byte)combat.Status.Image) & 1) != 0)
                 {
-                    AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, Action.FMana);
+                    AoWHSSet.Current.SpellControl.GetSpell(SpellId).CombatCastingDone(source, action.Mana);
                 }
             }
         }
     }
 
     // Spells.PAS:1422
-    public virtual bool AIRetrieveOptimalTargetUnit(Troop Source, UnitList Targets, ref Troop Target, ref int Priority)
+    public virtual bool AIRetrieveOptimalTargetUnit(Troop source, UnitList targets, ref Troop target, ref int priority)
     {
-        bool Result;
-        DoubleItemList<Troop> List;
-        int Value;
-        List = new DoubleItemList<Troop>();
-        for (int I = 0, last = Targets.GetCount() - 1; I <= last; I++)
+        bool result;
+        DoubleItemList<Troop> list;
+        int value;
+        list = new DoubleItemList<Troop>();
+        for (int I = 0, last = targets.GetCount() - 1; I <= last; I++)
         {
-            if (ValidTargetUnit(Source, Targets.GetUnit(I)) && Targets.GetUnit(I).GetUnitType() != UnitType.Machine)
+            if (ValidTargetUnit(source, targets.GetUnit(I)) && targets.GetUnit(I).GetUnitType() != UnitType.Machine)
             {
-                Value = Targets.GetUnit(I).GetUnitLevel() + FAIValue;
-                List.AddAB(Targets.GetUnit(I), Value);
+                value = targets.GetUnit(I).GetUnitLevel() + AIValue;
+                list.AddAbility(targets.GetUnit(I), value);
             }
         }
 
-        if (List.Count != 0)
+        if (list.Count != 0)
         {
-            List.SortDescendingItemB();
-            Target = List[0].A;
-            Priority = List[0].B;
-            Result = true;
+            list.SortDescendingItemB();
+            target = list[0].First;
+            priority = list[0].Second;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        List?.Dispose();
-        return Result;
+        list?.Dispose();
+        return result;
     }
 
     // Spells.PAS:1269
-    public void OnValidateTarget(TargetSelectionControl Control, sbyte X, sbyte Y, sbyte L, ref bool Valid)
+    public void OnValidateTarget(TargetSelectionControl control, sbyte X, sbyte Y, sbyte L, ref bool valid)
     {
-        Troop Source;
-        ArmyHexSprite Party;
-        Source = AoWHSMap.Current.FUnitControl.FindUnit(Control.FSourceUnitID);
-        if (Source != null)
+        Troop source;
+        ArmyHexSprite party;
+        source = AoWHSMap.Current.UnitControl.FindUnit(control.SourceUnitId);
+        if (source != null)
         {
             if (AoWHSMap.Current.Visible(X, Y, L, 0))
             {
-                Party = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHS();
-                if (Party != null && (Party.FArmy.FPlayer == Source.FPlayer || !((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetMagicShieldActive()))
+                party = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHexSprite();
+                if (party != null && (party.Army.Player == source.Player || !((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetMagicShieldActive()))
                 {
-                    Valid = ValidTargetParty(Source, Party);
+                    valid = ValidTargetParty(source, party);
                 }
                 else
                 {
-                    Valid = false;
+                    valid = false;
                 }
             }
             else
             {
-                Valid = false;
+                valid = false;
             }
         }
         else
@@ -391,25 +391,25 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1289
-    public void OnTargetSelectionChange(TargetSelectionControl Control)
+    public void OnTargetSelectionChange(TargetSelectionControl control)
     {
-        Troop Source;
-        ArmyHexSprite Party;
-        Source = AoWHSMap.Current.FUnitControl.FindUnit(Control.FSourceUnitID);
-        if (Source != null)
+        Troop source;
+        ArmyHexSprite party;
+        source = AoWHSMap.Current.UnitControl.FindUnit(control.SourceUnitId);
+        if (source != null)
         {
-            switch (Control.FChange)
+            switch (control.Change)
             {
                 case TargetSelectionChange.Deactivated:
                     ResetTargetSelection();
                     break;
                 case TargetSelectionChange.Selected:
-                    if (Control.FTargetX != -1)
+                    if (control.TargetX != -1)
                     {
-                        Party = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(Control.FTargetX, Control.FTargetY, Control.FTargetL)).GetArmyHS();
-                        if (Party != null && ValidTargetParty(Source, Party))
+                        party = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(control.TargetX, control.TargetY, control.TargetL)).GetArmyHexSprite();
+                        if (party != null && ValidTargetParty(source, party))
                         {
-                            TargetPartySelected(Source, Party);
+                            TargetPartySelected(source, party);
                         }
                     }
 
@@ -425,45 +425,45 @@ public partial class UnitSpell : Spell
     // Spells.PAS:1310
     public void ResetTargetSelection()
     {
-        var targetSelectionControl = AoWHSMap.Current.FTargetSelection;
+        var targetSelectionControl = AoWHSMap.Current.TargetSelection;
         targetSelectionControl.FOnChange -= OnTargetSelectionChange;
         targetSelectionControl.Deactivate();
     }
 
     // Spells.PAS:1318
-    public void SetupTargetSelection(Troop Source, TargetSelectionControl Control)
+    public void SetupTargetSelection(Troop source, TargetSelectionControl control)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        Control.Initialize(Source);
-        Control.FTargetMode = Control.FTargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ExternalFloater);
-        if (FTargetRange != -1)
+        control.Initialize(source);
+        control.TargetMode = control.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ExternalFloater);
+        if (TargetRange != -1)
         {
-            Control.FTargetMode = Control.FTargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance);
-            Control.FRange = FTargetRange;
+            control.TargetMode = control.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance);
+            control.Range = TargetRange;
         }
         else
         {
-            Control.FRange = 0;
+            control.Range = 0;
         }
 
-        Source.GetLocation(ref X, ref Y, ref L);
-        Control.FSourceX = X;
-        Control.FSourceY = Y;
-        Control.FSourceL = L;
-        Control.FOnChange += OnTargetSelectionChange;
-        Control.FOnValidateTarget = OnValidateTarget;
-        var format = AbilityRules.Format(AbilityRules.TranslateRStr(P4SelectTargetPartyForXRStr), [FSpellName]);
-        Control.FText.Text = format;
-        Control.FTitle = FSpellName;
-        Control.FCancelText = AbilityRules.TranslateRStr(GameText.CancelRStr);
-        Control.FSourceUnitID = Source.FUnitID;
-        Control.FSourceImage = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.GetImageSequence(20).GetPreviewImage();
-        Control.FValidTargetImage = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.GetImageSequence(21).GetPreviewImage();
-        Control.FInvalidTargetImage = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.GetImageSequence(22).GetPreviewImage();
+        source.GetLocation(ref X, ref Y, ref L);
+        control.SourceX = X;
+        control.SourceY = Y;
+        control.SourceL = L;
+        control.FOnChange += OnTargetSelectionChange;
+        control.OnValidateTarget = OnValidateTarget;
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_selectTargetPartyFormat), [SpellName]);
+        control.Text.Text = format;
+        control.Title = SpellName;
+        control.CancelText = AbilityRules.TranslateResourceString(GameText.s_cancelText);
+        control.SourceUnitId = source.UnitId;
+        control.SourceImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(20).GetPreviewImage();
+        control.ValidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(21).GetPreviewImage();
+        control.InvalidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(22).GetPreviewImage();
     }
 
-    private static ByteArray9 P4SelectionMasks = ByteArray9.From((ReadOnlySpan<byte>)new byte[9] { 0, 1, 3, 7, 15, 31, 63, 127, 255 });
-    private static readonly string P4SelectTargetPartyForXRStr = "Select target party for %s on map";
+    private static ByteArray9 s_selectionMasks = ByteArray9.From((ReadOnlySpan<byte>)new byte[9] { 0, 1, 3, 7, 15, 31, 63, 127, 255 });
+    private static readonly string s_selectTargetPartyFormat = "Select target party for %s on map";
 }

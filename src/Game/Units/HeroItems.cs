@@ -17,13 +17,13 @@ public partial class HeroItems : ItemList
     // Hero.PAS:388
     public HeroItems(ECustomNode owner) : base(null)
     {
-        FOwner = owner;
+        _owner = owner;
     }
 
     // Hero.PAS:394
     public override void Dispose()
     {
-        FOwner = null;
+        _owner = null;
         base.Dispose();
     }
 
@@ -33,258 +33,258 @@ public partial class HeroItems : ItemList
     // Hero.PAS:410
     public sbyte GetAttack()
     {
-        Item Item;
-        sbyte Result = 0;
+        Item item;
+        sbyte result = 0;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Item = (Item)FChildren.List[I];
-            if (Item != null)
+            item = (Item)_children.List[I];
+            if (item != null)
             {
-                Result = (sbyte)(Result + Item.FAttack);
+                result = (sbyte)(result + item.Attack);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:421
     public sbyte GetDefense()
     {
-        Item Item;
-        sbyte Result = 0;
+        Item item;
+        sbyte result = 0;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Item = (Item)FChildren.List[I];
-            if (Item != null)
+            item = (Item)_children.List[I];
+            if (item != null)
             {
-                Result = (sbyte)(Result + Item.FDefense);
+                result = (sbyte)(result + item.Defense);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:432
     public sbyte GetDamage()
     {
-        Item Item;
-        sbyte Result = 0;
+        Item item;
+        sbyte result = 0;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Item = (Item)FChildren.List[I];
-            if (Item != null)
+            item = (Item)_children.List[I];
+            if (item != null)
             {
-                Result = (sbyte)(Result + Item.FDamage);
+                result = (sbyte)(result + item.Damage);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:443
     public sbyte GetResistance()
     {
-        Item Item;
-        sbyte Result = 0;
+        Item item;
+        sbyte result = 0;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Item = (Item)FChildren.List[I];
-            if (Item != null)
+            item = (Item)_children.List[I];
+            if (item != null)
             {
-                Result = (sbyte)(Result + Item.FResistance);
+                result = (sbyte)(result + item.Resistance);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:454
     public Set<MoveType> GetMoveTypes()
     {
-        Item Item;
-        Set<MoveType> Result = Set<MoveType>.Of();
+        Item item;
+        Set<MoveType> result = Set<MoveType>.Of();
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Item = (Item)FChildren.List[I];
-            if (Item != null)
+            item = (Item)_children.List[I];
+            if (item != null)
             {
-                Result = Result + Item.GetAbMoveTypesAll();
+                result = result + item.GetAbilityMoveTypesAll();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:465
     public Set<DamageType> GetImmunityTypes()
     {
-        Item Item;
-        Set<DamageType> Result = Set<DamageType>.Of();
+        Item item;
+        Set<DamageType> result = Set<DamageType>.Of();
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Item = (Item)FChildren.List[I];
-            if (Item != null)
+            item = (Item)_children.List[I];
+            if (item != null)
             {
-                Result = Result + Item.GetAbImmunityTypesAll();
+                result = result + item.GetAbilityImmunityTypesAll();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:476
     public Set<DamageType> GetProtectionTypes()
     {
-        Item Item;
-        Set<DamageType> Result = Set<DamageType>.Of();
+        Item item;
+        Set<DamageType> result = Set<DamageType>.Of();
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Item = (Item)FChildren.List[I];
-            if (Item != null)
+            item = (Item)_children.List[I];
+            if (item != null)
             {
-                Result = Result + Item.GetAbProtectionTypesAll();
+                result = result + item.GetAbilityProtectionTypesAll();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:487
     public int GetAbilityCount()
     {
-        Item Item;
-        int Result = 0;
+        Item item;
+        int result = 0;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Item = (Item)FChildren.List[I];
-            if (Item != null && Result < Item.GetAbCount())
+            item = (Item)_children.List[I];
+            if (item != null && result < item.GetAbCount())
             {
-                Result = Item.GetAbCount();
+                result = item.GetAbCount();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:498
-    public AbilityOwner GetSuperlativeEnabledAbOwner(int AbilityID)
+    public AbilityOwner GetSuperlativeEnabledAbilityOwner(int abilityId)
     {
-        Item Item;
-        AbilityOwner Result = null;
+        Item item;
+        AbilityOwner result = null;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Item = (Item)FChildren.List[I];
-            if (Item != null && Item.GetAbEnabled(AbilityID))
+            item = (Item)_children.List[I];
+            if (item != null && item.GetAbEnabled(abilityId))
             {
-                if (Result == null || Item.GetAbLevel(AbilityID) > Result.GetAbLevel(AbilityID))
+                if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
                 {
-                    Result = Item;
+                    result = item;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:511
-    public AbilityOwner GetSuperlativeAbOwner(int AbilityID)
+    public AbilityOwner GetSuperlativeAbilityOwner(int abilityId)
     {
-        Item Item;
-        AbilityOwner Result = null;
+        Item item;
+        AbilityOwner result = null;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Item = (Item)FChildren.List[I];
-            if (Item != null && Item.GetAbSet(AbilityID))
+            item = (Item)_children.List[I];
+            if (item != null && item.GetAbilitySetAt(abilityId))
             {
-                if (Result == null || Item.GetAbLevel(AbilityID) > Result.GetAbLevel(AbilityID))
+                if (result == null || item.GetAbLevel(abilityId) > result.GetAbLevel(abilityId))
                 {
-                    Result = Item;
+                    result = item;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:524
-    public bool GetAbilityEnabled(int AbilityID)
+    public bool GetAbilityEnabled(int abilityId)
     {
         int I;
-        Item Item;
-        bool Result = false;
+        Item item;
+        bool result = false;
         I = 0;
-        while (!Result && I < Count)
+        while (!result && I < Count)
         {
-            Item = (Item)FChildren.List[I];
-            Result = Item != null && Item.GetAbEnabled(AbilityID);
+            item = (Item)_children.List[I];
+            result = item != null && item.GetAbEnabled(abilityId);
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:537
-    public bool GetAbilitySet(int AbilityID)
+    public bool GetAbilitySet(int abilityId)
     {
         int I;
-        Item Item;
-        bool Result = false;
+        Item item;
+        bool result = false;
         I = 0;
-        while (!Result && I < Count)
+        while (!result && I < Count)
         {
-            Item = (Item)FChildren.List[I];
-            Result = Item != null && Item.GetAbSet(AbilityID);
+            item = (Item)_children.List[I];
+            result = item != null && item.GetAbilitySetAt(abilityId);
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:550
-    public Item GetPositionItem(HeroItemPosition Position)
+    public Item GetPositionItem(HeroItemPosition position)
     {
-        Item Result;
-        int Index;
-        Index = ((int)Position) & 127;
-        if (Index < FChildren.Count)
+        Item result;
+        int index;
+        index = ((int)position) & 127;
+        if (index < _children.Count)
         {
-            Result = (Item)FChildren.List[Index];
+            result = (Item)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:558
-    public ItemType GetPositionItemType(HeroItemPosition Position) => THeroItems_GetPositionItemType__Types[(int)Position];
+    public ItemType GetPositionItemType(HeroItemPosition position) => s_positionItemTypes[(int)position];
 
     // Hero.PAS:564
-    public HeroItemPosition GetItemTypePosition(ItemType ItemType) => THeroItems_GetItemTypePosition__Positions[(int)ItemType];
+    public HeroItemPosition GetItemTypePosition(ItemType itemType) => s_itemTypePositions[(int)itemType];
 
     // Hero.PAS:571
-    public bool CanPlaceItem(Item Item, HeroItemPosition Position) => Item != null && (int)Position < 6 && GetPositionItem(Position) == null && GetPositionItemType(Position) == Item.FItemType;
+    public bool CanPlaceItem(Item item, HeroItemPosition position) => item != null && (int)position < 6 && GetPositionItem(position) == null && GetPositionItemType(position) == item.ItemType;
 
     // Hero.PAS:577
-    public bool PlaceItem(Item Item, HeroItemPosition Position)
+    public bool PlaceItem(Item item, HeroItemPosition position)
     {
-        bool Result;
-        if (CanPlaceItem(Item, Position))
+        bool result;
+        if (CanPlaceItem(item, position))
         {
-            Item.SetArrayOwner(this, (int)Position);
-            Result = true;
+            item.SetArrayOwner(this, (int)position);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static ItemTypeArray6 THeroItems_GetPositionItemType__Types = ItemTypeArray6.From((ReadOnlySpan<ItemType>)new ItemType[6]
+    private static ItemTypeArray6 s_positionItemTypes = ItemTypeArray6.From((ReadOnlySpan<ItemType>)new ItemType[6]
     {
         ItemType.Attack,
         ItemType.Head,
@@ -294,7 +294,7 @@ public partial class HeroItems : ItemList
         ItemType.Ring
     });
 
-    private static HeroItemPositionArray7 THeroItems_GetItemTypePosition__Positions = HeroItemPositionArray7.From((ReadOnlySpan<HeroItemPosition>)new HeroItemPosition[7]
+    private static HeroItemPositionArray7 s_itemTypePositions = HeroItemPositionArray7.From((ReadOnlySpan<HeroItemPosition>)new HeroItemPosition[7]
     {
         HeroItemPosition.HeadSlot,
         HeroItemPosition.TorsoSlot,

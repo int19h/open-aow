@@ -14,54 +14,54 @@ namespace Aow.Engine.Nodes;
 public partial class ECustomOwner : ENode
 {
     // Engine.pas:8257
-    public new const int ClassID = 259;
+    public new const int ClassId = 259;
 
     // Engine.pas:8250
     public ECustomOwner(ECustomNode owner) : this(null, owner) { }
 
     private protected ECustomOwner(ConstructionContext context, ECustomNode owner) : base(context, owner)
     {
-        FOwner = owner;
-        FControlStyle = base.GetControlStyle();
+        _owner = owner;
+        _controlStyle = base.GetControlStyle();
     }
 
-    internal GameEngine FEngine;
-    internal Set<ControlStyleElement> FControlStyle;
+    internal GameEngine _engine;
+    internal Set<ControlStyleElement> _controlStyle;
 
     // Engine.pas:8262
-    public override GameEngine GetEngine() => FEngine;
+    public override GameEngine GetEngine() => _engine;
 
     // Engine.pas:8267
-    public void SetEngine(GameEngine AEngine)
+    public void SetEngine(GameEngine engine)
     {
-        FEngine = AEngine;
+        _engine = engine;
     }
 
     // Engine.pas:8272
-    public override Set<ControlStyleElement> GetControlStyle() => FControlStyle;
+    public override Set<ControlStyleElement> GetControlStyle() => _controlStyle;
 
     // Engine.pas:8277
-    public void SetControlStyle(Set<ControlStyleElement> Value)
+    public void SetControlStyle(Set<ControlStyleElement> value)
     {
-        FControlStyle = Value;
+        _controlStyle = value;
     }
 
     // Engine.pas:8282
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        RwSet(ref FControlStyle, 1, 2, Stream.rwData, 0);
+        base.ReadWrite(stream);
+        RwSet(ref _controlStyle, 1, 2, stream.rwData, 0);
     }
 
     // Engine.pas:8288
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        if (Msg.MsgID == 536870920)
+        if (message.MessageId == 536870920)
         {
-            FEngine = Msg.Payload.As<GameEngine>();
+            _engine = message.Payload.As<GameEngine>();
         }
 
-        base.MsgProc(ref Msg, Sender);
+        base.MessageProc(ref message, sender);
     }
 
     // Engine.pas:855

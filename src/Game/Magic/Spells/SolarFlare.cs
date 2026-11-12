@@ -15,9 +15,9 @@ public partial class SolarFlare : CombatSpell
     // CombatSpells.pas:845
     public SolarFlare(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(SolarFlareRStr);
-        FSpellID = 100;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_solarFlareText);
+        SpellId = 100;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 4;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
@@ -25,5 +25,5 @@ public partial class SolarFlare : CombatSpell
         spellCombatInfo.Range = 12;
     }
 
-    private static readonly string SolarFlareRStr = "Solar Flare";
+    private static readonly string s_solarFlareText = "Solar Flare";
 }

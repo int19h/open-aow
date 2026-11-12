@@ -24,23 +24,23 @@ internal sealed class GameContentValidator : IDocumentValidator
         return findings;
     }
 
-    private static void Visit(ContentScope scope, JsonValue value, SchemaClass? cls, DocumentNodePath path, List<FormatDiagnostic> findings)
+    private static void Visit(ContentScope scope, JsonValue value, SchemaClass? classValue, DocumentNodePath path, List<FormatDiagnostic> findings)
     {
         switch (value)
         {
-            case JsonObject obj:
+            case JsonObject objectValue:
                 // A nested document (a campaign's Map) is a map of its own: its references
                 // resolve inside its root.
-                if (obj["$container"] is JsonObject && obj["root"] is JsonObject nested && obj["$class"] is null)
+                if (objectValue["$container"] is JsonObject && objectValue["root"] is JsonObject nested && objectValue["$class"] is null)
                 {
                     Visit(new ContentScope(scope.Context, nested, path.Member("root")), nested, null, path.Member("root"), findings);
                     break;
                 }
-                if (obj["$class"] is JsonString name) cls = GameFiles.Schema.Find(name.Value);
-                for (var c = cls; c is not null; c = c.Parent)
+                if (objectValue["$class"] is JsonString name) classValue = GameFiles.Schema.Find(name.Value);
+                for (var c = classValue; c is not null; c = c.Parent)
                     if (FormatMapping.All.TryGetValue(c.Name, out var rules))
-                        foreach (var rule in rules) findings.AddRange(rule.Check(scope, obj, path));
-                foreach (var member in obj.Members)
+                        foreach (var rule in rules) findings.AddRange(rule.Check(scope, objectValue, path));
+                foreach (var member in objectValue.Members)
                     if (member.Value is JsonObject or JsonArray && member.Name != "Fields")
                         Visit(scope, member.Value, null, path.Member(member.Name), findings);
                 break;

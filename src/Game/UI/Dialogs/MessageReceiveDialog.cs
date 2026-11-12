@@ -23,26 +23,26 @@ public partial class MessageReceiveDialog : DataModule
     public Image RShield;
     public Memo HeaderMemo;
     public IvTranslator Translator;
-    public ExecuteDoneEvent FDone;
-    public EventLog FEvent;
+    public ExecuteDoneEvent Done;
+    public EventLog Event;
 
     // AoWMsgReceiveDlg.pas:54
     public void FinishDialog()
     {
-        ExecuteDoneEvent Done;
-        EventLog Log;
-        Done = FDone;
-        Log = FEvent;
-        FDone = null;
-        FEvent = null;
-        if (Done != null)
+        ExecuteDoneEvent done;
+        EventLog log;
+        done = Done;
+        log = Event;
+        Done = null;
+        Event = null;
+        if (done != null)
         {
-            Done(Log);
+            done(log);
         }
 
-        if (Log != null)
+        if (log != null)
         {
-            Log.Release();
+            log.Release();
         }
     }
 
@@ -59,19 +59,19 @@ public partial class MessageReceiveDialog : DataModule
         FinishDialog();
     }
 
-    internal static void ShowReceivedMessage(MessageReceiveDialog Dialog, EventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowReceivedMessage(MessageReceiveDialog dialog, EventLog eventValue, ExecuteDoneEvent done)
     {
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Dialog.FDone = Done;
-        var text = Event.GetText();
-        Dialog.HeaderMemo.Items.Text = text;
-        var fMessageText = ((GameOverEventLog)Event).FMessage.Text;
-        Dialog.MessageMemo.Items.Text = fMessageText;
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(Event.FPlayer);
-        Dialog.LShield.CurrentImage = player.FPlayerRace + 13;
-        Dialog.RShield.CurrentImage = Dialog.LShield.CurrentImage;
-        Dialog.MsgReceiveWin.Visible = true;
+        dialog.Event = eventValue;
+        dialog.Event.AddRef();
+        dialog.Done = done;
+        var text = eventValue.GetText();
+        dialog.HeaderMemo.Items.Text = text;
+        var fMessageText = ((GameOverEventLog)eventValue).Message.Text;
+        dialog.MessageMemo.Items.Text = fMessageText;
+        var player = AoWHSMap.Current.Players.GetPlayers(eventValue._player);
+        dialog.LShield.CurrentImage = player.PlayerRace + 13;
+        dialog.RShield.CurrentImage = dialog.LShield.CurrentImage;
+        dialog.MsgReceiveWin.Visible = true;
     }
 
 }

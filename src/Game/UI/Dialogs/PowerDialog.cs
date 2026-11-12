@@ -48,11 +48,11 @@ public partial class PowerDialog : DataModule
     // AoWPowerDlg.pas:70
     public void Execute()
     {
-        PlayerMagicControl Control;
+        PlayerMagicControl control;
         Dlg.Visible = true;
-        Control = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl;
-        PowerSlider.Position = Control.FResearchPercentage;
-        var netPower = Control.GetNetPower();
+        control = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl;
+        PowerSlider.Position = control.ResearchPercentage;
+        var netPower = control.GetNetPower();
         Power.Text = IntToStr(netPower);
         UpdatePower();
     }
@@ -60,37 +60,37 @@ public partial class PowerDialog : DataModule
     // AoWPowerDlg.pas:80
     public void UpdatePower()
     {
-        int Upkeep;
-        int Turns;
-        int SpellID;
-        int PointsLeft;
-        int ManaPower;
-        int ResearchPower;
-        ManaPower = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.GetNetPower();
-        PointsLeft = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchPointsLeft;
-        Upkeep = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.GetManaUpkeep();
-        SpellID = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.FResearchSpellID;
-        ResearchPower = Round((double)(PowerSlider.Position * ManaPower) / 100);
-        ManaPower -= ResearchPower;
-        if (SpellID != 0)
+        int upkeep;
+        int turns;
+        int spellId;
+        int pointsLeft;
+        int manaPower;
+        int researchPower;
+        manaPower = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.GetNetPower();
+        pointsLeft = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.ResearchPointsLeft;
+        upkeep = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.GetManaUpkeep();
+        spellId = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.ResearchSpellId;
+        researchPower = Round((double)(PowerSlider.Position * manaPower) / 100);
+        manaPower -= researchPower;
+        if (spellId != 0)
         {
-            Turns = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.ResearchTurns(ResearchPower, PointsLeft);
-            var spell = AoWHSSet.Current.FSpellControl.GetSpell(SpellID);
-            SpellName.Text = spell.FSpellName;
-            var fmtTurnsStr = FmtTurnsStr(Turns);
-            ResearchLeft.Text = fmtTurnsStr;
+            turns = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.ResearchTurns(researchPower, pointsLeft);
+            var spell = AoWHSSet.Current.SpellControl.GetSpell(spellId);
+            SpellName.Text = spell.SpellName;
+            var formatTurnsString = FormatTurnsString(turns);
+            ResearchLeft.Text = formatTurnsString;
         }
         else
         {
-            var none = AbilityRules.TranslateRStr(GameTables.NoneRStr);
+            var none = AbilityRules.TranslateResourceString(GameTables.s_noneText);
             SpellName.Text = none;
             ResearchLeft.Text = "-";
         }
 
-        NetMana.Text = IntToStr(ManaPower) + "-" + IntToStr(Upkeep) + "=" + IntToStr(ManaPower - Upkeep);
-        Mana.Text = IntToStr(ManaPower);
-        Research.Text = IntToStr(ResearchPower);
-        Dlg.FDrawn = false;
+        NetMana.Text = IntToStr(manaPower) + "-" + IntToStr(upkeep) + "=" + IntToStr(manaPower - upkeep);
+        Mana.Text = IntToStr(manaPower);
+        Research.Text = IntToStr(researchPower);
+        Dlg.Drawn = false;
     }
 
     // AoWPowerDlg.pas:61
@@ -110,57 +110,57 @@ public partial class PowerDialog : DataModule
     public void SetBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.ChangePowerSettings(PowerSlider.Position))
+        if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.ChangePowerSettings(PowerSlider.Position))
         {
             Dlg.Visible = false;
         }
     }
 
     // AoWPowerDlg.pas:115
-    public void PAManaDraw(Image Sender, LockedSurface SD)
+    public void PAManaDraw(Image sender, LockedSurface lockedSurface)
     {
         int X;
         int Y;
-        int Intensity;
-        X = Sender.AOWWindow.WinLeft;
-        Y = Sender.AOWWindow.WinTop;
-        Intensity = Round((double)((100 - PowerSlider.Position) * 50) / 100);
-        DialogHosts.IntGfxMod.MiscArt[7].ShowBlended(Sender.WinLeft + X, Sender.WinTop + Y, SD, GraphicsState.IntensityBlendTable.LookupTables[Intensity]);
+        int intensity;
+        X = sender.Window.WinLeft;
+        Y = sender.Window.WinTop;
+        intensity = Round((double)((100 - PowerSlider.Position) * 50) / 100);
+        DialogHosts.UIGraphics.MiscArt[7].ShowBlended(sender.WinLeft + X, sender.WinTop + Y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
     }
 
     // AoWPowerDlg.pas:128
-    public void PAResDraw(Image Sender, LockedSurface SD)
+    public void PAResDraw(Image sender, LockedSurface lockedSurface)
     {
         int X;
         int Y;
-        int Intensity;
-        X = Sender.AOWWindow.WinLeft;
-        Y = Sender.AOWWindow.WinTop;
-        Intensity = Round((double)(PowerSlider.Position * 50) / 100);
-        DialogHosts.IntGfxMod.MiscArt[8].ShowBlended(Sender.WinLeft + X, Sender.WinTop + Y, SD, GraphicsState.IntensityBlendTable.LookupTables[Intensity]);
+        int intensity;
+        X = sender.Window.WinLeft;
+        Y = sender.Window.WinTop;
+        intensity = Round((double)(PowerSlider.Position * 50) / 100);
+        DialogHosts.UIGraphics.MiscArt[8].ShowBlended(sender.WinLeft + X, sender.WinTop + Y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
     }
 
     // AoWPowerDlg.pas:141
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             Dlg.Visible = false;
         }
     }
 
-    private static readonly string XTurnRStr = "%s turn";
+    private static readonly string s_turnFormat = "%s turn";
 
-    private static string FmtTurnsStr(int Turns)
+    private static string FormatTurnsString(int turns)
     {
-        if (Turns == 1)
+        if (turns == 1)
         {
-            string s = AbilityRules.TranslateRStr(XTurnRStr);
-            FormatArg val = (FormatArg)((byte)49);
-            return AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref val));
+            string s = AbilityRules.TranslateResourceString(s_turnFormat);
+            FormatArg value = (FormatArg)((byte)49);
+            return AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref value));
         }
-        string s2 = AbilityRules.TranslateRStr(GameText.XTurnsRStr);
-        FormatArg val2 = (FormatArg)(RtlUnit.IntToStr(Turns));
-        return AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref val2));
+        string s2 = AbilityRules.TranslateResourceString(GameText.s_turnsFormat);
+        FormatArg value2 = (FormatArg)(RtlUnit.IntToStr(turns));
+        return AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref value2));
     }
 }

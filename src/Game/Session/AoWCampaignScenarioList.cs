@@ -9,43 +9,43 @@ public partial class AoWCampaignScenarioList : ENode
     { }
 
     // Diplomacy.pas:2214
-    public CampaignScenario GetScenario(int Index)
+    public CampaignScenario GetScenario(int index)
     {
-        CampaignScenario Result;
-        if (Index >= 0 && Index < FChildren.Count)
+        CampaignScenario result;
+        if (index >= 0 && index < _children.Count)
         {
-            Result = (CampaignScenario)FChildren.List[Index];
+            result = (CampaignScenario)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:2221
-    public int CreateUniqueID()
+    public int CreateUniqueId()
     {
-        int Result = 1;
-        while (IndexOfID(Result) != -1)
+        int result = 1;
+        while (IndexOfId(result) != -1)
         {
-            Result += 1;
+            result += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:2227
-    public int IndexOfID(int ID)
+    public int IndexOfId(int id)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (((CampaignScenario)FChildren.List[Result]).FID == ID)
+            result -= 1;
+            if (((CampaignScenario)_children.List[result]).Id == id)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -53,21 +53,21 @@ public partial class AoWCampaignScenarioList : ENode
     }
 
     // Diplomacy.pas:2238
-    public CampaignScenario FindID(int ID)
+    public CampaignScenario FindId(int id)
     {
-        CampaignScenario Result;
-        int Index;
-        Index = IndexOfID(ID);
-        if (Index != -1)
+        CampaignScenario result;
+        int index;
+        index = IndexOfId(id);
+        if (index != -1)
         {
-            Result = (CampaignScenario)FChildren.List[Index];
+            result = (CampaignScenario)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:631

@@ -15,41 +15,41 @@ public partial class ProcessEventLogAIPlayerAction : AIPlayerAction, IAIPlayerAc
     // AI.pas:1610
     public ProcessEventLogAIPlayerAction(ECustomNode owner) : base(owner)
     {
-        FLogIndex = -1;
+        LogIndex = -1;
     }
 
-    public int FLogIndex;
+    public int LogIndex;
 
     // AI.pas:1626
     public override bool Process()
     {
-        bool Done;
-        EventLog Log;
-        Done = false;
-        while (!FControl.FPlayer.GetBusy() && !Done)
+        bool done;
+        EventLog log;
+        done = false;
+        while (!Control.Player.GetBusy() && !done)
         {
-            if (FLogIndex == -1)
+            if (LogIndex == -1)
             {
-                FLogIndex = FControl.FPlayer.FEventLogbook.FindFirstLogEx(131811, FControl.FPlayer.FPlayerIndex, AoWHSMap.Current.FDay - 1) + 1;
+                LogIndex = Control.Player.EventLogbook.FindFirstLog(131811, Control.Player.PlayerIndex, AoWHSMap.Current.Day - 1) + 1;
             }
             else
             {
-                FLogIndex += 1;
+                LogIndex += 1;
             }
 
-            var count = FControl.FPlayer.FEventLogbook.GetCount();
-            if (FLogIndex < count)
+            var count = Control.Player.EventLogbook.GetCount();
+            if (LogIndex < count)
             {
-                Log = FControl.FPlayer.FEventLogbook.GetLogs(FLogIndex);
-                Log.ExecuteAI(FControl.FPlayer.FPlayerIndex);
+                log = Control.Player.EventLogbook.GetLogs(LogIndex);
+                log.ExecuteAI(Control.Player.PlayerIndex);
             }
             else
             {
-                Done = true;
+                done = true;
             }
         }
 
-        return !Done;
+        return !done;
     }
 
     // intf_P5_06.inc:662

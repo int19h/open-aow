@@ -31,12 +31,12 @@ internal struct SampleBehavior
 [StructLayout(LayoutKind.Explicit, Size = 1)]
 internal struct SamplePacked
 {
-    [FieldOffset(0)] public byte Value__image;
+    [FieldOffset(0)] public byte ValueImage;
 
     public Set<SampleRank> Value
     {
-        get => Set<SampleRank>.FromMask(Value__image);
-        set => Value__image = (byte)value.Image;
+        get => Set<SampleRank>.FromMask(ValueImage);
+        set => ValueImage = (byte)value.Image;
     }
 }
 

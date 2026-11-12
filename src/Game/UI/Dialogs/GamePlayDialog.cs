@@ -75,25 +75,25 @@ public partial class GamePlayDialog : DataModule
     public Panel MovFr;
     public Panel BtmPnl;
     public Panel MovPnl;
-    public Panel AOWPanel1;
+    public Panel Panel1;
     public Image CeltLineL;
     public IvTranslator Translator;
-    public string FNewPassword = "";
+    public string NewPassword = "";
 
     // AoWGamePlayDlg.pas:200
-    public void PasswordEntered(EventLog Log)
+    public void PasswordEntered(EventLog log)
     {
-        PasswordEventLog Password = default;
-        if (((PasswordEventLog)Log).FPressedButton == PressedEventLogButton.Ok)
+        PasswordEventLog password = default;
+        if (((PasswordEventLog)log).PressedButton == PressedEventLogButton.Ok)
         {
-            if (!IsEmpty(((PasswordEventLog)Log).FPassword))
+            if (!IsEmpty(((PasswordEventLog)log).Password))
             {
-                FNewPassword = ((PasswordEventLog)Log).FPassword;
-                Password = new PasswordEventLog(null);
-                Password.FTitle = AbilityRules.TranslateRStr(PasswordConfirmationRStr);
-                Password.FPrompt = AbilityRules.TranslateRStr(ReenterNewPasswordRStr);
-                AoWHSMap.Current.TriggerExecuteEventLog(Password, true, PasswordConfirmed);
-                Password.Release();
+                NewPassword = ((PasswordEventLog)log).Password;
+                password = new PasswordEventLog(null);
+                password.Title = AbilityRules.TranslateResourceString(s_passwordConfirmationText);
+                password.Prompt = AbilityRules.TranslateResourceString(s_reenterNewPasswordText);
+                AoWHSMap.Current.TriggerExecuteEventLog(password, true, PasswordConfirmed);
+                password.Release();
             }
             else
             {
@@ -103,28 +103,28 @@ public partial class GamePlayDialog : DataModule
     }
 
     // AoWGamePlayDlg.pas:217
-    public void PasswordConfirmed(EventLog Log)
+    public void PasswordConfirmed(EventLog log)
     {
-        if (((PasswordEventLog)Log).FPassword == FNewPassword)
+        if (((PasswordEventLog)log).Password == NewPassword)
         {
-            var encode = AbilityRules.Encode(FNewPassword, 0);
+            var encode = AbilityRules.Encode(NewPassword, 0);
             PasswordEdit.Text = encode;
         }
         else
         {
-            MessageDialog.ResetMessageDialog(DialogHosts.MessageDlg);
-            DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-            var confirmationFailed = AbilityRules.TranslateRStr(ConfirmationFailedRStr);
-            DialogHosts.MessageDlg.MessageMemo.Items.Add(confirmationFailed);
-            DialogHosts.MessageDlg.OKPnl.Visible = true;
-            DialogHosts.MessageDlg.Dlg.Visible = true;
+            MessageDialog.ResetMessageDialog(DialogHosts.MessageDialog);
+            DialogHosts.MessageDialog.MessageMemo.Items.Add("");
+            var confirmationFailed = AbilityRules.TranslateResourceString(s_confirmationFailedText);
+            DialogHosts.MessageDialog.MessageMemo.Items.Add(confirmationFailed);
+            DialogHosts.MessageDialog.OKPnl.Visible = true;
+            DialogHosts.MessageDialog.Dlg.Visible = true;
         }
     }
 
     // AoWGamePlayDlg.pas:95
-    public void GamePlayDlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void GamePlayDlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        switch (Key)
+        switch (key)
         {
             case 27:
                 CancelClick();
@@ -135,175 +135,175 @@ public partial class GamePlayDialog : DataModule
     // AoWGamePlayDlg.pas:100
     public void GamePlayDlgShow()
     {
-        GameSettings.CombatResolveMode Mode;
-        Set<WindowPopupEvent> Events;
-        var autoSave = GameTables.AoWEngine.FRegistry.GetAutoSave();
+        GameSettings.CombatResolveMode mode;
+        Set<WindowPopupEvent> events;
+        var autoSave = GameTables.GameEngine.Registry.GetAutoSave();
         AutoSaveCB.Checked = autoSave;
-        var skipIntro = GameTables.AoWEngine.FRegistry.GetSkipIntro();
+        var skipIntro = GameTables.GameEngine.Registry.GetSkipIntro();
         SkipIntroCB.Checked = skipIntro;
-        var movementSpeed = GameTables.AoWEngine.FRegistry.GetMovementSpeed();
+        var movementSpeed = GameTables.GameEngine.Registry.GetMovementSpeed();
         MovementSpeedCB.Selected = (int)movementSpeed;
         CombatResolveModeCB.Items.Clear();
         for (int modeOrdinal = (int)(GameSettings.CombatResolveMode)0; modeOrdinal <= (int)(GameSettings.CombatResolveMode)2; modeOrdinal++)
         {
-            Mode = (GameSettings.CombatResolveMode)modeOrdinal;
-            var combatResolveMode = AbilityRules.TranslateRStr(TCombatResolveModeRStr[(int)Mode]);
-            CombatResolveModeCB.Items.AddObject(combatResolveMode, IntToObject((int)Mode));
+            mode = (GameSettings.CombatResolveMode)modeOrdinal;
+            var combatResolveMode = AbilityRules.TranslateResourceString(s_combatResolveModeTexts[(int)mode]);
+            CombatResolveModeCB.Items.AddObject(combatResolveMode, IntToObject((int)mode));
         }
 
-        var fRegistryCombatResolveMode = GameTables.AoWEngine.FRegistry.GetCombatResolveMode();
+        var fRegistryCombatResolveMode = GameTables.GameEngine.Registry.GetCombatResolveMode();
         var indexOfObject = CombatResolveModeCB.Items.IndexOfObject(IntToObject((int)fRegistryCombatResolveMode));
         CombatResolveModeCB.Selected = indexOfObject;
-        Events = GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents();
-        Classic1CB.Checked = Events.Contains(WindowPopupEvent.Combat);
-        Classic2CB.Checked = Events.Contains(WindowPopupEvent.Diplomacy);
-        Classic3CB.Checked = Events.Contains(WindowPopupEvent.SpellResearched);
-        Classic4CB.Checked = Events.Contains(WindowPopupEvent.SpellReady);
-        Classic5CB.Checked = Events.Contains(WindowPopupEvent.Rebellion);
-        Classic6CB.Checked = Events.Contains(WindowPopupEvent.PartyDamage);
-        Classic7CB.Checked = Events.Contains(WindowPopupEvent.HeroUpgrade);
-        Classic8CB.Checked = Events.Contains(WindowPopupEvent.HeroJoin);
-        Events = GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents();
-        Sim1CB.Checked = Events.Contains(WindowPopupEvent.Combat);
-        Sim2CB.Checked = Events.Contains(WindowPopupEvent.Diplomacy);
-        Sim3CB.Checked = Events.Contains(WindowPopupEvent.SpellResearched);
-        Sim4CB.Checked = Events.Contains(WindowPopupEvent.SpellReady);
-        Sim5CB.Checked = Events.Contains(WindowPopupEvent.Rebellion);
-        Sim6CB.Checked = Events.Contains(WindowPopupEvent.PartyDamage);
-        Sim7CB.Checked = Events.Contains(WindowPopupEvent.HeroUpgrade);
-        Sim8CB.Checked = Events.Contains(WindowPopupEvent.HeroJoin);
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer);
-        PasswordEdit.Text = player.FSettings;
+        events = GameTables.GameEngine.Registry.GetClassicWindowPopupEvents();
+        Classic1CB.Checked = events.Contains(WindowPopupEvent.Combat);
+        Classic2CB.Checked = events.Contains(WindowPopupEvent.Diplomacy);
+        Classic3CB.Checked = events.Contains(WindowPopupEvent.SpellResearched);
+        Classic4CB.Checked = events.Contains(WindowPopupEvent.SpellReady);
+        Classic5CB.Checked = events.Contains(WindowPopupEvent.Rebellion);
+        Classic6CB.Checked = events.Contains(WindowPopupEvent.PartyDamage);
+        Classic7CB.Checked = events.Contains(WindowPopupEvent.HeroUpgrade);
+        Classic8CB.Checked = events.Contains(WindowPopupEvent.HeroJoin);
+        events = GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents();
+        Sim1CB.Checked = events.Contains(WindowPopupEvent.Combat);
+        Sim2CB.Checked = events.Contains(WindowPopupEvent.Diplomacy);
+        Sim3CB.Checked = events.Contains(WindowPopupEvent.SpellResearched);
+        Sim4CB.Checked = events.Contains(WindowPopupEvent.SpellReady);
+        Sim5CB.Checked = events.Contains(WindowPopupEvent.Rebellion);
+        Sim6CB.Checked = events.Contains(WindowPopupEvent.PartyDamage);
+        Sim7CB.Checked = events.Contains(WindowPopupEvent.HeroUpgrade);
+        Sim8CB.Checked = events.Contains(WindowPopupEvent.HeroJoin);
+        var player = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
+        PasswordEdit.Text = player.Settings;
     }
 
     // AoWGamePlayDlg.pas:133
     public void ChangePasswordBtnClick()
     {
-        PasswordEventLog Log = default;
-        if (AoWHSMap.Current.FPlayMode != PlayMode.Turn || AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network || AoWHSMap.Current.FCurrentPlayer == AoWHSMap.Current.FSeatedPlayer)
+        PasswordEventLog log = default;
+        if (AoWHSMap.Current.PlayMode != PlayMode.Turn || AoWHSMap.Current.ConnectionType != PlayerConnectionType.Network || AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer)
         {
-            Log = new PasswordEventLog(null);
-            Log.FPrompt = AbilityRules.TranslateRStr(EnterNewPasswordRStr);
-            AoWHSMap.Current.TriggerExecuteEventLog(Log, true, PasswordEntered);
-            Log.Release();
+            log = new PasswordEventLog(null);
+            log.Prompt = AbilityRules.TranslateResourceString(s_enterNewPasswordText);
+            AoWHSMap.Current.TriggerExecuteEventLog(log, true, PasswordEntered);
+            log.Release();
         }
     }
 
     // AoWGamePlayDlg.pas:147
     public void OKBtnClick()
     {
-        string Error = "";
-        Set<WindowPopupEvent> Events;
+        string error = "";
+        Set<WindowPopupEvent> events;
         DialogHosts.General.PlayButtonSound(0);
-        if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FSettings != PasswordEdit.Text)
+        if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Settings != PasswordEdit.Text)
         {
-            if (AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
+            if (AoWHSMap.Current.ConnectionType != PlayerConnectionType.Network)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FSettings = PasswordEdit.Text;
+                AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Settings = PasswordEdit.Text;
             }
             else
             {
-                if (!AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, ref Error))
+                if (!AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, ref error))
                 {
-                    MessageDialog.ResetMessageDialog(DialogHosts.MessageDlg);
-                    DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-                    var couldntChangePassword = AbilityRules.TranslateRStr(CouldntChangePasswordRStr);
-                    DialogHosts.MessageDlg.MessageMemo.Items.Add(couldntChangePassword);
-                    DialogHosts.MessageDlg.OKPnl.Visible = true;
-                    DialogHosts.MessageDlg.Dlg.Visible = true;
+                    MessageDialog.ResetMessageDialog(DialogHosts.MessageDialog);
+                    DialogHosts.MessageDialog.MessageMemo.Items.Add("");
+                    var couldNotChangePassword = AbilityRules.TranslateResourceString(s_couldNotChangePasswordText);
+                    DialogHosts.MessageDialog.MessageMemo.Items.Add(couldNotChangePassword);
+                    DialogHosts.MessageDialog.OKPnl.Visible = true;
+                    DialogHosts.MessageDialog.Dlg.Visible = true;
                 }
             }
         }
 
-        GameTables.AoWEngine.FRegistry.SetAutoSave(AutoSaveCB.Checked);
-        GameTables.AoWEngine.FRegistry.SetSkipIntro(SkipIntroCB.Checked);
-        GameTables.AoWEngine.FRegistry.SetMovementSpeed((GameSettings.MovementSpeed)MovementSpeedCB.Selected);
+        GameTables.GameEngine.Registry.SetAutoSave(AutoSaveCB.Checked);
+        GameTables.GameEngine.Registry.SetSkipIntro(SkipIntroCB.Checked);
+        GameTables.GameEngine.Registry.SetMovementSpeed((GameSettings.MovementSpeed)MovementSpeedCB.Selected);
         var objectValue = CombatResolveModeCB.Items.Objects[CombatResolveModeCB.Selected];
-        GameTables.AoWEngine.FRegistry.SetCombatResolveMode((GameSettings.CombatResolveMode)ObjectToInt(objectValue));
-        Events = Set<WindowPopupEvent>.Of();
+        GameTables.GameEngine.Registry.SetCombatResolveMode((GameSettings.CombatResolveMode)ObjectToInt(objectValue));
+        events = Set<WindowPopupEvent>.Of();
         if (Classic1CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Combat);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Combat);
         }
 
         if (Classic2CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Diplomacy);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Diplomacy);
         }
 
         if (Classic3CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellResearched);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellResearched);
         }
 
         if (Classic4CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellReady);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellReady);
         }
 
         if (Classic5CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Rebellion);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Rebellion);
         }
 
         if (Classic6CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.PartyDamage);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.PartyDamage);
         }
 
         if (Classic7CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroUpgrade);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroUpgrade);
         }
 
         if (Classic8CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroJoin);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroJoin);
         }
 
-        GameTables.AoWEngine.FRegistry.SetClassicWindowPopupEvents(Events);
-        Events = Set<WindowPopupEvent>.Of();
+        GameTables.GameEngine.Registry.SetClassicWindowPopupEvents(events);
+        events = Set<WindowPopupEvent>.Of();
         if (Sim1CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Combat);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Combat);
         }
 
         if (Sim2CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Diplomacy);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Diplomacy);
         }
 
         if (Sim3CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellResearched);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellResearched);
         }
 
         if (Sim4CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellReady);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellReady);
         }
 
         if (Sim5CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Rebellion);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.Rebellion);
         }
 
         if (Sim6CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.PartyDamage);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.PartyDamage);
         }
 
         if (Sim7CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroUpgrade);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroUpgrade);
         }
 
         if (Sim8CB.Checked)
         {
-            Events = Events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroJoin);
+            events = events + Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroJoin);
         }
 
-        GameTables.AoWEngine.FRegistry.SetSimultaneousWindowPopupEvents(Events);
+        GameTables.GameEngine.Registry.SetSimultaneousWindowPopupEvents(events);
         Root.Visible = false;
     }
 
@@ -314,10 +314,10 @@ public partial class GamePlayDialog : DataModule
         Root.Visible = false;
     }
 
-    private static readonly string ConfirmationFailedRStr = "Confirmation failed";
-    private static readonly string CouldntChangePasswordRStr = "Couldn't change password!";
-    private static readonly string EnterNewPasswordRStr = "Enter new password:";
-    private static readonly string PasswordConfirmationRStr = "Password confirmation";
-    private static readonly string ReenterNewPasswordRStr = "Confirm new password:";
-    private static StringArray3 TCombatResolveModeRStr = StringArray3.From(default(ReadOnlySpan<string>));
+    private static readonly string s_confirmationFailedText = "Confirmation failed";
+    private static readonly string s_couldNotChangePasswordText = "Couldn't change password!";
+    private static readonly string s_enterNewPasswordText = "Enter new password:";
+    private static readonly string s_passwordConfirmationText = "Password confirmation";
+    private static readonly string s_reenterNewPasswordText = "Confirm new password:";
+    private static StringArray3 s_combatResolveModeTexts = StringArray3.From(default(ReadOnlySpan<string>));
 }

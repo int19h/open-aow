@@ -17,9 +17,9 @@ public partial class MultiWindow
             songs.Play(0);
         }
         DialogHosts.VideoDialog.SetSceneSize(640, 480);
-        FPendingMap = mapName;
-        var dplay = DialogHosts.SetupEvents.DPlay;
-        if (dplay.Connected) dplay.DisConnect();
+        PendingMap = mapName;
+        var directPlay = DialogHosts.SetupEvents.DPlay;
+        if (directPlay.Connected) directPlay.DisConnect();
         DialogHosts.TitleWindow.TitleWin.Visible = true;
         DialogHosts.TitleWindow.TitlePnl.Visible = false;
         MultiPnl.Visible = GamePanel.Visible = true;
@@ -27,9 +27,9 @@ public partial class MultiWindow
         // A provider button shows only when DirectPlay lists that provider. The offline component
         // lists the TCP/IP provider alone, as DirectPlay does on any current Windows, so TCP
         // shows and IPX stays hidden.
-        if (dplay.GetConnections() == 0)
-            for (int i = 0; i < dplay.ConnectionItems.Count; i++)
-                switch (((GDConnection)dplay.ConnectionItems[i]!).FType)
+        if (directPlay.GetConnections() == 0)
+            for (int i = 0; i < directPlay.ConnectionItems.Count; i++)
+                switch (((GDConnection)directPlay.ConnectionItems[i]!).FType)
                 {
                     case ConnectionType.TCP: TCPBtn.Visible = true; break;
                     case ConnectionType.IPX: IPXBtn.Visible = true; break;
@@ -38,12 +38,12 @@ public partial class MultiWindow
 
     public void MultiWinUpdate()
     {
-        if (MultiPnl.Visible && FMenuHeight < GamePanel.WinHeight)
+        if (MultiPnl.Visible && MenuHeight < GamePanel.WinHeight)
         {
-            FMenuHeight = Math.Min(FMenuHeight + 10, GamePanel.WinHeight);
-            GamePanel.WinTop = FMenuHeight - GamePanel.WinHeight;
-            BottomPnl.WinTop = 480 - FMenuHeight + GamePanel.WinHeight - BottomPnl.WinHeight;
-            GamePanel.FSurfaceValid = BottomPnl.FSurfaceValid = false;
+            MenuHeight = Math.Min(MenuHeight + 10, GamePanel.WinHeight);
+            GamePanel.WinTop = MenuHeight - GamePanel.WinHeight;
+            BottomPnl.WinTop = 480 - MenuHeight + GamePanel.WinHeight - BottomPnl.WinHeight;
+            GamePanel.SurfaceValid = BottomPnl.SurfaceValid = false;
         }
     }
 }

@@ -6,105 +6,105 @@ namespace Aow.Game.Net;
 // no transport
 public partial class PlayerCommunicationControl : IDisposable
 {
-    internal int FRefCount;
-    internal PlayerCommunicator FPlayerCommunicator;
-    internal PlayerCommunicationSettingsList FPCSList;
+    internal int _refCount;
+    internal PlayerCommunicator _playerCommunicator;
+    internal PlayerCommunicationSettingsList _playerCommunicationSettingsList;
 
     // NetworkE.pas:549
-    public virtual int GetLocalSystemID() => 1;
+    public virtual int GetLocalSystemId() => 1;
 
     // NetworkE.pas:532
     public virtual int GetSystemCount() => 1;
 
     // NetworkE.pas:516
-    public virtual bool Activate(PlayerCommunicator PC)
+    public virtual bool Activate(PlayerCommunicator pc)
     {
-        FPlayerCommunicator = PC;
+        _playerCommunicator = pc;
         return true;
     }
 
     // NetworkE.pas:498
-    public virtual PlayerCommunicationSettings CreatePCS() => new PlayerCommunicationSettings(null);
+    public virtual PlayerCommunicationSettings CreatePlayerCommunicationSettings() => new PlayerCommunicationSettings(null);
 
     // NetworkE.pas:493
     public virtual string Name() => "";
 
     // NetworkE.pas:554
-    public virtual bool ReceivePackageData(MemoryStream Stream) => false;
+    public virtual bool ReceivePackageData(MemoryStream stream) => false;
 
     // NetworkE.pas:559
-    public virtual bool SendPackageData(int APlayer, MemoryStream Stream) => false;
+    public virtual bool SendPackageData(int player, MemoryStream stream) => false;
 
     // NetworkE.pas:468
     public PlayerCommunicationControl()
     {
-        FRefCount = 1;
-        FPCSList = new PlayerCommunicationSettingsList(null);
+        _refCount = 1;
+        _playerCommunicationSettingsList = new PlayerCommunicationSettingsList(null);
     }
 
     // NetworkE.pas:475
     public virtual void Dispose()
     {
-        FPCSList?.Dispose();
+        _playerCommunicationSettingsList?.Dispose();
     }
 
     // NetworkE.pas:481
     public void AddRef()
     {
-        FRefCount += 1;
+        _refCount += 1;
     }
 
     // NetworkE.pas:486
     public void Release()
     {
-        FRefCount -= 1;
-        if (FRefCount == 0)
+        _refCount -= 1;
+        if (_refCount == 0)
         {
             Dispose();
         }
     }
 
     // NetworkE.pas:503
-    public PlayerCommunicationSettings GetPlayers(int Index)
+    public PlayerCommunicationSettings GetPlayers(int index)
     {
-        PlayerCommunicationSettings Result;
-        if (Index >= 0 && Index < FPCSList.Count)
+        PlayerCommunicationSettings result;
+        if (index >= 0 && index < _playerCommunicationSettingsList.Count)
         {
-            Result = FPCSList.Players[Index];
+            result = _playerCommunicationSettingsList.Players[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:511
-    public int GetCount() => FPCSList.Count;
+    public int GetCount() => _playerCommunicationSettingsList.Count;
 
     // NetworkE.pas:522
-    public bool Setup(int ACount)
+    public bool Setup(int count)
     {
-        FPCSList.Clear();
-        for (int I = 0; I <= ACount - 1; I++)
+        _playerCommunicationSettingsList.Clear();
+        for (int I = 0; I <= count - 1; I++)
         {
-            CreatePCS().Owner = FPCSList;
+            CreatePlayerCommunicationSettings().Owner = _playerCommunicationSettingsList;
         }
 
         return true;
     }
 
     // NetworkE.pas:537
-    public int IndexOfSystemID(int ASystemID)
+    public int IndexOfSystemId(int systemId)
     {
-        int Result = GetCount();
-        while (Result != 0)
+        int result = GetCount();
+        while (result != 0)
         {
-            Result -= 1;
-            if (FPCSList.Players[Result].FSystemID == ASystemID)
+            result -= 1;
+            if (_playerCommunicationSettingsList.Players[result]._systemId == systemId)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -115,11 +115,11 @@ public partial class PlayerCommunicationControl : IDisposable
 
     public sealed class PlayersAccessor(PlayerCommunicationControl target)
     {
-        public PlayerCommunicationSettings this[int Index] { get => target.GetPlayers(Index); }
+        public PlayerCommunicationSettings this[int index] { get => target.GetPlayers(index); }
     }
 
     public PlayersAccessor Players => new PlayersAccessor(this);
-    public PlayerCommunicator PlayerCommunicator { get => FPlayerCommunicator; }
-    public PlayerCommunicationSettingsList PCSList { get => FPCSList; }
+    public PlayerCommunicator PlayerCommunicator { get => _playerCommunicator; }
+    public PlayerCommunicationSettingsList PlayerCommunicationSettingsList { get => _playerCommunicationSettingsList; }
 
 }

@@ -10,27 +10,27 @@ namespace Aow.Game.Combat.Actions;
 public partial class SlowCombatAction : ExclusiveCombatSpellCombatAction
 {
     // CombatSpells.pas:1257
-    public new const int ClassID = 131792;
+    public new const int ClassId = 131792;
 
     public SlowCombatAction(ECustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:1263
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatUnit Target;
-        CombatObject Source;
-        UnitEnchantment Enchantment;
-        base.Execute(Combat);
-        if (FSucceeded)
+        CombatUnit target;
+        CombatObject source;
+        UnitEnchantment enchantment;
+        base.Execute(combat);
+        if (Succeeded)
         {
-            Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
-            Source = Combat.FCombatData.FindID(FSourceID);
-            if (Target.FUnit.ExpandAbility(132))
+            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            source = combat.CombatData.FindId(SourceId);
+            if (target.Troop.ExpandAbility(132))
             {
-                Enchantment = ((UnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(132)).FEnchantment;
-                Enchantment.SetUpkeep(0);
-                Enchantment.SetSource(Source.GetPlayer());
+                enchantment = ((UnitEnchantmentAbilityData)target.Troop.GetAbilityData(132)).Enchantment;
+                enchantment.SetUpkeep(0);
+                enchantment.SetSource(source.GetPlayer());
             }
         }
     }

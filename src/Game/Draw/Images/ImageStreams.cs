@@ -6,44 +6,44 @@ namespace Aow.Game.Draw.Images;
 public static class ImageStreams
 {
 
-    public static LibraryImage ReadImageFromStream(Stream Stream, CustomImageLibrary AOwner)
+    public static LibraryImage ReadImageFromStream(Stream stream, CustomImageLibrary owner)
     {
-        LibraryImage Result;
-        int ID = default;
-        LibraryImageClass ImageClass;
-        Stream.ReadExactly(Bytes.Of(ref ID, 4));
-        ImageClass = LibraryCatalog.FindLibraryImageClass(ID);
-        if (ImageClass != null)
+        LibraryImage result;
+        int id = default;
+        LibraryImageClass imageClass;
+        stream.ReadExactly(Bytes.Of(ref id, 4));
+        imageClass = LibraryCatalog.FindLibraryImageClass(id);
+        if (imageClass != null)
         {
-            Result = ImageClass.Create(AOwner);
-            Result.LoadFromStream(Stream);
+            result = imageClass.CreateInstance(owner);
+            result.LoadFromStream(stream);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static LibraryImage ReadImageFromStreamEx(Stream Stream, Stream DataStream, CustomImageLibrary AOwner)
+    internal static LibraryImage ReadImageFromStream(Stream stream, Stream dataStream, CustomImageLibrary owner)
     {
-        LibraryImage Result;
-        int ID = default;
-        LibraryImageClass ImageClass;
-        Stream.ReadExactly(Bytes.Of(ref ID, 4));
-        ImageClass = LibraryCatalog.FindLibraryImageClass(ID);
-        if (ImageClass != null)
+        LibraryImage result;
+        int id = default;
+        LibraryImageClass imageClass;
+        stream.ReadExactly(Bytes.Of(ref id, 4));
+        imageClass = LibraryCatalog.FindLibraryImageClass(id);
+        if (imageClass != null)
         {
-            Result = ImageClass.Create(AOwner);
-            Result.LoadFromStreamEx(Stream, DataStream);
+            result = imageClass.CreateInstance(owner);
+            result.LoadFromStream(stream, dataStream);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
 }

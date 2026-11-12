@@ -16,27 +16,27 @@ public partial class CombatPartyList : ENode
     public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.ArrayMode);
 
     // Combat2.pas:73
-    public CombatParty CreateParty(Battle ACombat, byte Position, byte CombatPlayer, int X, int Y, int L, Army Army)
+    public CombatParty CreateParty(Battle combat, byte position, byte combatPlayer, int X, int Y, int L, Army army)
     {
         CombatParty P;
-        if (GetParty(Position) == null)
+        if (GetParty(position) == null)
         {
             P = new CombatParty(null);
-            P.FPlayerIndex = CombatPlayer;
-            P.F_CombatParty_19 = Position;
-            P.F_CombatParty_0C = X;
-            P.F_CombatParty_10 = Y;
-            P.F_CombatParty_14 = L;
-            P.SetArrayOwner(this, Position);
-            P.FArmy.SetXYL((sbyte)(byte)X, (sbyte)(byte)Y, (sbyte)L);
-            var players = ACombat.FCombatData.FPlayers.GetPlayers((sbyte)CombatPlayer);
-            P.FArmy.SetPlayer(players.FPlayer);
-            if (Army != null)
+            P.PlayerIndex = combatPlayer;
+            P.Position = position;
+            P.X = X;
+            P.Y = Y;
+            P.MapLevel = L;
+            P.SetArrayOwner(this, position);
+            P.Army.SetMapCoordinate((sbyte)(byte)X, (sbyte)(byte)Y, (sbyte)L);
+            var players = combat.CombatData.Players.GetPlayers((sbyte)combatPlayer);
+            P.Army.SetPlayer(players.Player);
+            if (army != null)
             {
-                P.FArmy.AssignSettings(Army);
+                P.Army.AssignSettings(army);
             }
 
-            P.FArmy.Activate();
+            P.Army.Activate();
         }
         else
         {
@@ -47,41 +47,41 @@ public partial class CombatPartyList : ENode
     }
 
     // Combat2.pas:96
-    public CombatParty GetParty(byte Position)
+    public CombatParty GetParty(byte position)
     {
-        CombatParty Result;
-        if (Position < FChildren.Count)
+        CombatParty result;
+        if (position < _children.Count)
         {
-            Result = (CombatParty)FChildren.List[Position];
+            result = (CombatParty)_children.List[position];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat2.pas:99
-    public void Activate(Battle ACombat)
+    public void Activate(Battle combat)
     {
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            if (FChildren.List[I] != null)
+            if (_children.List[I] != null)
             {
-                ((CombatParty)FChildren.List[I]).Activate(ACombat);
+                ((CombatParty)_children.List[I]).Activate(combat);
             }
         }
     }
 
     // Combat2.pas:107
-    public void Deactivate(Battle ACombat)
+    public void Deactivate(Battle combat)
     {
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            if (FChildren.List[I] != null)
+            if (_children.List[I] != null)
             {
-                ((CombatParty)FChildren.List[I]).Deactivate(ACombat);
+                ((CombatParty)_children.List[I]).Deactivate(combat);
             }
         }
     }

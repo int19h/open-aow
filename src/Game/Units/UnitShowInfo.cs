@@ -12,9 +12,9 @@ public struct UnitShowInfo
     [FieldOffset(0)]
     public byte Direction;
     [FieldOffset(1)]
-    public byte Overlays__image;
+    public byte OverlaysImage;
 
-    public Set<UnitOverlayModesElement> Overlays { get => Set<UnitOverlayModesElement>.FromMask(Overlays__image); set => Overlays__image = (byte)value.Image; }
+    public Set<UnitOverlayModesElement> Overlays { get => Set<UnitOverlayModesElement>.FromMask(OverlaysImage); set => OverlaysImage = (byte)value.Image; }
 
     [FieldOffset(2)]
     public UnitAnimation Animation;

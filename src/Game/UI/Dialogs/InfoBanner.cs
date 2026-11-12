@@ -15,27 +15,27 @@ public partial class InfoBanner : DataModule
     public VerticalScrollBar InfoMemoSB;
 
     // AoWInfoBanner.pas:35
-    public void ShowInfo(string Header, StringCollection Description)
+    public void ShowInfo(string header, StringCollection description)
     {
-        HeaderLbl.Text = Header;
-        var text = Description.Text;
+        HeaderLbl.Text = header;
+        var text = description.Text;
         InfoMemo.Items.Text = text;
     }
 
     // AoWInfoBanner.pas:41
-    public void BannerPopupMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void BannerPopupMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (Button == MouseButton.Right)
+        if (button == MouseButton.Right)
         {
             BannerPopup.Visible = false;
         }
     }
 
-    internal static void SetInfoBanner(InfoBanner Banner, string Caption, StringCollection Description)
+    internal static void SetInfoBanner(InfoBanner banner, string caption, StringCollection description)
     {
-        Banner.HeaderLbl.Text = Caption;
-        var text = Description.Text;
-        Banner.InfoMemo.Items.Text = text;
+        banner.HeaderLbl.Text = caption;
+        var text = description.Text;
+        banner.InfoMemo.Items.Text = text;
     }
 
 }

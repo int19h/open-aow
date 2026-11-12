@@ -16,12 +16,12 @@ public sealed class EventListTests
     {
         var store = new EventStore<string>();
         var log = new List<string>();
-        void A(string sender) => log.Add("A" + sender);
-        void B(string sender) => log.Add("B" + sender);
-        void C(string sender) => log.Add("C" + sender);
-        store.Add(A);
-        store.Add(B);
-        store.Add(C);
+        void HandlerA(string sender) => log.Add("A" + sender);
+        void HandlerB(string sender) => log.Add("B" + sender);
+        void HandlerC(string sender) => log.Add("C" + sender);
+        store.Add(HandlerA);
+        store.Add(HandlerB);
+        store.Add(HandlerC);
 
         store.Raise("1");
 
@@ -33,17 +33,17 @@ public sealed class EventListTests
     {
         var store = new EventStore<string>();
         var log = new List<string>();
-        void A(string sender) => log.Add("A");
-        void B(string sender) => log.Add("B");
-        void C(string sender)
+        void HandlerA(string sender) => log.Add("A");
+        void HandlerB(string sender) => log.Add("B");
+        void HandlerC(string sender)
         {
             log.Add("C");
-            store.Remove(C);
+            store.Remove(HandlerC);
         }
 
-        store.Add(A);
-        store.Add(B);
-        store.Add(C);
+        store.Add(HandlerA);
+        store.Add(HandlerB);
+        store.Add(HandlerC);
         store.Raise("");
 
         Assert.Equal(["C", "B", "A"], log);
@@ -55,17 +55,17 @@ public sealed class EventListTests
     {
         var store = new EventStore<string>();
         var log = new List<string>();
-        void A(string sender) => log.Add("A");
-        void B(string sender) => log.Add("B");
-        void C(string sender)
+        void HandlerA(string sender) => log.Add("A");
+        void HandlerB(string sender) => log.Add("B");
+        void HandlerC(string sender)
         {
             log.Add("C");
-            store.Remove(A);
+            store.Remove(HandlerA);
         }
 
-        store.Add(A);
-        store.Add(B);
-        store.Add(C);
+        store.Add(HandlerA);
+        store.Add(HandlerB);
+        store.Add(HandlerC);
         store.Raise("");
 
         Assert.Equal(["C", "C", "B"], log);
@@ -135,12 +135,12 @@ public sealed class EventListTests
         try
         {
             sbyte seen = -2;
-            player.FPlayerIndex = 2;
-            player.FGemsChangedEvents += source => seen = source.FPlayerIndex;
+            player.PlayerIndex = 2;
+            player.FGemsChangedEvents += source => seen = source.PlayerIndex;
 
             player.SetGems(9);
 
-            Assert.Equal(9, player.FGems);
+            Assert.Equal(9, player.Gems);
             Assert.Equal(2, seen);
         }
         finally

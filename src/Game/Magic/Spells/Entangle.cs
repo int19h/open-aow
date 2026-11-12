@@ -17,9 +17,9 @@ public partial class Entangle : CombatSpell
     // CombatSpells.pas:1352
     public Entangle(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.EntangleRStr);
-        FSpellID = 111;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_entangleText);
+        SpellId = 111;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 7;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.None);
@@ -28,49 +28,49 @@ public partial class Entangle : CombatSpell
     }
 
     // CombatSpells.pas:1368
-    public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
+    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        EntangleSpellCombatAction Action;
-        Action = new EntangleSpellCombatAction(null);
-        Action.FSourceID = Source.FID;
-        Action.FTargetID = Target.FID;
-        Action.FSpellID = FSpellID;
-        if (ChargeMana)
+        EntangleSpellCombatAction action;
+        action = new EntangleSpellCombatAction(null);
+        action.SourceId = source.Id;
+        action.TargetId = target.Id;
+        action.SpellId = SpellId;
+        if (chargeMana)
         {
-            Action.FManaCost = FBaseManaCost;
+            action.ManaCost = BaseManaCost;
         }
 
-        if (!Target.GetAbilityEnabled(1) && !Target.GetAbilityEnabled(94))
+        if (!target.GetAbilityEnabled(1) && !target.GetAbilityEnabled(94))
         {
-            var resistance = Target.GetResistance();
-            Action.FSucceeded = HitChance.HitRole(FCombatInfo.Attack - resistance);
+            var resistance = target.GetResistance();
+            action.Succeeded = HitChance.HitRole(CombatInfo.Attack - resistance);
         }
 
-        return Action;
+        return action;
     }
 
     // CombatSpells.pas:1383
-    public override void GetCombatDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values)
+    public override void GetCombatDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        if (!Target.GetAbilityEnabled(1) && !Target.GetAbilityEnabled(94))
+        if (!target.GetAbilityEnabled(1) && !target.GetAbilityEnabled(94))
         {
-            var resistance = Target.GetResistance();
-            var hitRoleProbability = HitChance.HitRoleProbability(FCombatInfo.Attack - resistance);
-            var hitPoints = Target.GetHitPoints();
-            Values.SourceDamage = Round((double)(hitPoints * 100) * hitRoleProbability);
-            var targetHitPoints = Target.GetHitPoints();
-            Values.SourceCost = targetHitPoints;
-            Values.TargetDamage = 0;
-            Values.TargetCost = 0;
-            Values.DamageTypes = Set<DamageType>.Of(DamageType.None);
+            var resistance = target.GetResistance();
+            var hitRoleProbability = HitChance.HitRoleProbability(CombatInfo.Attack - resistance);
+            var hitPoints = target.GetHitPoints();
+            values.SourceDamage = Round((double)(hitPoints * 100) * hitRoleProbability);
+            var targetHitPoints = target.GetHitPoints();
+            values.SourceCost = targetHitPoints;
+            values.TargetDamage = 0;
+            values.TargetCost = 0;
+            values.DamageTypes = Set<DamageType>.Of(DamageType.None);
         }
         else
         {
-            Values.SourceDamage = 0;
-            Values.SourceCost = 0;
-            Values.TargetDamage = 0;
-            Values.TargetCost = 0;
-            Values.DamageTypes = Set<DamageType>.Of();
+            values.SourceDamage = 0;
+            values.SourceCost = 0;
+            values.TargetDamage = 0;
+            values.TargetCost = 0;
+            values.DamageTypes = Set<DamageType>.Of();
         }
     }
 }

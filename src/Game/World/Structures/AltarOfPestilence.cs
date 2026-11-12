@@ -11,7 +11,7 @@ public partial class AltarOfPestilence : Altar
     { }
 
     // AltPest.pas:36
-    public new const int ClassID = 131852;
+    public new const int ClassId = 131852;
 
     // AltPest.pas:39
     public override Storm CreateStorm() => new PestilenceStorm(null);
@@ -23,19 +23,19 @@ public partial class AltarOfPestilence : Altar
         }
 
         // AltPest.pas:52
-        public new const int ClassID = 131853;
+        public new const int ClassId = 131853;
 
         // AltPest.pas:44
 
         // AltPest.pas:55
-        public override int ResourceUserClassID() => 131852;
+        public override int ResourceUserClassId() => 131852;
 
         // AltPest.pas:26
 
         // AltPest.pas:49
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(AltarOfPestilenceRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_altarOfPestilenceText);
 
-        private static readonly string AltarOfPestilenceRStr = "Altar of Pestilence";
+        private static readonly string s_altarOfPestilenceText = "Altar of Pestilence";
 
     }
 

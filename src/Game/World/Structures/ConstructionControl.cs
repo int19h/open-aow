@@ -14,40 +14,40 @@ public partial class ConstructionControl : EngineObject
     { }
 
     // AoWAb.PAS:5494
-    public virtual void GetInfo(Troop AUnit, ref string Text, ref int Gold, ref int Days)
+    public virtual void GetInfo(Troop troop, ref string text, ref int gold, ref int days)
     {
-        Text = "";
-        Gold = 0;
-        Days = 0;
+        text = "";
+        gold = 0;
+        days = 0;
     }
 
     // AoWAb.PAS:5500
-    public virtual bool CanConstruct(Troop AUnit, ref string Reason)
+    public virtual bool CanConstruct(Troop troop, ref string reason)
     {
-        bool Result;
-        int Gold = default;
-        int Days = default;
-        string Text = "";
-        GetInfo(AUnit, ref Text, ref Gold, ref Days);
-        if (AoWHSMap.Current.FPlayers.GetPlayers(AUnit.FPlayer).FGems < Gold)
+        bool result;
+        int gold = default;
+        int days = default;
+        string text = "";
+        GetInfo(troop, ref text, ref gold, ref days);
+        if (AoWHSMap.Current.Players.GetPlayers(troop.Player).Gems < gold)
         {
-            Reason = AbilityRules.TranslateRStr(P4NotEnoughGoldRStr);
-            Result = false;
+            reason = AbilityRules.TranslateResourceString(s_notEnoughGoldText);
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:5513
-    public virtual bool Construct(Troop AUnit) => false;
+    public virtual bool Construct(Troop troop) => false;
 
     // AoWAb.PAS:5517
-    public virtual int ID() => 0;
+    public virtual int Id() => 0;
 
-    private static readonly string P4NotEnoughGoldRStr = "Not enough gold.";
+    private static readonly string s_notEnoughGoldText = "Not enough gold.";
 
 }

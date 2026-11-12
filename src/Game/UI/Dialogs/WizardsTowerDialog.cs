@@ -38,30 +38,30 @@ public partial class WizardsTowerDialog : DataModule
     public Label OfferText;
     public Panel PicPnl;
     public IvTranslator Translator;
-    public ExecuteDoneEvent FOnClose;
-    public EnterWizardsTowerEventLog FEvent;
+    public ExecuteDoneEvent OnClose;
+    public EnterWizardsTowerEventLog Event;
 
     // AoWWizardsTowerDlg.pas:54
     public void ClearEvent()
     {
-        EnterWizardsTowerEventLog Event;
-        ExecuteDoneEvent Notify;
+        EnterWizardsTowerEventLog eventValue;
+        ExecuteDoneEvent notify;
         Dlg.Visible = false;
-        Notify = FOnClose;
-        Event = FEvent;
-        FOnClose = null;
-        FEvent = null;
-        if (Notify != null)
+        notify = OnClose;
+        eventValue = Event;
+        OnClose = null;
+        Event = null;
+        if (notify != null)
         {
-            Notify(Event);
+            notify(eventValue);
         }
 
-        if (Event != null)
+        if (eventValue != null)
         {
-            Event.Release();
+            eventValue.Release();
         }
 
-        AoWHSMap.Current.FTutorialControl.ShowMessage(69, true, true);
+        AoWHSMap.Current.TutorialControl.ShowMessage(69, true, true);
     }
 
     // AoWWizardsTowerDlg.pas:67
@@ -74,11 +74,11 @@ public partial class WizardsTowerDialog : DataModule
     // AoWWizardsTowerDlg.pas:73
     public void BuyBtnClick()
     {
-        string Reason = "";
+        string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (!FEvent.FTower.Buy(AoWHSMap.Current.FSeatedPlayer, ref Reason))
+        if (!Event.Tower.Buy(AoWHSMap.Current.SeatedPlayer, ref reason))
         {
-            AoWHSMap.Current.ShowWarning(Reason);
+            AoWHSMap.Current.ShowWarning(reason);
         }
         else
         {
@@ -93,71 +93,71 @@ public partial class WizardsTowerDialog : DataModule
     }
 
     // AoWWizardsTowerDlg.pas:87
-    public void SpellIcnDraw(Image Sender, LockedSurface SD)
+    public void SpellIcnDraw(Image sender, LockedSurface lockedSurface)
     {
         Spell S;
         int X;
         int Y;
-        var wizardsTower = FEvent.FTower;
-        if (wizardsTower.FSpellID != 0)
+        var wizardsTower = Event.Tower;
+        if (wizardsTower.SpellId != 0)
         {
-            S = AoWHSSet.Current.FSpellControl.GetSpell(wizardsTower.FSpellID);
+            S = AoWHSSet.Current.SpellControl.GetSpell(wizardsTower.SpellId);
             if (S != null)
             {
-                if (S.FCastImages.GetImageSequence(10) != null)
+                if (S.CastImages.GetImageSequence(10) != null)
                 {
-                    X = Sender.AOWWindow.WinLeft;
-                    Y = Sender.AOWWindow.WinTop;
-                    S.FCastImages.Show(10, Sender.WinLeft + X, Sender.WinTop + Y, 0, SD);
+                    X = sender.Window.WinLeft;
+                    Y = sender.Window.WinTop;
+                    S.CastImages.Show(10, sender.WinLeft + X, sender.WinTop + Y, 0, lockedSurface);
                 }
             }
         }
     }
 
     // AoWWizardsTowerDlg.pas:101
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             Dlg.Visible = false;
         }
     }
 
-    internal static void ShowTower(WizardsTowerDialog Dialog, EnterWizardsTowerEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowTower(WizardsTowerDialog dialog, EnterWizardsTowerEventLog eventValue, ExecuteDoneEvent done)
     {
-        WizardsTower Tower;
-        Spell Spell;
-        Dialog.FOnClose = Done;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Tower = Dialog.FEvent.FTower;
-        if (Tower.FSpellID != 0)
+        WizardsTower tower;
+        Spell spell;
+        dialog.OnClose = done;
+        dialog.Event = eventValue;
+        dialog.Event.AddRef();
+        tower = dialog.Event.Tower;
+        if (tower.SpellId != 0)
         {
-            var buyCost = Dialog.FEvent.FTower.BuyCost();
-            var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.ForXGoldRStr), [IntToStr(buyCost)]);
-            Dialog.PriceLbl.Text = format + ".";
-            Spell = AoWHSSet.Current.FSpellControl.GetSpell(Tower.FSpellID);
-            Dialog.SpellName.Text = Spell.FSpellName;
-            var magicSphere = AbilityRules.TranslateRStr(GameTables.TMagicSphereRStr[(int)Spell.FMagicSphere]);
-            var level = AbilityRules.TranslateRStr(GameText.LevelRStr);
-            Dialog.SpellClass.Text = magicSphere + ", " + level + " " + IntToStr(Spell.FSpellLevel);
-            var castingCost = AbilityRules.TranslateRStr(GameText.CastingCostRStr);
-            var mana = AbilityRules.TranslateRStr(GameText.ManaRStr);
-            Dialog.SpellCost.Text = castingCost + ": " + IntToStr(Spell.FBaseManaCost) + " " + mana;
-            var text = Spell.FSpellText.Text;
-            Dialog.ResearchMemo.Items.Text = text;
+            var buyCost = dialog.Event.Tower.BuyCost();
+            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_forGoldFormat), [IntToStr(buyCost)]);
+            dialog.PriceLbl.Text = format + ".";
+            spell = AoWHSSet.Current.SpellControl.GetSpell(tower.SpellId);
+            dialog.SpellName.Text = spell.SpellName;
+            var magicSphere = AbilityRules.TranslateResourceString(GameTables.s_magicSphereTexts[(int)spell.MagicSphere]);
+            var level = AbilityRules.TranslateResourceString(GameText.s_levelText);
+            dialog.SpellClass.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
+            var castingCost = AbilityRules.TranslateResourceString(GameText.s_castingCostText);
+            var mana = AbilityRules.TranslateResourceString(GameText.s_manaText);
+            dialog.SpellCost.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
+            var text = spell.SpellText.Text;
+            dialog.ResearchMemo.Items.Text = text;
         }
         else
         {
-            Dialog.PriceLbl.Text = "";
-            var none = AbilityRules.TranslateRStr(GameTables.NoneRStr);
-            Dialog.SpellName.Text = none;
-            Dialog.SpellClass.Text = "";
-            Dialog.SpellCost.Text = "";
-            Dialog.ResearchMemo.Items.Text = "";
+            dialog.PriceLbl.Text = "";
+            var none = AbilityRules.TranslateResourceString(GameTables.s_noneText);
+            dialog.SpellName.Text = none;
+            dialog.SpellClass.Text = "";
+            dialog.SpellCost.Text = "";
+            dialog.ResearchMemo.Items.Text = "";
         }
 
-        Dialog.Dlg.Visible = true;
+        dialog.Dlg.Visible = true;
     }
 
 }

@@ -25,60 +25,60 @@ public partial class CampaignJoinDialog : DataModule
     public Panel CustomFacePnl;
     public UserDrawBox ScrollTextDB;
     public IvTranslator Translator;
-    public byte FStage;
-    public int FFaction;
-    public Leader FLeader;
-    public int FScrollDelay;
-    public int FScrollPosition;
-    public StringList FScrollText;
+    public byte Stage;
+    public int Faction;
+    public Leader Leader;
+    public int ScrollDelay;
+    public int ScrollPosition;
+    public StringList ScrollText;
 
     // AoWCampaignJoin.pas:160
     public void CustomizeLeader()
     {
-        LeaderSetupControl Control = default;
-        FStage = 2;
+        LeaderSetupControl control = default;
+        Stage = 2;
         CharGenPnl.Visible = false;
-        Control = new LeaderSetupControl(null);
-        Control.FLeader.Assign(FLeader, GameTables.AoWEngine);
-        Control.FOriginalLeader.Assign(FLeader, GameTables.AoWEngine);
-        Control.FMode = Control.FMode + Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Campaign);
-        switch (FFaction)
+        control = new LeaderSetupControl(null);
+        control.Leader.Assign(Leader, GameTables.GameEngine);
+        control.OriginalLeader.Assign(Leader, GameTables.GameEngine);
+        control.Mode = control.Mode + Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Campaign);
+        switch (Faction)
         {
             case 0:
-                Control.FItems.Add(4);
-                Control.FItems.Add(6);
-                Control.FItems.Add(5);
-                Control.FItems.Add(2);
-                Control.FItems.Add(1);
-                Control.FItems.Add(3);
+                control.Items.Add(4);
+                control.Items.Add(6);
+                control.Items.Add(5);
+                control.Items.Add(2);
+                control.Items.Add(1);
+                control.Items.Add(3);
                 break;
             case 1:
-                Control.FItems.Add(8);
-                Control.FItems.Add(9);
-                Control.FItems.Add(10);
-                Control.FItems.Add(2);
-                Control.FItems.Add(1);
-                Control.FItems.Add(3);
+                control.Items.Add(8);
+                control.Items.Add(9);
+                control.Items.Add(10);
+                control.Items.Add(2);
+                control.Items.Add(1);
+                control.Items.Add(3);
                 break;
         }
 
-        DialogHosts.LeaderSetupWin.Execute(Control);
-        Control.FOnDone = LeaderCustomized;
-        Control.Release();
-        DialogHosts.LeaderSetupWin.LeaderPnl.ILTexture = DialogHosts.IntGfxMod.FactionWin;
-        DialogHosts.LeaderSetupWin.LeaderPnl.ILIndexTexture = FFaction + 10;
+        DialogHosts.LeaderSetupWindow.Execute(control);
+        control.OnDone = LeaderCustomized;
+        control.Release();
+        DialogHosts.LeaderSetupWindow.LeaderPnl.ImageLibraryTexture = DialogHosts.UIGraphics.FactionWin;
+        DialogHosts.LeaderSetupWindow.LeaderPnl.ImageLibraryIndexTexture = Faction + 10;
     }
 
     // AoWCampaignJoin.pas:145
-    public void LeaderCustomized(LeaderSetupControl Sender)
+    public void LeaderCustomized(LeaderSetupControl sender)
     {
-        Leader Leader;
-        var leaderSetupControl = Sender;
-        if (leaderSetupControl.FStatus == LeaderSetupControl.LeaderSetupStatus.Done)
+        Leader leader;
+        var leaderSetupControl = sender;
+        if (leaderSetupControl.Status == LeaderSetupControl.LeaderSetupStatus.Done)
         {
-            Leader = (Leader)leaderSetupControl.FOriginalLeader.Copy(GameTables.AoWEngine);
-            DialogHosts.WorldMap.GetCampaign().FTransferSettings.SetLeader(Leader);
-            Leader.Release();
+            leader = (Leader)leaderSetupControl.OriginalLeader.Copy(GameTables.GameEngine);
+            DialogHosts.WorldMap.GetCampaign().TransferSettings.SetLeader(leader);
+            leader.Release();
             FinishSelection();
         }
         else
@@ -94,9 +94,9 @@ public partial class CampaignJoinDialog : DataModule
         LeaderTypePnl.Visible = false;
         DialogHosts.TitleWindow.TitleWin.Visible = true;
         ScrollTextDB.Visible = true;
-        FScrollDelay = 0;
-        FScrollPosition = 0;
-        FScrollText.Clear();
+        ScrollDelay = 0;
+        ScrollPosition = 0;
+        ScrollText.Clear();
     }
 
     // AoWCampaignJoin.pas:200
@@ -109,7 +109,7 @@ public partial class CampaignJoinDialog : DataModule
     // AoWCampaignJoin.pas:137
     public void ShowLeaderChoices()
     {
-        FStage = 1;
+        Stage = 1;
         LeaderTypePnl.Visible = true;
         ScrollTextDB.Visible = false;
         CharGenPnl.Visible = true;
@@ -118,32 +118,32 @@ public partial class CampaignJoinDialog : DataModule
     // AoWCampaignJoin.pas:57
     public void CampaignJoinDlgCreate()
     {
-        FLeader = new Leader(null);
-        FScrollText = new StringList();
+        Leader = new Leader(null);
+        ScrollText = new StringList();
     }
 
     // AoWCampaignJoin.pas:64
     public void CampaignJoinDlgDestroy()
     {
-        FLeader.Release();
-        FScrollText?.Dispose();
+        Leader.Release();
+        ScrollText?.Dispose();
     }
 
     // AoWCampaignJoin.pas:71
-    public void CharGenPnlMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void CharGenPnlMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (FStage == 0)
+        if (Stage == 0)
         {
             ShowLeaderChoices();
         }
     }
 
     // AoWCampaignJoin.pas:77
-    public void DefaultFacePnlDraw(LockedSurface SD)
+    public void DefaultFacePnlDraw(LockedSurface lockedSurface)
     {
         Rect R;
         R = new Rect(DefaultFacePnl.WinLeft + 1, DefaultFacePnl.WinTop + 1, DefaultFacePnl.WinLeft + DefaultFacePnl.WinWidth - 2, DefaultFacePnl.WinTop + DefaultFacePnl.WinHeight - 2);
-        FLeader.ShowFace(R, SD);
+        Leader.ShowFace(R, lockedSurface);
     }
 
     // AoWCampaignJoin.pas:88
@@ -155,24 +155,24 @@ public partial class CampaignJoinDialog : DataModule
     // AoWCampaignJoin.pas:91
     public void DefaultBtnClick()
     {
-        DialogHosts.WorldMap.GetCampaign().FTransferSettings.SetLeader(FLeader);
+        DialogHosts.WorldMap.GetCampaign().TransferSettings.SetLeader(Leader);
         FinishSelection();
     }
 
     // AoWCampaignJoin.pas:97
     public void ScrollTextDBUpdate()
     {
-        if (FStage == 0)
+        if (Stage == 0)
         {
-            var count = FScrollText.Count;
-            if (FScrollPosition < count * 20 + ScrollTextDB.WinHeight)
+            var count = ScrollText.Count;
+            if (ScrollPosition < count * 20 + ScrollTextDB.WinHeight)
             {
-                FScrollDelay -= 1;
-                if (FScrollDelay <= 0)
+                ScrollDelay -= 1;
+                if (ScrollDelay <= 0)
                 {
-                    FScrollPosition += 1;
-                    ScrollTextDB.FDrawn = false;
-                    FScrollDelay = 3;
+                    ScrollPosition += 1;
+                    ScrollTextDB.Drawn = false;
+                    ScrollDelay = 3;
                 }
             }
             else
@@ -183,38 +183,38 @@ public partial class CampaignJoinDialog : DataModule
     }
 
     // AoWCampaignJoin.pas:114
-    public void ScrollTextDBDraw(LockedSurface SD)
+    public void ScrollTextDBDraw(LockedSurface lockedSurface)
     {
         int X;
         int Y;
-        SD.ClipRect.Left = CharGenPnl.WinLeft + ScrollTextDB.WinLeft;
-        SD.ClipRect.Right = SD.ClipRect.Left + ScrollTextDB.WinWidth;
-        SD.ClipRect.Top = CharGenPnl.WinTop + ScrollTextDB.WinTop;
-        SD.ClipRect.Bottom = SD.ClipRect.Top + ScrollTextDB.WinHeight;
+        lockedSurface.ClipRectangle.Left = CharGenPnl.WinLeft + ScrollTextDB.WinLeft;
+        lockedSurface.ClipRectangle.Right = lockedSurface.ClipRectangle.Left + ScrollTextDB.WinWidth;
+        lockedSurface.ClipRectangle.Top = CharGenPnl.WinTop + ScrollTextDB.WinTop;
+        lockedSurface.ClipRectangle.Bottom = lockedSurface.ClipRectangle.Top + ScrollTextDB.WinHeight;
         X = CharGenPnl.WinLeft + ScrollTextDB.WinLeft + ScrollTextDB.WinWidth / 2;
-        Y = SD.ClipRect.Top + ScrollTextDB.WinHeight - FScrollPosition;
-        for (int I = 0, last = FScrollText.Count - 1; I <= last; I++)
+        Y = lockedSurface.ClipRectangle.Top + ScrollTextDB.WinHeight - ScrollPosition;
+        for (int I = 0, last = ScrollText.Count - 1; I <= last; I++)
         {
-            var scrollText = FScrollText[I];
-            DialogHosts.FontModule.AoW15WhiteGrey.SetTextCentered(X, Y, scrollText, SD);
+            var scrollText = ScrollText[I];
+            DialogHosts.UIFonts.Font15WhiteGrey.SetTextCentered(X, Y, scrollText, lockedSurface);
             Y += 20;
         }
     }
 
     // AoWCampaignJoin.pas:132
-    public void DefaultFacePnlMouseDown(int Sender, int Button, int Shift, int X, int Y)
+    public void DefaultFacePnlMouseDown(int sender, int button, int shift, int X, int Y)
     {
     }
 
-    internal static void InitializeCampaignJoin(CampaignJoinDialog Dialog)
+    internal static void InitializeCampaignJoin(CampaignJoinDialog dialog)
     {
-        Dialog.CharGenPnl.Visible = true;
-        Dialog.LeaderTypePnl.Visible = false;
+        dialog.CharGenPnl.Visible = true;
+        dialog.LeaderTypePnl.Visible = false;
         DialogHosts.TitleWindow.TitleWin.Visible = true;
-        Dialog.ScrollTextDB.Visible = true;
-        Dialog.FScrollDelay = 0;
-        Dialog.FScrollPosition = 0;
-        Dialog.FScrollText.Clear();
+        dialog.ScrollTextDB.Visible = true;
+        dialog.ScrollDelay = 0;
+        dialog.ScrollPosition = 0;
+        dialog.ScrollText.Clear();
     }
 
 }

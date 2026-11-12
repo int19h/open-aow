@@ -8,42 +8,42 @@ namespace Aow.Game.Draw;
 public partial class ImageFileClassList : DelphiList<ImageFileClass>
 {
     // GFXE.pas:941
-    internal ImageFileClass GetClasses(int Index)
+    internal ImageFileClass GetClasses(int index)
     {
-        return this[Index];
+        return this[index];
     }
 
     // GFXE.pas:949
-    public ImageFileClass FindClass(string Ext)
+    public ImageFileClass FindClass(string ext)
     {
-        ImageFileClass Result;
+        ImageFileClass result;
         int I;
         I = 0;
-        if (!IsEmpty(Ext) && Ext[0] == 46)
+        if (!IsEmpty(ext) && ext[0] == 46)
         {
-            Ext = Copy(Ext, 2, Ext.Length - 1);
+            ext = Copy(ext, 2, ext.Length - 1);
         }
 
-        while (I != Count && CompareText(List[I].Extension, Ext) != 0)
+        while (I != Count && CompareText(List[I].Extension, ext) != 0)
         {
             I += 1;
         }
 
         if (I != Count)
         {
-            Result = List[I];
+            result = List[I];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     public sealed class ClassesAccessor(ImageFileClassList target)
     {
-        public ImageFileClass this[int Index] { get => target.GetClasses(Index); }
+        public ImageFileClass this[int index] { get => target.GetClasses(index); }
     }
 
     public ClassesAccessor Classes => new ClassesAccessor(this);

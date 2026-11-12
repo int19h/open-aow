@@ -14,7 +14,7 @@ public partial class CombatMapLevel : AoWMapLevel
     { }
 
     // AoWTC.pas:2173
-    public new const int ClassID = 2228482;
+    public new const int ClassId = 2228482;
 
     // AoWTC.pas:2178
     public override EngineClass MapFieldClass()

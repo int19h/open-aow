@@ -8,45 +8,45 @@ public partial class MovePath : MapCoordinateList
 {
     // Structur.PAS:3981
     // inherited locations and count
-    public int MovePointsToPos(int MovePoints)
+    public int MovePointsToPosition(int movePoints)
     {
-        int Result;
-        if (MovePoints >= 0)
+        int result;
+        if (movePoints >= 0)
         {
-            Result = Count;
-            while (Result > 0 && MovePoints >= 0)
+            result = Count;
+            while (result > 0 && movePoints >= 0)
             {
-                Result -= 1;
-                MovePoints -= List[Result].Flag;
+                result -= 1;
+                movePoints -= List[result].Tag;
             }
 
-            if (MovePoints < 0)
+            if (movePoints < 0)
             {
-                Result += 1;
+                result += 1;
             }
         }
         else
         {
-            Result = Count - 1;
+            result = Count - 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:3996
-    public int PosToMovePoints(int Pos)
+    public int PositionToMovePoints(int position)
     {
-        int Result = 0;
-        for (int I = Count - 1; I >= Pos; I--)
+        int result = 0;
+        for (int I = Count - 1; I >= position; I--)
         {
-            Result += List[I].Flag;
+            result += List[I].Tag;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:4004
-    public int GetMovePoints() => PosToMovePoints(0);
+    public int GetMovePoints() => PositionToMovePoints(0);
 
     // HSEngine.pas:1279
 

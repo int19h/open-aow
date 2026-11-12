@@ -43,51 +43,51 @@ public sealed class MsgArgTests
         Assert.Equal("null", CaseOf((object?)null));
         Assert.Equal("null", CaseOf(default));
         // The same conversions in a collection expression and in a params span.
-        var obj = new SampleObject();
-        MsgArg[] list = [7, obj, (object?)null, (byte)1];
+        var objectValue = new SampleObject();
+        MsgArg[] list = [7, objectValue, (object?)null, (byte)1];
         Assert.Equal(new[] { "Integer 7", "Object SampleObject", "null", "Integer 1" }, list.Select(CaseOf));
-        Assert.Equal(new[] { "Integer 7", "Object SampleObject", "null" }, Cases(7, obj, (object?)null));
+        Assert.Equal(new[] { "Integer 7", "Object SampleObject", "null" }, Cases(7, objectValue, (object?)null));
     }
 
     [Fact]
     public void EveryCaseHoldsItsValue()
     {
-        var obj = new object();
+        var objectValue = new object();
         Assert.Equal(7, ((MsgArg)7).Value);
-        Assert.Same(obj, new MsgArg(obj).Value);
+        Assert.Same(objectValue, new MsgArg(objectValue).Value);
         Assert.Null(new MsgArg((object?)null).Value);
         Assert.Null(default(MsgArg).Value);
         Assert.True(((MsgArg)0).HasValue);
-        Assert.True(new MsgArg(obj).HasValue);
+        Assert.True(new MsgArg(objectValue).HasValue);
         Assert.False(new MsgArg((object?)null).HasValue);
         Assert.False(default(MsgArg).HasValue);
         Assert.True(((MsgArg)int.MinValue).TryGetValue(out int integer) && integer == int.MinValue);
         Assert.False(((MsgArg)int.MinValue).TryGetValue(out object? _));
-        Assert.True(new MsgArg(obj).TryGetValue(out object? reference) && ReferenceEquals(reference, obj));
-        Assert.False(new MsgArg(obj).TryGetValue(out int none) || none != 0);
+        Assert.True(new MsgArg(objectValue).TryGetValue(out object? reference) && ReferenceEquals(reference, objectValue));
+        Assert.False(new MsgArg(objectValue).TryGetValue(out int none) || none != 0);
         Assert.False(default(MsgArg).TryGetValue(out int _));
         Assert.False(default(MsgArg).TryGetValue(out object? _));
     }
 
     [Fact]
-    public void IntReadsTheIntegerAndThrowsOnAReference()
+    public void IntegerReadsTheIntegerAndThrowsOnAReference()
     {
         Assert.Equal(-5, ((MsgArg)(-5)).Int);
         Assert.Equal(0, ((MsgArg)0).Int);
         Assert.Equal(0, default(MsgArg).Int);
         Assert.Equal(0, new MsgArg((object?)null).Int);
         // A reference no longer offers its address as an integer.
-        var obj = new SampleObject();
-        Assert.Throws<InvalidCastException>(() => ((MsgArg)obj).Int);
+        var objectValue = new SampleObject();
+        Assert.Throws<InvalidCastException>(() => ((MsgArg)objectValue).Int);
     }
 
     [Fact]
     public void AsReadsTheReferenceAndIsNullOtherwise()
     {
-        var obj = new SampleObject();
-        Assert.Same(obj, ((MsgArg)obj).As<SampleObject>());
-        Assert.Same(obj, ((MsgArg)obj).As<object>());
-        Assert.Null(((MsgArg)obj).As<OtherObject>());
+        var objectValue = new SampleObject();
+        Assert.Same(objectValue, ((MsgArg)objectValue).As<SampleObject>());
+        Assert.Same(objectValue, ((MsgArg)objectValue).As<object>());
+        Assert.Null(((MsgArg)objectValue).As<OtherObject>());
         Assert.Null(((MsgArg)7).As<object>());
         Assert.Null(((MsgArg)0).As<object>());
         Assert.Null(default(MsgArg).As<object>());
@@ -97,9 +97,9 @@ public sealed class MsgArgTests
     [Fact]
     public void EqualityIsTheEqualityOfTheOriginalWord()
     {
-        var obj = new SampleObject();
+        var objectValue = new SampleObject();
         var other = new SampleObject();
-        MsgArg empty = default, zero = 0, nil = (object?)null, one = 1, reference = obj;
+        MsgArg empty = default, zero = 0, nil = (object?)null, one = 1, reference = objectValue;
         // Empty, the integer 0 and nil are all the word 0.
         Assert.True(empty == zero);
         Assert.True(zero == nil);
@@ -110,14 +110,14 @@ public sealed class MsgArgTests
         Assert.True(one != zero);
         Assert.True(one != (MsgArg)2);
         // A reference equals the same object only, and never an integer.
-        Assert.True(reference == (MsgArg)obj);
+        Assert.True(reference == (MsgArg)objectValue);
         Assert.True(reference != (MsgArg)other);
         Assert.True(reference != empty);
-        Assert.True(reference != (MsgArg)RuntimeHelpers.GetHashCode(obj));
+        Assert.True(reference != (MsgArg)RuntimeHelpers.GetHashCode(objectValue));
         // A direct Equals call prefers the MsgArg overload and wraps a reference. The override is the boxed call.
         object boxed = Box(reference);
         Assert.True(boxed.Equals(Box(reference)));
-        Assert.False(boxed.Equals(obj));
+        Assert.False(boxed.Equals(objectValue));
     }
 
     private static object Box<T>(T value) where T : struct => value;

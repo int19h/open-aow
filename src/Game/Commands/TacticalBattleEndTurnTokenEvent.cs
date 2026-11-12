@@ -18,44 +18,44 @@ public partial class TacticalBattleEndTurnTokenEvent : TokenEvent
     { }
 
     // CombatTE.pas:175
-    public new const int ClassID = 2236420;
+    public new const int ClassId = 2236420;
 
     // CombatTE.pas:178
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        int TurnIndex;
-        bool Found;
-        base.Execute(TE);
+        int turnIndex;
+        bool found;
+        base.Execute(tokenEvent);
         RandSeed = AoWHSMap.Current.Random(16777215);
-        TurnIndex = CombatMap.Current.FCombat.FCombatData.FTurnOrder.IndexOf((byte)CombatMap.Current.FCurrentCombatPlayer);
-        Found = false;
-        while (!Found)
+        turnIndex = CombatMap.Current.Combat.CombatData.TurnOrder.IndexOf((byte)CombatMap.Current.CurrentCombatPlayer);
+        found = false;
+        while (!found)
         {
-            TurnIndex = TurnIndex + 1;
-            if (CombatMap.Current.FCombat.FCombatData.FTurnOrder.Count <= TurnIndex)
+            turnIndex = turnIndex + 1;
+            if (CombatMap.Current.Combat.CombatData.TurnOrder.Count <= turnIndex)
             {
-                TurnIndex = 0;
-                CombatMap.Current.FCombat.NewRound();
+                turnIndex = 0;
+                CombatMap.Current.Combat.NewRound();
             }
 
-            for (int I = 0, last = CombatMap.Current.FCombat.FCombatData.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; I <= last; I++)
             {
-                bool condition = CombatMap.Current.FCombat.FCombatData.GetObjects(I) != null && CombatMap.Current.FCombat.FCombatData.GetObjects(I) is CombatUnit;
+                bool condition = CombatMap.Current.Combat.CombatData.GetObjects(I) != null && CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit;
                 if (condition)
                 {
-                    var combatObject = CombatMap.Current.FCombat.FCombatData.GetObjects(I);
-                    var turnOrder = CombatMap.Current.FCombat.FCombatData.FTurnOrder[TurnIndex];
-                    condition = combatObject.FCombatPlayer == turnOrder;
+                    var combatObject = CombatMap.Current.Combat.CombatData.GetObjects(I);
+                    var turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[turnIndex];
+                    condition = combatObject.CombatPlayer == turnOrder;
                 }
 
-                if (condition && CombatMap.Current.FCombat.FCombatData.GetObjects(I).GetEnabled())
+                if (condition && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled())
                 {
-                    Found = true;
+                    found = true;
                 }
             }
         }
 
-        var turnOrder2 = CombatMap.Current.FCombat.FCombatData.FTurnOrder[TurnIndex];
+        var turnOrder2 = CombatMap.Current.Combat.CombatData.TurnOrder[turnIndex];
         CombatMap.Current.NewTurn((sbyte)turnOrder2);
         return ExecuteResult.Done;
     }

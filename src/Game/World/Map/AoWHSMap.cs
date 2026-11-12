@@ -45,302 +45,302 @@ namespace Aow.Game.World.Map;
 public partial class AoWHSMap : GameMap
 {
 
-    public new const int ClassID = 131089;
+    public new const int ClassId = 131089;
 
-    public SelectedArmy FSelectedArmy;
-    public bool FIgnoreStreamErrors;
-    public TargetSelectionControl FTargetSelection;
-    public string FMapName = "";
-    public string FAuthor = "";
-    public int FSphereCount;
-    public StringList FDescription;
-    public ItemControl FItemControl;
-    public HeroControl FHeroControl;
-    public UnitControl FUnitControl;
-    public StructureControl FStructureControl;
-    public IndependentAIMode FIndependentAIMode;
-    public StringList FObjectives;
-    public sbyte FHeroCountMax;
-    public StartupSongList FStartupSongs;
-    public SongList FGameSongs;
-    public GameStatus FGameStatus;
-    public GameResult FGameResult;
-    public GameType FGameType;
-    public CustomCombatMap FCombatMap;
-    public Battle FCombat;
-    public TutorialControl FTutorialControl;
-    public AIExecutor FAIExecuter;
-    public AIPlayerActionManager FAIPlayerActionManager;
-    public AIGroupManager FAIGroupManager;
-    public HexSpriteMapKeyboard FKeyboard;
-    public bool FUnlimitedMoves;
-    public bool FRequestCombatType;
-    public PlayerConnectionType FConnectionType;
-    public TextControl FTextControl;
-    public PlayerList FPlayers;
-    public RaceList FRaces;
-    public bool FFixedLeaders;
-    public bool FLeadersFixed;
-    public bool FStartingGame;
-    public bool FAlliedVictory;
-    public byte FVictoryMode;
-    public VictoryCondition FVictoryCondition;
-    public int FVictoryMana;
-    public int FVictoryGold;
-    public int FDayLimit;
-    public int FTurnTime;
-    public int FTurnTimeElapsed;
-    public int FTurnTimeBeep;
-    public int FTurnTimerStart;
-    public TurnOrderMode FTurnOrderMode;
-    public ByteList FTurnOrder;
-    public int FDay;
-    public string FSessionName = "";
+    public SelectedArmy SelectedArmy;
+    public bool IgnoreStreamErrors;
+    public TargetSelectionControl TargetSelection;
+    public string MapName = "";
+    public string Author = "";
+    public int SphereCount;
+    public StringList Description;
+    public ItemControl ItemControl;
+    public HeroControl HeroControl;
+    public UnitControl UnitControl;
+    public StructureControl StructureControl;
+    public AoWHSMapIndependentAIMode IndependentAIMode;
+    public StringList Objectives;
+    public sbyte HeroCountMax;
+    public StartupSongList StartupSongs;
+    public SongList GameSongs;
+    public AoWHSMapGameStatus GameStatus;
+    public AoWHSMapGameResult GameResult;
+    public GameType GameType;
+    public CustomCombatMap CombatMap;
+    public Battle Combat;
+    public TutorialControl TutorialControl;
+    public AIExecutor AIExecutor;
+    public AIPlayerActionManager AIPlayerActionManager;
+    public AIGroupManager AIGroupManager;
+    public HexSpriteMapKeyboard Keyboard;
+    public bool UnlimitedMoves;
+    public bool RequestCombatType;
+    public PlayerConnectionType ConnectionType;
+    public TextControl TextControl;
+    public PlayerList Players;
+    public RaceList Races;
+    public bool FixedLeaders;
+    public bool LeadersFixed;
+    public bool StartingGame;
+    public bool AlliedVictory;
+    public byte VictoryMode;
+    public AoWHSMapVictoryCondition VictoryCondition;
+    public int VictoryMana;
+    public int VictoryGold;
+    public int DayLimit;
+    public int TurnTime;
+    public int TurnTimeElapsed;
+    public int TurnTimeBeep;
+    public int TurnTimerStart;
+    public AoWHSMapTurnOrderMode TurnOrderMode;
+    public ByteList TurnOrder;
+    public int Day;
+    public string SessionName = "";
 
-    internal EventStore<Leader> FOnLeaderChangedStore;
+    internal EventStore<Leader> _onLeaderChangedStore;
 
     public event NotifyEvent<Leader> FOnLeaderChanged
     {
-        add => FOnLeaderChangedStore.Add(value);
-        remove => FOnLeaderChangedStore.Remove(value);
+        add => _onLeaderChangedStore.Add(value);
+        remove => _onLeaderChangedStore.Remove(value);
     }
 
-    public bool FShowIndependentMoves;
-    public MoveControl FMoveControl;
-    public GlobalMagicControl FGlobalMagicControl;
-    public MapCampaignSettings FCampaignSettings;
-    public sbyte FEditorPlayer;
-    public bool FShowAllPlayers;
-    public int FRelationsChangedLockCount;
+    public bool ShowIndependentMoves;
+    public MoveControl MoveControl;
+    public GlobalMagicControl GlobalMagicControl;
+    public MapCampaignSettings CampaignSettings;
+    public sbyte EditorPlayer;
+    public bool ShowAllPlayers;
+    public int RelationsChangedLockCount;
 
-    internal EventStore<AoWHSMap> FPlayerChangedEventsStore;
+    internal EventStore<AoWHSMap> _playerChangedEventsStore;
 
     public event NotifyEvent<AoWHSMap> FPlayerChangedEvents
     {
-        add => FPlayerChangedEventsStore.Add(value);
-        remove => FPlayerChangedEventsStore.Remove(value);
+        add => _playerChangedEventsStore.Add(value);
+        remove => _playerChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<PlayerControl> FNewDayEventsStore;
+    internal EventStore<PlayerControl> _newDayEventsStore;
 
     public event NotifyEvent<PlayerControl> FNewDayEvents
     {
-        add => FNewDayEventsStore.Add(value);
-        remove => FNewDayEventsStore.Remove(value);
+        add => _newDayEventsStore.Add(value);
+        remove => _newDayEventsStore.Remove(value);
     }
 
-    internal EventStore<sbyte> FNewTurnEventsStore;
+    internal EventStore<sbyte> _newTurnEventsStore;
 
     public event NotifyEvent<sbyte> FNewTurnEvents
     {
-        add => FNewTurnEventsStore.Add(value);
-        remove => FNewTurnEventsStore.Remove(value);
+        add => _newTurnEventsStore.Add(value);
+        remove => _newTurnEventsStore.Remove(value);
     }
 
-    internal EventStore<sbyte> FEndTurnEventsStore;
+    internal EventStore<sbyte> _endTurnEventsStore;
 
     public event NotifyEvent<sbyte> FEndTurnEvents
     {
-        add => FEndTurnEventsStore.Add(value);
-        remove => FEndTurnEventsStore.Remove(value);
+        add => _endTurnEventsStore.Add(value);
+        remove => _endTurnEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> FCurrentPlayerChangedEventsStore;
+    internal EventStore<AoWHSMap> _currentPlayerChangedEventsStore;
 
     public event NotifyEvent<AoWHSMap> FCurrentPlayerChangedEvents
     {
-        add => FCurrentPlayerChangedEventsStore.Add(value);
-        remove => FCurrentPlayerChangedEventsStore.Remove(value);
+        add => _currentPlayerChangedEventsStore.Add(value);
+        remove => _currentPlayerChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> FSeatedPlayerChangedEventsStore;
+    internal EventStore<AoWHSMap> _seatedPlayerChangedEventsStore;
 
     public event NotifyEvent<AoWHSMap> FSeatedPlayerChangedEvents
     {
-        add => FSeatedPlayerChangedEventsStore.Add(value);
-        remove => FSeatedPlayerChangedEventsStore.Remove(value);
+        add => _seatedPlayerChangedEventsStore.Add(value);
+        remove => _seatedPlayerChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Battle> FCombatEventsStore;
+    internal EventStore<Battle> _combatEventsStore;
 
     public event NotifyEvent<Battle> FCombatEvents
     {
-        add => FCombatEventsStore.Add(value);
-        remove => FCombatEventsStore.Remove(value);
+        add => _combatEventsStore.Add(value);
+        remove => _combatEventsStore.Remove(value);
     }
 
-    internal EventStore<sbyte> FPlayerTerminatedEventsStore;
+    internal EventStore<sbyte> _playerTerminatedEventsStore;
 
     public event NotifyEvent<sbyte> FPlayerTerminatedEvents
     {
-        add => FPlayerTerminatedEventsStore.Add(value);
-        remove => FPlayerTerminatedEventsStore.Remove(value);
+        add => _playerTerminatedEventsStore.Add(value);
+        remove => _playerTerminatedEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> FGameOverEventsStore;
+    internal EventStore<AoWHSMap> _gameOverEventsStore;
 
     public event NotifyEvent<AoWHSMap> FGameOverEvents
     {
-        add => FGameOverEventsStore.Add(value);
-        remove => FGameOverEventsStore.Remove(value);
+        add => _gameOverEventsStore.Add(value);
+        remove => _gameOverEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> FGameTerminatedEventsStore;
+    internal EventStore<AoWHSMap> _gameTerminatedEventsStore;
 
     public event NotifyEvent<AoWHSMap> FGameTerminatedEvents
     {
-        add => FGameTerminatedEventsStore.Add(value);
-        remove => FGameTerminatedEventsStore.Remove(value);
+        add => _gameTerminatedEventsStore.Add(value);
+        remove => _gameTerminatedEventsStore.Remove(value);
     }
 
-    public bool FExitPending;
+    public bool ExitPending;
 
-    internal EventStore<AoWHSMap> FExitEventsStore;
+    internal EventStore<AoWHSMap> _exitEventsStore;
 
     public event NotifyEvent<AoWHSMap> FExitEvents
     {
-        add => FExitEventsStore.Add(value);
-        remove => FExitEventsStore.Remove(value);
+        add => _exitEventsStore.Add(value);
+        remove => _exitEventsStore.Remove(value);
     }
 
-    public int FGameOverLockCount;
-    public EventLogList FExecuteEventLogBuffer;
+    public int GameOverLockCount;
+    public EventLogList ExecuteEventLogBuffer;
 
-    internal EventStore<ExecuteEventLogNotification> FExecuteEventLogEventsStore;
+    internal EventStore<ExecuteEventLogNotification> _executeEventLogEventsStore;
 
     public event NotifyEvent<ExecuteEventLogNotification> FExecuteEventLogEvents
     {
-        add => FExecuteEventLogEventsStore.Add(value);
-        remove => FExecuteEventLogEventsStore.Remove(value);
+        add => _executeEventLogEventsStore.Add(value);
+        remove => _executeEventLogEventsStore.Remove(value);
     }
 
-    public ExecuteEventLogCallbackList FExecuteEventLogCallBacks;
-    public int FAILockCount;
-    public int FExecuteEventLogDelay;
+    public ExecuteEventLogCallbackList ExecuteEventLogCallBacks;
+    public int AILockCount;
+    public int ExecuteEventLogDelay;
 
-    internal EventStore<SpellCaster> FCosmeticSurgeryEventsStore;
+    internal EventStore<SpellCaster> _cosmeticSurgeryEventsStore;
 
     public event NotifyEvent<SpellCaster> FCosmeticSurgeryEvents
     {
-        add => FCosmeticSurgeryEventsStore.Add(value);
-        remove => FCosmeticSurgeryEventsStore.Remove(value);
+        add => _cosmeticSurgeryEventsStore.Add(value);
+        remove => _cosmeticSurgeryEventsStore.Remove(value);
     }
 
-    internal EventStore<AbilityActivation> FOnActivateAbilityStore;
+    internal EventStore<AbilityActivation> _onActivateAbilityStore;
 
     public event NotifyEvent<AbilityActivation> FOnActivateAbility
     {
-        add => FOnActivateAbilityStore.Add(value);
-        remove => FOnActivateAbilityStore.Remove(value);
+        add => _onActivateAbilityStore.Add(value);
+        remove => _onActivateAbilityStore.Remove(value);
     }
 
-    internal EventStore<EngineObject> FDiplomaticRelationsChangedEventsStore;
+    internal EventStore<EngineObject> _diplomaticRelationsChangedEventsStore;
 
     public event NotifyEvent<EngineObject> FDiplomaticRelationsChangedEvents
     {
-        add => FDiplomaticRelationsChangedEventsStore.Add(value);
-        remove => FDiplomaticRelationsChangedEventsStore.Remove(value);
+        add => _diplomaticRelationsChangedEventsStore.Add(value);
+        remove => _diplomaticRelationsChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> FUpdateVisibilityEventsStore;
+    internal EventStore<AoWHSMap> _updateVisibilityEventsStore;
 
     public event NotifyEvent<AoWHSMap> FUpdateVisibilityEvents
     {
-        add => FUpdateVisibilityEventsStore.Add(value);
-        remove => FUpdateVisibilityEventsStore.Remove(value);
+        add => _updateVisibilityEventsStore.Add(value);
+        remove => _updateVisibilityEventsStore.Remove(value);
     }
 
-    public List<WorldEffectHexSprite> FEffects;
-    public int FUpdateVisibilityLockCount;
-    public bool FVisibilityChanged;
-    public int FArmyUpdateCount;
-    public int FStructureUpdateCount;
-    public int FUnitUpdateCount;
+    public List<WorldEffectHexSprite> Effects;
+    public int UpdateVisibilityLockCount;
+    public bool VisibilityChanged;
+    public int ArmyUpdateCount;
+    public int StructureUpdateCount;
+    public int UnitUpdateCount;
 
-    internal EventStore<Troop> FUnitChangedEventsStore;
+    internal EventStore<Troop> _unitChangedEventsStore;
 
     public event NotifyEvent<Troop> FUnitChangedEvents
     {
-        add => FUnitChangedEventsStore.Add(value);
-        remove => FUnitChangedEventsStore.Remove(value);
+        add => _unitChangedEventsStore.Add(value);
+        remove => _unitChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Army> FArmyChangedEventsStore;
+    internal EventStore<Army> _armyChangedEventsStore;
 
     public event NotifyEvent<Army> FArmyChangedEvents
     {
-        add => FArmyChangedEventsStore.Add(value);
-        remove => FArmyChangedEventsStore.Remove(value);
+        add => _armyChangedEventsStore.Add(value);
+        remove => _armyChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Structure> FStructureChangedEventsStore;
+    internal EventStore<Structure> _structureChangedEventsStore;
 
     public event NotifyEvent<Structure> FStructureChangedEvents
     {
-        add => FStructureChangedEventsStore.Add(value);
-        remove => FStructureChangedEventsStore.Remove(value);
+        add => _structureChangedEventsStore.Add(value);
+        remove => _structureChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Troop> FUnitDestroyedEventsStore;
+    internal EventStore<Troop> _unitDestroyedEventsStore;
 
     public event NotifyEvent<Troop> FUnitDestroyedEvents
     {
-        add => FUnitDestroyedEventsStore.Add(value);
-        remove => FUnitDestroyedEventsStore.Remove(value);
+        add => _unitDestroyedEventsStore.Add(value);
+        remove => _unitDestroyedEventsStore.Remove(value);
     }
 
-    internal EventStore<Army> FArmyDestroyedEventsStore;
+    internal EventStore<Army> _armyDestroyedEventsStore;
 
     public event NotifyEvent<Army> FArmyDestroyedEvents
     {
-        add => FArmyDestroyedEventsStore.Add(value);
-        remove => FArmyDestroyedEventsStore.Remove(value);
+        add => _armyDestroyedEventsStore.Add(value);
+        remove => _armyDestroyedEventsStore.Remove(value);
     }
 
-    internal EventStore<Structure> FStructureDestroyedEventsStore;
+    internal EventStore<Structure> _structureDestroyedEventsStore;
 
     public event NotifyEvent<Structure> FStructureDestroyedEvents
     {
-        add => FStructureDestroyedEventsStore.Add(value);
-        remove => FStructureDestroyedEventsStore.Remove(value);
+        add => _structureDestroyedEventsStore.Add(value);
+        remove => _structureDestroyedEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> FTokenControlActivatedEventsStore;
+    internal EventStore<AoWHSMap> _tokenControlActivatedEventsStore;
 
     public event NotifyEvent<AoWHSMap> FTokenControlActivatedEvents
     {
-        add => FTokenControlActivatedEventsStore.Add(value);
-        remove => FTokenControlActivatedEventsStore.Remove(value);
+        add => _tokenControlActivatedEventsStore.Add(value);
+        remove => _tokenControlActivatedEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> FCombatMapCreatedEventsStore;
+    internal EventStore<AoWHSMap> _combatMapCreatedEventsStore;
 
     public event NotifyEvent<AoWHSMap> FCombatMapCreatedEvents
     {
-        add => FCombatMapCreatedEventsStore.Add(value);
-        remove => FCombatMapCreatedEventsStore.Remove(value);
+        add => _combatMapCreatedEventsStore.Add(value);
+        remove => _combatMapCreatedEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> FCombatMapDestroyedEventsStore;
+    internal EventStore<AoWHSMap> _combatMapDestroyedEventsStore;
 
     public event NotifyEvent<AoWHSMap> FCombatMapDestroyedEvents
     {
-        add => FCombatMapDestroyedEventsStore.Add(value);
-        remove => FCombatMapDestroyedEventsStore.Remove(value);
+        add => _combatMapDestroyedEventsStore.Add(value);
+        remove => _combatMapDestroyedEventsStore.Remove(value);
     }
 
-    public int FInitialRandomSeed;
-    public int FDefendersSeed;
-    public int FSynchroniseCount;
-    public bool FDebugSave;
-    public PlayMode FPlayMode;
-    public TokenManager FTokenManager;
-    public PlayerCommunicator FPlayerCommunicator;
-    public PlayerControl FPlayerControl;
-    public bool FUseTurnTimer;
-    public bool FShowUnitShadows;
-    public Text FTokenEventLog;
-    public bool FTokenEventLogging;
+    public int InitialRandomSeed;
+    public int DefendersSeed;
+    public int SynchronizeCount;
+    public bool DebugSave;
+    public PlayMode PlayMode;
+    public TokenManager TokenManager;
+    public PlayerCommunicator PlayerCommunicator;
+    public PlayerControl PlayerControl;
+    public bool UseTurnTimer;
+    public bool ShowUnitShadows;
+    public Text TokenEventLog;
+    public bool TokenEventLogging;
 
     // AoWHSMap.PAS:1336
     public override void Dispose()
@@ -349,150 +349,150 @@ public partial class AoWHSMap : GameMap
         LockMapChangedEvent();
         OnViewLevel = null;
         OnCenterView = null;
-        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "GENERAL.ILB");
-        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "CURSORS.ILB");
-        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "COMBAT.ILB");
-        FMoveControl?.Dispose();
-        for (int I = FEffects.Count - 1; I >= 0; I--)
+        AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "GENERAL.ILB");
+        AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "CURSORS.ILB");
+        AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "COMBAT.ILB");
+        MoveControl?.Dispose();
+        for (int I = Effects.Count - 1; I >= 0; I--)
         {
-            var animation = FEffects[I];
-            DynamicFixedVisibleHS.RemoveChild((EngineObject)animation);
-            var fEffectsItem = FEffects[I];
-            DynamicVisibleHS.RemoveChild((EngineObject)fEffectsItem);
-            (FEffects[I] as IDisposable)?.Dispose();
+            var animation = Effects[I];
+            DynamicFixedVisibleHexSprite.RemoveChild((EngineObject)animation);
+            var fEffectsItem = Effects[I];
+            DynamicVisibleHexSprite.RemoveChild((EngineObject)fEffectsItem);
+            (Effects[I] as IDisposable)?.Dispose();
         }
 
-        FEffects?.Clear();
-        FTutorialControl?.Dispose();
-        FPlayers.BeginUpdate();
-        FArmyChangedEventsStore.Clear();
-        FStructureChangedEventsStore.Clear();
-        FUnitChangedEventsStore.Clear();
-        FSeatedPlayerChangedEventsStore.Clear();
-        FCurrentPlayerChangedEventsStore.Clear();
-        FNewTurnEventsStore.Clear();
-        FNewDayEventsStore.Clear();
-        FOnLeaderChangedStore.Clear();
-        FDescription.Clear();
-        FObjectives.Clear();
-        FTurnOrder.Clear();
-        FStructureDestroyedEventsStore.Clear();
-        FUnitDestroyedEventsStore.Clear();
-        FCombatMapCreatedEventsStore.Clear();
-        FCombatMapDestroyedEventsStore.Clear();
-        FUpdateVisibilityEventsStore.Clear();
-        FDiplomaticRelationsChangedEventsStore.Clear();
-        FCosmeticSurgeryEventsStore.Clear();
-        FOnActivateAbilityStore.Clear();
-        FTokenControlActivatedEventsStore.Clear();
-        FPlayerChangedEventsStore.Clear();
-        FExitEventsStore.Clear();
+        Effects?.Clear();
+        TutorialControl?.Dispose();
+        Players.BeginUpdate();
+        _armyChangedEventsStore.Clear();
+        _structureChangedEventsStore.Clear();
+        _unitChangedEventsStore.Clear();
+        _seatedPlayerChangedEventsStore.Clear();
+        _currentPlayerChangedEventsStore.Clear();
+        _newTurnEventsStore.Clear();
+        _newDayEventsStore.Clear();
+        _onLeaderChangedStore.Clear();
+        Description.Clear();
+        Objectives.Clear();
+        TurnOrder.Clear();
+        _structureDestroyedEventsStore.Clear();
+        _unitDestroyedEventsStore.Clear();
+        _combatMapCreatedEventsStore.Clear();
+        _combatMapDestroyedEventsStore.Clear();
+        _updateVisibilityEventsStore.Clear();
+        _diplomaticRelationsChangedEventsStore.Clear();
+        _cosmeticSurgeryEventsStore.Clear();
+        _onActivateAbilityStore.Clear();
+        _tokenControlActivatedEventsStore.Clear();
+        _playerChangedEventsStore.Clear();
+        _exitEventsStore.Clear();
         Mouse.OnMove -= MouseMoved;
-        if (FCombat != null)
+        if (Combat != null)
         {
             DestroyCombat();
         }
 
-        if (FCombatMap != null)
+        if (CombatMap != null)
         {
-            FCombatMap?.Dispose();
-            FCombatMap = null;
+            CombatMap?.Dispose();
+            CombatMap = null;
         }
 
         base.Dispose();
-        FItemControl.Deactivate();
-        FGlobalMagicControl?.Dispose();
-        FGlobalMagicControl = null;
-        FPlayerCommunicator?.Dispose();
-        FTokenManager?.Dispose();
-        FTokenManager = null;
-        FCampaignSettings?.Dispose();
-        FAIExecuter?.Dispose();
-        FSelectedArmy?.Dispose();
-        FSeatedPlayerChangedEventsStore.Clear();
-        FExecuteEventLogBuffer?.Dispose();
-        FNewTurnEventsStore.Clear();
-        FEndTurnEventsStore.Clear();
-        FCurrentPlayerChangedEventsStore.Clear();
-        FNewDayEventsStore.Clear();
-        FArmyChangedEventsStore.Clear();
-        FStructureChangedEventsStore.Clear();
-        FUnitChangedEventsStore.Clear();
-        FArmyDestroyedEventsStore.Clear();
-        FStructureDestroyedEventsStore.Clear();
-        FUnitDestroyedEventsStore.Clear();
-        FOnLeaderChangedStore.Clear();
-        FDescription?.Dispose();
-        FObjectives?.Dispose();
-        FTurnOrder?.Dispose();
-        FPlayerControl?.Dispose();
-        FTextControl?.Dispose();
-        FCombatEventsStore.Clear();
-        FPlayerChangedEventsStore.Clear();
-        FExecuteEventLogEventsStore.Clear();
-        FExecuteEventLogCallBacks?.Dispose();
-        FCosmeticSurgeryEventsStore.Clear();
-        FOnActivateAbilityStore.Clear();
-        FGameSongs?.Dispose();
-        FStartupSongs?.Dispose();
-        FExitEventsStore.Clear();
-        FItemControl?.Dispose();
-        FItemControl = null;
-        FHeroControl?.Dispose();
-        FHeroControl = null;
-        FUnitControl?.Dispose();
-        FUnitControl = null;
-        FStructureControl?.Dispose();
-        FStructureControl = null;
-        FAIGroupManager?.Dispose();
-        FAIGroupManager = null;
-        FAIPlayerActionManager?.Dispose();
-        FPlayers?.Dispose();
-        FRaces?.Dispose();
-        FPlayerTerminatedEventsStore.Clear();
-        FGameOverEventsStore.Clear();
-        FGameTerminatedEventsStore.Clear();
-        FTargetSelection?.Dispose();
-        FCombatMapCreatedEventsStore.Clear();
-        FCombatMapDestroyedEventsStore.Clear();
-        FDiplomaticRelationsChangedEventsStore.Clear();
-        FKeyboard?.Dispose();
-        FUpdateVisibilityEventsStore.Clear();
-        FTokenControlActivatedEventsStore.Clear();
+        ItemControl.Deactivate();
+        GlobalMagicControl?.Dispose();
+        GlobalMagicControl = null;
+        PlayerCommunicator?.Dispose();
+        TokenManager?.Dispose();
+        TokenManager = null;
+        CampaignSettings?.Dispose();
+        AIExecutor?.Dispose();
+        SelectedArmy?.Dispose();
+        _seatedPlayerChangedEventsStore.Clear();
+        ExecuteEventLogBuffer?.Dispose();
+        _newTurnEventsStore.Clear();
+        _endTurnEventsStore.Clear();
+        _currentPlayerChangedEventsStore.Clear();
+        _newDayEventsStore.Clear();
+        _armyChangedEventsStore.Clear();
+        _structureChangedEventsStore.Clear();
+        _unitChangedEventsStore.Clear();
+        _armyDestroyedEventsStore.Clear();
+        _structureDestroyedEventsStore.Clear();
+        _unitDestroyedEventsStore.Clear();
+        _onLeaderChangedStore.Clear();
+        Description?.Dispose();
+        Objectives?.Dispose();
+        TurnOrder?.Dispose();
+        PlayerControl?.Dispose();
+        TextControl?.Dispose();
+        _combatEventsStore.Clear();
+        _playerChangedEventsStore.Clear();
+        _executeEventLogEventsStore.Clear();
+        ExecuteEventLogCallBacks?.Dispose();
+        _cosmeticSurgeryEventsStore.Clear();
+        _onActivateAbilityStore.Clear();
+        GameSongs?.Dispose();
+        StartupSongs?.Dispose();
+        _exitEventsStore.Clear();
+        ItemControl?.Dispose();
+        ItemControl = null;
+        HeroControl?.Dispose();
+        HeroControl = null;
+        UnitControl?.Dispose();
+        UnitControl = null;
+        StructureControl?.Dispose();
+        StructureControl = null;
+        AIGroupManager?.Dispose();
+        AIGroupManager = null;
+        AIPlayerActionManager?.Dispose();
+        Players?.Dispose();
+        Races?.Dispose();
+        _playerTerminatedEventsStore.Clear();
+        _gameOverEventsStore.Clear();
+        _gameTerminatedEventsStore.Clear();
+        TargetSelection?.Dispose();
+        _combatMapCreatedEventsStore.Clear();
+        _combatMapDestroyedEventsStore.Clear();
+        _diplomaticRelationsChangedEventsStore.Clear();
+        Keyboard?.Dispose();
+        _updateVisibilityEventsStore.Clear();
+        _tokenControlActivatedEventsStore.Clear();
         UnlockMapChangedEvent();
     }
 
     // AoWHSMap.PAS:2160
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
         int X = default;
         int Y = default;
         int L = default;
-        if (Stream.StorageMode().Contains(StorageModeElement.Read) && !Stream.StorageMode().Contains(StorageModeElement.Translate))
+        if (stream.StorageMode().Contains(StorageModeElement.Read) && !stream.StorageMode().Contains(StorageModeElement.Translate))
         {
-            Stream.ShowProgress(this, AbilityRules.TranslateRStr(OneMomentPleaseStr), 0);
+            stream.ShowProgress(this, AbilityRules.TranslateResourceString(s_oneMomentPleaseText), 0);
         }
 
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Write, StorageModeElement.TextOnly)) == Set<StorageModeElement>.Of(StorageModeElement.Write))
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Write, StorageModeElement.TextOnly)) == Set<StorageModeElement>.Of(StorageModeElement.Write))
         {
             ResetModified();
         }
 
-        FIgnoreStreamErrors = false;
+        IgnoreStreamErrors = false;
         if (Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            Stream.OnError = OnStreamError;
+            stream.OnError = OnStreamError;
         }
 
-        Stream.rwData(Bytes.Of(ref FConnectionType, 1), 1, 31);
-        if (FConnectionType == PlayerConnectionType.Network)
+        stream.rwData(Bytes.Of(ref ConnectionType, 1), 1, 31);
+        if (ConnectionType == PlayerConnectionType.Network)
         {
-            X = FViewXhp;
-            FViewXhp = 0;
-            Y = FViewYhp;
-            FViewYhp = 0;
-            L = FViewL;
-            FViewL = 0;
+            X = _viewPixelX;
+            _viewPixelX = 0;
+            Y = _viewPixelY;
+            _viewPixelY = 0;
+            L = _viewL;
+            _viewL = 0;
         }
         else
         {
@@ -501,105 +501,105 @@ public partial class AoWHSMap : GameMap
             L = 0;
         }
 
-        base.ReadWrite(Stream);
-        if (FConnectionType == PlayerConnectionType.Network)
+        base.ReadWrite(stream);
+        if (ConnectionType == PlayerConnectionType.Network)
         {
-            FViewXhp = X;
-            FViewYhp = Y;
-            FViewL = L;
+            _viewPixelX = X;
+            _viewPixelY = Y;
+            _viewL = L;
         }
 
-        Stream.rwString(ref FAuthor, 7);
-        Stream.rwStrings(FDescription, 11);
-        Stream.rwStrings(FObjectives, 12);
-        Stream.rwData(Bytes.Of(ref FIndependentAIMode, 1), 1, 13);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FCurrentPlayer), 16);
-        Stream.rwData(Bytes.Of(ref FTurnOrderMode, 1), 1, 17);
-        Stream.rwStreamProc(18, FTurnOrder.LoadFromStream, FTurnOrder.SaveToStream);
-        Stream.rwInteger(ref FDay, 19);
-        Stream.rwString(ref FSessionName, 20);
-        Stream.rwEObject(FPlayers, 21);
-        Stream.rwEObject(FRaces, 22);
-        Stream.rwBool(ref FExplorationEnabled, 23);
-        if (!Stream.StorageMode().Contains(StorageModeElement.Preview))
+        stream.rwString(ref Author, 7);
+        stream.rwStrings(Description, 11);
+        stream.rwStrings(Objectives, 12);
+        stream.rwData(Bytes.Of(ref IndependentAIMode, 1), 1, 13);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref CurrentPlayer), 16);
+        stream.rwData(Bytes.Of(ref TurnOrderMode, 1), 1, 17);
+        stream.rwStreamProc(18, TurnOrder.LoadFromStream, TurnOrder.SaveToStream);
+        stream.rwInteger(ref Day, 19);
+        stream.rwString(ref SessionName, 20);
+        stream.rwEObject(Players, 21);
+        stream.rwEObject(Races, 22);
+        stream.rwBool(ref ExplorationEnabled, 23);
+        if (!stream.StorageMode().Contains(StorageModeElement.Preview))
         {
-            Stream.rwEObject(FHeroControl, 24);
+            stream.rwEObject(HeroControl, 24);
         }
 
-        Stream.rwString(ref FMapName, 25);
-        Stream.rwBool(ref FFogEnabled, 26);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FHeroCountMax), 27);
-        Stream.rwInteger(ref FDefendersSeed, 28);
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly) && !Stream.StorageMode().Contains(StorageModeElement.Preview) && !Stream.StorageMode().Contains(StorageModeElement.Compare))
+        stream.rwString(ref MapName, 25);
+        stream.rwBool(ref FogEnabled, 26);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HeroCountMax), 27);
+        stream.rwInteger(ref DefendersSeed, 28);
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly) && !stream.StorageMode().Contains(StorageModeElement.Preview) && !stream.StorageMode().Contains(StorageModeElement.Compare))
         {
-            Stream.rwEObject(FStartupSongs, 29);
+            stream.rwEObject(StartupSongs, 29);
         }
 
-        Stream.rwEObject(FItemControl, 30);
-        Stream.rwData(Bytes.Of(ref FGameStatus, 1), 1, 34);
-        Stream.rwData(Bytes.Of(ref FGameResult, 1), 1, 35);
-        Stream.rwInteger(ref FInitialRandomSeed, 36);
-        Stream.rwData(Bytes.Of(ref FGameType, 1), 1, 37);
-        Stream.rwEObject(FUnitControl, 38);
-        Stream.rwData(Bytes.Of(ref FPlayMode, 1), 1, 39);
-        Stream.rwEObject(FGlobalMagicControl, 40);
-        Stream.rwIntegerEx(ref FSphereCount, 5, 41);
-        Stream.rwEObject(FTextControl, 42);
-        Stream.rwEObject(FCampaignSettings, 43);
+        stream.rwEObject(ItemControl, 30);
+        stream.rwData(Bytes.Of(ref GameStatus, 1), 1, 34);
+        stream.rwData(Bytes.Of(ref GameResult, 1), 1, 35);
+        stream.rwInteger(ref InitialRandomSeed, 36);
+        stream.rwData(Bytes.Of(ref GameType, 1), 1, 37);
+        stream.rwEObject(UnitControl, 38);
+        stream.rwData(Bytes.Of(ref PlayMode, 1), 1, 39);
+        stream.rwEObject(GlobalMagicControl, 40);
+        stream.rwIntegerEx(ref SphereCount, 5, 41);
+        stream.rwEObject(TextControl, 42);
+        stream.rwEObject(CampaignSettings, 43);
         // { Original stores the hero control twice. }
-        Stream.rwEObject(FHeroControl, 44);
-        Stream.rwData(Bytes.Of(ref FVictoryCondition, 1), 1, 45);
-        Stream.rwInteger(ref FVictoryMana, 46);
-        Stream.rwInteger(ref FVictoryGold, 47);
-        Stream.rwBool(ref FFixedLeaders, 48);
-        Stream.rwBool(ref FAlliedVictory, 49);
-        Stream.rwEObject(FAIGroupManager, 50);
-        Stream.rwInteger(ref FDayLimit, 51);
-        Stream.rwInteger(ref FTurnTime, 52);
-        Stream.rwBool(ref FUnlimitedMoves, 53);
-        Stream.rwEObject(FStructureControl, 54);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read) || FConnectionType != PlayerConnectionType.Network)
+        stream.rwEObject(HeroControl, 44);
+        stream.rwData(Bytes.Of(ref VictoryCondition, 1), 1, 45);
+        stream.rwInteger(ref VictoryMana, 46);
+        stream.rwInteger(ref VictoryGold, 47);
+        stream.rwBool(ref FixedLeaders, 48);
+        stream.rwBool(ref AlliedVictory, 49);
+        stream.rwEObject(AIGroupManager, 50);
+        stream.rwInteger(ref DayLimit, 51);
+        stream.rwInteger(ref TurnTime, 52);
+        stream.rwBool(ref UnlimitedMoves, 53);
+        stream.rwEObject(StructureControl, 54);
+        if (stream.StorageMode().Contains(StorageModeElement.Read) || ConnectionType != PlayerConnectionType.Network)
         {
-            Stream.rwInteger(ref FTurnTimeElapsed, 55);
+            stream.rwInteger(ref TurnTimeElapsed, 55);
         }
 
-        Stream.rwEObject(FTutorialControl, 56);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read) || FConnectionType != PlayerConnectionType.Network)
+        stream.rwEObject(TutorialControl, 56);
+        if (stream.StorageMode().Contains(StorageModeElement.Read) || ConnectionType != PlayerConnectionType.Network)
         {
-            Stream.rwInteger(ref FTurnTimeBeep, 58);
+            stream.rwInteger(ref TurnTimeBeep, 58);
         }
 
-        Stream.rwBool(ref FLeadersFixed, 59);
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly) && !Stream.StorageMode().Contains(StorageModeElement.Preview) && FConnectionType != PlayerConnectionType.Network)
+        stream.rwBool(ref LeadersFixed, 59);
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly) && !stream.StorageMode().Contains(StorageModeElement.Preview) && ConnectionType != PlayerConnectionType.Network)
         {
-            Stream.rwEObject(FGameSongs, 60);
+            stream.rwEObject(GameSongs, 60);
         }
 
-        Stream.rwBool(ref FStartingGame, 61);
-        Stream.rwBool(ref FShowAllPlayers, 62);
-        Stream.rwData(Bytes.Of(ref FVictoryMode, 1), 1, 63);
-        RandSeed = FDefendersSeed;
+        stream.rwBool(ref StartingGame, 61);
+        stream.rwBool(ref ShowAllPlayers, 62);
+        stream.rwData(Bytes.Of(ref VictoryMode, 1), 1, 63);
+        RandSeed = DefendersSeed;
     }
 
     // AoWHSMap.PAS:2241
-    public override void MainReadWrite(EStorageStream Stream)
+    public override void MainReadWrite(EStorageStream stream)
     {
-        string FileName;
-        base.MainReadWrite(Stream);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Preview, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read) && FDay == 0)
+        string fileName;
+        base.MainReadWrite(stream);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Preview, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read) && Day == 0)
         {
-            if (FGameType == GameType.Campaign)
+            if (GameType == GameType.Campaign)
             {
-                FileName = GameTables.AoWEngine.StartupDirectory + "Dict\\" + "CampMaps" + ".mld";
+                fileName = GameTables.GameEngine.StartupDirectory + "Dict\\" + "CampMaps" + ".mld";
             }
             else
             {
-                FileName = GameTables.AoWEngine.StartupDirectory + "Dict\\" + "CustMaps" + ".mld";
+                fileName = GameTables.GameEngine.StartupDirectory + "Dict\\" + "CustMaps" + ".mld";
             }
 
-            if (FileExists(FileName))
+            if (FileExists(fileName))
             {
-                GameTables.AoWEngine.TranslateEObjectFromFile(this, FileName);
+                GameTables.GameEngine.TranslateEngineObjectFromFile(this, fileName);
             }
         }
     }
@@ -607,151 +607,151 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1238
     public AoWHSMap(ECustomNode owner) : base(owner)
     {
-        FItemControl = new ItemControl(null);
-        FTokenManager = new AoWTokenManager(GameTables.AoWEngine);
-        FTokenManager.TokenExecuter.OnActivateTC += TokenControlActivatedEvent;
-        FTokenManager.TokenExecuter.OnExecuteTokenEvent = OnExecuteTokenEvent;
-        FTokenManager.OnMessage = OnTokenManagerMessage;
-        FPlayerCommunicator = new PlayerCommunicator(null);
-        FPlayerCommunicator.Engine = GameTables.AoWEngine;
-        FConnectionType = PlayerConnectionType.Local;
-        FAIExecuter = new AIExecutor(null);
-        FAIGroupManager = new AIGroupManager(null);
-        FAIPlayerActionManager = new AIPlayerActionManager(null);
-        FAIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<EndTurnAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlLoopAIPlayerAction>(), AIPlayerActionClass.Of<InitializeAIPlayerAction>(), AIPlayerActionClass.Of<BudgetManagerAIPlayerAction>(), AIPlayerActionClass.Of<AutoProduceAIPlayerAction>(), AIPlayerActionClass.Of<DiplomacyAIPlayerAction>(), AIPlayerActionClass.Of<ProcessEventLogAIPlayerAction>(), AIPlayerActionClass.Of<ResearchSpellAIPlayerAction>(), AIPlayerActionClass.Of<CastSpellAIPlayerAction>(), AIPlayerActionClass.Of<StructurePhase1AIPlayerAction>(), AIPlayerActionClass.Of<StructurePhase2AIPlayerAction>()]);
-        FTokenManager.TokenExecuter.OnEventsExecuted += FAIExecuter.TokenControlDoneEvent;
-        FAIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<HuntAIGroup>()]);
-        FPlayMode = PlayMode.None;
-        FKeyboard = new HexSpriteMapKeyboard(null);
-        FTargetSelection = new TargetSelectionControl();
-        FEffects = new List<WorldEffectHexSprite>();
-        FDefendersSeed = 0;
-        FHeroCountMax = 5;
-        FSelectedArmy = new SelectedArmy();
-        ((GameMapMouse)Mouse).FRectangleSelectEvents += FSelectedArmy.RectangleSelectEvent;
-        FMoveControl = new MoveControl(this);
-        FGlobalMagicControl = new GlobalMagicControl(null);
-        FMapName = "noname";
-        FAuthor = "";
-        FTurnTimerStart = -1;
-        FSphereCount = 5;
-        FVictoryGold = 5000;
-        FVictoryMana = 5000;
-        FDescription = new StringList();
-        FObjectives = new StringList();
-        FIndependentAIMode = IndependentAIMode.Normal;
-        FPlayers = new PlayerList(null);
-        FRaces = new RaceList(null);
-        FPlayerChangedEventsStore = new();
-        FFixedLeaders = true;
-        FAlliedVictory = false;
-        FCurrentPlayer = 0;
-        FUseTurnTimer = true;
-        FExecuteEventLogBuffer = new EventLogList(null);
-        FDebugSave = false;
-        FTutorialControl = new TutorialControl(null);
-        FTurnOrderMode = TurnOrderMode.Fixed;
-        FTurnOrder = new ByteList();
-        FDay = 0;
-        FGameStatus = GameStatus.Idle;
-        FGameResult = GameResult.None;
-        FSessionName = "";
-        var detailLevel = GameTables.AoWEngine.FRegistry.GetDetailLevel();
-        FShowUnitShadows = Set<DetailLevel>.Of(DetailLevel.Normal, DetailLevel.High).Contains(detailLevel);
-        FHeroControl = new HeroControl(null);
-        FUnitControl = new UnitControl(null);
-        FStructureControl = new StructureControl(null);
-        FOnLeaderChangedStore = new();
-        FTextControl = new TextControl(null);
-        FNewDayEventsStore = new();
-        FNewTurnEventsStore = new();
-        FEndTurnEventsStore = new();
-        FCurrentPlayerChangedEventsStore = new();
-        FSeatedPlayerChangedEventsStore = new();
-        FArmyChangedEventsStore = new();
-        FStructureChangedEventsStore = new();
-        FTokenControlActivatedEventsStore = new();
-        FUnitChangedEventsStore = new();
-        FArmyDestroyedEventsStore = new();
-        FStructureDestroyedEventsStore = new();
-        FUnitDestroyedEventsStore = new();
-        FCombatEventsStore = new();
-        FExecuteEventLogEventsStore = new();
-        FUnitChangedEvents += FTargetSelection.UnitChanged;
-        FArmyDestroyedEvents += FSelectedArmy.OnDestroyArmy;
-        FExecuteEventLogCallBacks = new ExecuteEventLogCallbackList();
-        FCosmeticSurgeryEventsStore = new();
-        FOnActivateAbilityStore = new();
-        FStartupSongs = new StartupSongList(null);
-        FGameSongs = new SongList(null);
-        FPlayerTerminatedEventsStore = new();
-        FGameOverEventsStore = new();
-        FGameTerminatedEventsStore = new();
-        FDiplomaticRelationsChangedEventsStore = new();
-        FUpdateVisibilityEventsStore = new();
-        FCombatMapCreatedEventsStore = new();
-        FCombatMapDestroyedEventsStore = new();
-        FExitEventsStore = new();
-        FCampaignSettings = new MapCampaignSettings(null);
+        ItemControl = new ItemControl(null);
+        TokenManager = new AoWTokenManager(GameTables.GameEngine);
+        TokenManager.TokenExecutor.OnActivateTacticalBattle += TokenControlActivatedEvent;
+        TokenManager.TokenExecutor.OnExecuteTokenEvent = OnExecuteTokenEvent;
+        TokenManager.OnMessage = OnTokenManagerMessage;
+        PlayerCommunicator = new PlayerCommunicator(null);
+        PlayerCommunicator.Engine = GameTables.GameEngine;
+        ConnectionType = PlayerConnectionType.Local;
+        AIExecutor = new AIExecutor(null);
+        AIGroupManager = new AIGroupManager(null);
+        AIPlayerActionManager = new AIPlayerActionManager(null);
+        AIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<EndTurnAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlLoopAIPlayerAction>(), AIPlayerActionClass.Of<InitializeAIPlayerAction>(), AIPlayerActionClass.Of<BudgetManagerAIPlayerAction>(), AIPlayerActionClass.Of<AutoProduceAIPlayerAction>(), AIPlayerActionClass.Of<DiplomacyAIPlayerAction>(), AIPlayerActionClass.Of<ProcessEventLogAIPlayerAction>(), AIPlayerActionClass.Of<ResearchSpellAIPlayerAction>(), AIPlayerActionClass.Of<CastSpellAIPlayerAction>(), AIPlayerActionClass.Of<StructurePhase1AIPlayerAction>(), AIPlayerActionClass.Of<StructurePhase2AIPlayerAction>()]);
+        TokenManager.TokenExecutor.OnEventsExecuted += AIExecutor.TokenControlDoneEvent;
+        AIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<HuntAIGroup>()]);
+        PlayMode = PlayMode.None;
+        Keyboard = new HexSpriteMapKeyboard(null);
+        TargetSelection = new TargetSelectionControl();
+        Effects = new List<WorldEffectHexSprite>();
+        DefendersSeed = 0;
+        HeroCountMax = 5;
+        SelectedArmy = new SelectedArmy();
+        ((GameMapMouse)Mouse).FRectangleSelectEvents += SelectedArmy.RectangleSelectEvent;
+        MoveControl = new MoveControl(this);
+        GlobalMagicControl = new GlobalMagicControl(null);
+        MapName = "noname";
+        Author = "";
+        TurnTimerStart = -1;
+        SphereCount = 5;
+        VictoryGold = 5000;
+        VictoryMana = 5000;
+        Description = new StringList();
+        Objectives = new StringList();
+        IndependentAIMode = AoWHSMapIndependentAIMode.Normal;
+        Players = new PlayerList(null);
+        Races = new RaceList(null);
+        _playerChangedEventsStore = new();
+        FixedLeaders = true;
+        AlliedVictory = false;
+        CurrentPlayer = 0;
+        UseTurnTimer = true;
+        ExecuteEventLogBuffer = new EventLogList(null);
+        DebugSave = false;
+        TutorialControl = new TutorialControl(null);
+        TurnOrderMode = AoWHSMapTurnOrderMode.Fixed;
+        TurnOrder = new ByteList();
+        Day = 0;
+        GameStatus = AoWHSMapGameStatus.Idle;
+        GameResult = AoWHSMapGameResult.None;
+        SessionName = "";
+        var detailLevel = GameTables.GameEngine.Registry.GetDetailLevel();
+        ShowUnitShadows = Set<DetailLevel>.Of(DetailLevel.Normal, DetailLevel.High).Contains(detailLevel);
+        HeroControl = new HeroControl(null);
+        UnitControl = new UnitControl(null);
+        StructureControl = new StructureControl(null);
+        _onLeaderChangedStore = new();
+        TextControl = new TextControl(null);
+        _newDayEventsStore = new();
+        _newTurnEventsStore = new();
+        _endTurnEventsStore = new();
+        _currentPlayerChangedEventsStore = new();
+        _seatedPlayerChangedEventsStore = new();
+        _armyChangedEventsStore = new();
+        _structureChangedEventsStore = new();
+        _tokenControlActivatedEventsStore = new();
+        _unitChangedEventsStore = new();
+        _armyDestroyedEventsStore = new();
+        _structureDestroyedEventsStore = new();
+        _unitDestroyedEventsStore = new();
+        _combatEventsStore = new();
+        _executeEventLogEventsStore = new();
+        FUnitChangedEvents += TargetSelection.UnitChanged;
+        FArmyDestroyedEvents += SelectedArmy.OnDestroyArmy;
+        ExecuteEventLogCallBacks = new ExecuteEventLogCallbackList();
+        _cosmeticSurgeryEventsStore = new();
+        _onActivateAbilityStore = new();
+        StartupSongs = new StartupSongList(null);
+        GameSongs = new SongList(null);
+        _playerTerminatedEventsStore = new();
+        _gameOverEventsStore = new();
+        _gameTerminatedEventsStore = new();
+        _diplomaticRelationsChangedEventsStore = new();
+        _updateVisibilityEventsStore = new();
+        _combatMapCreatedEventsStore = new();
+        _combatMapDestroyedEventsStore = new();
+        _exitEventsStore = new();
+        CampaignSettings = new MapCampaignSettings(null);
         Mouse.OnMove += MouseMoved;
     }
 
     // AoWHSMap.PAS:2826
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        if (Msg.MsgID == 536870920)
+        if (message.MessageId == 536870920)
         {
-            SynchroniseBegin();
-            FGlobalMagicControl.BeginUpdate();
-            FPlayers.BeginUpdate();
+            SynchronizeBegin();
+            GlobalMagicControl.BeginUpdate();
+            Players.BeginUpdate();
             BeginUnitUpdate();
             LockUpdateVisibility();
-            FItemControl.Activate();
-            FStructureControl.Activate();
-            if (FDay == 0)
+            ItemControl.Activate();
+            StructureControl.Activate();
+            if (Day == 0)
             {
                 ResetMapLevels();
             }
         }
 
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 536870920)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 536870920)
         {
-            ActivateMsg();
+            ActivateMessage();
             EndUnitUpdate();
-            FPlayers.EndUpdate();
-            FGlobalMagicControl.EndUpdate();
+            Players.EndUpdate();
+            GlobalMagicControl.EndUpdate();
             UnLockUpdateVisibility();
-            SynchroniseEnd();
+            SynchronizeEnd();
         }
         else
         {
-            if (Msg.MsgID == 537001989)
+            if (message.MessageId == 537001989)
             {
-                FUpdateVisibilityEventsStore.Raise(this);
+                _updateVisibilityEventsStore.Raise(this);
             }
         }
     }
 
     // AoWHSMap.PAS:2853
-    public override void SendMsg(ref EngineMessage Msg, EngineObject Sender)
+    public override void SendMessage(ref EngineMessage message, EngineObject sender)
     {
-        base.SendMsg(ref Msg, Sender);
-        if (FGlobalMagicControl != null)
+        base.SendMessage(ref message, sender);
+        if (GlobalMagicControl != null)
         {
-            FGlobalMagicControl.MsgProc(ref Msg, Sender);
+            GlobalMagicControl.MessageProc(ref message, sender);
         }
 
-        FPlayers.MsgProc(ref Msg, Sender);
-        FRaces.MsgProc(ref Msg, Sender);
-        FItemControl.MsgProc(ref Msg, Sender);
-        FHeroControl.MsgProc(ref Msg, Sender);
-        FAIGroupManager.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986 && Msg.Payload.Int == Current.FSeatedPlayer)
+        Players.MessageProc(ref message, sender);
+        Races.MessageProc(ref message, sender);
+        ItemControl.MessageProc(ref message, sender);
+        HeroControl.MessageProc(ref message, sender);
+        AIGroupManager.MessageProc(ref message, sender);
+        if (message.MessageId == 537001986 && message.Payload.Int == Current.SeatedPlayer)
         {
-            if (FSelectedArmy.GetArmyHS() != null)
+            if (SelectedArmy.GetArmyHexSprite() != null)
             {
-                FSelectedArmy.Update();
+                SelectedArmy.Update();
             }
         }
     }
@@ -760,80 +760,80 @@ public partial class AoWHSMap : GameMap
     public override HexSpriteMapMouse CreateMouse() => new AowHexSpriteMapMouse();
 
     // AoWHSMap.PAS:2116
-    public override void NotifyProgress(in MapProgress Progress)
+    public override void NotifyProgress(in MapProgress progress)
     {
-        string DefaultText;
-        string Text = "";
-        int Percent = default;
-        int Total = default;
+        string defaultText;
+        string text = "";
+        int percent = default;
+        int total = default;
         if (OnProgress != null)
         {
-            DefaultText = AbilityRules.TranslateRStr(OneMomentPleaseStr);
-            switch (Progress.ProgressType)
+            defaultText = AbilityRules.TranslateResourceString(s_oneMomentPleaseText);
+            switch (progress.ProgressType)
             {
                 case MapProgressType.Loading:
-                    Total = Progress.Percent + Progress.Level * 100;
-                    Percent = Round((double)((double)Total / 3) / MapContainer.LevelCount);
-                    if (GameTables.AoWEngine.FDebug)
+                    total = progress.Percent + progress.Level * 100;
+                    percent = Round((double)((double)total / 3) / MapContainer.LevelCount);
+                    if (GameTables.GameEngine.Debug)
                     {
-                        Text = AbilityRules.TranslateRStr(LoadingLevelRStr) + IntToStr(Progress.Level);
+                        text = AbilityRules.TranslateResourceString(s_loadingLevelText) + IntToStr(progress.Level);
                     }
                     else
                     {
-                        Text = DefaultText;
+                        text = defaultText;
                     }
 
-                    OnProgress(this, Text, Percent);
+                    OnProgress(this, text, percent);
                     break;
                 case MapProgressType.Initializing:
-                    Total = Progress.Percent + Progress.Level * 100;
-                    Percent = Round((double)((double)((double)Total / 4.5) / MapContainer.LevelCount) + (double)100 / 3);
-                    if (GameTables.AoWEngine.FDebug)
+                    total = progress.Percent + progress.Level * 100;
+                    percent = Round((double)((double)((double)total / 4.5) / MapContainer.LevelCount) + (double)100 / 3);
+                    if (GameTables.GameEngine.Debug)
                     {
-                        Text = AbilityRules.TranslateRStr(InitializingLevelRStr) + IntToStr(Progress.Level);
+                        text = AbilityRules.TranslateResourceString(s_initializingLevelText) + IntToStr(progress.Level);
                     }
                     else
                     {
-                        Text = DefaultText;
+                        text = defaultText;
                     }
 
-                    OnProgress(this, Text, Percent);
+                    OnProgress(this, text, percent);
                     break;
                 case MapProgressType.UpdatingTerrain:
-                    Total = Progress.Percent + Progress.Level * 100;
-                    Percent = Round((double)((double)((double)Total / 4.5) / MapContainer.LevelCount) + (double)500 / 9);
-                    if (GameTables.AoWEngine.FDebug)
+                    total = progress.Percent + progress.Level * 100;
+                    percent = Round((double)((double)((double)total / 4.5) / MapContainer.LevelCount) + (double)500 / 9);
+                    if (GameTables.GameEngine.Debug)
                     {
-                        Text = AbilityRules.TranslateRStr(UpdatingTerrainLevelRStr) + IntToStr(Progress.Level);
+                        text = AbilityRules.TranslateResourceString(s_updatingTerrainLevelText) + IntToStr(progress.Level);
                     }
                     else
                     {
-                        Text = DefaultText;
+                        text = defaultText;
                     }
 
-                    OnProgress(this, Text, Percent);
+                    OnProgress(this, text, percent);
                     break;
                 case MapProgressType.Activating:
-                    Total = Progress.Percent + Progress.Level * 100;
-                    Percent = Round((double)((double)((double)Total / 4.5) / MapContainer.LevelCount) + (double)700 / 9);
-                    if (GameTables.AoWEngine.FDebug)
+                    total = progress.Percent + progress.Level * 100;
+                    percent = Round((double)((double)((double)total / 4.5) / MapContainer.LevelCount) + (double)700 / 9);
+                    if (GameTables.GameEngine.Debug)
                     {
-                        Text = AbilityRules.TranslateRStr(ActivatingLevelRStr) + IntToStr(Progress.Level);
+                        text = AbilityRules.TranslateResourceString(s_activatingLevelText) + IntToStr(progress.Level);
                     }
                     else
                     {
-                        Text = DefaultText;
+                        text = defaultText;
                     }
 
-                    OnProgress(this, Text, Percent);
+                    OnProgress(this, text, percent);
                     break;
                 case MapProgressType.Saving:
-                    var savingLevel = AbilityRules.TranslateRStr(SavingLevelRStr);
-                    OnProgress(this, savingLevel + IntToStr(Progress.Level), Progress.Percent);
+                    var savingLevel = AbilityRules.TranslateResourceString(s_savingLevelText);
+                    OnProgress(this, savingLevel + IntToStr(progress.Level), progress.Percent);
                     break;
                 case MapProgressType.Destroying:
-                    var aoWETranslateRStr = AbilityRules.TranslateRStr(DestroyingLevelRStr);
-                    OnProgress(this, aoWETranslateRStr + IntToStr(Progress.Level), Progress.Percent);
+                    var translatedText = AbilityRules.TranslateResourceString(s_destroyingLevelText);
+                    OnProgress(this, translatedText + IntToStr(progress.Level), progress.Percent);
                     break;
             }
         }
@@ -842,99 +842,99 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:2290
     public override void InitializeNewMap()
     {
-        EngineObject Obj;
-        FRaces.Update();
-        FPlayers.SetNumberOfPlayers(2);
-        FPlayers.ValidateRaces(FRaces);
+        EngineObject objectValue;
+        Races.Update();
+        Players.SetNumberOfPlayers(2);
+        Players.ValidateRaces(Races);
         for (int L = 0, last = MapContainer.LevelCount - 1; L <= last; L++)
         {
             InitializeMapLevel((sbyte)L);
         }
 
-        for (int I = 0, last = AoWHSSet.Current.FItemLibraries.FSystemLibrary.Count - 1; I <= last; I++)
+        for (int I = 0, last = AoWHSSet.Current.ItemLibraries.SystemLibrary.Count - 1; I <= last; I++)
         {
-            Obj = AoWHSSet.Current.FItemLibraries.FSystemLibrary.GetItem(I).Copy(GameTables.AoWEngine);
-            FItemControl.RegisterItem((Item)Obj);
-            Obj.Release();
+            objectValue = AoWHSSet.Current.ItemLibraries.SystemLibrary.GetItem(I).Copy(GameTables.GameEngine);
+            ItemControl.RegisterItem((Item)objectValue);
+            objectValue.Release();
         }
 
-        for (int I = 0, last = AoWHSSet.Current.FHeroLibraries.FSystemLibrary.Count - 1; I <= last; I++)
+        for (int I = 0, last = AoWHSSet.Current.HeroLibraries.SystemLibrary.Count - 1; I <= last; I++)
         {
-            Obj = AoWHSSet.Current.FHeroLibraries.FSystemLibrary.GetHero(I).Copy(GameTables.AoWEngine);
-            FHeroControl.RegisterHero((Hero)Obj);
-            Obj.Release();
+            objectValue = AoWHSSet.Current.HeroLibraries.SystemLibrary.GetHero(I).Copy(GameTables.GameEngine);
+            HeroControl.RegisterHero((Hero)objectValue);
+            objectValue.Release();
         }
     }
 
     // AoWHSMap.PAS:2315
     public override bool AddMapLevel()
     {
-        bool Result;
+        bool result;
         if (MapContainer.LevelCount < 3 && MapContainer.AddLevel(131091))
         {
             InitializeMapLevel((sbyte)(MapContainer.LevelCount - 1));
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:2654
     public override void Activate()
     {
-        SynchroniseBegin();
-        if (FDay == 0 || FGameSongs.Songs.Count == 0)
+        SynchronizeBegin();
+        if (Day == 0 || GameSongs.Songs.Count == 0)
         {
-            FGameSongs.Songs.Clear();
-            for (int I = 0, last = Current.FStartupSongs.Songs.Count - 1; I <= last; I++)
+            GameSongs.Songs.Clear();
+            for (int I = 0, last = Current.StartupSongs.Songs.Count - 1; I <= last; I++)
             {
-                var fileNotFound = AbilityRules.TranslateRStr(GameText.FileNotFoundRStr);
-                if (CompareText(Current.FStartupSongs.SongNames[I], fileNotFound) != 0)
+                var fileNotFound = AbilityRules.TranslateResourceString(GameText.s_fileNotFoundText);
+                if (CompareText(Current.StartupSongs.SongNames[I], fileNotFound) != 0)
                 {
-                    var item = Current.FStartupSongs.Songs[I];
-                    FGameSongs.Songs.Add(item);
+                    var item = Current.StartupSongs.Songs[I];
+                    GameSongs.Songs.Add(item);
                 }
             }
         }
 
-        FGameStatus = GameStatus.Playing;
-        FDebugSave = GameTables.AoWEngine.FRegistry.GetAutoDebugSave();
-        FGlobalMagicControl.Update();
-        FPlayers.BeginUpdate();
-        FPlayers.EndUpdate();
-        for (int I = 0, last = FPlayers.Count - 1; I <= last; I++)
+        GameStatus = AoWHSMapGameStatus.Playing;
+        DebugSave = GameTables.GameEngine.Registry.GetAutoDebugSave();
+        GlobalMagicControl.Update();
+        Players.BeginUpdate();
+        Players.EndUpdate();
+        for (int I = 0, last = Players.Count - 1; I <= last; I++)
         {
-            if (FPlayers.GetPlayers(I).FBehavior == Player.Behavior.Random)
+            if (Players.GetPlayers(I).Behavior == PlayerBehavior.Random)
             {
                 var random = Current.Random(5);
-                FPlayers.GetPlayers(I).FBehavior = (Player.Behavior)random;
+                Players.GetPlayers(I).Behavior = (PlayerBehavior)random;
             }
         }
 
-        if (FPlayerControl == null)
+        if (PlayerControl == null)
         {
-            if (FPlayMode == PlayMode.None)
+            if (PlayMode == PlayMode.None)
             {
-                FPlayMode = PlayMode.Turn;
+                PlayMode = PlayMode.Turn;
             }
 
-            if (FPlayers.FLocalHumanPlayers.Count > 1)
+            if (Players.LocalHumanPlayers.Count > 1)
             {
-                FPlayMode = PlayMode.Turn;
+                PlayMode = PlayMode.Turn;
             }
 
-            SetupPlayerControl(FPlayMode, FConnectionType);
+            SetupPlayerControl(PlayMode, ConnectionType);
         }
 
-        FTokenManager.Initialize(FPlayerCommunicator);
+        TokenManager.Initialize(PlayerCommunicator);
         base.Activate();
         if (!Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            if (FDay == 0)
+            if (Day == 0)
             {
                 StartNewMap();
             }
@@ -946,401 +946,401 @@ public partial class AoWHSMap : GameMap
             ShowMessage("");
         }
 
-        if (GameTables.AoWEngine.FRegistry.GetLogTokenEvents())
+        if (GameTables.GameEngine.Registry.GetLogTokenEvents())
         {
             StartTokenEventLogging();
         }
 
-        SynchroniseEnd();
+        SynchronizeEnd();
     }
 
     // AoWHSMap.PAS:2326
-    public override bool CreateNewMap(NewHexSpriteMapSettings Settings) => base.CreateNewMap(Settings);
+    public override bool CreateNewMap(NewHexSpriteMapSettings settings) => base.CreateNewMap(settings);
 
     // AoWHSMap.PAS:3130
-    public override int ChangeTerrain(EngineObject MO, int X, int Y, int L, int Radius, int TerrainType)
+    public override int ChangeTerrain(EngineObject mapObject, int X, int Y, int L, int radius, int terrainType)
     {
         RandSeed = Current.Random(16777215);
-        return base.ChangeTerrain(MO, X, Y, L, Radius, TerrainType);
+        return base.ChangeTerrain(mapObject, X, Y, L, radius, terrainType);
     }
 
     // AoWHSMap.PAS:3137
-    public override int ChangeTerrainEx(EngineObject MO, int X, int Y, int L, int Radius, ChangeTerrainProc ChangeTerrainProc, TerrainChangedProc TerrainChangedProc)
+    public override int ChangeTerrain(EngineObject mapObject, int X, int Y, int L, int radius, ChangeTerrainProc changeTerrainProc, TerrainChangedProc terrainChangedProc)
     {
         RandSeed = Current.Random(16777215);
-        return base.ChangeTerrainEx(MO, X, Y, L, Radius, ChangeTerrainProc, TerrainChangedProc);
+        return base.ChangeTerrain(mapObject, X, Y, L, radius, changeTerrainProc, terrainChangedProc);
     }
 
     // AoWHSMap.PAS:2983
-    public override void DrawDynamicScene(ref LockedSurface SD)
+    public override void DrawDynamicScene(ref LockedSurface lockedSurface)
     {
-        base.DrawDynamicScene(ref SD);
-        DrawFog(SD);
-        if (FShowGrid)
+        base.DrawDynamicScene(ref lockedSurface);
+        DrawFog(lockedSurface);
+        if (ShowGrid)
         {
-            DrawGrid(SD);
+            DrawGrid(lockedSurface);
         }
 
-        FSelectedArmy.ShowMovePaths(SD);
-        FTargetSelection.ShowSelection(FViewXhp, FViewYhp, SD);
-        if (((GameMapMouse)Mouse).FSelectionRectangle.Left != -1)
+        SelectedArmy.ShowMovePaths(lockedSurface);
+        TargetSelection.ShowSelection(_viewPixelX, _viewPixelY, lockedSurface);
+        if (((GameMapMouse)Mouse).SelectionRectangle.Left != -1)
         {
-            DrawSelectionRect(FViewXhp, FViewYhp, ((GameMapMouse)Mouse).FSelectionRectangle, SD);
+            DrawSelectionRectangle(_viewPixelX, _viewPixelY, ((GameMapMouse)Mouse).SelectionRectangle, lockedSurface);
         }
     }
 
     // AoWHSMap.PAS:2568
     public override void NewFrame()
     {
-        CustomCombatMap CombatMap;
+        CustomCombatMap combatMap;
         base.NewFrame();
         if (Status.Contains(HexSpriteMapStatusElement.Activated))
         {
-            FPlayerControl.NewFrame();
-            FPlayerCommunicator.Process();
-            if (FCombatMap == null && FGameStatus != GameStatus.Terminated)
+            PlayerControl.NewFrame();
+            PlayerCommunicator.Process();
+            if (CombatMap == null && GameStatus != AoWHSMapGameStatus.Terminated)
             {
-                FAIExecuter.Process();
+                AIExecutor.Process();
             }
 
-            FTokenManager.Process();
+            TokenManager.Process();
             UpdateCursor();
             UpdateExecuteEventLogDelay();
             UpdateTurnTimeBeep();
             UpdateEffects();
-            CombatMap = FCombatMap;
-            if (CombatMap != null)
+            combatMap = CombatMap;
+            if (combatMap != null)
             {
-                CombatMap.NewFrame();
+                combatMap.NewFrame();
             }
         }
     }
 
     // AoWHSMap.PAS:1554
-    public override void SetSeatedPlayer(sbyte Player)
+    public override void SetSeatedPlayer(sbyte player)
     {
-        FPlayerControl.SetSeatedPlayer(Player);
+        PlayerControl.SetSeatedPlayer(player);
     }
 
     // AoWHSMap.PAS:1887
-    public virtual void TriggerCombatEvent(Battle Combat)
+    public virtual void TriggerCombatEvent(Battle combat)
     {
-        FCombatEventsStore.Raise(Combat);
+        _combatEventsStore.Raise(combat);
     }
 
     // AoWHSMap.PAS:1892
     public virtual void TriggerGameTerminatedEvent()
     {
-        FGameStatus = GameStatus.Terminated;
-        FGameOverEventsStore.Raise(this);
+        GameStatus = AoWHSMapGameStatus.Terminated;
+        _gameOverEventsStore.Raise(this);
     }
 
     // AoWHSMap.PAS:2012
-    public virtual void TriggerPlayerTerminatedEvent(int Player)
+    public virtual void TriggerPlayerTerminatedEvent(int player)
     {
-        FPlayerTerminatedEventsStore.Raise((sbyte)Player);
+        _playerTerminatedEventsStore.Raise((sbyte)player);
     }
 
     // AoWHSMap.PAS:2586
     public virtual void StartNewMap()
     {
-        FTurnOrder.Clear();
-        if (FTurnOrderMode == TurnOrderMode.Fixed)
+        TurnOrder.Clear();
+        if (TurnOrderMode == AoWHSMapTurnOrderMode.Fixed)
         {
-            for (int I = 0, last = FPlayers.Count - 1; I <= last; I++)
+            for (int I = 0, last = Players.Count - 1; I <= last; I++)
             {
-                FTurnOrder.Add((byte)I);
+                TurnOrder.Add((byte)I);
             }
         }
 
-        if (FTurnOrderMode == TurnOrderMode.Random)
+        if (TurnOrderMode == AoWHSMapTurnOrderMode.Random)
         {
             GenerateNewTurnOrder();
         }
 
-        for (int I = 0, last = FPlayers.Count - 1; I <= last; I++)
+        for (int I = 0, last = Players.Count - 1; I <= last; I++)
         {
-            var players = FPlayers.GetPlayers(I);
-            FPlayers.GetPlayers(I).SetGems(players.FInitialGold);
-            var fPlayersPlayers = FPlayers.GetPlayers(I);
-            FPlayers.GetPlayers(I).FMagicControl.SetMana(fPlayersPlayers.FMagicControl.FExternalMana);
-            switch (FPlayers.GetPlayers(I).FPlayerType)
+            var players = Players.GetPlayers(I);
+            Players.GetPlayers(I).SetGems(players.InitialGold);
+            var fPlayersPlayers = Players.GetPlayers(I);
+            Players.GetPlayers(I).MagicControl.SetMana(fPlayersPlayers.MagicControl.ExternalMana);
+            switch (Players.GetPlayers(I).PlayerType)
             {
-                case PlayerType.CPU4:
-                    var players2 = FPlayers.GetPlayers(I);
-                    FPlayers.GetPlayers(I).SetGems(players2.FGems + 250);
-                    var players3 = FPlayers.GetPlayers(I);
-                    FPlayers.GetPlayers(I).FMagicControl.SetMana(players3.FMagicControl.FMana + 250);
+                case PlayerType.Cpu4:
+                    var players2 = Players.GetPlayers(I);
+                    Players.GetPlayers(I).SetGems(players2.Gems + 250);
+                    var players3 = Players.GetPlayers(I);
+                    Players.GetPlayers(I).MagicControl.SetMana(players3.MagicControl.Mana + 250);
                     break;
-                case PlayerType.CPU5:
-                    var players4 = FPlayers.GetPlayers(I);
-                    FPlayers.GetPlayers(I).SetGems(players4.FGems + 500);
-                    var players5 = FPlayers.GetPlayers(I);
-                    FPlayers.GetPlayers(I).FMagicControl.SetMana(players5.FMagicControl.FMana + 500);
+                case PlayerType.Cpu5:
+                    var players4 = Players.GetPlayers(I);
+                    Players.GetPlayers(I).SetGems(players4.Gems + 500);
+                    var players5 = Players.GetPlayers(I);
+                    Players.GetPlayers(I).MagicControl.SetMana(players5.MagicControl.Mana + 500);
                     break;
             }
         }
 
-        FPlayerControl.StartNewMap();
+        PlayerControl.StartNewMap();
     }
 
     // AoWHSMap.PAS:2615
     public virtual void StartLoadedMap()
     {
-        FPlayerControl.StartLoadedMap();
+        PlayerControl.StartLoadedMap();
     }
 
     // AoWHSMap.PAS:1996
-    public virtual void TriggerExecuteEventLog(EventLog Log, bool Immediate, ExecuteDoneEvent Done)
+    public virtual void TriggerExecuteEventLog(EventLog log, bool immediate, ExecuteDoneEvent done)
     {
         var notification = new ExecuteEventLogNotification();
-        ref var Info = ref notification.Info;
-        Info.Log = Log;
-        Info.Done = Done;
-        Info.Immediate = Immediate;
-        if (!Immediate)
+        ref var info = ref notification.Info;
+        info.Log = log;
+        info.Done = done;
+        info.Immediate = immediate;
+        if (!immediate)
         {
-            Log.AddRef();
-            FExecuteEventLogCallBacks.Add(Info);
-            if (FAILockCount == 0)
+            log.AddRef();
+            ExecuteEventLogCallBacks.Add(info);
+            if (AILockCount == 0)
             {
                 ExecuteNextEventLog();
             }
         }
         else
         {
-            FExecuteEventLogEventsStore.Raise(notification);
+            _executeEventLogEventsStore.Raise(notification);
         }
     }
 
     // AoWHSMap.PAS:1476
-    public void SynchroniseBegin()
+    public void SynchronizeBegin()
     {
-        FSynchroniseCount += 1;
+        SynchronizeCount += 1;
     }
 
     // AoWHSMap.PAS:1481
-    public void SynchroniseEnd()
+    public void SynchronizeEnd()
     {
-        FSynchroniseCount -= 1;
+        SynchronizeCount -= 1;
     }
 
     // AoWHSMap.PAS:1486
-    public bool GetSynchronised()
+    public bool GetSynchronized()
     {
-        bool Result;
-        if (FSynchroniseCount == 0 && !FTokenManager.TokenExecuter.Executing && !Status.Contains(HexSpriteMapStatusElement.Editting))
+        bool result;
+        if (SynchronizeCount == 0 && !TokenManager.TokenExecutor.Executing && !Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:1509
-    public void PlayerDisconnected(sbyte Player)
+    public void PlayerDisconnected(sbyte player)
     {
-        FPlayerControl.PlayerDisconnected(Player);
+        PlayerControl.PlayerDisconnected(player);
     }
 
     // AoWHSMap.PAS:1514
     public void PlayerConnectionLost()
     {
-        FPlayerControl.ConnectionLost();
+        PlayerControl.ConnectionLost();
     }
 
     // AoWHSMap.PAS:1525
-    public IndependentAIMode GetIndependentAIMode()
+    public AoWHSMapIndependentAIMode GetIndependentAIMode()
     {
-        IndependentAIMode Result = FIndependentAIMode;
-        if (!Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Current.FGlobalMagicControl.FActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery))
+        AoWHSMapIndependentAIMode result = IndependentAIMode;
+        if (!Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery))
         {
-            if (Result == IndependentAIMode.Off)
+            if (result == AoWHSMapIndependentAIMode.Off)
             {
-                Result = IndependentAIMode.Normal;
+                result = AoWHSMapIndependentAIMode.Normal;
             }
             else
             {
-                Result = IndependentAIMode.Aggressive;
+                result = AoWHSMapIndependentAIMode.Aggressive;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:1534
-    public bool SaveGame(string FileName)
+    public bool SaveGame(string fileName)
     {
-        bool Result;
-        SaveGameTokenEvent Event;
-        if (Current.FSeatedPlayer != -1)
+        bool result;
+        SaveGameTokenEvent eventValue;
+        if (Current.SeatedPlayer != -1)
         {
-            Event = new SaveGameTokenEvent(null);
-            Event.FFileName = ExpandFileName(FileName);
-            Current.FTokenManager.GetTokenControl(Current.FSeatedPlayer).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new SaveGameTokenEvent(null);
+            eventValue.FileName = ExpandFileName(fileName);
+            Current.TokenManager.GetTokenControl(Current.SeatedPlayer).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:1559
-    public bool TerrainVisible(sbyte X, sbyte Y, sbyte L, int Radius)
+    public bool TerrainVisible(sbyte X, sbyte Y, sbyte L, int radius)
     {
-        MapLevel MapLevel;
-        AoWMapField Field;
-        HexNumberWalkData Walk = default;
+        MapLevel mapLevel;
+        AoWMapField field;
+        HexNumberWalkData walk = default;
         // { Original returns true immediately when exploration is enabled. }
-        bool Result = Current.FExplorationEnabled;
-        MapLevel = MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-        while (Walk.Radius <= Radius && !Result)
+        bool result = Current.ExplorationEnabled;
+        mapLevel = MapContainer.GetMapLevel(L);
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        while (walk.Radius <= radius && !result)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                Field = (AoWMapField)MapLevel.GetField(Walk.X, Walk.Y);
-                Result = Field.GetExplored(Current.FSeatedPlayer);
+                field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                result = field.GetExplored(Current.SeatedPlayer);
             }
 
-            if (!Result)
+            if (!result)
             {
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:1580
-    public bool Visible(sbyte X, sbyte Y, sbyte L, int Radius)
+    public bool Visible(sbyte X, sbyte Y, sbyte L, int radius)
     {
-        MapLevel MapLevel;
-        AoWMapField Field;
-        HexNumberWalkData Walk = default;
-        bool Result = false;
-        MapLevel = MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-        while (Walk.Radius <= Radius && !Result)
+        MapLevel mapLevel;
+        AoWMapField field;
+        HexNumberWalkData walk = default;
+        bool result = false;
+        mapLevel = MapContainer.GetMapLevel(L);
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        while (walk.Radius <= radius && !result)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                Field = (AoWMapField)MapLevel.GetField(Walk.X, Walk.Y);
-                Result = (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Hi).Lo != 0 || !Current.FFogEnabled) && (Field.GetExplored(Current.FSeatedPlayer) || !Current.FExplorationEnabled);
+                field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                result = (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Lo != 0 || !Current.FogEnabled) && (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled);
             }
 
-            if (!Result)
+            if (!result)
             {
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:1602
-    public bool WatchingTerrain(sbyte X, sbyte Y, sbyte L, int Radius)
+    public bool WatchingTerrain(sbyte X, sbyte Y, sbyte L, int radius)
     {
-        MapLevel MapLevel;
-        AoWMapField Field;
-        HexNumberWalkData Walk = default;
-        bool Result = false;
-        MapLevel = MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-        while (Walk.Radius <= Radius && !Result)
+        MapLevel mapLevel;
+        AoWMapField field;
+        HexNumberWalkData walk = default;
+        bool result = false;
+        mapLevel = MapContainer.GetMapLevel(L);
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        while (walk.Radius <= radius && !result)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                Field = (AoWMapField)MapLevel.GetField(Walk.X, Walk.Y);
-                Result = (Field.GetExplored(Current.FSeatedPlayer) || !Current.FExplorationEnabled) && Viewing(Walk.X, Walk.Y, L);
+                field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                result = (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled) && Viewing(walk.X, walk.Y, L);
             }
 
-            if (!Result)
+            if (!result)
             {
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:1624
-    public bool Watching(sbyte X, sbyte Y, sbyte L, int Radius)
+    public bool Watching(sbyte X, sbyte Y, sbyte L, int radius)
     {
-        MapLevel MapLevel;
-        AoWMapField Field;
-        HexNumberWalkData Walk = default;
-        bool Result = false;
-        MapLevel = MapContainer.GetMapLevel(L);
-        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-        while (Walk.Radius <= Radius && !Result)
+        MapLevel mapLevel;
+        AoWMapField field;
+        HexNumberWalkData walk = default;
+        bool result = false;
+        mapLevel = MapContainer.GetMapLevel(L);
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        while (walk.Radius <= radius && !result)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                Field = (AoWMapField)MapLevel.GetField(Walk.X, Walk.Y);
-                Result = (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Hi).Lo != 0 || !Current.FFogEnabled) && (Field.GetExplored(Current.FSeatedPlayer) || !Current.FExplorationEnabled) && Viewing(Walk.X, Walk.Y, L);
+                field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                result = (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Lo != 0 || !Current.FogEnabled) && (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled) && Viewing(walk.X, walk.Y, L);
             }
 
-            if (!Result)
+            if (!result)
             {
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:1647
-    public bool ValidateTerrainObservation(sbyte Player, sbyte X, sbyte Y, sbyte L, int Radius)
+    public bool ValidateTerrainObservation(sbyte player, sbyte X, sbyte Y, sbyte L, int radius)
     {
-        bool Result;
-        MapLevel MapLevel;
-        AoWMapField Field;
-        HexNumberWalkData Walk = default;
-        int WX;
-        if (FShowIndependentMoves && Player != Current.FSeatedPlayer)
+        bool result;
+        MapLevel mapLevel;
+        AoWMapField field;
+        HexNumberWalkData walk = default;
+        int wx;
+        if (ShowIndependentMoves && player != Current.SeatedPlayer)
         {
-            Result = false;
-            MapLevel = MapContainer.GetMapLevel(L);
-            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-            while (Walk.Radius <= Radius && !Result)
+            result = false;
+            mapLevel = MapContainer.GetMapLevel(L);
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            while (walk.Radius <= radius && !result)
             {
-                WX = Walk.X;
-                if (WX >= 0 && Walk.Y >= 0 && WX < MapLevel.Width && Walk.Y < MapLevel.Height)
+                wx = walk.X;
+                if (wx >= 0 && walk.Y >= 0 && wx < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
-                    Field = (AoWMapField)MapLevel.GetField(WX, Walk.Y);
-                    Result = Field.GetExplored(Current.FSeatedPlayer) || !Current.FExplorationEnabled;
+                    field = (AoWMapField)mapLevel.GetField(wx, walk.Y);
+                    result = field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled;
                 }
 
-                if (!Result)
+                if (!result)
                 {
-                    HexNumberWalkData.WalkToNextHN(ref Walk);
+                    HexNumberWalkData.WalkToNextHexNumber(ref walk);
                 }
             }
 
-            if (Result)
+            if (result)
             {
-                MakeVisible(Walk.X, Walk.Y, L, 3);
+                MakeVisible(walk.X, walk.Y, L, 3);
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:1704
-    public void UnlockGameOverEventCallBack()
+    public void UnlockGameOverEventCallback()
     {
         UnlockGameOverEvent();
     }
@@ -1348,18 +1348,18 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1709
     public bool SelectNextHero()
     {
-        Player Player;
+        Player player;
         int I;
-        int Left;
-        Army Army;
-        int Xhp = default;
-        int Yhp = default;
-        Player = FPlayers.GetPlayers(FSeatedPlayer);
-        if (Player.FArmies.Count != 0)
+        int left;
+        Army army;
+        int pixelX = default;
+        int pixelY = default;
+        player = Players.GetPlayers(SeatedPlayer);
+        if (player.Armies.Count != 0)
         {
-            Left = Player.FArmies.Count;
-            I = Player.FHeroJoinDay;
-            if (I < 0 || I >= Player.FArmies.Count)
+            left = player.Armies.Count;
+            I = player.HeroJoinDay;
+            if (I < 0 || I >= player.Armies.Count)
             {
                 I = 0;
             }
@@ -1367,24 +1367,24 @@ public partial class AoWHSMap : GameMap
             while (true)
             {
                 I += 1;
-                Left -= 1;
-                if (I == Player.FArmies.Count)
+                left -= 1;
+                if (I == player.Armies.Count)
                 {
                     I = 0;
                 }
 
-                if (Left == 0 || Player.FArmies.GetArmy(I).Hero(255, Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) != null)
+                if (left == 0 || player.Armies.GetArmy(I).Hero(255, Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) != null)
                     break;
             }
 
-            if (Player.FArmies.GetArmy(I).Hero(255, Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) != null)
+            if (player.Armies.GetArmy(I).Hero(255, Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) != null)
             {
-                Army = FPlayers.GetPlayers(FSeatedPlayer).FArmies.GetArmy(I);
-                CenterViewTo(Army.FX, Army.FY, Army.FL);
+                army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(I);
+                CenterViewTo(army.X, army.Y, army.MapLevel);
                 Selection.UnselectLocation();
-                HexGeometry.HXtoHP(Army.FX, Army.FY, ref Xhp, ref Yhp);
-                Selection.SelectLocation(Xhp, Yhp, Army.FL);
-                Player.FHeroJoinDay = I;
+                HexGeometry.HexToPixel(army.X, army.Y, ref pixelX, ref pixelY);
+                Selection.SelectLocation(pixelX, pixelY, army.MapLevel);
+                player.HeroJoinDay = I;
             }
             else
             {
@@ -1398,18 +1398,18 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1741
     public bool SelectNextArmy()
     {
-        Player Player;
+        Player player;
         int I;
-        int Left;
-        Army Army;
-        int Xhp = default;
-        int Yhp = default;
-        Player = FPlayers.GetPlayers(FSeatedPlayer);
-        if (Player.FArmies.Count != 0)
+        int left;
+        Army army;
+        int pixelX = default;
+        int pixelY = default;
+        player = Players.GetPlayers(SeatedPlayer);
+        if (player.Armies.Count != 0)
         {
-            Left = Player.FArmies.Count;
-            I = Player.FBaseHeroJoinDay;
-            if (I < 0 || I >= Player.FArmies.Count)
+            left = player.Armies.Count;
+            I = player.BaseHeroJoinDay;
+            if (I < 0 || I >= player.Armies.Count)
             {
                 I = 0;
             }
@@ -1417,24 +1417,24 @@ public partial class AoWHSMap : GameMap
             while (true)
             {
                 I += 1;
-                Left -= 1;
-                if (I == Player.FArmies.Count)
+                left -= 1;
+                if (I == player.Armies.Count)
                 {
                     I = 0;
                 }
 
-                if (Left == 0 || Player.FArmies.GetArmy(I).MovePoints(255) > 1 && (Player.FArmies.GetArmy(I).FUserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
+                if (left == 0 || player.Armies.GetArmy(I).MovePoints(255) > 1 && (player.Armies.GetArmy(I).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
                     break;
             }
 
-            if (Player.FArmies.GetArmy(I).MovePoints(255) > 1 && (Player.FArmies.GetArmy(I).FUserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
+            if (player.Armies.GetArmy(I).MovePoints(255) > 1 && (player.Armies.GetArmy(I).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
             {
-                Army = FPlayers.GetPlayers(FSeatedPlayer).FArmies.GetArmy(I);
-                CenterViewTo(Army.FX, Army.FY, Army.FL);
+                army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(I);
+                CenterViewTo(army.X, army.Y, army.MapLevel);
                 Selection.UnselectLocation();
-                HexGeometry.HXtoHP(Army.FX, Army.FY, ref Xhp, ref Yhp);
-                Selection.SelectLocation(Xhp, Yhp, Army.FL);
-                Player.FBaseHeroJoinDay = I;
+                HexGeometry.HexToPixel(army.X, army.Y, ref pixelX, ref pixelY);
+                Selection.SelectLocation(pixelX, pixelY, army.MapLevel);
+                player.BaseHeroJoinDay = I;
             }
             else
             {
@@ -1446,45 +1446,45 @@ public partial class AoWHSMap : GameMap
     }
 
     // AoWHSMap.PAS:1775
-    public bool SelectPrevArmy()
+    public bool SelectPreviousArmy()
     {
-        Player Player;
+        Player player;
         int I;
-        int Left;
-        Army Army;
-        int Xhp = default;
-        int Yhp = default;
-        Player = FPlayers.GetPlayers(FSeatedPlayer);
-        if (Player.FArmies.Count != 0)
+        int left;
+        Army army;
+        int pixelX = default;
+        int pixelY = default;
+        player = Players.GetPlayers(SeatedPlayer);
+        if (player.Armies.Count != 0)
         {
-            I = Player.FBaseHeroJoinDay;
-            if (I < 0 || I >= Player.FArmies.Count)
+            I = player.BaseHeroJoinDay;
+            if (I < 0 || I >= player.Armies.Count)
             {
                 I = 0;
             }
 
-            Left = Player.FArmies.Count;
+            left = player.Armies.Count;
             while (true)
             {
                 I -= 1;
-                Left -= 1;
+                left -= 1;
                 if (I < 0)
                 {
-                    I = Player.FArmies.Count - 1;
+                    I = player.Armies.Count - 1;
                 }
 
-                if (Left == 0 || Player.FArmies.GetArmy(I).MovePoints(255) > 1 && (Player.FArmies.GetArmy(I).FUserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
+                if (left == 0 || player.Armies.GetArmy(I).MovePoints(255) > 1 && (player.Armies.GetArmy(I).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
                     break;
             }
 
-            if (Player.FArmies.GetArmy(I).MovePoints(255) > 1 && (Player.FArmies.GetArmy(I).FUserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
+            if (player.Armies.GetArmy(I).MovePoints(255) > 1 && (player.Armies.GetArmy(I).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
             {
-                Army = FPlayers.GetPlayers(FSeatedPlayer).FArmies.GetArmy(I);
-                CenterViewTo(Army.FX, Army.FY, Army.FL);
+                army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(I);
+                CenterViewTo(army.X, army.Y, army.MapLevel);
                 Selection.UnselectLocation();
-                HexGeometry.HXtoHP(Army.FX, Army.FY, ref Xhp, ref Yhp);
-                Selection.SelectLocation(Xhp, Yhp, Army.FL);
-                Player.FBaseHeroJoinDay = I;
+                HexGeometry.HexToPixel(army.X, army.Y, ref pixelX, ref pixelY);
+                Selection.SelectLocation(pixelX, pixelY, army.MapLevel);
+                player.BaseHeroJoinDay = I;
             }
             else
             {
@@ -1498,169 +1498,169 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1809
     public void SeatedPlayerChanged()
     {
-        EngineMessage Msg = default;
+        EngineMessage message = default;
         Selection.UnselectAll();
-        EngineMessage.InitMsg(ref Msg, 537001990, this);
-        MapContainer.SendMsg(ref Msg, this);
-        EngineMessage.InitMsg(ref Msg, 537001993, this);
-        MapContainer.SendMsg(ref Msg, this);
-        FSeatedPlayerChangedEventsStore.Raise(Current);
+        EngineMessage.InitializeMessage(ref message, 537001990, this);
+        MapContainer.SendMessage(ref message, this);
+        EngineMessage.InitializeMessage(ref message, 537001993, this);
+        MapContainer.SendMessage(ref message, this);
+        _seatedPlayerChangedEventsStore.Raise(Current);
         ShowMessage("");
     }
 
     // AoWHSMap.PAS:1822
     public void BeginUnitUpdate()
     {
-        FUnitUpdateCount += 1;
+        UnitUpdateCount += 1;
     }
 
     // AoWHSMap.PAS:1827
     public void EndUnitUpdate()
     {
-        FUnitUpdateCount -= 1;
-        if (FUnitUpdateCount == 0)
+        UnitUpdateCount -= 1;
+        if (UnitUpdateCount == 0)
         {
             UnitChanged(null);
         }
     }
 
     // AoWHSMap.PAS:1833
-    public void UnitChanged(Troop AUnit)
+    public void UnitChanged(Troop troop)
     {
-        if (FUnitUpdateCount == 0)
+        if (UnitUpdateCount == 0)
         {
-            FUnitChangedEventsStore.Raise(AUnit);
+            _unitChangedEventsStore.Raise(troop);
         }
     }
 
     // AoWHSMap.PAS:1838
-    public void UnitDestroyed(Troop AUnit)
+    public void UnitDestroyed(Troop troop)
     {
         if (!Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            FUnitDestroyedEventsStore.Raise(AUnit);
+            _unitDestroyedEventsStore.Raise(troop);
         }
     }
 
     // AoWHSMap.PAS:1844
     public void BeginArmyUpdate()
     {
-        FArmyUpdateCount += 1;
+        ArmyUpdateCount += 1;
     }
 
     // AoWHSMap.PAS:1849
     public void EndArmyUpdate()
     {
-        FArmyUpdateCount -= 1;
-        if (FArmyUpdateCount == 0)
+        ArmyUpdateCount -= 1;
+        if (ArmyUpdateCount == 0)
         {
             ArmyChanged(null);
         }
     }
 
     // AoWHSMap.PAS:1855
-    public void ArmyChanged(Army Army)
+    public void ArmyChanged(Army army)
     {
-        if (FArmyUpdateCount == 0)
+        if (ArmyUpdateCount == 0)
         {
-            FArmyChangedEventsStore.Raise(Army);
+            _armyChangedEventsStore.Raise(army);
         }
     }
 
     // AoWHSMap.PAS:1860
-    public void ArmyDestroyed(Army Army)
+    public void ArmyDestroyed(Army army)
     {
         // TArmy.Destroy passes its Self pointer
-        FArmyDestroyedEventsStore.Raise(Army);
+        _armyDestroyedEventsStore.Raise(army);
     }
 
     // AoWHSMap.PAS:1866
     // TArmy.Destroy passes TArmy
     public void BeginStructureUpdate()
     {
-        FStructureUpdateCount += 1;
+        StructureUpdateCount += 1;
     }
 
     // AoWHSMap.PAS:1871
     public void EndStructureUpdate()
     {
-        FStructureUpdateCount -= 1;
-        if (FStructureUpdateCount == 0)
+        StructureUpdateCount -= 1;
+        if (StructureUpdateCount == 0)
         {
             StructureChanged(null);
         }
     }
 
     // AoWHSMap.PAS:1877
-    public void StructureChanged(Structure Structure)
+    public void StructureChanged(Structure structure)
     {
-        if (FStructureUpdateCount == 0)
+        if (StructureUpdateCount == 0)
         {
-            FStructureChangedEventsStore.Raise(Structure);
+            _structureChangedEventsStore.Raise(structure);
         }
     }
 
     // AoWHSMap.PAS:1882
-    public void StructureDestroyed(Structure Structure)
+    public void StructureDestroyed(Structure structure)
     {
-        FStructureDestroyedEventsStore.Raise(Structure);
+        _structureDestroyedEventsStore.Raise(structure);
     }
 
     // AoWHSMap.PAS:1898
     public void ExecuteExitGame()
     {
-        FExitPending = true;
-        FExitEventsStore.Raise(this);
+        ExitPending = true;
+        _exitEventsStore.Raise(this);
     }
 
     // AoWHSMap.PAS:1904
-    public void ExitGame(ExitGameMode Mode, ExitGameCallBack Done)
+    public void ExitGame(ExitGameMode mode, ExitGameCallBack done)
     {
-        PlayerControl PlayerControl;
-        if (!FExitPending)
+        PlayerControl playerControl;
+        if (!ExitPending)
         {
-            PlayerControl = FPlayerControl;
-            if (PlayerControl != null)
+            playerControl = PlayerControl;
+            if (playerControl != null)
             {
-                PlayerControl.ExitGame(Mode, Done);
+                playerControl.ExitGame(mode, done);
             }
             else
             {
                 ExecuteExitGame();
-                if (Done != null)
+                if (done != null)
                 {
-                    Done(Mode, true);
+                    done(mode, true);
                 }
             }
         }
         else
         {
-            if (Done != null)
+            if (done != null)
             {
-                Done(Mode, true);
+                done(mode, true);
             }
         }
     }
 
     // AoWHSMap.PAS:1921
-    public void TriggerEndTurnEvent(sbyte Player)
+    public void TriggerEndTurnEvent(sbyte player)
     {
-        FEndTurnEventsStore.Raise(Player);
+        _endTurnEventsStore.Raise(player);
     }
 
     // AoWHSMap.PAS:1926
     public void ClearExecuteEventLogBuffer()
     {
-        while (FExecuteEventLogCallBacks.GetCount() > 0)
+        while (ExecuteEventLogCallBacks.GetCount() > 0)
         {
-            if (FExecuteEventLogCallBacks.GetItem(0).Done != null)
+            if (ExecuteEventLogCallBacks.GetItem(0).Done != null)
             {
-                var item = FExecuteEventLogCallBacks.GetItem(1);
-                FExecuteEventLogCallBacks.GetItem(0).Done(item.Log);
+                var item = ExecuteEventLogCallBacks.GetItem(1);
+                ExecuteEventLogCallBacks.GetItem(0).Done(item.Log);
             }
 
             // { Original passes the second record's log to the first callback, even for a one-item list. }
-            FExecuteEventLogCallBacks.Delete(0);
+            ExecuteEventLogCallBacks.Delete(0);
         }
     }
 
@@ -1668,29 +1668,29 @@ public partial class AoWHSMap : GameMap
     public void ExecuteNextEventLog()
     {
         var notification = new ExecuteEventLogNotification();
-        ref var Info = ref notification.Info;
-        if (FExecuteEventLogCallBacks.GetCount() != 0)
+        ref var info = ref notification.Info;
+        if (ExecuteEventLogCallBacks.GetCount() != 0)
         {
-            FAILockCount += 1;
-            Info = FExecuteEventLogCallBacks.GetItem(0);
-            Info.Done = ExecuteEventLogDone;
-            FExecuteEventLogEventsStore.Raise(notification);
+            AILockCount += 1;
+            info = ExecuteEventLogCallBacks.GetItem(0);
+            info.Done = ExecuteEventLogDone;
+            _executeEventLogEventsStore.Raise(notification);
         }
     }
 
     // AoWHSMap.PAS:1950
-    public void SetExecuteEventLogDelay(int Value)
+    public void SetExecuteEventLogDelay(int value)
     {
-        if (FExecuteEventLogDelay == 0)
+        if (ExecuteEventLogDelay == 0)
         {
-            FExecuteEventLogDelay = Value;
+            ExecuteEventLogDelay = value;
             LockExecuteEventLog();
         }
         else
         {
-            if (Value > FExecuteEventLogDelay)
+            if (value > ExecuteEventLogDelay)
             {
-                FExecuteEventLogDelay = Value;
+                ExecuteEventLogDelay = value;
             }
         }
     }
@@ -1698,10 +1698,10 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1960
     public void UpdateExecuteEventLogDelay()
     {
-        if (FExecuteEventLogDelay != 0)
+        if (ExecuteEventLogDelay != 0)
         {
-            FExecuteEventLogDelay -= 1;
-            if (FExecuteEventLogDelay == 0)
+            ExecuteEventLogDelay -= 1;
+            if (ExecuteEventLogDelay == 0)
             {
                 UnlockExecuteEventLog();
             }
@@ -1709,19 +1709,19 @@ public partial class AoWHSMap : GameMap
     }
 
     // AoWHSMap.PAS:1969
-    public void ExecuteEventLogDone(EventLog Log)
+    public void ExecuteEventLogDone(EventLog log)
     {
-        ExecuteEventLogInfo Info;
-        if (FExecuteEventLogCallBacks.GetCount() > 0 && Log == FExecuteEventLogCallBacks.GetItem(0).Log)
+        ExecuteEventLogInfo info;
+        if (ExecuteEventLogCallBacks.GetCount() > 0 && log == ExecuteEventLogCallBacks.GetItem(0).Log)
         {
-            Info = FExecuteEventLogCallBacks.GetItem(0);
-            FExecuteEventLogCallBacks.Delete(0);
-            if (Info.Done != null)
+            info = ExecuteEventLogCallBacks.GetItem(0);
+            ExecuteEventLogCallBacks.Delete(0);
+            if (info.Done != null)
             {
-                Info.Done(Info.Log);
+                info.Done(info.Log);
             }
 
-            Info.Log.Release();
+            info.Log.Release();
         }
 
         SetExecuteEventLogDelay(2);
@@ -1731,51 +1731,51 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1985
     public void LockExecuteEventLog()
     {
-        FAILockCount += 1;
+        AILockCount += 1;
     }
 
     // AoWHSMap.PAS:1990
     public void UnlockExecuteEventLog()
     {
-        FAILockCount -= 1;
-        if (FAILockCount == 0)
+        AILockCount -= 1;
+        if (AILockCount == 0)
         {
             ExecuteNextEventLog();
         }
     }
 
     // AoWHSMap.PAS:2018
-    public void GameOverEventHandled(sbyte Player)
+    public void GameOverEventHandled(sbyte player)
     {
-        FPlayerControl.GameOverEventHandled(Player);
+        PlayerControl.GameOverEventHandled(player);
     }
 
     // AoWHSMap.PAS:2024
-    public void ExecuteGameOverEvent(GameOverEventLog Event)
+    public void ExecuteGameOverEvent(GameOverEventLog eventValue)
     {
-        Player Player;
-        GameOverEventLog Log;
-        for (int I = 1, last = Current.FPlayers.Count - 1; I <= last; I++)
+        Player player;
+        GameOverEventLog log;
+        for (int I = 1, last = Current.Players.Count - 1; I <= last; I++)
         {
-            Player = Current.FPlayers.GetPlayers(I);
-            if (I == Event.FPlayer || Player.FGameOverStatus == GameOverStatus.None)
+            player = Current.Players.GetPlayers(I);
+            if (I == eventValue._player || player.GameOverStatus == GameOverStatus.None)
             {
-                Log = (GameOverEventLog)Event.Copy(GameTables.AoWEngine);
-                if (FGameOverLockCount == 0)
+                log = (GameOverEventLog)eventValue.Copy(GameTables.GameEngine);
+                if (GameOverLockCount == 0)
                 {
-                    Player.FEventLogbook.AddEvent(Log);
-                    if (I == Current.FSeatedPlayer)
+                    player.EventLogbook.AddEvent(log);
+                    if (I == Current.SeatedPlayer)
                     {
-                        Log.Execute(false, ExecuteTrigger.Event, null);
+                        log.Execute(false, ExecuteTrigger.Event, null);
                     }
                 }
                 else
                 {
-                    Log.FTargetPlayer = (sbyte)I;
-                    FExecuteEventLogBuffer.AddEvent(Log);
+                    log.TargetPlayer = (sbyte)I;
+                    ExecuteEventLogBuffer.AddEvent(log);
                 }
 
-                Log.Release();
+                log.Release();
             }
         }
     }
@@ -1783,24 +1783,24 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:2052
     public void UnlockGameOverEvent()
     {
-        sbyte Player;
-        EventLog Log;
-        FGameOverLockCount -= 1;
-        if (FGameOverLockCount == 0)
+        sbyte player;
+        EventLog log;
+        GameOverLockCount -= 1;
+        if (GameOverLockCount == 0)
         {
-            while (FExecuteEventLogBuffer.Count != 0)
+            while (ExecuteEventLogBuffer.Count != 0)
             {
-                Player = ((GameOverEventLog)FExecuteEventLogBuffer.GetEvents(0)).FTargetPlayer;
-                Log = (EventLog)FExecuteEventLogBuffer.GetEvents(0).Copy(GameTables.AoWEngine);
-                Current.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Log);
-                if (Player == Current.FSeatedPlayer)
+                player = ((GameOverEventLog)ExecuteEventLogBuffer.GetEvents(0)).TargetPlayer;
+                log = (EventLog)ExecuteEventLogBuffer.GetEvents(0).Copy(GameTables.GameEngine);
+                Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
+                if (player == Current.SeatedPlayer)
                 {
-                    Log.Execute(false, ExecuteTrigger.Event, null);
+                    log.Execute(false, ExecuteTrigger.Event, null);
                 }
 
-                Log.Release();
-                var events = FExecuteEventLogBuffer.GetEvents(0);
-                FExecuteEventLogBuffer.RemoveEvent(events);
+                log.Release();
+                var events = ExecuteEventLogBuffer.GetEvents(0);
+                ExecuteEventLogBuffer.RemoveEvent(events);
             }
         }
     }
@@ -1808,15 +1808,15 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:2071
     public void LockGameOverEvent()
     {
-        FGameOverLockCount += 1;
+        GameOverLockCount += 1;
     }
 
     // AoWHSMap.PAS:2077
-    public void GameOver(sbyte Player, GameOverStatus Status)
+    public void GameOver(sbyte player, GameOverStatus status)
     {
-        if (Player > 0 && this.Status.Contains(HexSpriteMapStatusElement.Activated) && !this.Status.Contains(HexSpriteMapStatusElement.Editting) && !this.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (player > 0 && this.Status.Contains(HexSpriteMapStatusElement.Activated) && !this.Status.Contains(HexSpriteMapStatusElement.Editting) && !this.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            FPlayerControl.GameOver(Player, Status);
+            PlayerControl.GameOver(player, status);
         }
     }
 
@@ -1826,38 +1826,38 @@ public partial class AoWHSMap : GameMap
     }
 
     // AoWHSMap.PAS:2088
-    public bool ValidateMap(StringCollection Messages)
+    public bool ValidateMap(StringCollection messages)
     {
-        EngineMessage Msg = default;
-        EngineMessage.InitMsg(ref Msg, 537002243, this);
-        Msg.Payload = Messages;
-        Msg.Data[0] = 0;
-        Current.SendMsg(ref Msg, this);
-        bool Result = Msg.Data[0] == 0;
-        if (Result)
+        EngineMessage message = default;
+        EngineMessage.InitializeMessage(ref message, 537002243, this);
+        message.Payload = messages;
+        message.Data[0] = 0;
+        Current.SendMessage(ref message, this);
+        bool result = message.Data[0] == 0;
+        if (result)
         {
-            Messages.Add(AbilityRules.TranslateRStr(MapSuccessfullyValidatedRStr));
+            messages.Add(AbilityRules.TranslateResourceString(s_mapSuccessfullyValidatedText));
         }
         else
         {
-            Messages.Add(AbilityRules.TranslateRStr(MapValidationFailedRStr));
+            messages.Add(AbilityRules.TranslateResourceString(s_mapValidationFailedText));
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:2261
-    public void InitializeMapLevel(sbyte Level)
+    public void InitializeMapLevel(sbyte level)
     {
-        HexControl Control;
-        Control = Engine.HSSet.HexagonControl;
-        if (Level == 0)
+        HexControl control;
+        control = Engine.HexSpriteSet.HexControl;
+        if (level == 0)
         {
             for (int X = 6, last = MapContainer.Width - 7; X <= last; X++)
             {
                 for (int Y = 6, lastY = MapContainer.Height - 7; Y <= lastY; Y++)
                 {
-                    Control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 0);
+                    control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 0);
                 }
             }
         }
@@ -1867,7 +1867,7 @@ public partial class AoWHSMap : GameMap
             {
                 for (int Y = 1, lastY = MapContainer.Height - 7; Y <= lastY; Y++)
                 {
-                    Control.Place(MapContainer, (sbyte)X, (sbyte)Y, Level, 7);
+                    control.Place(MapContainer, (sbyte)X, (sbyte)Y, level, 7);
                 }
             }
         }
@@ -1876,12 +1876,12 @@ public partial class AoWHSMap : GameMap
         {
             for (int Y = 0; Y <= 5; Y++)
             {
-                Control.Place(MapContainer, (sbyte)X, (sbyte)Y, Level, 15);
+                control.Place(MapContainer, (sbyte)X, (sbyte)Y, level, 15);
             }
 
             for (int Y = MapContainer.Height - 6, lastY = MapContainer.Height - 1; Y <= lastY; Y++)
             {
-                Control.Place(MapContainer, (sbyte)X, (sbyte)Y, Level, 15);
+                control.Place(MapContainer, (sbyte)X, (sbyte)Y, level, 15);
             }
         }
 
@@ -1889,209 +1889,209 @@ public partial class AoWHSMap : GameMap
         {
             for (int X = 0; X <= 5; X++)
             {
-                Control.Place(MapContainer, (sbyte)X, (sbyte)Y, Level, 15);
+                control.Place(MapContainer, (sbyte)X, (sbyte)Y, level, 15);
             }
 
             for (int X = MapContainer.Width - 6, last = MapContainer.Width - 1; X <= last; X++)
             {
-                Control.Place(MapContainer, (sbyte)X, (sbyte)Y, Level, 15);
+                control.Place(MapContainer, (sbyte)X, (sbyte)Y, level, 15);
             }
         }
     }
 
     // AoWHSMap.PAS:2332
-    public void NotifyPlayerChangedEx(int X, int Y, int L, int Radius)
+    public void NotifyPlayerChanged(int X, int Y, int L, int radius)
     {
-        MapLevel MapLevel;
-        MapFieldMessage Msg = default;
-        HexNumberWalkData Walk = default;
-        AoWMapField Field;
-        MapLevel = MapContainer.GetMapLevel(L);
-        Msg.MsgID = 4365;
-        Msg.Result = 1;
-        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-        while (Walk.Radius <= Radius)
+        MapLevel mapLevel;
+        MapFieldMessage message = default;
+        HexNumberWalkData walk = default;
+        AoWMapField field;
+        mapLevel = MapContainer.GetMapLevel(L);
+        message.MessageId = 4365;
+        message.Result = 1;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        while (walk.Radius <= radius)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                Field = (AoWMapField)MapLevel.GetField(Walk.X, Walk.Y);
-                if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Hi).Hi & 1) != 0)
+                field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Hi & 1) != 0)
                 {
-                    Msg.Param[0] = Walk.Radius;
-                    Field.SendMapFieldMsg(ref Msg);
+                    message.Param[0] = walk.Radius;
+                    field.SendMapFieldMessage(ref message);
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
 
     // AoWHSMap.PAS:2359
-    public void UpdatePlayerSeen(int Player, int X, int Y, int L, int SightRadius, int Radius)
+    public void UpdatePlayerSeen(int player, int X, int Y, int L, int sightRadius, int radius)
     {
-        MapLevel MapLevel;
-        MapFieldMessage Msg = default;
-        HexNumberWalkData Walk = default;
-        AoWMapField Field;
-        MapLevel = MapContainer.GetMapLevel(L);
-        Msg.MsgID = 4400;
-        Msg.Param[0] = Player;
-        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-        while (Walk.Radius <= SightRadius || Walk.Radius <= Radius)
+        MapLevel mapLevel;
+        MapFieldMessage message = default;
+        HexNumberWalkData walk = default;
+        AoWMapField field;
+        mapLevel = MapContainer.GetMapLevel(L);
+        message.MessageId = 4400;
+        message.Param[0] = player;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        while (walk.Radius <= sightRadius || walk.Radius <= radius)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                Field = (AoWMapField)MapLevel.GetField(Walk.X, Walk.Y);
-                if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Hi).Hi & 2) != 0)
+                field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Hi & 2) != 0)
                 {
-                    Msg.Result = -1;
-                    if (Walk.Radius <= Radius)
+                    message.Result = -1;
+                    if (walk.Radius <= radius)
                     {
                         // { Original leaves the flag uninitialized outside Radius. }
-                        Msg.Param[1] = 1;
+                        message.Param[1] = 1;
                     }
 
-                    Field.SendMapFieldMsg(ref Msg);
-                    if (Msg.Result.Int != -1 && Msg.Result.Int != Player)
+                    field.SendMapFieldMessage(ref message);
+                    if (message.Result.Int != -1 && message.Result.Int != player)
                     {
-                        Current.FPlayers.GetPlayers(Player).PlayerSeen((sbyte)Msg.Result.Int);
-                        for (int I = 0, last = FPlayers.Count - 1; I <= last; I++)
+                        Current.Players.GetPlayers(player).PlayerSeen((sbyte)message.Result.Int);
+                        for (int I = 0, last = Players.Count - 1; I <= last; I++)
                         {
-                            if (I != Player && FPlayers.GetDiplomaticRelation((sbyte)Player, (sbyte)I) == DiplomaticRelation.Alliance)
+                            if (I != player && Players.GetDiplomaticRelation((sbyte)player, (sbyte)I) == DiplomaticRelation.Alliance)
                             {
-                                Current.FPlayers.GetPlayers(I).PlayerSeen((sbyte)Msg.Result.Int);
+                                Current.Players.GetPlayers(I).PlayerSeen((sbyte)message.Result.Int);
                             }
                         }
                     }
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
 
     // AoWHSMap.PAS:2395
     public void NotifyPlayerChanged(int X, int Y, int L)
     {
-        NotifyPlayerChangedEx(X, Y, L, 12);
+        NotifyPlayerChanged(X, Y, L, 12);
     }
 
     // AoWHSMap.PAS:2401
-    public bool VisibleForPlayer(int X, int Y, int Level, sbyte Player)
+    public bool VisibleForPlayer(int X, int Y, int level, sbyte player)
     {
-        bool Result;
-        MapLevel MapLevel;
-        MapFieldMessage Msg = default;
-        HexNumberWalkData Walk = default;
-        AoWMapField Field;
-        MapLevel = MapContainer.GetMapLevel(Level);
-        if (Player >= 0)
+        bool result;
+        MapLevel mapLevel;
+        MapFieldMessage message = default;
+        HexNumberWalkData walk = default;
+        AoWMapField field;
+        mapLevel = MapContainer.GetMapLevel(level);
+        if (player >= 0)
         {
-            Msg.MsgID = 4362;
-            Msg.Result = 0;
-            Msg.Param[1] = Player;
-            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-            while (Msg.Result.Int == 0 && Walk.Radius <= 12)
+            message.MessageId = 4362;
+            message.Result = 0;
+            message.Param[1] = player;
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            while (message.Result.Int == 0 && walk.Radius <= 12)
             {
-                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
+                if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
-                    Field = (AoWMapField)MapLevel.GetField(Walk.X, Walk.Y);
-                    if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Lo).Hi & 16) != 0)
+                    field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                    if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Lo).Hi & 16) != 0)
                     {
-                        Msg.Param[0] = Walk.Radius;
-                        Field.SendMapFieldMsg(ref Msg);
+                        message.Param[0] = walk.Radius;
+                        field.SendMapFieldMessage(ref message);
                     }
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
 
-            Result = Msg.Result.Int != 0;
+            result = message.Result.Int != 0;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:2434
-    public bool FoggedForPlayer(int X, int Y, int L, sbyte Player)
+    public bool FoggedForPlayer(int X, int Y, int L, sbyte player)
     {
-        bool Result;
-        MapLevel MapLevel;
-        MapFieldMessage Msg = default;
-        HexNumberWalkData Walk = default;
-        AoWMapField Field;
-        MapLevel = MapContainer.GetMapLevel(L);
-        if (!FExplorationEnabled || ((AoWMapField)MapLevel.GetField(X, Y)).GetExplored(Player))
+        bool result;
+        MapLevel mapLevel;
+        MapFieldMessage message = default;
+        HexNumberWalkData walk = default;
+        AoWMapField field;
+        mapLevel = MapContainer.GetMapLevel(L);
+        if (!ExplorationEnabled || ((AoWMapField)mapLevel.GetField(X, Y)).GetExplored(player))
         {
-            if (FFogEnabled)
+            if (FogEnabled)
             {
-                if (Player != Current.FSeatedPlayer)
+                if (player != Current.SeatedPlayer)
                 {
-                    Msg.MsgID = 4362;
-                    Msg.Result = 0;
-                    Msg.Param[1] = Player;
-                    HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-                    while (Msg.Result.Int == 0 && Walk.Radius <= 12)
+                    message.MessageId = 4362;
+                    message.Result = 0;
+                    message.Param[1] = player;
+                    HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+                    while (message.Result.Int == 0 && walk.Radius <= 12)
                     {
-                        if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
+                        if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                         {
-                            Field = (AoWMapField)MapLevel.GetField(Walk.X, Walk.Y);
-                            if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Lo).Hi & 16) != 0)
+                            field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                            if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Lo).Hi & 16) != 0)
                             {
-                                Msg.Param[0] = Walk.Radius;
-                                Field.SendMapFieldMsg(ref Msg);
+                                message.Param[0] = walk.Radius;
+                                field.SendMapFieldMessage(ref message);
                             }
                         }
 
-                        HexNumberWalkData.WalkToNextHN(ref Walk);
+                        HexNumberWalkData.WalkToNextHexNumber(ref walk);
                     }
 
-                    Result = Msg.Result.Int == 0;
+                    result = message.Result.Int == 0;
                 }
                 else
                 {
                     var fieldValue = Current.MapContainer.GetField(X, Y, L);
-                    Result = Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)fieldValue).FFieldFlags).Hi).Lo == 0;
+                    result = Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)fieldValue).FieldFlags).Hi).Lo == 0;
                 }
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:2474
-    public void MouseMoved(object Sender)
+    public void MouseMoved(object sender)
     {
-        AoWMapField Field;
+        AoWMapField field;
         // The original tests Xhx only and with Yhx -1 read memory before the field block. The
         // port treats that point as off the map.
-        if (Mouse.Capture == null && Mouse.Xhx != -1 && Mouse.Yhx != -1)
+        if (Mouse.Capture == null && Mouse.HexX != -1 && Mouse.HexY != -1)
         {
-            var yhx = Mouse.Yhx;
-            var xhx = Mouse.Xhx;
-            Field = (AoWMapField)MapContainer.GetField(xhx, yhx, FViewL);
-            if (Current.FExplorationEnabled && !Field.GetExplored(Current.FSeatedPlayer))
+            var hexY = Mouse.HexY;
+            var hexX = Mouse.HexX;
+            field = (AoWMapField)MapContainer.GetField(hexX, hexY, _viewL);
+            if (Current.ExplorationEnabled && !field.GetExplored(Current.SeatedPlayer))
             {
                 return;
             }
 
-            if (!Current.FFogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Hi).Lo != 0)
+            if (!Current.FogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Lo != 0)
             {
-                var yhp = Mouse.Yhp;
-                var xhp = Mouse.Xhp;
-                if (Selection.CanSelectLocation(xhp, yhp, FViewL) && !((GameMapMouse)Mouse).GetSelectingRectangle())
+                var pixelY = Mouse.PixelY;
+                var pixelX = Mouse.PixelX;
+                if (Selection.CanSelectLocation(pixelX, pixelY, _viewL) && !((GameMapMouse)Mouse).GetSelectingRectangle())
                 {
                     Mouse.CursorMode = 257;
                 }
@@ -2128,237 +2128,237 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:2502
     public void ResetSeatedPlayerView()
     {
-        Player Player;
-        Army Army;
-        int XYL = default;
-        if (FSeatedPlayer != -1)
+        Player player;
+        Army army;
+        int mapCoordinate = default;
+        if (SeatedPlayer != -1)
         {
-            Player = FPlayers.GetPlayers(FSeatedPlayer);
-            if ((sbyte)Player.FViewX > 0)
+            player = Players.GetPlayers(SeatedPlayer);
+            if ((sbyte)player.ViewX > 0)
             {
-                Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Lo).Lo = Player.FViewX;
-                Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Lo).Hi = Player.FViewY;
-                Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Hi).Lo = Player.FViewL;
+                Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo = player.ViewX;
+                Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Hi = player.ViewY;
+                Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Hi).Lo = player.ViewL;
             }
             else
             {
-                Player.GetLeaderLocation(ref Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Lo).Lo), ref Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Lo).Hi), ref Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Hi).Lo));
-                if ((sbyte)Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Lo).Lo == -1)
+                player.GetLeaderLocation(ref Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo), ref Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Hi), ref Unsafe.As<byte, sbyte>(ref Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Hi).Lo));
+                if ((sbyte)Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo == -1)
                 {
-                    if (Player.FArmies.Count == 0)
+                    if (player.Armies.Count == 0)
                     {
-                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Lo).Lo = 0;
-                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Lo).Hi = 0;
-                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Hi).Lo = 0;
+                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo = 0;
+                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Hi = 0;
+                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Hi).Lo = 0;
                     }
                     else
                     {
-                        Army = Player.FArmies.GetArmy(0);
-                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Lo).Lo = (byte)Army.FX;
-                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Lo).Hi = (byte)Army.FY;
-                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Hi).Lo = (byte)Army.FL;
+                        army = player.Armies.GetArmy(0);
+                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo = (byte)army.X;
+                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Hi = (byte)army.Y;
+                        Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Hi).Lo = (byte)army.MapLevel;
                     }
                 }
             }
 
-            CenterViewTo((sbyte)Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Lo).Lo, (sbyte)Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Lo).Hi, (sbyte)Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref XYL).Hi).Lo);
+            CenterViewTo((sbyte)Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo, (sbyte)Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Hi, (sbyte)Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Hi).Lo);
         }
     }
 
     // AoWHSMap.PAS:2538
-    public void Select(HexSprite Sprite, bool Center)
+    public void Select(HexSprite sprite, bool center)
     {
         // { This eliminated copy preserves the original saved registers. }
         Selection.UnselectLocation();
-        Selection.SelectLocationHS(Sprite);
-        if (Center)
+        Selection.SelectLocationHexSprite(sprite);
+        if (center)
         {
-            var lhx = Sprite.GetLhx();
-            var yhx = Sprite.GetYhx();
-            CenterViewTo(Sprite.GetXhx(), yhx, lhx);
+            var hexLevel = sprite.GetHexLevel();
+            var hexY = sprite.GetHexY();
+            CenterViewTo(sprite.GetHexX(), hexY, hexLevel);
         }
     }
 
     // AoWHSMap.PAS:2546
     public void PlayerChanged()
     {
-        FCurrentPlayerChangedEventsStore.Raise(this);
+        _currentPlayerChangedEventsStore.Raise(this);
     }
 
     // AoWHSMap.PAS:2552
-    public void TokenControlActivatedEvent(object Sender)
+    public void TokenControlActivatedEvent(object sender)
     {
-        int Player;
-        if (FCombatMap == null)
+        int player;
+        if (CombatMap == null)
         {
-            Player = FTokenManager.TokenExecuter.ActiveTCIndex;
-            if (Player != FCurrentPlayer)
+            player = TokenManager.TokenExecutor.ActiveTacticalBattleIndex;
+            if (player != CurrentPlayer)
             {
-                FCurrentPlayer = (sbyte)Player;
+                CurrentPlayer = (sbyte)player;
                 PlayerChanged();
             }
         }
     }
 
     // AoWHSMap.PAS:2621
-    public void SetupPlayerControl(PlayMode Mode, PlayerConnectionType Connection)
+    public void SetupPlayerControl(PlayMode mode, PlayerConnectionType connection)
     {
-        switch (Mode)
+        switch (mode)
         {
             case PlayMode.Turn:
-                if (FConnectionType == PlayerConnectionType.Email)
+                if (ConnectionType == PlayerConnectionType.Email)
                 {
-                    if (!(FPlayerControl is PbemPlayerControl))
+                    if (!(PlayerControl is PbemPlayerControl))
                     {
-                        FPlayerControl?.Dispose();
-                        FPlayerControl = new PbemPlayerControl(null);
+                        PlayerControl?.Dispose();
+                        PlayerControl = new PbemPlayerControl(null);
                     }
                 }
                 else
                 {
                     // { Original tests TPBEMPlayerControl even in the non-email branch. }
-                    if (!(FPlayerControl is PbemPlayerControl))
+                    if (!(PlayerControl is PbemPlayerControl))
                     {
-                        FPlayerControl?.Dispose();
-                        FPlayerControl = new TurnPlayerControl(null);
+                        PlayerControl?.Dispose();
+                        PlayerControl = new TurnPlayerControl(null);
                     }
                 }
 
                 break;
             case PlayMode.Simultaneous:
-                if (!(FPlayerControl is SimultaneousPlayerControl))
+                if (!(PlayerControl is SimultaneousPlayerControl))
                 {
-                    FPlayerControl?.Dispose();
+                    PlayerControl?.Dispose();
                 }
 
                 // { Original replaces an existing control without freeing it. }
-                FPlayerControl = new SimultaneousPlayerControl(null);
+                PlayerControl = new SimultaneousPlayerControl(null);
                 break;
         }
 
-        FConnectionType = Connection;
-        FPlayMode = Mode;
-        if (FPlayerControl != null)
+        ConnectionType = connection;
+        PlayMode = mode;
+        if (PlayerControl != null)
         {
-            FPlayerControl.Setup();
+            PlayerControl.Setup();
         }
     }
 
     // AoWHSMap.PAS:2692
-    public void ActivateMsg()
+    public void ActivateMessage()
     {
-        if (FDay == 0)
+        if (Day == 0)
         {
-            FRaces.ResetDefaultRelations();
+            Races.ResetDefaultRelations();
         }
 
-        if (!Status.Contains(HexSpriteMapStatusElement.Editting) && FDay == 0)
+        if (!Status.Contains(HexSpriteMapStatusElement.Editting) && Day == 0)
         {
-            FExplorationEnabled = true;
-            FFogEnabled = true;
+            ExplorationEnabled = true;
+            FogEnabled = true;
         }
     }
 
     // AoWHSMap.PAS:2703
-    public int Random(int Range)
+    public int Random(int range)
     {
-        int Result;
+        int result;
         if (!Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            if (GetSynchronised())
+            if (GetSynchronized())
             {
-                RandSeed = FDefendersSeed;
-                Result = RtlUnit.Random(Range);
-                FDefendersSeed = RandSeed;
+                RandSeed = DefendersSeed;
+                result = RtlUnit.Random(range);
+                DefendersSeed = RandSeed;
             }
             else
             {
                 RtlUnit.ShowMessage("Invalid AoWHSMap.Random use");
-                Result = 0;
+                result = 0;
             }
         }
         else
         {
-            Result = RtlUnit.Random(Range);
+            result = RtlUnit.Random(range);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:2723
     public void GenerateNewTurnOrder()
     {
-        int Index;
-        ByteList List;
-        List = new ByteList();
-        for (int I = 1, last = FPlayers.Count - 1; I <= last; I++)
+        int index;
+        ByteList list;
+        list = new ByteList();
+        for (int I = 1, last = Players.Count - 1; I <= last; I++)
         {
-            List.Add((byte)I);
+            list.Add((byte)I);
         }
 
-        FTurnOrder.Clear();
-        FTurnOrder.Add(0);
-        while (List.Count != 0)
+        TurnOrder.Clear();
+        TurnOrder.Add(0);
+        while (list.Count != 0)
         {
-            Index = Random(List.Count);
-            var item = List[Index];
-            FTurnOrder.Add(item);
-            List.Delete(Index);
+            index = Random(list.Count);
+            var item = list[index];
+            TurnOrder.Add(item);
+            list.Delete(index);
         }
 
-        List?.Dispose();
+        list?.Dispose();
     }
 
     // AoWHSMap.PAS:2749
     public bool EndTurn()
     {
-        bool Result;
-        if (FSeatedPlayer != -1)
+        bool result;
+        if (SeatedPlayer != -1)
         {
-            if (!FRequestCombatType || FExecuteEventLogCallBacks.GetCount() == 0)
+            if (!RequestCombatType || ExecuteEventLogCallBacks.GetCount() == 0)
             {
-                Result = TryEndPlayerTurn(FSeatedPlayer);
+                result = TryEndPlayerTurn(SeatedPlayer);
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:2777
     public bool CancelEndTurn()
     {
-        bool Result;
-        if (FSeatedPlayer != -1)
+        bool result;
+        if (SeatedPlayer != -1)
         {
-            Result = CancelPlayerTurn(FSeatedPlayer);
+            result = CancelPlayerTurn(SeatedPlayer);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:2784
     public void LockUpdateVisibility()
     {
-        FUpdateVisibilityLockCount += 1;
+        UpdateVisibilityLockCount += 1;
     }
 
     // AoWHSMap.PAS:2790
     public void UnLockUpdateVisibility()
     {
-        FUpdateVisibilityLockCount -= 1;
-        if (FUpdateVisibilityLockCount == 0 && FVisibilityChanged)
+        UpdateVisibilityLockCount -= 1;
+        if (UpdateVisibilityLockCount == 0 && VisibilityChanged)
         {
             UpdateVisibility();
         }
@@ -2367,23 +2367,23 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:2797
     public void UpdateVisibility()
     {
-        EngineMessage Msg = default;
-        if (FUpdateVisibilityLockCount == 0)
+        EngineMessage message = default;
+        if (UpdateVisibilityLockCount == 0)
         {
             if (!Status.Contains(HexSpriteMapStatusElement.Destroying))
             {
                 LockMapChangedEvent();
-                EngineMessage.InitMsg(ref Msg, 537001992, this);
-                Current.SendMsg(ref Msg, this);
+                EngineMessage.InitializeMessage(ref message, 537001992, this);
+                Current.SendMessage(ref message, this);
                 UnlockMapChangedEvent();
                 Current.InvalidateMap();
             }
 
-            FVisibilityChanged = false;
+            VisibilityChanged = false;
         }
         else
         {
-            FVisibilityChanged = true;
+            VisibilityChanged = true;
         }
     }
 
@@ -2400,63 +2400,63 @@ public partial class AoWHSMap : GameMap
     }
 
     // AoWHSMap.PAS:2867
-    public void ExecuteNegotiateMove(int ArmyID, int X, int Y, int L, int MovePoints)
+    public void ExecuteNegotiateMove(int armyId, int X, int Y, int L, int movePoints)
     {
     }
 
     // AoWHSMap.PAS:2870
-    public void InitializeCombatMap(Battle Combat, string FileName)
+    public void InitializeCombatMap(Battle combat, string fileName)
     {
-        Player Player = default;
+        Player player = default;
         int X = default;
         int Y = default;
         int L = default;
-        if (FCombatMap == null)
+        if (CombatMap == null)
         {
-            if (FSeatedPlayer != -1)
+            if (SeatedPlayer != -1)
             {
-                Player = FPlayers.GetPlayers(FSeatedPlayer);
+                player = Players.GetPlayers(SeatedPlayer);
                 GetViewCenter(ref X, ref Y, ref L);
-                Player.FViewX = (byte)X;
-                Player.FViewY = (byte)Y;
-                Player.FViewL = (byte)L;
+                player.ViewX = (byte)X;
+                player.ViewY = (byte)Y;
+                player.ViewL = (byte)L;
             }
 
-            FCombatMap = (CustomCombatMap)GameTables.AoWEngine.LoadHSMEx(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + FileName), false, null, GameProfile.TacticalMap);
-            FCombatMapCreatedEventsStore.Raise(this);
+            CombatMap = (CustomCombatMap)GameTables.GameEngine.LoadHsmMap(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
+            _combatMapCreatedEventsStore.Raise(this);
         }
     }
 
     // AoWHSMap.PAS:2891
     public void ReleaseCombatMap()
     {
-        if (FCombatMap != null)
+        if (CombatMap != null)
         {
-            FCombatMapDestroyedEventsStore.Raise(this);
-            FCombatMap?.Dispose();
-            FCombatMap = null;
+            _combatMapDestroyedEventsStore.Raise(this);
+            CombatMap?.Dispose();
+            CombatMap = null;
             ResetSeatedPlayerView();
         }
     }
 
     // AoWHSMap.PAS:2903
-    public Battle CreateCombat(int AClassID)
+    public Battle CreateCombat(int classId)
     {
-        Battle Result;
-        if (FCombat == null)
+        Battle result;
+        if (Combat == null)
         {
-            Result = (Battle)GameTables.AoWEngine.CreateEObject(AClassID, null);
-            FCombat = Result;
-            if (FGameType == GameType.Tutorial && AClassID == 2228496)
+            result = (Battle)GameTables.GameEngine.CreateEngineObject(classId, null);
+            Combat = result;
+            if (GameType == GameType.Tutorial && classId == 2228496)
             {
-                FTutorialControl.ShowMessage(53, false, true);
+                TutorialControl.ShowMessage(53, false, true);
             }
 
-            if (AClassID == 2228496)
+            if (classId == 2228496)
             {
                 ((GameMapMouse)Current.Mouse).ResetRectangleSelection();
                 Current.Selection.UnselectLocation();
-                FTargetSelection.Deactivate();
+                TargetSelection.Deactivate();
                 DisableTurnTimer();
             }
         }
@@ -2465,74 +2465,74 @@ public partial class AoWHSMap : GameMap
             throw new InvalidOperationException("Combat already created");
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:2922
-    public void ShowSeatedPlayerCallBack(EventLog Log)
+    public void ShowSeatedPlayerCallback(EventLog log)
     {
-        SetSeatedPlayer(Current.FCurrentPlayer);
+        SetSeatedPlayer(Current.CurrentPlayer);
         EnableTurnTimer();
     }
 
     // AoWHSMap.PAS:2929
     public void DestroyCombat()
     {
-        sbyte Player = default;
-        int Count = default;
-        NewTurnEventLog Log = default;
-        if (FCombat != null)
+        sbyte player = default;
+        int count = default;
+        NewTurnEventLog log = default;
+        if (Combat != null)
         {
             Current.LockGameOverEvent();
-            if (FCombat.FStatus.Contains(CombatStatusElement.Activated))
+            if (Combat.Status.Contains(CombatStatusElement.Activated))
             {
-                FCombat.Deactivate();
+                Combat.Deactivate();
             }
 
-            if (FCombat.FStatus.Contains(CombatStatusElement.Executing))
+            if (Combat.Status.Contains(CombatStatusElement.Executing))
             {
-                FCombat.Finalize();
-                Player = FCombat.FCombatData.FPlayers.GetPlayers(FCombat.FCombatData.FAttackerPlayer).FPlayer;
-                if (Current.FConnectionType == PlayerConnectionType.Network && FPlayMode == PlayMode.Simultaneous)
+                Combat.Finalize();
+                player = Combat.CombatData.Players.GetPlayers(Combat.CombatData.AttackerPlayer).Player;
+                if (Current.ConnectionType == PlayerConnectionType.Network && PlayMode == PlayMode.Simultaneous)
                 {
-                    Count = Current.FPlayers.Count;
-                    Player = FCombat.FCombatData.FPlayers.GetPlayers(FCombat.FCombatData.FAttackerPlayer).FPlayer;
-                    while (Count != 0 && Current.FPlayers.GetPlayers(Player).FStatus != Session.Player.Status.Playing)
+                    count = Current.Players.Count;
+                    player = Combat.CombatData.Players.GetPlayers(Combat.CombatData.AttackerPlayer).Player;
+                    while (count != 0 && Current.Players.GetPlayers(player).Status != PlayerStatus.Playing)
                     {
-                        Player = (sbyte)(Player + 1);
-                        if (Player == Current.FPlayers.Count)
+                        player = (sbyte)(player + 1);
+                        if (player == Current.Players.Count)
                         {
-                            Player = 0;
+                            player = 0;
                         }
 
-                        Count -= 1;
+                        count -= 1;
                     }
                 }
 
-                Current.FTokenManager.TokenExecuter.ActivateTC(Player);
-                if (FPlayMode == PlayMode.Simultaneous)
+                Current.TokenManager.TokenExecutor.ActivateTacticalBattle(player);
+                if (PlayMode == PlayMode.Simultaneous)
                 {
-                    Current.FTokenManager.TokenExecuter.HoldTC = false;
+                    Current.TokenManager.TokenExecutor.HoldTacticalBattle = false;
                 }
             }
 
-            if (FRequestCombatType && FCombat.EClass.ClassID != 131760 && FCombat.FCombatData.FRound != 0 && FCombat.FExplorationSite != 1 && FPlayers.GetPlayers(FCurrentPlayer).FPlayerType == PlayerType.Human)
+            if (RequestCombatType && Combat.EngineClass.ClassId != 131760 && Combat.CombatData.Round != 0 && Combat.ExplorationSite != 1 && Players.GetPlayers(CurrentPlayer).PlayerType == PlayerType.Human)
             {
                 LockExecuteEventLog();
-                Log = new NewTurnEventLog(null);
-                Log.FTurnPlayer = FCurrentPlayer;
-                Log.FMode = NewTurnEventLog.Mode.Dialog;
-                Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                Log.FText = AbilityRules.TranslateRStr(GameText.YourTurnContinuesRStr);
-                TriggerExecuteEventLog(Log, false, ShowSeatedPlayerCallBack);
-                Log.Release();
+                log = new NewTurnEventLog(null);
+                log.TurnPlayer = CurrentPlayer;
+                log.Mode = NewTurnEventLogMode.Dialog;
+                log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
+                log.Text = AbilityRules.TranslateResourceString(GameText.s_yourTurnContinuesText);
+                TriggerExecuteEventLog(log, false, ShowSeatedPlayerCallback);
+                log.Release();
                 UnlockGameOverEvent();
                 SetSeatedPlayer(-1);
                 UnlockExecuteEventLog();
             }
             else
             {
-                if (FCombat.EClass.ClassID == 2228496)
+                if (Combat.EngineClass.ClassId == 2228496)
                 {
                     EnableTurnTimer();
                 }
@@ -2540,19 +2540,19 @@ public partial class AoWHSMap : GameMap
                 UnlockGameOverEvent();
             }
 
-            FCombat?.Dispose();
-            FCombat = null;
+            Combat?.Dispose();
+            Combat = null;
         }
     }
 
     // AoWHSMap.PAS:3026
     public void TriggerRelationsChanged()
     {
-        if (Status.Contains(HexSpriteMapStatusElement.Activated) && FRelationsChangedLockCount == 0)
+        if (Status.Contains(HexSpriteMapStatusElement.Activated) && RelationsChangedLockCount == 0)
         {
             BeginUnitUpdate();
-            FUnitControl.TriggerUnitsChanged();
-            FPlayerChangedEventsStore.Raise(this);
+            UnitControl.TriggerUnitsChanged();
+            _playerChangedEventsStore.Raise(this);
             EndUnitUpdate();
         }
     }
@@ -2560,27 +2560,27 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:3038
     public void LockRelationsChanged()
     {
-        FRelationsChangedLockCount += 1;
+        RelationsChangedLockCount += 1;
     }
 
     // AoWHSMap.PAS:3044
     public void UnlockRelationsChanged()
     {
-        Assert(FRelationsChangedLockCount != 0, "Invalid MapChanged Lock usage", "AoWHSMap.PAS", 3056);
-        FRelationsChangedLockCount -= 1;
+        Assert(RelationsChangedLockCount != 0, "Invalid MapChanged Lock usage", "AoWHSMap.PAS", 3056);
+        RelationsChangedLockCount -= 1;
     }
 
     // AoWHSMap.PAS:3061
     public void UpdateTurnTimeBeep()
     {
-        int Seconds;
+        int seconds;
         if (GetTurnTimerEnabled())
         {
-            Seconds = GetTurnTimeLeft() / 1000;
-            if (FTurnTimeBeep != 0 && Seconds < FTurnTimeBeep && FCombatMap == null)
+            seconds = GetTurnTimeLeft() / 1000;
+            if (TurnTimeBeep != 0 && seconds < TurnTimeBeep && CombatMap == null)
             {
-                FTurnTimeBeep = Seconds;
-                if (FTurnTimeBeep == 0)
+                TurnTimeBeep = seconds;
+                if (TurnTimeBeep == 0)
                 {
                     AudioPlayback.PlaySample("SFX\\EVENTS\\CLOCK.WAV");
                 }
@@ -2595,129 +2595,129 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:3078
     public void ResetTurnTimer()
     {
-        FTurnTimeElapsed = FTurnTime * 1000 * 60;
-        FTurnTimeBeep = 11;
-        FTurnTimerStart = -1;
+        TurnTimeElapsed = TurnTime * 1000 * 60;
+        TurnTimeBeep = 11;
+        TurnTimerStart = -1;
     }
 
     // AoWHSMap.PAS:3086
     public int GetTurnTimeLeft()
     {
-        int Time;
-        int Left;
-        Left = FTurnTimeElapsed;
-        if (FTurnTimerStart != -1)
+        int time;
+        int left;
+        left = TurnTimeElapsed;
+        if (TurnTimerStart != -1)
         {
-            Time = PixelFormats.GetElapsedMilliSeconds();
-            if (Time >= FTurnTimerStart)
+            time = PixelFormats.GetElapsedMilliseconds();
+            if (time >= TurnTimerStart)
             {
-                Left = Left - (Time - FTurnTimerStart);
+                left = left - (time - TurnTimerStart);
             }
             else
             {
-                Left = 0;
+                left = 0;
             }
         }
 
-        if (Left < 0)
+        if (left < 0)
         {
-            Left = 0;
+            left = 0;
         }
 
-        return Left;
+        return left;
     }
 
     // AoWHSMap.PAS:3102
-    public bool GetTurnTimerEnabled() => FTurnTime > 0 && FTurnTimerStart != -1;
+    public bool GetTurnTimerEnabled() => TurnTime > 0 && TurnTimerStart != -1;
 
     // AoWHSMap.PAS:3108
     public void EnableTurnTimer()
     {
-        if (FTurnTimerStart == -1 && FTurnTime > 0)
+        if (TurnTimerStart == -1 && TurnTime > 0)
         {
-            FTurnTimerStart = PixelFormats.GetElapsedMilliSeconds();
+            TurnTimerStart = PixelFormats.GetElapsedMilliseconds();
         }
     }
 
     // AoWHSMap.PAS:3114
     public void DisableTurnTimer()
     {
-        int Time;
-        Time = PixelFormats.GetElapsedMilliSeconds() - FTurnTimerStart;
-        if (Time > 0)
+        int time;
+        time = PixelFormats.GetElapsedMilliseconds() - TurnTimerStart;
+        if (time > 0)
         {
-            FTurnTimeElapsed -= Time;
+            TurnTimeElapsed -= time;
         }
 
-        FTurnTimerStart = -1;
+        TurnTimerStart = -1;
     }
 
     // AoWHSMap.PAS:3124
     public void ZeroTurnTimer()
     {
-        FTurnTimeElapsed = 0;
+        TurnTimeElapsed = 0;
     }
 
     // AoWHSMap.PAS:3144
-    public void CenterOnLeader(sbyte Player, bool Select, bool Animate)
+    public void CenterOnLeader(sbyte player, bool select, bool animate)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        ArmyHexSprite Army;
-        if (Current.FPlayers.GetPlayers(Player).FLeader != null)
+        ArmyHexSprite army;
+        if (Current.Players.GetPlayers(player).Leader != null)
         {
-            Current.FPlayers.GetPlayers(Player).FLeader.GetLocation(ref X, ref Y, ref L);
+            Current.Players.GetPlayers(player).Leader.GetLocation(ref X, ref Y, ref L);
             // { Original excludes X = 0. }
             if (X > 0)
             {
                 Current.CenterViewTo(X, Y, L);
-                if (Animate)
+                if (animate)
                 {
                     Current.PlayCenterAnimation(X, Y, L);
                 }
 
-                Army = ((AoWMapField)Current.MapContainer.GetField(X, Y, L)).GetArmyHS();
-                if (Army != null)
+                army = ((AoWMapField)Current.MapContainer.GetField(X, Y, L)).GetArmyHexSprite();
+                if (army != null)
                 {
                     Selection.UnselectLocation();
-                    Selection.SelectLocationHS(Army);
+                    Selection.SelectLocationHexSprite(army);
                 }
             }
         }
     }
 
     // AoWHSMap.PAS:3167
-    public void PlaceTerrain(sbyte X, sbyte Y, sbyte L, sbyte TerrainType, sbyte OverlayType)
+    public void PlaceTerrain(sbyte X, sbyte Y, sbyte L, sbyte terrainType, sbyte overlayType)
     {
-        EngineObjectList Resources;
-        DelphiList Candidates;
-        MapObjectResource Resource;
+        EngineObjectList resources;
+        DelphiList candidates;
+        MapObjectResource resource;
         RandSeed = Current.Random(16777215);
-        Resources = AoWHSSet.Current.MapObjectResourceList.FChildren;
-        if (!Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)OverlayType))
+        resources = AoWHSSet.Current.MapObjectResourceList._children;
+        if (!Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)overlayType))
         {
-            Candidates = new DelphiList();
-            Candidates.Clear();
-            for (int I = 0, last = Resources.Count - 1; I <= last; I++)
+            candidates = new DelphiList();
+            candidates.Clear();
+            for (int I = 0, last = resources.Count - 1; I <= last; I++)
             {
-                Resource = (MapObjectResource)Resources.List[I];
-                if (Resource.EClass.ClassID == 131431 && Resource.TerrainList.UsedTerrain() == 1 && Resource.TerrainList.Terrain[0] == TerrainType && Resource.TerrainList.Overlay[0] == OverlayType)
+                resource = (MapObjectResource)resources.List[I];
+                if (resource.EngineClass.ClassId == 131431 && resource.TerrainList.UsedTerrain() == 1 && resource.TerrainList.Terrain[0] == terrainType && resource.TerrainList.Overlay[0] == overlayType)
                 {
-                    Candidates.Add(Resource);
+                    candidates.Add(resource);
                 }
             }
 
-            if (Candidates.Count != 0)
+            if (candidates.Count != 0)
             {
-                ((MapObjectResource)Candidates[Random(Candidates.Count)]).PlaceResourceUser(Current, X, Y, L);
+                ((MapObjectResource)candidates[Random(candidates.Count)]).PlaceResourceUser(Current, X, Y, L);
             }
 
-            Candidates?.Dispose();
+            candidates?.Dispose();
         }
         else
         {
-            AoWHSSet.Current.RoadControl.Place(Current.MapContainer, X, Y, L, TerrainType);
+            AoWHSSet.Current.RoadControl.Place(Current.MapContainer, X, Y, L, terrainType);
         }
     }
 
@@ -2725,19 +2725,19 @@ public partial class AoWHSMap : GameMap
     public void UpdateEffects()
     {
         int I;
-        WorldEffectHexSprite Effect;
+        WorldEffectHexSprite effect;
         if (!Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             I = 0;
-            while (I < FEffects.Count)
+            while (I < Effects.Count)
             {
-                Effect = FEffects[I];
-                if (Effect.FDone)
+                effect = Effects[I];
+                if (effect.Done)
                 {
-                    DynamicFixedVisibleHS.RemoveChild(Effect);
-                    DynamicVisibleHS.RemoveChild(Effect);
-                    Effect?.Dispose();
-                    FEffects.RemoveAt(I);
+                    DynamicFixedVisibleHexSprite.RemoveChild(effect);
+                    DynamicVisibleHexSprite.RemoveChild(effect);
+                    effect?.Dispose();
+                    Effects.RemoveAt(I);
                 }
                 else
                 {
@@ -2748,22 +2748,22 @@ public partial class AoWHSMap : GameMap
     }
 
     // AoWHSMap.PAS:3219
-    public WorldEffectHexSprite AddEffect(WorldEffectType EffectType)
+    public WorldEffectHexSprite AddEffect(WorldEffectType effectType)
     {
-        WorldEffectHexSprite Effect;
-        Effect = new WorldEffectHexSprite(null);
-        FEffects.Add(Effect);
-        Effect.Activate();
-        Effect.FEffectType = EffectType;
-        DynamicFixedVisibleHS.AddChild(Effect);
-        return Effect;
+        WorldEffectHexSprite effect;
+        effect = new WorldEffectHexSprite(null);
+        Effects.Add(effect);
+        effect.Activate();
+        effect.EffectType = effectType;
+        DynamicFixedVisibleHexSprite.AddChild(effect);
+        return effect;
     }
 
     public bool ValidateObservation(sbyte player, sbyte x, sbyte y, sbyte level, int radius)
     {
-        if (!FShowIndependentMoves || player == Current.FSeatedPlayer) return false;
+        if (!ShowIndependentMoves || player == Current.SeatedPlayer) return false;
         HexNumberWalkData walk = default;
-        HexNumberWalkData.InitHNWalk(ref walk, x, y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, x, y, 0);
         MapLevel mapLevel = null;
         bool result = false;
         while (walk.Radius <= radius && !result)
@@ -2776,70 +2776,70 @@ public partial class AoWHSMap : GameMap
                 if (walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     var field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
-                    result = (((field.FFieldFlags >> 16) & 0xff) != 0 || !Current.FFogEnabled) &&
-                        (field.GetExplored(Current.FSeatedPlayer) || !Current.FExplorationEnabled);
+                    result = (((field.FieldFlags >> 16) & 0xff) != 0 || !Current.FogEnabled) &&
+                        (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled);
                 }
             }
-            if (!result) HexNumberWalkData.WalkToNextHN(ref walk);
+            if (!result) HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
         if (result) MakeVisible(walk.X, walk.Y, level, 3);
         return result;
     }
 
-    private static readonly string MapSuccessfullyValidatedRStr = "Map validated successfully";
+    private static readonly string s_mapSuccessfullyValidatedText = "Map validated successfully";
 
-    private static readonly string MapValidationFailedRStr = "Map validation failed!";
+    private static readonly string s_mapValidationFailedText = "Map validation failed!";
 
-    private static readonly string LoadingLevelRStr = "Loading Level ";
+    private static readonly string s_loadingLevelText = "Loading Level ";
 
-    private static readonly string InitializingLevelRStr = "Initializing Level ";
+    private static readonly string s_initializingLevelText = "Initializing Level ";
 
-    private static readonly string UpdatingTerrainLevelRStr = "Updating Terrain Level ";
+    private static readonly string s_updatingTerrainLevelText = "Updating Terrain Level ";
 
-    private static readonly string ActivatingLevelRStr = "Activating Level ";
+    private static readonly string s_activatingLevelText = "Activating Level ";
 
-    private static readonly string SavingLevelRStr = "Saving Level ";
+    private static readonly string s_savingLevelText = "Saving Level ";
 
-    private static readonly string DestroyingLevelRStr = "Destroying Level ";
+    private static readonly string s_destroyingLevelText = "Destroying Level ";
 
-    private static bool TryEndPlayerTurn(sbyte Player)
+    private static bool TryEndPlayerTurn(sbyte player)
     {
-        bool Result;
-        if (Player != -1 && !Current.FPlayers.GetPlayers(Player).GetBusy() && !Current.FPlayers.GetPlayers(Player).FSingleProcessCycle)
+        bool result;
+        if (player != -1 && !Current.Players.GetPlayers(player).GetBusy() && !Current.Players.GetPlayers(player).SingleProcessCycle)
         {
-            Result = AbilityRules.EndPlayerTurn(Player);
+            result = AbilityRules.EndPlayerTurn(player);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static bool CancelPlayerTurn(sbyte Player)
+    private static bool CancelPlayerTurn(sbyte player)
     {
-        bool Result;
-        EndTurnTokenEvent Event;
-        if (!Current.FPlayers.GetPlayers(Player).GetBusy() && Current.FPlayers.GetPlayers(Player).FSingleProcessCycle)
+        bool result;
+        EndTurnTokenEvent eventValue;
+        if (!Current.Players.GetPlayers(player).GetBusy() && Current.Players.GetPlayers(player).SingleProcessCycle)
         {
-            Event = new EndTurnTokenEvent(null);
-            Event.FPlayer = Player;
-            Event.FDay = Current.FDay;
-            Event.FMode = EndTurnTokenEvent.Mode.CancelEndTurn;
-            Current.FTokenManager.GetTokenControl(Player).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new EndTurnTokenEvent(null);
+            eventValue.Player = player;
+            eventValue.Day = Current.Day;
+            eventValue.Mode = EndTurnTokenEventMode.CancelEndTurn;
+            Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string OneMomentPleaseStr = "One moment please...";
+    private static readonly string s_oneMomentPleaseText = "One moment please...";
 
     public static AoWHSMap Current;
 
@@ -2850,57 +2850,57 @@ public partial class AoWHSMap : GameMap
         // Diplomacy.pas:1716
         public MapCampaignSettings(ECustomNode owner) : base(owner)
         {
-            FTransferPointsMax = 1000;
-            FTransferGoldMax = 100;
-            FTransferManaMax = 100;
-            FHeroLevelMax = -1;
-            FAlliedVictory = false;
+            TransferPointsMax = 1000;
+            TransferGoldMax = 100;
+            TransferManaMax = 100;
+            HeroLevelMax = -1;
+            AlliedVictory = false;
         }
 
-        public bool FAlliedVictory;
-        public int FTransferPointsMax;
-        public int FTransferGoldMax;
-        public int FTransferManaMax;
-        public int FHeroLevelMax;
+        public bool AlliedVictory;
+        public int TransferPointsMax;
+        public int TransferGoldMax;
+        public int TransferManaMax;
+        public int HeroLevelMax;
 
         // Diplomacy.pas:1726
-        public override void ReadWrite(EStorageStream Stream)
+        public override void ReadWrite(EStorageStream stream)
         {
-            base.ReadWrite(Stream);
-            Stream.rwInteger(ref FTransferPointsMax, 20);
-            Stream.rwInteger(ref FTransferGoldMax, 21);
-            Stream.rwInteger(ref FTransferManaMax, 22);
-            Stream.rwInteger(ref FHeroLevelMax, 23);
-            Stream.rwBool(ref FAlliedVictory, 24);
+            base.ReadWrite(stream);
+            stream.rwInteger(ref TransferPointsMax, 20);
+            stream.rwInteger(ref TransferGoldMax, 21);
+            stream.rwInteger(ref TransferManaMax, 22);
+            stream.rwInteger(ref HeroLevelMax, 23);
+            stream.rwBool(ref AlliedVictory, 24);
         }
 
         // intf_P5_08.inc:13
 
     }
 
-    public enum GameStatus : byte
-    {
-        Idle = 0, Playing = 1, Terminated = 2
-    }
+}
 
-    public enum GameResult : byte
-    {
-        None = 0, Failed = 1, Succeeded = 2
-    }
+public enum AoWHSMapTurnOrderMode : byte
+{
+    Fixed = 0, Random = 1, Changing = 2
+}
 
-    public enum VictoryCondition : byte
-    {
-        None = 0, CaptureLocations = 1, AccumulateGold = 2, AccumulateMana = 3
-    }
+public enum AoWHSMapVictoryCondition : byte
+{
+    None = 0, CaptureLocations = 1, AccumulateGold = 2, AccumulateMana = 3
+}
 
-    public enum TurnOrderMode : byte
-    {
-        Fixed = 0, Random = 1, Changing = 2
-    }
+public enum AoWHSMapGameResult : byte
+{
+    None = 0, Failed = 1, Succeeded = 2
+}
 
-    public enum IndependentAIMode : byte
-    {
-        Off = 0, Passive = 1, Normal = 2, Aggressive = 3
-    }
+public enum AoWHSMapGameStatus : byte
+{
+    Idle = 0, Playing = 1, Terminated = 2
+}
 
+public enum AoWHSMapIndependentAIMode : byte
+{
+    Off = 0, Passive = 1, Normal = 2, Aggressive = 3
 }

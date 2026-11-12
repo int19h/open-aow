@@ -27,7 +27,7 @@ public partial class TranslateStorageStream : EStorageStream
     }
 
     // Engine.pas:10837
-    public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.Translate);
+    public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Translate);
 
     // Engine.pas:10842
     public override void rwString(ref string S, int ID)
@@ -74,7 +74,7 @@ public partial class TranslateStorageStream : EStorageStream
             // { the original leaves Continue uninitialized here }
             if (FOnError != null)
             {
-                var classID = Obj.EClass.ClassID;
+                var classID = Obj.EngineClass.ClassId;
                 FOnError(this, "Error reading object (cid:" + IntToStr(classID) + ")", ref Continue);
             }
 
@@ -98,7 +98,7 @@ public partial class TranslateStorageStream : EStorageStream
         for (int I = 0, last = Node.Count - 1; I <= last; I++)
         {
             C = Node.Children[I];
-            if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineServices.csShared) && C.GetControlStyle().Contains(EngineServices.csStored))
+            if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineServices.Shared) && C.GetControlStyle().Contains(EngineServices.Stored))
             {
                 rwEObject(C, I);
             }

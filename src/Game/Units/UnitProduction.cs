@@ -7,20 +7,20 @@ namespace Aow.Game.Units;
 // unit index, researched
 public partial class UnitProduction : EngineObject
 {
-    public new const int ClassID = 131737;
+    public new const int ClassId = 131737;
 
     public UnitProduction(ECustomNode owner) : base(owner)
     { }
 
-    public int FUnitIndex;
-    public bool FResearched;
+    public int UnitIndex;
+    public bool Researched;
 
     // Structur.PAS:7
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FUnitIndex, 20);
-        Stream.rwBool(ref FResearched, 21);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref UnitIndex, 20);
+        stream.rwBool(ref Researched, 21);
     }
 
     // Engine.pas:524

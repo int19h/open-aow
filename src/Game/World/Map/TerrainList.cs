@@ -13,143 +13,143 @@ namespace Aow.Game.World.Map;
 // type. -2: none)
 public partial class TerrainList : IDisposable
 {
-    internal int FCount;
-    internal byte[] FList = [];
+    internal int _count;
+    internal byte[] _list = [];
 
     // HSEngine.pas:1411
     public virtual void Dispose()
     {
-        Array.Resize(ref FList, 0);
+        Array.Resize(ref _list, 0);
     }
 
     // HSEngine.pas:1417
-    public virtual void Assign(TerrainList Source)
+    public virtual void Assign(TerrainList source)
     {
-        SetCount(Source.FCount);
-        Array.Copy(Source.FList, 0, FList, 0, FCount * 2);
+        SetCount(source._count);
+        Array.Copy(source._list, 0, _list, 0, _count * 2);
     }
 
     // HSEngine.pas:1562
-    public virtual void LoadFromStream(Stream Stream)
+    public virtual void LoadFromStream(Stream stream)
     {
-        Stream.ReadExactly(Bytes.Of(ref FCount, 4));
-        SetCount(FCount);
-        Stream.ReadExactly(FList.AsSpan(0, FCount * 2));
+        stream.ReadExactly(Bytes.Of(ref _count, 4));
+        SetCount(_count);
+        stream.ReadExactly(_list.AsSpan(0, _count * 2));
     }
 
     // HSEngine.pas:1569
-    public virtual void SaveToStream(Stream Stream)
+    public virtual void SaveToStream(Stream stream)
     {
         Pack();
-        Stream.Write(Bytes.Of(ref FCount, 4));
-        Stream.Write(FList.AsSpan(0, FCount * 2));
+        stream.Write(Bytes.Of(ref _count, 4));
+        stream.Write(_list.AsSpan(0, _count * 2));
     }
 
     // HSEngine.pas:1423
-    public sbyte GetTerrain(int Index)
+    public sbyte GetTerrain(int index)
     {
-        sbyte Result;
-        if (Index < FCount)
+        sbyte result;
+        if (index < _count)
         {
-            Result = MemoryMarshal.Read<sbyte>(FList.AsSpan(Index * 2, 1));
+            result = MemoryMarshal.Read<sbyte>(_list.AsSpan(index * 2, 1));
         }
         else
         {
-            Result = -2;
+            result = -2;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:1431
-    public void SetTerrain(int Index, sbyte Value)
+    public void SetTerrain(int index, sbyte value)
     {
-        if (Index >= FCount)
+        if (index >= _count)
         {
-            SetCount(Index + 1);
+            SetCount(index + 1);
         }
 
-        sbyte value__206 = Value;
-        MemoryMarshal.Write(FList.AsSpan(Index * 2, 1), in value__206);
+        sbyte value206 = value;
+        MemoryMarshal.Write(_list.AsSpan(index * 2, 1), in value206);
     }
 
     // HSEngine.pas:1437
-    public void SetCount(int NewCount)
+    public void SetCount(int newCount)
     {
-        Array.Resize(ref FList, NewCount + NewCount);
-        if (NewCount > FCount)
+        Array.Resize(ref _list, newCount + newCount);
+        if (newCount > _count)
         {
-            FillBytes(FList.AsSpan(FCount * 2, (NewCount - FCount) * 2), -2);
+            FillBytes(_list.AsSpan(_count * 2, (newCount - _count) * 2), -2);
         }
 
-        FCount = NewCount;
+        _count = newCount;
     }
 
     // HSEngine.pas:1445
-    public sbyte GetOverlay(int Index)
+    public sbyte GetOverlay(int index)
     {
-        sbyte Result;
-        if (Index < FCount)
+        sbyte result;
+        if (index < _count)
         {
-            Result = MemoryMarshal.Read<sbyte>(FList.AsSpan(Index * 2 + 1, 1));
+            result = MemoryMarshal.Read<sbyte>(_list.AsSpan(index * 2 + 1, 1));
         }
         else
         {
-            Result = -2;
+            result = -2;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:1453
-    public void SetOverlay(int Index, sbyte Value)
+    public void SetOverlay(int index, sbyte value)
     {
-        if (Index >= FCount)
+        if (index >= _count)
         {
-            SetCount(Index + 1);
+            SetCount(index + 1);
         }
 
-        sbyte value__207 = Value;
-        MemoryMarshal.Write(FList.AsSpan(Index * 2 + 1, 1), in value__207);
+        sbyte value207 = value;
+        MemoryMarshal.Write(_list.AsSpan(index * 2 + 1, 1), in value207);
     }
 
     // HSEngine.pas:1459
-    public ushort GetTandO(int Index)
+    public ushort GetTandO(int index)
     {
-        ushort Result;
-        if (Index < FCount)
+        ushort result;
+        if (index < _count)
         {
-            Result = MemoryMarshal.Read<ushort>(FList.AsSpan(Index * 2, 2));
+            result = MemoryMarshal.Read<ushort>(_list.AsSpan(index * 2, 2));
         }
         else
         {
-            Result = 65278;
+            result = 65278;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:1467
-    public void SetTandO(int Index, ushort Value)
+    public void SetTandO(int index, ushort value)
     {
-        if (Index >= FCount)
+        if (index >= _count)
         {
-            SetCount(Index + 1);
+            SetCount(index + 1);
         }
 
-        ushort value__208 = Value;
-        MemoryMarshal.Write(FList.AsSpan(Index * 2, 2), in value__208);
+        ushort value208 = value;
+        MemoryMarshal.Write(_list.AsSpan(index * 2, 2), in value208);
     }
 
     // HSEngine.pas:1473
-    public bool GetUsed(int Index) => Index < FCount && (MemoryMarshal.Read<ushort>(FList.AsSpan(Index * 2, 2)) & 32896) != 32896;
+    public bool GetUsed(int index) => index < _count && (MemoryMarshal.Read<ushort>(_list.AsSpan(index * 2, 2)) & 32896) != 32896;
 
     // HSEngine.pas:1478
     public int UsedTerrain()
     {
         int count = 0;
-        for (int i = 0; i < FCount; i++)
-            if ((sbyte)FList[i * 2 + 0] > -1) count++;
+        for (int i = 0; i < _count; i++)
+            if ((sbyte)_list[i * 2 + 0] > -1) count++;
         return count;
     }
 
@@ -157,131 +157,131 @@ public partial class TerrainList : IDisposable
     public int UsedOverlays()
     {
         int count = 0;
-        for (int i = 0; i < FCount; i++)
-            if ((sbyte)FList[i * 2 + 1] > -1) count++;
+        for (int i = 0; i < _count; i++)
+            if ((sbyte)_list[i * 2 + 1] > -1) count++;
         return count;
     }
 
     // HSEngine.pas:1506
     public void Pack()
     {
-        int NewCount;
-        NewCount = FCount;
-        while (NewCount != 0 && GetOverlay(NewCount - 1) == -2 && GetTerrain(NewCount - 1) == -2)
+        int newCount;
+        newCount = _count;
+        while (newCount != 0 && GetOverlay(newCount - 1) == -2 && GetTerrain(newCount - 1) == -2)
         {
-            NewCount -= 1;
+            newCount -= 1;
         }
 
-        if (NewCount != FCount)
+        if (newCount != _count)
         {
-            SetCount(NewCount);
+            SetCount(newCount);
         }
     }
 
     // HSEngine.pas:1516
-    public UInt16List CreateSurroundingHNTable()
+    public UInt16List CreateSurroundingHexNumberTable()
     {
-        int HN;
-        int Xhx = default;
-        int Yhx = default;
-        HexNumberWalkData Walk = default;
-        UInt16List Result = new UInt16List();
-        for (int I = 0, last = FCount - 1; I <= last; I++)
+        int hexNumber;
+        int hexX = default;
+        int hexY = default;
+        HexNumberWalkData walk = default;
+        UInt16List result = new UInt16List();
+        for (int I = 0, last = _count - 1; I <= last; I++)
         {
             if (GetTerrain(I) >= 0)
             {
-                HexGeometry.HNtoHX(I, ref Xhx, ref Yhx);
-                HexNumberWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 1);
-                while (Walk.HN != 7)
+                HexGeometry.HexNumberToHex(I, ref hexX, ref hexY);
+                HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 1);
+                while (walk.HexNumber != 7)
                 {
-                    HN = HexGeometry.HXtoHN(Walk.X, Walk.Y);
-                    if (HN >= FCount || HN < FCount && GetTerrain(HN) < 0)
+                    hexNumber = HexGeometry.HexToHexNumber(walk.X, walk.Y);
+                    if (hexNumber >= _count || hexNumber < _count && GetTerrain(hexNumber) < 0)
                     {
-                        if (Result.IndexOf((ushort)HN) == -1)
+                        if (result.IndexOf((ushort)hexNumber) == -1)
                         {
-                            Result.Add((ushort)HN);
+                            result.Add((ushort)hexNumber);
                         }
                     }
 
-                    HexNumberWalkData.WalkToNextHN(ref Walk);
+                    HexNumberWalkData.WalkToNextHexNumber(ref walk);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:1538
-    public bool CompareTerrain(TerrainList List, Set<TerrainCompareModeElement> Mode)
+    public bool CompareTerrain(TerrainList list, Set<TerrainCompareModeElement> mode)
     {
         int I;
         int N;
-        int T1;
-        int T2;
-        int O1;
-        int O2;
-        bool Result = true;
+        int t1;
+        int t2;
+        int o1;
+        int o2;
+        bool result = true;
         I = 0;
-        if (FCount >= List.FCount)
+        if (_count >= list._count)
         {
-            N = FCount;
+            N = _count;
         }
         else
         {
-            N = List.FCount;
+            N = list._count;
         }
 
-        while (Result && I != N)
+        while (result && I != N)
         {
-            T1 = GetTerrain(I);
-            T2 = List.GetTerrain(I);
-            if (!(T1 < 0 && T2 < 0))
+            t1 = GetTerrain(I);
+            t2 = list.GetTerrain(I);
+            if (!(t1 < 0 && t2 < 0))
             {
-                Result = T1 >= 0 && T2 >= 0 && (!Mode.Contains(TerrainCompareModeElement.SameTerrainType) || T1 == T2);
+                result = t1 >= 0 && t2 >= 0 && (!mode.Contains(TerrainCompareModeElement.SameTerrainType) || t1 == t2);
             }
 
-            if (Result)
+            if (result)
             {
-                O1 = GetOverlay(I);
-                O2 = List.GetOverlay(I);
-                if (!(O1 < 0 && O2 < 0))
+                o1 = GetOverlay(I);
+                o2 = list.GetOverlay(I);
+                if (!(o1 < 0 && o2 < 0))
                 {
-                    Result = !Mode.Contains(TerrainCompareModeElement.SameOverlayType) || O1 == O2;
+                    result = !mode.Contains(TerrainCompareModeElement.SameOverlayType) || o1 == o2;
                 }
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
-    public int Count { get => FCount; set => SetCount(value); }
+    public int Count { get => _count; set => SetCount(value); }
 
     public sealed class TerrainAccessor(TerrainList target)
     {
-        public sbyte this[int Index] { get => target.GetTerrain(Index); set => target.SetTerrain(Index, value); }
+        public sbyte this[int index] { get => target.GetTerrain(index); set => target.SetTerrain(index, value); }
     }
 
     public TerrainAccessor Terrain => new TerrainAccessor(this);
 
     public sealed class OverlayAccessor(TerrainList target)
     {
-        public sbyte this[int Index] { get => target.GetOverlay(Index); set => target.SetOverlay(Index, value); }
+        public sbyte this[int index] { get => target.GetOverlay(index); set => target.SetOverlay(index, value); }
     }
 
     public OverlayAccessor Overlay => new OverlayAccessor(this);
 
     public sealed class TerrainAndOverlayAccessor(TerrainList target)
     {
-        public ushort this[int Index] { get => target.GetTandO(Index); set => target.SetTandO(Index, value); }
+        public ushort this[int index] { get => target.GetTandO(index); set => target.SetTandO(index, value); }
     }
 
     public TerrainAndOverlayAccessor TandO => new TerrainAndOverlayAccessor(this);
 
     public sealed class UsedAccessor(TerrainList target)
     {
-        public bool this[int Index] { get => target.GetUsed(Index); }
+        public bool this[int index] { get => target.GetUsed(index); }
     }
 
     public UsedAccessor Used => new UsedAccessor(this);

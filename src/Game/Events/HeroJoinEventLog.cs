@@ -19,65 +19,65 @@ public partial class HeroJoinEventLog : JoinEventLog
     public HeroJoinEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131828;
+    public new const int ClassId = 131828;
 
     // Hero.PAS:116
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool Result = default;
-        Hero Hero;
-        bool ExecuteNow;
-        var unitControl = AoWHSMap.Current.FUnitControl;
-        Hero = unitControl.FindUnit<Hero>(FFirstUnitID);
-        if (Hero != null && Hero.FPlayer == 0 && Hero.OfferToJoin(FPlayer))
+        bool result = default;
+        Hero hero;
+        bool executeNow;
+        var unitControl = AoWHSMap.Current.UnitControl;
+        hero = unitControl.FindUnit<Hero>(FirstUnitId);
+        if (hero != null && hero.Player == 0 && hero.OfferToJoin(_player))
         {
-            ExecuteNow = Trigger == ExecuteTrigger.User;
-            ExecuteNow = ExecuteNow || AoWHSMap.Current.FPlayMode == PlayMode.Turn && GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
-            ExecuteNow = ExecuteNow || AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
-            if (ExecuteNow)
+            executeNow = trigger == ExecuteTrigger.User;
+            executeNow = executeNow || AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
+            executeNow = executeNow || AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
+            if (executeNow)
             {
-                Result = base.Execute(Mode, Trigger, Done);
+                result = base.Execute(mode, trigger, done);
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:148
-    public override bool Accept(ref string ErrorText)
+    public override bool Accept(ref string errorText)
     {
-        NegotiateTokenEvent TE;
+        NegotiateTokenEvent tokenEvent;
         Troop U;
-        MapCoordinate Location = default;
-        bool Result = base.Accept(ref ErrorText);
-        if (Result && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+        MapCoordinate location = default;
+        bool result = base.Accept(ref errorText);
+        if (result && !AoWHSMap.Current.Players.GetPlayers(_player).GetBusy())
         {
-            U = AoWHSMap.Current.FUnitControl.FindUnit(FFirstUnitID);
-            U.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
-            TE = new NegotiateTokenEvent(null);
-            TE.FPlayer = FPlayer;
-            TE.FObject = NegotiateObject.Army;
-            TE.FGold = FGold;
-            TE.FOffer = NegotiateTokenEvent.NegotiateOffer.OfferBribe;
-            TE.FX = (byte)Location.X;
-            TE.FY = (byte)Location.Y;
-            TE.FL = (byte)Location.L;
-            TE.FMode = Set<NegotiateModeElement>.Of();
-            TE.FResult = NegotiateTokenEvent.NegotiateResult.Accept;
-            TE.FEventLogID = FJoinIndex;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
-            TE.Release();
+            U = AoWHSMap.Current.UnitControl.FindUnit(FirstUnitId);
+            U.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
+            tokenEvent = new NegotiateTokenEvent(null);
+            tokenEvent.Player = _player;
+            tokenEvent.Object = NegotiateObject.Army;
+            tokenEvent.Gold = Gold;
+            tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.OfferBribe;
+            tokenEvent.X = (byte)location.X;
+            tokenEvent.Y = (byte)location.Y;
+            tokenEvent.MapLevel = (byte)location.MapLevel;
+            tokenEvent.Mode = Set<NegotiateModeElement>.Of();
+            tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Accept;
+            tokenEvent.EventLogId = JoinIndex;
+            AoWHSMap.Current.TokenManager.GetTokenControl(_player).AddEvent(tokenEvent);
+            tokenEvent.Release();
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:132
@@ -86,26 +86,26 @@ public partial class HeroJoinEventLog : JoinEventLog
     // dispatched on it).
     public bool ExecuteAI()
     {
-        Hero Hero;
-        string ErrorText = "";
-        bool Result = false;
-        Hero = AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FFirstUnitID);
-        if (Hero != null && Hero.FPlayer == 0 && Hero.OfferToJoin(FPlayer))
+        Hero hero;
+        string errorText = "";
+        bool result = false;
+        hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(FirstUnitId);
+        if (hero != null && hero.Player == 0 && hero.OfferToJoin(_player))
         {
-            var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-            if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIBudget.RequestBudgetExpense(FGold, 0, players.FAIBudget.FDefaultBudget, true))
+            var players = AoWHSMap.Current.Players.GetPlayers(_player);
+            if (AoWHSMap.Current.Players.GetPlayers(_player).AIBudget.RequestBudgetExpense(Gold, 0, players.AIBudget.DefaultBudget, true))
             {
-                if (Accept(ref ErrorText))
+                if (Accept(ref errorText))
                 {
-                    var fPlayersPlayers = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-                    AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIBudget.BudgetExpenseMade(FGold, 0, fPlayersPlayers.FAIBudget.FDefaultBudget, AIBudgetManager.ExpenseMode.BudgetThenPool);
+                    var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(_player);
+                    AoWHSMap.Current.Players.GetPlayers(_player).AIBudget.BudgetExpenseMade(Gold, 0, fPlayersPlayers.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.BudgetThenPool);
                 }
 
-                Result = true;
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
 }

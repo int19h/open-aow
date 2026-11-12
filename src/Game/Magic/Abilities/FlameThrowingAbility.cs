@@ -12,22 +12,22 @@ public partial class FlameThrowingAbility : BreathAbility
     // AoWAb.PAS:4934
     public FlameThrowingAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityID = 30;
-        FAbilityName = AbilityRules.TranslateRStr(FlameThrowingRStr);
-        FAttackRA = 4;
-        FDamageRA = 3;
-        FDamageTypesRA.Value = Set<DamageType>.Of(DamageType.Fire);
+        AbilityId = 30;
+        AbilityName = AbilityRules.TranslateResourceString(s_flameThrowingText);
+        AttackRangedAttack = 4;
+        DamageRangedAttack = 3;
+        DamageTypesRangedAttack.Value = Set<DamageType>.Of(DamageType.Fire);
     }
 
     // AoWAb.PAS:4943
-    public override void GetOffensiveStrength(AbilityOwner Owner, ref int Strength, ref Set<DamageType> Types)
+    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
     {
-        var attackRepeatRA = GetAttackRepeatRA(Owner);
-        var damageRA = GetDamageRA(Owner);
-        Strength = AbilityRules.P3LimitedDamage(GetAttackRA(Owner), damageRA, attackRepeatRA);
-        Strength = Strength * 2;
-        Types = GetDamageTypesRA(Owner);
+        var attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
+        var damageRangedAttack = GetDamageRangedAttack(owner);
+        strength = AbilityRules.LimitedDamage(GetAttackRangedAttack(owner), damageRangedAttack, attackRepeatRangedAttack);
+        strength = strength * 2;
+        types = GetDamageTypesRangedAttack(owner);
     }
 
-    private static readonly string FlameThrowingRStr = "Flame Throwing";
+    private static readonly string s_flameThrowingText = "Flame Throwing";
 }

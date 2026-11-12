@@ -8,33 +8,33 @@ public partial class AbilityActivation : EngineObject
     // Ability.PAS:920
     public AbilityActivation(ECustomNode owner) : base(owner)
     {
-        FReferences = 1;
+        References = 1;
     }
 
-    public int FReferences;
-    public int FUnitID;
-    public int FAbilityID;
+    public int References;
+    public int UnitId;
+    public int AbilityId;
 
     // Ability.PAS:926
     public override int AddRef()
     {
-        FReferences += 1;
-        return FReferences;
+        References += 1;
+        return References;
     }
 
     // Ability.PAS:932
     public override int Release()
     {
-        int Count;
-        FReferences -= 1;
-        Count = FReferences;
-        int Result = Count;
-        if (Count == 0)
+        int count;
+        References -= 1;
+        count = References;
+        int result = count;
+        if (count == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P1_06.inc:17

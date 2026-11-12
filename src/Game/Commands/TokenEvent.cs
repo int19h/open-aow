@@ -12,28 +12,28 @@ namespace Aow.Game.Commands;
 public partial class TokenEvent : EngineObject
 {
     // NetworkE.pas:950
-    public new const int ClassID = CID_TokenEvent;
+    public new const int ClassId = ClassIdTokenEvent;
 
     public TokenEvent(ECustomNode owner) : base(owner)
     {
-        FRefCount = 1;
-        FTokenCounter = -1;
+        _refCount = 1;
+        _tokenCounter = -1;
     }
 
-    internal int FRefCount;
-    internal int FTokenCounter;
+    internal int _refCount;
+    internal int _tokenCounter;
 
     // NetworkE.pas:969
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FTokenCounter, 10);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref _tokenCounter, 10);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int("TokenCounter", ref FTokenCounter);
+        persister.Int32("TokenCounter", ref _tokenCounter);
     }
 
     // NetworkE.pas:943
@@ -41,28 +41,28 @@ public partial class TokenEvent : EngineObject
     // NetworkE.pas:955
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // NetworkE.pas:961
     public override int Release()
     {
-        FRefCount -= 1;
-        int Result = FRefCount;
-        if (Result == 0)
+        _refCount -= 1;
+        int result = _refCount;
+        if (result == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:975
-    public virtual ExecuteResult Execute(TokenExecutor TE) => ExecuteResult.Done;
+    public virtual ExecuteResult Execute(TokenExecutor tokenEvent) => ExecuteResult.Done;
 
-    public int TokenCounter { get => FTokenCounter; set => FTokenCounter = value; }
+    public int TokenCounter { get => _tokenCounter; set => _tokenCounter = value; }
 
-    private const short CID_TokenEvent = 1361;
+    private const short ClassIdTokenEvent = 1361;
 
 }

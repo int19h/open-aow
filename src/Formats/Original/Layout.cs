@@ -36,10 +36,10 @@ public static class LayoutResidue
     {
         switch (value)
         {
-            case JsonObject obj:
+            case JsonObject objectValue:
                 builder.Append('{');
                 bool first = true;
-                foreach (var m in obj.Members.Where(m => m.Name != "$layout").OrderBy(m => m.Name, StringComparer.Ordinal))
+                foreach (var m in objectValue.Members.Where(m => m.Name != "$layout").OrderBy(m => m.Name, StringComparer.Ordinal))
                 {
                     if (!first) builder.Append(',');
                     first = false;
@@ -152,12 +152,12 @@ internal sealed class LayoutReader
     /// Parses $layout and checks its fingerprint against the visible subtree. A stale layout
     /// returns null and is reported, or fails under --exact-layout. Malformed parts always fail.
     /// </summary>
-    public static LayoutReader? Read(EncodeContext ctx, JsonObject owner, DocumentNodePath path)
+    public static LayoutReader? Read(EncodeContext context, JsonObject owner, DocumentNodePath path)
     {
         var member = owner.Find("$layout");
         if (member is null) return null;
         var at = path.Member("$layout");
-        if (member.Value is not JsonObject layout) throw ctx.Fail(Codes.Type, "$layout is not an object.", member.Value, at);
+        if (member.Value is not JsonObject layout) throw context.Fail(Codes.Type, "$layout is not an object.", member.Value, at);
         string? fingerprint = null;
         JsonArray? parts = null;
         foreach (var m in layout.Members)
@@ -166,35 +166,35 @@ internal sealed class LayoutReader
             {
                 case "codec":
                     if (m.Value is not JsonString { Value: LayoutResidue.Codec })
-                        throw ctx.Fail(Codes.Layout, "$layout names an unknown codec.", m.Value, at.Member("codec"), null, LayoutResidue.Codec);
+                        throw context.Fail(Codes.Layout, "$layout names an unknown codec.", m.Value, at.Member("codec"), null, LayoutResidue.Codec);
                     break;
                 case "fingerprint":
                     fingerprint = m.Value is JsonString { Value.Length: 64 } s && IsHex(s.Value) ? s.Value
-                        : throw ctx.Fail(Codes.Layout, "The $layout fingerprint is not 64 lowercase hexadecimal digits.", m.Value, at.Member("fingerprint"));
+                        : throw context.Fail(Codes.Layout, "The $layout fingerprint is not 64 lowercase hexadecimal digits.", m.Value, at.Member("fingerprint"));
                     break;
                 case "parts":
-                    parts = m.Value as JsonArray ?? throw ctx.Fail(Codes.Type, "$layout parts is not an array.", m.Value, at.Member("parts"));
+                    parts = m.Value as JsonArray ?? throw context.Fail(Codes.Type, "$layout parts is not an array.", m.Value, at.Member("parts"));
                     break;
                 default:
-                    throw ctx.Fail(Codes.UnknownMember, $"$layout has no member \"{m.Name}\".", m.Value, at.Member(m.Name));
+                    throw context.Fail(Codes.UnknownMember, $"$layout has no member \"{m.Name}\".", m.Value, at.Member(m.Name));
             }
         }
         if (fingerprint is null || parts is null)
-            throw ctx.Fail(Codes.MissingMember, "$layout needs codec, fingerprint and parts.", layout, at);
+            throw context.Fail(Codes.MissingMember, "$layout needs codec, fingerprint and parts.", layout, at);
         var result = new LayoutReader();
-        for (int i = 0; i < parts.Items.Count; i++) result.ReadPart(ctx, parts.Items[i], at.Member("parts").Item(i));
-        string actual = LayoutResidue.Fingerprint(owner, ctx.Profile);
+        for (int i = 0; i < parts.Items.Count; i++) result.ReadPart(context, parts.Items[i], at.Member("parts").Item(i));
+        string actual = LayoutResidue.Fingerprint(owner, context.Profile);
         if (actual != fingerprint)
         {
             var diagnostic = new FormatDiagnostic(Codes.Layout, "The retained layout no longer matches the edited content and is rebuilt.")
             {
-                File = ctx.File,
+                File = context.File,
                 Span = layout.Span,
                 Path = at.ToString(),
             };
-            if (ctx.Options.ExactLayout)
+            if (context.Options.ExactLayout)
                 throw new ConversionException(diagnostic with { Message = "The retained exact layout is stale after an edit. --exact-layout refuses to rebuild it." });
-            ctx.Invalidated.Add(diagnostic);
+            context.Invalidated.Add(diagnostic);
             return null;
         }
         return result;
@@ -207,82 +207,82 @@ internal sealed class LayoutReader
         return s.Length % 2 == 0;
     }
 
-    private static byte[] Bytes(EncodeContext ctx, JsonValue? value, DocumentNodePath path)
+    private static byte[] Bytes(EncodeContext context, JsonValue? value, DocumentNodePath path)
     {
         if (value is not JsonString s || !IsHex(s.Value))
-            throw ctx.Fail(Codes.Layout, "A layout part needs bytes as lowercase hexadecimal digits of even length.", value, path);
-        if (s.Value.Length / 2 > ctx.Limits.DecompressedBytes)
-            throw ctx.Fail(Codes.Limit, "A layout part is too large.", value, path);
+            throw context.Fail(Codes.Layout, "A layout part needs bytes as lowercase hexadecimal digits of even length.", value, path);
+        if (s.Value.Length / 2 > context.Limits.DecompressedBytes)
+            throw context.Fail(Codes.Limit, "A layout part is too large.", value, path);
         return Convert.FromHexString(s.Value);
     }
 
-    private static int Int(EncodeContext ctx, JsonValue? value, DocumentNodePath path, long min, long max)
+    private static int Int32(EncodeContext context, JsonValue? value, DocumentNodePath path, long min, long max)
     {
         if (value is not JsonInteger n || n.Value < min || n.Value > max)
-            throw ctx.Fail(Codes.Layout, "A layout part has an integer out of bounds.", value, path,
+            throw context.Fail(Codes.Layout, "A layout part has an integer out of bounds.", value, path,
                 value is JsonInteger k ? k.Value.ToString(CultureInfo.InvariantCulture) : null, $"{min} to {max}");
         return (int)n.Value;
     }
 
-    private void ReadPart(EncodeContext ctx, JsonValue item, DocumentNodePath path)
+    private void ReadPart(EncodeContext context, JsonValue item, DocumentNodePath path)
     {
-        if (item is not JsonObject part) throw ctx.Fail(Codes.Type, "A layout part is not an object.", item, path);
-        string category = part["category"] is JsonString c ? c.Value : throw ctx.Fail(Codes.MissingMember, "A layout part needs a category.", part, path);
-        int? property = part.Find("property") is { } p ? Int(ctx, p.Value, path.Member("property"), 0, int.MaxValue) : null;
+        if (item is not JsonObject part) throw context.Fail(Codes.Type, "A layout part is not an object.", item, path);
+        string category = part["category"] is JsonString c ? c.Value : throw context.Fail(Codes.MissingMember, "A layout part needs a category.", part, path);
+        int? property = part.Find("property") is { } p ? Int32(context, p.Value, path.Member("property"), 0, int.MaxValue) : null;
         string[] allowed;
         switch (category)
         {
             case LayoutResidue.TableFormOrder:
                 {
                     allowed = ["category", "property", "entries", "longMarker"];
-                    var list = part["entries"] as JsonArray ?? throw ctx.Fail(Codes.Layout, "A table part needs entries.", part, path);
+                    var list = part["entries"] as JsonArray ?? throw context.Fail(Codes.Layout, "A table part needs entries.", part, path);
                     var entries = new List<TableEntry>();
                     for (int i = 0; i < list.Items.Count; i++)
                     {
                         var e = list.Items[i] as JsonArray;
                         var ep = path.Member("entries").Item(i);
-                        if (e is null || e.Items.Count != 3) throw ctx.Fail(Codes.Layout, "A table entry is [id, offset, long].", list.Items[i], ep);
-                        entries.Add(new TableEntry(Int(ctx, e.Items[0], ep, int.MinValue, int.MaxValue), Int(ctx, e.Items[1], ep, 0, int.MaxValue),
-                            Int(ctx, e.Items[2], ep, 0, 1) == 1, i));
+                        if (e is null || e.Items.Count != 3) throw context.Fail(Codes.Layout, "A table entry is [id, offset, long].", list.Items[i], ep);
+                        entries.Add(new TableEntry(Int32(context, e.Items[0], ep, int.MinValue, int.MaxValue), Int32(context, e.Items[1], ep, 0, int.MaxValue),
+                            Int32(context, e.Items[2], ep, 0, 1) == 1, i));
                     }
                     bool marker = part["longMarker"] switch
                     {
                         null => false,
                         JsonBoolean { Value: true } => true,
-                        var v => throw ctx.Fail(Codes.Layout, "longMarker is true or absent.", v, path.Member("longMarker")),
+                        var v => throw context.Fail(Codes.Layout, "longMarker is true or absent.", v, path.Member("longMarker")),
                     };
-                    if (Tables.Any(t => t.Property == property)) throw ctx.Fail(Codes.Duplicate, "Two table parts describe the same table.", part, path);
+                    if (Tables.Any(t => t.Property == property)) throw context.Fail(Codes.Duplicate, "Two table parts describe the same table.", part, path);
                     Tables.Add((property, entries, marker, part));
                     break;
                 }
             case LayoutResidue.Gaps:
                 allowed = ["category", "property", "offset", "bytes"];
-                Gaps.Add((property, Int(ctx, part["offset"], path.Member("offset"), 0, int.MaxValue), Bytes(ctx, part["bytes"], path.Member("bytes")), part));
+                Gaps.Add((property, Int32(context, part["offset"], path.Member("offset"), 0, int.MaxValue), Bytes(context, part["bytes"], path.Member("bytes")), part));
                 break;
             case LayoutResidue.ValuePrefixes:
                 allowed = ["category", "id"];
-                if (!Prefixes.Add(Int(ctx, part["id"], path.Member("id"), int.MinValue, int.MaxValue)))
-                    throw ctx.Fail(Codes.Duplicate, "Two prefix parts name the same property.", part, path);
+                if (!Prefixes.Add(Int32(context, part["id"], path.Member("id"), int.MinValue, int.MaxValue)))
+                    throw context.Fail(Codes.Duplicate, "Two prefix parts name the same property.", part, path);
                 break;
             case LayoutResidue.ValueEncoding:
                 allowed = ["category", "id", "bytes"];
-                if (!Encodings.TryAdd(Int(ctx, part["id"], path.Member("id"), int.MinValue, int.MaxValue), (Bytes(ctx, part["bytes"], path.Member("bytes")), part)))
-                    throw ctx.Fail(Codes.Duplicate, "Two encoding parts name the same property.", part, path);
+                if (!Encodings.TryAdd(Int32(context, part["id"], path.Member("id"), int.MinValue, int.MaxValue), (Bytes(context, part["bytes"], path.Member("bytes")), part)))
+                    throw context.Fail(Codes.Duplicate, "Two encoding parts name the same property.", part, path);
                 break;
             case LayoutResidue.HeaderExtensions:
                 allowed = ["category", "offset", "bytes"];
-                Headers.Add((Int(ctx, part["offset"], path.Member("offset"), 0, int.MaxValue), Bytes(ctx, part["bytes"], path.Member("bytes")), part));
+                Headers.Add((Int32(context, part["offset"], path.Member("offset"), 0, int.MaxValue), Bytes(context, part["bytes"], path.Member("bytes")), part));
                 break;
             case LayoutResidue.NestedCompression:
                 allowed = ["category", "bytes"];
-                if (Nested is not null) throw ctx.Fail(Codes.Duplicate, "Two nested compression parts.", part, path);
-                Nested = (Bytes(ctx, part["bytes"], path.Member("bytes")), part);
+                if (Nested is not null) throw context.Fail(Codes.Duplicate, "Two nested compression parts.", part, path);
+                Nested = (Bytes(context, part["bytes"], path.Member("bytes")), part);
                 break;
             default:
-                throw ctx.Fail(Codes.Layout, $"Unknown layout category \"{category}\".", part, path.Member("category"));
+                throw context.Fail(Codes.Layout, $"Unknown layout category \"{category}\".", part, path.Member("category"));
         }
         foreach (var m in part.Members)
             if (Array.IndexOf(allowed, m.Name) < 0)
-                throw ctx.Fail(Codes.UnknownMember, $"A {category} part has no member \"{m.Name}\".", m.Value, path.Member(m.Name));
+                throw context.Fail(Codes.UnknownMember, $"A {category} part has no member \"{m.Name}\".", m.Value, path.Member(m.Name));
     }
 }

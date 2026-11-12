@@ -18,67 +18,67 @@ public partial class ChangeGlobalMagicTokenEvent : TokenEvent
     public ChangeGlobalMagicTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135446;
+    public new const int ClassId = 135446;
 
-    public Mode FMode;
-    public byte FPlayerIndex;
-    public int FEnchantmentID;
-    public int FValue;
+    public ChangeGlobalMagicTokenEventMode Mode;
+    public byte PlayerIndex;
+    public int EnchantmentId;
+    public int Value;
 
     // Spells.PAS:2720
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwData(Bytes.Of(ref FMode, 1), 1, 20);
-        Stream.rwByte(ref FPlayerIndex, 21);
-        Stream.rwInteger(ref FEnchantmentID, 22);
-        Stream.rwInteger(ref FValue, 23);
+        base.ReadWrite(stream);
+        stream.rwData(Bytes.Of(ref Mode, 1), 1, 20);
+        stream.rwByte(ref PlayerIndex, 21);
+        stream.rwInteger(ref EnchantmentId, 22);
+        stream.rwInteger(ref Value, 23);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Enum("Mode", ref FMode);
-        persister.Byte("PlayerIndex", ref FPlayerIndex);
-        persister.Int("EnchantmentID", ref FEnchantmentID);
-        persister.Int("Value", ref FValue);
+        persister.Enum("Mode", ref Mode);
+        persister.Byte("PlayerIndex", ref PlayerIndex);
+        persister.Int32("EnchantmentID", ref EnchantmentId);
+        persister.Int32("Value", ref Value);
     }
 
     // Spells.PAS:2722
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult Result;
-        bool Success;
-        base.Execute(TE);
-        Success = false;
-        switch (FMode)
+        ExecuteResult result;
+        bool success;
+        base.Execute(tokenEvent);
+        success = false;
+        switch (Mode)
         {
-            case Mode.DispelEnchantment:
-                Success = AoWHSMap.Current.FGlobalMagicControl.ExecuteDispelEnchantment((sbyte)FPlayerIndex, FEnchantmentID);
+            case ChangeGlobalMagicTokenEventMode.DispelEnchantment:
+                success = AoWHSMap.Current.GlobalMagicControl.ExecuteDispelEnchantment((sbyte)PlayerIndex, EnchantmentId);
                 break;
-            case Mode.RemoveEnchantment:
-                Success = AoWHSMap.Current.FGlobalMagicControl.ExecuteRemoveEnchantment((sbyte)FPlayerIndex, FEnchantmentID);
+            case ChangeGlobalMagicTokenEventMode.RemoveEnchantment:
+                success = AoWHSMap.Current.GlobalMagicControl.ExecuteRemoveEnchantment((sbyte)PlayerIndex, EnchantmentId);
                 break;
         }
 
-        if (Success)
+        if (success)
         {
-            Result = ExecuteResult.Done;
+            result = ExecuteResult.Done;
         }
         else
         {
             // Original road-construction predicate
-            Result = ExecuteResult.DoneHalt;
+            result = ExecuteResult.DoneHalt;
         }
 
-        return Result;
-    }
-
-    public enum Mode : byte
-    {
-        DispelEnchantment = 0, RemoveEnchantment = 1
+        return result;
     }
 
     // NetworkE.pas:230
 
+}
+
+public enum ChangeGlobalMagicTokenEventMode : byte
+{
+    DispelEnchantment = 0, RemoveEnchantment = 1
 }

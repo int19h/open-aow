@@ -9,155 +9,155 @@ namespace Aow.Game.UI.Grids;
 
 public partial class PageTurnControl
 {
-    public float FScale;
-    public float FShade;
-    public float FHalfWidth;
-    public int FSpeed;
-    public PageTurnMode FMode;
-    public int FWidth;
-    public int FHeight;
-    public LockedSurface FSource1;
-    public int FSourceX1;
-    public int FSourceY1;
-    public LockedSurface FSource2;
-    public int FSourceX2;
-    public int FSourceY2;
-    public SingleArray512 FInvCos;
-    public float FRadius;
-    public float FShadow;
-    public int FPosition;
+    public float Scale;
+    public float Shade;
+    public float HalfWidth;
+    public int Speed;
+    public PageTurnMode Mode;
+    public int Width;
+    public int Height;
+    public LockedSurface Source1;
+    public int SourceX1;
+    public int SourceY1;
+    public LockedSurface Source2;
+    public int SourceX2;
+    public int SourceY2;
+    public SingleArray512 InverseCos;
+    public float Radius;
+    public float Shadow;
+    public int Position;
 
     // PageTurnCtrl.pas:51
     public PageTurnControl()
     {
-        FScale = (float)0.5;
-        FSpeed = 2;
-        FShade = (float)2;
-        GenerateInvCosTable();
+        Scale = (float)0.5;
+        Speed = 2;
+        Shade = (float)2;
+        GenerateInverseCosTable();
     }
 
     // PageTurnCtrl.pas:60
-    public void SetPageDimensions(int Width, int Height)
+    public void SetPageDimensions(int width, int height)
     {
-        FWidth = Width;
-        FHeight = Height;
-        FHalfWidth = (int)(((uint)FWidth) >> 1);
+        Width = width;
+        Height = height;
+        HalfWidth = (int)(((uint)Width) >> 1);
     }
 
     // PageTurnCtrl.pas:67
-    public float GetInvCos(float Value)
+    public float GetInverseCos(float value)
     {
-        float Result;
-        Assert((double)Value >= -1 && (double)Value <= 1, "", "PageTurnCtrl.pas", 85);
-        if ((double)Value >= 0)
+        float result;
+        Assert((double)value >= -1 && (double)value <= 1, "", "PageTurnCtrl.pas", 85);
+        if ((double)value >= 0)
         {
-            Result = FInvCos[Round((double)Value * 511)];
+            result = InverseCos[Round((double)value * 511)];
         }
         else
         {
             var pi = Math.PI;
-            Result = (float)((double)pi - FInvCos[Round((double)-Value * 511)]);
+            result = (float)((double)pi - InverseCos[Round((double)-value * 511)]);
         }
 
-        return Result;
+        return result;
     }
 
     // PageTurnCtrl.pas:90
-    public void GenerateInvCosTable()
+    public void GenerateInverseCosTable()
     {
-        float CosValue;
-        float Angle;
-        float Target;
+        float cosValue;
+        float angle;
+        float target;
         int I;
-        Angle = 0;
+        angle = 0;
         I = 511;
-        while ((double)Angle < (double)Math.PI / 2)
+        while ((double)angle < (double)Math.PI / 2)
         {
-            CosValue = (float)Math.Cos(Angle);
-            Target = (float)((double)I / 511);
-            if ((double)((double)CosValue - Target) > 0)
+            cosValue = (float)Math.Cos(angle);
+            target = (float)((double)I / 511);
+            if ((double)((double)cosValue - target) > 0)
             {
-                FInvCos[I] = Angle;
+                InverseCos[I] = angle;
             }
             else
             {
                 I -= 1;
             }
 
-            Angle = (float)((double)Angle + 1E-05);
+            angle = (float)((double)angle + 1E-05);
         }
     }
 
     // PageTurnCtrl.pas:119
-    public void BltVerticalScanLine(int SourceX, int DestX, int DestY, in LockedSurface Dest, int Top, int Bottom)
+    public void BlitVerticalScanLine(int sourceX, int destinationX, int destinationY, in LockedSurface destination, int top, int bottom)
     {
-        int SourceY;
-        int Height;
+        int sourceY;
+        int height;
         int Y;
-        Span<byte> Source;
-        int SourceP;
-        int SourcePitch;
-        if (Dest.ClipRect.Left <= DestX && DestX < Dest.ClipRect.Right)
+        Span<byte> source;
+        int sourceP;
+        int sourcePitch;
+        if (destination.ClipRectangle.Left <= destinationX && destinationX < destination.ClipRectangle.Right)
         {
-            SourceY = Top;
-            Y = DestY + Top;
-            Height = Bottom - Top;
-            if (Y < Dest.ClipRect.Top)
+            sourceY = top;
+            Y = destinationY + top;
+            height = bottom - top;
+            if (Y < destination.ClipRectangle.Top)
             {
-                Height -= Dest.ClipRect.Top - Y;
-                SourceY += Dest.ClipRect.Top - Y;
-                Y = Dest.ClipRect.Top;
+                height -= destination.ClipRectangle.Top - Y;
+                sourceY += destination.ClipRectangle.Top - Y;
+                Y = destination.ClipRectangle.Top;
             }
 
-            if (Height + Y > Dest.ClipRect.Bottom)
+            if (height + Y > destination.ClipRectangle.Bottom)
             {
-                Height -= Height + Y - Dest.ClipRect.Bottom;
+                height -= height + Y - destination.ClipRectangle.Bottom;
             }
 
-            if (Height > 0)
+            if (height > 0)
             {
                 // The pointers of the original are byte indexes into the surfaces' memory.
-                if (SourceX < FWidth * 2)
+                if (sourceX < Width * 2)
                 {
-                    Source = FSource1.Data;
-                    SourceP = FSource1.DataIndex + (FSourceX1 + SourceX) * 2 + (FSourceY1 + SourceY) * FSource1.Pitch;
-                    SourcePitch = FSource1.Pitch;
+                    source = Source1.Data;
+                    sourceP = Source1.DataIndex + (SourceX1 + sourceX) * 2 + (SourceY1 + sourceY) * Source1.Pitch;
+                    sourcePitch = Source1.Pitch;
                 }
                 else
                 {
-                    Source = FSource2.Data;
-                    SourceP = FSource2.DataIndex + (SourceX - FWidth * 2 + FSourceX2) * 2 + (FSourceY2 + SourceY) * FSource2.Pitch;
-                    SourcePitch = FSource2.Pitch;
+                    source = Source2.Data;
+                    sourceP = Source2.DataIndex + (sourceX - Width * 2 + SourceX2) * 2 + (SourceY2 + sourceY) * Source2.Pitch;
+                    sourcePitch = Source2.Pitch;
                 }
 
-                var Destination = Dest.Data;
-                int DestP = Dest.DataIndex + DestX * 2 + Dest.Pitch * Y;
-                BltColumn(Source, SourceP, SourcePitch, Destination, DestP, Dest.Pitch, Height);
+                var destinationLocal = destination.Data;
+                int destinationP = destination.DataIndex + destinationX * 2 + destination.Pitch * Y;
+                BlitColumn(source, sourceP, sourcePitch, destinationLocal, destinationP, destination.Pitch, height);
             }
         }
     }
 
     // PageTurnCtrl.pas:151
-    public void Start(PageTurnMode Mode)
+    public void Start(PageTurnMode mode)
     {
-        FMode = Mode;
-        switch (FMode)
+        Mode = mode;
+        switch (Mode)
         {
             case PageTurnMode.Left:
-                FRadius = FHalfWidth;
-                FShadow = (float)((double)FRadius * 0.5);
-                FPosition = FWidth;
+                Radius = HalfWidth;
+                Shadow = (float)((double)Radius * 0.5);
+                Position = Width;
                 break;
             case PageTurnMode.Right:
-                FRadius = 1;
-                FShadow = (float)((double)FRadius * 0.5);
-                FPosition = 0;
+                Radius = 1;
+                Shadow = (float)((double)Radius * 0.5);
+                Position = 0;
                 break;
             case PageTurnMode.Open:
-                FPosition = 0;
+                Position = 0;
                 break;
             case PageTurnMode.Close:
-                FPosition = 180;
+                Position = 180;
                 break;
         }
     }
@@ -165,363 +165,363 @@ public partial class PageTurnControl
     // PageTurnCtrl.pas:164
     public bool UpdateScene()
     {
-        bool Result;
-        switch (FMode)
+        bool result;
+        switch (Mode)
         {
             case PageTurnMode.Left:
-                FShade = (float)3.5;
-                if (FPosition > 0)
+                Shade = (float)3.5;
+                if (Position > 0)
                 {
-                    FPosition -= FSpeed;
-                    if (FPosition < 0)
+                    Position -= Speed;
+                    if (Position < 0)
                     {
-                        FPosition = 0;
+                        Position = 0;
                     }
                 }
                 else
                 {
-                    if ((double)FRadius > 0)
+                    if ((double)Radius > 0)
                     {
                         var pi = Math.PI;
-                        FRadius = (float)((double)FRadius - (double)((double)((double)FSpeed * 1.25) * 2) / pi);
-                        if ((double)FRadius < 1)
+                        Radius = (float)((double)Radius - (double)((double)((double)Speed * 1.25) * 2) / pi);
+                        if ((double)Radius < 1)
                         {
-                            FRadius = 0;
+                            Radius = 0;
                         }
 
-                        FShadow = (float)((double)FRadius * 0.5);
+                        Shadow = (float)((double)Radius * 0.5);
                     }
                 }
 
-                Result = (double)FRadius >= 1;
+                result = (double)Radius >= 1;
                 break;
             case PageTurnMode.Right:
-                FShade = (float)2;
-                if ((double)FRadius < FHalfWidth)
+                Shade = (float)2;
+                if ((double)Radius < HalfWidth)
                 {
                     var pi = Math.PI;
-                    FRadius = (float)((double)FRadius + (double)((double)((double)FSpeed * 1.5) * 2) / pi);
-                    if ((double)FRadius > FHalfWidth)
+                    Radius = (float)((double)Radius + (double)((double)((double)Speed * 1.5) * 2) / pi);
+                    if ((double)Radius > HalfWidth)
                     {
-                        FRadius = FHalfWidth;
+                        Radius = HalfWidth;
                     }
 
-                    FShadow = (float)((double)FRadius * 0.5);
+                    Shadow = (float)((double)Radius * 0.5);
                 }
                 else
                 {
-                    FPosition += FSpeed;
-                    if (FPosition > FWidth)
+                    Position += Speed;
+                    if (Position > Width)
                     {
-                        FPosition = FWidth;
+                        Position = Width;
                     }
                 }
 
-                Result = FPosition < FWidth;
+                result = Position < Width;
                 break;
             case PageTurnMode.Open:
-                FPosition += FSpeed;
-                if (FPosition > 180)
+                Position += Speed;
+                if (Position > 180)
                 {
-                    FPosition = 180;
+                    Position = 180;
                 }
 
-                Result = FPosition < 180;
+                result = Position < 180;
                 break;
             case PageTurnMode.Close:
-                FPosition -= FSpeed;
-                if (FPosition < 0)
+                Position -= Speed;
+                if (Position < 0)
                 {
-                    FPosition = 0;
+                    Position = 0;
                 }
 
-                Result = FPosition > 0;
+                result = Position > 0;
                 break;
             default:
-                Result = false;
+                result = false;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // PageTurnCtrl.pas:215
-    public void RenderLeftRightScene(int X, int Y, in LockedSurface Dest)
+    public void RenderLeftRightScene(int X, int Y, in LockedSurface destination)
     {
-        int OriginalLength;
-        int Offset;
-        int BaseX;
-        int Span;
-        float Step;
-        float Angle;
-        float CosValue;
-        float Height;
-        float Width;
-        float RadiusFactor;
-        int ArcLength;
-        int SourceBase;
-        int Limit;
+        int originalLength;
+        int offset;
+        int baseX;
+        int span;
+        float step;
+        float angle;
+        float cosValue;
+        float height;
+        float width;
+        float radiusFactor;
+        int arcLength;
+        int sourceBase;
+        int limit;
         Rect R = default;
-        int SourceOffset;
+        int sourceOffset;
         int I;
-        if ((double)FRadius >= 1)
+        if ((double)Radius >= 1)
         {
-            Height = (float)((double)FShadow * FScale);
-            Width = (float)((double)FRadius * FScale);
-            R.Left = FSourceX1;
-            R.Top = FSourceY1;
-            R.Right = FSourceX1 + FWidth + FPosition;
-            R.Bottom = FSourceY1 + FHeight;
-            LockedSurface.BltSDRectClipped(FSource1, R, Dest, X, Y);
-            R.Left = FSourceX2 + FWidth + FPosition;
-            R.Top = FSourceY2;
-            R.Right = FWidth * 2 + FSourceX2;
-            R.Bottom = FSourceY2 + FHeight;
-            LockedSurface.BltSDRectClipped(FSource2, R, Dest, X + FWidth + FPosition, Y);
+            height = (float)((double)Shadow * Scale);
+            width = (float)((double)Radius * Scale);
+            R.Left = SourceX1;
+            R.Top = SourceY1;
+            R.Right = SourceX1 + Width + Position;
+            R.Bottom = SourceY1 + Height;
+            LockedSurface.BlitSurfaceDescriptionRectangleClipped(Source1, R, destination, X, Y);
+            R.Left = SourceX2 + Width + Position;
+            R.Top = SourceY2;
+            R.Right = Width * 2 + SourceX2;
+            R.Bottom = SourceY2 + Height;
+            LockedSurface.BlitSurfaceDescriptionRectangleClipped(Source2, R, destination, X + Width + Position, Y);
             var pi = Math.PI;
-            OriginalLength = Round((double)((double)pi * FRadius) * 0.25);
+            originalLength = Round((double)((double)pi * Radius) * 0.25);
             var mathPI = Math.PI;
-            ArcLength = Round((double)((double)mathPI * FRadius) * 0.25);
-            SourceBase = FWidth + FPosition;
-            RadiusFactor = (float)((double)((double)2 / Math.PI) * ArcLength);
-            BaseX = X + FWidth + FPosition;
-            Span = Round(FShadow);
-            Limit = FWidth - FPosition;
-            Step = (float)((double)1 / FShadow);
-            CosValue = 0;
-            SourceOffset = 0;
+            arcLength = Round((double)((double)mathPI * Radius) * 0.25);
+            sourceBase = Width + Position;
+            radiusFactor = (float)((double)((double)2 / Math.PI) * arcLength);
+            baseX = X + Width + Position;
+            span = Round(Shadow);
+            limit = Width - Position;
+            step = (float)((double)1 / Shadow);
+            cosValue = 0;
+            sourceOffset = 0;
             I = 0;
-            while (SourceOffset < Limit && I < Span)
+            while (sourceOffset < limit && I < span)
             {
-                Angle = GetInvCos(CosValue);
-                SourceOffset = ArcLength - Round((double)RadiusFactor * Angle);
-                Offset = Round((double)Height - (double)Math.Sin(Angle) * Height);
-                if (SourceOffset < Limit)
+                angle = GetInverseCos(cosValue);
+                sourceOffset = arcLength - Round((double)radiusFactor * angle);
+                offset = Round((double)height - (double)Math.Sin(angle) * height);
+                if (sourceOffset < limit)
                 {
-                    if (ArcLength - SourceOffset + ArcLength < Limit)
+                    if (arcLength - sourceOffset + arcLength < limit)
                     {
-                        BltVerticalScanLine(SourceBase + SourceOffset, X + FWidth + FPosition + I, Y - Offset, Dest, FHeight - Round(Width), FHeight);
+                        BlitVerticalScanLine(sourceBase + sourceOffset, X + Width + Position + I, Y - offset, destination, Height - Round(width), Height);
                     }
                     else
                     {
-                        BltVerticalScanLine(SourceBase + SourceOffset, BaseX + I, Y - Offset, Dest, 0, FHeight);
+                        BlitVerticalScanLine(sourceBase + sourceOffset, baseX + I, Y - offset, destination, 0, Height);
                     }
                 }
 
-                CosValue = (float)((double)CosValue + Step);
+                cosValue = (float)((double)cosValue + step);
                 I += 1;
             }
 
             var pi2 = Math.PI;
-            ArcLength = Round((double)((double)pi2 * FRadius) * 0.25);
-            SourceBase = FWidth * 3 - FPosition - ArcLength;
-            RadiusFactor = (float)((double)((double)2 / Math.PI) * ArcLength);
-            BaseX = X + FWidth + FPosition;
-            Span = Round(FShadow);
-            I = Span;
-            CosValue = 1;
-            Limit = FWidth * 2 - SourceBase;
-            while (SourceOffset >= Limit && I >= 0)
+            arcLength = Round((double)((double)pi2 * Radius) * 0.25);
+            sourceBase = Width * 3 - Position - arcLength;
+            radiusFactor = (float)((double)((double)2 / Math.PI) * arcLength);
+            baseX = X + Width + Position;
+            span = Round(Shadow);
+            I = span;
+            cosValue = 1;
+            limit = Width * 2 - sourceBase;
+            while (sourceOffset >= limit && I >= 0)
             {
-                Angle = GetInvCos(CosValue);
-                SourceOffset = -Round((double)RadiusFactor * Angle);
-                Offset = Round((double)((double)Math.Sin(Angle) * Height) + Height);
-                if (SourceOffset >= Limit)
+                angle = GetInverseCos(cosValue);
+                sourceOffset = -Round((double)radiusFactor * angle);
+                offset = Round((double)((double)Math.Sin(angle) * height) + height);
+                if (sourceOffset >= limit)
                 {
-                    BltVerticalScanLine(SourceBase + SourceOffset, BaseX + I, Y - Offset, Dest, 0, FHeight);
+                    BlitVerticalScanLine(sourceBase + sourceOffset, baseX + I, Y - offset, destination, 0, Height);
                 }
 
-                CosValue = (float)((double)CosValue - Step);
+                cosValue = (float)((double)cosValue - step);
                 I -= 1;
             }
 
             var pi3 = Math.PI;
-            ArcLength = Round((double)((double)((double)pi3 * FRadius) * 0.25) * FShade);
-            SourceBase = FWidth * 3 - FPosition - OriginalLength * 2 - ArcLength;
-            Span = Round((double)FShadow * FShade);
-            BaseX = X + FWidth + FPosition - Span;
-            Height = (float)((double)((double)FShadow * FScale) * 3.4142);
-            Width = (float)((double)((double)FRadius * FScale) * 0.707);
-            Limit = FWidth * 2 - SourceBase;
-            SourceOffset = Round(ArcLength);
-            I = Span;
-            CosValue = 0;
-            Step = (float)((double)0.707 / ((double)FShadow * FShade));
-            if ((double)Step > 1)
+            arcLength = Round((double)((double)((double)pi3 * Radius) * 0.25) * Shade);
+            sourceBase = Width * 3 - Position - originalLength * 2 - arcLength;
+            span = Round((double)Shadow * Shade);
+            baseX = X + Width + Position - span;
+            height = (float)((double)((double)Shadow * Scale) * 3.4142);
+            width = (float)((double)((double)Radius * Scale) * 0.707);
+            limit = Width * 2 - sourceBase;
+            sourceOffset = Round(arcLength);
+            I = span;
+            cosValue = 0;
+            step = (float)((double)0.707 / ((double)Shadow * Shade));
+            if ((double)step > 1)
             {
-                Step = (float)1;
+                step = (float)1;
             }
 
-            while (SourceOffset >= Limit && I >= 0)
+            while (sourceOffset >= limit && I >= 0)
             {
-                Angle = GetInvCos(CosValue);
+                angle = GetInverseCos(cosValue);
                 var pi4 = Math.PI;
                 var pi5 = Math.PI;
-                SourceOffset = Round((double)((double)ArcLength * ((double)Angle - (double)pi4 / 4)) * ((double)4 / pi5));
-                Offset = Round((double)((double)Math.Sin(Angle) * Height) - Width);
-                if (SourceOffset >= Limit)
+                sourceOffset = Round((double)((double)arcLength * ((double)angle - (double)pi4 / 4)) * ((double)4 / pi5));
+                offset = Round((double)((double)Math.Sin(angle) * height) - width);
+                if (sourceOffset >= limit)
                 {
-                    BltVerticalScanLine(SourceBase + SourceOffset, BaseX + I, Y - Offset, Dest, 0, FHeight);
+                    BlitVerticalScanLine(sourceBase + sourceOffset, baseX + I, Y - offset, destination, 0, Height);
                 }
 
-                CosValue = (float)((double)CosValue + Step);
+                cosValue = (float)((double)cosValue + step);
                 I -= 1;
             }
 
-            BaseX = X + FWidth + FPosition - Span * 2;
-            SourceOffset = 0;
-            I = Span;
-            while (SourceOffset >= Limit && I >= 0 && (double)CosValue > 0)
+            baseX = X + Width + Position - span * 2;
+            sourceOffset = 0;
+            I = span;
+            while (sourceOffset >= limit && I >= 0 && (double)cosValue > 0)
             {
-                CosValue = (float)((double)CosValue - Step);
-                Angle = GetInvCos(CosValue);
+                cosValue = (float)((double)cosValue - step);
+                angle = GetInverseCos(cosValue);
                 var pi4 = Math.PI;
                 var pi5 = Math.PI;
-                SourceOffset = -Round((double)((double)ArcLength * ((double)4 / pi4)) * ((double)Angle - (double)pi5 / 4));
-                Offset = Round((double)((double)1 - Math.Sin(Angle)) * Height);
-                if (SourceOffset >= Limit)
+                sourceOffset = -Round((double)((double)arcLength * ((double)4 / pi4)) * ((double)angle - (double)pi5 / 4));
+                offset = Round((double)((double)1 - Math.Sin(angle)) * height);
+                if (sourceOffset >= limit)
                 {
-                    BltVerticalScanLine(SourceBase + SourceOffset, BaseX + I, Y - Offset, Dest, 0, FHeight);
+                    BlitVerticalScanLine(sourceBase + sourceOffset, baseX + I, Y - offset, destination, 0, Height);
                 }
 
                 I -= 1;
             }
 
-            R.Left = FSourceX2;
-            R.Top = FSourceY2;
-            R.Right = FSourceX2 + FWidth - FPosition - Round((double)OriginalLength * ((double)((double)2 * FShade) + 2));
-            R.Bottom = FSourceY2 + FHeight;
+            R.Left = SourceX2;
+            R.Top = SourceY2;
+            R.Right = SourceX2 + Width - Position - Round((double)originalLength * ((double)((double)2 * Shade) + 2));
+            R.Bottom = SourceY2 + Height;
             if (R.Right > R.Left)
             {
-                LockedSurface.BltSDRectClipped(FSource2, R, Dest, BaseX - (R.Right - R.Left), Y);
+                LockedSurface.BlitSurfaceDescriptionRectangleClipped(Source2, R, destination, baseX - (R.Right - R.Left), Y);
             }
         }
     }
 
     // PageTurnCtrl.pas:324
-    public void RenderOpenCloseScene(int X, int Y, in LockedSurface Dest)
+    public void RenderOpenCloseScene(int X, int Y, in LockedSurface destination)
     {
-        int BaseX;
-        int Height;
-        int Width;
-        float Step;
-        float SourceX;
-        int Offset;
+        int baseX;
+        int height;
+        int width;
+        float step;
+        float sourceX;
+        int offset;
         Rect R = default;
-        int PageWidth;
-        R.Left = FSourceX2 + FWidth;
-        R.Top = FSourceY2;
-        R.Right = FSourceX2 + FWidth * 2;
-        R.Bottom = FSourceY2 + FHeight;
-        LockedSurface.BltSDRectClipped(FSource2, R, Dest, X + FWidth, Y);
+        int pageWidth;
+        R.Left = SourceX2 + Width;
+        R.Top = SourceY2;
+        R.Right = SourceX2 + Width * 2;
+        R.Bottom = SourceY2 + Height;
+        LockedSurface.BlitSurfaceDescriptionRectangleClipped(Source2, R, destination, X + Width, Y);
         var pi = Math.PI;
-        Height = Round((double)Math.Sin((double)((double)FPosition * pi) / 180) * FWidth);
+        height = Round((double)Math.Sin((double)((double)Position * pi) / 180) * Width);
         var mathPI = Math.PI;
-        Width = Round((double)Math.Cos((double)((double)FPosition * mathPI) / 180) * FWidth);
-        if (Width > 0)
+        width = Round((double)Math.Cos((double)((double)Position * mathPI) / 180) * Width);
+        if (width > 0)
         {
-            Step = (float)((double)FWidth / Width);
-            BaseX = X + FWidth;
-            PageWidth = FWidth;
-            SourceX = PageWidth;
-            for (int I = 0; I <= Width - 1; I++)
+            step = (float)((double)Width / width);
+            baseX = X + Width;
+            pageWidth = Width;
+            sourceX = pageWidth;
+            for (int I = 0; I <= width - 1; I++)
             {
-                Offset = Round((double)((double)((double)I / Width) * Height) * FScale);
-                BltVerticalScanLine(Round(SourceX), BaseX + I, Y - Offset, Dest, 0, FHeight);
-                SourceX = (float)((double)SourceX + Step);
+                offset = Round((double)((double)((double)I / width) * height) * Scale);
+                BlitVerticalScanLine(Round(sourceX), baseX + I, Y - offset, destination, 0, Height);
+                sourceX = (float)((double)sourceX + step);
             }
         }
         else
         {
-            if (Width < 0)
+            if (width < 0)
             {
-                Width = -Width;
-                Step = (float)((double)FWidth / Width);
-                BaseX = X + FWidth;
-                SourceX = FWidth * 3;
-                for (int I = 0; I <= Width - 1; I++)
+                width = -width;
+                step = (float)((double)Width / width);
+                baseX = X + Width;
+                sourceX = Width * 3;
+                for (int I = 0; I <= width - 1; I++)
                 {
-                    Offset = Round((double)((double)((double)I / Width) * Height) * FScale);
-                    BltVerticalScanLine(Round(SourceX), BaseX - I, Y - Offset, Dest, 0, FHeight);
-                    SourceX = (float)((double)SourceX - Step);
+                    offset = Round((double)((double)((double)I / width) * height) * Scale);
+                    BlitVerticalScanLine(Round(sourceX), baseX - I, Y - offset, destination, 0, Height);
+                    sourceX = (float)((double)sourceX - step);
                 }
             }
         }
     }
 
     // PageTurnCtrl.pas:361
-    public void RenderScene(int X, int Y, in LockedSurface Dest, int X1, int Y1, in LockedSurface Source1, int X2, int Y2, in LockedSurface Source2, ref Rect R)
+    public void RenderScene(int X, int Y, in LockedSurface destination, int x1, int y1, in LockedSurface source1, int x2, int y2, in LockedSurface source2, ref Rect R)
     {
-        switch (FMode)
+        switch (Mode)
         {
             case PageTurnMode.Left:
-                FSource1 = Source1;
-                FSourceX1 = X1;
-                FSourceY1 = Y1;
-                FSource2 = Source2;
-                FSourceX2 = X2;
-                FSourceY2 = Y2;
-                RenderLeftRightScene(X, Y, Dest);
+                Source1 = source1;
+                SourceX1 = x1;
+                SourceY1 = y1;
+                Source2 = source2;
+                SourceX2 = x2;
+                SourceY2 = y2;
+                RenderLeftRightScene(X, Y, destination);
                 R.Left = X;
-                R.Right = X + FWidth * 2;
-                R.Top = Y - (Round((double)FScale * FRadius) + 1);
-                R.Bottom = Y + FHeight;
+                R.Right = X + Width * 2;
+                R.Top = Y - (Round((double)Scale * Radius) + 1);
+                R.Bottom = Y + Height;
                 break;
             case PageTurnMode.Right:
-                FSource1 = Source2;
-                FSourceX1 = X2;
-                FSourceY1 = Y2;
-                FSource2 = Source1;
-                FSourceX2 = X1;
-                FSourceY2 = Y1;
-                RenderLeftRightScene(X, Y, Dest);
+                Source1 = source2;
+                SourceX1 = x2;
+                SourceY1 = y2;
+                Source2 = source1;
+                SourceX2 = x1;
+                SourceY2 = y1;
+                RenderLeftRightScene(X, Y, destination);
                 R.Left = X;
-                R.Right = X + FWidth * 2;
-                R.Top = Y - (Round((double)FScale * FRadius) + 1);
-                R.Bottom = Y + FHeight;
+                R.Right = X + Width * 2;
+                R.Top = Y - (Round((double)Scale * Radius) + 1);
+                R.Bottom = Y + Height;
                 break;
             case PageTurnMode.Open:
-                FSource1 = Source1;
-                FSourceX1 = X1;
-                FSourceY1 = Y1;
-                FSource2 = Source2;
-                FSourceX2 = X2;
-                FSourceY2 = Y2;
-                RenderOpenCloseScene(X, Y, Dest);
+                Source1 = source1;
+                SourceX1 = x1;
+                SourceY1 = y1;
+                Source2 = source2;
+                SourceX2 = x2;
+                SourceY2 = y2;
+                RenderOpenCloseScene(X, Y, destination);
                 R.Left = X;
-                R.Right = X + FWidth * 2;
+                R.Right = X + Width * 2;
                 var pi = Math.PI;
-                var sin = Math.Sin((double)((double)FPosition * pi) / 180);
-                R.Top = Y - Round((double)((double)((double)sin * FScale) * FWidth) + 1);
-                R.Bottom = Y + FHeight;
+                var sin = Math.Sin((double)((double)Position * pi) / 180);
+                R.Top = Y - Round((double)((double)((double)sin * Scale) * Width) + 1);
+                R.Bottom = Y + Height;
                 break;
             case PageTurnMode.Close:
-                FSource1 = Source2;
-                FSourceX1 = X2;
-                FSourceY1 = Y2;
-                FSource2 = Source1;
-                FSourceX2 = X1;
-                FSourceY2 = Y1;
-                RenderOpenCloseScene(X, Y, Dest);
+                Source1 = source2;
+                SourceX1 = x2;
+                SourceY1 = y2;
+                Source2 = source1;
+                SourceX2 = x1;
+                SourceY2 = y1;
+                RenderOpenCloseScene(X, Y, destination);
                 R.Left = X;
-                R.Right = X + FWidth * 2;
+                R.Right = X + Width * 2;
                 var mathPI = Math.PI;
-                var mathSin = Math.Sin((double)((double)FPosition * mathPI) / 180);
-                R.Top = Y - Round((double)((double)((double)mathSin * FScale) * FWidth) + 1);
-                R.Bottom = Y + FHeight;
+                var mathSin = Math.Sin((double)((double)Position * mathPI) / 180);
+                R.Top = Y - Round((double)((double)((double)mathSin * Scale) * Width) + 1);
+                R.Bottom = Y + Height;
                 break;
         }
     }
 
-    private static void BltColumn(ReadOnlySpan<byte> SourceMemory, int Source, int SourcePitch, Span<byte> DestMemory, int Dest, int DestPitch, int Height)
+    private static void BlitColumn(ReadOnlySpan<byte> sourceMemory, int source, int sourcePitch, Span<byte> destinationMemory, int destination, int destinationPitch, int height)
     {
-        while (Height > 0)
+        while (height > 0)
         {
-            ushort num = MemoryMarshal.Read<ushort>(SourceMemory.Slice(Source, 2));
-            MemoryMarshal.Write<ushort>(DestMemory.Slice(Dest, 2), in num);
-            Source += SourcePitch;
-            Dest += DestPitch;
-            Height--;
+            ushort number = MemoryMarshal.Read<ushort>(sourceMemory.Slice(source, 2));
+            MemoryMarshal.Write<ushort>(destinationMemory.Slice(destination, 2), in number);
+            source += sourcePitch;
+            destination += destinationPitch;
+            height--;
         }
     }
 

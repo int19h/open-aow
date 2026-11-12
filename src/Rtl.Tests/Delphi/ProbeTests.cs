@@ -14,29 +14,29 @@ public sealed class ProbeFactAttribute : FactAttribute
 
 internal sealed class ProbeLines(string name)
 {
-    private readonly string[] lines = File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "Probes", name + ".txt"));
-    private int position;
+    private readonly string[] _lines = File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "Probes", name + ".txt"));
+    private int _position;
 
-    internal string Current => lines[position];
+    internal string Current => _lines[_position];
 
     internal void Fact(string label, object value)
     {
         string actual = label + " " + Convert.ToString(value, CultureInfo.InvariantCulture);
-        Assert.True(position < lines.Length, $"{name}: extra line {actual}");
-        Assert.True(lines[position] == actual,
-            $"{name}.txt:{position + 1} [{label}] expected <{lines[position]}> actual <{actual}>");
-        position++;
+        Assert.True(_position < _lines.Length, $"{name}: extra line {actual}");
+        Assert.True(_lines[_position] == actual,
+            $"{name}.txt:{_position + 1} [{label}] expected <{_lines[_position]}> actual <{actual}>");
+        _position++;
     }
 
     internal void End()
     {
-        Fact("end", position);
-        Assert.Equal(lines.Length, position);
+        Fact("end", _position);
+        Assert.Equal(_lines.Length, _position);
     }
 
     // The recording names the Delphi class the original raised. The probe selects which class a
     // .NET type stands for. A type with no row fails the test.
-    private static readonly Dictionary<string, Dictionary<Type, string>> DelphiNames = new()
+    private static readonly Dictionary<string, Dictionary<Type, string>> s_delphiNames = new()
     {
         ["format"] = new()
         {
@@ -61,7 +61,7 @@ internal sealed class ProbeLines(string name)
     };
 
     internal string DelphiName(System.Exception error) =>
-        DelphiNames.TryGetValue(name, out Dictionary<Type, string>? table)
+        s_delphiNames.TryGetValue(name, out Dictionary<Type, string>? table)
         && table.TryGetValue(error.GetType(), out string? delphi)
             ? delphi
             : throw new Xunit.Sdk.XunitException(name + " has no Delphi name for " + error.GetType().Name);

@@ -25,99 +25,99 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
 {
     public PoisonPlant(ECustomNode owner) : base(owner)
     {
-        FCasterPlayer = -1;
-        FOriginalOverlay = -1;
-        FDaysRemaining = -1;
-        FPlantStatus = Set<PoisonPlantStatusElement>.Of();
+        CasterPlayer = -1;
+        OriginalOverlay = -1;
+        DaysRemaining = -1;
+        PlantStatus = Set<PoisonPlantStatusElement>.Of();
     }
 
     // PoisonP.pas:87
-    public new const int ClassID = 131998;
+    public new const int ClassId = 131998;
 
-    public Set<PoisonPlantStatusElement> FPlantStatus;
-    public sbyte FCasterPlayer;
-    public sbyte FDaysRemaining;
-    public sbyte FOriginalOverlay;
+    public Set<PoisonPlantStatusElement> PlantStatus;
+    public sbyte CasterPlayer;
+    public sbyte DaysRemaining;
+    public sbyte OriginalOverlay;
 
     // PoisonP.pas:97
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwShortintEx(ref FCasterPlayer, -1, 40);
-        Stream.rwShortintEx(ref FDaysRemaining, -1, 41);
-        Stream.rwShortintEx(ref FOriginalOverlay, -1, 42);
+        base.ReadWrite(stream);
+        stream.rwShortintEx(ref CasterPlayer, -1, 40);
+        stream.rwShortintEx(ref DaysRemaining, -1, 41);
+        stream.rwShortintEx(ref OriginalOverlay, -1, 42);
     }
 
     // PoisonP.pas:78
 
     // PoisonP.pas:255
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001986)
         {
-            NewTurn((sbyte)Msg.Payload.Int);
+            NewTurn((sbyte)message.Payload.Int);
         }
     }
 
     // PoisonP.pas:261
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (!FPlantStatus.Contains(PoisonPlantStatusElement.Summoning))
+        if (!PlantStatus.Contains(PoisonPlantStatusElement.Summoning))
         {
-            base.Show(XhpSurf, YhpSurf, SurfaceDesc);
+            base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
     }
 
     // PoisonP.pas:240
     public override bool PlaceOnMap()
     {
-        bool Result = base.PlaceOnMap();
-        if (Result)
+        bool result = base.PlaceOnMap();
+        if (result)
         {
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            UpdateMapFields((MapLevel)Owner.Owner, xhx, yhx);
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            UpdateMapFields((MapLevel)Owner.Owner, hexX, hexY);
         }
 
-        return Result;
+        return result;
     }
 
     // PoisonP.pas:246
     public override void RemoveFromMap()
     {
-        MapLevel Level;
-        Level = (MapLevel)Owner.Owner;
+        MapLevel level;
+        level = (MapLevel)Owner.Owner;
         base.RemoveFromMap();
-        UpdateMapFields(Level, FXhx, FYhx);
+        UpdateMapFields(level, _hexX, _hexY);
     }
 
     // PoisonP.pas:218
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        base.MapFieldMsgProc(ref Msg);
-        if (Msg.MsgID == 4418)
+        base.MapFieldMessageProc(ref message);
+        if (message.MessageId == 4418)
         {
-            if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
+            if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
             {
-                ArmyPlaced(Msg.Param[0].As<ArmyHexSprite>());
+                ArmyPlaced(message.Param[0].As<ArmyHexSprite>());
             }
         }
         else
         {
-            if (Msg.MsgID == 4384)
+            if (message.MessageId == 4384)
             {
-                if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0 && !Msg.Param[0].As<ArmyHexSprite>().FArmy.ImmunityTypes(255).Contains(DamageType.Poison) && PoisonPlantActive())
+                if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && !message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageType.Poison) && PoisonPlantActive())
                 {
-                    Msg.Result = 1;
+                    message.Result = 1;
                 }
             }
             else
             {
-                if (Msg.MsgID == 4402)
+                if (message.MessageId == 4402)
                 {
                     // { Original excludes player zero from early restoration. }
-                    if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0 && FCasterPlayer > 0 && FDaysRemaining > 0)
+                    if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && CasterPlayer > 0 && DaysRemaining > 0)
                     {
                         RestoreTerrain();
                     }
@@ -127,163 +127,163 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
     }
 
     // PoisonP.pas:209
-    public override int CanMoveOver(in HexSpriteSenderInfo Info)
+    public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int Result;
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0 && PoisonPlantActive())
+        int result;
+        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0 && PoisonPlantActive())
         {
-            if (!CanDoDamage(((MoveControl)Info.Sender).FSettings.FUnits))
+            if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units))
             {
-                Result = 1;
+                result = 1;
             }
             else
             {
-                Result = 0;
+                result = 0;
             }
         }
         else
         {
-            Result = 1;
+            result = 1;
         }
 
-        return Result;
+        return result;
     }
 
     // PoisonP.pas:203
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
+        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 8192;
+            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 8192;
         }
     }
 
     // PoisonP.pas:92
-    public bool PoisonPlantActive() => !Set<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)FTerrainType);
+    public bool PoisonPlantActive() => !Set<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)_terrainType);
 
     // PoisonP.pas:105
-    public bool CanDoDamage(UnitList Units)
+    public bool CanDoDamage(UnitList units)
     {
         int I;
         Troop U;
-        bool Result = false;
-        I = Units.Count;
-        while (!Result && I != 0)
+        bool result = false;
+        I = units.Count;
+        while (!result && I != 0)
         {
             I -= 1;
-            U = Units.GetUnit(I);
-            Result = !U.GetImmunityTypes().Contains(DamageType.Poison) && !U.GetAbilityEnabled(1);
+            U = units.GetUnit(I);
+            result = !U.GetImmunityTypes().Contains(DamageType.Poison) && !U.GetAbilityEnabled(1);
         }
 
-        return Result;
+        return result;
     }
 
     // PoisonP.pas:120
-    public void TriggerArmyDamage(ArmyHexSprite ArmyHS)
+    public void TriggerArmyDamage(ArmyHexSprite armyHexSprite)
     {
-        int Count;
-        UnitList Units;
-        ArmyEventLog Log;
+        int count;
+        UnitList units;
+        ArmyEventLog log;
         Troop U;
-        int Damage;
-        Count = 0;
+        int damage;
+        count = 0;
         RandSeed = AoWHSMap.Current.Random(16777215);
-        Log = new ArmyEventLog(null);
-        Log.FArmyText = AbilityRules.TranslateRStr(PoisonPlantDamageRStr);
-        Log.FPlayer = ArmyHS.FArmy.FPlayer;
-        var poisonPlantDamage = AbilityRules.TranslateRStr(PoisonPlantDamageRStr);
-        Log.FArmyMessages.Add(poisonPlantDamage);
-        Log.FArmyIcon = 1;
-        Log.FArmyView.Setup(ArmyHS.FArmy, 255);
-        Units = ArmyHS.FArmy;
-        for (int I = 0, last = Units.Count - 1; I <= last; I++)
+        log = new ArmyEventLog(null);
+        log.ArmyText = AbilityRules.TranslateResourceString(s_poisonPlantDamageText);
+        log._player = armyHexSprite.Army.Player;
+        var poisonPlantDamage = AbilityRules.TranslateResourceString(s_poisonPlantDamageText);
+        log.ArmyMessages.Add(poisonPlantDamage);
+        log.ArmyIcon = 1;
+        log.ArmyView.Setup(armyHexSprite.Army, 255);
+        units = armyHexSprite.Army;
+        for (int I = 0, last = units.Count - 1; I <= last; I++)
         {
-            U = Units.GetUnit(I);
+            U = units.GetUnit(I);
             U.AddRef();
             if (!U.GetImmunityTypes().Contains(DamageType.Poison) && !U.GetAbilityEnabled(1))
             {
-                Damage = U.ExecuteDamageRole(4, 3, Set<DamageType>.Of(DamageType.Poison));
-                if (Damage > U.GetHitPoints())
+                damage = U.ExecuteDamageRole(4, 3, Set<DamageType>.Of(DamageType.Poison));
+                if (damage > U.GetHitPoints())
                 {
-                    Damage = U.GetHitPoints();
+                    damage = U.GetHitPoints();
                 }
 
-                if (Damage != 0)
+                if (damage != 0)
                 {
-                    U.SetHitPoints((sbyte)(U.GetHitPoints() - Damage));
+                    U.SetHitPoints((sbyte)(U.GetHitPoints() - damage));
                     if (U.GetHitPoints() != 0)
                     {
                         U.ExecuteDamageEffects(Set<DamageType>.Of(DamageType.Poison));
                     }
 
-                    Count += 1;
+                    count += 1;
                 }
 
-                Log.FDamageValues.Add((byte)Damage);
-                Log.FDamageTypes.Add((int)DamageType.Poison);
+                log.DamageValues.Add((byte)damage);
+                log.DamageTypes.Add((int)DamageType.Poison);
             }
             else
             {
-                Log.FDamageValues.Add(0);
-                Log.FDamageTypes.Add((int)DamageType.None);
+                log.DamageValues.Add(0);
+                log.DamageTypes.Add((int)DamageType.None);
             }
 
             U.Release();
         }
 
-        Log.ValidateGameOver();
-        if (Count != 0)
+        log.ValidateGameOver();
+        if (count != 0)
         {
-            var yhx = GetYhx();
-            var lhx = GetLhx();
-            var xhx = GetXhx();
-            EventLog.DistributeLocationEventLog(Log, Log.FPlayer, xhx, yhx, lhx, true);
+            var hexY = GetHexY();
+            var hexLevel = GetHexLevel();
+            var hexX = GetHexX();
+            EventLog.DistributeLocationEventLog(log, log._player, hexX, hexY, hexLevel, true);
         }
 
-        ArmyHS.FArmy.Validate();
-        Log.Release();
+        armyHexSprite.Army.Validate();
+        log.Release();
     }
 
     // PoisonP.pas:168
-    public void ArmyPlaced(ArmyHexSprite ArmyHS)
+    public void ArmyPlaced(ArmyHexSprite armyHexSprite)
     {
         if (PoisonPlantActive() && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            TriggerArmyDamage(ArmyHS);
+            TriggerArmyDamage(armyHexSprite);
         }
     }
 
     // PoisonP.pas:174
     public void RestoreTerrain()
     {
-        MapField MapF;
-        sbyte OriginalOverlay;
-        MapF = (MapField)Owner;
-        OriginalOverlay = FOriginalOverlay;
+        MapField mapField;
+        sbyte originalOverlay;
+        mapField = (MapField)Owner;
+        originalOverlay = OriginalOverlay;
         Dispose();
-        if (OriginalOverlay > 0)
+        if (originalOverlay > 0)
         {
-            AoWHSMap.Current.PlaceTerrain(MapF.Xhx, MapF.Yhx, MapF.Lhx, MapF.TerrainType, OriginalOverlay);
+            AoWHSMap.Current.PlaceTerrain(mapField.HexX, mapField.HexY, mapField.HexLevel, mapField.TerrainType, originalOverlay);
         }
     }
 
     // PoisonP.pas:186
-    public void NewTurn(sbyte Player)
+    public void NewTurn(sbyte player)
     {
-        ArmyHexSprite ArmyHS;
+        ArmyHexSprite armyHexSprite;
         if (PoisonPlantActive())
         {
-            ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
-            if (ArmyHS != null && Player == ArmyHS.FArmy.FPlayer)
+            armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+            if (armyHexSprite != null && player == armyHexSprite.Army.Player)
             {
-                TriggerArmyDamage(ArmyHS);
+                TriggerArmyDamage(armyHexSprite);
             }
         }
 
-        if (Player == FCasterPlayer && FDaysRemaining > 0)
+        if (player == CasterPlayer && DaysRemaining > 0)
         {
-            FDaysRemaining = (sbyte)(FDaysRemaining - 1);
-            if (FDaysRemaining == 0)
+            DaysRemaining = (sbyte)(DaysRemaining - 1);
+            if (DaysRemaining == 0)
             {
                 RestoreTerrain();
             }
@@ -291,45 +291,45 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
     }
 
     // PoisonP.pas:267
-    public void ShowSummonAnimation(Animation Animation, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public void ShowSummonAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        MapField MapF;
-        var lhx = Animation.GetLhx();
-        var yhx = Animation.GetYhx();
-        var xhx = Animation.GetXhx();
-        MapF = AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
-        if (this == MapF.FindOwnedChild(131998) && GameTables.AoWEngine.FAnimationDetail != 0 && Animation.FFrameCounter == 0)
+        MapField mapField;
+        var hexLevel = animation.GetHexLevel();
+        var hexY = animation.GetHexY();
+        var hexX = animation.GetHexX();
+        mapField = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        if (this == mapField.FindOwnedChild(131998) && GameTables.GameEngine.AnimationDetail != 0 && animation.FrameCounter == 0)
         {
-            bool condition = AoWHSMap.Current.FSeatedPlayer == Animation.FTag;
+            bool condition = AoWHSMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
-                var lhx2 = GetLhx();
-                var yhx2 = GetYhx();
-                var xhx2 = GetXhx();
-                condition = AoWHSMap.Current.WatchingTerrain(xhx2, yhx2, lhx2, 0);
+                var hexLevel2 = GetHexLevel();
+                var hexY2 = GetHexY();
+                var hexX2 = GetHexX();
+                condition = AoWHSMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
             }
 
             if (condition)
             {
-                AoWHSSet.Current.FSpellControl.GetSpell(12).FCastSounds.Play(0);
+                AoWHSSet.Current.SpellControl.GetSpell(12).CastSounds.Play(0);
             }
         }
     }
 
     // PoisonP.pas:279
-    public void NewFrameSummonAnimation(Animation Animation, int FrameCounter)
+    public void NewFrameSummonAnimation(Animation animation, int frameCounter)
     {
-        var lhx = Animation.GetLhx();
-        var yhx = Animation.GetYhx();
-        var xhx = Animation.GetXhx();
-        var field = AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
-        if (this == field.FindOwnedChild(131998) && FrameCounter == 9)
+        var hexLevel = animation.GetHexLevel();
+        var hexY = animation.GetHexY();
+        var hexX = animation.GetHexX();
+        var field = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        if (this == field.FindOwnedChild(131998) && frameCounter == 9)
         {
-            FPlantStatus = FPlantStatus - Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
+            PlantStatus = PlantStatus - Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
         }
     }
 
-    private static readonly string PoisonPlantDamageRStr = "Poison Plant Damage";
+    private static readonly string s_poisonPlantDamageText = "Poison Plant Damage";
 
     public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
@@ -337,15 +337,15 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         { }
 
         // PoisonP.pas:293
-        public new const int ClassID = 131999;
+        public new const int ClassId = 131999;
 
         // PoisonP.pas:298
-        public override int ResourceUserClassID() => 131998;
+        public override int ResourceUserClassId() => 131998;
 
         // PoisonP.pas:288
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(PoisonPlantRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_poisonPlantText);
 
-        private static readonly string PoisonPlantRStr = "Poison Plant";
+        private static readonly string s_poisonPlantText = "Poison Plant";
 
     }
 

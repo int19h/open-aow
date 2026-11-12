@@ -4,6 +4,6 @@ namespace Aow.Game.Draw;
 
 public enum UpdateFrameMode : byte
 {
-    Asynchrone = 0,
-    Synchrone = 1
+    Asynchronous = 0,
+    Synchronous = 1
 }

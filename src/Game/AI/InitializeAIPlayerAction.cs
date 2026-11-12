@@ -13,10 +13,10 @@ public partial class InitializeAIPlayerAction : AIPlayerAction, IAIPlayerActionC
     // AI.pas:1017
     public override bool Process()
     {
-        FControl.FPlayer.FAIBudget.UpdateBudgets();
-        if (FControl.FPlayer.FPlayerIndex != 0)
+        Control.Player.AIBudget.UpdateBudgets();
+        if (Control.Player.PlayerIndex != 0)
         {
-            FControl.UpdateSkirmishGroups();
+            Control.UpdateSkirmishGroups();
         }
 
         return false;

@@ -25,8 +25,8 @@ public sealed class EndTurnShortcutTests
         play.Press(69);
 
         Assert.True(play.Button.Checked);
-        Assert.False(play.Window.MainWindow.FHandled);
-        Assert.Equal(EndTurnTokenEvent.Mode.EndTurn, play.QueuedMode());
+        Assert.False(play.Window.MainWindow.Handled);
+        Assert.Equal(EndTurnTokenEventMode.EndTurn, play.QueuedMode());
 
         // The end-turn token sets the cycle when it runs. A second press then cancels,
         // the state a second click sees while the turn waits. Running that token on this
@@ -37,20 +37,20 @@ public sealed class EndTurnShortcutTests
         play.Press(13);
 
         Assert.False(play.Button.Checked);
-        Assert.Equal(EndTurnTokenEvent.Mode.CancelEndTurn, play.QueuedMode());
+        Assert.Equal(EndTurnTokenEventMode.CancelEndTurn, play.QueuedMode());
     }
 
     [Fact]
     public void ShortcutDoesNothingWhileTheButtonAnimates()
     {
         using var play = new Play();
-        play.Button.FAnimating = true;
+        play.Button._animating = true;
 
         play.Press(69);
         play.Press(13);
 
         Assert.False(play.Button.Checked);
-        Assert.True(play.Button.FAnimating);
+        Assert.True(play.Button._animating);
         Assert.Equal(0, play.QueuedCount());
     }
 
@@ -63,22 +63,22 @@ public sealed class EndTurnShortcutTests
         play.Press(69);
 
         Assert.False(play.Button.Checked);
-        Assert.True(play.Window.MainWindow.FHandled);
+        Assert.True(play.Window.MainWindow.Handled);
         Assert.Equal(0, play.QueuedCount());
 
         play.Press(13);
 
         Assert.False(play.Button.Checked);
-        Assert.True(play.Window.MainWindow.FHandled);
+        Assert.True(play.Window.MainWindow.Handled);
         Assert.Equal(0, play.QueuedCount());
     }
 
     private sealed class Play : IDisposable
     {
-        private readonly AoWHSMap previousMap = AoWHSMap.Current;
-        private readonly CombatMap previousCombat = CombatMap.Current;
-        private readonly TaskBar previousWindow = DialogHosts.TBWindow;
-        private CombatMap? combat;
+        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
+        private readonly CombatMap _previousCombat = CombatMap.Current;
+        private readonly TaskBar _previousWindow = DialogHosts.TaskBar;
+        private CombatMap? _combat;
 
         internal AoWHSMap Map { get; }
         internal MapWindow Window { get; }
@@ -88,32 +88,32 @@ public sealed class EndTurnShortcutTests
         {
             Map = new AoWHSMap(null!);
             AoWHSMap.Current = Map;
-            var pcc = new LocalPlayerCommunicationControl();
-            pcc.Setup(Map.FPlayers.Count);
-            for (int i = 0; i < Map.FPlayers.Count; i++)
+            var playerCommunicationControl = new LocalPlayerCommunicationControl();
+            playerCommunicationControl.Setup(Map.Players.Count);
+            for (int i = 0; i < Map.Players.Count; i++)
             {
-                var mode = Map.FPlayers.GetPlayers(i).FPlayerType == PlayerType.Human
+                var mode = Map.Players.GetPlayers(i).PlayerType == PlayerType.Human
                     ? ConnectionMode.Local
                     : ConnectionMode.Global;
-                pcc.SetConnectionMode(i, mode);
+                playerCommunicationControl.SetConnectionMode(i, mode);
             }
 
-            Map.FPlayerCommunicator.ActivatePCC(pcc);
-            pcc.Release();
-            Map.FTokenManager.Initialize(Map.FPlayerCommunicator);
+            Map.PlayerCommunicator.ActivatePlayerCommunicationControl(playerCommunicationControl);
+            playerCommunicationControl.Release();
+            Map.TokenManager.Initialize(Map.PlayerCommunicator);
             Window = new MapWindow(null!);
             Window.MainWindow = new Window(null!);
-            Window.MainWindow.FVisible = true;
+            Window.MainWindow._visible = true;
             Window.MainWindow.OnKeyDown = Window.MapWindowKeyDown;
             Window.MapViewer = new HexSpriteMapViewer(null!);
             TaskBar bar = new TaskBar(null!);
             Button = new TurnButton(null!);
             bar.TurnButton = Button;
             Button.OnChange = _ => bar.TurnButtonChange();
-            DialogHosts.TBWindow = bar;
+            DialogHosts.TaskBar = bar;
         }
 
-        private TaskBar Bar => DialogHosts.TBWindow;
+        private TaskBar Bar => DialogHosts.TaskBar;
 
         public void Press(ushort key)
         {
@@ -122,43 +122,43 @@ public sealed class EndTurnShortcutTests
 
         public void BeginCombat()
         {
-            combat = new CombatMap(null!);
+            _combat = new CombatMap(null!);
         }
 
         public int QueuedCount() => Control().GetCount();
 
-        public EndTurnTokenEvent.Mode QueuedMode()
+        public EndTurnTokenEventMode QueuedMode()
         {
-            var events = Control().FEvents;
+            var events = Control()._events;
             Assert.Equal(1, events.Count);
-            return Assert.IsType<EndTurnTokenEvent>(events.GetEvent(0)).FMode;
+            return Assert.IsType<EndTurnTokenEvent>(events.GetEvent(0)).Mode;
         }
 
         public void LeaveTurnWaiting()
         {
-            var events = Control().FEvents;
+            var events = Control()._events;
             while (events.Count != 0)
             {
                 events.Delete(0);
             }
 
-            Map.FPlayers.GetPlayers(Map.FSeatedPlayer).SetEndTurn(true);
+            Map.Players.GetPlayers(Map.SeatedPlayer).SetEndTurn(true);
             Button.Checked = true;
         }
 
-        private TokenControl Control() => Map.FTokenManager.GetTokenControl(Map.FSeatedPlayer);
+        private TokenControl Control() => Map.TokenManager.GetTokenControl(Map.SeatedPlayer);
 
         public void Dispose()
         {
-            combat?.Dispose();
-            CombatMap.Current = previousCombat;
+            _combat?.Dispose();
+            CombatMap.Current = _previousCombat;
             Window.MapViewer.Dispose();
             Window.MainWindow.Dispose();
             Window.Dispose();
             Button.Dispose();
             Bar.Dispose();
-            DialogHosts.TBWindow = previousWindow;
-            AoWHSMap.Current = previousMap;
+            DialogHosts.TaskBar = _previousWindow;
+            AoWHSMap.Current = _previousMap;
             Map.Dispose();
         }
     }

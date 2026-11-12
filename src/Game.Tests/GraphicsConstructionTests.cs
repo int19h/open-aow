@@ -18,19 +18,19 @@ public sealed class GraphicsConstructionTests
 
     public static IEnumerable<object[]> Images()
     {
-        yield return new object[] { typeof(LibraryImage), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<LibraryImage>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new LibraryImage(owner)) };
-        yield return new object[] { typeof(ImageNode), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<ImageNode>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new ImageNode(owner)) };
-        yield return new object[] { typeof(Image08), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Image08>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Image08(owner)) };
-        yield return new object[] { typeof(Picture08), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Picture08>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Picture08(owner)) };
-        yield return new object[] { typeof(RleSprite08), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<RleSprite08>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new RleSprite08(owner)) };
-        yield return new object[] { typeof(Image16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Image16>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Image16(owner)) };
-        yield return new object[] { typeof(Picture16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Picture16>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Picture16(owner)) };
-        yield return new object[] { typeof(TransparentPicture16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TransparentPicture16>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new TransparentPicture16(owner)) };
-        yield return new object[] { typeof(Sprite16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Sprite16>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Sprite16(owner)) };
-        yield return new object[] { typeof(RleSprite16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<RleSprite16>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new RleSprite16(owner)) };
-        yield return new object[] { typeof(TransparentRleSprite16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TransparentRleSprite16>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new TransparentRleSprite16(owner)) };
-        yield return new object[] { typeof(BitMask), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<BitMask>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new BitMask(owner)) };
-        yield return new object[] { typeof(Shadow), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Shadow>().Create(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Shadow(owner)) };
+        yield return new object[] { typeof(LibraryImage), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<LibraryImage>().CreateInstance(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new LibraryImage(owner)) };
+        yield return new object[] { typeof(ImageNode), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<ImageNode>().CreateInstance(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new ImageNode(owner)) };
+        yield return new object[] { typeof(Image08), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Image08>().CreateInstance(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Image08(owner)) };
+        yield return new object[] { typeof(Picture08), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Picture08>().CreateInstance(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Picture08(owner)) };
+        yield return new object[] { typeof(RleSprite08), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<RleSprite08>().CreateInstance(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new RleSprite08(owner)) };
+        yield return new object[] { typeof(Image16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Image16>().CreateInstance(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Image16(owner)) };
+        yield return new object[] { typeof(Picture16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Picture16>().CreateInstance(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Picture16(owner)) };
+        yield return new object[] { typeof(TransparentPicture16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TransparentPicture16>().CreateInstance(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new TransparentPicture16(owner)) };
+        yield return new object[] { typeof(Sprite16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Sprite16>().CreateInstance(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Sprite16(owner)) };
+        yield return new object[] { typeof(RleSprite16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<RleSprite16>().CreateInstance(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new RleSprite16(owner)) };
+        yield return new object[] { typeof(TransparentRleSprite16), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<TransparentRleSprite16>().CreateInstance(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new TransparentRleSprite16(owner)) };
+        yield return new object[] { typeof(BitMask), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<BitMask>().CreateInstance(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new BitMask(owner)) };
+        yield return new object[] { typeof(Shadow), (Func<CustomImageLibrary, LibraryImage>)(owner => LibraryImageClass.Of<Shadow>().CreateInstance(owner)), (Func<CustomImageLibrary, LibraryImage>)(owner => new Shadow(owner)) };
 
     }
 
@@ -59,7 +59,7 @@ public sealed class GraphicsConstructionTests
                 Assert.Equal(0, image.Height);
                 if (image is ImageNode) Assert.Equal("(multi images)", image.FileName);
                 Assert.Equal(0, owner.Count);
-                Assert.Empty((System.Collections.IEnumerable)Field(Field(owner, "FPaletteManager")!, "FPalettes")!);
+                Assert.Empty((System.Collections.IEnumerable)Field(Field(owner, "_paletteManager")!, "_palettes")!);
                 image.Dispose();
             }
     }
@@ -90,32 +90,32 @@ public sealed class GraphicsConstructionTests
         {
             Assert.Equal(100, display.Width);
             Assert.Equal(100, display.Height);
-            Assert.Equal(640, Field(display, "FBackSurfaceWidth"));
-            Assert.Equal(480, Field(display, "FBackSurfaceHeight"));
-            Assert.Equal(30, Field(display, "FFrameRate"));
-            Assert.Equal(BufferingScheme.Double, Field(display, "FBufferingScheme"));
+            Assert.Equal(640, Field(display, "_backSurfaceWidth"));
+            Assert.Equal(480, Field(display, "_backSurfaceHeight"));
+            Assert.Equal(30, Field(display, "_frameRate"));
+            Assert.Equal(BufferingScheme.Double, Field(display, "_bufferingScheme"));
         }
-        if (value is DisplayController dc)
+        if (value is DisplayController displayController)
         {
-            Assert.NotNull(dc.GetInvMatrix());
-            Assert.Equal((byte)4, Field(dc.GetInvMatrix(), "FWidth"));
-            Assert.Equal((byte)4, Field(dc.GetInvMatrix(), "FHeight"));
+            Assert.NotNull(displayController.GetInverseMatrix());
+            Assert.Equal((byte)4, Field(displayController.GetInverseMatrix(), "_width"));
+            Assert.Equal((byte)4, Field(displayController.GetInverseMatrix(), "_height"));
         }
         if (value is CustomImageLibrary library)
         {
             Assert.Equal(0, library.Count);
-            Assert.Equal(true, Field(library, "FLoadOnDemand"));
-            Assert.NotNull(Field(library, "FPaletteManager"));
+            Assert.Equal(true, Field(library, "_loadOnDemand"));
+            Assert.NotNull(Field(library, "_paletteManager"));
         }
         if (value is ImageLibraryFont)
         {
-            Assert.Equal(2, Field(value, "FCharacterDistance"));
-            Assert.Equal(-1, Field(value, "FFontColorPaletteIndex"));
+            Assert.Equal(2, Field(value, "_characterDistance"));
+            Assert.Equal(-1, Field(value, "_fontColorPaletteIndex"));
         }
         if (value is ImageLibraryManager)
         {
-            Assert.NotNull(Field(value, "FDiskList"));
-            Assert.NotSame(Field(value, "FDiskList"), Field(value, "FOwnedList"));
+            Assert.NotNull(Field(value, "_diskList"));
+            Assert.NotSame(Field(value, "_diskList"), Field(value, "_ownedList"));
         }
         value.Dispose();
         Assert.Equal(0, owner.ComponentCount);
@@ -140,29 +140,29 @@ public sealed class GraphicsConstructionTests
     public void PrivateHelpersKeepInitialState()
     {
         var palette = new LibraryImagePalette();
-        Assert.NotNull(Field(palette, "FPalette"));
+        Assert.NotNull(Field(palette, "_palette"));
         var manager = new PaletteManager();
-        Assert.NotNull(Field(manager, "FPalettes"));
-        var ilManager = new ImageLibraryManager(null!);
-        var list = new ImageLibraryManagerList(ilManager);
-        Assert.Same(ilManager, Field(list, "FOwner"));
-        Assert.NotNull(Field(list, "FHashTable"));
-        var sequences = new ImageSequenceList(ilManager, null!);
-        Assert.Same(ilManager, Field(sequences, "FILManager"));
+        Assert.NotNull(Field(manager, "_palettes"));
+        var imageLibraryManager = new ImageLibraryManager(null!);
+        var list = new ImageLibraryManagerList(imageLibraryManager);
+        Assert.Same(imageLibraryManager, Field(list, "_owner"));
+        Assert.NotNull(Field(list, "_hashTable"));
+        var sequences = new ImageSequenceList(imageLibraryManager, null!);
+        Assert.Same(imageLibraryManager, Field(sequences, "_imageLibraryManager"));
         Assert.Equal(0, sequences.Count);
         var sequence = new ImageSequence(sequences);
-        Assert.Same(sequences, Field(sequence, "FOwner"));
+        Assert.Same(sequences, Field(sequence, "_owner"));
         var matrix = new Matrix(3, 2);
-        Assert.Equal((byte)0, matrix.GetVal(2, 1));
+        Assert.Equal((byte)0, matrix.GetValue(2, 1));
         var modes = new DisplayModeList();
-        Assert.NotNull(Field(modes, "FList"));
+        Assert.NotNull(Field(modes, "_list"));
         var blend = new BlendTable5Bit();
         Assert.Equal(5, blend.Bits);
         var blends = new BlendTableList();
-        Assert.NotNull(Field(blends, "FList"));
+        Assert.NotNull(Field(blends, "_list"));
         var lookup = new LookupBlendTableCollection100();
-        Assert.NotNull(Field(lookup, "FTables"));
-        foreach (var value in new object[] { palette, manager, list, sequence, sequences, ilManager, matrix, modes, blend, blends, lookup }) ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
+        Assert.NotNull(Field(lookup, "_tables"));
+        foreach (var value in new object[] { palette, manager, list, sequence, sequences, imageLibraryManager, matrix, modes, blend, blends, lookup }) ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
     }
 
     public static IEnumerable<object[]> Surfaces()
@@ -176,34 +176,34 @@ public sealed class GraphicsConstructionTests
     public void SurfacesKeepDimensionsFormatAndPaletteIsolation(Func<Palette, Surface> create, int format, int pitch)
     {
         var palette = new Palette();
-        palette.Entries[0].R = 29;
+        palette.Entries[0].Red = 29;
         var surface = create(palette);
-        LockedSurface sd = default;
-        Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref sd));
-        Assert.Equal(7, sd.Width);
-        Assert.Equal(4, sd.Height);
-        Assert.Equal(format, sd.PixelFormatID);
-        Assert.Equal(pitch, sd.Pitch);
-        Assert.NotNull(sd.Data);
-        if (sd.Palette is { } copy)
+        LockedSurface lockedSurface = default;
+        Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref lockedSurface));
+        Assert.Equal(7, lockedSurface.Width);
+        Assert.Equal(4, lockedSurface.Height);
+        Assert.Equal(format, lockedSurface.PixelFormatId);
+        Assert.Equal(pitch, lockedSurface.Pitch);
+        Assert.NotNull(lockedSurface.Data);
+        if (lockedSurface.Palette is { } copy)
         {
             Assert.NotSame(palette, copy);
-            Assert.Equal((byte)29, copy.Entries[0].R);
-            copy.Entries[0].R = 63;
+            Assert.Equal((byte)29, copy.Entries[0].Red);
+            copy.Entries[0].Red = 63;
         }
         surface.Unlock();
         surface.Dispose();
-        Assert.Equal((byte)29, palette.Entries[0].R);
+        Assert.Equal((byte)29, palette.Entries[0].Red);
     }
 
     [Fact]
     public void PlainDataSurfaceCopiesPaletteAndAllocatesItsBuffer()
     {
         var palette = new Palette();
-        palette.Entries[0].R = 29;
+        palette.Entries[0].Red = 29;
         var surface = new DataSurface(7, 4, PixelFormats.pfPAL8, palette);
         Assert.NotSame(palette, surface.Palette);
-        Assert.Equal((byte)29, surface.Palette.Entries[0].R);
+        Assert.Equal((byte)29, surface.Palette.Entries[0].Red);
         Assert.Equal(7, surface.Width);
         Assert.Equal(4, surface.Height);
         LockedSurface descriptor = default;
@@ -211,7 +211,7 @@ public sealed class GraphicsConstructionTests
         Assert.NotNull(descriptor.Data);
         surface.Unlock();
         surface.Dispose();
-        Assert.Equal((byte)29, palette.Entries[0].R);
+        Assert.Equal((byte)29, palette.Entries[0].Red);
     }
 
     [Fact]
@@ -231,10 +231,10 @@ public sealed class GraphicsConstructionTests
     public void InvalidDibDimensionsAndFormatDoNotTouchExternalPalette()
     {
         var palette = new Palette();
-        palette.Entries[0].R = 29;
+        palette.Entries[0].Red = 29;
         Assert.Throws<ArgumentOutOfRangeException>(() => new Dib16Surface(-1, 4, PixelFormats.pfRGB555));
         Assert.Throws<NotSupportedException>(() => new Dib16Surface(7, 4, PixelFormats.pfPAL8));
-        Assert.Equal((byte)29, palette.Entries[0].R);
+        Assert.Equal((byte)29, palette.Entries[0].Red);
     }
 
     [Fact]
@@ -252,7 +252,7 @@ public sealed class GraphicsConstructionTests
         session.EndRead(library);
         Assert.False(library.ComponentState.Contains(ComponentState.Reading));
         Assert.True(library.ComponentState.Contains(ComponentState.Loading));
-        Assert.Equal(2, Field(font, "FCharacterDistance"));
+        Assert.Equal(2, Field(font, "_characterDistance"));
     }
 
     [Fact]
@@ -274,14 +274,14 @@ public sealed class GraphicsConstructionTests
     public void SurfaceCaptureKeepsCopiedPixelsAndPalette()
     {
         using var source = new Dib16Surface(7, 4, PixelFormats.pfRGB555);
-        source.Cls(255);
+        source.Clear(255);
         using var copy = new DataSurface(source, default);
-        LockedSurface sd = default;
-        copy.Lock(ref sd);
-        Assert.Equal(7, sd.Width);
-        Assert.Equal(4, sd.Height);
-        Assert.Equal(PixelFormats.pfRGB555, sd.PixelFormatID);
-        Assert.Equal((ushort)0x7C00, sd.View().Word(0));
+        LockedSurface lockedSurface = default;
+        copy.Lock(ref lockedSurface);
+        Assert.Equal(7, lockedSurface.Width);
+        Assert.Equal(4, lockedSurface.Height);
+        Assert.Equal(PixelFormats.pfRGB555, lockedSurface.PixelFormatId);
+        Assert.Equal((ushort)0x7C00, lockedSurface.View().UInt16(0));
         copy.Unlock();
     }
 
@@ -297,7 +297,7 @@ public sealed class GraphicsConstructionTests
 
     private sealed class ObservedImage : LibraryImage, ILibraryImageClass
     {
-        static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new ObservedImage(owner);
+        static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new ObservedImage(owner);
 
         public int DerivedValue;
         public int SeenDerivedValue;
@@ -332,7 +332,7 @@ public sealed class GraphicsConstructionTests
         public override void Notification(Component component, Aow.Rtl.Component.Operation operation)
         {
             if (operation == Aow.Rtl.Component.Operation.Insert && component is SdlDisplayController controller)
-                controller.GetMousePos(ref X, ref Y);
+                controller.GetMousePosition(ref X, ref Y);
             base.Notification(component, operation);
         }
     }

@@ -15,23 +15,23 @@ public partial class IsometricHex : AbstractHexagon
 {
     public IsometricHex(ECustomNode owner) : base(owner)
     {
-        FSides = (byte)(Random(4) << 6);
+        Sides = (byte)(Random(4) << 6);
     }
 
     // IsoHex.pas:214
-    public new const int ClassID = 131437;
+    public new const int ClassId = 131437;
 
-    protected internal DynamicIsometricHex FDynamic;
-    protected internal byte FOpenSides;
-    protected internal byte FSides;
+    protected internal DynamicIsometricHex Dynamic;
+    protected internal byte OpenSides;
+    protected internal byte Sides;
 
     // IsoHex.pas:204
     public override void Dispose()
     {
-        if (FDynamic != null)
+        if (Dynamic != null)
         {
-            FDynamic?.Dispose();
-            FDynamic = null;
+            Dynamic?.Dispose();
+            Dynamic = null;
         }
 
         base.Dispose();
@@ -42,52 +42,52 @@ public partial class IsometricHex : AbstractHexagon
     // IsoHex.pas:224
     public override void Disconnect()
     {
-        if (FDynamic != null)
+        if (Dynamic != null)
         {
-            FDynamic?.Dispose();
-            FDynamic = null;
+            Dynamic?.Dispose();
+            Dynamic = null;
         }
 
         base.Disconnect();
     }
 
     // IsoHex.pas:234
-    public override void NeighbourTerrainChanged(int HN, in HexSpriteTerrainInfo Info)
+    public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo info)
     {
         UpdateTransitions();
     }
 
     // IsoHex.pas:239
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        CustomImageLibrary IL;
-        int Xhp = default;
-        int Yhp = default;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-        Xhp = Xhp - XhpSurf - 8;
-        Yhp = Yhp - YhpSurf;
-        IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        IL[(int)(((uint)FSides) >> 6) + 40].Show(Xhp, Yhp, SurfaceDesc);
-        Xhp -= 6;
-        Yhp -= 9;
-        if ((FSides & 1) != 0)
+        CustomImageLibrary imageLibrary;
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        pixelX = pixelX - pixelXSurface - 8;
+        pixelY = pixelY - pixelYSurface;
+        imageLibrary = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        imageLibrary[(int)(((uint)Sides) >> 6) + 40].Show(pixelX, pixelY, lockedSurface);
+        pixelX -= 6;
+        pixelY -= 9;
+        if ((Sides & 1) != 0)
         {
-            IL[31].Show(Xhp, Yhp, SurfaceDesc);
+            imageLibrary[31].Show(pixelX, pixelY, lockedSurface);
         }
 
-        if ((FSides & 2) != 0)
+        if ((Sides & 2) != 0)
         {
-            IL[32].Show(Xhp, Yhp, SurfaceDesc);
+            imageLibrary[32].Show(pixelX, pixelY, lockedSurface);
         }
 
-        if ((FSides & 32) != 0)
+        if ((Sides & 32) != 0)
         {
-            IL[30].Show(Xhp, Yhp, SurfaceDesc);
+            imageLibrary[30].Show(pixelX, pixelY, lockedSurface);
         }
     }
 
     // IsoHex.pas:256
-    public virtual void ShowDynamic(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public virtual void ShowDynamic(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
     }
 

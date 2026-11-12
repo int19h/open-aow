@@ -17,146 +17,146 @@ namespace Aow.Game.Magic.Spells;
 // targeting storm, caster
 public partial class StormSpell : Spell
 {
-    public Storm FTargetStorm;
-    public Troop FSource;
+    public Storm TargetStorm;
+    public Troop Source;
 
     // Storms.pas:762
     public StormSpell(ECustomNode owner) : base(owner)
     {
-        FSpellType = SpellType.Global;
+        SpellType = SpellType.Global;
     }
 
     // Storms.pas:888
-    public override void AIPrefetchCastSpellActions(Troop Source, AICastSpellActionList Actions)
+    public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
     {
-        int Priority;
-        AICastSpellAction Action;
-        if (AIRequestCastSpellExpense(Source, FBaseManaCost, 0, 0))
+        int priority;
+        AICastSpellAction action;
+        if (AIRequestCastSpellExpense(source, BaseManaCost, 0, 0))
         {
-            Priority = AICastSpellPriority(Source);
-            if (Priority != -1)
+            priority = AICastSpellPriority(source);
+            if (priority != -1)
             {
-                Action = CreateCastSpellAction();
-                SetupCastSpellAction(Source, Action);
-                Action.FPriority = Priority;
-                Action.SetOwner(Actions);
+                action = CreateCastSpellAction();
+                SetupCastSpellAction(source, action);
+                action.Priority = priority;
+                action.SetOwner(actions);
             }
         }
     }
 
     // Storms.pas:906
-    public override bool AIExecuteCastSpellAction(Troop Source)
+    public override bool AIExecuteCastSpellAction(Troop source)
     {
-        bool Result;
-        string Reason = "";
-        MapCoordinate Target = default;
+        bool result;
+        string reason = "";
+        MapCoordinate target = default;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        Storm Storm;
-        StormDamageInfo Info = default;
-        if (AICastSpellPriority(Source) != -1)
+        Storm storm;
+        StormDamageInfo info = default;
+        if (AICastSpellPriority(source) != -1)
         {
-            AICastSpellExpenseMade(Source, FBaseManaCost, FManaUpkeep, 0);
-            if (((Hero)Source).CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
+            AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
+            if (((Hero)source).CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                Source.GetLocation(ref X, ref Y, ref L);
-                Storm = CreateStorm();
-                if (Storm.GetBestTarget(Source.FPlayer, X, Y, L, 12, ref Target, ref Info))
+                source.GetLocation(ref X, ref Y, ref L);
+                storm = CreateStorm();
+                if (storm.GetBestTarget(source.Player, X, Y, L, 12, ref target, ref info))
                 {
-                    ExecuteStormSpell(Source, Target.X, Target.Y, Target.L);
-                    Result = true;
+                    ExecuteStormSpell(source, target.X, target.Y, target.MapLevel);
+                    result = true;
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
 
-                Storm?.Dispose();
+                storm?.Dispose();
             }
             else
             {
-                if (((Hero)Source).FCastingSpellID != FSpellID)
+                if (((Hero)source).CastingSpellId != SpellId)
                 {
-                    ((Hero)Source).ExecuteStartCasting(FSpellID);
-                    Result = true;
+                    ((Hero)source).ExecuteStartCasting(SpellId);
+                    result = true;
                 }
                 else
                 {
-                    Result = true;
+                    result = true;
                 }
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Storms.pas:809
-    public override bool CanActivate(Troop Source, ref string MessageText)
+    public override bool CanActivate(Troop source, ref string messageText)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        bool Result = base.CanActivate(Source, ref MessageText);
-        if (Result)
+        bool result = base.CanActivate(source, ref messageText);
+        if (result)
         {
-            Source.GetLocation(ref X, ref Y, ref L);
+            source.GetLocation(ref X, ref Y, ref L);
             if (L != 0)
             {
-                Result = false;
-                MessageText = AbilityRules.TranslateRStr(GameText.CannotCastSpellInUndergoundRStr);
+                result = false;
+                messageText = AbilityRules.TranslateResourceString(GameText.s_cannotCastSpellInUndergroundText);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Storms.pas:825
-    public override bool Activate(Troop Source)
+    public override bool Activate(Troop source)
     {
-        bool Result = default;
+        bool result = default;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        string Reason = "";
-        TargetSelectionControl Selection = default;
-        base.Activate(Source);
-        if (CanActivate(Source, ref Reason))
+        string reason = "";
+        TargetSelectionControl selection = default;
+        base.Activate(source);
+        if (CanActivate(source, ref reason))
         {
-            FSource = Source;
-            Source.GetLocation(ref X, ref Y, ref L);
-            Selection = AoWHSMap.Current.FTargetSelection;
-            FTargetStorm = CreateStorm();
-            Selection.Initialize(this);
-            Selection.FTargetMode = Selection.FTargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
-            Selection.FSourceX = X;
-            Selection.FSourceY = Y;
-            Selection.FSourceL = L;
+            Source = source;
+            source.GetLocation(ref X, ref Y, ref L);
+            selection = AoWHSMap.Current.TargetSelection;
+            TargetStorm = CreateStorm();
+            selection.Initialize(this);
+            selection.TargetMode = selection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
+            selection.SourceX = X;
+            selection.SourceY = Y;
+            selection.SourceL = L;
             AoWHSMap.Current.MakeVisible(X, Y, L, 5);
-            var name = FTargetStorm.Name();
-            var format = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.SelectTargetLocationForXOnMapRStr), [name]);
-            Selection.FText.Text = format;
-            Selection.FTitle = FSpellName;
-            Selection.FCancelText = AbilityRules.TranslateRStr(GameText.CancelRStr);
-            Selection.FRange = 12;
-            Selection.FOnChange += OnTargetSelectionChange;
-            Selection.FSourceImage = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[20].GetPreviewImage();
-            Selection.FValidTargetImage = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[21].GetPreviewImage();
-            Selection.FInvalidTargetImage = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[22].GetPreviewImage();
-            Selection.Activate();
-            FTargetStorm.UpdateTargetSelection(AoWHSMap.Current.FTargetSelection);
-            Result = true;
+            var name = TargetStorm.Name();
+            var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_selectTargetLocationForOnMapFormat), [name]);
+            selection.Text.Text = format;
+            selection.Title = SpellName;
+            selection.CancelText = AbilityRules.TranslateResourceString(GameText.s_cancelText);
+            selection.Range = 12;
+            selection.FOnChange += OnTargetSelectionChange;
+            selection.SourceImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
+            selection.ValidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
+            selection.InvalidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
+            selection.Activate();
+            TargetStorm.UpdateTargetSelection(AoWHSMap.Current.TargetSelection);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Storms.pas:156
@@ -166,87 +166,87 @@ public partial class StormSpell : Spell
     }
 
     // Storms.pas:768
-    public virtual bool ExecuteStormSpell(Troop Source, sbyte X, sbyte Y, sbyte L)
+    public virtual bool ExecuteStormSpell(Troop source, sbyte X, sbyte Y, sbyte L)
     {
-        bool Result;
-        StormSpellTokenEvent TE;
-        if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+        bool result;
+        StormSpellTokenEvent tokenEvent;
+        if (!AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            TE = new StormSpellTokenEvent(null);
-            TE.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-            TE.FX = X;
-            TE.FY = Y;
-            TE.FL = L;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(TE);
-            TE.Release();
-            Result = true;
+            tokenEvent = new StormSpellTokenEvent(null);
+            tokenEvent.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            tokenEvent.X = X;
+            tokenEvent.Y = Y;
+            tokenEvent.MapLevel = L;
+            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(tokenEvent);
+            tokenEvent.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Storms.pas:860
-    public virtual int AICastSpellPriority(Troop Source)
+    public virtual int AICastSpellPriority(Troop source)
     {
-        int Result;
-        MapCoordinate Target = default;
+        int result;
+        MapCoordinate target = default;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        string Reason = "";
-        Storm Storm;
-        StormDamageInfo Info = default;
-        int Damage;
-        if (CanActivate(Source, ref Reason))
+        string reason = "";
+        Storm storm;
+        StormDamageInfo info = default;
+        int damage;
+        if (CanActivate(source, ref reason))
         {
-            Result = -1;
-            Source.GetLocation(ref X, ref Y, ref L);
+            result = -1;
+            source.GetLocation(ref X, ref Y, ref L);
             if (L == 0)
             {
-                Storm = CreateStorm();
-                if (Storm.GetBestTarget(Source.FPlayer, X, Y, L, 12, ref Target, ref Info))
+                storm = CreateStorm();
+                if (storm.GetBestTarget(source.Player, X, Y, L, 12, ref target, ref info))
                 {
-                    Damage = Info.EnemyDamage - Info.FriendlyDamage;
-                    if ((double)((double)FBaseManaCost * 0.75) < Damage)
+                    damage = info.EnemyDamage - info.FriendlyDamage;
+                    if ((double)((double)BaseManaCost * 0.75) < damage)
                     {
-                        Result = Damage * 5 + 750;
+                        result = damage * 5 + 750;
                     }
                 }
 
-                Storm?.Dispose();
+                storm?.Dispose();
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Storms.pas:786
-    public void OnTargetSelectionChange(TargetSelectionControl Selection)
+    public void OnTargetSelectionChange(TargetSelectionControl selection)
     {
-        switch (Selection.FChange)
+        switch (selection.Change)
         {
             case TargetSelectionChange.Deactivated:
-                FTargetStorm?.Dispose();
-                FTargetStorm = null;
-                Selection.FOnChange -= OnTargetSelectionChange;
+                TargetStorm?.Dispose();
+                TargetStorm = null;
+                selection.FOnChange -= OnTargetSelectionChange;
                 break;
             case TargetSelectionChange.Selected:
-                Selection.FOnChange -= OnTargetSelectionChange;
-                if (ExecuteStormSpell(FSource, Selection.FTargetX, Selection.FTargetY, Selection.FTargetL))
+                selection.FOnChange -= OnTargetSelectionChange;
+                if (ExecuteStormSpell(Source, selection.TargetX, selection.TargetY, selection.TargetL))
                 {
-                    Selection.Deactivate();
+                    selection.Deactivate();
                 }
 
-                FTargetStorm?.Dispose();
-                FTargetStorm = null;
+                TargetStorm?.Dispose();
+                TargetStorm = null;
                 break;
         }
     }

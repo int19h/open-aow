@@ -17,7 +17,7 @@ public partial class Window : GenericWindow
     // AoWWindow.pas:54
     public Window(Component owner) : base(owner)
     {
-        FUseManagerBorders = true;
+        _useManagerBorders = true;
     }
 
     // AoWWindow.pas:63
@@ -26,131 +26,131 @@ public partial class Window : GenericWindow
     //   windows }
     public override void SetSize()
     {
-        switch (FWindowType)
+        switch (WindowStyle)
         {
             case Style.Normal:
             case Style.Hollow:
-                if (FILFrame != null && (FILTexture != null || FWindowType == Style.Hollow))
+                if (_imageLibraryFrame != null && (_imageLibraryTexture != null || WindowStyle == Style.Hollow))
                 {
-                    var ilFrameWidth = FILFrame[FILIndexFrame];
-                    var ilFrame = FILFrame[FILIndexFrame + 2];
-                    if (ilFrameWidth.Width + ilFrame.Width > FWinWidth)
+                    var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame];
+                    var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                    if (imageLibraryFrameWidth.Width + imageLibraryFrame.Width > _winWidth)
                     {
-                        var ilFrame2 = FILFrame[FILIndexFrame];
-                        var ilFrame3 = FILFrame[FILIndexFrame + 2];
-                        FWinWidth = ilFrame2.Width + ilFrame3.Width;
+                        var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
+                        var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                        _winWidth = imageLibraryFrame2.Width + imageLibraryFrame3.Width;
                     }
 
-                    var ilFrameHeight = FILFrame[FILIndexFrame];
-                    var ilFrame4 = FILFrame[FILIndexFrame + 5];
-                    if (ilFrameHeight.Height + ilFrame4.Height > FWinHeight)
+                    var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
+                    var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+                    if (imageLibraryFrameHeight.Height + imageLibraryFrame4.Height > _winHeight)
                     {
-                        var ilFrame2 = FILFrame[FILIndexFrame];
-                        var ilFrame3 = FILFrame[FILIndexFrame + 5];
-                        FWinHeight = ilFrame2.Height + ilFrame3.Height;
+                        var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
+                        var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+                        _winHeight = imageLibraryFrame2.Height + imageLibraryFrame3.Height;
                     }
 
-                    if (FMinWidth > 0 && FMinWidth > FWinWidth)
+                    if (_minWidth > 0 && _minWidth > _winWidth)
                     {
-                        FWinWidth = FMinWidth;
+                        _winWidth = _minWidth;
                     }
 
-                    if (FMinHeight > 0 && FMinHeight > FWinHeight)
+                    if (_minHeight > 0 && _minHeight > _winHeight)
                     {
-                        FWinHeight = FMinHeight;
+                        _winHeight = _minHeight;
                     }
 
-                    if (FMaxWidth > 0 && FMaxWidth < FWinWidth)
+                    if (_maxWidth > 0 && _maxWidth < _winWidth)
                     {
-                        FWinWidth = FMaxWidth;
+                        _winWidth = _maxWidth;
                     }
 
-                    if (FMaxHeight > 0 && FMaxHeight < FWinHeight)
+                    if (_maxHeight > 0 && _maxHeight < _winHeight)
                     {
-                        FWinHeight = FMaxHeight;
+                        _winHeight = _maxHeight;
                     }
 
-                    if (FWinManager.FWinWidth > 0 && FWinManager.FWinHeight > 0)
+                    if (_windowManager._winWidth > 0 && _windowManager._winHeight > 0)
                     {
-                        if (FUseManagerBorders)
+                        if (_useManagerBorders)
                         {
-                            if (FWinManager.FWinWidth - FWinManager.FBorderRight < FWinLeft + FWinWidth)
+                            if (_windowManager._winWidth - _windowManager._borderRight < _winLeft + _winWidth)
                             {
-                                FWinLeft = FWinManager.FWinWidth - FWinManager.FBorderRight - FWinWidth;
+                                _winLeft = _windowManager._winWidth - _windowManager._borderRight - _winWidth;
                             }
 
-                            if (FWinManager.FBorderLeft > FWinLeft)
+                            if (_windowManager._borderLeft > _winLeft)
                             {
-                                FWinLeft = FWinManager.FBorderLeft;
-                                if (FWinManager.FWinWidth - FWinManager.FBorderRight < FWinLeft + FWinWidth)
+                                _winLeft = _windowManager._borderLeft;
+                                if (_windowManager._winWidth - _windowManager._borderRight < _winLeft + _winWidth)
                                 {
-                                    FWinWidth = FWinManager.FWinWidth - FWinManager.FBorderRight - FWinLeft;
+                                    _winWidth = _windowManager._winWidth - _windowManager._borderRight - _winLeft;
                                 }
                             }
 
-                            if (FWinManager.FWinHeight - FWinManager.FBorderBottom < FWinTop + FWinHeight)
+                            if (_windowManager._winHeight - _windowManager._borderBottom < _winTop + _winHeight)
                             {
-                                FWinTop = FWinManager.FWinHeight - FWinManager.FBorderBottom - FWinHeight;
+                                _winTop = _windowManager._winHeight - _windowManager._borderBottom - _winHeight;
                             }
 
-                            if (FWinManager.FBorderTop > FWinTop)
+                            if (_windowManager._borderTop > _winTop)
                             {
-                                FWinTop = FWinManager.FBorderTop;
-                                if (FWinManager.FWinHeight - FWinManager.FBorderBottom < FWinTop + FWinHeight)
+                                _winTop = _windowManager._borderTop;
+                                if (_windowManager._winHeight - _windowManager._borderBottom < _winTop + _winHeight)
                                 {
-                                    FWinHeight = FWinManager.FWinHeight - FWinManager.FBorderBottom - FWinTop;
+                                    _winHeight = _windowManager._winHeight - _windowManager._borderBottom - _winTop;
                                 }
                             }
                         }
                         else
                         {
-                            if (FWinManager.FWinWidth < FWinLeft + FWinWidth)
+                            if (_windowManager._winWidth < _winLeft + _winWidth)
                             {
-                                FWinLeft = FWinManager.FWinWidth - FWinWidth;
+                                _winLeft = _windowManager._winWidth - _winWidth;
                             }
 
-                            if (FWinLeft < 0)
+                            if (_winLeft < 0)
                             {
-                                FWinLeft = 0;
-                                if (FWinManager.FWinWidth < FWinLeft + FWinWidth)
+                                _winLeft = 0;
+                                if (_windowManager._winWidth < _winLeft + _winWidth)
                                 {
-                                    FWinWidth = FWinManager.FWinWidth - FWinLeft;
+                                    _winWidth = _windowManager._winWidth - _winLeft;
                                 }
                             }
 
-                            if (FWinManager.FWinHeight < FWinTop + FWinHeight)
+                            if (_windowManager._winHeight < _winTop + _winHeight)
                             {
-                                FWinTop = FWinManager.FWinHeight - FWinHeight;
+                                _winTop = _windowManager._winHeight - _winHeight;
                             }
 
-                            if (FWinTop < 0)
+                            if (_winTop < 0)
                             {
-                                FWinTop = 0;
-                                if (FWinManager.FWinHeight < FWinTop + FWinHeight)
+                                _winTop = 0;
+                                if (_windowManager._winHeight < _winTop + _winHeight)
                                 {
-                                    FWinHeight = FWinManager.FWinHeight - FWinTop;
+                                    _winHeight = _windowManager._winHeight - _winTop;
                                 }
                             }
                         }
                     }
 
-                    if (FMasked)
+                    if (_masked)
                     {
-                        if (FWindowType == Style.Hollow)
+                        if (WindowStyle == Style.Hollow)
                         {
-                            FFrameLeft = FWinWidth;
-                            FFrameRight = 0;
-                            FFrameTop = FWinHeight;
-                            FFrameBottom = 0;
+                            FrameLeft = _winWidth;
+                            FrameRight = 0;
+                            FrameTop = _winHeight;
+                            FrameBottom = 0;
                         }
                         else
                         {
-                            FFrameLeft = FILFrame[FILIndexFrame + 3].Width;
-                            var ilFrame2 = FILFrame[FILIndexFrame + 4];
-                            FFrameRight = FWinWidth - ilFrame2.Width;
-                            FFrameTop = FILFrame[FILIndexFrame + 1].Height;
-                            var ilFrame3 = FILFrame[FILIndexFrame + 6];
-                            FFrameBottom = FWinHeight - ilFrame3.Height;
+                            FrameLeft = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width;
+                            var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                            FrameRight = _winWidth - imageLibraryFrame2.Width;
+                            FrameTop = _imageLibraryFrame[_imageLibraryIndexFrame + 1].Height;
+                            var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                            FrameBottom = _winHeight - imageLibraryFrame3.Height;
                         }
                     }
                 }
@@ -158,119 +158,119 @@ public partial class Window : GenericWindow
                 break;
             case Style.Borderless:
             case Style.Blank:
-                if (FILTexture != null || FWindowType == Style.Blank)
+                if (_imageLibraryTexture != null || WindowStyle == Style.Blank)
                 {
-                    if (FMinWidth > 0 && FMinWidth > FWinWidth)
+                    if (_minWidth > 0 && _minWidth > _winWidth)
                     {
-                        FWinWidth = FMinWidth;
+                        _winWidth = _minWidth;
                     }
 
-                    if (FMinHeight > 0 && FMinHeight > FWinHeight)
+                    if (_minHeight > 0 && _minHeight > _winHeight)
                     {
-                        FWinHeight = FMinHeight;
+                        _winHeight = _minHeight;
                     }
 
-                    if (FMaxWidth > 0 && FMaxWidth < FWinWidth)
+                    if (_maxWidth > 0 && _maxWidth < _winWidth)
                     {
-                        FWinWidth = FMaxWidth;
+                        _winWidth = _maxWidth;
                     }
 
-                    if (FMaxHeight > 0 && FMaxHeight < FWinHeight)
+                    if (_maxHeight > 0 && _maxHeight < _winHeight)
                     {
-                        FWinHeight = FMaxHeight;
+                        _winHeight = _maxHeight;
                     }
 
-                    if (FWinManager.FWinWidth > 0 && FWinManager.FWinHeight > 0)
+                    if (_windowManager._winWidth > 0 && _windowManager._winHeight > 0)
                     {
-                        if (FUseManagerBorders)
+                        if (_useManagerBorders)
                         {
-                            if (FWinManager.FWinWidth - FWinManager.FBorderRight < FWinLeft + WinWidth)
+                            if (_windowManager._winWidth - _windowManager._borderRight < _winLeft + WinWidth)
                             {
-                                FWinLeft = FWinManager.FWinWidth - FWinManager.FBorderRight - FWinWidth;
+                                _winLeft = _windowManager._winWidth - _windowManager._borderRight - _winWidth;
                             }
 
-                            if (FWinManager.BorderLeft > FWinLeft)
+                            if (_windowManager.BorderLeft > _winLeft)
                             {
-                                FWinLeft = FWinManager.FBorderLeft;
-                                if (FWinManager.FWinWidth - FWinManager.FBorderRight < FWinLeft + FWinWidth)
+                                _winLeft = _windowManager._borderLeft;
+                                if (_windowManager._winWidth - _windowManager._borderRight < _winLeft + _winWidth)
                                 {
-                                    FWinWidth = FWinManager.FWinWidth - FWinManager.FBorderRight - FWinLeft;
+                                    _winWidth = _windowManager._winWidth - _windowManager._borderRight - _winLeft;
                                 }
                             }
 
-                            if (FWinManager.FWinHeight - FWinManager.FBorderBottom < FWinTop + FWinHeight)
+                            if (_windowManager._winHeight - _windowManager._borderBottom < _winTop + _winHeight)
                             {
-                                FWinTop = FWinManager.FWinHeight - FWinManager.FBorderBottom - FWinHeight;
+                                _winTop = _windowManager._winHeight - _windowManager._borderBottom - _winHeight;
                             }
 
-                            if (FWinManager.BorderTop > FWinTop)
+                            if (_windowManager.BorderTop > _winTop)
                             {
-                                FWinTop = FWinManager.FBorderTop;
-                                if (FWinManager.FWinHeight - FWinManager.FBorderBottom < FWinTop + FWinHeight)
+                                _winTop = _windowManager._borderTop;
+                                if (_windowManager._winHeight - _windowManager._borderBottom < _winTop + _winHeight)
                                 {
-                                    FWinHeight = FWinManager.FWinHeight - FWinManager.FBorderBottom - FWinTop;
+                                    _winHeight = _windowManager._winHeight - _windowManager._borderBottom - _winTop;
                                 }
                             }
                         }
                         else
                         {
-                            if (FWinManager.FWinWidth < FWinLeft + WinWidth)
+                            if (_windowManager._winWidth < _winLeft + WinWidth)
                             {
-                                FWinLeft = FWinManager.FWinWidth - FWinWidth;
+                                _winLeft = _windowManager._winWidth - _winWidth;
                             }
 
-                            if (FWinLeft < 0)
+                            if (_winLeft < 0)
                             {
-                                FWinLeft = 0;
-                                if (FWinManager.FWinWidth < FWinLeft + FWinWidth)
+                                _winLeft = 0;
+                                if (_windowManager._winWidth < _winLeft + _winWidth)
                                 {
-                                    FWinWidth = FWinManager.FWinWidth - FWinLeft;
+                                    _winWidth = _windowManager._winWidth - _winLeft;
                                 }
                             }
 
-                            if (FWinManager.FWinHeight < FWinTop + FWinHeight)
+                            if (_windowManager._winHeight < _winTop + _winHeight)
                             {
-                                FWinTop = FWinManager.FWinHeight - FWinHeight;
+                                _winTop = _windowManager._winHeight - _winHeight;
                             }
 
-                            if (FWinTop < 0)
+                            if (_winTop < 0)
                             {
-                                FWinTop = 0;
-                                if (FWinManager.FWinHeight < FWinTop + FWinHeight)
+                                _winTop = 0;
+                                if (_windowManager._winHeight < _winTop + _winHeight)
                                 {
-                                    FWinHeight = FWinManager.FWinHeight - FWinTop;
+                                    _winHeight = _windowManager._winHeight - _winTop;
                                 }
                             }
                         }
                     }
 
-                    if (FMasked)
+                    if (_masked)
                     {
-                        FFrameLeft = FWinWidth;
-                        FFrameRight = 0;
-                        FFrameTop = FWinHeight;
-                        FFrameBottom = 0;
+                        FrameLeft = _winWidth;
+                        FrameRight = 0;
+                        FrameTop = _winHeight;
+                        FrameBottom = 0;
                     }
                 }
 
                 break;
         }
 
-        if (FDoubleBuffered && FBackSurface != null)
+        if (_doubleBuffered && BackSurface != null)
         {
-            FBackSurface.Resize(FWinWidth, FWinHeight);
-            if (FMasked)
+            BackSurface.Resize(_winWidth, _winHeight);
+            if (_masked)
             {
-                FBackSurface.Cls(FMaskColor);
+                BackSurface.Clear(_maskColor);
             }
         }
 
-        if (FOnInternalResize != null)
+        if (_onInternalResize != null)
         {
-            FOnInternalResize(this);
+            _onInternalResize(this);
         }
 
-        FSurfaceValid = false;
+        SurfaceValid = false;
         base.SetSize();
     }
 
@@ -279,57 +279,57 @@ public partial class Window : GenericWindow
     public override void ReAlign()
     {
         base.ReAlign();
-        if (FUseManagerBorders)
+        if (_useManagerBorders)
         {
-            if (FAlignment.AlignWidth == AlignWidth.Center)
+            if (_alignment.AlignWidth == AlignWidth.Center)
             {
-                FWinLeft = (FAOWOwner.FWinWidth - FWinManager.FBorderLeft - FWinManager.FBorderRight) / 2 + FWinManager.FBorderLeft - FWinWidth / 2;
+                _winLeft = (_ownerComponent._winWidth - _windowManager._borderLeft - _windowManager._borderRight) / 2 + _windowManager._borderLeft - _winWidth / 2;
             }
 
-            if (FAlignment.AlignHeight == AlignHeight.Center)
+            if (_alignment.AlignHeight == AlignHeight.Center)
             {
-                FWinTop = (FAOWOwner.FWinHeight - FWinManager.FBorderTop - FWinManager.FBorderBottom) / 2 + FWinManager.FBorderTop - FWinHeight / 2;
+                _winTop = (_ownerComponent._winHeight - _windowManager._borderTop - _windowManager._borderBottom) / 2 + _windowManager._borderTop - _winHeight / 2;
             }
         }
     }
 
     // AoWWindow.pas:222
-    public override void Draw(LockedSurface SurfDesc)
+    public override void Draw(LockedSurface lockedSurface)
     {
         try
         {
-            if (FValid && FVisible)
+            if (Valid && _visible)
             {
-                switch (FWindowType)
+                switch (WindowStyle)
                 {
                     case Style.Normal:
-                        var rect = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
-                        FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
-                        var ilFrameHeight = FILFrame[FILIndexFrame + 1];
-                        var ilFrame = FILFrame[FILIndexFrame + 6];
-                        var ilFrameWidth = FILFrame[FILIndexFrame + 3];
-                        var ilFrame2 = FILFrame[FILIndexFrame + 4];
-                        var ilFrame3 = FILFrame[FILIndexFrame + 1];
-                        var ilFrame4 = FILFrame[FILIndexFrame + 3];
-                        var rect2 = new Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
-                        FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
+                        var rectangle = new Rect(_winLeft, _winTop, _winWidth, _winHeight);
+                        _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
+                        var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                        var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                        var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        var rectangle2 = new Rect(_winLeft + imageLibraryFrame4.Width, _winTop + imageLibraryFrame3.Height, _winWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, _winHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle2, ref lockedSurface);
                         break;
                     case Style.Hollow:
-                        var rect3 = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
-                        FILFrame.DrawILF(FILIndexFrame, rect3, ref SurfDesc);
+                        var rectangle3 = new Rect(_winLeft, _winTop, _winWidth, _winHeight);
+                        _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle3, ref lockedSurface);
                         break;
                     case Style.Borderless:
-                        var rect4 = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
-                        FILTexture.DrawILT(FILIndexTexture, rect4, ref SurfDesc);
+                        var rectangle4 = new Rect(_winLeft, _winTop, _winWidth, _winHeight);
+                        _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle4, ref lockedSurface);
                         break;
                 }
 
-                if (FOnDrawBack != null)
+                if (_onDrawBack != null)
                 {
-                    FOnDrawBack(this, SurfDesc);
+                    _onDrawBack(this, lockedSurface);
                 }
 
-                FSurfaceValid = false;
+                SurfaceValid = false;
             }
         }
         catch
@@ -341,199 +341,199 @@ public partial class Window : GenericWindow
     // AoWWindow.pas:253
     // { CheckMouseDown: a click brings the window to the front; the controls get it first; a left
     //   click in the title area starts dragging, one on a border (Resizable) starts resizing }
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         UIComponent C = default;
-        FHandled = false;
-        FRedraw = false;
-        FDragging = 0;
-        if (FWinManager != null && !FWinManager.FHandled && FVisible == true)
+        Handled = false;
+        Redraw = false;
+        Dragging = 0;
+        if (_windowManager != null && !_windowManager.Handled && _visible == true)
         {
-            if (X > FWinLeft - 1 && X < FWinLeft + FWinWidth && Y > FWinTop - 1 && Y < FWinTop + FWinHeight)
+            if (X > _winLeft - 1 && X < _winLeft + _winWidth && Y > _winTop - 1 && Y < _winTop + _winHeight)
             {
-                SetPriority(FPriority);
+                SetPriority(_priority);
             }
 
-            for (int I = FChildren.Count - 1; I >= 0; I--)
+            for (int I = Children.Count - 1; I >= 0; I--)
             {
-                C = (UIComponent)FChildren[I];
-                C.FHandled = false;
-                if ((!FHandled || C.FRedraw) && C.FVisible == true && C.FCaptureInput)
+                C = (UIComponent)Children[I];
+                C.Handled = false;
+                if ((!Handled || C.Redraw) && C._visible == true && C._captureInput)
                 {
-                    C.CheckMouseDown(Button, Shift, X, Y);
+                    C.CheckMouseDown(button, shift, X, Y);
                 }
 
-                if (C.FHandled == true)
+                if (C.Handled == true)
                 {
-                    C.FRedraw = true;
-                    FHandled = true;
-                    FRedraw = true;
+                    C.Redraw = true;
+                    Handled = true;
+                    Redraw = true;
                 }
             }
 
-            if (!FHandled && X > FWinLeft - 1 && X < FWinLeft + FWinWidth && Y > FWinTop - 1 && Y < FWinTop + FWinHeight)
+            if (!Handled && X > _winLeft - 1 && X < _winLeft + _winWidth && Y > _winTop - 1 && Y < _winTop + _winHeight)
             {
-                FDragX = 0;
-                FDragY = 0;
-                if (Button == MouseButton.Left && FDraggable == true && Y < FWinTop + FBorderHeight + FDragHeight - 1)
+                DragX = 0;
+                DragY = 0;
+                if (button == MouseButton.Left && _draggable == true && Y < _winTop + _borderHeight + _dragHeight - 1)
                 {
-                    FDragging = 1;
-                    FDragX = X - FWinLeft;
-                    FDragY = Y - FWinTop;
+                    Dragging = 1;
+                    DragX = X - _winLeft;
+                    DragY = Y - _winTop;
                 }
 
-                if (Button == MouseButton.Left && FResizable == true)
+                if (button == MouseButton.Left && _resizable == true)
                 {
-                    FResizingX = 0;
-                    FResizingY = 0;
-                    if (X < FWinLeft + FBorderWidth - 1)
+                    ResizingX = 0;
+                    ResizingY = 0;
+                    if (X < _winLeft + _borderWidth - 1)
                     {
-                        FDragging = 2;
-                        FResizingX = 1;
-                        FDragX = X - FWinLeft;
-                        if (Y < FBorderHeight * 5 + FWinTop - 1)
+                        Dragging = 2;
+                        ResizingX = 1;
+                        DragX = X - _winLeft;
+                        if (Y < _borderHeight * 5 + _winTop - 1)
                         {
-                            FResizingY = 1;
-                            FDragY = Y - FWinTop;
+                            ResizingY = 1;
+                            DragY = Y - _winTop;
                         }
 
-                        if (Y > FWinTop + FWinHeight - FBorderHeight * 5)
+                        if (Y > _winTop + _winHeight - _borderHeight * 5)
                         {
-                            FResizingY = 2;
-                            FDragY = FWinTop + FWinHeight - Y;
+                            ResizingY = 2;
+                            DragY = _winTop + _winHeight - Y;
                         }
                     }
 
-                    if (X > FWinLeft + FWinWidth - FBorderHeight)
+                    if (X > _winLeft + _winWidth - _borderHeight)
                     {
-                        FDragging = 2;
-                        FResizingX = 2;
-                        FDragX = FWinLeft + FWinWidth - X;
-                        if (Y < FBorderHeight * 5 + FWinTop - 1)
+                        Dragging = 2;
+                        ResizingX = 2;
+                        DragX = _winLeft + _winWidth - X;
+                        if (Y < _borderHeight * 5 + _winTop - 1)
                         {
-                            FResizingY = 1;
-                            FDragY = Y - FWinTop;
+                            ResizingY = 1;
+                            DragY = Y - _winTop;
                         }
 
-                        if (Y > FWinTop + FWinHeight - FBorderHeight * 5)
+                        if (Y > _winTop + _winHeight - _borderHeight * 5)
                         {
-                            FResizingY = 2;
-                            FDragY = FWinTop + FWinHeight - Y;
+                            ResizingY = 2;
+                            DragY = _winTop + _winHeight - Y;
                         }
                     }
 
-                    if (Y < FWinTop + FBorderHeight - 1)
+                    if (Y < _winTop + _borderHeight - 1)
                     {
-                        FDragging = 2;
-                        FResizingY = 1;
-                        FDragY = Y - FWinTop;
-                        if (X < FBorderWidth * 5 + FWinLeft - 1)
+                        Dragging = 2;
+                        ResizingY = 1;
+                        DragY = Y - _winTop;
+                        if (X < _borderWidth * 5 + _winLeft - 1)
                         {
-                            FResizingX = 1;
-                            FDragX = X - FWinLeft;
+                            ResizingX = 1;
+                            DragX = X - _winLeft;
                         }
 
-                        if (X > FWinLeft + FWinWidth - FBorderWidth * 5)
+                        if (X > _winLeft + _winWidth - _borderWidth * 5)
                         {
-                            FResizingX = 2;
-                            FDragX = FWinLeft + FWinWidth - X;
+                            ResizingX = 2;
+                            DragX = _winLeft + _winWidth - X;
                         }
                     }
 
-                    if (Y > FWinTop + FWinHeight - FBorderHeight)
+                    if (Y > _winTop + _winHeight - _borderHeight)
                     {
-                        FDragging = 2;
-                        FResizingY = 2;
-                        FDragY = FWinTop + FWinHeight - Y;
-                        if (X < FBorderWidth * 5 + FWinLeft - 1)
+                        Dragging = 2;
+                        ResizingY = 2;
+                        DragY = _winTop + _winHeight - Y;
+                        if (X < _borderWidth * 5 + _winLeft - 1)
                         {
-                            FResizingX = 1;
-                            FDragX = X - FWinLeft;
+                            ResizingX = 1;
+                            DragX = X - _winLeft;
                         }
 
-                        if (X > FWinLeft + FWinWidth - FBorderWidth * 5)
+                        if (X > _winLeft + _winWidth - _borderWidth * 5)
                         {
-                            FResizingX = 2;
-                            FDragX = FWinLeft + FWinWidth - X;
+                            ResizingX = 2;
+                            DragX = _winLeft + _winWidth - X;
                         }
                     }
                 }
 
-                FRedraw = true;
-                FHandled = true;
+                Redraw = true;
+                Handled = true;
             }
 
-            if (FHandled)
+            if (Handled)
             {
-                if (FWinManager != null)
+                if (_windowManager != null)
                 {
-                    if (!FWinManager.FHandled && FOnMouseDown != null)
+                    if (!_windowManager.Handled && _onMouseDown != null)
                     {
-                        FOnMouseDown(this, Button, Shift, X, Y);
+                        _onMouseDown(this, button, shift, X, Y);
                     }
                 }
                 else
                 {
-                    if (FOnMouseDown != null)
+                    if (_onMouseDown != null)
                     {
-                        FOnMouseDown(this, Button, Shift, X, Y);
+                        _onMouseDown(this, button, shift, X, Y);
                     }
                 }
             }
 
-            if (FModal)
+            if (_modal)
             {
-                FHandled = true;
+                Handled = true;
             }
         }
     }
 
     // AoWWindow.pas:376
-    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         UIComponent C = default;
-        FHandled = false;
-        if (FVisible && FValid)
+        Handled = false;
+        if (_visible && Valid)
         {
-            FDragging = 0;
-            for (int I = FChildren.Count - 1; I >= 0; I--)
+            Dragging = 0;
+            for (int I = Children.Count - 1; I >= 0; I--)
             {
-                C = (UIComponent)FChildren[I];
-                C.FHandled = false;
-                if ((!FHandled || C.FRedraw == true) && C.FVisible == true && C.FCaptureInput)
+                C = (UIComponent)Children[I];
+                C.Handled = false;
+                if ((!Handled || C.Redraw == true) && C._visible == true && C._captureInput)
                 {
-                    C.CheckMouseUp(Button, Shift, X, Y);
+                    C.CheckMouseUp(button, shift, X, Y);
                 }
 
-                if (C.FHandled == true)
+                if (C.Handled == true)
                 {
-                    FHandled = true;
+                    Handled = true;
                 }
             }
 
-            if (X > FWinLeft - 1 && X < FWinLeft + FWinWidth && Y > FWinTop - 1 && Y < FWinTop + FWinHeight)
+            if (X > _winLeft - 1 && X < _winLeft + _winWidth && Y > _winTop - 1 && Y < _winTop + _winHeight)
             {
-                FHandled = true;
+                Handled = true;
             }
 
-            if (FHandled)
+            if (Handled)
             {
-                if (!FWinManager.FHandled && FOnMouseUp != null)
+                if (!_windowManager.Handled && _onMouseUp != null)
                 {
-                    FOnMouseUp(this, Button, Shift, X, Y);
+                    _onMouseUp(this, button, shift, X, Y);
                 }
             }
             else
             {
-                if (FOnMouseUp != null)
+                if (_onMouseUp != null)
                 {
-                    FOnMouseUp(this, Button, Shift, X, Y);
+                    _onMouseUp(this, button, shift, X, Y);
                 }
             }
 
-            if (FModal)
+            if (_modal)
             {
-                FHandled = true;
+                Handled = true;
             }
         }
     }
@@ -541,255 +541,255 @@ public partial class Window : GenericWindow
     // AoWWindow.pas:411
     // { CheckMouseMove drags or resizes the window, passes the move to the controls and sets the
     //   resize cursors over the borders }
-    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        bool Resized;
+        bool resized;
         int I = default;
         UIComponent C = default;
-        FHandled = false;
-        FOldCursor = FCursor;
-        FCursor = FWindowCursor;
-        FInResizeArea = true;
-        Resized = false;
-        if (FVisible == true)
+        Handled = false;
+        OldCursor = _cursor;
+        _cursor = WindowCursor;
+        InResizeArea = true;
+        resized = false;
+        if (_visible == true)
         {
-            switch (FDragging)
+            switch (Dragging)
             {
                 case 1:
-                    FWinLeft = X - FDragX;
-                    FWinTop = Y - FDragY;
-                    if (FWinManager != null && FUseManagerBorders)
+                    _winLeft = X - DragX;
+                    _winTop = Y - DragY;
+                    if (_windowManager != null && _useManagerBorders)
                     {
-                        if (FWinManager.FBorderLeft > FWinLeft)
+                        if (_windowManager._borderLeft > _winLeft)
                         {
-                            FWinLeft = FWinManager.FBorderLeft;
+                            _winLeft = _windowManager._borderLeft;
                         }
 
-                        if (FWinManager.FWinWidth - FWinManager.FBorderRight < FWinLeft + FWinWidth)
+                        if (_windowManager._winWidth - _windowManager._borderRight < _winLeft + _winWidth)
                         {
-                            FWinLeft = FWinManager.FWinWidth - FWinManager.FBorderRight - FWinWidth;
+                            _winLeft = _windowManager._winWidth - _windowManager._borderRight - _winWidth;
                         }
 
-                        if (FWinManager.FBorderTop > FWinTop)
+                        if (_windowManager._borderTop > _winTop)
                         {
-                            FWinTop = FWinManager.FBorderTop;
+                            _winTop = _windowManager._borderTop;
                         }
 
-                        if (FWinManager.FWinHeight - FWinManager.FBorderBottom < FWinTop + FWinHeight)
+                        if (_windowManager._winHeight - _windowManager._borderBottom < _winTop + _winHeight)
                         {
-                            FWinTop = FWinManager.FWinHeight - FWinManager.FBorderBottom - FWinHeight;
+                            _winTop = _windowManager._winHeight - _windowManager._borderBottom - _winHeight;
                         }
                     }
 
-                    if (FOnChange != null)
+                    if (_onChange != null)
                     {
-                        FOnChange(this);
+                        _onChange(this);
                     }
 
-                    if (!FDoubleBuffered)
+                    if (!_doubleBuffered)
                     {
-                        FDrawn = false;
+                        Drawn = false;
                     }
 
-                    FSurfaceValid = false;
+                    SurfaceValid = false;
                     break;
                 case 2:
-                    switch (FResizingX)
+                    switch (ResizingX)
                     {
                         case 1:
-                            if (FWinLeft + FDragX > X)
+                            if (_winLeft + DragX > X)
                             {
-                                if (FWinManager != null && FUseManagerBorders)
+                                if (_windowManager != null && _useManagerBorders)
                                 {
-                                    if (FWinManager.FBorderLeft > X - FDragX)
+                                    if (_windowManager._borderLeft > X - DragX)
                                     {
-                                        X = FWinManager.FBorderLeft + FDragX;
+                                        X = _windowManager._borderLeft + DragX;
                                     }
                                 }
                             }
 
-                            I = FWinLeft + FWinWidth;
-                            FWinWidth = FWinWidth - X + FWinLeft + FDragX;
-                            if (FWinWidth < FMinWidth)
+                            I = _winLeft + _winWidth;
+                            _winWidth = _winWidth - X + _winLeft + DragX;
+                            if (_winWidth < _minWidth)
                             {
-                                FWinWidth = FMinWidth;
+                                _winWidth = _minWidth;
                             }
 
-                            if (FMaxWidth < FWinWidth && FMaxWidth > 0)
+                            if (_maxWidth < _winWidth && _maxWidth > 0)
                             {
-                                FWinWidth = FMaxWidth;
+                                _winWidth = _maxWidth;
                             }
 
-                            FWinLeft = I - FWinWidth;
-                            Resized = true;
+                            _winLeft = I - _winWidth;
+                            resized = true;
                             break;
                         case 2:
-                            FWinWidth = X + FDragX - FWinLeft;
-                            if (FWinManager != null && FUseManagerBorders)
+                            _winWidth = X + DragX - _winLeft;
+                            if (_windowManager != null && _useManagerBorders)
                             {
-                                if (FWinManager.FWinWidth - FWinManager.FBorderRight < FWinLeft + FWinWidth)
+                                if (_windowManager._winWidth - _windowManager._borderRight < _winLeft + _winWidth)
                                 {
-                                    FWinWidth = FWinManager.FWinWidth - FWinManager.FBorderRight - FWinLeft;
+                                    _winWidth = _windowManager._winWidth - _windowManager._borderRight - _winLeft;
                                 }
                             }
 
-                            if (FMinWidth > FWinWidth)
+                            if (_minWidth > _winWidth)
                             {
-                                FWinWidth = FMinWidth;
+                                _winWidth = _minWidth;
                             }
 
-                            if (FMaxWidth < FWinWidth && FMaxWidth > 0)
+                            if (_maxWidth < _winWidth && _maxWidth > 0)
                             {
-                                FWinWidth = FMaxWidth;
+                                _winWidth = _maxWidth;
                             }
 
-                            Resized = true;
+                            resized = true;
                             break;
                     }
 
-                    switch (FResizingY)
+                    switch (ResizingY)
                     {
                         case 1:
-                            if (FWinTop + FDragY > Y)
+                            if (_winTop + DragY > Y)
                             {
-                                if (FWinManager != null && FUseManagerBorders)
+                                if (_windowManager != null && _useManagerBorders)
                                 {
-                                    if (FWinManager.FBorderTop > Y - FDragY)
+                                    if (_windowManager._borderTop > Y - DragY)
                                     {
-                                        Y = FWinManager.FBorderTop + FDragY;
+                                        Y = _windowManager._borderTop + DragY;
                                     }
                                 }
                             }
 
-                            I = FWinTop + FWinHeight;
-                            FWinHeight = FWinHeight - Y + FWinTop + FDragY;
-                            if (FWinHeight < FMinHeight)
+                            I = _winTop + _winHeight;
+                            _winHeight = _winHeight - Y + _winTop + DragY;
+                            if (_winHeight < _minHeight)
                             {
-                                FWinHeight = FMinHeight;
+                                _winHeight = _minHeight;
                             }
 
-                            if (FMaxHeight < FWinHeight && FMaxHeight > 0)
+                            if (_maxHeight < _winHeight && _maxHeight > 0)
                             {
-                                FWinHeight = FMaxHeight;
+                                _winHeight = _maxHeight;
                             }
 
-                            FWinTop = I - FWinHeight;
-                            Resized = true;
+                            _winTop = I - _winHeight;
+                            resized = true;
                             break;
                         case 2:
-                            FWinHeight = Y + FDragY - FWinTop;
-                            if (FWinManager != null && FUseManagerBorders)
+                            _winHeight = Y + DragY - _winTop;
+                            if (_windowManager != null && _useManagerBorders)
                             {
-                                if (FWinManager.FWinHeight - FWinManager.FBorderBottom < FWinTop + FWinHeight)
+                                if (_windowManager._winHeight - _windowManager._borderBottom < _winTop + _winHeight)
                                 {
-                                    FWinHeight = FWinManager.FWinHeight - FWinManager.FBorderBottom - FWinTop;
+                                    _winHeight = _windowManager._winHeight - _windowManager._borderBottom - _winTop;
                                 }
                             }
 
-                            if (FMinHeight > FWinHeight)
+                            if (_minHeight > _winHeight)
                             {
-                                FWinHeight = FMinHeight;
+                                _winHeight = _minHeight;
                             }
 
-                            if (FMaxHeight < FWinHeight && FMaxHeight > 0)
+                            if (_maxHeight < _winHeight && _maxHeight > 0)
                             {
-                                FWinHeight = FMaxHeight;
+                                _winHeight = _maxHeight;
                             }
 
-                            Resized = true;
+                            resized = true;
                             break;
                     }
 
-                    if (Resized)
+                    if (resized)
                     {
-                        if (FOnResize != null)
+                        if (_onResize != null)
                         {
-                            FOnResize(this);
+                            _onResize(this);
                         }
 
-                        FAligned = false;
+                        Aligned = false;
                     }
 
                     break;
             }
 
-            I = FChildren.Count - 1;
+            I = Children.Count - 1;
             for (; I >= 0; I -= 1)
             {
-                C = (UIComponent)FChildren[I];
-                C.FHandled = false;
-                if ((!FHandled || C.FRedraw == true || C.FToolTipCount > 0) && C.FVisible == true && C.FCaptureInput)
+                C = (UIComponent)Children[I];
+                C.Handled = false;
+                if ((!Handled || C.Redraw == true || C.ToolTipCount > 0) && C._visible == true && C._captureInput)
                 {
-                    C.CheckMouseMove(Shift, X, Y);
+                    C.CheckMouseMove(shift, X, Y);
                 }
 
-                if (C.FHandled == true)
+                if (C.Handled == true)
                 {
-                    FHandled = true;
+                    Handled = true;
                 }
             }
 
-            if (!FHandled && X > FWinLeft - 1 && X < FWinLeft + FWinWidth && Y > FWinTop - 1 && Y < FWinTop + FWinHeight)
+            if (!Handled && X > _winLeft - 1 && X < _winLeft + _winWidth && Y > _winTop - 1 && Y < _winTop + _winHeight)
             {
-                FHandled = true;
-                if (FResizable == true)
+                Handled = true;
+                if (_resizable == true)
                 {
-                    if (X < FWinLeft + FBorderWidth - 1)
+                    if (X < _winLeft + _borderWidth - 1)
                     {
-                        FCursor = -9;
-                        if (Y < FBorderHeight * 5 + FWinTop - 1)
+                        _cursor = -9;
+                        if (Y < _borderHeight * 5 + _winTop - 1)
                         {
-                            FCursor = -8;
+                            _cursor = -8;
                         }
 
-                        if (Y > FWinTop + FWinHeight - FBorderHeight * 5)
+                        if (Y > _winTop + _winHeight - _borderHeight * 5)
                         {
-                            FCursor = -6;
+                            _cursor = -6;
                         }
                     }
                     else
                     {
-                        if (X > FWinLeft + FWinWidth - FBorderWidth)
+                        if (X > _winLeft + _winWidth - _borderWidth)
                         {
-                            FCursor = -9;
-                            if (Y < FBorderHeight * 5 + FWinTop - 1)
+                            _cursor = -9;
+                            if (Y < _borderHeight * 5 + _winTop - 1)
                             {
-                                FCursor = -6;
+                                _cursor = -6;
                             }
 
-                            if (Y > FWinTop + FWinHeight - FBorderHeight * 5)
+                            if (Y > _winTop + _winHeight - _borderHeight * 5)
                             {
-                                FCursor = -8;
+                                _cursor = -8;
                             }
                         }
                         else
                         {
-                            if (Y < FWinTop + FBorderHeight - 1)
+                            if (Y < _winTop + _borderHeight - 1)
                             {
-                                FCursor = -7;
-                                if (X < FBorderWidth * 5 + FWinLeft - 1)
+                                _cursor = -7;
+                                if (X < _borderWidth * 5 + _winLeft - 1)
                                 {
-                                    FCursor = -8;
+                                    _cursor = -8;
                                 }
 
-                                if (X > FWinLeft + FWinWidth - FBorderWidth * 5)
+                                if (X > _winLeft + _winWidth - _borderWidth * 5)
                                 {
-                                    FCursor = -6;
+                                    _cursor = -6;
                                 }
                             }
                             else
                             {
-                                if (Y > FWinTop + FWinHeight - FBorderHeight)
+                                if (Y > _winTop + _winHeight - _borderHeight)
                                 {
-                                    FCursor = -7;
-                                    if (X < FBorderWidth * 5 + FWinLeft - 1)
+                                    _cursor = -7;
+                                    if (X < _borderWidth * 5 + _winLeft - 1)
                                     {
-                                        FCursor = -6;
+                                        _cursor = -6;
                                     }
 
-                                    if (X > FWinLeft + FWinWidth - FBorderWidth * 5)
+                                    if (X > _winLeft + _winWidth - _borderWidth * 5)
                                     {
-                                        FCursor = -8;
+                                        _cursor = -8;
                                     }
                                 }
                             }
@@ -798,186 +798,186 @@ public partial class Window : GenericWindow
                 }
             }
 
-            if (FHandled)
+            if (Handled)
             {
-                if (FWinManager != null)
+                if (_windowManager != null)
                 {
-                    if (!FWinManager.FHandled && FOnMouseMove != null)
+                    if (!_windowManager.Handled && _onMouseMove != null)
                     {
-                        FOnMouseMove(this, Shift, X, Y);
+                        _onMouseMove(this, shift, X, Y);
                     }
                 }
                 else
                 {
-                    if (FOnMouseMove != null)
+                    if (_onMouseMove != null)
                     {
-                        FOnMouseMove(this, Shift, X, Y);
+                        _onMouseMove(this, shift, X, Y);
                     }
                 }
             }
 
-            if (FModal)
+            if (_modal)
             {
-                FHandled = true;
+                Handled = true;
             }
         }
 
-        if (FCursor != FOldCursor && FOnChangeCursor != null)
+        if (_cursor != OldCursor && _onChangeCursor != null)
         {
-            FOnChangeCursor(this);
+            _onChangeCursor(this);
         }
     }
 
     [Published]
-    public int DragHeight { get => FDragHeight; set => FDragHeight = value; }
+    public int DragHeight { get => _dragHeight; set => _dragHeight = value; }
 
     [Published]
-    public bool Draggable { get => FDraggable; set => FDraggable = value; }
+    public bool Draggable { get => _draggable; set => _draggable = value; }
 
     [Published]
-    public bool Resizable { get => FResizable; set => FResizable = value; }
+    public bool Resizable { get => _resizable; set => _resizable = value; }
 
     [Published]
     public NotifyEvent<Window> OnDrag
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     [Published]
     public NotifyEvent<Window> OnResize
     {
-        get => EventSlot.Get(this, FOnResize);
-        set => EventSlot.Set(this, ref FOnResize, value);
+        get => EventSlot.Get(this, _onResize);
+        set => EventSlot.Set(this, ref _onResize, value);
     }
 
     [Published]
     public NotifyEvent<Window> OnInternalResize
     {
-        get => EventSlot.Get(this, FOnInternalResize);
-        set => EventSlot.Set(this, ref FOnInternalResize, value);
+        get => EventSlot.Get(this, _onInternalResize);
+        set => EventSlot.Set(this, ref _onInternalResize, value);
     }
 
     [Published]
-    public int MinWidth { get => FMinWidth; set => FMinWidth = value; }
+    public int MinWidth { get => _minWidth; set => _minWidth = value; }
 
     [Published]
-    public int MinHeight { get => FMinHeight; set => FMinHeight = value; }
+    public int MinHeight { get => _minHeight; set => _minHeight = value; }
 
     [Published]
-    public int MaxWidth { get => FMaxWidth; set => FMaxWidth = value; }
+    public int MaxWidth { get => _maxWidth; set => _maxWidth = value; }
 
     [Published]
-    public int MaxHeight { get => FMaxHeight; set => FMaxHeight = value; }
+    public int MaxHeight { get => _maxHeight; set => _maxHeight = value; }
 
     [Published]
-    public bool UseManagerBorders { get => FUseManagerBorders; set => FUseManagerBorders = value; }
+    public bool UseManagerBorders { get => _useManagerBorders; set => _useManagerBorders = value; }
 
     [Published]
-    public bool Modal { get => FModal; set => FModal = value; }
+    public bool Modal { get => _modal; set => _modal = value; }
 
     [Published]
-    public bool Dockable { get => FDockable; set => FDockable = value; }
+    public bool Dockable { get => _dockable; set => _dockable = value; }
 
     public new NotifyEvent<Window> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<Window> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<Window> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<Window> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<Window> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<Window> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<Window> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<Window> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<Window> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 
     public new AoWOnDrawBackEvent<Window> OnDrawBack
     {
-        get => EventSlot.Get(this, FOnDrawBack);
-        set => EventSlot.Set(this, ref FOnDrawBack, value);
+        get => EventSlot.Get(this, _onDrawBack);
+        set => EventSlot.Set(this, ref _onDrawBack, value);
     }
 
     public new NotifyEvent<Window> OnEnter
     {
-        get => EventSlot.Get(this, FOnEnter);
-        set => EventSlot.Set(this, ref FOnEnter, value);
+        get => EventSlot.Get(this, _onEnter);
+        set => EventSlot.Set(this, ref _onEnter, value);
     }
 
     public new NotifyEvent<Window> OnExit
     {
-        get => EventSlot.Get(this, FOnExit);
-        set => EventSlot.Set(this, ref FOnExit, value);
+        get => EventSlot.Get(this, _onExit);
+        set => EventSlot.Set(this, ref _onExit, value);
     }
 
     public new NotifyEvent<Window> OnChangeCursor
     {
-        get => EventSlot.Get(this, FOnChangeCursor);
-        set => EventSlot.Set(this, ref FOnChangeCursor, value);
+        get => EventSlot.Get(this, _onChangeCursor);
+        set => EventSlot.Set(this, ref _onChangeCursor, value);
     }
 
     public new AoWOnDrawSurface<Window> OnDrawSurface
     {
-        get => EventSlot.Get(this, FOnDrawSurface);
-        set => EventSlot.Set(this, ref FOnDrawSurface, value);
+        get => EventSlot.Get(this, _onDrawSurface);
+        set => EventSlot.Set(this, ref _onDrawSurface, value);
     }
 
     public new AoWOnDrawSurface<Window> OnPreDrawSurface
     {
-        get => EventSlot.Get(this, FOnPreDrawSurface);
-        set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
+        get => EventSlot.Get(this, _onPreDrawSurface);
+        set => EventSlot.Set(this, ref _onPreDrawSurface, value);
     }
 
     public new NotifyEvent<Window> OnHide
     {
-        get => EventSlot.Get(this, FOnHide);
-        set => EventSlot.Set(this, ref FOnHide, value);
+        get => EventSlot.Get(this, _onHide);
+        set => EventSlot.Set(this, ref _onHide, value);
     }
 
     public new NotifyEvent<Window> OnShow
     {
-        get => EventSlot.Get(this, FOnShow);
-        set => EventSlot.Set(this, ref FOnShow, value);
+        get => EventSlot.Get(this, _onShow);
+        set => EventSlot.Set(this, ref _onShow, value);
     }
 }

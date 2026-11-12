@@ -17,56 +17,56 @@ namespace Aow.Game.Session;
 public partial class PlayerSetupSettings : EngineObject
 {
     // AoWSetup.pas:312
-    public new const int ClassID = 131683;
+    public new const int ClassId = 131683;
 
-    public SetupPlayerBehavior FBehavior;
-    public SetupPlayerBehavior FOriginalBehavior;
-    public sbyte FRace;
+    public SetupPlayerBehavior Behavior;
+    public SetupPlayerBehavior OriginalBehavior;
+    public sbyte Race;
     // AoW.exe
-    public Set<PlayerSetupStatusElement> FStatus;
-    public Leader FLeader;
-    public byte FPlayerID;
-    public byte FBehaviorMode;
-    public string FEmailAddress = "";
+    public Set<PlayerSetupStatusElement> Status;
+    public Leader Leader;
+    public byte PlayerId;
+    public byte BehaviorMode;
+    public string EmailAddress = "";
 
     // AoWSetup.pas:305
     public override void Dispose()
     {
-        FLeader?.Dispose();
-        FLeader = null;
+        Leader?.Dispose();
+        Leader = null;
         base.Dispose();
     }
 
     // AoWSetup.pas:315
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref FPlayerID, 10);
-        Stream.rwData(Bytes.Of(ref FBehavior, 8), 8, 11);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FRace), 12);
-        Stream.rwData(Bytes.Of(ref FBehaviorMode, 1), 1, 13);
-        Stream.rwEObject(FLeader, 14);
-        RwSet(ref FStatus, 1, 15, Stream.rwData, 0);
-        Stream.rwData(Bytes.Of(ref FOriginalBehavior, 8), 8, 16);
+        base.ReadWrite(stream);
+        stream.rwByte(ref PlayerId, 10);
+        stream.rwData(Bytes.Of(ref Behavior, 8), 8, 11);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Race), 12);
+        stream.rwData(Bytes.Of(ref BehaviorMode, 1), 1, 13);
+        stream.rwEObject(Leader, 14);
+        RwSet(ref Status, 1, 15, stream.rwData, 0);
+        stream.rwData(Bytes.Of(ref OriginalBehavior, 8), 8, 16);
     }
 
     // AoWSetup.pas:296
     public PlayerSetupSettings(ECustomNode owner) : base(owner)
     {
-        FStatus = Set<PlayerSetupStatusElement>.Of();
-        FBehavior = DefaultBehavior;
-        FOriginalBehavior = DefaultOriginalBehavior;
-        FLeader = new Leader(null);
+        Status = Set<PlayerSetupStatusElement>.Of();
+        Behavior = s_defaultBehavior;
+        OriginalBehavior = s_defaultOriginalBehavior;
+        Leader = new Leader(null);
     }
 
-    private static SetupPlayerBehavior DefaultBehavior = new SetupPlayerBehavior
+    private static SetupPlayerBehavior s_defaultBehavior = new SetupPlayerBehavior
     {
         PlayerType = 0,
         Reserved = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
         Flags = 0
     };
 
-    private static SetupPlayerBehavior DefaultOriginalBehavior = new SetupPlayerBehavior
+    private static SetupPlayerBehavior s_defaultOriginalBehavior = new SetupPlayerBehavior
     {
         PlayerType = 5,
         Reserved = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),

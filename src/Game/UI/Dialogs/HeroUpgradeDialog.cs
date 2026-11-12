@@ -119,84 +119,84 @@ public partial class HeroUpgradeDialog : DataModule
     public Label LevelLbl;
     public Label SkillPoints;
     public IvTranslator Translator;
-    public ExecuteDoneEvent FOnClose;
-    public HeroUpgradeEventLog FReferencedHero;
-    public int FSelectedSort;
-    public int FAvailableSort;
-    public Hero FHero;
-    public Hero FEditedHero;
+    public ExecuteDoneEvent OnClose;
+    public HeroUpgradeEventLog ReferencedHero;
+    public int SelectedSort;
+    public int AvailableSort;
+    public Hero Hero;
+    public Hero EditedHero;
 
     // AoWHeroUpgradeDlg.pas:287
     public void ClearHero()
     {
-        ExecuteDoneEvent OnClose;
-        HeroUpgradeEventLog Hero;
-        OnClose = FOnClose;
-        Hero = FReferencedHero;
-        FOnClose = null;
-        FReferencedHero = null;
-        if (OnClose != null)
+        ExecuteDoneEvent onClose;
+        HeroUpgradeEventLog hero;
+        onClose = OnClose;
+        hero = ReferencedHero;
+        OnClose = null;
+        ReferencedHero = null;
+        if (onClose != null)
         {
-            OnClose(Hero);
+            onClose(hero);
         }
 
-        if (Hero != null)
+        if (hero != null)
         {
-            Hero.Release();
+            hero.Release();
         }
 
-        FEditedHero?.Dispose();
-        FEditedHero = null;
+        EditedHero?.Dispose();
+        EditedHero = null;
     }
 
     // AoWHeroUpgradeDlg.pas:280
     public bool ValidateHero()
     {
-        FHero = AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FReferencedHero.FUnitID);
-        bool Result = FHero != null;
-        if (!Result)
+        Hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(ReferencedHero.UnitId);
+        bool result = Hero != null;
+        if (!result)
         {
             Dlg.Visible = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHeroUpgradeDlg.pas:257
     public void UpdateStatistics()
     {
-        var inherentAttack = FHero.GetInherentAttack();
+        var inherentAttack = Hero.GetInherentAttack();
         AttB.Text = IntToStr(inherentAttack);
-        var inherentDefense = FHero.GetInherentDefense();
+        var inherentDefense = Hero.GetInherentDefense();
         DefB.Text = IntToStr(inherentDefense);
-        var inherentDamage = FHero.GetInherentDamage();
+        var inherentDamage = Hero.GetInherentDamage();
         DamB.Text = IntToStr(inherentDamage);
-        var inherentResistance = FHero.GetInherentResistance();
+        var inherentResistance = Hero.GetInherentResistance();
         ResB.Text = IntToStr(inherentResistance);
-        var hits = FHero.GetHits();
+        var hits = Hero.GetHits();
         HitB.Text = IntToStr(hits);
-        var moves = FHero.GetMoves();
+        var moves = Hero.GetMoves();
         MovB.Text = IntToStr(moves);
-        AttA.Text = IntToStr(FEditedHero.FUnitAttack - FHero.FUnitAttack);
-        DefA.Text = IntToStr(FEditedHero.FUnitDefense - FHero.FUnitDefense);
-        DamA.Text = IntToStr(FEditedHero.FUnitDamage - FHero.FUnitDamage);
-        ResA.Text = IntToStr(FEditedHero.FUnitResistance - FHero.FUnitResistance);
-        HitA.Text = IntToStr(FEditedHero.FUnitHits - FHero.FUnitHits);
-        MovA.Text = IntToStr(FEditedHero.FUnitMoves - FHero.FUnitMoves);
-        var fEditedHeroInherentAttack = FEditedHero.GetInherentAttack();
+        AttA.Text = IntToStr(EditedHero.UnitAttack - Hero.UnitAttack);
+        DefA.Text = IntToStr(EditedHero.UnitDefense - Hero.UnitDefense);
+        DamA.Text = IntToStr(EditedHero.UnitDamage - Hero.UnitDamage);
+        ResA.Text = IntToStr(EditedHero.UnitResistance - Hero.UnitResistance);
+        HitA.Text = IntToStr(EditedHero.UnitHits - Hero.UnitHits);
+        MovA.Text = IntToStr(EditedHero.UnitMoves - Hero.UnitMoves);
+        var fEditedHeroInherentAttack = EditedHero.GetInherentAttack();
         AttValue.Text = IntToStr(fEditedHeroInherentAttack);
-        var fEditedHeroInherentDefense = FEditedHero.GetInherentDefense();
+        var fEditedHeroInherentDefense = EditedHero.GetInherentDefense();
         DefValue.Text = IntToStr(fEditedHeroInherentDefense);
-        var fEditedHeroInherentDamage = FEditedHero.GetInherentDamage();
+        var fEditedHeroInherentDamage = EditedHero.GetInherentDamage();
         DamValue.Text = IntToStr(fEditedHeroInherentDamage);
-        var fEditedHeroInherentResistance = FEditedHero.GetInherentResistance();
+        var fEditedHeroInherentResistance = EditedHero.GetInherentResistance();
         ResValue.Text = IntToStr(fEditedHeroInherentResistance);
-        var fEditedHeroHits = FEditedHero.GetHits();
+        var fEditedHeroHits = EditedHero.GetHits();
         HitValue.Text = IntToStr(fEditedHeroHits);
-        var fEditedHeroMoves = FEditedHero.GetMoves();
+        var fEditedHeroMoves = EditedHero.GetMoves();
         MovValue.Text = IntToStr(fEditedHeroMoves);
-        var skillPoints = FEditedHero.GetSkillPoints();
-        var fHeroSkillPoints = FHero.GetSkillPoints();
+        var skillPoints = EditedHero.GetSkillPoints();
+        var fHeroSkillPoints = Hero.GetSkillPoints();
         SkillPoints.Text = IntToStr(skillPoints) + "/" + IntToStr(fHeroSkillPoints);
     }
 
@@ -209,7 +209,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:242
     public void SortSelected()
     {
-        switch (FSelectedSort)
+        switch (SelectedSort)
         {
             case 0:
                 StringSorting.SortStringsAscending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
@@ -229,7 +229,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:232
     public void SortAvailable()
     {
-        switch (FAvailableSort)
+        switch (AvailableSort)
         {
             case 0:
                 StringSorting.SortStringsAscending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
@@ -249,43 +249,43 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:170
     public void RefreshAbilities()
     {
-        string Name;
-        string Cost;
-        Ability Ability;
+        string name;
+        string cost;
+        Ability ability;
         AvailableAbilities.Items.Clear();
         AvailableAbilitiesCost.Items.Clear();
-        for (int I = 1, last = AoWHSSet.Current.FAbilityControl.GetCount() - 1; I <= last; I++)
+        for (int I = 1, last = AoWHSSet.Current.AbilityControl.GetCount() - 1; I <= last; I++)
         {
-            Ability = AoWHSSet.Current.FAbilityControl.GetAbility(I);
-            if (Ability != null && Ability.CanExpand(FEditedHero) && Ability.FSelectionTypes.Contains(AbilitySelectionType.HeroUpgrade))
+            ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
+            if (ability != null && ability.CanExpand(EditedHero) && ability.SelectionTypes.Contains(AbilitySelectionType.HeroUpgrade))
             {
-                var expandName = Ability.ExpandName(FEditedHero);
+                var expandName = ability.ExpandName(EditedHero);
                 AvailableAbilities.Items.AddObject(expandName, IntToObject(I));
-                var expandCost = Ability.ExpandCost(FEditedHero);
+                var expandCost = ability.ExpandCost(EditedHero);
                 AvailableAbilitiesCost.Items.Add(IntToStr(expandCost));
             }
         }
 
         SelectedAbilities.Items.Clear();
         SelectedAbilitiesCost.Items.Clear();
-        for (int I = 1, last = FEditedHero.GetAbCount() - 1; I <= last; I++)
+        for (int I = 1, last = EditedHero.GetAbCount() - 1; I <= last; I++)
         {
-            if (FEditedHero.GetInherentAbility(I))
+            if (EditedHero.GetInherentAbility(I))
             {
-                Ability = AoWHSSet.Current.FAbilityControl.GetAbility(I);
-                Name = Ability.GetName(FEditedHero);
-                if (FHero.GetAbEnabled(I) && FHero.GetInherentAbilityLevel(I) == FEditedHero.GetInherentAbilityLevel(I))
+                ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
+                name = ability.GetName(EditedHero);
+                if (Hero.GetAbEnabled(I) && Hero.GetInherentAbilityLevel(I) == EditedHero.GetInherentAbilityLevel(I))
                 {
-                    Name = Name + " (" + AbilityRules.TranslateRStr(GameText.FixedRStr) + ")";
-                    Cost = "-";
+                    name = name + " (" + AbilityRules.TranslateResourceString(GameText.s_fixedText) + ")";
+                    cost = "-";
                 }
                 else
                 {
-                    Cost = IntToStr(Ability.GetSkillPoints(FEditedHero) - Ability.GetSkillPoints(FHero));
+                    cost = IntToStr(ability.GetSkillPoints(EditedHero) - ability.GetSkillPoints(Hero));
                 }
 
-                SelectedAbilitiesCost.Items.Add(Cost);
-                SelectedAbilities.Items.AddObject(Name, IntToObject(I));
+                SelectedAbilitiesCost.Items.Add(cost);
+                SelectedAbilities.Items.AddObject(name, IntToObject(I));
             }
         }
 
@@ -298,33 +298,33 @@ public partial class HeroUpgradeDialog : DataModule
     }
 
     // AoWHeroUpgradeDlg.pas:226
-    public void SetAvailableIndex(int Index)
+    public void SetAvailableIndex(int index)
     {
-        AvailableAbilities.Selected = Index;
-        AvailableAbilitiesCost.Selected = Index;
+        AvailableAbilities.Selected = index;
+        AvailableAbilitiesCost.Selected = index;
     }
 
     // AoWHeroUpgradeDlg.pas:220
-    public void SetSelectedIndex(int Index)
+    public void SetSelectedIndex(int index)
     {
-        SelectedAbilities.Selected = Index;
-        SelectedAbilitiesCost.Selected = Index;
+        SelectedAbilities.Selected = index;
+        SelectedAbilitiesCost.Selected = index;
     }
 
     // AoWHeroUpgradeDlg.pas:212
-    public bool CanAddAbility(int AbilityID)
+    public bool CanAddAbility(int abilityId)
     {
-        bool Result;
-        if (!AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).CanExpand(FEditedHero) || AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).ExpandCost(FEditedHero) > FEditedHero.GetSkillPoints())
+        bool result;
+        if (!AoWHSSet.Current.AbilityControl.GetAbility(abilityId).CanExpand(EditedHero) || AoWHSSet.Current.AbilityControl.GetAbility(abilityId).ExpandCost(EditedHero) > EditedHero.GetSkillPoints())
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHeroUpgradeDlg.pas:302
@@ -335,15 +335,15 @@ public partial class HeroUpgradeDialog : DataModule
     }
 
     // AoWHeroUpgradeDlg.pas:308
-    public void FaceFramePreDraw(UIComponent Sender, LockedSurface SurfDesc)
+    public void FaceFramePreDraw(UIComponent sender, LockedSurface lockedSurface)
     {
         Rect R;
         if (ValidateHero())
         {
-            var image = Sender;
+            var image = sender;
             R = new Rect(TopPnl.WinLeft + image.WinLeft + 2, TopPnl.WinTop + image.WinTop, TopPnl.WinLeft + image.WinLeft + image.WinWidth - 2, TopPnl.WinTop + image.WinTop + image.WinHeight - 2);
 
-            FHero.GetFace().ShowStretched(R, SurfDesc);
+            Hero.GetFace().ShowStretched(R, lockedSurface);
         }
     }
 
@@ -351,7 +351,7 @@ public partial class HeroUpgradeDialog : DataModule
     public void AttUpClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FEditedHero.SetUnitAttack((sbyte)(FEditedHero.FUnitAttack + 1));
+        EditedHero.SetUnitAttack((sbyte)(EditedHero.UnitAttack + 1));
         RefreshStatistics();
     }
 
@@ -359,9 +359,9 @@ public partial class HeroUpgradeDialog : DataModule
     public void AttDnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FEditedHero.FUnitAttack != FHero.FUnitAttack)
+        if (EditedHero.UnitAttack != Hero.UnitAttack)
         {
-            FEditedHero.SetUnitAttack((sbyte)(FEditedHero.FUnitAttack - 1));
+            EditedHero.SetUnitAttack((sbyte)(EditedHero.UnitAttack - 1));
         }
 
         RefreshStatistics();
@@ -371,7 +371,7 @@ public partial class HeroUpgradeDialog : DataModule
     public void DefUpClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FEditedHero.SetUnitDefense((sbyte)(FEditedHero.FUnitDefense + 1));
+        EditedHero.SetUnitDefense((sbyte)(EditedHero.UnitDefense + 1));
         RefreshStatistics();
     }
 
@@ -379,9 +379,9 @@ public partial class HeroUpgradeDialog : DataModule
     public void DefDnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FEditedHero.FUnitDefense != FHero.FUnitDefense)
+        if (EditedHero.UnitDefense != Hero.UnitDefense)
         {
-            FEditedHero.SetUnitDefense((sbyte)(FEditedHero.FUnitDefense - 1));
+            EditedHero.SetUnitDefense((sbyte)(EditedHero.UnitDefense - 1));
         }
 
         RefreshStatistics();
@@ -391,7 +391,7 @@ public partial class HeroUpgradeDialog : DataModule
     public void DamUpClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FEditedHero.SetUnitDamage((sbyte)(FEditedHero.FUnitDamage + 1));
+        EditedHero.SetUnitDamage((sbyte)(EditedHero.UnitDamage + 1));
         RefreshStatistics();
     }
 
@@ -399,9 +399,9 @@ public partial class HeroUpgradeDialog : DataModule
     public void DamDnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FEditedHero.FUnitDamage != FHero.FUnitDamage)
+        if (EditedHero.UnitDamage != Hero.UnitDamage)
         {
-            FEditedHero.SetUnitDamage((sbyte)(FEditedHero.FUnitDamage - 1));
+            EditedHero.SetUnitDamage((sbyte)(EditedHero.UnitDamage - 1));
         }
 
         RefreshStatistics();
@@ -411,7 +411,7 @@ public partial class HeroUpgradeDialog : DataModule
     public void ResUpClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FEditedHero.SetUnitResistance((sbyte)(FEditedHero.FUnitResistance + 1));
+        EditedHero.SetUnitResistance((sbyte)(EditedHero.UnitResistance + 1));
         RefreshStatistics();
     }
 
@@ -419,9 +419,9 @@ public partial class HeroUpgradeDialog : DataModule
     public void ResDnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FEditedHero.FUnitResistance != FHero.FUnitResistance)
+        if (EditedHero.UnitResistance != Hero.UnitResistance)
         {
-            FEditedHero.SetUnitResistance((sbyte)(FEditedHero.FUnitResistance - 1));
+            EditedHero.SetUnitResistance((sbyte)(EditedHero.UnitResistance - 1));
         }
 
         RefreshStatistics();
@@ -431,7 +431,7 @@ public partial class HeroUpgradeDialog : DataModule
     public void HitUpClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FEditedHero.SetUnitHits((sbyte)(FEditedHero.FUnitHits + 1));
+        EditedHero.SetUnitHits((sbyte)(EditedHero.UnitHits + 1));
         RefreshStatistics();
     }
 
@@ -439,9 +439,9 @@ public partial class HeroUpgradeDialog : DataModule
     public void HitDnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FEditedHero.FUnitHits != FHero.FUnitHits)
+        if (EditedHero.UnitHits != Hero.UnitHits)
         {
-            FEditedHero.SetUnitHits((sbyte)(FEditedHero.FUnitHits - 1));
+            EditedHero.SetUnitHits((sbyte)(EditedHero.UnitHits - 1));
         }
 
         RefreshStatistics();
@@ -451,7 +451,7 @@ public partial class HeroUpgradeDialog : DataModule
     public void MovUpClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FEditedHero.SetUnitMoves((sbyte)(FEditedHero.FUnitMoves + 1));
+        EditedHero.SetUnitMoves((sbyte)(EditedHero.UnitMoves + 1));
         RefreshStatistics();
     }
 
@@ -459,9 +459,9 @@ public partial class HeroUpgradeDialog : DataModule
     public void MovDnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FEditedHero.FUnitMoves != FHero.FUnitMoves)
+        if (EditedHero.UnitMoves != Hero.UnitMoves)
         {
-            FEditedHero.SetUnitMoves((sbyte)(FEditedHero.FUnitMoves - 1));
+            EditedHero.SetUnitMoves((sbyte)(EditedHero.UnitMoves - 1));
         }
 
         RefreshStatistics();
@@ -508,18 +508,18 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:445
     public void AddAbilityBtnClick()
     {
-        ListBox List;
-        int Index;
-        int AbilityID;
+        ListBox list;
+        int index;
+        int abilityId;
         DialogHosts.General.PlayButtonSound(0);
-        List = AvailableAbilities;
-        Index = List.Selected;
-        if (Index != -1)
+        list = AvailableAbilities;
+        index = list.Selected;
+        if (index != -1)
         {
-            AbilityID = ObjectToInt(List.Items.Objects[Index]);
-            if (CanAddAbility(AbilityID))
+            abilityId = ObjectToInt(list.Items.Objects[index]);
+            if (CanAddAbility(abilityId))
             {
-                FEditedHero.ExpandAbility(AbilityID);
+                EditedHero.ExpandAbility(abilityId);
                 RefreshAbilities();
                 RefreshStatistics();
             }
@@ -529,24 +529,24 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:465
     public void RemoveBtnClick()
     {
-        ListBox List;
-        int Index;
-        int AbilityID;
+        ListBox list;
+        int index;
+        int abilityId;
         DialogHosts.General.PlayButtonSound(0);
-        List = SelectedAbilities;
-        Index = List.Selected;
-        if (Index != -1)
+        list = SelectedAbilities;
+        index = list.Selected;
+        if (index != -1)
         {
-            AbilityID = ObjectToInt(List.Items.Objects[Index]);
-            if (FHero.GetInherentAbility(AbilityID))
+            abilityId = ObjectToInt(list.Items.Objects[index]);
+            if (Hero.GetInherentAbility(abilityId))
             {
-                if (FHero.GetInherentAbilityLevel(AbilityID) == FEditedHero.GetInherentAbilityLevel(AbilityID))
+                if (Hero.GetInherentAbilityLevel(abilityId) == EditedHero.GetInherentAbilityLevel(abilityId))
                 {
                     return;
                 }
             }
 
-            FEditedHero.RemoveAbility(AbilityID);
+            EditedHero.RemoveAbility(abilityId);
             RefreshAbilities();
             RefreshStatistics();
         }
@@ -556,13 +556,13 @@ public partial class HeroUpgradeDialog : DataModule
     public void SelectedAbilitiesSortClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FSelectedSort == 0)
+        if (SelectedSort == 0)
         {
-            FSelectedSort = 1;
+            SelectedSort = 1;
         }
         else
         {
-            FSelectedSort = 0;
+            SelectedSort = 0;
         }
 
         SortSelected();
@@ -572,13 +572,13 @@ public partial class HeroUpgradeDialog : DataModule
     public void SelectedAbilitiesCostSortClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FSelectedSort == 2)
+        if (SelectedSort == 2)
         {
-            FSelectedSort = 3;
+            SelectedSort = 3;
         }
         else
         {
-            FSelectedSort = 2;
+            SelectedSort = 2;
         }
 
         SortSelected();
@@ -588,13 +588,13 @@ public partial class HeroUpgradeDialog : DataModule
     public void AvailableAbilitiesSortClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FAvailableSort == 0)
+        if (AvailableSort == 0)
         {
-            FAvailableSort = 1;
+            AvailableSort = 1;
         }
         else
         {
-            FAvailableSort = 0;
+            AvailableSort = 0;
         }
 
         SortAvailable();
@@ -604,13 +604,13 @@ public partial class HeroUpgradeDialog : DataModule
     public void AvailableAbilityCostSortClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FAvailableSort == 2)
+        if (AvailableSort == 2)
         {
-            FAvailableSort = 3;
+            AvailableSort = 3;
         }
         else
         {
-            FAvailableSort = 2;
+            AvailableSort = 2;
         }
 
         SortAvailable();
@@ -619,22 +619,22 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:517
     public void DoneClick()
     {
-        HeroUpgradeTokenEvent Event;
+        HeroUpgradeTokenEvent eventValue;
         if (ValidateHero())
         {
-            if (!AoWHSMap.Current.FPlayers.GetPlayers(FHero.FPlayer).GetBusy())
+            if (!AoWHSMap.Current.Players.GetPlayers(Hero.Player).GetBusy())
             {
-                Event = new HeroUpgradeTokenEvent(null);
-                Event.Setup(FHero);
-                Event.FAttack = (sbyte)(FEditedHero.FUnitAttack - FHero.FUnitAttack);
-                Event.FDefense = (sbyte)(FEditedHero.FUnitDefense - FHero.FUnitDefense);
-                Event.FDamage = (sbyte)(FEditedHero.FUnitDamage - FHero.FUnitDamage);
-                Event.FResistance = (sbyte)(FEditedHero.FUnitResistance - FHero.FUnitResistance);
-                Event.FHits = (sbyte)(FEditedHero.FUnitHits - FHero.FUnitHits);
-                Event.FMoves = (sbyte)(FEditedHero.FUnitMoves - FHero.FUnitMoves);
-                Event.FAbilities.AssignAb(FEditedHero);
-                AoWHSMap.Current.FTokenManager.GetTokenControl(FHero.FPlayer).AddEvent(Event);
-                Event.Release();
+                eventValue = new HeroUpgradeTokenEvent(null);
+                eventValue.Setup(Hero);
+                eventValue.Attack = (sbyte)(EditedHero.UnitAttack - Hero.UnitAttack);
+                eventValue.Defense = (sbyte)(EditedHero.UnitDefense - Hero.UnitDefense);
+                eventValue.Damage = (sbyte)(EditedHero.UnitDamage - Hero.UnitDamage);
+                eventValue.Resistance = (sbyte)(EditedHero.UnitResistance - Hero.UnitResistance);
+                eventValue.Hits = (sbyte)(EditedHero.UnitHits - Hero.UnitHits);
+                eventValue.Moves = (sbyte)(EditedHero.UnitMoves - Hero.UnitMoves);
+                eventValue.Abilities.AssignAbility(EditedHero);
+                AoWHSMap.Current.TokenManager.GetTokenControl(Hero.Player).AddEvent(eventValue);
+                eventValue.Release();
                 Dlg.Visible = false;
             }
         }
@@ -647,72 +647,72 @@ public partial class HeroUpgradeDialog : DataModule
     }
 
     // AoWHeroUpgradeDlg.pas:544
-    public void AvailableAbilitiesMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void AvailableAbilitiesMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        Ability Ability;
-        if (Button == MouseButton.Right && AvailableAbilities.Selected != -1)
+        Ability ability;
+        if (button == MouseButton.Right && AvailableAbilities.Selected != -1)
         {
             var objectValue = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
-            Ability = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
-            if (Ability != null)
+            ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            if (ability != null)
             {
-                var name = Ability.GetName(null);
-                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, Ability.FDescription);
+                var name = ability.GetName(null);
+                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, ability.Description);
             }
         }
     }
 
     // AoWHeroUpgradeDlg.pas:556
-    public void SelectedAbilitiesMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void SelectedAbilitiesMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        Ability Ability;
-        if (Button == MouseButton.Right && SelectedAbilities.Selected != -1)
+        Ability ability;
+        if (button == MouseButton.Right && SelectedAbilities.Selected != -1)
         {
             var objectValue = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
-            Ability = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
-            if (Ability != null)
+            ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            if (ability != null)
             {
-                var name = Ability.GetName(null);
-                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, Ability.FDescription);
+                var name = ability.GetName(null);
+                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, ability.Description);
             }
         }
     }
 
     // AoWHeroUpgradeDlg.pas:568
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             Dlg.Visible = false;
         }
     }
 
-    internal static void ShowHeroUpgrade(HeroUpgradeDialog Dialog, HeroUpgradeEventLog Event, ExecuteDoneEvent Completed)
+    internal static void ShowHeroUpgrade(HeroUpgradeDialog dialog, HeroUpgradeEventLog eventValue, ExecuteDoneEvent completed)
     {
-        Dialog.FReferencedHero = Event;
-        Dialog.FReferencedHero.AddRef();
-        Dialog.FOnClose = Completed;
-        if (Dialog.ValidateHero())
+        dialog.ReferencedHero = eventValue;
+        dialog.ReferencedHero.AddRef();
+        dialog.OnClose = completed;
+        if (dialog.ValidateHero())
         {
-            Dialog.FEditedHero = (Hero)Dialog.FHero.Copy(GameTables.AoWEngine);
-            Dialog.UpdateStatistics();
-            Dialog.RefreshAbilities();
-            Dialog.UnitName.Text = Dialog.FHero.FHeroName;
-            var level = Dialog.FHero.GetLevel();
-            var levelText = AbilityRules.TranslateRStr(GameText.LevelRStr);
-            Dialog.LevelLbl.Text = levelText + " " + IntToStr(level);
-            if (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel > 1)
+            dialog.EditedHero = (Hero)dialog.Hero.Copy(GameTables.GameEngine);
+            dialog.UpdateStatistics();
+            dialog.RefreshAbilities();
+            dialog.UnitName.Text = dialog.Hero.HeroName;
+            var level = dialog.Hero.GetLevel();
+            var levelText = AbilityRules.TranslateResourceString(GameText.s_levelText);
+            dialog.LevelLbl.Text = levelText + " " + IntToStr(level);
+            if (dialog.ReferencedHero.NewLevel - dialog.ReferencedHero.OldLevel > 1)
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(ScenarioText.XMadeYLevelsRStr), [Dialog.FHero.FHeroName, (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel)]);
-                Dialog.HeaderLbl.Text = format + "!";
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(ScenarioText.s_madeLevelsFormat), [dialog.Hero.HeroName, (dialog.ReferencedHero.NewLevel - dialog.ReferencedHero.OldLevel)]);
+                dialog.HeaderLbl.Text = format + "!";
             }
             else
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(ScenarioText.XMadeALevelRStr), [Dialog.FHero.FHeroName]);
-                Dialog.HeaderLbl.Text = format + "!";
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(ScenarioText.s_madeLevelFormat), [dialog.Hero.HeroName]);
+                dialog.HeaderLbl.Text = format + "!";
             }
 
-            Dialog.Dlg.Visible = true;
+            dialog.Dlg.Visible = true;
         }
     }
 

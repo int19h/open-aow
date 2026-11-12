@@ -5,46 +5,46 @@ namespace Aow.Game.Draw;
 // FTables, Lookup (101 tables, indexed by percentage)
 public partial class LookupBlendTableCollection100 : IDisposable
 {
-    internal BlendTableList FTables;
+    internal BlendTableList _tables;
     // { ImageLib's blitters read Lookup directly; adding lines here moves the Asserts below }
     public BlendTableArray101 Lookup;
 
     // GFXE.pas:9687
-    public BlendTable GetLookupTables(int Index) => Lookup[Index];
+    public BlendTable GetLookupTables(int index) => Lookup[index];
 
     // GFXE.pas:9674
     public LookupBlendTableCollection100()
     {
-        FTables = new BlendTableList();
+        _tables = new BlendTableList();
     }
 
     // GFXE.pas:9680
     public virtual void Dispose()
     {
         Clear();
-        FTables?.Dispose();
+        _tables?.Dispose();
     }
 
     // GFXE.pas:9692
     public void Clear()
     {
-        FTables.Clear();
+        _tables.Clear();
         Lookup = default;
     }
 
     // GFXE.pas:9698
-    public bool GenerateLookupTables(int Bits, GenerateBlendTableProc Proc, int Count)
+    public bool GenerateLookupTables(int bits, GenerateBlendTableProc proc, int count)
     {
-        bool Result;
+        bool result;
         BlendTable T;
         float V;
         int J;
         Clear();
-        if (Bits == 5 && Count > 0)
+        if (bits == 5 && count > 0)
         {
-            for (int I = 0; I <= Count - 1; I++)
+            for (int I = 0; I <= count - 1; I++)
             {
-                switch (Bits)
+                switch (bits)
                 {
                     case 5:
                         T = new BlendTable5Bit();
@@ -54,46 +54,46 @@ public partial class LookupBlendTableCollection100 : IDisposable
                         break;
                 }
 
-                if (Count != 1)
+                if (count != 1)
                 {
-                    V = (float)((double)I / (Count - 1));
+                    V = (float)((double)I / (count - 1));
                 }
                 else
                 {
                     V = (float)0.5;
                 }
 
-                Proc(T, V);
-                FTables.Add(T);
+                proc(T, V);
+                _tables.Add(T);
             }
 
             for (int I = 0; I <= 100; I++)
             {
-                J = I * Count / 100;
-                if (J == Count)
+                J = I * count / 100;
+                if (J == count)
                 {
-                    J = Count - 1;
+                    J = count - 1;
                 }
 
-                var blendTable = FTables.Tables[J];
+                var blendTable = _tables.Tables[J];
                 Lookup[I] = blendTable;
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    public BlendTableList Tables { get => FTables; }
+    public BlendTableList Tables { get => _tables; }
 
     public sealed class LookupTablesAccessor(LookupBlendTableCollection100 target)
     {
-        public BlendTable this[int Index] { get => target.GetLookupTables(Index); }
+        public BlendTable this[int index] { get => target.GetLookupTables(index); }
     }
 
     public LookupTablesAccessor LookupTables => new LookupTablesAccessor(this);

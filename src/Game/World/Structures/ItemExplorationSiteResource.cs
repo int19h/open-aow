@@ -9,6 +9,6 @@ public partial class ItemExplorationSiteResource : ExplorationSiteResource
     { }
 
     // ItemExpS.pas:212
-    public new const int ClassID = 132084;
+    public new const int ClassId = 132084;
 
 }

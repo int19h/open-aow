@@ -11,21 +11,21 @@ public partial class CombatImageLibraryTerrainResource : ImageLibraryTerrainMapO
     { }
 
     // CombatILTer.pas:175
-    public new const int ClassID = 2228535;
+    public new const int ClassId = 2228535;
 
-    public sbyte FBurnValue;
-    public sbyte FDefense;
+    public sbyte BurnValue;
+    public sbyte Defense;
 
     // CombatILTer.pas:181
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDefense), 20);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FBurnValue), 21);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Defense), 20);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref BurnValue), 21);
     }
 
     // CombatILTer.pas:188
-    public override int ResourceUserClassID() => 2228534;
+    public override int ResourceUserClassId() => 2228534;
 
     // CombatILTer.pas:178
     public override string ResourceEditName() => "Combat ILTerrain";

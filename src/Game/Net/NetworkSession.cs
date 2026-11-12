@@ -5,8 +5,8 @@ internal static class NetworkSession
 {
     internal const int AllPlayers = 32768;
 
-    internal const short CID_PassTokenTE = 1364;
+    internal const short ClassIdPassTokenTokenEvent = 1364;
 
-    internal static int NetworkEngineDID;
+    internal static int s_networkEngineDebugChannel;
 
 }

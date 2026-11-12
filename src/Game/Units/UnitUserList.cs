@@ -17,18 +17,18 @@ public partial class UnitUserList : UnitList
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((EngineObject)FChildren.List[I]).Release();
+            ((EngineObject)_children.List[I]).Release();
         }
 
-        FChildren.Clear();
+        _children.Clear();
     }
 
     // Unit.PAS:2386
-    public override bool AddUnit(Troop AUnit)
+    public override bool AddUnit(Troop troop)
     {
-        if (CanAddUnit(AUnit))
+        if (CanAddUnit(troop))
         {
-            AddChild(AUnit);
+            AddChild(troop);
             return true;
         }
 
@@ -36,11 +36,11 @@ public partial class UnitUserList : UnitList
     }
 
     // Unit.PAS:2396
-    public override bool DeleteUnit(Troop AUnit)
+    public override bool DeleteUnit(Troop troop)
     {
-        if (CanDeleteUnit(AUnit))
+        if (CanDeleteUnit(troop))
         {
-            RemoveChild(AUnit);
+            RemoveChild(troop);
             return true;
         }
 
@@ -48,13 +48,13 @@ public partial class UnitUserList : UnitList
     }
 
     // Unit.PAS:2406
-    public void AddUnitsEx(UnitList Units, byte Selection)
+    public void AddUnits(UnitList units, byte selection)
     {
-        for (int I = 0, last = Units.Count - 1; I <= last; I++)
+        for (int I = 0, last = units.Count - 1; I <= last; I++)
         {
-            if (((1 << I) & Selection) != 0)
+            if (((1 << I) & selection) != 0)
             {
-                AddUnit(Units.GetUnit(I));
+                AddUnit(units.GetUnit(I));
             }
         }
     }

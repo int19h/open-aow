@@ -20,34 +20,34 @@ namespace Aow.Game.Draw;
 public partial class ItemHexSprite : SingleHexSprite
 {
 
-    public new const int ClassID = 131697;
+    public new const int ClassId = 131697;
 
-    public ItemHSList FItems;
-    public GenerateMode FGenerateMode;
+    public ItemHSList Items;
+    public ItemHexSpriteGenerateMode GenerateMode;
 
     // Army.PAS:5221
     public override void Dispose()
     {
         base.Dispose();
-        FItems?.Dispose();
-        FItems = null;
+        Items?.Dispose();
+        Items = null;
     }
 
     // Army.PAS:5278
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        FItems.BeginUpdate();
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FItems, 4);
-        Stream.rwData(Bytes.Of(ref FGenerateMode, 1), 1, 5);
-        FItems.EndUpdate();
+        Items.BeginUpdate();
+        base.ReadWrite(stream);
+        stream.rwEObject(Items, 4);
+        stream.rwData(Bytes.Of(ref GenerateMode, 1), 1, 5);
+        Items.EndUpdate();
     }
 
     // Army.PAS:5321
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001985 && AoWHSMap.Current.FDay == 1)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001985 && AoWHSMap.Current.Day == 1)
         {
             GenerateItems();
         }
@@ -59,32 +59,32 @@ public partial class ItemHexSprite : SingleHexSprite
     // Army.PAS:5240
     public override int GetShowPriority()
     {
-        int Xhp = default;
-        int Yhp = default;
-        HexSprite HS;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-        int Result = 1744830464 + ((Yhp + 33) << 13) + (Xhp + 16);
-        HS = ((MapField)Owner).GetMaxLevelNoneTransparentHS();
-        if (HS != this && HS != null)
+        int pixelX = default;
+        int pixelY = default;
+        HexSprite hexSprite;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        int result = 1744830464 + ((pixelY + 33) << 13) + (pixelX + 16);
+        hexSprite = ((MapField)Owner).GetMaxLevelNoneTransparentHexSprite();
+        if (hexSprite != this && hexSprite != null)
         {
-            if (Result <= HS.GetShowPriority())
+            if (result <= hexSprite.GetShowPriority())
             {
-                Result = HS.GetShowPriority() + 1;
+                result = hexSprite.GetShowPriority() + 1;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:5287
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
+        int pixelX = default;
+        int pixelY = default;
         if (!GetSelected() || (AoWHSMap.Current.Frame & 6) != 6)
         {
-            HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-            AoWHSSet.Current.FGeneralImages[0].Show(Xhp - XhpSurf, Yhp - YhpSurf, SurfaceDesc);
+            HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+            AoWHSSet.Current.GeneralImages[0].Show(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface);
         }
     }
 
@@ -92,7 +92,7 @@ public partial class ItemHexSprite : SingleHexSprite
     public override void Activate()
     {
         base.Activate();
-        FItems.RegisterItems();
+        Items.RegisterItems();
     }
 
     // Army.PAS:5273
@@ -102,31 +102,31 @@ public partial class ItemHexSprite : SingleHexSprite
     }
 
     // Army.PAS:5260
-    public override bool CanSelect(int Xhp, int Yhp)
+    public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool Result;
-        if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FFieldFlags).Hi).Lo == 0 && AoWHSMap.Current.FFogEnabled)
+        bool result;
+        if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FieldFlags).Hi).Lo == 0 && AoWHSMap.Current.FogEnabled)
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:5255
-    public override string EditName() => AbilityRules.TranslateRStr(ItemBagRStr);
+    public override string EditName() => AbilityRules.TranslateResourceString(s_itemBagText);
 
     // Army.PAS:5297
-    public override bool CanPlace(MapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx) => base.CanPlace(Map, Xhx, Yhx, Lhx);
+    public override bool CanPlace(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel) => base.CanPlace(map, hexX, hexY, hexLevel);
 
     // Army.PAS:5228
-    public void ItemsChanged(object Sender)
+    public void ItemsChanged(object sender)
     {
-        if (FItems.Count == 0 && (FGenerateMode == GenerateMode.UserDefined || AoWHSMap.Current.FDay > 0))
+        if (Items.Count == 0 && (GenerateMode == ItemHexSpriteGenerateMode.UserDefined || AoWHSMap.Current.Day > 0))
         {
             Dispose();
         }
@@ -140,41 +140,41 @@ public partial class ItemHexSprite : SingleHexSprite
     public void GenerateItems()
     {
         byte I = default;
-        Item Item = default;
-        if (FGenerateMode != GenerateMode.UserDefined)
+        Item item = default;
+        if (GenerateMode != ItemHexSpriteGenerateMode.UserDefined)
         {
             RandSeed = AoWHSMap.Current.Random(16777215);
-            FItems.FOnChanged = null;
-            if (FGenerateMode == GenerateMode.Random)
+            Items.OnChanged = null;
+            if (GenerateMode == ItemHexSpriteGenerateMode.Random)
             {
-                FGenerateMode = (GenerateMode)(AoWHSMap.Current.Random(3) + 1);
+                GenerateMode = (ItemHexSpriteGenerateMode)(AoWHSMap.Current.Random(3) + 1);
             }
 
-            FItems.Clear();
-            for (int iOrdinal = 1, last = (int)FGenerateMode; iOrdinal <= last; iOrdinal++)
+            Items.Clear();
+            for (int iOrdinal = 1, last = (int)GenerateMode; iOrdinal <= last; iOrdinal++)
             {
                 I = (byte)iOrdinal;
-                Item = AoWHSMap.Current.FItemControl.GenerateItem(Set<ItemType>.Of(ItemType.Head, ItemType.Torso, ItemType.Attack, ItemType.Defense, ItemType.Ring, ItemType.Use), 0, 65535);
-                if (Item != null)
+                item = AoWHSMap.Current.ItemControl.GenerateItem(Set<ItemType>.Of(ItemType.Head, ItemType.Torso, ItemType.Attack, ItemType.Defense, ItemType.Ring, ItemType.Use), 0, 65535);
+                if (item != null)
                 {
-                    Item.SetOwner(FItems);
+                    item.SetOwner(Items);
                 }
             }
 
-            FItems.FOnChanged = ItemsChanged;
-            ItemsChanged(FItems);
+            Items.OnChanged = ItemsChanged;
+            ItemsChanged(Items);
         }
     }
 
-    private static readonly string ItemBagRStr = "Item Bag";
-
-    public enum GenerateMode : byte
-    {
-        UserDefined = 0, Low = 1, Average = 2, High = 3, Random = 4
-    }
+    private static readonly string s_itemBagText = "Item Bag";
 
     // intf_P2_04.inc:216
 
     // intf_P2_04.inc:216
 
+}
+
+public enum ItemHexSpriteGenerateMode : byte
+{
+    UserDefined = 0, Low = 1, Average = 2, High = 3, Random = 4
 }

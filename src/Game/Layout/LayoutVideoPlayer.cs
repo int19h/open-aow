@@ -10,7 +10,7 @@ public class LayoutVideoPlayer : VideoPlayer
     {
     }
 
-    public VideoPlayerLoopMode Loopmode { get; set; }
+    public VideoPlayerLoopMode LoopMode { get; set; }
     public StreamSoundEvent OnStreamSound { get; set; }
     public Set<VideoPlayerOptionsElement> Options { get; set; }
 

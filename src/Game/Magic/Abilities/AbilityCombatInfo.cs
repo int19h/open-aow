@@ -11,18 +11,18 @@ namespace Aow.Game.Magic.Abilities;
 public struct AbilityCombatInfo
 {
     [FieldOffset(0)]
-    public byte TargetTypes__image;
+    public byte TargetTypesImage;
 
-    public Set<CombatTargetTypeElement> TargetTypes { get => Set<CombatTargetTypeElement>.FromMask(TargetTypes__image); set => TargetTypes__image = (byte)value.Image; }
+    public Set<CombatTargetTypeElement> TargetTypes { get => Set<CombatTargetTypeElement>.FromMask(TargetTypesImage); set => TargetTypesImage = (byte)value.Image; }
 
     [FieldOffset(1)]
     public sbyte Attack;
     [FieldOffset(2)]
     public sbyte Damage;
     [FieldOffset(3)]
-    public ushort DamageTypes__image;
+    public ushort DamageTypesImage;
 
-    public Set<DamageType> DamageTypes { get => Set<DamageType>.FromMask(DamageTypes__image); set => DamageTypes__image = (ushort)value.Image; }
+    public Set<DamageType> DamageTypes { get => Set<DamageType>.FromMask(DamageTypesImage); set => DamageTypesImage = (ushort)value.Image; }
 
     [FieldOffset(5)]
     public sbyte RepeatCount;

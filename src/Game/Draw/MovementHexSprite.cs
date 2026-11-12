@@ -11,25 +11,25 @@ public partial class MovementHexSprite : SingleHexSprite
     { }
 
     // FleeLoc.pas:172
-    public new const int ClassID = 2228490;
+    public new const int ClassId = 2228490;
 
-    public bool FEnabled;
+    public bool Enabled;
 
     // FleeLoc.pas:175
     public override int GetShowPriority() => 32;
 
     // FleeLoc.pas:187
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
     }
 
     // FleeLoc.pas:178
-    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)
     {
-        if (Info.HN == 0 && !FEnabled)
+        if (info.HexNumber == 0 && !Enabled)
         {
-            MoveResult.Code = -1;
-            MoveResult.Done = true;
+            moveResult.Code = -1;
+            moveResult.Done = true;
         }
     }
 

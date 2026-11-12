@@ -5,23 +5,23 @@ namespace Aow.Formats.Tests;
 /// <summary>aowconv output rules and exit codes (own-formats.md 3.2).</summary>
 public sealed class CliTests : FormatsTest, IDisposable
 {
-    private readonly string directory = Path.Combine(Path.GetTempPath(), "aowconv-tests-" + Guid.NewGuid().ToString("N"));
+    private readonly string _directory = Path.Combine(Path.GetTempPath(), "aowconv-tests-" + Guid.NewGuid().ToString("N"));
 
-    public CliTests() => Directory.CreateDirectory(directory);
+    public CliTests() => Directory.CreateDirectory(_directory);
 
-    public void Dispose() => Directory.Delete(directory, true);
+    public void Dispose() => Directory.Delete(_directory, true);
 
     private static string HeroList => Path.Combine(Checker.GameRoot, "Release", "High Level.ahl");
 
-    private (int Code, string Output, string Errors) Run(params string[] args)
+    private (int Code, string Output, string Errors) Run(params string[] arguments)
     {
         var output = new StringWriter();
         var errors = new StringWriter();
-        int code = Program.Run(args, output, errors);
+        int code = Program.Run(arguments, output, errors);
         return (code, output.ToString(), errors.ToString());
     }
 
-    private string In(string name) => Path.Combine(directory, name);
+    private string In(string name) => Path.Combine(_directory, name);
 
     [GameFact]
     public void ToOwnThenToOriginalReproducesTheFile()
@@ -62,7 +62,7 @@ public sealed class CliTests : FormatsTest, IDisposable
         Assert.Equal(Program.Error, result.Code);
         Assert.Contains("E_UNKNOWN_PROPERTY", result.Errors);
         Assert.False(File.Exists(In("out.ahl")));
-        Assert.Single(Directory.GetFiles(directory));
+        Assert.Single(Directory.GetFiles(_directory));
     }
 
     [GameFact]

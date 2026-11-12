@@ -18,42 +18,42 @@ public partial class EReferenceNode : ENode
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((EngineObject)FChildren.List[I]).Release();
+            ((EngineObject)_children.List[I]).Release();
         }
 
-        FChildren.Clear();
+        _children.Clear();
     }
 
     // Engine.pas:8157
-    public override void ReadWriteChildren(EStorageStream Stream)
+    public override void ReadWriteChildren(EStorageStream stream)
     {
-        if (Stream.StorageMode().Contains(StorageModeElement.Write))
+        if (stream.StorageMode().Contains(StorageModeElement.Write))
         {
-            for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+            for (int I = 0, last = _children.Count - 1; I <= last; I++)
             {
-                if (((EngineObject)FChildren.List[I]).FOwner == null)
+                if (((EngineObject)_children.List[I])._owner == null)
                 {
-                    ((EngineObject)FChildren.List[I]).FOwner = this;
+                    ((EngineObject)_children.List[I])._owner = this;
                 }
             }
 
-            base.ReadWriteChildren(Stream);
-            for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+            base.ReadWriteChildren(stream);
+            for (int I = 0, last = _children.Count - 1; I <= last; I++)
             {
-                if (((EngineObject)FChildren.List[I]).FOwner == this)
+                if (((EngineObject)_children.List[I])._owner == this)
                 {
-                    ((EngineObject)FChildren.List[I]).FOwner = null;
+                    ((EngineObject)_children.List[I])._owner = null;
                 }
             }
         }
         else
         {
-            base.ReadWriteChildren(Stream);
-            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+            base.ReadWriteChildren(stream);
+            if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
-                for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+                for (int I = 0, last = _children.Count - 1; I <= last; I++)
                 {
-                    ((EngineObject)FChildren.List[I]).Release();
+                    ((EngineObject)_children.List[I]).Release();
                 }
             }
         }
@@ -66,32 +66,32 @@ public partial class EReferenceNode : ENode
     }
 
     // Engine.pas:8177
-    public override int RemoveChild(EngineObject Child)
+    public override int RemoveChild(EngineObject child)
     {
-        int Result = FChildren.Remove(Child);
-        if (Result != -1)
+        int result = _children.Remove(child);
+        if (result != -1)
         {
-            Child.Release();
+            child.Release();
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:8183
-    public override int AddChild(EngineObject Child)
+    public override int AddChild(EngineObject child)
     {
-        if (Child.FOwner == this)
+        if (child._owner == this)
         {
-            Child.FOwner = null;
+            child._owner = null;
         }
 
-        FChildren.Add(Child);
-        if (Child.AddRef() == -1)
+        _children.Add(child);
+        if (child.AddRef() == -1)
         {
             throw new NotSupportedException("EObject doesn't support ReferenceCounting");
         }
 
-        return FChildren.Count - 1;
+        return _children.Count - 1;
     }
 
     // Engine.pas:631

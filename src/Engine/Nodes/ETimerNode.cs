@@ -10,45 +10,45 @@ namespace Aow.Engine.Nodes;
 public partial class ETimerNode : ECustomNode
 {
     // Engine.pas:1836
-    public new const int ClassID = 264;
+    public new const int ClassId = 264;
 
-    internal int FTick;
-    internal int FCount;
-    internal ListArray10 FTimerLists;
+    internal int _tick;
+    internal int _count;
+    internal ListArray10 _timerLists;
 
     // Engine.pas:1856
-    internal int FindTimerList(EngineObject Child)
+    internal int FindTimerList(EngineObject child)
     {
         int I;
-        int Result = -1;
+        int result = -1;
         I = 0;
-        while (Result == -1 && I < 10)
+        while (result == -1 && I < 10)
         {
             I += 1;
             // { the original indexes the lists with Result (-1 on the first round), not with I }
-            Result = FTimerLists[Result - 1].IndexOf(Child);
+            result = _timerLists[result - 1].IndexOf(child);
         }
 
-        if (Result != -1)
+        if (result != -1)
         {
-            Result = I;
+            result = I;
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:1819
     public ETimerNode(ECustomNode owner) : base(owner)
     {
-        FCount = 0;
+        _count = 0;
         for (int I = 1; I <= 10; I++)
         {
             var list = new DelphiList();
-            FTimerLists[I - 1] = list;
+            _timerLists[I - 1] = list;
         }
     }
 
@@ -58,161 +58,161 @@ public partial class ETimerNode : ECustomNode
         base.Dispose();
         for (int I = 1; I <= 10; I++)
         {
-            FTimerLists[I - 1]?.Dispose();
+            _timerLists[I - 1]?.Dispose();
         }
     }
 
     // Engine.pas:1841
-    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared, EngineServices.csReserved2);
+    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared, EngineServices.Reserved2);
 
     // Engine.pas:1846
-    public override int GetCount() => FCount;
+    public override int GetCount() => _count;
 
     // Engine.pas:1851
-    public DelphiList GetTimerList(sbyte Timer) => FTimerLists[Timer - 1];
+    public DelphiList GetTimerList(sbyte timer) => _timerLists[timer - 1];
 
     // Engine.pas:1871
-    public override int RemoveChild(EngineObject Child)
+    public override int RemoveChild(EngineObject child)
     {
-        int Result;
+        int result;
         int L;
-        L = FindTimerList(Child);
+        L = FindTimerList(child);
         if (L != -1)
         {
-            Result = FTimerLists[L - 1].Remove(Child);
-            if (Result != -1)
+            result = _timerLists[L - 1].Remove(child);
+            if (result != -1)
             {
-                FCount -= 1;
+                _count -= 1;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:1885
-    public override int AddChild(EngineObject Child)
+    public override int AddChild(EngineObject child)
     {
-        int Result = FTimerLists[1 - 1].Add(Child);
-        FCount += 1;
-        return Result;
+        int result = _timerLists[1 - 1].Add(child);
+        _count += 1;
+        return result;
     }
 
     // Engine.pas:1891
-    public override EngineObject GetChild(int Index)
+    public override EngineObject GetChild(int index)
     {
         int I;
-        int Total;
+        int total;
         DelphiList L;
         I = 1;
-        L = FTimerLists[1 - 1];
-        Total = L.Count;
-        while (Index >= Total && I < 10)
+        L = _timerLists[1 - 1];
+        total = L.Count;
+        while (index >= total && I < 10)
         {
             I += 1;
-            L = FTimerLists[I - 1];
-            Total += L.Count;
+            L = _timerLists[I - 1];
+            total += L.Count;
         }
 
-        L = FTimerLists[I - 1];
-        Total -= L.Count;
-        return (EngineObject)L.List[Index - Total];
+        L = _timerLists[I - 1];
+        total -= L.Count;
+        return (EngineObject)L.List[index - total];
     }
 
     // Engine.pas:1910
-    public override void SetChild(int Index, EngineObject Child)
+    public override void SetChild(int index, EngineObject child)
     {
         throw new NotSupportedException("Set Child not supported (TETimerNode)");
     }
 
     // Engine.pas:1915
-    public int AddTimerChild(EngineObject Child, sbyte Timer)
+    public int AddTimerChild(EngineObject child, sbyte timer)
     {
-        int Result = FTimerLists[Timer - 1].Add(Child);
-        FCount += 1;
-        return Result;
+        int result = _timerLists[timer - 1].Add(child);
+        _count += 1;
+        return result;
     }
 
     // Engine.pas:1921
-    public int RemoveTimerChild(EngineObject Child, sbyte Timer)
+    public int RemoveTimerChild(EngineObject child, sbyte timer)
     {
-        int Result = FTimerLists[Timer - 1].Remove(Child);
-        if (Result != -1)
+        int result = _timerLists[timer - 1].Remove(child);
+        if (result != -1)
         {
-            FCount -= 1;
+            _count -= 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:1927
-    public void TriggerTimerListEvent(int Timer)
+    public void TriggerTimerListEvent(int timer)
     {
-        for (int I = 0, last = FTimerLists[Timer - 1].Count - 1; I <= last; I++)
+        for (int I = 0, last = _timerLists[timer - 1].Count - 1; I <= last; I++)
         {
-            ((EngineObject)FTimerLists[Timer - 1].List[I]).TimerEvent(FTick, this);
+            ((EngineObject)_timerLists[timer - 1].List[I]).TimerEvent(_tick, this);
         }
     }
 
     // Engine.pas:1935
     public void TriggerTimerEvent()
     {
-        if (FTick > 268435455)
+        if (_tick > 268435455)
         {
-            FTick = FTick & 15;
+            _tick = _tick & 15;
         }
 
-        FTick += 1;
+        _tick += 1;
         TriggerTimerListEvent(1);
-        if ((FTick & 1) == 0)
+        if ((_tick & 1) == 0)
         {
             TriggerTimerListEvent(2);
         }
 
-        if (FTick % 3 == 0)
+        if (_tick % 3 == 0)
         {
             TriggerTimerListEvent(3);
         }
 
-        if ((FTick & 3) == 2)
+        if ((_tick & 3) == 2)
         {
             TriggerTimerListEvent(4);
         }
 
-        if (FTick % 5 == 0)
+        if (_tick % 5 == 0)
         {
             TriggerTimerListEvent(5);
         }
 
-        if (FTick % 6 == 0)
+        if (_tick % 6 == 0)
         {
             TriggerTimerListEvent(6);
         }
 
-        if (FTick % 7 == 0)
+        if (_tick % 7 == 0)
         {
             TriggerTimerListEvent(7);
         }
 
-        if ((FTick & 7) == 4)
+        if ((_tick & 7) == 4)
         {
             TriggerTimerListEvent(8);
         }
 
-        if (FTick % 9 == 0)
+        if (_tick % 9 == 0)
         {
             TriggerTimerListEvent(9);
         }
 
-        if (FTick % 10 == 0)
+        if (_tick % 10 == 0)
         {
             TriggerTimerListEvent(10);
         }
     }
 
-    public int Tick { get => FTick; }
+    public int Tick { get => _tick; }
 
 }

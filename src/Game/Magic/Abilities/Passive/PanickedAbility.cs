@@ -11,24 +11,24 @@ public partial class PanickedAbility : DurationAbility
     // PassiveAb.pas:874
     public PanickedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(PanickedRStr);
-        FAbilityID = 108;
-        FAbilityType = AbilityType.Handicap;
-        FDurationMode = DurationMode.EntireCombat;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityName = AbilityRules.TranslateResourceString(s_panickedText);
+        AbilityId = 108;
+        AbilityType = AbilityType.Handicap;
+        DurationMode = DurationMode.EntireCombat;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:885
-    public override bool Expand(AbilityOwner Owner)
+    public override bool Expand(AbilityOwner owner)
     {
-        bool Result = base.Expand(Owner);
-        if (Owner is Troop)
+        bool result = base.Expand(owner);
+        if (owner is Troop)
         {
-            Owner.Changed();
+            owner.Changed();
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string PanickedRStr = "Panicked";
+    private static readonly string s_panickedText = "Panicked";
 }

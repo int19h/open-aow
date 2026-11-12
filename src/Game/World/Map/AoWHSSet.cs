@@ -30,350 +30,350 @@ namespace Aow.Game.World.Map;
 // inherited . fields listed below. Shared resources and controls for a game pack
 public partial class AoWHSSet : HSSet
 {
-    public new const int ClassID = 131088;
+    public new const int ClassId = 131088;
 
-    public CustomImageLibrary FGeneralImages;
-    public CustomImageLibrary FCursorImages;
-    public CustomImageLibrary FCombatImages;
-    public RaceResourceList FRaceResources;
-    public PadControl FPadControl;
-    public UnitResourceList FUnitResources;
-    public UnitGFXResourceList FUnitGFXResources;
-    public HeroResourceList FHeroResources;
-    public ItemGFXList FItemGFXResources;
-    public ItemLibraryManager FItemLibraries;
-    public HeroLibraryManager FHeroLibraries;
-    public FaceResourceList FFaceResources;
-    public FlagControl FFlagControl;
-    public FireControl FFireControl;
-    public AbilityControl FAbilityControl;
-    public SpellControl FSpellControl;
-    public MapObjectResourceList FCombatResources;
-    public HexControl FCombatHexagons;
-    public RoadControl FCombatRoads;
-    public ImageSequenceList FImageSequences;
-    public TextControl FTextControl;
-    public int FHSSCRC;
+    public CustomImageLibrary GeneralImages;
+    public CustomImageLibrary CursorImages;
+    public CustomImageLibrary CombatImages;
+    public RaceResourceList RaceResources;
+    public PadControl PadControl;
+    public UnitResourceList UnitResources;
+    public UnitGFXResourceList UnitGraphicsResources;
+    public HeroResourceList HeroResources;
+    public ItemGFXList ItemGraphicsResources;
+    public ItemLibraryManager ItemLibraries;
+    public HeroLibraryManager HeroLibraries;
+    public FaceResourceList FaceResources;
+    public FlagControl FlagControl;
+    public FireControl FireControl;
+    public AbilityControl AbilityControl;
+    public SpellControl SpellControl;
+    public MapObjectResourceList CombatResources;
+    public HexControl CombatHexes;
+    public RoadControl CombatRoads;
+    public ImageSequenceList ImageSequences;
+    public TextControl TextControl;
+    public int HssCrc;
 
     // Ability.PAS:74
     public override void Dispose()
     {
-        FFireControl?.Dispose();
-        FImageSequences?.Dispose();
-        FTextControl?.Dispose();
-        FAbilityControl.UnregisterAll();
-        FSpellControl.UnregisterAll();
-        FItemLibraries?.Dispose();
-        FHeroLibraries?.Dispose();
+        FireControl?.Dispose();
+        ImageSequences?.Dispose();
+        TextControl?.Dispose();
+        AbilityControl.UnregisterAll();
+        SpellControl.UnregisterAll();
+        ItemLibraries?.Dispose();
+        HeroLibraries?.Dispose();
         base.Dispose();
-        FAbilityControl?.Dispose();
-        FSpellControl?.Dispose();
+        AbilityControl?.Dispose();
+        SpellControl?.Dispose();
     }
 
     // Ability.PAS:131
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        string Path = "";
-        bool Loaded = default;
-        if (Stream.StorageMode().Contains(StorageModeElement.Read))
+        string path = "";
+        bool loaded = default;
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
-            Stream.ShowProgress(this, AbilityRules.TranslateRStr(LoadingGamePackRStr), 0);
+            stream.ShowProgress(this, AbilityRules.TranslateResourceString(s_loadingGamePackText), 0);
         }
 
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FRaceResources, 10);
-        Stream.rwEObject(FItemLibraries, 11);
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+        base.ReadWrite(stream);
+        stream.rwEObject(RaceResources, 10);
+        stream.rwEObject(ItemLibraries, 11);
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            Path = ExtractFilePath(GameTables.AoWEngine.HSSFileName);
-            if (Stream.StorageMode().Contains(StorageModeElement.Read))
+            path = ExtractFilePath(GameTables.GameEngine.HssFileName);
+            if (stream.StorageMode().Contains(StorageModeElement.Read))
             {
-                Loaded = GameTables.AoWEngine.ReadFromFileCRC(Path + "ABILITY.PFS", FAbilityControl, null);
-                Stream.ShowProgress(this, AbilityRules.TranslateRStr(LoadingUnitsRStr), 70);
-                Loaded = Loaded && GameTables.AoWEngine.ReadFromFileCRC(Path + "UNITRES.PFS", FUnitResources, null);
-                Loaded = Loaded && GameTables.AoWEngine.ReadFromFileCRC(Path + "UNITGFX.PFS", FUnitGFXResources, null);
-                Stream.ShowProgress(this, AbilityRules.TranslateRStr(LoadingHeroesRStr), 80);
-                Loaded = Loaded && GameTables.AoWEngine.ReadFromFileCRC(Path + "HERORES.PFS", FHeroResources, null);
-                Stream.ShowProgress(this, AbilityRules.TranslateRStr(LoadingItemsRStr), 90);
-                Loaded = Loaded && GameTables.AoWEngine.ReadFromFileCRC(Path + "ITEMGFX.PFS", FItemGFXResources, null);
-                Loaded = Loaded && GameTables.AoWEngine.ReadFromFileCRC(Path + "FACERES.PFS", FFaceResources, null);
-                Loaded = Loaded && GameTables.AoWEngine.ReadFromFileCRC(Path + "COMB_RES.PFS", FCombatResources, null);
-                Loaded = Loaded && GameTables.AoWEngine.ReadFromFileCRC(Path + "SPELLS.PFS", FSpellControl, null);
-                Loaded = Loaded && GameTables.AoWEngine.ReadFromFileCRC(Path + "TEXT.PFS", FTextControl, null);
-                if (!Loaded)
+                loaded = GameTables.GameEngine.ReadFromFileCrc(path + "ABILITY.PFS", AbilityControl, null);
+                stream.ShowProgress(this, AbilityRules.TranslateResourceString(s_loadingUnitsText), 70);
+                loaded = loaded && GameTables.GameEngine.ReadFromFileCrc(path + "UNITRES.PFS", UnitResources, null);
+                loaded = loaded && GameTables.GameEngine.ReadFromFileCrc(path + "UNITGFX.PFS", UnitGraphicsResources, null);
+                stream.ShowProgress(this, AbilityRules.TranslateResourceString(s_loadingHeroesText), 80);
+                loaded = loaded && GameTables.GameEngine.ReadFromFileCrc(path + "HERORES.PFS", HeroResources, null);
+                stream.ShowProgress(this, AbilityRules.TranslateResourceString(s_loadingItemsText), 90);
+                loaded = loaded && GameTables.GameEngine.ReadFromFileCrc(path + "ITEMGFX.PFS", ItemGraphicsResources, null);
+                loaded = loaded && GameTables.GameEngine.ReadFromFileCrc(path + "FACERES.PFS", FaceResources, null);
+                loaded = loaded && GameTables.GameEngine.ReadFromFileCrc(path + "COMB_RES.PFS", CombatResources, null);
+                loaded = loaded && GameTables.GameEngine.ReadFromFileCrc(path + "SPELLS.PFS", SpellControl, null);
+                loaded = loaded && GameTables.GameEngine.ReadFromFileCrc(path + "TEXT.PFS", TextControl, null);
+                if (!loaded)
                 {
                     throw new InvalidOperationException("CRC-CHECK FAILED");
                 }
 
-                Stream.ShowProgress(this, AbilityRules.TranslateRStr(GamePackLoadedRStr), 100);
+                stream.ShowProgress(this, AbilityRules.TranslateResourceString(s_gamePackLoadedText), 100);
             }
             else
             {
-                GameTables.AoWEngine.WriteToFileCRC(Path + "ABILITY.PFS", FAbilityControl, null);
-                GameTables.AoWEngine.WriteToFileCRC(Path + "UNITRES.PFS", FUnitResources, null);
-                GameTables.AoWEngine.WriteToFileCRC(Path + "UNITGFX.PFS", FUnitGFXResources, null);
-                GameTables.AoWEngine.WriteToFileCRC(Path + "HERORES.PFS", FHeroResources, null);
-                GameTables.AoWEngine.WriteToFileCRC(Path + "ITEMGFX.PFS", FItemGFXResources, null);
-                GameTables.AoWEngine.WriteToFileCRC(Path + "FACERES.PFS", FFaceResources, null);
-                GameTables.AoWEngine.WriteToFileCRC(Path + "COMB_RES.PFS", FCombatResources, null);
-                GameTables.AoWEngine.WriteToFileCRC(Path + "SPELLS.PFS", FSpellControl, null);
-                GameTables.AoWEngine.WriteToFileCRC(Path + "TEXT.PFS", FTextControl, null);
+                GameTables.GameEngine.WriteToFileCrc(path + "ABILITY.PFS", AbilityControl, null);
+                GameTables.GameEngine.WriteToFileCrc(path + "UNITRES.PFS", UnitResources, null);
+                GameTables.GameEngine.WriteToFileCrc(path + "UNITGFX.PFS", UnitGraphicsResources, null);
+                GameTables.GameEngine.WriteToFileCrc(path + "HERORES.PFS", HeroResources, null);
+                GameTables.GameEngine.WriteToFileCrc(path + "ITEMGFX.PFS", ItemGraphicsResources, null);
+                GameTables.GameEngine.WriteToFileCrc(path + "FACERES.PFS", FaceResources, null);
+                GameTables.GameEngine.WriteToFileCrc(path + "COMB_RES.PFS", CombatResources, null);
+                GameTables.GameEngine.WriteToFileCrc(path + "SPELLS.PFS", SpellControl, null);
+                GameTables.GameEngine.WriteToFileCrc(path + "TEXT.PFS", TextControl, null);
             }
         }
         else
         {
-            Stream.rwEObject(FUnitResources, 111);
-            Stream.rwEObject(FUnitGFXResources, 112);
-            Stream.rwEObject(FHeroResources, 113);
-            Stream.rwEObject(FItemGFXResources, 114);
-            Stream.rwEObject(FFaceResources, 115);
-            Stream.rwEObject(FSpellControl, 117);
-            Stream.rwEObject(FAbilityControl, 118);
-            Stream.rwEObject(FTextControl, 119);
+            stream.rwEObject(UnitResources, 111);
+            stream.rwEObject(UnitGraphicsResources, 112);
+            stream.rwEObject(HeroResources, 113);
+            stream.rwEObject(ItemGraphicsResources, 114);
+            stream.rwEObject(FaceResources, 115);
+            stream.rwEObject(SpellControl, 117);
+            stream.rwEObject(AbilityControl, 118);
+            stream.rwEObject(TextControl, 119);
         }
 
-        Stream.rwEObject(FHeroLibraries, 17);
-        Stream.rwStreamProc(18, FImageSequences.LoadFromStream, FImageSequences.SaveToStream);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read))
+        stream.rwEObject(HeroLibraries, 17);
+        stream.rwStreamProc(18, ImageSequences.LoadFromStream, ImageSequences.SaveToStream);
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
-            FImageSequences.LinkToIL();
-            FHSSCRC = RetrieveHSSCRC();
+            ImageSequences.LinkToImageLibrary();
+            HssCrc = RetrieveHssCrc();
         }
     }
 
     // Ability.PAS:194
-    public override void MainReadWrite(EStorageStream Stream)
+    public override void MainReadWrite(EStorageStream stream)
     {
-        string DictionaryFile;
-        base.MainReadWrite(Stream);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        string dictionaryFile;
+        base.MainReadWrite(stream);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
-            DictionaryFile = GameTables.AoWEngine.StartupDirectory + "Dict\\" + "Release" + ".mld";
-            GameTables.AoWEngine.TranslateEObjectFromFile(this, DictionaryFile);
+            dictionaryFile = GameTables.GameEngine.StartupDirectory + "Dict\\" + "Release" + ".mld";
+            GameTables.GameEngine.TranslateEngineObjectFromFile(this, dictionaryFile);
         }
     }
 
     private protected AoWHSSet(ConstructionContext context, ECustomNode owner) : base(context, owner)
     {
-        BitList Enabled;
-        FCombatResources = new MapObjectResourceList(this);
-        FCombatResources.SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild));
-        FCombatHexagons = new HexControl(this);
-        FCombatHexagons.MOClass = typeof(AbstractHexagon);
-        FCombatRoads = new RoadControl(this);
-        FCombatRoads.MOClass = typeof(AbstractRoad);
-        ImageLibraryManager.ExecutePathSearch(GameTables.AoWEngine.StartupDirectory + "IMAGES");
-        SFXManager.ExecutePathSearch(GameTables.AoWEngine.StartupDirectory + "SFX");
-        FImageSequences = new ImageSequenceList(ImageLibraryManager, null);
-        var water = AbilityRules.TranslateRStr(GameTables.WaterRStr);
+        BitList enabled;
+        CombatResources = new MapObjectResourceList(this);
+        CombatResources.SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild));
+        CombatHexes = new HexControl(this);
+        CombatHexes.MapObjectClass = typeof(AbstractHexagon);
+        CombatRoads = new RoadControl(this);
+        CombatRoads.MapObjectClass = typeof(AbstractRoad);
+        ImageLibraryManager.ExecutePathSearch(GameTables.GameEngine.StartupDirectory + "IMAGES");
+        SfxManager.ExecutePathSearch(GameTables.GameEngine.StartupDirectory + "SFX");
+        ImageSequences = new ImageSequenceList(ImageLibraryManager, null);
+        var water = AbilityRules.TranslateResourceString(GameTables.s_waterText);
         TerrainTypes.Add(water);
-        var aoWETranslateRStr = AbilityRules.TranslateRStr(GrassRStr);
-        TerrainTypes.Add(aoWETranslateRStr);
-        var desert = AbilityRules.TranslateRStr(DesertRStr);
+        var translatedText = AbilityRules.TranslateResourceString(s_grassText);
+        TerrainTypes.Add(translatedText);
+        var desert = AbilityRules.TranslateResourceString(s_desertText);
         TerrainTypes.Add(desert);
-        var snow = AbilityRules.TranslateRStr(SnowRStr);
+        var snow = AbilityRules.TranslateResourceString(s_snowText);
         TerrainTypes.Add(snow);
-        var steppe = AbilityRules.TranslateRStr(SteppeRStr);
+        var steppe = AbilityRules.TranslateResourceString(s_steppeText);
         TerrainTypes.Add(steppe);
-        var wasteland = AbilityRules.TranslateRStr(WastelandRStr);
+        var wasteland = AbilityRules.TranslateResourceString(s_wastelandText);
         TerrainTypes.Add(wasteland);
-        var ice = AbilityRules.TranslateRStr(IceRStr);
+        var ice = AbilityRules.TranslateResourceString(s_iceText);
         TerrainTypes.Add(ice);
-        var earth = AbilityRules.TranslateRStr(GameTables.EarthRStr);
+        var earth = AbilityRules.TranslateResourceString(GameTables.s_earthText);
         TerrainTypes.Add(earth);
-        var rock = AbilityRules.TranslateRStr(RockRStr);
+        var rock = AbilityRules.TranslateResourceString(s_rockText);
         TerrainTypes.Add(rock);
-        var lava = AbilityRules.TranslateRStr(LavaRStr);
+        var lava = AbilityRules.TranslateResourceString(s_lavaText);
         TerrainTypes.Add(lava);
-        var waterText = AbilityRules.TranslateRStr(GameTables.WaterRStr);
+        var waterText = AbilityRules.TranslateResourceString(GameTables.s_waterText);
         TerrainTypes.Add(waterText);
-        var reserved = AbilityRules.TranslateRStr(ReservedRStr);
+        var reserved = AbilityRules.TranslateResourceString(s_reservedText);
         TerrainTypes.Add(reserved);
-        var dirt = AbilityRules.TranslateRStr(DirtRStr);
+        var dirt = AbilityRules.TranslateResourceString(s_dirtText);
         TerrainTypes.Add(dirt);
-        var iceText = AbilityRules.TranslateRStr(IceRStr);
+        var iceText = AbilityRules.TranslateResourceString(s_iceText);
         TerrainTypes.Add(iceText);
-        var coast = AbilityRules.TranslateRStr(CoastRStr);
+        var coast = AbilityRules.TranslateResourceString(s_coastText);
         TerrainTypes.Add(coast);
-        var border = AbilityRules.TranslateRStr(BorderRStr);
+        var border = AbilityRules.TranslateResourceString(s_borderText);
         TerrainTypes.Add(border);
-        var mountain = AbilityRules.TranslateRStr(GameText.MountainRStr);
+        var mountain = AbilityRules.TranslateResourceString(GameText.s_mountainText);
         OverlayTypes.Add(mountain);
-        var denseVegetation = AbilityRules.TranslateRStr(DenseVegetationRStr);
+        var denseVegetation = AbilityRules.TranslateResourceString(s_denseVegetationText);
         OverlayTypes.Add(denseVegetation);
-        var hill = AbilityRules.TranslateRStr(GameText.HillRStr);
+        var hill = AbilityRules.TranslateResourceString(GameText.s_hillText);
         OverlayTypes.Add(hill);
-        var vegetation = AbilityRules.TranslateRStr(VegetationRStr);
+        var vegetation = AbilityRules.TranslateResourceString(s_vegetationText);
         OverlayTypes.Add(vegetation);
-        var road = AbilityRules.TranslateRStr(RoadRStr);
+        var road = AbilityRules.TranslateResourceString(s_roadText);
         OverlayTypes.Add(road);
-        var bridge = AbilityRules.TranslateRStr(BridgeRStr);
+        var bridge = AbilityRules.TranslateResourceString(s_bridgeText);
         OverlayTypes.Add(bridge);
-        var rubble = AbilityRules.TranslateRStr(RubbleRStr);
+        var rubble = AbilityRules.TranslateResourceString(s_rubbleText);
         OverlayTypes.Add(rubble);
-        var structure = AbilityRules.TranslateRStr(GameText.StructureRStr);
+        var structure = AbilityRules.TranslateResourceString(GameText.s_structureText);
         OverlayTypes.Add(structure);
-        var obstacle = AbilityRules.TranslateRStr(GameText.ObstacleRStr);
+        var obstacle = AbilityRules.TranslateResourceString(GameText.s_obstacleText);
         OverlayTypes.Add(obstacle);
-        var lightVegetation = AbilityRules.TranslateRStr(LightVegetationRStr);
+        var lightVegetation = AbilityRules.TranslateResourceString(s_lightVegetationText);
         OverlayTypes.Add(lightVegetation);
-        var solid = AbilityRules.TranslateRStr(SolidRStr);
+        var solid = AbilityRules.TranslateResourceString(s_solidText);
         OverlayTypes.Add(solid);
-        var none = AbilityRules.TranslateRStr(GameTables.NoneRStr);
+        var none = AbilityRules.TranslateResourceString(GameTables.s_noneText);
         DecorationTypes.Add(none);
-        var rocks = AbilityRules.TranslateRStr(RocksRStr);
+        var rocks = AbilityRules.TranslateResourceString(s_rocksText);
         DecorationTypes.Add(rocks);
-        var bones = AbilityRules.TranslateRStr(BonesRStr);
+        var bones = AbilityRules.TranslateResourceString(s_bonesText);
         DecorationTypes.Add(bones);
-        var deadTree = AbilityRules.TranslateRStr(DeadTreeRStr);
+        var deadTree = AbilityRules.TranslateResourceString(s_deadTreeText);
         DecorationTypes.Add(deadTree);
-        var toadstools = AbilityRules.TranslateRStr(ToadstoolsRStr);
+        var toadstools = AbilityRules.TranslateResourceString(s_toadstoolsText);
         DecorationTypes.Add(toadstools);
-        FPadControl = new PadControl(this);
-        Enabled = FPadControl.FTerrainTypes;
-        Enabled[1] = true;
-        Enabled[2] = true;
-        Enabled[3] = true;
-        Enabled[4] = true;
-        Enabled[5] = true;
-        Enabled[6] = true;
-        Enabled[12] = true;
-        FRaceResources = new RaceResourceList(this);
-        FFlagControl = FlagControl.Create(this);
-        FFireControl = new FireControl();
-        FUnitResources = new UnitResourceList(this);
-        FUnitGFXResources = new UnitGFXResourceList(this);
-        FHeroResources = new HeroResourceList(this);
-        FItemGFXResources = new ItemGFXList(this);
-        FFaceResources = new FaceResourceList(this);
-        FItemLibraries = new ItemLibraryManager(null);
-        FHeroLibraries = new HeroLibraryManager(null);
-        FAbilityControl = new AbilityControl(null);
-        FSpellControl = new SpellControl(null);
-        FTextControl = new TextControl(null);
-        FGeneralImages = ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "GENERAL.ILB");
-        FCursorImages = ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "CURSORS.ILB");
-        FCombatImages = ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "COMBAT.ILB");
+        PadControl = new PadControl(this);
+        enabled = PadControl.TerrainTypes;
+        enabled[1] = true;
+        enabled[2] = true;
+        enabled[3] = true;
+        enabled[4] = true;
+        enabled[5] = true;
+        enabled[6] = true;
+        enabled[12] = true;
+        RaceResources = new RaceResourceList(this);
+        FlagControl = FlagControl.Create(this);
+        FireControl = new FireControl();
+        UnitResources = new UnitResourceList(this);
+        UnitGraphicsResources = new UnitGFXResourceList(this);
+        HeroResources = new HeroResourceList(this);
+        ItemGraphicsResources = new ItemGFXList(this);
+        FaceResources = new FaceResourceList(this);
+        ItemLibraries = new ItemLibraryManager(null);
+        HeroLibraries = new HeroLibraryManager(null);
+        AbilityControl = new AbilityControl(null);
+        SpellControl = new SpellControl(null);
+        TextControl = new TextControl(null);
+        GeneralImages = ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "GENERAL.ILB");
+        CursorImages = ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "CURSORS.ILB");
+        CombatImages = ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "COMBAT.ILB");
     }
 
     // Ability.PAS:206
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        FItemLibraries.MsgProc(ref Msg, Sender);
+        base.MessageProc(ref message, sender);
+        ItemLibraries.MessageProc(ref message, sender);
     }
 
     // Ability.PAS:91
-    public int GetFileCRC(string FileName, bool AtEnd)
+    public int GetFileCrc(string fileName, bool atEnd)
     {
-        int Result;
-        Stream FileStream;
-        Result = 0;
-        FileStream = OpenFile(FileName, 0 | 32);
+        int result;
+        Stream fileStream;
+        result = 0;
+        fileStream = OpenFile(fileName, 0 | 32);
         try
         {
-            if (AtEnd)
+            if (atEnd)
             {
-                FileStream.Position = FileStream.Length - 4;
-                FileStream.ReadExactly(Bytes.Of(ref Result, 4));
+                fileStream.Position = fileStream.Length - 4;
+                fileStream.ReadExactly(Bytes.Of(ref result, 4));
             }
             else
             {
-                FileStream.ReadExactly(Bytes.Of(ref Result, 4));
+                fileStream.ReadExactly(Bytes.Of(ref result, 4));
             }
         }
         finally
         {
-            FileStream?.Dispose();
+            fileStream?.Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:109
-    public int RetrieveHSSCRC()
+    public int RetrieveHssCrc()
     {
-        Int32List CRCs;
-        string Path;
-        CRCs = new Int32List();
-        Path = ExtractFilePath(GameTables.AoWEngine.HSSFileName);
+        Int32List crCs;
+        string path;
+        crCs = new Int32List();
+        path = ExtractFilePath(GameTables.GameEngine.HssFileName);
         // { Original includes ABILITY.PFS twice and does not free CRCs on a read error. }
-        CRCs.Add(GetFileCRC(Path + "ABILITY.PFS", false));
-        CRCs.Add(GetFileCRC(Path + "ABILITY.PFS", false));
-        CRCs.Add(GetFileCRC(Path + "UNITRES.PFS", false));
-        CRCs.Add(GetFileCRC(Path + "UNITGFX.PFS", false));
-        CRCs.Add(GetFileCRC(Path + "HERORES.PFS", false));
-        CRCs.Add(GetFileCRC(Path + "ITEMGFX.PFS", false));
-        CRCs.Add(GetFileCRC(Path + "FACERES.PFS", false));
-        CRCs.Add(GetFileCRC(Path + "COMB_RES.PFS", false));
-        CRCs.Add(GetFileCRC(Path + "SPELLS.PFS", false));
+        crCs.Add(GetFileCrc(path + "ABILITY.PFS", false));
+        crCs.Add(GetFileCrc(path + "ABILITY.PFS", false));
+        crCs.Add(GetFileCrc(path + "UNITRES.PFS", false));
+        crCs.Add(GetFileCrc(path + "UNITGFX.PFS", false));
+        crCs.Add(GetFileCrc(path + "HERORES.PFS", false));
+        crCs.Add(GetFileCrc(path + "ITEMGFX.PFS", false));
+        crCs.Add(GetFileCrc(path + "FACERES.PFS", false));
+        crCs.Add(GetFileCrc(path + "COMB_RES.PFS", false));
+        crCs.Add(GetFileCrc(path + "SPELLS.PFS", false));
         // The scenario set's stored CRC comes from its engine image, so an own document agrees
         // with its original (own-formats.md 4.1). The PFS files keep their original bytes.
-        CRCs.Add(FileBoundary.ImageTailInt32(FileBoundary.ReadName(Path + "RELEASE.HSS"), GameProfile.ScenarioSet));
-        int Result = EngineServices.GetCRC32(MemoryMarshal.AsBytes(CRCs.List.AsSpan()), CRCs.Count * 4);
-        CRCs?.Dispose();
-        return Result;
+        crCs.Add(FileBoundary.ImageTailInt32(FileBoundary.ReadName(path + "RELEASE.HSS"), GameProfile.ScenarioSet));
+        int result = EngineServices.GetCrc32(MemoryMarshal.AsBytes(crCs.List.AsSpan()), crCs.Count * 4);
+        crCs?.Dispose();
+        return result;
     }
 
     // intf_P1_10.inc:44
     public static AoWHSSet Create(ECustomNode owner) =>
         ConstructionContext.Create(owner, static (context, owner) => new AoWHSSet(context, owner));
 
-    private static readonly string GrassRStr = "Grass";
+    private static readonly string s_grassText = "Grass";
 
-    private static readonly string DesertRStr = "Desert";
+    private static readonly string s_desertText = "Desert";
 
-    private static readonly string SnowRStr = "Snow";
+    private static readonly string s_snowText = "Snow";
 
-    private static readonly string SteppeRStr = "Steppe";
+    private static readonly string s_steppeText = "Steppe";
 
-    private static readonly string WastelandRStr = "Wasteland";
+    private static readonly string s_wastelandText = "Wasteland";
 
-    private static readonly string IceRStr = "Ice";
+    private static readonly string s_iceText = "Ice";
 
-    private static readonly string RockRStr = "Rock";
+    private static readonly string s_rockText = "Rock";
 
-    private static readonly string LavaRStr = "Lava";
+    private static readonly string s_lavaText = "Lava";
 
-    private static readonly string ReservedRStr = "Reserved";
+    private static readonly string s_reservedText = "Reserved";
 
-    private static readonly string DirtRStr = "Dirt";
+    private static readonly string s_dirtText = "Dirt";
 
-    private static readonly string CoastRStr = "Coast";
+    private static readonly string s_coastText = "Coast";
 
-    private static readonly string BorderRStr = "Border";
+    private static readonly string s_borderText = "Border";
 
-    private static readonly string DenseVegetationRStr = "Dense Vegetation";
+    private static readonly string s_denseVegetationText = "Dense Vegetation";
 
-    private static readonly string VegetationRStr = "Vegetation";
+    private static readonly string s_vegetationText = "Vegetation";
 
-    private static readonly string RoadRStr = "Road";
+    private static readonly string s_roadText = "Road";
 
-    private static readonly string BridgeRStr = "Bridge";
+    private static readonly string s_bridgeText = "Bridge";
 
-    private static readonly string RubbleRStr = "Rubble";
+    private static readonly string s_rubbleText = "Rubble";
 
-    private static readonly string LightVegetationRStr = "Light Vegetation";
+    private static readonly string s_lightVegetationText = "Light Vegetation";
 
-    private static readonly string SolidRStr = "Solid";
+    private static readonly string s_solidText = "Solid";
 
-    private static readonly string RocksRStr = "Rocks";
+    private static readonly string s_rocksText = "Rocks";
 
-    private static readonly string BonesRStr = "Bones";
+    private static readonly string s_bonesText = "Bones";
 
-    private static readonly string DeadTreeRStr = "Dead Tree";
+    private static readonly string s_deadTreeText = "Dead Tree";
 
-    private static readonly string ToadstoolsRStr = "Toadstools";
+    private static readonly string s_toadstoolsText = "Toadstools";
 
-    private static readonly string LoadingGamePackRStr = "Loading Game Pack";
+    private static readonly string s_loadingGamePackText = "Loading Game Pack";
 
-    private static readonly string LoadingUnitsRStr = "Loading Units";
+    private static readonly string s_loadingUnitsText = "Loading Units";
 
-    private static readonly string LoadingHeroesRStr = "Loading Heroes";
+    private static readonly string s_loadingHeroesText = "Loading Heroes";
 
-    private static readonly string LoadingItemsRStr = "Loading Items";
+    private static readonly string s_loadingItemsText = "Loading Items";
 
-    private static readonly string GamePackLoadedRStr = "Game Pack Loaded";
+    private static readonly string s_gamePackLoadedText = "Game Pack Loaded";
 
     public static AoWHSSet Current;
 

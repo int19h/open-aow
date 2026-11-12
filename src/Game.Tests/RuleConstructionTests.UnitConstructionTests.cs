@@ -21,8 +21,8 @@ public sealed partial class RuleConstructionTests
 
         public override int AddChild(EngineObject child)
         {
-            var unit = (Troop)child;
-            Events.Add($"insert:{unit.FRefCount}:{unit.FUnitID}:{unit.FGroupID}");
+            var troop = (Troop)child;
+            Events.Add($"insert:{troop.RefCount}:{troop.UnitId}:{troop.GroupId}");
             if (reject) return -1;
             base.AddChild(child);
             return Members.Count - 1;
@@ -34,19 +34,19 @@ public sealed partial class RuleConstructionTests
     private static Troop CreateUnit(Type type, ECustomNode owner, int route)
     {
         var meta = EngineClass.Of(type);
-        if (route == 1) return (Troop)meta.Create(owner);
+        if (route == 1) return (Troop)meta.CreateInstance(owner);
         if (route == 2)
         {
             if (EngineHost.Engines is null) EngineHost.Initialize();
             using GameEngine engine = new GameEngine(null!);
-            engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
-            try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
+            engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+            try { engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]); }
             catch (Exception error) when (PortedExceptions.Is(error)) { }
-            engine.RegisterEClasses([EngineClass.Of(type)]);
-            return (Troop)engine.CreateEObject(meta.ClassID, owner);
+            engine.RegisterEngineClasses([EngineClass.Of(type)]);
+            return (Troop)engine.CreateEngineObject(meta.ClassId, owner);
         }
         if (route == 3)
-            return (Troop)Invoke(() => meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
+            return (Troop)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
         var constructor = type.GetConstructor([typeof(ECustomNode)])!;
         return (Troop)Invoke(() => constructor.Invoke([owner]))!;
     }
@@ -69,9 +69,9 @@ public sealed partial class RuleConstructionTests
                     var owner = new UnitOwner(ownerMode == 2);
                     var value = CreateUnit(type, ownerMode == 0 ? null! : owner, route);
                     Assert.IsType(type, value);
-                    Assert.Equal(1, value.FRefCount);
-                    Assert.Equal(-1, value.FUnitID);
-                    Assert.Equal(0, value.FGroupID);
+                    Assert.Equal(1, value.RefCount);
+                    Assert.Equal(-1, value.UnitId);
+                    Assert.Equal(0, value.GroupId);
                     Assert.Same(ownerMode == 1 ? owner : null, value.Owner);
                     string state = Snapshot(value) + "\n" + string.Join("\n", owner.Events);
                     expected ??= state;
@@ -93,7 +93,7 @@ public sealed partial class RuleConstructionTests
         var previousMap = AoWHSMap.Current;
         var previousSet = AoWHSSet.Current;
         AoWHSMap.Current = null!;
-        var set = EngineFixture.Configure(AoWHSSet.Create(null!), value => { value.FUnitResources = new UnitResourceList(null!); value.FHeroResources = new HeroResourceList(null!); value.FAbilityControl = new AbilityControl(null!); });
+        var set = EngineFixture.Configure(AoWHSSet.Create(null!), value => { value.UnitResources = new UnitResourceList(null!); value.HeroResources = new HeroResourceList(null!); value.AbilityControl = new AbilityControl(null!); });
         AoWHSSet.Current = set;
         Type type = TypeNamed(name);
         var meta = EngineClass.Of(type);
@@ -105,15 +105,15 @@ public sealed partial class RuleConstructionTests
         using var memory = new MemoryStream();
         try
         {
-            engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
-            try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
+            engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+            try { engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]); }
             catch (Exception error) when (PortedExceptions.Is(error)) { }
-            engine.RegisterEClasses([EngineClass.Of(type)]);
-            if (source is Unit unit) unit.FUnitResource = new UnitResource(set.FUnitResources);
-            if (source is Hero hero) hero.FExperience = 1;
-            if (source is HypotheticalUnit adjustable) adjustable.SetAbCount(0);
-            ((Troop)source).FUnitID = 317;
-            ((Troop)source).FGroupID = 29;
+            engine.RegisterEngineClasses([EngineClass.Of(type)]);
+            if (source is Unit unit) unit.UnitResource = new UnitResource(set.UnitResources);
+            if (source is Hero hero) hero.Experience = 1;
+            if (source is HypotheticalUnit adjustable) adjustable.SetAbilityCount(0);
+            ((Troop)source).UnitId = 317;
+            ((Troop)source).GroupId = 29;
             var writer = new EWriteStorageStream(memory, engine, false);
             writer.rwCreateEObject(ref source, null!, 7);
             writer.Dispose();
@@ -121,9 +121,9 @@ public sealed partial class RuleConstructionTests
             using (var reader = new EReadStorageStream(memory, engine, false)) { reader.rwCreateEObject(ref result, owner, 7); }
             var loaded = Assert.IsAssignableFrom<Troop>(result);
             Assert.IsType(type, loaded);
-            Assert.Equal(1, loaded.FRefCount);
-            Assert.Equal(317, loaded.FUnitID);
-            Assert.Equal(29, loaded.FGroupID);
+            Assert.Equal(1, loaded.RefCount);
+            Assert.Equal(317, loaded.UnitId);
+            Assert.Equal(29, loaded.GroupId);
             Assert.Same(owner, loaded.Owner);
             Assert.Same(loaded, Assert.Single(owner.Members));
             Assert.Equal(new[] { $"insert:{(loaded is Hero ? 3 : 2)}:317:29" }, owner.Events);
@@ -133,29 +133,29 @@ public sealed partial class RuleConstructionTests
             result?.Dispose();
             source.Dispose();
             engine.Dispose();
-            set.FUnitResources.Dispose();
-            set.FHeroResources.Dispose();
-            set.FAbilityControl.Dispose();
+            set.UnitResources.Dispose();
+            set.HeroResources.Dispose();
+            set.AbilityControl.Dispose();
             AoWHSMap.Current = previousMap;
             AoWHSSet.Current = previousSet;
         }
         Assert.Empty(owner.Members);
     }
 
-    private static UnitOwner? RefcountOwner;
+    private static UnitOwner? s_refcountOwner;
 
     private sealed class ObservedUnit(ECustomNode owner) : Troop(owner)
     {
-        public override int AddRef() { int result = base.AddRef(); RefcountOwner!.Events.Add("add:" + result); return result; }
+        public override int AddRef() { int result = base.AddRef(); s_refcountOwner!.Events.Add("add:" + result); return result; }
 
-        public override int Release() { int result = base.Release(); RefcountOwner!.Events.Add("release:" + result); return result; }
+        public override int Release() { int result = base.Release(); s_refcountOwner!.Events.Add("release:" + result); return result; }
     }
 
     private sealed class ObservedHero(ECustomNode owner) : Hero(owner)
     {
-        public override int AddRef() { int result = base.AddRef(); RefcountOwner!.Events.Add("add:" + result); return result; }
+        public override int AddRef() { int result = base.AddRef(); s_refcountOwner!.Events.Add("add:" + result); return result; }
 
-        public override int Release() { int result = base.Release(); RefcountOwner!.Events.Add("release:" + result); return result; }
+        public override int Release() { int result = base.Release(); s_refcountOwner!.Events.Add("release:" + result); return result; }
     }
 
     [Theory]
@@ -168,17 +168,17 @@ public sealed partial class RuleConstructionTests
         var previous = AoWHSMap.Current;
         AoWHSMap.Current = null!;
         var owner = new UnitOwner(reject);
-        RefcountOwner = owner;
+        s_refcountOwner = owner;
         try
         {
             Troop value = hero ? new ObservedHero(owner) : new ObservedUnit(owner);
             Assert.Equal(hero ? new[] { "add:2", "add:3", "insert:3:0:0", "release:2", "release:1" }
                 : new[] { "add:2", "insert:2:0:0", "release:1" }, owner.Events);
-            Assert.Equal(1, value.FRefCount);
+            Assert.Equal(1, value.RefCount);
             Assert.Same(reject ? null : owner, value.Owner);
             value.Dispose();
             Assert.Empty(owner.Members);
         }
-        finally { RefcountOwner = null; AoWHSMap.Current = previous; }
+        finally { s_refcountOwner = null; AoWHSMap.Current = previous; }
     }
 }

@@ -15,9 +15,9 @@ public partial class FireBall : CombatSpell
     // CombatSpells.pas:1489
     public FireBall(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(FireBallRStr);
-        FSpellID = 117;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_fireBallText);
+        SpellId = 117;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 6;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.Wall);
@@ -25,5 +25,5 @@ public partial class FireBall : CombatSpell
         spellCombatInfo.Range = 12;
     }
 
-    private static readonly string FireBallRStr = "Fireball";
+    private static readonly string s_fireBallText = "Fireball";
 }

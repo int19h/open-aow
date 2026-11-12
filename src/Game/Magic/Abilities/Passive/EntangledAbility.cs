@@ -13,13 +13,13 @@ public partial class EntangledAbility : UnitEnchantmentAbility
     // PassiveAb.pas:620
     public EntangledAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(EntangledRStr);
-        FAbilityID = 94;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityName = AbilityRules.TranslateResourceString(s_entangledText);
+        AbilityId = 94;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:638
-    public override sbyte GetDefense(AbilityOwner Owner) => -2;
+    public override sbyte GetDefense(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:628
     public override DurationMode GetDurationMode() => DurationMode.CombatTurn;
@@ -30,10 +30,10 @@ public partial class EntangledAbility : UnitEnchantmentAbility
     // PassiveAb.pas:643
     public override UnitEnchantment CreateEnchantment()
     {
-        UnitEnchantment Result = base.CreateEnchantment();
-        Result.FDispelResistance = 3;
-        return Result;
+        UnitEnchantment result = base.CreateEnchantment();
+        result.DispelResistance = 3;
+        return result;
     }
 
-    private static readonly string EntangledRStr = "Entangled";
+    private static readonly string s_entangledText = "Entangled";
 }

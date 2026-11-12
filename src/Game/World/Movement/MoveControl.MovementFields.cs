@@ -9,107 +9,107 @@ namespace Aow.Game.World.Movement;
 
 public partial class MoveControl
 {
-    public void CalculatePathEx(MovePath path, sbyte x, sbyte y, sbyte level)
+    public void CalculatePath(MovePath path, sbyte x, sbyte y, sbyte level)
     {
-        RtlUnit.Assert(FStatus.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7e4f);
+        RtlUnit.Assert(Status.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7e4f);
         path.Clear();
-        if (level >= FMap.MapContainer.LevelCount) return;
-        SetMapL(FMap.MapContainer.GetMapLevel(level));
-        var field = (AoWMapField)FMapLevel.GetField(x, y);
-        int points = FSettings.GetMovePoints(field.Xhx, field.Yhx, field.Lhx);
+        if (level >= Map.MapContainer.LevelCount) return;
+        SetMapL(Map.MapContainer.GetMapLevel(level));
+        var field = (AoWMapField)MapLevel.GetField(x, y);
+        int points = Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
         bool failed = points == 0xffffff;
         AoWMapField neighbor = null;
-        while (field != null && (field.Xhx != FSourceX || field.Yhx != FSourceY || field.Lhx != FSourceL) && !failed)
+        while (field != null && (field.HexX != SourceX || field.HexY != SourceY || field.HexLevel != SourceL) && !failed)
         {
-            path.AddXYL(field.Xhx, field.Yhx, field.Lhx);
-            int cost = FOnMovePoint(field, 1);
+            path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
+            int cost = OnMovePoint(field, 1);
             bool found = false;
             for (int direction = 1; !found && direction <= 6; direction++)
             {
                 neighbor = NeighborField(field, direction);
-                if (FSettings.GetMovePoints(neighbor.Xhx, neighbor.Yhx, neighbor.Lhx) != points - cost) continue;
-                bool source = neighbor.Xhx == FSourceX && neighbor.Yhx == FSourceY && neighbor.Lhx == FSourceL;
-                int over = source || (neighbor.FFieldFlags & 0x2000) == 0 ? 1 : neighbor.CanMoveOver(this);
-                found = over != 0 && ((field.FFieldFlags & 0x4000) == 0 || field.CanMoveOn(this, cost, over) != -1);
+                if (Settings.GetMovePoints(neighbor.HexX, neighbor.HexY, neighbor.HexLevel) != points - cost) continue;
+                bool source = neighbor.HexX == SourceX && neighbor.HexY == SourceY && neighbor.HexLevel == SourceL;
+                int over = source || (neighbor.FieldFlags & 0x2000) == 0 ? 1 : neighbor.CanMoveOver(this);
+                found = over != 0 && ((field.FieldFlags & 0x4000) == 0 || field.CanMoveOn(this, cost, over) != -1);
             }
             AoWMapField previous;
             if (found)
             {
-                points = FSettings.GetMovePoints(neighbor.Xhx, neighbor.Yhx, neighbor.Lhx);
+                points = Settings.GetMovePoints(neighbor.HexX, neighbor.HexY, neighbor.HexLevel);
                 previous = neighbor;
             }
             else
             {
                 previous = FindSubMoveOrigin(field);
-                if (previous != null && path.IndexOfXYL(previous.Xhx, previous.Yhx, previous.Lhx) == -1)
+                if (previous != null && path.IndexOfMapCoordinate(previous.HexX, previous.HexY, previous.HexLevel) == -1)
                 {
-                    points = FSettings.GetMovePoints(previous.Xhx, previous.Yhx, previous.Lhx);
+                    points = Settings.GetMovePoints(previous.HexX, previous.HexY, previous.HexLevel);
                     SetMapL((MapLevel)previous.Owner);
                     found = true;
                 }
             }
             if (previous != null && found)
-                path.List[path.Count - 1].Flag = (sbyte)(FSettings.GetMovePoints(field.Xhx, field.Yhx, field.Lhx) - points);
+                path.List[path.Count - 1].Tag = (sbyte)(Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) - points);
             field = previous;
             failed = !found;
         }
         if (failed) path.Clear();
-        else if (field != null && points == 0) path.AddXYL(field.Xhx, field.Yhx, field.Lhx);
-        if (AoWHSMap.Current.FAIExecuter.FStatus.Contains(AIExecutorStatusElement.Executing)) AoWHSMap.Current.FAIExecuter.UseProcessTime(path.Count);
+        else if (field != null && points == 0) path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
+        if (AoWHSMap.Current.AIExecutor.Status.Contains(AIExecutorStatusElement.Executing)) AoWHSMap.Current.AIExecutor.UseProcessTime(path.Count);
     }
 
     private AoWMapField NeighborField(AoWMapField field, int direction)
     {
-        var delta = HexGeometry.HNtoXYTable[field.Xhx & 1][direction];
-        return (AoWMapField)((MapLevel)field.Owner).GetField(field.Xhx + delta.X, field.Yhx + delta.Y);
+        var delta = HexGeometry.s_hexNumberToXYTable[field.HexX & 1][direction];
+        return (AoWMapField)((MapLevel)field.Owner).GetField(field.HexX + delta.X, field.HexY + delta.Y);
     }
 
     public int CalculateMovePointLine(AoWMapField origin, int direction, int moveOverCode)
     {
         int initialOverCode = moveOverCode;
-        int count = 0, points = FSettings.GetMovePoints(origin.Xhx, origin.Yhx, origin.Lhx);
+        int count = 0, points = Settings.GetMovePoints(origin.HexX, origin.HexY, origin.HexLevel);
         var field = origin;
         bool continueMove = true;
         while (continueMove)
         {
             field = NeighborField(field, direction);
-            int cost = FOnMovePoint(field, moveOverCode);
+            int cost = OnMovePoint(field, moveOverCode);
             if (cost < 0) break;
             points += cost;
-            int old = FSettings.GetMovePoints(field.Xhx, field.Yhx, field.Lhx);
-            if (old <= points || points > FMovePointsLimit) break;
-            if (FMode.Contains(MoveModeElement.LogProcessedMapFields) && old == 0xffffff) FProcessedMapFields.Add(field);
-            if (field.Xhx == FDestinationX && field.Yhx == FDestinationY && field.Lhx == FDestinationL) FMovePointsLimit = points;
-            FSettings.SetMovePoints(field.Xhx, field.Yhx, field.Lhx, points);
-            if ((field.FFieldFlags & 0x2000) == 0) moveOverCode = 1;
+            int old = Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
+            if (old <= points || points > MovePointsLimit) break;
+            if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && old == 0xffffff) ProcessedMapFields.Add(field);
+            if (field.HexX == DestinationX && field.HexY == DestinationY && field.HexLevel == DestinationL) MovePointsLimit = points;
+            Settings.SetMovePoints(field.HexX, field.HexY, field.HexLevel, points);
+            if ((field.FieldFlags & 0x2000) == 0) moveOverCode = 1;
             else moveOverCode = field.CanMoveOver(this);
             continueMove = moveOverCode != 0;
             if (continueMove) count++;
         }
-        HeadlessHooks.MoveLine?.Invoke(origin.GetXYL(), direction, initialOverCode, count);
+        HeadlessHooks.MoveLine?.Invoke(origin.GetMapCoordinate(), direction, initialOverCode, count);
         return count;
     }
 
-    public void ProcessHexagon(AoWMapField field, int direction, int count)
+    public void ProcessHex(AoWMapField field, int direction, int count)
     {
-        FProcessedCount++;
-        int over = (field.FFieldFlags & 0x2000) == 0 ? 1 : field.CanMoveOver(this);
-        int left = P5SideDirections[direction][0], right = P5SideDirections[direction][1];
+        ProcessedCount++;
+        int over = (field.FieldFlags & 0x2000) == 0 ? 1 : field.CanMoveOver(this);
+        int left = s_sideDirections[direction][0], right = s_sideDirections[direction][1];
         int leftCount = CalculateMovePointLine(field, left, over);
         int rightCount = CalculateMovePointLine(field, right, over);
-        if ((count & 0xff) != 0) ProcessHexagon(NeighborField(field, direction), direction, over == 2 ? count + 0xff : count - 1);
-        if (leftCount != 0) ProcessHexagon(NeighborField(field, left), left, over == 2 ? leftCount + 0xff : leftCount - 1);
-        if (rightCount != 0) ProcessHexagon(NeighborField(field, right), right, over == 2 ? rightCount + 0xff : rightCount - 1);
+        if ((count & 0xff) != 0) ProcessHex(NeighborField(field, direction), direction, over == 2 ? count + 0xff : count - 1);
+        if (leftCount != 0) ProcessHex(NeighborField(field, left), left, over == 2 ? leftCount + 0xff : leftCount - 1);
+        if (rightCount != 0) ProcessHex(NeighborField(field, right), right, over == 2 ? rightCount + 0xff : rightCount - 1);
         if ((count & 0x100) != 0)
         {
-            int opposite = P5OppositeDirections[direction];
-            left = P5SideDirections[opposite][0];
-            right = P5SideDirections[opposite][1];
+            int opposite = s_oppositeDirections[direction];
+            left = s_sideDirections[opposite][0];
+            right = s_sideDirections[opposite][1];
             leftCount = CalculateMovePointLine(field, left, over);
             rightCount = CalculateMovePointLine(field, right, over);
-            if (leftCount != 0) ProcessHexagon(NeighborField(field, left), left, leftCount - 1);
-            if (rightCount != 0) ProcessHexagon(NeighborField(field, right), right, rightCount - 1);
+            if (leftCount != 0) ProcessHex(NeighborField(field, left), left, leftCount - 1);
+            if (rightCount != 0) ProcessHex(NeighborField(field, right), right, rightCount - 1);
         }
-        if ((field.FFieldFlags & 0x8000) != 0) field.MoveExclusive(this);
+        if ((field.FieldFlags & 0x8000) != 0) field.MoveExclusive(this);
     }
 }

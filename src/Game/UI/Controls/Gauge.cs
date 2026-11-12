@@ -7,57 +7,57 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Controls;
 
-// Fields: FMin, FMax, FPosition, FILFrame, FILTextureNormal, FILTextureSelected, FStyle,
-// FILIndexFrame, FILIndexTNormal, FILIndexTSelected
+// Fields: _min, _max, _position, _imageLibraryFrame, _imageLibraryTextureNormal, _imageLibraryTextureSelected, Style,
+// _imageLibraryIndexFrame, _imageLibraryIndexTNormal, _imageLibraryIndexTSelected
 public partial class Gauge : Control
 {
-    public int FMin;
-    public int FMax;
-    public int FPosition;
-    public InterfaceImageLibrary FILFrame;
-    public InterfaceImageLibrary FILTextureNormal;
-    public InterfaceImageLibrary FILTextureSelected;
-    public GaugeType FStyle;
-    public int FILIndexFrame;
-    public int FILIndexTNormal;
-    public int FILIndexTSelected;
+    public int _min;
+    public int _max;
+    public int _position;
+    public InterfaceImageLibrary _imageLibraryFrame;
+    public InterfaceImageLibrary _imageLibraryTextureNormal;
+    public InterfaceImageLibrary _imageLibraryTextureSelected;
+    public GaugeType Style;
+    public int _imageLibraryIndexFrame;
+    public int _imageLibraryIndexTNormal;
+    public int _imageLibraryIndexTSelected;
 
     // AOWGauge.pas:69
     public Gauge(Component owner) : base(owner)
     {
-        FMax = 1;
+        _max = 1;
     }
 
     // AOWGauge.pas:75
     public override void Validate()
     {
-        if (FILTextureNormal != null)
+        if (_imageLibraryTextureNormal != null)
         {
-            FILTextureNormal = FILTextureNormal.CheckIL(FILIndexTNormal, 1, this);
+            _imageLibraryTextureNormal = _imageLibraryTextureNormal.CheckImageLibrary(_imageLibraryIndexTNormal, 1, this);
         }
 
-        if (FILTextureSelected != null)
+        if (_imageLibraryTextureSelected != null)
         {
-            FILTextureSelected = FILTextureSelected.CheckIL(FILIndexTSelected, 1, this);
+            _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryIndexTSelected, 1, this);
         }
 
-        if (FILTextureNormal != null && FILTextureSelected != null)
+        if (_imageLibraryTextureNormal != null && _imageLibraryTextureSelected != null)
         {
-            if (FILFrame != null)
+            if (_imageLibraryFrame != null)
             {
-                FILFrame = FILFrame.CheckIL(FILIndexFrame, 8, this);
+                _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
             }
 
-            if (FILFrame != null)
+            if (_imageLibraryFrame != null)
             {
-                FStyle = GaugeType.Normal;
+                Style = GaugeType.Normal;
             }
             else
             {
-                FStyle = GaugeType.Borderless;
+                Style = GaugeType.Borderless;
             }
 
-            FValid = true;
+            Valid = true;
         }
 
         base.Validate();
@@ -66,43 +66,43 @@ public partial class Gauge : Control
     // AOWGauge.pas:94
     public override void SetSize()
     {
-        switch (FStyle)
+        switch (Style)
         {
             case GaugeType.Normal:
-                var ilFrameHeight = FILFrame[FILIndexFrame];
-                var ilFrame = FILFrame[FILIndexFrame + 5];
-                if (ilFrameHeight.Height + ilFrame.Height > FWinHeight)
+                var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
+                var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+                if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > _winHeight)
                 {
-                    var ilFrame2 = FILFrame[FILIndexFrame];
-                    var ilFrame3 = FILFrame[FILIndexFrame + 5];
-                    FWinHeight = ilFrame2.Height + ilFrame3.Height;
+                    var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
+                    var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+                    _winHeight = imageLibraryFrame2.Height + imageLibraryFrame3.Height;
                 }
 
-                var ilFrameWidth = FILFrame[FILIndexFrame];
-                var ilFrame4 = FILFrame[FILIndexFrame + 2];
-                if (ilFrameWidth.Width + ilFrame4.Width > FWinWidth)
+                var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame];
+                var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > _winWidth)
                 {
-                    var ilFrame2 = FILFrame[FILIndexFrame];
-                    var ilFrame3 = FILFrame[FILIndexFrame + 2];
-                    FWinWidth = ilFrame2.Width + ilFrame3.Width;
+                    var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
+                    var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                    _winWidth = imageLibraryFrame2.Width + imageLibraryFrame3.Width;
                 }
 
                 break;
         }
 
-        if (FMin + 1 > FMax)
+        if (_min + 1 > _max)
         {
-            FMax = FMin + 1;
+            _max = _min + 1;
         }
 
-        if (FMin > FPosition)
+        if (_min > _position)
         {
-            FPosition = FMin;
+            _position = _min;
         }
 
-        if (FMax < FPosition)
+        if (_max < _position)
         {
-            FPosition = FMax;
+            _position = _max;
         }
 
         base.SetSize();
@@ -111,69 +111,69 @@ public partial class Gauge : Control
     // AOWGauge.pas:183
     // { Draw: the filled width P is computed from Position without subtracting Min (original bug:
     //   the gauge is only right for Min = 0) }
-    public override void Draw(LockedSurface SurfDesc)
+    public override void Draw(LockedSurface lockedSurface)
     {
-        Rect OldClip = default;
+        Rect oldClip = default;
         int P = default;
         try
         {
-            if (FValid && FVisible)
+            if (Valid && _visible)
             {
-                if (FOnPreDraw != null)
+                if (_onPreDraw != null)
                 {
-                    FOnPreDraw(this, SurfDesc);
+                    _onPreDraw(this, lockedSurface);
                 }
 
-                OldClip = SurfDesc.ClipRect;
-                switch (FStyle)
+                oldClip = lockedSurface.ClipRectangle;
+                switch (Style)
                 {
                     case GaugeType.Normal:
-                        var ilFrameWidth = FILFrame[FILIndexFrame + 3];
-                        var ilFrame = FILFrame[FILIndexFrame + 4];
-                        P = (FWinWidth - ilFrameWidth.Width - ilFrame.Width) * FPosition / (FMax - FMin);
-                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                        FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
-                        var ilFrame2 = FILFrame[FILIndexFrame + 3];
-                        if (FAOWWindow.FWinLeft + P + FWinLeft + ilFrame2.Width > SurfDesc.ClipRect.Left)
+                        var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                        P = (_winWidth - imageLibraryFrameWidth.Width - imageLibraryFrame.Width) * _position / (_max - _min);
+                        var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                        _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
+                        var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        if (_window._winLeft + P + _winLeft + imageLibraryFrame2.Width > lockedSurface.ClipRectangle.Left)
                         {
-                            var ilFrame3 = FILFrame[FILIndexFrame + 3];
-                            SurfDesc.ClipRect.Left = FAOWWindow.FWinLeft + P + FWinLeft + ilFrame3.Width;
+                            var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                            lockedSurface.ClipRectangle.Left = _window._winLeft + P + _winLeft + imageLibraryFrame3.Width;
                         }
 
-                        var ilFrameHeight = FILFrame[FILIndexFrame + 1];
-                        var ilFrame4 = FILFrame[FILIndexFrame + 6];
-                        var ilFrame5 = FILFrame[FILIndexFrame + 3];
-                        var ilFrame6 = FILFrame[FILIndexFrame + 4];
-                        var ilFrame7 = FILFrame[FILIndexFrame + 1];
-                        var ilFrame8 = FILFrame[FILIndexFrame + 3];
-                        var rect2 = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width, FAOWWindow.FWinTop + FWinTop + ilFrame7.Height, FWinWidth - ilFrame5.Width - ilFrame6.Width, FWinHeight - ilFrameHeight.Height - ilFrame4.Height);
-                        FILTextureNormal.DrawILT(FILIndexTNormal, rect2, ref SurfDesc);
-                        SurfDesc.ClipRect = OldClip;
-                        var ilFrame9 = FILFrame[FILIndexFrame + 1];
-                        var libraryImage = FILFrame[FILIndexFrame + 6];
-                        var filFrameItem = FILFrame[FILIndexFrame + 1];
-                        var ilFrameWidth2 = FILFrame[FILIndexFrame + 3];
-                        var rect3 = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrameWidth2.Width, FAOWWindow.FWinTop + FWinTop + filFrameItem.Height, P, FWinHeight - ilFrame9.Height - libraryImage.Height);
-                        FILTextureSelected.DrawILT(FILIndexTSelected, rect3, ref SurfDesc);
+                        var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                        var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                        var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        var rectangle2 = new Rect(_window._winLeft + _winLeft + imageLibraryFrame8.Width, _window._winTop + _winTop + imageLibraryFrame7.Height, _winWidth - imageLibraryFrame5.Width - imageLibraryFrame6.Width, _winHeight - imageLibraryFrameHeight.Height - imageLibraryFrame4.Height);
+                        _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle2, ref lockedSurface);
+                        lockedSurface.ClipRectangle = oldClip;
+                        var imageLibraryFrame9 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        var libraryImage = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                        var filFrameItem = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        var imageLibraryFrameWidth2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        var rectangle3 = new Rect(_window._winLeft + _winLeft + imageLibraryFrameWidth2.Width, _window._winTop + _winTop + filFrameItem.Height, P, _winHeight - imageLibraryFrame9.Height - libraryImage.Height);
+                        _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle3, ref lockedSurface);
                         break;
                     case GaugeType.Borderless:
-                        P = FPosition * FWinWidth / (FMax - FMin);
-                        if (FAOWWindow.FWinLeft + P + FWinLeft > SurfDesc.ClipRect.Left)
+                        P = _position * _winWidth / (_max - _min);
+                        if (_window._winLeft + P + _winLeft > lockedSurface.ClipRectangle.Left)
                         {
-                            SurfDesc.ClipRect.Left = FAOWWindow.FWinLeft + P + FWinLeft;
+                            lockedSurface.ClipRectangle.Left = _window._winLeft + P + _winLeft;
                         }
 
-                        var rect4 = new Rect(FAOWWindow.FWinLeft + P + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth - P, FWinHeight);
-                        FILTextureNormal.DrawILT(FILIndexTNormal, rect4, ref SurfDesc);
-                        SurfDesc.ClipRect = OldClip;
-                        var rect5 = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, P, FWinHeight);
-                        FILTextureSelected.DrawILT(FILIndexTSelected, rect5, ref SurfDesc);
+                        var rectangle4 = new Rect(_window._winLeft + P + _winLeft, _window._winTop + _winTop, _winWidth - P, _winHeight);
+                        _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle4, ref lockedSurface);
+                        lockedSurface.ClipRectangle = oldClip;
+                        var rectangle5 = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, P, _winHeight);
+                        _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle5, ref lockedSurface);
                         break;
                 }
 
-                if (FOnDraw != null)
+                if (_onDraw != null)
                 {
-                    FOnDraw(this, SurfDesc);
+                    _onDraw(this, lockedSurface);
                 }
             }
         }
@@ -184,213 +184,213 @@ public partial class Gauge : Control
     }
 
     // AOWGauge.pas:237
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        base.CheckMouseDown(Button, Shift, X, Y);
-        FHandled = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        base.CheckMouseDown(button, shift, X, Y);
+        Handled = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (FOnMouseDown != null)
+            Handled = true;
+            if (_onMouseDown != null)
             {
-                FOnMouseDown(this, Button, Shift, X, Y);
+                _onMouseDown(this, button, shift, X, Y);
             }
         }
     }
 
     // AOWGauge.pas:250
-    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        FHandled = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        Handled = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (FOnMouseUp != null)
+            Handled = true;
+            if (_onMouseUp != null)
             {
-                FOnMouseUp(this, Button, Shift, X, Y);
+                _onMouseUp(this, button, shift, X, Y);
             }
         }
     }
 
     // AOWGauge.pas:262
-    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        FHandled = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        Handled = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (FOnMouseMove != null)
+            Handled = true;
+            if (_onMouseMove != null)
             {
-                FOnMouseMove(this, Shift, X, Y);
+                _onMouseMove(this, shift, X, Y);
             }
         }
     }
 
     // AOWGauge.pas:274
-    public override void CheckKeyPress(ref byte Key)
+    public override void CheckKeyPress(ref byte key)
     {
-        FHandled = false;
+        Handled = false;
     }
 
     // AOWGauge.pas:141
-    public virtual void SetILFrame(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)
     {
-        if (Value != FILFrame)
+        if (value != _imageLibraryFrame)
         {
-            FValid = false;
-            FILFrame = Value;
+            Valid = false;
+            _imageLibraryFrame = value;
         }
     }
 
     // AOWGauge.pas:150
-    public virtual void SetILTNorm(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryTileNorm(InterfaceImageLibrary value)
     {
-        if (Value != FILTextureNormal)
+        if (value != _imageLibraryTextureNormal)
         {
-            FValid = false;
-            FILTextureNormal = Value;
+            Valid = false;
+            _imageLibraryTextureNormal = value;
         }
     }
 
     // AOWGauge.pas:159
-    public virtual void SetILTSel(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryTileSelected(InterfaceImageLibrary value)
     {
-        if (Value != FILTextureSelected)
+        if (value != _imageLibraryTextureSelected)
         {
-            FValid = false;
-            FILTextureSelected = Value;
+            Valid = false;
+            _imageLibraryTextureSelected = value;
         }
     }
 
     // AOWGauge.pas:114
-    public void SetILFIndex(int Value)
+    public void SetILFIndex(int value)
     {
-        if (Value != FILIndexFrame)
+        if (value != _imageLibraryIndexFrame)
         {
-            FILIndexFrame = Value;
-            FValid = false;
+            _imageLibraryIndexFrame = value;
+            Valid = false;
         }
     }
 
     // AOWGauge.pas:123
-    public void SetILTnIndex(int Value)
+    public void SetImageLibraryTnIndex(int value)
     {
-        if (Value != FILIndexTNormal)
+        if (value != _imageLibraryIndexTNormal)
         {
-            FILIndexTNormal = Value;
-            FValid = false;
+            _imageLibraryIndexTNormal = value;
+            Valid = false;
         }
     }
 
     // AOWGauge.pas:132
-    public void SetILTsIndex(int Value)
+    public void SetImageLibraryTsIndex(int value)
     {
-        if (Value != FILIndexTSelected)
+        if (value != _imageLibraryIndexTSelected)
         {
-            FILIndexTSelected = Value;
-            FValid = false;
+            _imageLibraryIndexTSelected = value;
+            Valid = false;
         }
     }
 
     // AOWGauge.pas:168
-    public void SetPos(int Value)
+    public void SetPosition(int value)
     {
-        if (Value != FPosition)
+        if (value != _position)
         {
-            FPosition = Value;
-            if (FPosition > FMax)
+            _position = value;
+            if (_position > _max)
             {
-                FPosition = FMax;
+                _position = _max;
             }
 
-            if (FMin > FPosition)
+            if (_min > _position)
             {
-                FPosition = FMin;
+                _position = _min;
             }
 
-            FDrawn = false;
+            Drawn = false;
         }
     }
 
     [Published]
-    public int Min { get => FMin; set => FMin = value; }
+    public int Min { get => _min; set => _min = value; }
 
     [Published]
-    public int Max { get => FMax; set => FMax = value; }
+    public int Max { get => _max; set => _max = value; }
 
     [Published]
-    public int Position { get => FPosition; set => SetPos(value); }
+    public int Position { get => _position; set => SetPosition(value); }
 
     [Published]
-    public InterfaceImageLibrary ILFrame { get => FILFrame; set => SetILFrame(value); }
+    public InterfaceImageLibrary ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
 
     [Published]
-    public InterfaceImageLibrary ILTextureNormal { get => FILTextureNormal; set => SetILTNorm(value); }
+    public InterfaceImageLibrary ImageLibraryTextureNormal { get => _imageLibraryTextureNormal; set => SetImageLibraryTileNorm(value); }
 
     [Published]
-    public InterfaceImageLibrary ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
+    public InterfaceImageLibrary ImageLibraryTextureSelected { get => _imageLibraryTextureSelected; set => SetImageLibraryTileSelected(value); }
 
     [Published]
-    public int ILIndexFrame { get => FILIndexFrame; set => FILIndexFrame = value; }
+    public int ImageLibraryIndexFrame { get => _imageLibraryIndexFrame; set => _imageLibraryIndexFrame = value; }
 
     [Published]
-    public int ILIndexTNormal { get => FILIndexTNormal; set => SetILTnIndex(value); }
+    public int ImageLibraryIndexTNormal { get => _imageLibraryIndexTNormal; set => SetImageLibraryTnIndex(value); }
 
     [Published]
-    public int ILIndexTSelected { get => FILIndexTSelected; set => SetILTsIndex(value); }
+    public int ImageLibraryIndexTSelected { get => _imageLibraryIndexTSelected; set => SetImageLibraryTsIndex(value); }
 
     public new NotifyEvent<Gauge> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<Gauge> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<Gauge> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<Gauge> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<Gauge> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<Gauge> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<Gauge> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<Gauge> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<Gauge> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 
     public enum GaugeType : byte

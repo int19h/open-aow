@@ -15,57 +15,57 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     public AIMoveExecutorArmy(ECustomNode owner) : base(owner)
     { }
 
-    public MapCoordinate FLocation;
-    public MapCoordinate FDestination;
-    public AIMoveExecutorTransportStatus FTransportStatus;
-    public MapCoordinate FBoardingPoint;
-    public MapCoordinate FArrivalPoint;
-    public MapCoordinate FTransportSource;
-    public MapCoordinate FTransportDestination;
-    public sbyte FPlayer;
-    public bool FGrouped;
+    public MapCoordinate Location;
+    public MapCoordinate Destination;
+    public AIMoveExecutorTransportStatus TransportStatus;
+    public MapCoordinate BoardingPoint;
+    public MapCoordinate ArrivalPoint;
+    public MapCoordinate TransportSource;
+    public MapCoordinate TransportDestination;
+    public sbyte Player;
+    public bool Grouped;
 
     // AIGroup.pas:4527
-    public void Setup(AIMoveExecutorUnit Transporter)
+    public void Setup(AIMoveExecutorUnit transporter)
     {
-        FLocation.X = Transporter.FLocation.X;
-        FLocation.Y = Transporter.FLocation.Y;
-        FLocation.L = Transporter.FLocation.L;
-        FLocation.Flag = 0;
-        FDestination.X = Transporter.FDestination.X;
-        FDestination.Y = Transporter.FDestination.Y;
-        FDestination.L = Transporter.FDestination.L;
-        FDestination.Flag = 0;
-        FGrouped = false;
-        FPlayer = Transporter.FUnit.FPlayer;
-        FTransportStatus = Transporter.FTransportStatus;
-        FBoardingPoint = Transporter.FBoardingPoint;
-        FArrivalPoint = Transporter.FArrivalPoint;
-        FTransportSource = Transporter.FTransportSource;
-        FTransportDestination = Transporter.FTransportDestination;
-        AddChild(Transporter);
+        Location.X = transporter.Location.X;
+        Location.Y = transporter.Location.Y;
+        Location.MapLevel = transporter.Location.MapLevel;
+        Location.Tag = 0;
+        Destination.X = transporter.Destination.X;
+        Destination.Y = transporter.Destination.Y;
+        Destination.MapLevel = transporter.Destination.MapLevel;
+        Destination.Tag = 0;
+        Grouped = false;
+        Player = transporter.Troop.Player;
+        TransportStatus = transporter.TransportStatus;
+        BoardingPoint = transporter.BoardingPoint;
+        ArrivalPoint = transporter.ArrivalPoint;
+        TransportSource = transporter.TransportSource;
+        TransportDestination = transporter.TransportDestination;
+        AddChild(transporter);
     }
 
     // AIGroup.pas:4547
-    public bool CanAdd(AIMoveExecutorUnit UnitEntry) => Unsafe.As<MapCoordinate, int>(ref FLocation) == Unsafe.As<MapCoordinate, int>(ref UnitEntry.FLocation) && Unsafe.As<MapCoordinate, int>(ref FDestination) == Unsafe.As<MapCoordinate, int>(ref UnitEntry.FDestination) && FTransportStatus == UnitEntry.FTransportStatus && (FTransportStatus == AIMoveExecutorTransportStatus.Done || (Unsafe.As<MapCoordinate, int>(ref FBoardingPoint) == Unsafe.As<MapCoordinate, int>(ref UnitEntry.FBoardingPoint) && Unsafe.As<MapCoordinate, int>(ref FArrivalPoint) == Unsafe.As<MapCoordinate, int>(ref UnitEntry.FArrivalPoint) && Unsafe.As<MapCoordinate, int>(ref FTransportSource) == Unsafe.As<MapCoordinate, int>(ref UnitEntry.FTransportSource) && Unsafe.As<MapCoordinate, int>(ref FTransportDestination) == Unsafe.As<MapCoordinate, int>(ref UnitEntry.FTransportDestination)));
+    public bool CanAdd(AIMoveExecutorUnit unitEntry) => Unsafe.As<MapCoordinate, int>(ref Location) == Unsafe.As<MapCoordinate, int>(ref unitEntry.Location) && Unsafe.As<MapCoordinate, int>(ref Destination) == Unsafe.As<MapCoordinate, int>(ref unitEntry.Destination) && TransportStatus == unitEntry.TransportStatus && (TransportStatus == AIMoveExecutorTransportStatus.Done || (Unsafe.As<MapCoordinate, int>(ref BoardingPoint) == Unsafe.As<MapCoordinate, int>(ref unitEntry.BoardingPoint) && Unsafe.As<MapCoordinate, int>(ref ArrivalPoint) == Unsafe.As<MapCoordinate, int>(ref unitEntry.ArrivalPoint) && Unsafe.As<MapCoordinate, int>(ref TransportSource) == Unsafe.As<MapCoordinate, int>(ref unitEntry.TransportSource) && Unsafe.As<MapCoordinate, int>(ref TransportDestination) == Unsafe.As<MapCoordinate, int>(ref unitEntry.TransportDestination)));
 
     // AIGroup.pas:4559
-    public void RetrieveArmy(byte Selection, ref ArmyHexSprite Army, ref byte ArmySelection)
+    public void RetrieveArmy(byte selection, ref ArmyHexSprite army, ref byte armySelection)
     {
-        int Index;
-        Army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(FLocation.X, FLocation.Y, FLocation.L)).GetArmyHS();
-        if (Army != null)
+        int index;
+        army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel)).GetArmyHexSprite();
+        if (army != null)
         {
-            ArmySelection = 0;
+            armySelection = 0;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                if ((Selection & 1) != 0)
+                if ((selection & 1) != 0)
                 {
                     var units = GetUnits(I);
-                    Index = Army.FArmy.FindChildIndex(units.FUnit);
-                    if (Index != -1)
+                    index = army.Army.FindChildIndex(units.Troop);
+                    if (index != -1)
                     {
-                        ArmySelection = (byte)(ArmySelection | (1 << Index));
+                        armySelection = (byte)(armySelection | (1 << index));
                     }
                     else
                     {
@@ -73,13 +73,13 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
                     }
                 }
 
-                Selection = (byte)(int)(((uint)Selection) >> 1);
+                selection = (byte)(int)(((uint)selection) >> 1);
             }
         }
         else
         {
-            ArmySelection = 0;
-            Army = null;
+            armySelection = 0;
+            army = null;
         }
     }
 
@@ -93,85 +93,85 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     }
 
     // AIGroup.pas:4594
-    public bool WaitingForTransport() => Unsafe.As<MapCoordinate, int>(ref FLocation) == Unsafe.As<MapCoordinate, int>(ref FBoardingPoint);
+    public bool WaitingForTransport() => Unsafe.As<MapCoordinate, int>(ref Location) == Unsafe.As<MapCoordinate, int>(ref BoardingPoint);
 
     // AIGroup.pas:4599
-    public int Moves(byte Selection)
+    public int Moves(byte selection)
     {
-        int Result = 65535;
+        int result = 65535;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                if (Result > GetUnits(I).FUnit.GetMoves())
+                if (result > GetUnits(I).Troop.GetMoves())
                 {
-                    Result = GetUnits(I).FUnit.GetMoves();
+                    result = GetUnits(I).Troop.GetMoves();
                 }
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        if (Result == 65535)
+        if (result == 65535)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:4613
-    public int MovePoints(byte Selection)
+    public int MovePoints(byte selection)
     {
-        int Result = 65535;
+        int result = 65535;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                if (Result > GetUnits(I).FUnit.GetMovePoints())
+                if (result > GetUnits(I).Troop.GetMovePoints())
                 {
-                    Result = GetUnits(I).FUnit.GetMovePoints();
+                    result = GetUnits(I).Troop.GetMovePoints();
                 }
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        if (Result == 65535)
+        if (result == 65535)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:4627
-    public byte ValidTerrain(byte Selection, sbyte TerrainType, sbyte OverlayType)
+    public byte ValidTerrain(byte selection, sbyte terrainType, sbyte overlayType)
     {
-        bool All;
-        byte Result = 0;
-        All = true;
+        bool all;
+        byte result = 0;
+        all = true;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if (((1 << I) & Selection) != 0)
+            if (((1 << I) & selection) != 0)
             {
-                if (!GetUnits(I).FUnit.ValidTerrain(TerrainType, OverlayType))
+                if (!GetUnits(I).Troop.ValidTerrain(terrainType, overlayType))
                 {
-                    All = false;
+                    all = false;
                 }
                 else
                 {
-                    Result = (byte)(Result | (1 << I));
+                    result = (byte)(result | (1 << I));
                 }
             }
         }
 
-        if (All)
+        if (all)
         {
-            Result = Selection;
+            result = selection;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:631

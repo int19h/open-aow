@@ -14,33 +14,33 @@ public partial class ImageLibraryFont
         foreach (char c in text)
         {
             var image = GetSafe(Cp1252.Byte(c));
-            width += (image?.Width ?? 5) + FCharacterDistance;
+            width += (image?.Width ?? 5) + _characterDistance;
         }
         return width;
     }
 
-    internal void ShowText(int x, int y, string text, in LockedSurface sd)
+    internal void ShowText(int x, int y, string text, in LockedSurface lockedSurface)
     {
         if (RtlUnit.IsEmpty(text)) return;
         foreach (char c in text)
         {
             var image = GetSafe(Cp1252.Byte(c));
-            if (image != null) image.Show(x, y, sd);
-            x += (image?.Width ?? 5) + FCharacterDistance;
+            if (image != null) image.Show(x, y, lockedSurface);
+            x += (image?.Width ?? 5) + _characterDistance;
         }
     }
 
     internal void SetColor(int value)
     {
-        if (FFontColorPaletteIndex >= 0 && FPaletteManager.FPalettes.Count != 0)
+        if (_fontColorPaletteIndex >= 0 && _paletteManager._palettes.Count != 0)
         {
-            var palette = FPaletteManager.FPalettes[0];
-            palette.FPalette.Entries[FFontColorPaletteIndex].Value =
-                PixelFormats.Color2PixelInfo(value, palette.FPalette.PixelFormatID, null);
-            if (palette.FRemapPalette != null)
-                palette.FRemapPalette.Entries[FFontColorPaletteIndex].Value =
-                    PixelFormats.Color2PixelInfo(value, palette.FRemapPalette.PixelFormatID, null);
+            var palette = _paletteManager._palettes[0];
+            palette._palette.Entries[_fontColorPaletteIndex].Value =
+                PixelFormats.Color2PixelInfo(value, palette._palette.PixelFormatId, null);
+            if (palette._remapPaletteValue != null)
+                palette._remapPaletteValue.Entries[_fontColorPaletteIndex].Value =
+                    PixelFormats.Color2PixelInfo(value, palette._remapPaletteValue.PixelFormatId, null);
         }
-        FColor = value;
+        _color = value;
     }
 }

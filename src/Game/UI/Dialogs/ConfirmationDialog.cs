@@ -31,36 +31,36 @@ public partial class ConfirmationDialog : DataModule
     public Frame BCeltL;
     public Frame TCeltL;
     public Image TCeltLineL;
-    public Image AOWImage1;
-    public Image AOWImage2;
-    public Frame AoWFrame1;
+    public Image Image1;
+    public Image Image2;
+    public Frame Frame1;
     public Frame SignBLine;
     public Image SIcon;
     public IvTranslator Translator;
-    public byte FAction;
-    public bool FSkipCombatChoice;
+    public byte Action;
+    public bool SkipCombatChoice;
 
     // AOWDialogWin.pas:121
-    public void Confirm(string Title, string Text, byte Action)
+    public void Confirm(string title, string text, byte action)
     {
-        FAction = Action;
-        DTitle.Text = Title;
-        DMessage.Text = Text;
+        Action = action;
+        DTitle.Text = title;
+        DMessage.Text = text;
         yesPnl.Visible = true;
         okPnl.Visible = false;
         Dialog.Visible = true;
     }
 
     // AOWDialogWin.pas:113
-    public void AddDebugMessage(string Text)
+    public void AddDebugMessage(string text)
     {
-        DebugMemo.Items.Add(Text);
+        DebugMemo.Items.Add(text);
         if (DebugMemo.Items.Count > 99)
         {
             DebugMemo.Items.Delete(0);
         }
 
-        DebugMemo.FSized = false;
+        DebugMemo.Sized = false;
         DMemoScroll.Position = DMemoScroll.Max;
     }
 
@@ -81,35 +81,35 @@ public partial class ConfirmationDialog : DataModule
     // AOWDialogWin.pas:73
     public void yesBtnClick()
     {
-        string Reason = "";
-        Structure Structure;
+        string reason = "";
+        Structure structure;
         DialogHosts.General.PlayButtonSound(0);
-        switch (FAction)
+        switch (Action)
         {
             case 0:
             case 1:
                 break;
             case 2:
-                DialogHosts.General.FCity.Loot();
+                DialogHosts.General.City.Loot();
                 break;
             case 3:
-                if (DialogHosts.General.FCity.CanRaze(AoWHSMap.Current.FSeatedPlayer, ref Reason))
+                if (DialogHosts.General.City.CanRaze(AoWHSMap.Current.SeatedPlayer, ref reason))
                 {
-                    if (DialogHosts.General.FCity.Raze(AoWHSMap.Current.FSeatedPlayer))
+                    if (DialogHosts.General.City.Raze(AoWHSMap.Current.SeatedPlayer))
                     {
-                        Structure = DialogHosts.General.FStructure;
+                        structure = DialogHosts.General.Structure;
                         DialogHosts.MapEvents.TheMapStructureDeselected();
-                        DialogHosts.MapEvents.TheMapStructureSelected(Structure);
+                        DialogHosts.MapEvents.TheMapStructureSelected(structure);
                     }
                 }
                 else
                 {
-                    AoWHSMap.Current.ShowWarning(Reason);
+                    AoWHSMap.Current.ShowWarning(reason);
                 }
 
                 break;
             case 4:
-                AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).Surrender();
+                AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Surrender();
                 break;
             case 5:
                 DialogHosts.WorldMap.WorldPnl.Visible = false;
@@ -118,23 +118,23 @@ public partial class ConfirmationDialog : DataModule
             case 6:
                 if (CombatMap.Current != null)
                 {
-                    CombatMap.Current.Surrender(CombatMap.Current.FSeatedCombatPlayer);
+                    CombatMap.Current.Surrender(CombatMap.Current.SeatedCombatPlayer);
                 }
 
                 break;
             case 7:
-                if (DialogHosts.General.FSelectedUnit != null)
+                if (DialogHosts.General.SelectedUnit != null)
                 {
-                    if (DialogHosts.General.FSelectedUnit.CanDisband(ref Reason))
+                    if (DialogHosts.General.SelectedUnit.CanDisband(ref reason))
                     {
-                        if (DialogHosts.General.FSelectedUnit.Disband())
+                        if (DialogHosts.General.SelectedUnit.Disband())
                         {
                             DialogHosts.UnitWindow.UnitWin.Visible = false;
                         }
                     }
                     else
                     {
-                        AoWHSMap.Current.ShowWarning(Reason);
+                        AoWHSMap.Current.ShowWarning(reason);
                     }
                 }
 
@@ -145,9 +145,9 @@ public partial class ConfirmationDialog : DataModule
     }
 
     // AOWDialogWin.pas:104
-    public void DialogKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DialogKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        switch (Key)
+        switch (key)
         {
             case 27:
                 DButtonClick();
@@ -166,14 +166,14 @@ public partial class ConfirmationDialog : DataModule
         }
     }
 
-    internal static void ConfirmDialog(ConfirmationDialog Dialog, string Title, string Message, byte Kind)
+    internal static void ConfirmDialog(ConfirmationDialog dialog, string title, string message, byte kind)
     {
-        Dialog.FAction = Kind;
-        Dialog.DTitle.Text = Title;
-        Dialog.DMessage.Text = Message;
-        Dialog.yesPnl.Visible = true;
-        Dialog.okPnl.Visible = false;
-        Dialog.Dialog.Visible = true;
+        dialog.Action = kind;
+        dialog.DTitle.Text = title;
+        dialog.DMessage.Text = message;
+        dialog.yesPnl.Visible = true;
+        dialog.okPnl.Visible = false;
+        dialog.Dialog.Visible = true;
     }
 
 }

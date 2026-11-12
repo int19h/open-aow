@@ -21,142 +21,142 @@ public partial class BlastStorm : Storm
     public BlastStorm(ECustomNode owner) : base(owner)
     { }
 
-    public CustomImageLibrary FStormImages;
+    public CustomImageLibrary StormImages;
 
     // Storms.pas:338
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        int Frame;
-        Frame = FFrameCounter % FStormImages.Count;
-        var yhx = GetYhx();
-        HexGeometry.HXtoHP(GetXhx(), yhx, ref X, ref Y);
-        var stormImageWidth = FStormImages[Frame];
+        int frame;
+        frame = FrameCounter % StormImages.Count;
+        var hexY = GetHexY();
+        HexGeometry.HexToPixel(GetHexX(), hexY, ref X, ref Y);
+        var stormImageWidth = StormImages[frame];
         X = X - (int)(((uint)stormImageWidth.Width) >> 1) + 10;
-        var stormImageHeight = FStormImages[Frame];
+        var stormImageHeight = StormImages[frame];
         Y = Y - (int)(((uint)stormImageHeight.Height) >> 1) - 42;
-        FStormImages[Frame].Show(X - XhpSurf, Y - YhpSurf, SurfaceDesc);
+        StormImages[frame].Show(X - pixelXSurface, Y - pixelYSurface, lockedSurface);
     }
 
     // Storms.pas:358
-    public override void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo Info)
+    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info)
     {
-        AbilityRules.RetrieveStormDamageInfo(Player, StormType(), X, Y, L, 0, 4, ref Info);
+        AbilityRules.RetrieveStormDamageInfo(player, StormType(), X, Y, L, 0, 4, ref info);
     }
 
     // Storms.pas:349
-    public override void UpdateTargetSelection(TargetSelectionControl Selection)
+    public override void UpdateTargetSelection(TargetSelectionControl selection)
     {
-        base.UpdateTargetSelection(Selection);
-        Selection.FHNs.Clear();
-        for (int I = 0, last = HexGeometry.RadToHN(5) - 1; I <= last; I++)
+        base.UpdateTargetSelection(selection);
+        selection.HexNumbers.Clear();
+        for (int I = 0, last = HexGeometry.RadiusToHexNumber(5) - 1; I <= last; I++)
         {
-            Selection.FHNs.Add(0);
+            selection.HexNumbers.Add(0);
         }
     }
 
     // Storms.pas:276
-    public override void InitializeStorm(sbyte Player, sbyte X, sbyte Y, sbyte L)
+    public override void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
     {
         Rect R = default;
-        base.InitializeStorm(Player, X, Y, L);
+        base.InitializeStorm(player, X, Y, L);
         var stormFileName = StormFileName();
-        FStormImages = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
+        StormImages = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
         if (GetVisible())
         {
-            FStormImages.LoadDiscardableImageData();
+            StormImages.LoadDiscardableImageData();
         }
 
-        R.Left = -(int)(((uint)FStormImages[0].Width) >> 1);
-        R.Right = (int)(((uint)FStormImages[0].Width) >> 1);
-        R.Top = -(int)(((uint)FStormImages[0].Height) >> 1);
-        R.Bottom = (int)(((uint)FStormImages[0].Height) >> 1);
+        R.Left = -(int)(((uint)StormImages[0].Width) >> 1);
+        R.Right = (int)(((uint)StormImages[0].Width) >> 1);
+        R.Top = -(int)(((uint)StormImages[0].Height) >> 1);
+        R.Bottom = (int)(((uint)StormImages[0].Height) >> 1);
         SetDimensions(R);
-        AoWHSMap.Current.ValidateTerrainObservation(AoWHSMap.Current.FCurrentPlayer, X, Y, L, 4);
-        if (AoWHSMap.Current.FCurrentPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.TerrainVisible(X, Y, L, 4))
+        AoWHSMap.Current.ValidateTerrainObservation(AoWHSMap.Current.CurrentPlayer, X, Y, L, 4);
+        if (AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.TerrainVisible(X, Y, L, 4))
         {
             AudioPlayback.PlaySample("SFX\\ATTACK\\STORMBIG.WAV");
         }
 
-        PlaceHX(AoWHSMap.Current.MapContainer, X, Y, L);
+        PlaceHex(AoWHSMap.Current.MapContainer, X, Y, L);
     }
 
     // Storms.pas:312
     public override bool UpdateStorm()
     {
-        bool Result = default;
+        bool result = default;
         NewFrame();
-        if (FFrameCounter == 8)
+        if (FrameCounter == 8)
         {
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            AoWHSMap.Current.ChangeTerrainEx(null, xhx, yhx, lhx, 1, ChangeStormTerrain, StormTerrainChanged);
+            var hexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            AoWHSMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 1, ChangeStormTerrain, StormTerrainChanged);
         }
         else
         {
-            if (FFrameCounter == 12)
+            if (FrameCounter == 12)
             {
-                var lhx = GetLhx();
-                var yhx = GetYhx();
-                var xhx = GetXhx();
-                AoWHSMap.Current.ChangeTerrainEx(null, xhx, yhx, lhx, 2, ChangeStormTerrain, StormTerrainChanged);
+                var hexLevel = GetHexLevel();
+                var hexY = GetHexY();
+                var hexX = GetHexX();
+                AoWHSMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 2, ChangeStormTerrain, StormTerrainChanged);
             }
             else
             {
-                if (FFrameCounter == 18)
+                if (FrameCounter == 18)
                 {
-                    var lhx = GetLhx();
-                    var yhx = GetYhx();
-                    var xhx = GetXhx();
-                    AoWHSMap.Current.ChangeTerrainEx(null, xhx, yhx, lhx, 3, ChangeStormTerrain, StormTerrainChanged);
+                    var hexLevel = GetHexLevel();
+                    var hexY = GetHexY();
+                    var hexX = GetHexX();
+                    AoWHSMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 3, ChangeStormTerrain, StormTerrainChanged);
                 }
                 else
                 {
-                    if (FFrameCounter == 22)
+                    if (FrameCounter == 22)
                     {
-                        var lhx = GetLhx();
-                        var yhx = GetYhx();
-                        var xhx = GetXhx();
-                        AoWHSMap.Current.ChangeTerrainEx(null, xhx, yhx, lhx, 4, ChangeStormTerrain, StormTerrainChanged);
+                        var hexLevel = GetHexLevel();
+                        var hexY = GetHexY();
+                        var hexX = GetHexX();
+                        AoWHSMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 4, ChangeStormTerrain, StormTerrainChanged);
                     }
                 }
             }
         }
 
-        if (FStormImages.Count == FFrameCounter)
+        if (StormImages.Count == FrameCounter)
         {
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            AbilityRules.TriggerStormDamage(StormType(), xhx, yhx, lhx, 0, 4, AoWHSMap.Current.FCurrentPlayer);
-            Result = false;
+            var hexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            AbilityRules.TriggerStormDamage(StormType(), hexX, hexY, hexLevel, 0, 4, AoWHSMap.Current.CurrentPlayer);
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Storms.pas:331
     public override void FinalizeStorm()
     {
-        FStormImages.ReleaseDiscardableImageData();
+        StormImages.ReleaseDiscardableImageData();
         var stormFileName = StormFileName();
-        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
+        AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
         base.FinalizeStorm();
     }
 
     // Storms.pas:304
-    public virtual void ChangeStormTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+    public virtual void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
     {
     }
 
     // Storms.pas:308
-    public virtual void StormTerrainChanged(MapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType)
+    public virtual void StormTerrainChanged(MapField mapField, sbyte originalTerrainType, sbyte originalOverlayType)
     {
     }
 

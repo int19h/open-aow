@@ -8,54 +8,54 @@ namespace Aow.Game.Net;
 // packages that TPlayerCommunicator sends
 public partial class DataPackage : EngineObject
 {
-    internal int FSender;
-    internal int FReceiver;
-    internal int FRefCount;
+    internal int _sender;
+    internal int _receiver;
+    internal int _refCount;
 
     // NetworkE.pas:592
     // { The original does not call the inherited ReadWrite. }
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        Stream.rwInteger(ref FSender, 1);
-        Stream.rwInteger(ref FReceiver, 2);
+        stream.rwInteger(ref _sender, 1);
+        stream.rwInteger(ref _receiver, 2);
     }
 
     // NetworkE.pas:598
-    public override void MainReadWrite(EStorageStream Stream)
+    public override void MainReadWrite(EStorageStream stream)
     {
-        ReadWrite(Stream);
+        ReadWrite(stream);
     }
 
     // NetworkE.pas:566
     public DataPackage(ECustomNode owner) : base(owner)
     {
-        FRefCount = 1;
+        _refCount = 1;
     }
 
     // NetworkE.pas:572
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // NetworkE.pas:578
     public override int Release()
     {
-        FRefCount -= 1;
-        int Result = FRefCount;
-        if (Result == 0)
+        _refCount -= 1;
+        int result = _refCount;
+        if (result == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:586
     public virtual string Name() => this.GetType().Name;
 
-    public int Sender { get => FSender; set => FSender = value; }
-    public int Receiver { get => FReceiver; set => FReceiver = value; }
+    public int Sender { get => _sender; set => _sender = value; }
+    public int Receiver { get => _receiver; set => _receiver = value; }
 
 }

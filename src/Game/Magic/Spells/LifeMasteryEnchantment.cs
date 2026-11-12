@@ -14,67 +14,67 @@ namespace Aow.Game.Magic.Spells;
 public partial class LifeMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1395
-    public new const int ClassID = 135967;
+    public new const int ClassId = 135967;
 
     // GlobalEnchantmentSpells.pas:1387
     public LifeMasteryEnchantment(ECustomNode owner) : base(owner)
     {
-        FName = AbilityRules.TranslateRStr(GameText.LifeMasteryRStr);
-        FEnchantmentType = GlobalEnchantmentType.None;
-        FDispelMana = 175;
+        Name = AbilityRules.TranslateResourceString(GameText.s_lifeMasteryText);
+        EnchantmentType = GlobalEnchantmentType.None;
+        DispelMana = 175;
     }
 
     // GlobalEnchantmentSpells.pas:1398
     public override int GetAIUpkeepPriority() => 1250;
 
     // GlobalEnchantmentSpells.pas:1428
-    public override bool Deactivate(byte Player)
+    public override bool Deactivate(byte player)
     {
-        EngineMessage Msg = default;
-        base.Deactivate(Player);
+        EngineMessage message = default;
+        base.Deactivate(player);
         // { Original doubles Death. }
-        AoWHSMap.Current.FGlobalMagicControl.DecDoubleSphereManaCount(MagicSphere.Death);
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
-        AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
-        EngineMessage.InitMsg(ref Msg, 537002240, this);
-        AoWHSMap.Current.SendMsg(ref Msg, this);
+        AoWHSMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Death);
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
+        EngineMessage.InitializeMessage(ref message, 537002240, this);
+        AoWHSMap.Current.SendMessage(ref message, this);
         return true;
     }
 
     // GlobalEnchantmentSpells.pas:1401
-    public override bool CanActivate(sbyte Player, ref string Reason)
+    public override bool CanActivate(sbyte player, ref string reason)
     {
-        bool Result = base.CanActivate(Player, ref Reason);
-        if (Result)
+        bool result = base.CanActivate(player, ref reason);
+        if (result)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
+            if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
             {
-                var xIsAlreadyActive = AbilityRules.TranslateRStr(GameText.XIsAlreadyActiveRStr);
+                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.s_isAlreadyActiveFormat);
                 var name = GetName();
-                Reason = RtlUnit.Format(xIsAlreadyActive, [name]);
-                Result = false;
+                reason = RtlUnit.Format(xIsAlreadyActive, [name]);
+                result = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1412
-    public override bool Activate(sbyte Player)
+    public override bool Activate(sbyte player)
     {
-        Player APlayer;
-        base.Activate(Player);
+        Player playerLocal;
+        base.Activate(player);
         // { Original doubles Death. }
-        AoWHSMap.Current.FGlobalMagicControl.IncDoubleSphereManaCount(MagicSphere.Death);
-        APlayer = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
-        var playerMagicControl = APlayer.FMagicControl;
-        playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
+        AoWHSMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Death);
+        playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        var playerMagicControl = playerLocal.MagicControl;
+        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
 
-        for (int I = APlayer.FArmies.Count - 1; I >= 0; I--)
+        for (int I = playerLocal.Armies.Count - 1; I >= 0; I--)
         {
-            for (int J = APlayer.FArmies.GetArmy(I).Count - 1; J >= 0; J--)
+            for (int J = playerLocal.Armies.GetArmy(I).Count - 1; J >= 0; J--)
             {
-                APlayer.FArmies.GetArmy(I).GetUnit(J).SetLifeMasteryBlessing();
+                playerLocal.Armies.GetArmy(I).GetUnit(J).SetLifeMasteryBlessing();
             }
         }
 

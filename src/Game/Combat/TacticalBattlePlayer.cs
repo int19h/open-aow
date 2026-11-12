@@ -3,26 +3,26 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Combat;
 
-// FAuto. FEndTurn. FIndex. FLastX. FLastY. FLastUnit
+// Auto. EndTurn. Index. LastX. LastY. LastUnit
 public partial class TacticalBattlePlayer : CombatPlayer
 {
     public TacticalBattlePlayer(ECustomNode owner) : base(owner)
     { }
 
-    public bool FAuto;
-    public bool FEndTurn;
-    public sbyte FIndex;
-    public int FLastX;
-    public int FLastY;
-    public TacticalBattleUnit FLastUnit;
+    public bool Auto;
+    public bool EndTurn;
+    public sbyte Index;
+    public int LastX;
+    public int LastY;
+    public TacticalBattleUnit LastUnit;
 
     // AoWTC.pas:6419
-    public void SetAuto(bool Value)
+    public void SetAuto(bool value)
     {
-        FAuto = Value;
-        if (CombatMap.Current.FSeatedCombatPlayer == FIndex && CombatMap.Current.FSeatedCombatPlayer == CombatMap.Current.FCurrentCombatPlayer)
+        Auto = value;
+        if (CombatMap.Current.SeatedCombatPlayer == Index && CombatMap.Current.SeatedCombatPlayer == CombatMap.Current.CurrentCombatPlayer)
         {
-            CombatMap.Current.FAI.Reset();
+            CombatMap.Current.AI.Reset();
         }
     }
 

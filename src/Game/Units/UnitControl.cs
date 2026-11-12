@@ -11,106 +11,106 @@ using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
-// FNextUnitID. FUnitTable. FUnits
+// NextUnitId. UnitTable. Units
 public partial class UnitControl : EngineObject
 {
     // Unit.PAS:1
     public UnitControl(ECustomNode owner) : base(owner)
     {
-        FUnitTable = new Dictionary<int, Troop>();
-        FUnits = new List<Troop>();
-        FNextUnitID = 1;
+        UnitTable = new Dictionary<int, Troop>();
+        Units = new List<Troop>();
+        NextUnitId = 1;
     }
 
-    public int FNextUnitID;
-    public Dictionary<int, Troop> FUnitTable;
-    public List<Troop> FUnits;
+    public int NextUnitId;
+    public Dictionary<int, Troop> UnitTable;
+    public List<Troop> Units;
 
     // Unit.PAS:8
     public override void Dispose()
     {
-        FUnits?.Clear();
+        Units?.Clear();
         base.Dispose();
     }
 
     // Unit.PAS:14
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FNextUnitID, 10);
-        if (FNextUnitID <= 0)
+        base.ReadWrite(stream);
+        stream.rwInteger(ref NextUnitId, 10);
+        if (NextUnitId <= 0)
         {
-            FNextUnitID = 1;
+            NextUnitId = 1;
         }
     }
 
     // Unit.PAS:20
-    public int GetCount() => FUnits.Count;
+    public int GetCount() => Units.Count;
 
     // Unit.PAS:24
     public void TriggerUnitsChanged()
     {
-        for (int I = FUnits.Count - 1; I >= 0; I--)
+        for (int I = Units.Count - 1; I >= 0; I--)
         {
-            (FUnits[I]).Changed();
+            (Units[I]).Changed();
         }
     }
 
     // Unit.PAS:31
-    public Troop GetUnit(int Index) => FUnits[Index];
+    public Troop GetUnit(int index) => Units[index];
 
     // Unit.PAS:35
-    public Troop FindUnit(int ID) => FUnitTable.TryGetValue(ID, out Troop found) ? found : null;
+    public Troop FindUnit(int id) => UnitTable.TryGetValue(id, out Troop found) ? found : null;
 
     // Null when the id is missing or the stored unit is not a T.
     public T FindUnit<T>(int id) where T : Troop =>
-        FUnitTable.TryGetValue(id, out Troop found) && found is T typed ? typed : null;
+        UnitTable.TryGetValue(id, out Troop found) && found is T typed ? typed : null;
 
     // Unit.PAS:39
-    public int GetFreeID()
+    public int GetFreeId()
     {
-        while (FUnitTable.ContainsKey(FNextUnitID))
+        while (UnitTable.ContainsKey(NextUnitId))
         {
-            FNextUnitID += 1;
-            if (FNextUnitID > 268435455)
+            NextUnitId += 1;
+            if (NextUnitId > 268435455)
             {
-                FNextUnitID = 1;
+                NextUnitId = 1;
             }
         }
 
-        return FNextUnitID;
+        return NextUnitId;
     }
 
     // Unit.PAS:48
-    public void RegisterUnit(Troop AUnit)
+    public void RegisterUnit(Troop troop)
     {
-        Troop ExistingUnit;
-        if (!AUnit.FUnitStatus.Contains(UnitStatusElement.Registered))
+        Troop existingUnit;
+        if (!troop.UnitStatus.Contains(UnitStatusElement.Registered))
         {
-            if (AUnit.FUnitID == -1)
+            if (troop.UnitId == -1)
             {
-                AUnit.FUnitID = GetFreeID();
-                AUnit.FUnitStatus = AUnit.FUnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
-                HashTables.Add(FUnitTable, key: AUnit.FUnitID, value: AUnit);
-                FUnits.Add(AUnit);
+                troop.UnitId = GetFreeId();
+                troop.UnitStatus = troop.UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
+                HashTables.Add(UnitTable, key: troop.UnitId, value: troop);
+                Units.Add(troop);
             }
             else
             {
-                ExistingUnit = FUnitTable.TryGetValue(AUnit.FUnitID, out Troop found) ? found : null;
-                if (ExistingUnit != AUnit)
+                existingUnit = UnitTable.TryGetValue(troop.UnitId, out Troop found) ? found : null;
+                if (existingUnit != troop)
                 {
-                    FUnits.Add(AUnit);
-                    AUnit.FUnitStatus = AUnit.FUnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
-                    if (ExistingUnit == null)
+                    Units.Add(troop);
+                    troop.UnitStatus = troop.UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
+                    if (existingUnit == null)
                     {
-                        HashTables.Add(FUnitTable, key: AUnit.FUnitID, value: AUnit);
+                        HashTables.Add(UnitTable, key: troop.UnitId, value: troop);
                     }
                     else
                     {
                         if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                         {
-                            AUnit.FUnitID = GetFreeID();
-                            HashTables.Add(FUnitTable, key: AUnit.FUnitID, value: AUnit);
+                            troop.UnitId = GetFreeId();
+                            HashTables.Add(UnitTable, key: troop.UnitId, value: troop);
                         }
                         else
                         {
@@ -120,8 +120,8 @@ public partial class UnitControl : EngineObject
                             }
                             catch
                             {
-                                AUnit.FUnitID = GetFreeID();
-                                HashTables.Add(FUnitTable, key: AUnit.FUnitID, value: AUnit);
+                                troop.UnitId = GetFreeId();
+                                HashTables.Add(UnitTable, key: troop.UnitId, value: troop);
                             }
                         }
                     }
@@ -131,17 +131,17 @@ public partial class UnitControl : EngineObject
     }
 
     // Unit.PAS:86
-    public void UnRegisterUnit(Troop AUnit)
+    public void UnregisterUnit(Troop troop)
     {
-        if (AUnit.FUnitStatus.Contains(UnitStatusElement.Registered))
+        if (troop.UnitStatus.Contains(UnitStatusElement.Registered))
         {
-            AUnit.FUnitStatus = AUnit.FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
-            if (FUnitTable.TryGetValue(AUnit.FUnitID, out Troop stored) && stored == AUnit)
+            troop.UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
+            if (UnitTable.TryGetValue(troop.UnitId, out Troop stored) && stored == troop)
             {
-                FUnitTable.Remove(AUnit.FUnitID);
+                UnitTable.Remove(troop.UnitId);
             }
 
-            FUnits.Remove(AUnit);
+            Units.Remove(troop);
         }
     }
 

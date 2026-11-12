@@ -14,313 +14,313 @@ public partial class RangedAttackAbility : AdjustableAbility
     // AoWAb.PAS:4653
     public RangedAttackAbility(ECustomNode owner) : base(owner)
     {
-        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
-        FAbilityType = AbilityType.Combat;
+        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
+        AbilityType = AbilityType.Combat;
     }
 
-    public CombatRange FRangeRA;
-    public sbyte FDamageRA;
-    public sbyte FAttackRA;
-    public PackedDamageTypes FDamageTypesRA;
-    public sbyte FAttackRepeatRA;
+    public CombatRange RangeRangedAttack;
+    public sbyte DamageRangedAttack;
+    public sbyte AttackRangedAttack;
+    public PackedDamageTypes DamageTypesRangedAttack;
+    public sbyte AttackRepeatRangedAttack;
 
     // AoWAb.PAS:4694
-    public override CombatMode GetCombatMode(AbilityOwner Owner) => CombatRangeToCombatMode(GetRangeRA(Owner));
+    public override CombatMode GetCombatMode(AbilityOwner owner) => CombatRangeToCombatMode(GetRangeRangedAttack(owner));
 
     // AoWAb.PAS:4698
-    public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner Owner)
+    public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner owner)
     {
-        Set<WallCombatFeaturesElement> Result;
-        if (GetDamageTypesRA(Owner).Contains(DamageType.Wall))
+        Set<WallCombatFeaturesElement> result;
+        if (GetDamageTypesRangedAttack(owner).Contains(DamageType.Wall))
         {
-            Result = Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.Participate);
+            result = Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.Participate);
         }
         else
         {
-            Result = Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.Participate);
+            result = Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.Participate);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:4659
-    public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner Owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.CombatAction);
+    public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.CombatAction);
 
     // AoWAb.PAS:4832
-    public override bool fcValidRoundDistance(CombatObject Source, CombatObject Target)
+    public override bool FastBattleValidRoundDistance(CombatObject source, CombatObject target)
     {
-        int Distance;
-        CombatRange Range;
-        Distance = Source.FCombat.GetRoundDistance();
-        Range = GetRangeRA(Source.GetAbilityOwner());
-        if (Range == CombatRange.Long)
+        int distance;
+        CombatRange range;
+        distance = source.Combat.GetRoundDistance();
+        range = GetRangeRangedAttack(source.GetAbilityOwner());
+        if (range == CombatRange.Long)
         {
-            Distance += 4;
+            distance += 4;
         }
         else
         {
-            if (Range == CombatRange.Medium)
+            if (range == CombatRange.Medium)
             {
-                Distance += 2;
+                distance += 2;
             }
             else
             {
-                if (Range == CombatRange.Short)
+                if (range == CombatRange.Short)
                 {
-                    Distance += 1;
+                    distance += 1;
                 }
             }
         }
 
-        return Distance >= Target.fcRoundDistance();
+        return distance >= target.FastBattleRoundDistance();
     }
 
     // AoWAb.PAS:4808
-    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
+    public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
-        CombatObject Target;
-        AbilityDamageValues Values = default;
-        FastBattleCommand Command;
-        for (int I = 0, last = Commands.FTargetSide.GetCount() - 1; I <= last; I++)
+        CombatObject target;
+        AbilityDamageValues values = default;
+        FastBattleCommand command;
+        for (int I = 0, last = commands.TargetSide.GetCount() - 1; I <= last; I++)
         {
-            Target = Commands.FTargetSide.GetObjects(I);
-            if (Target.GetEnabled() && fcValidRoundDistance(Commands.FSource, Target))
+            target = commands.TargetSide.GetObjects(I);
+            if (target.GetEnabled() && FastBattleValidRoundDistance(commands.Source, target))
             {
-                var wallSituation = Commands.FSource.FCombat.GetWallSituation(Commands.FSource, Target);
-                fcGetDamageValueEx(Commands.FSource, Target, wallSituation, ref Values);
-                if (Values.SourceDamage != 0)
+                var wallSituation = commands.Source.Combat.GetWallSituation(commands.Source, target);
+                FastBattleGetDamageValues(commands.Source, target, wallSituation, ref values);
+                if (values.SourceDamage != 0)
                 {
-                    Command = new FastBattleCommand(FAbilityID);
-                    Command.FTarget = Commands.FTargetSide.GetObjects(I);
-                    Command.FMoveCost = 1;
-                    Command.FExpectedDV = AbilityRules.DVtoDEV(Values.SourceDamage, Values.TargetDamage, Commands.FSource, Target);
-                    Commands.Add(Command);
+                    command = new FastBattleCommand(AbilityId);
+                    command.Target = commands.TargetSide.GetObjects(I);
+                    command.MoveCost = 1;
+                    command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target);
+                    commands.Add(command);
                 }
             }
         }
     }
 
     // AoWAb.PAS:4787
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
+    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
     {
-        CombatObject Target;
-        int Penalty;
-        RangedAttackCombatAction Action;
-        Target = Command.FTarget;
-        if (Source.FCombat.GetWallSituation(Source, Target) == WallSituation.Target)
+        CombatObject target;
+        int penalty;
+        RangedAttackCombatAction action;
+        target = command.Target;
+        if (source.Combat.GetWallSituation(source, target) == WallSituation.Target)
         {
-            Penalty = 2;
+            penalty = 2;
         }
         else
         {
-            Penalty = 0;
+            penalty = 0;
         }
 
-        if (Target.GetEnabled())
+        if (target.GetEnabled())
         {
-            for (int I = GetAttackRepeatRA(Source.GetAbilityOwner()) - 1; I >= 0; I--)
+            for (int I = GetAttackRepeatRangedAttack(source.GetAbilityOwner()) - 1; I >= 0; I--)
             {
-                Action = CreateRangedAttackCA(Source, Target, Penalty);
-                Source.FCombat.ExecuteCombatAction(Action);
-                Action.Release();
+                action = CreateRangedAttackCombatAction(source, target, penalty);
+                source.Combat.ExecuteCombatAction(action);
+                action.Release();
             }
 
-            ((FastBattleUnit)Source).FState = ((FastBattleUnit)Source).FState + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
+            ((FastBattleUnit)source).State = ((FastBattleUnit)source).State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
         }
 
         return true;
     }
 
     // AoWAb.PAS:4708
-    public override int GetDamageValue(Troop Attacker, Troop Defender)
+    public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        int Repeats;
-        var hitPoints = Defender.GetHitPoints();
-        var defense = Defender.GetDefense();
-        var resistance = Defender.GetResistance();
-        var immunityTypes = Defender.GetImmunityTypes();
-        var protectionTypes = Defender.GetProtectionTypes();
-        var damageTypesRA = GetDamageTypesRA(Attacker);
-        var damageRA = GetDamageRA(Attacker);
-        int Result = AbilityRules.StatisticsToLimitedDV(GetAttackRA(Attacker), damageRA, damageTypesRA, hitPoints, defense, resistance, immunityTypes, protectionTypes);
-        Repeats = GetAttackRepeatRA(Attacker);
-        return Result * Repeats;
+        int repeats;
+        var hitPoints = defender.GetHitPoints();
+        var defense = defender.GetDefense();
+        var resistance = defender.GetResistance();
+        var immunityTypes = defender.GetImmunityTypes();
+        var protectionTypes = defender.GetProtectionTypes();
+        var damageTypesRangedAttack = GetDamageTypesRangedAttack(attacker);
+        var damageRangedAttack = GetDamageRangedAttack(attacker);
+        int result = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker), damageRangedAttack, damageTypesRangedAttack, hitPoints, defense, resistance, immunityTypes, protectionTypes);
+        repeats = GetAttackRepeatRangedAttack(attacker);
+        return result * repeats;
     }
 
     // AoWAb.PAS:4717
-    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        int Defense;
-        int Damage;
-        int Repeats;
-        Defense = Defender.GetDefense();
-        if (WallSituation == WallSituation.Target)
+        int defense;
+        int damage;
+        int repeats;
+        defense = defender.GetDefense();
+        if (wallSituation == WallSituation.Target)
         {
-            Defense += 2;
+            defense += 2;
         }
 
-        var hitPoints = Defender.GetHitPoints();
-        var resistance = Defender.GetResistance();
-        var immunityTypes = Defender.GetImmunityTypes();
-        var protectionTypes = Defender.GetProtectionTypes();
-        var damageTypesRA = GetDamageTypesRA(Attacker);
-        var damageRA = GetDamageRA(Attacker);
-        Damage = AbilityRules.StatisticsToLimitedDV(GetAttackRA(Attacker), damageRA, damageTypesRA, hitPoints, Defense, resistance, immunityTypes, protectionTypes);
-        Repeats = GetAttackRepeatRA(Attacker);
-        Damage = Damage * Repeats;
-        DamageValues.SourceDamage = Damage;
-        DamageValues.TargetDamage = 0;
-        var damageTypesRA2 = GetDamageTypesRA(Attacker);
-        DamageValues.DamageTypes = damageTypesRA2;
+        var hitPoints = defender.GetHitPoints();
+        var resistance = defender.GetResistance();
+        var immunityTypes = defender.GetImmunityTypes();
+        var protectionTypes = defender.GetProtectionTypes();
+        var damageTypesRangedAttack = GetDamageTypesRangedAttack(attacker);
+        var damageRangedAttack = GetDamageRangedAttack(attacker);
+        damage = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker), damageRangedAttack, damageTypesRangedAttack, hitPoints, defense, resistance, immunityTypes, protectionTypes);
+        repeats = GetAttackRepeatRangedAttack(attacker);
+        damage = damage * repeats;
+        damageValues.SourceDamage = damage;
+        damageValues.TargetDamage = 0;
+        var damageTypesRangedAttack2 = GetDamageTypesRangedAttack(attacker);
+        damageValues.DamageTypes = damageTypesRangedAttack2;
     }
 
     // AoWAb.PAS:4703
-    public override void GetOffensiveStrength(AbilityOwner Owner, ref int Strength, ref Set<DamageType> Types)
+    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
     {
-        var attackRepeatRA = GetAttackRepeatRA(Owner);
-        var damageRA = GetDamageRA(Owner);
-        Strength = AbilityRules.P3LimitedDamage(GetAttackRA(Owner), damageRA, attackRepeatRA);
-        Types = GetDamageTypesRA(Owner);
+        var attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
+        var damageRangedAttack = GetDamageRangedAttack(owner);
+        strength = AbilityRules.LimitedDamage(GetAttackRangedAttack(owner), damageRangedAttack, attackRepeatRangedAttack);
+        types = GetDamageTypesRangedAttack(owner);
     }
 
     // AoWAb.PAS:4732
     // { Original leaves both cost fields untouched. }
-    public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        Set<DamageType> DamageTypes;
-        Set<DamageType> ProtectionTypes;
-        Set<DamageType> ImmunityTypes;
-        int Damage;
-        int Defense;
-        int Value;
-        int Repeats;
-        CombatRange Range;
-        Range = GetRangeRA(Attacker.GetAbilityOwner());
-        if (WallSituation == WallSituation.None || Set<CombatRange>.Of(CombatRange.Medium, CombatRange.Long).Contains(Range) || Attacker.GetAbilityEnabled(1))
+        Set<DamageType> damageTypes;
+        Set<DamageType> protectionTypes;
+        Set<DamageType> immunityTypes;
+        int damage;
+        int defense;
+        int value;
+        int repeats;
+        CombatRange range;
+        range = GetRangeRangedAttack(attacker.GetAbilityOwner());
+        if (wallSituation == WallSituation.None || Set<CombatRange>.Of(CombatRange.Medium, CombatRange.Long).Contains(range) || attacker.GetAbilityEnabled(1))
         {
-            ProtectionTypes = Defender.GetProtectionTypes();
-            ImmunityTypes = Defender.GetImmunityTypes();
-            DamageTypes = GetDamageTypesRA(Attacker.GetAbilityOwner());
-            Damage = GetDamageRA(Attacker.GetAbilityOwner());
-            Defense = Defender.GetDefense();
-            if (WallSituation == WallSituation.Target)
+            protectionTypes = defender.GetProtectionTypes();
+            immunityTypes = defender.GetImmunityTypes();
+            damageTypes = GetDamageTypesRangedAttack(attacker.GetAbilityOwner());
+            damage = GetDamageRangedAttack(attacker.GetAbilityOwner());
+            defense = defender.GetDefense();
+            if (wallSituation == WallSituation.Target)
             {
-                Defense += 2;
+                defense += 2;
             }
 
-            var damageTypesRA = GetDamageTypesRA(Attacker.GetAbilityOwner());
-            DamageValues.DamageTypes = damageTypesRA;
-            var hitPoints = Defender.GetHitPoints();
-            var resistance = Defender.GetResistance();
-            Value = AbilityRules.StatisticsToLimitedDV(GetAttackRA(Attacker.GetAbilityOwner()), Damage, DamageTypes, hitPoints, Defense, resistance, ImmunityTypes, ProtectionTypes);
-            Repeats = GetAttackRepeatRA(Attacker.GetAbilityOwner());
-            Value = Value * Repeats;
-            DamageValues.SourceDamage = Value;
+            var damageTypesRangedAttack = GetDamageTypesRangedAttack(attacker.GetAbilityOwner());
+            damageValues.DamageTypes = damageTypesRangedAttack;
+            var hitPoints = defender.GetHitPoints();
+            var resistance = defender.GetResistance();
+            value = AbilityRules.StatisticsToLimitedDamageValue(GetAttackRangedAttack(attacker.GetAbilityOwner()), damage, damageTypes, hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            repeats = GetAttackRepeatRangedAttack(attacker.GetAbilityOwner());
+            value = value * repeats;
+            damageValues.SourceDamage = value;
             // { Original swaps protection and immunity for maximum damage. }
-            Value = AbilityRules.StatisticsToMaxDamage(Damage, DamageTypes, ProtectionTypes, ImmunityTypes);
-            Repeats = GetAttackRepeatRA(Attacker.GetAbilityOwner());
-            Value = Value * Repeats;
-            DamageValues.SourceCost = Value;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
+            value = AbilityRules.StatisticsToMaxDamage(damage, damageTypes, protectionTypes, immunityTypes);
+            repeats = GetAttackRepeatRangedAttack(attacker.GetAbilityOwner());
+            value = value * repeats;
+            damageValues.SourceCost = value;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
         }
         else
         {
-            DamageValues.SourceDamage = 0;
-            DamageValues.SourceCost = 0;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
-            DamageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.SourceDamage = 0;
+            damageValues.SourceCost = 0;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
+            damageValues.DamageTypes = Set<DamageType>.Of();
         }
     }
 
     // AoWAb.PAS:4769
-    public override void GetCombatInfo(AbilityOwner Owner, ref AbilityCombatInfo Info)
+    public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
     {
-        var attackRA = GetAttackRA(Owner);
-        Info.Attack = attackRA;
-        var damageRA = GetDamageRA(Owner);
-        Info.Damage = damageRA;
-        var damageTypesRA = GetDamageTypesRA(Owner);
-        Info.DamageTypes = damageTypesRA;
-        var attackRepeatRA = GetAttackRepeatRA(Owner);
-        Info.RepeatCount = attackRepeatRA;
-        Info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
+        var attackRangedAttack = GetAttackRangedAttack(owner);
+        info.Attack = attackRangedAttack;
+        var damageRangedAttack = GetDamageRangedAttack(owner);
+        info.Damage = damageRangedAttack;
+        var damageTypesRangedAttack = GetDamageTypesRangedAttack(owner);
+        info.DamageTypes = damageTypesRangedAttack;
+        var attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
+        info.RepeatCount = attackRepeatRangedAttack;
+        info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
     }
 
     // AoWAb.PAS:4661
-    public virtual CombatRange GetRangeRA(AbilityOwner Owner) => FRangeRA;
+    public virtual CombatRange GetRangeRangedAttack(AbilityOwner owner) => RangeRangedAttack;
 
     // AoWAb.PAS:4665
-    public virtual sbyte GetDamageRA(AbilityOwner Owner)
+    public virtual sbyte GetDamageRangedAttack(AbilityOwner owner)
     {
-        sbyte Result = FDamageRA;
-        if (Owner != null && Owner.GetAbEnabled(32))
+        sbyte result = DamageRangedAttack;
+        if (owner != null && owner.GetAbEnabled(32))
         {
-            switch (Owner.GetAbLevel(32))
+            switch (owner.GetAbLevel(32))
             {
                 case 2:
-                    Result = (sbyte)(Result + 1);
+                    result = (sbyte)(result + 1);
                     break;
                 case 3:
-                    Result = (sbyte)(Result + 1);
+                    result = (sbyte)(result + 1);
                     break;
                 case 4:
-                    Result = (sbyte)(Result + 2);
+                    result = (sbyte)(result + 2);
                     break;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:4675
-    public virtual sbyte GetAttackRA(AbilityOwner Owner)
+    public virtual sbyte GetAttackRangedAttack(AbilityOwner owner)
     {
-        sbyte Result = FAttackRA;
-        if (Owner != null && Owner.GetAbEnabled(32))
+        sbyte result = AttackRangedAttack;
+        if (owner != null && owner.GetAbEnabled(32))
         {
-            switch (Owner.GetAbLevel(32))
+            switch (owner.GetAbLevel(32))
             {
                 case 1:
-                    Result = (sbyte)(Result + 1);
+                    result = (sbyte)(result + 1);
                     break;
                 case 2:
-                    Result = (sbyte)(Result + 1);
+                    result = (sbyte)(result + 1);
                     break;
                 case 3:
-                    Result = (sbyte)(Result + 2);
+                    result = (sbyte)(result + 2);
                     break;
                 case 4:
-                    Result = (sbyte)(Result + 2);
+                    result = (sbyte)(result + 2);
                     break;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:4686
-    public virtual sbyte GetAttackRepeatRA(AbilityOwner Owner) => FAttackRepeatRA;
+    public virtual sbyte GetAttackRepeatRangedAttack(AbilityOwner owner) => AttackRepeatRangedAttack;
 
     // AoWAb.PAS:4690
-    public virtual Set<DamageType> GetDamageTypesRA(AbilityOwner Owner) => FDamageTypesRA.Value;
+    public virtual Set<DamageType> GetDamageTypesRangedAttack(AbilityOwner owner) => DamageTypesRangedAttack.Value;
 
     // AoWAb.PAS:4777
-    public RangedAttackCombatAction CreateRangedAttackCA(CombatObject Source, CombatObject Target, int AttackPenalty)
+    public RangedAttackCombatAction CreateRangedAttackCombatAction(CombatObject source, CombatObject target, int attackPenalty)
     {
-        RangedAttackCombatAction Action;
-        Action = new RangedAttackCombatAction(null);
-        var damageRA = GetDamageRA(Source.GetAbilityOwner());
-        var damageTypesRA = GetDamageTypesRA(Source.GetAbilityOwner());
-        Action.Generate(Source, Target, (sbyte)(GetAttackRA(Source.GetAbilityOwner()) - AttackPenalty), damageRA, damageTypesRA);
-        Action.FAbilityID = FAbilityID;
-        return Action;
+        RangedAttackCombatAction action;
+        action = new RangedAttackCombatAction(null);
+        var damageRangedAttack = GetDamageRangedAttack(source.GetAbilityOwner());
+        var damageTypesRangedAttack = GetDamageTypesRangedAttack(source.GetAbilityOwner());
+        action.Generate(source, target, (sbyte)(GetAttackRangedAttack(source.GetAbilityOwner()) - attackPenalty), damageRangedAttack, damageTypesRangedAttack);
+        action.AbilityId = AbilityId;
+        return action;
     }
 
-    private static CombatMode CombatRangeToCombatMode(CombatRange Range)
+    private static CombatMode CombatRangeToCombatMode(CombatRange range)
     {
-        return Range switch
+        return range switch
         {
             CombatRange.Long => CombatMode.LongRange,
             CombatRange.Medium => CombatMode.MediumRange,

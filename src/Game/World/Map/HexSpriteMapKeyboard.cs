@@ -27,102 +27,102 @@ public partial class HexSpriteMapKeyboard : EngineObject
     public HexSpriteMapKeyboard(ECustomNode owner) : base(owner)
     { }
 
-    public string FCheatText = "";
-    public Mode FMode;
-    public int FLockCount;
+    public string CheatText = "";
+    public HexSpriteMapKeyboardMode Mode;
+    public int LockCount;
 
     // AoWHSMap.PAS:946
-    public virtual void KeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public virtual void KeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        ushort TranslatedKey;
+        ushort translatedKey;
         int I;
-        bool Prefix;
-        bool Complete;
-        CheatTokenEvent Cheat;
-        if (FLockCount != 0)
+        bool prefix;
+        bool complete;
+        CheatTokenEvent cheat;
+        if (LockCount != 0)
         {
             return;
         }
 
         // { Original uses OR between the digit bounds, admitting every key. }
-        if ((Key >= 65 && Key <= 90) || Key >= 48 || Key <= 57 || Key == 188 || Key == 190 || Key == 13)
+        if ((key >= 65 && key <= 90) || key >= 48 || key <= 57 || key == 188 || key == 190 || key == 13)
         {
-            switch (FMode)
+            switch (Mode)
             {
-                case Mode.Default:
-                    TranslatedKey = Key;
-                    switch (GameTables.AoWEngine.FLanguage)
+                case HexSpriteMapKeyboardMode.Default:
+                    translatedKey = key;
+                    switch (GameTables.GameEngine.Language)
                     {
                         case 3:
-                            switch (Key)
+                            switch (key)
                             {
                                 case 83:
-                                    TranslatedKey = 78;
+                                    translatedKey = 78;
                                     break;
                                 case 67:
-                                    TranslatedKey = 76;
+                                    translatedKey = 76;
                                     break;
                                 case 84:
-                                    TranslatedKey = 68;
+                                    translatedKey = 68;
                                     break;
                                 case 86:
-                                    TranslatedKey = 67;
+                                    translatedKey = 67;
                                     break;
                                 case 68:
-                                    TranslatedKey = 77;
+                                    translatedKey = 77;
                                     break;
                             }
 
                             break;
                         case 5:
-                            switch (Key)
+                            switch (key)
                             {
                                 case 86:
-                                    TranslatedKey = 78;
+                                    translatedKey = 78;
                                     break;
                                 case 69:
-                                    TranslatedKey = 72;
+                                    translatedKey = 72;
                                     break;
                                 case 67:
-                                    TranslatedKey = 76;
+                                    translatedKey = 76;
                                     break;
                                 case 70:
-                                    TranslatedKey = 68;
+                                    translatedKey = 68;
                                     break;
                                 case 83:
-                                    TranslatedKey = 71;
+                                    translatedKey = 71;
                                     break;
                                 case 84:
-                                    TranslatedKey = 67;
+                                    translatedKey = 67;
                                     break;
                             }
 
                             break;
                         case 4:
-                            switch (Key)
+                            switch (key)
                             {
                                 case 65:
-                                    TranslatedKey = 68;
+                                    translatedKey = 68;
                                     break;
                             }
 
                             break;
                     }
 
-                    if (!Shift.Contains(ShiftState.Ctrl))
+                    if (!shift.Contains(ShiftState.Ctrl))
                     {
-                        switch (TranslatedKey)
+                        switch (translatedKey)
                         {
                             case 79:
-                                AoWHSMap.Current.FShowIndependentMoves = !AoWHSMap.Current.FShowIndependentMoves;
-                                if (AoWHSMap.Current.FShowIndependentMoves)
+                                AoWHSMap.Current.ShowIndependentMoves = !AoWHSMap.Current.ShowIndependentMoves;
+                                if (AoWHSMap.Current.ShowIndependentMoves)
                                 {
-                                    var observeEnabled = AbilityRules.TranslateRStr(ObserveEnabledRStr);
+                                    var observeEnabled = AbilityRules.TranslateResourceString(s_observeEnabledText);
                                     AoWHSMap.Current.ShowMessage(observeEnabled);
                                 }
                                 else
                                 {
-                                    var observeDisabled = AbilityRules.TranslateRStr(ObserveDisabledRStr);
+                                    var observeDisabled = AbilityRules.TranslateResourceString(s_observeDisabledText);
                                     AoWHSMap.Current.ShowMessage(observeDisabled);
                                 }
 
@@ -133,53 +133,53 @@ public partial class HexSpriteMapKeyboard : EngineObject
                                 break;
                             case 80:
                             case 190:
-                                AoWHSMap.Current.SelectPrevArmy();
+                                AoWHSMap.Current.SelectPreviousArmy();
                                 break;
                             case 72:
                                 AoWHSMap.Current.SelectNextHero();
                                 break;
                             case 77:
-                                AoWHSMap.Current.FSelectedArmy.ExecuteMove();
+                                AoWHSMap.Current.SelectedArmy.ExecuteMove();
                                 break;
                             case 68:
-                                AoWHSMap.Current.FSelectedArmy.TurnDone();
+                                AoWHSMap.Current.SelectedArmy.TurnDone();
                                 break;
                             case 71:
-                                AoWHSMap.Current.FSelectedArmy.ToggleGuard();
+                                AoWHSMap.Current.SelectedArmy.ToggleGuard();
                                 break;
                             case 76:
-                                AoWHSMap.Current.CenterOnLeader(AoWHSMap.Current.FSeatedPlayer, true, false);
+                                AoWHSMap.Current.CenterOnLeader(AoWHSMap.Current.SeatedPlayer, true, false);
                                 break;
                             case 67:
-                                if (!Shift.Contains(ShiftState.Ctrl))
+                                if (!shift.Contains(ShiftState.Ctrl))
                                 {
-                                    AoWHSMap.Current.FSelectedArmy.Center();
+                                    AoWHSMap.Current.SelectedArmy.Center();
                                 }
 
                                 break;
                             case 82:
-                                if (GameTables.AoWEngine.FDebug)
+                                if (GameTables.GameEngine.Debug)
                                 {
-                                    GameTables.AoWEngine.OutputDebugStr("Random Seed: " + IntToStr(AoWHSMap.Current.FDefendersSeed));
+                                    GameTables.GameEngine.OutputDebugString("Random Seed: " + IntToStr(AoWHSMap.Current.DefendersSeed));
                                 }
 
                                 break;
                             case 83:
-                                if (!Shift.Contains(ShiftState.Ctrl) && GameTables.AoWEngine.FRegistry.GetDebugMode())
+                                if (!shift.Contains(ShiftState.Ctrl) && GameTables.GameEngine.Registry.GetDebugMode())
                                 {
                                     RunDefaultTest();
                                 }
 
                                 break;
                             case 65:
-                                if (GameTables.AoWEngine.FRegistry.GetDeveloper() && AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FPlayerType != PlayerType.Human)
+                                if (GameTables.GameEngine.Registry.GetDeveloper() && AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).PlayerType != PlayerType.Human)
                                 {
-                                    AoWHSMap.Current.FAIExecuter.ActivatePlayer(AoWHSMap.Current.FSeatedPlayer);
+                                    AoWHSMap.Current.AIExecutor.ActivatePlayer(AoWHSMap.Current.SeatedPlayer);
                                 }
 
                                 break;
                             case 73:
-                                if (GameTables.AoWEngine.FDebug)
+                                if (GameTables.GameEngine.Debug)
                                 {
                                     var heapStatus = GetHeapStatus();
                                     AoWHSMap.Current.ShowMessage("Allocated Memory: " + IntToStr(heapStatus.TotalAllocated));
@@ -194,34 +194,34 @@ public partial class HexSpriteMapKeyboard : EngineObject
                     // A port addition the original does not have.
 
                     break;
-                case Mode.Cheat:
-                    FCheatText = FCheatText + Cp1252.Text((byte)Key);
+                case HexSpriteMapKeyboardMode.Cheat:
+                    CheatText = CheatText + Cp1252.Text((byte)key);
                     I = 10;
-                    Complete = false;
-                    Prefix = false;
-                    while (I != 0 && !Complete)
+                    complete = false;
+                    prefix = false;
+                    while (I != 0 && !complete)
                     {
                         I -= 1;
-                        Prefix = Prefix || CompareText(FCheatText, RtlUnit.Copy(CheatNames[I], 1, FCheatText.Length)) == 0;
-                        Complete = CompareText(FCheatText, CheatNames[I]) == 0;
+                        prefix = prefix || CompareText(CheatText, RtlUnit.Copy(s_cheatNames[I], 1, CheatText.Length)) == 0;
+                        complete = CompareText(CheatText, s_cheatNames[I]) == 0;
                     }
 
-                    if (Complete && AoWHSMap.Current.FSeatedPlayer != -1 && !AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetBusy())
+                    if (complete && AoWHSMap.Current.SeatedPlayer != -1 && !AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetBusy())
                     {
-                        Cheat = new CheatTokenEvent(null);
-                        Cheat.FPlayer = AoWHSMap.Current.FSeatedPlayer;
-                        Cheat.FCheatID = I;
-                        AoWHSMap.Current.FTokenManager.GetTokenControl(AoWHSMap.Current.FSeatedPlayer).AddEvent(Cheat);
-                        Cheat.Release();
-                        FCheatText = "";
-                        FMode = Mode.Default;
+                        cheat = new CheatTokenEvent(null);
+                        cheat.Player = AoWHSMap.Current.SeatedPlayer;
+                        cheat.CheatId = I;
+                        AoWHSMap.Current.TokenManager.GetTokenControl(AoWHSMap.Current.SeatedPlayer).AddEvent(cheat);
+                        cheat.Release();
+                        CheatText = "";
+                        Mode = HexSpriteMapKeyboardMode.Default;
                     }
                     else
                     {
-                        if (!Prefix)
+                        if (!prefix)
                         {
-                            FMode = Mode.Default;
-                            FCheatText = "";
+                            Mode = HexSpriteMapKeyboardMode.Default;
+                            CheatText = "";
                         }
                     }
 
@@ -229,46 +229,46 @@ public partial class HexSpriteMapKeyboard : EngineObject
             }
         }
 
-        if (Key == 67 && (Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) & Shift) == Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) && CompareText(ParamStr(1), "beatrix") == 0 && AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network && AoWHSMap.Current.FConnectionType != PlayerConnectionType.Email && !GameTables.AoWEngine.FDemo)
+        if (key == 67 && (Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) & shift) == Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) && CompareText(ParamStr(1), "beatrix") == 0 && AoWHSMap.Current.ConnectionType != PlayerConnectionType.Network && AoWHSMap.Current.ConnectionType != PlayerConnectionType.Email && !GameTables.GameEngine.Demo)
         {
             AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB02.WAV");
-            FMode = Mode.Cheat;
-            FCheatText = "";
+            Mode = HexSpriteMapKeyboardMode.Cheat;
+            CheatText = "";
         }
     }
 
     // AoWHSMap.PAS:928
     public void Lock()
     {
-        FLockCount += 1;
+        LockCount += 1;
     }
 
     // AoWHSMap.PAS:933
     public void Unlock()
     {
-        FLockCount -= 1;
+        LockCount -= 1;
     }
 
     // AoWHSMap.PAS:938
     public void RunDefaultTest()
     {
-        string FileName;
-        FileName = "autosave" + FileBoundary.WriteExtension(DocumentKind.Save);
+        string fileName;
+        fileName = "autosave" + FileBoundary.WriteExtension(DocumentKind.Save);
         // { Original saves the autosave file. }
-        GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName, null, GameProfile.WorldMap);
+        GameTables.GameEngine.SaveHsm(GameTables.GameEngine.StartupDirectory + "Save\\" + fileName, null, GameProfile.WorldMap);
     }
 
-    private static readonly string ObserveEnabledRStr = "Observe enabled";
-    private static readonly string ObserveDisabledRStr = "Observe disabled";
-    private static StringArray10 CheatNames = StringArray10.From(["gold", "mana", "explore", "fog", "spells", "win", "freemove", "towns", "lose", "research"]);
-
-    public enum Mode : byte
-    {
-        Default = 0, Cheat = 1
-    }
+    private static readonly string s_observeEnabledText = "Observe enabled";
+    private static readonly string s_observeDisabledText = "Observe disabled";
+    private static StringArray10 s_cheatNames = StringArray10.From(["gold", "mana", "explore", "fog", "spells", "win", "freemove", "towns", "lose", "research"]);
 
     // Engine.pas:524
 
     // Engine.pas:524
 
+}
+
+public enum HexSpriteMapKeyboardMode : byte
+{
+    Default = 0, Cheat = 1
 }

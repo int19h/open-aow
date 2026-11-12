@@ -18,36 +18,36 @@ public partial class AirMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:688
     public AirMastery(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.AirMasteryRStr);
-        FSpellID = 60;
-        FSpellType = SpellType.Global;
-        FBaseManaCost = 1;
-        FSpellLevel = 3;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_airMasteryText);
+        SpellId = 60;
+        SpellType = SpellType.Global;
+        BaseManaCost = 1;
+        SpellLevel = 3;
         // { Original also assigns Earth to Air Mastery. }
-        FMagicSphere = MagicSphere.Earth;
-        FCastDuration = 40;
-        FAIBasePriority = 750;
+        MagicSphere = MagicSphere.Earth;
+        CastDuration = 40;
+        AIBasePriority = 750;
     }
 
     // GlobalEnchantmentSpells.pas:727
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        Animation Anim = default;
-        base.ExecuteTE(Event, Source, ExecuteCount);
-        SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Air);
-        Source.GetLocation(ref X, ref Y, ref L);
-        AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-        Anim = new Animation(null);
-        Anim.FAnimationLevel = 28;
-        Anim.FOnShow = ShowAnimation;
-        Anim.FAnimationMap = AoWHSMap.Current;
-        Anim.FTag = (AoWHSMap.Current.ViewWidth & 65535) | (AoWHSMap.Current.ViewHeight << 16);
-        Anim.Activate();
-        AoWHSSet.Current.FSpellControl.GetSpell(60).FCastSounds.Play(0);
-        CastingDone(Source, Event.FEventMana);
+        Animation animation = default;
+        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Air);
+        source.GetLocation(ref X, ref Y, ref L);
+        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+        animation = new Animation(null);
+        animation.AnimationLevel = 28;
+        animation.OnShow = ShowAnimation;
+        animation.AnimationMap = AoWHSMap.Current;
+        animation.Tag = (AoWHSMap.Current.ViewWidth & 65535) | (AoWHSMap.Current.ViewHeight << 16);
+        animation.Activate();
+        AoWHSSet.Current.SpellControl.GetSpell(60).CastSounds.Play(0);
+        CastingDone(source, eventValue.EventMana);
         return false;
     }
 
@@ -55,44 +55,44 @@ public partial class AirMastery : GlobalEnchantmentSpell
     public override GlobalEnchantment CreateEnchantment() => new AirMasteryEnchantment(null);
 
     // GlobalEnchantmentSpells.pas:701
-    public void ShowAnimation(Animation Anim, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Count;
+        int count;
         int X;
         int Y;
-        int Speed;
-        int Image;
+        int speed;
+        int image;
         if (AoWHSMap.Current.ViewL == 0)
         {
-            RandSeed = AoWHSMap.Current.Frame - Anim.FFrameCounter;
-            switch ((int)GameTables.AoWEngine.FAnimationDetail)
+            RandSeed = AoWHSMap.Current.Frame - animation.FrameCounter;
+            switch ((int)GameTables.GameEngine.AnimationDetail)
             {
                 case 0:
-                    Count = 5;
+                    count = 5;
                     break;
                 case 2:
-                    Count = 20;
+                    count = 20;
                     break;
                 default:
-                    Count = 10;
+                    count = 10;
                     break;
             }
 
-            for (int I = 0; I <= Count - 1; I++)
+            for (int I = 0; I <= count - 1; I++)
             {
-                X = Random(Anim.FTag & 65535);
-                Y = Random((int)(((uint)(int)(uint)Anim.FTag) >> 16));
-                Speed = Random(15) + 5;
-                Image = Random(3);
-                X += (Anim.FFrameCounter - 45) * Speed * 2;
-                Y -= (Anim.FFrameCounter - 45) * Speed;
-                FCastImages.Show(Image, SurfaceDesc.ClipRect.Left + X, SurfaceDesc.ClipRect.Top + Y, 0, SurfaceDesc);
+                X = Random(animation.Tag & 65535);
+                Y = Random((int)(((uint)(int)(uint)animation.Tag) >> 16));
+                speed = Random(15) + 5;
+                image = Random(3);
+                X += (animation.FrameCounter - 45) * speed * 2;
+                Y -= (animation.FrameCounter - 45) * speed;
+                CastImages.Show(image, lockedSurface.ClipRectangle.Left + X, lockedSurface.ClipRectangle.Top + Y, 0, lockedSurface);
             }
         }
 
-        if (Anim.FFrameCounter == 90)
+        if (animation.FrameCounter == 90)
         {
-            Anim.Dispose();
+            animation.Dispose();
         }
     }
 }

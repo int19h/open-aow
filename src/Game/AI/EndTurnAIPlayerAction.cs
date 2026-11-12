@@ -17,24 +17,24 @@ public partial class EndTurnAIPlayerAction : AIPlayerAction, IAIPlayerActionClas
     // AI.pas:1032
     public override bool Process()
     {
-        bool Result;
-        EndTurnTokenEvent Event;
-        if (!FControl.FPlayer.FSingleProcessCycle)
+        bool result;
+        EndTurnTokenEvent eventValue;
+        if (!Control.Player.SingleProcessCycle)
         {
-            Event = new EndTurnTokenEvent(null);
-            Event.FPlayer = FControl.FPlayer.FPlayerIndex;
-            Event.FDay = AoWHSMap.Current.FDay;
-            Event.FMode = EndTurnTokenEvent.Mode.EndTurn;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(FControl.FPlayer.FPlayerIndex).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new EndTurnTokenEvent(null);
+            eventValue.Player = Control.Player.PlayerIndex;
+            eventValue.Day = AoWHSMap.Current.Day;
+            eventValue.Mode = EndTurnTokenEventMode.EndTurn;
+            AoWHSMap.Current.TokenManager.GetTokenControl(Control.Player.PlayerIndex).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1029

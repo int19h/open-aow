@@ -22,7 +22,7 @@ public static partial class RtlUnit
         Dialogs = host.Dialogs;
         WritesOwnExtensions = host.WritesOwnExtensions;
         Shell = host.Shell;
-        Application.ExeName = host.ExeName;
+        Application.ExeName = host.ExecutableName;
         MessageHandler = message => host.Dialogs.Show(new(message, "", 0, 1));
     }
 

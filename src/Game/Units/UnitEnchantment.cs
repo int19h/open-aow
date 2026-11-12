@@ -16,103 +16,103 @@ namespace Aow.Game.Units;
 // (unit ID, ability ID)
 public partial class UnitEnchantment : Enchantment
 {
-    public new const int ClassID = 135951;
+    public new const int ClassId = 135951;
 
     // AoWAb.PAS:785
     public UnitEnchantment(ECustomNode owner) : base(null)
     {
         // { Original ignores the supplied owner. }
 
-        FSource = -1;
+        Source = -1;
     }
 
-    public int FUnitID;
-    public int FEnchantmentAbilityID;
+    public int UnitId;
+    public int EnchantmentAbilityId;
 
     // AoWAb.PAS:797
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FEnchantmentAbilityID, 20);
-        Stream.rwInteger(ref FUnitID, 21);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref EnchantmentAbilityId, 20);
+        stream.rwInteger(ref UnitId, 21);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int("EnchantmentAbilityID", ref FEnchantmentAbilityID);
-        persister.Int("UnitID", ref FUnitID);
+        persister.Int32("EnchantmentAbilityID", ref EnchantmentAbilityId);
+        persister.Int32("UnitID", ref UnitId);
     }
 
     // AoWAb.PAS:804
     public override string GetName()
     {
-        string Result;
-        Troop Source;
+        string result;
+        Troop source;
         if (AoWHSMap.Current != null)
         {
-            Source = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
-            if (Source != null)
+            source = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+            if (source != null)
             {
-                Result = AoWHSSet.Current.FAbilityControl.GetAbility(FEnchantmentAbilityID).GetName(Source);
+                result = AoWHSSet.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(source);
             }
             else
             {
-                Result = AoWHSSet.Current.FAbilityControl.GetAbility(FEnchantmentAbilityID).GetName(null);
+                result = AoWHSSet.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
             }
         }
         else
         {
-            Result = AoWHSSet.Current.FAbilityControl.GetAbility(FEnchantmentAbilityID).GetName(null);
+            result = AoWHSSet.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:831
     public override string GetBinding()
     {
-        string Result;
-        Troop Source;
-        Source = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
-        if (Source != null)
+        string result;
+        Troop source;
+        source = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+        if (source != null)
         {
-            Result = Source.GetName();
+            result = source.GetName();
         }
         else
         {
-            Result = "";
+            result = "";
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:820
     public override int GetAIUpkeepPriority()
     {
-        int Result;
-        Troop Source;
-        Source = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
-        if (Source != null)
+        int result;
+        Troop source;
+        source = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+        if (source != null)
         {
-            Result = ((UnitEnchantmentAbility)AoWHSSet.Current.FAbilityControl.GetAbility(FEnchantmentAbilityID)).GetAIUpkeepPriority(Source);
+            result = ((UnitEnchantmentAbility)AoWHSSet.Current.AbilityControl.GetAbility(EnchantmentAbilityId)).GetAIUpkeepPriority(source);
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:859
     public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
-        Troop Source;
-        Source = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
-        if (Source != null)
+        Troop source;
+        source = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+        if (source != null)
         {
-            Source.GetLocation(ref X, ref Y, ref L);
+            source.GetLocation(ref X, ref Y, ref L);
         }
         else
         {
@@ -125,43 +125,43 @@ public partial class UnitEnchantment : Enchantment
     // AoWAb.PAS:874
     public override bool Dispel()
     {
-        bool Result;
-        Troop Source;
-        Source = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
-        if (Source != null)
+        bool result;
+        Troop source;
+        source = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+        if (source != null)
         {
-            Result = Source.RemoveAbility(FEnchantmentAbilityID);
+            result = source.RemoveAbility(EnchantmentAbilityId);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:842
     public override void Select()
     {
-        sbyte Xhx = default;
-        sbyte Yhx = default;
-        sbyte Lhx = default;
-        ArmyHexSprite ArmyHS;
-        GetLocation(ref Xhx, ref Yhx, ref Lhx);
-        if (Xhx != -1)
+        sbyte hexX = default;
+        sbyte hexY = default;
+        sbyte hexLevel = default;
+        ArmyHexSprite armyHexSprite;
+        GetLocation(ref hexX, ref hexY, ref hexLevel);
+        if (hexX != -1)
         {
-            if (AoWHSMap.Current.Visible(Xhx, Yhx, Lhx, 0))
+            if (AoWHSMap.Current.Visible(hexX, hexY, hexLevel, 0))
             {
-                ArmyHS = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, Lhx)).GetArmyHS();
-                if (ArmyHS != null)
+                armyHexSprite = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel)).GetArmyHexSprite();
+                if (armyHexSprite != null)
                 {
-                    AoWHSMap.Current.Select(ArmyHS, true);
+                    AoWHSMap.Current.Select(armyHexSprite, true);
                 }
             }
             else
             {
                 var binding = GetBinding();
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.XIsOutOfSightRStr), [binding]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_isOutOfSightFormat), [binding]);
                 AoWHSMap.Current.ShowMessage(format);
             }
         }

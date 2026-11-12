@@ -22,39 +22,39 @@ public partial class ResearchSpellAIPlayerAction : AIPlayerAction, IAIPlayerActi
     // Spells.PAS:1504
     public override bool Process()
     {
-        DoubleItemList Choices;
-        SpellList Spells;
-        int Value;
-        int Index;
-        if (FControl.FPlayer.FPlayerIndex != 0 && FControl.FPlayer.FMagicControl.FResearchSpellID == 0)
+        DoubleItemList choices;
+        SpellList spells;
+        int value;
+        int index;
+        if (Control.Player.PlayerIndex != 0 && Control.Player.MagicControl.ResearchSpellId == 0)
         {
-            Spells = new SpellList();
-            Choices = new DoubleItemList();
-            FControl.FPlayer.FMagicControl.ListResearchSpells(ref Spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
-            for (int I = 0, last = Spells.GetCount() - 1; I <= last; I++)
+            spells = new SpellList();
+            choices = new DoubleItemList();
+            Control.Player.MagicControl.ListResearchSpells(ref spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+            for (int I = 0, last = spells.GetCount() - 1; I <= last; I++)
             {
-                Value = Spells.GetSpell(I).FCastDuration * 100 + 100;
-                var spell = Spells.GetSpell(I);
-                var netPowerToResearch = FControl.FPlayer.FMagicControl.GetNetPowerToResearch();
-                Value = Value - FControl.FPlayer.FMagicControl.ResearchTurns(netPowerToResearch, spell.FResearchCost);
-                if (Value <= 0)
+                value = spells.GetSpell(I).CastDuration * 100 + 100;
+                var spell = spells.GetSpell(I);
+                var netPowerToResearch = Control.Player.MagicControl.GetNetPowerToResearch();
+                value = value - Control.Player.MagicControl.ResearchTurns(netPowerToResearch, spell.ResearchCost);
+                if (value <= 0)
                 {
-                    Value = 1;
+                    value = 1;
                 }
 
-                Choices.AddAB(Spells.GetSpell(I).FSpellID, Value);
+                choices.AddAbility(spells.GetSpell(I).SpellId, value);
             }
 
-            if (Choices.Count != 0)
+            if (choices.Count != 0)
             {
                 RandSeed = AoWHSMap.Current.Random(16777215);
-                Index = Choices.RandomChanceItemB(0);
-                var item = Choices[Index];
-                FControl.FPlayer.FMagicControl.ExecuteResearchSpell(item.A);
+                index = choices.RandomChanceItemB(0);
+                var item = choices[index];
+                Control.Player.MagicControl.ExecuteResearchSpell(item.First);
             }
 
-            Choices?.Dispose();
-            Spells?.Dispose();
+            choices?.Dispose();
+            spells?.Dispose();
         }
 
         return false;

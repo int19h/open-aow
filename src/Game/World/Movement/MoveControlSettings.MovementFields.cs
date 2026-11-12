@@ -5,18 +5,18 @@ namespace Aow.Game.World.Movement;
 
 public partial class MoveControlSettings
 {
-    public int GetMovePoints(int x, int y, int level) => FLevelData[level] is null ? 0xffffff : FLevelData[level][y * FWidth + x];
-    public void SetMovePoints(int x, int y, int level, int value) => FLevelData[level][y * FWidth + x] = value;
+    public int GetMovePoints(int x, int y, int level) => LevelData[level] is null ? 0xffffff : LevelData[level][y * Width + x];
+    public void SetMovePoints(int x, int y, int level, int value) => LevelData[level][y * Width + x] = value;
 
-    public int GetMovePointsXYL(int packed)
+    public int GetMovePointsMapCoordinate(int packed)
     {
         var location = new MapCoordinate { Packed = packed };
-        return GetMovePoints(location.X, location.Y, location.L);
+        return GetMovePoints(location.X, location.Y, location.MapLevel);
     }
 
-    public void SetMovePointsXYL(int packed, int value)
+    public void SetMovePointsMapCoordinate(int packed, int value)
     {
         var location = new MapCoordinate { Packed = packed };
-        SetMovePoints(location.X, location.Y, location.L, value);
+        SetMovePoints(location.X, location.Y, location.MapLevel, value);
     }
 }

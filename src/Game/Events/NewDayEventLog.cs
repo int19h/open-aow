@@ -12,17 +12,17 @@ public partial class NewDayEventLog : TextEventLog
     { }
 
     // EventLog.pas:809
-    public new const int ClassID = 131813;
+    public new const int ClassId = 131813;
 
     // EventLog.pas:812
     public override int GetLeftIcon() => 18;
 
     // EventLog.pas:815
-    public override void PlayLoggedSFX(EventLogbook Logbook)
+    public override void PlayLoggedSfx(EventLogbook logbook)
     {
-        if (AoWHSMap.Current.FDay > 1)
+        if (AoWHSMap.Current.Day > 1)
         {
-            base.PlayLoggedSFX(Logbook);
+            base.PlayLoggedSfx(logbook);
         }
     }
 

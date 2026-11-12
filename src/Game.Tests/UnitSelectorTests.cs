@@ -10,21 +10,21 @@ public sealed class UnitSelectorTests
 {
     private sealed class WoundedHero : Hero
     {
-        private readonly sbyte hits;
-        private readonly sbyte hitPoints;
+        private readonly sbyte _hits;
+        private readonly sbyte _hitPoints;
 
         internal WoundedHero(int id, sbyte hits, sbyte hitPoints) : base(null!)
         {
-            FUnitID = id;
-            this.hits = hits;
-            this.hitPoints = hitPoints;
+            UnitId = id;
+            this._hits = hits;
+            this._hitPoints = hitPoints;
         }
 
-        public override int GetUnitGFXResourceIndex() => 0;
+        public override int GetUnitGraphicsResourceIndex() => 0;
 
-        public override sbyte GetHits() => hits;
+        public override sbyte GetHits() => _hits;
 
-        public override sbyte GetHitPoints() => hitPoints;
+        public override sbyte GetHitPoints() => _hitPoints;
     }
 
     // Ability.PAS 686 hard-casts every listed unit to TUnit, and a hero passes through that cast to
@@ -41,12 +41,12 @@ public sealed class UnitSelectorTests
             units.AddUnit(new WoundedHero(2, 4, 10));
             selector.Setup(null!, units);
             // The sort puts the higher unit id first, so the wounded hero is item 0.
-            Assert.Equal(2, selector.FUnits.GetUnit(0).FUnitID);
-            Assert.Equal(0b01, selector.FSelectable);
+            Assert.Equal(2, selector.Units.GetUnit(0).UnitId);
+            Assert.Equal(0b01, selector.Selectable);
         }
         finally
         {
-            selector.FUnits.Clear();
+            selector.Units.Clear();
             units.Clear();
         }
     }

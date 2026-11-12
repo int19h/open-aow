@@ -44,7 +44,7 @@ public partial class MultiWindow : DataModule
     public Button CancelOKBut;
     public Memo MessageMemo;
     public Button LANCancel;
-    public Label AOWLabel1;
+    public Label Label1;
     public Label LANLbl;
     public Edit IPXName;
     public Button LANHost;
@@ -56,61 +56,61 @@ public partial class MultiWindow : DataModule
     public Button EmailSettingsBtn;
     public Button HeatNetBtn;
     public IvTranslator Translator;
-    public string FPendingMap = "";
-    public int FMenuHeight;
+    public string PendingMap = "";
+    public int MenuHeight;
 
     // AOWMultiWin.pas:362
-    public int ConnectProvider(ConnectionType Kind)
+    public int ConnectProvider(ConnectionType kind)
     {
         int I = 0;
-        int Found = -1;
-        int Result = 0;
+        int found = -1;
+        int result = 0;
         while (I < DialogHosts.SetupEvents.DPlay.ConnectionItems.Count)
         {
-            if (((GDConnection)DialogHosts.SetupEvents.DPlay.ConnectionItems[I]).FType == Kind)
+            if (((GDConnection)DialogHosts.SetupEvents.DPlay.ConnectionItems[I]).FType == kind)
             {
-                Found = I;
+                found = I;
                 I = DialogHosts.SetupEvents.DPlay.ConnectionItems.Count;
             }
 
             I++;
         }
 
-        if (Found > -1)
+        if (found > -1)
         {
             DialogHosts.SetupEvents.DPlay.TCPPort = IPEdit.Text;
-            Result = DialogHosts.SetupEvents.DPlay.Connect(Found);
+            result = DialogHosts.SetupEvents.DPlay.Connect(found);
             // The port's own message. The offline component never connects, and the caller
             // leaves the window as it is when the connection fails.
-            if (Result != 0)
+            if (result != 0)
             {
                 RtlUnit.ShowMessage(NetworkPlayNotAvailableText);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AOWMultiWin.pas:385
     public bool ValidateEmail()
     {
-        bool Result;
-        if (IsEmpty(GameTables.AoWEngine.FRegistry.GetLocalEmailAddress()))
+        bool result;
+        if (IsEmpty(GameTables.GameEngine.Registry.GetLocalEmailAddress()))
         {
-            MessageDialog.ResetMessageDialog(DialogHosts.MessageDlg);
-            DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-            var pleaseSetupEmailSettingsFirst = AbilityRules.TranslateRStr(PleaseSetupEmailSettingsFirstRStr);
-            DialogHosts.MessageDlg.MessageMemo.Items.Add(pleaseSetupEmailSettingsFirst);
-            DialogHosts.MessageDlg.OKPnl.Visible = true;
-            DialogHosts.MessageDlg.Dlg.Visible = true;
-            Result = false;
+            MessageDialog.ResetMessageDialog(DialogHosts.MessageDialog);
+            DialogHosts.MessageDialog.MessageMemo.Items.Add("");
+            var pleaseSetupEmailSettingsFirst = AbilityRules.TranslateResourceString(s_pleaseSetupEmailSettingsFirstText);
+            DialogHosts.MessageDialog.MessageMemo.Items.Add(pleaseSetupEmailSettingsFirst);
+            DialogHosts.MessageDialog.OKPnl.Visible = true;
+            DialogHosts.MessageDialog.Dlg.Visible = true;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // AOWMultiWin.pas:103
@@ -190,7 +190,7 @@ public partial class MultiWindow : DataModule
             TCPPnl.Visible = false;
             JoinPnl.Visible = true;
             GamesLB.Items.Clear();
-            GamesLB.FSized = false;
+            GamesLB.Sized = false;
         }
     }
 
@@ -201,17 +201,17 @@ public partial class MultiWindow : DataModule
         if (ConnectProvider(ConnectionType.TCP) == 0)
         {
             DialogHosts.SetupEvents.DPlay.PlayerName = TCPName.Text;
-            DialogHosts.SetupEvents.DPlay.SessionName = AbilityRules.Format(AbilityRules.TranslateRStr(XsGameRStr), [TCPName.Text]);
+            DialogHosts.SetupEvents.DPlay.SessionName = AbilityRules.Format(AbilityRules.TranslateResourceString(s_playerGameFormat), [TCPName.Text]);
             if (DialogHosts.SetupEvents.DPlay.CreateSession() == 0)
             {
                 MultiPnl.Visible = false;
                 DialogHosts.SetupEvents.SetupControl.SetupHost(DialogHosts.SetupEvents.DPlay.PlayerName, 1, DialogHosts.SetupEvents.DPlay.PlayerID);
-                if (!IsEmpty(FPendingMap))
+                if (!IsEmpty(PendingMap))
                 {
-                    DialogHosts.SetupEvents.SetupControl.hPickMap(FPendingMap);
+                    DialogHosts.SetupEvents.SetupControl.PickMap(PendingMap);
                 }
 
-                DialogHosts.ScenSetup.Execute(DialogHosts.SetupEvents.SetupControl);
+                DialogHosts.ScenarioSetup.Execute(DialogHosts.SetupEvents.SetupControl);
             }
         }
     }
@@ -248,22 +248,22 @@ public partial class MultiWindow : DataModule
         DialogHosts.General.PlayButtonSound(0);
         MultiPnl.Visible = false;
         DialogHosts.SetupEvents.SetupControl.SetupHost("", 0, 0);
-        if (!IsEmpty(FPendingMap))
+        if (!IsEmpty(PendingMap))
         {
-            DialogHosts.SetupEvents.SetupControl.hPickMap(FPendingMap);
+            DialogHosts.SetupEvents.SetupControl.PickMap(PendingMap);
         }
 
-        DialogHosts.ScenSetup.Execute(DialogHosts.SetupEvents.SetupControl);
+        DialogHosts.ScenarioSetup.Execute(DialogHosts.SetupEvents.SetupControl);
     }
 
     // AOWMultiWin.pas:285
-    public void ModemBtnClick()
+    public void ModemButtonClick()
     {
         DialogHosts.General.PlayButtonSound(0);
     }
 
     // AOWMultiWin.pas:291
-    public void DirectBtnClick()
+    public void DirectButtonClick()
     {
         DialogHosts.General.PlayButtonSound(0);
     }
@@ -294,7 +294,7 @@ public partial class MultiWindow : DataModule
     {
         if (ValidateEmail())
         {
-            DialogHosts.POP3Dlg.ShowDialog();
+            DialogHosts.Pop3Dialog.ShowDialog();
         }
     }
 
@@ -305,28 +305,28 @@ public partial class MultiWindow : DataModule
         {
             MultiPnl.Visible = false;
             DialogHosts.SetupEvents.SetupControl.SetupHost("", 2, 0);
-            if (!IsEmpty(FPendingMap))
+            if (!IsEmpty(PendingMap))
             {
-                DialogHosts.SetupEvents.SetupControl.hPickMap(FPendingMap);
+                DialogHosts.SetupEvents.SetupControl.PickMap(PendingMap);
             }
 
-            DialogHosts.ScenSetup.Execute(DialogHosts.SetupEvents.SetupControl);
+            DialogHosts.ScenarioSetup.Execute(DialogHosts.SetupEvents.SetupControl);
         }
     }
 
     // AOWMultiWin.pas:334
     public void LoadPBEMGameBtnClick()
     {
-        DialogHosts.FileDlgWindow.FMode = 0;
-        DialogHosts.FileDlgWindow.FileDialog.Visible = true;
-        SetCurrentDir(GameTables.AoWEngine.StartupDirectory + "EmailIn\\");
-        DialogHosts.FileDlgWindow.FindFiles();
+        DialogHosts.FileDialogWindow.Mode = 0;
+        DialogHosts.FileDialogWindow.FileDialog.Visible = true;
+        SetCurrentDir(GameTables.GameEngine.StartupDirectory + "EmailIn\\");
+        DialogHosts.FileDialogWindow.FindFiles();
     }
 
     // AOWMultiWin.pas:343
     public void EmailSettingsBtnClick()
     {
-        EmailSettingsDialog.ShowEmailSettings(DialogHosts.EmailSettingsDlg);
+        EmailSettingsDialog.ShowEmailSettings(DialogHosts.EmailSettingsDialog);
     }
 
     // AOWMultiWin.pas:349
@@ -334,21 +334,21 @@ public partial class MultiWindow : DataModule
     {
         // The full version starts GOTOHEAT.EXE from the game folder and ends the game when it
         // starts. The installed game has no GOTOHEAT.EXE, so the original does nothing there.
-        if (GameTables.AoWEngine.FDemo)
+        if (GameTables.GameEngine.Demo)
         {
             MessageDialog.ShowDemoMessage();
         }
     }
 
-    private static readonly string PleaseSetupEmailSettingsFirstRStr = "Please setup email settings first!";
+    private static readonly string s_pleaseSetupEmailSettingsFirstText = "Please setup email settings first!";
 
-    private static readonly string XsGameRStr = "%s's Game";
+    private static readonly string s_playerGameFormat = "%s's Game";
 
     internal static int SessionRefreshDelay;
 
     internal const string NetworkPlayNotAvailableText = "Network play is not available in this version.";
 
-    internal static void ShowMultiplayer(MultiWindow Dialog, string Name)
+    internal static void ShowMultiplayer(MultiWindow dialog, string name)
     {
         /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
         throw new NotImplementedException();

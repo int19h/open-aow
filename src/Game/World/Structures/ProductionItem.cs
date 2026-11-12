@@ -9,7 +9,7 @@ namespace Aow.Game.World.Structures;
 // the order (AoWE.ProductionOrders.cs), stored as production ID, parameter and group ID
 public partial class ProductionItem : EngineObject
 {
-    public new const int ClassID = 131735;
+    public new const int ClassId = 131735;
 
     public ProductionItem(ECustomNode owner) : base(owner)
     { }
@@ -17,14 +17,14 @@ public partial class ProductionItem : EngineObject
     public ProductionOrder Order = new UnknownOrder(0, 0, 0);
 
     // Structur.PAS:63
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
+        base.ReadWrite(stream);
         var (id, parameter, groupId) = Order.ToFields();
-        Stream.rwInteger(ref id, 20);
-        Stream.rwInteger(ref parameter, 21);
-        Stream.rwInteger(ref groupId, 22);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read))
+        stream.rwInteger(ref id, 20);
+        stream.rwInteger(ref parameter, 21);
+        stream.rwInteger(ref groupId, 22);
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             Order = ProductionOrder.FromFields(id, parameter, groupId);
         }
@@ -33,33 +33,33 @@ public partial class ProductionItem : EngineObject
     // Structur.PAS:71
     public virtual string GetName()
     {
-        string Result;
+        string result;
         if (Owner != null)
         {
-            Result = ((ProductionQueue)Owner).FProductionControl.GetProductionName(this);
+            result = ((ProductionQueue)Owner).ProductionControl.GetProductionName(this);
         }
         else
         {
-            Result = AbilityRules.TranslateRStr(GameTables.UnknownRStr);
+            result = AbilityRules.TranslateResourceString(GameTables.s_unknownText);
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:77
     public string GetNameProgressive()
     {
-        string Result;
+        string result;
         if (Owner != null)
         {
-            Result = ((ProductionQueue)Owner).FProductionControl.GetProductionNameProgressive(this);
+            result = ((ProductionQueue)Owner).ProductionControl.GetProductionNameProgressive(this);
         }
         else
         {
-            Result = AbilityRules.TranslateRStr(GameTables.UnknownRStr);
+            result = AbilityRules.TranslateResourceString(GameTables.s_unknownText);
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:524

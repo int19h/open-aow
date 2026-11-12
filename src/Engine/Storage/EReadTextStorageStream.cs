@@ -184,7 +184,7 @@ public partial class EReadTextStorageStream : EStorageStream
     }
 
     // Engine.pas:10669
-    public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText);
+    public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text);
 
     // Engine.pas:10741
     public override void rwCreateEObject(ref EngineObject Obj, ECustomNode AOwner, int ID)
@@ -234,7 +234,7 @@ public partial class EReadTextStorageStream : EStorageStream
             Continue = true;
             if (FOnError != null)
             {
-                var classID = Obj.EClass.ClassID;
+                var classID = Obj.EngineClass.ClassId;
                 FOnError(this, "Error reading object (cid:" + IntToStr(classID) + ")", ref Continue);
             }
 
@@ -304,7 +304,7 @@ public partial class EReadTextStorageStream : EStorageStream
         for (int I = 0, last = Node.Count - 1; I <= last; I++)
         {
             C = Node.Children[I];
-            if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineServices.csShared) && C.GetControlStyle().Contains(EngineServices.csStored))
+            if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineServices.Shared) && C.GetControlStyle().Contains(EngineServices.Stored))
             {
                 rwEObject(C, I);
             }

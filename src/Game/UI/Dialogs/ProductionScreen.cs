@@ -96,7 +96,7 @@ public partial class ProductionScreen : DataModule
     public Label RepeatLbl;
     public Panel ActiveActionPnl;
     public Image CurrentActionImage;
-    public Frame AoWFrame1;
+    public Frame Frame1;
     public Image BlackBg2;
     public Panel UPictureFramePnl;
     public Panel UStatFr1;
@@ -126,44 +126,44 @@ public partial class ProductionScreen : DataModule
     public Button PNext;
     public Button PPrev;
     public IvTranslator Translator;
-    public int FViewX;
-    public int FViewY;
-    public ProductionPlace FPlace;
-    public int FProductionIndex;
-    public int FQueueIndex;
-    public byte FMode;
-    public CombatMap FPreview;
-    public Int32List FImages;
+    public int ViewX;
+    public int ViewY;
+    public ProductionPlace Place;
+    public int ProductionIndex;
+    public int QueueIndex;
+    public byte Mode;
+    public CombatMap Preview;
+    public Int32List Images;
 
     // AoWProdScreen.pas:590
     public void FreePreview()
     {
-        if (FPreview != null)
+        if (Preview != null)
         {
-            FPreview?.Dispose();
-            FPreview = null;
+            Preview?.Dispose();
+            Preview = null;
         }
     }
 
     // AoWProdScreen.pas:599
     public void ReleaseImages()
     {
-        for (int I = FImages.Count - 1; I >= 0; I--)
+        for (int I = Images.Count - 1; I >= 0; I--)
         {
-            var image = FImages[I];
-            AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(image).Release();
+            var image = Images[I];
+            AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).Release();
         }
 
-        FImages.Clear();
+        Images.Clear();
     }
 
     // AoWProdScreen.pas:608
-    public void LoadUnitImages(int Index)
+    public void LoadUnitImages(int index)
     {
-        int Gfx;
-        Gfx = AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FUnitGFXResourceIndex;
-        AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(Gfx).AddRef();
-        FImages.Add(Gfx);
+        int graphics;
+        graphics = AoWHSSet.Current.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
+        AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
+        Images.Add(graphics);
     }
 
     // AoWProdScreen.pas:617
@@ -181,7 +181,7 @@ public partial class ProductionScreen : DataModule
     public void Reset()
     {
         ReleaseImages();
-        FMode = 0;
+        Mode = 0;
         InfoPnl.Visible = true;
         InfoPnl2.Visible = true;
         ActivityPnl.Visible = false;
@@ -189,19 +189,19 @@ public partial class ProductionScreen : DataModule
         UnitPnl.Visible = false;
         UpgradePnl.Visible = false;
         MainBtn1.Visible = true;
-        var options = AbilityRules.TranslateRStr(GameText.OptionsRStr);
+        var options = AbilityRules.TranslateResourceString(GameText.s_optionsText);
         MainBtn1.Text = options;
         MainBtn2.Visible = false;
         PPrev.Visible = !MainBtn2.Visible;
         PNext.Visible = !MainBtn2.Visible;
-        ShadowL.Visible = GameTables.AoWEngine.FAnimationDetail != 0;
-        ShadowR.Visible = GameTables.AoWEngine.FAnimationDetail != 0;
-        Oval.Visible = GameTables.AoWEngine.FAnimationDetail != 0;
-        FQueueIndex = -1;
+        ShadowL.Visible = GameTables.GameEngine.AnimationDetail != 0;
+        ShadowR.Visible = GameTables.GameEngine.AnimationDetail != 0;
+        Oval.Visible = GameTables.GameEngine.AnimationDetail != 0;
+        QueueIndex = -1;
         QueueLB.Selected = -1;
-        var queue = AbilityRules.TranslateRStr(GameText.QueueRStr);
+        var queue = AbilityRules.TranslateResourceString(GameText.s_queueText);
         QueueLbl.Text = queue;
-        var repeat = AbilityRules.TranslateRStr(GameText.RepeatRStr);
+        var repeat = AbilityRules.TranslateResourceString(GameText.s_repeatText);
         RepeatLbl.Text = repeat;
         FreePreview();
     }
@@ -210,27 +210,27 @@ public partial class ProductionScreen : DataModule
     public void ClosePlace()
     {
         Reset();
-        FPlace = null;
+        Place = null;
         DialogHosts.General.Manager.OverlayPriority = 0;
     }
 
     // AoWProdScreen.pas:659
-    public void SetMode(byte Mode)
+    public void SetMode(byte mode)
     {
-        FMode = Mode;
-        switch (FMode)
+        Mode = mode;
+        switch (Mode)
         {
             case 0:
                 InfoPnl.Visible = true;
                 InfoPnl2.Visible = true;
                 ActivityPnl.Visible = false;
                 ActivityPnl2.Visible = false;
-                var change = AbilityRules.TranslateRStr(GameText.ChangeRStr);
+                var change = AbilityRules.TranslateResourceString(GameText.s_changeText);
                 MainBtn1.Text = change;
                 MainBtn2.Visible = false;
                 PPrev.Visible = !MainBtn2.Visible;
                 PNext.Visible = !MainBtn2.Visible;
-                var exit = AbilityRules.TranslateRStr(GameText.ExitRStr);
+                var exit = AbilityRules.TranslateResourceString(GameText.s_exitText);
                 MainBtn3.Text = exit;
                 QueueLB.Selected = -1;
                 break;
@@ -241,9 +241,9 @@ public partial class ProductionScreen : DataModule
                 InfoPnl2.Visible = false;
                 ActivityPnl.Visible = true;
                 ActivityPnl2.Visible = true;
-                var info = AbilityRules.TranslateRStr(GameText.InfoRStr);
+                var info = AbilityRules.TranslateResourceString(GameText.s_infoText);
                 MainBtn1.Text = info;
-                var done = AbilityRules.TranslateRStr(GameText.DoneRStr);
+                var done = AbilityRules.TranslateResourceString(GameText.s_doneText);
                 MainBtn3.Text = done;
                 break;
             case 2:
@@ -253,9 +253,9 @@ public partial class ProductionScreen : DataModule
                 InfoPnl2.Visible = false;
                 ActivityPnl.Visible = true;
                 ActivityPnl2.Visible = true;
-                var infoText = AbilityRules.TranslateRStr(GameText.InfoRStr);
+                var infoText = AbilityRules.TranslateResourceString(GameText.s_infoText);
                 MainBtn1.Text = infoText;
-                var doneText = AbilityRules.TranslateRStr(GameText.DoneRStr);
+                var doneText = AbilityRules.TranslateResourceString(GameText.s_doneText);
                 MainBtn3.Text = doneText;
                 break;
         }
@@ -270,19 +270,19 @@ public partial class ProductionScreen : DataModule
     }
 
     // AoWProdScreen.pas:705
-    public void ProductionEvent(ProductionPlaceEventLog Event)
+    public void ProductionEvent(ProductionPlaceEventLog eventValue)
     {
-        ShowPlace(Event.GetProductionPlace());
+        ShowPlace(eventValue.GetProductionPlace());
         SetMode(1);
         SelectDefaultAction();
     }
 
     // AoWProdScreen.pas:712
-    public void PlaceChanged(object Sender)
+    public void PlaceChanged(object sender)
     {
-        if (Dlg.Visible && Sender == FPlace)
+        if (Dlg.Visible && sender == Place)
         {
-            if (FPlace.FPlayer == AoWHSMap.Current.FSeatedPlayer)
+            if (Place.Player == AoWHSMap.Current.SeatedPlayer)
             {
                 UpdateInfo();
             }
@@ -294,17 +294,17 @@ public partial class ProductionScreen : DataModule
     }
 
     // AoWProdScreen.pas:729
-    public void SelectProduction(int Index)
+    public void SelectProduction(int index)
     {
         Unit U;
-        if (FMode != 1)
+        if (Mode != 1)
         {
             SetMode(1);
         }
 
         UpgradePnl.Visible = false;
         UnitPnl.Visible = false;
-        FProductionIndex = Index;
+        ProductionIndex = index;
         UpgradePic.CurrentImage = 21;
         UpgradeCost.Text = "-";
         UpgradeTurns.Text = "-";
@@ -312,10 +312,10 @@ public partial class ProductionScreen : DataModule
         MainBtn2.Visible = false;
         PPrev.Visible = !MainBtn2.Visible;
         PNext.Visible = !MainBtn2.Visible;
-        switch (FProductionIndex)
+        switch (ProductionIndex)
         {
             case >= 0 and <= 3:
-                U = FPlace.FProductionControl.CreateUnitProduction(FProductionIndex);
+                U = Place.ProductionControl.CreateUnitProduction(ProductionIndex);
                 if (U != null)
                 {
                     UnitPnl.Visible = true;
@@ -332,51 +332,51 @@ public partial class ProductionScreen : DataModule
                     var moves = U.GetMoves();
                     UMoves.Text = IntToStr(moves);
                     var moveTypes = U.GetMoveTypes();
-                    var mTtoInt = DialogHosts.General.MTtoInt(moveTypes);
-                    UMovesIcon.CurrentImage = mTtoInt;
+                    var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(moveTypes);
+                    UMovesIcon.CurrentImage = moveTypesToInt32;
                     var alignment = U.GetAlignment();
-                    var alignmentText = AbilityRules.TranslateRStr(GameText.TAlignmentRStr[(int)alignment]);
-                    var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.AlignmentXRStr), [alignmentText]);
+                    var alignmentText = AbilityRules.TranslateResourceString(GameText.s_alignmentTexts[(int)alignment]);
+                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_alignmentFormat), [alignmentText]);
                     UAlignment.Text = format;
                     var unitLevel = U.GetUnitLevel();
-                    var aoWEFormat = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.LevelXRStr), [IntToStr(unitLevel)]);
+                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_levelFormat), [IntToStr(unitLevel)]);
                     var upkeep = U.GetUpkeep();
-                    var format2 = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.UpkeepXRStr), [(int)upkeep]);
-                    ULevel.Text = aoWEFormat + " / " + format2;
+                    var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_upkeepFormat), [(int)upkeep]);
+                    ULevel.Text = formattedText + " / " + format2;
                     UAbilitiesLB.Items.Clear();
                     U.ListAbilities(UAbilitiesLB.Items);
-                    if (FPlace.FProductionControl.FUnitProductions.GetItem(FProductionIndex).FResearched)
+                    if (Place.ProductionControl.UnitProductions.GetItem(ProductionIndex).Researched)
                     {
                         MainBtn1.Visible = true;
-                        var produce = AbilityRules.TranslateRStr(GameText.ProduceRStr);
+                        var produce = AbilityRules.TranslateResourceString(GameText.s_produceText);
                         MainBtn1.Text = produce;
-                        var queueLocked = FPlace.FProductionControl.GetQueueLocked();
+                        var queueLocked = Place.ProductionControl.GetQueueLocked();
                         MainBtn2.Visible = !queueLocked;
-                        var queue = AbilityRules.TranslateRStr(GameText.QueueRStr);
+                        var queue = AbilityRules.TranslateResourceString(GameText.s_queueText);
                         MainBtn2.Text = queue;
                         var name = U.GetName();
-                        var format3 = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.ProduceXRStr), [name]);
+                        var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_produceFormat), [name]);
                         UnitLbl.Text = format3;
-                        var unitProductionGold = FPlace.FProductionControl.UnitProductionGold(FProductionIndex);
+                        var unitProductionGold = Place.ProductionControl.UnitProductionGold(ProductionIndex);
                         UCost.Text = IntToStr(unitProductionGold);
-                        var unitProductionTime = FPlace.FProductionControl.UnitProductionTime(FProductionIndex);
+                        var unitProductionTime = Place.ProductionControl.UnitProductionTime(ProductionIndex);
                         UTurns.Text = IntToStr(unitProductionTime);
                     }
                     else
                     {
                         MainBtn1.Visible = true;
-                        var install = AbilityRules.TranslateRStr(GameText.InstallRStr);
+                        var install = AbilityRules.TranslateResourceString(GameText.s_installText);
                         MainBtn1.Text = install;
-                        var queueLocked = FPlace.FProductionControl.GetQueueLocked();
+                        var queueLocked = Place.ProductionControl.GetQueueLocked();
                         MainBtn2.Visible = !queueLocked;
-                        var queue = AbilityRules.TranslateRStr(GameText.QueueRStr);
+                        var queue = AbilityRules.TranslateResourceString(GameText.s_queueText);
                         MainBtn2.Text = queue;
                         var name = U.GetName();
-                        var format3 = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.InstallXRStr), [name]);
+                        var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_installFormat), [name]);
                         UnitLbl.Text = format3;
-                        var unitResearchGold = FPlace.FProductionControl.UnitResearchGold(FProductionIndex);
+                        var unitResearchGold = Place.ProductionControl.UnitResearchGold(ProductionIndex);
                         UCost.Text = IntToStr(unitResearchGold);
-                        var unitResearchTime = FPlace.FProductionControl.UnitResearchTime(FProductionIndex);
+                        var unitResearchTime = Place.ProductionControl.UnitResearchTime(ProductionIndex);
                         UTurns.Text = IntToStr(unitResearchTime);
                     }
 
@@ -392,27 +392,27 @@ public partial class ProductionScreen : DataModule
                 break;
             case 4:
                 MainBtn1.Visible = true;
-                var productionName = new Trade(0).Name(FPlace.FProductionControl);
+                var productionName = new Trade(0).Name(Place.ProductionControl);
                 MainBtn1.Text = productionName;
-                var fProductionControlQueueLocked = FPlace.FProductionControl.GetQueueLocked();
+                var fProductionControlQueueLocked = Place.ProductionControl.GetQueueLocked();
                 MainBtn2.Visible = !fProductionControlQueueLocked;
-                var queueText = AbilityRules.TranslateRStr(GameText.QueueRStr);
+                var queueText = AbilityRules.TranslateResourceString(GameText.s_queueText);
                 MainBtn2.Text = queueText;
                 PPrev.Visible = !MainBtn2.Visible;
                 PNext.Visible = !MainBtn2.Visible;
-                if (FPlace.GetMagicSphere() == MagicSphere.None)
+                if (Place.GetMagicSphere() == MagicSphere.None)
                 {
-                    var produceMerchandiseText = AbilityRules.TranslateRStr(ProduceMerchandiseTextRStr);
+                    var produceMerchandiseText = AbilityRules.TranslateResourceString(s_produceMerchandiseText);
                     UpgradeMemo.Items.Text = produceMerchandiseText;
                 }
                 else
                 {
-                    var generateExtraPowerText = AbilityRules.TranslateRStr(GenerateExtraPowerTextRStr);
+                    var generateExtraPowerText = AbilityRules.TranslateResourceString(s_generateExtraPowerText);
                     UpgradeMemo.Items.Text = generateExtraPowerText;
                 }
 
                 UpgradePnl.Visible = true;
-                if (FPlace.GetMagicSphere() != MagicSphere.None)
+                if (Place.GetMagicSphere() != MagicSphere.None)
                 {
                     UpgradePic.CurrentImage = 28;
                 }
@@ -425,16 +425,16 @@ public partial class ProductionScreen : DataModule
                 break;
             case 5:
                 MainBtn1.Visible = true;
-                var raze = AbilityRules.TranslateRStr(GameText.RazeRStr);
+                var raze = AbilityRules.TranslateResourceString(GameText.s_razeText);
                 MainBtn1.Text = raze + "...";
                 PPrev.Visible = false;
                 PNext.Visible = false;
-                var fPlaceName = FPlace.GetName();
-                var format4 = AbilityRules.Format(AbilityRules.TranslateRStr(ProductionPlaceXRazeRStr), [fPlaceName]);
+                var fPlaceName = Place.GetName();
+                var format4 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_productionPlaceRazeFormat), [fPlaceName]);
                 UpgradeMemo.Items.Text = format4;
                 UpgradePnl.Visible = true;
                 UpgradePic.CurrentImage = 26;
-                var razeText = AbilityRules.TranslateRStr(GameText.RazeRStr);
+                var razeText = AbilityRules.TranslateResourceString(GameText.s_razeText);
                 UpgradeLbl.Text = razeText;
                 break;
         }
@@ -443,56 +443,56 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:832
     public void UpdateInfo()
     {
-        string Reason;
+        string reason;
         IncomeHdr.Items.Clear();
-        var name = FPlace.GetName();
+        var name = Place.GetName();
         StructName.Text = name;
-        var income = AbilityRules.TranslateRStr(GameText.IncomeRStr);
+        var income = AbilityRules.TranslateResourceString(GameText.s_incomeText);
         IncomeHdr.Items.Add(income);
-        if (FPlace.GetMagicSphere() != MagicSphere.None)
+        if (Place.GetMagicSphere() != MagicSphere.None)
         {
-            var power = FPlace.GetPower();
-            var xPower = AbilityRules.TranslateRStr(XPowerRStr);
+            var power = Place.GetPower();
+            var xPower = AbilityRules.TranslateResourceString(s_powerFormat);
             var format = AbilityRules.Format(" " + xPower, [IntToStr(power)]);
             IncomeHdr.Items.Add(format);
         }
 
-        if (FPlace.GetIncome() != 0)
+        if (Place.GetIncome() != 0)
         {
-            var fPlaceIncome = FPlace.GetIncome();
-            var xGold = AbilityRules.TranslateRStr(GameText.XGoldRStr);
+            var fPlaceIncome = Place.GetIncome();
+            var xGold = AbilityRules.TranslateResourceString(GameText.s_goldFormat);
             var format = AbilityRules.Format(" " + xGold, [IntToStr(fPlaceIncome)]);
             IncomeHdr.Items.Add(format);
         }
 
-        if (FPlace.GetMagicSphere() != MagicSphere.None)
+        if (Place.GetMagicSphere() != MagicSphere.None)
         {
-            IncomePicture.ILIndexTexture = 64;
-            IPPicFr.ILTexture = null;
-            var sphereImage = SphereImage(FPlace.GetMagicSphere());
-            Sphere.SetILUIndex(sphereImage);
+            IncomePicture.ImageLibraryIndexTexture = 64;
+            IPPicFr.ImageLibraryTexture = null;
+            var sphereImage = SphereImage(Place.GetMagicSphere());
+            Sphere.SetImageLibraryUIndex(sphereImage);
             Sphere.Visible = true;
         }
         else
         {
-            if (FPlace is Shipyard)
+            if (Place is Shipyard)
             {
                 IncomeHdr.Items.Clear();
-                IncomePicture.ILIndexTexture = 68;
+                IncomePicture.ImageLibraryIndexTexture = 68;
             }
             else
             {
-                IncomePicture.ILIndexTexture = 65;
+                IncomePicture.ImageLibraryIndexTexture = 65;
             }
 
-            IPPicFr.ILTexture = DialogHosts.IntGfxMod.CityWin;
-            if (FPlace is Shipyard)
+            IPPicFr.ImageLibraryTexture = DialogHosts.UIGraphics.CityWin;
+            if (Place is Shipyard)
             {
-                IPPicFr.ILIndexTexture = 67;
+                IPPicFr.ImageLibraryIndexTexture = 67;
             }
             else
             {
-                IPPicFr.ILIndexTexture = 66;
+                IPPicFr.ImageLibraryIndexTexture = 66;
             }
 
             Sphere.Visible = false;
@@ -500,42 +500,42 @@ public partial class ProductionScreen : DataModule
 
         IncomeMemo.Items.Clear();
         IncomeValuesMemo.Items.Clear();
-        FPlace.ListIncomeInfo(IncomeMemo.Items, IncomeValuesMemo.Items);
+        Place.ListIncomeInfo(IncomeMemo.Items, IncomeValuesMemo.Items);
         QueueLB.Items.Clear();
-        for (int I = 0, last = FPlace.FProductionControl.FQueue.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = Place.ProductionControl.Queue.GetCount() - 1; I <= last; I++)
         {
-            var name2 = FPlace.FProductionControl.FQueue.GetItem(I).GetName();
+            var name2 = Place.ProductionControl.Queue.GetItem(I).GetName();
             QueueLB.Items.Add(IntToStr(I + 1) + ". " + name2);
         }
 
-        for (int I = FPlace.FProductionControl.FQueue.GetCount(); I <= 4; I++)
+        for (int I = Place.ProductionControl.Queue.GetCount(); I <= 4; I++)
         {
-            var emptyQueue = AbilityRules.TranslateRStr(GameText.EmptyQueueRStr);
+            var emptyQueue = AbilityRules.TranslateResourceString(GameText.s_emptyQueueText);
             QueueLB.Items.Add(IntToStr(I + 1) + ". " + emptyQueue);
         }
 
-        var count = FPlace.FProductionControl.FQueue.GetCount();
+        var count = Place.ProductionControl.Queue.GetCount();
         if (QueueLB.Selected >= count)
         {
-            var fQueueCount = FPlace.FProductionControl.FQueue.GetCount();
+            var fQueueCount = Place.ProductionControl.Queue.GetCount();
             QueueLB.Selected = fQueueCount - 1;
-            FQueueIndex = QueueLB.Selected;
+            QueueIndex = QueueLB.Selected;
         }
 
-        LoopQueueBox.Checked = FPlace.FProductionControl.FLoopQueue;
-        if (FPlace.FProductionControl.FStatus == ProductionControl.Status.Producing)
+        LoopQueueBox.Checked = Place.ProductionControl.LoopQueue;
+        if (Place.ProductionControl.Status == ProductionControlStatus.Producing)
         {
-            var nameProgressive = FPlace.FProductionControl.FQueue.GetItem(0).GetNameProgressive();
+            var nameProgressive = Place.ProductionControl.Queue.GetItem(0).GetNameProgressive();
             ActiveAction.Text = nameProgressive;
-            if (FPlace.FProductionControl.FSettings.FTurnsLeft != -1)
+            if (Place.ProductionControl.Settings.TurnsLeft != -1)
             {
-                var fmtTurnsLeftStr = DurationText.FmtTurnsLeftStr(FPlace.FProductionControl.FSettings.FTurnsLeft);
-                ActiveActionTurns.Text = fmtTurnsLeftStr;
+                var formatTurnsLeftString = DurationText.FormatTurnsLeftString(Place.ProductionControl.Settings.TurnsLeft);
+                ActiveActionTurns.Text = formatTurnsLeftString;
                 ActiveActionTurns.Visible = true;
                 ActiveActionTurns.TextColor = 6783862;
                 this.ActiveActionTurnsBar.Min = 0;
-                this.ActiveActionTurnsBar.Max = FPlace.FProductionControl.FSettings.FTurnsTotal;
-                this.ActiveActionTurnsBar.Position = FPlace.FProductionControl.FSettings.FTurnsTotal - FPlace.FProductionControl.FSettings.FTurnsLeft;
+                this.ActiveActionTurnsBar.Max = Place.ProductionControl.Settings.TurnsTotal;
+                this.ActiveActionTurnsBar.Position = Place.ProductionControl.Settings.TurnsTotal - Place.ProductionControl.Settings.TurnsLeft;
 
                 ActiveActionTurnsBar.Visible = true;
             }
@@ -545,23 +545,23 @@ public partial class ProductionScreen : DataModule
                 ActiveActionTurnsBar.Visible = false;
             }
 
-            var activityImage = FPlace.FProductionControl.FQueue.GetItem(0).Order.ActivityImage(FPlace);
+            var activityImage = Place.ProductionControl.Queue.GetItem(0).Order.ActivityImage(Place);
             CurrentActionImage.CurrentImage = activityImage;
         }
         else
         {
-            if (FPlace.FProductionControl.FStatus == ProductionControl.Status.Idle)
+            if (Place.ProductionControl.Status == ProductionControlStatus.Idle)
             {
-                var currentActivityText = FPlace.GetCurrentActivityText();
+                var currentActivityText = Place.GetCurrentActivityText();
                 ActiveAction.Text = currentActivityText;
-                var defaultText = AbilityRules.TranslateRStr(GameText.DefaultRStr);
+                var defaultText = AbilityRules.TranslateResourceString(GameText.s_defaultText);
                 ActiveActionTurns.Text = "(" + LowerCase(defaultText) + ")";
                 ActiveActionTurns.TextColor = 6783862;
-                var none = AbilityRules.TranslateRStr(GameTables.NoneRStr);
+                var none = AbilityRules.TranslateResourceString(GameTables.s_noneText);
                 if (CompareText(ActiveAction.Text, none) != 0)
                 {
                     ActiveActionTurns.Visible = true;
-                    var activityImage = new Trade(0).ActivityImage(FPlace);
+                    var activityImage = new Trade(0).ActivityImage(Place);
                     CurrentActionImage.CurrentImage = activityImage;
                 }
                 else
@@ -574,29 +574,29 @@ public partial class ProductionScreen : DataModule
             }
             else
             {
-                if (FPlace.FProductionControl.FStatus == ProductionControl.Status.Waiting)
+                if (Place.ProductionControl.Status == ProductionControlStatus.Waiting)
                 {
-                    Reason = "";
-                    var nameProgressive = FPlace.FProductionControl.FQueue.GetItem(0).GetNameProgressive();
+                    reason = "";
+                    var nameProgressive = Place.ProductionControl.Queue.GetItem(0).GetNameProgressive();
                     ActiveAction.Text = nameProgressive;
-                    var queue = FPlace.FProductionControl.FQueue.GetItem(0);
-                    FPlace.FProductionControl.CanExecuteProduction(queue, ref Reason);
-                    ActiveActionTurns.Text = Reason;
+                    var queue = Place.ProductionControl.Queue.GetItem(0);
+                    Place.ProductionControl.CanExecuteProduction(queue, ref reason);
+                    ActiveActionTurns.Text = reason;
                     ActiveActionTurns.TextColor = 255;
                     ActiveActionTurns.Visible = true;
                     ActiveActionTurnsBar.Visible = false;
-                    var activityImage = FPlace.FProductionControl.FQueue.GetItem(0).Order.ActivityImage(FPlace);
+                    var activityImage = Place.ProductionControl.Queue.GetItem(0).Order.ActivityImage(Place);
                     CurrentActionImage.CurrentImage = activityImage;
                 }
             }
         }
 
-        switch (FMode)
+        switch (Mode)
         {
             case 1:
-                if (FProductionIndex != -1)
+                if (ProductionIndex != -1)
                 {
-                    SelectProduction(FProductionIndex);
+                    SelectProduction(ProductionIndex);
                 }
 
                 break;
@@ -605,56 +605,56 @@ public partial class ProductionScreen : DataModule
                 break;
         }
 
-        Dlg.FDrawn = false;
+        Dlg.Drawn = false;
     }
 
     // AoWProdScreen.pas:180
-    public void ShowPlace(ProductionPlace Place)
+    public void ShowPlace(ProductionPlace place)
     {
-        ArmyHexSprite Army;
-        RandomBattleMapGenerator Generator;
-        HexSprite Center;
+        ArmyHexSprite army;
+        RandomBattleMapGenerator generator;
+        HexSprite center;
         Reset();
-        FPlace = Place;
+        Place = place;
         UpdateInfo();
         SetMode(0);
-        var text = Place.GetDescription().Text;
+        var text = place.GetDescription().Text;
         PlaceInfoMemo.Items.Text = text;
-        for (int I = 0, last = FPlace.FProductionControl.FUnitProductions.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = Place.ProductionControl.UnitProductions.GetCount() - 1; I <= last; I++)
         {
-            LoadUnitImages(FPlace.FProductionControl.FUnitProductions.GetItem(I).FUnitIndex);
+            LoadUnitImages(Place.ProductionControl.UnitProductions.GetItem(I).UnitIndex);
         }
 
         FreePreview();
-        Generator = new RandomBattleMapGenerator();
-        var lhx = FPlace.GetLhx();
-        var yhx = FPlace.GetYhx();
-        FPreview = Generator.RandomMap(null, FPlace.GetXhx(), yhx, lhx);
-        Generator?.Dispose();
-        Army = ((AoWMapField)FPlace.Owner).GetArmyHS();
-        if (Army != null)
+        generator = new RandomBattleMapGenerator();
+        var hexLevel = Place.GetHexLevel();
+        var hexY = Place.GetHexY();
+        Preview = generator.RandomMap(null, Place.GetHexX(), hexY, hexLevel);
+        generator?.Dispose();
+        army = ((AoWMapField)Place.Owner).GetArmyHexSprite();
+        if (army != null)
         {
-            for (int I = 0, last = Army.FArmy.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = army.Army.GetCount() - 1; I <= last; I++)
             {
-                var unit = Army.FArmy.GetUnit(I);
-                CombatMap.PlaceOverviewUnit(FPreview, unit, 0, I);
+                var troop = army.Army.GetUnit(I);
+                CombatMap.PlaceOverviewUnit(Preview, troop, 0, I);
             }
         }
 
-        var baseIncome = FPlace.GetBaseIncome();
+        var baseIncome = Place.GetBaseIncome();
         B5CB.CaptureInput = baseIncome != 0;
-        Center = FPreview.FCenterViewLocation;
-        if (Center != null)
+        center = Preview.CenterViewLocation;
+        if (center != null)
         {
-            var fCenterViewLocationYhx = FPreview.FCenterViewLocation.GetYhx();
-            HexGeometry.HXtoHP(Center.GetXhx(), fCenterViewLocationYhx, ref FViewX, ref FViewY);
-            FViewX = FViewX + 16 - MapView.WinWidth / 2;
-            FViewY = FViewY + 16 - MapView.WinHeight / 2;
+            var fCenterViewLocationHexY = Preview.CenterViewLocation.GetHexY();
+            HexGeometry.HexToPixel(center.GetHexX(), fCenterViewLocationHexY, ref ViewX, ref ViewY);
+            ViewX = ViewX + 16 - MapView.WinWidth / 2;
+            ViewY = ViewY + 16 - MapView.WinHeight / 2;
         }
         else
         {
-            FViewX = 800;
-            FViewY = 800;
+            ViewX = 800;
+            ViewY = 800;
         }
 
         DialogHosts.General.Manager.OverlayPriority = 49;
@@ -664,72 +664,72 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:221
     public void ProductionScreenCreate()
     {
-        FImages = new Int32List();
+        Images = new Int32List();
     }
 
     // AoWProdScreen.pas:226
     public void ProductionScreenDestroy()
     {
-        FImages?.Dispose();
+        Images?.Dispose();
     }
 
     // AoWProdScreen.pas:231
-    public void ActivityChange(CheckBox Sender, int Slot)
+    public void ActivityChange(CheckBox sender, int slot)
     {
         DialogHosts.General.PlayButtonSound(1);
-        if (Sender.Checked)
+        if (sender.Checked)
         {
             ResetChecks();
-            SelectProduction(Slot);
-            Sender.Checked = true;
+            SelectProduction(slot);
+            sender.Checked = true;
         }
     }
 
     // AoWProdScreen.pas:242
-    public void ActivityDoubleClick(CheckBox Sender, int Slot)
+    public void ActivityDoubleClick(CheckBox sender, int slot)
     {
         ResetChecks();
-        SelectProduction(Slot);
-        Sender.Checked = true;
+        SelectProduction(slot);
+        sender.Checked = true;
         MainBtn1Click();
     }
 
     // AoWProdScreen.pas:250
-    public void ActivityPreDraw(CheckBox Sender, LockedSurface SD, int Slot)
+    public void ActivityPreDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        UnitShowInfo Info = default;
+        UnitShowInfo info = default;
         Rect R;
         Unit U;
-        R = new Rect(ActivityPnl2.WinLeft + Sender.WinLeft, ActivityPnl2.WinTop + Sender.WinTop, ActivityPnl2.WinLeft + Sender.WinLeft + Sender.WinWidth, ActivityPnl2.WinTop + Sender.WinTop + Sender.WinHeight);
-        switch (Slot)
+        R = new Rect(ActivityPnl2.WinLeft + sender.WinLeft, ActivityPnl2.WinTop + sender.WinTop, ActivityPnl2.WinLeft + sender.WinLeft + sender.WinWidth, ActivityPnl2.WinTop + sender.WinTop + sender.WinHeight);
+        switch (slot)
         {
             case >= 0 and <= 3:
-                U = FPlace.FProductionControl.CreateUnitProduction(Slot);
+                U = Place.ProductionControl.CreateUnitProduction(slot);
                 if (U != null)
                 {
-                    Info.Direction = 3;
-                    Info.Overlays = Set<UnitOverlayModesElement>.Of();
-                    Info.Animation = 0;
-                    Info.Frame = 0;
-                    Info.Looped = false;
-                    if (!FPlace.FProductionControl.FUnitProductions.GetItem(Slot).FResearched)
+                    info.Direction = 3;
+                    info.Overlays = Set<UnitOverlayModesElement>.Of();
+                    info.Animation = 0;
+                    info.Frame = 0;
+                    info.Looped = false;
+                    if (!Place.ProductionControl.UnitProductions.GetItem(slot).Researched)
                     {
-                        DialogHosts.IntGfxMod.CityWin[5].Show(R.Left + 2, R.Top + 2, SD);
-                        Info.Direction = 5;
+                        DialogHosts.UIGraphics.CityWin[5].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                        info.Direction = 5;
                         if (U != null)
                         {
-                            U.ShowEx(R.Left - 4, R.Top, SD, Info);
+                            U.Show(R.Left - 4, R.Top, lockedSurface, info);
                         }
 
                         var lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(45);
-                        DialogHosts.IntGfxMod.CityWin[5].ShowBlended(R.Left + 2, R.Top + 2, SD, lookupTable);
+                        DialogHosts.UIGraphics.CityWin[5].ShowBlended(R.Left + 2, R.Top + 2, lockedSurface, lookupTable);
                     }
                     else
                     {
-                        DialogHosts.IntGfxMod.CityWin[4].Show(R.Left + 2, R.Top + 2, SD);
+                        DialogHosts.UIGraphics.CityWin[4].Show(R.Left + 2, R.Top + 2, lockedSurface);
                         if (U != null)
                         {
-                            U.ShowEx(R.Left - 4, R.Top, SD, Info);
+                            U.Show(R.Left - 4, R.Top, lockedSurface, info);
                         }
                     }
 
@@ -737,24 +737,24 @@ public partial class ProductionScreen : DataModule
                 }
                 else
                 {
-                    DialogHosts.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
+                    DialogHosts.UIGraphics.CityWin[62].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 }
 
                 break;
             case 4:
-                if (FPlace.GetBaseIncome() != 0)
+                if (Place.GetBaseIncome() != 0)
                 {
-                    var activityImage = new Trade(0).ActivityImage(FPlace);
-                    DialogHosts.IntGfxMod.CityWin[activityImage].Show(R.Left + 2, R.Top + 2, SD);
+                    var activityImage = new Trade(0).ActivityImage(Place);
+                    DialogHosts.UIGraphics.CityWin[activityImage].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 }
                 else
                 {
-                    DialogHosts.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
+                    DialogHosts.UIGraphics.CityWin[62].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 }
 
                 break;
             case 5:
-                DialogHosts.IntGfxMod.CityWin[46].Show(R.Left + 2, R.Top + 2, SD);
+                DialogHosts.UIGraphics.CityWin[46].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 break;
         }
     }
@@ -762,64 +762,64 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:299
     public void MainBtn1Click()
     {
-        string Reason = "";
-        switch (FMode)
+        string reason = "";
+        switch (Mode)
         {
             case 0:
                 SetMode(1);
                 SelectDefaultAction();
                 break;
             case 1:
-                switch (FProductionIndex)
+                switch (ProductionIndex)
                 {
                     case >= 0 and <= 3:
-                        if (FPlace.FProductionControl.FUnitProductions.GetItem(FProductionIndex).FResearched)
+                        if (Place.ProductionControl.UnitProductions.GetItem(ProductionIndex).Researched)
                         {
-                            if (FPlace.CanProduce(FProductionIndex, false, ref Reason))
+                            if (Place.CanProduce(ProductionIndex, false, ref reason))
                             {
-                                FPlace.Produce(FProductionIndex, false);
+                                Place.Produce(ProductionIndex, false);
                                 SetMode(0);
                             }
                             else
                             {
-                                AoWHSMap.Current.ShowWarning(Reason);
+                                AoWHSMap.Current.ShowWarning(reason);
                             }
                         }
                         else
                         {
-                            if (FPlace.CanResearch(FProductionIndex, false, ref Reason))
+                            if (Place.CanResearch(ProductionIndex, false, ref reason))
                             {
-                                FPlace.Research(FProductionIndex, false);
+                                Place.Research(ProductionIndex, false);
                                 SetMode(0);
                             }
                             else
                             {
-                                AoWHSMap.Current.ShowWarning(Reason);
+                                AoWHSMap.Current.ShowWarning(reason);
                             }
                         }
 
                         break;
                     case 4:
-                        if (FPlace.CanTrade(false, ref Reason))
+                        if (Place.CanTrade(false, ref reason))
                         {
-                            FPlace.Trade(false);
+                            Place.Trade(false);
                             SetMode(0);
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(reason);
                         }
 
                         break;
                     case 5:
-                        if (FPlace.CanRaze(AoWHSMap.Current.FSeatedPlayer, ref Reason))
+                        if (Place.CanRaze(AoWHSMap.Current.SeatedPlayer, ref reason))
                         {
-                            FPlace.Raze(AoWHSMap.Current.FSeatedPlayer);
+                            Place.Raze(AoWHSMap.Current.SeatedPlayer);
                             Dlg.Visible = false;
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(reason);
                         }
 
                         break;
@@ -829,7 +829,7 @@ public partial class ProductionScreen : DataModule
             case 2:
                 if (QueueLB.Selected != -1)
                 {
-                    FPlace.FProductionControl.DeleteProduction(QueueLB.Selected);
+                    Place.ProductionControl.DeleteProduction(QueueLB.Selected);
                 }
 
                 break;
@@ -839,45 +839,45 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:347
     public void MainBtn2Click()
     {
-        string Reason = "";
-        switch (FMode)
+        string reason = "";
+        switch (Mode)
         {
             case 1:
-                switch (FProductionIndex)
+                switch (ProductionIndex)
                 {
                     case >= 0 and <= 3:
-                        if (FPlace.FProductionControl.FUnitProductions.GetItem(FProductionIndex).FResearched)
+                        if (Place.ProductionControl.UnitProductions.GetItem(ProductionIndex).Researched)
                         {
-                            if (FPlace.CanProduce(FProductionIndex, true, ref Reason))
+                            if (Place.CanProduce(ProductionIndex, true, ref reason))
                             {
-                                FPlace.Produce(FProductionIndex, true);
+                                Place.Produce(ProductionIndex, true);
                             }
                             else
                             {
-                                AoWHSMap.Current.ShowWarning(Reason);
+                                AoWHSMap.Current.ShowWarning(reason);
                             }
                         }
                         else
                         {
-                            if (FPlace.CanResearch(FProductionIndex, true, ref Reason))
+                            if (Place.CanResearch(ProductionIndex, true, ref reason))
                             {
-                                FPlace.Research(FProductionIndex, true);
+                                Place.Research(ProductionIndex, true);
                             }
                             else
                             {
-                                AoWHSMap.Current.ShowWarning(Reason);
+                                AoWHSMap.Current.ShowWarning(reason);
                             }
                         }
 
                         break;
                     case 4:
-                        if (FPlace.CanTrade(true, ref Reason))
+                        if (Place.CanTrade(true, ref reason))
                         {
-                            FPlace.Trade(true);
+                            Place.Trade(true);
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(reason);
                         }
 
                         break;
@@ -885,15 +885,15 @@ public partial class ProductionScreen : DataModule
 
                 break;
             case 2:
-                if (FQueueIndex == 0)
+                if (QueueIndex == 0)
                 {
-                    if (FPlace.FProductionControl.RetryProductionExecution(ref Reason))
+                    if (Place.ProductionControl.RetryProductionExecution(ref reason))
                     {
                         SetMode(0);
                     }
                     else
                     {
-                        AoWHSMap.Current.ShowWarning(Reason);
+                        AoWHSMap.Current.ShowWarning(reason);
                     }
                 }
 
@@ -905,7 +905,7 @@ public partial class ProductionScreen : DataModule
     public void MainBtn3Click()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FMode == 0)
+        if (Mode == 0)
         {
             Dlg.Visible = false;
         }
@@ -916,15 +916,15 @@ public partial class ProductionScreen : DataModule
     }
 
     // AoWProdScreen.pas:389
-    public void UFaceDraw(UserDrawBox Sender, LockedSurface SD)
+    public void UFaceDraw(UserDrawBox sender, LockedSurface lockedSurface)
     {
         Unit U;
         Rect R;
-        U = FPlace.FProductionControl.CreateUnitProduction(FProductionIndex);
+        U = Place.ProductionControl.CreateUnitProduction(ProductionIndex);
         if (U != null)
         {
-            R = new Rect(UPictureFramePnl.WinLeft + Sender.WinLeft + 2, UPictureFramePnl.WinTop + Sender.WinTop + 2, UPictureFramePnl.WinLeft + Sender.WinLeft + Sender.WinWidth - 4, UPictureFramePnl.WinTop + Sender.WinTop + Sender.WinHeight - 2);
-            U.ShowFace(R, SD);
+            R = new Rect(UPictureFramePnl.WinLeft + sender.WinLeft + 2, UPictureFramePnl.WinTop + sender.WinTop + 2, UPictureFramePnl.WinLeft + sender.WinLeft + sender.WinWidth - 4, UPictureFramePnl.WinTop + sender.WinTop + sender.WinHeight - 2);
+            U.ShowFace(R, lockedSurface);
             U.Release();
         }
     }
@@ -932,13 +932,13 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:406
     public void QueueLBChange()
     {
-        var count = FPlace.FProductionControl.FQueue.GetCount();
-        if (QueueLB.Selected < count && FMode != 0)
+        var count = Place.ProductionControl.Queue.GetCount();
+        if (QueueLB.Selected < count && Mode != 0)
         {
             if (QueueLB.Selected != -1)
             {
-                FQueueIndex = QueueLB.Selected;
-                if (FPlace.FProductionControl.FQueue.GetItem(FQueueIndex).Order is ProduceUnit produce)
+                QueueIndex = QueueLB.Selected;
+                if (Place.ProductionControl.Queue.GetItem(QueueIndex).Order is ProduceUnit produce)
                 {
                     SelectProduction(produce.Index);
                 }
@@ -948,14 +948,14 @@ public partial class ProductionScreen : DataModule
                 }
 
                 SetMode(2);
-                QueueLB.Selected = FQueueIndex;
+                QueueLB.Selected = QueueIndex;
                 MainBtn1.Visible = true;
-                var delete = AbilityRules.TranslateRStr(GameText.DeleteRStr);
+                var delete = AbilityRules.TranslateResourceString(GameText.s_deleteText);
                 MainBtn1.Text = delete;
-                if (FQueueIndex == 0 && FPlace.FProductionControl.FStatus == ProductionControl.Status.Waiting)
+                if (QueueIndex == 0 && Place.ProductionControl.Status == ProductionControlStatus.Waiting)
                 {
                     MainBtn2.Visible = true;
-                    var execute = AbilityRules.TranslateRStr(GameText.ExecuteRStr);
+                    var execute = AbilityRules.TranslateResourceString(GameText.s_executeText);
                     MainBtn2.Text = execute;
                 }
                 else
@@ -974,9 +974,9 @@ public partial class ProductionScreen : DataModule
         }
         else
         {
-            if (FMode == 2)
+            if (Mode == 2)
             {
-                QueueLB.Selected = FQueueIndex;
+                QueueLB.Selected = QueueIndex;
             }
             else
             {
@@ -986,44 +986,44 @@ public partial class ProductionScreen : DataModule
     }
 
     // AoWProdScreen.pas:439
-    public void B4CBUpdate(CheckBox Sender, int Slot)
+    public void B4CBUpdate(CheckBox sender, int slot)
     {
-        if (Slot <= 3)
+        if (slot <= 3)
         {
-            var unitProduction = FPlace.FProductionControl.FUnitProductions.GetItem(Slot);
-            Sender.CaptureInput = unitProduction != null;
+            var unitProduction = Place.ProductionControl.UnitProductions.GetItem(slot);
+            sender.CaptureInput = unitProduction != null;
         }
     }
 
     // AoWProdScreen.pas:445
     public void LoopQueueBoxChange()
     {
-        FPlace.FProductionControl.SetLoopQueueTo(LoopQueueBox.Checked);
+        Place.ProductionControl.SetLoopQueueTo(LoopQueueBox.Checked);
     }
 
     // AoWProdScreen.pas:450
-    public void CurrentActionImageDraw(Image Sender, LockedSurface SD)
+    public void CurrentActionImageDraw(Image sender, LockedSurface lockedSurface)
     {
-        UnitShowInfo Info = default;
+        UnitShowInfo info = default;
         Rect R;
         Unit U;
-        if (FPlace.FProductionControl.FQueue.GetCount() != 0)
+        if (Place.ProductionControl.Queue.GetCount() != 0)
         {
-            if (FPlace.FProductionControl.FQueue.GetItem(0).Order.UnitProductionIndex != null)
+            if (Place.ProductionControl.Queue.GetItem(0).Order.UnitProductionIndex != null)
             {
-                R = new Rect(ActiveActionPnl.WinLeft + Sender.WinLeft, ActiveActionPnl.WinTop + Sender.WinTop, ActiveActionPnl.WinLeft + Sender.WinLeft + Sender.WinWidth, ActiveActionPnl.WinTop + Sender.WinTop + Sender.WinHeight);
-                var productionPlaceControl = FPlace.FProductionControl;
-                if (productionPlaceControl.FUnitProductions.GetItem(productionPlaceControl.FSettings.FUnitProductionIndex) != null)
+                R = new Rect(ActiveActionPnl.WinLeft + sender.WinLeft, ActiveActionPnl.WinTop + sender.WinTop, ActiveActionPnl.WinLeft + sender.WinLeft + sender.WinWidth, ActiveActionPnl.WinTop + sender.WinTop + sender.WinHeight);
+                var productionPlaceControl = Place.ProductionControl;
+                if (productionPlaceControl.UnitProductions.GetItem(productionPlaceControl.Settings.UnitProductionIndex) != null)
                 {
-                    U = FPlace.FProductionControl.CreateUnitProduction(FPlace.FProductionControl.FSettings.FUnitProductionIndex);
+                    U = Place.ProductionControl.CreateUnitProduction(Place.ProductionControl.Settings.UnitProductionIndex);
                     if (U != null)
                     {
-                        Info.Direction = 3;
-                        Info.Overlays = Set<UnitOverlayModesElement>.Of();
-                        Info.Animation = 0;
-                        Info.Frame = 0;
-                        Info.Looped = false;
-                        U.ShowEx(R.Left - 12, R.Top - 5, SD, Info);
+                        info.Direction = 3;
+                        info.Overlays = Set<UnitOverlayModesElement>.Of();
+                        info.Animation = 0;
+                        info.Frame = 0;
+                        info.Looped = false;
+                        U.Show(R.Left - 12, R.Top - 5, lockedSurface, info);
                         U.Release();
                     }
                 }
@@ -1032,72 +1032,72 @@ public partial class ProductionScreen : DataModule
     }
 
     // AoWProdScreen.pas:483
-    public void MapViewDraw(UserDrawBox Sender, LockedSurface SD)
+    public void MapViewDraw(UserDrawBox sender, LockedSurface lockedSurface)
     {
-        LockedSurface ViewSD = default;
+        LockedSurface viewSurfaceDescription = default;
         Rect R;
         int W;
         int H;
-        int Width;
-        if (FPreview != null)
+        int width;
+        if (Preview != null)
         {
-            R = new Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
-            Width = R.Right - R.Left;
-            W = Width;
+            R = new Rect(Dlg.WinLeft + sender.WinLeft, Dlg.WinTop + sender.WinTop, Dlg.WinLeft + sender.WinLeft + sender.WinWidth, Dlg.WinTop + sender.WinTop + sender.WinHeight);
+            width = R.Right - R.Left;
+            W = width;
             H = R.Bottom - R.Top;
-            var maxXhp = FPreview.GetMaxXhp();
-            if (FViewX + W + 16 > maxXhp)
+            var maxPixelX = Preview.GetMaxPixelX();
+            if (ViewX + W + 16 > maxPixelX)
             {
-                FViewX = FPreview.GetMaxXhp() - W - 16;
+                ViewX = Preview.GetMaxPixelX() - W - 16;
             }
 
-            var maxYhp = FPreview.GetMaxYhp();
-            if (FViewY + H + 16 > maxYhp)
+            var maxPixelY = Preview.GetMaxPixelY();
+            if (ViewY + H + 16 > maxPixelY)
             {
-                FViewY = FPreview.GetMaxYhp() - H - 16;
+                ViewY = Preview.GetMaxPixelY() - H - 16;
             }
 
-            if (FViewX < 16)
+            if (ViewX < 16)
             {
-                FViewX = 16;
+                ViewX = 16;
             }
 
-            if (FViewY < 16)
+            if (ViewY < 16)
             {
-                FViewY = 16;
+                ViewY = 16;
             }
 
-            LockedSurface.CreateSDfromSD(SD, R, ref ViewSD);
-            FPreview.SetExplorationEnabled(false);
-            FPreview.SetFogEnabled(false);
-            FPreview.SetViewPort(FViewX, FViewY, 0, Width, R.Bottom - R.Top);
-            FPreview.UpdateStaticScene();
-            FPreview.UpdateDynamicScene();
-            FPreview.DrawStaticScene(ref ViewSD);
-            FPreview.DrawDynamicScene(ref ViewSD);
+            LockedSurface.CreateFrom(lockedSurface, R, ref viewSurfaceDescription);
+            Preview.SetExplorationEnabled(false);
+            Preview.SetFogEnabled(false);
+            Preview.SetViewPort(ViewX, ViewY, 0, width, R.Bottom - R.Top);
+            Preview.UpdateStaticScene();
+            Preview.UpdateDynamicScene();
+            Preview.DrawStaticScene(ref viewSurfaceDescription);
+            Preview.DrawDynamicScene(ref viewSurfaceDescription);
         }
     }
 
     // AoWProdScreen.pas:510
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        switch (Key)
+        switch (key)
         {
             case 37:
-                FViewX -= 16;
-                MapView.FDrawn = false;
+                ViewX -= 16;
+                MapView.Drawn = false;
                 break;
             case 39:
-                FViewX += 16;
-                MapView.FDrawn = false;
+                ViewX += 16;
+                MapView.Drawn = false;
                 break;
             case 38:
-                FViewY -= 16;
-                MapView.FDrawn = false;
+                ViewY -= 16;
+                MapView.Drawn = false;
                 break;
             case 40:
-                FViewY += 16;
-                MapView.FDrawn = false;
+                ViewY += 16;
+                MapView.Drawn = false;
                 break;
             case 27:
                 Dlg.Visible = false;
@@ -1108,14 +1108,14 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:521
     public void MapViewUpdate()
     {
-        CombatMap Preview;
-        Preview = FPreview;
-        if (Preview != null)
+        CombatMap preview;
+        preview = Preview;
+        if (preview != null)
         {
-            Preview.NewFrame();
+            preview.NewFrame();
         }
 
-        MapView.FDrawn = MapView.FDrawn && (AoWHSMap.Current.Frame & 1) != 0;
+        MapView.Drawn = MapView.Drawn && (AoWHSMap.Current.Frame & 1) != 0;
     }
 
     // AoWProdScreen.pas:530
@@ -1125,17 +1125,17 @@ public partial class ProductionScreen : DataModule
     }
 
     // AoWProdScreen.pas:535
-    public void UAbilitiesLBMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void UAbilitiesLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Ability A;
-        if (Button == MouseButton.Right && UAbilitiesLB.Selected > -1)
+        if (button == MouseButton.Right && UAbilitiesLB.Selected > -1)
         {
             var objectValue = UAbilitiesLB.Items.Objects[UAbilitiesLB.Selected];
-            A = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            A = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (A != null)
             {
                 var name = A.GetName(null);
-                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, A.FDescription);
+                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, A.Description);
             }
         }
     }
@@ -1143,30 +1143,30 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:546
     public void PPrevClick()
     {
-        int Start;
-        int Index;
+        int start;
+        int index;
         PlayerStructure S;
-        Start = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.FindChildIndex(FPlace);
-        Index = Start;
-        Index -= 1;
-        if (Index < 0)
+        start = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.FindChildIndex(Place);
+        index = start;
+        index -= 1;
+        if (index < 0)
         {
-            Index = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount() - 1;
+            index = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount() - 1;
         }
 
-        while (Index != Start)
+        while (index != start)
         {
-            S = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetStructure(Index);
+            S = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetStructure(index);
             if (S is ProductionPlace && ((ProductionPlace)S).GetMagicSphere() == MagicSphere.None)
             {
-                Index = Start + 1;
+                index = start + 1;
                 ShowPlace((ProductionPlace)S);
             }
 
-            Index += -1;
-            if (Index < 0)
+            index += -1;
+            if (index < 0)
             {
-                Index = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount() - 1;
+                index = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount() - 1;
             }
         }
     }
@@ -1174,41 +1174,41 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:568
     public void PNextClick()
     {
-        int Start;
-        int Index;
+        int start;
+        int index;
         PlayerStructure S;
-        Start = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.FindChildIndex(FPlace);
-        Index = Start + 1;
-        if (Index >= AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount())
+        start = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.FindChildIndex(Place);
+        index = start + 1;
+        if (index >= AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount())
         {
-            Index = 0;
+            index = 0;
         }
 
-        while (Index != Start)
+        while (index != start)
         {
-            S = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetStructure(Index);
+            S = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetStructure(index);
             if (S is ProductionPlace && ((ProductionPlace)S).GetMagicSphere() == MagicSphere.None)
             {
-                Index = Start - 1;
+                index = start - 1;
                 ShowPlace((ProductionPlace)S);
             }
 
-            Index += 1;
-            if (Index >= AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount())
+            index += 1;
+            if (index >= AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount())
             {
-                Index = 0;
+                index = 0;
             }
         }
     }
 
-    private static readonly string GenerateExtraPowerTextRStr = "Increases the power generated by the node by 25%.";
-    private static readonly string ProduceMerchandiseTextRStr = "When producing merchandise the income is increased by 25%.";
-    private static readonly string ProductionPlaceXRazeRStr = "Destroys the %s instantly by burning it to the ground.";
-    private static readonly string XPowerRStr = "%s power";
+    private static readonly string s_generateExtraPowerText = "Increases the power generated by the node by 25%.";
+    private static readonly string s_produceMerchandiseText = "When producing merchandise the income is increased by 25%.";
+    private static readonly string s_productionPlaceRazeFormat = "Destroys the %s instantly by burning it to the ground.";
+    private static readonly string s_powerFormat = "%s power";
 
-    private static int SphereImage(MagicSphere Sphere)
+    private static int SphereImage(MagicSphere sphere)
     {
-        return Sphere switch
+        return sphere switch
         {
             MagicSphere.Life => 27,
             MagicSphere.Fire => 42,

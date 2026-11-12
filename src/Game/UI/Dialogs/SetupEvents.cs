@@ -23,7 +23,7 @@ public partial class SetupEvents : DataModule
 
     public GDPlay DPlay;
     public SetupControl SetupControl;
-    public bool FLobbyGame;
+    public bool LobbyGame;
 
     // aowSetupEvents.pas:61
     public void ClearChat()
@@ -36,17 +36,17 @@ public partial class SetupEvents : DataModule
     public void UpdateChatPlayers()
     {
         DialogHosts.ChatWindow.PlayerList.Items.Clear();
-        var allPlayers = AbilityRules.TranslateRStr(AllPlayersRStr);
+        var allPlayers = AbilityRules.TranslateResourceString(s_allPlayersText);
         DialogHosts.ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
         if (AoWHSMap.Current != null)
         {
-            for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
             {
-                if (I != AoWHSMap.Current.FSeatedPlayer && AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus != Player.Status.Terminated && AoWHSMap.Current.FPlayerCommunicator.PCC.Players[I].ConnectionMode == ConnectionMode.Remote)
+                if (I != AoWHSMap.Current.SeatedPlayer && AoWHSMap.Current.Players.GetPlayers(I).Status != PlayerStatus.Terminated && AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[I].ConnectionMode == ConnectionMode.Remote)
                 {
-                    var player = AoWHSMap.Current.FPlayerCommunicator.PCC.Players[I];
-                    var playerLeader = AoWHSMap.Current.FPlayers.GetPlayers(I);
-                    DialogHosts.ChatWindow.PlayerList.Items.AddObject(playerLeader.FLeader.FHeroName, IntToObject(player.SystemID));
+                    var player = AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[I];
+                    var playerLeader = AoWHSMap.Current.Players.GetPlayers(I);
+                    DialogHosts.ChatWindow.PlayerList.Items.AddObject(playerLeader.Leader.HeroName, IntToObject(player.SystemId));
                     DialogHosts.ChatWindow.PlayerList.Selected = 0;
                 }
             }
@@ -54,19 +54,19 @@ public partial class SetupEvents : DataModule
     }
 
     // aowSetupEvents.pas:84
-    public void UpdatePlayerName(string Name)
+    public void UpdatePlayerName(string name)
     {
         if (SetupControl.GetRemote() && DPlay.Connected)
         {
-            DPlay.PlayerName = Name;
+            DPlay.PlayerName = name;
         }
     }
 
     // aowSetupEvents.pas:90
     public void SetupControlStart()
     {
-        DialogHosts.SynchronizeDlg.Dlg.Visible = false;
-        DialogHosts.ScenSetup.CloseSetup();
+        DialogHosts.SynchronizeDialog.Dlg.Visible = false;
+        DialogHosts.ScenarioSetup.CloseSetup();
         General.StartGame(DialogHosts.General);
         if (DPlay.Connected)
         {
@@ -76,57 +76,57 @@ public partial class SetupEvents : DataModule
     }
 
     // aowSetupEvents.pas:102
-    public void SetupControlSendMap(SetupControl Control, object Data, int Size, int Recipient)
+    public void SetupControlSendMap(SetupControl control, object data, int size, int recipient)
     {
         /* TODO: Implement aowDPlayComp.Players in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // aowSetupEvents.pas:111
-    public void DPlayFileStartMessage(int ID, ref string Name, int Size, ref byte Response)
+    public void DPlayFileStartMessage(int id, ref string name, int size, ref byte response)
     {
-        DialogHosts.ProgressDialog.StatusLbl.Text = "0k of " + IntToStr(Size / 1000) + "k";
+        DialogHosts.ProgressDialog.StatusLbl.Text = "0k of " + IntToStr(size / 1000) + "k";
         DialogHosts.ProgressDialog.Title.Text = "Receiving File";
-        DialogHosts.ProgressDialog.Bar.Max = Size;
+        DialogHosts.ProgressDialog.Bar.Max = size;
         DialogHosts.ProgressDialog.Bar.Position = 0;
     }
 
     // aowSetupEvents.pas:119
-    public void DPlayFileDoneMessage(int ID, GDFile FileData)
+    public void DPlayFileDoneMessage(int id, GDFile fileData)
     {
         /* TODO: Implement aowDPlayComp.FData in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // aowSetupEvents.pas:125
-    public void DPlayFileProgressMessage(int ID, int Position, int Size)
+    public void DPlayFileProgressMessage(int id, int position, int size)
     {
-        if (Position > DialogHosts.ProgressDialog.Bar.Position)
+        if (position > DialogHosts.ProgressDialog.Bar.Position)
         {
-            DialogHosts.ProgressDialog.StatusLbl.Text = IntToStr(Position / 1000) + "k of " + IntToStr(Size / 1000) + "k";
-            DialogHosts.ProgressDialog.Bar.Position = Position;
+            DialogHosts.ProgressDialog.StatusLbl.Text = IntToStr(position / 1000) + "k of " + IntToStr(size / 1000) + "k";
+            DialogHosts.ProgressDialog.Bar.Position = position;
         }
     }
 
     // aowSetupEvents.pas:134
-    public void DPlayChatMessage(ref string Message, ref int ToID, ref int FromID)
+    public void DPlayChatMessage(ref string message, ref int toId, ref int fromId)
     {
-        if (DialogHosts.ScenSetup.ScenSetupPnl.Visible)
+        if (DialogHosts.ScenarioSetup.ScenSetupPnl.Visible)
         {
-            DialogHosts.ScenSetup.ChatMemo.Items.Add(Message);
-            DialogHosts.ScenSetup.FChatScrollPending = true;
+            DialogHosts.ScenarioSetup.ChatMemo.Items.Add(message);
+            DialogHosts.ScenarioSetup.ChatScrollPending = true;
         }
         else
         {
-            DialogHosts.ChatWindow.ChatMemo.Items.Add(Message);
-            DialogHosts.TBWindow.FChatFlash = 136;
-            DialogHosts.ChatWindow.FScrollPending = true;
+            DialogHosts.ChatWindow.ChatMemo.Items.Add(message);
+            DialogHosts.TaskBar.ChatFlash = 136;
+            DialogHosts.ChatWindow.ScrollPending = true;
             AudioPlayback.PlaySample("SFX\\EVENTS\\CHAT.WAV");
         }
     }
 
     // aowSetupEvents.pas:150
-    public void DPlayMessageTimeout(ref GDMessage Message)
+    public void DPlayMessageTimeout(ref GDMessage message)
     {
         /* TODO: Implement aowDPlayComp.FToID in the platform or editor service. */
         throw new NotImplementedException();
@@ -135,72 +135,72 @@ public partial class SetupEvents : DataModule
     // aowSetupEvents.pas:170
     public void DPlayEjected()
     {
-        if (DialogHosts.ScenSetup.ScenSetupPnl.Visible)
+        if (DialogHosts.ScenarioSetup.ScenSetupPnl.Visible)
         {
-            DialogHosts.ScenSetup.ExitGameClick();
-            MessageDialog.ResetMessageDialog(DialogHosts.MessageDlg);
-            var warning = AbilityRules.TranslateRStr(WarningRStr);
-            DialogHosts.MessageDlg.TitleLbl.Text = warning;
-            DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-            var youWereEjectedByTheHost = AbilityRules.TranslateRStr(YouWereEjectedByTheHostRStr);
-            DialogHosts.MessageDlg.MessageMemo.Items.Add(youWereEjectedByTheHost);
-            DialogHosts.MessageDlg.OKPnl.Visible = true;
-            DialogHosts.MessageDlg.Dlg.Visible = true;
+            DialogHosts.ScenarioSetup.ExitGameClick();
+            MessageDialog.ResetMessageDialog(DialogHosts.MessageDialog);
+            var warning = AbilityRules.TranslateResourceString(s_warningText);
+            DialogHosts.MessageDialog.TitleLbl.Text = warning;
+            DialogHosts.MessageDialog.MessageMemo.Items.Add("");
+            var youWereEjectedByTheHost = AbilityRules.TranslateResourceString(s_youWereEjectedByHostText);
+            DialogHosts.MessageDialog.MessageMemo.Items.Add(youWereEjectedByTheHost);
+            DialogHosts.MessageDialog.OKPnl.Visible = true;
+            DialogHosts.MessageDialog.Dlg.Visible = true;
         }
     }
 
     // aowSetupEvents.pas:184
-    public void DPlayPingMessage(int PingMS, int Player)
+    public void DPlayPingMessage(int pingMilliseconds, int player)
     {
-        if (DialogHosts.ScenSetup.ScenSetupPnl.Visible)
+        if (DialogHosts.ScenarioSetup.ScenSetupPnl.Visible)
         {
-            DialogHosts.ScenSetup.PingList.FDrawn = false;
+            DialogHosts.ScenarioSetup.PingList.Drawn = false;
         }
     }
 
     // aowSetupEvents.pas:189
-    public void SetupControlCustomizeLeader(SetupControl Control, CustomizeLeaderControl Leader)
+    public void SetupControlCustomizeLeader(SetupControl control, CustomizeLeaderControl leader)
     {
-        DialogHosts.ScenSetup.ScenSetupPnl.Visible = false;
-        DialogHosts.LeaderSetupWin.Execute(Leader);
+        DialogHosts.ScenarioSetup.ScenSetupPnl.Visible = false;
+        DialogHosts.LeaderSetupWindow.Execute(leader);
     }
 
     // aowSetupEvents.pas:195
-    public void SetupControlLoadMap(SetupControl Control, string FileName)
+    public void SetupControlLoadMap(SetupControl control, string fileName)
     {
-        var fileName = ExtractFileName(FileName);
-        var format = AbilityRules.Format(AbilityRules.TranslateRStr(LoadingXRStr), [fileName]);
+        var fileNameLocal = ExtractFileName(fileName);
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_loadingFormat), [fileNameLocal]);
         DialogHosts.ProgressDialog.Title.Text = format;
         DialogHosts.ProgressDialog.StatusLbl.Text = "";
         DialogHosts.ProgressDialog.Bar.Position = 0;
         DialogHosts.ProgressDialog.Bar.Max = 100;
         DialogHosts.ProgressDialog.ProgDlg.Visible = true;
         DialogHosts.General.Manager.OverlayPriority = 5000;
-        if (!Control.FSettings.FCustomizeLeaders)
+        if (!control.Settings.CustomizeLeaders)
         {
             AudioHost.SongPlayer.Stop(false);
             AudioHost.SongPlayer.Songs.Clear();
             AudioPlayback.FadeMusicVolume(0, 1);
         }
 
-        if (Control.FStream.Length != 0)
+        if (control.Stream.Length != 0)
         {
-            GameTables.AoWEngine.LoadHSMfromStream(Control.FStream, false, (_, Message, Progression) => DialogHosts.General.MapProgress(Message, Progression));
-            var fileName2 = ExtractFileName(FileName);
-            AoWHSMap.Current.FileName = GameTables.AoWEngine.StartupDirectory + "Scenario\\" + fileName2;
+            GameTables.GameEngine.LoadHsmFromStream(control.Stream, false, (_, message, progression) => DialogHosts.General.MapProgress(message, progression));
+            var fileName2 = ExtractFileName(fileName);
+            AoWHSMap.Current.FileName = GameTables.GameEngine.StartupDirectory + "Scenario\\" + fileName2;
         }
         else
         {
-            GameTables.AoWEngine.LoadHSM(FileName, false, (_, Message, Progression) => DialogHosts.General.MapProgress(Message, Progression), GameProfile.WorldMap);
+            GameTables.GameEngine.LoadHsm(fileName, false, (_, message, progression) => DialogHosts.General.MapProgress(message, progression), GameProfile.WorldMap);
         }
 
         DialogHosts.General.Manager.OverlayPriority = 0;
         DialogHosts.ProgressDialog.ProgDlg.Visible = false;
-        Control.MapLoaded();
+        control.MapLoaded();
     }
 
     // aowSetupEvents.pas:220
-    public bool SetupControlSendData(object Data, int Size, int Recipient)
+    public bool SetupControlSendData(object data, int size, int recipient)
     {
         /* TODO: Implement aowDPlayComp.SendMessage in the platform or editor service. */
         throw new NotImplementedException();
@@ -209,46 +209,46 @@ public partial class SetupEvents : DataModule
     // aowSetupEvents.pas:225
     public void SetupControlSettingChanged()
     {
-        ScenarioSetup.UpdateScenarioSetup(DialogHosts.ScenSetup);
+        ScenarioSetup.UpdateScenarioSetup(DialogHosts.ScenarioSetup);
     }
 
     // aowSetupEvents.pas:228
-    public void SetupControlEjectPlayer(SetupControl Control, int RemoteID)
+    public void SetupControlEjectPlayer(SetupControl control, int remoteId)
     {
         /* TODO: Implement aowDPlayComp.EjectPlayer in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // aowSetupEvents.pas:231
-    public void DPlayMessage(ref object Data, ref int Size, ref int ToID, ref int FromID)
+    public void DPlayMessage(ref object data, ref int size, ref int toId, ref int fromId)
     {
-        if (SetupControl.FStatus.Contains(SetupStatusElement.Busy))
+        if (SetupControl.Status.Contains(SetupStatusElement.Busy))
         {
-            SetupControl.DataReceived(Data, Size, FromID);
+            SetupControl.DataReceived(data, size, fromId);
         }
 
         if (AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
-            if (AoWHSMap.Current.FPlayerCommunicator.PCC is RemotePlayerCommunicationControl)
+            if (AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl)
             {
-                ((RemotePlayerCommunicationControl)AoWHSMap.Current.FPlayerCommunicator.PCC).DataReceived(Data, Size, FromID);
+                ((RemotePlayerCommunicationControl)AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl).DataReceived(data, size, fromId);
             }
         }
     }
 
     // aowSetupEvents.pas:239
-    public void SetupControlSynchronize(SetupControl Control)
+    public void SetupControlSynchronize(SetupControl control)
     {
-        DialogHosts.General.Manager.FAligned = false;
-        DialogHosts.ScenSetup.ScenSetupPnl.Visible = false;
-        if (Control.GetRemote())
+        DialogHosts.General.Manager.Aligned = false;
+        DialogHosts.ScenarioSetup.ScenSetupPnl.Visible = false;
+        if (control.GetRemote())
         {
-            DialogHosts.SynchronizeDlg.Dlg.Visible = true;
+            DialogHosts.SynchronizeDialog.Dlg.Visible = true;
         }
     }
 
     // aowSetupEvents.pas:249
-    public void SetupControlIncompatibleVersion(SetupControl Control, int Major, int Minor)
+    public void SetupControlIncompatibleVersion(SetupControl control, int major, int minor)
     {
         /* TODO: Implement aowDPlayComp.CloseSession in the platform or editor service. */
         throw new NotImplementedException();
@@ -281,27 +281,27 @@ public partial class SetupEvents : DataModule
     }
 
     // aowSetupEvents.pas:299
-    public void DPlayDestroyPlayer(int ID, int NumPlayers)
+    public void DPlayDestroyPlayer(int id, int numberPlayers)
     {
-        sbyte Player;
-        if (DialogHosts.ScenSetup.FSetupControl != null)
+        sbyte player;
+        if (DialogHosts.ScenarioSetup.SetupControl != null)
         {
-            if (DialogHosts.ScenSetup.FSetupControl.GetHost())
+            if (DialogHosts.ScenarioSetup.SetupControl.GetHost())
             {
-                DialogHosts.ScenSetup.FSetupControl.hDisconnectPlayer(ID);
+                DialogHosts.ScenarioSetup.SetupControl.DisconnectPlayer(id);
             }
         }
 
-        if (AoWHSMap.Current != null && AoWHSMap.Current.FPlayerCommunicator.PCC != null)
+        if (AoWHSMap.Current != null && AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl != null)
         {
-            Player = (sbyte)AoWHSMap.Current.FPlayerCommunicator.PCC.IndexOfSystemID(ID);
-            if (Player != -1)
+            player = (sbyte)AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(id);
+            if (player != -1)
             {
-                if (AoWHSMap.Current.FPlayers.GetPlayers(Player) != null)
+                if (AoWHSMap.Current.Players.GetPlayers(player) != null)
                 {
-                    if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Session.Player.Status.Playing)
+                    if (AoWHSMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
                     {
-                        AoWHSMap.Current.PlayerDisconnected(Player);
+                        AoWHSMap.Current.PlayerDisconnected(player);
                     }
 
                     UpdateChatPlayers();
@@ -310,17 +310,17 @@ public partial class SetupEvents : DataModule
         }
     }
 
-    private static readonly string AllPlayersRStr = "All players";
+    private static readonly string s_allPlayersText = "All players";
 
-    private static readonly string LoadingXRStr = "Loading: %s...";
+    private static readonly string s_loadingFormat = "Loading: %s...";
 
-    private static readonly string YouWereEjectedByTheHostRStr = "You were ejected by the host.";
+    private static readonly string s_youWereEjectedByHostText = "You were ejected by the host.";
 
-    private static GUID ID_AOWAPP = "{3205D060-4FF5-11D3-811F-0050042E6D24}";
+    private static GUID s_applicationGuid = "{3205D060-4FF5-11D3-811F-0050042E6D24}";
 
-    private static readonly string WarningRStr = "Warning";
+    private static readonly string s_warningText = "Warning";
 
-    internal static bool StartLobby(SetupEvents Events)
+    internal static bool StartLobby(SetupEvents events)
     {
         /* TODO: Implement aowDPlayComp.CheckLobby in the platform or editor service. */
         throw new NotImplementedException();

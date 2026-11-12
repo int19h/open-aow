@@ -16,9 +16,9 @@ public partial class RecallSpirit : CombatSpell
     // CombatSpells.pas:1975
     public RecallSpirit(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(RecallSpiritRStr);
-        FSpellID = 129;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_recallSpiritText);
+        SpellId = 129;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 0;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of();
@@ -27,40 +27,40 @@ public partial class RecallSpirit : CombatSpell
     }
 
     // CombatSpells.pas:2008
-    public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
+    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        RecallSpiritCombatAction Action;
-        Action = new RecallSpiritCombatAction(null);
-        Action.FSourceID = Source.FID;
-        Action.FTargetID = Target.FID;
-        Action.FSucceeded = Target.FStatus.Contains(CombatObjectStatusElement.Destroyed);
-        Action.FSpellID = FSpellID;
-        if (ChargeMana)
+        RecallSpiritCombatAction action;
+        action = new RecallSpiritCombatAction(null);
+        action.SourceId = source.Id;
+        action.TargetId = target.Id;
+        action.Succeeded = target.Status.Contains(CombatObjectStatusElement.Destroyed);
+        action.SpellId = SpellId;
+        if (chargeMana)
         {
-            Action.FManaCost = FBaseManaCost;
+            action.ManaCost = BaseManaCost;
         }
 
-        return Action;
+        return action;
     }
 
     // CombatSpells.pas:1990
-    public override void fcGetDamageValueEx(CombatObject Source, CombatObject Target, WallSituation WallSituation, ref AbilityDamageValues Values)
+    public override void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
-        if (Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
+        if (target.Status.Contains(CombatObjectStatusElement.Destroyed))
         {
             // { Original leaves the other damage-value fields unchanged on success. }
-            Values.SourceDamage = 200;
-            Values.DamageTypes = Set<DamageType>.Of();
+            values.SourceDamage = 200;
+            values.DamageTypes = Set<DamageType>.Of();
         }
         else
         {
-            Values.SourceDamage = 0;
-            Values.SourceCost = 0;
-            Values.TargetDamage = 0;
-            Values.TargetCost = 0;
-            Values.DamageTypes = Set<DamageType>.Of();
+            values.SourceDamage = 0;
+            values.SourceCost = 0;
+            values.TargetDamage = 0;
+            values.TargetCost = 0;
+            values.DamageTypes = Set<DamageType>.Of();
         }
     }
 
-    private static readonly string RecallSpiritRStr = "Recall Spirits";
+    private static readonly string s_recallSpiritText = "Recall Spirits";
 }

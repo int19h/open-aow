@@ -15,73 +15,73 @@ public partial class AIGroupControlTarget : EngineObject
     // AIGroup.pas:635
     public AIGroupControlTarget(ECustomNode owner) : base(owner)
     {
-        FRefCount = 1;
-        FTransporterID = -1;
+        RefCount = 1;
+        TransporterId = -1;
     }
 
-    public int FRefCount;
-    public AITargetInfo FInfo;
-    public AITargetData FData;
-    public MapCoordinate FLocation;
-    public int FMovePoints;
-    public int FTransporterID;
-    public Set<AIGroupTargetFlags> FStatus;
-    public int FPathStrength;
-    public int FDataA;
-    public int FDataB;
+    public int RefCount;
+    public AITargetInfo Info;
+    public AITargetData Data;
+    public MapCoordinate Location;
+    public int MovePoints;
+    public int TransporterId;
+    public Set<AIGroupTargetFlags> Status;
+    public int PathStrength;
+    public int DataA;
+    public int DataB;
 
     // AIGroup.pas:642
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // AIGroup.pas:648
     public override int Release()
     {
-        FRefCount -= 1;
-        int Result = FRefCount;
-        if (FRefCount == 0)
+        RefCount -= 1;
+        int result = RefCount;
+        if (RefCount == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:655
-    public virtual bool Validate(AIGroupControl Control)
+    public virtual bool Validate(AIGroupControl control)
     {
-        bool Result;
-        AITargetData Data = default;
+        bool result;
+        AITargetData data = default;
         sbyte X;
-        X = FLocation.X;
+        X = Location.X;
         if (X != -1)
         {
-            Result = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, FLocation.Y, FLocation.L)).GetAITarget(Control, FInfo, ref Data);
+            result = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Location.Y, Location.MapLevel)).GetAITarget(control, Info, ref data);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:666
-    public int GetTargetGold() => FData.Cost;
+    public int GetTargetGold() => Data.Cost;
 
     // AIGroup.pas:671
     public int GetTargetMana() => 0;
 
     // AIGroup.pas:676
-    public void GetDebugInfo(ref string Text)
+    public void GetDebugInfo(ref string text)
     {
-        Text = "Target(" + IntToStr(FLocation.X) + "," + IntToStr(FLocation.Y) + "," + IntToStr(FLocation.L) + "): Prio:" + IntToStr(FData.Priority);
-        if (FTransporterID != -1)
+        text = "Target(" + IntToStr(Location.X) + "," + IntToStr(Location.Y) + "," + IntToStr(Location.MapLevel) + "): Prio:" + IntToStr(Data.Priority);
+        if (TransporterId != -1)
         {
-            Text = Text + "/Transporter(" + IntToStr(FTransporterID) + ")";
+            text = text + "/Transporter(" + IntToStr(TransporterId) + ")";
         }
     }
 

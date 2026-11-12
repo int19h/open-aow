@@ -44,28 +44,28 @@ public partial class PlayerInfoWindow : DataModule
     // AoWPInfoWin.pas:173
     public void UpdatePlayer()
     {
-        int RaceIndex;
-        if (AoWHSMap.Current.FSeatedPlayer > -1)
+        int raceIndex;
+        if (AoWHSMap.Current.SeatedPlayer > -1)
         {
-            var name = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetName();
-            DialogHosts.PInfoW.Player.Text = name;
-            if (AoWHSMap.Current.FSeatedPlayer != 0)
+            var name = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetName();
+            DialogHosts.PlayerInfoWindow.Player.Text = name;
+            if (AoWHSMap.Current.SeatedPlayer != 0)
             {
-                var player = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer);
-                var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[player.FPlayerRace]);
-                DialogHosts.PInfoW.Race.Text = raceNamesPlural;
+                var player = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
+                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[player.PlayerRace]);
+                DialogHosts.PlayerInfoWindow.Race.Text = raceNamesPlural;
             }
 
-            var day = AbilityRules.TranslateRStr(GameText.DayRStr);
-            DialogHosts.PInfoW.Turn.Text = day + " " + IntToStr(AoWHSMap.Current.FDay);
-            RaceIndex = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FPlayerRace;
-            if (RaceIndex == -1)
+            var day = AbilityRules.TranslateResourceString(GameText.s_dayText);
+            DialogHosts.PlayerInfoWindow.Turn.Text = day + " " + IntToStr(AoWHSMap.Current.Day);
+            raceIndex = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).PlayerRace;
+            if (raceIndex == -1)
             {
-                RaceIndex = 12;
+                raceIndex = 12;
             }
 
-            DialogHosts.PInfoW.RShield.CurrentImage = RaceIndex + 13;
-            DialogHosts.PInfoW.PInfoWin.Visible = true;
+            DialogHosts.PlayerInfoWindow.RShield.CurrentImage = raceIndex + 13;
+            DialogHosts.PlayerInfoWindow.PInfoWin.Visible = true;
         }
     }
 
@@ -73,9 +73,9 @@ public partial class PlayerInfoWindow : DataModule
     public void UpdateEvents()
     {
         EventList.Items.Clear();
-        if (AoWHSMap.Current.FSeatedPlayer > -1)
+        if (AoWHSMap.Current.SeatedPlayer > -1)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FEventLogbook.ListEvents(EventList.Items);
+            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).EventLogbook.ListEvents(EventList.Items);
         }
 
         var count = EventList.Items.Count;
@@ -93,70 +93,70 @@ public partial class PlayerInfoWindow : DataModule
     public void EventListDoubleClick()
     {
         var objectValue = EventList.Items.Objects[EventList.Selected];
-        AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).Execute(true, ExecuteTrigger.User, null);
+        AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).Execute(true, ExecuteTrigger.User, null);
     }
 
     // AoWPInfoWin.pas:78
-    public void EventListPreDrawItem(in Rect DrawRect, int DrawItem, ref LockedSurface SD)
+    public void EventListPreDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
-        if (DrawItem != EventList.Selected)
+        if (drawItem != EventList.Selected)
         {
-            var objectValue = EventList.Items.Objects[DrawItem];
-            var textColor = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).GetTextColor();
+            var objectValue = EventList.Items.Objects[drawItem];
+            var textColor = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).GetTextColor();
             EventList.TextColor = textColor;
         }
     }
 
     // AoWPInfoWin.pas:85
-    public void EventListDrawItem(in Rect DrawRect, int DrawItem, ref LockedSurface SD)
+    public void EventListDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
-        int LeftIcon;
-        int MiddleIcon;
-        int RightIcon;
-        var objectValue = EventList.Items.Objects[DrawItem];
-        LeftIcon = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).GetLeftIcon();
-        var objectValue2 = EventList.Items.Objects[DrawItem];
-        MiddleIcon = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue2)).GetMiddleIcon();
-        var objectValue3 = EventList.Items.Objects[DrawItem];
-        RightIcon = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue3)).GetRightIcon();
-        if (LeftIcon > -1)
+        int leftIcon;
+        int middleIcon;
+        int rightIcon;
+        var objectValue = EventList.Items.Objects[drawItem];
+        leftIcon = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).GetLeftIcon();
+        var objectValue2 = EventList.Items.Objects[drawItem];
+        middleIcon = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue2)).GetMiddleIcon();
+        var objectValue3 = EventList.Items.Objects[drawItem];
+        rightIcon = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue3)).GetRightIcon();
+        if (leftIcon > -1)
         {
-            if (MiddleIcon == -1)
+            if (middleIcon == -1)
             {
-                var eventIcon = DialogHosts.IntGfxMod.EventIcons[LeftIcon];
-                DialogHosts.IntGfxMod.EventIcons[LeftIcon].ShowClipped(DrawRect.Left + (36 - eventIcon.Width) / 2, DrawRect.Top + 1, SD);
+                var eventIcon = DialogHosts.UIGraphics.EventIcons[leftIcon];
+                DialogHosts.UIGraphics.EventIcons[leftIcon].ShowClipped(drawRectangle.Left + (36 - eventIcon.Width) / 2, drawRectangle.Top + 1, lockedSurface);
             }
             else
             {
-                DialogHosts.IntGfxMod.EventIcons[LeftIcon].ShowClipped(DrawRect.Left, DrawRect.Top + 1, SD);
+                DialogHosts.UIGraphics.EventIcons[leftIcon].ShowClipped(drawRectangle.Left, drawRectangle.Top + 1, lockedSurface);
             }
         }
 
-        if (MiddleIcon > -1)
+        if (middleIcon > -1)
         {
-            DialogHosts.IntGfxMod.EventIcons[MiddleIcon].ShowClipped(DrawRect.Left + 12, DrawRect.Top + 1, SD);
+            DialogHosts.UIGraphics.EventIcons[middleIcon].ShowClipped(drawRectangle.Left + 12, drawRectangle.Top + 1, lockedSurface);
         }
 
-        if (RightIcon > -1)
+        if (rightIcon > -1)
         {
-            DialogHosts.IntGfxMod.EventIcons[RightIcon].ShowClipped(DrawRect.Left + 24, DrawRect.Top + 1, SD);
+            DialogHosts.UIGraphics.EventIcons[rightIcon].ShowClipped(drawRectangle.Left + 24, drawRectangle.Top + 1, lockedSurface);
         }
     }
 
     // AoWPInfoWin.pas:100
     public void PInfoWinResize()
     {
-        this.PInfoWin.Alignment.RightOffset = this.PInfoWin.WinManager.WinWidth - this.PInfoWin.WinLeft - this.PInfoWin.WinWidth;
+        this.PInfoWin.Alignment.RightOffset = this.PInfoWin.WindowManager.WinWidth - this.PInfoWin.WinLeft - this.PInfoWin.WinWidth;
         this.PInfoWin.Alignment.BottomOffset = DialogHosts.General.Manager.WinHeight - this.PInfoWin.WinTop - this.PInfoWin.WinHeight;
     }
 
     // AoWPInfoWin.pas:109
-    public void EventListMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void EventListMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (EventList.Selected > -1 && Button == MouseButton.Right)
+        if (EventList.Selected > -1 && button == MouseButton.Right)
         {
             var objectValue = EventList.Items.Objects[EventList.Selected];
-            AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).ViewLocation();
+            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).ViewLocation();
         }
     }
 
@@ -167,9 +167,9 @@ public partial class PlayerInfoWindow : DataModule
         sbyte Y = default;
         sbyte L = default;
         DialogHosts.General.PlayButtonSound(0);
-        if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FLeader != null)
+        if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Leader != null)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetLeaderLocation(ref X, ref Y, ref L);
+            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetLeaderLocation(ref X, ref Y, ref L);
             if (X > -1)
             {
                 AoWHSMap.Current.CenterViewTo(X, Y, L);
@@ -179,39 +179,39 @@ public partial class PlayerInfoWindow : DataModule
     }
 
     // AoWPInfoWin.pas:132
-    public void RaceBtnClick()
+    public void RaceButtonClick()
     {
         DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWPInfoWin.pas:137
-    public void FaceFrDraw(LockedSurface SD)
+    public void FaceFrDraw(LockedSurface lockedSurface)
     {
         Rect R;
-        if (AoWHSMap.Current.FSeatedPlayer > -1)
+        if (AoWHSMap.Current.SeatedPlayer > -1)
         {
             R = new Rect(FaceFr.WinLeft + 3, FaceFr.WinTop + 3, FaceFr.WinLeft + FaceFr.WinWidth - 3, FaceFr.WinTop + FaceFr.WinHeight - 3);
-            if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFace() != null)
+            if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetFace() != null)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFace().ShowStretched(R, SD);
+                AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetFace().ShowStretched(R, lockedSurface);
             }
         }
     }
 
     // AoWPInfoWin.pas:149
-    public void FaceFrMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void FaceFrMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        sbyte Xhx = default;
-        sbyte Yhx = default;
-        sbyte Lhx = default;
-        if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FLeader != null)
+        sbyte hexX = default;
+        sbyte hexY = default;
+        sbyte hexLevel = default;
+        if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Leader != null)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetLeaderLocation(ref Xhx, ref Yhx, ref Lhx);
-            if (Xhx > -1)
+            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetLeaderLocation(ref hexX, ref hexY, ref hexLevel);
+            if (hexX > -1)
             {
-                var player = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer);
-                DialogHosts.General.FSelectedUnit = player.FLeader;
-                switch (Button)
+                var player = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
+                DialogHosts.General.SelectedUnit = player.Leader;
+                switch (button)
                 {
                     case MouseButton.Left:
                         DialogHosts.UnitWindow.ShowUnit();

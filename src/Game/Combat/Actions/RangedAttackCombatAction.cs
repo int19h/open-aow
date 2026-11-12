@@ -13,41 +13,41 @@ namespace Aow.Game.Combat.Actions;
 // (ability ID)
 public partial class RangedAttackCombatAction : DamageCombatAction
 {
-    public new const int ClassID = 131753;
+    public new const int ClassId = 131753;
 
     public RangedAttackCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public int FAbilityID;
+    public int AbilityId;
 
     // AoWAb.PAS:4631
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwData(Bytes.Of(ref FAbilityID, 4), 4, 20);
+        base.ReadWrite(stream);
+        stream.rwData(Bytes.Of(ref AbilityId, 4), 4, 20);
     }
 
     // AoWAb.PAS:4643
-    public override string GetName() => AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID).GetName(null);
+    public override string GetName() => AoWHSSet.Current.AbilityControl.GetAbility(AbilityId).GetName(null);
 
     // AoWAb.PAS:4647
-    public override bool Play(CombatViewer Viewer)
+    public override bool Play(CombatViewer viewer)
     {
-        if (Viewer.FTime == 1)
+        if (viewer.Time == 1)
         {
-            AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID).FSFXLibrary.Play(0);
+            AoWHSSet.Current.AbilityControl.GetAbility(AbilityId).SfxLibrary.Play(0);
         }
 
-        return base.Play(Viewer);
+        return base.Play(viewer);
     }
 
     // AoWAb.PAS:4636
-    public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override void ShowObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
-        if (Obj.FID == FTargetID && Viewer.FTime != 0)
+        base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
+        if (objectValue.Id == TargetId && viewer.Time != 0)
         {
-            AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID).FImageSequences.ShowLooped(40, X + 32, Y + 32, Viewer.FTime, Surface);
+            AoWHSSet.Current.AbilityControl.GetAbility(AbilityId).ImageSequences.ShowLooped(40, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

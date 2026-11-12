@@ -17,99 +17,99 @@ public partial class CosmeticSurgery : UnitSpell
     // UnitSpells.pas:901
     public CosmeticSurgery(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(DeformFaceRStr);
-        FSpellID = 59;
-        FSpellType = SpellType.Unit;
-        FSpellLevel = 1;
-        FMagicSphere = MagicSphere.Secret;
-        FAllowMultipleTargets = false;
-        FUnitDispelResistance = 10;
-        FTargetRange = -1;
-        FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
+        SpellName = AbilityRules.TranslateResourceString(s_deformFaceText);
+        SpellId = 59;
+        SpellType = SpellType.Unit;
+        SpellLevel = 1;
+        MagicSphere = MagicSphere.Secret;
+        AllowMultipleTargets = false;
+        UnitDispelResistance = 10;
+        TargetRange = -1;
+        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
     }
 
     // UnitSpells.pas:968
-    public override void GetCombatInfo(Troop Source, ref SpellCombatInfo Info)
+    public override void GetCombatInfo(Troop source, ref SpellCombatInfo info)
     {
         // { The original saves Self and Source as well as Info; this compiler saves only Info. }
-        base.GetCombatInfo(Source, ref Info);
-        Info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
+        base.GetCombatInfo(source, ref info);
+        info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
     }
 
     // UnitSpells.pas:940
-    public override bool ValidTargetUnit(Troop Source, Troop Target)
+    public override bool ValidTargetUnit(Troop source, Troop target)
     {
-        bool Result = base.ValidTargetUnit(Source, Target);
-        return Result && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(Target.GetUnitType());
+        bool result = base.ValidTargetUnit(source, target);
+        return result && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(target.GetUnitType());
     }
 
     // UnitSpells.pas:946
-    public override bool CastSpell(Troop Source, UnitList Targets)
+    public override bool CastSpell(Troop source, UnitList targets)
     {
-        bool Result;
-        CosmeticSurgerySpellCaster Caster;
-        if (Targets.GetCount() == 1)
+        bool result;
+        CosmeticSurgerySpellCaster caster;
+        if (targets.GetCount() == 1)
         {
-            Caster = new CosmeticSurgerySpellCaster(null);
-            Caster.FCasterSourceID = Source.FUnitID;
-            Caster.FCasterSpellID = FSpellID;
-            Caster.FTargetUnitID = Targets.GetUnit(0).FUnitID;
-            if (Targets.GetUnit(0) is Hero)
+            caster = new CosmeticSurgerySpellCaster(null);
+            caster.CasterSourceId = source.UnitId;
+            caster.CasterSpellId = SpellId;
+            caster.TargetUnitId = targets.GetUnit(0).UnitId;
+            if (targets.GetUnit(0) is Hero)
             {
-                Caster.FFaceIndex = ((Hero)Targets.GetUnit(0)).FFaceIndex;
+                caster.FaceIndex = ((Hero)targets.GetUnit(0)).FaceIndex;
             }
             else
             {
-                Caster.FFaceIndex = 0;
+                caster.FaceIndex = 0;
             }
 
-            AoWHSMap.Current.FCosmeticSurgeryEventsStore.Raise(Caster);
-            Caster.Release();
-            Result = true;
+            AoWHSMap.Current._cosmeticSurgeryEventsStore.Raise(caster);
+            caster.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // UnitSpells.pas:915
-    public override bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data)
+    public override bool ExecuteSpell(Troop source, Troop target, int mana, ref Int32Array2 data)
     {
-        bool Result;
-        CosmeticSurgeryEnchantment Enchantment;
-        bool Expanded;
-        if (ValidTargetUnit(Source, Target))
+        bool result;
+        CosmeticSurgeryEnchantment enchantment;
+        bool expanded;
+        if (ValidTargetUnit(source, target))
         {
-            if (!Target.GetAbilityEnabled(126))
+            if (!target.GetAbilityEnabled(126))
             {
-                Expanded = Target.ExpandAbility(126);
+                expanded = target.ExpandAbility(126);
             }
             else
             {
-                Expanded = true;
+                expanded = true;
             }
 
-            if (Expanded)
+            if (expanded)
             {
-                Enchantment = (CosmeticSurgeryEnchantment)((UnitEnchantmentAbilityData)Target.GetAbilityData(126)).FEnchantment;
-                Enchantment.SetUpkeep(FManaUpkeep);
-                Enchantment.FFaceIndex = Data[0];
-                Enchantment.SetSource(Source.FPlayer);
+                enchantment = (CosmeticSurgeryEnchantment)((UnitEnchantmentAbilityData)target.GetAbilityData(126)).Enchantment;
+                enchantment.SetUpkeep(ManaUpkeep);
+                enchantment.FaceIndex = data[0];
+                enchantment.SetSource(source.Player);
             }
 
             // { Original succeeds even when expansion fails. }
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string DeformFaceRStr = "Cosmagic Surgery";
+    private static readonly string s_deformFaceText = "Cosmagic Surgery";
 }

@@ -5,31 +5,31 @@ using Aow.Engine.Storage;
 
 namespace Aow.Game.Commands;
 
-// FUnitIDs
+// UnitIds
 public partial class ArenaTokenEvent : StructureTokenEvent
 {
     public ArenaTokenEvent(ECustomNode owner) : base(owner)
     {
-        FUnitIDs = new Int32List();
+        UnitIds = new Int32List();
     }
 
     // Arena.pas:86
-    public new const int ClassID = 133294;
+    public new const int ClassId = 133294;
 
-    public Int32List FUnitIDs;
+    public Int32List UnitIds;
 
     // Arena.pas:80
     public override void Dispose()
     {
-        FUnitIDs?.Dispose();
+        UnitIds?.Dispose();
         base.Dispose();
     }
 
     // Arena.pas:89
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStreamProc(40, FUnitIDs.LoadFromStream, FUnitIDs.SaveToStream);
+        base.ReadWrite(stream);
+        stream.rwStreamProc(40, UnitIds.LoadFromStream, UnitIds.SaveToStream);
     }
 
     // Arena.pas:74

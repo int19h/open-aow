@@ -10,15 +10,15 @@ public partial class CombatTerrainShadow : HexSprite
     public CombatTerrainShadow(ECustomNode owner) : base(owner)
     { }
 
-    public CombatTerrain FTerrain;
+    public CombatTerrain _terrain;
 
     // CombatTerrain.pas:72
-    public override int GetShowPriority() => (FTerrain.GetShowPriority() & 67108863) - 134217728;
+    public override int GetShowPriority() => (_terrain.GetShowPriority() & 67108863) - 134217728;
 
     // CombatTerrain.pas:77
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        FTerrain.ShowShadow(XhpSurf, YhpSurf, SurfaceDesc);
+        _terrain.ShowShadow(pixelXSurface, pixelYSurface, lockedSurface);
     }
 
     // Engine.pas:524

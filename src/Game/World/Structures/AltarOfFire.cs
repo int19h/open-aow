@@ -12,7 +12,7 @@ public partial class AltarOfFire : Altar
     }
 
     // AltFire.pas:42
-    public new const int ClassID = 131642;
+    public new const int ClassId = 131642;
 
     // AltFire.pas:37
 
@@ -26,19 +26,19 @@ public partial class AltarOfFire : Altar
         }
 
         // AltFire.pas:58
-        public new const int ClassID = 131643;
+        public new const int ClassId = 131643;
 
         // AltFire.pas:50
 
         // AltFire.pas:61
-        public override int ResourceUserClassID() => 131642;
+        public override int ResourceUserClassId() => 131642;
 
         // AltFire.pas:27
 
         // AltFire.pas:55
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(AltarOfFireRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_altarOfFireText);
 
-        private static readonly string AltarOfFireRStr = "Altar of Fire";
+        private static readonly string s_altarOfFireText = "Altar of Fire";
 
     }
 

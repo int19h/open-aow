@@ -9,34 +9,34 @@ public partial class CombatSpellCaster : EngineObject
     // Spells.PAS:793
     public CombatSpellCaster(ECustomNode owner) : base(owner)
     {
-        FCombatCasterRefCount = 1;
+        CombatCasterRefCount = 1;
     }
 
-    public int FCombatCasterSpellID;
-    public int FCombatCasterSourceID;
-    public int FCombatCasterRefCount;
+    public int CombatCasterSpellId;
+    public int CombatCasterSourceId;
+    public int CombatCasterRefCount;
 
     // Spells.PAS:798
     public override int AddRef()
     {
-        FCombatCasterRefCount += 1;
-        return FCombatCasterRefCount;
+        CombatCasterRefCount += 1;
+        return CombatCasterRefCount;
     }
 
     // Spells.PAS:803
     public override int Release()
     {
-        int Count;
-        int ReleasedCount;
-        FCombatCasterRefCount -= 1;
-        Count = FCombatCasterRefCount;
-        ReleasedCount = Count;
-        if (Count == 0)
+        int count;
+        int releasedCount;
+        CombatCasterRefCount -= 1;
+        count = CombatCasterRefCount;
+        releasedCount = count;
+        if (count == 0)
         {
             Dispose();
         }
 
-        return ReleasedCount;
+        return releasedCount;
     }
 
     // intf_P4_02.inc:1012

@@ -12,37 +12,37 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-// FIncome, FChangingCrops, FIncomeSource
+// Income, ChangingCrops, IncomeSource
 public partial class PlayerCropStructure : PlayerStructure
 {
 
     public PlayerCropStructure(ECustomNode owner) : base(owner)
     {
-        FChangingCrops = false;
-        FIncomeSource = new PlayerStructureIncomeSource(null);
-        FIncomeSource.Setup(this);
+        ChangingCrops = false;
+        IncomeSource = new PlayerStructureIncomeSource(null);
+        IncomeSource.Setup(this);
     }
 
     // Crops.pas:284
-    public new const int ClassID = 131918;
+    public new const int ClassId = 131918;
 
-    public byte FIncome;
-    public bool FChangingCrops;
-    public PlayerStructureIncomeSource FIncomeSource;
+    public byte Income;
+    public bool ChangingCrops;
+    public PlayerStructureIncomeSource IncomeSource;
 
     // Crops.pas:278
     public override void Dispose()
     {
         base.Dispose();
-        FIncomeSource?.Dispose();
+        IncomeSource?.Dispose();
     }
 
     // Crops.pas:270
 
     // Crops.pas:528
-    public override void NeighbourTerrainChanged(int HN, in HexSpriteTerrainInfo Info)
+    public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo info)
     {
-        if (Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting, HexSpriteMapStatusElement.Activated).IsSubsetOf(AoWHSMap.Current.Status) && !FChangingCrops)
+        if (Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting, HexSpriteMapStatusElement.Activated).IsSubsetOf(AoWHSMap.Current.Status) && !ChangingCrops)
         {
             UpdateCrops();
         }
@@ -62,12 +62,12 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:357
     public override void Activate()
     {
-        sbyte Player;
+        sbyte player;
         base.Activate();
-        Player = FPlayer;
-        if (Player != -1)
+        player = Player;
+        if (player != -1)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).RegisterIncomeSource(FIncomeSource);
+            AoWHSMap.Current.Players.GetPlayers(player).RegisterIncomeSource(IncomeSource);
         }
 
         if (!GetEditMode())
@@ -80,59 +80,59 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:372
     public override void Deactivate()
     {
-        sbyte Player;
-        Player = FPlayer;
-        if (Player != -1)
+        sbyte player;
+        player = Player;
+        if (player != -1)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).UnregisterIncomeSource(FIncomeSource);
+            AoWHSMap.Current.Players.GetPlayers(player).UnregisterIncomeSource(IncomeSource);
         }
 
         base.Deactivate();
     }
 
     // Crops.pas:560
-    public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapLevel MapLevel;
+        MapLevel mapLevel;
         int I;
-        int HN;
+        int hexNumber;
         int X = default;
         int Y = default;
-        int NX = default;
-        int NY = default;
-        bool Result = base.CanPlace(MapContainer, Xhx, Yhx, Lhx);
-        if (Result && !GetEditMode())
+        int hexXLocal = default;
+        int hexYLocal = default;
+        bool result = base.CanPlace(mapContainer, hexX, hexY, hexLevel);
+        if (result && !GetEditMode())
         {
-            MapLevel = MapContainer.GetMapLevel(Lhx);
-            I = ((PlayerCropStructureResource)FResource).FCropLocations.Count;
-            while (Result && I != 0)
+            mapLevel = mapContainer.GetMapLevel(hexLevel);
+            I = ((PlayerCropStructureResource)_resource).CropLocations.Count;
+            while (result && I != 0)
             {
                 I -= 1;
-                HexGeometry.CenterHNtoHX(Xhx, Yhx, ((PlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
-                NX = X;
-                NY = Y;
-                HN = 0;
-                while (Result && HN != 7)
+                HexGeometry.CenterHexNumberToHex(hexX, hexY, ((PlayerCropStructureResource)_resource).CropLocations.List[I], ref X, ref Y);
+                hexXLocal = X;
+                hexYLocal = Y;
+                hexNumber = 0;
+                while (result && hexNumber != 7)
                 {
-                    if (NX >= 0 && NX < MapLevel.Width && NY >= 0 && NY < MapLevel.Height)
+                    if (hexXLocal >= 0 && hexXLocal < mapLevel.Width && hexYLocal >= 0 && hexYLocal < mapLevel.Height)
                     {
-                        Result = MapLevel.GetField(NX, NY).FindNoneTransparentHS(typeof(PlayerCropStructure)) == null;
+                        result = mapLevel.GetField(hexXLocal, hexYLocal).FindNoneTransparentHexSprite(typeof(PlayerCropStructure)) == null;
                     }
 
-                    HN += 1;
-                    HexGeometry.CenterHNtoHX(X, Y, HN, ref NX, ref NY);
+                    hexNumber += 1;
+                    HexGeometry.CenterHexNumberToHex(X, Y, hexNumber, ref hexXLocal, ref hexYLocal);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Crops.pas:586
-    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
-        if (Result)
+        bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
+        if (result)
         {
             if (!GetEditMode())
             {
@@ -140,14 +140,14 @@ public partial class PlayerCropStructure : PlayerStructure
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Crops.pas:325
-    public override void NewTurn(sbyte Player)
+    public override void NewTurn(sbyte player)
     {
-        base.NewTurn(Player);
-        if (FPlayer == Player)
+        base.NewTurn(player);
+        if (Player == player)
         {
             if (CropsEnabled())
             {
@@ -157,51 +157,51 @@ public partial class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:342
-    public override void SetPlayer(sbyte Player)
+    public override void SetPlayer(sbyte player)
     {
-        if (Player != FPlayer)
+        if (player != Player)
         {
-            if (FPlayer != -1)
+            if (Player != -1)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).UnregisterIncomeSource(FIncomeSource);
+                AoWHSMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(IncomeSource);
             }
 
-            base.SetPlayer(Player);
+            base.SetPlayer(player);
             UpdateCrops();
-            if (FPlayer != -1)
+            if (Player != -1)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).RegisterIncomeSource(FIncomeSource);
+                AoWHSMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(IncomeSource);
             }
         }
     }
 
     // Crops.pas:440
-    public virtual bool CanPlaceCrop(MapField Field)
+    public virtual bool CanPlaceCrop(MapField field)
     {
-        bool Result;
-        ArmyHexSprite Army;
-        HexSprite HS;
+        bool result;
+        ArmyHexSprite army;
+        HexSprite hexSprite;
         if (!GetRazed())
         {
-            Army = (ArmyHexSprite)Field.FindOwnedChild(131607);
-            Result = Army == null || AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Army.FArmy.FPlayer, FPlayer) != DiplomaticRelation.War;
-            if (Result)
+            army = (ArmyHexSprite)field.FindOwnedChild(131607);
+            result = army == null || AoWHSMap.Current.Players.GetDiplomaticRelation(army.Army.Player, Player) != DiplomaticRelation.War;
+            if (result)
             {
-                HS = Field.GetMaxLevelNoneTransparentHS();
-                Result = HS == null || HS.GetLevel() < 26;
+                hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
+                result = hexSprite == null || hexSprite.GetLevel() < 26;
             }
 
-            if (Result)
+            if (result)
             {
-                Result = Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 4).Contains((byte)Field.TerrainType) || Field.TerrainType == 5 && GetRace() == 11;
+                result = Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 4).Contains((byte)field.TerrainType) || field.TerrainType == 5 && GetRace() == 11;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Crops.pas:320
@@ -210,7 +210,7 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:314
     public virtual void RegrowCrops()
     {
-        if (GetCropCount() < ((PlayerCropStructureResource)FResource).FCropLocations.Count)
+        if (GetCropCount() < ((PlayerCropStructureResource)_resource).CropLocations.Count)
         {
             SetCropCount(GetCropCount() + 1);
         }
@@ -232,13 +232,13 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:401
     public virtual void UpdateCrops()
     {
-        if (!GetEditMode() && FStatus.Contains(MapObjectStatusElement.Activated))
+        if (!GetEditMode() && _status.Contains(MapObjectStatusElement.Activated))
         {
             if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
                 if (CropsEnabled())
                 {
-                    SetCropCount(((PlayerCropStructureResource)FResource).FCropLocations.Count);
+                    SetCropCount(((PlayerCropStructureResource)_resource).CropLocations.Count);
                 }
             }
 
@@ -250,17 +250,17 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:413
     public virtual sbyte GetRace()
     {
-        sbyte Result;
-        if (FPlayer > 0)
+        sbyte result;
+        if (Player > 0)
         {
-            Result = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace;
+            result = AoWHSMap.Current.Players.GetPlayers(Player).PlayerRace;
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Crops.pas:339
@@ -270,28 +270,28 @@ public partial class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:290
-    public virtual void CropTrampled(sbyte Player)
+    public virtual void CropTrampled(sbyte player)
     {
-        int Race;
-        if (Player != FPlayer && FPlayer > 0 && Player > 0)
+        int race;
+        if (player != Player && Player > 0 && player > 0)
         {
-            Race = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace;
-            var playerRelationValue = AoWHSMap.Current.FRaces.GetRace(Race).GetPlayerRelationValue(Player);
-            AoWHSMap.Current.FRaces.GetRace(Race).SetPlayerRelationValue(Player, playerRelationValue - -5);
+            race = AoWHSMap.Current.Players.GetPlayers(Player).PlayerRace;
+            var playerRelationValue = AoWHSMap.Current.Races.GetRace(race).GetPlayerRelationValue(player);
+            AoWHSMap.Current.Races.GetRace(race).SetPlayerRelationValue(player, playerRelationValue - -5);
         }
     }
 
     // Crops.pas:302
-    public void SetIncome(byte Value)
+    public void SetIncome(byte value)
     {
-        sbyte Player;
-        if (Value != this.FIncome && this.FStatus.Contains(MapObjectStatusElement.Activated))
+        sbyte player;
+        if (value != this.Income && this._status.Contains(MapObjectStatusElement.Activated))
         {
-            this.FIncome = Value;
-            Player = this.FPlayer;
-            if (Player != -1)
+            this.Income = value;
+            player = this.Player;
+            if (player != -1)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(Player).UpdateIncome();
+                AoWHSMap.Current.Players.GetPlayers(player).UpdateIncome();
             }
         }
     }
@@ -299,20 +299,20 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:382
     public void UpdateCropSettings()
     {
-        MapLevel MapLevel;
+        MapLevel mapLevel;
         int X = default;
         int Y = default;
-        Crop Crop;
-        MapLevel = (MapLevel)Owner.Owner;
-        for (int I = ((PlayerCropStructureResource)FResource).FCropLocations.Count - 1; I >= 0; I--)
+        Crop crop;
+        mapLevel = (MapLevel)Owner.Owner;
+        for (int I = ((PlayerCropStructureResource)_resource).CropLocations.Count - 1; I >= 0; I--)
         {
-            HexGeometry.CenterHNtoHX(FXhx, FYhx, ((PlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
-            if (X >= 0 && MapLevel.Width > X && Y >= 0 && MapLevel.Height > Y)
+            HexGeometry.CenterHexNumberToHex(_hexX, _hexY, ((PlayerCropStructureResource)_resource).CropLocations.List[I], ref X, ref Y);
+            if (X >= 0 && mapLevel.Width > X && Y >= 0 && mapLevel.Height > Y)
             {
-                Crop = (Crop)MapLevel.GetField(X, Y).FindOwnedChild(131946);
-                if (Crop != null)
+                crop = (Crop)mapLevel.GetField(X, Y).FindOwnedChild(131946);
+                if (crop != null)
                 {
-                    Crop.UpdateSettings();
+                    crop.UpdateSettings();
                 }
             }
         }
@@ -321,111 +321,111 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:420
     public int GetCropCount()
     {
-        MapLevel MapLevel;
+        MapLevel mapLevel;
         int X = default;
         int Y = default;
-        Crop Crop;
-        int Result = 0;
-        MapLevel = (MapLevel)Owner.Owner;
-        for (int I = ((PlayerCropStructureResource)FResource).FCropLocations.Count - 1; I >= 0; I--)
+        Crop crop;
+        int result = 0;
+        mapLevel = (MapLevel)Owner.Owner;
+        for (int I = ((PlayerCropStructureResource)_resource).CropLocations.Count - 1; I >= 0; I--)
         {
-            HexGeometry.CenterHNtoHX(FXhx, FYhx, ((PlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
-            if (X >= 0 && MapLevel.Width > X && Y >= 0 && MapLevel.Height > Y)
+            HexGeometry.CenterHexNumberToHex(_hexX, _hexY, ((PlayerCropStructureResource)_resource).CropLocations.List[I], ref X, ref Y);
+            if (X >= 0 && mapLevel.Width > X && Y >= 0 && mapLevel.Height > Y)
             {
-                Crop = (Crop)MapLevel.GetField(X, Y).FindChild(131946);
-                if (Crop != null)
+                crop = (Crop)mapLevel.GetField(X, Y).FindChild(131946);
+                if (crop != null)
                 {
-                    if (Crop.FCropOwner == this)
+                    if (crop.CropOwner == this)
                     {
-                        Result += 1;
+                        result += 1;
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Crops.pas:463
-    public void SetCropCount(int Value)
+    public void SetCropCount(int value)
     {
-        MapLevel MapLevel;
+        MapLevel mapLevel;
         int I;
-        Crop.Resource Resource;
-        MapField Field;
+        Crop.Resource resource;
+        MapField field;
         int X = default;
         int Y = default;
-        DelphiList Crops;
-        Crop Crop;
-        UInt16List Locations;
-        if (FStatus.Contains(MapObjectStatusElement.PlacedOnMap) && !FChangingCrops)
+        DelphiList crops;
+        Crop crop;
+        UInt16List locations;
+        if (_status.Contains(MapObjectStatusElement.PlacedOnMap) && !ChangingCrops)
         {
-            FChangingCrops = true;
-            MapLevel = (MapLevel)Owner.Owner;
-            Crops = new DelphiList();
-            Locations = new UInt16List();
-            Locations.Assign(((PlayerCropStructureResource)FResource).FCropLocations);
-            I = Locations.Count - 1;
+            ChangingCrops = true;
+            mapLevel = (MapLevel)Owner.Owner;
+            crops = new DelphiList();
+            locations = new UInt16List();
+            locations.Assign(((PlayerCropStructureResource)_resource).CropLocations);
+            I = locations.Count - 1;
             for (; I >= 0; I -= 1)
             {
-                HexGeometry.CenterHNtoHX(FXhx, FYhx, Locations.List[I], ref X, ref Y);
-                if (X >= 0 && X < MapLevel.Width && Y >= 0 && Y < MapLevel.Height)
+                HexGeometry.CenterHexNumberToHex(_hexX, _hexY, locations.List[I], ref X, ref Y);
+                if (X >= 0 && X < mapLevel.Width && Y >= 0 && Y < mapLevel.Height)
                 {
-                    Field = MapLevel.GetField(X, Y);
-                    Crop = (Crop)Field.FindOwnedChild(131946);
-                    if (Crop != null || !CanPlaceCrop(Field))
+                    field = mapLevel.GetField(X, Y);
+                    crop = (Crop)field.FindOwnedChild(131946);
+                    if (crop != null || !CanPlaceCrop(field))
                     {
-                        if (Crop != null && Crop.FCropOwner == this)
+                        if (crop != null && crop.CropOwner == this)
                         {
-                            Crops.Add(Crop);
+                            crops.Add(crop);
                         }
 
-                        Locations.Delete(I);
+                        locations.Delete(I);
                     }
                 }
                 else
                 {
-                    Locations.Delete(I);
+                    locations.Delete(I);
                 }
             }
 
-            if (Crops.Count < Value)
+            if (crops.Count < value)
             {
-                Resource = (Crop.Resource)FResource.Engine.HSSet.MapObjectResourceList.FindChild(131947);
-                if (Resource != null)
+                resource = (Crop.Resource)_resource.Engine.HexSpriteSet.MapObjectResourceList.FindChild(131947);
+                if (resource != null)
                 {
-                    while (Crops.Count != Value && Locations.Count != 0)
+                    while (crops.Count != value && locations.Count != 0)
                     {
-                        I = AoWHSMap.Current.Random(Locations.Count);
-                        HexGeometry.CenterHNtoHX(FXhx, FYhx, Locations.List[I], ref X, ref Y);
-                        Crop = Resource.PlaceCrop((sbyte)X, (sbyte)Y, (sbyte)MapLevel.Lhx, this);
-                        if (Crop != null)
+                        I = AoWHSMap.Current.Random(locations.Count);
+                        HexGeometry.CenterHexNumberToHex(_hexX, _hexY, locations.List[I], ref X, ref Y);
+                        crop = resource.PlaceCrop((sbyte)X, (sbyte)Y, (sbyte)mapLevel.HexLevel, this);
+                        if (crop != null)
                         {
-                            Crops.Add(Crop);
-                            Crop.SetCropOwner(this);
+                            crops.Add(crop);
+                            crop.SetCropOwner(this);
                         }
 
-                        Locations.Delete(I);
+                        locations.Delete(I);
                     }
                 }
             }
             else
             {
-                if (Crops.Count > Value)
+                if (crops.Count > value)
                 {
-                    while (Crops.Count != Value && Crops.Count != 0)
+                    while (crops.Count != value && crops.Count != 0)
                     {
-                        I = AoWHSMap.Current.Random(Crops.Count);
-                        ((Crops[I] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
-                        Crops.Delete(I);
+                        I = AoWHSMap.Current.Random(crops.Count);
+                        ((crops[I] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
+                        crops.Delete(I);
                     }
                 }
             }
 
             // { Original frees and clears the recursion guard only on normal completion. }
-            Crops?.Dispose();
-            Locations?.Dispose();
-            FChangingCrops = false;
+            crops?.Dispose();
+            locations?.Dispose();
+            ChangingCrops = false;
             CropsChanged();
         }
     }
@@ -433,30 +433,30 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:540
     public void LinkToCrops()
     {
-        MapLevel MapLevel;
+        MapLevel mapLevel;
         int X = default;
         int Y = default;
-        Crop Crop;
+        Crop crop;
         if (GetEditMode())
         {
             return;
         }
 
-        MapLevel = (MapLevel)Owner.Owner;
-        for (int I = ((PlayerCropStructureResource)FResource).FCropLocations.Count - 1; I >= 0; I--)
+        mapLevel = (MapLevel)Owner.Owner;
+        for (int I = ((PlayerCropStructureResource)_resource).CropLocations.Count - 1; I >= 0; I--)
         {
-            HexGeometry.CenterHNtoHX(FXhx, FYhx, ((PlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
-            if (X >= 0 && MapLevel.Width > X && Y >= 0 && MapLevel.Height > Y)
+            HexGeometry.CenterHexNumberToHex(_hexX, _hexY, ((PlayerCropStructureResource)_resource).CropLocations.List[I], ref X, ref Y);
+            if (X >= 0 && mapLevel.Width > X && Y >= 0 && mapLevel.Height > Y)
             {
-                Crop = (Crop)MapLevel.GetField(X, Y).FindChild(131946);
-                if (Crop != null)
+                crop = (Crop)mapLevel.GetField(X, Y).FindChild(131946);
+                if (crop != null)
                 {
-                    Crop.SetCropOwner(this);
+                    crop.SetCropOwner(this);
                 }
             }
         }
     }
 
     // Crops.pas:27
-    public override int GetIncome() => FIncome;
+    public override int GetIncome() => Income;
 }

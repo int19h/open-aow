@@ -14,40 +14,40 @@ namespace Aow.Game.Draw;
 
 public partial class BattleEffectSprite
 {
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        LockedSurface SurfaceDesc__value = SurfaceDesc;
-        ImageSequence Sequence;
-        int Index;
-        ImageSequence FirstSequence;
+        LockedSurface lockedSurfaceValue = lockedSurface;
+        ImageSequence sequence;
+        int index;
+        ImageSequence firstSequence;
         int I = default;
         int J = default;
-        void SelectSequence(int Number)
+        void SelectSequence(int number)
         {
-            if (FAbilityIndex == 52)
+            if (AbilityIndex == 52)
             {
-                Sequence = AoWHSSet.Current.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[Number];
+                sequence = AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[number];
             }
             else
             {
-                Sequence = AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityIndex).FImageSequences.ImageSequences[Number];
+                sequence = AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[number];
             }
         }
 
         void SelectFrame()
         {
-            if (Sequence != null)
+            if (sequence != null)
             {
-                Index = Sequence.GetUnloopedFrameIndex(FFrame);
+                index = sequence.GetUnloopedFrameIndex(Frame);
             }
 
-            FirstSequence = Sequence;
+            firstSequence = sequence;
         }
 
         void SelectDamageSequence()
         {
             int N = default;
-            switch (FEffectType)
+            switch (EffectType)
             {
                 case BattleEffectType.DamLightning:
                     N = 40;
@@ -72,82 +72,82 @@ public partial class BattleEffectSprite
                     break;
             }
 
-            Sequence = AoWHSSet.Current.FImageSequences.ImageSequences[N];
+            sequence = AoWHSSet.Current.ImageSequences.ImageSequences[N];
         }
 
         void ShowMovingLoop()
         {
-            while (Sequence != null)
+            while (sequence != null)
             {
-                Index = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                if (Index != -1 && Sequence.ImageLibrary.ImageExist(Index))
+                index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
-                    var pathY = FPath[FFrame];
-                    var pathZ = FPath[FFrame];
-                    var pathX = FPath[FFrame];
-                    Sequence.ImageLibrary[Index].ShowClipped(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - pathZ.Z - YhpSurf + Sequence.dYshift, SurfaceDesc__value);
+                    var pathY = Path[Frame];
+                    var pathZ = Path[Frame];
+                    var pathX = Path[Frame];
+                    sequence.ImageLibrary[index].ShowClipped(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurfaceValue);
                 }
 
-                Sequence = Sequence.Next;
+                sequence = sequence.Next;
             }
         }
 
         void ShowSecondaryFrame()
         {
-            while (Sequence != null)
+            while (sequence != null)
             {
-                Index = Sequence.GetUnloopedFrameIndex(FVariant);
-                if (Index != -1 && Sequence.ImageLibrary.ImageExist(Index))
+                index = sequence.GetUnloopedFrameIndex(Variant);
+                if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
-                    var pathY = FPath[FFrame];
-                    var pathZ = FPath[FFrame];
-                    var pathX = FPath[FFrame];
-                    Sequence.ImageLibrary[Index].ShowClipped(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - pathZ.Z - YhpSurf + Sequence.dYshift, SurfaceDesc__value);
+                    var pathY = Path[Frame];
+                    var pathZ = Path[Frame];
+                    var pathX = Path[Frame];
+                    sequence.ImageLibrary[index].ShowClipped(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurfaceValue);
                 }
 
-                Sequence = Sequence.Next;
+                sequence = sequence.Next;
             }
         }
 
         void ShowTrail()
         {
-            int LastFrame = default;
-            int Half = default;
-            if (Sequence != null)
+            int lastFrame = default;
+            int half = default;
+            if (sequence != null)
             {
-                LastFrame = Sequence.GetTotalSequenceFrames() - 1;
-                for (int N = 0; N <= LastFrame; N++)
+                lastFrame = sequence.GetTotalSequenceFrames() - 1;
+                for (int N = 0; N <= lastFrame; N++)
                 {
-                    Half = N / 2;
-                    bool condition = FFrame - 9 + Half + 5 > -1;
+                    half = N / 2;
+                    bool condition = Frame - 9 + half + 5 > -1;
                     if (condition)
                     {
-                        var count = FPath.Count;
-                        condition = FFrame - 9 + Half + 5 < count;
+                        var count = Path.Count;
+                        condition = Frame - 9 + half + 5 < count;
                     }
 
                     if (condition)
                     {
-                        Index = Sequence.GetUnloopedFrameIndex(LastFrame - N);
-                        if (Index != -1 && Sequence.ImageLibrary.ImageExist(Index))
+                        index = sequence.GetUnloopedFrameIndex(lastFrame - N);
+                        if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                         {
-                            var count = FPath.Count;
-                            if (FFrame - 9 + Half + 5 == count - 1 || Half * 2 == N)
+                            var count = Path.Count;
+                            if (Frame - 9 + half + 5 == count - 1 || half * 2 == N)
                             {
-                                var pathY = FPath[FFrame - 9 + Half + 5];
-                                var pathZ = FPath[FFrame - 9 + Half + 5];
-                                var pathX = FPath[FFrame - 9 + Half + 5];
-                                Sequence.ImageLibrary[Index].ShowClipped(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - pathZ.Z - YhpSurf + Sequence.dYshift, SurfaceDesc__value);
+                                var pathY = Path[Frame - 9 + half + 5];
+                                var pathZ = Path[Frame - 9 + half + 5];
+                                var pathX = Path[Frame - 9 + half + 5];
+                                sequence.ImageLibrary[index].ShowClipped(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurfaceValue);
                             }
                             else
                             {
-                                var pathY = FPath[FFrame - 9 + Half + 5];
-                                var pathZ = FPath[FFrame - 9 + Half + 5];
-                                var path = FPath[FFrame - 9 + Half + 6];
-                                var path2 = FPath[FFrame - 9 + Half + 6];
-                                var pathX = FPath[FFrame - 9 + Half + 5];
-                                var path3 = FPath[FFrame - 9 + Half + 6];
-                                Sequence.ImageLibrary[Index].ShowClipped((pathX.X + path3.X) / 2 - XhpSurf + Sequence.dXshift, (pathY.Y - pathZ.Z + path.Y - path2.Z) / 2 - YhpSurf + Sequence.dYshift, SurfaceDesc__value);
+                                var pathY = Path[Frame - 9 + half + 5];
+                                var pathZ = Path[Frame - 9 + half + 5];
+                                var path = Path[Frame - 9 + half + 6];
+                                var path2 = Path[Frame - 9 + half + 6];
+                                var pathX = Path[Frame - 9 + half + 5];
+                                var path3 = Path[Frame - 9 + half + 6];
+                                sequence.ImageLibrary[index].ShowClipped((pathX.X + path3.X) / 2 - pixelXSurface + sequence.OffsetX, (pathY.Y - pathZ.Z + path.Y - path2.Z) / 2 - pixelYSurface + sequence.OffsetY, lockedSurfaceValue);
                             }
                         }
                     }
@@ -157,17 +157,17 @@ public partial class BattleEffectSprite
 
         void ShowRay()
         {
-            if (Sequence != null)
+            if (sequence != null)
             {
-                for (int N = 0, last = FFrame; N <= last; N++)
+                for (int N = 0, last = Frame; N <= last; N++)
                 {
-                    Index = Sequence.GetUnloopedFrameIndex(0);
-                    if (Index != -1 && Sequence.ImageLibrary.ImageExist(Index))
+                    index = sequence.GetUnloopedFrameIndex(0);
+                    if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                     {
-                        var pathY = FPath[N];
-                        var pathZ = FPath[N];
-                        var pathX = FPath[N];
-                        Sequence.ImageLibrary[Index].ShowClipped(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - pathZ.Z - YhpSurf + Sequence.dYshift, SurfaceDesc__value);
+                        var pathY = Path[N];
+                        var pathZ = Path[N];
+                        var pathX = Path[N];
+                        sequence.ImageLibrary[index].ShowClipped(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurfaceValue);
                     }
                 }
             }
@@ -176,8 +176,8 @@ public partial class BattleEffectSprite
         void ShowFrostBeam()
         {
             int N = default;
-            int Alpha = default;
-            switch (FFrame)
+            int alpha = default;
+            switch (Frame)
             {
                 case >= 0 and <= 1999:
                     SelectSequence(0);
@@ -187,52 +187,52 @@ public partial class BattleEffectSprite
                     break;
             }
 
-            if (Sequence != null)
+            if (sequence != null)
             {
                 N = 0;
-                while (N <= FFrame && N < FPath.Count)
+                while (N <= Frame && N < Path.Count)
                 {
-                    switch (FFrame)
+                    switch (Frame)
                     {
                         case >= 0 and <= 1999:
-                            Alpha = 25;
+                            alpha = 25;
                             // { Original uses the object address as the animation phase. }
-                            var totalSequenceFrames = Sequence.GetTotalSequenceFrames();
-                            Index = Sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, totalSequenceFrames));
+                            var totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                            index = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, totalSequenceFrames));
                             break;
                         case >= 2000 and <= 2998:
-                            if (N <= FFrame - 2000)
+                            if (N <= Frame - 2000)
                             {
-                                var count = FPath.Count;
-                                Alpha = (FFrame - 2000) * 75 / (count - 1) + 25;
-                                Index = Sequence.GetUnloopedFrameIndex(0);
+                                var count = Path.Count;
+                                alpha = (Frame - 2000) * 75 / (count - 1) + 25;
+                                index = sequence.GetUnloopedFrameIndex(0);
                             }
                             else
                             {
-                                if (N == FFrame - 1999)
+                                if (N == Frame - 1999)
                                 {
                                     SelectSequence(0);
                                 }
 
-                                Alpha = 25;
-                                var sequenceTotalSequenceFrames = Sequence.GetTotalSequenceFrames();
-                                Index = Sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, sequenceTotalSequenceFrames));
+                                alpha = 25;
+                                var sequenceTotalSequenceFrames = sequence.GetTotalSequenceFrames();
+                                index = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, sequenceTotalSequenceFrames));
                             }
 
                             break;
                         default:
-                            Alpha = 100;
-                            Index = Sequence.GetUnloopedFrameIndex(0);
+                            alpha = 100;
+                            index = sequence.GetUnloopedFrameIndex(0);
                             break;
                     }
 
                     // { Stop at the path end in the loop condition. }
-                    if (Index != -1)
+                    if (index != -1)
                     {
-                        var pathY = FPath[N];
-                        var pathZ = FPath[N];
-                        var pathX = FPath[N];
-                        Sequence.ImageLibrary[Index].ShowBlended(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - pathZ.Z - YhpSurf + Sequence.dYshift, SurfaceDesc__value, GraphicsState.IntensityBlendTable.LookupTables[Alpha]);
+                        var pathY = Path[N];
+                        var pathZ = Path[N];
+                        var pathX = Path[N];
+                        sequence.ImageLibrary[index].ShowBlended(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurfaceValue, GraphicsState.IntensityBlendTable.LookupTables[alpha]);
                     }
 
                     N += 1;
@@ -242,155 +242,155 @@ public partial class BattleEffectSprite
 
         void ShowAtStart()
         {
-            while (Sequence != null)
+            while (sequence != null)
             {
-                Index = Sequence.GetUnloopedFrameIndex(FFrame);
-                if (Index != -1 && Sequence.ImageLibrary.ImageExist(Index))
+                index = sequence.GetUnloopedFrameIndex(Frame);
+                if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
-                    var pathY = FPath[0];
-                    var pathX = FPath[0];
-                    Sequence.ImageLibrary[Index].ShowClipped(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - YhpSurf + Sequence.dYshift, SurfaceDesc__value);
+                    var pathY = Path[0];
+                    var pathX = Path[0];
+                    sequence.ImageLibrary[index].ShowClipped(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pixelYSurface + sequence.OffsetY, lockedSurfaceValue);
                 }
 
-                Sequence = Sequence.Next;
+                sequence = sequence.Next;
             }
         }
 
         void ShowAtStartLooped()
         {
-            while (Sequence != null)
+            while (sequence != null)
             {
-                Index = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                if (Index != -1 && Sequence.ImageLibrary.ImageExist(Index))
+                index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
-                    var pathY = FPath[0];
-                    var pathX = FPath[0];
-                    Sequence.ImageLibrary[Index].ShowClipped(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - YhpSurf + Sequence.dYshift, SurfaceDesc__value);
+                    var pathY = Path[0];
+                    var pathX = Path[0];
+                    sequence.ImageLibrary[index].ShowClipped(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pixelYSurface + sequence.OffsetY, lockedSurfaceValue);
                 }
 
-                Sequence = Sequence.Next;
+                sequence = sequence.Next;
             }
         }
 
         void ShowScreen()
         {
-            while (Sequence != null)
+            while (sequence != null)
             {
-                if (Index != -1 && Sequence.ImageLibrary.ImageExist(Index))
+                if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
-                    var imageLibraryHeight = Sequence.ImageLibrary[Index];
-                    var pathY = FPath[0];
-                    var imageLibrary = Sequence.ImageLibrary[Index];
-                    var imageLibraryWidth = Sequence.ImageLibrary[Index];
-                    var pathX = FPath[0];
-                    var imageLibrary2 = Sequence.ImageLibrary[Index];
-                    Sequence.ImageLibrary[Index].ShowClipped((imageLibraryWidth.Width + SurfaceDesc__value.Width) * pathX.X / 100 - imageLibrary2.Width, (imageLibraryHeight.Height + SurfaceDesc__value.Height) * pathY.Y / 100 - imageLibrary.Height, SurfaceDesc__value);
+                    var imageLibraryHeight = sequence.ImageLibrary[index];
+                    var pathY = Path[0];
+                    var imageLibrary = sequence.ImageLibrary[index];
+                    var imageLibraryWidth = sequence.ImageLibrary[index];
+                    var pathX = Path[0];
+                    var imageLibrary2 = sequence.ImageLibrary[index];
+                    sequence.ImageLibrary[index].ShowClipped((imageLibraryWidth.Width + lockedSurfaceValue.Width) * pathX.X / 100 - imageLibrary2.Width, (imageLibraryHeight.Height + lockedSurfaceValue.Height) * pathY.Y / 100 - imageLibrary.Height, lockedSurfaceValue);
                 }
 
-                Sequence = Sequence.Next;
+                sequence = sequence.Next;
             }
         }
 
         void ShowScreenSwarm()
         {
-            int Alpha = default;
-            Alpha = (100 - FPath[FFrame].Z) / 2 - FrameFixtureInputs.ShimmerOffset(this, FFrame);
-            if (Alpha < 0)
+            int alpha = default;
+            alpha = (100 - Path[Frame].Z) / 2 - FrameFixtureInputs.ShimmerOffset(this, Frame);
+            if (alpha < 0)
             {
-                Alpha = 0;
+                alpha = 0;
             }
 
-            while (Sequence != null)
+            while (sequence != null)
             {
-                Index = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                if (Index != -1 && Sequence.ImageLibrary.ImageExist(Index))
+                index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
-                    var pathX = FPath[0];
-                    var pathZ = FPath[FFrame];
-                    var path = FPath[0];
-                    var path2 = FPath[FFrame];
-                    var pathY = FPath[0];
-                    var path3 = FPath[FFrame];
-                    var path4 = FPath[FFrame];
-                    Sequence.ImageLibrary[Index].ShowBlended((XhpSurf + SurfaceDesc__value.Width - pathX.X + 100) * pathZ.Z / 100 + (path.X - XhpSurf) + path2.X, (pathY.Y - YhpSurf + 100) * (100 - path3.Z) / 100 + path4.Y - 100, SurfaceDesc__value, GraphicsState.IntensityBlendTable.LookupTables[Alpha]);
+                    var pathX = Path[0];
+                    var pathZ = Path[Frame];
+                    var path = Path[0];
+                    var path2 = Path[Frame];
+                    var pathY = Path[0];
+                    var path3 = Path[Frame];
+                    var path4 = Path[Frame];
+                    sequence.ImageLibrary[index].ShowBlended((pixelXSurface + lockedSurfaceValue.Width - pathX.X + 100) * pathZ.Z / 100 + (path.X - pixelXSurface) + path2.X, (pathY.Y - pixelYSurface + 100) * (100 - path3.Z) / 100 + path4.Y - 100, lockedSurfaceValue, GraphicsState.IntensityBlendTable.LookupTables[alpha]);
                 }
 
-                Sequence = Sequence.Next;
+                sequence = sequence.Next;
             }
         }
 
-        void ShowParticle(bool Shadow)
+        void ShowParticle(bool shadow)
         {
-            int Alpha = default;
-            var count = FPath.Count;
-            Alpha = 100 - FFrame * 100 / count - FrameFixtureInputs.ShimmerOffset(this, FFrame);
-            if (Alpha < 0)
+            int alpha = default;
+            var count = Path.Count;
+            alpha = 100 - Frame * 100 / count - FrameFixtureInputs.ShimmerOffset(this, Frame);
+            if (alpha < 0)
             {
-                Alpha = 0;
+                alpha = 0;
             }
 
-            if (Shadow)
+            if (shadow)
             {
-                Alpha += 20;
+                alpha += 20;
             }
 
-            if (Alpha > 100)
+            if (alpha > 100)
             {
-                Alpha = 100;
+                alpha = 100;
             }
 
-            while (Sequence != null)
+            while (sequence != null)
             {
                 // { Original uses the object address rather than the current frame. }
-                Index = Sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3));
-                if (Index != -1)
+                index = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3));
+                if (index != -1)
                 {
-                    if (Shadow)
+                    if (shadow)
                     {
-                        if (Sequence.ImageLibrary.ImageExist(Index))
+                        if (sequence.ImageLibrary.ImageExist(index))
                         {
-                            var pathY = FPath[FFrame];
-                            var pathZ = FPath[FFrame];
-                            var pathX = FPath[FFrame];
-                            Sequence.ImageLibrary[Index].ShowBlended(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - pathZ.Z - YhpSurf + Sequence.dYshift, SurfaceDesc__value, GraphicsState.ShadowBlendTable.LookupTables[Alpha]);
+                            var pathY = Path[Frame];
+                            var pathZ = Path[Frame];
+                            var pathX = Path[Frame];
+                            sequence.ImageLibrary[index].ShowBlended(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurfaceValue, GraphicsState.ShadowBlendTable.LookupTables[alpha]);
                         }
                     }
                     else
                     {
-                        if (Sequence.ImageLibrary.ImageExist(Index))
+                        if (sequence.ImageLibrary.ImageExist(index))
                         {
-                            var pathY = FPath[FFrame];
-                            var pathZ = FPath[FFrame];
-                            var pathX = FPath[FFrame];
-                            Sequence.ImageLibrary[Index].ShowBlended(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - pathZ.Z - YhpSurf + Sequence.dYshift, SurfaceDesc__value, GraphicsState.IntensityBlendTable.LookupTables[Alpha]);
+                            var pathY = Path[Frame];
+                            var pathZ = Path[Frame];
+                            var pathX = Path[Frame];
+                            sequence.ImageLibrary[index].ShowBlended(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurfaceValue, GraphicsState.IntensityBlendTable.LookupTables[alpha]);
                         }
                     }
                 }
 
-                Sequence = Sequence.Next;
+                sequence = sequence.Next;
             }
         }
 
         void FinishPath()
         {
-            var count = FPath.Count;
-            if (FFrame >= count - 1)
+            var count = Path.Count;
+            if (Frame >= count - 1)
             {
-                FDone = true;
-                FFrame = -1;
+                Done = true;
+                Frame = -1;
             }
         }
 
         void FinishSequence()
         {
-            bool condition = FirstSequence == null;
+            bool condition = firstSequence == null;
             if (!condition)
             {
-                bool test = FirstSequence != null;
+                bool test = firstSequence != null;
                 if (test)
                 {
-                    var totalSequenceFrames = FirstSequence.GetTotalSequenceFrames();
-                    test = FFrame >= totalSequenceFrames - 1;
+                    var totalSequenceFrames = firstSequence.GetTotalSequenceFrames();
+                    test = Frame >= totalSequenceFrames - 1;
                 }
 
                 condition = test;
@@ -398,21 +398,21 @@ public partial class BattleEffectSprite
 
             if (condition)
             {
-                FDone = true;
-                FFrame = -1;
+                Done = true;
+                Frame = -1;
             }
         }
 
         try
         {
-            if (FFrame >= 0)
+            if (Frame >= 0)
             {
-                Sequence = null;
-                Index = 0;
-                switch (FEffectType)
+                sequence = null;
+                index = 0;
+                switch (EffectType)
                 {
                     case BattleEffectType.Arrow:
-                        SelectSequence(FVariant);
+                        SelectSequence(Variant);
                         ShowMovingLoop();
                         FinishPath();
                         break;
@@ -456,7 +456,7 @@ public partial class BattleEffectSprite
                         break;
                     case BattleEffectType.FBExplosion:
                         SelectSequence(1);
-                        if (Sequence != null)
+                        if (sequence != null)
                         {
                             SelectFrame();
                             ShowAtStart();
@@ -466,9 +466,9 @@ public partial class BattleEffectSprite
                         break;
                     case BattleEffectType.SFOverlay:
                         SelectSequence(2);
-                        if (Sequence != null)
+                        if (sequence != null)
                         {
-                            Index = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                            index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                             ShowAtStart();
                             FinishPath();
                         }
@@ -476,7 +476,7 @@ public partial class BattleEffectSprite
                         break;
                     case BattleEffectType.ScreenNESW:
                         SelectSequence(FrameFixtureInputs.PhaseModulo(this, 3));
-                        Index = Sequence.GetUnloopedFrameIndex(0);
+                        index = sequence.GetUnloopedFrameIndex(0);
                         ShowScreen();
                         break;
                     case BattleEffectType.Ray:
@@ -490,10 +490,10 @@ public partial class BattleEffectSprite
                     case BattleEffectType.Chain:
                         SelectSequence(0);
                         ShowRay();
-                        var count = FPath.Count;
-                        if (FFrame >= count - 1 && FPath[FFrame].Z == 1)
+                        var count = Path.Count;
+                        if (Frame >= count - 1 && Path[Frame].Z == 1)
                         {
-                            FFrame = -1;
+                            Frame = -1;
                         }
 
                         break;
@@ -509,39 +509,39 @@ public partial class BattleEffectSprite
                         break;
                     case >= BattleEffectType.DamLightning and <= BattleEffectType.DamCold:
                         SelectDamageSequence();
-                        ShowParticle(FEffectType == BattleEffectType.DamDeath);
+                        ShowParticle(EffectType == BattleEffectType.DamDeath);
                         FinishPath();
                         break;
                     case BattleEffectType.SacredWrath:
-                        if (Set<byte>.WithBounds(0, 255).WithRange(5, 6).Contains((byte)FFrame))
+                        if (Set<byte>.WithBounds(0, 255).WithRange(5, 6).Contains((byte)Frame))
                         {
                             SelectSequence(2);
-                            while (Sequence != null)
+                            while (sequence != null)
                             {
-                                Index = Sequence.GetUnloopedFrameIndex(0);
-                                if (Index != -1 && Sequence.ImageLibrary.ImageExist(Index))
+                                index = sequence.GetUnloopedFrameIndex(0);
+                                if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                                 {
                                     I = 0;
-                                    int last = SurfaceDesc__value.Width / Sequence.ImageLibrary[Index].Width;
+                                    int last = lockedSurfaceValue.Width / sequence.ImageLibrary[index].Width;
                                     for (; I <= last; I += 1)
                                     {
                                         J = 0;
-                                        int limit = SurfaceDesc__value.Height / Sequence.ImageLibrary[Index].Height;
+                                        int limit = lockedSurfaceValue.Height / sequence.ImageLibrary[index].Height;
                                         for (; J <= limit; J += 1)
                                         {
-                                            var imageLibraryHeight = Sequence.ImageLibrary[Index];
-                                            var imageLibraryWidth = Sequence.ImageLibrary[Index];
-                                            Sequence.ImageLibrary[Index].ShowClipped(imageLibraryWidth.Width * I, imageLibraryHeight.Height * J, SurfaceDesc__value);
+                                            var imageLibraryHeight = sequence.ImageLibrary[index];
+                                            var imageLibraryWidth = sequence.ImageLibrary[index];
+                                            sequence.ImageLibrary[index].ShowClipped(imageLibraryWidth.Width * I, imageLibraryHeight.Height * J, lockedSurfaceValue);
                                         }
                                     }
                                 }
 
-                                Sequence = Sequence.Next;
+                                sequence = sequence.Next;
                             }
                         }
 
                         SelectSequence(1);
-                        if (Sequence != null)
+                        if (sequence != null)
                         {
                             SelectFrame();
                             ShowAtStart();
@@ -550,40 +550,40 @@ public partial class BattleEffectSprite
 
                         break;
                     case BattleEffectType.SWComet:
-                        var yhx = ((TacticalBattleUnit)FTarget).FUnitHS.GetYhx();
-                        HexGeometry.HXtoHP(((TacticalBattleUnit)FTarget).FUnitHS.GetXhx(), yhx, ref I, ref J);
-                        EffectPaths.MakeArcPathXY((short)(SurfaceDesc__value.Width / 2 + XhpSurf), (short)(SurfaceDesc__value.Height / 2 + YhpSurf), (short)I, (short)J, 25, 50, ref FPath);
-                        FEffectType = BattleEffectType.Comet;
+                        var hexY = ((TacticalBattleUnit)Target).UnitHexSprite.GetHexY();
+                        HexGeometry.HexToPixel(((TacticalBattleUnit)Target).UnitHexSprite.GetHexX(), hexY, ref I, ref J);
+                        EffectPaths.MakeArcPathXY((short)(lockedSurfaceValue.Width / 2 + pixelXSurface), (short)(lockedSurfaceValue.Height / 2 + pixelYSurface), (short)I, (short)J, 25, 50, ref Path);
+                        EffectType = BattleEffectType.Comet;
                         SelectSequence(0);
                         ShowTrail();
                         break;
                     case BattleEffectType.WallSmoke:
-                        Sequence = AoWHSSet.Current.FImageSequences.ImageSequences[5];
+                        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[5];
                         SelectFrame();
                         ShowAtStart();
                         FinishSequence();
                         break;
                     case BattleEffectType.HitGround:
-                        Sequence = AoWHSSet.Current.FImageSequences.ImageSequences[9];
+                        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[9];
                         SelectFrame();
                         ShowAtStart();
                         FinishSequence();
                         break;
                     case BattleEffectType.HitWater:
-                        Sequence = AoWHSSet.Current.FImageSequences.ImageSequences[10];
+                        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[10];
                         SelectFrame();
                         ShowAtStart();
                         FinishSequence();
                         break;
                     case BattleEffectType.Blood:
-                        var path = FPath[0];
-                        Sequence = AoWHSSet.Current.FImageSequences.ImageSequences[path.Z];
+                        var path = Path[0];
+                        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[path.Z];
                         SelectFrame();
                         ShowAtStart();
                         FinishSequence();
                         break;
                     case BattleEffectType.Geyser:
-                        if (FFrame < 5)
+                        if (Frame < 5)
                         {
                             SelectSequence(1);
                             ShowAtStart();
@@ -615,18 +615,18 @@ public partial class BattleEffectSprite
                         break;
                     case BattleEffectType.GeyserWater:
                         SelectSequence(0);
-                        ShowParticle(FSpellIndex == 130 || FSpellIndex == 106);
+                        ShowParticle(SpellIndex == 130 || SpellIndex == 106);
                         FinishPath();
                         break;
                     case BattleEffectType.Frost:
                         SelectSequence(1);
-                        ShowParticle(FSpellIndex == 130);
+                        ShowParticle(SpellIndex == 130);
                         FinishPath();
                         break;
                     case BattleEffectType.DecayLeg:
                         SelectSequence(0);
                         ShowRay();
-                        FCancelled = true;
+                        Cancelled = true;
                         break;
                     case BattleEffectType.SacFire:
                         SelectSequence(0);
@@ -639,7 +639,7 @@ public partial class BattleEffectSprite
         catch
         {
             // { Original puts the diagnostic in the message-box caption. }
-            MessageBox(0, "Error during Show", NullTerminatedText("Error - fxHS " + IntToStr(FAbilityIndex) + " " + IntToStr(FSpellIndex)), 0);
+            MessageBox(0, "Error during Show", NullTerminatedText("Error - fxHS " + IntToStr(AbilityIndex) + " " + IntToStr(SpellIndex)), 0);
         }
     }
 }

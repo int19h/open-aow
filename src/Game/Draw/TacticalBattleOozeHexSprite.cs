@@ -16,61 +16,61 @@ public partial class TacticalBattleOozeHexSprite : SingleHexSprite
     { }
 
     // AoWTC.pas:4092
-    public new const int ClassID = 2228489;
+    public new const int ClassId = 2228489;
 
     // AoWTC.pas:4097
-    public override sbyte GetOverlay(int HN) => 11;
+    public override sbyte GetOverlay(int hexNumber) => 11;
 
     // AoWTC.pas:4121
     public override byte GetLevel() => 26;
 
     // AoWTC.pas:4126
-    public override int GetShowPriority() => 1744830464 + (GetYhx() << 13) + GetXhx();
+    public override int GetShowPriority() => 1744830464 + (GetHexY() << 13) + GetHexX();
 
     // AoWTC.pas:4102
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Frame;
+        int frame;
         int X = default;
         int Y = default;
-        ImageSequence Sequence;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
-        XhpSurf = X - XhpSurf - 16;
-        YhpSurf = Y - 48 - YhpSurf;
+        ImageSequence sequence;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+        pixelXSurface = X - pixelXSurface - 16;
+        pixelYSurface = Y - 48 - pixelYSurface;
         switch (((MapField)Owner).TerrainType)
         {
             case 3:
             case 6:
             case 13:
-                Sequence = AoWHSSet.Current.FImageSequences.ImageSequences[26];
+                sequence = AoWHSSet.Current.ImageSequences.ImageSequences[26];
                 break;
             case 12:
-                Sequence = AoWHSSet.Current.FImageSequences.ImageSequences[27];
+                sequence = AoWHSSet.Current.ImageSequences.ImageSequences[27];
                 break;
             default:
-                Sequence = AoWHSSet.Current.FImageSequences.ImageSequences[25];
+                sequence = AoWHSSet.Current.ImageSequences.ImageSequences[25];
                 break;
         }
 
-        while (Sequence != null)
+        while (sequence != null)
         {
-            var totalSequenceFrames = Sequence.GetTotalSequenceFrames();
-            Frame = Sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, totalSequenceFrames));
-            if (Frame != -1)
+            var totalSequenceFrames = sequence.GetTotalSequenceFrames();
+            frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, totalSequenceFrames));
+            if (frame != -1)
             {
-                Sequence.ImageLibrary[Frame].Show(XhpSurf, YhpSurf, SurfaceDesc);
+                sequence.ImageLibrary[frame].Show(pixelXSurface, pixelYSurface, lockedSurface);
             }
 
-            Sequence = Sequence.Next;
+            sequence = sequence.Next;
         }
     }
 
     // AoWTC.pas:4131
     public override bool PlaceOnMap()
     {
-        bool Result = base.PlaceOnMap();
+        bool result = base.PlaceOnMap();
         ((MapField)Owner).UpdateTerrain();
-        return Result;
+        return result;
     }
 
     // Engine.pas:524

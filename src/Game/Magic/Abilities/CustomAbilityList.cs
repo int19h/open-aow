@@ -19,8 +19,8 @@ public partial class CustomAbilityList : EngineObject
     public CustomAbilityList(ECustomNode owner) : base(owner)
     { }
 
-    public byte[] FAbilityBits = [];
-    public int FAbilityCount;
+    public byte[] AbilityBits = [];
+    public int AbilityCount;
 
     // Ability.PAS:942
     public override void Dispose()
@@ -30,33 +30,33 @@ public partial class CustomAbilityList : EngineObject
     }
 
     // Ability.PAS:1161
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
         int I = default;
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
         {
-            if (Stream.StorageMode().Contains(StorageModeElement.Read))
+            if (stream.StorageMode().Contains(StorageModeElement.Read))
             {
-                Stream.rwInteger(ref I, 2);
-                SetAbCount(I);
-                Stream.rwData(FAbilityBits.AsSpan(0, (int)(((uint)(FAbilityCount + 7)) >> 3)), (int)(((uint)(FAbilityCount + 7)) >> 3), 3);
+                stream.rwInteger(ref I, 2);
+                SetAbilityCount(I);
+                stream.rwData(AbilityBits.AsSpan(0, (int)(((uint)(AbilityCount + 7)) >> 3)), (int)(((uint)(AbilityCount + 7)) >> 3), 3);
             }
             else
             {
-                Stream.rwInteger(ref FAbilityCount, 2);
-                Stream.rwData(FAbilityBits.AsSpan(0, (int)(((uint)(FAbilityCount + 7)) >> 3)), (int)(((uint)(FAbilityCount + 7)) >> 3), 3);
+                stream.rwInteger(ref AbilityCount, 2);
+                stream.rwData(AbilityBits.AsSpan(0, (int)(((uint)(AbilityCount + 7)) >> 3)), (int)(((uint)(AbilityCount + 7)) >> 3), 3);
             }
         }
 
-        if (!Stream.StorageMode().Contains(StorageModeElement.Preview))
+        if (!stream.StorageMode().Contains(StorageModeElement.Preview))
         {
             I = 0;
-            int last = FAbilityCount - 1;
+            int last = AbilityCount - 1;
             for (; I <= last; I += 1)
             {
-                if (GetAbSet(I) && AoWHSSet.Current.FAbilityControl.GetAbility(I) == null)
+                if (GetAbilitySetAt(I) && AoWHSSet.Current.AbilityControl.GetAbility(I) == null)
                 {
-                    SetAbSet(I, 0);
+                    SetAbilitySet(I, 0);
                 }
             }
         }
@@ -65,15 +65,15 @@ public partial class CustomAbilityList : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        int count = FAbilityCount;
-        persister.Int("AbCount", ref count);
-        if (persister.Loading) SetAbCount(count);
-        int length = (int)(((uint)(FAbilityCount + 7)) >> 3);
-        persister.BitArray("AbilityCount", FAbilityCount, FAbilityBits.AsSpan(0, length));
-        for (int index = 0; index < FAbilityCount; index++)
+        int count = AbilityCount;
+        persister.Int32("AbCount", ref count);
+        if (persister.Loading) SetAbilityCount(count);
+        int length = (int)(((uint)(AbilityCount + 7)) >> 3);
+        persister.BitArray("AbilityCount", AbilityCount, AbilityBits.AsSpan(0, length));
+        for (int index = 0; index < AbilityCount; index++)
         {
-            if (GetAbSet(index) && AoWHSSet.Current.FAbilityControl.GetAbility(index) == null)
-                SetAbSet(index, 0);
+            if (GetAbilitySetAt(index) && AoWHSSet.Current.AbilityControl.GetAbility(index) == null)
+                SetAbilitySet(index, 0);
         }
     }
 
@@ -81,126 +81,126 @@ public partial class CustomAbilityList : EngineObject
     public override void Clear()
     {
         base.Clear();
-        SetAbCount(0);
+        SetAbilityCount(0);
     }
 
     // Ability.PAS:1130
-    public virtual int GetAbCount() => FAbilityCount;
+    public virtual int GetAbCount() => AbilityCount;
 
     // Ability.PAS:1216
-    public virtual void ListAbilitiesEx(StringCollection Text, Set<AbilitySelectionType> Types)
+    public virtual void ListAbilities(StringCollection text, Set<AbilitySelectionType> types)
     {
-        Ability Ability;
-        Text.Clear();
-        for (int I = 0, last = FAbilityCount - 1; I <= last; I++)
+        Ability ability;
+        text.Clear();
+        for (int I = 0, last = AbilityCount - 1; I <= last; I++)
         {
-            if (GetAbSet(I))
+            if (GetAbilitySetAt(I))
             {
-                Ability = AoWHSSet.Current.FAbilityControl.GetAbility(I);
-                if ((Set<byte>.FromMask(Ability.FSelectionTypes.Mask) & Set<byte>.FromMask(Types.Mask)) != Set<byte>.WithBounds(0, 15))
+                ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
+                if ((Set<byte>.FromMask(ability.SelectionTypes.Mask) & Set<byte>.FromMask(types.Mask)) != Set<byte>.WithBounds(0, 15))
                 {
-                    Text.AddObject(Ability.GetName(null), IntToObject(I));
+                    text.AddObject(ability.GetName(null), IntToObject(I));
                 }
             }
         }
     }
 
     // Ability.PAS:994
-    public void SetAbCount(int Value)
+    public void SetAbilityCount(int value)
     {
-        int OldSize;
-        int NewSize;
+        int oldSize;
+        int newSize;
         // { Original assertion accepts every Integer: its bounds predicate uses OR. }
-        Assert(!(Value < 0 && Value >= 134217727), "Invalid AbCount Value (TArrayList)", "Ability.PAS", 1119);
-        OldSize = (int)(((uint)(FAbilityCount + 7)) >> 3);
-        NewSize = (int)(((uint)(Value + 7)) >> 3);
-        if (NewSize != OldSize)
+        Assert(!(value < 0 && value >= 134217727), "Invalid AbCount Value (TArrayList)", "Ability.PAS", 1119);
+        oldSize = (int)(((uint)(AbilityCount + 7)) >> 3);
+        newSize = (int)(((uint)(value + 7)) >> 3);
+        if (newSize != oldSize)
         {
-            Array.Resize(ref FAbilityBits, NewSize);
-            if (NewSize > OldSize)
+            Array.Resize(ref AbilityBits, newSize);
+            if (newSize > oldSize)
             {
-                FillBytes(FAbilityBits.AsSpan(OldSize, NewSize - OldSize), 0);
+                FillBytes(AbilityBits.AsSpan(oldSize, newSize - oldSize), 0);
             }
         }
 
-        FAbilityCount = Value;
+        AbilityCount = value;
     }
 
     // Ability.PAS:1134
-    public void AssignAb(CustomAbilityList Source)
+    public void AssignAbility(CustomAbilityList source)
     {
-        int Count;
-        if (Source.GetAbCount() > GetAbCount())
+        int count;
+        if (source.GetAbCount() > GetAbCount())
         {
-            Count = Source.GetAbCount();
+            count = source.GetAbCount();
         }
         else
         {
-            Count = GetAbCount();
+            count = GetAbCount();
         }
 
-        for (int I = 0; I <= Count - 1; I++)
+        for (int I = 0; I <= count - 1; I++)
         {
-            if (Source.GetAbSet(I) != GetAbSet(I))
+            if (source.GetAbilitySetAt(I) != GetAbilitySetAt(I))
             {
-                SetAbSet(I, (byte)(Source.GetAbSet(I) ? 1 : 0));
+                SetAbilitySet(I, (byte)(source.GetAbilitySetAt(I) ? 1 : 0));
             }
         }
     }
 
     // Ability.PAS:1144
-    public bool CompareAb(CustomAbilityList Source)
+    public bool CompareAbility(CustomAbilityList source)
     {
-        bool Result = Source.GetAbCount() == FAbilityCount;
-        if (Result)
+        bool result = source.GetAbCount() == AbilityCount;
+        if (result)
         {
-            var abCount = GetAbCount();
-            Result = CompareMem(FAbilityBits.AsSpan(0, (int)(((uint)(abCount + 7)) >> 3)), Source.FAbilityBits.AsSpan(0, (int)(((uint)(abCount + 7)) >> 3)), (int)(((uint)(abCount + 7)) >> 3));
+            var abilityCount = GetAbCount();
+            result = CompareMem(AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), source.AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), (int)(((uint)(abilityCount + 7)) >> 3));
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:1149
-    public bool ComposeAb(CustomAbilityList Source)
+    public bool ComposeAbility(CustomAbilityList source)
     {
-        bool Result = false;
-        for (int I = 0, last = Source.GetAbCount() - 1; I <= last; I++)
+        bool result = false;
+        for (int I = 0, last = source.GetAbCount() - 1; I <= last; I++)
         {
-            if (Source.GetAbSet(I) && !GetAbSet(I))
+            if (source.GetAbilitySetAt(I) && !GetAbilitySetAt(I))
             {
-                SetAbSet(I, 1);
-                Result = true;
+                SetAbilitySet(I, 1);
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:1184
     public string GetItemString()
     {
-        string Result = "";
-        for (int I = 0, last = FAbilityCount - 1; I <= last; I++)
+        string result = "";
+        for (int I = 0, last = AbilityCount - 1; I <= last; I++)
         {
-            if (GetAbSet(I))
+            if (GetAbilitySetAt(I))
             {
-                Result = Result + IntToStr(I) + ",";
+                result = result + IntToStr(I) + ",";
             }
         }
 
-        if (!IsEmpty(Result))
+        if (!IsEmpty(result))
         {
-            Result = RtlUnit.Copy(Result, 1, Result.Length - 1);
+            result = RtlUnit.Copy(result, 1, result.Length - 1);
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:1193
     public void SetItemString(string S)
     {
-        string Part;
+        string part;
         int P;
         Clear();
         P = Pos(",", S);
@@ -208,32 +208,32 @@ public partial class CustomAbilityList : EngineObject
         {
             if (P != 0)
             {
-                Part = RtlUnit.Copy(S, 1, P - 1);
+                part = RtlUnit.Copy(S, 1, P - 1);
                 S = Delete(S, 1, P);
             }
             else
             {
-                Part = S;
+                part = S;
                 S = "";
             }
 
-            if (!IsEmpty(Part))
+            if (!IsEmpty(part))
             {
-                SetAbSet(StrToInt(Part), 1);
+                SetAbilitySet(StrToInt(part), 1);
             }
 
             P = Pos(",", S);
         }
     }
 
-    public virtual void SetAbSet(int index, byte value)
+    public virtual void SetAbilitySet(int index, byte value)
     {
-        if ((uint)index >= (uint)FAbilityCount) SetAbCount(index + 1);
-        var bits = FAbilityBits;
+        if ((uint)index >= (uint)AbilityCount) SetAbilityCount(index + 1);
+        var bits = AbilityBits;
         byte mask = (byte)(1 << (index & 7));
         if (value != 0) bits[index >> 3] |= mask;
         else bits[index >> 3] &= (byte)~mask;
     }
 
-    public virtual bool GetAbSet(int index) => (uint)index < (uint)FAbilityCount && (FAbilityBits[index >> 3] & (1 << (index & 7))) != 0;
+    public virtual bool GetAbilitySetAt(int index) => (uint)index < (uint)AbilityCount && (AbilityBits[index >> 3] & (1 << (index & 7))) != 0;
 }

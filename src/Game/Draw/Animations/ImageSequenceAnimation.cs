@@ -14,61 +14,61 @@ public partial class ImageSequenceAnimation : Animation
 {
     public ImageSequenceAnimation(ECustomNode owner) : base(owner)
     {
-        FFrameCount = -1;
-        FXhpOffset = 0;
-        FYhpOffset = 0;
+        FrameCount = -1;
+        PixelXOffset = 0;
+        PixelYOffset = 0;
     }
 
-    public ImageSequence FImageSequence;
-    public int FXhpOffset;
-    public int FYhpOffset;
-    public int FFrameCount;
-    public bool FLooped;
+    public ImageSequence ImageSequence;
+    public int PixelXOffset;
+    public int PixelYOffset;
+    public int FrameCount;
+    public bool Looped;
 
     // Animation.pas:424
 
     // Animation.pas:493
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
+        ImageSequence sequence;
         int X = default;
         int Y = default;
-        int Index;
-        base.Show(XhpSurf, YhpSurf, SurfaceDesc);
-        if (GetLhx() == FAnimationMap.ViewL)
+        int index;
+        base.Show(pixelXSurface, pixelYSurface, lockedSurface);
+        if (GetHexLevel() == AnimationMap.ViewL)
         {
-            HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
-            XhpSurf = X - XhpSurf + 16 + FXhpOffset;
-            YhpSurf = Y - YhpSurf + 16 + FYhpOffset;
-            if (!FLooped)
+            HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
+            pixelXSurface = X - pixelXSurface + 16 + PixelXOffset;
+            pixelYSurface = Y - pixelYSurface + 16 + PixelYOffset;
+            if (!Looped)
             {
-                Sequence = FImageSequence;
-                while (Sequence != null)
+                sequence = ImageSequence;
+                while (sequence != null)
                 {
-                    Index = Sequence.GetUnloopedFrameIndex(FFrameCounter);
-                    if (Index != -1)
+                    index = sequence.GetUnloopedFrameIndex(FrameCounter);
+                    if (index != -1)
                     {
-                        if (Sequence.ImageLibrary.ImageExist(Index))
+                        if (sequence.ImageLibrary.ImageExist(index))
                         {
-                            Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
+                            sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);
                         }
                     }
 
-                    Sequence = Sequence.Next;
+                    sequence = sequence.Next;
                 }
             }
             else
             {
-                Sequence = FImageSequence;
-                while (Sequence != null)
+                sequence = ImageSequence;
+                while (sequence != null)
                 {
-                    Index = Sequence.GetFrameIndex(0, FFrameCounter);
-                    if (Index != -1)
+                    index = sequence.GetFrameIndex(0, FrameCounter);
+                    if (index != -1)
                     {
-                        Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
+                        sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);
                     }
 
-                    Sequence = Sequence.Next;
+                    sequence = sequence.Next;
                 }
             }
         }
@@ -78,7 +78,7 @@ public partial class ImageSequenceAnimation : Animation
     public override void NewFrame()
     {
         base.NewFrame();
-        if (FFrameCounter == FFrameCount)
+        if (FrameCounter == FrameCount)
         {
             Dispose();
         }
@@ -87,66 +87,66 @@ public partial class ImageSequenceAnimation : Animation
     // Animation.pas:432
     public void UpdateDimensions()
     {
-        ImageSequence Sequence;
+        ImageSequence sequence;
         Rect R = default;
-        FDimensions.Left = 0;
-        FDimensions.Right = 0;
-        FDimensions.Top = 0;
-        FDimensions.Bottom = 0;
-        Sequence = FImageSequence;
-        while (Sequence != null)
+        Dimensions.Left = 0;
+        Dimensions.Right = 0;
+        Dimensions.Top = 0;
+        Dimensions.Bottom = 0;
+        sequence = ImageSequence;
+        while (sequence != null)
         {
-            Sequence.GetDimensions(ref R);
-            UnionRect(ref FDimensions, FDimensions, R);
-            Sequence = Sequence.Next;
+            sequence.GetDimensions(ref R);
+            UnionRect(ref Dimensions, Dimensions, R);
+            sequence = sequence.Next;
         }
 
-        FDimensions.Left += 16;
-        FDimensions.Right += 16;
-        FDimensions.Top += 16;
-        FDimensions.Bottom += 16;
+        Dimensions.Left += 16;
+        Dimensions.Right += 16;
+        Dimensions.Top += 16;
+        Dimensions.Bottom += 16;
     }
 
     // Animation.pas:454
-    public void SetImageSequence(ImageSequence Sequence)
+    public void SetImageSequence(ImageSequence sequence)
     {
-        ImageSequence Current;
-        int Frames;
-        FImageSequence = Sequence;
+        ImageSequence current;
+        int frames;
+        ImageSequence = sequence;
         UpdateDimensions();
-        if (!FLooped)
+        if (!Looped)
         {
-            Current = FImageSequence;
-            FFrameCount = -1;
-            while (Current != null)
+            current = ImageSequence;
+            FrameCount = -1;
+            while (current != null)
             {
-                Frames = Current.GetTotalSequenceFrames();
-                if (Frames > FFrameCount)
+                frames = current.GetTotalSequenceFrames();
+                if (frames > FrameCount)
                 {
-                    FFrameCount = Frames;
+                    FrameCount = frames;
                 }
 
-                Current = Current.Next;
+                current = current.Next;
             }
 
-            if (FFrameCount != -1)
+            if (FrameCount != -1)
             {
-                FFrameCount += 1;
+                FrameCount += 1;
             }
         }
     }
 
     // Animation.pas:475
-    public void SetXhpOffset(int Value)
+    public void SetPixelXOffset(int value)
     {
-        FXhpOffset = Value;
+        PixelXOffset = value;
         UpdateDimensions();
     }
 
     // Animation.pas:481
-    public void SetYhpOffset(int Value)
+    public void SetPixelYOffset(int value)
     {
-        FYhpOffset = Value;
+        PixelYOffset = value;
         UpdateDimensions();
     }
 

@@ -11,13 +11,13 @@ namespace Aow.Game.Draw;
 public partial class DynamicIsometricHex : HexSprite
 {
     // IsoHex.pas:126
-    public new const int ClassID = 131439;
+    public new const int ClassId = 131439;
 
     // IsoHex.pas:136
     public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of();
 
     // IsoHex.pas:161
-    public override void SetVisible(bool Value)
+    public override void SetVisible(bool value)
     {
     }
 
@@ -25,7 +25,7 @@ public partial class DynamicIsometricHex : HexSprite
     public override bool GetVisible() => false;
 
     // IsoHex.pas:131
-    public override bool CanSelect(int Xhp, int Yhp) => false;
+    public override bool CanSelect(int pixelX, int pixelY) => false;
 
     // IsoHex.pas:141
     public override Set<ControlModeElement> ControlMode() => Set<ControlModeElement>.Of();

@@ -19,61 +19,61 @@ public partial class RaiseTerrain : GlobalTargetSpell
 {
     public RaiseTerrain(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(RaiseTerrainRStr);
-        FSpellID = 19;
-        FBaseManaCost = 5;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Earth;
-        FAboveGroundOnly = true;
+        SpellName = AbilityRules.TranslateResourceString(s_raiseTerrainText);
+        SpellId = 19;
+        BaseManaCost = 5;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Earth;
+        AboveGroundOnly = true;
     }
 
     // Mountain.pas:327
 
     // Mountain.pas:364
-    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        base.SetupTargetSelection(Source, TargetSelection);
-        TargetSelection.FHNs.Clear();
-        for (int I = 0, last = HexGeometry.RadToHN(2) - 1; I <= last; I++)
+        base.SetupTargetSelection(source, targetSelection);
+        targetSelection.HexNumbers.Clear();
+        for (int I = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; I <= last; I++)
         {
-            TargetSelection.FHNs.Add(0);
+            targetSelection.HexNumbers.Add(0);
         }
     }
 
     // Mountain.pas:373
-    public override bool TargetSelected(Troop Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        RaiseTerrainTokenEvent Event;
-        Event = new RaiseTerrainTokenEvent(null);
-        Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-        Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-        AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-        Event.Release();
+        RaiseTerrainTokenEvent eventValue;
+        eventValue = new RaiseTerrainTokenEvent(null);
+        eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+        eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
+        AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+        eventValue.Release();
         return true;
     }
 
     // Mountain.pas:347
-    public override bool ValidTargetSelectionMapF(MapField Field)
+    public override bool ValidTargetSelectionMapField(MapField field)
     {
-        bool Valid;
-        ArmyHexSprite Army;
-        Valid = base.ValidTargetSelectionMapF(Field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)Field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)Field.OverlayType) && Field.FindNoneTransparentHS(typeof(Structure)) == null;
-        if (Valid)
+        bool valid;
+        ArmyHexSprite army;
+        valid = base.ValidTargetSelectionMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)field.OverlayType) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null;
+        if (valid)
         {
-            Army = ((AoWMapField)Field).GetArmyHS();
-            if (Army != null)
+            army = ((AoWMapField)field).GetArmyHexSprite();
+            if (army != null)
             {
-                Valid = !Army.VisibleForSeatedPlayer();
+                valid = !army.VisibleForSeatedPlayer();
             }
         }
 
-        return Valid;
+        return valid;
     }
 
     // Mountain.pas:338
-    public override bool ValidTargetMapF(MapField Field) => base.ValidTargetMapF(Field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)Field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)Field.OverlayType) && Field.FindNoneTransparentHS(typeof(Structure)) == null && ((AoWMapField)Field).GetArmyHS() == null;
+    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)field.OverlayType) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && ((AoWMapField)field).GetArmyHexSprite() == null;
 
-    private static readonly string RaiseTerrainRStr = "Raise Terrain";
+    private static readonly string s_raiseTerrainText = "Raise Terrain";
 
     // Mountain.pas:77
 

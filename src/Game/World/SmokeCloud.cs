@@ -15,66 +15,66 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World;
 
-// FPlayer, FTurnsRemaining, FDrifting, FDirection, FUpdated, FVisibleForSeatedPlayer,
-// FEnchantment
+// Player, TurnsRemaining, Drifting, Direction, Updated, VisibleForSeatedPlayer,
+// Enchantment
 public partial class SmokeCloud : MultiHexMapObject
 {
     public SmokeCloud(ECustomNode owner) : base(owner)
     {
-        FEnchantment = new SmokeCloudEnchantment(null);
-        FEnchantment.FCloud = this;
-        FVisibleForSeatedPlayer = false;
-        FDrifting = false;
+        Enchantment = new SmokeCloudEnchantment(null);
+        Enchantment.Cloud = this;
+        VisibleForSeatedPlayer = false;
+        Drifting = false;
     }
 
     // SmokeCloud.pas:187
-    public new const int ClassID = 135746;
+    public new const int ClassId = 135746;
 
-    public sbyte FPlayer;
-    public int FTurnsRemaining;
-    public bool FDrifting;
-    public byte FDirection;
-    public bool FUpdated;
-    public bool FVisibleForSeatedPlayer;
-    public SmokeCloudEnchantment FEnchantment;
+    public sbyte Player;
+    public int TurnsRemaining;
+    public bool Drifting;
+    public byte Direction;
+    public bool Updated;
+    public bool VisibleForSeatedPlayer;
+    public SmokeCloudEnchantment Enchantment;
 
     // SmokeCloud.pas:181
     public override void Dispose()
     {
         base.Dispose();
-        FEnchantment.Release();
+        Enchantment.Release();
     }
 
     // SmokeCloud.pas:206
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 15);
-        Stream.rwInteger(ref FTurnsRemaining, 16);
-        Stream.rwBool(ref FDrifting, 17);
-        Stream.rwByte(ref FDirection, 18);
-        Stream.rwEObject(FEnchantment, 19);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 15);
+        stream.rwInteger(ref TurnsRemaining, 16);
+        stream.rwBool(ref Drifting, 17);
+        stream.rwByte(ref Direction, 18);
+        stream.rwEObject(Enchantment, 19);
     }
 
     // SmokeCloud.pas:172
 
     // SmokeCloud.pas:373
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayer && !FUpdated)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001986 && message.Payload.Int == Player && !Updated)
         {
             UpdateCloud();
             return;
         }
 
-        if (Msg.MsgID == 537001987 && Msg.Payload.Int == FPlayer)
+        if (message.MessageId == 537001987 && message.Payload.Int == Player)
         {
-            FUpdated = false;
+            Updated = false;
         }
         else
         {
-            if (Msg.MsgID == 537001993)
+            if (message.MessageId == 537001993)
             {
                 UpdateVisibleForSeatedPlayer();
             }
@@ -85,52 +85,52 @@ public partial class SmokeCloud : MultiHexMapObject
     public override int GetShowPriority() => base.GetShowPriority() + 201326592;
 
     // SmokeCloud.pas:300
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (FVisibleForSeatedPlayer || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (VisibleForSeatedPlayer || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            base.Show(XhpSurf, YhpSurf, SurfaceDesc);
+            base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
     }
 
     // SmokeCloud.pas:266
     public override bool PlaceOnMap()
     {
-        bool Result = base.PlaceOnMap();
-        if (Result)
+        bool result = base.PlaceOnMap();
+        if (result)
         {
-            UpdateMapFields((MapLevel)Owner.Owner, FXhx, FYhx);
+            UpdateMapFields((MapLevel)Owner.Owner, _hexX, _hexY);
         }
 
-        return Result;
+        return result;
     }
 
     // SmokeCloud.pas:272
     public override void RemoveFromMap()
     {
-        MapLevel Level;
-        Level = (MapLevel)Owner.Owner;
+        MapLevel level;
+        level = (MapLevel)Owner.Owner;
         base.RemoveFromMap();
-        UpdateMapFields(Level, FXhx, FYhx);
+        UpdateMapFields(level, _hexX, _hexY);
     }
 
     // SmokeCloud.pas:245
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (Msg.MsgID != 16 || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (message.MessageId != 16 || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            base.MapFieldMsgProc(ref Msg);
+            base.MapFieldMessageProc(ref message);
         }
 
-        if (FResource.TerrainList.Terrain[Msg.HN] >= -1)
+        if (_resource.TerrainList.Terrain[message.HexNumber] >= -1)
         {
-            if (Msg.MsgID == 4392 && FStatus.Contains(MapObjectStatusElement.Activated))
+            if (message.MessageId == 4392 && _status.Contains(MapObjectStatusElement.Activated))
             {
-                Msg.Param[0] = 1;
+                message.Param[0] = 1;
             }
             else
             {
-                if (Msg.MsgID == 4365)
+                if (message.MessageId == 4365)
                 {
                     UpdateVisibleForSeatedPlayer();
                 }
@@ -142,19 +142,19 @@ public partial class SmokeCloud : MultiHexMapObject
     public override void Activate()
     {
         base.Activate();
-        if (FDirection == 0)
+        if (Direction == 0)
         {
-            FDirection = (byte)(AoWHSMap.Current.Random(6) + 1);
+            Direction = (byte)(AoWHSMap.Current.Random(6) + 1);
         }
 
-        var smokeCloudEnchantment = FEnchantment;
-        if (smokeCloudEnchantment.FPlayerIndex > 0 && !smokeCloudEnchantment.FEnchantmentStatus.Contains(GlobalEnchantmentStatusElement.Activated))
+        var smokeCloudEnchantment = Enchantment;
+        if (smokeCloudEnchantment.PlayerIndex > 0 && !smokeCloudEnchantment.EnchantmentStatus.Contains(GlobalEnchantmentStatusElement.Activated))
         {
-            smokeCloudEnchantment.Activate(smokeCloudEnchantment.FPlayerIndex);
+            smokeCloudEnchantment.Activate(smokeCloudEnchantment.PlayerIndex);
         }
 
-        var yhx = Yhx;
-        UpdateConcealment(Xhx, yhx, Lhx);
+        var hexY = HexY;
+        UpdateConcealment(HexX, hexY, HexLevel);
         UpdateVisibleForSeatedPlayer();
     }
 
@@ -162,177 +162,177 @@ public partial class SmokeCloud : MultiHexMapObject
     public override void Deactivate()
     {
         base.Deactivate();
-        if (FEnchantment.FPlayerIndex > 0)
+        if (Enchantment.PlayerIndex > 0)
         {
-            FEnchantment.Deactivate((byte)FEnchantment.FPlayerIndex);
+            Enchantment.Deactivate((byte)Enchantment.PlayerIndex);
         }
 
-        var lhx = GetLhx();
-        var yhx = GetYhx();
-        UpdateConcealment(GetXhx(), yhx, lhx);
+        var hexLevel = GetHexLevel();
+        var hexY = GetHexY();
+        UpdateConcealment(GetHexX(), hexY, hexLevel);
     }
 
     // SmokeCloud.pas:238
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (Info.HN > 18 && Info.HN < 37)
+        if (info.HexNumber > 18 && info.HexNumber < 37)
         {
-            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 16777216;
+            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 16777216;
         }
     }
 
     // SmokeCloud.pas:193
-    public override bool CanSelect(int Xhp, int Yhp)
+    public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool Result;
-        int Xhx = default;
-        int Yhx = default;
-        int HN;
-        if (FResource.Engine.HSMap.Status.Contains(HexSpriteMapStatusElement.Editting))
+        bool result;
+        int hexX = default;
+        int hexY = default;
+        int hexNumber;
+        if (_resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-            HN = HexGeometry.dHXtoHN(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, Xhx, Yhx);
-            Result = HN < FResource.TerrainList.Count && FResource.TerrainList.Terrain[HN] >= -1;
+            HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
+            hexNumber = HexGeometry.DeltaHexToHexNumber(((MapField)Owner).HexX, ((MapField)Owner).HexY, hexX, hexY);
+            result = hexNumber < _resource.TerrainList.Count && _resource.TerrainList.Terrain[hexNumber] >= -1;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // SmokeCloud.pas:216
-    public void UpdateConcealment(sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public void UpdateConcealment(sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        HexNumberWalkData Walk = default;
-        MapLevel Level;
-        AoWMapField MapField;
-        ArmyHexSprite ArmyHS;
-        Level = AoWHSMap.Current.MapContainer.MapLevels[Lhx];
-        HexNumberWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
-        while (FResource.TerrainList.Count > Walk.HN)
+        HexNumberWalkData walk = default;
+        MapLevel level;
+        AoWMapField mapField;
+        ArmyHexSprite armyHexSprite;
+        level = AoWHSMap.Current.MapContainer.MapLevels[hexLevel];
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
+        while (_resource.TerrainList.Count > walk.HexNumber)
         {
-            if (FResource.TerrainList.Terrain[Walk.HN] >= -1 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Level.Height > Walk.Y)
+            if (_resource.TerrainList.Terrain[walk.HexNumber] >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
             {
-                MapField = (AoWMapField)Level.GetField(Walk.X, Walk.Y);
-                ArmyHS = MapField.GetArmyHS();
-                if (ArmyHS != null)
+                mapField = (AoWMapField)level.GetField(walk.X, walk.Y);
+                armyHexSprite = mapField.GetArmyHexSprite();
+                if (armyHexSprite != null)
                 {
-                    ArmyHS.FArmy.Update();
+                    armyHexSprite.Army.Update();
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
 
     // SmokeCloud.pas:253
     public void UpdateVisibleForSeatedPlayer()
     {
-        bool Visible;
-        var lhx = GetLhx();
-        var yhx = GetYhx();
-        var xhx = GetXhx();
-        Visible = AoWHSMap.Current.Visible(xhx, yhx, lhx, 3) || FEnchantment.FPlayerIndex == AoWHSMap.Current.FSeatedPlayer;
-        if (FVisibleForSeatedPlayer ^ Visible)
+        bool visible;
+        var hexLevel = GetHexLevel();
+        var hexY = GetHexY();
+        var hexX = GetHexX();
+        visible = AoWHSMap.Current.Visible(hexX, hexY, hexLevel, 3) || Enchantment.PlayerIndex == AoWHSMap.Current.SeatedPlayer;
+        if (VisibleForSeatedPlayer ^ visible)
         {
-            FVisibleForSeatedPlayer = Visible;
-            AoWHSMap.Current.FGlobalMagicControl.TriggerChangedEvent();
+            VisibleForSeatedPlayer = visible;
+            AoWHSMap.Current.GlobalMagicControl.TriggerChangedEvent();
         }
     }
 
     // SmokeCloud.pas:306
-    public bool ValidMoveDir(int Direction)
+    public bool ValidMoveDirection(int direction)
     {
-        int Xhx = default;
-        int Yhx = default;
-        MapLevel Level;
-        Level = (MapLevel)Owner.Owner;
-        var yhx = GetYhx();
-        HexGeometry.CenterHNtoHX(GetXhx(), yhx, Direction, ref Xhx, ref Yhx);
-        HexGeometry.CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
-        return Xhx >= 10 && Yhx >= 10 && Level.Width >= Xhx + 10 && Level.Height >= Yhx + 10;
+        int hexX = default;
+        int hexY = default;
+        MapLevel level;
+        level = (MapLevel)Owner.Owner;
+        var yhx = GetHexY();
+        HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
+        HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
+        return hexX >= 10 && hexY >= 10 && level.Width >= hexX + 10 && level.Height >= hexY + 10;
     }
 
     // SmokeCloud.pas:317
     public void UpdateCloud()
     {
-        int Xhx = default;
-        int Yhx = default;
-        ByteList Directions;
-        bool Valid;
-        int Direction;
-        int Tries;
-        int Lhx;
-        if (FTurnsRemaining != 1)
+        int hexX = default;
+        int hexY = default;
+        ByteList directions;
+        bool valid;
+        int direction;
+        int tries;
+        int hexLevel;
+        if (TurnsRemaining != 1)
         {
-            FUpdated = true;
-            if (FTurnsRemaining != 0)
+            Updated = true;
+            if (TurnsRemaining != 0)
             {
-                FTurnsRemaining -= 1;
+                TurnsRemaining -= 1;
             }
 
-            if (FDrifting)
+            if (Drifting)
             {
-                Direction = 0;
-                Directions = new ByteList();
-                Valid = false;
-                Directions.Add(FDirection);
-                if (FDirection != 1)
+                direction = 0;
+                directions = new ByteList();
+                valid = false;
+                directions.Add(Direction);
+                if (Direction != 1)
                 {
-                    Directions.Add((byte)(FDirection - 1));
+                    directions.Add((byte)(Direction - 1));
                 }
                 else
                 {
-                    Directions.Add(6);
+                    directions.Add(6);
                 }
 
-                if (FDirection != 6)
+                if (Direction != 6)
                 {
-                    Directions.Add((byte)(FDirection + 1));
+                    directions.Add((byte)(Direction + 1));
                 }
                 else
                 {
-                    Directions.Add(1);
+                    directions.Add(1);
                 }
 
-                while (Directions.Count != 0 && !Valid)
+                while (directions.Count != 0 && !valid)
                 {
-                    Direction = Directions[AoWHSMap.Current.Random(Directions.Count)];
-                    Valid = ValidMoveDir(Direction);
-                    if (!Valid)
+                    direction = directions[AoWHSMap.Current.Random(directions.Count)];
+                    valid = ValidMoveDirection(direction);
+                    if (!valid)
                     {
-                        Directions.Remove((byte)Direction);
+                        directions.Remove((byte)direction);
                     }
                 }
 
-                Directions?.Dispose();
-                if (!Valid)
+                directions?.Dispose();
+                if (!valid)
                 {
-                    Tries = 20;
-                    while (!Valid && Tries != 0)
+                    tries = 20;
+                    while (!valid && tries != 0)
                     {
-                        Direction = AoWHSMap.Current.Random(6) + 1;
-                        Valid = ValidMoveDir(Direction);
-                        Tries -= 1;
+                        direction = AoWHSMap.Current.Random(6) + 1;
+                        valid = ValidMoveDirection(direction);
+                        tries -= 1;
                     }
                 }
 
-                if (Valid)
+                if (valid)
                 {
-                    FDirection = (byte)Direction;
-                    Lhx = GetLhx();
-                    var yhx = GetYhx();
-                    HexGeometry.CenterHNtoHX(GetXhx(), yhx, Direction, ref Xhx, ref Yhx);
-                    HexGeometry.CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
+                    Direction = (byte)direction;
+                    hexLevel = GetHexLevel();
+                    var yhx = GetHexY();
+                    HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
                     Disconnect();
-                    UpdateConcealment(FXhx, FYhx, (sbyte)Lhx);
-                    FXhx = (sbyte)Xhx;
-                    FYhx = (sbyte)Yhx;
-                    Owner = AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, Lhx);
+                    UpdateConcealment(_hexX, _hexY, (sbyte)hexLevel);
+                    _hexX = (sbyte)hexX;
+                    _hexY = (sbyte)hexY;
+                    Owner = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
                     Connect();
-                    UpdateConcealment(FXhx, FYhx, (sbyte)Lhx);
+                    UpdateConcealment(_hexX, _hexY, (sbyte)hexLevel);
                 }
             }
         }
@@ -348,13 +348,13 @@ public partial class SmokeCloud : MultiHexMapObject
         { }
 
         // SmokeCloud.pas:385
-        public new const int ClassID = 135747;
+        public new const int ClassId = 135747;
 
         // SmokeCloud.pas:391
-        public override int ResourceUserClassID() => 135746;
+        public override int ResourceUserClassId() => 135746;
 
         // SmokeCloud.pas:388
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(GameText.SmokeCloudRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameText.s_smokeCloudText);
 
     }
 

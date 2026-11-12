@@ -13,13 +13,13 @@ public partial class Warmonger : CityEnchantmentSpell
     // CitySpells.pas:751
     public Warmonger(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.WarmongerRStr);
-        FSpellID = 58;
-        FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
-        FEnchantmentID = CityEnchantmentId.Warmonger;
-        FCastDuration = 30;
-        FAIPriority = 600;
-        FAICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.Hex4City, CityEnchantmentCastSpellSituationElement.Hex3City);
-        FEnchantmentSpellID = 50;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_warmongerText);
+        SpellId = 58;
+        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
+        EnchantmentId = CityEnchantmentId.Warmonger;
+        CastDuration = 30;
+        AIPriority = 600;
+        AICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.Hex4City, CityEnchantmentCastSpellSituationElement.Hex3City);
+        EnchantmentSpellId = 50;
     }
 }

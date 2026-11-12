@@ -15,48 +15,48 @@ namespace Aow.Game.UI.Controls;
 // button, 2 the track before the tab, 3 the track after it, 4 the increment button, 5 the tab),
 // FDelay (the updates before a held button repeats), F154 (the position a click in the track
 // pages to. the mouse offset into the tab while the tab is dragged), FNumberVisible, F15C
-// (unused), FScrollType, FTabType, FILIndexIncUp, FILIndexIncDown, FILIndexDecUp,
-// FILIndexDecDown, FILIndexBack, FILIndexTab
+// (unused), ScrollType, ThumbStyle, _imageLibraryIndexIncrementUp, _imageLibraryIndexIncrementDown, _imageLibraryIndexDecrementUp,
+// _imageLibraryIndexDecrementDown, _imageLibraryIndexBack, _thumbImageIndex
 public partial class ScrollBar : Control
 {
-    public bool FVanishWhenFull;
-    public InterfaceImageLibrary FILIInc;
-    public InterfaceImageLibrary FILIDec;
-    public InterfaceImageLibrary FILTBack;
-    public InterfaceImageLibrary FILLBack;
-    public InterfaceImageLibrary FILITab;
-    public InterfaceImageLibrary FILLTab;
-    public int F130;
-    public int F134;
-    public int FMin;
-    public int FMax;
-    public int FSmallChange;
-    public int FLargeChange;
-    public int FPosition;
-    public int F14C;
-    public byte F150;
-    public byte F151;
-    public byte FDelay;
-    public int F154;
-    public int FNumberVisible;
-    public int F15C;
-    public Style FScrollType;
-    public ThumbStyle FTabType;
-    public int FILIndexIncUp;
-    public int FILIndexIncDown;
-    public int FILIndexDecUp;
-    public int FILIndexDecDown;
-    public int FILIndexBack;
-    public int FILIndexTab;
+    public bool _vanishWhenFull;
+    public InterfaceImageLibrary _imageLibraryImageIncrement;
+    public InterfaceImageLibrary _imageLibraryIDecrement;
+    public InterfaceImageLibrary _imageLibraryTileBack;
+    public InterfaceImageLibrary _imageLibraryLineBack;
+    public InterfaceImageLibrary _thumbImage;
+    public InterfaceImageLibrary _thumbStrip;
+    public int TrackLength;
+    public int ThumbLength;
+    public int _min;
+    public int _max;
+    public int _smallChange;
+    public int _largeChange;
+    public int _position;
+    public int PositionCount;
+    public byte HeldUpdateCount;
+    public byte HeldPart;
+    public byte _delay;
+    public int TrackClickTarget;
+    public int _numberVisible;
+    public int UnusedValue;
+    public Style ScrollType;
+    public ScrollBarThumbStyle ThumbStyle;
+    public int _imageLibraryIndexIncrementUp;
+    public int _imageLibraryIndexIncrementDown;
+    public int _imageLibraryIndexDecrementUp;
+    public int _imageLibraryIndexDecrementDown;
+    public int _imageLibraryIndexBack;
+    public int _thumbImageIndex;
 
     // AoWVScroll.pas:130
     public ScrollBar(Rtl.Component owner) : base(owner)
     {
-        FSmallChange = 1;
-        FLargeChange = 1;
-        FMax = 1;
-        FNumberVisible = 1;
-        FDelay = 20;
+        _smallChange = 1;
+        _largeChange = 1;
+        _max = 1;
+        _numberVisible = 1;
+        _delay = 20;
     }
 
     // AoWVScroll.pas:251
@@ -65,73 +65,73 @@ public partial class ScrollBar : Control
     //   a background line with a tab makes a slider; anything else leaves the scroll bar invalid }
     public override void Validate()
     {
-        if (FILIInc != null)
+        if (_imageLibraryImageIncrement != null)
         {
-            FILIInc = FILIInc.CheckIL(FILIndexIncUp, 1, this);
+            _imageLibraryImageIncrement = _imageLibraryImageIncrement.CheckImageLibrary(_imageLibraryIndexIncrementUp, 1, this);
         }
 
-        if (FILIInc != null)
+        if (_imageLibraryImageIncrement != null)
         {
-            FILIInc = FILIInc.CheckIL(FILIndexIncDown, 1, this);
+            _imageLibraryImageIncrement = _imageLibraryImageIncrement.CheckImageLibrary(_imageLibraryIndexIncrementDown, 1, this);
         }
 
-        if (FILIDec != null)
+        if (_imageLibraryIDecrement != null)
         {
-            FILIDec = FILIDec.CheckIL(FILIndexDecUp, 1, this);
+            _imageLibraryIDecrement = _imageLibraryIDecrement.CheckImageLibrary(_imageLibraryIndexDecrementUp, 1, this);
         }
 
-        if (FILIDec != null)
+        if (_imageLibraryIDecrement != null)
         {
-            FILIDec = FILIDec.CheckIL(FILIndexDecDown, 1, this);
+            _imageLibraryIDecrement = _imageLibraryIDecrement.CheckImageLibrary(_imageLibraryIndexDecrementDown, 1, this);
         }
 
-        if (FILTBack != null)
+        if (_imageLibraryTileBack != null)
         {
-            FILTBack = FILTBack.CheckIL(FILIndexBack, 1, this);
+            _imageLibraryTileBack = _imageLibraryTileBack.CheckImageLibrary(_imageLibraryIndexBack, 1, this);
         }
 
-        if (FILLBack != null)
+        if (_imageLibraryLineBack != null)
         {
-            FILLBack = FILLBack.CheckIL(FILIndexBack, 3, this);
+            _imageLibraryLineBack = _imageLibraryLineBack.CheckImageLibrary(_imageLibraryIndexBack, 3, this);
         }
 
-        if (FILITab != null)
+        if (_thumbImage != null)
         {
-            FILITab = FILITab.CheckIL(FILIndexTab, 3, this);
+            _thumbImage = _thumbImage.CheckImageLibrary(_thumbImageIndex, 3, this);
         }
 
-        if (FILLTab != null)
+        if (_thumbStrip != null)
         {
-            FILLTab = FILLTab.CheckIL(FILIndexTab, 3, this);
+            _thumbStrip = _thumbStrip.CheckImageLibrary(_thumbImageIndex, 3, this);
         }
 
-        if (FILITab != null)
+        if (_thumbImage != null)
         {
-            FTabType = ThumbStyle.Icon;
+            ThumbStyle = ScrollBarThumbStyle.Icon;
         }
         else
         {
-            FTabType = ThumbStyle.Bar;
+            ThumbStyle = ScrollBarThumbStyle.Bar;
         }
 
-        if (FILIInc != null && FILIDec != null)
+        if (_imageLibraryImageIncrement != null && _imageLibraryIDecrement != null)
         {
-            FValid = true;
-            if (FILTBack != null && (FILITab != null || FILLTab != null))
+            Valid = true;
+            if (_imageLibraryTileBack != null && (_thumbImage != null || _thumbStrip != null))
             {
-                FScrollType = Style.Scroll;
+                ScrollType = Style.Scroll;
             }
             else
             {
-                FScrollType = Style.IncDec;
+                ScrollType = Style.IncrementDecrement;
             }
         }
         else
         {
-            if (FILLBack != null && (FILITab != null || FILLTab != null))
+            if (_imageLibraryLineBack != null && (_thumbImage != null || _thumbStrip != null))
             {
-                FValid = true;
-                FScrollType = Style.Slider;
+                Valid = true;
+                ScrollType = Style.Slider;
             }
         }
 
@@ -144,15 +144,15 @@ public partial class ScrollBar : Control
     //   was clicked }
     public override void Update()
     {
-        if (FVisible && F150 > 0)
+        if (_visible && HeldUpdateCount > 0)
         {
-            if (F150 < FDelay)
+            if (HeldUpdateCount < _delay)
             {
-                F150 = (byte)(F150 + 1);
+                HeldUpdateCount = (byte)(HeldUpdateCount + 1);
             }
             else
             {
-                switch (F151)
+                switch (HeldPart)
                 {
                     case 1:
                         ApplySmallStep(true);
@@ -161,32 +161,32 @@ public partial class ScrollBar : Control
                         ApplySmallStep(false);
                         break;
                     case 2:
-                        FPosition = FPosition - FLargeChange;
-                        if (F154 > FPosition)
+                        _position = _position - _largeChange;
+                        if (TrackClickTarget > _position)
                         {
-                            FPosition = F154;
-                            F150 = 0;
+                            _position = TrackClickTarget;
+                            HeldUpdateCount = 0;
                         }
 
-                        FDrawn = false;
-                        if (FOnChange != null)
+                        Drawn = false;
+                        if (_onChange != null)
                         {
-                            FOnChange(this);
+                            _onChange(this);
                         }
 
                         break;
                     case 3:
-                        FPosition = FPosition + FLargeChange;
-                        if (F154 + 1 < FPosition)
+                        _position = _position + _largeChange;
+                        if (TrackClickTarget + 1 < _position)
                         {
-                            FPosition = F154 + 1;
-                            F150 = 0;
+                            _position = TrackClickTarget + 1;
+                            HeldUpdateCount = 0;
                         }
 
-                        FDrawn = false;
-                        if (FOnChange != null)
+                        Drawn = false;
+                        if (_onChange != null)
                         {
-                            FOnChange(this);
+                            _onChange(this);
                         }
 
                         break;
@@ -198,336 +198,336 @@ public partial class ScrollBar : Control
     }
 
     // AoWVScroll.pas:194
-    public virtual void SetILIUIndex(int Value)
+    public virtual void SetImageLibraryImageUIndex(int value)
     {
-        if (Value != FILIndexIncUp)
+        if (value != _imageLibraryIndexIncrementUp)
         {
-            FILIndexIncUp = Value;
-            FValid = false;
+            _imageLibraryIndexIncrementUp = value;
+            Valid = false;
         }
     }
 
     // AoWVScroll.pas:203
-    public virtual void SetILIDIndex(int Value)
+    public virtual void SetImageLibraryIdIndex(int value)
     {
-        if (Value != FILIndexIncDown)
+        if (value != _imageLibraryIndexIncrementDown)
         {
-            FILIndexIncDown = Value;
-            FValid = false;
+            _imageLibraryIndexIncrementDown = value;
+            Valid = false;
         }
     }
 
     // AoWVScroll.pas:212
-    public virtual void SetILDUIndex(int Value)
+    public virtual void SetILDUIndex(int value)
     {
-        if (Value != FILIndexDecUp)
+        if (value != _imageLibraryIndexDecrementUp)
         {
-            FILIndexDecUp = Value;
-            FValid = false;
+            _imageLibraryIndexDecrementUp = value;
+            Valid = false;
         }
     }
 
     // AoWVScroll.pas:221
-    public virtual void SetILDDIndex(int Value)
+    public virtual void SetILDDIndex(int value)
     {
-        if (Value != FILIndexDecDown)
+        if (value != _imageLibraryIndexDecrementDown)
         {
-            FILIndexDecDown = Value;
-            FValid = false;
+            _imageLibraryIndexDecrementDown = value;
+            Valid = false;
         }
     }
 
     // AoWVScroll.pas:230
-    public virtual void SetILBIndex(int Value)
+    public virtual void SetImageLibraryIndex(int value)
     {
-        if (Value != FILIndexBack)
+        if (value != _imageLibraryIndexBack)
         {
-            FILIndexBack = Value;
-            FValid = false;
+            _imageLibraryIndexBack = value;
+            Valid = false;
         }
     }
 
     // AoWVScroll.pas:239
-    public virtual void SetILTIndex(int Value)
+    public virtual void SetImageLibraryTileIndex(int value)
     {
-        if (Value != FILIndexTab)
+        if (value != _thumbImageIndex)
         {
-            FILIndexTab = Value;
-            FValid = false;
+            _thumbImageIndex = value;
+            Valid = false;
         }
     }
 
     // AoWVScroll.pas:140
-    public virtual void SetILInc(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryIncrement(InterfaceImageLibrary value)
     {
-        if (Value != FILIInc)
+        if (value != _imageLibraryImageIncrement)
         {
-            FValid = false;
-            FILIInc = Value;
+            Valid = false;
+            _imageLibraryImageIncrement = value;
         }
     }
 
     // AoWVScroll.pas:149
-    public virtual void SetILDec(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryDecrement(InterfaceImageLibrary value)
     {
-        if (Value != FILIDec)
+        if (value != _imageLibraryIDecrement)
         {
-            FValid = false;
-            FILIDec = Value;
+            Valid = false;
+            _imageLibraryIDecrement = value;
         }
     }
 
     // AoWVScroll.pas:158
-    public virtual void SetILBack(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryBack(InterfaceImageLibrary value)
     {
-        if (Value != FILTBack)
+        if (value != _imageLibraryTileBack)
         {
-            FValid = false;
-            FILTBack = Value;
+            Valid = false;
+            _imageLibraryTileBack = value;
         }
     }
 
     // AoWVScroll.pas:167
-    public virtual void SetILLBack(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryLineBack(InterfaceImageLibrary value)
     {
-        if (Value != FILLBack)
+        if (value != _imageLibraryLineBack)
         {
-            FValid = false;
-            FILLBack = Value;
+            Valid = false;
+            _imageLibraryLineBack = value;
         }
     }
 
     // AoWVScroll.pas:176
-    public virtual void SetILITab(InterfaceImageLibrary Value)
+    public virtual void SetThumbImage(InterfaceImageLibrary value)
     {
-        if (Value != FILITab)
+        if (value != _thumbImage)
         {
-            FValid = false;
-            FILITab = Value;
+            Valid = false;
+            _thumbImage = value;
         }
     }
 
     // AoWVScroll.pas:185
-    public virtual void SetILLTab(InterfaceImageLibrary Value)
+    public virtual void SetThumbStrip(InterfaceImageLibrary value)
     {
-        if (Value != FILLTab)
+        if (value != _thumbStrip)
         {
-            FValid = false;
-            FILLTab = Value;
+            Valid = false;
+            _thumbStrip = value;
         }
     }
 
     // AoWVScroll.pas:289
-    public void SetSmall(int Value)
+    public void SetSmall(int value)
     {
-        if (Value < 1)
+        if (value < 1)
         {
-            Value = 1;
+            value = 1;
         }
 
-        FSmallChange = Value;
+        _smallChange = value;
     }
 
     // AoWVScroll.pas:296
-    public void SetLarge(int Value)
+    public void SetLarge(int value)
     {
-        if (Value < 1)
+        if (value < 1)
         {
-            Value = 1;
+            value = 1;
         }
 
-        FLargeChange = Value;
+        _largeChange = value;
     }
 
     // AoWVScroll.pas:303
-    public void SetFMin(int Value)
+    public void SetFMin(int value)
     {
-        if (Value > FMax)
+        if (value > _max)
         {
-            Value = FMax;
+            value = _max;
         }
 
-        if (Value != FMin)
+        if (value != _min)
         {
-            FMin = Value;
-            FSized = false;
+            _min = value;
+            Sized = false;
         }
     }
 
     // AoWVScroll.pas:314
-    public void SetFMax(int Value)
+    public void SetFMax(int value)
     {
-        if (Value < FMin)
+        if (value < _min)
         {
-            Value = FMin;
+            value = _min;
         }
 
-        if (Value != FMax)
+        if (value != _max)
         {
-            FMax = Value;
-            FSized = false;
+            _max = value;
+            Sized = false;
         }
     }
 
     // AoWVScroll.pas:325
-    public void SetFNum(int Value)
+    public void SetFNumber(int value)
     {
-        if (Value > FMax - FMin + 1)
+        if (value > _max - _min + 1)
         {
-            Value = FMax - FMin + 1;
+            value = _max - _min + 1;
         }
 
-        if (Value < 1)
+        if (value < 1)
         {
-            Value = 1;
+            value = 1;
         }
 
-        if (Value != FNumberVisible)
+        if (value != _numberVisible)
         {
-            FNumberVisible = Value;
-            FSized = false;
+            _numberVisible = value;
+            Sized = false;
         }
     }
 
     // AoWVScroll.pas:338
-    public void SetFPos(int Value)
+    public void SetFPosition(int value)
     {
-        FPosition = Value;
-        if (FPosition + FNumberVisible > FMax - FMin + 1)
+        _position = value;
+        if (_position + _numberVisible > _max - _min + 1)
         {
-            FPosition = FMax - FMin - FNumberVisible + 1;
+            _position = _max - _min - _numberVisible + 1;
         }
 
-        if (FPosition < 0)
+        if (_position < 0)
         {
-            FPosition = 0;
+            _position = 0;
         }
 
-        FDrawn = false;
+        Drawn = false;
     }
 
     [Published]
     [DefaultValue(20)]
-    public byte Delay { get => FDelay; set => FDelay = value; }
+    public byte Delay { get => _delay; set => _delay = value; }
 
     [Published]
-    public int Min { get => FMin; set => SetFMin(value); }
+    public int Min { get => _min; set => SetFMin(value); }
 
     [Published]
-    public int Max { get => FMax; set => SetFMax(value); }
+    public int Max { get => _max; set => SetFMax(value); }
 
     [Published]
-    public int SmallChange { get => FSmallChange; set => SetSmall(value); }
+    public int SmallChange { get => _smallChange; set => SetSmall(value); }
 
     [Published]
-    public int LargeChange { get => FLargeChange; set => SetLarge(value); }
+    public int LargeChange { get => _largeChange; set => SetLarge(value); }
 
     [Published]
-    public int Position { get => FPosition; set => SetFPos(value); }
+    public int Position { get => _position; set => SetFPosition(value); }
 
     [Published]
-    public int NumberVisible { get => FNumberVisible; set => SetFNum(value); }
+    public int NumberVisible { get => _numberVisible; set => SetFNumber(value); }
 
     [Published]
-    public bool VanishWhenFull { get => FVanishWhenFull; set => FVanishWhenFull = value; }
+    public bool VanishWhenFull { get => _vanishWhenFull; set => _vanishWhenFull = value; }
 
     [Published]
-    public InterfaceImageLibrary ILIInc { get => FILIInc; set => SetILInc(value); }
+    public InterfaceImageLibrary ImageLibraryImageIncrement { get => _imageLibraryImageIncrement; set => SetImageLibraryIncrement(value); }
 
     [Published]
-    public InterfaceImageLibrary ILIDec { get => FILIDec; set => SetILDec(value); }
+    public InterfaceImageLibrary ImageLibraryIDecrement { get => _imageLibraryIDecrement; set => SetImageLibraryDecrement(value); }
 
     [Published]
-    public InterfaceImageLibrary ILTBack { get => FILTBack; set => SetILBack(value); }
+    public InterfaceImageLibrary ImageLibraryTileBack { get => _imageLibraryTileBack; set => SetImageLibraryBack(value); }
 
     [Published]
-    public InterfaceImageLibrary ILLBack { get => FILLBack; set => SetILLBack(value); }
+    public InterfaceImageLibrary ImageLibraryLineBack { get => _imageLibraryLineBack; set => SetImageLibraryLineBack(value); }
 
     [Published]
-    public InterfaceImageLibrary ILITab { get => FILITab; set => SetILITab(value); }
+    public InterfaceImageLibrary ThumbImage { get => _thumbImage; set => SetThumbImage(value); }
 
     [Published]
-    public InterfaceImageLibrary ILLTab { get => FILLTab; set => SetILLTab(value); }
+    public InterfaceImageLibrary ThumbStrip { get => _thumbStrip; set => SetThumbStrip(value); }
 
     [Published]
-    public int ILIndexIncUp { get => FILIndexIncUp; set => SetILIUIndex(value); }
+    public int ImageLibraryIndexIncrementUp { get => _imageLibraryIndexIncrementUp; set => SetImageLibraryImageUIndex(value); }
 
     [Published]
-    public int ILIndexIncDown { get => FILIndexIncDown; set => SetILIDIndex(value); }
+    public int ImageLibraryIndexIncrementDown { get => _imageLibraryIndexIncrementDown; set => SetImageLibraryIdIndex(value); }
 
     [Published]
-    public int ILIndexDecUp { get => FILIndexDecUp; set => SetILDUIndex(value); }
+    public int ImageLibraryIndexDecrementUp { get => _imageLibraryIndexDecrementUp; set => SetILDUIndex(value); }
 
     [Published]
-    public int ILIndexDecDown { get => FILIndexDecDown; set => SetILDDIndex(value); }
+    public int ImageLibraryIndexDecrementDown { get => _imageLibraryIndexDecrementDown; set => SetILDDIndex(value); }
 
     [Published]
-    public int ILIndexBack { get => FILIndexBack; set => SetILBIndex(value); }
+    public int ImageLibraryIndexBack { get => _imageLibraryIndexBack; set => SetImageLibraryIndex(value); }
 
     [Published]
-    public int ILIndexTab { get => FILIndexTab; set => SetILTIndex(value); }
+    public int ThumbImageIndex { get => _thumbImageIndex; set => SetImageLibraryTileIndex(value); }
 
     public new NotifyEvent<ScrollBar> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<ScrollBar> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<ScrollBar> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<ScrollBar> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<ScrollBar> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<ScrollBar> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<ScrollBar> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<ScrollBar> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<ScrollBar> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 
     public enum Style : byte
     {
-        Scroll = 0, Slider = 1, IncDec = 2
+        Scroll = 0, Slider = 1, IncrementDecrement = 2
     }
+}
 
-    public enum ThumbStyle : byte
-    {
-        Icon = 0, Bar = 1
-    }
+public enum ScrollBarThumbStyle : byte
+{
+    Icon = 0, Bar = 1
 }

@@ -16,24 +16,24 @@ public interface ICaseUnit
 /// <summary>The registered unit sides of the mapped classes, by persisted class name.</summary>
 public static class CaseMappings
 {
-    private static readonly Dictionary<string, ICaseUnit> units = new(StringComparer.Ordinal);
+    private static readonly Dictionary<string, ICaseUnit> s_units = new(StringComparer.Ordinal);
 
     public static void Register(string persistedClass, ICaseUnit unit)
     {
-        lock (units)
-            if (!units.TryAdd(persistedClass, unit))
+        lock (s_units)
+            if (!s_units.TryAdd(persistedClass, unit))
                 throw new InvalidOperationException("The persisted class " + persistedClass + " has two case mappings.");
     }
 
     public static ICaseUnit? Find(string persistedClass)
     {
-        lock (units)
+        lock (s_units)
         {
-            if (units.TryGetValue(persistedClass, out var found)) return found;
+            if (s_units.TryGetValue(persistedClass, out var found)) return found;
             string? resolved = Stored(persistedClass);
-            if (resolved is not null && resolved != persistedClass && units.TryGetValue(resolved, out found)) return found;
+            if (resolved is not null && resolved != persistedClass && s_units.TryGetValue(resolved, out found)) return found;
             string? delphi = resolved is null ? null : NameTable.DelphiName(resolved);
-            if (delphi is not null && delphi != persistedClass && units.TryGetValue(delphi, out found)) return found;
+            if (delphi is not null && delphi != persistedClass && s_units.TryGetValue(delphi, out found)) return found;
             return null;
         }
     }

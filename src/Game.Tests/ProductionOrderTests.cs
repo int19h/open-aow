@@ -39,16 +39,16 @@ public sealed class ProductionOrderTests
     };
 
     // The kind each triple reads as, built by hand.
-    private static ProductionOrder Expected(int Id, int Parameter, int GroupId) => Id switch
+    private static ProductionOrder Expected(int id, int parameter, int groupId) => id switch
     {
-        1 => new ProduceUnit(Parameter, GroupId),
-        2 => new ResearchSpell(Parameter),
-        10 => new Trade(Parameter),
+        1 => new ProduceUnit(parameter, groupId),
+        2 => new ResearchSpell(parameter),
+        10 => new Trade(parameter),
         11 => new Upgrade(),
         12 => new Fortify(),
-        13 => new Migrate(Parameter),
+        13 => new Migrate(parameter),
         14 => new Loot(),
-        _ => new UnknownOrder(Id, Parameter, GroupId),
+        _ => new UnknownOrder(id, parameter, groupId),
     };
 
     private static string Hex(MemoryStream memory) => Convert.ToHexString(memory.ToArray());
@@ -66,8 +66,8 @@ public sealed class ProductionOrderTests
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
         GameEngine engine = new GameEngine(null!);
-        engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
-        engine.RegisterEClasses([EngineClass.Of<ProductionItem>(), EngineClass.Of<ProductionTokenEvent>()]);
+        engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+        engine.RegisterEngineClasses([EngineClass.Of<ProductionItem>(), EngineClass.Of<ProductionTokenEvent>()]);
         return engine;
     }
 
@@ -90,32 +90,32 @@ public sealed class ProductionOrderTests
 
     [Theory]
     [MemberData(nameof(OldBytes))]
-    public void OrdersWriteTheOldBytes(int Id, int Parameter, int GroupId, string ItemBytes, string EventBytes)
+    public void OrdersWriteTheOldBytes(int id, int parameter, int groupId, string itemBytes, string eventBytes)
     {
         GameEngine engine = CreateEngine();
         try
         {
-            var order = ProductionOrder.FromFields(Id, Parameter, GroupId);
-            Assert.Equal(Expected(Id, Parameter, GroupId), order);
-            Assert.Equal((Id, Parameter, GroupId), order.ToFields());
+            var order = ProductionOrder.FromFields(id, parameter, groupId);
+            Assert.Equal(Expected(id, parameter, groupId), order);
+            Assert.Equal((id, parameter, groupId), order.ToFields());
 
-            var item = new ProductionItem(null!) { Order = Expected(Id, Parameter, GroupId) };
-            Assert.Equal(ItemBytes, Write(engine, item));
+            var item = new ProductionItem(null!) { Order = Expected(id, parameter, groupId) };
+            Assert.Equal(itemBytes, Write(engine, item));
             item.Dispose();
 
-            var te = new ProductionTokenEvent(null!) { FX = 3, FY = 4, FL = 1, FPlayer = 2, FQueue = true, FIndex = 1 };
-            te.FItem = new ProductionItem(null!) { Order = Expected(Id, Parameter, GroupId) };
-            Assert.Equal(EventBytes, Write(engine, te));
-            te.Dispose();
+            var tokenEvent = new ProductionTokenEvent(null!) { X = 3, Y = 4, MapLevel = 1, Player = 2, Queue = true, Index = 1 };
+            tokenEvent.Item = new ProductionItem(null!) { Order = Expected(id, parameter, groupId) };
+            Assert.Equal(eventBytes, Write(engine, tokenEvent));
+            tokenEvent.Dispose();
 
-            var loaded = Read<ProductionItem>(engine, ItemBytes);
-            Assert.Equal(Expected(Id, Parameter, GroupId), loaded.Order);
-            Assert.Equal(ItemBytes, Write(engine, loaded));
+            var loaded = Read<ProductionItem>(engine, itemBytes);
+            Assert.Equal(Expected(id, parameter, groupId), loaded.Order);
+            Assert.Equal(itemBytes, Write(engine, loaded));
             loaded.Dispose();
 
-            var loadedEvent = Read<ProductionTokenEvent>(engine, EventBytes);
-            Assert.Equal(Expected(Id, Parameter, GroupId), loadedEvent.FItem.Order);
-            Assert.Equal(EventBytes, Write(engine, loadedEvent));
+            var loadedEvent = Read<ProductionTokenEvent>(engine, eventBytes);
+            Assert.Equal(Expected(id, parameter, groupId), loadedEvent.Item.Order);
+            Assert.Equal(eventBytes, Write(engine, loadedEvent));
             loadedEvent.Dispose();
         }
         finally
@@ -161,11 +161,11 @@ public sealed class ProductionOrderTests
         Assert.Equal(3, queue.IndexOf(new Upgrade()));
         Assert.Equal(-1, queue.IndexOf(new Fortify()));
         Assert.Equal(-1, queue.IndexOf(new UnknownOrder(11, 0, 0)));
-        Assert.Equal(1, queue.IndexOfID(2));
+        Assert.Equal(1, queue.IndexOfId(2));
     }
 
     // City.pas:3220 ProductionIDToCityAction.
-    private static CityAction OldCityAction(int ID) => ID switch
+    private static CityAction OldCityAction(int id) => id switch
     {
         1 => CityAction.Produce,
         2 => CityAction.Research,
@@ -178,22 +178,22 @@ public sealed class ProductionOrderTests
     };
 
     // Structur.PAS:837 and City.pas:604 LoopableProduction.
-    private static bool OldLoopable(int ID, bool City)
+    private static bool OldLoopable(int id, bool city)
     {
-        bool Result = ID != 2;
-        if (City && OldCityAction(ID) is CityAction.Migrate or CityAction.Loot or CityAction.Fortify or CityAction.Upgrade) Result = false;
-        return Result;
+        bool result = id != 2;
+        if (city && OldCityAction(id) is CityAction.Migrate or CityAction.Loot or CityAction.Fortify or CityAction.Upgrade) result = false;
+        return result;
     }
 
     // Structur.PAS:834 and City.pas:595 LockQueueProduction.
-    private static bool OldLocksQueue(int ID, bool City) => City && OldCityAction(ID) is CityAction.Migrate or CityAction.Loot;
+    private static bool OldLocksQueue(int id, bool city) => city && OldCityAction(id) is CityAction.Migrate or CityAction.Loot;
 
     // AoWCityScreen.pas:904 ActivityImage.
-    private static int OldCityImage(CityAction Action, byte WallType) => Action switch
+    private static int OldCityImage(CityAction action, byte wallType) => action switch
     {
         CityAction.Trade => 40,
         CityAction.Upgrade => 43,
-        CityAction.Fortify => WallType == 0 ? 41 : 42,
+        CityAction.Fortify => wallType == 0 ? 41 : 42,
         CityAction.Migrate => 44,
         CityAction.Loot => 45,
         CityAction.Raze => 46,
@@ -203,32 +203,32 @@ public sealed class ProductionOrderTests
     };
 
     // AoWProdScreen.pas:719 ActivityImage.
-    private static int OldPlaceImage(int ID, MagicSphere Sphere) => ID switch
+    private static int OldPlaceImage(int id, MagicSphere sphere) => id switch
     {
         1 => 4,
-        10 => Sphere != MagicSphere.None ? 48 : 47,
+        10 => sphere != MagicSphere.None ? 48 : 47,
         _ => 4,
     };
 
     // City.pas:2503, 2539, 2575: the sequence of row Row, null where the race image shows.
-    private static int? OldSequence(CityAction Action, byte WallType, int Row)
+    private static int? OldSequence(CityAction action, byte wallType, int row)
     {
-        if (Action is CityAction.None or CityAction.Trade or CityAction.Produce) return null;
-        return Action switch
+        if (action is CityAction.None or CityAction.Trade or CityAction.Produce) return null;
+        return action switch
         {
-            CityAction.Fortify => WallType switch { 0 => 30 + Row, 1 => 48 + Row, _ => -1 },
-            CityAction.Upgrade => 33 + Row,
-            CityAction.Migrate => 39 + Row,
-            CityAction.Raze => 51 + Row,
-            CityAction.Loot => 45 + Row,
+            CityAction.Fortify => wallType switch { 0 => 30 + row, 1 => 48 + row, _ => -1 },
+            CityAction.Upgrade => 33 + row,
+            CityAction.Migrate => 39 + row,
+            CityAction.Raze => 51 + row,
+            CityAction.Loot => 45 + row,
             _ => -1,
         };
     }
 
     // AoWRealm.pas, the activity column.
-    private static string OldRealm(CityAction Action, byte WallType) => ((int)Action & 127) switch
+    private static string OldRealm(CityAction action, byte wallType) => ((int)action & 127) switch
     {
-        3 => WallType == 1 ? "1" : "0",
+        3 => wallType == 1 ? "1" : "0",
         2 => "2",
         5 => "3",
         4 => "4",
@@ -238,28 +238,28 @@ public sealed class ProductionOrderTests
 
     // Structur.PAS:840 with City.pas:615 and PrdPlace.pas:252, 453, for the kinds whose name
     // reads no unit production.
-    private static string OldName(int ID, int Parameter, bool City, MagicSphere Sphere)
+    private static string OldName(int id, int parameter, bool city, MagicSphere sphere)
     {
-        string Result = AbilityRules.TranslateRStr(GameTables.UnknownRStr);
-        if (City)
+        string result = AbilityRules.TranslateResourceString(GameTables.s_unknownText);
+        if (city)
         {
-            switch (OldCityAction(ID))
+            switch (OldCityAction(id))
             {
-                case CityAction.Trade: Result = AbilityRules.TranslateRStr(GameText.ProduceMerchandiseRStr); break;
-                case CityAction.Upgrade: Result = AbilityRules.TranslateRStr(GameText.UpgradeRStr); break;
-                case CityAction.Migrate: Result = Runtime.Format(AbilityRules.TranslateRStr(Migrate.MigrateToXRStr), [AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Parameter])]); break;
-                case CityAction.Loot: Result = AbilityRules.TranslateRStr(GameText.LootRStr); break;
-                case CityAction.Fortify: Result = AbilityRules.TranslateRStr(GameText.FortifyRStr); break;
+                case CityAction.Trade: result = AbilityRules.TranslateResourceString(GameText.s_produceMerchandiseText); break;
+                case CityAction.Upgrade: result = AbilityRules.TranslateResourceString(GameText.s_upgradeText); break;
+                case CityAction.Migrate: result = Runtime.Format(AbilityRules.TranslateResourceString(Migrate.s_migrateFormat), [AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[parameter])]); break;
+                case CityAction.Loot: result = AbilityRules.TranslateResourceString(GameText.s_lootText); break;
+                case CityAction.Fortify: result = AbilityRules.TranslateResourceString(GameText.s_fortifyText); break;
             }
         }
-        else if (ID == 10)
+        else if (id == 10)
         {
-            Result = AbilityRules.TranslateRStr(Sphere != MagicSphere.None ? Trade.GenerateExtraPowerRStr : GameText.ProduceMerchandiseRStr);
+            result = AbilityRules.TranslateResourceString(sphere != MagicSphere.None ? Trade.s_generateExtraPowerText : GameText.s_produceMerchandiseText);
         }
-        return Result;
+        return result;
     }
 
-    private static readonly (int Id, int Parameter, int GroupId)[] Kinds =
+    private static readonly (int Id, int Parameter, int GroupId)[] s_kinds =
     [
         (1, 5, 12), (2, 5, 0), (10, 1, 0), (10, -1, 0), (11, 0, 0), (12, 0, 0), (13, 6, 0), (14, 0, 0), (0, 0, 0), (99, 7, 3),
     ];
@@ -271,14 +271,14 @@ public sealed class ProductionOrderTests
         var map = new AoWHSMap(null!);
         AoWHSMap.Current = map;
         var owner = new EngineFixture.Owner();
-        var city = (City)EngineClass.Of<City>().Create(owner);
-        var guild = (BuildersGuild)EngineClass.Of<BuildersGuild>().Create(owner);
-        var node = (LifeNode)EngineClass.Of<LifeNode>().Create(owner);
+        var city = (City)EngineClass.Of<City>().CreateInstance(owner);
+        var guild = (BuildersGuild)EngineClass.Of<BuildersGuild>().CreateInstance(owner);
+        var node = (LifeNode)EngineClass.Of<LifeNode>().CreateInstance(owner);
         try
         {
-            ProductionControl[] controls = [city.FProduction, guild.FProductionControl, node.FProductionControl];
+            ProductionControl[] controls = [city.Production, guild.ProductionControl, node.ProductionControl];
             int checks = 0;
-            foreach (var (id, parameter, groupId) in Kinds)
+            foreach (var (id, parameter, groupId) in s_kinds)
             {
                 var order = ProductionOrder.FromFields(id, parameter, groupId);
                 var action = OldCityAction(id);
@@ -286,7 +286,7 @@ public sealed class ProductionOrderTests
                 foreach (var control in controls)
                 {
                     bool inCity = control is CityProductionControl;
-                    var sphere = control is ProductionPlaceControl place ? place.FProductionPlace.GetMagicSphere() : MagicSphere.None;
+                    var sphere = control is ProductionPlaceControl place ? place.ProductionPlace.GetMagicSphere() : MagicSphere.None;
                     string where = order + " in " + control.GetType().Name;
                     Assert.True(OldLoopable(id, inCity) == order.Loopable(control), where);
                     Assert.True(OldLocksQueue(id, inCity) == order.LocksQueue(control), where);
@@ -297,14 +297,14 @@ public sealed class ProductionOrderTests
                 Assert.Equal(OldPlaceImage(id, MagicSphere.Life), order.ActivityImage(node));
                 foreach (byte wall in new byte[] { 0, 1, 2 })
                 {
-                    city.FWallType = wall;
+                    city.WallType = wall;
                     Assert.Equal(OldCityImage(action, wall), order.ActivityImage(city));
                     Assert.Equal(OldRealm(action, wall), order.RealmActivity(city));
                     for (int row = 0; row < 3; row++) Assert.Equal(OldSequence(action, wall, row), order.CitySequence(city, row));
                     checks += 5;
                 }
             }
-            Assert.Equal(Kinds.Length * 24, checks);
+            Assert.Equal(s_kinds.Length * 24, checks);
         }
         finally
         {

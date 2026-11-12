@@ -7,6 +7,6 @@ namespace Aow.Game.UI.Controls;
 // AddDrawRect only)
 public partial class DirtyRectangle
 {
-    public Rect R;
+    public Rect Rectangle;
     public UIComponent Owner;
 }

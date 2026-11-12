@@ -2,28 +2,28 @@
 
 namespace Aow.Game.Combat;
 
-// FPlayers
+// Players
 public partial class TacticalBattlePlayerList
 {
-    public CombatPlayerList FPlayers;
+    public CombatPlayerList Players;
 
     // AoWTC.pas:6426
     public int GetCount()
     {
-        int Result;
-        if (FPlayers != null)
+        int result;
+        if (Players != null)
         {
-            Result = FPlayers.GetCount();
+            result = Players.GetCount();
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:6431
-    public TacticalBattlePlayer GetPlayers(sbyte Index) => (TacticalBattlePlayer)FPlayers.GetPlayers(Index);
+    public TacticalBattlePlayer GetPlayers(sbyte index) => (TacticalBattlePlayer)Players.GetPlayers(index);
 
 }

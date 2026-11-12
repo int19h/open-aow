@@ -13,19 +13,19 @@ public partial class CityProductionEventLog : ProductionEventLog
     { }
 
     // City.pas:3195
-    public new const int ClassID = 131834;
+    public new const int ClassId = 131834;
 
     // City.pas:3205
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        City City;
-        if (Trigger == ExecuteTrigger.User)
+        City city;
+        if (trigger == ExecuteTrigger.User)
         {
-            City = GetCity();
-            if (City != null && AoWHSMap.Current.FSeatedPlayer == City.FPlayer)
+            city = GetCity();
+            if (city != null && AoWHSMap.Current.SeatedPlayer == city.Player)
             {
-                AoWHSMap.Current.CenterViewTo(FXhx, FYhx, FLhx);
-                AoWHSMap.Current.TriggerExecuteEventLog(this, true, Done);
+                AoWHSMap.Current.CenterViewTo(HexX, HexY, HexLevel);
+                AoWHSMap.Current.TriggerExecuteEventLog(this, true, done);
             }
         }
 
@@ -33,6 +33,6 @@ public partial class CityProductionEventLog : ProductionEventLog
     }
 
     // City.pas:3200
-    public City GetCity() => (City)AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, FLhx).FindNoneTransparentHS(typeof(City));
+    public City GetCity() => (City)AoWHSMap.Current.MapContainer.GetField(HexX, HexY, HexLevel).FindNoneTransparentHexSprite(typeof(City));
 
 }

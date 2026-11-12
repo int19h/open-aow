@@ -26,14 +26,14 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 {
     private const sbyte Seated = 1;
     private const sbyte OtherPlayer = 2;
-    private const int PrisonerID = 77;
+    private const int PrisonerId = 77;
 
     private static Type[] EventLogTypes() => EngineClass.All
         .Where(c => typeof(EventLog).IsAssignableFrom(c.Type))
         .Select(c => c.Type).OrderBy(t => t.Name, StringComparer.Ordinal).ToArray();
 
     // The arms of the old cascade in their order.
-    private static readonly Type[] OldArms =
+    private static readonly Type[] s_oldArms =
     [
         typeof(CombatEventLog), typeof(ArmyEventLog), typeof(CityRebellionEventLog), typeof(DiplomaticActionEventLog),
         typeof(NegotiateRequestEventLog), typeof(GameOverEventLog), typeof(NewTurnEventLog), typeof(CombatTypeRequestEventLog),
@@ -45,34 +45,34 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     ];
 
     // aowMapEvents.pas:198 TheMapExecuteEventLog, past the transient windows.
-    private static string OldView(EventLog Event)
+    private static string OldView(EventLog eventValue)
     {
-        if (Event is CombatEventLog) return "Combat";
-        if (Event is ArmyEventLog) return "ArmyEvent";
-        if (Event is CityRebellionEventLog) return "CityRebellion";
-        if (Event is DiplomaticActionEventLog) return "DiplomaticAction";
-        if (Event is NegotiateRequestEventLog)
+        if (eventValue is CombatEventLog) return "Combat";
+        if (eventValue is ArmyEventLog) return "ArmyEvent";
+        if (eventValue is CityRebellionEventLog) return "CityRebellion";
+        if (eventValue is DiplomaticActionEventLog) return "DiplomaticAction";
+        if (eventValue is NegotiateRequestEventLog)
         {
-            var negotiateRequestEventLog = (NegotiateRequestEventLog)Event;
-            if (negotiateRequestEventLog.FObject == NegotiateObject.City) return "CityNegotiation";
-            if (negotiateRequestEventLog.FObject == NegotiateObject.Army)
+            var negotiateRequestEventLog = (NegotiateRequestEventLog)eventValue;
+            if (negotiateRequestEventLog.Object == NegotiateObject.City) return "CityNegotiation";
+            if (negotiateRequestEventLog.Object == NegotiateObject.Army)
             {
-                var ArmyHS = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(negotiateRequestEventLog.FX, negotiateRequestEventLog.FY, negotiateRequestEventLog.FL).FindOwnedChild(131607);
-                if (ArmyHS != null)
+                var armyHexSprite = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(negotiateRequestEventLog.X, negotiateRequestEventLog.Y, negotiateRequestEventLog.MapLevel).FindOwnedChild(131607);
+                if (armyHexSprite != null)
                 {
-                    var joinSelection = ArmyHS.FArmy.GetJoinSelection(negotiateRequestEventLog.FPlayer);
-                    return ArmyHS.FArmy.Hero(joinSelection, RosterTables.AllHeroTypes) == null ? "PartyJoin" : "HeroNegotiation";
+                    var joinSelection = armyHexSprite.Army.GetJoinSelection(negotiateRequestEventLog._player);
+                    return armyHexSprite.Army.Hero(joinSelection, RosterTables.AllHeroTypes) == null ? "PartyJoin" : "HeroNegotiation";
                 }
             }
             return "None";
         }
-        if (Event is GameOverEventLog) return AoWHSMap.Current.FSeatedPlayer == Event.FPlayer ? "GameOver" : "ReceivedMessage";
-        if (Event is NewTurnEventLog) return "NewTurn";
-        if (Event is CombatTypeRequestEventLog) return "CombatType";
-        if (Event is ShowBookEventLog) return "InformationBook";
-        if (Event is PlayerMagicEventLog)
+        if (eventValue is GameOverEventLog) return AoWHSMap.Current.SeatedPlayer == eventValue._player ? "GameOver" : "ReceivedMessage";
+        if (eventValue is NewTurnEventLog) return "NewTurn";
+        if (eventValue is CombatTypeRequestEventLog) return "CombatType";
+        if (eventValue is ShowBookEventLog) return "InformationBook";
+        if (eventValue is PlayerMagicEventLog)
         {
-            switch (((PlayerMagicEventLog)Event).FMode)
+            switch (((PlayerMagicEventLog)eventValue).Mode)
             {
                 case PlayerMagicEventLog.EventMode.SpellResearched: return "SpellResearched";
                 case PlayerMagicEventLog.EventMode.OutOfMana: return "OutOfMana";
@@ -80,46 +80,46 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             }
             return "None";
         }
-        if (Event is HeroUpgradeEventLog) return "HeroUpgrade";
-        if (Event is HeroJoinEventLog) return "HeroJoin";
-        if (Event is ArmyInfoEventLog)
+        if (eventValue is HeroUpgradeEventLog) return "HeroUpgrade";
+        if (eventValue is HeroJoinEventLog) return "HeroJoin";
+        if (eventValue is ArmyInfoEventLog)
         {
-            var armyInfoEventLog = (ArmyInfoEventLog)Event;
-            return armyInfoEventLog.FArmyView.Hero(armyInfoEventLog.FSelection, RosterTables.AllHeroTypes) == null ? "ArmyInfo" : "HeroInfo";
+            var armyInfoEventLog = (ArmyInfoEventLog)eventValue;
+            return armyInfoEventLog.ArmyView.Hero(armyInfoEventLog.Selection, RosterTables.AllHeroTypes) == null ? "ArmyInfo" : "HeroInfo";
         }
-        if (Event is PrisonersJoinEventLog)
+        if (eventValue is PrisonersJoinEventLog)
         {
-            var UnitObject = AoWHSMap.Current.FUnitControl.FindUnit(((PrisonersJoinEventLog)Event).FFirstUnitID);
-            return UnitObject != null && UnitObject is Hero ? "PrisonerHero" : "PrisonersJoin";
+            var troopObject = AoWHSMap.Current.UnitControl.FindUnit(((PrisonersJoinEventLog)eventValue).FirstUnitId);
+            return troopObject != null && troopObject is Hero ? "PrisonerHero" : "PrisonersJoin";
         }
-        if (Event is EnterWizardsTowerEventLog) return "WizardsTower";
-        if (Event is EnterArenaEventLog) return "Arena";
-        if (Event is MessageEventLog) return "Message";
-        if (Event is TutorialMessageEventLog) return "Tutorial";
-        if (Event is FlagMessageEventLog) return "FlagMessage";
-        if (Event is HelpMessageEventLog) return "Help";
-        if (Event is SaveGameEventLog) return "SaveGame";
-        if (Event is SendEmailGameEventLog) return "SendEmailGame";
-        if (Event is SmtpEventLog) return "SMTP";
-        if (Event is PasswordEventLog) return "Password";
-        if (Event is ItemExplorationSiteEventLog) return "ItemsFound";
-        if (Event is CityProductionEventLog) return "CityProduction";
-        if (Event is ProductionPlaceEventLog) return "ProductionPlace";
-        if (Event is UserEventLog) return "Acknowledge";
+        if (eventValue is EnterWizardsTowerEventLog) return "WizardsTower";
+        if (eventValue is EnterArenaEventLog) return "Arena";
+        if (eventValue is MessageEventLog) return "Message";
+        if (eventValue is TutorialMessageEventLog) return "Tutorial";
+        if (eventValue is FlagMessageEventLog) return "FlagMessage";
+        if (eventValue is HelpMessageEventLog) return "Help";
+        if (eventValue is SaveGameEventLog) return "SaveGame";
+        if (eventValue is SendEmailGameEventLog) return "SendEmailGame";
+        if (eventValue is SmtpEventLog) return "SMTP";
+        if (eventValue is PasswordEventLog) return "Password";
+        if (eventValue is ItemExplorationSiteEventLog) return "ItemsFound";
+        if (eventValue is CityProductionEventLog) return "CityProduction";
+        if (eventValue is ProductionPlaceEventLog) return "ProductionPlace";
+        if (eventValue is UserEventLog) return "Acknowledge";
         return "None";
     }
 
     // AI.pas:1626 TProcessEventlogAIPA.Process, the call for one log.
-    private static string OldExecuteAI(EventLog Log)
+    private static string OldExecuteAI(EventLog log)
     {
-        if (Log is HeroEmergeEventLog) return nameof(HeroEmergeEventLog);
-        if (Log is DiplomaticActionEventLog) return nameof(DiplomaticActionEventLog);
+        if (log is HeroEmergeEventLog) return nameof(HeroEmergeEventLog);
+        if (log is DiplomaticActionEventLog) return nameof(DiplomaticActionEventLog);
         return "None";
     }
 
     // What the old cascade showed, class by class, in every state it consulted (the states of
     // States below). Recorded from OldView before the cascade went.
-    private static readonly Dictionary<string, string> Expected = new(StringComparer.Ordinal)
+    private static readonly Dictionary<string, string> s_expected = new(StringComparer.Ordinal)
     {
         ["ArmyEventLog"] = "-=ArmyEvent",
         ["ArmyInfoEventLog"] = "selection=unit=ArmyInfo selection=hero=HeroInfo selection=none=ArmyInfo",
@@ -173,11 +173,11 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         internal JoiningHero(bool joins) : base(null!)
         {
             Joins = joins;
-            FHeroResource = new HeroResource(null!) { FHeroType = HeroType.Hero };
+            HeroResource = new HeroResource(null!) { HeroType = HeroType.Hero };
         }
 
-        public override bool CanJoin(sbyte Player) => Joins;
-        public override bool OfferToJoin(sbyte Player) => Joins;
+        public override bool CanJoin(sbyte player) => Joins;
+        public override bool OfferToJoin(sbyte player) => Joins;
         public override bool GetTransporter() => false;
     }
 
@@ -186,7 +186,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     {
         internal readonly List<sbyte> Players = [];
 
-        public override void ExecuteAI(sbyte Player) => Players.Add(Player);
+        public override void ExecuteAI(sbyte player) => Players.Add(player);
     }
 
     // Counts the unit lookups. An empty dictionary returns a miss without hashing, so the table holds one seed.
@@ -221,13 +221,13 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         }
         else if (typeof(GameOverEventLog).IsAssignableFrom(type))
         {
-            yield return new State("seated", (e, _) => e.FPlayer = Seated);
-            yield return new State("other", (e, _) => e.FPlayer = OtherPlayer);
+            yield return new State("seated", (e, _) => e._player = Seated);
+            yield return new State("other", (e, _) => e._player = OtherPlayer);
         }
         else if (typeof(PlayerMagicEventLog).IsAssignableFrom(type))
         {
             foreach (var mode in new[] { PlayerMagicEventLog.EventMode.SpellResearched, PlayerMagicEventLog.EventMode.OutOfMana, PlayerMagicEventLog.EventMode.StartResearch, (PlayerMagicEventLog.EventMode)3 })
-                yield return new State(mode.ToString(), (e, _) => ((PlayerMagicEventLog)e).FMode = mode);
+                yield return new State(mode.ToString(), (e, _) => ((PlayerMagicEventLog)e).Mode = mode);
         }
         else if (typeof(ArmyInfoEventLog).IsAssignableFrom(type))
         {
@@ -250,8 +250,8 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
     private sealed class Scene : IDisposable
     {
-        private readonly AoWHSMap previousMap = AoWHSMap.Current;
-        private readonly List<EngineObject> created = [];
+        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
+        private readonly List<EngineObject> _created = [];
         internal readonly AoWHSMap Map;
         internal readonly MapField Field;
         internal readonly CountingInt32Comparer UnitFinds = new();
@@ -260,70 +260,70 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         internal Scene()
         {
             Map = new AoWHSMap(null!);
-            Map.FSeatedPlayer = Seated;
-            Map.FUnitControl = new UnitControl(null!);
+            Map.SeatedPlayer = Seated;
+            Map.UnitControl = new UnitControl(null!);
             Units = new Dictionary<int, Troop>(UnitFinds);
             Units.Add(key: -1, value: new Unit(null!));
-            Map.FUnitControl.FUnitTable = Units;
+            Map.UnitControl.UnitTable = Units;
             var container = new MapContainer(null!);
             var level = new MapLevel(container);
             level.CreateMapFieldList(1, 1);
-            Map.FMapContainer = container;
+            Map._mapContainer = container;
             Field = container.GetField(0, 0, 0);
             AoWHSMap.Current = Map;
         }
 
         internal EventLog Create(Type type)
         {
-            var log = (EventLog)EngineClass.Of(type).Create(null!);
+            var log = (EventLog)EngineClass.Of(type).CreateInstance(null!);
             Assert.IsType(type, log);
-            created.Add(log);
+            _created.Add(log);
             return log;
         }
 
         // The negotiation at the field, with no army there (Joins null) or an army of one hero.
-        internal void Negotiate(EventLog log, NegotiateObject what, bool? Joins)
+        internal void Negotiate(EventLog log, NegotiateObject what, bool? joins)
         {
             var request = (NegotiateRequestEventLog)log;
-            request.FObject = what;
-            request.FPlayer = Seated;
-            request.FX = 0;
-            request.FY = 0;
-            request.FL = 0;
-            while (Field.FindOwnedChild(ArmyHexSprite.ClassID) is HexSprite standing)
+            request.Object = what;
+            request._player = Seated;
+            request.X = 0;
+            request.Y = 0;
+            request.MapLevel = 0;
+            while (Field.FindOwnedChild(ArmyHexSprite.ClassId) is HexSprite standing)
             {
-                Field.RemoveHS(standing);
+                Field.RemoveHexSprite(standing);
             }
-            if (Joins is bool joins)
+            if (joins is bool joinsLocal)
             {
                 var army = new ArmyHexSprite(Field);
-                army.FArmy.FChildren.Add(new JoiningHero(joins));
-                Assert.Same(army, Field.FindOwnedChild(ArmyHexSprite.ClassID));
+                army.Army._children.Add(new JoiningHero(joinsLocal));
+                Assert.Same(army, Field.FindOwnedChild(ArmyHexSprite.ClassId));
             }
         }
 
         internal void SelectArmyView(EventLog log, byte selection)
         {
             var info = (ArmyInfoEventLog)log;
-            if (info.FArmyView.GetCount() == 0)
+            if (info.ArmyView.GetCount() == 0)
             {
-                info.FArmyView.FChildren.Add(new Unit(null!));
-                info.FArmyView.FChildren.Add(new JoiningHero(false));
+                info.ArmyView._children.Add(new Unit(null!));
+                info.ArmyView._children.Add(new JoiningHero(false));
             }
-            info.FSelection = selection;
+            info.Selection = selection;
         }
 
-        internal void Prisoner(EventLog log, Troop? unit)
+        internal void Prisoner(EventLog log, Troop? troop)
         {
-            Units.Remove(PrisonerID);
-            if (unit != null) Units.Add(key: PrisonerID, value: unit);
-            ((PrisonersJoinEventLog)log).FFirstUnitID = PrisonerID;
+            Units.Remove(PrisonerId);
+            if (troop != null) Units.Add(key: PrisonerId, value: troop);
+            ((PrisonersJoinEventLog)log).FirstUnitId = PrisonerId;
         }
 
         public void Dispose()
         {
-            AoWHSMap.Current = previousMap;
-            foreach (var log in created) _ = Record.Exception(log.Dispose);
+            AoWHSMap.Current = _previousMap;
+            foreach (var log in _created) _ = Record.Exception(log.Dispose);
         }
     }
 
@@ -333,7 +333,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         var types = EventLogTypes();
         Assert.Equal(42, types.Length);
         Assert.Contains(typeof(EventLog), types);
-        Assert.Equal(types.Select(t => t.Name).Order(StringComparer.Ordinal), Expected.Keys.Order(StringComparer.Ordinal));
+        Assert.Equal(types.Select(t => t.Name).Order(StringComparer.Ordinal), s_expected.Keys.Order(StringComparer.Ordinal));
     }
 
     [Fact]
@@ -357,7 +357,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
                 row.Add($"{state}={view.Name}");
             }
             string line = string.Join(" ", row);
-            if (line != Expected[type.Name]) mismatches.Add($"{type.Name}: {line}, recorded {Expected[type.Name]}");
+            if (line != s_expected[type.Name]) mismatches.Add($"{type.Name}: {line}, recorded {s_expected[type.Name]}");
             table.AppendLine($"{type.Name}: {line}");
         }
         output.WriteLine(table.ToString());
@@ -370,16 +370,16 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     [Fact]
     public void ViewResolvesToTheNearestOldArm()
     {
-        for (int i = 0; i < OldArms.Length; i++)
-            for (int j = i + 1; j < OldArms.Length; j++)
-                Assert.False(OldArms[i].IsAssignableFrom(OldArms[j]), $"{OldArms[i].Name} precedes its subclass {OldArms[j].Name}");
+        for (int i = 0; i < s_oldArms.Length; i++)
+            for (int j = i + 1; j < s_oldArms.Length; j++)
+                Assert.False(s_oldArms[i].IsAssignableFrom(s_oldArms[j]), $"{s_oldArms[i].Name} precedes its subclass {s_oldArms[j].Name}");
         var resolved = new StringBuilder();
         foreach (var type in EventLogTypes())
         {
             var declaring = type.GetMethod(nameof(EventLog.View))!.DeclaringType!;
             Type? arm = null;
             for (Type? t = type; t != null && arm == null; t = t.BaseType)
-                if (OldArms.Contains(t)) arm = t;
+                if (s_oldArms.Contains(t)) arm = t;
             Assert.Equal(arm ?? typeof(EventLog), declaring);
             resolved.AppendLine($"{type.Name}: View {declaring.Name}, old arm {arm?.Name ?? "none"}, ExecuteAI {type.GetMethod(nameof(EventLog.ExecuteAI), [typeof(sbyte)])!.DeclaringType!.Name}");
         }
@@ -403,13 +403,13 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         var diplomatic = (DiplomaticActionEventLog)scene.Create(typeof(DiplomaticActionEventLog));
         var action = new RecordingAction();
-        diplomatic.FAction = action;
+        diplomatic.Action = action;
         diplomatic.ExecuteAI(3);
         Assert.Equal(new[] { (sbyte)3 }, action.Players);
 
         // The hero emerge AI looks up its hero first. No unit holds the id, so it stops there.
         var emerge = (HeroEmergeEventLog)scene.Create(typeof(HeroEmergeEventLog));
-        emerge.FUnitID = 4321;
+        emerge.UnitId = 4321;
         int finds = scene.UnitFinds.Finds;
         emerge.ExecuteAI(3);
         Assert.Equal(finds + 1, scene.UnitFinds.Finds);

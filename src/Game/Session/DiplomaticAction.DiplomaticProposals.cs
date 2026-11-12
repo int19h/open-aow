@@ -8,10 +8,10 @@ public partial class DiplomaticAction
 {
     // Replaces the message with the default text of the kind for Reaction (Player.PAS:1188,
     // Diplomacy.pas:826, 950).
-    public void RetrieveDefaultMessage(sbyte Source, sbyte Target, sbyte Other, DiplomaticActionReaction Reaction)
+    public void RetrieveDefaultMessage(sbyte source, sbyte target, sbyte other, DiplomaticActionReaction reaction)
     {
         using var text = new StringList();
-        RetrieveDefaultDiplomaticActionMessage(Source, Target, Other, Proposal, Reaction, text);
+        RetrieveDefaultDiplomaticActionMessage(source, target, other, Proposal, reaction, text);
         Proposal = Proposal with { Message = DiplomaticProposal.Lines(text) };
     }
 
@@ -19,14 +19,14 @@ public partial class DiplomaticAction
     public void ApplyRelationModifiers()
     {
         AoWHSMap.Current.LockRelationsChanged();
-        for (int I = 0, last = AoWHSMap.Current.FRaces.Count - 1; I <= last; I++)
+        for (int I = 0, last = AoWHSMap.Current.Races.Count - 1; I <= last; I++)
         {
-            var playerRelationValue = AoWHSMap.Current.FRaces.GetRace(I).GetPlayerRelationValue(FSource);
-            var relationModifier = GetRelationModifier(FSource, (sbyte)I);
-            AoWHSMap.Current.FRaces.GetRace(I).SetPlayerRelationValue(FSource, relationModifier + playerRelationValue);
-            var playerRelationValue2 = AoWHSMap.Current.FRaces.GetRace(I).GetPlayerRelationValue(FTarget);
-            var relationModifier2 = GetRelationModifier(FTarget, (sbyte)I);
-            AoWHSMap.Current.FRaces.GetRace(I).SetPlayerRelationValue(FTarget, relationModifier2 + playerRelationValue2);
+            var playerRelationValue = AoWHSMap.Current.Races.GetRace(I).GetPlayerRelationValue(Source);
+            var relationModifier = GetRelationModifier(Source, (sbyte)I);
+            AoWHSMap.Current.Races.GetRace(I).SetPlayerRelationValue(Source, relationModifier + playerRelationValue);
+            var playerRelationValue2 = AoWHSMap.Current.Races.GetRace(I).GetPlayerRelationValue(Target);
+            var relationModifier2 = GetRelationModifier(Target, (sbyte)I);
+            AoWHSMap.Current.Races.GetRace(I).SetPlayerRelationValue(Target, relationModifier2 + playerRelationValue2);
         }
 
         AoWHSMap.Current.UnlockRelationsChanged();

@@ -6,7 +6,7 @@ namespace Aow.Game.Units;
 [InlineArray(6)]
 public struct HeroLevelArray6
 {
-    private HeroLevel element0;
+    private HeroLevel _element0;
 
     public static HeroLevelArray6 From(ReadOnlySpan<HeroLevel> values)
     {

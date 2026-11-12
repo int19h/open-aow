@@ -20,57 +20,57 @@ public partial class LevelTerrain : GlobalTargetSpell
     // GlobalTargetSpells.pas:978
     public LevelTerrain(ECustomNode owner) : base(owner)
     {
-        this.FSpellName = AbilityRules.TranslateRStr(LevelTerrainRStr);
-        FSpellID = 18;
-        FBaseManaCost = 5;
-        FSpellLevel = 3;
-        FMagicSphere = MagicSphere.Earth;
+        this.SpellName = AbilityRules.TranslateResourceString(s_levelTerrainText);
+        SpellId = 18;
+        BaseManaCost = 5;
+        SpellLevel = 3;
+        MagicSphere = MagicSphere.Earth;
     }
 
     // GlobalTargetSpells.pas:1010
-    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        TargetSelectionControl Target;
-        Target = TargetSelection;
-        base.SetupTargetSelection(Source, Target);
-        Target.FHNs.Clear();
-        for (int I = 0, last = HexGeometry.RadToHN(2) - 1; I <= last; I++)
+        TargetSelectionControl target;
+        target = targetSelection;
+        base.SetupTargetSelection(source, target);
+        target.HexNumbers.Clear();
+        for (int I = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; I <= last; I++)
         {
-            Target.FHNs.Add(0);
+            target.HexNumbers.Add(0);
         }
     }
 
     // GlobalTargetSpells.pas:1022
-    public override bool TargetSelected(Troop Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        LevelTerrainTokenEvent Event;
-        Event = new LevelTerrainTokenEvent(null);
-        Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-        Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-        AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-        Event.Release();
+        LevelTerrainTokenEvent eventValue;
+        eventValue = new LevelTerrainTokenEvent(null);
+        eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+        eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
+        AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+        eventValue.Release();
         return true;
     }
 
     // GlobalTargetSpells.pas:996
-    public override bool ValidTargetSelectionMapF(MapField Field)
+    public override bool ValidTargetSelectionMapField(MapField field)
     {
-        ArmyHexSprite Army;
-        bool Result = base.ValidTargetSelectionMapF(Field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)Field.TerrainType) && Field.FindNoneTransparentHS(typeof(Structure)) == null;
-        if (Result)
+        ArmyHexSprite army;
+        bool result = base.ValidTargetSelectionMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)field.TerrainType) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null;
+        if (result)
         {
-            Army = ((AoWMapField)Field).GetArmyHS();
-            if (Army != null)
+            army = ((AoWMapField)field).GetArmyHexSprite();
+            if (army != null)
             {
-                Result = !Army.VisibleForSeatedPlayer();
+                result = !army.VisibleForSeatedPlayer();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalTargetSpells.pas:988
-    public override bool ValidTargetMapF(MapField Field) => base.ValidTargetMapF(Field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)Field.TerrainType) && Field.FindNoneTransparentHS(typeof(Structure)) == null && ((AoWMapField)Field).GetArmyHS() == null;
+    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)field.TerrainType) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && ((AoWMapField)field).GetArmyHexSprite() == null;
 
-    private static readonly string LevelTerrainRStr = "Level Terrain";
+    private static readonly string s_levelTerrainText = "Level Terrain";
 }

@@ -3,161 +3,161 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Controls;
 
-// Fields: FOnClick
+// Fields: _onClick
 public partial class Button : BaseButton
 {
     public Button(Component owner) : base(owner)
     { }
 
-    public NotifyEvent<Button> FOnClick;
+    public NotifyEvent<Button> _onClick;
 
     // AoWButton.pas:239
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        base.CheckMouseDown(Button, Shift, X, Y);
-        FHandled = false;
-        FLit = false;
-        if (!FAOWWindow.FHandled)
+        base.CheckMouseDown(button, shift, X, Y);
+        Handled = false;
+        Lit = false;
+        if (!_window.Handled)
         {
-            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+            if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
             {
-                FHandled = true;
-                if (Button == MouseButton.Left)
+                Handled = true;
+                if (button == MouseButton.Left)
                 {
-                    FMouseDown = true;
-                    FChecked = true;
-                    FDrawn = false;
-                    FRedraw = true;
+                    MouseDown = true;
+                    _checked = true;
+                    Drawn = false;
+                    Redraw = true;
                 }
 
-                if (FOnMouseDown != null)
+                if (_onMouseDown != null)
                 {
-                    FOnMouseDown(this, Button, Shift, X, Y);
+                    _onMouseDown(this, button, shift, X, Y);
                 }
             }
         }
     }
 
     // AoWButton.pas:261
-    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        FHandled = false;
-        FChecked = false;
-        FLit = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        Handled = false;
+        _checked = false;
+        Lit = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (Button == MouseButton.Left)
+            Handled = true;
+            if (button == MouseButton.Left)
             {
-                if (FMouseDown && FOnClick != null)
+                if (MouseDown && _onClick != null)
                 {
-                    FOnClick(this);
+                    _onClick(this);
                 }
 
-                FDrawn = false;
+                Drawn = false;
             }
 
-            if (FOnMouseUp != null)
+            if (_onMouseUp != null)
             {
-                FOnMouseUp(this, Button, Shift, X, Y);
+                _onMouseUp(this, button, shift, X, Y);
             }
         }
 
-        if (FMouseDown)
+        if (MouseDown)
         {
-            FDrawn = false;
+            Drawn = false;
         }
 
-        FMouseDown = false;
+        MouseDown = false;
     }
 
     // AoWButton.pas:284
-    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        bool OldChecked;
-        bool OldLit;
-        base.CheckMouseMove(Shift, X, Y);
-        FHandled = false;
-        OldChecked = FChecked;
-        OldLit = FLit;
-        FRedraw = false;
-        if (FAOWWindow.FHandled || X < FAOWWindow.FWinLeft + FWinLeft || X > FAOWWindow.FWinLeft + FWinLeft + FWinWidth - 1 || Y < FAOWWindow.FWinTop + FWinTop || Y > FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
+        bool oldChecked;
+        bool oldLit;
+        base.CheckMouseMove(shift, X, Y);
+        Handled = false;
+        oldChecked = _checked;
+        oldLit = Lit;
+        Redraw = false;
+        if (_window.Handled || X < _window._winLeft + _winLeft || X > _window._winLeft + _winLeft + _winWidth - 1 || Y < _window._winTop + _winTop || Y > _window._winTop + _winTop + _winHeight - 1)
         {
-            FChecked = false;
-            FLit = false;
+            _checked = false;
+            Lit = false;
         }
         else
         {
-            FHandled = true;
-            FChecked = FMouseDown;
-            FLit = !FMouseDown;
-            FRedraw = true;
-            if (FOnMouseMove != null)
+            Handled = true;
+            _checked = MouseDown;
+            Lit = !MouseDown;
+            Redraw = true;
+            if (_onMouseMove != null)
             {
-                FOnMouseMove(this, Shift, X, Y);
+                _onMouseMove(this, shift, X, Y);
             }
         }
 
-        if (OldLit != FLit || OldChecked != FChecked)
+        if (oldLit != Lit || oldChecked != _checked)
         {
-            FDrawn = false;
+            Drawn = false;
         }
     }
 
     [Published]
-    public NotifyEvent<Button> OnClick { get => FOnClick; set => FOnClick = value; }
+    public NotifyEvent<Button> OnClick { get => _onClick; set => _onClick = value; }
 
     public new NotifyEvent<Button> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<Button> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<Button> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<Button> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<Button> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<Button> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<Button> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<Button> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<Button> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 }

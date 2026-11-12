@@ -23,134 +23,134 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat;
 
-// FCombatStatus. FCombatData. FNextCOID. FResult. FLogbook. FSides. FExecutedEvents.
-// FExecutedLock. FOnExecuted. FTerminated. FOnTerminated. FVisibilityMode
+// FCombatStatus. CombatData. NextCombatObjectId. FResult. Logbook. Sides. FExecutedEvents.
+// ExecutedLock. OnExecuted. Terminated. OnTerminated. FVisibilityMode
 public partial class Battle : EngineObject
 {
 
     // Combat.pas:6067
     public Battle(ECustomNode owner) : base(owner)
     {
-        FExecutedEventsStore = new();
+        _executedEventsStore = new();
         var combatSide = new CombatSide(null);
-        FSides[(int)CombatSideIndex.Attacker] = combatSide;
+        Sides[(int)CombatSideIndex.Attacker] = combatSide;
         var combatSide2 = new CombatSide(null);
-        FSides[(int)CombatSideIndex.Defender] = combatSide2;
-        FSides[(int)CombatSideIndex.Attacker].FSideIndex = 0;
-        FSides[(int)CombatSideIndex.Defender].FSideIndex = 1;
-        FSides[(int)CombatSideIndex.Attacker].FOpponent = FSides[(int)CombatSideIndex.Defender];
-        FSides[(int)CombatSideIndex.Defender].FOpponent = FSides[(int)CombatSideIndex.Attacker];
-        FCombatData = new CombatData(null);
-        FLogbook = new CombatLogbook(null);
+        Sides[(int)CombatSideIndex.Defender] = combatSide2;
+        Sides[(int)CombatSideIndex.Attacker].SideIndex = 0;
+        Sides[(int)CombatSideIndex.Defender].SideIndex = 1;
+        Sides[(int)CombatSideIndex.Attacker].Opponent = Sides[(int)CombatSideIndex.Defender];
+        Sides[(int)CombatSideIndex.Defender].Opponent = Sides[(int)CombatSideIndex.Attacker];
+        CombatData = new CombatData(null);
+        Logbook = new CombatLogbook(null);
         Clear();
     }
 
-    public Set<CombatStatusElement> FStatus;
-    public CombatData FCombatData;
-    public int FNextCOID;
-    public CombatResult FCombatResult;
-    public CombatLogbook FLogbook;
-    public CombatSideArray2 FSides;
+    public Set<CombatStatusElement> Status;
+    public CombatData CombatData;
+    public int NextCombatObjectId;
+    public CombatResult CombatResult;
+    public CombatLogbook Logbook;
+    public CombatSideArray2 Sides;
 
-    internal EventStore<Battle> FExecutedEventsStore;
+    internal EventStore<Battle> _executedEventsStore;
 
     public event NotifyEvent<Battle> FExecutedEvents
     {
-        add => FExecutedEventsStore.Add(value);
-        remove => FExecutedEventsStore.Remove(value);
+        add => _executedEventsStore.Add(value);
+        remove => _executedEventsStore.Remove(value);
     }
 
-    public int FExecutedLock;
-    public ExecutedEvent FOnExecuted;
-    public bool FTerminated;
-    public NotifyEvent<Battle> FOnTerminated;
-    public byte FExplorationSite;
-    public EngineObject FItems;
+    public int ExecutedLock;
+    public ExecutedEvent OnExecuted;
+    public bool Terminated;
+    public NotifyEvent<Battle> OnTerminated;
+    public byte ExplorationSite;
+    public EngineObject Items;
 
     // item list or prisoners army
     // Combat.pas:6082
     public override void Dispose()
     {
-        if (FStatus.Contains(CombatStatusElement.Activated))
+        if (Status.Contains(CombatStatusElement.Activated))
         {
             Deactivate();
         }
 
-        if (FStatus.Contains(CombatStatusElement.Executing))
+        if (Status.Contains(CombatStatusElement.Executing))
         {
             Finalize();
         }
 
-        FExecutedEventsStore.Clear();
-        FSides[(int)CombatSideIndex.Attacker]?.Dispose();
-        FSides[(int)CombatSideIndex.Defender]?.Dispose();
-        FCombatData?.Dispose();
-        FLogbook.Release();
+        _executedEventsStore.Clear();
+        Sides[(int)CombatSideIndex.Attacker]?.Dispose();
+        Sides[(int)CombatSideIndex.Defender]?.Dispose();
+        CombatData?.Dispose();
+        Logbook.Release();
         base.Dispose();
     }
 
     // Combat.pas:6103
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FSides[(int)CombatSideIndex.Attacker], 10);
-        Stream.rwEObject(FSides[(int)CombatSideIndex.Defender], 11);
-        Stream.rwCreateEObject(ref FLogbook, null, 12);
-        Stream.rwEObject(FCombatData, 13);
+        base.ReadWrite(stream);
+        stream.rwEObject(Sides[(int)CombatSideIndex.Attacker], 10);
+        stream.rwEObject(Sides[(int)CombatSideIndex.Defender], 11);
+        stream.rwCreateEObject(ref Logbook, null, 12);
+        stream.rwEObject(CombatData, 13);
     }
 
     // Combat.pas:6134
     public override void Clear()
     {
         base.Clear();
-        FLogbook.Clear();
-        FNextCOID = 1;
-        FCombatData.Clear();
-        FStatus = Set<CombatStatusElement>.Of();
+        Logbook.Clear();
+        NextCombatObjectId = 1;
+        CombatData.Clear();
+        Status = Set<CombatStatusElement>.Of();
     }
 
     // Combat.pas:6625
     public virtual void UpdateStatus()
     {
-        int Attackers;
-        int Defenders;
-        Attackers = FSides[(int)CombatSideIndex.Attacker].GetUndestroyedConquerObjects();
-        Defenders = FSides[(int)CombatSideIndex.Defender].GetUndestroyedConquerObjects();
-        if (Attackers != 0 && Defenders == 0)
+        int attackers;
+        int defenders;
+        attackers = Sides[(int)CombatSideIndex.Attacker].GetUndestroyedConquerObjects();
+        defenders = Sides[(int)CombatSideIndex.Defender].GetUndestroyedConquerObjects();
+        if (attackers != 0 && defenders == 0)
         {
-            FCombatResult = CombatResult.Victory;
+            CombatResult = CombatResult.Victory;
         }
         else
         {
-            if (Attackers == 0 && Defenders != 0)
+            if (attackers == 0 && defenders != 0)
             {
-                FCombatResult = CombatResult.Defeat;
+                CombatResult = CombatResult.Defeat;
             }
             else
             {
-                if (Attackers == 0 && Defenders == 0)
+                if (attackers == 0 && defenders == 0)
                 {
-                    FCombatResult = CombatResult.BothDefeated;
+                    CombatResult = CombatResult.BothDefeated;
                 }
                 else
                 {
-                    if (Attackers != 0 && Defenders != 0 && FCombatResult != CombatResult.Undecided)
+                    if (attackers != 0 && defenders != 0 && CombatResult != CombatResult.Undecided)
                     {
-                        FCombatResult = CombatResult.CannotInflictDamage;
+                        CombatResult = CombatResult.CannotInflictDamage;
                     }
                 }
             }
         }
 
-        switch ((int)FCombatResult)
+        switch ((int)CombatResult)
         {
             case >= 4 and <= 5:
                 {
-                    for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
+                    for (int I = CombatData.GetCount() - 1; I >= 0; I--)
                     {
-                        if (FCombatData.GetObjects(I).FStatus.Contains(CombatObjectStatusElement.Fled))
+                        if (CombatData.GetObjects(I).Status.Contains(CombatObjectStatusElement.Fled))
                         {
-                            FCombatResult = CombatResult.Fled;
+                            CombatResult = CombatResult.Fled;
                         }
                     }
                 }
@@ -160,25 +160,25 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6227
-    public virtual void ObjectDestroyed(CombatObject CombatObject)
+    public virtual void ObjectDestroyed(CombatObject combatObject)
     {
-        for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
+        for (int I = CombatData.GetCount() - 1; I >= 0; I--)
         {
-            FCombatData.GetObjects(I).ObjectDestroyed(CombatObject);
+            CombatData.GetObjects(I).ObjectDestroyed(combatObject);
         }
 
-        FExecutedEventsStore.Raise(this);
+        _executedEventsStore.Raise(this);
         CheckTerminate();
     }
 
     // Combat.pas:6218
-    public virtual void ObjectSideChanged(CombatObject CombatObject)
+    public virtual void ObjectSideChanged(CombatObject combatObject)
     {
-        for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
+        for (int I = CombatData.GetCount() - 1; I >= 0; I--)
         {
-            if (!CombatObject.FStatus.Contains(CombatObjectStatusElement.Destroyed))
+            if (!combatObject.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                FCombatData.GetObjects(I).ObjectSideChanged(CombatObject);
+                CombatData.GetObjects(I).ObjectSideChanged(combatObject);
             }
         }
 
@@ -188,41 +188,41 @@ public partial class Battle : EngineObject
     // Combat.pas:6163
     public virtual CombatUnit CreateCombatUnit()
     {
-        CombatUnit Result = new FastBattleUnit(null);
-        Result.FID = CreateUniqueCOID();
-        return Result;
+        CombatUnit result = new FastBattleUnit(null);
+        result.Id = CreateUniqueCombatObjectId();
+        return result;
     }
 
     // Combat.pas:6289
     public virtual CombatPlayer CreateCombatPlayer() => new CombatPlayer(null);
 
     // Combat.pas:6143
-    public virtual bool Setup(byte AttackerPlayer, byte AttackerRelation, int AttackerX, int AttackerY, int AttackerL, byte DefenderPlayer, byte DefenderRelation, int X, int Y, int L, bool LogActions)
+    public virtual bool Setup(byte attackerPlayer, byte attackerRelation, int attackerX, int attackerY, int attackerL, byte defenderPlayer, byte defenderRelation, int X, int Y, int L, bool logActions)
     {
-        CombatData Data;
+        CombatData data;
         Clear();
-        if (LogActions)
+        if (logActions)
         {
-            FStatus = FStatus + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
+            Status = Status + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
         }
         else
         {
-            FStatus = FStatus - Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
+            Status = Status - Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
         }
 
-        Data = FCombatData;
-        Data.FX = X;
-        Data.FY = Y;
-        Data.FL = L;
-        Data.FAttackerX = AttackerX;
-        Data.FAttackerY = AttackerY;
-        Data.FAttackerL = AttackerL;
-        Data.FAttackerPlayer = (sbyte)AddCombatPlayer(AttackerPlayer, AttackerRelation, CombatSideIndex.Attacker);
-        Data.FDefenderPlayer = (sbyte)AddCombatPlayer(DefenderPlayer, DefenderRelation, CombatSideIndex.Defender);
-        var fieldValue = AoWHSMap.Current.MapContainer.GetField(Data.FX, Data.FY, Data.FL);
-        Data.F_CombatData_20[0] = (byte)fieldValue.TerrainType;
-        var mapContainerField = AoWHSMap.Current.MapContainer.GetField(Data.FX, Data.FY, Data.FL);
-        Data.F_CombatData_20[1] = (byte)mapContainerField.OverlayType;
+        data = CombatData;
+        data.X = X;
+        data.Y = Y;
+        data.MapLevel = L;
+        data.AttackerX = attackerX;
+        data.AttackerY = attackerY;
+        data.AttackerL = attackerL;
+        data.AttackerPlayer = (sbyte)AddCombatPlayer(attackerPlayer, attackerRelation, CombatSideIndex.Attacker);
+        data.DefenderPlayer = (sbyte)AddCombatPlayer(defenderPlayer, defenderRelation, CombatSideIndex.Defender);
+        var fieldValue = AoWHSMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel);
+        data.TerrainAndOverlayTypes[0] = (byte)fieldValue.TerrainType;
+        var mapContainerField = AoWHSMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel);
+        data.TerrainAndOverlayTypes[1] = (byte)mapContainerField.OverlayType;
         return true;
     }
 
@@ -237,135 +237,135 @@ public partial class Battle : EngineObject
     public virtual void Initialize()
     {
         int J;
-        CombatWall Wall;
-        byte WallType;
-        byte Player;
+        CombatWall wall;
+        byte wallType;
+        byte player;
         LockExecuted();
-        FStatus = FStatus + Set<CombatStatusElement>.Of(CombatStatusElement.Executing);
-        WallType = 0;
+        Status = Status + Set<CombatStatusElement>.Of(CombatStatusElement.Executing);
+        wallType = 0;
         J = 0;
-        while (WallType == 0 && J != FCombatData.FParties.Count)
+        while (wallType == 0 && J != CombatData.Parties.Count)
         {
-            if (FCombatData.FParties.GetParty((byte)J) != null)
+            if (CombatData.Parties.GetParty((byte)J) != null)
             {
-                WallType = FCombatData.FParties.GetParty((byte)J).FWall;
+                wallType = CombatData.Parties.GetParty((byte)J).Wall;
             }
 
             J += 1;
         }
 
-        if (WallType != 0)
+        if (wallType != 0)
         {
-            Wall = new CombatWall(null);
-            Wall.Setup(CreateUniqueCOID(), WallType, (byte)FCombatData.FDefenderPlayer);
-            FCombatData.AddObject(Wall);
+            wall = new CombatWall(null);
+            wall.Setup(CreateUniqueCombatObjectId(), wallType, (byte)CombatData.DefenderPlayer);
+            CombatData.AddObject(wall);
         }
 
-        if (FCombatData.FParties.GetParty(0) != null)
+        if (CombatData.Parties.GetParty(0) != null)
         {
-            var party = FCombatData.FParties.GetParty(0);
-            FCombatData.FWallType = party.FWall;
+            var party = CombatData.Parties.GetParty(0);
+            CombatData.WallType = party.Wall;
         }
 
-        FCombatData.FTurnOrder.Add((byte)FCombatData.FDefenderPlayer);
-        for (int I = 0, last = FCombatData.FPlayers.Count - 1; I <= last; I++)
+        CombatData.TurnOrder.Add((byte)CombatData.DefenderPlayer);
+        for (int I = 0, last = CombatData.Players.Count - 1; I <= last; I++)
         {
-            Player = (byte)I;
-            if (FCombatData.FTurnOrder.IndexOf(Player) == -1 && FCombatData.FPlayers.GetPlayers((sbyte)Player).FSideIndex == 1)
+            player = (byte)I;
+            if (CombatData.TurnOrder.IndexOf(player) == -1 && CombatData.Players.GetPlayers((sbyte)player).SideIndex == 1)
             {
-                FCombatData.FTurnOrder.Add(Player);
+                CombatData.TurnOrder.Add(player);
             }
         }
 
-        FCombatData.FTurnOrder.Add((byte)FCombatData.FAttackerPlayer);
-        for (int I = 0, last = FCombatData.FPlayers.Count - 1; I <= last; I++)
+        CombatData.TurnOrder.Add((byte)CombatData.AttackerPlayer);
+        for (int I = 0, last = CombatData.Players.Count - 1; I <= last; I++)
         {
-            Player = (byte)I;
-            if (FCombatData.FTurnOrder.IndexOf(Player) == -1 && FCombatData.FPlayers.GetPlayers((sbyte)Player).FSideIndex == 0)
+            player = (byte)I;
+            if (CombatData.TurnOrder.IndexOf(player) == -1 && CombatData.Players.GetPlayers((sbyte)player).SideIndex == 0)
             {
-                FCombatData.FTurnOrder.Add(Player);
+                CombatData.TurnOrder.Add(player);
             }
         }
 
-        for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
+        for (int I = CombatData.GetCount() - 1; I >= 0; I--)
         {
-            FCombatData.GetObjects(I).Initialize(this);
+            CombatData.GetObjects(I).Initialize(this);
         }
 
-        FLogbook.SetInitialData(FCombatData);
+        Logbook.SetInitialData(CombatData);
     }
 
     // Combat.pas:6446
     public virtual void Finalize()
     {
-        int PlayerIndex;
-        int ArmyIndex;
-        int UnitIndex;
-        Player Player;
-        bool Alive;
-        FinalizeMode Mode;
-        CombatData Data;
-        CombatData FinalData;
-        MapFieldMessage Msg = default;
-        Assert((FStatus & Set<CombatStatusElement>.Of(CombatStatusElement.Executing, CombatStatusElement.Activated)) == Set<CombatStatusElement>.Of(CombatStatusElement.Executing), "Combat Finalize Failure", "Combat.pas", 6523);
-        for (int I = 0, last = FCombatData.FDefeatedLeaders.Count - 1; I <= last; I++)
+        int playerIndex;
+        int armyIndex;
+        int unitIndex;
+        Player player;
+        bool alive;
+        FinalizeMode mode;
+        CombatData data;
+        CombatData finalData;
+        MapFieldMessage message = default;
+        Assert((Status & Set<CombatStatusElement>.Of(CombatStatusElement.Executing, CombatStatusElement.Activated)) == Set<CombatStatusElement>.Of(CombatStatusElement.Executing), "Combat Finalize Failure", "Combat.pas", 6523);
+        for (int I = 0, last = CombatData.DefeatedLeaders.Count - 1; I <= last; I++)
         {
-            Data = FCombatData;
-            var item = Data.FDefeatedLeaders[I];
-            var players = Data.FPlayers.GetPlayers((sbyte)item);
-            AoWHSMap.Current.GameOver(players.FPlayer, GameOverStatus.Lost);
-            FLogbook.F_CombatLogbook_19 = true;
+            data = CombatData;
+            var item = data.DefeatedLeaders[I];
+            var players = data.Players.GetPlayers((sbyte)item);
+            AoWHSMap.Current.GameOver(players.Player, GameOverStatus.Lost);
+            Logbook.PlayerEliminated = true;
         }
 
-        FLogbook.SetFinalData(FCombatData);
-        FStatus = FStatus - Set<CombatStatusElement>.Of(CombatStatusElement.Executing);
-        Data = FCombatData;
-        for (int I = Data.GetCount() - 1; I >= 0; I--)
+        Logbook.SetFinalData(CombatData);
+        Status = Status - Set<CombatStatusElement>.Of(CombatStatusElement.Executing);
+        data = CombatData;
+        for (int I = data.GetCount() - 1; I >= 0; I--)
         {
-            FCombatData.GetObjects(I).CombatDone();
+            CombatData.GetObjects(I).CombatDone();
         }
 
         for (int modeOrdinal = (int)FinalizeMode.Original; modeOrdinal <= (int)FinalizeMode.All; modeOrdinal++)
         {
-            Mode = (FinalizeMode)modeOrdinal;
-            for (int I = Data.GetCount() - 1; I >= 0; I--)
+            mode = (FinalizeMode)modeOrdinal;
+            for (int I = data.GetCount() - 1; I >= 0; I--)
             {
-                FCombatData.GetObjects(I).Finalize(Mode);
+                CombatData.GetObjects(I).Finalize(mode);
             }
         }
 
         var combatResultText = GetCombatResultText();
-        FLogbook.FFinalData.FHeader = combatResultText;
-        FLogbook.FFinalData.F_CombatData_30 = (byte)(int)FCombatResult;
-        PlayerIndex = FCombatData.FPlayers.Count;
-        while (PlayerIndex != 0 && !FLogbook.F_CombatLogbook_19)
+        Logbook.FinalData.Header = combatResultText;
+        Logbook.FinalData.CombatResult = (byte)(int)CombatResult;
+        playerIndex = CombatData.Players.Count;
+        while (playerIndex != 0 && !Logbook.PlayerEliminated)
         {
-            PlayerIndex -= 1;
-            var players = FCombatData.FPlayers.GetPlayers((sbyte)PlayerIndex);
-            Player = AoWHSMap.Current.FPlayers.GetPlayers(players.FPlayer);
-            ArmyIndex = Player.FArmies.Count;
-            Alive = false;
-            while (ArmyIndex != 0 && !Alive)
+            playerIndex -= 1;
+            var players = CombatData.Players.GetPlayers((sbyte)playerIndex);
+            player = AoWHSMap.Current.Players.GetPlayers(players.Player);
+            armyIndex = player.Armies.Count;
+            alive = false;
+            while (armyIndex != 0 && !alive)
             {
-                ArmyIndex -= 1;
-                UnitIndex = Player.FArmies.GetArmy(ArmyIndex).Count;
-                while (!Alive && UnitIndex != 0)
+                armyIndex -= 1;
+                unitIndex = player.Armies.GetArmy(armyIndex).Count;
+                while (!alive && unitIndex != 0)
                 {
-                    UnitIndex -= 1;
-                    Alive = Player.FArmies.GetArmy(ArmyIndex).GetUnit(UnitIndex).GetHitPoints() != 0;
+                    unitIndex -= 1;
+                    alive = player.Armies.GetArmy(armyIndex).GetUnit(unitIndex).GetHitPoints() != 0;
                 }
             }
 
-            FLogbook.F_CombatLogbook_19 = !Alive;
+            Logbook.PlayerEliminated = !alive;
         }
 
-        FinalData = FCombatData;
-        if (FinalData.FX != -1)
+        finalData = CombatData;
+        if (finalData.X != -1)
         {
-            Msg.MsgID = 4368;
-            Msg.Param[0] = this;
-            Msg.Result = 0;
-            AoWHSMap.Current.MapContainer.GetField(FinalData.FX, FinalData.FY, FinalData.FL).SendMapFieldMsg(ref Msg);
+            message.MessageId = 4368;
+            message.Param[0] = this;
+            message.Result = 0;
+            AoWHSMap.Current.MapContainer.GetField(finalData.X, finalData.Y, finalData.MapLevel).SendMapFieldMessage(ref message);
         }
 
         UnlockExecuted();
@@ -374,19 +374,19 @@ public partial class Battle : EngineObject
     // Combat.pas:6577
     public virtual void Activate()
     {
-        Assert(!FStatus.Contains(CombatStatusElement.Activated), "Combat already activated", "Combat.pas", 6595);
-        FStatus = FStatus + Set<CombatStatusElement>.Of(CombatStatusElement.Activated);
-        FCombatData.FParties.Activate(this);
-        for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
+        Assert(!Status.Contains(CombatStatusElement.Activated), "Combat already activated", "Combat.pas", 6595);
+        Status = Status + Set<CombatStatusElement>.Of(CombatStatusElement.Activated);
+        CombatData.Parties.Activate(this);
+        for (int I = CombatData.GetCount() - 1; I >= 0; I--)
         {
-            FCombatData.GetObjects(I).Activate(this);
+            CombatData.GetObjects(I).Activate(this);
         }
 
-        if (FStatus.Contains(CombatStatusElement.Executing))
+        if (Status.Contains(CombatStatusElement.Executing))
         {
-            for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
+            for (int I = CombatData.GetCount() - 1; I >= 0; I--)
             {
-                FCombatData.GetObjects(I).SetupTargets();
+                CombatData.GetObjects(I).SetupTargets();
             }
 
             UpdateSidesSettings();
@@ -396,22 +396,22 @@ public partial class Battle : EngineObject
     // Combat.pas:6608
     public virtual void Deactivate()
     {
-        Assert(FStatus.Contains(CombatStatusElement.Activated), "Combat Failure during Deactivating", "Combat.pas", 6612);
-        FStatus = FStatus - Set<CombatStatusElement>.Of(CombatStatusElement.Activated);
-        for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
+        Assert(Status.Contains(CombatStatusElement.Activated), "Combat Failure during Deactivating", "Combat.pas", 6612);
+        Status = Status - Set<CombatStatusElement>.Of(CombatStatusElement.Activated);
+        for (int I = CombatData.GetCount() - 1; I >= 0; I--)
         {
-            FCombatData.GetObjects(I).Deactivate();
+            CombatData.GetObjects(I).Deactivate();
         }
 
-        FCombatData.FParties.Deactivate(this);
+        CombatData.Parties.Deactivate(this);
     }
 
     // Combat.pas:6180
-    public virtual void NewTurn(byte CombatPlayer)
+    public virtual void NewTurn(byte combatPlayer)
     {
         NewCombatTurnCombatAction A;
         A = new NewCombatTurnCombatAction(null);
-        A.F_NewCombatTurnCA_0C = CombatPlayer;
+        A.CombatPlayer = combatPlayer;
         ExecuteCombatAction(A);
         A.Release();
         UpdateSidesSettings();
@@ -427,25 +427,25 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6094
-    public bool GetLogCombatActions() => FStatus.Contains(CombatStatusElement.LogCombatActions);
+    public bool GetLogCombatActions() => Status.Contains(CombatStatusElement.LogCombatActions);
 
     // Combat.pas:6097
     // { }
-    public void SetLogCombatActions(byte Value)
+    public void SetLogCombatActions(byte value)
     {
-        if (Value != 0)
+        if (value != 0)
         {
-            FStatus = FStatus + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
+            Status = Status + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
         }
         else
         {
-            FStatus = FStatus - Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
+            Status = Status - Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
         }
     }
 
     // Combat.pas:6112
     // { }
-    public int GetRound() => FCombatData.FRound;
+    public int GetRound() => CombatData.Round;
 
     // Combat.pas:6115
     // The tactical AI's damage estimates call these through an unchecked TFastCombat cast in the
@@ -453,111 +453,111 @@ public partial class Battle : EngineObject
     // AIGroup.pas:7133
     public int GetRoundDistance()
     {
-        int Distance;
-        Distance = (FCombatData.FRound - 1) * 2;
-        if (this.FCombatData.FPlayers.GetPlayers((sbyte)this.FCombatData.FCurrentPlayer).FSideIndex == 0)
+        int distance;
+        distance = (CombatData.Round - 1) * 2;
+        if (this.CombatData.Players.GetPlayers((sbyte)this.CombatData.CurrentPlayer).SideIndex == 0)
         {
-            Distance += 1;
+            distance += 1;
         }
 
-        return Distance;
+        return distance;
     }
 
     // AIGroup.pas:7180
-    public bool GetWallInBetween(byte Source, byte Target)
+    public bool GetWallInBetween(byte source, byte target)
     {
-        bool Result;
-        if ((Source & 15) <= 7 && (Target & 15) <= 7 && FCombatData.FWall != null && !FCombatData.FWall.FStatus.Contains(CombatObjectStatusElement.Destroyed))
+        bool result;
+        if ((source & 15) <= 7 && (target & 15) <= 7 && CombatData.Wall != null && !CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed))
         {
-            Source = (byte)(int)(((uint)Source) >> 4);
-            Target = (byte)(int)(((uint)Target) >> 4);
-            if (Source < 7 && Target < 7)
+            source = (byte)(int)(((uint)source) >> 4);
+            target = (byte)(int)(((uint)target) >> 4);
+            if (source < 7 && target < 7)
             {
-                var party = FCombatData.FParties.GetParty(Source);
-                var fPartiesParty = FCombatData.FParties.GetParty(Target);
-                Result = (party.FWall != 0) ^ (fPartiesParty.FWall != 0);
+                var party = CombatData.Parties.GetParty(source);
+                var fPartiesParty = CombatData.Parties.GetParty(target);
+                result = (party.Wall != 0) ^ (fPartiesParty.Wall != 0);
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:7195
-    public WallSituation GetWallSituation(CombatObject Source, CombatObject Target)
+    public WallSituation GetWallSituation(CombatObject source, CombatObject target)
     {
-        WallSituation Result;
-        if (GetWallInBetween(Source.FPosition, Target.FPosition))
+        WallSituation result;
+        if (GetWallInBetween(source.Position, target.Position))
         {
-            if (Source.GetSide() == CombatSideIndex.Defender)
+            if (source.GetSide() == CombatSideIndex.Defender)
             {
-                Result = WallSituation.Source;
+                result = WallSituation.Source;
             }
             else
             {
-                Result = WallSituation.Target;
+                result = WallSituation.Target;
             }
         }
         else
         {
-            Result = WallSituation.None;
+            result = WallSituation.None;
         }
 
-        return Result;
+        return result;
     }
 
     // { }
-    public void ExecuteCombatAction(CombatAction Action)
+    public void ExecuteCombatAction(CombatAction action)
     {
-        if (FStatus.Contains(CombatStatusElement.LogCombatActions))
+        if (Status.Contains(CombatStatusElement.LogCombatActions))
         {
-            FLogbook.FActions.AddChild(Action);
+            Logbook.Actions.AddChild(action);
         }
 
-        Action.Execute(this);
+        action.Execute(this);
     }
 
     // Combat.pas:6121
-    public bool PlayerTypeInvolved(Set<PlayerType> Types)
+    public bool PlayerTypeInvolved(Set<PlayerType> types)
     {
-        bool Result = false;
-        for (int I = 0, last = FCombatData.FParties.Count - 1; I <= last; I++)
+        bool result = false;
+        for (int I = 0, last = CombatData.Parties.Count - 1; I <= last; I++)
         {
-            if (FCombatData.FParties.GetParty((byte)I) != null)
+            if (CombatData.Parties.GetParty((byte)I) != null)
             {
-                var party = FCombatData.FParties.GetParty((byte)I);
-                var players = FCombatData.FPlayers.GetPlayers((sbyte)party.FPlayerIndex);
-                if (Types.Contains(AoWHSMap.Current.FPlayers.GetPlayers(players.FPlayer).FPlayerType))
+                var party = CombatData.Parties.GetParty((byte)I);
+                var players = CombatData.Players.GetPlayers((sbyte)party.PlayerIndex);
+                if (types.Contains(AoWHSMap.Current.Players.GetPlayers(players.Player).PlayerType))
                 {
-                    Result = true;
+                    result = true;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:6131
-    public byte CreateUniqueCOID()
+    public byte CreateUniqueCombatObjectId()
     {
-        byte Result = (byte)FNextCOID;
-        FNextCOID += 1;
-        return Result;
+        byte result = (byte)NextCombatObjectId;
+        NextCombatObjectId += 1;
+        return result;
     }
 
     // Combat.pas:6177
     // { }
     public void UpdateSidesSettings()
     {
-        FSides[(int)CombatSideIndex.Attacker].UpdateSettings();
-        FSides[(int)CombatSideIndex.Defender].UpdateSettings();
+        Sides[(int)CombatSideIndex.Attacker].UpdateSettings();
+        Sides[(int)CombatSideIndex.Defender].UpdateSettings();
     }
 
     // Combat.pas:6190
@@ -565,15 +565,15 @@ public partial class Battle : EngineObject
     public void NextTurn()
     {
         int I;
-        if (FCombatData.FTurnOrder.Count != 0)
+        if (CombatData.TurnOrder.Count != 0)
         {
-            I = FCombatData.FTurnOrder.IndexOf(FCombatData.FCurrentPlayer) + 1;
-            if (I >= FCombatData.FTurnOrder.Count)
+            I = CombatData.TurnOrder.IndexOf(CombatData.CurrentPlayer) + 1;
+            if (I >= CombatData.TurnOrder.Count)
             {
                 I = 0;
             }
 
-            NewTurn(FCombatData.FTurnOrder[I]);
+            NewTurn(CombatData.TurnOrder[I]);
         }
     }
 
@@ -581,12 +581,12 @@ public partial class Battle : EngineObject
     // { }
     public void Terminate()
     {
-        if (!FTerminated)
+        if (!Terminated)
         {
-            FTerminated = true;
-            if (FOnTerminated != null)
+            Terminated = true;
+            if (OnTerminated != null)
             {
-                FOnTerminated(this);
+                OnTerminated(this);
             }
         }
     }
@@ -595,9 +595,9 @@ public partial class Battle : EngineObject
     // { }
     public void CheckTerminate()
     {
-        if (!FTerminated)
+        if (!Terminated)
         {
-            if (FSides[(int)CombatSideIndex.Attacker].GetUndestroyedConquerObjects() == 0 || FSides[(int)CombatSideIndex.Defender].GetUndestroyedConquerObjects() == 0 || FCombatData.FDefeatedLeaders.Count != 0)
+            if (Sides[(int)CombatSideIndex.Attacker].GetUndestroyedConquerObjects() == 0 || Sides[(int)CombatSideIndex.Defender].GetUndestroyedConquerObjects() == 0 || CombatData.DefeatedLeaders.Count != 0)
             {
                 Terminate();
             }
@@ -606,11 +606,11 @@ public partial class Battle : EngineObject
 
     // Combat.pas:6236
     // { }
-    public void SetLogbookHeader(string Header)
+    public void SetLogbookHeader(string header)
     {
         UpdateHeaderCombatAction A;
         A = new UpdateHeaderCombatAction(null);
-        A.F_UpdateHeaderCA_0C = Header;
+        A.Header = header;
         ExecuteCombatAction(A);
         A.Release();
     }
@@ -619,227 +619,227 @@ public partial class Battle : EngineObject
     // { }
     public void AddAdjacentArmies()
     {
-        CombatData Data;
-        MapLevel Level;
-        HexNumberWalkData Walk = default;
-        ArmyHexSprite ArmyHS;
-        CombatSideIndex Side;
-        Data = FCombatData;
-        Level = AoWHSMap.Current.MapContainer.GetMapLevel(Data.FL);
-        HexNumberWalkData.InitHNWalk(ref Walk, Data.FX, Data.FY, 0);
-        while (Walk.Radius <= 1)
+        CombatData data;
+        MapLevel level;
+        HexNumberWalkData walk = default;
+        ArmyHexSprite armyHexSprite;
+        CombatSideIndex side;
+        data = CombatData;
+        level = AoWHSMap.Current.MapContainer.GetMapLevel(data.MapLevel);
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, data.X, data.Y, 0);
+        while (walk.Radius <= 1)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                ArmyHS = (ArmyHexSprite)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
-                if (ArmyHS != null)
+                armyHexSprite = (ArmyHexSprite)level.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                if (armyHexSprite != null)
                 {
-                    if (Walk.HN != 0)
+                    if (walk.HexNumber != 0)
                     {
-                        var players = Data.FPlayers.GetPlayers(Data.FDefenderPlayer);
-                        var fPlayersPlayers = Data.FPlayers.GetPlayers(Data.FDefenderPlayer);
-                        var players2 = Data.FPlayers.GetPlayers(Data.FAttackerPlayer);
-                        Side = CombatAbilityTables.GetCombatSide(Data.FPlayers.GetPlayers(Data.FAttackerPlayer).FPlayer, (sbyte)players2.FIndependentRelation, fPlayersPlayers.FPlayer, (sbyte)players.FIndependentRelation, ArmyHS.FArmy.FPlayer, ArmyHS.FArmy.FIndependentRelation);
+                        var players = data.Players.GetPlayers(data.DefenderPlayer);
+                        var fPlayersPlayers = data.Players.GetPlayers(data.DefenderPlayer);
+                        var players2 = data.Players.GetPlayers(data.AttackerPlayer);
+                        side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, (sbyte)players2.IndependentRelation, fPlayersPlayers.Player, (sbyte)players.IndependentRelation, armyHexSprite.Army.Player, armyHexSprite.Army.IndependentRelation);
                     }
                     else
                     {
-                        Side = CombatSideIndex.Defender;
+                        side = CombatSideIndex.Defender;
                     }
 
-                    if (Side != CombatSideIndex.Neutral)
+                    if (side != CombatSideIndex.Neutral)
                     {
-                        AddArmy(ArmyHS.FArmy, Side, Walk.X, Walk.Y, Data.FL);
+                        AddArmy(armyHexSprite.Army, side, walk.X, walk.Y, data.MapLevel);
                     }
                 }
                 else
                 {
-                    if (Walk.HN == 0)
+                    if (walk.HexNumber == 0)
                     {
-                        var players = Data.FPlayers.GetPlayers(Data.FDefenderPlayer);
-                        AddEmptyArmy((byte)Data.FPlayers.GetPlayers(Data.FDefenderPlayer).FPlayer, players.FIndependentRelation, Walk.X, Walk.Y, Data.FL);
+                        var players = data.Players.GetPlayers(data.DefenderPlayer);
+                        AddEmptyArmy((byte)data.Players.GetPlayers(data.DefenderPlayer).Player, players.IndependentRelation, walk.X, walk.Y, data.MapLevel);
                     }
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
 
     // Combat.pas:6280
     // { }
-    public byte GetPartyPosition(int X, int Y, int Layer)
+    public byte GetPartyPosition(int X, int Y, int layer)
     {
-        byte Result;
-        CombatData Data;
-        Data = FCombatData;
-        if (Layer == Data.FL && HexGeometry.dHXtoRad(Data.FX, Data.FY, X, Y) <= 1)
+        byte result;
+        CombatData data;
+        data = CombatData;
+        if (layer == data.MapLevel && HexGeometry.DeltaHexToRadius(data.X, data.Y, X, Y) <= 1)
         {
-            Result = (byte)HexGeometry.dHXtoHNfast(Data.FX, Data.FY, X, Y);
+            result = (byte)HexGeometry.DeltaHexToHexNumberFast(data.X, data.Y, X, Y);
         }
         else
         {
-            Result = 7;
+            result = 7;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:6292
-    public byte AddCombatPlayer(byte APlayer, byte IndependentRelation, CombatSideIndex Side)
+    public byte AddCombatPlayer(byte player, byte independentRelation, CombatSideIndex side)
     {
-        CombatPlayer Player;
-        Player = CreateCombatPlayer();
-        Player.SetOwner(FCombatData.FPlayers);
-        Player.FPlayer = (sbyte)APlayer;
-        Player.FIndependentRelation = IndependentRelation;
-        Player.FSideIndex = (byte)(int)Side;
-        return (byte)(FCombatData.FPlayers.Count - 1);
+        CombatPlayer playerLocal;
+        playerLocal = CreateCombatPlayer();
+        playerLocal.SetOwner(CombatData.Players);
+        playerLocal.Player = (sbyte)player;
+        playerLocal.IndependentRelation = independentRelation;
+        playerLocal.SideIndex = (byte)(int)side;
+        return (byte)(CombatData.Players.Count - 1);
     }
 
     // Combat.pas:6303
-    public CombatParty AddArmy(Army Army, CombatSideIndex Side, int X, int Y, int L)
+    public CombatParty AddArmy(Army army, CombatSideIndex side, int X, int Y, int L)
     {
-        CombatParty Party;
-        bool Valid;
-        bool Transport;
-        byte Player;
-        byte Position;
-        int Index;
-        CombatUnit UnitObj;
-        MapFieldMessage Msg = default;
-        CombatData Data;
-        Troop Transporter;
-        Army.BeginUpdate();
-        Player = (byte)FCombatData.FPlayers.IndexOf((byte)Army.FPlayer, (byte)Army.FIndependentRelation);
-        if (Player == 255)
+        CombatParty party;
+        bool valid;
+        bool transport;
+        byte player;
+        byte position;
+        int index;
+        CombatUnit unitObject;
+        MapFieldMessage message = default;
+        CombatData data;
+        Troop transporter;
+        army.BeginUpdate();
+        player = (byte)CombatData.Players.IndexOf((byte)army.Player, (byte)army.IndependentRelation);
+        if (player == 255)
         {
-            Player = AddCombatPlayer((byte)Army.FPlayer, (byte)Army.FIndependentRelation, Side);
+            player = AddCombatPlayer((byte)army.Player, (byte)army.IndependentRelation, side);
         }
 
-        Position = GetPartyPosition(X, Y, L);
-        Party = FCombatData.FParties.CreateParty(this, Position, Player, X, Y, L, Army);
-        Transporter = Army.Transporter(255);
-        Transport = Transporter != null && Transporter.ValidTerrain((sbyte)FCombatData.F_CombatData_20[0], (sbyte)FCombatData.F_CombatData_20[1]);
-        Index = 0;
-        for (int I = Army.Count - 1; I >= 0; I--)
+        position = GetPartyPosition(X, Y, L);
+        party = CombatData.Parties.CreateParty(this, position, player, X, Y, L, army);
+        transporter = army.Transporter(255);
+        transport = transporter != null && transporter.ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], (sbyte)CombatData.TerrainAndOverlayTypes[1]);
+        index = 0;
+        for (int I = army.Count - 1; I >= 0; I--)
         {
-            Valid = Army.GetUnit(I).ValidTerrain((sbyte)FCombatData.F_CombatData_20[0], (sbyte)FCombatData.F_CombatData_20[1]);
-            if (Valid || Transport)
+            valid = army.GetUnit(I).ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], (sbyte)CombatData.TerrainAndOverlayTypes[1]);
+            if (valid || transport)
             {
-                UnitObj = CreateCombatUnit();
-                var unit = Army.GetUnit(I);
-                UnitObj.Setup(CreateUniqueCOID(), (byte)(int)Side, unit, (byte)((Position << 4) + Index), Player);
-                if (!Valid)
+                unitObject = CreateCombatUnit();
+                var troop = army.GetUnit(I);
+                unitObject.Setup(CreateUniqueCombatObjectId(), (byte)(int)side, troop, (byte)((position << 4) + index), player);
+                if (!valid)
                 {
-                    UnitObj.FDisabled = true;
-                    UnitObj.FControlMode = UnitObj.FControlMode - Set<CombatObjectControlModeElement>.Of(CombatObjectControlModeElement.ConquerObject);
+                    unitObject.Disabled = true;
+                    unitObject.ControlMode = unitObject.ControlMode - Set<CombatObjectControlModeElement>.Of(CombatObjectControlModeElement.ConquerObject);
                 }
 
-                FCombatData.AddObject(UnitObj);
-                Index += 1;
+                CombatData.AddObject(unitObject);
+                index += 1;
             }
         }
 
         if (X != -1)
         {
-            Msg.MsgID = 4387;
+            message.MessageId = 4387;
             var fieldValue = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
-            Msg.Param[0] = fieldValue;
-            Msg.Result = 0;
-            Data = FCombatData;
-            AoWHSMap.Current.MapContainer.GetField(Data.FX, Data.FY, Data.FL).SendMapFieldMsg(ref Msg);
-            if (Msg.Result.Int != 0)
+            message.Param[0] = fieldValue;
+            message.Result = 0;
+            data = CombatData;
+            AoWHSMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel).SendMapFieldMessage(ref message);
+            if (message.Result.Int != 0)
             {
-                Party.FWall = (byte)Msg.Result.Int;
+                party.Wall = (byte)message.Result.Int;
             }
         }
 
-        Army.EndUpdate();
-        return Party;
+        army.EndUpdate();
+        return party;
     }
 
     // Combat.pas:6345
-    public CombatParty AddArmyEx(Army Army, CombatSideIndex Side, int X, int Y, int L, byte Position)
+    public CombatParty AddArmy(Army army, CombatSideIndex side, int X, int Y, int L, byte position)
     {
-        CombatParty Party;
-        byte Player;
-        int Index;
-        CombatUnit UnitObj;
-        Army.BeginUpdate();
-        Player = (byte)FCombatData.FPlayers.IndexOf((byte)Army.FPlayer, (byte)Army.FIndependentRelation);
-        if (Player == 255)
+        CombatParty party;
+        byte player;
+        int index;
+        CombatUnit unitObject;
+        army.BeginUpdate();
+        player = (byte)CombatData.Players.IndexOf((byte)army.Player, (byte)army.IndependentRelation);
+        if (player == 255)
         {
-            Player = AddCombatPlayer((byte)Army.FPlayer, (byte)Army.FIndependentRelation, Side);
+            player = AddCombatPlayer((byte)army.Player, (byte)army.IndependentRelation, side);
         }
 
-        Party = FCombatData.FParties.CreateParty(this, (byte)(Position << 0), Player, X, Y, L, Army);
-        Index = 0;
-        for (int I = Army.Count - 1; I >= 0; I--)
+        party = CombatData.Parties.CreateParty(this, (byte)(position << 0), player, X, Y, L, army);
+        index = 0;
+        for (int I = army.Count - 1; I >= 0; I--)
         {
-            UnitObj = CreateCombatUnit();
-            var unit = Army.GetUnit(I);
-            UnitObj.Setup(CreateUniqueCOID(), (byte)(int)Side, unit, (byte)((Position << 4) + Index), Player);
-            FCombatData.AddObject(UnitObj);
-            Index += 1;
+            unitObject = CreateCombatUnit();
+            var troop = army.GetUnit(I);
+            unitObject.Setup(CreateUniqueCombatObjectId(), (byte)(int)side, troop, (byte)((position << 4) + index), player);
+            CombatData.AddObject(unitObject);
+            index += 1;
         }
 
-        Army.EndUpdate();
-        return Party;
+        army.EndUpdate();
+        return party;
     }
 
     // Combat.pas:6364
-    public void AddEmptyArmy(byte APlayer, byte IndependentRelation, int X, int Y, int L)
+    public void AddEmptyArmy(byte player, byte independentRelation, int X, int Y, int L)
     {
-        CombatData Data;
-        byte Position;
-        byte Player;
-        CombatSideIndex Side;
-        CombatParty Party;
-        MapFieldMessage Msg = default;
-        Data = FCombatData;
-        Position = GetPartyPosition(X, Y, L);
-        var players = Data.FPlayers.GetPlayers(Data.FDefenderPlayer);
-        var fPlayersPlayers = Data.FPlayers.GetPlayers(Data.FDefenderPlayer);
-        var players2 = Data.FPlayers.GetPlayers(Data.FAttackerPlayer);
-        Side = CombatAbilityTables.GetCombatSide(Data.FPlayers.GetPlayers(Data.FAttackerPlayer).FPlayer, (sbyte)players2.FIndependentRelation, fPlayersPlayers.FPlayer, (sbyte)players.FIndependentRelation, (sbyte)APlayer, (sbyte)IndependentRelation);
-        Player = (byte)FCombatData.FPlayers.IndexOf(APlayer, IndependentRelation);
-        if (Player == 255)
+        CombatData data;
+        byte position;
+        byte playerLocal;
+        CombatSideIndex side;
+        CombatParty party;
+        MapFieldMessage message = default;
+        data = CombatData;
+        position = GetPartyPosition(X, Y, L);
+        var players = data.Players.GetPlayers(data.DefenderPlayer);
+        var fPlayersPlayers = data.Players.GetPlayers(data.DefenderPlayer);
+        var players2 = data.Players.GetPlayers(data.AttackerPlayer);
+        side = CombatAbilityTables.GetCombatSide(data.Players.GetPlayers(data.AttackerPlayer).Player, (sbyte)players2.IndependentRelation, fPlayersPlayers.Player, (sbyte)players.IndependentRelation, (sbyte)player, (sbyte)independentRelation);
+        playerLocal = (byte)CombatData.Players.IndexOf(player, independentRelation);
+        if (playerLocal == 255)
         {
-            Player = AddCombatPlayer(APlayer, IndependentRelation, Side);
+            playerLocal = AddCombatPlayer(player, independentRelation, side);
         }
 
-        Party = FCombatData.FParties.CreateParty(this, Position, Player, X, Y, L, null);
-        Msg.MsgID = 4387;
+        party = CombatData.Parties.CreateParty(this, position, playerLocal, X, Y, L, null);
+        message.MessageId = 4387;
         var fieldValue = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
-        Msg.Param[0] = fieldValue;
-        Msg.Result = 0;
-        AoWHSMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMsg(ref Msg);
-        if (Msg.Result.Int != 0)
+        message.Param[0] = fieldValue;
+        message.Result = 0;
+        AoWHSMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
+        if (message.Result.Int != 0)
         {
-            Party.FWall = (byte)Msg.Result.Int;
+            party.Wall = (byte)message.Result.Int;
         }
     }
 
     // Combat.pas:6385
     // { }
-    public void InitDefaultArmies(Army Army, int X, int Y, int L)
+    public void InitializeDefaultArmies(Army army, int X, int Y, int L)
     {
-        CombatData Data;
-        ArmyHexSprite ArmyHS;
-        Data = FCombatData;
+        CombatData data;
+        ArmyHexSprite armyHexSprite;
+        data = CombatData;
         if (GetPartyPosition(X, Y, L) == 7)
         {
-            FExplorationSite = 2;
-            AddArmy(Army, CombatSideIndex.Attacker, X, Y, L);
-            ArmyHS = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(Data.FX, Data.FY, Data.FL).FindOwnedChild(131607);
-            if (ArmyHS != null)
+            ExplorationSite = 2;
+            AddArmy(army, CombatSideIndex.Attacker, X, Y, L);
+            armyHexSprite = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel).FindOwnedChild(131607);
+            if (armyHexSprite != null)
             {
-                AddArmy(ArmyHS.FArmy, CombatSideIndex.Defender, Data.FX, Data.FY, Data.FL);
+                AddArmy(armyHexSprite.Army, CombatSideIndex.Defender, data.X, data.Y, data.MapLevel);
             }
             else
             {
-                var players = Data.FPlayers.GetPlayers(Data.FDefenderPlayer);
-                AddEmptyArmy((byte)Data.FPlayers.GetPlayers(Data.FDefenderPlayer).FPlayer, players.FIndependentRelation, Data.FX, Data.FY, Data.FL);
+                var players = data.Players.GetPlayers(data.DefenderPlayer);
+                AddEmptyArmy((byte)data.Players.GetPlayers(data.DefenderPlayer).Player, players.IndependentRelation, data.X, data.Y, data.MapLevel);
             }
         }
         else
@@ -851,17 +851,17 @@ public partial class Battle : EngineObject
     // Combat.pas:6568
     public void LockExecuted()
     {
-        FExecutedLock += 1;
+        ExecutedLock += 1;
     }
 
     // Combat.pas:6571
     // { }
     public void UnlockExecuted()
     {
-        FExecutedLock -= 1;
-        if (FExecutedLock == 0 && FOnExecuted != null)
+        ExecutedLock -= 1;
+        if (ExecutedLock == 0 && OnExecuted != null)
         {
-            FOnExecuted(this);
+            OnExecuted(this);
         }
     }
 
@@ -870,70 +870,70 @@ public partial class Battle : EngineObject
     public string GetCombatResultText()
     {
         var query = new CombatResultQuery();
-        ref var Result = ref query.Text;
-        MapFieldMessage Msg = default;
-        Result = "";
-        Msg.MsgID = 4361;
-        Msg.Result = query;
-        Msg.Param[0] = this;
+        ref var result = ref query.Text;
+        MapFieldMessage message = default;
+        result = "";
+        message.MessageId = 4361;
+        message.Result = query;
+        message.Param[0] = this;
         // { direct combat data }
-        AoWHSMap.Current.MapContainer.GetField(FCombatData.FX, FCombatData.FY, FCombatData.FL).SendMapFieldMsg(ref Msg);
-        if (IsEmpty(Result))
+        AoWHSMap.Current.MapContainer.GetField(CombatData.X, CombatData.Y, CombatData.MapLevel).SendMapFieldMessage(ref message);
+        if (IsEmpty(result))
         {
-            if (FCombatResult == CombatResult.Victory)
+            if (CombatResult == CombatResult.Victory)
             {
-                Result = AbilityRules.TranslateRStr(BattleWonRStr);
+                result = AbilityRules.TranslateResourceString(s_battleWonText);
             }
             else
             {
-                if (FCombatResult == CombatResult.Defeat)
+                if (CombatResult == CombatResult.Defeat)
                 {
-                    Result = AbilityRules.TranslateRStr(BattleLostRStr);
+                    result = AbilityRules.TranslateResourceString(s_battleLostText);
                 }
                 else
                 {
-                    if (FCombatResult == CombatResult.CannotBreachWall)
+                    if (CombatResult == CombatResult.CannotBreachWall)
                     {
-                        Result = AbilityRules.TranslateRStr(GameText.CannotBreachWallRStr);
+                        result = AbilityRules.TranslateResourceString(GameText.s_cannotBreachWallText);
                     }
                     else
                     {
-                        if (FCombatResult == CombatResult.CannotInflictDamage)
+                        if (CombatResult == CombatResult.CannotInflictDamage)
                         {
-                            Result = AbilityRules.TranslateRStr(GameText.CannotInflictDamageRStr);
+                            result = AbilityRules.TranslateResourceString(GameText.s_cannotInflictDamageText);
                         }
                         else
                         {
-                            Result = AbilityRules.TranslateRStr(BattleDrawnRStr);
+                            result = AbilityRules.TranslateResourceString(s_battleDrawnText);
                         }
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:6659
     public bool DefendersAvailable()
     {
         int I;
-        CombatObject Obj;
-        bool Result = false;
+        CombatObject objectValue;
+        bool result = false;
         I = 0;
-        while (!Result && I != FCombatData.GetCount())
+        while (!result && I != CombatData.GetCount())
         {
-            Obj = FCombatData.GetObjects(I);
-            Result = Obj.FCombatPlayer != -1 && FCombatData.FPlayers.GetPlayers(Obj.FCombatPlayer).FSideIndex == 1 && !Obj.FStatus.Contains(CombatObjectStatusElement.Destroyed);
+            objectValue = CombatData.GetObjects(I);
+            result = objectValue.CombatPlayer != -1 && CombatData.Players.GetPlayers(objectValue.CombatPlayer).SideIndex == 1 && !objectValue.Status.Contains(CombatObjectStatusElement.Destroyed);
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string BattleWonRStr = "Battle Won";
-    private static readonly string BattleLostRStr = "Battle Lost";
-    private static readonly string BattleDrawnRStr = "Battle Drawn";
+    private static readonly string s_battleWonText = "Battle Won";
+    private static readonly string s_battleLostText = "Battle Lost";
+    private static readonly string s_battleDrawnText = "Battle Drawn";
 
     public delegate void ExecutedEvent(Battle pCombat);
 

@@ -15,128 +15,128 @@ public partial class CityWallDoor : CityWall
     { }
 
     // CityWall.pas:381
-    public new const int ClassID = 2229510;
+    public new const int ClassId = 2229510;
 
     // CityWall.pas:428
-    public override sbyte GetOverlay(int Index) => -1;
+    public override sbyte GetOverlay(int index) => -1;
 
     // CityWall.pas:431
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        TacticalBattleUnitHexSprite CombatUnit;
-        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || CombatMap.Current.FCombat == null)
+        TacticalBattleUnitHexSprite combatUnit;
+        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || CombatMap.Current.Combat == null)
         {
-            base.Show(XhpSurf, YhpSurf, SurfaceDesc);
+            base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
         else
         {
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            CombatUnit = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).FindOwnedChild(2228484);
-            if (CombatUnit != null)
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            combatUnit = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild(2228484);
+            if (combatUnit != null)
             {
-                if (CombatUnit.FUnit.GetSide() != CombatSideIndex.Defender)
+                if (combatUnit.Unit.GetSide() != CombatSideIndex.Defender)
                 {
-                    CombatUnit = null;
+                    combatUnit = null;
                 }
             }
 
-            bool condition = FHitPoints == 0;
+            bool condition = HitPoints == 0;
             if (!condition)
             {
-                var indexOfPlayer = CombatMap.Current.FCombat.FCombatData.FPlayers.IndexOfPlayer((byte)CombatMap.Current.FCurrentPlayer);
-                condition = CombatMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)indexOfPlayer).FSideIndex != 1 && CombatUnit == null;
+                var indexOfPlayer = CombatMap.Current.Combat.CombatData.Players.IndexOfPlayer((byte)CombatMap.Current.CurrentPlayer);
+                condition = CombatMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)indexOfPlayer).SideIndex != 1 && combatUnit == null;
             }
 
             if (condition)
             {
-                base.Show(XhpSurf, YhpSurf, SurfaceDesc);
+                base.Show(pixelXSurface, pixelYSurface, lockedSurface);
             }
         }
     }
 
     // CityWall.pas:384
-    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)
     {
-        if (Info.HN == 0)
+        if (info.HexNumber == 0)
         {
-            if (FHitPoints == 0)
+            if (HitPoints == 0)
             {
-                MoveResult.Code = ((MoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][6 - -1];
+                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][6 - -1];
             }
             else
             {
-                if (((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.Wall))
+                if (((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall))
                 {
-                    MoveResult.Code = 25;
-                    MoveResult.Done = true;
+                    moveResult.Code = 25;
+                    moveResult.Done = true;
                 }
                 else
                 {
-                    if (((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.WallCrushing) && GetXhx() == ((MoveControl)Info.Sender).FDestinationX && GetYhx() == ((MoveControl)Info.Sender).FDestinationY)
+                    if (((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.WallCrushing) && GetHexX() == ((MoveControl)info.Sender).DestinationX && GetHexY() == ((MoveControl)info.Sender).DestinationY)
                     {
-                        MoveResult.Code = 0;
+                        moveResult.Code = 0;
                     }
                     else
                     {
-                        if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(1) || ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(66) || ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide() == CombatSideIndex.Defender)
+                        if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == CombatSideIndex.Defender)
                         {
-                            MoveResult.Code = ((MoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][-1 - -1];
+                            moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][-1 - -1];
                         }
                         else
                         {
-                            if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59))
+                            if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
                             {
-                                MoveResult.Code = -1;
+                                moveResult.Code = -1;
                             }
                             else
                             {
-                                MoveResult.Code = ((MoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][8 - -1];
+                                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - -1];
                             }
                         }
                     }
                 }
             }
 
-            MoveResult.Done = true;
+            moveResult.Done = true;
         }
     }
 
     // CityWall.pas:409
-    public override int CanMoveOver(in HexSpriteSenderInfo Info)
+    public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int Result;
-        if (Info.HN == 0)
+        int result;
+        if (info.HexNumber == 0)
         {
-            if (FHitPoints == 0 || ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide() == CombatSideIndex.Defender || ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(66) || ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(36) || ((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.Climbing) || ((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.Wall))
+            if (HitPoints == 0 || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == CombatSideIndex.Defender || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Climbing) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall))
             {
-                Result = 1;
+                result = 1;
             }
             else
             {
-                if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59))
+                if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
                 {
-                    Result = 0;
+                    result = 0;
                 }
                 else
                 {
-                    if (((MoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][8 - -1] != 0)
+                    if (((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - -1] != 0)
                     {
-                        Result = 1;
+                        result = 1;
                     }
                     else
                     {
-                        Result = 0;
+                        result = 0;
                     }
                 }
             }
         }
         else
         {
-            Result = 1;
+            result = 1;
         }
 
-        return Result;
+        return result;
     }
 
     public new partial class Resource : CityWall.Resource
@@ -145,10 +145,10 @@ public partial class CityWallDoor : CityWall
         { }
 
         // CityWall.pas:451
-        public new const int ClassID = 2229511;
+        public new const int ClassId = 2229511;
 
         // CityWall.pas:457
-        public override int ResourceUserClassID() => 2229510;
+        public override int ResourceUserClassId() => 2229510;
 
         // CityWall.pas:454
         public override string ResourceEditName() => "Combat City Door";

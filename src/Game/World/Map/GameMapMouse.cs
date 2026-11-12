@@ -11,45 +11,45 @@ public partial class GameMapMouse : HexSpriteMapMouse
     public GameMapMouse() : base()
     {
         ResetRectangleSelection();
-        FRectangleSelectEventsStore = new();
+        _rectangleSelectEventsStore = new();
     }
 
-    public Rect FSelectionRectangle;
+    public Rect SelectionRectangle;
 
-    internal EventStore<GameMapMouse> FRectangleSelectEventsStore;
+    internal EventStore<GameMapMouse> _rectangleSelectEventsStore;
 
     public event NotifyEvent<GameMapMouse> FRectangleSelectEvents
     {
-        add => FRectangleSelectEventsStore.Add(value);
-        remove => FRectangleSelectEventsStore.Remove(value);
+        add => _rectangleSelectEventsStore.Add(value);
+        remove => _rectangleSelectEventsStore.Remove(value);
     }
 
     // AoWHSMap.PAS:1057
     public override void Dispose()
     {
         base.Dispose();
-        FRectangleSelectEventsStore.Clear();
+        _rectangleSelectEventsStore.Clear();
     }
 
     // AoWHSMap.PAS:1123
-    public override void Down(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void Down(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        base.Down(Button, Shift, X, Y);
-        if (Capture == null && !HSMap.Status.Contains(HexSpriteMapStatusElement.Editting))
+        base.Down(button, shift, X, Y);
+        if (Capture == null && !HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            StartRectangleSelection(HSMap.ViewXhp + X - 2, HSMap.ViewYhp + Y - 3);
+            StartRectangleSelection(HexSpriteMap.ViewPixelX + X - 2, HexSpriteMap.ViewPixelY + Y - 3);
         }
     }
 
     // AoWHSMap.PAS:1130
-    public override void Up(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void Up(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        base.Up(Button, Shift, X, Y);
-        if (Capture == null && FSelectionRectangle.Left != -1)
+        base.Up(button, shift, X, Y);
+        if (Capture == null && SelectionRectangle.Left != -1)
         {
             if (X != -1 && Y != -1)
             {
-                StopRectangleSelection(HSMap.ViewXhp + X - 2, HSMap.ViewYhp + Y - 3);
+                StopRectangleSelection(HexSpriteMap.ViewPixelX + X - 2, HexSpriteMap.ViewPixelY + Y - 3);
             }
             else
             {
@@ -59,78 +59,78 @@ public partial class GameMapMouse : HexSpriteMapMouse
     }
 
     // AoWHSMap.PAS:1141
-    public override void Move(Set<ShiftState> Shift, int X, int Y)
+    public override void Move(Set<ShiftState> shift, int X, int Y)
     {
-        base.Move(Shift, X, Y);
+        base.Move(shift, X, Y);
         if (Capture == null)
         {
-            UpdateRectangleSelection(HSMap.ViewXhp + X - 2, HSMap.ViewYhp + Y - 3);
+            UpdateRectangleSelection(HexSpriteMap.ViewPixelX + X - 2, HexSpriteMap.ViewPixelY + Y - 3);
         }
     }
 
     // AoWHSMap.PAS:1063
     public void ResetRectangleSelection()
     {
-        FSelectionRectangle.Left = -1;
-        FSelectionRectangle.Top = -1;
-        FSelectionRectangle.Right = -1;
-        FSelectionRectangle.Bottom = -1;
+        SelectionRectangle.Left = -1;
+        SelectionRectangle.Top = -1;
+        SelectionRectangle.Right = -1;
+        SelectionRectangle.Bottom = -1;
     }
 
     // AoWHSMap.PAS:1071
     public bool GetSelectingRectangle()
     {
-        bool Result;
-        if (FSelectionRectangle.Left == -1 || (FSelectionRectangle.Left == FSelectionRectangle.Right && FSelectionRectangle.Top == FSelectionRectangle.Bottom))
+        bool result;
+        if (SelectionRectangle.Left == -1 || (SelectionRectangle.Left == SelectionRectangle.Right && SelectionRectangle.Top == SelectionRectangle.Bottom))
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:1079
-    public void StartRectangleSelection(int Xhp, int Yhp)
+    public void StartRectangleSelection(int pixelX, int pixelY)
     {
-        FSelectionRectangle.Left = Xhp;
-        FSelectionRectangle.Top = Yhp;
-        FSelectionRectangle.Right = Xhp;
-        FSelectionRectangle.Bottom = Yhp;
+        SelectionRectangle.Left = pixelX;
+        SelectionRectangle.Top = pixelY;
+        SelectionRectangle.Right = pixelX;
+        SelectionRectangle.Bottom = pixelY;
     }
 
     // AoWHSMap.PAS:1087
-    public void UpdateRectangleSelection(int Xhp, int Yhp)
+    public void UpdateRectangleSelection(int pixelX, int pixelY)
     {
         if (Button == MouseButton.Left)
         {
-            if (Xhp > 0 && Yhp > 0)
+            if (pixelX > 0 && pixelY > 0)
             {
-                if (Xhp < FSelectionRectangle.Left - 800)
+                if (pixelX < SelectionRectangle.Left - 800)
                 {
-                    Xhp = FSelectionRectangle.Left - 800;
+                    pixelX = SelectionRectangle.Left - 800;
                 }
 
-                if (Xhp > FSelectionRectangle.Left + 800)
+                if (pixelX > SelectionRectangle.Left + 800)
                 {
-                    Xhp = FSelectionRectangle.Left + 800;
+                    pixelX = SelectionRectangle.Left + 800;
                 }
 
-                if (Yhp < FSelectionRectangle.Top - 600)
+                if (pixelY < SelectionRectangle.Top - 600)
                 {
-                    Yhp = FSelectionRectangle.Top - 600;
+                    pixelY = SelectionRectangle.Top - 600;
                 }
 
-                if (Yhp > FSelectionRectangle.Top + 600)
+                if (pixelY > SelectionRectangle.Top + 600)
                 {
-                    Yhp = FSelectionRectangle.Top + 600;
+                    pixelY = SelectionRectangle.Top + 600;
                 }
 
-                FSelectionRectangle.Right = Xhp;
-                FSelectionRectangle.Bottom = Yhp;
+                SelectionRectangle.Right = pixelX;
+                SelectionRectangle.Bottom = pixelY;
             }
         }
         else
@@ -140,49 +140,49 @@ public partial class GameMapMouse : HexSpriteMapMouse
     }
 
     // AoWHSMap.PAS:1104
-    public void StopRectangleSelection(int Xhp, int Yhp)
+    public void StopRectangleSelection(int pixelX, int pixelY)
     {
         Rect R = default;
-        FSelectionRectangle.Right = Xhp;
-        FSelectionRectangle.Bottom = Yhp;
-        if (FSelectionRectangle.Left < FSelectionRectangle.Right)
+        SelectionRectangle.Right = pixelX;
+        SelectionRectangle.Bottom = pixelY;
+        if (SelectionRectangle.Left < SelectionRectangle.Right)
         {
-            R.Left = FSelectionRectangle.Left;
+            R.Left = SelectionRectangle.Left;
         }
         else
         {
-            R.Left = FSelectionRectangle.Right;
+            R.Left = SelectionRectangle.Right;
         }
 
-        if (FSelectionRectangle.Right > FSelectionRectangle.Left)
+        if (SelectionRectangle.Right > SelectionRectangle.Left)
         {
-            R.Right = FSelectionRectangle.Right;
+            R.Right = SelectionRectangle.Right;
         }
         else
         {
-            R.Right = FSelectionRectangle.Left;
+            R.Right = SelectionRectangle.Left;
         }
 
-        if (FSelectionRectangle.Top < FSelectionRectangle.Bottom)
+        if (SelectionRectangle.Top < SelectionRectangle.Bottom)
         {
-            R.Top = FSelectionRectangle.Top;
+            R.Top = SelectionRectangle.Top;
         }
         else
         {
-            R.Top = FSelectionRectangle.Bottom;
+            R.Top = SelectionRectangle.Bottom;
         }
 
-        if (FSelectionRectangle.Bottom > FSelectionRectangle.Top)
+        if (SelectionRectangle.Bottom > SelectionRectangle.Top)
         {
-            R.Bottom = FSelectionRectangle.Bottom;
+            R.Bottom = SelectionRectangle.Bottom;
         }
         else
         {
-            R.Bottom = FSelectionRectangle.Top;
+            R.Bottom = SelectionRectangle.Top;
         }
 
-        FSelectionRectangle = R;
-        FRectangleSelectEventsStore.Raise(this);
+        SelectionRectangle = R;
+        _rectangleSelectEventsStore.Raise(this);
         ResetRectangleSelection();
     }
 

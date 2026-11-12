@@ -5,170 +5,170 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Draw.Images;
 
 // the libraries a program shares, linked by file name. FSearchPath (upper case, ends with a
-// backslash), FDiskList, FOwnedList
+// backslash), _diskList, _ownedList
 public partial class ImageLibraryManager : Component
 {
 
-    internal string FSearchPath = "";
-    internal ImageLibraryManagerList FDiskList;
-    internal ImageLibraryManagerList FOwnedList;
+    internal string _searchPath = "";
+    internal ImageLibraryManagerList _diskList;
+    internal ImageLibraryManagerList _ownedList;
 
     // ImageLib.pas:8260
     public ImageLibraryManager(Component owner) : base(owner)
     {
-        FDiskList = new ImageLibraryManagerList(this);
-        FOwnedList = new ImageLibraryManagerList(this);
+        _diskList = new ImageLibraryManagerList(this);
+        _ownedList = new ImageLibraryManagerList(this);
     }
 
     // ImageLib.pas:8267
     public override void Dispose()
     {
         Clear();
-        FDiskList?.Dispose();
-        FOwnedList?.Dispose();
+        _diskList?.Dispose();
+        _ownedList?.Dispose();
         base.Dispose();
     }
 
     // ImageLib.pas:8275
     public void Clear()
     {
-        FDiskList.Clear();
-        FOwnedList.Clear();
+        _diskList.Clear();
+        _ownedList.Clear();
     }
 
     // ImageLib.pas:8281
-    public void UnloadIL(Set<ImageLibraryManagerCategoryElement> Category)
+    public void UnloadImageLibrary(Set<ImageLibraryManagerCategoryElement> category)
     {
-        if (Category.Contains(ImageLibraryManagerCategoryElement.Disk))
+        if (category.Contains(ImageLibraryManagerCategoryElement.Disk))
         {
-            FDiskList.UnloadIL();
+            _diskList.UnloadImageLibrary();
         }
 
-        if (Category.Contains(ImageLibraryManagerCategoryElement.Owned))
+        if (category.Contains(ImageLibraryManagerCategoryElement.Owned))
         {
-            FOwnedList.UnloadIL();
+            _ownedList.UnloadImageLibrary();
         }
     }
 
     // ImageLib.pas:8288
     // { Lists the .ILB files of the search path and of its subdirectories in FDiskList }
-    public void ExecutePathSearch(string Path)
+    public void ExecutePathSearch(string path)
     {
-        string Dir;
-        void SearchDirectory(string SubDirectory)
+        string directory;
+        void SearchDirectory(string subDirectory)
         {
-            StringList List;
-            SearchRec SR = default;
-            bool Found;
-            Found = FindFirst(FSearchPath + SubDirectory + "*.ilb", 63 - 16, ref SR) == 0;
-            while (Found)
+            StringList list;
+            SearchRec sr = default;
+            bool found;
+            found = FindFirst(_searchPath + subDirectory + "*.ilb", 63 - 16, ref sr) == 0;
+            while (found)
             {
-                FDiskList.AddILFile(SubDirectory + UpperCase(SR.Name));
-                Found = FindNext(ref SR) == 0;
+                _diskList.AddImageLibraryFile(subDirectory + UpperCase(sr.Name));
+                found = FindNext(ref sr) == 0;
             }
 
-            FindClose(ref SR);
-            List = new StringList();
-            Found = FindFirst(SubDirectory + "*.*", 16, ref SR) == 0;
-            while (Found)
+            FindClose(ref sr);
+            list = new StringList();
+            found = FindFirst(subDirectory + "*.*", 16, ref sr) == 0;
+            while (found)
             {
-                if ((SR.Attr & 16) != 0 && SR.Name != "." && SR.Name != "..")
+                if ((sr.Attr & 16) != 0 && sr.Name != "." && sr.Name != "..")
                 {
-                    List.Add(SubDirectory + UpperCase(SR.Name) + "\\");
+                    list.Add(subDirectory + UpperCase(sr.Name) + "\\");
                 }
 
-                Found = FindNext(ref SR) == 0;
+                found = FindNext(ref sr) == 0;
             }
 
-            FindClose(ref SR);
-            for (int I = 0, last = List.Count - 1; I <= last; I++)
+            FindClose(ref sr);
+            for (int I = 0, last = list.Count - 1; I <= last; I++)
             {
-                SearchDirectory(List[I]);
+                SearchDirectory(list[I]);
             }
 
-            List?.Dispose();
+            list?.Dispose();
         }
 
-        FDiskList.Clear();
-        FSearchPath = UpperCase(Path);
-        if (FSearchPath[FSearchPath.Length - 1] != 92)
+        _diskList.Clear();
+        _searchPath = UpperCase(path);
+        if (_searchPath[_searchPath.Length - 1] != 92)
         {
-            FSearchPath = FSearchPath + "\\";
+            _searchPath = _searchPath + "\\";
         }
 
-        Dir = GetCurrentDir();
-        SetCurrentDir(Path);
+        directory = GetCurrentDir();
+        SetCurrentDir(path);
         SearchDirectory("");
-        SetCurrentDir(Dir);
+        SetCurrentDir(directory);
     }
 
     // ImageLib.pas:8331
     // { A missing owned library is created empty and added. The exception for a missing library is
     //   raised and swallowed at once (it only shows in the debugger), as in the original. }
-    public CustomImageLibrary LinkToIL(Set<ImageLibraryManagerCategoryElement> Category, string FileName)
+    public CustomImageLibrary LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement> category, string fileName)
     {
-        CustomImageLibrary Result = null;
-        if (Category.Contains(ImageLibraryManagerCategoryElement.Disk))
+        CustomImageLibrary result = null;
+        if (category.Contains(ImageLibraryManagerCategoryElement.Disk))
         {
-            Result = FDiskList.LinkToIL(FileName);
+            result = _diskList.LinkToImageLibrary(fileName);
         }
 
-        if (Category.Contains(ImageLibraryManagerCategoryElement.Owned) && Result == null)
+        if (category.Contains(ImageLibraryManagerCategoryElement.Owned) && result == null)
         {
-            Result = FOwnedList.LinkToIL(FileName);
-            if (Result == null)
+            result = _ownedList.LinkToImageLibrary(fileName);
+            if (result == null)
             {
-                Result = new ImageLibrary(null);
-                FOwnedList.AddILManagerObject(FileName, Result);
+                result = new ImageLibrary(null);
+                _ownedList.AddImageLibraryManagerObject(fileName, result);
             }
         }
 
-        if (Result == null)
+        if (result == null)
         {
             try
             {
-                throw new FileNotFoundException("Missing IL Resource: " + FileName);
+                throw new FileNotFoundException("Missing IL Resource: " + fileName);
             }
             catch
             {
             }
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:8352
-    public void ReleaseIL(Set<ImageLibraryManagerCategoryElement> Category, string FileName)
+    public void ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement> category, string fileName)
     {
-        bool Released;
-        Released = false;
-        if (Category.Contains(ImageLibraryManagerCategoryElement.Disk))
+        bool released;
+        released = false;
+        if (category.Contains(ImageLibraryManagerCategoryElement.Disk))
         {
-            Released = FDiskList.ReleaseIL(FileName);
+            released = _diskList.ReleaseImageLibrary(fileName);
         }
 
-        if (Category.Contains(ImageLibraryManagerCategoryElement.Owned) && !Released)
+        if (category.Contains(ImageLibraryManagerCategoryElement.Owned) && !released)
         {
-            FOwnedList.ReleaseIL(FileName);
+            _ownedList.ReleaseImageLibrary(fileName);
         }
     }
 
     // ImageLib.pas:8361
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
-        FOwnedList.SaveToStream(Stream);
+        _ownedList.SaveToStream(stream);
     }
 
     // ImageLib.pas:8366
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
-        FOwnedList.LoadFromStream(Stream);
+        _ownedList.LoadFromStream(stream);
     }
 
-    public ImageLibraryManagerList DiskList { get => FDiskList; }
-    public ImageLibraryManagerList OwnedList { get => FOwnedList; }
+    public ImageLibraryManagerList DiskList { get => _diskList; }
+    public ImageLibraryManagerList OwnedList { get => _ownedList; }
 
     [Published]
-    public string SearchPath { get => FSearchPath; set => FSearchPath = value; }
+    public string SearchPath { get => _searchPath; set => _searchPath = value; }
 
 }

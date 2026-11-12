@@ -10,27 +10,27 @@ namespace Aow.Game.Net;
 public partial class EmailGame : EngineObject
 {
     // Diplomacy.pas:2462
-    public new const int ClassID = 136960;
+    public new const int ClassId = 136960;
 
     public EmailGame(ECustomNode owner) : base(owner)
     { }
 
-    public string FName = "";
-    public int FUniqueLocalID;
-    public int FUniqueID;
-    public int FSecurityID;
-    public string FEmailAddress = "";
-    public int FLastDay;
+    public string Name = "";
+    public int UniqueLocalId;
+    public int UniqueId;
+    public int SecurityId;
+    public string EmailAddress = "";
+    public int LastDay;
 
     // Diplomacy.pas:2465
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwString(ref FName, 20);
-        Stream.rwInteger(ref FUniqueLocalID, 21);
-        Stream.rwInteger(ref FUniqueID, 22);
-        Stream.rwString(ref FEmailAddress, 23);
-        Stream.rwInteger(ref FSecurityID, 24);
+        base.ReadWrite(stream);
+        stream.rwString(ref Name, 20);
+        stream.rwInteger(ref UniqueLocalId, 21);
+        stream.rwInteger(ref UniqueId, 22);
+        stream.rwString(ref EmailAddress, 23);
+        stream.rwInteger(ref SecurityId, 24);
     }
 
     // Engine.pas:524

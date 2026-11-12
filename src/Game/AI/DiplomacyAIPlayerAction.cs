@@ -21,274 +21,274 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
     {
     }
 
-    public sbyte FNextPlayer;
+    public sbyte NextPlayer;
 
     // Diplomacy.pas:1549
     public override bool Activate()
     {
-        bool Result = base.Activate();
-        FNextPlayer = 0;
-        return Result;
+        bool result = base.Activate();
+        NextPlayer = 0;
+        return result;
     }
 
     // Diplomacy.pas:1699
     public override bool Process()
     {
-        bool Result;
+        bool result;
         base.Process();
-        if (FControl.FPlayer.FPlayerIndex != 0)
+        if (Control.Player.PlayerIndex != 0)
         {
             while (true)
             {
-                var count = AoWHSMap.Current.FPlayers.Count;
-                if (!(FNextPlayer < count && !FControl.FPlayer.GetBusy()))
+                var count = AoWHSMap.Current.Players.Count;
+                if (!(NextPlayer < count && !Control.Player.GetBusy()))
                     break;
-                FNextPlayer = (sbyte)(FNextPlayer + 1);
+                NextPlayer = (sbyte)(NextPlayer + 1);
                 while (true)
                 {
-                    var fPlayersCount = AoWHSMap.Current.FPlayers.Count;
-                    if (!(FNextPlayer < fPlayersCount && (FControl.FPlayer.GetFirstDaySeen((sbyte)(byte)FNextPlayer) == -1 || FControl.FPlayer.FPlayerIndex == FNextPlayer)))
+                    var fPlayersCount = AoWHSMap.Current.Players.Count;
+                    if (!(NextPlayer < fPlayersCount && (Control.Player.GetFirstDaySeen((sbyte)(byte)NextPlayer) == -1 || Control.Player.PlayerIndex == NextPlayer)))
                         break;
-                    FNextPlayer = (sbyte)(FNextPlayer + 1);
+                    NextPlayer = (sbyte)(NextPlayer + 1);
                 }
 
-                var count2 = AoWHSMap.Current.FPlayers.Count;
-                if (FNextPlayer < count2)
+                var count2 = AoWHSMap.Current.Players.Count;
+                if (NextPlayer < count2)
                 {
-                    ExecuteDiplomacy(FNextPlayer);
+                    ExecuteDiplomacy(NextPlayer);
                 }
             }
 
-            var count3 = AoWHSMap.Current.FPlayers.Count;
-            Result = FNextPlayer < count3;
+            var count3 = AoWHSMap.Current.Players.Count;
+            result = NextPlayer < count3;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:1552
-    public DiplomaticAction CreateDA(DiplomaticProposal Action, sbyte Target, sbyte Other, int MinDays)
+    public DiplomaticAction CreateDA(DiplomaticProposal action, sbyte target, sbyte other, int minDays)
     {
-        DiplomaticAction Result;
-        sbyte Player;
-        DiplomaticAction Last;
-        Player = FControl.FPlayer.FPlayerIndex;
-        Last = AoWHSMap.Current.FPlayers.GetPlayers(Player).FDiplomaticActions.FindLastAction(Action.ToFields().Kind, DiplomaticActionReaction.None, Player, Target, Other);
-        if (Last == null || AoWHSMap.Current.FDay - Last.FDay >= MinDays)
+        DiplomaticAction result;
+        sbyte player;
+        DiplomaticAction last;
+        player = Control.Player.PlayerIndex;
+        last = AoWHSMap.Current.Players.GetPlayers(player).DiplomaticActions.FindLastAction(action.ToFields().Kind, DiplomaticActionReaction.None, player, target, other);
+        if (last == null || AoWHSMap.Current.Day - last.Day >= minDays)
         {
-            Result = AoWHSMap.Current.FPlayers.GetPlayers(Player).CreateDiplomaticAction(Action, Target, Other);
+            result = AoWHSMap.Current.Players.GetPlayers(player).CreateDiplomaticAction(action, target, other);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:1563
-    public bool ExecuteDiplomacy(sbyte Player)
+    public bool ExecuteDiplomacy(sbyte player)
     {
-        DiplomaticAction Action;
-        ByteList Peace;
-        ByteList War;
-        ByteList Unknown;
-        ByteList IdealPeace;
-        ByteList IdealWar;
-        DoubleItemList Candidates;
-        int Index;
-        int Score;
-        sbyte Source;
-        sbyte Candidate;
-        string ErrorText = "";
+        DiplomaticAction action;
+        ByteList peace;
+        ByteList war;
+        ByteList unknown;
+        ByteList idealPeace;
+        ByteList idealWar;
+        DoubleItemList candidates;
+        int index;
+        int score;
+        sbyte source;
+        sbyte candidate;
+        string errorText = "";
         // { Original bug: the result remains False even when an action is sent. }
-        bool Result = false;
-        Action = null;
-        Source = FControl.FPlayer.FPlayerIndex;
-        IdealPeace = new ByteList();
-        IdealWar = new ByteList();
-        Peace = new ByteList();
-        War = new ByteList();
-        Unknown = new ByteList();
-        FControl.ListPeaceWarUnknownPlayers(Peace, War, Unknown);
-        FControl.ListIdealPeaceWarPlayers(IdealPeace, IdealWar);
-        switch (AoWHSMap.Current.FPlayers.GetDiplomaticRelation((sbyte)(byte)Source, (sbyte)(byte)Player))
+        bool result = false;
+        action = null;
+        source = Control.Player.PlayerIndex;
+        idealPeace = new ByteList();
+        idealWar = new ByteList();
+        peace = new ByteList();
+        war = new ByteList();
+        unknown = new ByteList();
+        Control.ListPeaceWarUnknownPlayers(peace, war, unknown);
+        Control.ListIdealPeaceWarPlayers(idealPeace, idealWar);
+        switch (AoWHSMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)source, (sbyte)(byte)player))
         {
             case DiplomaticRelation.Unknown:
-                if (IdealPeace.IndexOf((byte)Player) != -1)
+                if (idealPeace.IndexOf((byte)player) != -1)
                 {
-                    if (FControl.CanOfferPeace((byte)Player))
+                    if (Control.CanOfferPeace((byte)player))
                     {
-                        Action = CreateDA(new OfferPeace(), Player, -1, 10);
+                        action = CreateDA(new OfferPeace(), player, -1, 10);
                     }
                     else
                     {
-                        Action = CreateDA(new DeclareWar(), Player, -1, -1);
+                        action = CreateDA(new DeclareWar(), player, -1, -1);
                     }
                 }
 
-                if (IdealWar.IndexOf((byte)Player) != -1)
+                if (idealWar.IndexOf((byte)player) != -1)
                 {
-                    if (FControl.CanDeclareWar((byte)Player))
+                    if (Control.CanDeclareWar((byte)player))
                     {
-                        Action = CreateDA(new DeclareWar(), Player, -1, -1);
+                        action = CreateDA(new DeclareWar(), player, -1, -1);
                     }
                     else
                     {
-                        Action = CreateDA(new OfferPeace(), Player, -1, 10);
+                        action = CreateDA(new OfferPeace(), player, -1, 10);
                     }
                 }
 
                 break;
             case DiplomaticRelation.Peace:
-                if (!FControl.CanOfferPeace((byte)Player) && IdealWar.IndexOf((byte)Player) != -1)
+                if (!Control.CanOfferPeace((byte)player) && idealWar.IndexOf((byte)player) != -1)
                 {
-                    RandSeed = AoWHSMap.Current.FInitialRandomSeed + AoWHSMap.Current.FDay + Source;
-                    Index = Random(IdealWar.Count);
-                    if (IdealWar[Index] == Player)
+                    RandSeed = AoWHSMap.Current.InitialRandomSeed + AoWHSMap.Current.Day + source;
+                    index = Random(idealWar.Count);
+                    if (idealWar[index] == player)
                     {
-                        Action = CreateDA(new DeclareWar(), Player, -1, -1);
+                        action = CreateDA(new DeclareWar(), player, -1, -1);
                     }
                 }
                 else
                 {
-                    if (FControl.CanProposeAlliance((byte)Player))
+                    if (Control.CanProposeAlliance((byte)player))
                     {
-                        RandSeed = (int)(((uint)(AoWHSMap.Current.FInitialRandomSeed + AoWHSMap.Current.FDay + Source)) >> 2);
+                        RandSeed = (int)(((uint)(AoWHSMap.Current.InitialRandomSeed + AoWHSMap.Current.Day + source)) >> 2);
                         if (Random(100) < 30)
                         {
-                            Action = CreateDA(new ProposeAlliance(), Player, -1, 10);
+                            action = CreateDA(new ProposeAlliance(), player, -1, 10);
                         }
                     }
                 }
 
                 break;
             case DiplomaticRelation.Alliance:
-                if (!FControl.CanOfferPeace((byte)Player) && IdealWar.IndexOf((byte)Player) != -1)
+                if (!Control.CanOfferPeace((byte)player) && idealWar.IndexOf((byte)player) != -1)
                 {
-                    RandSeed = AoWHSMap.Current.FInitialRandomSeed + AoWHSMap.Current.FDay + Source + 1;
-                    Index = Random(IdealWar.Count);
-                    if (IdealWar[Index] == Player)
+                    RandSeed = AoWHSMap.Current.InitialRandomSeed + AoWHSMap.Current.Day + source + 1;
+                    index = Random(idealWar.Count);
+                    if (idealWar[index] == player)
                     {
-                        Action = CreateDA(new BreakAlliance(), Player, -1, -1);
+                        action = CreateDA(new BreakAlliance(), player, -1, -1);
                     }
                 }
 
                 break;
             case DiplomaticRelation.War:
-                if (!FControl.CanDeclareWar((byte)Player))
+                if (!Control.CanDeclareWar((byte)player))
                 {
-                    Candidates = new DoubleItemList();
-                    for (int I = 0, last = IdealPeace.Count - 1; I <= last; I++)
+                    candidates = new DoubleItemList();
+                    for (int I = 0, last = idealPeace.Count - 1; I <= last; I++)
                     {
-                        Candidate = (sbyte)IdealPeace[I];
-                        if (War.IndexOf((byte)Candidate) != -1 && FControl.CanOfferPeace((byte)Candidate))
+                        candidate = (sbyte)idealPeace[I];
+                        if (war.IndexOf((byte)candidate) != -1 && Control.CanOfferPeace((byte)candidate))
                         {
-                            Action = AoWHSMap.Current.FPlayers.GetPlayers(Source).FDiplomaticActions.FindLastAction(OfferPeace.Kind, DiplomaticActionReaction.None, Source, Candidate, -1);
-                            if (Action == null || AoWHSMap.Current.FDay - Action.FDay > 12)
+                            action = AoWHSMap.Current.Players.GetPlayers(source).DiplomaticActions.FindLastAction(OfferPeace.Kind, DiplomaticActionReaction.None, source, candidate, -1);
+                            if (action == null || AoWHSMap.Current.Day - action.Day > 12)
                             {
-                                Score = -I;
-                                Score -= AoWHSMap.Current.FPlayers.GetDiplomaticRelationCount((sbyte)(byte)Candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace)) * 5;
-                                Score -= AoWHSMap.Current.FPlayers.GetDiplomaticRelationCount((sbyte)(byte)Candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Alliance)) * 10;
-                                Candidates.AddAB(Candidate, Score);
+                                score = -I;
+                                score -= AoWHSMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace)) * 5;
+                                score -= AoWHSMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Alliance)) * 10;
+                                candidates.AddAbility(candidate, score);
                             }
 
-                            Action = null;
+                            action = null;
                         }
                     }
 
-                    if (Candidates.Count == 0 && War.Count - Peace.Count > 2)
+                    if (candidates.Count == 0 && war.Count - peace.Count > 2)
                     {
-                        for (int J = 0, last = IdealWar.Count - 1; J <= last; J++)
+                        for (int J = 0, last = idealWar.Count - 1; J <= last; J++)
                         {
-                            Candidate = (sbyte)IdealWar[J];
-                            if (War.IndexOf((byte)Candidate) != -1)
+                            candidate = (sbyte)idealWar[J];
+                            if (war.IndexOf((byte)candidate) != -1)
                             {
-                                Action = AoWHSMap.Current.FPlayers.GetPlayers(Source).FDiplomaticActions.FindLastAction(OfferPeace.Kind, DiplomaticActionReaction.None, Source, Candidate, -1);
-                                if (Action == null || AoWHSMap.Current.FDay - Action.FDay > 12)
+                                action = AoWHSMap.Current.Players.GetPlayers(source).DiplomaticActions.FindLastAction(OfferPeace.Kind, DiplomaticActionReaction.None, source, candidate, -1);
+                                if (action == null || AoWHSMap.Current.Day - action.Day > 12)
                                 {
-                                    Score = J;
-                                    Score -= AoWHSMap.Current.FPlayers.GetDiplomaticRelationCount((sbyte)(byte)Candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace)) * 5;
-                                    Score -= AoWHSMap.Current.FPlayers.GetDiplomaticRelationCount((sbyte)(byte)Candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Alliance)) * 10;
-                                    Candidates.AddAB(Candidate, Score);
+                                    score = J;
+                                    score -= AoWHSMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace)) * 5;
+                                    score -= AoWHSMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Alliance)) * 10;
+                                    candidates.AddAbility(candidate, score);
                                 }
 
-                                Action = null;
+                                action = null;
                             }
                         }
                     }
 
-                    if (Candidates.Count != 0)
+                    if (candidates.Count != 0)
                     {
-                        Candidates.SortDescendingItemB();
-                        if (Candidates[0].A == Player)
+                        candidates.SortDescendingItemB();
+                        if (candidates[0].First == player)
                         {
-                            Action = CreateDA(new OfferPeace(), (sbyte)Candidates[0].A, -1, -1);
+                            action = CreateDA(new OfferPeace(), (sbyte)candidates[0].First, -1, -1);
                         }
                     }
 
-                    Candidates?.Dispose();
+                    candidates?.Dispose();
                 }
 
                 break;
         }
 
-        if (Action != null)
+        if (action != null)
         {
-            Action.Send(ref ErrorText);
-            Action.Release();
+            action.Send(ref errorText);
+            action.Release();
         }
 
-        Peace?.Dispose();
-        War?.Dispose();
-        Unknown?.Dispose();
-        IdealPeace?.Dispose();
-        IdealWar?.Dispose();
-        return Result;
+        peace?.Dispose();
+        war?.Dispose();
+        unknown?.Dispose();
+        idealPeace?.Dispose();
+        idealWar?.Dispose();
+        return result;
     }
 
     // Diplomacy.pas:1670
     public void ListDebugInfo()
     {
-        ByteList IdealPeace;
-        ByteList IdealWar;
-        int Player;
+        ByteList idealPeace;
+        ByteList idealWar;
+        int player;
         string S;
-        IdealPeace = new ByteList();
-        IdealWar = new ByteList();
-        FControl.ListIdealPeaceWarPlayers(IdealPeace, IdealWar);
-        Player = FControl.FPlayer.FPlayerIndex;
-        var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        S = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[players.FPlayerRace]);
-        var name = AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
+        idealPeace = new ByteList();
+        idealWar = new ByteList();
+        Control.ListIdealPeaceWarPlayers(idealPeace, idealWar);
+        player = Control.Player.PlayerIndex;
+        var players = AoWHSMap.Current.Players.GetPlayers(player);
+        S = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[players.PlayerRace]);
+        var name = AoWHSMap.Current.Players.GetPlayers(player).GetName();
         S = S + "/" + name;
-        GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, "DIPLOMACY (" + S + ")");
-        GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, "IDEAL PEACE PLAYERS");
-        for (int I = 0, last = IdealPeace.Count - 1; I <= last; I++)
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, "DIPLOMACY (" + S + ")");
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, "IDEAL PEACE PLAYERS");
+        for (int I = 0, last = idealPeace.Count - 1; I <= last; I++)
         {
-            var item = IdealPeace[I];
-            var fPlayersPlayers = AoWHSMap.Current.FPlayers.GetPlayers(item);
-            S = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[fPlayersPlayers.FPlayerRace]);
-            var idealPeaceItem = IdealPeace[I];
-            var name2 = AoWHSMap.Current.FPlayers.GetPlayers(idealPeaceItem).GetName();
+            var item = idealPeace[I];
+            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(item);
+            S = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[fPlayersPlayers.PlayerRace]);
+            var idealPeaceItem = idealPeace[I];
+            var name2 = AoWHSMap.Current.Players.GetPlayers(idealPeaceItem).GetName();
             S = S + "/" + name2;
-            GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, S);
+            GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, S);
         }
 
-        GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, "IDEAL WAR PLAYERS");
-        for (int I = 0, last = IdealWar.Count - 1; I <= last; I++)
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, "IDEAL WAR PLAYERS");
+        for (int I = 0, last = idealWar.Count - 1; I <= last; I++)
         {
-            var item = IdealWar[I];
-            var name2 = AoWHSMap.Current.FPlayers.GetPlayers(item).GetName();
-            GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, name2);
+            var item = idealWar[I];
+            var name2 = AoWHSMap.Current.Players.GetPlayers(item).GetName();
+            GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, name2);
         }
 
-        IdealPeace?.Dispose();
-        IdealWar?.Dispose();
+        idealPeace?.Dispose();
+        idealWar?.Dispose();
     }
 
     // intf_P5_08.inc:209

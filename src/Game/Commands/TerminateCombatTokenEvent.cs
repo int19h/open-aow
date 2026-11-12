@@ -14,10 +14,10 @@ public partial class TerminateCombatTokenEvent : TokenEvent
     { }
 
     // CombatTE.pas:149
-    public new const int ClassID = 2236422;
+    public new const int ClassId = 2236422;
 
     // CombatTE.pas:152
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         AoWHSMap.Current.DestroyCombat();
         return ExecuteResult.Done;

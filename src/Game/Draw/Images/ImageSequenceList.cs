@@ -9,16 +9,16 @@ namespace Aow.Game.Draw.Images;
 // sequences without a library name)
 public partial class ImageSequenceList : DelphiList
 {
-    internal bool FLinked;
+    internal bool _linked;
     // { HSEngine's TMapObjectResource.MsgProc writes FILManager directly }
-    public ImageLibraryManager FILManager;
-    internal CustomImageLibrary FImageLibrary;
+    public ImageLibraryManager _imageLibraryManager;
+    internal CustomImageLibrary _imageLibrary;
 
     // ImageLib.pas:8903
-    public ImageSequenceList(ImageLibraryManager AILManager, CustomImageLibrary AImageLibrary)
+    public ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrary imageLibrary)
     {
-        FILManager = AILManager;
-        FImageLibrary = AImageLibrary;
+        _imageLibraryManager = aILManager;
+        _imageLibrary = imageLibrary;
     }
 
     // ImageLib.pas:8911
@@ -32,21 +32,21 @@ public partial class ImageSequenceList : DelphiList
     // { The indices with a sequence, separated by commas }
     public string UsedIndexString()
     {
-        string Result = "";
+        string result = "";
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
             if (List[I] != null)
             {
-                Result = Result + IntToStr(I) + ",";
+                result = result + IntToStr(I) + ",";
             }
         }
 
-        if (!IsEmpty(Result))
+        if (!IsEmpty(result))
         {
-            Result = Copy(Result, 1, Result.Length - 1);
+            result = Copy(result, 1, result.Length - 1);
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:8928
@@ -64,56 +64,56 @@ public partial class ImageSequenceList : DelphiList
     }
 
     // ImageLib.pas:8939
-    public ImageSequence GetLayerImageSequence(int Index, int Layer)
+    public ImageSequence GetLayerImageSequence(int index, int layer)
     {
-        ImageSequence Result;
-        if (Index < Count)
+        ImageSequence result;
+        if (index < Count)
         {
-            Result = (ImageSequence)List[Index];
+            result = (ImageSequence)List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        while (Result != null && Layer != Result.FLayer)
+        while (result != null && layer != result._layer)
         {
-            Result = Result.FNext;
+            result = result._next;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:8949
     // { Deletes the empty indices at the end; returns the last index with a sequence }
     public int ReduceCount()
     {
-        int Result = Count - 1;
-        while (Result >= 0 && List[Result] == null)
+        int result = Count - 1;
+        while (result >= 0 && List[result] == null)
         {
-            base.Delete(Result);
-            Result -= 1;
+            base.Delete(result);
+            result -= 1;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:8959
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
         int N = default;
-        bool IsNil = default;
-        ImageSequence Sequence;
+        bool isNil = default;
+        ImageSequence sequence;
         DestroyItems();
-        Stream.ReadExactly(Bytes.Of(ref N, 4));
+        stream.ReadExactly(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
         {
-            Stream.ReadExactly(Bytes.Of(ref IsNil, 1));
-            if (!IsNil)
+            stream.ReadExactly(Bytes.Of(ref isNil, 1));
+            if (!isNil)
             {
-                Sequence = new ImageSequence(this);
-                Sequence.LoadFromStream(Stream);
-                base.Add(Sequence);
+                sequence = new ImageSequence(this);
+                sequence.LoadFromStream(stream);
+                base.Add(sequence);
             }
             else
             {
@@ -121,162 +121,162 @@ public partial class ImageSequenceList : DelphiList
             }
         }
 
-        if (FLinked)
+        if (_linked)
         {
-            FLinked = false;
-            LinkToIL();
+            _linked = false;
+            LinkToImageLibrary();
         }
     }
 
     // ImageLib.pas:8986
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
-        bool IsNil = default;
+        bool isNil = default;
         ReduceCount();
-        Stream.Write(ValueBytes(Count, 4));
+        stream.Write(ValueBytes(Count, 4));
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            IsNil = List[I] == null;
-            Stream.Write(Bytes.Of(ref IsNil, 1));
-            if (!IsNil)
+            isNil = List[I] == null;
+            stream.Write(Bytes.Of(ref isNil, 1));
+            if (!isNil)
             {
-                ((ImageSequence)List[I]).SaveToStream(Stream);
+                ((ImageSequence)List[I]).SaveToStream(stream);
             }
         }
     }
 
     // ImageLib.pas:9001
-    public void SaveToIniFile(string Section, IniFile IniFile)
+    public void SaveToIniFile(string section, IniFile iniFile)
     {
         /* TODO: Implement IniFiles.WriteString in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // ImageLib.pas:9016
-    public void LoadFromIniFile(string Section, IniFile IniFile)
+    public void LoadFromIniFile(string section, IniFile iniFile)
     {
         /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // ImageLib.pas:9044
-    public ImageSequence GetImageSequence(int Index)
+    public ImageSequence GetImageSequence(int index)
     {
-        ImageSequence Result;
-        if (Index >= 0 && Index < Count)
+        ImageSequence result;
+        if (index >= 0 && index < Count)
         {
-            Result = (ImageSequence)List[Index];
+            result = (ImageSequence)List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:9052
-    public void SetImageSequence(int Index, ImageSequence Value)
+    public void SetImageSequence(int index, ImageSequence value)
     {
-        while (Index >= Count)
+        while (index >= Count)
         {
             base.Add(null);
         }
 
-        if (List[Index] != null)
+        if (List[index] != null)
         {
-            ((List[Index] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
+            ((List[index] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
         }
 
-        List[Index] = Value;
+        List[index] = value;
     }
 
     // ImageLib.pas:9059
-    public int GetSubCount(int Index)
+    public int GetSubCount(int index)
     {
-        ImageSequence Sequence;
-        int Result = 0;
-        if (Index < Count)
+        ImageSequence sequence;
+        int result = 0;
+        if (index < Count)
         {
-            Sequence = (ImageSequence)List[Index];
+            sequence = (ImageSequence)List[index];
         }
         else
         {
-            Sequence = null;
+            sequence = null;
         }
 
-        while (Sequence != null)
+        while (sequence != null)
         {
-            Sequence = Sequence.FNext;
-            Result += 1;
+            sequence = sequence._next;
+            result += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:9076
     // { Original bug: a Sequence that is not in the chain runs past its end (nil dereference). }
-    public int IndexOfSub(int Index, ImageSequence Sequence)
+    public int IndexOfSub(int index, ImageSequence sequence)
     {
         ImageSequence S;
-        int Result = 0;
-        if (Index < Count)
+        int result = 0;
+        if (index < Count)
         {
-            S = (ImageSequence)List[Index];
+            S = (ImageSequence)List[index];
         }
         else
         {
             S = null;
         }
 
-        while (S != Sequence)
+        while (S != sequence)
         {
-            S = S.FNext;
-            Result += 1;
+            S = S._next;
+            result += 1;
         }
 
         if (S == null)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:9093
-    public ImageSequence GetSubImageSequence(int Index, int SubIndex)
+    public ImageSequence GetSubImageSequence(int index, int subIndex)
     {
-        ImageSequence Result;
+        ImageSequence result;
         int I;
         I = 0;
-        if (Index < Count)
+        if (index < Count)
         {
-            Result = (ImageSequence)List[Index];
+            result = (ImageSequence)List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        while (Result != null && I != SubIndex)
+        while (result != null && I != subIndex)
         {
-            Result = Result.FNext;
+            result = result._next;
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:9111
     // { Inserts Sequence into the chain of Index by its layer. Original bug: an existing layer is
     //   only detected after the first link, not at the head of the chain. }
-    public void Add(int Index, ImageSequence Sequence)
+    public void Add(int index, ImageSequence sequence)
     {
         ImageSequence S;
-        ImageSequence Prev;
-        if (Index < Count)
+        ImageSequence previous;
+        if (index < Count)
         {
-            S = (ImageSequence)List[Index];
+            S = (ImageSequence)List[index];
         }
         else
         {
@@ -285,100 +285,100 @@ public partial class ImageSequenceList : DelphiList
 
         if (S != null)
         {
-            Prev = null;
-            while (S != null && S.FLayer < Sequence.FLayer)
+            previous = null;
+            while (S != null && S._layer < sequence._layer)
             {
-                Prev = S;
-                S = S.FNext;
+                previous = S;
+                S = S._next;
             }
 
-            if (Prev != null)
+            if (previous != null)
             {
-                if (S != null && Sequence.FLayer == S.FLayer)
+                if (S != null && sequence._layer == S._layer)
                 {
                     throw new InvalidOperationException("Layer does already exist");
                 }
 
-                Prev.FNext = Sequence;
-                Sequence.FNext = S;
+                previous._next = sequence;
+                sequence._next = S;
             }
             else
             {
-                List[Index] = Sequence;
-                Sequence.FNext = S;
+                List[index] = sequence;
+                sequence._next = S;
             }
         }
         else
         {
-            SetImageSequence(Index, Sequence);
+            SetImageSequence(index, sequence);
         }
     }
 
     // ImageLib.pas:9145
     // { Takes Sequence out of the chain of Index (it is not freed) }
-    public void Delete(int Index, ImageSequence Sequence)
+    public void Delete(int index, ImageSequence sequence)
     {
         ImageSequence S;
-        ImageSequence Prev;
-        if (Index < Count)
+        ImageSequence previous;
+        if (index < Count)
         {
-            Prev = null;
-            S = (ImageSequence)List[Index];
-            while (S != null && S != Sequence)
+            previous = null;
+            S = (ImageSequence)List[index];
+            while (S != null && S != sequence)
             {
-                Prev = S;
-                S = S.FNext;
+                previous = S;
+                S = S._next;
             }
 
-            if (S != null && S == Sequence)
+            if (S != null && S == sequence)
             {
-                if (Prev != null)
+                if (previous != null)
                 {
-                    Prev.FNext = S.FNext;
+                    previous._next = S._next;
                 }
                 else
                 {
-                    List[Index] = S.FNext;
+                    List[index] = S._next;
                 }
 
-                S.FNext = null;
+                S._next = null;
             }
         }
     }
 
     // ImageLib.pas:9169
-    public void LinkToIL()
+    public void LinkToImageLibrary()
     {
-        ImageSequence Sequence;
-        if (!FLinked)
+        ImageSequence sequence;
+        if (!_linked)
         {
-            FLinked = true;
+            _linked = true;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Sequence = (ImageSequence)List[I];
-                while (Sequence != null)
+                sequence = (ImageSequence)List[I];
+                while (sequence != null)
                 {
-                    Sequence.LinkToIL();
-                    Sequence = Sequence.FNext;
+                    sequence.LinkToImageLibrary();
+                    sequence = sequence._next;
                 }
             }
         }
     }
 
     // ImageLib.pas:9189
-    public void ReleaseIL()
+    public void ReleaseImageLibrary()
     {
-        ImageSequence Sequence;
-        if (FLinked)
+        ImageSequence sequence;
+        if (_linked)
         {
-            FLinked = false;
+            _linked = false;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Sequence = (ImageSequence)List[I];
-                while (Sequence != null)
+                sequence = (ImageSequence)List[I];
+                while (sequence != null)
                 {
-                    Sequence.ReleaseIL();
-                    Sequence = Sequence.FNext;
+                    sequence.ReleaseImageLibrary();
+                    sequence = sequence._next;
                 }
             }
         }
@@ -388,63 +388,63 @@ public partial class ImageSequenceList : DelphiList
     public bool Animating()
     {
         int I;
-        ImageSequence Sequence;
-        bool Result = false;
+        ImageSequence sequence;
+        bool result = false;
         I = 0;
-        while (I != Count && !Result)
+        while (I != Count && !result)
         {
-            Sequence = (ImageSequence)List[I];
-            while (Sequence != null && !Result)
+            sequence = (ImageSequence)List[I];
+            while (sequence != null && !result)
             {
-                Result = Sequence.FSequenceMode != SequenceMode.None;
-                Sequence = Sequence.FNext;
+                result = sequence._sequenceMode != SequenceMode.None;
+                sequence = sequence._next;
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:9228
     public LibraryImage GetPreviewImage()
     {
         int I;
-        ImageSequence Sequence;
-        LibraryImage Result = null;
+        ImageSequence sequence;
+        LibraryImage result = null;
         I = 0;
-        while (I != Count && Result == null)
+        while (I != Count && result == null)
         {
-            Sequence = (ImageSequence)List[I];
-            while (Sequence != null && Result == null)
+            sequence = (ImageSequence)List[I];
+            while (sequence != null && result == null)
             {
-                Result = Sequence.GetPreviewImage();
-                Sequence = Sequence.FNext;
+                result = sequence.GetPreviewImage();
+                sequence = sequence._next;
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:9247
-    public void GetDimensions(int Index, ref Rect R)
+    public void GetDimensions(int index, ref Rect R)
     {
-        ImageSequence Sequence;
-        Rect SR = default;
+        ImageSequence sequence;
+        Rect sr = default;
         R.Left = 0;
         R.Right = 0;
         R.Top = 0;
         R.Bottom = 0;
-        if (Index < Count && Index >= 0)
+        if (index < Count && index >= 0)
         {
-            Sequence = (ImageSequence)List[Index];
-            while (Sequence != null)
+            sequence = (ImageSequence)List[index];
+            while (sequence != null)
             {
-                Sequence.GetDimensions(ref SR);
-                UnionRect(ref R, R, SR);
-                Sequence = Sequence.FNext;
+                sequence.GetDimensions(ref sr);
+                UnionRect(ref R, R, sr);
+                sequence = sequence._next;
             }
         }
     }
@@ -452,101 +452,101 @@ public partial class ImageSequenceList : DelphiList
     // ImageLib.pas:9270
     // { Shows the layers of Index for Frame without looping; returns False when no layer has an
     //   image for Frame }
-    public bool Show(int Index, int X, int Y, int Frame, in LockedSurface SD)
+    public bool Show(int index, int X, int Y, int frame, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
+        ImageSequence sequence;
         int I;
-        bool Result = false;
-        if (Index < Count)
+        bool result = false;
+        if (index < Count)
         {
-            Sequence = (ImageSequence)List[Index];
-            while (Sequence != null)
+            sequence = (ImageSequence)List[index];
+            while (sequence != null)
             {
-                I = Sequence.GetUnloopedFrameIndex(Frame);
+                I = sequence.GetUnloopedFrameIndex(frame);
                 if (I != -1)
                 {
-                    Result = true;
-                    if (Sequence.FImageLibrary.ImageExist(I))
+                    result = true;
+                    if (sequence._imageLibrary.ImageExist(I))
                     {
-                        Sequence.FImageLibrary[I].Show(X + Sequence.FdXshift, Y + Sequence.FdYshift, SD);
+                        sequence._imageLibrary[I].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
                     }
                 }
 
-                Sequence = Sequence.FNext;
+                sequence = sequence._next;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:9293
-    public int GetFramesCount(int Index)
+    public int GetFramesCount(int index)
     {
-        ImageSequence Sequence;
+        ImageSequence sequence;
         int N;
-        int Result = 0;
-        if (Index < Count)
+        int result = 0;
+        if (index < Count)
         {
-            Sequence = (ImageSequence)List[Index];
-            while (Sequence != null)
+            sequence = (ImageSequence)List[index];
+            while (sequence != null)
             {
-                N = Sequence.GetTotalSequenceFrames();
-                if (N > Result)
+                N = sequence.GetTotalSequenceFrames();
+                if (N > result)
                 {
-                    Result = N;
+                    result = N;
                 }
 
-                Sequence = Sequence.FNext;
+                sequence = sequence._next;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:9311
-    public void ShowLooped(int Index, int X, int Y, int Frame, in LockedSurface SD)
+    public void ShowLooped(int index, int X, int Y, int frame, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
+        ImageSequence sequence;
         int I;
-        if (Index < Count)
+        if (index < Count)
         {
-            Sequence = (ImageSequence)List[Index];
-            while (Sequence != null)
+            sequence = (ImageSequence)List[index];
+            while (sequence != null)
             {
-                I = Sequence.GetFrameIndex(Frame, 0);
+                I = sequence.GetFrameIndex(frame, 0);
                 if (I != -1)
                 {
-                    if (Sequence.FImageLibrary.ImageExist(I))
+                    if (sequence._imageLibrary.ImageExist(I))
                     {
-                        Sequence.FImageLibrary[I].Show(X + Sequence.FdXshift, Y + Sequence.FdYshift, SD);
+                        sequence._imageLibrary[I].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
                     }
                 }
 
-                Sequence = Sequence.FNext;
+                sequence = sequence._next;
             }
         }
     }
 
     // ImageLib.pas:9330
-    public void ShowLoopedEx(int Index, int X, int Y, int Frame, int Offset, in LockedSurface SD)
+    public void ShowLooped(int index, int X, int Y, int frame, int offset, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
+        ImageSequence sequence;
         int I;
-        if (Index < Count)
+        if (index < Count)
         {
-            Sequence = (ImageSequence)List[Index];
-            while (Sequence != null)
+            sequence = (ImageSequence)List[index];
+            while (sequence != null)
             {
-                I = Sequence.GetFrameIndex(Frame, Offset);
+                I = sequence.GetFrameIndex(frame, offset);
                 if (I != -1)
                 {
-                    if (Sequence.FImageLibrary.ImageExist(I))
+                    if (sequence._imageLibrary.ImageExist(I))
                     {
-                        Sequence.FImageLibrary[I].Show(X + Sequence.FdXshift, Y + Sequence.FdYshift, SD);
+                        sequence._imageLibrary[I].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
                     }
                 }
 
-                Sequence = Sequence.FNext;
+                sequence = sequence._next;
             }
         }
     }
@@ -563,12 +563,12 @@ public partial class ImageSequenceList : DelphiList
 
     public sealed class ImageSequencesAccessor(ImageSequenceList target)
     {
-        public ImageSequence this[int Index] { get => target.GetImageSequence(Index); set => target.SetImageSequence(Index, value); }
+        public ImageSequence this[int index] { get => target.GetImageSequence(index); set => target.SetImageSequence(index, value); }
     }
 
     public ImageSequencesAccessor ImageSequences => new ImageSequencesAccessor(this);
-    public bool Linked { get => FLinked; }
-    public ImageLibraryManager ILManager { get => FILManager; }
-    public CustomImageLibrary ImageLibrary { get => FImageLibrary; }
+    public bool Linked { get => _linked; }
+    public ImageLibraryManager ImageLibraryManager { get => _imageLibraryManager; }
+    public CustomImageLibrary ImageLibrary { get => _imageLibrary; }
 
 }

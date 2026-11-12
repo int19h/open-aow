@@ -22,64 +22,64 @@ public partial class EndTurnTokenEvent : TokenEvent
     public EndTurnTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135425;
+    public new const int ClassId = 135425;
 
-    public sbyte FPlayer;
-    public int FDay;
-    public Mode FMode;
+    public sbyte Player;
+    public int Day;
+    public EndTurnTokenEventMode Mode;
 
     // MoveT.PAS:1907
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FDay, 20);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 21);
-        Stream.rwData(Bytes.Of(ref FMode, 1), 1, 22);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Day, 20);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 21);
+        stream.rwData(Bytes.Of(ref Mode, 1), 1, 22);
     }
 
     // MoveT.PAS:1915
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult Result;
-        base.Execute(TE);
-        if (AoWHSMap.Current.FDay == FDay)
+        ExecuteResult result;
+        base.Execute(tokenEvent);
+        if (AoWHSMap.Current.Day == Day)
         {
-            if (FMode == Mode.EndTurn && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FSingleProcessCycle)
+            if (Mode == EndTurnTokenEventMode.EndTurn && !AoWHSMap.Current.Players.GetPlayers(Player).SingleProcessCycle)
             {
-                AoWHSMap.Current.FPlayerControl.EndTurn(FPlayer);
-                if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace != -1)
+                AoWHSMap.Current.PlayerControl.EndTurn(Player);
+                if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && AoWHSMap.Current.Players.GetPlayers(Player).PlayerRace != -1)
                 {
-                    var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-                    var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[players.FPlayerRace]);
-                    var aoWETranslateRStr = AbilityRules.TranslateRStr(P5FinishedTheirTurnRStr);
-                    AoWHSMap.Current.ShowMessage(raceNamesPlural + " " + aoWETranslateRStr);
+                    var players = AoWHSMap.Current.Players.GetPlayers(Player);
+                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[players.PlayerRace]);
+                    var translatedText = AbilityRules.TranslateResourceString(s_finishedTheirTurnText);
+                    AoWHSMap.Current.ShowMessage(raceNamesPlural + " " + translatedText);
                 }
             }
 
-            if (FMode == Mode.CancelEndTurn)
+            if (Mode == EndTurnTokenEventMode.CancelEndTurn)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).SetEndTurn(false);
+                AoWHSMap.Current.Players.GetPlayers(Player).SetEndTurn(false);
             }
 
-            Result = ExecuteResult.Done;
+            result = ExecuteResult.Done;
         }
         else
         {
-            Result = ExecuteResult.DoneHalt;
+            result = ExecuteResult.DoneHalt;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string P5FinishedTheirTurnRStr = "finished their turn";
-
-    public enum Mode : byte
-    {
-        EndTurn = 0, CancelEndTurn = 1
-    }
+    private static readonly string s_finishedTheirTurnText = "finished their turn";
 
     // NetworkE.pas:230
 
     // NetworkE.pas:230
 
+}
+
+public enum EndTurnTokenEventMode : byte
+{
+    EndTurn = 0, CancelEndTurn = 1
 }

@@ -11,41 +11,41 @@ public partial class CombatData
     public override void Clear()
     {
         base.Clear();
-        FTurnOrder.Clear();
-        FPlayers.Clear();
-        FCombatObjects.Clear();
-        FParties.Clear();
+        TurnOrder.Clear();
+        Players.Clear();
+        CombatObjects.Clear();
+        Parties.Clear();
     }
 
-    public override void MsgProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref message, sender);
-        FCombatObjects.MsgProc(ref message, sender);
-        FParties.MsgProc(ref message, sender);
+        base.MessageProc(ref message, sender);
+        CombatObjects.MessageProc(ref message, sender);
+        Parties.MessageProc(ref message, sender);
     }
 
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref FX, 0x0a);
-        stream.rwInteger(ref FY, 0x0b);
-        stream.rwInteger(ref FL, 0x0c);
-        RtlUnit.RwSet(ref F_CombatData_22, 2, 0x0d, stream.rwData, 0);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FAttackerPlayer), 0x0e);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDefenderPlayer), 0x0f);
-        stream.rwData(Bytes.Of(ref F_CombatData_30, 1), 1, 0x10);
-        stream.rwInteger(ref FRound, 0x11);
-        stream.rwEObject(FPlayers, 0x12);
-        stream.rwEObject(FCombatObjects, 0x13);
-        stream.rwEObject(FParties, 0x14);
-        stream.rwString(ref FHeader, 0x15);
-        stream.rwInteger(ref FAttackerX, 0x16);
-        stream.rwInteger(ref FAttackerY, 0x17);
-        stream.rwInteger(ref FAttackerL, 0x18);
-        stream.rwStreamProc(0x19, FDefeatedLeaders.LoadFromStream, FDefeatedLeaders.SaveToStream);
-        stream.rwStreamProc(0x1a, FTurnOrder.LoadFromStream, FTurnOrder.SaveToStream);
-        stream.rwData(Bytes.Of(ref FWallType, 1), 1, 0x1b);
-        stream.rwBool(ref FWallBreached, 0x1c);
-        stream.rwStreamProc(0x1d, FInvolvedLeaders.LoadFromStream, FInvolvedLeaders.SaveToStream);
+        stream.rwInteger(ref X, 0x0a);
+        stream.rwInteger(ref Y, 0x0b);
+        stream.rwInteger(ref MapLevel, 0x0c);
+        RtlUnit.RwSet(ref ImmunityTypes, 2, 0x0d, stream.rwData, 0);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref AttackerPlayer), 0x0e);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DefenderPlayer), 0x0f);
+        stream.rwData(Bytes.Of(ref CombatResult, 1), 1, 0x10);
+        stream.rwInteger(ref Round, 0x11);
+        stream.rwEObject(Players, 0x12);
+        stream.rwEObject(CombatObjects, 0x13);
+        stream.rwEObject(Parties, 0x14);
+        stream.rwString(ref Header, 0x15);
+        stream.rwInteger(ref AttackerX, 0x16);
+        stream.rwInteger(ref AttackerY, 0x17);
+        stream.rwInteger(ref AttackerL, 0x18);
+        stream.rwStreamProc(0x19, DefeatedLeaders.LoadFromStream, DefeatedLeaders.SaveToStream);
+        stream.rwStreamProc(0x1a, TurnOrder.LoadFromStream, TurnOrder.SaveToStream);
+        stream.rwData(Bytes.Of(ref WallType, 1), 1, 0x1b);
+        stream.rwBool(ref WallBreached, 0x1c);
+        stream.rwStreamProc(0x1d, InvolvedLeaders.LoadFromStream, InvolvedLeaders.SaveToStream);
     }
 }

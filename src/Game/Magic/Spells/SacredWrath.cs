@@ -15,9 +15,9 @@ public partial class SacredWrath : CombatSpell
     // CombatSpells.pas:1649
     public SacredWrath(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(SacredWrathRStr);
-        FSpellID = 125;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_sacredWrathText);
+        SpellId = 125;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
@@ -26,5 +26,5 @@ public partial class SacredWrath : CombatSpell
         spellCombatInfo.Radius = 3;
     }
 
-    private static readonly string SacredWrathRStr = "Sacred Wrath";
+    private static readonly string s_sacredWrathText = "Sacred Wrath";
 }

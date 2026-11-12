@@ -16,8 +16,8 @@ public partial class Pop3Dialog : DataModule
     public Frame BCeltL;
     public Frame TCeltL;
     public Image TCeltLineL;
-    public Image AOWImage1;
-    public Image AOWImage2;
+    public Image Image1;
+    public Image Image2;
     public Label SearchingEmailGameLbl;
     public Label EmailGameFoundLbl;
     public ListBox FoundEmailGames;
@@ -34,14 +34,14 @@ public partial class Pop3Dialog : DataModule
     public VerticalScrollBar EmailGamesSB;
     public Button Close;
     public IvTranslator Translator;
-    public bool FSearching;
-    public int FCheckDelay;
+    public bool Searching;
+    public int CheckDelay;
 
     // AoWPOP3Dlg.pas:64
     public void ResetSearch()
     {
-        FCheckDelay = 30;
-        FSearching = false;
+        CheckDelay = 30;
+        Searching = false;
         FoundEmailGames.Items.Clear();
         ExitPnl.Visible = true;
         StartExitPnl.Visible = false;
@@ -73,10 +73,10 @@ public partial class Pop3Dialog : DataModule
     public void ShowDialog()
     {
         ResetSearch();
-        var localEmailAddress = GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
+        var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
         LocalEmailAddressEdit.Text = localEmailAddress;
-        var attachmentDirectory = GameTables.AoWEngine.FRegistry.GetAttachmentDirectory();
-        var format = AbilityRules.Format(AbilityRules.TranslateRStr(AttachmentDirectoryXRStr), [attachmentDirectory]);
+        var attachmentDirectory = GameTables.GameEngine.Registry.GetAttachmentDirectory();
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_attachmentDirectoryFormat), [attachmentDirectory]);
         AttachmentDirectoryLbl.Text = "(" + format + ")";
         Dlg.Visible = true;
     }
@@ -90,20 +90,20 @@ public partial class Pop3Dialog : DataModule
     // AoWPOP3Dlg.pas:135
     public void DlgUpdate()
     {
-        FCheckDelay -= 1;
-        if (FCheckDelay < 0)
+        CheckDelay -= 1;
+        if (CheckDelay < 0)
         {
-            FCheckDelay = GameTables.AoWEngine.FRegistry.GetCheckEmailFrequency() * 30 * 60;
-            if (FCheckDelay < 30)
+            CheckDelay = GameTables.GameEngine.Registry.GetCheckEmailFrequency() * 30 * 60;
+            if (CheckDelay < 30)
             {
-                FCheckDelay = 30;
+                CheckDelay = 30;
             }
 
             // { Original overrides the configured interval. }
-            FCheckDelay = 150;
+            CheckDelay = 150;
         }
 
-        switch (FCheckDelay)
+        switch (CheckDelay)
         {
             case 25:
                 CheckAttachments();
@@ -129,19 +129,19 @@ public partial class Pop3Dialog : DataModule
         if (FoundEmailGames.Selected != -1)
         {
             var item = FoundEmailGames.Items[FoundEmailGames.Selected];
-            General.LoadGame(DialogHosts.General, GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + item);
+            General.LoadGame(DialogHosts.General, GameTables.GameEngine.StartupDirectory + "EmailIn\\" + item);
             General.StartGame(DialogHosts.General);
         }
     }
 
     // AoWPOP3Dlg.pas:166
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             Dlg.Visible = false;
         }
     }
 
-    private static readonly string AttachmentDirectoryXRStr = "Attachment directory: %s";
+    private static readonly string s_attachmentDirectoryFormat = "Attachment directory: %s";
 }

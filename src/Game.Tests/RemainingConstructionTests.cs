@@ -36,27 +36,27 @@ public sealed class RemainingConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly AoWHSSet previousSet = AoWHSSet.Current;
-        private readonly GameEngine previousEngine = GameTables.AoWEngine;
-        private readonly AoWHSMap previousMap = AoWHSMap.Current;
+        private readonly AoWHSSet _previousSet = AoWHSSet.Current;
+        private readonly GameEngine _previousEngine = GameTables.GameEngine;
+        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
         internal readonly MapObjectResourceList CombatResources = new MapObjectResourceList(null!);
 
         internal Fixture()
         {
-            var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.FCombatResources = CombatResources; });
+            var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.CombatResources = CombatResources; });
             AoWHSSet.Current = set;
-            GameTables.AoWEngine = null!;
+            GameTables.GameEngine = null!;
             AoWHSMap.Current = null!;
-            AoWHSSet.Current.FUnitGFXResources = null!;
+            AoWHSSet.Current.UnitGraphicsResources = null!;
             Runtime.RandSeed = 123456789;
         }
 
         public void Dispose()
         {
-            AoWHSSet.Current = previousSet;
-            GameTables.AoWEngine = previousEngine;
-            AoWHSMap.Current = previousMap;
+            AoWHSSet.Current = _previousSet;
+            GameTables.GameEngine = _previousEngine;
+            AoWHSMap.Current = _previousMap;
             CombatResources.Dispose();
             Manager.Dispose();
         }
@@ -86,10 +86,10 @@ public sealed class RemainingConstructionTests
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
-                    if (field.Name is "eclass" or "actionClass" or "groupClass") continue; // the descriptor caches are not constructor state
+                    if (field.Name is "_engineClass" or "_actionClass" or "_groupClass") continue; // the descriptor caches are not constructor state
                     string key = current.Name + "." + field.Name;
                     object? child = field.GetValue(item);
-                    if (field.Name == "FOwner") { fields[key] = child is null ? null : "$owner"; continue; }
+                    if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     fields[key] = State(child, path + "." + key);
                 }
             return fields;
@@ -97,7 +97,7 @@ public sealed class RemainingConstructionTests
         return JsonSerializer.Serialize(State(value, "$"));
     }
 
-    private static readonly string[] Names =
+    private static readonly string[] s_names =
     [
         "Aow.Game.AI.Groups.AIGroupRazeControl",
         "Aow.Game.AI.Groups.AIGroupDefendTargetSelector",
@@ -192,8 +192,8 @@ public sealed class RemainingConstructionTests
         "Aow.Game.World.Structures.TowerConstructionControl",
     ];
 
-    public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
-    public static IEnumerable<object[]> GuardedClasses => Names.Where(name => name.StartsWith("Aow.Game.Magic.Spells.", StringComparison.Ordinal) && name.EndsWith("StormSpell", StringComparison.Ordinal)).Select(name => new object[] { name });
+    public static IEnumerable<object[]> Classes => s_names.Select(name => new object[] { name });
+    public static IEnumerable<object[]> GuardedClasses => s_names.Where(name => name.StartsWith("Aow.Game.Magic.Spells.", StringComparison.Ordinal) && name.EndsWith("StormSpell", StringComparison.Ordinal)).Select(name => new object[] { name });
 
     private static object? Invoke(Func<object?> action)
     {
@@ -207,22 +207,22 @@ public sealed class RemainingConstructionTests
 
     private static object Create(Type type, ECustomNode owner, int route)
     {
-        if (route == 1) return EngineClass.Of(type).Create(owner);
+        if (route == 1) return EngineClass.Of(type).CreateInstance(owner);
         if (route == 2)
         {
             if (EngineHost.Engines is null) EngineHost.Initialize();
             using GameEngine engine = new GameEngine(null!);
             var meta = EngineClass.Of(type);
-            engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
-            try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
+            engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+            try { engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]); }
             catch (Exception error) when (PortedExceptions.Is(error)) { }
-            engine.RegisterEClasses([EngineClass.Of(type)]);
-            return engine.CreateEObject(meta.ClassID, owner);
+            engine.RegisterEngineClasses([EngineClass.Of(type)]);
+            return engine.CreateEngineObject(meta.ClassId, owner);
         }
         if (route == 3)
         {
             var meta = EngineClass.Of(type);
-            return (object)Invoke(() => meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
+            return (object)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
         Type[] signature = typeof(EngineObject).IsAssignableFrom(type) ? [typeof(global::Aow.Engine.Nodes.ECustomNode)] : [];
@@ -285,8 +285,8 @@ public sealed class RemainingConstructionTests
             Assert.IsType(type, value);
             Assert.Same(owner, value.Owner);
             Assert.Same(value, Assert.Single(owner.Members));
-            Assert.NotNull(value.FSpellText);
-            Assert.NotNull(value.FCastImages);
+            Assert.NotNull(value.SpellText);
+            Assert.NotNull(value.CastImages);
             value.Dispose();
             Assert.Empty(owner.Members);
             Assert.Equal(1, owner.Removals);

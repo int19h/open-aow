@@ -3,33 +3,33 @@ namespace Aow.Game.Draw.Images;
 
 internal static class LibraryCatalog
 {
-    internal static LibraryImageClass GetLibraryImageClass(int Index) => ImageLibraries.LibraryImageClasses[Index];
+    internal static LibraryImageClass GetLibraryImageClass(int index) => ImageLibraries.LibraryImageClasses[index];
 
     internal static int LibraryImageClassCount() => ImageLibraries.LibraryImageClasses.Count;
 
-    internal static LibraryImageClass FindLibraryImageClass(int ClassID)
+    internal static LibraryImageClass FindLibraryImageClass(int classId)
     {
-        LibraryImageClass Result;
+        LibraryImageClass result;
         int I;
-        bool Found;
-        Found = false;
+        bool found;
+        found = false;
         I = 0;
-        while (I < ImageLibraries.LibraryImageClasses.Count && !Found)
+        while (I < ImageLibraries.LibraryImageClasses.Count && !found)
         {
-            Found = ClassID == (ImageLibraries.LibraryImageClasses[I]).ClassID;
+            found = classId == (ImageLibraries.LibraryImageClasses[I]).ClassId;
             I += 1;
         }
 
-        if (Found)
+        if (found)
         {
-            Result = ImageLibraries.LibraryImageClasses[I - 1];
+            result = ImageLibraries.LibraryImageClasses[I - 1];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
 }

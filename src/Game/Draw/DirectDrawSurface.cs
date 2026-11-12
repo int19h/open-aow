@@ -3,32 +3,32 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw;
 
-// a DirectDraw surface. FOnSurfaceLost, FPixelFormatID, FWidth, FHeight, FSurface,
+// a DirectDraw surface. _onSurfaceLost, _pixelFormatId, _width, _height, FSurface,
 // FCreationFlags, FStatus, FLockCount, FLockExCount, FSurfaceDesc (the description of the lock)
 public partial class DirectDrawSurface : Surface
 {
-    protected internal NotifyEvent<object> FOnSurfaceLost;
-    protected internal int FPixelFormatID;
-    protected internal int FWidth;
-    protected internal int FHeight;
-    protected internal Set<DirectDrawSurfaceCreationFlagsElement> FCreationFlags;
-    protected internal Set<DirectDrawSurfaceStatusElement> FStatus;
-    protected internal int FLockCount;
-    protected internal int FLockExCount;
-    protected internal LockedSurface FSurfaceDesc;
+    protected internal NotifyEvent<object> _onSurfaceLost;
+    protected internal int _pixelFormatId;
+    protected internal int _width;
+    protected internal int _height;
+    protected internal Set<DirectDrawSurfaceCreationFlagsElement> _creationFlags;
+    protected internal Set<DirectDrawSurfaceStatusElement> _status;
+    protected internal int LockCount;
+    protected internal int RectangleLockCount;
+    protected internal LockedSurface LockedSurface;
 
     // GFXE.pas:9279
-    public override int GetPixelFormatID() => FPixelFormatID;
+    public override int GetPixelFormatId() => _pixelFormatId;
 
     // GFXE.pas:9284
-    public override int GetWidth() => FWidth;
+    public override int GetWidth() => _width;
 
     // GFXE.pas:9289
-    public override int GetHeight() => FHeight;
+    public override int GetHeight() => _height;
 
-    public Set<DirectDrawSurfaceStatusElement> Status { get => FStatus; }
-    public Set<DirectDrawSurfaceCreationFlagsElement> CreationFlags { get => FCreationFlags; }
-    public NotifyEvent<object> OnSurfaceLost { get => FOnSurfaceLost; set => FOnSurfaceLost = value; }
+    public Set<DirectDrawSurfaceStatusElement> Status { get => _status; }
+    public Set<DirectDrawSurfaceCreationFlagsElement> CreationFlags { get => _creationFlags; }
+    public NotifyEvent<object> OnSurfaceLost { get => _onSurfaceLost; set => _onSurfaceLost = value; }
 
-    public const DirectDrawSurfaceStatusElement ssSystemMemory = DirectDrawSurfaceStatusElement.Created;
+    public const DirectDrawSurfaceStatusElement SystemMemory = DirectDrawSurfaceStatusElement.Created;
 }

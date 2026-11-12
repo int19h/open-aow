@@ -16,24 +16,24 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
     // AIGroup.pas:4440
     public AIMoveExecutorMove(ECustomNode owner) : base(owner)
     {
-        FPath = new MovePath();
+        Path = new MovePath();
     }
 
-    public MovePath FPath;
-    public int FMovePoints;
-    public int FMoves;
-    public sbyte FSourceX;
-    public sbyte FSourceY;
-    public sbyte FSourceL;
-    public sbyte FDestinationX;
-    public sbyte FDestinationY;
-    public sbyte FDestinationL;
+    public MovePath Path;
+    public int MovePoints;
+    public int Moves;
+    public sbyte SourceX;
+    public sbyte SourceY;
+    public sbyte SourceL;
+    public sbyte DestinationX;
+    public sbyte DestinationY;
+    public sbyte DestinationL;
 
     // AIGroup.pas:4446
     public override void Dispose()
     {
         // { Original retains this empty exception frame when the path is already nil. }
-        if (FPath == null)
+        if (Path == null)
         {
             try
             {
@@ -45,56 +45,56 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
         }
 
         // { Original handler consumes the exception after showing the message. }
-        FPath?.Dispose();
-        FPath = null;
+        Path?.Dispose();
+        Path = null;
         base.Dispose();
     }
 
     // AIGroup.pas:4460
-    public void AddUnits(AIMoveExecutorUnitList Units, byte Selection)
+    public void AddUnits(AIMoveExecutorUnitList units, byte selection)
     {
-        for (int I = 0, last = Units.Count - 1; I <= last; I++)
+        for (int I = 0, last = units.Count - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                AddChild(Units.GetUnits(I));
+                AddChild(units.GetUnits(I));
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
     }
 
     // AIGroup.pas:4471
-    public void AddUnit(AIMoveExecutorUnit UnitEntry)
+    public void AddUnit(AIMoveExecutorUnit unitEntry)
     {
-        AddChild(UnitEntry);
+        AddChild(unitEntry);
     }
 
     // AIGroup.pas:4476
-    public void SetUnitStatus(AIMoveExecutorUnitStatus Status)
+    public void SetUnitStatus(AIMoveExecutorUnitStatus status)
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((AIMoveExecutorUnit)FChildren.List[I]).FStatus = Status;
+            ((AIMoveExecutorUnit)_children.List[I]).Status = status;
         }
     }
 
     // AIGroup.pas:4484
-    public bool RetrieveArmy(ref ArmyHexSprite Army, ref byte Selection)
+    public bool RetrieveArmy(ref ArmyHexSprite army, ref byte selection)
     {
-        bool Result;
-        int Index;
-        Army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(FSourceX, FSourceY, FSourceL)).GetArmyHS();
-        if (Army != null)
+        bool result;
+        int index;
+        army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(SourceX, SourceY, SourceL)).GetArmyHexSprite();
+        if (army != null)
         {
-            Selection = 0;
+            selection = 0;
             for (int I = Count - 1; I >= 0; I--)
             {
                 var units = GetUnits(I);
-                Index = Army.FArmy.FindChildIndex(units.FUnit);
-                if (Index != -1)
+                index = army.Army.FindChildIndex(units.Troop);
+                if (index != -1)
                 {
-                    Selection = (byte)(Selection | (1 << Index));
+                    selection = (byte)(selection | (1 << index));
                 }
                 else
                 {
@@ -102,16 +102,16 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
                 }
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Selection = 0;
-            Army = null;
-            Result = false;
+            selection = 0;
+            army = null;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P5_06.inc:347

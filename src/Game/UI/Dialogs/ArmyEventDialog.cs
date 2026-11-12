@@ -35,135 +35,135 @@ public partial class ArmyEventDialog : DataModule
     public Image DecoL;
     public Image DecoR;
     public IvTranslator Translator;
-    public ExecuteDoneEvent FOnClose;
-    public ArmyEventLog FEvent;
-    public int FFrame;
-    public ByteList FUnits;
+    public ExecuteDoneEvent OnClose;
+    public ArmyEventLog Event;
+    public int Frame;
+    public ByteList Units;
 
     // AoWArmyEventDlg.pas:113
-    public void DrawUnits(int X, int Y, in LockedSurface SD)
+    public void DrawUnits(int X, int Y, in LockedSurface lockedSurface)
     {
-        int Offset;
-        var byteList = FUnits;
-        Offset = X - byteList.Count * 16;
+        int offset;
+        var byteList = Units;
+        offset = X - byteList.Count * 16;
         for (int I = 0, last = byteList.Count - 1; I <= last; I++)
         {
-            DrawUnit(I, I * 32 + Offset, Y, SD);
+            DrawUnit(I, I * 32 + offset, Y, lockedSurface);
         }
     }
 
     // AoWArmyEventDlg.pas:121
-    public void DrawUnit(int Index, int X, int Y, LockedSurface SD)
+    public void DrawUnit(int index, int X, int Y, LockedSurface lockedSurface)
     {
-        ArmyEventLog Event;
-        int Frame;
-        UnitShowInfo Info;
-        Event = FEvent;
-        var unit = FUnits[Index];
-        if (Event.FDamageValues[unit] != 0)
+        ArmyEventLog eventValue;
+        int frame;
+        UnitShowInfo info;
+        eventValue = Event;
+        var unit = Units[index];
+        if (eventValue.DamageValues[unit] != 0)
         {
             // { The original staggers animation by bits of the unit object's address. }
-            var unit2 = FUnits[Index];
-            var fArmyViewUnit = Event.FArmyView.GetUnit(unit2);
-            Frame = FFrame - FrameFixtureInputs.ArmyStagger(fArmyViewUnit);
-            Info = default;
-            Info.Frame = (int)(((uint)Frame) >> 1) - 1;
-            Info.Direction = 3;
-            Info.Animation = UnitAnimation.Hit;
-            var unit3 = FUnits[Index];
-            Event.FArmyView.GetUnit(unit3).ShowEx(X, Y, SD, Info);
-            if (Frame == 5)
+            var unit2 = Units[index];
+            var fArmyViewUnit = eventValue.ArmyView.GetUnit(unit2);
+            frame = Frame - FrameFixtureInputs.ArmyStagger(fArmyViewUnit);
+            info = default;
+            info.Frame = (int)(((uint)frame) >> 1) - 1;
+            info.Direction = 3;
+            info.Animation = UnitAnimation.Hit;
+            var unit3 = Units[index];
+            eventValue.ArmyView.GetUnit(unit3).Show(X, Y, lockedSurface, info);
+            if (frame == 5)
             {
-                var unit4 = FUnits[Index];
-                if (Event.FArmyView.GetUnit(unit4).GetHitPoints() != 0)
+                var unit4 = Units[index];
+                if (eventValue.ArmyView.GetUnit(unit4).GetHitPoints() != 0)
                 {
-                    var unit5 = FUnits[Index];
-                    var unitGFXResourceIndex = Event.FArmyView.GetUnit(unit5).GetUnitGFXResourceIndex();
-                    var unitGFXResource = AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex);
-                    unitGFXResource.FSFXLibraries[3].Play(0);
+                    var unit5 = Units[index];
+                    var unitGraphicsResourceIndex = eventValue.ArmyView.GetUnit(unit5).GetUnitGraphicsResourceIndex();
+                    var unitGraphicsResource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
+                    unitGraphicsResource.SfxLibraries[3].Play(0);
                 }
                 else
                 {
-                    var unit5 = FUnits[Index];
-                    var unitGFXResourceIndex = Event.FArmyView.GetUnit(unit5).GetUnitGFXResourceIndex();
-                    var unitGFXResource = AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex);
-                    unitGFXResource.FSFXLibraries[4].Play(0);
+                    var unit5 = Units[index];
+                    var unitGraphicsResourceIndex = eventValue.ArmyView.GetUnit(unit5).GetUnitGraphicsResourceIndex();
+                    var unitGraphicsResource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
+                    unitGraphicsResource.SfxLibraries[4].Play(0);
                 }
             }
 
-            if (Frame > 5)
+            if (frame > 5)
             {
-                var unit4 = FUnits[Index];
-                var damageValue = Event.FDamageValues[unit4];
-                var unit5 = FUnits[Index];
-                var damageType = Event.FDamageTypes[unit5];
-                AbilityRules.ShowDamageIcon(X, Y + 8, SD, damageValue, (DamageType)damageType);
-                var unit6 = FUnits[Index];
-                var hitPoints = Event.FArmyView.GetUnit(unit6).GetHitPoints();
-                var unit7 = FUnits[Index];
-                var damageValue2 = Event.FDamageValues[unit7];
-                var unit8 = FUnits[Index];
-                var hitPointsToHitPcnt = HitChance.HitPointsToHitPcnt((sbyte)(byte)(hitPoints - damageValue2), Event.FArmyView.GetUnit(unit8).GetHits());
-                HitChance.ShowHitPcnt(X, Y, SD, hitPointsToHitPcnt);
+                var unit4 = Units[index];
+                var damageValue = eventValue.DamageValues[unit4];
+                var unit5 = Units[index];
+                var damageType = eventValue.DamageTypes[unit5];
+                AbilityRules.ShowDamageIcon(X, Y + 8, lockedSurface, damageValue, (DamageType)damageType);
+                var unit6 = Units[index];
+                var hitPoints = eventValue.ArmyView.GetUnit(unit6).GetHitPoints();
+                var unit7 = Units[index];
+                var damageValue2 = eventValue.DamageValues[unit7];
+                var unit8 = Units[index];
+                var hitPointsToHitPercent = HitChance.HitPointsToHitPercent((sbyte)(byte)(hitPoints - damageValue2), eventValue.ArmyView.GetUnit(unit8).GetHits());
+                HitChance.ShowHitPercent(X, Y, lockedSurface, hitPointsToHitPercent);
             }
             else
             {
-                var unit4 = FUnits[Index];
-                var hits = Event.FArmyView.GetUnit(unit4).GetHits();
-                var unit5 = FUnits[Index];
-                var hitPointsToHitPcnt = HitChance.HitPointsToHitPcnt(Event.FArmyView.GetUnit(unit5).GetHitPoints(), hits);
-                HitChance.ShowHitPcnt(X, Y, SD, hitPointsToHitPcnt);
+                var unit4 = Units[index];
+                var hits = eventValue.ArmyView.GetUnit(unit4).GetHits();
+                var unit5 = Units[index];
+                var hitPointsToHitPercent = HitChance.HitPointsToHitPercent(eventValue.ArmyView.GetUnit(unit5).GetHitPoints(), hits);
+                HitChance.ShowHitPercent(X, Y, lockedSurface, hitPointsToHitPercent);
             }
         }
         else
         {
-            var unit2 = FUnits[Index];
-            Event.FArmyView.GetUnit(unit2).Show(X, Y, SD);
+            var unit2 = Units[index];
+            eventValue.ArmyView.GetUnit(unit2).Show(X, Y, lockedSurface);
         }
     }
 
     // AoWArmyEventDlg.pas:153
     public void ClearEvent()
     {
-        ArmyEventLog Event;
-        ExecuteDoneEvent Notify;
-        int Resource = default;
+        ArmyEventLog eventValue;
+        ExecuteDoneEvent notify;
+        int resource = default;
         DialogHosts.General.Manager.OverlayPriority = 0;
-        for (int I = 0, last = FUnits.Count - 1; I <= last; I++)
+        for (int I = 0, last = Units.Count - 1; I <= last; I++)
         {
-            var unit = FUnits[I];
-            Resource = FEvent.FArmyView.GetUnit(unit).GetUnitGFXResourceIndex();
-            if (Resource != -1)
+            var unit = Units[I];
+            resource = Event.ArmyView.GetUnit(unit).GetUnitGraphicsResourceIndex();
+            if (resource != -1)
             {
-                AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(Resource).Release();
+                AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(resource).Release();
             }
         }
 
-        Notify = FOnClose;
-        Event = FEvent;
-        FOnClose = null;
-        FEvent = null;
-        if (Notify != null)
+        notify = OnClose;
+        eventValue = Event;
+        OnClose = null;
+        Event = null;
+        if (notify != null)
         {
-            Notify(Event);
+            notify(eventValue);
         }
 
-        if (Event != null)
+        if (eventValue != null)
         {
-            Event.Release();
+            eventValue.Release();
         }
     }
 
     // AoWArmyEventDlg.pas:171
     public void ArmyEventDlgCreate()
     {
-        FUnits = new ByteList();
+        Units = new ByteList();
     }
 
     // AoWArmyEventDlg.pas:176
     public void ArmyEventDlgDestroy()
     {
-        FUnits?.Dispose();
+        Units?.Dispose();
     }
 
     // AoWArmyEventDlg.pas:181
@@ -174,21 +174,21 @@ public partial class ArmyEventDialog : DataModule
     }
 
     // AoWArmyEventDlg.pas:187
-    public void UnitPnlDrawBack(LockedSurface SD)
+    public void UnitPnlDrawBack(LockedSurface lockedSurface)
     {
-        if (FFrame < 1000)
+        if (Frame < 1000)
         {
-            FFrame += 1;
+            Frame += 1;
         }
 
-        DrawUnits(ArmyEventWin.WinLeft + 203, ArmyEventWin.WinTop + 100, SD);
+        DrawUnits(ArmyEventWin.WinLeft + 203, ArmyEventWin.WinTop + 100, lockedSurface);
     }
 
     // AoWArmyEventDlg.pas:193
     public void UnitPnlUpdate()
     {
-        UnitPnl.FDrawn = false;
-        ArmyEventWin.FDrawn = false;
+        UnitPnl.Drawn = false;
+        ArmyEventWin.Drawn = false;
     }
 
     // AoWArmyEventDlg.pas:198
@@ -198,44 +198,44 @@ public partial class ArmyEventDialog : DataModule
     }
 
     // AoWArmyEventDlg.pas:203
-    public void ArmyEventWinKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void ArmyEventWinKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27 || Key == 32)
+        if (key == 27 || key == 32)
         {
             ArmyEventWin.Visible = false;
         }
     }
 
-    internal static void ShowArmyEvent(ArmyEventDialog Dialog, ArmyEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowArmyEvent(ArmyEventDialog dialog, ArmyEventLog eventValue, ExecuteDoneEvent done)
     {
-        ArmyEventLog Log;
-        ArmyView Army;
-        int Image;
-        Assert(Dialog.FEvent == null, "", "AoWArmyEventDlg.pas", 92);
-        Dialog.FOnClose = Done;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Log = Dialog.FEvent;
-        Dialog.DamagePic.CurrentImage = Log.FArmyIcon;
-        var text = Log.FArmyMessages.Text;
-        Dialog.EventText.Text = text;
-        Army = Log.FArmyView;
-        Dialog.FUnits.Clear();
-        for (int I = 0, last = Army.GetCount() - 1; I <= last; I++)
+        ArmyEventLog log;
+        ArmyView army;
+        int image;
+        Assert(dialog.Event == null, "", "AoWArmyEventDlg.pas", 92);
+        dialog.OnClose = done;
+        dialog.Event = eventValue;
+        dialog.Event.AddRef();
+        log = dialog.Event;
+        dialog.DamagePic.CurrentImage = log.ArmyIcon;
+        var text = log.ArmyMessages.Text;
+        dialog.EventText.Text = text;
+        army = log.ArmyView;
+        dialog.Units.Clear();
+        for (int I = 0, last = army.GetCount() - 1; I <= last; I++)
         {
-            if (!Army.GetUnitConcealedForPlayer(I, AoWHSMap.Current.FSeatedPlayer) || Log.FDamageValues[I] != 0)
+            if (!army.GetUnitConcealedForPlayer(I, AoWHSMap.Current.SeatedPlayer) || log.DamageValues[I] != 0)
             {
-                Dialog.FUnits.Add((byte)I);
-                Image = Log.FArmyView.GetUnit(I).GetUnitGFXResourceIndex();
-                if (Image != -1)
+                dialog.Units.Add((byte)I);
+                image = log.ArmyView.GetUnit(I).GetUnitGraphicsResourceIndex();
+                if (image != -1)
                 {
-                    AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(Image).AddRef();
+                    AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).AddRef();
                 }
             }
         }
 
-        Dialog.ArmyEventWin.Visible = true;
-        Dialog.FFrame = 0;
+        dialog.ArmyEventWin.Visible = true;
+        dialog.Frame = 0;
     }
 
 }

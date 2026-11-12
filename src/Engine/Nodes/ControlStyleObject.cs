@@ -9,13 +9,13 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Engine.Nodes;
 
-// FControlStyle
+// _controlStyle
 public partial class ControlStyleObject : EngineObject
 {
     // Engine.pas:8228
-    public new const int ClassID = 81;
+    public new const int ClassId = 81;
 
-    internal Set<ControlStyleElement> FControlStyle;
+    internal Set<ControlStyleElement> _controlStyle;
 
     // Engine.pas:8222
     public ControlStyleObject(ECustomNode owner) : this(null, owner) { }
@@ -23,27 +23,27 @@ public partial class ControlStyleObject : EngineObject
     // Engine.pas:8222
     private protected ControlStyleObject(ConstructionContext context, ECustomNode owner) : base(context, owner)
     {
-        FControlStyle = base.GetControlStyle();
+        _controlStyle = base.GetControlStyle();
     }
 
     // Engine.pas:8233
-    public override Set<ControlStyleElement> GetControlStyle() => FControlStyle;
+    public override Set<ControlStyleElement> GetControlStyle() => _controlStyle;
 
     // Engine.pas:8238
-    public void SetControlStyle(Set<ControlStyleElement> Value)
+    public void SetControlStyle(Set<ControlStyleElement> value)
     {
-        FControlStyle = Value;
+        _controlStyle = value;
     }
 
     // Engine.pas:8243
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        RwSet(ref FControlStyle, 1, 1, Stream.rwData, 0);
+        RwSet(ref _controlStyle, 1, 1, stream.rwData, 0);
     }
 
     public override void PersistFields(IPersister persister)
     {
-        persister.Set("ControlStyle", ref FControlStyle);
+        persister.Set("ControlStyle", ref _controlStyle);
     }
 
 }

@@ -20,8 +20,8 @@ public partial class SmtpDialog : DataModule
     public Frame BCeltL;
     public Frame TCeltL;
     public Image TCeltLineL;
-    public Image AOWImage1;
-    public Image AOWImage2;
+    public Image Image1;
+    public Image Image2;
     public Button ExitBtn;
     public Label SendingGameLbl;
     public Gauge ProgressBar;
@@ -38,11 +38,11 @@ public partial class SmtpDialog : DataModule
     public MailMessage IMSMessage;
     public SmtpSender IMSSMTP;
     public IvTranslator Translator;
-    public IMSSendThread FThread;
-    public ExecuteDoneEvent FDone;
-    public SmtpEventLog FEvent;
-    public int FProgress;
-    public bool FFinished;
+    public IMSSendThread Thread;
+    public ExecuteDoneEvent Done;
+    public SmtpEventLog Event;
+    public int Progress;
+    public bool Finished;
 
     // AoWSMTPDlg.pas:115
     public void FinishDialog()
@@ -54,13 +54,13 @@ public partial class SmtpDialog : DataModule
     // AoWSMTPDlg.pas:134
     public void ResetProgress()
     {
-        FFinished = false;
+        Finished = false;
         ProgressBar.Position = 0;
-        var sendingEmailGame = AbilityRules.TranslateRStr(SendingEmailGameRStr);
+        var sendingEmailGame = AbilityRules.TranslateResourceString(s_sendingEmailGameText);
         SendingGameLbl.Text = sendingEmailGame;
         FailedPnl.Visible = false;
         SendPnl.Visible = true;
-        FProgress = 0;
+        Progress = 0;
         ExitBtn.Visible = false;
     }
 
@@ -72,13 +72,13 @@ public partial class SmtpDialog : DataModule
     }
 
     // AoWSMTPDlg.pas:154
-    public void IMSThreadTerminatedEvent()
+    public void ImsThreadTerminatedEvent()
     {
-        FEvent.FSuccess = FThread.FSuccess;
-        FFinished = true;
-        if (FEvent.FSuccess)
+        Event.Success = Thread.FSuccess;
+        Finished = true;
+        if (Event.Success)
         {
-            FProgress = 100;
+            Progress = 100;
         }
     }
 
@@ -95,41 +95,41 @@ public partial class SmtpDialog : DataModule
     }
 
     // AoWSMTPDlg.pas:171
-    public void IMSSMTPProgress(int Progress, int Total)
+    public void IMSSMTPProgress(int progress, int total)
     {
-        if (Progress > FProgress)
+        if (progress > Progress)
         {
-            FProgress = Progress;
+            Progress = progress;
         }
     }
 
     // AoWSMTPDlg.pas:176
     public void ProgressBarUpdate()
     {
-        if (ProgressBar.Position != FProgress)
+        if (ProgressBar.Position != Progress)
         {
-            ProgressBar.Position = FProgress;
-            ProgressBar.FDrawn = false;
+            ProgressBar.Position = Progress;
+            ProgressBar.Drawn = false;
         }
     }
 
     // AoWSMTPDlg.pas:185
-    public void IMSSMTPError(ref string Error)
+    public void IMSSMTPError(ref string error)
     {
-        if (FEvent != null)
+        if (Event != null)
         {
-            FEvent.FError = Error;
+            Event.Error = error;
         }
     }
 
     // AoWSMTPDlg.pas:190
     public void DlgUpdate()
     {
-        if (FFinished)
+        if (Finished)
         {
-            if (FEvent.FSuccess)
+            if (Event.Success)
             {
-                var gameSuccessfullySent = AbilityRules.TranslateRStr(GameSuccessfullySentRStr);
+                var gameSuccessfullySent = AbilityRules.TranslateResourceString(s_gameSuccessfullySentText);
                 SendingGameLbl.Text = gameSuccessfullySent;
                 ExitBtn.Visible = true;
             }
@@ -154,48 +154,48 @@ public partial class SmtpDialog : DataModule
     // AoWSMTPDlg.pas:212
     public void SettingsBtnClick()
     {
-        EmailSettingsDialog.ShowEmailSettings(DialogHosts.EmailSettingsDlg);
+        EmailSettingsDialog.ShowEmailSettings(DialogHosts.EmailSettingsDialog);
     }
 
-    private static readonly string GameSuccessfullySentRStr = "Game successfully sent";
+    private static readonly string s_gameSuccessfullySentText = "Game successfully sent";
 
-    private static readonly string SendingEmailGameRStr = "Sending email game...";
+    private static readonly string s_sendingEmailGameText = "Sending email game...";
 
-    internal static void ShowSMTPEvent(SmtpDialog Dialog, SmtpEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowSmtpEvent(SmtpDialog dialog, SmtpEventLog eventValue, ExecuteDoneEvent done)
     {
-        Dialog.ResetProgress();
-        Dialog.FDone = Done;
-        Dialog.FEvent = Event;
-        var smtpEventLog = Dialog.FEvent;
+        dialog.ResetProgress();
+        dialog.Done = done;
+        dialog.Event = eventValue;
+        var smtpEventLog = dialog.Event;
         smtpEventLog.AddRef();
 
-        var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.RecipientXRStr), [Event.FToAddress]);
-        Dialog.RecipientLbl.Text = format;
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_recipientFormat), [eventValue.ToAddress]);
+        dialog.RecipientLbl.Text = format;
         try
         {
-            Dialog.IMSSMTP.FMessage = Dialog.IMSMessage;
-            var smtpServer = GameTables.AoWEngine.FRegistry.GetSMTPServer();
-            Dialog.IMSSMTP.FHost = smtpServer;
-            Dialog.IMSSMTP.WinsockLoaded = true;
-            MailMessage tmsMessage = Dialog.IMSMessage;
-            tmsMessage.FEncode = false;
-            tmsMessage.FIncludeHeader = false;
-            tmsMessage.FHeader.FFrom = Event.FFromAddress;
-            tmsMessage.FRecipients.Clear();
-            Dialog.IMSMessage.FRecipients.AddAddress(Event.FToAddress, "");
+            dialog.IMSSMTP.Message = dialog.IMSMessage;
+            var smtpServer = GameTables.GameEngine.Registry.GetSmtpServer();
+            dialog.IMSSMTP.Host = smtpServer;
+            dialog.IMSSMTP.WinsockLoaded = true;
+            MailMessage tmsMessage = dialog.IMSMessage;
+            tmsMessage.Encode = false;
+            tmsMessage.IncludeHeader = false;
+            tmsMessage.Header.From = eventValue.FromAddress;
+            tmsMessage.Recipients.Clear();
+            dialog.IMSMessage.Recipients.AddAddress(eventValue.ToAddress, "");
 
-            Dialog.IMSMessage.FSubject = Event.FSubject;
-            Dialog.IMSMessage.SetBody(Event.FMessage);
-            Dialog.IMSMessage.FAttachments.Clear();
-            Dialog.IMSMessage.FAttachments.AddFile(Event.FFileName);
-            Dialog.StartSending();
-            Dialog.Dlg.Visible = true;
+            dialog.IMSMessage.Subject = eventValue.Subject;
+            dialog.IMSMessage.SetBody(eventValue.Message);
+            dialog.IMSMessage.Attachments.Clear();
+            dialog.IMSMessage.Attachments.AddFile(eventValue.FileName);
+            dialog.StartSending();
+            dialog.Dlg.Visible = true;
         }
         catch
         {
-            Dialog.FEvent.FSuccess = false;
-            Dialog.FFinished = true;
-            Dialog.Dlg.Visible = true;
+            dialog.Event.Success = false;
+            dialog.Finished = true;
+            dialog.Dlg.Visible = true;
         }
     }
 

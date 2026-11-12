@@ -16,23 +16,23 @@ public partial class ChangePlayerSettingsTokenEvent : TokenEvent
     public ChangePlayerSettingsTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135974;
+    public new const int ClassId = 135974;
 
-    public sbyte FPlayer;
-    public string FSettings = "";
+    public sbyte Player;
+    public string Settings = "";
 
     // MoveT.PAS:1891
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 30);
-        Stream.rwString(ref FSettings, 31);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 30);
+        stream.rwString(ref Settings, 31);
     }
 
     // MoveT.PAS:1898
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FSettings = FSettings;
+        AoWHSMap.Current.Players.GetPlayers(Player).Settings = Settings;
         return ExecuteResult.Done;
     }
 

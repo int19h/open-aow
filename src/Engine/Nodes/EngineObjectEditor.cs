@@ -13,12 +13,12 @@ public partial class EngineObjectEditor : EngineObject, IEngineObjectEditorClass
 
     // Engine.pas:3036
     // { TEObjectEditor: stubs }
-    public static int EditorClassID => 0;
+    public static int EditorClassId => 0;
 
     // Engine.pas:3041
-    public static void Edit(EngineObject Obj, GameEngine AEngine, EditDoneEvent Done)
+    public static void Edit(EngineObject objectValue, GameEngine engine, EditDoneEvent done)
     {
-        Done(EditResult.Cancel, Obj);
+        done(EditResult.Cancel, objectValue);
     }
 
     public enum EditModeElement : byte

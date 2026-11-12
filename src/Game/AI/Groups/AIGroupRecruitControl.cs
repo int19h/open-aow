@@ -25,38 +25,38 @@ public partial class AIGroupRecruitControl : AIGroupTask
     // AIGroup.pas:2070
     public AIGroupRecruitControl(ECustomNode owner) : base(owner)
     {
-        FUnits = new UnitUserList(null);
+        Units = new UnitUserList(null);
     }
 
-    public Mode FMode;
-    public AIGroupControl FControl;
-    public bool FComplete;
-    public UnitUserList FUnits;
-    public Int32Array10 FRemainingStrengths;
-    public int FRemainingStrength;
-    public int FRecruitStrength;
-    public Set<DamageType> FDamageTypes;
-    public Int32Array10 FRecruitStrengths;
-    public int FSuperiority;
-    public Set<MoveType> FMoveTypes;
-    public int FMovesMin;
-    public float FPathStrengthFactor;
+    public AIGroupRecruitControlMode Mode;
+    public AIGroupControl Control;
+    public bool Complete;
+    public UnitUserList Units;
+    public Int32Array10 RemainingStrengths;
+    public int RemainingStrength;
+    public int RecruitStrength;
+    public Set<DamageType> DamageTypes;
+    public Int32Array10 RecruitStrengths;
+    public int Superiority;
+    public Set<MoveType> MoveTypes;
+    public int MovesMin;
+    public float PathStrengthFactor;
 
     // AIGroup.pas:2076
     public override void Dispose()
     {
-        FUnits?.Dispose();
+        Units?.Dispose();
         base.Dispose();
     }
 
     // AIGroup.pas:2097
-    public override bool GetBusy() => FState != -1;
+    public override bool GetBusy() => State != -1;
 
     // AIGroup.pas:2268
-    public override bool Activate(AIGroupControl Control)
+    public override bool Activate(AIGroupControl control)
     {
-        FControl = Control;
-        FRemainingStrength = FRecruitStrength;
+        Control = control;
+        RemainingStrength = RecruitStrength;
         UpdateCompletion();
         return true;
     }
@@ -65,23 +65,23 @@ public partial class AIGroupRecruitControl : AIGroupTask
     public override bool Process()
     {
         int I;
-        switch (FState)
+        switch (State)
         {
             case 0:
-                AoWHSMap.Current.FAIExecuter.UseProcessTime(500);
+                AoWHSMap.Current.AIExecutor.UseProcessTime(500);
                 I = 0;
-                FControl.FRecruitmentGroups.Validate(FControl);
-                while (!FComplete && I != FControl.FRecruitmentGroups.Count)
+                Control.RecruitmentGroups.Validate(Control);
+                while (!Complete && I != Control.RecruitmentGroups.Count)
                 {
-                    if (ValidRecruitmentGroup(FControl.FRecruitmentGroups.GetRecruitmentGroups(I)))
+                    if (ValidRecruitmentGroup(Control.RecruitmentGroups.GetRecruitmentGroups(I)))
                     {
-                        RecruitFromGroup(FControl.FRecruitmentGroups.GetRecruitmentGroups(I));
+                        RecruitFromGroup(Control.RecruitmentGroups.GetRecruitmentGroups(I));
                     }
 
                     I += 1;
                 }
 
-                if (Set<Mode>.Of(Mode.AutoRecruit, Mode.ForceRecruit).Contains(FMode) || (FMode == Mode.CompleteRecruitOnly && FComplete))
+                if (Set<AIGroupRecruitControlMode>.Of(AIGroupRecruitControlMode.AutoRecruit, AIGroupRecruitControlMode.ForceRecruit).Contains(Mode) || (Mode == AIGroupRecruitControlMode.CompleteRecruitOnly && Complete))
                 {
                     ExecuteRecruitment();
                 }
@@ -97,149 +97,149 @@ public partial class AIGroupRecruitControl : AIGroupTask
     }
 
     // AIGroup.pas:2262
-    public virtual bool Setup(AIGroupControl Control)
+    public virtual bool Setup(AIGroupControl control)
     {
         Reset();
         return true;
     }
 
     // AIGroup.pas:2082
-    public int GetRecruitedStrength() => FRecruitStrength - FRemainingStrength;
+    public int GetRecruitedStrength() => RecruitStrength - RemainingStrength;
 
     // AIGroup.pas:2087
-    public int GetRecruitStrengthEx(DamageType DamageType) => FRecruitStrengths[(int)DamageType];
+    public int GetRecruitStrength(DamageType damageType) => RecruitStrengths[(int)damageType];
 
     // AIGroup.pas:2092
-    public void SetRecruitStrengthEx(DamageType DamageType, int Value)
+    public void SetRecruitStrength(DamageType damageType, int value)
     {
-        FRecruitStrengths[(int)DamageType] = Value;
+        RecruitStrengths[(int)damageType] = value;
     }
 
     // AIGroup.pas:2102
     public int GetRecruitMoveDays()
     {
-        AIRecruitmentGroup Group;
-        int Days;
-        int Result = -1;
-        for (int I = 0, last = FUnits.Count - 1; I <= last; I++)
+        AIRecruitmentGroup group;
+        int days;
+        int result = -1;
+        for (int I = 0, last = Units.Count - 1; I <= last; I++)
         {
-            var unit = FUnits.GetUnit(I);
-            Group = FControl.FRecruitmentGroups.FindUnit(unit);
-            if (Group != null && FUnits.GetUnit(I).GetMoves() != 0)
+            var troop = Units.GetUnit(I);
+            group = Control.RecruitmentGroups.FindUnit(troop);
+            if (group != null && Units.GetUnit(I).GetMoves() != 0)
             {
-                var moves = FUnits.GetUnit(I).GetMoves();
-                Days = (Group.FMovePoints - 1) / moves;
-                if (Days > Result)
+                var moves = Units.GetUnit(I).GetMoves();
+                days = (group.MovePoints - 1) / moves;
+                if (days > result)
                 {
-                    Result = Days;
+                    result = days;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:2119
-    public bool UsefullRecruitUnit(Troop AUnit)
+    public bool UsefulRecruitUnit(Troop troop)
     {
         DamageType D;
-        bool Result = AUnit.GetMoves() > FMovesMin && (AUnit.GetMoveTypes() & FMoveTypes) != Set<MoveType>.Of();
-        if (Result)
+        bool result = troop.GetMoves() > MovesMin && (troop.GetMoveTypes() & MoveTypes) != Set<MoveType>.Of();
+        if (result)
         {
-            Result = FRemainingStrength > 0 && AUnit.GetStrengthMax(FDamageTypes) > 0;
-            if (!Result)
+            result = RemainingStrength > 0 && troop.GetStrengthMax(DamageTypes) > 0;
+            if (!result)
             {
                 for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
                 {
                     D = (DamageType)dOrdinal;
-                    Result = FRemainingStrengths[(int)D] > 0 && AUnit.GetStrength(D) > 0;
-                    if (Result)
+                    result = RemainingStrengths[(int)D] > 0 && troop.GetStrength(D) > 0;
+                    if (result)
                     {
-                        return Result;
+                        return result;
                     }
                 }
 
-                if (!Result && FSuperiority != -1)
+                if (!result && Superiority != -1)
                 {
-                    Result = (FControl.FCombatPredictor.Usefullness(AUnit) & 8388608) != 0;
+                    result = (Control.CombatPredictor.Usefullness(troop) & 8388608) != 0;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:2140
     public void UpdateCompletion()
     {
         DamageType D;
-        FComplete = FRemainingStrength <= 0;
-        if (FComplete)
+        Complete = RemainingStrength <= 0;
+        if (Complete)
         {
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
                 D = (DamageType)dOrdinal;
-                if (FRemainingStrengths[(int)D] > 0)
+                if (RemainingStrengths[(int)D] > 0)
                 {
-                    FComplete = false;
+                    Complete = false;
                     return;
                 }
             }
 
-            if (FSuperiority != -1)
+            if (Superiority != -1)
             {
-                FControl.FCombatPredictor.Execute();
-                if (FControl.FCombatPredictor.GetSuperiority() < FSuperiority)
+                Control.CombatPredictor.Execute();
+                if (Control.CombatPredictor.GetSuperiority() < Superiority)
                 {
-                    FComplete = false;
+                    Complete = false;
                 }
             }
         }
     }
 
     // AIGroup.pas:2162
-    public void AddRecruitUnit(Troop AUnit)
+    public void AddRecruitUnit(Troop troop)
     {
         DamageType D;
-        FUnits.AddUnit(AUnit);
+        Units.AddUnit(troop);
         for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
         {
             D = (DamageType)dOrdinal;
-            var strength = AUnit.GetStrength(D);
-            FRemainingStrengths[(int)D] -= strength;
+            var strength = troop.GetStrength(D);
+            RemainingStrengths[(int)D] -= strength;
         }
 
-        var strengthMax = AUnit.GetStrengthMax(FDamageTypes);
-        FRemainingStrength -= strengthMax;
-        if (FSuperiority != -1)
+        var strengthMax = troop.GetStrengthMax(DamageTypes);
+        RemainingStrength -= strengthMax;
+        if (Superiority != -1)
         {
-            FControl.FCombatPredictor.AddUnit(AUnit);
+            Control.CombatPredictor.AddUnit(troop);
         }
 
         UpdateCompletion();
     }
 
     // AIGroup.pas:2175
-    public void DeleteRecruitUnit(Troop AUnit)
+    public void DeleteRecruitUnit(Troop troop)
     {
         DamageType D;
-        if (FUnits.IndexOf(AUnit) != -1)
+        if (Units.IndexOf(troop) != -1)
         {
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
                 D = (DamageType)dOrdinal;
-                var strength = AUnit.GetStrength(D);
-                FRemainingStrengths[(int)D] += strength;
+                var strength = troop.GetStrength(D);
+                RemainingStrengths[(int)D] += strength;
             }
 
-            var strengthMax = AUnit.GetStrengthMax(FDamageTypes);
-            FRemainingStrength += strengthMax;
-            if (FSuperiority != -1)
+            var strengthMax = troop.GetStrengthMax(DamageTypes);
+            RemainingStrength += strengthMax;
+            if (Superiority != -1)
             {
-                FControl.FCombatPredictor.DeleteUnit(AUnit);
+                Control.CombatPredictor.DeleteUnit(troop);
             }
 
-            FUnits.DeleteUnit(AUnit);
+            Units.DeleteUnit(troop);
             UpdateCompletion();
         }
     }
@@ -247,108 +247,108 @@ public partial class AIGroupRecruitControl : AIGroupTask
     // AIGroup.pas:2191
     public void ExecuteRecruitment()
     {
-        FControl.FGroup.AddUnits(FUnits);
+        Control.Group.AddUnits(Units);
     }
 
     // AIGroup.pas:2196
-    public bool ValidRecruitmentGroup(AIRecruitmentGroup Group)
+    public bool ValidRecruitmentGroup(AIRecruitmentGroup group)
     {
-        bool Result;
-        if (Group.FPathStrength != 0)
+        bool result;
+        if (group.PathStrength != 0)
         {
-            Result = Group.FGroup.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)Group.FPathStrength * FPathStrengthFactor);
-            if (!Result)
+            result = group.Group.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)group.PathStrength * PathStrengthFactor);
+            if (!result)
             {
-                if (FMode != Mode.ForceRecruit)
+                if (Mode != AIGroupRecruitControlMode.ForceRecruit)
                 {
-                    Result = Group.FGroup.GetMovePointsMin() >= Group.FMovePoints;
+                    result = group.Group.GetMovePointsMin() >= group.MovePoints;
                 }
                 else
                 {
-                    Result = Group.FGroup.GetMovePointsMin() + 20 >= Group.FMovePoints;
+                    result = group.Group.GetMovePointsMin() + 20 >= group.MovePoints;
                 }
             }
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:2212
-    public bool RecruitFromGroup(AIRecruitmentGroup Group)
+    public bool RecruitFromGroup(AIRecruitmentGroup group)
     {
-        UnitUserList Units;
-        UnitUserList Recruitable;
+        UnitUserList units;
+        UnitUserList recruitable;
         int I;
-        Troop AUnit;
-        bool Result = false;
-        Units = new UnitUserList(null);
-        I = Group.FGroup.Count - 1;
+        Troop troop;
+        bool result = false;
+        units = new UnitUserList(null);
+        I = group.Group.Count - 1;
         for (; I >= 0; I -= 1)
         {
-            if (UsefullRecruitUnit(Group.FGroup.GetUnit(I)))
+            if (UsefulRecruitUnit(group.Group.GetUnit(I)))
             {
-                Units.AddUnit(Group.FGroup.GetUnit(I));
+                units.AddUnit(group.Group.GetUnit(I));
             }
         }
 
-        if (Units.Count != 0)
+        if (units.Count != 0)
         {
-            Recruitable = new UnitUserList(null);
-            if (FMode != Mode.ForceRecruit)
+            recruitable = new UnitUserList(null);
+            if (Mode != AIGroupRecruitControlMode.ForceRecruit)
             {
-                Group.FGroup.GetRecruitableUnits(FControl.FGroup, Units, Recruitable);
+                group.Group.GetRecruitableUnits(Control.Group, units, recruitable);
             }
             else
             {
-                Recruitable.AddUnits(Units);
+                recruitable.AddUnits(units);
             }
 
             I = 0;
-            while (I < Recruitable.Count && !FComplete)
+            while (I < recruitable.Count && !Complete)
             {
-                AUnit = Recruitable.GetUnit(I);
-                if (UsefullRecruitUnit(AUnit))
+                troop = recruitable.GetUnit(I);
+                if (UsefulRecruitUnit(troop))
                 {
-                    AddRecruitUnit(AUnit);
-                    Result = true;
+                    AddRecruitUnit(troop);
+                    result = true;
                 }
 
                 I += 1;
             }
 
-            Recruitable?.Dispose();
+            recruitable?.Dispose();
         }
 
-        Units?.Dispose();
-        return Result;
+        units?.Dispose();
+        return result;
     }
 
     // AIGroup.pas:2246
     public void Reset()
     {
-        FUnits.Clear();
-        FState = 0;
-        FMovesMin = 0;
-        FSuperiority = -1;
-        FRecruitStrength = 0;
-        FDamageTypes = AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
+        Units.Clear();
+        State = 0;
+        MovesMin = 0;
+        Superiority = -1;
+        RecruitStrength = 0;
+        DamageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
         // { Original bug: clears only the maximum strength, not the per-type array. }
-        FillBytes(Bytes.Of(ref FRecruitStrength, 4), 0);
-        FMoveTypes = Set<MoveType>.Of(MoveType.Walking, MoveType.Flying);
-        FPathStrengthFactor = (float)0.8;
-        FComplete = false;
-        FMode = Mode.AutoRecruit;
-    }
-
-    public enum Mode : byte
-    {
-        None = 0, AutoRecruit = 1, CompleteRecruitOnly = 2, ForceRecruit = 3
+        FillBytes(Bytes.Of(ref RecruitStrength, 4), 0);
+        MoveTypes = Set<MoveType>.Of(MoveType.Walking, MoveType.Flying);
+        PathStrengthFactor = (float)0.8;
+        Complete = false;
+        Mode = AIGroupRecruitControlMode.AutoRecruit;
     }
 
     // intf_P5_07.inc:390
 
+}
+
+public enum AIGroupRecruitControlMode : byte
+{
+    None = 0, AutoRecruit = 1, CompleteRecruitOnly = 2, ForceRecruit = 3
 }

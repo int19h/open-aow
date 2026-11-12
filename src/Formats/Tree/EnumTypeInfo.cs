@@ -10,7 +10,7 @@ namespace Aow.Formats.Tree;
 public sealed class EnumTypeInfo
 {
     public required string Name { get; init; }
-    internal Type Clr { get; init; } = null!;
+    internal Type Color { get; init; } = null!;
     public required int Width { get; init; }
     public required bool Signed { get; init; }
     public required IReadOnlyDictionary<string, long> ByName { get; init; }
@@ -45,7 +45,7 @@ public sealed class EnumTypeInfo
         return new EnumTypeInfo
         {
             Name = NameTable.Stored(type),
-            Clr = type,
+            Color = type,
             Width = width,
             Signed = signed,
             ByName = byName,
@@ -56,7 +56,7 @@ public sealed class EnumTypeInfo
     internal bool TryNumber(string text, out long number)
     {
         if (ByName.TryGetValue(text, out number)) return true;
-        if (!NameTable.TryMember(Clr, text, out var member)) return false;
+        if (!NameTable.TryMember(Color, text, out var member)) return false;
         return ByName.TryGetValue(member, out number);
     }
 

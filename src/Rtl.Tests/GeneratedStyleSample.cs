@@ -6,19 +6,19 @@ namespace Aow.Rtl.Tests.Generated;
 public enum Flag : byte { First, Second, Third }
 
 [InlineArray(6)]
-public struct ByteArray6 { private byte element0; }
+public struct ByteArray6 { private byte _element0; }
 
 [StructLayout(LayoutKind.Explicit, Size = 12)]
 public struct SampleRecord
 {
-    [FieldOffset(0)] private byte flags;
-    [FieldOffset(1)] private ByteArray6 name;
+    [FieldOffset(0)] private byte _flags;
+    [FieldOffset(1)] private ByteArray6 _name;
     [FieldOffset(8)] public int Value;
 
     public Set<Flag> Flags
     {
-        readonly get => Set<Flag>.FromMask(flags);
-        set => flags = (byte)value.Image;
+        readonly get => Set<Flag>.FromMask(_flags);
+        set => _flags = (byte)value.Image;
     }
 
     public string Name
@@ -26,13 +26,13 @@ public struct SampleRecord
         get
         {
             string result = "";
-            for (int i = 1; i <= name[0]; i++) result += Cp1252.Text(name[i]);
+            for (int i = 1; i <= _name[0]; i++) result += Cp1252.Text(_name[i]);
             return result;
         }
         set
         {
-            name[0] = (byte)Math.Min(5, value.Length);
-            for (int i = 1; i <= name[0]; i++) name[i] = Cp1252.Byte(value[i - 1]);
+            _name[0] = (byte)Math.Min(5, value.Length);
+            for (int i = 1; i <= _name[0]; i++) _name[i] = Cp1252.Byte(value[i - 1]);
         }
     }
 }
@@ -42,7 +42,7 @@ public class Sample(int value) : IDisposable
     public int Value = value;
     public bool Destroyed;
 
-    public virtual int ClassID => 1;
+    public virtual int ClassId => 1;
 
     public virtual void AbstractCall() => throw AbstractErrorException.Create("Abstract Error");
     public virtual void Dispose() => Destroyed = true;
@@ -50,7 +50,7 @@ public class Sample(int value) : IDisposable
 
 public sealed class SampleChild(int value) : Sample(value + 10)
 {
-    public override int ClassID => 2;
+    public override int ClassId => 2;
 }
 
 public sealed class FailingSample : Sample
@@ -88,7 +88,7 @@ public static class GeneratedStyleSample
             ref var sampleRecord = ref records[1];
             sampleRecord.Flags = Set<Flag>.Of(Flag.First).WithRange(Flag.Second, Flag.Third);
             sampleRecord.Name = "abcdef";
-            sampleRecord.Value += instance.ClassID;
+            sampleRecord.Value += instance.ClassId;
             return records[1];
         }
         finally { instance?.Dispose(); }

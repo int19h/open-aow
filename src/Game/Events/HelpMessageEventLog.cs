@@ -13,22 +13,22 @@ public partial class HelpMessageEventLog : EventLog
     // EventLog.pas:860
     public HelpMessageEventLog(ECustomNode owner) : base(owner)
     {
-        FMessage = new StringList();
-        FHelpFileName = AbilityRules.TranslateRStr(HelpRStr);
-        FMode = 0;
+        Message = new StringList();
+        HelpFileName = AbilityRules.TranslateResourceString(s_helpText);
+        Mode = 0;
     }
 
-    public StringList FMessage;
-    public string FHelpFileName = "";
-    public byte FMode;
+    public StringList Message;
+    public string HelpFileName = "";
+    public byte Mode;
 
     // EventLog.pas:868
     public override void Dispose()
     {
-        FMessage?.Dispose();
+        Message?.Dispose();
         base.Dispose();
     }
 
-    private static readonly string HelpRStr = "Help";
+    private static readonly string s_helpText = "Help";
 
 }

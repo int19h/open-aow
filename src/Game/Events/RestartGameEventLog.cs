@@ -11,27 +11,27 @@ public partial class RestartGameEventLog : MessageEventLog
     { }
 
     // Diplomacy.pas:2450
-    public new const int ClassID = 131831;
+    public new const int ClassId = 131831;
 
     // Diplomacy.pas:2453
-    public override string GetText() => AbilityRules.TranslateRStr(GameRestartedRStr);
+    public override string GetText() => AbilityRules.TranslateResourceString(s_gameRestartedText);
 
     // Diplomacy.pas:2456
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool Result = default;
-        if (Trigger != ExecuteTrigger.NewTurn)
+        bool result = default;
+        if (trigger != ExecuteTrigger.NewTurn)
         {
-            Result = base.Execute(Mode, Trigger, Done);
+            result = base.Execute(mode, trigger, done);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string GameRestartedRStr = "Game Restarted";
+    private static readonly string s_gameRestartedText = "Game Restarted";
 
 }

@@ -9,64 +9,64 @@ namespace Aow.Game.AI;
 public partial class AIPlayerControl
 {
     // AI.pas:488. The input callback runs at the native debugger boundary.
-    public bool Process(AIExecutor executer, bool tokenControlDone)
+    public bool Process(AIExecutor executor, bool tokenControlDone)
     {
         HeadlessHooks.BeforeAIPlayerProcess?.Invoke();
-        if (FPlayer.GetBusy() || !AoWHSMap.Current.FTokenManager.PlayerReady(FPlayer.FPlayerIndex)) return false;
+        if (Player.GetBusy() || !AoWHSMap.Current.TokenManager.PlayerReady(Player.PlayerIndex)) return false;
         bool done;
-        switch (FPhase)
+        switch (Phase)
         {
             case AIPlayerProcessPhase.Main:
                 done = false;
-                while (!done && FActions.Count != 0 && !FPlayer.GetBusy() &&
-                    AoWHSMap.Current.FTokenManager.PlayerReady(FPlayer.FPlayerIndex))
+                while (!done && Actions.Count != 0 && !Player.GetBusy() &&
+                    AoWHSMap.Current.TokenManager.PlayerReady(Player.PlayerIndex))
                 {
-                    if (FMoveExecuter.FStatus != AIMoveExecutor.Status.Busy)
+                    if (MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                     {
-                        while (FAction is null && FActions.Count != 0)
-                            if (!ActivateAction(0)) FActions.GetActions(0)?.Dispose();
-                        if (FAction is not null)
+                        while (Action is null && Actions.Count != 0)
+                            if (!ActivateAction(0)) Actions.GetActions(0)?.Dispose();
+                        if (Action is not null)
                         {
-                            done = FAction.Process();
+                            done = Action.Process();
                             if (!done)
                             {
-                                var action = FAction;
+                                var action = Action;
                                 DeactivateAction();
                                 action?.Dispose();
                             }
                         }
                     }
-                    else done = FMoveExecuter.Process();
-                    if (!done && executer.GetProcessTimeLeft() <= 0) done = true;
+                    else done = MoveExecutor.Process();
+                    if (!done && executor.GetProcessTimeLeft() <= 0) done = true;
                 }
-                if (FActions.Count == 0) SetupProcessPhase(AIPlayerProcessPhase.Loop);
-                return !FPlayer.GetBusy() && AoWHSMap.Current.FTokenManager.PlayerReady(FPlayer.FPlayerIndex);
+                if (Actions.Count == 0) SetupProcessPhase(AIPlayerProcessPhase.Loop);
+                return !Player.GetBusy() && AoWHSMap.Current.TokenManager.PlayerReady(Player.PlayerIndex);
             case AIPlayerProcessPhase.Loop:
                 done = false;
                 int index = 0;
-                while (!done && index < FActions.Count && !FPlayer.GetBusy() &&
-                    AoWHSMap.Current.FTokenManager.PlayerReady(FPlayer.FPlayerIndex))
+                while (!done && index < Actions.Count && !Player.GetBusy() &&
+                    AoWHSMap.Current.TokenManager.PlayerReady(Player.PlayerIndex))
                 {
-                    if (FMoveExecuter.FStatus != AIMoveExecutor.Status.Busy)
+                    if (MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                     {
-                        while (FAction is null && index != FActions.Count)
+                        while (Action is null && index != Actions.Count)
                         {
                             index++;
-                            FActionIndex++;
-                            if (FActionIndex >= FActions.Count) FActionIndex = 0;
-                            if (FActionIndex < FActions.Count) ActivateAction(FActionIndex);
+                            ActionIndex++;
+                            if (ActionIndex >= Actions.Count) ActionIndex = 0;
+                            if (ActionIndex < Actions.Count) ActivateAction(ActionIndex);
                         }
-                        if (FAction is not null)
+                        if (Action is not null)
                         {
-                            done = FAction.Process();
+                            done = Action.Process();
                             if (!done) DeactivateAction();
                         }
                     }
-                    else done = FMoveExecuter.Process();
-                    if (!done && executer.GetProcessTimeLeft() <= 0) done = true;
+                    else done = MoveExecutor.Process();
+                    if (!done && executor.GetProcessTimeLeft() <= 0) done = true;
                 }
-                return FActions.Count != 0 && !FPlayer.GetBusy() &&
-                    AoWHSMap.Current.FTokenManager.PlayerReady(FPlayer.FPlayerIndex);
+                return Actions.Count != 0 && !Player.GetBusy() &&
+                    AoWHSMap.Current.TokenManager.PlayerReady(Player.PlayerIndex);
             default: return false;
         }
     }

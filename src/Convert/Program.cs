@@ -16,10 +16,10 @@ public static class Program
     public const int Error = 2;
     public const int Lossy = 3;
 
-    public static int Main(string[] args)
+    public static int Main(string[] arguments)
     {
         ProcessSafety.Initialize();
-        return Run(args, Console.Out, Console.Error);
+        return Run(arguments, Console.Out, Console.Error);
     }
 
     // The built-in unit mappings register in Aow.Game's module initializer (own-formats.md 3.1).
@@ -29,11 +29,11 @@ public static class Program
         System.Runtime.CompilerServices.RuntimeHelpers.RunModuleConstructor(typeof(Game.Saves.FormatMapping).Module.ModuleHandle);
     }
 
-    public static int Run(string[] args, TextWriter output, TextWriter errors)
+    public static int Run(string[] arguments, TextWriter output, TextWriter errors)
     {
         try
         {
-            var options = Options.Parse(args);
+            var options = Options.Parse(arguments);
             return options.Command switch
             {
                 "to-own" => Commands.ToOwn(options, output, errors),
@@ -84,19 +84,19 @@ public sealed class Options
     public bool Overwrite { get; private set; }
     public bool ExactLayout { get; private set; }
     public bool AllowLossy { get; private set; }
-    public string? Dir { get; private set; }
+    public string? Directory { get; private set; }
     public string? Out { get; private set; }
     public string? Profiles { get; private set; }
     public string? Expect { get; private set; }
 
-    public static Options Parse(string[] args)
+    public static Options Parse(string[] arguments)
     {
-        if (args.Length == 0) throw new UsageException("No command.");
-        var o = new Options { Command = args[0] };
-        for (int i = 1; i < args.Length; i++)
+        if (arguments.Length == 0) throw new UsageException("No command.");
+        var o = new Options { Command = arguments[0] };
+        for (int i = 1; i < arguments.Length; i++)
         {
-            string a = args[i];
-            string Value() => i + 1 < args.Length ? args[++i] : throw new UsageException($"{a} needs a value.");
+            string a = arguments[i];
+            string Value() => i + 1 < arguments.Length ? arguments[++i] : throw new UsageException($"{a} needs a value.");
             switch (a)
             {
                 case "--kind": o.Kind = Value(); break;
@@ -104,7 +104,7 @@ public sealed class Options
                 case "--overwrite": o.Overwrite = true; break;
                 case "--exact-layout": o.ExactLayout = true; break;
                 case "--allow-lossy": o.AllowLossy = true; break;
-                case "--dir": o.Dir = Value(); break;
+                case "--dir": o.Directory = Value(); break;
                 case "--out": o.Out = Value(); break;
                 case "--profiles": o.Profiles = Value(); break;
                 case "--expect": o.Expect = Value(); break;

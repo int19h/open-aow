@@ -6,17 +6,17 @@ namespace Aow.Game.Draw.Images;
 
 public static class ImageLibraries
 {
-    internal static void RegisterLibraryImageClasses(ReadOnlySpan<LibraryImageClass> AClasses)
+    internal static void RegisterLibraryImageClasses(ReadOnlySpan<LibraryImageClass> classes)
     {
-        for (int I = 0, last = AClasses.Length - 1; I <= last; I++)
+        for (int I = 0, last = classes.Length - 1; I <= last; I++)
         {
-            if (AClasses[I].ClassID != 0 && LibraryCatalog.FindLibraryImageClass(AClasses[I].ClassID) == null)
+            if (classes[I].ClassId != 0 && LibraryCatalog.FindLibraryImageClass(classes[I].ClassId) == null)
             {
-                LibraryImageClasses.Add(AClasses[I]);
+                LibraryImageClasses.Add(classes[I]);
             }
             else
             {
-                throw new InvalidOperationException("Image ClassID is already used (" + AClasses[I].ClassName + ")");
+                throw new InvalidOperationException("Image ClassID is already used (" + classes[I].StorageKey + ")");
             }
         }
     }

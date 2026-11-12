@@ -6,25 +6,25 @@ namespace Aow.Game.UI.Controls;
 // { The AoWControl unit of aowInt.dpl: TAOWControl, the ancestor of the controls that sit in a
 //   window (buttons, edits, lists, scroll bars, ...). It knows its window and shows its tool tip. }
 // Fields: FToolTipText, FToolTipShown (updates the tool tip has been visible), FAOWWindow,
-// FToolTip
+// _toolTip
 public partial class Control : UIComponent
 {
-    public StringList FToolTipText;
-    public int FToolTipShown;
-    public BaseWindow FAOWWindow;
-    public ToolTip FToolTip;
+    public StringList _toolTipText;
+    public int ToolTipShown;
+    public BaseWindow _window;
+    public ToolTip _toolTip;
 
     // AoWControl.pas:46
     public Control(Component owner) : base(owner)
     {
-        FToolTipText = new StringList();
-        FCaptureInput = true;
+        _toolTipText = new StringList();
+        _captureInput = true;
     }
 
     // AoWControl.pas:53
     public override void Dispose()
     {
-        FToolTipText.Dispose();
+        _toolTipText.Dispose();
         base.Dispose();
     }
 
@@ -38,268 +38,268 @@ public partial class Control : UIComponent
     {
         Rect R = default;
         BaseWindow W;
-        if (FValid)
+        if (Valid)
         {
-            if (FVisible)
+            if (_visible)
             {
                 base.Update();
-                if (FToolTip != null)
+                if (_toolTip != null)
                 {
-                    if (FToolTipCount > 0)
+                    if (ToolTipCount > 0)
                     {
-                        if (FToolTipShown > 0 && FMouseIn == true && FToolTip.FShowDuration > 0)
+                        if (ToolTipShown > 0 && MouseIn == true && _toolTip._showDuration > 0)
                         {
-                            if (FToolTipShown < FToolTip.FShowDuration)
+                            if (ToolTipShown < _toolTip._showDuration)
                             {
-                                FToolTipShown += 1;
+                                ToolTipShown += 1;
                             }
                             else
                             {
-                                if (!FToolTip.FToolTipStatic && FToolTip != null)
+                                if (!_toolTip._toolTipStatic && _toolTip != null)
                                 {
-                                    FToolTip.SetVisible(false);
+                                    _toolTip.SetVisible(false);
                                 }
 
-                                FToolTipShown = 0;
+                                ToolTipShown = 0;
                             }
                         }
 
-                        if (FToolTip.FToolTipDelay > FToolTipCount)
+                        if (_toolTip._toolTipDelay > ToolTipCount)
                         {
-                            FToolTipCount += 1;
+                            ToolTipCount += 1;
                         }
                         else
                         {
-                            if (FToolTipText.Count > 0 && !FMouseIn)
+                            if (_toolTipText.Count > 0 && !MouseIn)
                             {
-                                FToolTip.SetFStrings(FToolTipText);
-                                if (!FToolTip.FToolTipStatic)
+                                _toolTip.SetFStrings(_toolTipText);
+                                if (!_toolTip._toolTipStatic)
                                 {
-                                    FToolTip.SetVisible(true);
-                                    FAOWWindow.FRedraw = true;
-                                    FToolTip.FSized = false;
+                                    _toolTip.SetVisible(true);
+                                    _window.Redraw = true;
+                                    _toolTip.Sized = false;
                                 }
 
-                                W = FAOWWindow;
-                                while (W.FAOWOwner is BaseWindow)
+                                W = _window;
+                                while (W._ownerComponent is BaseWindow)
                                 {
-                                    W = (BaseWindow)W.FAOWOwner;
+                                    W = (BaseWindow)W._ownerComponent;
                                 }
 
-                                if (FAOWWindow != W)
+                                if (_window != W)
                                 {
-                                    var rect = new Rect(FAOWWindow.FWinLeft + W.FWinLeft + FWinLeft, FAOWWindow.FWinTop + W.FWinTop + FWinTop, FAOWWindow.FWinLeft + W.FWinLeft + FToolTipLeft, FAOWWindow.FWinTop + W.FWinTop + FWinTop + FWinHeight);
-                                    FToolTip.FControlRect = rect;
+                                    var rectangle = new Rect(_window._winLeft + W._winLeft + _winLeft, _window._winTop + W._winTop + _winTop, _window._winLeft + W._winLeft + ToolTipLeft, _window._winTop + W._winTop + _winTop + _winHeight);
+                                    _toolTip.ControlRectangle = rectangle;
                                 }
                                 else
                                 {
-                                    var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FToolTipLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight);
-                                    FToolTip.FControlRect = rect;
+                                    var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _window._winLeft + ToolTipLeft, _window._winTop + _winTop + _winHeight);
+                                    _toolTip.ControlRectangle = rectangle;
                                 }
 
-                                FMouseIn = true;
-                                FToolTipShown = 1;
+                                MouseIn = true;
+                                ToolTipShown = 1;
                             }
                         }
                     }
                     else
                     {
-                        if (FMouseIn == true)
+                        if (MouseIn == true)
                         {
-                            if (!FToolTip.FToolTipStatic && FToolTip != null)
+                            if (!_toolTip._toolTipStatic && _toolTip != null)
                             {
-                                FToolTip.SetVisible(false);
+                                _toolTip.SetVisible(false);
                             }
 
-                            FMouseIn = false;
+                            MouseIn = false;
                         }
                     }
                 }
 
-                if (FOldRect.Right > 0 && FOldRect.Bottom > 0 && (FOldRect.Left != FWinLeft || FOldRect.Top != FWinTop || FOldRect.Right != FWinWidth || FOldRect.Bottom != FWinHeight))
+                if (OldRectangle.Right > 0 && OldRectangle.Bottom > 0 && (OldRectangle.Left != _winLeft || OldRectangle.Top != _winTop || OldRectangle.Right != _winWidth || OldRectangle.Bottom != _winHeight))
                 {
-                    if (FAOWOwner.FAOWOwner.FAOWOwner == null)
+                    if (_ownerComponent._ownerComponent._ownerComponent == null)
                     {
-                        R = new Rect(FOldRect.Left, FOldRect.Top, FOldRect.Left + FOldRect.Right - 1, FOldRect.Top + FOldRect.Bottom - 1);
+                        R = new Rect(OldRectangle.Left, OldRectangle.Top, OldRectangle.Left + OldRectangle.Right - 1, OldRectangle.Top + OldRectangle.Bottom - 1);
                     }
                     else
                     {
-                        R = new Rect(FAOWOwner.FWinLeft + FOldRect.Left, FAOWOwner.FWinTop + FOldRect.Top, FAOWOwner.FWinLeft + FOldRect.Left + FOldRect.Right - 1, FAOWOwner.FWinTop + FOldRect.Top + FOldRect.Bottom - 1);
+                        R = new Rect(_ownerComponent._winLeft + OldRectangle.Left, _ownerComponent._winTop + OldRectangle.Top, _ownerComponent._winLeft + OldRectangle.Left + OldRectangle.Right - 1, _ownerComponent._winTop + OldRectangle.Top + OldRectangle.Bottom - 1);
                     }
 
-                    FAOWOwner.AddDrawRect(ref R, this);
-                    FDrawn = false;
+                    _ownerComponent.AddDrawRectangle(ref R, this);
+                    Drawn = false;
                 }
                 else
                 {
-                    if (FMasked && !FDrawn)
+                    if (_masked && !Drawn)
                     {
-                        if (FAOWOwner.FAOWOwner.FAOWOwner == null)
+                        if (_ownerComponent._ownerComponent._ownerComponent == null)
                         {
-                            R = new Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
+                            R = new Rect(_winLeft, _winTop, _winLeft + _winWidth - 1, _winTop + _winHeight - 1);
                         }
                         else
                         {
-                            R = new Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
+                            R = new Rect(_ownerComponent._winLeft + _winLeft, _ownerComponent._winTop + _winTop, _ownerComponent._winLeft + _winLeft + _winWidth - 1, _ownerComponent._winTop + _winTop + _winHeight - 1);
                         }
 
-                        FAOWOwner.AddDrawRect(ref R, this);
+                        _ownerComponent.AddDrawRectangle(ref R, this);
                     }
                 }
 
-                if (!FDrawn)
+                if (!Drawn)
                 {
-                    if (FAOWOwner.FAOWOwner.FAOWOwner == null)
+                    if (_ownerComponent._ownerComponent._ownerComponent == null)
                     {
-                        R = new Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
+                        R = new Rect(_winLeft, _winTop, _winLeft + _winWidth - 1, _winTop + _winHeight - 1);
                     }
                     else
                     {
-                        R = new Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
+                        R = new Rect(_ownerComponent._winLeft + _winLeft, _ownerComponent._winTop + _winTop, _ownerComponent._winLeft + _winLeft + _winWidth - 1, _ownerComponent._winTop + _winTop + _winHeight - 1);
                     }
 
-                    var indexOf = FAOWOwner.FChildren.IndexOf(this);
-                    FAOWOwner.InvalidateRect(indexOf, ref R, this);
+                    var indexOf = _ownerComponent.Children.IndexOf(this);
+                    _ownerComponent.InvalidateRectangle(indexOf, ref R, this);
                 }
 
-                FOldRect.Left = FWinLeft;
-                FOldRect.Top = FWinTop;
-                FOldRect.Right = FWinWidth;
-                FOldRect.Bottom = FWinHeight;
+                OldRectangle.Left = _winLeft;
+                OldRectangle.Top = _winTop;
+                OldRectangle.Right = _winWidth;
+                OldRectangle.Bottom = _winHeight;
             }
             else
             {
-                if (FHidden)
+                if (Hidden)
                 {
-                    if (FAOWOwner.FAOWOwner.FAOWOwner == null)
+                    if (_ownerComponent._ownerComponent._ownerComponent == null)
                     {
-                        R = new Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
+                        R = new Rect(_winLeft, _winTop, _winLeft + _winWidth - 1, _winTop + _winHeight - 1);
                     }
                     else
                     {
-                        R = new Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
+                        R = new Rect(_ownerComponent._winLeft + _winLeft, _ownerComponent._winTop + _winTop, _ownerComponent._winLeft + _winLeft + _winWidth - 1, _ownerComponent._winTop + _winTop + _winHeight - 1);
                     }
 
-                    FAOWOwner.AddDrawRect(ref R, this);
-                    FHidden = false;
+                    _ownerComponent.AddDrawRectangle(ref R, this);
+                    Hidden = false;
                 }
             }
         }
     }
 
     // AoWControl.pas:64
-    public override void SetOwner(UIComponent Value)
+    public override void SetOwner(UIComponent value)
     {
-        base.SetOwner(Value);
-        FAOWWindow = (BaseWindow)FAOWOwner;
+        base.SetOwner(value);
+        _window = (BaseWindow)_ownerComponent;
     }
 
     // AoWControl.pas:190
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (FToolTip != null)
+        if (_toolTip != null)
         {
-            FToolTip.SetVisible(false);
-            FToolTipShown = FToolTip.FShowDuration;
-            FMouseIn = true;
-            FToolTipCount = FToolTip.FToolTipDelay;
+            _toolTip.SetVisible(false);
+            ToolTipShown = _toolTip._showDuration;
+            MouseIn = true;
+            ToolTipCount = _toolTip._toolTipDelay;
         }
     }
 
     // AoWControl.pas:201
-    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (X < FAOWWindow.FWinLeft + FWinLeft || X > FAOWWindow.FWinLeft + FWinLeft + FWinWidth - 1 || Y < FAOWWindow.FWinTop + FWinTop || Y > FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
+        if (X < _window._winLeft + _winLeft || X > _window._winLeft + _winLeft + _winWidth - 1 || Y < _window._winTop + _winTop || Y > _window._winTop + _winTop + _winHeight - 1)
         {
-            FToolTipCount = 0;
+            ToolTipCount = 0;
         }
         else
         {
-            if (FToolTip != null && FToolTip.FToolTipDelay > FToolTipCount)
+            if (_toolTip != null && _toolTip._toolTipDelay > ToolTipCount)
             {
-                FToolTipLeft = X - FAOWWindow.FWinLeft;
-                FToolTipCount = 1;
+                ToolTipLeft = X - _window._winLeft;
+                ToolTipCount = 1;
             }
         }
     }
 
     // AoWControl.pas:59
-    public void SetAOWWindow(BaseWindow Value)
+    public void SetWindow(BaseWindow value)
     {
-        SetOwner(Value);
+        SetOwner(value);
     }
 
     // AoWControl.pas:70
-    public void SetToolStrings(StringList Value)
+    public void SetToolStrings(StringList value)
     {
-        FToolTipText.Clear();
-        for (int I = 0, last = Value.Count - 1; I <= last; I++)
+        _toolTipText.Clear();
+        for (int I = 0, last = value.Count - 1; I <= last; I++)
         {
-            var valueValue = Value[I];
-            FToolTipText.Add(valueValue);
+            var valueValue = value[I];
+            _toolTipText.Add(valueValue);
         }
     }
 
     [Published]
-    public BaseWindow AOWWindow { get => FAOWWindow; set => SetAOWWindow(value); }
+    public BaseWindow Window { get => _window; set => SetWindow(value); }
 
     [Published]
-    public ToolTip ToolTip { get => FToolTip; set => FToolTip = value; }
+    public ToolTip ToolTip { get => _toolTip; set => _toolTip = value; }
 
     [Published]
-    public StringList ToolTipText { get => FToolTipText; set => SetToolStrings(value); }
+    public StringList ToolTipText { get => _toolTipText; set => SetToolStrings(value); }
 
     public new NotifyEvent<Control> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<Control> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<Control> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<Control> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<Control> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<Control> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<Control> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<Control> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<Control> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 }

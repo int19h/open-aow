@@ -6,41 +6,41 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-// FCropLocations
+// CropLocations
 public partial class PlayerCropStructureResource : PlayerStructureResource
 {
     public PlayerCropStructureResource(ECustomNode owner) : base(owner)
     { }
 
     // Crops.pas:599
-    public new const int ClassID = 131919;
+    public new const int ClassId = 131919;
 
-    public UInt16List FCropLocations;
+    public UInt16List CropLocations;
 
     // Crops.pas:592
     public override void Dispose()
     {
-        FCropLocations?.Dispose();
-        FCropLocations = null;
+        CropLocations?.Dispose();
+        CropLocations = null;
         base.Dispose();
     }
 
     // Crops.pas:605
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 536870920)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 536870920)
         {
-            if (FCropLocations != null)
+            if (CropLocations != null)
             {
-                FCropLocations?.Dispose();
+                CropLocations?.Dispose();
             }
 
-            FCropLocations = TerrainList.CreateSurroundingHNTable();
+            CropLocations = TerrainList.CreateSurroundingHexNumberTable();
         }
     }
 
     // Crops.pas:602
-    public override int ResourceUserClassID() => 131918;
+    public override int ResourceUserClassId() => 131918;
 
 }

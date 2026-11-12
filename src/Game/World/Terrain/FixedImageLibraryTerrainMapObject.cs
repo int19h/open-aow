@@ -11,54 +11,54 @@ public partial class FixedImageLibraryTerrainMapObject : ImageLibraryTerrainMapO
     public FixedImageLibraryTerrainMapObject(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131464;
+    public new const int ClassId = 131464;
 
     // ILTer.pas:295
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo Info)
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
     {
-        bool Result;
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
+        bool result;
+        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            bool validTerrainType = ValidTerrainType(Info.MapField.TerrainType);
+            bool validTerrainType = ValidTerrainType(info.MapField.TerrainType);
             if (validTerrainType)
             {
-                var terrain = FResource.TerrainList.GetTerrain(Info.HN);
-                validTerrainType = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, FXhx, FYhx, terrain) == Info.MapField.TerrainType;
+                var terrain = _resource.TerrainList.GetTerrain(info.HexNumber);
+                validTerrainType = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, _hexX, _hexY, terrain) == info.MapField.TerrainType;
             }
 
-            Result = validTerrainType;
+            result = validTerrainType;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // ILTer.pas:305
-    public override void ChangeTerrain(in HexSpriteTerrainInfo Info)
+    public override void ChangeTerrain(in HexSpriteTerrainInfo info)
     {
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
+        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            if (ValidTerrainType(Info.TerrainType))
+            if (ValidTerrainType(info.TerrainType))
             {
-                FTerrainType = Info.TerrainType;
-                FImageIndex = GetTerrainTypeImage(Info.TerrainType);
+                _terrainType = info.TerrainType;
+                _imageIndex = GetTerrainTypeImage(info.TerrainType);
             }
         }
     }
 
     // ILTer.pas:315
-    public override void TerrainChanged(in HexSpriteTerrainInfo Info)
+    public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
+        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            if (ValidTerrainType(Info.TerrainType))
+            if (ValidTerrainType(info.TerrainType))
             {
-                FTerrainType = Info.TerrainType;
-                UpdateTerrain((MapLevel)Owner.Owner, FXhx, FYhx);
-                FImageIndex = GetTerrainTypeImage(Info.TerrainType);
+                _terrainType = info.TerrainType;
+                UpdateTerrain((MapLevel)Owner.Owner, _hexX, _hexY);
+                _imageIndex = GetTerrainTypeImage(info.TerrainType);
             }
             else
             {
@@ -75,6 +75,6 @@ public partial class FixedImageLibraryTerrainMapObject : ImageLibraryTerrainMapO
     }
 
     // ILTer.pas:290
-    public override sbyte ForceTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx) => -1;
+    public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => -1;
 
 }

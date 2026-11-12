@@ -21,163 +21,163 @@ public partial class DurationAbility : AdjustableAbility
 
     }
 
-    public DurationMode FDurationMode;
+    public DurationMode DurationMode;
 
     // AoWAb.PAS:96
-    public override string GetName(AbilityOwner Owner)
+    public override string GetName(AbilityOwner owner)
     {
-        string Result = "";
-        if (Owner != null)
+        string result = "";
+        if (owner != null)
         {
-            switch (FDurationMode)
+            switch (DurationMode)
             {
                 case DurationMode.Day:
-                    Result = base.GetName(Owner);
-                    if (GetDuration(Owner) != 0)
+                    result = base.GetName(owner);
+                    if (GetDuration(owner) != 0)
                     {
-                        var duration = GetDuration(Owner);
+                        var duration = GetDuration(owner);
                         var totalDuration = GetTotalDuration();
-                        var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.DurationDaysRStr), [IntToStr(duration), IntToStr(totalDuration)]);
-                        Result = Result + " " + format;
+                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_durationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
+                        result = result + " " + format;
                     }
 
                     break;
                 case DurationMode.CombatTurn:
-                    var duration2 = GetDuration(Owner);
+                    var duration2 = GetDuration(owner);
                     var totalDuration2 = GetTotalDuration();
-                    var aoWEFormat = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.DurationCombatTurnRStr), [IntToStr(duration2), IntToStr(totalDuration2)]);
-                    Result = base.GetName(Owner) + " " + aoWEFormat;
+                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_durationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
+                    result = base.GetName(owner) + " " + formattedText;
                     break;
                 case DurationMode.EntireCombat:
-                    var name = base.GetName(Owner);
-                    var durationEntireCombat = AbilityRules.TranslateRStr(GameText.DurationEntireCombatRStr);
-                    Result = name + " " + durationEntireCombat;
+                    var name = base.GetName(owner);
+                    var durationEntireCombat = AbilityRules.TranslateResourceString(GameText.s_durationEntireCombatText);
+                    result = name + " " + durationEntireCombat;
                     break;
             }
         }
         else
         {
             // { Original leaves the string untouched for dmNone and a nonnil owner. }
-            Result = base.GetName(Owner);
+            result = base.GetName(owner);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:40
-    public override void NewDay(AbilityOwner Owner)
+    public override void NewDay(AbilityOwner owner)
     {
-        if (AoWHSMap.Current.FDay == 1)
+        if (AoWHSMap.Current.Day == 1)
         {
-            Owner.RemoveAbility(FAbilityID);
+            owner.RemoveAbility(AbilityId);
         }
     }
 
     // AoWAb.PAS:46
-    public override void NewTurn(AbilityOwner Owner, sbyte Player)
+    public override void NewTurn(AbilityOwner owner, sbyte player)
     {
-        DurationAbilityData Data;
-        if (FDurationMode == DurationMode.Day)
+        DurationAbilityData data;
+        if (DurationMode == DurationMode.Day)
         {
-            Data = (DurationAbilityData)Owner.GetAbilityData(FAbilityID);
-            if (Data != null)
+            data = (DurationAbilityData)owner.GetAbilityData(AbilityId);
+            if (data != null)
             {
-                if (Data.FDuration != 0 && Data.FPlayerIndex == Player)
+                if (data.Duration != 0 && data.PlayerIndex == player)
                 {
-                    Data.FDuration = (byte)(Data.FDuration - 1);
-                    if (Data.FDuration == 0)
+                    data.Duration = (byte)(data.Duration - 1);
+                    if (data.Duration == 0)
                     {
-                        Owner.RemoveAbility(FAbilityID);
+                        owner.RemoveAbility(AbilityId);
                     }
                 }
             }
             else
             {
-                Owner.RemoveAbility(FAbilityID);
+                owner.RemoveAbility(AbilityId);
             }
         }
     }
 
     // AoWAb.PAS:131
-    public override bool Expand(AbilityOwner Owner)
+    public override bool Expand(AbilityOwner owner)
     {
-        DurationAbilityData Data;
-        bool Result = false;
-        Data = (DurationAbilityData)Owner.GetAbilityData(FAbilityID);
-        if (Data == null)
+        DurationAbilityData data;
+        bool result = false;
+        data = (DurationAbilityData)owner.GetAbilityData(AbilityId);
+        if (data == null)
         {
-            Data = new DurationAbilityData(null);
-            Data.FAbilityID = (ushort)FAbilityID;
-            Data.FDuration = (byte)GetTotalDuration();
-            SetAb(Owner, FAbilityID, 1);
-            Owner.AddAbilityData(Data);
-            Result = true;
+            data = new DurationAbilityData(null);
+            data.AbilityId = (ushort)AbilityId;
+            data.Duration = (byte)GetTotalDuration();
+            SetAbility(owner, AbilityId, 1);
+            owner.AddAbilityData(data);
+            result = true;
         }
         else
         {
-            if (GetTotalDuration() > Data.FDuration)
+            if (GetTotalDuration() > data.Duration)
             {
-                Result = true;
-                Data.FDuration = (byte)GetTotalDuration();
+                result = true;
+                data.Duration = (byte)GetTotalDuration();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:67
-    public override void NewCombatTurn(CombatObject CombatObject, sbyte Player)
+    public override void NewCombatTurn(CombatObject combatObject, sbyte player)
     {
-        DurationAbilityData Data;
-        if (FDurationMode == DurationMode.CombatTurn)
+        DurationAbilityData data;
+        if (DurationMode == DurationMode.CombatTurn)
         {
-            Data = (DurationAbilityData)CombatObject.GetAbilityOwner().GetAbilityData(FAbilityID);
-            if (Data != null)
+            data = (DurationAbilityData)combatObject.GetAbilityOwner().GetAbilityData(AbilityId);
+            if (data != null)
             {
-                if (Data.FDuration != 0 && Data.FPlayerIndex == Player)
+                if (data.Duration != 0 && data.PlayerIndex == player)
                 {
-                    Data.FDuration = (byte)(Data.FDuration - 1);
-                    if (Data.FDuration == 0)
+                    data.Duration = (byte)(data.Duration - 1);
+                    if (data.Duration == 0)
                     {
-                        CombatObject.GetAbilityOwner().RemoveAbility(FAbilityID);
+                        combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
                     }
                 }
             }
             else
             {
-                CombatObject.GetAbilityOwner().RemoveAbility(FAbilityID);
+                combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
             }
         }
     }
 
     // AoWAb.PAS:88
-    public override void CombatDone(CombatObject CombatObject)
+    public override void CombatDone(CombatObject combatObject)
     {
-        switch (FDurationMode)
+        switch (DurationMode)
         {
             case DurationMode.CombatTurn:
             case DurationMode.EntireCombat:
-                CombatObject.GetAbilityOwner().RemoveAbility(FAbilityID);
+                combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
                 break;
         }
     }
 
     // AoWAb.PAS:120
-    public virtual byte GetDuration(AbilityOwner AbilityOwner)
+    public virtual byte GetDuration(AbilityOwner abilityOwner)
     {
-        byte Result;
-        DurationAbilityData Data;
-        Data = (DurationAbilityData)AbilityOwner.GetAbilityData(FAbilityID);
-        if (Data != null)
+        byte result;
+        DurationAbilityData data;
+        data = (DurationAbilityData)abilityOwner.GetAbilityData(AbilityId);
+        if (data != null)
         {
-            Result = Data.FDuration;
+            result = data.Duration;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:35
@@ -188,8 +188,8 @@ public partial class DurationAbility : AdjustableAbility
 
     public override bool Remove(AbilityOwner owner)
     {
-        var data = owner.GetAbilityData(FAbilityID);
-        SetAb(owner, FAbilityID, 0);
+        var data = owner.GetAbilityData(AbilityId);
+        SetAbility(owner, AbilityId, 0);
         if (data == null) return false;
         owner.RemoveAbilityData(data);
         return true;

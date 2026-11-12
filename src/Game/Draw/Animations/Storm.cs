@@ -17,26 +17,26 @@ public partial class Storm : Animation
     public Storm(ECustomNode owner) : base(owner)
     { }
 
-    public sbyte FPlayer;
+    public sbyte Player;
 
     // Storms.pas:34
-    public virtual void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo Info)
+    public virtual void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // Storms.pas:236
-    public virtual void UpdateTargetSelection(TargetSelectionControl Selection)
+    public virtual void UpdateTargetSelection(TargetSelectionControl selection)
     {
-        Selection.FOnShow = ShowTargetSelection;
-        Selection.FTargetMode = Selection.FTargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw);
+        selection.OnShow = ShowTargetSelection;
+        selection.TargetMode = selection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw);
     }
 
     // Storms.pas:209
-    public virtual void InitializeStorm(sbyte Player, sbyte X, sbyte Y, sbyte L)
+    public virtual void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
     {
-        FPlayer = Player;
-        FAnimationLevel = 28;
+        Player = player;
+        AnimationLevel = 28;
         AoWHSMap.Current.LockExecuteEventLog();
     }
 
@@ -50,49 +50,49 @@ public partial class Storm : Animation
     }
 
     // Storms.pas:226
-    public void ShowTargetSelection(TargetSelectionControl Selection, int HN, int Xs, int Ys, in LockedSurface SurfaceDesc)
+    public void ShowTargetSelection(TargetSelectionControl selection, int hexNumber, int xs, int ys, in LockedSurface lockedSurface)
     {
-        int Intensity;
-        HN = HexGeometry.HNtoRad(HN);
-        Intensity = Math.Abs((AoWHSMap.Current.Frame + HN) % 9 - 4) * 20 + 20;
-        var lookupTable = GraphicsState.IntensityBlendTable.GetLookupTables(Intensity);
-        Selection.FImageLibrary[0].ShowBlended(Xs - 8, Ys, SurfaceDesc, lookupTable);
+        int intensity;
+        hexNumber = HexGeometry.HexNumberToRadius(hexNumber);
+        intensity = Math.Abs((AoWHSMap.Current.Frame + hexNumber) % 9 - 4) * 20 + 20;
+        var lookupTable = GraphicsState.IntensityBlendTable.GetLookupTables(intensity);
+        selection.ImageLibrary[0].ShowBlended(xs - 8, ys, lockedSurface, lookupTable);
     }
 
     // Storms.pas:242
-    public bool GetBestTarget(sbyte Player, int X, int Y, int L, int Range, ref MapCoordinate Target, ref StormDamageInfo Info)
+    public bool GetBestTarget(sbyte player, int X, int Y, int L, int range, ref MapCoordinate target, ref StormDamageInfo info)
     {
-        StormDamageInfo Candidate;
-        HexNumberWalkData Walk = default;
-        MapLevel Level;
-        ArmyHexSprite ArmyHS;
-        Level = AoWHSMap.Current.MapContainer.MapLevels[L];
-        Target.Packed = 16777215;
-        bool Result = false;
-        Info = default;
-        Candidate = default;
-        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-        while (Walk.Radius <= Range)
+        StormDamageInfo candidate;
+        HexNumberWalkData walk = default;
+        MapLevel level;
+        ArmyHexSprite armyHexSprite;
+        level = AoWHSMap.Current.MapContainer.MapLevels[L];
+        target.Packed = 16777215;
+        bool result = false;
+        info = default;
+        candidate = default;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        while (walk.Radius <= range)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                ArmyHS = ((AoWMapField)Level.Field[Walk.X, Walk.Y]).GetArmyHS();
-                if (ArmyHS != null && ArmyHS.FArmy.FPlayer != 0 && AbilityRules.ValidAttackRelation(Player, 0, ArmyHS.FArmy.FPlayer, 0))
+                armyHexSprite = ((AoWMapField)level.Field[walk.X, walk.Y]).GetArmyHexSprite();
+                if (armyHexSprite != null && armyHexSprite.Army.Player != 0 && AbilityRules.ValidAttackRelation(player, 0, armyHexSprite.Army.Player, 0))
                 {
-                    GetTargetDamageInfo(Player, (sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)L, ref Candidate);
-                    if (Info.EnemyDamage - Info.FriendlyDamage < Candidate.EnemyDamage - Candidate.FriendlyDamage)
+                    GetTargetDamageInfo(player, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)L, ref candidate);
+                    if (info.EnemyDamage - info.FriendlyDamage < candidate.EnemyDamage - candidate.FriendlyDamage)
                     {
-                        Info = Candidate;
-                        Target = HexGeometry.PackXYL((sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)L);
-                        Result = true;
+                        info = candidate;
+                        target = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
+                        result = true;
                     }
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        return Result;
+        return result;
     }
 
     // Storms.pas:39

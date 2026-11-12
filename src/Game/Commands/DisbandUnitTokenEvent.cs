@@ -26,102 +26,102 @@ public partial class DisbandUnitTokenEvent : TokenEvent
     public DisbandUnitTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135447;
+    public new const int ClassId = 135447;
 
-    public int FUnitID;
-    public sbyte FPlayer;
+    public int UnitId;
+    public sbyte Player;
 
     // MoveT.PAS:3532
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 20);
-        Stream.rwInteger(ref FUnitID, 21);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
+        stream.rwInteger(ref UnitId, 21);
     }
 
     // MoveT.PAS:3539
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        Troop AUnit;
-        PlayerStructure Structure;
-        ArmyHexSprite ArmyHS;
-        GroupBehavior Behavior;
+        Troop troop;
+        PlayerStructure structure;
+        ArmyHexSprite armyHexSprite;
+        GroupBehavior behavior;
         int I;
         int N;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        AUnit = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
-        if (AUnit != null && AUnit.FPlayer == FPlayer)
+        troop = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+        if (troop != null && troop.Player == Player)
         {
-            AUnit.AddRef();
-            if (AUnit.GetRace() == 5 && AUnit.FPlayer > 0 && AoWHSMap.Current.FPlayers.GetPlayers(AUnit.FPlayer).FPlayerRace == 5 && (AUnit.GetAbilityEnabled(162) || AUnit.GetAbilityEnabled(164) || AUnit.GetAbilityEnabled(165)))
+            troop.AddRef();
+            if (troop.GetRace() == 5 && troop.Player > 0 && AoWHSMap.Current.Players.GetPlayers(troop.Player).PlayerRace == 5 && (troop.GetAbilityEnabled(162) || troop.GetAbilityEnabled(164) || troop.GetAbilityEnabled(165)))
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(AUnit.FPlayer).FHeroEmerging = true;
+                AoWHSMap.Current.Players.GetPlayers(troop.Player).HeroEmerging = true;
             }
 
-            if (!AUnit.GetAbilityEnabled(155))
+            if (!troop.GetAbilityEnabled(155))
             {
-                AUnit.GetLocation(ref X, ref Y, ref L);
-                Structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(PlayerStructure));
-                if (!(AUnit.Owner is Army) || AUnit.Owner.Count > 1 || (Structure != null && Structure.FPlayer > 0))
+                troop.GetLocation(ref X, ref Y, ref L);
+                structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+                if (!(troop.Owner is Army) || troop.Owner.Count > 1 || (structure != null && structure.Player > 0))
                 {
-                    AUnit.GetLocation(ref X, ref Y, ref L);
-                    AUnit.SetOwner(null);
-                    ArmyHS = AUnit.Place(X, Y, L, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                    troop.GetLocation(ref X, ref Y, ref L);
+                    troop.SetOwner(null);
+                    armyHexSprite = troop.Place(X, Y, L, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                 }
                 else
                 {
-                    AUnit.ArmyOwner.SetPlayer(0);
-                    ArmyHS = AUnit.ArmyOwner.GetArmyHS();
+                    troop.ArmyOwner.SetPlayer(0);
+                    armyHexSprite = troop.ArmyOwner.GetArmyHexSprite();
                 }
 
-                if (ArmyHS != null)
+                if (armyHexSprite != null)
                 {
                     N = AoWHSMap.Current.Random(10);
                     if (N == 0)
                     {
-                        Behavior = GroupBehavior.GuardArea;
+                        behavior = GroupBehavior.GuardArea;
                     }
                     else
                     {
                         if (N < 7)
                         {
-                            Behavior = GroupBehavior.Scout;
+                            behavior = GroupBehavior.Scout;
                         }
                         else
                         {
-                            Behavior = GroupBehavior.Raid;
+                            behavior = GroupBehavior.Raid;
                         }
                     }
 
-                    I = ArmyHS.FArmy.IndexOfBehavior(Behavior);
+                    I = armyHexSprite.Army.IndexOfBehavior(behavior);
                     if (I == -1)
                     {
-                        var indexOf = ArmyHS.FArmy.IndexOf(AUnit);
-                        ArmyHS.FArmy.SetBehavior((byte)(1 << indexOf), Behavior);
+                        var indexOf = armyHexSprite.Army.IndexOf(troop);
+                        armyHexSprite.Army.SetBehavior((byte)(1 << indexOf), behavior);
                     }
                     else
                     {
-                        var unit = ArmyHS.FArmy.GetUnit(I);
-                        var indexOf = ArmyHS.FArmy.IndexOf(AUnit);
-                        ArmyHS.FArmy.SetGroup((byte)(1 << indexOf), unit.FGroup);
+                        var unit = armyHexSprite.Army.GetUnit(I);
+                        var indexOf = armyHexSprite.Army.IndexOf(troop);
+                        armyHexSprite.Army.SetGroup((byte)(1 << indexOf), unit.Group);
                     }
                 }
             }
             else
             {
-                AUnit.Killed();
+                troop.Killed();
             }
 
-            AUnit.RemoveEnchantments();
-            AUnit.Release();
-            if (AoWHSMap.Current.FSeatedPlayer == FPlayer)
+            troop.RemoveEnchantments();
+            troop.Release();
+            if (AoWHSMap.Current.SeatedPlayer == Player)
             {
-                AoWHSMap.Current.FSelectedArmy.Unselect();
+                AoWHSMap.Current.SelectedArmy.Unselect();
             }
 
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).UpdateIncome();
+            AoWHSMap.Current.Players.GetPlayers(Player).UpdateIncome();
         }
 
         return ExecuteResult.Done;

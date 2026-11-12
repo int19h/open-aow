@@ -10,9 +10,9 @@ public partial class BoltsAbility : RangedAttackAbility
     // AoWAb.PAS:4844
     public BoltsAbility(ECustomNode owner) : base(owner)
     {
-        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
-        FAbilityType = AbilityType.Combat;
-        FRangeRA = CombatRange.Medium;
-        FAttackRepeatRA = 1;
+        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
+        AbilityType = AbilityType.Combat;
+        RangeRangedAttack = CombatRange.Medium;
+        AttackRepeatRangedAttack = 1;
     }
 }

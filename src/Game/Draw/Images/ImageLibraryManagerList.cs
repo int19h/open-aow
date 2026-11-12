@@ -10,14 +10,14 @@ namespace Aow.Game.Draw.Images;
 // FHashTable (the objects by name), FOwner
 public partial class ImageLibraryManagerList : StringList
 {
-    internal Dictionary<string, ImageLibraryManagerObject> FHashTable;
-    internal ImageLibraryManager FOwner;
+    internal Dictionary<string, ImageLibraryManagerObject> _hashTable;
+    internal ImageLibraryManager _owner;
 
     // ImageLib.pas:8093
     public ImageLibraryManagerList(ImageLibraryManager owner)
     {
-        FOwner = owner;
-        FHashTable = new Dictionary<string, ImageLibraryManagerObject>(AnsiCompareComparer.Instance);
+        _owner = owner;
+        _hashTable = new Dictionary<string, ImageLibraryManagerObject>(AnsiCompareComparer.Instance);
     }
 
     // ImageLib.pas:8102
@@ -29,74 +29,74 @@ public partial class ImageLibraryManagerList : StringList
     }
 
     // ImageLib.pas:8108
-    public CustomImageLibrary GetIL(int Index) => ((ImageLibraryManagerObject)Objects[Index]).FImageLibrary;
+    public CustomImageLibrary GetImageLibrary(int index) => ((ImageLibraryManagerObject)Objects[index])._imageLibrary;
 
     // ImageLib.pas:8113
-    public void UnloadIL()
+    public void UnloadImageLibrary()
     {
-        ImageLibraryManagerObject Obj;
+        ImageLibraryManagerObject objectValue;
         for (int I = Count - 1; I >= 0; I--)
         {
-            Obj = (ImageLibraryManagerObject)Objects[I];
-            if (Obj != null && Obj.FImageLibrary != null)
+            objectValue = (ImageLibraryManagerObject)Objects[I];
+            if (objectValue != null && objectValue._imageLibrary != null)
             {
-                Obj.FImageLibrary.ReleaseDiscardableImageData();
+                objectValue._imageLibrary.ReleaseDiscardableImageData();
             }
         }
     }
 
     // ImageLib.pas:8126
-    public ImageLibraryManagerObject AddILFile(string FileName)
+    public ImageLibraryManagerObject AddImageLibraryFile(string fileName)
     {
-        ImageLibraryManagerObject Obj;
-        Obj = new ImageLibraryManagerObject();
-        FileName = UpperCase(FileName);
-        AddObject(FileName, Obj);
-        HashTables.Add(FHashTable, key: FileName, value: Obj);
-        return Obj;
+        ImageLibraryManagerObject objectValue;
+        objectValue = new ImageLibraryManagerObject();
+        fileName = UpperCase(fileName);
+        AddObject(fileName, objectValue);
+        HashTables.Add(_hashTable, key: fileName, value: objectValue);
+        return objectValue;
     }
 
     // ImageLib.pas:8139
     // { Original bug: the object is deleted from the hash table instead of added, so LinkToIL never
     //   finds the owned libraries. }
-    public ImageLibraryManagerObject AddILManagerObject(string Name, CustomImageLibrary ImageLibrary)
+    public ImageLibraryManagerObject AddImageLibraryManagerObject(string name, CustomImageLibrary imageLibrary)
     {
         string S;
-        ImageLibraryManagerObject Obj;
-        S = UpperCase(Name);
-        Obj = new ImageLibraryManagerObject();
-        Obj.FImageLibrary = ImageLibrary;
-        AddObject(S, Obj);
-        FHashTable.Remove(S);
-        return Obj;
+        ImageLibraryManagerObject objectValue;
+        S = UpperCase(name);
+        objectValue = new ImageLibraryManagerObject();
+        objectValue._imageLibrary = imageLibrary;
+        AddObject(S, objectValue);
+        _hashTable.Remove(S);
+        return objectValue;
     }
 
     // ImageLib.pas:8153
-    public override void Delete(int Index)
+    public override void Delete(int index)
     {
-        ImageLibraryManagerObject Obj;
-        Obj = (ImageLibraryManagerObject)Objects[Index];
-        if (Obj != null)
+        ImageLibraryManagerObject objectValue;
+        objectValue = (ImageLibraryManagerObject)Objects[index];
+        if (objectValue != null)
         {
-            Obj.FImageLibrary?.Dispose();
+            objectValue._imageLibrary?.Dispose();
         }
 
-        var item = Strings[Index];
-        FHashTable.Remove(item);
-        base.Delete(Index);
+        var item = Strings[index];
+        _hashTable.Remove(item);
+        base.Delete(index);
     }
 
     // ImageLib.pas:8167
     public override void Clear()
     {
-        ImageLibraryManagerObject Obj;
-        FHashTable.Clear();
+        ImageLibraryManagerObject objectValue;
+        _hashTable.Clear();
         for (int I = Count - 1; I >= 0; I--)
         {
-            Obj = (ImageLibraryManagerObject)Objects[I];
-            if (Obj != null)
+            objectValue = (ImageLibraryManagerObject)Objects[I];
+            if (objectValue != null)
             {
-                Obj.FImageLibrary?.Dispose();
+                objectValue._imageLibrary?.Dispose();
             }
         }
 
@@ -106,92 +106,92 @@ public partial class ImageLibraryManagerList : StringList
     // ImageLib.pas:8187
     // { Links to the library of FileName (relative to the search path), loading it on the first link.
     //   The original clears FileName at the end (a second @LStrClr of the parameter). }
-    public CustomImageLibrary LinkToIL(string FileName)
+    public CustomImageLibrary LinkToImageLibrary(string fileName)
     {
-        CustomImageLibrary Result;
-        ImageLibraryManagerObject Obj;
-        FileName = UpperCase(FileName);
-        FHashTable.TryGetValue(FileName, out Obj);
-        if (Obj != null)
+        CustomImageLibrary result;
+        ImageLibraryManagerObject objectValue;
+        fileName = UpperCase(fileName);
+        _hashTable.TryGetValue(fileName, out objectValue);
+        if (objectValue != null)
         {
-            Obj.FRefCount += 1;
-            if (Obj.FImageLibrary == null)
+            objectValue._refCount += 1;
+            if (objectValue._imageLibrary == null)
             {
-                Obj.FImageLibrary = new ImageLibrary(null);
-                Obj.FImageLibrary.LoadOnDemand = true;
+                objectValue._imageLibrary = new ImageLibrary(null);
+                objectValue._imageLibrary.LoadOnDemand = true;
                 try
                 {
-                    Obj.FImageLibrary.LoadFromFile(FOwner.FSearchPath + FileName);
+                    objectValue._imageLibrary.LoadFromFile(_owner._searchPath + fileName);
                 }
                 catch
                 {
-                    throw new IOException("Error loading: " + FOwner.FSearchPath + FileName);
+                    throw new IOException("Error loading: " + _owner._searchPath + fileName);
                 }
             }
 
-            Result = Obj.FImageLibrary;
+            result = objectValue._imageLibrary;
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:8213
-    public bool ReleaseIL(string FileName)
+    public bool ReleaseImageLibrary(string fileName)
     {
-        bool Result;
-        ImageLibraryManagerObject Obj;
-        FileName = UpperCase(FileName);
-        FHashTable.TryGetValue(FileName, out Obj);
-        if (Obj != null)
+        bool result;
+        ImageLibraryManagerObject objectValue;
+        fileName = UpperCase(fileName);
+        _hashTable.TryGetValue(fileName, out objectValue);
+        if (objectValue != null)
         {
-            Obj.FRefCount -= 1;
-            if (Obj.FRefCount == 0)
+            objectValue._refCount -= 1;
+            if (objectValue._refCount == 0)
             {
-                Obj.FImageLibrary.ReleaseDiscardableImageData();
+                objectValue._imageLibrary.ReleaseDiscardableImageData();
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:8229
-    public override void LoadFromStream(Stream Stream)
+    public override void LoadFromStream(Stream stream)
     {
         int N = default;
-        string Name = "";
-        CustomImageLibrary IL;
-        Stream.ReadExactly(Bytes.Of(ref N, 4));
+        string name = "";
+        CustomImageLibrary imageLibrary;
+        stream.ReadExactly(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
         {
-            LibraryDrawing.ReadStringFromStream(ref Name, Stream);
-            IL = new ImageLibrary(null);
-            IL.LoadFromStream(Stream);
-            AddILManagerObject(Name, IL);
+            LibraryDrawing.ReadStringFromStream(ref name, stream);
+            imageLibrary = new ImageLibrary(null);
+            imageLibrary.LoadFromStream(stream);
+            AddImageLibraryManagerObject(name, imageLibrary);
         }
     }
 
     // ImageLib.pas:8245
-    public override void SaveToStream(Stream Stream)
+    public override void SaveToStream(Stream stream)
     {
         int I;
         I = Count;
-        Stream.Write(Bytes.Of(ref I, 4));
+        stream.Write(Bytes.Of(ref I, 4));
         I = 0;
         int last = Count - 1;
         for (; I <= last; I += 1)
         {
-            LibraryDrawing.WriteStringToStream(Strings[I], Stream);
-            ((ImageLibraryManagerObject)Objects[I]).FImageLibrary.SaveToStream(Stream);
+            LibraryDrawing.WriteStringToStream(Strings[I], stream);
+            ((ImageLibraryManagerObject)Objects[I])._imageLibrary.SaveToStream(stream);
         }
     }
 

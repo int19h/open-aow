@@ -25,209 +25,209 @@ namespace Aow.Game.Commands;
 // mode, unit IDs, selection, army sprite, moving/target player, target, destination, animate
 public partial class MoveArmyTokenEvent : MoveTokenEvent
 {
-    public new const int ClassID = 135424;
+    public new const int ClassId = 135424;
 
-    public Set<ArmyMoveModeElement> FMode;
-    public Int32List FUnitIDs;
-    public byte FSelection;
-    public ArmyHexSprite FArmyHS;
-    public sbyte FPlayer;
-    public sbyte FTargetPlayer;
-    public sbyte FTargetX;
-    public sbyte FTargetY;
-    public sbyte FTargetL;
-    public sbyte FDestinationX;
-    public sbyte FDestinationY;
-    public sbyte FDestinationL;
-    public bool FAnimate;
+    public Set<ArmyMoveModeElement> Mode;
+    public Int32List UnitIds;
+    public byte Selection;
+    public ArmyHexSprite ArmyHexSprite;
+    public sbyte Player;
+    public sbyte TargetPlayer;
+    public sbyte TargetX;
+    public sbyte TargetY;
+    public sbyte TargetL;
+    public sbyte DestinationX;
+    public sbyte DestinationY;
+    public sbyte DestinationL;
+    public bool Animate;
 
     // MoveT.PAS:2066
     public override void Dispose()
     {
-        FUnitIDs?.Dispose();
+        UnitIds?.Dispose();
         base.Dispose();
     }
 
     // MoveT.PAS:2093
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStreamProc(30, FUnitIDs.LoadFromStream, FUnitIDs.SaveToStream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 31);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FTargetX), 32);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FTargetY), 33);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FTargetL), 34);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FTargetPlayer), 35);
-        RwSet(ref FMode, 1, 36, Stream.rwData, 0);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDestinationX), 37);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDestinationY), 38);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDestinationL), 39);
+        base.ReadWrite(stream);
+        stream.rwStreamProc(30, UnitIds.LoadFromStream, UnitIds.SaveToStream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 31);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TargetX), 32);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TargetY), 33);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TargetL), 34);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TargetPlayer), 35);
+        RwSet(ref Mode, 1, 36, stream.rwData, 0);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationX), 37);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationY), 38);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationL), 39);
     }
 
     // MoveT.PAS:2060
     public MoveArmyTokenEvent(ECustomNode owner) : base(owner)
     {
-        FUnitIDs = new Int32List();
+        UnitIds = new Int32List();
     }
 
     // MoveT.PAS:2137
     public override bool Validate()
     {
         int I;
-        int UnitIndex;
-        MoveControlSettings Settings;
-        sbyte TargetPlayer;
-        I = FPath.Count - 1;
-        bool Result = true;
+        int unitIndex;
+        MoveControlSettings settings;
+        sbyte targetPlayer;
+        I = Path.Count - 1;
+        bool result = true;
         if (I < 1)
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            FArmyHS = (ArmyHexSprite)GetMapF(FPath[I]).FindOwnedChild(131607);
-            if (FArmyHS == null)
+            ArmyHexSprite = (ArmyHexSprite)GetMapField(Path[I]).FindOwnedChild(131607);
+            if (ArmyHexSprite == null)
             {
-                Result = false;
+                result = false;
             }
             else
             {
-                I = FUnitIDs.Count;
-                FSelection = 0;
-                while (I != 0 && Result)
+                I = UnitIds.Count;
+                Selection = 0;
+                while (I != 0 && result)
                 {
                     I -= 1;
-                    var item = FUnitIDs[I];
-                    UnitIndex = FArmyHS.FArmy.IndexOfID(item);
-                    if (UnitIndex != -1)
+                    var item = UnitIds[I];
+                    unitIndex = ArmyHexSprite.Army.IndexOfId(item);
+                    if (unitIndex != -1)
                     {
-                        FSelection = (byte)(FSelection | (1 << UnitIndex));
+                        Selection = (byte)(Selection | (1 << unitIndex));
                     }
 
-                    var fUnitIDsItem = FUnitIDs[I];
-                    Result = FArmyHS.FArmy.IndexOfID(fUnitIDsItem) != -1;
+                    var fUnitIdsItem = UnitIds[I];
+                    result = ArmyHexSprite.Army.IndexOfId(fUnitIdsItem) != -1;
                 }
 
-                Settings = new MoveControlSettings(null);
-                Settings.SetupArmy(FArmyHS, FSelection);
-                Settings.FMode = Settings.FMode.With(MoveModeElement.AI);
-                if (AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType == PlayerType.Human && AoWHSMap.Current.FExplorationEnabled)
+                settings = new MoveControlSettings(null);
+                settings.SetupArmy(ArmyHexSprite, Selection);
+                settings.Mode = settings.Mode.With(MoveModeElement.AI);
+                if (AoWHSMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human && AoWHSMap.Current.ExplorationEnabled)
                 {
-                    Settings.FMode = Settings.FMode.With(MoveModeElement.ExploredTerrainOnly);
+                    settings.Mode = settings.Mode.With(MoveModeElement.ExploredTerrainOnly);
                 }
 
-                Result = Result && AoWHSMap.Current.FMoveControl.ValidPath(Settings, FPath);
-                Result = Result && FArmyHS.FArmy.FPlayer == FPlayer;
-                TargetPlayer = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(FTargetX, FTargetY, FTargetL)).GetPlayer();
-                Result = Result && (TargetPlayer == FTargetPlayer || TargetPlayer == FArmyHS.FArmy.FPlayer);
-                if (FMode.Contains(ArmyMoveModeElement.BuildRoads))
+                result = result && AoWHSMap.Current.MoveControl.ValidPath(settings, Path);
+                result = result && ArmyHexSprite.Army.Player == Player;
+                targetPlayer = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(TargetX, TargetY, TargetL)).GetPlayer();
+                result = result && (targetPlayer == TargetPlayer || targetPlayer == ArmyHexSprite.Army.Player);
+                if (Mode.Contains(ArmyMoveModeElement.BuildRoads))
                 {
-                    bool condition = Result;
+                    bool condition = result;
                     if (condition)
                     {
-                        var movePoints = FArmyHS.FArmy.MovePoints(FSelection);
-                        condition = AbilityRules.RoadConstructionCost(FPlayer, FPath, movePoints) <= AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FGems;
+                        var movePoints = ArmyHexSprite.Army.MovePoints(Selection);
+                        condition = AbilityRules.RoadConstructionCost(Player, Path, movePoints) <= AoWHSMap.Current.Players.GetPlayers(Player).Gems;
                     }
 
-                    Result = condition;
+                    result = condition;
                 }
 
-                Settings.Release();
+                settings.Release();
             }
         }
 
-        if (!Result && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType != PlayerType.Human && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIControl.FMoveExecuter.FStatus == AIMoveExecutor.Status.Busy)
+        if (!result && AoWHSMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human && AoWHSMap.Current.Players.GetPlayers(Player).AIControl.MoveExecutor.Status == AIMoveExecutorStatus.Busy)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIControl.FMoveExecuter.InvalidateMove(FArmyHS, FSelection);
+            AoWHSMap.Current.Players.GetPlayers(Player).AIControl.MoveExecutor.InvalidateMove(ArmyHexSprite, Selection);
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:2183
     public override void InitializeMove()
     {
-        int Last;
-        ArmyHexSprite ArmyHS;
+        int last;
+        ArmyHexSprite armyHexSprite;
         base.InitializeMove();
-        FAnimate = false;
-        Last = FPath.Count - 1;
-        FSelection = FArmyHS.FArmy.ValidateSelection(FSelection);
-        var validateSelection = FArmyHS.FArmy.ValidateSelection(255);
-        if (FSelection != validateSelection)
+        Animate = false;
+        last = Path.Count - 1;
+        Selection = ArmyHexSprite.Army.ValidateSelection(Selection);
+        var validateSelection = ArmyHexSprite.Army.ValidateSelection(255);
+        if (Selection != validateSelection)
         {
-            ArmyHS = new ArmyHexSprite(null);
-            ArmyHS.FArmy.SetPlayer(FArmyHS.FArmy.FPlayer);
-            ArmyHS.FArmy.AddUnitSelection(FArmyHS.FArmy, FSelection);
-            var item = FPath[Last];
-            var fPathItem = FPath[Last];
-            var item2 = FPath[Last];
-            ArmyHS.PlacePrivate(AoWHSMap.Current.MapContainer, item2.X, fPathItem.Y, item.L);
-            FArmyHS.FArmy.ResetDestinationPos();
-            if (FArmyHS.GetSelected())
+            armyHexSprite = new ArmyHexSprite(null);
+            armyHexSprite.Army.SetPlayer(ArmyHexSprite.Army.Player);
+            armyHexSprite.Army.AddUnitSelection(ArmyHexSprite.Army, Selection);
+            var item = Path[last];
+            var fPathItem = Path[last];
+            var item2 = Path[last];
+            armyHexSprite.PlacePrivate(AoWHSMap.Current.MapContainer, item2.X, fPathItem.Y, item.MapLevel);
+            ArmyHexSprite.Army.ResetDestinationPosition();
+            if (ArmyHexSprite.GetSelected())
             {
                 AoWHSMap.Current.Selection.UnselectLocation();
-                AoWHSMap.Current.Selection.SelectLocationHS(ArmyHS);
-                AoWHSMap.Current.FSelectedArmy.DeactivateMoveSelection();
+                AoWHSMap.Current.Selection.SelectLocationHexSprite(armyHexSprite);
+                AoWHSMap.Current.SelectedArmy.DeactivateMoveSelection();
             }
 
-            FArmyHS = ArmyHS;
-            FSelection = 255;
+            ArmyHexSprite = armyHexSprite;
+            Selection = 255;
         }
         else
         {
-            if (FArmyHS.GetSelected())
+            if (ArmyHexSprite.GetSelected())
             {
-                AoWHSMap.Current.FSelectedArmy.DeactivateMoveSelection();
+                AoWHSMap.Current.SelectedArmy.DeactivateMoveSelection();
             }
         }
 
-        var army = FArmyHS.FArmy;
-        army.FMode = army.FMode.With(ArmyModeElement.Moving);
-        army.FDestinationX = this.FDestinationX;
-        army.FDestinationY = this.FDestinationY;
-        army.FDestinationL = this.FDestinationL;
+        var army = ArmyHexSprite.Army;
+        army.Mode = army.Mode.With(ArmyModeElement.Moving);
+        army.DestinationX = this.DestinationX;
+        army.DestinationY = this.DestinationY;
+        army.DestinationL = this.DestinationL;
     }
 
     // MoveT.PAS:2221
     public override void FinishMove()
     {
-        bool Selected;
-        MapField Field;
-        ArmyHexSprite ArmyHS;
+        bool selected;
+        MapField field;
+        ArmyHexSprite armyHexSprite;
         base.FinishMove();
-        if (FArmyHS != null)
+        if (ArmyHexSprite != null)
         {
-            Selected = FArmyHS.GetSelected();
-            Field = (MapField)FArmyHS.Owner;
-            FArmyHS.SetOwner(null);
-            ArmyHS = GetNoneMovingArmyHS(Field);
-            FArmyHS.SetOwner(Field);
-            if (ArmyHS != null)
+            selected = ArmyHexSprite.GetSelected();
+            field = (MapField)ArmyHexSprite.Owner;
+            ArmyHexSprite.SetOwner(null);
+            armyHexSprite = GetNoneMovingArmyHexSprite(field);
+            ArmyHexSprite.SetOwner(field);
+            if (armyHexSprite != null)
             {
-                FArmyHS.FArmy.FUserMode = FArmyHS.FArmy.FUserMode & ArmyHS.FArmy.FUserMode;
-                ArmyHS.FArmy.AssignSettings(FArmyHS.FArmy);
-                ArmyHS.FArmy.AddUnitSelection(FArmyHS.FArmy, 255);
-                FArmyHS = ArmyHS;
-                if (Selected)
+                ArmyHexSprite.Army.UserMode = ArmyHexSprite.Army.UserMode & armyHexSprite.Army.UserMode;
+                armyHexSprite.Army.AssignSettings(ArmyHexSprite.Army);
+                armyHexSprite.Army.AddUnitSelection(ArmyHexSprite.Army, 255);
+                ArmyHexSprite = armyHexSprite;
+                if (selected)
                 {
-                    AoWHSMap.Current.FSelectedArmy.Select(ArmyHS);
-                    AoWHSMap.Current.FSelectedArmy.DeactivateMoveSelection();
+                    AoWHSMap.Current.SelectedArmy.Select(armyHexSprite);
+                    AoWHSMap.Current.SelectedArmy.DeactivateMoveSelection();
                 }
             }
 
-            FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
-            FArmyHS.CancelMove();
-            if (Selected)
+            ArmyHexSprite.Army.Mode = ArmyHexSprite.Army.Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
+            ArmyHexSprite.CancelMove();
+            if (selected)
             {
-                AoWHSMap.Current.FSelectedArmy.ActivateMoveSelection();
-                AoWHSMap.Current.FSelectedArmy.Update();
-                if (FMode.Contains(ArmyMoveModeElement.SelectEndLocation))
+                AoWHSMap.Current.SelectedArmy.ActivateMoveSelection();
+                AoWHSMap.Current.SelectedArmy.Update();
+                if (Mode.Contains(ArmyMoveModeElement.SelectEndLocation))
                 {
-                    var lhx = FArmyHS.GetLhx();
-                    var yhx = FArmyHS.GetYhx();
-                    var xhx = FArmyHS.GetXhx();
-                    AoWHSMap.Current.Selection.SelectLocationHX(xhx, yhx, lhx);
+                    var hexLevel = ArmyHexSprite.GetHexLevel();
+                    var hexY = ArmyHexSprite.GetHexY();
+                    var hexX = ArmyHexSprite.GetHexX();
+                    AoWHSMap.Current.Selection.SelectLocationHex(hexX, hexY, hexLevel);
                 }
             }
         }
@@ -236,24 +236,24 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     // MoveT.PAS:2368
     public override MoveStatus DefaultMove()
     {
-        MoveStatus Result;
-        if (!FArmyHS.Moving())
+        MoveStatus result;
+        if (!ArmyHexSprite.Moving())
         {
             if (CanMoveNext())
             {
                 SetupNextMove();
                 if (!Animating())
                 {
-                    Result = ExecuteMove();
+                    result = ExecuteMove();
                 }
                 else
                 {
-                    Result = MoveStatus.Moving;
+                    result = MoveStatus.Moving;
                 }
             }
             else
             {
-                Result = MoveStatus.Failed;
+                result = MoveStatus.Failed;
             }
         }
         else
@@ -261,72 +261,72 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             if (Animating())
             {
                 UpdateAnimation();
-                bool condition = FArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer;
+                bool condition = ArmyHexSprite.Army.Player == AoWHSMap.Current.SeatedPlayer;
                 if (!condition)
                 {
-                    var lhx = FArmyHS.GetLhx();
-                    var yhx = FArmyHS.GetYhx();
-                    var xhx = FArmyHS.GetXhx();
-                    condition = AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
+                    var hexLevel = ArmyHexSprite.GetHexLevel();
+                    var hexY = ArmyHexSprite.GetHexY();
+                    var hexX = ArmyHexSprite.GetHexX();
+                    condition = AoWHSMap.Current.Watching(hexX, hexY, hexLevel, 0);
                 }
 
                 if (condition)
                 {
-                    FArmyHS.PlayMoveSFX();
+                    ArmyHexSprite.PlayMoveSfx();
                 }
 
                 if (!Animating())
                 {
-                    Result = ExecuteMove();
+                    result = ExecuteMove();
                 }
                 else
                 {
-                    Result = MoveStatus.Moving;
+                    result = MoveStatus.Moving;
                 }
             }
             else
             {
-                Result = MoveStatus.Failed;
+                result = MoveStatus.Failed;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:2304
-    public virtual bool Animating() => FArmyHS.GetMoveStatus() < 100 && FArmyHS.GetMoveStatus() != -1;
+    public virtual bool Animating() => ArmyHexSprite.GetMoveStatus() < 100 && ArmyHexSprite.GetMoveStatus() != -1;
 
     // MoveT.PAS:2309
     public virtual void UpdateAnimation()
     {
-        FArmyHS.MoveNext();
+        ArmyHexSprite.MoveNext();
     }
 
     // MoveT.PAS:2342
     public virtual void SetupNextMove()
     {
-        int Direction;
-        bool Instant;
-        AoWMapField Field;
-        if ((MoveVisible(FMoveIndex) || FAnimate) && (FPath[FMoveIndex].L == AoWHSMap.Current.ViewL || AoWHSMap.Current.FShowIndependentMoves))
+        int direction;
+        bool instant;
+        AoWMapField field;
+        if ((MoveVisible(MoveIndex) || Animate) && (Path[MoveIndex].MapLevel == AoWHSMap.Current.ViewL || AoWHSMap.Current.ShowIndependentMoves))
         {
-            FAnimate = true;
-            Direction = GetDirection(FMoveIndex);
-            if (Direction == 0)
+            Animate = true;
+            direction = GetDirection(MoveIndex);
+            if (direction == 0)
             {
-                Direction = GetHT(FMoveIndex);
-                Instant = true;
+                direction = GetHexDirection(MoveIndex);
+                instant = true;
             }
             else
             {
-                Instant = false;
+                instant = false;
             }
 
-            FArmyHS.MoveFirst(Direction, Instant);
-            if (ObserveMove(FMoveIndex - 1))
+            ArmyHexSprite.MoveFirst(direction, instant);
+            if (ObserveMove(MoveIndex - 1))
             {
-                Field = GetMapF(FPath[FMoveIndex - 1]);
-                AoWHSMap.Current.ValidateObservation(FArmyHS.FArmy.FPlayer, Field.Xhx, Field.Yhx, Field.Lhx, 0);
+                field = GetMapField(Path[MoveIndex - 1]);
+                AoWHSMap.Current.ValidateObservation(ArmyHexSprite.Army.Player, field.HexX, field.HexY, field.HexLevel, 0);
             }
         }
     }
@@ -334,198 +334,198 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     // MoveT.PAS:2312
     public virtual bool CanMoveNext()
     {
-        bool Stop;
+        bool stop;
         int I;
-        AoWMapField Field;
-        ArmyHexSprite ArmyHS;
-        bool Result = false;
-        Stop = false;
-        I = FMoveIndex;
-        while (I != 0 && !(Stop || Result))
+        AoWMapField field;
+        ArmyHexSprite armyHexSprite;
+        bool result = false;
+        stop = false;
+        I = MoveIndex;
+        while (I != 0 && !(stop || result))
         {
             I -= 1;
-            Field = GetMapF(FPath[I]);
-            Result = Field.GetPlayer() == -1;
-            if (!Result)
+            field = GetMapField(Path[I]);
+            result = field.GetPlayer() == -1;
+            if (!result)
             {
-                ArmyHS = GetNoneMovingArmyHS(Field);
-                if (ArmyHS != null)
+                armyHexSprite = GetNoneMovingArmyHexSprite(field);
+                if (armyHexSprite != null)
                 {
-                    if (ArmyHS.FArmy.FPlayer == FArmyHS.FArmy.FPlayer)
+                    if (armyHexSprite.Army.Player == ArmyHexSprite.Army.Player)
                     {
-                        Result = FArmyHS.FArmy.CanCombine(ArmyHS.FArmy, 255);
+                        result = ArmyHexSprite.Army.CanCombine(armyHexSprite.Army, 255);
                     }
                     else
                     {
                         // { Original queries the moving player toward the other army. }
-                        if (AoWHSMap.Current.FPlayers.GetDiplomaticRelation(FArmyHS.FArmy.FPlayer, ArmyHS.FArmy.FPlayer) != DiplomaticRelation.Alliance)
+                        if (AoWHSMap.Current.Players.GetDiplomaticRelation(ArmyHexSprite.Army.Player, armyHexSprite.Army.Player) != DiplomaticRelation.Alliance)
                         {
-                            Stop = true;
+                            stop = true;
                         }
                     }
                 }
                 else
                 {
-                    Result = Field.GetPlayer() == FArmyHS.FArmy.FPlayer;
+                    result = field.GetPlayer() == ArmyHexSprite.Army.Player;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:2279
     public virtual MoveStatus ExecuteMove()
     {
-        MoveStatus Result;
-        AoWMapField Field;
-        int Direction;
-        if (FMode.Contains(ArmyMoveModeElement.BuildRoads))
+        MoveStatus result;
+        AoWMapField field;
+        int direction;
+        if (Mode.Contains(ArmyMoveModeElement.BuildRoads))
         {
-            var mapF = GetMapF(FPath[FMoveIndex]);
-            ConstructRoad(FArmyHS.FArmy.FPlayer, mapF);
+            var mapField = GetMapField(Path[MoveIndex]);
+            ConstructRoad(ArmyHexSprite.Army.Player, mapField);
         }
 
-        FMoveIndex -= 1;
-        Field = GetMapF(FPath[FMoveIndex]);
-        var item = FPath[FMoveIndex];
-        FArmyHS.MoveTo(Field, item.Flag);
-        if (Field.FindChildIndex(FArmyHS) != -1)
+        MoveIndex -= 1;
+        field = GetMapField(Path[MoveIndex]);
+        var item = Path[MoveIndex];
+        ArmyHexSprite.MoveTo(field, item.Tag);
+        if (field.FindChildIndex(ArmyHexSprite) != -1)
         {
-            Direction = GetDirection(FMoveIndex + 1);
-            if (Direction == 0)
+            direction = GetDirection(MoveIndex + 1);
+            if (direction == 0)
             {
-                Direction = GetHT(FMoveIndex + 1);
+                direction = GetHexDirection(MoveIndex + 1);
             }
 
-            if (Direction > 0 && Direction <= 6)
+            if (direction > 0 && direction <= 6)
             {
-                FArmyHS.SetDirection((byte)Direction);
+                ArmyHexSprite.SetDirection((byte)direction);
             }
             else
             {
-                FArmyHS.SetDirection(0);
+                ArmyHexSprite.SetDirection(0);
             }
 
-            if (FMode.Contains(ArmyMoveModeElement.BuildRoads))
+            if (Mode.Contains(ArmyMoveModeElement.BuildRoads))
             {
-                ConstructRoad(FArmyHS.FArmy.FPlayer, Field);
+                ConstructRoad(ArmyHexSprite.Army.Player, field);
             }
 
-            Result = ProcessMove();
+            result = ProcessMove();
         }
         else
         {
-            FArmyHS = null;
-            Result = MoveStatus.Done;
+            ArmyHexSprite = null;
+            result = MoveStatus.Done;
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:2108
-    public virtual bool Setup(ArmyHexSprite ArmyHS, byte Selection, MovePath Path, Set<ArmyMoveModeElement> Mode)
+    public virtual bool Setup(ArmyHexSprite armyHexSprite, byte selection, MovePath path, Set<ArmyMoveModeElement> mode)
     {
-        bool Result;
-        int First;
+        bool result;
+        int first;
         int Last;
-        FPath.Clear();
-        First = Path.MovePointsToPos(ArmyHS.FArmy.MovePoints(Selection));
-        Last = Path.Count - 1;
-        if (Last > First)
+        Path.Clear();
+        first = path.MovePointsToPosition(armyHexSprite.Army.MovePoints(selection));
+        Last = path.Count - 1;
+        if (Last > first)
         {
-            for (int I = First; I <= Last; I++)
+            for (int I = first; I <= Last; I++)
             {
-                var item = Path[I];
-                FPath.Add(item);
+                var item = path[I];
+                Path.Add(item);
             }
 
-            FArmyHS = ArmyHS;
-            FPlayer = ArmyHS.FArmy.FPlayer;
-            FMode = Mode;
-            FTargetPlayer = GetMapF(Path[0]).GetPlayer();
-            FTargetX = Path[0].X;
-            FTargetY = Path[0].Y;
-            FTargetL = Path[0].L;
-            FSelection = ArmyHS.FArmy.ValidateSelection(Selection);
-            for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
+            ArmyHexSprite = armyHexSprite;
+            Player = armyHexSprite.Army.Player;
+            Mode = mode;
+            TargetPlayer = GetMapField(path[0]).GetPlayer();
+            TargetX = path[0].X;
+            TargetY = path[0].Y;
+            TargetL = path[0].MapLevel;
+            Selection = armyHexSprite.Army.ValidateSelection(selection);
+            for (int I = 0, last = armyHexSprite.Army.Count - 1; I <= last; I++)
             {
-                if (((1 << I) & Selection) != 0)
+                if (((1 << I) & selection) != 0)
                 {
-                    var unit = ArmyHS.FArmy.GetUnit(I);
-                    FUnitIDs.Add(unit.FUnitID);
+                    var troop = armyHexSprite.Army.GetUnit(I);
+                    UnitIds.Add(troop.UnitId);
                 }
             }
 
-            FDestinationX = FArmyHS.FArmy.FDestinationX;
-            FDestinationY = FArmyHS.FArmy.FDestinationY;
-            FDestinationL = FArmyHS.FArmy.FDestinationL;
-            Result = true;
+            DestinationX = ArmyHexSprite.Army.DestinationX;
+            DestinationY = ArmyHexSprite.Army.DestinationY;
+            DestinationL = ArmyHexSprite.Army.DestinationL;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:2259
-    public bool ObserveMove(int Index)
+    public bool ObserveMove(int index)
     {
-        bool Visible;
-        MultiMoveTokenEvent Event;
-        Visible = MoveVisible(Index);
-        bool Result = Visible && AoWHSMap.Current.FShowIndependentMoves && (AoWHSMap.Current.FSeatedPlayer != FArmyHS.FArmy.FPlayer || AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)AoWHSMap.Current.FSeatedPlayer).FPlayerType != PlayerType.Human);
-        if (Result && AoWHSMap.Current.FTokenManager.TokenExecuter.GetExecutingTokenEvent() is MultiMoveTokenEvent && ((MultiMoveTokenEvent)AoWHSMap.Current.FTokenManager.TokenExecuter.GetExecutingTokenEvent()).FSimultaneous)
+        bool visible;
+        MultiMoveTokenEvent eventValue;
+        visible = MoveVisible(index);
+        bool result = visible && AoWHSMap.Current.ShowIndependentMoves && (AoWHSMap.Current.SeatedPlayer != ArmyHexSprite.Army.Player || AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)AoWHSMap.Current.SeatedPlayer).PlayerType != PlayerType.Human);
+        if (result && AoWHSMap.Current.TokenManager.TokenExecutor.GetExecutingTokenEvent() is MultiMoveTokenEvent && ((MultiMoveTokenEvent)AoWHSMap.Current.TokenManager.TokenExecutor.GetExecutingTokenEvent()).Simultaneous)
         {
-            Event = (MultiMoveTokenEvent)AoWHSMap.Current.FTokenManager.TokenExecuter.GetExecutingTokenEvent();
-            Visible = this == Event.FEvents[0];
-            Result = Visible;
+            eventValue = (MultiMoveTokenEvent)AoWHSMap.Current.TokenManager.TokenExecutor.GetExecutingTokenEvent();
+            visible = this == eventValue.Events[0];
+            result = visible;
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:2269
-    public bool MoveVisible(int Index)
+    public bool MoveVisible(int index)
     {
-        bool Result;
-        if (AoWHSMap.Current.FSeatedPlayer != -1)
+        bool result;
+        if (AoWHSMap.Current.SeatedPlayer != -1)
         {
-            var item = FPath[Index];
-            var fPathItem = FPath[Index];
-            var item2 = FPath[Index];
-            Result = AoWHSMap.Current.Visible(item2.X, fPathItem.Y, item.L, 0);
-            if (Result && FArmyHS.FArmy.FStatus.Contains(ArmyStatusElement.FullyConcealed))
+            var item = Path[index];
+            var fPathItem = Path[index];
+            var item2 = Path[index];
+            result = AoWHSMap.Current.Visible(item2.X, fPathItem.Y, item.MapLevel, 0);
+            if (result && ArmyHexSprite.Army.Status.Contains(ArmyStatusElement.FullyConcealed))
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P5_07.inc:816
-    public ArmyHexSprite GetNoneMovingArmyHS(MapField field)
+    public ArmyHexSprite GetNoneMovingArmyHexSprite(MapField field)
     {
         for (int i = field.Count - 1; i >= 0; i--)
         {
-            var sprite = field.HSList[i];
-            if (sprite.EClass.ClassID == 0x20217 && sprite.Owner == field)
+            var sprite = field.HexSpriteList[i];
+            if (sprite.EngineClass.ClassId == 0x20217 && sprite.Owner == field)
             {
                 var army = (ArmyHexSprite)sprite;
-                if (!army.FArmy.FMode.Contains(ArmyModeElement.Moving)) return army;
+                if (!army.Army.Mode.Contains(ArmyModeElement.Moving)) return army;
             }
         }
         return null;
     }
 
-    private static bool ConstructRoad(sbyte Player, AoWMapField Field)
+    private static bool ConstructRoad(sbyte player, AoWMapField field)
     {
         return false;
     }

@@ -15,21 +15,21 @@ namespace Aow.Engine;
 // the way a nil list did in the original.
 internal sealed class EventStore<TSender>
 {
-    private NotifyEvent<TSender>[] items;
-    private int count;
+    private NotifyEvent<TSender>[] _items;
+    private int _count;
 
-    public int Count => count;
+    public int Count => _count;
 
     public void Add(NotifyEvent<TSender> item)
     {
-        int capacity = items == null ? 0 : items.Length;
-        if (count == capacity)
+        int capacity = _items == null ? 0 : _items.Length;
+        if (_count == capacity)
         {
             Grow(capacity);
         }
 
-        items[count] = item;
-        count += 1;
+        _items[_count] = item;
+        _count += 1;
     }
 
     public void Remove(NotifyEvent<TSender> item)
@@ -43,16 +43,16 @@ internal sealed class EventStore<TSender>
 
     public void Clear()
     {
-        items = null;
-        count = 0;
+        _items = null;
+        _count = 0;
     }
 
     public void Raise(TSender sender)
     {
-        int upper = count - 1;
+        int upper = _count - 1;
         for (int i = upper; i >= 0; i--)
         {
-            NotifyEvent<TSender>[] list = items;
+            NotifyEvent<TSender>[] list = _items;
             NotifyEvent<TSender> handler = list[i];
             if (handler != null)
             {
@@ -66,9 +66,9 @@ internal sealed class EventStore<TSender>
     {
         object target = MethodTarget(item);
         MethodInfo code = MethodCode(item);
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < _count; i++)
         {
-            if (MethodTarget(items[i]) == target && MethodCode(items[i]) == code)
+            if (MethodTarget(_items[i]) == target && MethodCode(_items[i]) == code)
             {
                 return i;
             }
@@ -80,10 +80,10 @@ internal sealed class EventStore<TSender>
     // Engine.pas:4887. The tail slot keeps the delegate that used to sit at the old end.
     private void Delete(int index)
     {
-        count -= 1;
-        if (index < count)
+        _count -= 1;
+        if (index < _count)
         {
-            Array.Copy(items, index + 1, items, index, count - index);
+            Array.Copy(_items, index + 1, _items, index, _count - index);
         }
     }
 
@@ -104,6 +104,6 @@ internal sealed class EventStore<TSender>
             delta = 4;
         }
 
-        Array.Resize(ref items, capacity + delta);
+        Array.Resize(ref _items, capacity + delta);
     }
 }

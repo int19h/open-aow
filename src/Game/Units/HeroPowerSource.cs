@@ -11,24 +11,24 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Units;
 
-// FHero
+// Hero
 public partial class HeroPowerSource : PowerSource
 {
     public HeroPowerSource(ECustomNode owner) : base(owner)
     { }
 
-    public Hero FHero;
+    public Hero Hero;
 
     // Hero.PAS:587
-    public override string Name() => FHero.FHeroName;
+    public override string Name() => Hero.HeroName;
 
     // Hero.PAS:592
-    public override int Power() => FHero.GetPowerGeneration();
+    public override int Power() => Hero.GetPowerGeneration();
 
     // Hero.PAS:610
     public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
-        FHero.GetLocation(ref X, ref Y, ref L);
+        Hero.GetLocation(ref X, ref Y, ref L);
     }
 
     // Hero.PAS:597
@@ -37,14 +37,14 @@ public partial class HeroPowerSource : PowerSource
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        ArmyHexSprite ArmyHS;
+        ArmyHexSprite armyHexSprite;
         GetLocation(ref X, ref Y, ref L);
         if (X != -1)
         {
-            ArmyHS = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHS();
-            if (ArmyHS != null)
+            armyHexSprite = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHexSprite();
+            if (armyHexSprite != null)
             {
-                AoWHSMap.Current.Select(ArmyHS, true);
+                AoWHSMap.Current.Select(armyHexSprite, true);
             }
         }
     }

@@ -18,77 +18,77 @@ public partial class PossessedAbility : PossessAbility
     // AoWAb.PAS:2562
     public PossessedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityID = 107;
-        FAbilityName = AbilityRules.TranslateRStr(PossessedRStr);
-        FAbilityType = AbilityType.Enchantment;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityId = 107;
+        AbilityName = AbilityRules.TranslateResourceString(s_possessedText);
+        AbilityType = AbilityType.Enchantment;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
     // AoWAb.PAS:2597
-    public override bool Expand(AbilityOwner Owner)
+    public override bool Expand(AbilityOwner owner)
     {
-        PossessedAbilityData Data;
-        bool Result = false;
-        Data = (PossessedAbilityData)Owner.GetAbilityData(FAbilityID);
-        if (Data == null)
+        PossessedAbilityData data;
+        bool result = false;
+        data = (PossessedAbilityData)owner.GetAbilityData(AbilityId);
+        if (data == null)
         {
-            Data = new PossessedAbilityData(null);
-            SetAb(Owner, FAbilityID, 1);
-            Owner.AddAbilityData(Data);
-            Result = true;
+            data = new PossessedAbilityData(null);
+            SetAbility(owner, AbilityId, 1);
+            owner.AddAbilityData(data);
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:2612
     public override bool Remove(AbilityOwner owner)
     {
-        PossessedAbilityData Data;
-        bool Result = true;
-        Data = (PossessedAbilityData)owner.GetAbilityData(FAbilityID);
-        if (Data != null)
+        PossessedAbilityData data;
+        bool result = true;
+        data = (PossessedAbilityData)owner.GetAbilityData(AbilityId);
+        if (data != null)
         {
-            SetAb(owner, FAbilityID, 0);
-            owner.RemoveAbilityData(Data);
+            SetAbility(owner, AbilityId, 0);
+            owner.RemoveAbilityData(data);
         }
         else
         {
-            SetAb(owner, FAbilityID, 0);
+            SetAbility(owner, AbilityId, 0);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:2571
-    public override void CombatObjectDestroyed(CombatObject CombatObject)
+    public override void CombatObjectDestroyed(CombatObject combatObject)
     {
-        Unit NewUnit;
-        PossessedAbilityData Data;
-        var combatUnit = (CombatUnit)CombatObject;
-        combatUnit.SetStatus(combatUnit.FStatus - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
-        NewUnit = new Unit(null);
-        NewUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(152));
-        Data = (PossessedAbilityData)combatUnit.FUnit.GetAbilityData(107);
-        if (Data != null)
+        Unit newUnit;
+        PossessedAbilityData data;
+        var combatUnit = (CombatUnit)combatObject;
+        combatUnit.SetStatus(combatUnit.Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
+        newUnit = new Unit(null);
+        newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(152));
+        data = (PossessedAbilityData)combatUnit.Troop.GetAbilityData(107);
+        if (data != null)
         {
-            NewUnit.SetExperience(Data.FSourceExperience);
+            newUnit.SetExperience(data.SourceExperience);
         }
 
-        if (combatUnit.FUnit.FUnitStatus.Contains(UnitStatusElement.Moving))
+        if (combatUnit.Troop.UnitStatus.Contains(UnitStatusElement.Moving))
         {
-            NewUnit.FUnitStatus = Set<UnitStatusElement>.Of(UnitStatusElement.Moving) + NewUnit.FUnitStatus;
+            newUnit.UnitStatus = Set<UnitStatusElement>.Of(UnitStatusElement.Moving) + newUnit.UnitStatus;
         }
 
-        combatUnit.FUnit.Killed();
-        combatUnit.SetUnit(NewUnit);
-        NewUnit.Release();
+        combatUnit.Troop.Killed();
+        combatUnit.SetUnit(newUnit);
+        newUnit.Release();
     }
 
     // AoWAb.PAS:2592
-    public override EngineClass AbilityDataClass() => P4PossessedDataClass;
+    public override EngineClass AbilityDataClass() => s_possessedDataClass;
 
-    private static EngineClass P4PossessedDataClass = EngineClass.Of<PossessedAbilityData>();
-    private static readonly string PossessedRStr = "Possessed";
+    private static EngineClass s_possessedDataClass = EngineClass.Of<PossessedAbilityData>();
+    private static readonly string s_possessedText = "Possessed";
 
 }

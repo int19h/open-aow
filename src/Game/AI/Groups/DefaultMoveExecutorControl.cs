@@ -17,60 +17,60 @@ public partial class DefaultMoveExecutorControl : AIMoveExecutorControl
     public override void CalculateMoves()
     {
         int I;
-        AIMoveExecutorArmyList Armies;
-        AIMoveExecutorMove Move;
-        byte MoveResult = default;
-        Set<CreateMoveModeElement> Mode;
-        bool CannotMove;
-        switch (FState)
+        AIMoveExecutorArmyList armies;
+        AIMoveExecutorMove move;
+        byte moveResult = default;
+        Set<CreateMoveModeElement> mode;
+        bool cannotMove;
+        switch (State)
         {
             case 0:
-                Armies = FExecuter.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
-                if (Armies.Count != 0)
+                armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
+                if (armies.Count != 0)
                 {
-                    if (FExecuter.FMode.Contains(AIMoveExecutorModeElement.Attack))
+                    if (Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
                     {
-                        Mode = Set<CreateMoveModeElement>.Of(CreateMoveModeElement.Surround);
+                        mode = Set<CreateMoveModeElement>.Of(CreateMoveModeElement.Surround);
                     }
                     else
                     {
-                        Mode = Set<CreateMoveModeElement>.Of();
+                        mode = Set<CreateMoveModeElement>.Of();
                     }
 
-                    Move = CreateMove(Armies.GetArmies(0), 255, FExecuter.FDestination.X, FExecuter.FDestination.Y, FExecuter.FDestination.L, Mode, ref MoveResult);
-                    if (Move != null)
+                    move = CreateMove(armies.GetArmies(0), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode, ref moveResult);
+                    if (move != null)
                     {
-                        if (!FExecuter.FMode.Contains(AIMoveExecutorModeElement.Simultaneous) || (FExecuter.FMode.Contains(AIMoveExecutorModeElement.Attack) && MoveResult == 2))
+                        if (!Executor.Mode.Contains(AIMoveExecutorModeElement.Simultaneous) || (Executor.Mode.Contains(AIMoveExecutorModeElement.Attack) && moveResult == 2))
                         {
-                            FExecuter.ExecuteMoves();
+                            Executor.ExecuteMoves();
                         }
                     }
                     else
                     {
-                        Armies.GetArmies(0).SetStatus(255, AIMoveExecutorUnitStatus.Done);
+                        armies.GetArmies(0).SetStatus(255, AIMoveExecutorUnitStatus.Done);
                     }
                 }
                 else
                 {
-                    if (FExecuter.FMoves.Count != 0)
+                    if (Executor.Moves.Count != 0)
                     {
-                        FExecuter.ExecuteMoves();
-                        if (FExecuter.FMode.Contains(AIMoveExecutorModeElement.Attack))
+                        Executor.ExecuteMoves();
+                        if (Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
                         {
-                            FState = 1;
+                            State = 1;
                         }
                         else
                         {
-                            FState = 2;
+                            State = 2;
                         }
                     }
                 }
 
-                if (FExecuter.FMoves.Count == 0 && Armies.Count == 0)
+                if (Executor.Moves.Count == 0 && armies.Count == 0)
                 {
-                    if (FExecuter.FMode.Contains(AIMoveExecutorModeElement.Attack))
+                    if (Executor.Mode.Contains(AIMoveExecutorModeElement.Attack))
                     {
-                        FState = 1;
+                        State = 1;
                     }
                     else
                     {
@@ -78,41 +78,41 @@ public partial class DefaultMoveExecutorControl : AIMoveExecutorControl
                     }
                 }
 
-                Armies?.Dispose();
+                armies?.Dispose();
                 break;
             case 1:
                 I = 0;
-                CannotMove = true;
-                Armies = FExecuter.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
-                while (CannotMove && I != Armies.Count)
+                cannotMove = true;
+                armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
+                while (cannotMove && I != armies.Count)
                 {
-                    Move = CreateMove(Armies.GetArmies(I), 255, FExecuter.FDestination.X, FExecuter.FDestination.Y, FExecuter.FDestination.L, Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DontQueue, CreateMoveModeElement.Surround), ref MoveResult);
-                    CannotMove = MoveResult != 0;
-                    if (Move != null)
+                    move = CreateMove(armies.GetArmies(I), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround), ref moveResult);
+                    cannotMove = moveResult != 0;
+                    if (move != null)
                     {
-                        Move?.Dispose();
+                        move?.Dispose();
                     }
 
                     I += 1;
                 }
 
-                if (CannotMove)
+                if (cannotMove)
                 {
                     I = 0;
-                    Move = null;
-                    while (Move == null && I != Armies.Count)
+                    move = null;
+                    while (move == null && I != armies.Count)
                     {
-                        Move = CreateMove(Armies.GetArmies(I), 255, FExecuter.FDestination.X, FExecuter.FDestination.Y, FExecuter.FDestination.L, Set<CreateMoveModeElement>.Of(), ref MoveResult);
-                        if (Move != null)
+                        move = CreateMove(armies.GetArmies(I), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(), ref moveResult);
+                        if (move != null)
                         {
-                            FExecuter.ExecuteMoves();
+                            Executor.ExecuteMoves();
                         }
 
                         I += 1;
                     }
                 }
 
-                Armies?.Dispose();
+                armies?.Dispose();
                 Done();
                 break;
             case 2:

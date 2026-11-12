@@ -18,14 +18,14 @@ namespace Aow.Game.World;
 public partial class FlagControl : ControlStyleObject
 {
 
-    public RaceResourceList FRaceResources;
-    public CustomImageLibrary FFlags;
+    public RaceResourceList RaceResources;
+    public CustomImageLibrary Flags;
 
     // PlayerC.PAS:1920
     public override void Dispose()
     {
-        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
-        FFlags = null;
+        AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
+        Flags = null;
         base.Dispose();
     }
 
@@ -33,77 +33,77 @@ public partial class FlagControl : ControlStyleObject
     private protected FlagControl(ConstructionContext context, ECustomNode owner) : base(context, owner)
     {
         var gameSet = (AoWHSSet)owner;
-        FFlags = gameSet.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
-        this.FRaceResources = gameSet.FRaceResources;
+        Flags = gameSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
+        this.RaceResources = gameSet.RaceResources;
 
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.FixedChild));
     }
 
     // PlayerC.PAS:1927
-    public void ShowFlag(int X, int Y, int FrameOffset, byte FlagID, in LockedSurface SurfaceDesc)
+    public void ShowFlag(int X, int Y, int frameOffset, byte flagId, in LockedSurface lockedSurface)
     {
-        FFlags[4].Show(X, Y, SurfaceDesc);
-        FrameOffset = (int)(((uint)FrameOffset) >> 2) % 12;
-        if ((FlagID & 32) != 0)
+        Flags[4].Show(X, Y, lockedSurface);
+        frameOffset = (int)(((uint)frameOffset) >> 2) % 12;
+        if ((flagId & 32) != 0)
         {
-            FFlags[FrameOffset + 22].Show(X - 21, Y - 16, SurfaceDesc);
+            Flags[frameOffset + 22].Show(X - 21, Y - 16, lockedSurface);
         }
         else
         {
-            FRaceResources.GetRaceResource(FlagID & 31).FImageLibrary[FrameOffset + 12].Show(X - 21, Y - 16, SurfaceDesc);
+            RaceResources.GetRaceResource(flagId & 31).ImageLibrary[frameOffset + 12].Show(X - 21, Y - 16, lockedSurface);
         }
     }
 
     // PlayerC.PAS:1937
-    public void ShowFlagEx(int X, int Y, int FrameOffset, byte FlagID, in LockedSurface SurfaceDesc, bool ShowBase)
+    public void ShowFlag(int X, int Y, int frameOffset, byte flagId, in LockedSurface lockedSurface, bool showBase)
     {
-        if (ShowBase)
+        if (showBase)
         {
-            FFlags[4].Show(X, Y, SurfaceDesc);
+            Flags[4].Show(X, Y, lockedSurface);
         }
 
-        FrameOffset = (int)(((uint)FrameOffset) >> 2) % 12;
-        if ((FlagID & 32) != 0)
+        frameOffset = (int)(((uint)frameOffset) >> 2) % 12;
+        if ((flagId & 32) != 0)
         {
-            FFlags[FrameOffset + 22].Show(X - 21, Y - 16, SurfaceDesc);
+            Flags[frameOffset + 22].Show(X - 21, Y - 16, lockedSurface);
         }
         else
         {
-            FRaceResources.GetRaceResource(FlagID & 31).FImageLibrary[FrameOffset + 12].Show(X - 21, Y - 16, SurfaceDesc);
+            RaceResources.GetRaceResource(flagId & 31).ImageLibrary[frameOffset + 12].Show(X - 21, Y - 16, lockedSurface);
         }
     }
 
     // PlayerC.PAS:1947
-    public void ShowStructureFlag(int X, int Y, int FrameOffset, byte FlagID, in LockedSurface SurfaceDesc)
+    public void ShowStructureFlag(int X, int Y, int frameOffset, byte flagId, in LockedSurface lockedSurface)
     {
-        FFlags[(int)(((uint)FlagID) >> 6)].Show(X, Y, SurfaceDesc);
-        FrameOffset = (int)(((uint)FrameOffset) >> 1) % 12;
-        if ((FlagID & 32) != 0)
+        Flags[(int)(((uint)flagId) >> 6)].Show(X, Y, lockedSurface);
+        frameOffset = (int)(((uint)frameOffset) >> 1) % 12;
+        if ((flagId & 32) != 0)
         {
-            FFlags[FrameOffset + 10].Show(X - 21, Y - 16, SurfaceDesc);
+            Flags[frameOffset + 10].Show(X - 21, Y - 16, lockedSurface);
         }
         else
         {
-            FRaceResources.GetRaceResource(FlagID & 31).FImageLibrary[FrameOffset].Show(X - 21, Y - 16, SurfaceDesc);
+            RaceResources.GetRaceResource(flagId & 31).ImageLibrary[frameOffset].Show(X - 21, Y - 16, lockedSurface);
         }
     }
 
     // PlayerC.PAS:1957
-    public void ShowStructureFlagEx(int X, int Y, int FrameOffset, byte FlagID, in LockedSurface SurfaceDesc, bool ShowBase)
+    public void ShowStructureFlag(int X, int Y, int frameOffset, byte flagId, in LockedSurface lockedSurface, bool showBase)
     {
-        if (ShowBase)
+        if (showBase)
         {
-            FFlags[(int)(((uint)FlagID) >> 6)].Show(X, Y, SurfaceDesc);
+            Flags[(int)(((uint)flagId) >> 6)].Show(X, Y, lockedSurface);
         }
 
-        FrameOffset = (int)(((uint)FrameOffset) >> 1) % 12;
-        if ((FlagID & 32) != 0)
+        frameOffset = (int)(((uint)frameOffset) >> 1) % 12;
+        if ((flagId & 32) != 0)
         {
-            FFlags[FrameOffset + 10].Show(X - 21, Y - 16, SurfaceDesc);
+            Flags[frameOffset + 10].Show(X - 21, Y - 16, lockedSurface);
         }
         else
         {
-            FRaceResources.GetRaceResource(FlagID & 31).FImageLibrary[FrameOffset].Show(X - 21, Y - 16, SurfaceDesc);
+            RaceResources.GetRaceResource(flagId & 31).ImageLibrary[frameOffset].Show(X - 21, Y - 16, lockedSurface);
         }
     }
 

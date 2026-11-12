@@ -13,85 +13,85 @@ namespace Aow.Game.Combat;
 public partial class CombatData : EngineObject
 {
     // Combat2.pas:184
-    public new const int ClassID = 131747;
+    public new const int ClassId = 131747;
 
     // Combat2.pas:162
     public CombatData(ECustomNode owner) : base(owner)
     {
-        FPlayers = new CombatPlayerList(null);
-        FParties = new CombatPartyList(null);
-        FCombatObjects = new ENode(null);
-        FDefeatedLeaders = new ByteList();
-        FTurnOrder = new ByteList();
-        FInvolvedLeaders = new ByteList();
+        Players = new CombatPlayerList(null);
+        Parties = new CombatPartyList(null);
+        CombatObjects = new ENode(null);
+        DefeatedLeaders = new ByteList();
+        TurnOrder = new ByteList();
+        InvolvedLeaders = new ByteList();
     }
 
-    public int FX;
-    public int FY;
-    public int FL;
-    public int FAttackerX;
-    public int FAttackerY;
-    public int FAttackerL;
-    public ByteArray2 F_CombatData_20;
-    public Set<DamageType> F_CombatData_22;
-    public sbyte FAttackerPlayer;
-    public sbyte FDefenderPlayer;
-    public ByteList FInvolvedLeaders;
-    public ByteList FDefeatedLeaders;
-    public byte F_CombatData_30;
-    public byte FCurrentPlayer;
-    public ENode FCombatObjects;
-    public CombatPlayerList FPlayers;
-    public CombatPartyList FParties;
-    public ByteList FTurnOrder;
-    public int FRound;
-    public string FHeader = "";
-    public byte FWallType;
-    public bool FWallBreached;
-    public CombatWall FWall;
+    public int X;
+    public int Y;
+    public int MapLevel;
+    public int AttackerX;
+    public int AttackerY;
+    public int AttackerL;
+    public ByteArray2 TerrainAndOverlayTypes;
+    public Set<DamageType> ImmunityTypes;
+    public sbyte AttackerPlayer;
+    public sbyte DefenderPlayer;
+    public ByteList InvolvedLeaders;
+    public ByteList DefeatedLeaders;
+    public byte CombatResult;
+    public byte CurrentPlayer;
+    public ENode CombatObjects;
+    public CombatPlayerList Players;
+    public CombatPartyList Parties;
+    public ByteList TurnOrder;
+    public int Round;
+    public string Header = "";
+    public byte WallType;
+    public bool WallBreached;
+    public CombatWall Wall;
 
     // Combat2.pas:173
     public override void Dispose()
     {
-        FParties?.Dispose();
-        FPlayers?.Dispose();
-        FCombatObjects?.Dispose();
-        FDefeatedLeaders?.Dispose();
-        FInvolvedLeaders?.Dispose();
-        FTurnOrder?.Dispose();
+        Parties?.Dispose();
+        Players?.Dispose();
+        CombatObjects?.Dispose();
+        DefeatedLeaders?.Dispose();
+        InvolvedLeaders?.Dispose();
+        TurnOrder?.Dispose();
         base.Dispose();
     }
 
     // Combat2.pas:212
-    public bool GetSideLeaderInvolved(byte Side)
+    public bool GetSideLeaderInvolved(byte side)
     {
         int I;
-        bool Result = false;
-        I = FInvolvedLeaders.Count;
-        while (!Result && I != 0)
+        bool result = false;
+        I = InvolvedLeaders.Count;
+        while (!result && I != 0)
         {
             I -= 1;
-            var item = FInvolvedLeaders[I];
-            Result = FPlayers.GetPlayers((sbyte)item).FSideIndex == Side;
+            var item = InvolvedLeaders[I];
+            result = Players.GetPlayers((sbyte)item).SideIndex == side;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat2.pas:231
-    public int GetCount() => FCombatObjects.FChildren.Count;
+    public int GetCount() => CombatObjects._children.Count;
 
     // Combat2.pas:234
-    public CombatObject GetObjects(int Index) => (CombatObject)FCombatObjects.FChildren.List[Index];
+    public CombatObject GetObjects(int index) => (CombatObject)CombatObjects._children.List[index];
 
     // Combat2.pas:246
-    public int IndexOfID(int ID)
+    public int IndexOfId(int id)
     {
-        for (int Result = FCombatObjects.Count - 1; Result >= 0; Result--)
+        for (int result = CombatObjects.Count - 1; result >= 0; result--)
         {
-            if (((CombatObject)FCombatObjects.FChildren.List[Result]).FID == ID)
+            if (((CombatObject)CombatObjects._children.List[result]).Id == id)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -99,16 +99,16 @@ public partial class CombatData : EngineObject
     }
 
     // Combat2.pas:253
-    public CombatObject FindID(int ID)
+    public CombatObject FindId(int id)
     {
         int I;
-        I = FCombatObjects.FChildren.Count;
+        I = CombatObjects._children.Count;
         while (I != 0)
         {
             I -= 1;
-            if (((CombatObject)FCombatObjects.FChildren.List[I]).FID == ID)
+            if (((CombatObject)CombatObjects._children.List[I]).Id == id)
             {
-                return (CombatObject)FCombatObjects.FChildren.List[I];
+                return (CombatObject)CombatObjects._children.List[I];
             }
         }
 
@@ -116,28 +116,28 @@ public partial class CombatData : EngineObject
     }
 
     // Combat2.pas:269
-    public CombatObject FindPosition(byte Position)
+    public CombatObject FindPosition(byte position)
     {
         int I;
-        CombatObject Result = null;
-        I = FCombatObjects.FChildren.Count;
-        while (I != 0 && Result == null)
+        CombatObject result = null;
+        I = CombatObjects._children.Count;
+        while (I != 0 && result == null)
         {
             I -= 1;
-            if (Position == ((CombatObject)FCombatObjects.FChildren.List[I]).FPosition)
+            if (position == ((CombatObject)CombatObjects._children.List[I]).Position)
             {
-                Result = (CombatObject)FCombatObjects.FChildren.List[I];
+                result = (CombatObject)CombatObjects._children.List[I];
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Combat2.pas:282
-    public void AddObject(CombatObject CombatObject)
+    public void AddObject(CombatObject combatObject)
     {
-        Assert(FindID(CombatObject.FID) == null && FindPosition(CombatObject.FPosition) == null, "CombatObject Position/ID double defined", "Combat2.pas", 284);
-        CombatObject.SetOwner(FCombatObjects);
+        Assert(FindId(combatObject.Id) == null && FindPosition(combatObject.Position) == null, "CombatObject Position/ID double defined", "Combat2.pas", 284);
+        combatObject.SetOwner(CombatObjects);
     }
 
     // intf_P3_02.inc:252

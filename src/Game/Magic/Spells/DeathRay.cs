@@ -15,9 +15,9 @@ public partial class DeathRay : CombatSpell
     // CombatSpells.pas:1130
     public DeathRay(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(DeathRayRStr);
-        FSpellID = 103;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_deathRayText);
+        SpellId = 103;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 4;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Death);
@@ -25,5 +25,5 @@ public partial class DeathRay : CombatSpell
         spellCombatInfo.Range = 12;
     }
 
-    private static readonly string DeathRayRStr = "Death Ray";
+    private static readonly string s_deathRayText = "Death Ray";
 }

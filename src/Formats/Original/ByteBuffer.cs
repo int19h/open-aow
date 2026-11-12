@@ -5,25 +5,25 @@ namespace Aow.Formats.Original;
 /// <summary>A growable byte buffer for the original encodings.</summary>
 public sealed class ByteBuffer
 {
-    private byte[] buffer;
+    private byte[] _buffer;
 
-    public ByteBuffer(int capacity = 64) => buffer = new byte[Math.Max(capacity, 16)];
+    public ByteBuffer(int capacity = 64) => _buffer = new byte[Math.Max(capacity, 16)];
 
     public int Length { get; private set; }
 
-    public ReadOnlySpan<byte> Span => buffer.AsSpan(0, Length);
+    public ReadOnlySpan<byte> Span => _buffer.AsSpan(0, Length);
 
-    public byte[] ToArray() => buffer.AsSpan(0, Length).ToArray();
+    public byte[] ToArray() => _buffer.AsSpan(0, Length).ToArray();
 
     private Span<byte> Grow(int count)
     {
-        if (Length + count > buffer.Length)
+        if (Length + count > _buffer.Length)
         {
-            long size = Math.Max((long)buffer.Length * 2, (long)Length + count);
+            long size = Math.Max((long)_buffer.Length * 2, (long)Length + count);
             if (size > Array.MaxLength) throw new ConversionException(new FormatDiagnostic(Codes.Limit, "An encoded image exceeds the largest buffer."));
-            Array.Resize(ref buffer, (int)size);
+            Array.Resize(ref _buffer, (int)size);
         }
-        var span = buffer.AsSpan(Length, count);
+        var span = _buffer.AsSpan(Length, count);
         Length += count;
         return span;
     }
@@ -39,7 +39,7 @@ public sealed class ByteBuffer
     public void Zeros(int count) => Grow(count).Clear();
 
     /// <summary>Overwrites four bytes already written.</summary>
-    public void PatchInt32(int at, int value) => BinaryPrimitives.WriteInt32LittleEndian(buffer.AsSpan(at, 4), value);
+    public void PatchInt32(int at, int value) => BinaryPrimitives.WriteInt32LittleEndian(_buffer.AsSpan(at, 4), value);
 
     public void Clear() => Length = 0;
 }

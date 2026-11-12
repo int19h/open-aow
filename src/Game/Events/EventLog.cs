@@ -20,64 +20,64 @@ public partial class EventLog : EngineObject
 
     public EventLog(ECustomNode owner) : base(owner)
     {
-        FRefCount = 1;
+        RefCount = 1;
     }
 
-    public int FDay = AoWHSMap.Current is { } map ? map.FDay : 0;
-    public int FID;
-    public sbyte FPlayer = AoWHSMap.Current is { } map ? map.FCurrentPlayer : (sbyte)0;
-    public int FRefCount;
+    public int _day = AoWHSMap.Current is { } map ? map.Day : 0;
+    public int Id;
+    public sbyte _player = AoWHSMap.Current is { } map ? map.CurrentPlayer : (sbyte)0;
+    public int RefCount;
 
     // EventLog.pas:334
-    public override void SetOwner(ECustomNode AOwner)
+    public override void SetOwner(ECustomNode owner)
     {
-        if (FRefCount != 0)
+        if (RefCount != 0)
         {
             AddRef();
-            base.SetOwner(AOwner);
+            base.SetOwner(owner);
             Release();
         }
         else
         {
-            base.SetOwner(AOwner);
+            base.SetOwner(owner);
         }
     }
 
     // EventLog.pas:358
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FDay, 10);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 11);
-        Stream.rwInteger(ref FID, 12);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref _day, 10);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _player), 11);
+        stream.rwInteger(ref Id, 12);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int("TEventLog.Day", ref FDay);
-        PersistSupport.UnsignedByte(persister, "Player", ref FPlayer);
-        persister.Int("ID", ref FID);
+        persister.Int32("TEventLog.Day", ref _day);
+        PersistSupport.UnsignedByte(persister, "Player", ref _player);
+        persister.Int32("ID", ref Id);
     }
 
     // EventLog.pas:345
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // EventLog.pas:351
     public override int Release()
     {
-        FRefCount -= 1;
-        int Result = FRefCount;
-        if (FRefCount == 0)
+        RefCount -= 1;
+        int result = RefCount;
+        if (RefCount == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // EventLog.pas:371
@@ -86,47 +86,47 @@ public partial class EventLog : EngineObject
     // EventLog.pas:376
     public virtual int GetTextColor()
     {
-        int Index;
-        bool condition = FPlayer > 0;
+        int index;
+        bool condition = _player > 0;
         if (condition)
         {
-            var count = AoWHSMap.Current.FPlayers.GetCount();
-            condition = FPlayer < count;
+            var count = AoWHSMap.Current.Players.GetCount();
+            condition = _player < count;
         }
 
         if (condition)
         {
-            Index = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace;
+            index = AoWHSMap.Current.Players.GetPlayers(_player).PlayerRace;
         }
         else
         {
-            Index = 12;
+            index = 12;
         }
 
-        return AbilityRules.RaceColors[Index];
+        return AbilityRules.RaceColors[index];
     }
 
     // EventLog.pas:386
     public virtual int GetLeftIcon()
     {
-        int Result;
-        bool condition = FPlayer > 0;
+        int result;
+        bool condition = _player > 0;
         if (condition)
         {
-            var count = AoWHSMap.Current.FPlayers.GetCount();
-            condition = FPlayer < count;
+            var count = AoWHSMap.Current.Players.GetCount();
+            condition = _player < count;
         }
 
         if (condition)
         {
-            Result = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace;
+            result = AoWHSMap.Current.Players.GetPlayers(_player).PlayerRace;
         }
         else
         {
-            Result = 12;
+            result = 12;
         }
 
-        return Result;
+        return result;
     }
 
     // EventLog.pas:393
@@ -147,40 +147,40 @@ public partial class EventLog : EngineObject
     }
 
     // EventLog.pas:444
-    public virtual void PlayLoggedSFX(EventLogbook Logbook)
+    public virtual void PlayLoggedSfx(EventLogbook logbook)
     {
         AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
     }
 
     // EventLog.pas:449
-    public virtual void NotifyLogged(EventLogbook Logbook)
+    public virtual void NotifyLogged(EventLogbook logbook)
     {
-        if (AoWHSMap.Current.FSeatedPlayer == Logbook.FPlayer && AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FGameOverStatus == GameOverStatus.None)
+        if (AoWHSMap.Current.SeatedPlayer == logbook.Player && AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.None)
         {
-            PlayLoggedSFX(Logbook);
+            PlayLoggedSfx(logbook);
         }
     }
 
     // EventLog.pas:403
-    public virtual bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public virtual bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool Result = default;
-        if (Trigger == ExecuteTrigger.User || ((Trigger == ExecuteTrigger.Event || (Trigger == ExecuteTrigger.NewTurn && AoWHSMap.Current.FRequestCombatType)) && AoWHSMap.Current.FSeatedPlayer == FPlayer))
+        bool result = default;
+        if (trigger == ExecuteTrigger.User || ((trigger == ExecuteTrigger.Event || (trigger == ExecuteTrigger.NewTurn && AoWHSMap.Current.RequestCombatType)) && AoWHSMap.Current.SeatedPlayer == _player))
         {
-            AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
-            Result = true;
+            AoWHSMap.Current.TriggerExecuteEventLog(this, mode, done);
+            result = true;
         }
         else
         {
-            if (Trigger == ExecuteTrigger.Event)
+            if (trigger == ExecuteTrigger.Event)
             {
                 AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
             }
 
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // EventLog.pas:432
@@ -204,44 +204,44 @@ public partial class EventLog : EngineObject
         AoWHSMap.Current.PlayCenterAnimation(X, Y, L);
     }
 
-    internal static void DistributeEventLog(EventLog Log, bool Execute)
+    internal static void DistributeEventLog(EventLog log, bool execute)
     {
-        Player Player;
-        EventLog CopyLog;
-        for (int I = 0, last = AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
+        Player player;
+        EventLog copyLog;
+        for (int I = 0, last = AoWHSMap.Current.Players.GetCount() - 1; I <= last; I++)
         {
-            Player = AoWHSMap.Current.FPlayers.GetPlayers(I);
-            if (Player.FStatus == Session.Player.Status.Playing)
+            player = AoWHSMap.Current.Players.GetPlayers(I);
+            if (player.Status == PlayerStatus.Playing)
             {
-                CopyLog = (EventLog)Log.Copy(GameTables.AoWEngine);
-                Player.FEventLogbook.AddEvent(CopyLog);
-                if (I == AoWHSMap.Current.FSeatedPlayer && Execute)
+                copyLog = (EventLog)log.Copy(GameTables.GameEngine);
+                player.EventLogbook.AddEvent(copyLog);
+                if (I == AoWHSMap.Current.SeatedPlayer && execute)
                 {
-                    CopyLog.Execute(false, ExecuteTrigger.Event, null);
+                    copyLog.Execute(false, ExecuteTrigger.Event, null);
                 }
 
-                CopyLog.Release();
+                copyLog.Release();
             }
         }
     }
 
-    internal static void DistributeLocationEventLog(EventLog Log, sbyte Player, sbyte X, sbyte Y, sbyte L, bool Execute)
+    internal static void DistributeLocationEventLog(EventLog log, sbyte player, sbyte X, sbyte Y, sbyte L, bool execute)
     {
-        Player TargetPlayer;
-        EventLog CopyLog;
-        for (int I = 0, last = AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
+        Player targetPlayer;
+        EventLog copyLog;
+        for (int I = 0, last = AoWHSMap.Current.Players.GetCount() - 1; I <= last; I++)
         {
-            TargetPlayer = AoWHSMap.Current.FPlayers.GetPlayers(I);
-            if (TargetPlayer.FStatus == Session.Player.Status.Playing && (I == Player || !AoWHSMap.Current.FoggedForPlayer(X, Y, L, (sbyte)I)))
+            targetPlayer = AoWHSMap.Current.Players.GetPlayers(I);
+            if (targetPlayer.Status == PlayerStatus.Playing && (I == player || !AoWHSMap.Current.FoggedForPlayer(X, Y, L, (sbyte)I)))
             {
-                CopyLog = (EventLog)Log.Copy(GameTables.AoWEngine);
-                TargetPlayer.FEventLogbook.AddEvent(CopyLog);
-                if (I == AoWHSMap.Current.FSeatedPlayer && AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType == PlayerType.Human && Execute)
+                copyLog = (EventLog)log.Copy(GameTables.GameEngine);
+                targetPlayer.EventLogbook.AddEvent(copyLog);
+                if (I == AoWHSMap.Current.SeatedPlayer && AoWHSMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human && execute)
                 {
-                    CopyLog.Execute(false, ExecuteTrigger.Event, null);
+                    copyLog.Execute(false, ExecuteTrigger.Event, null);
                 }
 
-                CopyLog.Release();
+                copyLog.Release();
             }
         }
     }

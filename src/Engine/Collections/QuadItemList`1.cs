@@ -4,61 +4,61 @@ namespace Aow.Engine.Collections;
 
 public class QuadItemList<TA> : RecordList<QuadItem<TA>> where TA : class
 {
-    public int AddABCD(TA A, int B, int C, int D) => Add(new QuadItem<TA> { A = A, B = B, C = C, D = D });
+    public int AddABCD(TA A, int B, int C, int D) => Add(new QuadItem<TA> { First = A, Second = B, Third = C, Fourth = D });
 
     public int IndexOfItemA(TA A)
     {
-        int Result = 0;
-        while (Result < FCount && !ReferenceEquals(FList[Result].A, A))
+        int result = 0;
+        while (result < _count && !ReferenceEquals(_list[result].First, A))
         {
-            Result += 1;
+            result += 1;
         }
 
-        return Result == FCount ? -1 : Result;
+        return result == _count ? -1 : result;
     }
 
     public int IndexOfItemB(int B)
     {
-        int Result = 0;
-        while (Result < FCount && FList[Result].B != B)
+        int result = 0;
+        while (result < _count && _list[result].Second != B)
         {
-            Result += 1;
+            result += 1;
         }
 
-        return Result == FCount ? -1 : Result;
+        return result == _count ? -1 : result;
     }
 
     public int IndexOfItemC(int C)
     {
-        int Result = 0;
-        while (Result < FCount && FList[Result].C != C)
+        int result = 0;
+        while (result < _count && _list[result].Third != C)
         {
-            Result += 1;
+            result += 1;
         }
 
-        return Result == FCount ? -1 : Result;
+        return result == _count ? -1 : result;
     }
 
     public int IndexOfItemD(int D)
     {
-        int Result = 0;
-        while (Result < FCount && FList[Result].D != D)
+        int result = 0;
+        while (result < _count && _list[result].Fourth != D)
         {
-            Result += 1;
+            result += 1;
         }
 
-        return Result == FCount ? -1 : Result;
+        return result == _count ? -1 : result;
     }
 
-    public void SortAscendingItemB() => Sort(static (in Item1, in Item2) => Item1.B - Item2.B);
+    public void SortAscendingItemB() => Sort(static (in item1, in item2) => item1.Second - item2.Second);
 
-    public void SortAscendingItemC() => Sort(static (in Item1, in Item2) => Item1.C - Item2.C);
+    public void SortAscendingItemC() => Sort(static (in item1, in item2) => item1.Third - item2.Third);
 
-    public void SortAscendingItemD() => Sort(static (in Item1, in Item2) => Item1.D - Item2.D);
+    public void SortAscendingItemD() => Sort(static (in item1, in item2) => item1.Fourth - item2.Fourth);
 
-    public void SortDescendingItemB() => Sort(static (in Item1, in Item2) => Item2.B - Item1.B);
+    public void SortDescendingItemB() => Sort(static (in item1, in item2) => item2.Second - item1.Second);
 
-    public void SortDescendingItemC() => Sort(static (in Item1, in Item2) => Item2.C - Item1.C);
+    public void SortDescendingItemC() => Sort(static (in item1, in item2) => item2.Third - item1.Third);
 
-    public void SortDescendingItemD() => Sort(static (in Item1, in Item2) => Item2.D - Item1.D);
+    public void SortDescendingItemD() => Sort(static (in item1, in item2) => item2.Fourth - item1.Fourth);
 }

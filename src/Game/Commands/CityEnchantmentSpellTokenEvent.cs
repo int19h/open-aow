@@ -9,7 +9,7 @@ public partial class CityEnchantmentSpellTokenEvent : CityTargetSpellTokenEvent
     { }
 
     // CitySpells.pas:551
-    public new const int ClassID = 131821;
+    public new const int ClassId = 131821;
 
     // NetworkE.pas:230
 

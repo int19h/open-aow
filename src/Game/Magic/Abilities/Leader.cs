@@ -13,58 +13,58 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-// FSpherePicksMax. FSpheres
+// SpherePicksMax. Spheres
 public partial class Leader : Hero
 {
-    public new const int ClassID = 131634;
+    public new const int ClassId = 131634;
 
-    public byte FSpherePicksMax;
-    public ByteList FSpheres;
+    public byte SpherePicksMax;
+    public ByteList Spheres;
 
     // Hero.PAS:2766
     public override void Dispose()
     {
-        if (AoWHSMap.Current != null && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer) != null && this == AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FLeader)
+        if (AoWHSMap.Current != null && AoWHSMap.Current.Players.GetPlayers(Player) != null && this == AoWHSMap.Current.Players.GetPlayers(Player).Leader)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).SetLeader(null);
+            AoWHSMap.Current.Players.GetPlayers(Player).SetLeader(null);
         }
 
         base.Dispose();
-        FSpheres?.Dispose();
+        Spheres?.Dispose();
     }
 
     // Hero.PAS:2898
-    public override GameEngine GetEngine() => GameTables.AoWEngine;
+    public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // Hero.PAS:2891
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByteEx(ref FSpherePicksMax, 5, 45);
-        Stream.rwStreamProc(46, FSpheres.LoadFromStream, FSpheres.SaveToStream);
+        base.ReadWrite(stream);
+        stream.rwByteEx(ref SpherePicksMax, 5, 45);
+        stream.rwStreamProc(46, Spheres.LoadFromStream, Spheres.SaveToStream);
     }
 
     // Hero.PAS:2759
     public Leader(ECustomNode owner) : base(owner)
     {
-        FSpheres = new ByteList();
-        FSpherePicksMax = 5;
+        Spheres = new ByteList();
+        SpherePicksMax = 5;
     }
 
     // Hero.PAS:2845
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001989)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001989)
         {
-            SetSpherePicksMax((byte)AoWHSMap.Current.FSphereCount);
-            if (AoWHSMap.Current.FPlayers.GetCount() > FPlayer)
+            SetSpherePicksMax((byte)AoWHSMap.Current.SphereCount);
+            if (AoWHSMap.Current.Players.GetCount() > Player)
             {
                 // { reload FPlayer }
-                if (AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)this.FPlayer).FPlayerRace != FRace)
+                if (AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)this.Player).PlayerRace != Race)
                 {
-                    var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-                    SetHeroResourceIndex(AoWHSSet.Current.FHeroResources.Find(players.FPlayerRace, HeroType.HeroLeader));
+                    var players = AoWHSMap.Current.Players.GetPlayers(Player);
+                    SetHeroResourceIndex(AoWHSSet.Current.HeroResources.Find(players.PlayerRace, HeroType.HeroLeader));
                     Changed();
                 }
             }
@@ -81,7 +81,7 @@ public partial class Leader : Hero
         base.Changed();
         if (AoWHSMap.Current != null && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            AoWHSMap.Current.FOnLeaderChangedStore.Raise(this);
+            AoWHSMap.Current._onLeaderChangedStore.Raise(this);
         }
     }
 
@@ -91,73 +91,73 @@ public partial class Leader : Hero
     // Hero.PAS:2886
     public override int GetPowerGeneration()
     {
-        int Result;
+        int result;
         if (GetAbilityEnabled(52))
         {
-            Result = GetAbilityLevel(52) * 5 + 5;
+            result = GetAbilityLevel(52) * 5 + 5;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2908
-    public override void SetPlayer(sbyte Player)
+    public override void SetPlayer(sbyte player)
     {
-        if (Player != FPlayer)
+        if (player != Player)
         {
-            if (FPlayer != 0)
+            if (Player != 0)
             {
                 SetOwner(null);
                 Changed();
             }
             else
             {
-                base.SetPlayer(Player);
+                base.SetPlayer(player);
             }
         }
     }
 
     // Hero.PAS:2784
-    public override int GetUnitMoraleValue(sbyte Player, sbyte IndependentRelation) => 90;
+    public override int GetUnitMoraleValue(sbyte player, sbyte independentRelation) => 90;
 
     // Hero.PAS:2921
     public override bool CanActivate()
     {
-        Leader Leader;
-        bool Result = base.CanActivate();
-        if (Result)
+        Leader leader;
+        bool result = base.CanActivate();
+        if (result)
         {
-            Leader = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FLeader;
-            if (Leader != null && !CompatibleHero(Leader))
+            leader = AoWHSMap.Current.Players.GetPlayers(Player).Leader;
+            if (leader != null && !CompatibleHero(leader))
             {
-                Result = false;
+                result = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2932
     public override void Activate()
     {
-        Leader Leader;
-        FLibraryID = -1;
-        if (FPlayer == 0)
+        Leader leader;
+        LibraryId = -1;
+        if (Player == 0)
         {
-            FPlayer = (sbyte)AoWHSMap.Current.FPlayers.RaceToPlayer(FRace);
+            Player = (sbyte)AoWHSMap.Current.Players.RaceToPlayer(Race);
         }
 
         base.Activate();
-        if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer) != null)
+        if (AoWHSMap.Current.Players.GetPlayers(Player) != null)
         {
-            Leader = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FLeader;
-            if (Leader != this)
+            leader = AoWHSMap.Current.Players.GetPlayers(Player).Leader;
+            if (leader != this)
             {
-                if (Leader != null && Leader.Owner != null)
+                if (leader != null && leader.Owner != null)
                 {
                     try
                     {
@@ -169,7 +169,7 @@ public partial class Leader : Hero
                 }
 
                 // { Original silently swallows this duplicate-leader exception. }
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).SetLeader(this);
+                AoWHSMap.Current.Players.GetPlayers(Player).SetLeader(this);
                 Changed();
             }
             else
@@ -191,14 +191,14 @@ public partial class Leader : Hero
     }
 
     // Hero.PAS:2972
-    public override bool CanDisband(ref string Reason) => false;
+    public override bool CanDisband(ref string reason) => false;
 
     // Hero.PAS:2915
     public override void Killed()
     {
-        if (FUnitStatus.Contains(UnitStatusElement.Activated) && AoWHSMap.Current.FCombat == null)
+        if (UnitStatus.Contains(UnitStatusElement.Activated) && AoWHSMap.Current.Combat == null)
         {
-            AoWHSMap.Current.GameOver(FPlayer, GameOverStatus.Lost);
+            AoWHSMap.Current.GameOver(Player, GameOverStatus.Lost);
         }
 
         base.Killed();
@@ -207,175 +207,175 @@ public partial class Leader : Hero
     // Hero.PAS:2787
     public override string GetNickname()
     {
-        string Result;
+        string result;
         if (AoWHSMap.Current != null)
         {
-            if (AoWHSMap.Current.FGameType != GameType.Campaign)
+            if (AoWHSMap.Current.GameType != GameType.Campaign)
             {
-                Result = "";
+                result = "";
             }
             else
             {
-                return FNickname;
+                return Nickname;
             }
         }
         else
         {
-            Result = "";
+            result = "";
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2795
-    public override void SetNickname(string Value)
+    public override void SetNickname(string value)
     {
-        if (AoWHSMap.Current != null && AoWHSMap.Current.FGameType == GameType.Campaign)
+        if (AoWHSMap.Current != null && AoWHSMap.Current.GameType == GameType.Campaign)
         {
-            base.SetNickname(Value);
+            base.SetNickname(value);
         }
     }
 
     // Hero.PAS:2901
-    public override void SetHeroResourceIndex(int Value)
+    public override void SetHeroResourceIndex(int value)
     {
-        base.SetHeroResourceIndex(Value);
-        if (FHeroResource != null && AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        base.SetHeroResourceIndex(value);
+        if (HeroResource != null && AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            FHeroName = FHeroResource.FName;
+            HeroName = HeroResource.Name;
         }
     }
 
     // Hero.PAS:2960
-    public override void EditDropMsg(ref EngineMessage Msg)
+    public override void EditDropMessage(ref EngineMessage message)
     {
-        MapLevel Level;
+        MapLevel level;
         int L;
         int X = default;
         int Y = default;
-        bool Placed;
-        Level = Msg.Param[0].As<MapLevel>();
-        L = Msg.Data[1];
-        HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref X, ref Y);
-        if (X >= 0 && Y >= 0 && X < Level.Width && Y < Level.Height)
+        bool placed;
+        level = message.Param[0].As<MapLevel>();
+        L = message.Data[1];
+        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], ref X, ref Y);
+        if (X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
         {
-            Placed = Place(X, Y, L, FPlayer, Set<UnitPlaceModeElement>.Of()) != null;
+            placed = Place(X, Y, L, Player, Set<UnitPlaceModeElement>.Of()) != null;
         }
         else
         {
-            Placed = false;
+            placed = false;
         }
 
-        if (Placed)
+        if (placed)
         {
-            Msg.Result = 0;
+            message.Result = 0;
         }
         else
         {
-            Msg.Result = -1;
+            message.Result = -1;
         }
     }
 
     // Hero.PAS:2800
-    public byte GetSpherePicks(MagicSphere Sphere)
+    public byte GetSpherePicks(MagicSphere sphere)
     {
-        byte Result;
-        if (Sphere != MagicSphere.Cosmos)
+        byte result;
+        if (sphere != MagicSphere.Cosmos)
         {
-            Result = 0;
-            for (int I = FSpheres.Count - 1; I >= 0; I--)
+            result = 0;
+            for (int I = Spheres.Count - 1; I >= 0; I--)
             {
-                if (FSpheres.List[I] == (byte)Sphere)
+                if (Spheres.List[I] == (byte)sphere)
                 {
-                    Result = (byte)(Result + 1);
+                    result = (byte)(result + 1);
                 }
             }
         }
         else
         {
-            Result = 4;
+            result = 4;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2812
-    public MagicSphere GetSpheres(int Index) => (MagicSphere)FSpheres.List[Index];
+    public MagicSphere GetSpheres(int index) => (MagicSphere)Spheres.List[index];
 
     // Hero.PAS:2815
-    public int GetSphereCount() => FSpheres.Count;
+    public int GetSphereCount() => Spheres.Count;
 
     // Hero.PAS:2818
-    public void SetSpherePicksMax(byte Value)
+    public void SetSpherePicksMax(byte value)
     {
-        FSpherePicksMax = Value;
-        while (FSpheres.Count > FSpherePicksMax)
+        SpherePicksMax = value;
+        while (Spheres.Count > SpherePicksMax)
         {
-            FSpheres.Delete(FSpheres.Count - 1);
+            Spheres.Delete(Spheres.Count - 1);
         }
     }
 
     // Hero.PAS:2824
-    public bool CanAddSphere(MagicSphere Sphere)
+    public bool CanAddSphere(MagicSphere sphere)
     {
-        bool Result;
-        if (FSpheres.Count < FSpherePicksMax)
+        bool result;
+        if (Spheres.Count < SpherePicksMax)
         {
-            if (Sphere == MagicSphere.Cosmos)
+            if (sphere == MagicSphere.Cosmos)
             {
-                Result = false;
+                result = false;
             }
             else
             {
-                if (GameTables.AoWEngine.FDemo && GetSpherePicks(Sphere) >= 2)
+                if (GameTables.GameEngine.Demo && GetSpherePicks(sphere) >= 2)
                 {
-                    Result = false;
+                    result = false;
                 }
                 else
                 {
-                    if (GetSpherePicks(Sphere) == 4)
+                    if (GetSpherePicks(sphere) == 4)
                     {
-                        Result = false;
+                        result = false;
                     }
                     else
                     {
-                        if (Sphere == MagicSphere.Fire && GetSpherePicks(MagicSphere.Water) != 0)
+                        if (sphere == MagicSphere.Fire && GetSpherePicks(MagicSphere.Water) != 0)
                         {
-                            Result = false;
+                            result = false;
                         }
                         else
                         {
-                            if (Sphere == MagicSphere.Water && GetSpherePicks(MagicSphere.Fire) != 0)
+                            if (sphere == MagicSphere.Water && GetSpherePicks(MagicSphere.Fire) != 0)
                             {
-                                Result = false;
+                                result = false;
                             }
                             else
                             {
-                                if (Sphere == MagicSphere.Life && GetSpherePicks(MagicSphere.Death) != 0)
+                                if (sphere == MagicSphere.Life && GetSpherePicks(MagicSphere.Death) != 0)
                                 {
-                                    Result = false;
+                                    result = false;
                                 }
                                 else
                                 {
-                                    if (Sphere == MagicSphere.Death && GetSpherePicks(MagicSphere.Life) != 0)
+                                    if (sphere == MagicSphere.Death && GetSpherePicks(MagicSphere.Life) != 0)
                                     {
-                                        Result = false;
+                                        result = false;
                                     }
                                     else
                                     {
-                                        if (Sphere == MagicSphere.Earth && GetSpherePicks(MagicSphere.Air) != 0)
+                                        if (sphere == MagicSphere.Earth && GetSpherePicks(MagicSphere.Air) != 0)
                                         {
-                                            Result = false;
+                                            result = false;
                                         }
                                         else
                                         {
-                                            if (Sphere == MagicSphere.Air && GetSpherePicks(MagicSphere.Earth) != 0)
+                                            if (sphere == MagicSphere.Air && GetSpherePicks(MagicSphere.Earth) != 0)
                                             {
-                                                Result = false;
+                                                result = false;
                                             }
                                             else
                                             {
-                                                Result = true;
+                                                result = true;
                                             }
                                         }
                                     }
@@ -388,65 +388,65 @@ public partial class Leader : Hero
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2842
-    public bool AddSphere(MagicSphere Sphere)
+    public bool AddSphere(MagicSphere sphere)
     {
-        bool Result = CanAddSphere(Sphere);
-        if (Result)
+        bool result = CanAddSphere(sphere);
+        if (result)
         {
-            FSpheres.Add((byte)Sphere);
+            Spheres.Add((byte)sphere);
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2863
-    public bool DeleteSphereIndex(int Index)
+    public bool DeleteSphereIndex(int index)
     {
-        bool Result;
-        if (Index >= 0 && Index < FSpheres.Count)
+        bool result;
+        if (index >= 0 && index < Spheres.Count)
         {
-            FSpheres.Delete(Index);
-            Result = true;
+            Spheres.Delete(index);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2870
-    public bool DeleteSphere(MagicSphere Sphere)
+    public bool DeleteSphere(MagicSphere sphere)
     {
         int I;
-        I = FSpheres.Count;
-        bool Result = false;
-        while (!Result && I != 0)
+        I = Spheres.Count;
+        bool result = false;
+        while (!result && I != 0)
         {
             I -= 1;
-            Result = FSpheres[I] == (byte)Sphere;
+            result = Spheres[I] == (byte)sphere;
         }
 
-        if (Result)
+        if (result)
         {
-            FSpheres.Delete(I);
+            Spheres.Delete(I);
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2883
     public void ClearSpheres()
     {
-        FSpheres.Clear();
+        Spheres.Clear();
     }
 
 }

@@ -16,78 +16,78 @@ public partial class BirdsView : Spell
     // GlobalSpells.pas:489
     public BirdsView(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(BirdsViewRStr);
-        FSpellID = 2;
-        FSpellType = SpellType.Global;
-        FBaseManaCost = 5;
-        FSpellLevel = 1;
-        FMagicSphere = MagicSphere.Air;
+        SpellName = AbilityRules.TranslateResourceString(s_birdsViewText);
+        SpellId = 2;
+        SpellType = SpellType.Global;
+        BaseManaCost = 5;
+        SpellLevel = 1;
+        MagicSphere = MagicSphere.Air;
     }
 
     // GlobalSpells.pas:505
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         sbyte X = default;
         sbyte Y = default;
-        sbyte Layer = default;
-        base.ExecuteTE(Event, Source, ExecuteCount);
-        CastingDone(Source, Event.FEventMana);
-        Source.GetLocation(ref X, ref Y, ref Layer);
-        if (AoWHSMap.Current.FSeatedPlayer == Source.FPlayer)
+        sbyte layer = default;
+        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        CastingDone(source, eventValue.EventMana);
+        source.GetLocation(ref X, ref Y, ref layer);
+        if (AoWHSMap.Current.SeatedPlayer == source.Player)
         {
-            var birdsViewHS = new BirdsViewHexSprite(null);
-            birdsViewHS.StartAnimation(X, Y, Layer, 14);
+            var birdsViewHexSprite = new BirdsViewHexSprite(null);
+            birdsViewHexSprite.StartAnimation(X, Y, layer, 14);
         }
 
-        AoWHSMap.Current.ExploreArea(X, Y, Layer, Source.FPlayer, 14);
+        AoWHSMap.Current.ExploreArea(X, Y, layer, source.Player, 14);
         return false;
     }
 
     // GlobalSpells.pas:500
-    public override bool GetEnabled() => AoWHSMap.Current.FExplorationEnabled;
+    public override bool GetEnabled() => AoWHSMap.Current.ExplorationEnabled;
 
     // GlobalSpells.pas:518
-    public override bool CanActivate(Troop Source, ref string MessageText)
+    public override bool CanActivate(Troop source, ref string messageText)
     {
         sbyte X = default;
         sbyte Y = default;
-        sbyte Layer = default;
-        bool Result = base.CanActivate(Source, ref MessageText);
-        if (Result)
+        sbyte layer = default;
+        bool result = base.CanActivate(source, ref messageText);
+        if (result)
         {
-            Source.GetLocation(ref X, ref Y, ref Layer);
-            if (Layer != 0)
+            source.GetLocation(ref X, ref Y, ref layer);
+            if (layer != 0)
             {
-                MessageText = AbilityRules.TranslateRStr(GameText.CannotCastSpellInUndergoundRStr);
-                Result = false;
+                messageText = AbilityRules.TranslateResourceString(GameText.s_cannotCastSpellInUndergroundText);
+                result = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalSpells.pas:534
-    public override bool Activate(Troop Source)
+    public override bool Activate(Troop source)
     {
-        bool Result;
-        string Reason = "";
-        SpellTokenEvent Event;
-        base.Activate(Source);
-        if (CanActivate(Source, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+        bool result;
+        string reason = "";
+        SpellTokenEvent eventValue;
+        base.Activate(source);
+        if (CanActivate(source, ref reason) && !AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            Event = new SpellTokenEvent(null);
-            Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new SpellTokenEvent(null);
+            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string BirdsViewRStr = "Bird's View";
+    private static readonly string s_birdsViewText = "Bird's View";
 }

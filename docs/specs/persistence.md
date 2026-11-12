@@ -52,8 +52,8 @@ Integer 0           reserved
 Integer ClassID     class id of the root object (AoWHSMap is 131089)
 ```
 
-`HSEngine.LoadHSMfromStream` (Delphi `THSEngine`) seeks to `Header.Size`, creates the root from the class id through
-`CreateEObject`, and calls `Engine.ReadEObject` (Delphi `TEngine`), which creates a `EReadStorageStream` on the
+`HSEngine.LoadHsmFromStream` (Delphi `THSEngine`) seeks to `Header.Size`, creates the root from the class id through
+`CreateEngineObject`, and calls `Engine.ReadEngineObject` (Delphi `TEngine`), which creates a `EReadStorageStream` on the
 stream and calls `rwEObject(root, 0)`.
 
 ### 1.3 Property table
@@ -74,7 +74,7 @@ were added, which is the order of the `rw*` calls in `ReadWrite`. The reader fin
 from `FFirst`. A missing id gives the default. `PropertyExist` scans up to `FMaxID`.
 
 Nested objects save and restore the table state with `BackupSettings` and `RestoreSettings`, a
-stack of (`First`, `NextIndex`, `MaxID`), so one `PropertyTable` instance serves the whole tree.
+stack of (`First`, `NextIndex`, `MaxId`), so one `PropertyTable` instance serves the whole tree.
 
 ### 1.4 Values
 
@@ -106,13 +106,13 @@ id 1. A child is stored when its `Owner` is the node and its control style has `
 
 ### 1.5 Class ids and the registry
 
-Every `EngineObject` (Delphi `TEObject`) class has a virtual class method `ClassID` that returns a constant. `Engine`
-keeps a `EngineObjectClassList` (Delphi `TEObjectClassList`) and a hash table from class id to class, filled by `RegisterEClasses`
-from the units' initialization code, and `CreateEObject(id, owner)` looks the class up and calls
+Every `EngineObject` (Delphi `TEObject`) class has a virtual class method `ClassId` that returns a constant. `Engine`
+keeps a `EngineObjectClassList` (Delphi `TEObjectClassList`) and a hash table from class id to class, filled by `RegisterEngineClasses`
+from the units' initialization code, and `CreateEngineObject(id, owner)` looks the class up and calls
 its virtual constructor `Create(owner)`. A double class id raises at registration. The port keeps
 the engine tables as transpiled code. Since milestone 9.4 the class side is the `EngineClass`
 descriptor that `ClassRegistry.cs` registers (`metaclass-retirement.md`), each engine's
-`FClassTable` maps an id to its `EngineClass`, and `CreateEObject` is `GetEClass(id).Create(owner)`.
+`_classTable` maps an id to its `EngineClass`, and `CreateEngineObject` is `GetEngineClass(id).CreateInstance(owner)`.
 The class ids are the values in the file, so the port's class ids are the original constants, and
 `tools/asg_dump.py` in the `aow` repository already maps ids to names.
 
@@ -307,7 +307,7 @@ byte of a file:
   kind does not use, so that value writes back as 0 and the zero rule omits it (decision X20 of
   `data/rewrite/roadmap.md`). The 9.6-0 census (`data/rewrite/9.6-census.md`) found no such value
   in the 401 files it read. Two values outside the kinds' own fields stay in the common part:
-  `FOtherPlayer`, which the census finds written for every kind (255 for the kinds that name no
+  `OtherPlayer`, which the census finds written for every kind (255 for the kinds that name no
   other player), stays a field of `DiplomaticAction`, and the message is a member of the
   `DiplomaticProposal` base.
 - `ShowInfo` (Delphi `TShowInfo`) keeps its 8-byte ILB image (`unions-and-kinds.md` 3.3). ILB files are game data,

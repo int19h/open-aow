@@ -13,39 +13,39 @@ public partial class MapObjectResourceList : EResourceList
     { }
 
     // MAPOBJ.PAS:641
-    public MapObjectResource GetMOR(int Index) => (MapObjectResource)FChildren.List[Index];
+    public MapObjectResource GetMapObjectResource(int index) => (MapObjectResource)_children.List[index];
 
     // MAPOBJ.PAS:646
-    public bool FindMOR(int AClassID, TerrainList TerrainList, Set<TerrainCompareModeElement> Mode, ref DelphiList List)
+    public bool FindMapObjectResource(int classId, TerrainList terrainList, Set<TerrainCompareModeElement> mode, ref DelphiList list)
     {
         MapObjectResource R;
-        int[] I__cell = new int[1];
-        ref int I = ref I__cell[0];
+        int[] iCell = new int[1];
+        ref int I = ref iCell[0];
         // { Preserve the original stack locals. }
-        bool Result = false;
+        bool result = false;
         I = 0;
-        int last = FChildren.Count - 1;
+        int last = _children.Count - 1;
         for (; I <= last; I += 1)
         {
-            R = (MapObjectResource)FChildren.List[I];
-            if (R.EClass.ClassID == AClassID)
+            R = (MapObjectResource)_children.List[I];
+            if (R.EngineClass.ClassId == classId)
             {
-                if (TerrainList == null || R.FTerrainList.CompareTerrain(TerrainList, Mode))
+                if (terrainList == null || R._terrainList.CompareTerrain(terrainList, mode))
                 {
-                    Result = true;
-                    List.Add(R);
+                    result = true;
+                    list.Add(R);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     public new sealed class ResourcesAccessor(MapObjectResourceList target)
     {
-        public MapObjectResource this[int Index] { get => target.GetMOR(Index); }
+        public MapObjectResource this[int index] { get => target.GetMapObjectResource(index); }
     }
 
-    public ResourcesAccessor MORs => new ResourcesAccessor(this);
+    public new ResourcesAccessor Resources => new ResourcesAccessor(this);
 
 }

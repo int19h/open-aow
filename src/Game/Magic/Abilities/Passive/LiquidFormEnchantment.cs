@@ -12,8 +12,8 @@ public partial class LiquidFormEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1357
     public LiquidFormEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(GameText.LiquidFormRStr);
-        FAbilityID = 166;
+        AbilityName = AbilityRules.TranslateResourceString(GameText.s_liquidFormText);
+        AbilityId = 166;
     }
 
     // PassiveAb.pas:1364
@@ -22,10 +22,10 @@ public partial class LiquidFormEnchantment : UnitEnchantmentAbility
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        bool Result = base.Remove(owner);
-        if (Result && owner is Troop unit && owner.Owner is Army army)
+        bool result = base.Remove(owner);
+        if (result && owner is Troop troop && owner.Owner is Army army)
         {
-            unit.GetLocation(ref X, ref Y, ref L);
+            troop.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
                 var mapField = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
@@ -33,23 +33,23 @@ public partial class LiquidFormEnchantment : UnitEnchantmentAbility
             }
         }
 
-        return Result;
+        return result;
     }
 
     // PassiveAb.pas:1378
-    public override int GetAIUpkeepPriority(AbilityOwner Owner)
+    public override int GetAIUpkeepPriority(AbilityOwner owner)
     {
-        if (Owner is not Troop unit)
+        if (owner is not Troop troop)
         {
             return 0;
         }
 
-        int Result = unit.GetUnitLevel() + 300;
-        if (unit is Leader)
+        int result = troop.GetUnitLevel() + 300;
+        if (troop is Leader)
         {
-            Result += 50;
+            result += 50;
         }
 
-        return Result;
+        return result;
     }
 }

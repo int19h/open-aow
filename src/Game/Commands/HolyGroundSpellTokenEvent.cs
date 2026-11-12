@@ -20,65 +20,65 @@ public partial class HolyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
     { }
 
     // HolyG.pas:282
-    public new const int ClassID = 135942;
+    public new const int ClassId = 135942;
 
     // HolyG.pas:329
     public override bool Process(Troop source, int value)
     {
         base.Process(source, value);
         CreateHolyGround(source);
-        AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 1);
-        AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+        AoWHSMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
+        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         return false;
     }
 
     // HolyG.pas:285
-    public void CreateHolyGround(Troop Caster)
+    public void CreateHolyGround(Troop caster)
     {
-        MapLevel Level = default;
-        HexNumberWalkData Walk = default;
-        HolyGround.Resource Resource = default;
-        AoWMapField Field = default;
-        HolyGround Ground = default;
-        ImageSequenceAnimation Anim = default;
-        Level = AoWHSMap.Current.MapContainer.GetMapLevel(FLocation.L);
-        HexNumberWalkData.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
-        Resource = (HolyGround.Resource)AoWHSSet.Current.MapObjectResourceList.FindChild(131988);
-        while (Walk.Radius <= 1)
+        MapLevel level = default;
+        HexNumberWalkData walk = default;
+        HolyGround.Resource resource = default;
+        AoWMapField field = default;
+        HolyGround ground = default;
+        ImageSequenceAnimation animation = default;
+        level = AoWHSMap.Current.MapContainer.GetMapLevel(Location.MapLevel);
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, Location.X, Location.Y, 0);
+        resource = (HolyGround.Resource)AoWHSSet.Current.MapObjectResourceList.FindChild(131988);
+        while (walk.Radius <= 1)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                Field = (AoWMapField)Level.Field[Walk.X, Walk.Y];
-                if (((GlobalTargetSpell)AoWHSSet.Current.FSpellControl.GetSpell(13)).ValidTargetMapF(Field))
+                field = (AoWMapField)level.Field[walk.X, walk.Y];
+                if (((GlobalTargetSpell)AoWHSSet.Current.SpellControl.GetSpell(13)).ValidTargetMapField(field))
                 {
-                    if (Field.GetArmyHS() == null)
+                    if (field.GetArmyHexSprite() == null)
                     {
-                        Field.RestoreTerrain();
-                        Ground = (HolyGround)Resource.CreateResourceUser();
-                        Ground.FDuration = (sbyte)((AoWHSMap.Current.Random(11) - 5) / 5 + 3);
-                        Ground.FPlayer = Caster.FPlayer;
-                        Ground.FOriginalOverlay = Field.OverlayType;
-                        AoWHSMap.Current.ClearTerrain(Walk.X, Walk.Y, FLocation.L, 0, -1);
-                        if (AoWHSMap.Current.PlaceHX(Ground, Walk.X, Walk.Y, FLocation.L))
+                        field.RestoreTerrain();
+                        ground = (HolyGround)resource.CreateResourceUser();
+                        ground.Duration = (sbyte)((AoWHSMap.Current.Random(11) - 5) / 5 + 3);
+                        ground.Player = caster.Player;
+                        ground.OriginalOverlay = field.OverlayType;
+                        AoWHSMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
+                        if (AoWHSMap.Current.PlaceHex(ground, walk.X, walk.Y, Location.MapLevel))
                         {
-                            Ground.FMode = Set<HolySummoning>.Of(HolySummoning.Summoning);
-                            Anim = new ImageSequenceAnimation(null);
-                            Anim.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(13).FCastImages.ImageSequences[0]);
-                            Anim.FOnShow = Ground.ShowSummonAnimation;
-                            Anim.FOnNewFrame = Ground.NewFrameSummonAnimation;
-                            Anim.FFrameCounter = -AoWHSMap.Current.Random(15);
-                            Anim.FTag = Caster.FPlayer;
-                            AoWHSMap.Current.PlaceHX(Anim, Walk.X, Walk.Y, FLocation.L);
+                            ground.Mode = Set<HolySummoning>.Of(HolySummoning.Summoning);
+                            animation = new ImageSequenceAnimation(null);
+                            animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(13).CastImages.ImageSequences[0]);
+                            animation.OnShow = ground.ShowSummonAnimation;
+                            animation.OnNewFrame = ground.NewFrameSummonAnimation;
+                            animation.FrameCounter = -AoWHSMap.Current.Random(15);
+                            animation.Tag = caster.Player;
+                            AoWHSMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
                         }
                         else
                         {
-                            Ground?.Dispose();
+                            ground?.Dispose();
                         }
                     }
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
 

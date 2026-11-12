@@ -8,50 +8,50 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-// FCloud
+// Cloud
 public partial class SmokeCloudEnchantment : GlobalEnchantment
 {
     // SmokeCloud.pas:99
-    public new const int ClassID = 135748;
+    public new const int ClassId = 135748;
 
-    public SmokeCloud FCloud;
+    public SmokeCloud Cloud;
 
     // SmokeCloud.pas:91
     public SmokeCloudEnchantment(ECustomNode owner) : base(owner)
     {
-        FEnchantmentMode = Set<GlobalEnchantmentModeElement>.FromMask((Set<OptionsElement>.FromMask(FEnchantmentMode.Mask) - Set<OptionsElement>.Of(OptionsElement.Bit0, OptionsElement.Bit1)).Mask);
-        FDispelMana = 25;
+        EnchantmentMode = Set<GlobalEnchantmentModeElement>.FromMask((Set<OptionsElement>.FromMask(EnchantmentMode.Mask) - Set<OptionsElement>.Of(OptionsElement.Bit0, OptionsElement.Bit1)).Mask);
+        DispelMana = 25;
     }
 
     // SmokeCloud.pas:102
-    public override string GetName() => AoWHSSet.Current.FSpellControl.GetSpell(74).FSpellName;
+    public override string GetName() => AoWHSSet.Current.SpellControl.GetSpell(74).SpellName;
 
     // SmokeCloud.pas:156
-    public override bool VisibleForPlayer(sbyte Player)
+    public override bool VisibleForPlayer(sbyte player)
     {
         HexNumberWalkData Walk = default;
-        bool Result = FPlayerIndex == Player;
+        bool result = PlayerIndex == player;
         ref var walk = ref Walk;
-        var yhx = FCloud.Yhx;
-        var xhx = FCloud.Xhx;
-        HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
-        while (!Result && walk.Radius <= 3)
+        var hexY = Cloud.HexY;
+        var hexX = Cloud.HexX;
+        HexNumberWalkData.InitializeHexNumberWalk(ref Walk, hexX, hexY, 0);
+        while (!result && walk.Radius <= 3)
         {
-            Result = AoWHSMap.Current.VisibleForPlayer(walk.X, walk.Y, FCloud.Lhx, Player);
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            result = AoWHSMap.Current.VisibleForPlayer(walk.X, walk.Y, Cloud.HexLevel, player);
+            HexNumberWalkData.WalkToNextHexNumber(ref Walk);
         }
 
-        return Result;
+        return result;
     }
 
     // The unused fourth byte in the original register result has no defined value.
-    public override MapCoordinate GetLocation() => new() { X = FCloud.GetXhx(), Y = FCloud.GetYhx(), L = FCloud.GetLhx() };
+    public override MapCoordinate GetLocation() => new() { X = Cloud.GetHexX(), Y = Cloud.GetHexY(), MapLevel = Cloud.GetHexLevel() };
 
     public override bool Deactivate(byte player)
     {
-        if ((FEnchantmentStatus.Image & 1) == 0) return false;
+        if ((EnchantmentStatus.Image & 1) == 0) return false;
         bool result = base.Deactivate(player);
-        if ((FCloud.FStatus.Image & 0x20) != 0) FCloud?.Dispose();
+        if ((Cloud._status.Image & 0x20) != 0) Cloud?.Dispose();
         return result;
     }
 

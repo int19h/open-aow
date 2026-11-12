@@ -17,75 +17,75 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Magic.Spells;
 
-// FRemoved, FRestoreDays, FDispelPlayer, FTurnsActive, FFloodControl
+// Removed, RestoreDays, DispelPlayer, TurnsActive, FloodControl
 public partial class FloodEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1240
-    public new const int ClassID = 135960;
+    public new const int ClassId = 135960;
 
-    public bool FRemoved;
-    public sbyte FRestoreDays;
-    public sbyte FDispelPlayer;
+    public bool Removed;
+    public sbyte RestoreDays;
+    public sbyte DispelPlayer;
     // alignment
-    public int FTurnsActive;
-    public FloodControl FFloodControl;
+    public int TurnsActive;
+    public FloodControl FloodControl;
 
     // GlobalEnchantmentSpells.pas:1234
     public override void Dispose()
     {
-        FFloodControl?.Dispose();
+        FloodControl?.Dispose();
         base.Dispose();
     }
 
     // GlobalEnchantmentSpells.pas:1250
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FTurnsActive, 20);
-        Stream.rwEObject(FFloodControl, 21);
-        Stream.rwBool(ref FRemoved, 22);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDispelPlayer), 23);
-        Stream.rwShortintEx(ref FRestoreDays, -1, 24);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref TurnsActive, 20);
+        stream.rwEObject(FloodControl, 21);
+        stream.rwBool(ref Removed, 22);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DispelPlayer), 23);
+        stream.rwShortintEx(ref RestoreDays, -1, 24);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int("TurnsActive", ref FTurnsActive);
-        persister.Object("FloodControl", FFloodControl);
-        persister.Bool("Removed", ref FRemoved);
-        PersistSupport.UnsignedByte(persister, "DispelPlayer", ref FDispelPlayer);
-        persister.SByte("RestoreDays", ref FRestoreDays, -1);
+        persister.Int32("TurnsActive", ref TurnsActive);
+        persister.Object("FloodControl", FloodControl);
+        persister.Boolean("Removed", ref Removed);
+        PersistSupport.UnsignedByte(persister, "DispelPlayer", ref DispelPlayer);
+        persister.SByte("RestoreDays", ref RestoreDays, -1);
     }
 
     // GlobalEnchantmentSpells.pas:1224
     public FloodEnchantment(ECustomNode owner) : base(owner)
     {
-        FName = AbilityRules.TranslateRStr(GameText.FloodRStr);
-        FEnchantmentType = GlobalEnchantmentType.Flood;
-        FFloodControl = new FloodControl(null);
-        FDispelMana = 100;
-        FRestoreDays = -1;
+        Name = AbilityRules.TranslateResourceString(GameText.s_floodText);
+        EnchantmentType = GlobalEnchantmentType.Flood;
+        FloodControl = new FloodControl(null);
+        DispelMana = 100;
+        RestoreDays = -1;
     }
 
     // GlobalEnchantmentSpells.pas:1302
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001987)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001987)
         {
-            if (Msg.Payload.Int == FPlayerIndex && !FRemoved)
+            if (message.Payload.Int == PlayerIndex && !Removed)
             {
                 NewTurn();
             }
 
-            if (Msg.Payload.Int == FDispelPlayer && FRemoved)
+            if (message.Payload.Int == DispelPlayer && Removed)
             {
-                FRestoreDays = (sbyte)(FRestoreDays - 1);
-                if (FRestoreDays <= 0)
+                RestoreDays = (sbyte)(RestoreDays - 1);
+                if (RestoreDays <= 0)
                 {
-                    FFloodControl.Restore();
-                    base.Deactivate((byte)FDispelPlayer);
+                    FloodControl.Restore();
+                    base.Deactivate((byte)DispelPlayer);
                 }
             }
         }
@@ -94,158 +94,158 @@ public partial class FloodEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1268
     public override string GetName()
     {
-        string Result = base.GetName();
-        if (FRemoved)
+        string result = base.GetName();
+        if (Removed)
         {
-            Result = Result + " (" + LowerCase(DurationText.FmtDaysLeftStr(FRestoreDays)) + ")";
+            result = result + " (" + LowerCase(DurationText.FormatDaysLeftString(RestoreDays)) + ")";
         }
         else
         {
             if (DaysBeforeActive() != 0)
             {
                 var daysBeforeActive = DaysBeforeActive();
-                Result = RtlUnit.Format(XinYdaysRStr, [Result, daysBeforeActive]);
+                result = RtlUnit.Format(s_dueInDaysFormat, [result, daysBeforeActive]);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1276
     public override int GetUpkeep()
     {
-        int Result;
-        if (!FRemoved)
+        int result;
+        if (!Removed)
         {
-            Result = base.GetUpkeep();
+            result = base.GetUpkeep();
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1245
     public override int GetAIUpkeepPriority() => 500;
 
     // GlobalEnchantmentSpells.pas:1328
-    public override bool CanDeactivate(byte Player, ref string Reason)
+    public override bool CanDeactivate(byte player, ref string reason)
     {
-        bool Result;
-        if (!FRemoved)
+        bool result;
+        if (!Removed)
         {
-            Result = base.CanDeactivate(Player, ref Reason);
+            result = base.CanDeactivate(player, ref reason);
         }
         else
         {
-            Reason = RtlUnit.Format(AbilityRules.TranslateRStr(XAlreadyRemovedRStr), [FName]);
-            Result = false;
+            reason = RtlUnit.Format(AbilityRules.TranslateResourceString(s_alreadyRemovedFormat), [Name]);
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1338
-    public override bool Deactivate(byte Player)
+    public override bool Deactivate(byte player)
     {
-        bool Result;
-        if (!FRemoved)
+        bool result;
+        if (!Removed)
         {
-            FDispelPlayer = (sbyte)Player;
-            FRemoved = true;
-            if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous)
+            DispelPlayer = (sbyte)player;
+            Removed = true;
+            if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous)
             {
-                FRestoreDays = 2;
+                RestoreDays = 2;
             }
             else
             {
-                FRestoreDays = 1;
+                RestoreDays = 1;
             }
 
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.Update();
-            AoWHSMap.Current.FGlobalMagicControl.Update();
-            Result = true;
+            AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
+            AoWHSMap.Current.GlobalMagicControl.Update();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1320
-    public override bool Activate(sbyte Player)
+    public override bool Activate(sbyte player)
     {
-        base.Activate(Player);
-        FRemoved = false;
-        FFloodControl.Setup();
+        base.Activate(player);
+        Removed = false;
+        FloodControl.Setup();
         return true;
     }
 
     // GlobalEnchantmentSpells.pas:1260
     public int DaysBeforeActive()
     {
-        int Result;
-        if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && FTurnsActive < 2)
+        int result;
+        if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && TurnsActive < 2)
         {
-            Result = 2 - FTurnsActive;
+            result = 2 - TurnsActive;
         }
         else
         {
-            if (AoWHSMap.Current.FPlayMode == PlayMode.Turn && FTurnsActive == 0)
+            if (AoWHSMap.Current.PlayMode == PlayMode.Turn && TurnsActive == 0)
             {
-                Result = 1;
+                result = 1;
             }
             else
             {
-                Result = 0;
+                result = 0;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1282
     public void NewTurn()
     {
-        if (!FRemoved)
+        if (!Removed)
         {
-            FTurnsActive += 1;
-            if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous)
+            TurnsActive += 1;
+            if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous)
             {
-                if (FTurnsActive > 1 && FTurnsActive < 4)
+                if (TurnsActive > 1 && TurnsActive < 4)
                 {
-                    FFloodControl.Flood();
+                    FloodControl.Flood();
                 }
                 else
                 {
-                    if (FTurnsActive == 4)
+                    if (TurnsActive == 4)
                     {
                         if (AoWHSMap.Current.Random(2) == 1)
                         {
-                            FFloodControl.Flood();
+                            FloodControl.Flood();
                         }
                     }
                 }
             }
             else
             {
-                if (AoWHSMap.Current.FPlayMode == PlayMode.Turn)
+                if (AoWHSMap.Current.PlayMode == PlayMode.Turn)
                 {
-                    if (FTurnsActive < 3)
+                    if (TurnsActive < 3)
                     {
-                        FFloodControl.Flood();
+                        FloodControl.Flood();
                     }
                     else
                     {
-                        if (FTurnsActive == 3)
+                        if (TurnsActive == 3)
                         {
                             if (AoWHSMap.Current.Random(2) == 1)
                             {
-                                FFloodControl.Flood();
+                                FloodControl.Flood();
                             }
                         }
                     }
@@ -254,7 +254,7 @@ public partial class FloodEnchantment : GlobalEnchantment
         }
     }
 
-    private static readonly string XAlreadyRemovedRStr = "%s already removed";
-    private static readonly string XinYdaysRStr = "%s in %d day(s)";
+    private static readonly string s_alreadyRemovedFormat = "%s already removed";
+    private static readonly string s_dueInDaysFormat = "%s in %d day(s)";
 
 }

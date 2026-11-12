@@ -19,7 +19,7 @@ public sealed class Migration(int from, string name, Func<JsonObject, JsonObject
 /// <summary>The historical decoder contracts: the current version and every step up to it.</summary>
 public sealed class MigrationChain
 {
-    private readonly Dictionary<int, Migration> steps = [];
+    private readonly Dictionary<int, Migration> _steps = [];
 
     public MigrationChain(int current, IEnumerable<Migration> migrations)
     {
@@ -27,10 +27,10 @@ public sealed class MigrationChain
         foreach (var m in migrations)
         {
             if (m.From < 1 || m.From >= current) throw new ArgumentException($"Migration {m.Name} starts outside 1 to {current - 1}.");
-            if (!steps.TryAdd(m.From, m)) throw new ArgumentException($"Two migrations start at version {m.From}.");
+            if (!_steps.TryAdd(m.From, m)) throw new ArgumentException($"Two migrations start at version {m.From}.");
         }
         for (int v = 1; v < current; v++)
-            if (!steps.ContainsKey(v)) throw new ArgumentException($"No migration starts at version {v}.");
+            if (!_steps.ContainsKey(v)) throw new ArgumentException($"No migration starts at version {v}.");
     }
 
     public int Current { get; }
@@ -43,7 +43,7 @@ public sealed class MigrationChain
     {
         for (int v = version; v < Current; v++)
         {
-            var step = steps[v];
+            var step = _steps[v];
             document = step.Apply(document);
             Mark(document, step.Name);
             var versionMember = document.Find("$version")!;
@@ -52,8 +52,14 @@ public sealed class MigrationChain
         }
         if (version < Current)
         {
+            MemberNameMigration.Apply(document);
             StoreCurrentClassNames(document);
             RecordMigration.RefreshFingerprints(document);
+        }
+        else
+        {
+            // A current document from before a property rename keeps a valid fingerprint valid.
+            RecordMigration.KeepFingerprints(document, () => MemberNameMigration.Apply(document));
         }
         return document;
     }
@@ -63,14 +69,14 @@ public sealed class MigrationChain
     {
         switch (value)
         {
-            case JsonObject obj:
-                if (obj.Find("$class") is { Value: JsonString name } member)
+            case JsonObject objectValue:
+                if (objectValue.Find("$class") is { Value: JsonString name } member)
                 {
                     string? stored = StoredClass(name.Value);
                     if (stored is not null && stored != name.Value)
                         member.Value = new JsonString(stored) { Span = name.Span, Origin = name.Origin };
                 }
-                foreach (var child in obj.Members) StoreCurrentClassNames(child.Value);
+                foreach (var child in objectValue.Members) StoreCurrentClassNames(child.Value);
                 break;
             case JsonArray array:
                 foreach (var item in array.Items) StoreCurrentClassNames(item);
@@ -90,8 +96,8 @@ public sealed class MigrationChain
         if (!value.Span.IsKnown && value.Origin is null) value.Origin = migration;
         switch (value)
         {
-            case JsonObject obj:
-                foreach (var m in obj.Members) Mark(m.Value, migration);
+            case JsonObject objectValue:
+                foreach (var m in objectValue.Members) Mark(m.Value, migration);
                 break;
             case JsonArray array:
                 foreach (var item in array.Items) Mark(item, migration);

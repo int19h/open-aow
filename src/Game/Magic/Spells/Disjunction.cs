@@ -13,65 +13,65 @@ public partial class Disjunction : Spell
     // GlobalSpells.pas:931
     public Disjunction(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(DisjunctionRStr);
-        FSpellID = 51;
-        FSpellType = SpellType.Global;
-        FBaseManaCost = 0;
-        FSpellLevel = 2;
-        FMagicSphere = MagicSphere.Cosmos;
+        SpellName = AbilityRules.TranslateResourceString(s_disjunctionText);
+        SpellId = 51;
+        SpellType = SpellType.Global;
+        BaseManaCost = 0;
+        SpellLevel = 2;
+        MagicSphere = MagicSphere.Cosmos;
     }
 
     // GlobalSpells.pas:942
-    public override bool CanActivate(Troop Source, ref string MessageText)
+    public override bool CanActivate(Troop source, ref string messageText)
     {
-        bool Result;
-        int Count;
-        string Reason = "";
-        Count = 0;
-        for (int I = 0, last = AoWHSMap.Current.FGlobalMagicControl.FEnchantments.Count - 1; I <= last; I++)
+        bool result;
+        int count;
+        string reason = "";
+        count = 0;
+        for (int I = 0, last = AoWHSMap.Current.GlobalMagicControl.Enchantments.Count - 1; I <= last; I++)
         {
-            if (AoWHSMap.Current.FGlobalMagicControl.FEnchantments.GetEnchantments(I).FPlayerIndex != Source.FPlayer && AoWHSMap.Current.FGlobalMagicControl.FEnchantments.GetEnchantments(I).VisibleForPlayer(Source.FPlayer) && AoWHSMap.Current.FGlobalMagicControl.FEnchantments.GetEnchantments(I).CanDispel(Source.FPlayer, ref Reason))
+            if (AoWHSMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(I).PlayerIndex != source.Player && AoWHSMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(I).VisibleForPlayer(source.Player) && AoWHSMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(I).CanDispel(source.Player, ref reason))
             {
-                Count += 1;
+                count += 1;
             }
         }
 
-        if (Count == 0)
+        if (count == 0)
         {
-            MessageText = AbilityRules.TranslateRStr(NoGlobalOpponentEnchantmentsActiveRStr);
-            Result = false;
+            messageText = AbilityRules.TranslateResourceString(s_noGlobalOpponentEnchantmentsActiveText);
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalSpells.pas:962
-    public override bool Activate(Troop Source)
+    public override bool Activate(Troop source)
     {
-        bool Result;
-        string Reason = "";
-        DisjunctionSpellCaster Caster;
-        if (CanActivate(Source, ref Reason))
+        bool result;
+        string reason = "";
+        DisjunctionSpellCaster caster;
+        if (CanActivate(source, ref reason))
         {
-            Caster = new DisjunctionSpellCaster(null);
-            Caster.FCasterSpellID = FSpellID;
-            Caster.FCasterSourceID = Source.FUnitID;
-            AoWHSMap.Current.FCosmeticSurgeryEventsStore.Raise(Caster);
-            Caster.Release();
-            Result = true;
+            caster = new DisjunctionSpellCaster(null);
+            caster.CasterSpellId = SpellId;
+            caster.CasterSourceId = source.UnitId;
+            AoWHSMap.Current._cosmeticSurgeryEventsStore.Raise(caster);
+            caster.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string DisjunctionRStr = "Disjunction";
-    private static readonly string NoGlobalOpponentEnchantmentsActiveRStr = "No global opponent enchantments active";
+    private static readonly string s_disjunctionText = "Disjunction";
+    private static readonly string s_noGlobalOpponentEnchantmentsActiveText = "No global opponent enchantments active";
 }

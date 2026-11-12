@@ -30,210 +30,210 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:191
     public ProductionControl(ECustomNode owner) : base(owner)
     {
-        FSettings = new ProductionSettings(null);
-        FUnitProductions = new UnitProductionList(null);
-        FQueue = new ProductionQueue(null);
-        FQueue.FProductionControl = this;
-        FStatus = Status.Idle;
+        Settings = new ProductionSettings(null);
+        UnitProductions = new UnitProductionList(null);
+        Queue = new ProductionQueue(null);
+        Queue.ProductionControl = this;
+        Status = ProductionControlStatus.Idle;
         Clear();
     }
 
-    public NotifyEvent<object> FOnChange;
-    public int FUpdateCount;
-    public ProductionQueue FQueue;
-    public bool FLoopQueue;
-    public UnitProductionList FUnitProductions;
-    public Status FStatus;
-    public ProductionSettings FSettings;
+    public NotifyEvent<object> OnChange;
+    public int UpdateCount;
+    public ProductionQueue Queue;
+    public bool LoopQueue;
+    public UnitProductionList UnitProductions;
+    public ProductionControlStatus Status;
+    public ProductionSettings Settings;
 
     // Structur.PAS:202
     public override void Dispose()
     {
-        FSettings?.Dispose();
-        FUnitProductions?.Dispose();
-        FQueue?.Dispose();
+        Settings?.Dispose();
+        UnitProductions?.Dispose();
+        Queue?.Dispose();
         base.Dispose();
     }
 
     // Structur.PAS:783
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FQueue, 20);
-        Stream.rwEObject(FUnitProductions, 21);
-        Stream.rwEObject(FSettings, 22);
-        Stream.rwData(Bytes.Of(ref FStatus, 1), 1, 23);
-        Stream.rwBool(ref FLoopQueue, 24);
+        base.ReadWrite(stream);
+        stream.rwEObject(Queue, 20);
+        stream.rwEObject(UnitProductions, 21);
+        stream.rwEObject(Settings, 22);
+        stream.rwData(Bytes.Of(ref Status, 1), 1, 23);
+        stream.rwBool(ref LoopQueue, 24);
     }
 
     // Structur.PAS:261
     public virtual int CancelProductionReturnGold()
     {
-        int Result;
-        if (FStatus == Status.Producing)
+        int result;
+        if (Status == ProductionControlStatus.Producing)
         {
-            if (this.FSettings.FTurnsTotal != 0)
+            if (this.Settings.TurnsTotal != 0)
             {
-                Result = Round((double)(this.FSettings.FTurnsLeft * this.FSettings.FGold) / this.FSettings.FTurnsTotal);
+                result = Round((double)(this.Settings.TurnsLeft * this.Settings.Gold) / this.Settings.TurnsTotal);
             }
             else
             {
-                Result = 0;
+                result = 0;
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:270
     public virtual int CancelProductionReturnMana()
     {
-        int Result;
-        if (FStatus == Status.Producing)
+        int result;
+        if (Status == ProductionControlStatus.Producing)
         {
-            if (this.FSettings.FTurnsTotal != 0)
+            if (this.Settings.TurnsTotal != 0)
             {
-                Result = Round((double)(this.FSettings.FTurnsLeft * this.FSettings.FMana) / this.FSettings.FTurnsTotal);
+                result = Round((double)(this.Settings.TurnsLeft * this.Settings.Mana) / this.Settings.TurnsTotal);
             }
             else
             {
-                Result = 0;
+                result = 0;
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:295
     public virtual void ExecuteCancelProduction()
     {
-        sbyte Player;
-        if (FStatus == Status.Producing)
+        sbyte player;
+        if (Status == ProductionControlStatus.Producing)
         {
-            FQueue.GetItem(0).Order.Cancel(this);
-            if (FSettings.FGroupID != 0)
+            Queue.GetItem(0).Order.Cancel(this);
+            if (Settings.GroupId != 0)
             {
                 UnregisterGroupProduction();
             }
 
-            Player = GetPlayer();
-            if (Player > -1)
+            player = GetPlayer();
+            if (player > -1)
             {
-                var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
+                var players = AoWHSMap.Current.Players.GetPlayers(player);
                 var cancelProductionReturnGold = CancelProductionReturnGold();
-                AoWHSMap.Current.FPlayers.GetPlayers(Player).SetGems(players.FGems + cancelProductionReturnGold);
-                var fPlayersPlayers = AoWHSMap.Current.FPlayers.GetPlayers(Player);
+                AoWHSMap.Current.Players.GetPlayers(player).SetGems(players.Gems + cancelProductionReturnGold);
+                var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(player);
                 var cancelProductionReturnMana = CancelProductionReturnMana();
-                AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.SetMana(fPlayersPlayers.FMagicControl.FMana + cancelProductionReturnMana);
+                AoWHSMap.Current.Players.GetPlayers(player).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + cancelProductionReturnMana);
             }
 
-            FSettings.Clear();
-            FStatus = Status.Waiting;
+            Settings.Clear();
+            Status = ProductionControlStatus.Waiting;
             Update();
         }
     }
 
     // Structur.PAS:483
-    public virtual bool ExecuteAIProduction(int Index, int GroupID)
+    public virtual bool ExecuteAIProduction(int index, int groupId)
     {
-        ProductionItem Item;
+        ProductionItem item;
         ExecuteDeleteProductions();
-        Item = new ProductionItem(null);
-        Item.Order = new ProduceUnit(Index, GroupID);
-        ExecuteAddProduction(Item);
-        Item?.Dispose();
+        item = new ProductionItem(null);
+        item.Order = new ProduceUnit(index, groupId);
+        ExecuteAddProduction(item);
+        item?.Dispose();
         return true;
     }
 
     // Structur.PAS:497
-    public virtual bool ExecuteAIResearch(int Index)
+    public virtual bool ExecuteAIResearch(int index)
     {
-        bool Result;
-        ProductionItem Item;
-        if (!FUnitProductions.GetItem(Index).FResearched)
+        bool result;
+        ProductionItem item;
+        if (!UnitProductions.GetItem(index).Researched)
         {
             ExecuteDeleteProductions();
-            Item = new ProductionItem(null);
-            Item.Order = new ResearchSpell(Index);
-            ExecuteAddProduction(Item);
-            Item?.Dispose();
-            Result = true;
+            item = new ProductionItem(null);
+            item.Order = new ResearchSpell(index);
+            ExecuteAddProduction(item);
+            item?.Dispose();
+            result = true;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:392
-    public virtual bool ExecuteProduction(ProductionItem Item)
+    public virtual bool ExecuteProduction(ProductionItem item)
     {
-        bool Result;
-        string Reason = "";
-        if (CanExecuteProduction(Item, ref Reason))
+        bool result;
+        string reason = "";
+        if (CanExecuteProduction(item, ref reason))
         {
             BeginUpdate();
             ExecuteCancelProduction();
-            FStatus = Status.Waiting;
-            Item.Order.Execute(this);
+            Status = ProductionControlStatus.Waiting;
+            item.Order.Execute(this);
             EndUpdate();
-            Item.Order.Executed(this);
-            Result = true;
+            item.Order.Executed(this);
+            result = true;
         }
         else
         {
-            FStatus = Status.Waiting;
-            Result = false;
+            Status = ProductionControlStatus.Waiting;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:450
-    public virtual void ExecuteAddProduction(ProductionItem Item)
+    public virtual void ExecuteAddProduction(ProductionItem item)
     {
-        ProductionItem NewItem;
+        ProductionItem newItem;
         BeginUpdate();
-        NewItem = (ProductionItem)Item.Copy(GameTables.AoWEngine);
-        NewItem.SetOwner(FQueue);
-        if (FQueue.Count == 1)
+        newItem = (ProductionItem)item.Copy(GameTables.GameEngine);
+        newItem.SetOwner(Queue);
+        if (Queue.Count == 1)
         {
-            ExecuteProduction(NewItem);
+            ExecuteProduction(newItem);
         }
 
         EndUpdate();
     }
 
     // Structur.PAS:461
-    public virtual void ExecuteDeleteProduction(int Index)
+    public virtual void ExecuteDeleteProduction(int index)
     {
         BeginUpdate();
-        if (Index == 0)
+        if (index == 0)
         {
             ExecuteCancelProduction();
-            FQueue.GetItem(Index)?.Dispose();
-            if (FQueue.Count != 0)
+            Queue.GetItem(index)?.Dispose();
+            if (Queue.Count != 0)
             {
-                ExecuteProduction(FQueue.GetItem(0));
+                ExecuteProduction(Queue.GetItem(0));
             }
             else
             {
-                FStatus = Status.Idle;
+                Status = ProductionControlStatus.Idle;
             }
         }
         else
         {
-            FQueue.GetItem(Index)?.Dispose();
+            Queue.GetItem(index)?.Dispose();
         }
 
         EndUpdate();
@@ -244,64 +244,64 @@ public partial class ProductionControl : EngineObject
     {
         BeginUpdate();
         ExecuteCancelProduction();
-        FQueue.Clear();
+        Queue.Clear();
         EndUpdate();
     }
 
     // Structur.PAS:514
-    public virtual ExecuteResult ExecuteProductionTE(ProductionTokenEvent Event)
+    public virtual ExecuteResult ExecuteProductionTokenEvent(ProductionTokenEvent eventValue)
     {
-        ExecuteResult Result;
-        switch (Event.FCommand)
+        ExecuteResult result;
+        switch (eventValue.Command)
         {
             case 0:
                 BeginUpdate();
-                if (!Event.FQueue)
+                if (!eventValue.Queue)
                 {
                     ExecuteDeleteProductions();
                 }
 
-                ExecuteAddProduction(Event.FItem);
-                Result = ExecuteResult.Done;
+                ExecuteAddProduction(eventValue.Item);
+                result = ExecuteResult.Done;
                 EndUpdate();
                 break;
             case 1:
-                ExecuteDeleteProduction(Event.FIndex);
-                Result = ExecuteResult.Done;
+                ExecuteDeleteProduction(eventValue.Index);
+                result = ExecuteResult.Done;
                 break;
             case 2:
                 ExecuteDeleteProductions();
-                Result = ExecuteResult.Done;
+                result = ExecuteResult.Done;
                 break;
             case 3:
-                if (FQueue.Count != 0 && FStatus == Status.Waiting)
+                if (Queue.Count != 0 && Status == ProductionControlStatus.Waiting)
                 {
-                    ExecuteProduction(FQueue.GetItem(0));
+                    ExecuteProduction(Queue.GetItem(0));
                 }
 
-                Result = ExecuteResult.Done;
+                result = ExecuteResult.Done;
                 break;
             case 4:
-                FLoopQueue = Event.FIndex == 1;
+                LoopQueue = eventValue.Index == 1;
                 Update();
-                Result = ExecuteResult.Done;
+                result = ExecuteResult.Done;
                 break;
             default:
-                Result = ExecuteResult.Done;
+                result = ExecuteResult.Done;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:551
-    public virtual ProductionTokenEvent CreateProductionTE()
+    public virtual ProductionTokenEvent CreateProductionTokenEvent()
     {
-        ProductionTokenEvent Event;
-        Event = new ProductionTokenEvent(null);
-        GetLocation(ref Event.FX, ref Event.FY, ref Event.FL);
-        Event.FPlayer = GetPlayer();
-        return Event;
+        ProductionTokenEvent eventValue;
+        eventValue = new ProductionTokenEvent(null);
+        GetLocation(ref eventValue.X, ref eventValue.Y, ref eventValue.MapLevel);
+        eventValue.Player = GetPlayer();
+        return eventValue;
     }
 
     // Structur.PAS:776
@@ -325,22 +325,22 @@ public partial class ProductionControl : EngineObject
     public virtual bool GetQueueLocked()
     {
         int I;
-        I = FQueue.Count;
-        bool Result = I >= GetQueueSizeMax();
-        while (!Result && I != 0)
+        I = Queue.Count;
+        bool result = I >= GetQueueSizeMax();
+        while (!result && I != 0)
         {
             I -= 1;
-            Result = LockQueueProduction(FQueue.GetItem(I));
+            result = LockQueueProduction(Queue.GetItem(I));
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:837
-    public virtual bool LoopableProduction(ProductionItem Item) => Item.Order.Loopable(this);
+    public virtual bool LoopableProduction(ProductionItem item) => item.Order.Loopable(this);
 
     // Structur.PAS:834
-    public virtual bool LockQueueProduction(ProductionItem Item) => Item.Order.LocksQueue(this);
+    public virtual bool LockQueueProduction(ProductionItem item) => item.Order.LocksQueue(this);
 
     // Structur.PAS:561
     public virtual bool UnitProduced() => false;
@@ -348,39 +348,39 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:636
     public virtual void UnitResearched()
     {
-        FUnitProductions.GetItem(FSettings.FUnitProductionIndex).FResearched = true;
+        UnitProductions.GetItem(Settings.UnitProductionIndex).Researched = true;
     }
 
     // Structur.PAS:219
     public virtual void Update()
     {
-        if (FUpdateCount == 0)
+        if (UpdateCount == 0)
         {
-            if (FOnChange != null)
+            if (OnChange != null)
             {
-                FOnChange(this);
+                OnChange(this);
             }
         }
     }
 
     // Structur.PAS:564
-    public virtual Unit CreateUnitProduction(int Index)
+    public virtual Unit CreateUnitProduction(int index)
     {
-        Unit Result;
-        Unit AUnit;
-        if (FUnitProductions.GetItem(Index) != null)
+        Unit result;
+        Unit unit;
+        if (UnitProductions.GetItem(index) != null)
         {
-            AUnit = new Unit(null);
-            var unitProduction = FUnitProductions.GetItem(Index);
-            AUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(unitProduction.FUnitIndex));
-            Result = AUnit;
+            unit = new Unit(null);
+            var unitProduction = UnitProductions.GetItem(index);
+            unit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
+            result = unit;
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:225
@@ -396,280 +396,280 @@ public partial class ProductionControl : EngineObject
     }
 
     // Structur.PAS:804
-    public virtual void NewTurn(sbyte Player)
+    public virtual void NewTurn(sbyte player)
     {
-        if (FStatus == Status.Waiting && Player == GetPlayer())
+        if (Status == ProductionControlStatus.Waiting && player == GetPlayer())
         {
-            if (FQueue.Count != 0)
+            if (Queue.Count != 0)
             {
-                ExecuteProduction(FQueue.GetItem(0));
+                ExecuteProduction(Queue.GetItem(0));
             }
             else
             {
-                FStatus = Status.Idle;
+                Status = ProductionControlStatus.Idle;
             }
         }
         else
         {
-            if (FStatus == Status.Producing && Player == FSettings.FPlayer)
+            if (Status == ProductionControlStatus.Producing && player == Settings.Player)
             {
-                if (FSettings.FTurnsLeft > 0)
+                if (Settings.TurnsLeft > 0)
                 {
-                    FSettings.FTurnsLeft = (sbyte)(FSettings.FTurnsLeft - 1);
+                    Settings.TurnsLeft = (sbyte)(Settings.TurnsLeft - 1);
                 }
 
-                if (FSettings.FTurnsLeft == 0)
+                if (Settings.TurnsLeft == 0)
                 {
-                    FQueue.GetItem(0).Order.Complete(this, Player);
+                    Queue.GetItem(0).Order.Complete(this, player);
                 }
             }
         }
 
         // City.pas:496, PrdPlace.pas:231
-        if (FStatus == Status.Producing && Player == FSettings.FPlayer && FSettings.FTurnsLeft == 0)
+        if (Status == ProductionControlStatus.Producing && player == Settings.Player && Settings.TurnsLeft == 0)
         {
-            FQueue.GetItem(0).Order.Completed(this);
+            Queue.GetItem(0).Order.Completed(this);
         }
     }
 
     // Structur.PAS:347
     public virtual void PlayerChanged()
     {
-        for (int I = FQueue.Count - 1; I >= 1; I--)
+        for (int I = Queue.Count - 1; I >= 1; I--)
         {
-            FQueue.GetItem(I)?.Dispose();
+            Queue.GetItem(I)?.Dispose();
         }
 
         UnregisterGroupProduction();
-        FLoopQueue = false;
-        if (FQueue.Count != 0 && FStatus != Status.Producing)
+        LoopQueue = false;
+        if (Queue.Count != 0 && Status != ProductionControlStatus.Producing)
         {
-            FQueue.GetItem(0)?.Dispose();
-            FStatus = Status.Idle;
+            Queue.GetItem(0)?.Dispose();
+            Status = ProductionControlStatus.Idle;
         }
     }
 
     // Structur.PAS:361
-    public virtual bool CanExecuteProduction(ProductionItem Item, ref string Reason) => Item.Order.CanExecute(this, ref Reason);
+    public virtual bool CanExecuteProduction(ProductionItem item, ref string reason) => item.Order.CanExecute(this, ref reason);
 
     // Structur.PAS:710
-    public virtual bool DeleteProduction(int Index)
+    public virtual bool DeleteProduction(int index)
     {
-        bool Result;
-        ProductionTokenEvent Event;
-        bool condition = Index >= 0 && Index < FQueue.Count;
+        bool result;
+        ProductionTokenEvent eventValue;
+        bool condition = index >= 0 && index < Queue.Count;
         if (condition)
         {
             var player = GetPlayer();
-            condition = !AoWHSMap.Current.FPlayers.GetPlayers(player).GetBusy();
+            condition = !AoWHSMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
         if (condition)
         {
-            Event = CreateProductionTE();
-            Event.FCommand = 1;
-            Event.FIndex = Index;
+            eventValue = CreateProductionTokenEvent();
+            eventValue.Command = 1;
+            eventValue.Index = index;
             var player = GetPlayer();
-            AoWHSMap.Current.FTokenManager.GetTokenControl(player).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:726
     public virtual bool DeleteProductions()
     {
-        bool Result;
-        ProductionTokenEvent Event;
-        bool condition = FQueue.Count != 0;
+        bool result;
+        ProductionTokenEvent eventValue;
+        bool condition = Queue.Count != 0;
         if (condition)
         {
             var player = GetPlayer();
-            condition = !AoWHSMap.Current.FPlayers.GetPlayers(player).GetBusy();
+            condition = !AoWHSMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
         if (condition)
         {
-            Event = CreateProductionTE();
-            Event.FCommand = 2;
+            eventValue = CreateProductionTokenEvent();
+            eventValue.Command = 2;
             var player = GetPlayer();
-            AoWHSMap.Current.FTokenManager.GetTokenControl(player).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:840
-    public virtual string GetProductionName(ProductionItem Item) => Item.Order.Name(this);
+    public virtual string GetProductionName(ProductionItem item) => item.Order.Name(this);
 
     // Structur.PAS:865
-    public virtual string GetProductionNameProgressive(ProductionItem Item) => Item.Order.NameProgressive(this);
+    public virtual string GetProductionNameProgressive(ProductionItem item) => item.Order.NameProgressive(this);
 
     // Structur.PAS:577
-    public virtual int UnitProductionGold(int Index)
+    public virtual int UnitProductionGold(int index)
     {
-        int UnitIndex;
-        UnitIndex = FUnitProductions.GetItem(Index).FUnitIndex;
-        return AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex).FObtainValue;
+        int unitIndex;
+        unitIndex = UnitProductions.GetItem(index).UnitIndex;
+        return AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex).ObtainValue;
     }
 
     // Structur.PAS:590
-    public virtual int UnitProductionMana(int Index) => 0;
+    public virtual int UnitProductionMana(int index) => 0;
 
     // Structur.PAS:585
-    public virtual int UnitProductionGoldUpkeep(int Index)
+    public virtual int UnitProductionGoldUpkeep(int index)
     {
-        var unitProduction = FUnitProductions.GetItem(Index);
-        return (AoWHSSet.Current.FUnitResources.GetUnitResource(unitProduction.FUnitIndex).FLevel + 1) * 2;
+        var unitProduction = UnitProductions.GetItem(index);
+        return (AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level + 1) * 2;
     }
 
     // Structur.PAS:593
-    public virtual int UnitProductionManaUpkeep(int Index) => 0;
+    public virtual int UnitProductionManaUpkeep(int index) => 0;
 
     // Structur.PAS:596
-    public virtual int UnitProductionTime(int Index)
+    public virtual int UnitProductionTime(int index)
     {
-        int UnitIndex;
-        UnitIndex = FUnitProductions.GetItem(Index).FUnitIndex;
-        return AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex).FLevel;
+        int unitIndex;
+        unitIndex = UnitProductions.GetItem(index).UnitIndex;
+        return AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex).Level;
     }
 
     // Structur.PAS:604
-    public virtual bool CanProduceUnit(int Index, bool Queue, ref string Reason) => true;
+    public virtual bool CanProduceUnit(int index, bool queue, ref string reason) => true;
 
     // Structur.PAS:607
-    public virtual bool ProduceUnitEx(int Index, int GroupID, bool Queue)
+    public virtual bool ProduceUnit(int index, int groupId, bool queue)
     {
-        bool Result;
-        ProductionTokenEvent Event;
-        string Reason = "";
-        bool condition = CanProduceUnit(Index, Queue, ref Reason);
+        bool result;
+        ProductionTokenEvent eventValue;
+        string reason = "";
+        bool condition = CanProduceUnit(index, queue, ref reason);
         if (condition)
         {
             var player = GetPlayer();
-            condition = !AoWHSMap.Current.FPlayers.GetPlayers(player).GetBusy();
+            condition = !AoWHSMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
         if (condition)
         {
-            Event = CreateProductionTE();
-            Event.FCommand = 0;
-            Event.FQueue = Queue;
-            Event.FItem = new ProductionItem(null);
+            eventValue = CreateProductionTokenEvent();
+            eventValue.Command = 0;
+            eventValue.Queue = queue;
+            eventValue.Item = new ProductionItem(null);
             // { explicit item receiver }
-            Event.FItem.Order = new ProduceUnit(Index, GroupID);
+            eventValue.Item.Order = new ProduceUnit(index, groupId);
 
             var player = GetPlayer();
-            AoWHSMap.Current.FTokenManager.GetTokenControl(player).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:631
-    public virtual bool ProduceUnit(int Index, bool Queue) => ProduceUnitEx(Index, 0, Queue);
+    public virtual bool ProduceUnit(int index, bool queue) => ProduceUnit(index, 0, queue);
 
     // Structur.PAS:641
-    public virtual int UnitResearchGold(int Index)
+    public virtual int UnitResearchGold(int index)
     {
-        int UnitIndex;
-        UnitIndex = FUnitProductions.GetItem(Index).FUnitIndex;
-        return AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex).FObtainValue;
+        int unitIndex;
+        unitIndex = UnitProductions.GetItem(index).UnitIndex;
+        return AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex).ObtainValue;
     }
 
     // Structur.PAS:649
-    public virtual int UnitResearchMana(int Index) => 0;
+    public virtual int UnitResearchMana(int index) => 0;
 
     // Structur.PAS:652
-    public virtual int UnitResearchTime(int Index)
+    public virtual int UnitResearchTime(int index)
     {
-        int UnitIndex;
-        UnitIndex = FUnitProductions.GetItem(Index).FUnitIndex;
-        return AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex).FLevel;
+        int unitIndex;
+        unitIndex = UnitProductions.GetItem(index).UnitIndex;
+        return AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex).Level;
     }
 
     // Structur.PAS:660
-    public virtual bool CanResearchUnit(int Index, bool Queue, ref string Reason)
+    public virtual bool CanResearchUnit(int index, bool queue, ref string reason)
     {
-        bool Result;
-        if (!Queue || FQueue.IndexOf(new ResearchSpell(Index)) == -1)
+        bool result;
+        if (!queue || Queue.IndexOf(new ResearchSpell(index)) == -1)
         {
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
-            Reason = AbilityRules.TranslateRStr(ActionAlreadyQueuedRStr);
+            result = false;
+            reason = AbilityRules.TranslateResourceString(s_actionAlreadyQueuedText);
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:670
-    public virtual bool ResearchUnit(int Index, bool Queue)
+    public virtual bool ResearchUnit(int index, bool queue)
     {
-        bool Result;
-        ProductionTokenEvent Event;
-        string Reason = "";
-        bool condition = CanResearchUnit(Index, Queue, ref Reason);
+        bool result;
+        ProductionTokenEvent eventValue;
+        string reason = "";
+        bool condition = CanResearchUnit(index, queue, ref reason);
         if (condition)
         {
             var player = GetPlayer();
-            condition = !AoWHSMap.Current.FPlayers.GetPlayers(player).GetBusy();
+            condition = !AoWHSMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
         if (condition)
         {
-            Event = CreateProductionTE();
-            Event.FCommand = 0;
-            Event.FQueue = Queue;
-            Event.FItem = new ProductionItem(null);
+            eventValue = CreateProductionTokenEvent();
+            eventValue.Command = 0;
+            eventValue.Queue = queue;
+            eventValue.Item = new ProductionItem(null);
             // { explicit item receiver }
-            Event.FItem.Order = new ResearchSpell(Index);
+            eventValue.Item.Order = new ResearchSpell(index);
 
             var player = GetPlayer();
-            AoWHSMap.Current.FTokenManager.GetTokenControl(player).AddEvent(Event);
-            Event.Release();
+            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            eventValue.Release();
             // { Original returns False after successfully queueing research. }
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:210
     public void BeginUpdate()
     {
-        FUpdateCount += 1;
+        UpdateCount += 1;
     }
 
     // Structur.PAS:213
     public void EndUpdate()
     {
-        FUpdateCount -= 1;
-        if (FUpdateCount == 0)
+        UpdateCount -= 1;
+        if (UpdateCount == 0)
         {
             Update();
         }
@@ -678,13 +678,13 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:316
     public void RegisterGroupProduction()
     {
-        AIGroup Group;
-        if (FStatus == Status.Producing && FSettings.FGroupID != 0)
+        AIGroup group;
+        if (Status == ProductionControlStatus.Producing && Settings.GroupId != 0)
         {
-            Group = AoWHSMap.Current.FAIGroupManager.FindID(FSettings.FGroupID);
-            if (Group != null)
+            group = AoWHSMap.Current.AIGroupManager.FindId(Settings.GroupId);
+            if (group != null)
             {
-                Group.FProductions.Add(this, FSettings.FUnit);
+                group.Productions.Add(this, Settings.Unit);
             }
         }
     }
@@ -692,236 +692,236 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:327
     public void UnregisterGroupProduction()
     {
-        AIGroup Group;
-        if (FStatus == Status.Producing && FSettings.FGroupID != 0)
+        AIGroup group;
+        if (Status == ProductionControlStatus.Producing && Settings.GroupId != 0)
         {
-            Group = AoWHSMap.Current.FAIGroupManager.FindID(FSettings.FGroupID);
-            if (Group != null)
+            group = AoWHSMap.Current.AIGroupManager.FindId(Settings.GroupId);
+            if (group != null)
             {
-                Group.FProductions.DeleteUnit(FSettings.FUnit);
+                group.Productions.DeleteUnit(Settings.Unit);
             }
 
-            FSettings.FGroupID = 0;
+            Settings.GroupId = 0;
         }
     }
 
     // Structur.PAS:339
-    public void GroupProductionProduced(Troop AUnit, int GroupID)
+    public void GroupProductionProduced(Troop troop, int groupId)
     {
-        AIGroup Group;
+        AIGroup group;
         var player = GetPlayer();
-        Group = AoWHSMap.Current.FPlayers.GetPlayers(player).FAIGroups.FindID(GroupID);
-        if (Group != null)
+        group = AoWHSMap.Current.Players.GetPlayers(player).AIGroups.FindId(groupId);
+        if (group != null)
         {
-            Group.UnitProduced(this, AUnit);
+            group.UnitProduced(this, troop);
         }
     }
 
     // Structur.PAS:693
-    public bool Produce(ProductionItem Item, bool Queue)
+    public bool Produce(ProductionItem item, bool queue)
     {
-        bool Result;
-        ProductionTokenEvent Event;
+        bool result;
+        ProductionTokenEvent eventValue;
         var player = GetPlayer();
-        if (!AoWHSMap.Current.FPlayers.GetPlayers(player).GetBusy())
+        if (!AoWHSMap.Current.Players.GetPlayers(player).GetBusy())
         {
-            Event = CreateProductionTE();
-            Event.FCommand = 0;
-            Event.FQueue = Queue;
-            Event.FItem = (ProductionItem)Item.Copy(GameTables.AoWEngine);
+            eventValue = CreateProductionTokenEvent();
+            eventValue.Command = 0;
+            eventValue.Queue = queue;
+            eventValue.Item = (ProductionItem)item.Copy(GameTables.GameEngine);
             var player2 = GetPlayer();
-            AoWHSMap.Current.FTokenManager.GetTokenControl(player2).AddEvent(Event);
-            Event.Release();
+            AoWHSMap.Current.TokenManager.GetTokenControl(player2).AddEvent(eventValue);
+            eventValue.Release();
             // { Original returns False after successfully queueing production. }
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:741
-    public bool RetryProductionExecution(ref string Reason)
+    public bool RetryProductionExecution(ref string reason)
     {
-        bool Result;
-        ProductionTokenEvent Event;
-        bool condition = FQueue.Count != 0 && FStatus == Status.Waiting;
+        bool result;
+        ProductionTokenEvent eventValue;
+        bool condition = Queue.Count != 0 && Status == ProductionControlStatus.Waiting;
         if (condition)
         {
             var player = GetPlayer();
-            condition = !AoWHSMap.Current.FPlayers.GetPlayers(player).GetBusy();
+            condition = !AoWHSMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
         if (condition)
         {
-            if (CanExecuteProduction(FQueue.GetItem(0), ref Reason))
+            if (CanExecuteProduction(Queue.GetItem(0), ref reason))
             {
-                Event = CreateProductionTE();
-                Event.FCommand = 3;
+                eventValue = CreateProductionTokenEvent();
+                eventValue.Command = 3;
                 var player = GetPlayer();
-                AoWHSMap.Current.FTokenManager.GetTokenControl(player).AddEvent(Event);
-                Event.Release();
-                Result = true;
+                AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+                eventValue.Release();
+                result = true;
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:760
-    public bool SetLoopQueueTo(bool Value)
+    public bool SetLoopQueueTo(bool value)
     {
-        bool Result;
-        ProductionTokenEvent Event;
-        bool condition = Value != FLoopQueue;
+        bool result;
+        ProductionTokenEvent eventValue;
+        bool condition = value != LoopQueue;
         if (condition)
         {
             var player = GetPlayer();
-            condition = !AoWHSMap.Current.FPlayers.GetPlayers(player).GetBusy();
+            condition = !AoWHSMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
         if (condition)
         {
-            Event = CreateProductionTE();
-            Event.FCommand = 4;
-            if (Value)
+            eventValue = CreateProductionTokenEvent();
+            eventValue.Command = 4;
+            if (value)
             {
-                Event.FIndex = 1;
+                eventValue.Index = 1;
             }
             else
             {
-                Event.FIndex = 0;
+                eventValue.Index = 0;
             }
 
             var player = GetPlayer();
-            AoWHSMap.Current.FTokenManager.GetTokenControl(player).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:793
     public void ProductionDone()
     {
         BeginUpdate();
-        if (FLoopQueue && LoopableProduction(FQueue.GetItem(0)))
+        if (LoopQueue && LoopableProduction(Queue.GetItem(0)))
         {
-            var count = FQueue.Count;
-            FQueue.FChildren.Move(0, count - 1);
+            var count = Queue.Count;
+            Queue._children.Move(0, count - 1);
         }
         else
         {
-            FQueue.GetItem(0)?.Dispose();
+            Queue.GetItem(0)?.Dispose();
         }
 
-        if (FQueue.Count != 0)
+        if (Queue.Count != 0)
         {
-            ExecuteProduction(FQueue.GetItem(0));
+            ExecuteProduction(Queue.GetItem(0));
         }
         else
         {
-            FStatus = Status.Idle;
+            Status = ProductionControlStatus.Idle;
         }
 
         EndUpdate();
     }
 
     // Structur.PAS:890
-    public int FindOptimalResearchProduction(CombatPredictor Predictor, int Gold)
+    public int FindOptimalResearchProduction(CombatPredictor predictor, int gold)
     {
-        int Result;
+        int result;
         Player Player;
-        Unit AUnit;
-        DoubleItemList Productions;
-        int Priority;
-        int Minimum;
-        bool Include;
+        Unit unit;
+        DoubleItemList productions;
+        int priority;
+        int minimum;
+        bool include;
         var player = GetPlayer();
-        Player = AoWHSMap.Current.FPlayers.GetPlayers(player);
-        AUnit = new Unit(null);
-        Productions = new DoubleItemList();
-        for (int I = FUnitProductions.Count - 1; I >= 0; I--)
+        Player = AoWHSMap.Current.Players.GetPlayers(player);
+        unit = new Unit(null);
+        productions = new DoubleItemList();
+        for (int I = UnitProductions.Count - 1; I >= 0; I--)
         {
-            if (!FUnitProductions.GetItem(I).FResearched)
+            if (!UnitProductions.GetItem(I).Researched)
             {
-                Include = UnitResearchGold(I) <= Gold;
-                if (Predictor != null)
+                include = UnitResearchGold(I) <= gold;
+                if (predictor != null)
                 {
-                    var unitProduction = FUnitProductions.GetItem(I);
-                    AUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(unitProduction.FUnitIndex));
-                    Priority = Predictor.Usefullness(AUnit);
+                    var unitProduction = UnitProductions.GetItem(I);
+                    unit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
+                    priority = predictor.Usefullness(unit);
                     // { Original replaces the affordability check here. }
-                    Include = (Priority & 8388608) != 0;
+                    include = (priority & 8388608) != 0;
                 }
                 else
                 {
-                    Priority = RosterTables.GetUnitIndexAIPriority(FUnitProductions.GetItem(I).FUnitIndex, Player.FPlayerIndex, 0);
+                    priority = RosterTables.GetUnitIndexAIPriority(UnitProductions.GetItem(I).UnitIndex, Player.PlayerIndex, 0);
                 }
 
-                if (Include)
+                if (include)
                 {
-                    Productions.AddAB(I, Priority);
+                    productions.AddAbility(I, priority);
                 }
             }
         }
 
-        if (Productions.Count != 0)
+        if (productions.Count != 0)
         {
-            Productions.SortDescendingItemB();
-            Result = 0;
-            Minimum = Round((double)Productions[0].B * 0.8);
-            while (Result + 1 < Productions.Count && Productions[Result + 1].B >= Minimum)
+            productions.SortDescendingItemB();
+            result = 0;
+            minimum = Round((double)productions[0].Second * 0.8);
+            while (result + 1 < productions.Count && productions[result + 1].Second >= minimum)
             {
-                Result += 1;
+                result += 1;
             }
 
             if (AoWHSMap.Current.Random(2) == 1)
             {
-                Result = 0;
+                result = 0;
             }
             else
             {
-                Result = AoWHSMap.Current.Random(Result + 1);
+                result = AoWHSMap.Current.Random(result + 1);
             }
 
-            Result = Productions[Result].A;
+            result = productions[result].First;
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        Productions?.Dispose();
-        AUnit?.Dispose();
-        return Result;
+        productions?.Dispose();
+        unit?.Dispose();
+        return result;
     }
 
-    private static readonly string ActionAlreadyQueuedRStr = "Action already queued";
-
-    public enum Status : byte
-    {
-        Idle = 0, Waiting = 1, Producing = 2
-    }
+    private static readonly string s_actionAlreadyQueuedText = "Action already queued";
 
     // intf_P1_02.inc:120
 
     // intf_P1_02.inc:120
 
+}
+
+public enum ProductionControlStatus : byte
+{
+    Idle = 0, Waiting = 1, Producing = 2
 }

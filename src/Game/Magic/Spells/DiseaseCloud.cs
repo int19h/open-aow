@@ -15,9 +15,9 @@ public partial class DiseaseCloud : CombatSpell
     // CombatSpells.pas:1146
     public DiseaseCloud(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(DiseaseCloudRStr);
-        FSpellID = 104;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_diseaseCloudText);
+        SpellId = 104;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 3;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Death);
@@ -25,5 +25,5 @@ public partial class DiseaseCloud : CombatSpell
         spellCombatInfo.Range = 12;
     }
 
-    private static readonly string DiseaseCloudRStr = "Disease Cloud";
+    private static readonly string s_diseaseCloudText = "Disease Cloud";
 }

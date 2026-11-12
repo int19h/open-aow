@@ -21,102 +21,102 @@ public partial class LightningStorm : Storm
     public LightningStorm(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135739;
+    public new const int ClassId = 135739;
 
-    public CustomImageLibrary FStormImages;
+    public CustomImageLibrary StormImages;
 
     // Storms.pas:429
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        int Frame;
-        Frame = FFrameCounter % FStormImages.Count;
-        if (FStormImages[Frame] != null)
+        int frame;
+        frame = FrameCounter % StormImages.Count;
+        if (StormImages[frame] != null)
         {
-            var yhx = GetYhx();
-            HexGeometry.HXtoHP(GetXhx(), yhx, ref X, ref Y);
-            var stormImageWidth = FStormImages[Frame];
+            var hexY = GetHexY();
+            HexGeometry.HexToPixel(GetHexX(), hexY, ref X, ref Y);
+            var stormImageWidth = StormImages[frame];
             X = X - (int)(((uint)stormImageWidth.Width) >> 1) + 20;
-            var stormImageHeight = FStormImages[Frame];
+            var stormImageHeight = StormImages[frame];
             Y = Y - stormImageHeight.Height + 32 + 40;
-            FStormImages[Frame].Show(X - XhpSurf, Y - YhpSurf, SurfaceDesc);
+            StormImages[frame].Show(X - pixelXSurface, Y - pixelYSurface, lockedSurface);
         }
     }
 
     // Storms.pas:487
-    public override void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo Info)
+    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info)
     {
-        AbilityRules.RetrieveStormDamageInfo(Player, StormType.Lightning, X, Y, L, 0, 1, ref Info);
+        AbilityRules.RetrieveStormDamageInfo(player, StormType.Lightning, X, Y, L, 0, 1, ref info);
     }
 
     // Storms.pas:478
-    public override void UpdateTargetSelection(TargetSelectionControl Selection)
+    public override void UpdateTargetSelection(TargetSelectionControl selection)
     {
-        base.UpdateTargetSelection(Selection);
+        base.UpdateTargetSelection(selection);
         // { Original adds to the map selection, without clearing its existing hexes. }
-        for (int I = 0, last = HexGeometry.RadToHN(2) - 1; I <= last; I++)
+        for (int I = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; I <= last; I++)
         {
-            AoWHSMap.Current.FTargetSelection.FHNs.Add(0);
+            AoWHSMap.Current.TargetSelection.HexNumbers.Add(0);
         }
     }
 
     // Storms.pas:443
-    public override void InitializeStorm(sbyte Player, sbyte X, sbyte Y, sbyte L)
+    public override void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
     {
         Rect R = default;
-        base.InitializeStorm(Player, X, Y, L);
-        FStormImages = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
+        base.InitializeStorm(player, X, Y, L);
+        StormImages = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
         if (GetVisible())
         {
-            FStormImages.LoadDiscardableImageData();
+            StormImages.LoadDiscardableImageData();
         }
 
-        R.Left = -(int)(((uint)FStormImages[0].Width) >> 1);
-        R.Right = (int)(((uint)FStormImages[0].Width) >> 1);
-        R.Top = -FStormImages[0].Height + 32;
+        R.Left = -(int)(((uint)StormImages[0].Width) >> 1);
+        R.Right = (int)(((uint)StormImages[0].Width) >> 1);
+        R.Top = -StormImages[0].Height + 32;
         R.Bottom = 32;
         SetDimensions(R);
-        AoWHSMap.Current.ValidateTerrainObservation(AoWHSMap.Current.FCurrentPlayer, X, Y, L, 2);
-        PlaceHX(AoWHSMap.Current.MapContainer, X, Y, L);
+        AoWHSMap.Current.ValidateTerrainObservation(AoWHSMap.Current.CurrentPlayer, X, Y, L, 2);
+        PlaceHex(AoWHSMap.Current.MapContainer, X, Y, L);
     }
 
     // Storms.pas:466
     public override bool UpdateStorm()
     {
-        bool Result;
+        bool result;
         NewFrame();
-        if (FStormImages.GetSafe(FFrameCounter) != null)
+        if (StormImages.GetSafe(FrameCounter) != null)
         {
             AudioPlayback.PlaySample("SFX\\ATTACK\\LIGHTNG.WAV");
         }
 
-        if (FStormImages.Count == FFrameCounter)
+        if (StormImages.Count == FrameCounter)
         {
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            AbilityRules.TriggerStormDamage(StormType.Lightning, GetXhx(), yhx, lhx, 0, 1, AoWHSMap.Current.FCurrentPlayer);
-            Result = false;
+            var hexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            AbilityRules.TriggerStormDamage(StormType.Lightning, GetHexX(), hexY, hexLevel, 0, 1, AoWHSMap.Current.CurrentPlayer);
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Storms.pas:459
     public override void FinalizeStorm()
     {
-        FStormImages.ReleaseDiscardableImageData();
-        AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
+        StormImages.ReleaseDiscardableImageData();
+        AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
         base.FinalizeStorm();
     }
 
     // Animation.pas:43
 
     // Storms.pas:424
-    public override string Name() => AbilityRules.TranslateRStr(GameTables.LightningStormRStr);
+    public override string Name() => AbilityRules.TranslateResourceString(GameTables.s_lightningStormText);
 
 }

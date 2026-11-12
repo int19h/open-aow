@@ -7,34 +7,34 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities.Passive;
 
-// (FImmunityTypes.)
+// (ImmunityTypes.)
 public partial class ImmunityAbility : EnhancementAbility
 {
-    public Set<DamageType> FImmunityTypes;
+    public Set<DamageType> ImmunityTypes;
 
     // PassiveAb.pas:1428
     public ImmunityAbility(ECustomNode owner) : base(owner)
     {
-        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem);
-        FAbilityType = AbilityType.Enhancement;
+        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem);
+        AbilityType = AbilityType.Enhancement;
     }
 
     // PassiveAb.pas:1440
-    public override Set<MoveType> GetMoveTypes(AbilityOwner Owner)
+    public override Set<MoveType> GetMoveTypes(AbilityOwner owner)
     {
-        Set<MoveType> Result;
-        if (FImmunityTypes.Contains(DamageType.Fire))
+        Set<MoveType> result;
+        if (ImmunityTypes.Contains(DamageType.Fire))
         {
-            Result = Set<MoveType>.Of(MoveType.LavaCrossing);
+            result = Set<MoveType>.Of(MoveType.LavaCrossing);
         }
         else
         {
-            Result = Set<MoveType>.Of();
+            result = Set<MoveType>.Of();
         }
 
-        return Result;
+        return result;
     }
 
     // PassiveAb.pas:1435
-    public override Set<DamageType> GetImmunityTypes(AbilityOwner Owner) => FImmunityTypes;
+    public override Set<DamageType> GetImmunityTypes(AbilityOwner owner) => ImmunityTypes;
 }

@@ -16,75 +16,75 @@ using Aow.Rtl;
 
 namespace Aow.Game.Events;
 
-// FArmyView. FSelection. FMessages. FTitle. FText. FDescription. FTriggers
+// ArmyView. Selection. Messages. Title. Text. Description. Triggers
 public partial class ArmyInfoEventLog : EventLog
 {
     // Army.PAS:255
     public ArmyInfoEventLog(ECustomNode owner) : base(owner)
     {
-        FMessages = new StringList();
-        FArmyView = new ArmyView(null);
-        FTriggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.Event, ExecuteTrigger.User, ExecuteTrigger.NewTurn);
+        Messages = new StringList();
+        ArmyView = new ArmyView(null);
+        Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.Event, ExecuteTrigger.User, ExecuteTrigger.NewTurn);
     }
 
-    public new const int ClassID = 131817;
+    public new const int ClassId = 131817;
 
-    public ArmyView FArmyView;
-    public byte FSelection;
-    public StringCollection FMessages;
-    public string FTitle = "";
-    public string FText = "";
-    public string FDescription = "";
-    public Set<ExecuteTrigger> FTriggers;
+    public ArmyView ArmyView;
+    public byte Selection;
+    public StringCollection Messages;
+    public string Title = "";
+    public string Text = "";
+    public string Description = "";
+    public Set<ExecuteTrigger> Triggers;
 
     // Army.PAS:263
     public override void Dispose()
     {
-        FMessages?.Dispose();
-        FArmyView?.Dispose();
+        Messages?.Dispose();
+        ArmyView?.Dispose();
         base.Dispose();
     }
 
     // Army.PAS:273
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FArmyView, 15);
-        Stream.rwStrings(FMessages, 16);
-        Stream.rwData(Bytes.Of(ref FSelection, 1), 1, 17);
-        Stream.rwString(ref FTitle, 18);
-        Stream.rwString(ref FText, 19);
-        Stream.rwString(ref FDescription, 20);
+        base.ReadWrite(stream);
+        stream.rwEObject(ArmyView, 15);
+        stream.rwStrings(Messages, 16);
+        stream.rwData(Bytes.Of(ref Selection, 1), 1, 17);
+        stream.rwString(ref Title, 18);
+        stream.rwString(ref Text, 19);
+        stream.rwString(ref Description, 20);
     }
 
     // Army.PAS:287
-    public override string GetText() => FText;
+    public override string GetText() => Text;
 
     // Army.PAS:297
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool Result = false;
-        if (FTriggers.Contains(Trigger))
+        bool result = false;
+        if (Triggers.Contains(trigger))
         {
-            switch (Trigger)
+            switch (trigger)
             {
                 case ExecuteTrigger.User:
-                    AoWHSMap.Current.TriggerExecuteEventLog(this, false, Done);
-                    Result = true;
+                    AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
+                    result = true;
                     break;
                 case ExecuteTrigger.NewTurn:
-                    if (AoWHSMap.Current.FSeatedPlayer == FPlayer || AoWHSMap.Current.FSeatedPlayer == FArmyView.FPlayer)
+                    if (AoWHSMap.Current.SeatedPlayer == _player || AoWHSMap.Current.SeatedPlayer == ArmyView.Player)
                     {
-                        AoWHSMap.Current.TriggerExecuteEventLog(this, false, Done);
-                        Result = true;
+                        AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
+                        result = true;
                     }
 
                     break;
                 case ExecuteTrigger.Event:
-                    if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && (AoWHSMap.Current.FSeatedPlayer == FPlayer || AoWHSMap.Current.FSeatedPlayer == FArmyView.FPlayer))
+                    if (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Local && (AoWHSMap.Current.SeatedPlayer == _player || AoWHSMap.Current.SeatedPlayer == ArmyView.Player))
                     {
-                        AoWHSMap.Current.TriggerExecuteEventLog(this, false, Done);
-                        Result = true;
+                        AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
+                        result = true;
                     }
                     else
                     {
@@ -95,24 +95,24 @@ public partial class ArmyInfoEventLog : EventLog
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:290
     public override void ViewLocation()
     {
-        ArmyView Army;
-        Army = FArmyView;
-        if (Army != null && Army.FX != -1)
+        ArmyView army;
+        army = ArmyView;
+        if (army != null && army.X != -1)
         {
-            CenterViewTo(Army.FX, Army.FY, Army.FL);
+            CenterViewTo(army.X, army.Y, army.MapLevel);
         }
     }
 
     // Army.PAS:284
-    public void SetArmyView(ArmyView Value)
+    public void SetArmyView(ArmyView value)
     {
-        FArmyView.Assign(Value, GameTables.AoWEngine);
+        ArmyView.Assign(value, GameTables.GameEngine);
     }
 
 }

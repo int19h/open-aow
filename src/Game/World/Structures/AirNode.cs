@@ -12,7 +12,7 @@ public partial class AirNode : ProductionPlace
     { }
 
     // AirNode.pas:37
-    public new const int ClassID = 133454;
+    public new const int ClassId = 133454;
 
     // AirNode.pas:40
     public override MagicSphere GetMagicSphere() => MagicSphere.Air;
@@ -21,26 +21,26 @@ public partial class AirNode : ProductionPlace
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FRazeDefenderBudget = 200;
-            FRebuildGold = 50;
-            FRebuildDays = 2;
-            FTerrainBound = false;
+            RazeDefenderBudget = 200;
+            RebuildGold = 50;
+            RebuildDays = 2;
+            TerrainBound = false;
         }
 
         // AirNode.pas:55
-        public new const int ClassID = 133455;
+        public new const int ClassId = 133455;
 
         // AirNode.pas:43
 
         // AirNode.pas:58
-        public override int ResourceUserClassID() => 133454;
+        public override int ResourceUserClassId() => 133454;
 
         // AirNode.pas:27
 
         // AirNode.pas:52
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(AirNodeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_airNodeText);
 
-        private static readonly string AirNodeRStr = "Air Node";
+        private static readonly string s_airNodeText = "Air Node";
 
     }
 

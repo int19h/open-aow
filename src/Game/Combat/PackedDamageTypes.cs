@@ -10,7 +10,7 @@ namespace Aow.Game.Combat;
 public struct PackedDamageTypes
 {
     [FieldOffset(0)]
-    public ushort Value__image;
+    public ushort ValueImage;
 
-    public Set<DamageType> Value { get => Set<DamageType>.FromMask(Value__image); set => Value__image = (ushort)value.Image; }
+    public Set<DamageType> Value { get => Set<DamageType>.FromMask(ValueImage); set => ValueImage = (ushort)value.Image; }
 }

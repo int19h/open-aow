@@ -18,61 +18,61 @@ public partial class ItemTokenEvent : TokenEvent
     public ItemTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131698;
+    public new const int ClassId = 131698;
 
-    public int FItemID;
-    public byte FAction;
+    public int ItemId;
+    public byte Action;
     // 0 = use
-    public int FHeroID;
+    public int HeroId;
 
     // Army.PAS:4185
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FItemID, 20);
-        Stream.rwData(Bytes.Of(ref FAction, 1), 1, 21);
-        Stream.rwInteger(ref FHeroID, 22);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref ItemId, 20);
+        stream.rwData(Bytes.Of(ref Action, 1), 1, 21);
+        stream.rwInteger(ref HeroId, 22);
     }
 
     // Army.PAS:4193
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult Result;
-        bool Done;
-        Item Item;
-        Hero Hero;
-        base.Execute(TE);
-        Done = false;
-        Item = AoWHSMap.Current.FItemControl.FindItem(FItemID);
-        if (Item != null)
+        ExecuteResult result;
+        bool done;
+        Item item;
+        Hero hero;
+        base.Execute(tokenEvent);
+        done = false;
+        item = AoWHSMap.Current.ItemControl.FindItem(ItemId);
+        if (item != null)
         {
-            switch (FAction)
+            switch (Action)
             {
                 case 0:
-                    Hero = AoWHSMap.Current.FHeroControl.FindID(FHeroID);
-                    if (Hero != null)
+                    hero = AoWHSMap.Current.HeroControl.FindId(HeroId);
+                    if (hero != null)
                     {
-                        Done = Item.ExecuteUse(Hero);
+                        done = item.ExecuteUse(hero);
                     }
                     else
                     {
-                        Done = false;
+                        done = false;
                     }
 
                     break;
             }
         }
 
-        if (Done)
+        if (done)
         {
-            Result = ExecuteResult.Done;
+            result = ExecuteResult.Done;
         }
         else
         {
-            Result = ExecuteResult.DoneHalt;
+            result = ExecuteResult.DoneHalt;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:230

@@ -22,7 +22,7 @@ namespace Aow.Headless;
 
 internal static class Program
 {
-    private static int Main(string[] args)
+    private static int Main(string[] arguments)
     {
         ProcessSafety.Initialize();
         if (GateSwitches.CultureError("Headless") is { } culture)
@@ -30,7 +30,7 @@ internal static class Program
             Console.Error.WriteLine(culture);
             return 1;
         }
-        GateSwitches.Enter("Headless", args);
+        GateSwitches.Enter("Headless", arguments);
         string? output = null;
         var saves = new List<object>();
         var todos = new SortedSet<string>(StringComparer.Ordinal);
@@ -56,10 +56,10 @@ internal static class Program
             string? settings = null;
             string? randomTracePath = null;
             string? fileLogPath = null;
-            for (int i = 0; i < args.Length; i++)
+            for (int i = 0; i < arguments.Length; i++)
             {
-                string Value() => ++i < args.Length ? args[i] : throw new ArgumentException("missing option value");
-                switch (args[i])
+                string Value() => ++i < arguments.Length ? arguments[i] : throw new ArgumentException("missing option value");
+                switch (arguments[i])
                 {
                     case "--load": input = Path.GetFullPath(Value()); break;
                     case "--out": output = Path.GetFullPath(Value()); break;
@@ -88,7 +88,7 @@ internal static class Program
                         viewportWidth = int.Parse(dimensions[0]);
                         viewportHeight = int.Parse(dimensions[1]);
                         break;
-                    default: throw new ArgumentException("unknown option: " + args[i]);
+                    default: throw new ArgumentException("unknown option: " + arguments[i]);
                 }
             }
             if (input is null || output is null || turns < 0) throw new ArgumentException("--load <save> --seed <n> --turns <n> --out <dir> [--tactical] [--file-log <path>]");
@@ -123,12 +123,12 @@ internal static class Program
             }
             Startup.InitializeAll();
             NullSoundSystem.Install();
-            CombatClasses.Register(GameTables.AoWEngine);
+            CombatClasses.Register(GameTables.GameEngine);
             gameplay = true;
-            GameTables.AoWEngine.LoadHSM(input, false, null!, GameProfile.WorldMap);
-            if (GameTables.AoWEngine.HSMap is not AoWHSMap map)
+            GameTables.GameEngine.LoadHsm(input, false, null!, GameProfile.WorldMap);
+            if (GameTables.GameEngine.HexSpriteMap is not AoWHSMap map)
                 throw new InvalidDataException("engine load failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
-            map.SetViewPort(map.ViewXhp, map.ViewYhp, map.ViewL, 0, 0);
+            map.SetViewPort(map.ViewPixelX, map.ViewPixelY, map.ViewL, 0, 0);
             Shim.RandSeed = seed;
             Shim.SuppressRandomize = true;
             HeadlessHooks.Tactical = tactical;
@@ -141,9 +141,9 @@ internal static class Program
                 var info = notification.Info;
                 if (info.Log is MessageEventLog message)
                 {
-                    bool yes = message.FButtons is MessageEventLog.Buttons.YesNo or MessageEventLog.Buttons.YesNoCancel;
-                    host.Show(new(message.FMessage.Text, message.FTitle, (int)message.FButtons, yes ? 6 : 1));
-                    if (yes) message.Yes(); else message.OK();
+                    bool yes = message.Buttons is MessageEventLogButtons.YesNo or MessageEventLogButtons.YesNoCancel;
+                    host.Show(new(message.Message.Text, message.Title, (int)message.Buttons, yes ? 6 : 1));
+                    if (yes) message.Yes(); else message.Ok();
                 }
                 info.Done?.Invoke(info.Log);
             };
@@ -155,12 +155,12 @@ internal static class Program
             void Save(PlayerControl control)
             {
                 CheckTodos();
-                day = map.FDay;
+                day = map.Day;
                 if (firstDay == 0) { firstDay = day; directed.Initial(); }
                 string name = $"day-{day:D2}.asg";
                 host.FilesForRun.AutoSaveTarget = Path.Combine(output, name);
                 control.AutoSave();
-                randomTrace?.Save(map.FDay);
+                randomTrace?.Save(map.Day);
                 directed.DaySaved();
                 host.FilesForRun.AutoSaveTarget = null;
                 CheckTodos();
@@ -175,30 +175,30 @@ internal static class Program
             map.Activate();
             Console.WriteLine("map activated");
             CheckTodos();
-            if (saves.Count == 0) Save(map.FPlayerControl);
+            if (saves.Count == 0) Save(map.PlayerControl);
             map.UpdateFPS(animationFps);
             var viewer = new HexSpriteMapViewer(null!);
-            viewer.HSMap = map;
+            viewer.HexSpriteMap = map;
             viewer.SceneWidth = viewportWidth;
             viewer.SceneHeight = viewportHeight;
-            viewer.ChangeScene(map.ViewXhp, map.ViewYhp, map.ViewL);
+            viewer.ChangeScene(map.ViewPixelX, map.ViewPixelY, map.ViewL);
             TacticalInput.Install(map, viewer);
             var watchdog = Stopwatch.StartNew();
             int previous = day;
-            while (!ended && map.FDay < firstDay + turns)
+            while (!ended && map.Day < firstDay + turns)
             {
                 frames++;
                 if (frames <= 3 || frames % 1000000 == 0)
                 {
-                    var player = map.FPlayers.GetPlayers(map.FCurrentPlayer);
-                    Console.WriteLine($"frame {frames}, map {map.Status.Image:X}, player {map.FCurrentPlayer}, busy {player.GetBusy()}, ready {map.FTokenManager.PlayerReady(map.FCurrentPlayer)}, AI locks {map.FAILockCount}/{map.FAIExecuter.FLockCount}, AI {map.FAIExecuter.FStatus.Image:X}, phase {player.FAIControl.FPhase}, actions {player.FAIControl.FActions.Count}");
+                    var player = map.Players.GetPlayers(map.CurrentPlayer);
+                    Console.WriteLine($"frame {frames}, map {map.Status.Image:X}, player {map.CurrentPlayer}, busy {player.GetBusy()}, ready {map.TokenManager.PlayerReady(map.CurrentPlayer)}, AI locks {map.AILockCount}/{map.AIExecutor.LockCount}, AI {map.AIExecutor.Status.Image:X}, phase {player.AIControl.Phase}, actions {player.AIControl.Actions.Count}");
                 }
-                if (randomTrace is not null && frames % 100000 == 0 && map.FCombatMap is CombatMap tacticalMap)
-                    Console.WriteLine($"combat frame {tacticalMap.Frame}, status {tacticalMap.Status.Image:X}, player {tacticalMap.FCurrentCombatPlayer}, end pending {tacticalMap.FEndTurnPending}, AI {tacticalMap.FAI.Status}, effects {tacticalMap.FEffects.Count}, result {tacticalMap.FCombat.FCombatResult}");
+                if (randomTrace is not null && frames % 100000 == 0 && map.CombatMap is CombatMap tacticalMap)
+                    Console.WriteLine($"combat frame {tacticalMap.Frame}, status {tacticalMap.Status.Image:X}, player {tacticalMap.CurrentCombatPlayer}, end pending {tacticalMap.EndTurnPending}, AI {tacticalMap.AI.Status}, effects {tacticalMap.Effects.Count}, result {tacticalMap.Combat.CombatResult}");
                 map.NewFrame();
                 CheckTodos();
                 if (day != previous) { previous = day; watchdog.Restart(); }
-                if (watchdog.Elapsed > TimeSpan.FromMinutes(5)) throw new TimeoutException($"no day transition for five minutes at day {map.FDay}, frame {frames}");
+                if (watchdog.Elapsed > TimeSpan.FromMinutes(5)) throw new TimeoutException($"no day transition for five minutes at day {map.Day}, frame {frames}");
             }
             complete = ended || saves.Count >= turns + 1;
             Console.WriteLine($"complete: {complete}, day {day}, turns {day - firstDay}, frames {frames}, TODOs reached {todos.Count}, dialogs {host.DialogCount}, game ended {ended}");

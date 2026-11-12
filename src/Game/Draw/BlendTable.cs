@@ -8,8 +8,8 @@ namespace Aow.Game.Draw;
 // derived class's own field)
 public partial class BlendTable
 {
-    internal int FBits;
-    internal byte[] FTable;
+    internal int _bits;
+    internal byte[] _table;
 
     // GFXE.pas:741
     public virtual BlendTable Copy()
@@ -18,30 +18,30 @@ public partial class BlendTable
     }
 
     // GFXE.pas:742
-    public virtual void Assign(BlendTable Source)
+    public virtual void Assign(BlendTable source)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // GFXE.pas:9601
-    public void Initialize(int ABits, byte[] ATable)
+    public void Initialize(int bits, byte[] table)
     {
-        FTable = ATable;
-        FBits = ABits;
+        _table = table;
+        _bits = bits;
     }
 
-    public int Bits { get => FBits; }
-    public byte[] Table { get => FTable; }
+    public int Bits { get => _bits; }
+    public byte[] Table { get => _table; }
 
-    internal static void GenerateAlphaBlendTable(BlendTable Table, float Alpha)
+    internal static void GenerateAlphaBlendTable(BlendTable table, float alpha)
     {
-        if (Table is BlendTable5Bit)
+        if (table is BlendTable5Bit)
         {
             for (int I = 0; I <= 31; I++)
             {
                 for (int J = 0; J <= 31; J++)
                 {
-                    ((BlendTable5Bit)Table).Table[I][J] = (byte)Round((double)((double)I * Alpha) + (double)((double)1 - Alpha) * J);
+                    ((BlendTable5Bit)table).Table[I][J] = (byte)Round((double)((double)I * alpha) + (double)((double)1 - alpha) * J);
                 }
             }
         }
@@ -51,11 +51,11 @@ public partial class BlendTable
         }
     }
 
-    internal static void GenerateIntensityBlendTable(BlendTable Table, float Intensity)
+    internal static void GenerateIntensityBlendTable(BlendTable table, float intensity)
     {
         int V;
         float F;
-        if (Table is BlendTable5Bit)
+        if (table is BlendTable5Bit)
         {
             for (int I = 0; I <= 31; I++)
             {
@@ -67,7 +67,7 @@ public partial class BlendTable
                     }
                     else
                     {
-                        F = (float)((double)((double)((double)I * Intensity) * 1.75) / (I + J));
+                        F = (float)((double)((double)((double)I * intensity) * 1.75) / (I + J));
                     }
 
                     V = Round((double)I * F) + J;
@@ -76,23 +76,23 @@ public partial class BlendTable
                         V = 31;
                     }
 
-                    ((BlendTable5Bit)Table).Table[I][J] = (byte)V;
+                    ((BlendTable5Bit)table).Table[I][J] = (byte)V;
                 }
             }
         }
     }
 
-    internal static void GenerateShadowBlendTable(BlendTable Table, float Shadow)
+    internal static void GenerateShadowBlendTable(BlendTable table, float shadow)
     {
         int V;
         float F;
-        if (Table is BlendTable5Bit)
+        if (table is BlendTable5Bit)
         {
             for (int I = 0; I <= 31; I++)
             {
                 for (int J = 0; J <= 31; J++)
                 {
-                    F = (float)((double)((double)(31 - I) * ((double)1 / 31)) * Shadow);
+                    F = (float)((double)((double)(31 - I) * ((double)1 / 31)) * shadow);
                     V = Round((double)((double)1 - F) * J);
                     if (V < 0)
                     {
@@ -104,43 +104,43 @@ public partial class BlendTable
                         V = J;
                     }
 
-                    ((BlendTable5Bit)Table).Table[I][J] = (byte)V;
+                    ((BlendTable5Bit)table).Table[I][J] = (byte)V;
                 }
             }
         }
     }
 
-    internal static void GenerateBrightenBlendTable(BlendTable Table, float Brighten)
+    internal static void GenerateBrightenBlendTable(BlendTable table, float brighten)
     {
         int V;
-        if (Table is BlendTable5Bit)
+        if (table is BlendTable5Bit)
         {
             for (int I = 0; I <= 31; I++)
             {
                 for (int J = 0; J <= 31; J++)
                 {
-                    V = Round((double)((double)I * Brighten) + (double)((double)1 - Brighten) * J);
+                    V = Round((double)((double)I * brighten) + (double)((double)1 - brighten) * J);
                     if (V < J)
                     {
                         V = J;
                     }
 
-                    ((BlendTable5Bit)Table).Table[I][J] = (byte)V;
+                    ((BlendTable5Bit)table).Table[I][J] = (byte)V;
                 }
             }
         }
     }
 
-    internal static void GenerateLinearAlphaBlendTable(BlendTable Table, float Alpha)
+    internal static void GenerateLinearAlphaBlendTable(BlendTable table, float alpha)
     {
         float F;
-        if (Table is BlendTable5Bit)
+        if (table is BlendTable5Bit)
         {
             for (int I = 0; I <= 31; I++)
             {
-                if ((double)Alpha > 0)
+                if ((double)alpha > 0)
                 {
-                    F = (float)((double)I / ((double)31 * Alpha));
+                    F = (float)((double)I / ((double)31 * alpha));
                 }
                 else
                 {
@@ -154,7 +154,7 @@ public partial class BlendTable
 
                 for (int J = 0; J <= 31; J++)
                 {
-                    ((BlendTable5Bit)Table).Table[I][J] = (byte)Round((double)((double)I * F) + (double)((double)1 - F) * J);
+                    ((BlendTable5Bit)table).Table[I][J] = (byte)Round((double)((double)I * F) + (double)((double)1 - F) * J);
                 }
             }
         }

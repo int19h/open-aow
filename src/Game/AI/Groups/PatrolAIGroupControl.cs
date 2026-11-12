@@ -19,17 +19,17 @@ public partial class PatrolAIGroupControl : AIGroupControl
     { }
 
     // IndependentAG.pas:415
-    public override void MoveExecuterDone(object Sender)
+    public override void MoveExecutorDone(object sender)
     {
-        switch (FMoveExecuter.FStatus)
+        switch (MoveExecutor.Status)
         {
-            case AIMoveExecutor.Status.Done:
+            case AIMoveExecutorStatus.Done:
                 Done();
                 break;
-            case AIMoveExecutor.Status.Failed:
-                if (FState == 7)
+            case AIMoveExecutorStatus.Failed:
+                if (State == 7)
                 {
-                    ((PatrolAIGroup)FGroup).FPatrolTo.Packed = 16777215;
+                    ((PatrolAIGroup)Group).PatrolTo.Packed = 16777215;
                 }
                 else
                 {
@@ -41,23 +41,23 @@ public partial class PatrolAIGroupControl : AIGroupControl
     }
 
     // IndependentAG.pas:426
-    public override void TargetFoundEvent(AIGroupTargetFinder Sender, AIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
-        AoWMapField MapF;
-        MapF = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(Target.FLocation.Packed);
-        if (MapF.GetPlayer() != FGroup.FPlayer)
+        AoWMapField mapField;
+        mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(target.Location.Packed);
+        if (mapField.GetPlayer() != Group.Player)
         {
-            SetupCP(Target);
-            var execute = FCombatPredictor.Execute();
+            SetupCP(target);
+            var execute = CombatPredictor.Execute();
             if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
             {
-                if (FCombatPredictor.GetSuperiority() > 80)
+                if (CombatPredictor.GetSuperiority() > 80)
                 {
-                    if (FCombatPredictor.GetEfficiency() > 50)
+                    if (CombatPredictor.GetEfficiency() > 50)
                     {
-                        var efficiency = FCombatPredictor.GetEfficiency();
-                        Target.FData.Priority = efficiency + Target.FData.Priority * 100;
-                        base.TargetFoundEvent(Sender, Target, ref SearchDone);
+                        var efficiency = CombatPredictor.GetEfficiency();
+                        target.Data.Priority = efficiency + target.Data.Priority * 100;
+                        base.TargetFoundEvent(sender, target, ref searchDone);
                     }
                 }
             }
@@ -67,92 +67,92 @@ public partial class PatrolAIGroupControl : AIGroupControl
     // IndependentAG.pas:444
     public override void ProcessStates()
     {
-        AIGroupDefenseControl Defense;
-        AIRecruitmentGroupFinder Recruitment;
-        AIGroupRecruitControl Recruit;
-        AIGroupTargetFinder Finder;
-        MoveControlSettings Settings;
-        switch (FState)
+        AIGroupDefenseControl defense;
+        AIRecruitmentGroupFinder recruitment;
+        AIGroupRecruitControl recruit;
+        AIGroupTargetFinder finder;
+        MoveControlSettings settings;
+        switch (State)
         {
             case 0:
-                if (((PatrolAIGroup)FGroup).FPatrolStrength == 0)
+                if (((PatrolAIGroup)Group).PatrolStrength == 0)
                 {
-                    ((PatrolAIGroup)FGroup).FPatrolStrength = FStrengthMax;
+                    ((PatrolAIGroup)Group).PatrolStrength = StrengthMax;
                 }
 
-                Defense = new AIGroupDefenseControl(null);
-                Defense.FDefendMode = AIGroupDefenseControl.GroupDefendMode.Wait;
-                ActivatePlugin(Defense);
-                Defense.Release();
-                FState = 1;
+                defense = new AIGroupDefenseControl(null);
+                defense.DefendMode = AIGroupDefenseControl.GroupDefendMode.Wait;
+                ActivatePlugin(defense);
+                defense.Release();
+                State = 1;
                 break;
             case 1:
-                if (((PatrolAIGroup)FGroup).FPatrolTo.X == -1 || ((PatrolAIGroup)FGroup).FPatrolTo.L == FLocation.L && HexGeometry.dHXtoRad(((PatrolAIGroup)FGroup).FPatrolTo.X, ((PatrolAIGroup)FGroup).FPatrolTo.Y, FLocation.X, FLocation.Y) <= 2)
+                if (((PatrolAIGroup)Group).PatrolTo.X == -1 || ((PatrolAIGroup)Group).PatrolTo.MapLevel == Location.MapLevel && HexGeometry.DeltaHexToRadius(((PatrolAIGroup)Group).PatrolTo.X, ((PatrolAIGroup)Group).PatrolTo.Y, Location.X, Location.Y) <= 2)
                 {
                     ResetPatrolToLocation();
                 }
 
-                FState += 1;
+                State += 1;
                 break;
             case 2:
-                if (FStrengthMax < ((PatrolAIGroup)FGroup).FPatrolStrength)
+                if (StrengthMax < ((PatrolAIGroup)Group).PatrolStrength)
                 {
-                    FState += 1;
-                    Recruitment = new AIRecruitmentGroupFinder(null);
-                    Recruitment.Setup(this);
-                    ActivatePlugin(Recruitment);
-                    Recruitment.Release();
+                    State += 1;
+                    recruitment = new AIRecruitmentGroupFinder(null);
+                    recruitment.Setup(this);
+                    ActivatePlugin(recruitment);
+                    recruitment.Release();
                 }
                 else
                 {
-                    FState = 4;
+                    State = 4;
                 }
 
                 break;
             case 3:
-                if (FRecruitmentGroups.Count != 0 && FStrengthMax < ((PatrolAIGroup)FGroup).FPatrolStrength)
+                if (RecruitmentGroups.Count != 0 && StrengthMax < ((PatrolAIGroup)Group).PatrolStrength)
                 {
-                    Recruit = new AIGroupRecruitControl(null);
-                    Recruit.Reset();
-                    Recruit.FRecruitStrength = ((PatrolAIGroup)FGroup).FPatrolStrength - FStrengthMax;
-                    Recruit.FMode = AIGroupRecruitControl.Mode.AutoRecruit;
-                    ActivatePlugin(Recruit);
-                    Recruit.Release();
+                    recruit = new AIGroupRecruitControl(null);
+                    recruit.Reset();
+                    recruit.RecruitStrength = ((PatrolAIGroup)Group).PatrolStrength - StrengthMax;
+                    recruit.Mode = AIGroupRecruitControlMode.AutoRecruit;
+                    ActivatePlugin(recruit);
+                    recruit.Release();
                 }
 
-                FState += 1;
+                State += 1;
                 break;
             case 4:
-                Finder = new AIGroupTargetFinder(null);
-                Finder.Setup(this);
-                var moves = FArmy.Moves(FSelection);
-                Finder.FSelector.FMovePointsMax = moves;
-                ActivatePlugin(Finder);
-                Finder.Release();
-                FState += 1;
+                finder = new AIGroupTargetFinder(null);
+                finder.Setup(this);
+                var moves = Army.Moves(Selection);
+                finder.Selector.MovePointsMax = moves;
+                ActivatePlugin(finder);
+                finder.Release();
+                State += 1;
                 break;
             case 5:
-                FTargets.Validate();
-                if (FTargets.Count != 0)
+                Targets.Validate();
+                if (Targets.Count != 0)
                 {
                     SetupME();
-                    var targetLocation = FTargets.GetTargets(0);
-                    var target = FTargets.GetTargets(0);
-                    ExecuteME(FTargets.GetTargets(0).FLocation.X, target.FLocation.Y, targetLocation.FLocation.L);
-                    FTargets.Delete(0);
+                    var targetLocation = Targets.GetTargets(0);
+                    var target = Targets.GetTargets(0);
+                    ExecuteME(Targets.GetTargets(0).Location.X, target.Location.Y, targetLocation.Location.MapLevel);
+                    Targets.Delete(0);
                 }
                 else
                 {
-                    FState += 1;
+                    State += 1;
                 }
 
                 break;
             case 6:
-                if (AoWHSMap.Current.Random(3) != 0 && ((PatrolAIGroup)FGroup).FPatrolTo.X != -1)
+                if (AoWHSMap.Current.Random(3) != 0 && ((PatrolAIGroup)Group).PatrolTo.X != -1)
                 {
-                    FState += 1;
+                    State += 1;
                     SetupME();
-                    ExecuteME(((PatrolAIGroup)FGroup).FPatrolTo.X, ((PatrolAIGroup)FGroup).FPatrolTo.Y, ((PatrolAIGroup)FGroup).FPatrolTo.L);
+                    ExecuteME(((PatrolAIGroup)Group).PatrolTo.X, ((PatrolAIGroup)Group).PatrolTo.Y, ((PatrolAIGroup)Group).PatrolTo.MapLevel);
                 }
                 else
                 {
@@ -161,23 +161,23 @@ public partial class PatrolAIGroupControl : AIGroupControl
 
                 break;
             case 7:
-                Settings = new MoveControlSettings(null);
-                Settings.FPlayer = FGroup.FPlayer;
-                Settings.FMode = Settings.FMode + Set<MoveModeElement>.Of(MoveModeElement.AI);
-                Settings.SetSourcePos(FLocation.X, FLocation.Y, FLocation.L);
-                Settings.SetDestinationPos(((PatrolAIGroup)FGroup).FPatrolFrom.X, ((PatrolAIGroup)FGroup).FPatrolFrom.Y, ((PatrolAIGroup)FGroup).FPatrolFrom.L);
-                Settings.FMovePointsMax = 48;
-                Settings.FMode = Settings.FMode + Set<MoveModeElement>.Of(MoveModeElement.IgnoreArmies);
-                Settings.FArmyHS = FArmyHS;
-                Settings.FSelection = FSelection;
-                Settings.FMovePointTable = FMovePointTable;
-                AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
-                if (Settings.FPath.Count == 0)
+                settings = new MoveControlSettings(null);
+                settings.Player = Group.Player;
+                settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
+                settings.SetSourcePosition(Location.X, Location.Y, Location.MapLevel);
+                settings.SetDestinationPosition(((PatrolAIGroup)Group).PatrolFrom.X, ((PatrolAIGroup)Group).PatrolFrom.Y, ((PatrolAIGroup)Group).PatrolFrom.MapLevel);
+                settings.MovePointsMax = 48;
+                settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.IgnoreArmies);
+                settings.ArmyHexSprite = ArmyHexSprite;
+                settings.Selection = Selection;
+                settings.MovePointTable = MovePointTable;
+                AoWHSMap.Current.MoveControl.ProcessMove(settings);
+                if (settings.Path.Count == 0)
                 {
-                    ((PatrolAIGroup)FGroup).FPatrolFrom.Packed = 16777215;
+                    ((PatrolAIGroup)Group).PatrolFrom.Packed = 16777215;
                 }
 
-                Settings.Release();
+                settings.Release();
                 Done();
                 break;
         }
@@ -186,168 +186,168 @@ public partial class PatrolAIGroupControl : AIGroupControl
     // IndependentAG.pas:324
     public bool ResetPatrolToLocation()
     {
-        bool Result = default;
-        int PreviousHeading = default;
+        bool result = default;
+        int previousHeading = default;
         int X = default;
         int Y = default;
-        DoubleItemList<AoWMapField> NewList = default;
-        PatrolAIGroup Group = default;
-        MoveControlSettings Settings = default;
-        DelphiList Fields = default;
-        var Lists = new DoubleItemList<AoWMapField>[HexDirectionSlotCount];
-        MapFieldMessage Msg = default;
+        DoubleItemList<AoWMapField> newList = default;
+        PatrolAIGroup group = default;
+        MoveControlSettings settings = default;
+        DelphiList fields = default;
+        var lists = new DoubleItemList<AoWMapField>[HexDirectionSlotCount];
+        MapFieldMessage message = default;
         int J = default;
-        int Heading = default;
-        int LastHeading = default;
-        AoWMapField MapF = default;
-        ByteList Choices = default;
-        DoubleItemList<AoWMapField> SelectedList = default;
-        Group = (PatrolAIGroup)FGroup;
-        if (Group.FPatrolFrom.X == -1)
+        int heading = default;
+        int lastHeading = default;
+        AoWMapField mapField = default;
+        ByteList choices = default;
+        DoubleItemList<AoWMapField> selectedList = default;
+        group = (PatrolAIGroup)Group;
+        if (group.PatrolFrom.X == -1)
         {
-            Group.FPatrolFrom = FLocation;
+            group.PatrolFrom = Location;
         }
 
-        Settings = new MoveControlSettings(null);
-        Settings.FPlayer = Group.FPlayer;
-        Settings.FMode = Settings.FMode + Set<MoveModeElement>.Of(MoveModeElement.AI, MoveModeElement.IgnoreArmies);
-        Settings.SetSourcePos(Group.FPatrolFrom.X, Group.FPatrolFrom.Y, Group.FPatrolFrom.L);
-        Settings.FMovePointsMax = 48;
-        Settings.FMode = Settings.FMode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
-        Settings.FArmyHS = FArmyHS;
-        Settings.FSelection = FSelection;
-        Settings.FMovePointTable = FMovePointTable;
-        AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
-        Fields = Settings.FProcessedMapFields;
+        settings = new MoveControlSettings(null);
+        settings.Player = group.Player;
+        settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI, MoveModeElement.IgnoreArmies);
+        settings.SetSourcePosition(group.PatrolFrom.X, group.PatrolFrom.Y, group.PatrolFrom.MapLevel);
+        settings.MovePointsMax = 48;
+        settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
+        settings.ArmyHexSprite = ArmyHexSprite;
+        settings.Selection = Selection;
+        settings.MovePointTable = MovePointTable;
+        AoWHSMap.Current.MoveControl.ProcessMove(settings);
+        fields = settings.ProcessedMapFields;
         for (int I = 0; I < HexDirectionSlotCount; I++)
         {
             var doubleItemList = new DoubleItemList<AoWMapField>();
-            Lists[I] = doubleItemList;
+            lists[I] = doubleItemList;
         }
 
-        X = Group.FPatrolFrom.X;
-        Y = Group.FPatrolFrom.Y;
-        for (int I = Fields.Count - 1; I >= 0; I--)
+        X = group.PatrolFrom.X;
+        Y = group.PatrolFrom.Y;
+        for (int I = fields.Count - 1; I >= 0; I--)
         {
             // { Original samples every fourth processed field. }
             if ((I & 3) == 3)
             {
-                MapF = (AoWMapField)Fields.List[I];
-                Heading = HexGeometry.dHXtoHT(X, Y, MapF.Xhx, MapF.Yhx);
-                var movePoints = Settings.GetMovePoints(MapF.Xhx, MapF.Yhx, MapF.Lhx);
-                Lists[Heading].AddAB(MapF, movePoints);
+                mapField = (AoWMapField)fields.List[I];
+                heading = HexGeometry.DeltaHexToHexDirection(X, Y, mapField.HexX, mapField.HexY);
+                var movePoints = settings.GetMovePoints(mapField.HexX, mapField.HexY, mapField.HexLevel);
+                lists[heading].AddAbility(mapField, movePoints);
             }
         }
 
         for (int I = 0; I < HexDirectionSlotCount; I++)
         {
-            Lists[I].Sort(ComparePatrolFields);
+            lists[I].Sort(ComparePatrolFields);
         }
 
-        Msg.MsgID = 4384;
-        Msg.Param[0] = FArmyHS;
+        message.MessageId = 4384;
+        message.Param[0] = ArmyHexSprite;
         for (int I = 1; I < HexDirectionSlotCount; I++)
         {
-            NewList = new DoubleItemList<AoWMapField>();
+            newList = new DoubleItemList<AoWMapField>();
             J = 0;
-            while (NewList.Count != 30 && J != Lists[I].Count)
+            while (newList.Count != 30 && J != lists[I].Count)
             {
-                MapF = Lists[I].List[J].A;
-                if (MapF.GetPlayer() == -1)
+                mapField = lists[I].List[J].First;
+                if (mapField.GetPlayer() == -1)
                 {
-                    Msg.Result = 0;
-                    MapF.SendMapFieldMsg(ref Msg);
-                    if (Msg.Result.Int == 0)
+                    message.Result = 0;
+                    mapField.SendMapFieldMessage(ref message);
+                    if (message.Result.Int == 0)
                     {
-                        var item = Lists[I][J];
-                        NewList.Add(item);
+                        var item = lists[I][J];
+                        newList.Add(item);
                     }
                 }
 
                 J += 1;
             }
 
-            Lists[I]?.Dispose();
-            Lists[I] = NewList;
+            lists[I]?.Dispose();
+            lists[I] = newList;
         }
 
-        MapF = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(Group.FPatrolFrom.Packed);
-        if (MapF.GetPlayer() == -1)
+        mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(group.PatrolFrom.Packed);
+        if (mapField.GetPlayer() == -1)
         {
-            Lists[0].AddAB(MapF, 0);
+            lists[0].AddAbility(mapField, 0);
         }
 
-        if (Group.FPatrolTo.X != -1)
+        if (group.PatrolTo.X != -1)
         {
-            LastHeading = HexGeometry.dHXtoHT(Group.FPatrolFrom.X, Group.FPatrolFrom.Y, Group.FPatrolTo.X, Group.FPatrolTo.Y);
+            lastHeading = HexGeometry.DeltaHexToHexDirection(group.PatrolFrom.X, group.PatrolFrom.Y, group.PatrolTo.X, group.PatrolTo.Y);
         }
         else
         {
-            LastHeading = 0;
+            lastHeading = 0;
         }
 
-        PreviousHeading = Group.FPreviousHeading;
-        Choices = new ByteList();
+        previousHeading = group.PreviousHeading;
+        choices = new ByteList();
         for (int I = 0; I < HexDirectionSlotCount; I++)
         {
-            if (Lists[I].Count != 0 && LastHeading != I && I != PreviousHeading)
+            if (lists[I].Count != 0 && lastHeading != I && I != previousHeading)
             {
-                if (PreviousHeading == 0 || PatrolHeadingDistance(I, LastHeading) > 1 || PatrolHeadingDistance(I, PreviousHeading) > 1)
+                if (previousHeading == 0 || PatrolHeadingDistance(I, lastHeading) > 1 || PatrolHeadingDistance(I, previousHeading) > 1)
                 {
-                    Choices.Add((byte)I);
+                    choices.Add((byte)I);
                 }
             }
         }
 
-        if (Choices.Count == 0)
+        if (choices.Count == 0)
         {
             for (int I = 0; I < HexDirectionSlotCount; I++)
             {
-                if (Lists[I].Count != 0 && LastHeading != I)
+                if (lists[I].Count != 0 && lastHeading != I)
                 {
-                    Choices.Add((byte)I);
+                    choices.Add((byte)I);
                 }
             }
         }
 
-        if (Choices.Count != 0)
+        if (choices.Count != 0)
         {
-            Group.FPreviousHeading = (sbyte)LastHeading;
-            Heading = Choices[AoWHSMap.Current.Random(Choices.Count)];
-            SelectedList = Lists[Heading];
-            var random = AoWHSMap.Current.Random(SelectedList.Count);
-            MapF = SelectedList.List[random].A;
-            var xyl = MapF.GetXYL();
-            Group.FPatrolTo.Packed = xyl;
-            Result = true;
+            group.PreviousHeading = (sbyte)lastHeading;
+            heading = choices[AoWHSMap.Current.Random(choices.Count)];
+            selectedList = lists[heading];
+            var random = AoWHSMap.Current.Random(selectedList.Count);
+            mapField = selectedList.List[random].First;
+            var mapCoordinate = mapField.GetMapCoordinate();
+            group.PatrolTo.Packed = mapCoordinate;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
         for (int I = 0; I < HexDirectionSlotCount; I++)
         {
-            Lists[I]?.Dispose();
+            lists[I]?.Dispose();
         }
 
-        Choices?.Dispose();
-        Settings.Release();
-        return Result;
+        choices?.Dispose();
+        settings.Release();
+        return result;
     }
 
     private static int ComparePatrolFields(in DoubleItem<AoWMapField> A, in DoubleItem<AoWMapField> B)
     {
-        return B.B - A.B;
+        return B.Second - A.Second;
     }
 
     private static int PatrolHeadingDistance(int A, int B)
     {
-        int num = Math.Abs(B - A);
-        if (num > 3)
+        int number = Math.Abs(B - A);
+        if (number > 3)
         {
-            num = 6 - num;
+            number = 6 - number;
         }
-        return num;
+        return number;
     }
 }

@@ -20,182 +20,182 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
     { }
 
     // GlobalTargetSpells.pas:2138
-    public new const int ClassID = 135975;
+    public new const int ClassId = 135975;
 
-    public Animation FAnimation;
+    public Animation Animation;
 
     // GlobalTargetSpells.pas:2190
     public override bool Process(Troop source, int value)
     {
-        bool Result = default;
-        Troop UnitObj = default;
-        HexNumberWalkData Walk = default;
-        ArmyHexSprite Army = default;
-        MapLevel Level = default;
-        ImageSequenceAnimation Anim = default;
+        bool result = default;
+        Troop troopObject = default;
+        HexNumberWalkData walk = default;
+        ArmyHexSprite army = default;
+        MapLevel level = default;
+        ImageSequenceAnimation animation = default;
         bool Healed = default;
-        bool PlaySound = default;
-        HexSprite Cloud = default;
+        bool playSound = default;
+        HexSprite cloud = default;
         base.Process(source, value);
         if (value == 0)
         {
-            AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 2);
-            if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.WatchingTerrain(FLocation.X, FLocation.Y, FLocation.L, 2))
+            AoWHSMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
+            if (source.Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.WatchingTerrain(Location.X, Location.Y, Location.MapLevel, 2))
             {
-                AoWHSSet.Current.FSpellControl.GetSpell(73).FCastSounds.Play(0);
+                AoWHSSet.Current.SpellControl.GetSpell(73).CastSounds.Play(0);
             }
 
-            Anim = (ImageSequenceAnimation)new Animation(null);
-            FAnimation = Anim;
-            Anim.FAnimationLevel = 27;
-            Anim.FOnShow = ShowAnimation;
-            Anim.FAnimationMap = AoWHSMap.Current;
-            Anim.FTag = (AoWHSMap.Current.ViewWidth & 65535) | (AoWHSMap.Current.ViewHeight << 16);
-            Anim.Activate();
-            AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+            animation = (ImageSequenceAnimation)new Animation(null);
+            Animation = animation;
+            animation.AnimationLevel = 27;
+            animation.OnShow = ShowAnimation;
+            animation.AnimationMap = AoWHSMap.Current;
+            animation.Tag = (AoWHSMap.Current.ViewWidth & 65535) | (AoWHSMap.Current.ViewHeight << 16);
+            animation.Activate();
+            AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         }
 
         if (value == 50)
         {
-            PlaySound = false;
-            AoWHSMap.Current.ChangeTerrainEx(null, FLocation.X, FLocation.Y, FLocation.L, 1, ChangeTerrain, null);
-            Level = AoWHSMap.Current.MapContainer.MapLevels[FLocation.L];
-            HexNumberWalkData.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
-            while (Walk.Radius <= 1)
+            playSound = false;
+            AoWHSMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 1, ChangeTerrain, null);
+            level = AoWHSMap.Current.MapContainer.MapLevels[Location.MapLevel];
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, Location.X, Location.Y, 0);
+            while (walk.Radius <= 1)
             {
-                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Level.Height > Walk.Y)
+                if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
                 {
-                    if (!((AoWMapField)Level.GetField(Walk.X, Walk.Y)).GetMagicShieldActive())
+                    if (!((AoWMapField)level.GetField(walk.X, walk.Y)).GetMagicShieldActive())
                     {
                         Healed = false;
-                        Army = ((AoWMapField)Level.GetField(Walk.X, Walk.Y)).GetArmyHS();
-                        if (Army != null)
+                        army = ((AoWMapField)level.GetField(walk.X, walk.Y)).GetArmyHexSprite();
+                        if (army != null)
                         {
-                            for (int I = 0, last = Army.FArmy.Count - 1; I <= last; I++)
+                            for (int I = 0, last = army.Army.Count - 1; I <= last; I++)
                             {
-                                UnitObj = Army.FArmy.GetUnit(I);
-                                if (UnitObj.GetHitPoints() < UnitObj.GetHits())
+                                troopObject = army.Army.GetUnit(I);
+                                if (troopObject.GetHitPoints() < troopObject.GetHits())
                                 {
-                                    UnitObj.SetHitPoints((sbyte)(UnitObj.GetHitPoints() + 5));
+                                    troopObject.SetHitPoints((sbyte)(troopObject.GetHitPoints() + 5));
                                     Healed = true;
                                 }
 
-                                if (UnitObj.GetAbilityEnabled(96))
+                                if (troopObject.GetAbilityEnabled(96))
                                 {
-                                    UnitObj.RemoveAbility(96);
+                                    troopObject.RemoveAbility(96);
                                     Healed = true;
                                 }
                             }
 
-                            Army.FArmy.Update();
+                            army.Army.Update();
                             bool healed = Healed;
                             if (healed)
                             {
-                                var yhx = Army.Yhx;
-                                var xhx = Army.Xhx;
-                                healed = AoWHSMap.Current.VisibleForPlayer(xhx, yhx, Army.Lhx, AoWHSMap.Current.FSeatedPlayer);
+                                var hexY = army.HexY;
+                                var hexX = army.HexX;
+                                healed = AoWHSMap.Current.VisibleForPlayer(hexX, hexY, army.HexLevel, AoWHSMap.Current.SeatedPlayer);
                             }
 
                             if (healed)
                             {
-                                bool condition = PlaySound || (byte)Army.FArmy.FPlayer == (byte)AoWHSMap.Current.FSeatedPlayer;
+                                bool condition = playSound || (byte)army.Army.Player == (byte)AoWHSMap.Current.SeatedPlayer;
                                 if (!condition)
                                 {
-                                    var yhx = Army.Yhx;
-                                    var xhx = Army.Xhx;
-                                    condition = AoWHSMap.Current.Watching(xhx, yhx, Army.Lhx, 1);
+                                    var hexY = army.HexY;
+                                    var hexX = army.HexX;
+                                    condition = AoWHSMap.Current.Watching(hexX, hexY, army.HexLevel, 1);
                                 }
 
-                                PlaySound = condition;
-                                Anim = new ImageSequenceAnimation(null);
-                                Anim.SetImageSequence(AoWHSSet.Current.FAbilityControl.GetAbility(47).FImageSequences.ImageSequences[0]);
-                                Anim.FAnimationLevel = 27;
-                                var armyYhx = Army.Yhx;
-                                var armyXhx = Army.Xhx;
-                                AoWHSMap.Current.PlaceHX(Anim, armyXhx, armyYhx, Army.Lhx);
+                                playSound = condition;
+                                animation = new ImageSequenceAnimation(null);
+                                animation.SetImageSequence(AoWHSSet.Current.AbilityControl.GetAbility(47).ImageSequences.ImageSequences[0]);
+                                animation.AnimationLevel = 27;
+                                var armyHexY = army.HexY;
+                                var armyHexX = army.HexX;
+                                AoWHSMap.Current.PlaceHex(animation, armyHexX, armyHexY, army.HexLevel);
                             }
                         }
 
-                        Cloud = (HexSprite)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(132990);
-                        if (Cloud != null)
+                        cloud = (HexSprite)level.GetField(walk.X, walk.Y).FindOwnedChild(132990);
+                        if (cloud != null)
                         {
-                            Cloud?.Dispose();
+                            cloud?.Dispose();
                         }
                     }
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
 
-            if (PlaySound)
+            if (playSound)
             {
-                AoWHSSet.Current.FAbilityControl.GetAbility(47).FSFXLibrary.Play(0);
+                AoWHSSet.Current.AbilityControl.GetAbility(47).SfxLibrary.Play(0);
             }
         }
 
         if (value == 80)
         {
-            FAnimation?.Dispose();
-            Result = false;
+            Animation?.Dispose();
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalTargetSpells.pas:2141
-    public void ShowAnimation(Animation Animation, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int X;
         int Y;
-        int XShift;
-        int YShift;
-        int Speed;
-        int Xhp = default;
-        int Yhp = default;
-        int Count;
-        int Frame;
-        if (AoWHSMap.Current.ViewL == FLocation.L)
+        int xShift;
+        int yShift;
+        int speed;
+        int pixelX = default;
+        int pixelY = default;
+        int count;
+        int frame;
+        if (AoWHSMap.Current.ViewL == Location.MapLevel)
         {
-            HexGeometry.HXtoHP(FLocation.X, FLocation.Y, ref Xhp, ref Yhp);
-            Xhp -= XhpSurf;
-            Yhp -= YhpSurf;
-            switch (GameTables.AoWEngine.FRegistry.GetDetailLevel())
+            HexGeometry.HexToPixel(Location.X, Location.Y, ref pixelX, ref pixelY);
+            pixelX -= pixelXSurface;
+            pixelY -= pixelYSurface;
+            switch (GameTables.GameEngine.Registry.GetDetailLevel())
             {
                 case DetailLevel.Low:
-                    Count = 50;
+                    count = 50;
                     break;
                 case DetailLevel.High:
-                    Count = 160;
+                    count = 160;
                     break;
                 default:
-                    Count = 100;
+                    count = 100;
                     break;
             }
 
-            RandSeed = AoWHSMap.Current.FInitialRandomSeed;
-            for (int I = 0; I <= Count; I++)
+            RandSeed = AoWHSMap.Current.InitialRandomSeed;
+            for (int I = 0; I <= count; I++)
             {
                 X = Random(100) - 50;
                 Y = Random(100) - 50;
-                Speed = Random(5) + 5;
+                speed = Random(5) + 5;
                 var random = Random(30);
-                Frame = Animation.FFrameCounter - random;
-                if (Frame >= 0 && Frame < 50)
+                frame = animation.FrameCounter - random;
+                if (frame >= 0 && frame < 50)
                 {
-                    Frame = Frame % 30;
-                    X -= Round((double)(Frame * 4) * ((double)Speed * 0.2));
-                    Y += Round((double)(Frame * 20) * ((double)Speed * 0.2));
+                    frame = frame % 30;
+                    X -= Round((double)(frame * 4) * ((double)speed * 0.2));
+                    Y += Round((double)(frame * 20) * ((double)speed * 0.2));
                     if (Y < 500)
                     {
                         for (int J = 0; J <= 10; J++)
                         {
-                            XShift = X - Round((double)(J * 2) * 0.1);
-                            YShift = Y + Round((double)(J * 10) * 0.1);
-                            AoWHSSet.Current.FSpellControl.GetSpell(73).FCastImages.Show(0, Xhp + XShift + 120, Yhp + YShift - 500 + 30, 0, SurfaceDesc);
+                            xShift = X - Round((double)(J * 2) * 0.1);
+                            yShift = Y + Round((double)(J * 10) * 0.1);
+                            AoWHSSet.Current.SpellControl.GetSpell(73).CastImages.Show(0, pixelX + xShift + 120, pixelY + yShift - 500 + 30, 0, lockedSurface);
                         }
                     }
                 }
@@ -204,18 +204,18 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
     }
 
     // GlobalTargetSpells.pas:2181
-    public void ChangeTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+    public void ChangeTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
     {
-        switch (TerrainType)
+        switch (terrainType)
         {
             case 5:
-                TerrainType = 4;
+                terrainType = 4;
                 break;
             case 2:
-                TerrainType = 4;
+                terrainType = 4;
                 break;
             case 4:
-                TerrainType = 1;
+                terrainType = 1;
                 break;
         }
     }

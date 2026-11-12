@@ -10,98 +10,98 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Events;
 
-// FUnitID. FOldLevel. FNewLevel. FDay
+// UnitId. OldLevel. NewLevel. _day
 public partial class HeroUpgradeEventLog : EventLog
 {
     public HeroUpgradeEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131825;
+    public new const int ClassId = 131825;
 
-    public int FUnitID;
-    public byte FOldLevel;
-    public byte FNewLevel;
-    public new int FDay;
+    public int UnitId;
+    public byte OldLevel;
+    public byte NewLevel;
+    public new int _day;
 
     // Hero.PAS:57
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FUnitID, 25);
-        Stream.rwByte(ref FOldLevel, 26);
-        Stream.rwByte(ref FNewLevel, 27);
-        Stream.rwInteger(ref FDay, 28);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref UnitId, 25);
+        stream.rwByte(ref OldLevel, 26);
+        stream.rwByte(ref NewLevel, 27);
+        stream.rwInteger(ref _day, 28);
     }
 
     // Hero.PAS:66
     public override string GetText()
     {
-        string Result = "";
-        Hero Hero;
-        Hero = AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FUnitID);
-        if (Hero != null)
+        string result = "";
+        Hero hero;
+        hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+        if (hero != null)
         {
-            if (FNewLevel - FOldLevel == 1)
+            if (NewLevel - OldLevel == 1)
             {
-                var name = Hero.GetName();
-                Result = AbilityRules.Format(AbilityRules.TranslateRStr(XMadeALevelRStr), [name]);
+                var name = hero.GetName();
+                result = AbilityRules.Format(AbilityRules.TranslateResourceString(s_madeLevelFormat), [name]);
             }
             else
             {
-                var name = Hero.GetName();
-                Result = AbilityRules.Format(AbilityRules.TranslateRStr(XMadeYLevelsRStr), [name, (FNewLevel - FOldLevel)]);
+                var name = hero.GetName();
+                result = AbilityRules.Format(AbilityRules.TranslateResourceString(s_madeLevelsFormat), [name, (NewLevel - OldLevel)]);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:76
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool Result = default;
-        Hero Hero;
-        bool ExecuteNow;
-        var unitControl = AoWHSMap.Current.FUnitControl;
-        Hero = unitControl.FindUnit<Hero>(FUnitID);
-        if (Hero != null && AoWHSMap.Current.FSeatedPlayer == Hero.FPlayer)
+        bool result = default;
+        Hero hero;
+        bool executeNow;
+        var unitControl = AoWHSMap.Current.UnitControl;
+        hero = unitControl.FindUnit<Hero>(UnitId);
+        if (hero != null && AoWHSMap.Current.SeatedPlayer == hero.Player)
         {
-            if (Hero.FUpgradePending)
+            if (hero.UpgradePending)
             {
-                ExecuteNow = Trigger == ExecuteTrigger.User;
-                ExecuteNow = ExecuteNow || AoWHSMap.Current.FPlayMode == PlayMode.Turn && GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
-                ExecuteNow = ExecuteNow || AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
-                if (ExecuteNow)
+                executeNow = trigger == ExecuteTrigger.User;
+                executeNow = executeNow || AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
+                executeNow = executeNow || AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
+                if (executeNow)
                 {
-                    Result = base.Execute(Mode, Trigger, Done);
+                    result = base.Execute(mode, trigger, done);
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
             }
             else
             {
-                if (AoWHSMap.Current.FPlayers.GetPlayers(Hero.FPlayer).FDay == FDay)
+                if (AoWHSMap.Current.Players.GetPlayers(hero.Player).Day == _day)
                 {
-                    var canOnlyUpgradeHeroOnce = AbilityRules.TranslateRStr(CanOnlyUpgradeHeroOnceRStr);
+                    var canOnlyUpgradeHeroOnce = AbilityRules.TranslateResourceString(s_canOnlyUpgradeHeroOnceText);
                     AoWHSMap.Current.ShowWarning(canOnlyUpgradeHeroOnce);
                 }
                 else
                 {
-                    var canOnlyUpgradeOnTheDayALevelIsMade = AbilityRules.TranslateRStr(CanOnlyUpgradeOnTheDayALevelIsMadeRStr);
+                    var canOnlyUpgradeOnTheDayALevelIsMade = AbilityRules.TranslateResourceString(s_canOnlyUpgradeOnDayLevelIsMadeText);
                     AoWHSMap.Current.ShowWarning(canOnlyUpgradeOnTheDayALevelIsMade);
                 }
 
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:102
@@ -111,7 +111,7 @@ public partial class HeroUpgradeEventLog : EventLog
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        U = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
+        U = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
         if (U != null)
         {
             U.GetLocation(ref X, ref Y, ref L);
@@ -122,9 +122,9 @@ public partial class HeroUpgradeEventLog : EventLog
         }
     }
 
-    private static readonly string XMadeALevelRStr = "%s made a level";
-    private static readonly string XMadeYLevelsRStr = "%s made %d levels";
-    private static readonly string CanOnlyUpgradeHeroOnceRStr = "Can only upgrade hero once";
-    private static readonly string CanOnlyUpgradeOnTheDayALevelIsMadeRStr = "Can only upgrade on the day a level is made";
+    private static readonly string s_madeLevelFormat = "%s made a level";
+    private static readonly string s_madeLevelsFormat = "%s made %d levels";
+    private static readonly string s_canOnlyUpgradeHeroOnceText = "Can only upgrade hero once";
+    private static readonly string s_canOnlyUpgradeOnDayLevelIsMadeText = "Can only upgrade on the day a level is made";
 
 }

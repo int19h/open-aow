@@ -15,44 +15,44 @@ public partial class FleeLocation : MapObject
     }
 
     // FleeLoc.pas:76
-    public new const int ClassID = 2229544;
+    public new const int ClassId = 2229544;
 
-    public bool FHighlighted;
-    public int FAlpha;
-    public int FAlphaStep;
+    public bool Highlighted;
+    public int Alpha;
+    public int AlphaStep;
 
     // FleeLoc.pas:71
 
     // FleeLoc.pas:82
-    public override int GetShowPriority() => 1744830464 + (Yhx << 13) + Xhx;
+    public override int GetShowPriority() => 1744830464 + (HexY << 13) + HexX;
 
     // FleeLoc.pas:151
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        if (FAlpha > 0)
+        if (Alpha > 0)
         {
-            HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
-            FResource.ImageLibrary.Get(0).ShowBlended(X - XhpSurf - 8, Y - YhpSurf, SurfaceDesc, GraphicsState.AlphaBlendTable.LookupTables[FAlpha]);
+            HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+            _resource.ImageLibrary.Get(0).ShowBlended(X - pixelXSurface - 8, Y - pixelYSurface, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[Alpha]);
         }
     }
 
     // FleeLoc.pas:120
-    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)
     {
-        if (Info.HN == 0)
+        if (info.HexNumber == 0)
         {
-            if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide() == CombatSideIndex.Attacker)
+            if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == CombatSideIndex.Attacker)
             {
-                MoveResult.Code = 25;
+                moveResult.Code = 25;
             }
             else
             {
-                MoveResult.Code = ((MoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][Info.MapField.OverlayType - -1];
+                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][info.MapField.OverlayType - -1];
             }
 
-            MoveResult.Done = true;
+            moveResult.Done = true;
         }
     }
 
@@ -61,17 +61,17 @@ public partial class FleeLocation : MapObject
     {
         base.Activate();
         CombatMap.Current.NewFrameEvents += NewFrame;
-        FHighlighted = CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting);
-        if (FHighlighted)
+        Highlighted = CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting);
+        if (Highlighted)
         {
-            FAlpha = 50;
+            Alpha = 50;
         }
         else
         {
-            FAlpha = 0;
+            Alpha = 0;
         }
 
-        CombatMap.Current.FFleeLocations.Add(this);
+        CombatMap.Current.FleeLocations.Add(this);
     }
 
     // FleeLoc.pas:65
@@ -82,67 +82,67 @@ public partial class FleeLocation : MapObject
     }
 
     // FleeLoc.pas:90
-    public override bool CanSelect(int Xhp, int Yhp) => true;
+    public override bool CanSelect(int pixelX, int pixelY) => true;
 
     // FleeLoc.pas:79
-    public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
 
     // FleeLoc.pas:87
-    public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
+    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => true;
 
     // FleeLoc.pas:93
-    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        EngineObject OldHexagon;
-        MapField MapField;
+        EngineObject oldHex;
+        MapField mapField;
         if (!GetEditMode())
         {
-            MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
-            OldHexagon = MapField.FindOwnedChild(132439);
-            if (OldHexagon != null)
+            mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+            oldHex = mapField.FindOwnedChild(132439);
+            if (oldHex != null)
             {
-                OldHexagon?.Dispose();
-                AoWHSSet.Current.FCombatHexagons.Place(CombatMap.Current.MapContainer, Xhx, Yhx, 0, 1);
+                oldHex?.Dispose();
+                AoWHSSet.Current.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, 0, 1);
             }
         }
 
-        return base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
+        return base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
     }
 
     // FleeLoc.pas:132
-    public void NewFrame(object Sender)
+    public void NewFrame(object sender)
     {
-        bool Highlight;
-        Highlight = false;
+        bool highlight;
+        highlight = false;
         if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            Highlight = true;
+            highlight = true;
         }
         else
         {
-            if (CombatMap.Current.FUnitSelection.GetTCUnitHS() != null && CombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer == CombatMap.Current.FSeatedCombatPlayer && CombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer != CombatMap.Current.FCombat.FCombatData.FDefenderPlayer)
+            if (CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite() != null && CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite().Unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer && CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite().Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
             {
-                Highlight = true;
+                highlight = true;
             }
         }
 
-        if (Highlight != FHighlighted)
+        if (highlight != Highlighted)
         {
-            FHighlighted = Highlight;
-            if (FHighlighted)
+            Highlighted = highlight;
+            if (Highlighted)
             {
-                FAlphaStep = 5;
+                AlphaStep = 5;
             }
             else
             {
-                FAlphaStep = -5;
+                AlphaStep = -5;
             }
         }
         else
         {
-            if ((FAlpha > 0 && FAlphaStep < 0) || (FAlpha < 50 && FAlphaStep > 0))
+            if ((Alpha > 0 && AlphaStep < 0) || (Alpha < 50 && AlphaStep > 0))
             {
-                FAlpha = FAlpha + FAlphaStep;
+                Alpha = Alpha + AlphaStep;
             }
         }
     }
@@ -153,10 +153,10 @@ public partial class FleeLocation : MapObject
         { }
 
         // FleeLoc.pas:163
-        public new const int ClassID = 2229545;
+        public new const int ClassId = 2229545;
 
         // FleeLoc.pas:169
-        public override int ResourceUserClassID() => 2229544;
+        public override int ResourceUserClassId() => 2229544;
 
         // FleeLoc.pas:166
         public override string ResourceEditName() => "Combat Flee Location";

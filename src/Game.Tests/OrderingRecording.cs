@@ -42,21 +42,21 @@ internal static class OrderingRecording
     internal static EngineObject Create(Type type, ECustomNode? owner, int route, GameEngine engine) => route switch
     {
         0 => Direct(type, owner),
-        1 => EngineClass.Of(type).Create(owner!),
-        2 => EngineClass.Of(type).Create(owner!),
-        _ => engine.CreateEObject(EngineClass.Of(type).ClassID, owner!)
+        1 => EngineClass.Of(type).CreateInstance(owner!),
+        2 => EngineClass.Of(type).CreateInstance(owner!),
+        _ => engine.CreateEngineObject(EngineClass.Of(type).ClassId, owner!)
     };
 
     internal sealed class Fixture : IDisposable
     {
-        private readonly int seed = Runtime.RandSeed;
+        private readonly int _seed = Runtime.RandSeed;
 
-        internal AoWDictionary Dictionary => dictionary;
+        internal AoWDictionary Dictionary => _dictionary;
 
-        private readonly AoWDictionary dictionary = EngineFixture.Engine.FDictionary;
-        private readonly AoWHSSet set = AoWHSSet.Current;
-        private readonly GameEngine engine = GameTables.AoWEngine;
-        private readonly AoWHSMap map = AoWHSMap.Current;
+        private readonly AoWDictionary _dictionary = EngineFixture.Engine.Dictionary;
+        private readonly AoWHSSet _set = AoWHSSet.Current;
+        private readonly GameEngine _engine = GameTables.GameEngine;
+        private readonly AoWHSMap _map = AoWHSMap.Current;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
         internal readonly GameEngine Engine;
 
@@ -64,32 +64,32 @@ internal static class OrderingRecording
         {
             Runtime.RandSeed = 123456789;
             var value = EngineFixture.CreateGameSet(Manager);
-            if (type == typeof(ArmyHexSprite)) value.FUnitGFXResources = new UnitGFXResourceList(null!);
+            if (type == typeof(ArmyHexSprite)) value.UnitGraphicsResources = new UnitGFXResourceList(null!);
             AoWHSSet.Current = value;
-            GameTables.AoWEngine = EngineFixture.Engine;
+            GameTables.GameEngine = EngineFixture.Engine;
             AoWHSMap.Current = null!;
-            if (type != typeof(ArmyHexSprite)) AoWHSSet.Current.FUnitGFXResources = null!;
+            if (type != typeof(ArmyHexSprite)) AoWHSSet.Current.UnitGraphicsResources = null!;
             Runtime.RandSeed = 123456789;
             if (EngineHost.Engines is null) EngineHost.Initialize();
             Engine = new GameEngine(null!);
-            Engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
+            Engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
             foreach (var descriptor in EngineClass.All.Where(x => x.Type == type))
             {
-                try { Engine.UnregisterEClasses([Engine.GetEClass(descriptor.ClassID)]); }
+                try { Engine.UnregisterEngineClasses([Engine.GetEngineClass(descriptor.ClassId)]); }
                 catch (Exception error) when (PortedExceptions.Is(error)) { }
-                Engine.RegisterEClasses([descriptor]);
+                Engine.RegisterEngineClasses([descriptor]);
             }
         }
 
         public void Dispose()
         {
             Engine.Dispose();
-            EngineFixture.Engine.FDictionary = dictionary;
-            AoWHSSet.Current?.FUnitGFXResources?.Dispose();
-            AoWHSSet.Current = set;
-            GameTables.AoWEngine = engine;
-            AoWHSMap.Current = map;
-            Runtime.RandSeed = seed;
+            EngineFixture.Engine.Dictionary = _dictionary;
+            AoWHSSet.Current?.UnitGraphicsResources?.Dispose();
+            AoWHSSet.Current = _set;
+            GameTables.GameEngine = _engine;
+            AoWHSMap.Current = _map;
+            Runtime.RandSeed = _seed;
             Manager.Dispose();
         }
     }
@@ -117,10 +117,10 @@ internal static class OrderingRecording
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
-                    if (field.Name == "eclass") continue; // the descriptor cache is not constructor state
+                    if (field.Name == "_engineClass") continue; // the descriptor cache is not constructor state
                     string key = current.Name + "." + field.Name;
                     object? child = field.GetValue(item);
-                    if (field.Name == "FOwner") { fields[key] = child is null ? null : "$owner"; continue; }
+                    if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     fields[key] = State(child, path + "." + key);
                 }
             return fields;

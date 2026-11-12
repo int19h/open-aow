@@ -12,26 +12,26 @@ namespace Aow.Game.Tests;
 [EngineState]
 public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
 {
-    private readonly Host host;
+    private readonly Host _host;
 
-    public TypedEventTests(Host host) => this.host = host;
+    public TypedEventTests(Host host) => this._host = host;
 
     [Fact]
     public void LayoutSlotReachesTheSharedHandler()
     {
-        var dialog = host.Dialog;
+        var dialog = _host.Dialog;
         dialog.PlayerSB.Position = 0;
-        dialog.FEmailAddresses.Clear();
-        for (int i = 0; i < 6; i++) dialog.FEmailAddresses.Add("");
+        dialog.EmailAddresses.Clear();
+        for (int i = 0; i < 6; i++) dialog.EmailAddresses.Add("");
 
         dialog.EmailAddressEdit1.Text = "one@a";
-        dialog.EmailAddressEdit1.FOnChange(dialog.EmailAddressEdit1);
+        dialog.EmailAddressEdit1._onChange(dialog.EmailAddressEdit1);
         dialog.EmailAddressEdit6.Tag = 99;
         dialog.EmailAddressEdit6.Text = "six@a";
-        dialog.EmailAddressEdit6.FOnChange(dialog.EmailAddressEdit6);
+        dialog.EmailAddressEdit6._onChange(dialog.EmailAddressEdit6);
 
-        Assert.Equal("one@a", dialog.FEmailAddresses[0]);
-        Assert.Equal("six@a", dialog.FEmailAddresses[5]);
+        Assert.Equal("one@a", dialog.EmailAddresses[0]);
+        Assert.Equal("six@a", dialog.EmailAddresses[5]);
     }
 
     [Fact]
@@ -99,7 +99,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         Assert.Null(component.OnMouseDown);
 
         button.OnMouseDown = saved;
-        button.FOnMouseDown(button, MouseButton.Left, default, 1, 2);
+        button._onMouseDown(button, MouseButton.Left, default, 1, 2);
         Assert.Equal(2, runs);
         Assert.Same(button, mouseSender);
         owner.Dispose();
@@ -112,7 +112,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         var window = new RelationWindow(owner);
         window.SBGoldSlid = new HorizontalScrollBar(owner);
         window.SBGoldV = new Label(owner);
-        window.SBGoldSlid.FPosition = 17;
+        window.SBGoldSlid._position = 17;
 
         window.SBGoldSlidChange();
 
@@ -126,9 +126,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         ImageLibraries.BaseImageLibraryPath = EngineFixture.Root + Path.DirectorySeparatorChar;
         var system = AudioHost.SoundSystem;
         bool muted = false;
-        if (system != null && system.SFXEnabled)
+        if (system != null && system.SfxEnabled)
         {
-            system.SetSFXEnabled(false);
+            system.SetSfxEnabled(false);
             muted = true;
         }
 
@@ -149,7 +149,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         {
             FileDialogWindow.Directories = previousDirectories;
             dialog?.Dispose();
-            if (muted) system!.SetSFXEnabled(true);
+            if (muted) system!.SetSfxEnabled(true);
             ImageLibraries.BaseImageLibraryPath = previousImagePath;
         }
     }
@@ -166,7 +166,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         MouseEvent<BaseButton> read = middle.OnMouseDown;
         Assert.NotSame(button.OnMouseDown, read);
 
-        button.FOnMouseDown(other, MouseButton.Left, default, 4, 5);
+        button._onMouseDown(other, MouseButton.Left, default, 4, 5);
 
         Assert.Same(button, seen);
         read(other, MouseButton.Left, default, 4, 5);
@@ -186,7 +186,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         component.OnMouseDown = replacement;
 
         Assert.Same(replacement, button.OnMouseDown);
-        button.FOnMouseDown(button, MouseButton.Left, default, 1, 2);
+        button._onMouseDown(button, MouseButton.Left, default, 1, 2);
 
         Assert.Null(seen);
         Assert.Same(button, replaced);
@@ -213,7 +213,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         component.OnKeyPress = saved;
 
         Assert.Same(handler, button.OnKeyPress);
-        button.FOnKeyPress(other, ref key);
+        button._onKeyPress(other, ref key);
 
         Assert.Equal(66, key);
         Assert.Same(button, seen);
@@ -228,11 +228,11 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         Button? seen = null;
         MouseEvent<Button> handler = (sender, mouseButton, shift, x, y) => seen = sender;
         button.OnMouseDown = handler;
-        other.FOnMouseDown = button.FOnMouseDown;
+        other._onMouseDown = button._onMouseDown;
 
-        Assert.Same(button.FOnMouseDown, other.OnMouseDown);
+        Assert.Same(button._onMouseDown, other.OnMouseDown);
         Assert.NotSame(handler, other.OnMouseDown);
-        other.FOnMouseDown(other, MouseButton.Left, default, 1, 2);
+        other._onMouseDown(other, MouseButton.Left, default, 1, 2);
 
         Assert.Same(button, seen);
     }
@@ -247,13 +247,13 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     // the same way WheelLayoutTests loads.
     public sealed class Host : IDisposable
     {
-        private readonly Action<string> previousMessage = Runtime.MessageHandler;
-        private readonly UIGraphics? previousGfx = DialogHosts.IntGfxMod;
-        private readonly UIFonts? previousFont = DialogHosts.FontModule;
-        private readonly General? previousGeneral = DialogHosts.General;
-        private UIGraphics gfx = null!;
-        private UIFonts font = null!;
-        private General general = null!;
+        private readonly Action<string> _previousMessage = Runtime.MessageHandler;
+        private readonly UIGraphics? _previousGraphics = DialogHosts.UIGraphics;
+        private readonly UIFonts? _previousFont = DialogHosts.UIFonts;
+        private readonly General? _previousGeneral = DialogHosts.General;
+        private UIGraphics _graphics = null!;
+        private UIFonts _font = null!;
+        private General _general = null!;
         internal EmailGameSettingsDialog Dialog = null!;
 
         public Host()
@@ -264,9 +264,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
             try
             {
                 var session = new LayoutSession();
-                gfx = Load(session, new UIGraphics(null!), module => DialogHosts.IntGfxMod = module);
-                font = Load(session, new UIFonts(null!), module => DialogHosts.FontModule = module);
-                general = Load(session, new General(null!), module => DialogHosts.General = module);
+                _graphics = Load(session, new UIGraphics(null!), module => DialogHosts.UIGraphics = module);
+                _font = Load(session, new UIFonts(null!), module => DialogHosts.UIFonts = module);
+                _general = Load(session, new General(null!), module => DialogHosts.General = module);
                 Dialog = Load(session, new EmailGameSettingsDialog(null!), static module => { _ = module; });
             }
             catch
@@ -277,7 +277,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
             finally
             {
                 ImageLibraries.BaseImageLibraryPath = previousImagePath;
-                Runtime.MessageHandler = previousMessage;
+                Runtime.MessageHandler = _previousMessage;
             }
         }
 
@@ -286,15 +286,15 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
             try
             {
                 Dialog?.Dispose();
-                general?.Dispose();
-                font?.Dispose();
-                gfx?.Dispose();
+                _general?.Dispose();
+                _font?.Dispose();
+                _graphics?.Dispose();
             }
             finally
             {
-                DialogHosts.IntGfxMod = previousGfx;
-                DialogHosts.FontModule = previousFont;
-                DialogHosts.General = previousGeneral;
+                DialogHosts.UIGraphics = _previousGraphics;
+                DialogHosts.UIFonts = _previousFont;
+                DialogHosts.General = _previousGeneral;
             }
         }
     }

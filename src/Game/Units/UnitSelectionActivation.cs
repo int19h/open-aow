@@ -10,42 +10,42 @@ public partial class UnitSelectionActivation : AbilityActivation
     // Ability.PAS:690
     public UnitSelectionActivation(ECustomNode owner) : base(owner)
     {
-        FUnitSelector = null;
+        UnitSelector = null;
     }
 
-    public UnitSelector FUnitSelector;
+    public UnitSelector UnitSelector;
 
     // Ability.PAS:696
     public override void Dispose()
     {
-        UnitSelector Selector;
-        Selector = FUnitSelector;
-        if (Selector != null)
+        UnitSelector selector;
+        selector = UnitSelector;
+        if (selector != null)
         {
-            Selector.Release();
-            FUnitSelector = null;
+            selector.Release();
+            UnitSelector = null;
         }
 
         base.Dispose();
     }
 
     // Ability.PAS:709
-    public void SetUnitSelector(UnitSelector Value)
+    public void SetUnitSelector(UnitSelector value)
     {
-        UnitSelector Old;
-        Old = FUnitSelector;
-        if (Old != Value)
+        UnitSelector old;
+        old = UnitSelector;
+        if (old != value)
         {
-            if (Old != null)
+            if (old != null)
             {
-                Old.Release();
+                old.Release();
             }
 
-            Old = Value;
-            FUnitSelector = Old;
-            if (Old != null)
+            old = value;
+            UnitSelector = old;
+            if (old != null)
             {
-                Old.AddRef();
+                old.AddRef();
             }
         }
     }

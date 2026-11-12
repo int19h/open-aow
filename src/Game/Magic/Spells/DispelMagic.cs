@@ -21,98 +21,98 @@ public partial class DispelMagic : UnitSpell
     // UnitSpells.pas:1000
     public DispelMagic(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.DispelMagicRStr);
-        FSpellID = 8;
-        FBaseManaCost = 5;
-        FSpellLevel = 1;
-        FMagicSphere = MagicSphere.Cosmos;
-        FTargetRange = 4;
-        FAllowMultipleTargets = true;
-        FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_dispelMagicText);
+        SpellId = 8;
+        BaseManaCost = 5;
+        SpellLevel = 1;
+        MagicSphere = MagicSphere.Cosmos;
+        TargetRange = 4;
+        AllowMultipleTargets = true;
+        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
     }
 
     // UnitSpells.pas:1023
-    public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
+    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        DispelMagicSpellCombatAction Action;
-        Action = new DispelMagicSpellCombatAction(null);
-        Action.FSpellID = FSpellID;
-        Action.FSourceID = Source.FID;
-        Action.FTargetID = Target.FID;
-        Action.Generate(Source, Target, GetDispelMana(((CombatUnit)Source).FUnit));
-        if (ChargeMana)
+        DispelMagicSpellCombatAction action;
+        action = new DispelMagicSpellCombatAction(null);
+        action.SpellId = SpellId;
+        action.SourceId = source.Id;
+        action.TargetId = target.Id;
+        action.Generate(source, target, GetDispelMana(((CombatUnit)source).Troop));
+        if (chargeMana)
         {
-            Action.FManaCost = FBaseManaCost;
+            action.ManaCost = BaseManaCost;
         }
 
-        return Action;
+        return action;
     }
 
     // UnitSpells.pas:1074
-    public override void GetCombatInfo(Troop Source, ref SpellCombatInfo Info)
+    public override void GetCombatInfo(Troop source, ref SpellCombatInfo info)
     {
-        base.GetCombatInfo(Source, ref Info);
-        Info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend, CombatTargetTypeElement.Enemy);
+        base.GetCombatInfo(source, ref info);
+        info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend, CombatTargetTypeElement.Enemy);
     }
 
     // UnitSpells.pas:1068
-    public override bool ValidTargetUnit(Troop Source, Troop Target)
+    public override bool ValidTargetUnit(Troop source, Troop target)
     {
-        bool Result = base.ValidTargetUnit(Source, Target);
-        return Result && Target.CanDispelEnchantment(Source.FPlayer);
+        bool result = base.ValidTargetUnit(source, target);
+        return result && target.CanDispelEnchantment(source.Player);
     }
 
     // UnitSpells.pas:1018
-    public override bool ValidTargetParty(Troop Source, ArmyHexSprite Party) => Party.FArmy.FPlayer == Source.FPlayer;
+    public override bool ValidTargetParty(Troop source, ArmyHexSprite party) => party.Army.Player == source.Player;
 
     // UnitSpells.pas:1036
-    public override bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data)
+    public override bool ExecuteSpell(Troop source, Troop target, int mana, ref Int32Array2 data)
     {
-        bool Result;
-        int Count;
-        EnchantmentList Enchantments;
-        int Chance;
-        if (ValidTargetUnit(Source, Target))
+        bool result;
+        int count;
+        EnchantmentList enchantments;
+        int chance;
+        if (ValidTargetUnit(source, target))
         {
-            Count = 0;
-            Enchantments = new EnchantmentList(null);
-            Target.ListEnchantments(Enchantments);
-            for (int I = Enchantments.GetCount() - 1; I >= 0; I--)
+            count = 0;
+            enchantments = new EnchantmentList(null);
+            target.ListEnchantments(enchantments);
+            for (int I = enchantments.GetCount() - 1; I >= 0; I--)
             {
-                var dispelMana = GetDispelMana(Source);
-                Chance = Enchantments.GetEnchantments(I).DispelChance(dispelMana);
-                if (Chance > AoWHSMap.Current.Random(100))
+                var dispelMana = GetDispelMana(source);
+                chance = enchantments.GetEnchantments(I).DispelChance(dispelMana);
+                if (chance > AoWHSMap.Current.Random(100))
                 {
-                    Count += 1;
-                    Enchantments.GetEnchantments(I).Dispel();
+                    count += 1;
+                    enchantments.GetEnchantments(I).Dispel();
                 }
             }
 
-            if (Source.FPlayer == AoWHSMap.Current.FSeatedPlayer)
+            if (source.Player == AoWHSMap.Current.SeatedPlayer)
             {
-                if (Count > 0)
+                if (count > 0)
                 {
-                    var format = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.XSpellsSuccessfullyDispelledRStr), [IntToStr(Count)]);
+                    var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_spellsSuccessfullyDispelledFormat), [IntToStr(count)]);
                     AoWHSMap.Current.ShowMessage(format);
                 }
                 else
                 {
-                    var dispelMagicFailed = AbilityRules.TranslateRStr(GameText.DispelMagicFailedRStr);
+                    var dispelMagicFailed = AbilityRules.TranslateResourceString(GameText.s_dispelMagicFailedText);
                     AoWHSMap.Current.ShowMessage(dispelMagicFailed);
                 }
             }
 
-            Result = Enchantments.GetCount() > 0;
-            Enchantments?.Dispose();
+            result = enchantments.GetCount() > 0;
+            enchantments?.Dispose();
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // UnitSpells.pas:1013
-    public int GetDispelMana(Troop Source) => Source.GetAbLevel(52) * 15 + 25;
+    public int GetDispelMana(Troop source) => source.GetAbLevel(52) * 15 + 25;
 }

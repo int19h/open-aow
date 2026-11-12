@@ -12,19 +12,19 @@ public partial class AIGroupUnitProduction : EngineObject
     // AIGroup.pas:2389
     public AIGroupUnitProduction(ECustomNode owner) : base(owner)
     {
-        FRefCount = 1;
+        RefCount = 1;
     }
 
-    public int FRefCount;
-    public Unit FU;
-    public AIGroupProductionLocation FProductionLocation;
-    public int FGold;
-    public int FMana;
-    public int FGoldUpkeep;
-    public int FManaUpkeep;
-    public int FProductionTime;
-    public int FPriority;
-    public bool FResearch;
+    public int RefCount;
+    public Unit Unit;
+    public AIGroupProductionLocation ProductionLocation;
+    public int Gold;
+    public int Mana;
+    public int GoldUpkeep;
+    public int ManaUpkeep;
+    public int ProductionTime;
+    public int Priority;
+    public bool Research;
 
     // AIGroup.pas:2395
     public override void Dispose()
@@ -37,57 +37,57 @@ public partial class AIGroupUnitProduction : EngineObject
     // AIGroup.pas:2402
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // AIGroup.pas:2408
     public override int Release()
     {
-        int Count;
-        FRefCount -= 1;
-        Count = FRefCount;
-        int Result = Count;
-        if (Count == 0)
+        int count;
+        RefCount -= 1;
+        count = RefCount;
+        int result = count;
+        if (count == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:2415
     public void SetU(Unit U)
     {
-        if (U != FU)
+        if (U != Unit)
         {
-            if (FU != null)
+            if (Unit != null)
             {
-                FU.Release();
+                Unit.Release();
             }
 
-            FU = U;
-            if (FU != null)
+            Unit = U;
+            if (Unit != null)
             {
-                FU.AddRef();
+                Unit.AddRef();
             }
         }
     }
 
     // AIGroup.pas:2425
-    public void SetProductionLocation(AIGroupProductionLocation Location)
+    public void SetProductionLocation(AIGroupProductionLocation location)
     {
-        if (Location != FProductionLocation)
+        if (location != ProductionLocation)
         {
-            if (FProductionLocation != null)
+            if (ProductionLocation != null)
             {
-                FProductionLocation.Release();
+                ProductionLocation.Release();
             }
 
-            FProductionLocation = Location;
-            if (FProductionLocation != null)
+            ProductionLocation = location;
+            if (ProductionLocation != null)
             {
-                FProductionLocation.AddRef();
+                ProductionLocation.AddRef();
             }
         }
     }

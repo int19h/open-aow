@@ -7,64 +7,64 @@ namespace Aow.Engine.Nodes;
 public partial class EngineObjectList : DelphiList
 {
     // Engine.pas:7136
-    protected internal EngineObject GetEObject(int Index) => (EngineObject)this[Index];
+    protected internal EngineObject GetEngineObject(int index) => (EngineObject)this[index];
 
     // Engine.pas:7141
-    protected internal void SetEObject(int Index, EngineObject Value)
+    protected internal void SetEngineObject(int index, EngineObject value)
     {
-        this[Index] = Value;
+        this[index] = value;
     }
 
     // Engine.pas:7146
-    public EngineObject FindObject(int AClassID)
+    public EngineObject FindObject(int classId)
     {
-        EngineObject Result;
+        EngineObject result;
         int I;
-        bool Found;
+        bool found;
         I = 0;
-        Found = false;
-        while (!Found && I < Count)
+        found = false;
+        while (!found && I < Count)
         {
-            Found = List[I] != null && AClassID == ((EngineObject)List[I]).EClass.ClassID;
+            found = List[I] != null && classId == ((EngineObject)List[I]).EngineClass.ClassId;
             I += 1;
         }
 
-        if (Found)
+        if (found)
         {
-            Result = (EngineObject)List[I - 1];
+            result = (EngineObject)List[I - 1];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:7161
-    public int FindObjectIndex(int AClassID)
+    public int FindObjectIndex(int classId)
     {
-        int Result;
+        int result;
         int I;
-        bool Found;
+        bool found;
         I = 0;
-        Found = false;
-        while (!Found && I < Count)
+        found = false;
+        while (!found && I < Count)
         {
-            Found = List[I] != null && AClassID == ((EngineObject)List[I]).EClass.ClassID;
+            found = List[I] != null && classId == ((EngineObject)List[I]).EngineClass.ClassId;
             I += 1;
         }
 
-        if (Found)
+        if (found)
         {
-            Result = I - 1;
+            result = I - 1;
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:7176
@@ -83,24 +83,24 @@ public partial class EngineObjectList : DelphiList
     }
 
     // Engine.pas:7188
-    public bool AllHaveCID(int AClassID)
+    public bool AllHaveClassId(int classId)
     {
         int I;
-        bool OK;
+        bool ok;
         I = 0;
-        OK = true;
+        ok = true;
         while (I < Count)
         {
-            OK = List[I] == null || AClassID == ((EngineObject)List[I]).EClass.ClassID;
+            ok = List[I] == null || classId == ((EngineObject)List[I]).EngineClass.ClassId;
             I += 1;
         }
 
-        return OK && Count != 0;
+        return ok && Count != 0;
     }
 
     public sealed class ObjectsAccessor(EngineObjectList target)
     {
-        public EngineObject this[int Index] { get => target.GetEObject(Index); set => target.SetEObject(Index, value); }
+        public EngineObject this[int index] { get => target.GetEngineObject(index); set => target.SetEngineObject(index, value); }
     }
 
     public ObjectsAccessor EObjects => new ObjectsAccessor(this);

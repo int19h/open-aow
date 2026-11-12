@@ -10,15 +10,15 @@ public partial class SummonFrog : SummonSpell
     // SummonSpells.pas:341
     public SummonFrog(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(SummonFrogRStr);
-        FSpellID = 22;
-        FBaseManaCost = 5;
-        FSpellLevel = 1;
-        FMagicSphere = MagicSphere.Water;
-        FUnitIndices.Add(236);
-        FCastDuration = 5;
-        FAIBasePriority = 200;
+        SpellName = AbilityRules.TranslateResourceString(s_summonFrogText);
+        SpellId = 22;
+        BaseManaCost = 5;
+        SpellLevel = 1;
+        MagicSphere = MagicSphere.Water;
+        UnitIndices.Add(236);
+        CastDuration = 5;
+        AIBasePriority = 200;
     }
 
-    private static readonly string SummonFrogRStr = "Summon Frog";
+    private static readonly string s_summonFrogText = "Summon Frog";
 }

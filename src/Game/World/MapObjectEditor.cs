@@ -9,6 +9,6 @@ public partial class MapObjectEditor : EngineObjectEditor, IEngineObjectEditorCl
     { }
 
     // Army.PAS:5753
-    public static new int EditorClassID => 65878;
+    public static new int EditorClassId => 65878;
 
 }

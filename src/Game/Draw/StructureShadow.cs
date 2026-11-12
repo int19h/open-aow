@@ -15,59 +15,59 @@ public partial class StructureShadow : HexSprite
     public StructureShadow(ECustomNode owner) : base(owner)
     { }
 
-    public Set<StructureShadowStatusElement> FShadowStatus;
-    public Structure FStructure;
+    public Set<StructureShadowStatusElement> ShadowStatus;
+    public Structure Structure;
 
     // Structur.PAS:934
     public override void Dispose()
     {
-        if (FShadowStatus.Contains(StructureShadowStatusElement.Visible))
+        if (ShadowStatus.Contains(StructureShadowStatusElement.Visible))
         {
-            AoWHSMap.Current.StaticVisibleHS.RemoveChild(this);
+            AoWHSMap.Current.StaticVisibleHexSprite.RemoveChild(this);
         }
 
         base.Dispose();
     }
 
     // Structur.PAS:940
-    public override void SetVisible(bool Value)
+    public override void SetVisible(bool value)
     {
-        if (Value)
+        if (value)
         {
-            FShadowStatus = FShadowStatus + Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Visible);
+            ShadowStatus = ShadowStatus + Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Visible);
         }
         else
         {
-            FShadowStatus = FShadowStatus - Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Visible);
+            ShadowStatus = ShadowStatus - Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Visible);
         }
     }
 
     // Structur.PAS:946
-    public override bool GetVisible() => FShadowStatus.Contains(StructureShadowStatusElement.Visible);
+    public override bool GetVisible() => ShadowStatus.Contains(StructureShadowStatusElement.Visible);
 
     // Structur.PAS:995
-    public override int GetShowPriority() => (FStructure.GetShowPriority() & 67108863) + 805306368;
+    public override int GetShowPriority() => (Structure.GetShowPriority() & 67108863) + 805306368;
 
     // Structur.PAS:951
     public override void Connect()
     {
-        HexNumberWalkData Walk = default;
-        int Count;
-        MapLevel Level;
-        if (!FShadowStatus.Contains(StructureShadowStatusElement.Connected))
+        HexNumberWalkData walk = default;
+        int count;
+        MapLevel level;
+        if (!ShadowStatus.Contains(StructureShadowStatusElement.Connected))
         {
-            FShadowStatus = FShadowStatus + Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
-            Count = FStructure.GetTerrainCount();
-            Level = (MapLevel)FStructure.Owner.Owner;
-            HexNumberWalkData.InitHNWalk(ref Walk, FStructure.FXhx, FStructure.FYhx, 0);
-            while (Walk.HN < Count)
+            ShadowStatus = ShadowStatus + Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
+            count = Structure.GetTerrainCount();
+            level = (MapLevel)Structure.Owner.Owner;
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, Structure._hexX, Structure._hexY, 0);
+            while (walk.HexNumber < count)
             {
-                if ((FStructure.GetTerrain(Walk.HN) >= -1 || FStructure.GetOverlay(Walk.HN) >= -1) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+                if ((Structure.GetTerrain(walk.HexNumber) >= -1 || Structure.GetOverlay(walk.HexNumber) >= -1) && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    Level.GetField(Walk.X, Walk.Y).AddHS(this, Walk.HN);
+                    level.GetField(walk.X, walk.Y).AddHexSprite(this, walk.HexNumber);
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
     }
@@ -75,31 +75,31 @@ public partial class StructureShadow : HexSprite
     // Structur.PAS:973
     public override void Disconnect()
     {
-        HexNumberWalkData Walk = default;
-        int Count;
-        MapLevel Level;
-        if (FShadowStatus.Contains(StructureShadowStatusElement.Connected))
+        HexNumberWalkData walk = default;
+        int count;
+        MapLevel level;
+        if (ShadowStatus.Contains(StructureShadowStatusElement.Connected))
         {
-            Count = FStructure.GetTerrainCount();
-            FShadowStatus = FShadowStatus - Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
-            Level = (MapLevel)FStructure.Owner.Owner;
-            HexNumberWalkData.InitHNWalk(ref Walk, FStructure.FXhx, FStructure.FYhx, 0);
-            while (Walk.HN < Count)
+            count = Structure.GetTerrainCount();
+            ShadowStatus = ShadowStatus - Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
+            level = (MapLevel)Structure.Owner.Owner;
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, Structure._hexX, Structure._hexY, 0);
+            while (walk.HexNumber < count)
             {
-                if ((FStructure.GetTerrain(Walk.HN) >= -1 || FStructure.GetOverlay(Walk.HN) >= -1) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+                if ((Structure.GetTerrain(walk.HexNumber) >= -1 || Structure.GetOverlay(walk.HexNumber) >= -1) && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    Level.GetField(Walk.X, Walk.Y).RemoveHS(this);
+                    level.GetField(walk.X, walk.Y).RemoveHexSprite(this);
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
     }
 
     // Structur.PAS:1000
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        FStructure.ShowShadow(XhpSurf, YhpSurf, SurfaceDesc);
+        Structure.ShowShadow(pixelXSurface, pixelYSurface, lockedSurface);
     }
 
     // Engine.pas:524

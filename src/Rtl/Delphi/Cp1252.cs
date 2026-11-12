@@ -3,16 +3,16 @@ namespace Aow.Rtl;
 public static class Cp1252
 {
     // This bijection is the frozen text table for the 9.7 document format.
-    private static readonly char[] Characters = MakeCharacters();
-    private static readonly byte[] Bytes = MakeBytes();
-    private static readonly string[] Texts = Characters.Select(c => new string(c, 1)).ToArray();
+    private static readonly char[] s_characters = MakeCharacters();
+    private static readonly byte[] s_bytes = MakeBytes();
+    private static readonly string[] s_texts = s_characters.Select(c => new string(c, 1)).ToArray();
 
     private static char[] MakeCharacters()
     {
-        const string controls = "\u20ac\u0081\u201a\u0192\u201e\u2026\u2020\u2021\u02c6\u2030\u0160\u2039\u0152\u008d\u017d\u008f\u0090\u2018\u2019\u201c\u201d\u2022\u2013\u2014\u02dc\u2122\u0161\u203a\u0153\u009d\u017e\u0178";
+        const string Controls = "\u20ac\u0081\u201a\u0192\u201e\u2026\u2020\u2021\u02c6\u2030\u0160\u2039\u0152\u008d\u017d\u008f\u0090\u2018\u2019\u201c\u201d\u2022\u2013\u2014\u02dc\u2122\u0161\u203a\u0153\u009d\u017e\u0178";
         var result = new char[256];
         for (int i = 0; i < result.Length; i++)
-            result[i] = i is >= 128 and < 160 ? controls[i - 128] : (char)i;
+            result[i] = i is >= 128 and < 160 ? Controls[i - 128] : (char)i;
         return result;
     }
 
@@ -20,14 +20,14 @@ public static class Cp1252
     {
         var result = new byte[char.MaxValue + 1];
         Array.Fill(result, (byte)'?');
-        for (int i = 0; i < Characters.Length; i++) result[Characters[i]] = (byte)i;
+        for (int i = 0; i < s_characters.Length; i++) result[s_characters[i]] = (byte)i;
         return result;
     }
 
-    public static char Char(byte value) => Characters[value];
-    public static byte Byte(char value) => Bytes[value];
-    public static bool IsMapped(char value) => Characters[Bytes[value]] == value;
-    public static string Text(byte value) => Texts[value];
+    public static char Char(byte value) => s_characters[value];
+    public static byte Byte(char value) => s_bytes[value];
+    public static bool IsMapped(char value) => s_characters[s_bytes[value]] == value;
+    public static string Text(byte value) => s_texts[value];
 
     public static IComparer<string> Comparer { get; } = System.Collections.Generic.Comparer<string>.Create(Compare);
 

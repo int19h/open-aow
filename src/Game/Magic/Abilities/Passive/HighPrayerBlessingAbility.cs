@@ -11,18 +11,18 @@ public partial class HighPrayerBlessingAbility : DurationAbility
     // PassiveAb.pas:1267
     public HighPrayerBlessingAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(HighPrayerBlessingRStr);
-        FAbilityID = 100;
-        FAbilityType = AbilityType.Enhancement;
-        FDurationMode = DurationMode.EntireCombat;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityName = AbilityRules.TranslateResourceString(s_highPrayerBlessingText);
+        AbilityId = 100;
+        AbilityType = AbilityType.Enhancement;
+        DurationMode = DurationMode.EntireCombat;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:1277
-    public override sbyte GetDefense(AbilityOwner Owner) => 1;
+    public override sbyte GetDefense(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:1282
-    public override sbyte GetResistance(AbilityOwner Owner) => 1;
+    public override sbyte GetResistance(AbilityOwner owner) => 1;
 
-    private static readonly string HighPrayerBlessingRStr = "Blessed";
+    private static readonly string s_highPrayerBlessingText = "Blessed";
 }

@@ -7,183 +7,183 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
-// FStatus. FCombat. FDelay. FSpeed. FPosition. FTime. FLogbook
+// Status. Combat. Delay. Speed. Position. Time. Logbook
 public partial class CombatViewer : IDisposable
 {
     // Combat2.pas:546
     public CombatViewer()
     {
-        FCombat = new Battle(null);
-        FTime = -1;
-        FSpeed = 5;
-        FDelay = 5;
+        Combat = new Battle(null);
+        Time = -1;
+        Speed = 5;
+        Delay = 5;
     }
 
-    public Set<CombatViewerStatusElement> FStatus;
-    public Battle FCombat;
-    public byte FDelay;
-    public byte FSpeed;
-    public int FPosition;
-    public int FTime;
-    public CombatLogbook FLogbook;
+    public Set<CombatViewerStatusElement> Status;
+    public Battle Combat;
+    public byte Delay;
+    public byte Speed;
+    public int Position;
+    public int Time;
+    public CombatLogbook Logbook;
 
     // Combat2.pas:555
     public virtual void Dispose()
     {
-        if (FStatus.Contains(CombatViewerStatusElement.Initialized))
+        if (Status.Contains(CombatViewerStatusElement.Initialized))
         {
             Finalize();
         }
 
-        FCombat?.Dispose();
+        Combat?.Dispose();
     }
 
     // Combat2.pas:562
-    public void Initialize(CombatLogbook Logbook)
+    public void Initialize(CombatLogbook logbook)
     {
-        if (FStatus.Contains(CombatViewerStatusElement.Initialized))
+        if (Status.Contains(CombatViewerStatusElement.Initialized))
         {
             Finalize();
         }
 
-        FStatus = Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized);
-        FLogbook = Logbook;
-        FLogbook.AddRef();
-        FPosition = 0;
-        FTime = -1;
-        FCombat.FCombatData.Assign(Logbook.FInitialData, GameTables.AoWEngine);
-        FCombat.Activate();
-        FDelay = FSpeed;
+        Status = Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized);
+        Logbook = logbook;
+        Logbook.AddRef();
+        Position = 0;
+        Time = -1;
+        Combat.CombatData.Assign(logbook.InitialData, GameTables.GameEngine);
+        Combat.Activate();
+        Delay = Speed;
     }
 
     // Combat2.pas:575
     public void Finalize()
     {
-        if (FStatus.Contains(CombatViewerStatusElement.Initialized))
+        if (Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            FCombat.Deactivate();
-            FCombat.Clear();
-            FLogbook.Release();
-            FLogbook = null;
-            FStatus = FStatus - Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized);
+            Combat.Deactivate();
+            Combat.Clear();
+            Logbook.Release();
+            Logbook = null;
+            Status = Status - Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized);
         }
     }
 
     // Combat2.pas:587
-    public int GetEndPosition() => FLogbook.FActions.Count + 1;
+    public int GetEndPosition() => Logbook.Actions.Count + 1;
 
     // Combat2.pas:590
-    public void SetSpeed(byte Speed)
+    public void SetSpeed(byte speed)
     {
-        if (Speed == 0)
+        if (speed == 0)
         {
-            Speed = 1;
+            speed = 1;
         }
 
-        FSpeed = Speed;
+        Speed = speed;
     }
 
     // Combat2.pas:593
-    public void SetPosition(int Position)
+    public void SetPosition(int position)
     {
-        if (FStatus.Contains(CombatViewerStatusElement.Initialized))
+        if (Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            FTime = -1;
-            if (Position > GetEndPosition())
+            Time = -1;
+            if (position > GetEndPosition())
             {
-                Position = GetEndPosition();
+                position = GetEndPosition();
             }
 
-            if (Position > 0 && Position <= FLogbook.FActions.Count)
+            if (position > 0 && position <= Logbook.Actions.Count)
             {
-                FCombat.Deactivate();
-                FCombat.FCombatData.Assign(FLogbook.FInitialData, GameTables.AoWEngine);
-                FCombat.Activate();
-                FPosition = 0;
-                while (Position > FPosition)
+                Combat.Deactivate();
+                Combat.CombatData.Assign(Logbook.InitialData, GameTables.GameEngine);
+                Combat.Activate();
+                Position = 0;
+                while (position > Position)
                 {
-                    FPosition += 1;
-                    if (Position != FPosition)
+                    Position += 1;
+                    if (position != Position)
                     {
-                        FLogbook.FActions.GetCombatActions(FPosition - 1).Execute(FCombat);
+                        Logbook.Actions.GetCombatActions(Position - 1).Execute(Combat);
                     }
                 }
             }
             else
             {
-                if (Position == 0)
+                if (position == 0)
                 {
-                    FPosition = 0;
-                    FCombat.Deactivate();
-                    FCombat.FCombatData.Assign(FLogbook.FInitialData, GameTables.AoWEngine);
-                    FCombat.Activate();
+                    Position = 0;
+                    Combat.Deactivate();
+                    Combat.CombatData.Assign(Logbook.InitialData, GameTables.GameEngine);
+                    Combat.Activate();
                 }
                 else
                 {
-                    FPosition = GetEndPosition();
-                    FCombat.Deactivate();
-                    FCombat.FCombatData.Assign(FLogbook.FFinalData, GameTables.AoWEngine);
-                    FCombat.Activate();
+                    Position = GetEndPosition();
+                    Combat.Deactivate();
+                    Combat.CombatData.Assign(Logbook.FinalData, GameTables.GameEngine);
+                    Combat.Activate();
                 }
             }
         }
         else
         {
-            FPosition = Position;
+            Position = position;
         }
     }
 
     // Combat2.pas:629
     public void Play()
     {
-        FStatus = FStatus + Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Playing) - Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Paused);
+        Status = Status + Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Playing) - Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Paused);
     }
 
     // Combat2.pas:632
     public void Pause()
     {
-        FStatus = FStatus + Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Paused);
+        Status = Status + Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Paused);
     }
 
     // Combat2.pas:635
     public void Update()
     {
-        bool Playing;
-        if ((FStatus & Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized, CombatViewerStatusElement.Playing, CombatViewerStatusElement.Paused)) == Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized, CombatViewerStatusElement.Playing) && GetEndPosition() != FPosition)
+        bool playing;
+        if ((Status & Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized, CombatViewerStatusElement.Playing, CombatViewerStatusElement.Paused)) == Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized, CombatViewerStatusElement.Playing) && GetEndPosition() != Position)
         {
-            Playing = false;
-            if (FPosition == 0)
+            playing = false;
+            if (Position == 0)
             {
-                FTime += 1;
-                if (FTime >= FDelay)
+                Time += 1;
+                if (Time >= Delay)
                 {
-                    FPosition = 1;
-                    FTime = -1;
+                    Position = 1;
+                    Time = -1;
                 }
             }
 
             while (true)
             {
-                bool condition = FPosition > 0;
+                bool condition = Position > 0;
                 if (condition)
                 {
-                    var count = FLogbook.FActions.Count;
-                    condition = FPosition <= count;
+                    var count = Logbook.Actions.Count;
+                    condition = Position <= count;
                 }
 
-                if (!(condition && !Playing))
+                if (!(condition && !playing))
                     break;
-                FTime += 1;
-                Playing = FLogbook.FActions.GetCombatActions(FPosition - 1).Play(this);
-                if (!Playing)
+                Time += 1;
+                playing = Logbook.Actions.GetCombatActions(Position - 1).Play(this);
+                if (!playing)
                 {
-                    FPosition += 1;
-                    FDelay = FSpeed;
-                    FTime = -1;
+                    Position += 1;
+                    Delay = Speed;
+                    Time = -1;
                 }
             }
 
-            if (GetEndPosition() == FPosition)
+            if (GetEndPosition() == Position)
             {
                 SetPosition(GetEndPosition());
             }
@@ -191,78 +191,78 @@ public partial class CombatViewer : IDisposable
     }
 
     // Combat2.pas:667
-    public void ShowObject(CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public void ShowObject(CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        if (FLogbook.FActions.Count >= FPosition)
+        if (Logbook.Actions.Count >= Position)
         {
-            FLogbook.FActions.GetCombatActions(FPosition - 1).ShowObject(this, Obj, Frame, Direction, X, Y, Surface);
+            Logbook.Actions.GetCombatActions(Position - 1).ShowObject(this, objectValue, frame, direction, X, Y, surface);
         }
         else
         {
-            Obj.Show(Frame, Direction, X, Y, Surface);
+            objectValue.Show(frame, direction, X, Y, surface);
         }
     }
 
     // Combat2.pas:674
-    public void ShowFieldObject(CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public void ShowFieldObject(CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        bool condition = FPosition > 0;
+        bool condition = Position > 0;
         if (condition)
         {
-            var count = FLogbook.FActions.Count;
-            condition = FPosition <= count;
+            var count = Logbook.Actions.Count;
+            condition = Position <= count;
         }
 
         if (condition)
         {
-            FLogbook.FActions.GetCombatActions(FPosition - 1).ShowFieldObject(this, Obj, Frame, Direction, X, Y, Surface);
+            Logbook.Actions.GetCombatActions(Position - 1).ShowFieldObject(this, objectValue, frame, direction, X, Y, surface);
         }
         else
         {
-            Obj.Show(Frame, Direction, X, Y, Surface);
+            objectValue.Show(frame, direction, X, Y, surface);
         }
     }
 
     // Combat2.pas:681
-    public void ShowFightingObjects(int Frame, int X, int Y, in LockedSurface Surface)
+    public void ShowFightingObjects(int frame, int X, int Y, in LockedSurface surface)
     {
-        bool condition = FPosition > 0;
+        bool condition = Position > 0;
         if (condition)
         {
-            var count = FLogbook.FActions.Count;
-            condition = FPosition <= count;
+            var count = Logbook.Actions.Count;
+            condition = Position <= count;
         }
 
         if (condition)
         {
-            FLogbook.FActions.GetCombatActions(FPosition - 1).ShowFightingObjects(this, Frame, X, Y, Surface);
+            Logbook.Actions.GetCombatActions(Position - 1).ShowFightingObjects(this, frame, X, Y, surface);
         }
     }
 
     // Combat2.pas:688
-    public void DefaultShowFightingObjects(CombatObject Source, CombatObject Target, int Frame, int X, int Y, in LockedSurface Surface)
+    public void DefaultShowFightingObjects(CombatObject source, CombatObject target, int frame, int X, int Y, in LockedSurface surface)
     {
-        if (Target != null)
+        if (target != null)
         {
-            if (Target.GetSide() == CombatSideIndex.Attacker)
+            if (target.GetSide() == CombatSideIndex.Attacker)
             {
-                ShowObject(Target, Frame, 3, X, Y, Surface);
+                ShowObject(target, frame, 3, X, Y, surface);
             }
             else
             {
-                ShowObject(Target, Frame, 5, X + 25, Y, Surface);
+                ShowObject(target, frame, 5, X + 25, Y, surface);
             }
         }
 
-        if (Source != null)
+        if (source != null)
         {
-            if (Source.GetSide() == CombatSideIndex.Attacker)
+            if (source.GetSide() == CombatSideIndex.Attacker)
             {
-                ShowObject(Source, Frame, 2, X, Y + 15, Surface);
+                ShowObject(source, frame, 2, X, Y + 15, surface);
             }
             else
             {
-                ShowObject(Source, Frame, 6, X + 25, Y + 15, Surface);
+                ShowObject(source, frame, 6, X + 25, Y + 15, surface);
             }
         }
     }

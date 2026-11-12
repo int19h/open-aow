@@ -14,119 +14,119 @@ public partial class MoveTokenEvent : TokenEvent
 {
     public MoveTokenEvent(ECustomNode owner) : base(owner)
     {
-        FPath = new MovePath();
-        FMoveIndex = 0;
-        FStatus = MoveStatus.Idle;
+        Path = new MovePath();
+        MoveIndex = 0;
+        Status = MoveStatus.Idle;
     }
 
-    public MoveStatus FStatus;
-    public MovePath FPath;
-    public int FMoveIndex;
+    public MoveStatus Status;
+    public MovePath Path;
+    public int MoveIndex;
 
     // MoveT.PAS:1958
     public override void Dispose()
     {
-        FPath?.Dispose();
+        Path?.Dispose();
         base.Dispose();
     }
 
     // MoveT.PAS:1964
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStreamProc(20, FPath.LoadFromStream, FPath.SaveToStream);
+        base.ReadWrite(stream);
+        stream.rwStreamProc(20, Path.LoadFromStream, Path.SaveToStream);
     }
 
     // MoveT.PAS:2027
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult Result;
-        base.Execute(TE);
-        if (FStatus == MoveStatus.Idle)
+        ExecuteResult result;
+        base.Execute(tokenEvent);
+        if (Status == MoveStatus.Idle)
         {
             if (Validate())
             {
-                FStatus = MoveStatus.Moving;
+                Status = MoveStatus.Moving;
                 InitializeMove();
                 AoWHSMap.Current.Random(1048575);
-                switch (FPath.Count)
+                switch (Path.Count)
                 {
                     case >= 0 and <= 1:
-                        FStatus = MoveStatus.Done;
+                        Status = MoveStatus.Done;
                         break;
                     case 2:
-                        FStatus = LastMove();
+                        Status = LastMove();
                         break;
                     default:
-                        FStatus = DefaultMove();
+                        Status = DefaultMove();
                         break;
                 }
             }
             else
             {
-                FStatus = MoveStatus.Failed;
+                Status = MoveStatus.Failed;
             }
         }
         else
         {
-            if (FStatus == MoveStatus.Moving)
+            if (Status == MoveStatus.Moving)
             {
-                FStatus = ProcessMove();
+                Status = ProcessMove();
             }
         }
 
-        if (FStatus == MoveStatus.Done)
+        if (Status == MoveStatus.Done)
         {
             FinishMove();
-            Result = ExecuteResult.Done;
+            result = ExecuteResult.Done;
         }
         else
         {
-            if (FStatus == MoveStatus.Failed)
+            if (Status == MoveStatus.Failed)
             {
                 FinishMove();
-                Result = ExecuteResult.DoneHalt;
+                result = ExecuteResult.DoneHalt;
             }
             else
             {
-                if (FStatus == MoveStatus.Finished)
+                if (Status == MoveStatus.Finished)
                 {
-                    Result = ExecuteResult.Done;
+                    result = ExecuteResult.Done;
                 }
                 else
                 {
-                    Result = ExecuteResult.Retry;
+                    result = ExecuteResult.Retry;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:1970
-    public virtual AoWMapField GetMapF(MapCoordinate Location) => (AoWMapField)AoWHSMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.L);
+    public virtual AoWMapField GetMapField(MapCoordinate location) => (AoWMapField)AoWHSMap.Current.MapContainer.GetField(location.X, location.Y, location.MapLevel);
 
     // MoveT.PAS:2019
     public virtual MoveStatus ProcessMove()
     {
-        MoveStatus Result;
-        if (FMoveIndex == 1)
+        MoveStatus result;
+        if (MoveIndex == 1)
         {
-            Result = LastMove();
+            result = LastMove();
         }
         else
         {
-            if (FMoveIndex > 1 && FMoveIndex < FPath.Count)
+            if (MoveIndex > 1 && MoveIndex < Path.Count)
             {
-                Result = DefaultMove();
+                result = DefaultMove();
             }
             else
             {
-                Result = MoveStatus.Done;
+                result = MoveStatus.Done;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:2004
@@ -135,24 +135,24 @@ public partial class MoveTokenEvent : TokenEvent
     // MoveT.PAS:2010
     public virtual void FinishMove()
     {
-        FStatus = MoveStatus.Finished;
+        Status = MoveStatus.Finished;
     }
 
     // MoveT.PAS:1997
     public virtual MoveStatus Move()
     {
-        MoveStatus Result;
-        FMoveIndex -= 1;
-        if (FMoveIndex == 0)
+        MoveStatus result;
+        MoveIndex -= 1;
+        if (MoveIndex == 0)
         {
-            Result = MoveStatus.Done;
+            result = MoveStatus.Done;
         }
         else
         {
-            Result = MoveStatus.Moving;
+            result = MoveStatus.Moving;
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:2016
@@ -162,59 +162,59 @@ public partial class MoveTokenEvent : TokenEvent
     public virtual MoveStatus DefaultMove() => Move();
 
     // MoveT.PAS:1975
-    public int GetDirection(int Index)
+    public int GetDirection(int index)
     {
-        int Result;
-        if (Index > 0 && Index < FPath.Count)
+        int result;
+        if (index > 0 && index < Path.Count)
         {
-            var item = FPath[Index];
-            var fPathItem = FPath[Index - 1];
-            bool condition = item.L == fPathItem.L;
+            var item = Path[index];
+            var fPathItem = Path[index - 1];
+            bool condition = item.MapLevel == fPathItem.MapLevel;
             if (condition)
             {
-                var item2 = FPath[Index - 1];
-                var item3 = FPath[Index - 1];
-                var item4 = FPath[Index];
-                condition = HexGeometry.dHXtoRad(FPath[Index].X, item4.Y, item3.X, item2.Y) == 1;
+                var item2 = Path[index - 1];
+                var item3 = Path[index - 1];
+                var item4 = Path[index];
+                condition = HexGeometry.DeltaHexToRadius(Path[index].X, item4.Y, item3.X, item2.Y) == 1;
             }
 
             if (condition)
             {
-                var item2 = FPath[Index - 1];
-                var item3 = FPath[Index - 1];
-                var item4 = FPath[Index];
-                Result = HexGeometry.dHXtoHNfast(FPath[Index].X, item4.Y, item3.X, item2.Y);
+                var item2 = Path[index - 1];
+                var item3 = Path[index - 1];
+                var item4 = Path[index];
+                result = HexGeometry.DeltaHexToHexNumberFast(Path[index].X, item4.Y, item3.X, item2.Y);
             }
             else
             {
-                Result = 0;
+                result = 0;
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:1989
-    public int GetHT(int Index)
+    public int GetHexDirection(int index)
     {
-        int Result;
-        if (Index > 0 && Index < FPath.Count)
+        int result;
+        if (index > 0 && index < Path.Count)
         {
-            var item = FPath[Index - 1];
-            var fPathItem = FPath[Index - 1];
-            var item2 = FPath[Index];
-            Result = HexGeometry.dHXtoHT(FPath[Index].X, item2.Y, fPathItem.X, item.Y);
+            var item = Path[index - 1];
+            var fPathItem = Path[index - 1];
+            var item2 = Path[index];
+            result = HexGeometry.DeltaHexToHexDirection(Path[index].X, item2.Y, fPathItem.X, item.Y);
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P5_07.inc:765

@@ -21,41 +21,41 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4040
     public DispelMagicAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityID = 60;
-        FAbilityName = AbilityRules.TranslateRStr(GameText.DispelMagicRStr);
-        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
-        FAbilityType = AbilityType.Enhancement;
+        AbilityId = 60;
+        AbilityName = AbilityRules.TranslateResourceString(GameText.s_dispelMagicText);
+        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
+        AbilityType = AbilityType.Enhancement;
     }
 
     // AoWAb.PAS:4129
-    public override string GetName(AbilityOwner Owner)
+    public override string GetName(AbilityOwner owner)
     {
-        string Result = GetLevelName(GetLevel(Owner));
-        if (Owner != null && !GetEnabled(Owner))
+        string result = GetLevelName(GetLevel(owner));
+        if (owner != null && !GetEnabled(owner))
         {
-            Result = Result + " (" + LowerCase(AbilityRules.TranslateRStr(GameText.UsedRStr)) + ")";
+            result = result + " (" + LowerCase(AbilityRules.TranslateResourceString(GameText.s_usedText)) + ")";
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:4096
-    public override int GetLevel(AbilityOwner Owner)
+    public override int GetLevel(AbilityOwner owner)
     {
-        int Result;
-        DispelMagicAbilityData Data;
-        if (Owner != null)
+        int result;
+        DispelMagicAbilityData data;
+        if (owner != null)
         {
-            if (Owner.GetAbSet(60))
+            if (owner.GetAbilitySetAt(60))
             {
-                Data = (DispelMagicAbilityData)Owner.GetAbilityData(FAbilityID);
-                if (Data != null)
+                data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
+                if (data != null)
                 {
-                    Result = Data.FLevel;
+                    result = data.Level;
                 }
                 else
                 {
-                    Result = 1;
+                    result = 1;
                 }
             }
             else
@@ -65,147 +65,147 @@ public partial class DispelMagicAbility : TouchAbility
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:4064
     public override bool GetEnabled(AbilityOwner owner)
     {
-        DispelMagicAbilityData Data;
-        bool Result = owner.GetAbSet(FAbilityID);
-        if (Result)
+        DispelMagicAbilityData data;
+        bool result = owner.GetAbilitySetAt(AbilityId);
+        if (result)
         {
-            Data = (DispelMagicAbilityData)owner.GetAbilityData(FAbilityID);
-            if (Data != null)
+            data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
+            if (data != null)
             {
-                Result = Data.FEnabled;
+                result = data.Enabled;
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:4148
     public override int GetSkillPoints(AbilityOwner owner)
     {
-        int Result = GetLevel(owner);
-        return Result * 5;
+        int result = GetLevel(owner);
+        return result * 5;
     }
 
     // AoWAb.PAS:4048
-    public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner Owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action, AbilityControlTypeElement.CombatAction);
+    public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action, AbilityControlTypeElement.CombatAction);
 
     // AoWAb.PAS:4275
-    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
+    public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
-        CombatObject Target;
-        FastBattleCommand Command;
-        AbilityDamageValues Values = default;
-        for (int I = 0, last = Commands.FSourceSide.GetCount() - 1; I <= last; I++)
+        CombatObject target;
+        FastBattleCommand command;
+        AbilityDamageValues values = default;
+        for (int I = 0, last = commands.SourceSide.GetCount() - 1; I <= last; I++)
         {
-            Target = Commands.FSourceSide.GetObjects(I);
-            if (Target.GetEnabled() && CanTouch(Commands.FSource, Target))
+            target = commands.SourceSide.GetObjects(I);
+            if (target.GetEnabled() && CanTouch(commands.Source, target))
             {
-                fcGetDamageValueEx(Commands.FSource, Target, WallSituation.None, ref Values);
-                if (Values.SourceDamage != 0)
+                FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
+                if (values.SourceDamage != 0)
                 {
-                    Command = new FastBattleCommand(FAbilityID);
-                    Command.FTarget = Target;
-                    Command.FSourceDV = Values.SourceDamage;
-                    Command.FTargetDV = 0;
-                    Command.FExpectedDV = AbilityRules.DVtoDEV(Values.SourceDamage, 0, Commands.FSource, Target);
-                    Command.FMoveCost = 0;
-                    Commands.Add(Command);
+                    command = new FastBattleCommand(AbilityId);
+                    command.Target = target;
+                    command.SourceDamageValue = values.SourceDamage;
+                    command.TargetDamageValue = 0;
+                    command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, 0, commands.Source, target);
+                    command.MoveCost = 0;
+                    commands.Add(command);
                 }
             }
         }
     }
 
     // AoWAb.PAS:4262
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
+    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
     {
-        CombatObject Target;
-        DispelMagicAbilityCombatAction Action;
-        Target = Command.FTarget;
-        fcValidateMoveOutsideWall(Source, Target);
-        Action = new DispelMagicAbilityCombatAction(null);
-        Action.Generate(Source, Target, GetDispelMana(((CombatUnit)Source).FUnit));
-        Source.FCombat.ExecuteCombatAction(Action);
-        Action.Release();
+        CombatObject target;
+        DispelMagicAbilityCombatAction action;
+        target = command.Target;
+        FastBattleValidateMoveOutsideWall(source, target);
+        action = new DispelMagicAbilityCombatAction(null);
+        action.Generate(source, target, GetDispelMana(((CombatUnit)source).Troop));
+        source.Combat.ExecuteCombatAction(action);
+        action.Release();
         return true;
     }
 
     // AoWAb.PAS:4087
-    public override void NewTurn(AbilityOwner Owner, sbyte Player)
+    public override void NewTurn(AbilityOwner owner, sbyte player)
     {
-        if (Owner is Troop && ((Troop)Owner).FPlayer == Player)
+        if (owner is Troop && ((Troop)owner).Player == player)
         {
-            SetEnabled(Owner, true);
+            SetEnabled(owner, true);
         }
     }
 
     // AoWAb.PAS:4311
-    public override bool Activate(AbilityOwner Owner, ref string Reason)
+    public override bool Activate(AbilityOwner owner, ref string reason)
     {
-        bool Result;
-        UnitSelectionActivation Info;
-        DispelMagicAbilityUnitSelector Selector;
-        if (CanActivate(Owner, ref Reason))
+        bool result;
+        UnitSelectionActivation info;
+        DispelMagicAbilityUnitSelector selector;
+        if (CanActivate(owner, ref reason))
         {
-            var unit = Owner as Troop;
-            Info = new UnitSelectionActivation(null);
-            Info.FAbilityID = FAbilityID;
-            if (unit != null)
+            var troop = owner as Troop;
+            info = new UnitSelectionActivation(null);
+            info.AbilityId = AbilityId;
+            if (troop != null)
             {
-                Info.FUnitID = unit.FUnitID;
+                info.UnitId = troop.UnitId;
             }
             else
             {
-                Info.FUnitID = 0;
+                info.UnitId = 0;
             }
 
-            Selector = new DispelMagicAbilityUnitSelector();
-            var dispelMagic = AbilityRules.TranslateRStr(GameText.DispelMagicRStr);
-            Selector.FCaption = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.SelectUnitForXRStr), [dispelMagic]);
-            if (unit != null)
+            selector = new DispelMagicAbilityUnitSelector();
+            var dispelMagic = AbilityRules.TranslateResourceString(GameText.s_dispelMagicText);
+            selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_selectUnitFormat), [dispelMagic]);
+            if (troop != null)
             {
-                if (unit.Owner is HeroList)
+                if (troop.Owner is HeroList)
                 {
                     var empty = new UnitUserList(null);
-                    Selector.Setup(unit, empty);
+                    selector.Setup(troop, empty);
                     empty.Dispose();
                 }
                 else
                 {
-                    Selector.Setup(unit, unit.UnitListOwner);
+                    selector.Setup(troop, troop.UnitListOwner);
                 }
             }
 
-            Info.SetUnitSelector(Selector);
-            Selector.Release();
-            AoWHSMap.Current.FOnActivateAbilityStore.Raise(Info);
-            Info.Release();
-            Result = true;
+            info.SetUnitSelector(selector);
+            selector.Release();
+            AoWHSMap.Current._onActivateAbilityStore.Raise(info);
+            info.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:4139
     public override bool CanExpand(AbilityOwner owner)
     {
-        if ((owner.GetAbilitySelectionTypes() & FSelectionTypes) == Set<AbilitySelectionType>.Of() || GetLevel(owner) >= 3)
+        if ((owner.GetAbilitySelectionTypes() & SelectionTypes) == Set<AbilitySelectionType>.Of() || GetLevel(owner) >= 3)
         {
             return false;
         }
@@ -217,232 +217,232 @@ public partial class DispelMagicAbility : TouchAbility
     public override int ExpandCost(AbilityOwner owner) => 5;
 
     // AoWAb.PAS:4125
-    public override string ExpandName(AbilityOwner Owner) => GetLevelName(GetLevel(Owner) + 1);
+    public override string ExpandName(AbilityOwner owner) => GetLevelName(GetLevel(owner) + 1);
 
     // AoWAb.PAS:4152
-    public override bool Expand(AbilityOwner Owner)
+    public override bool Expand(AbilityOwner owner)
     {
-        DispelMagicAbilityData Data;
-        bool Result = false;
-        Data = (DispelMagicAbilityData)Owner.GetAbilityData(FAbilityID);
-        if (Data == null)
+        DispelMagicAbilityData data;
+        bool result = false;
+        data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
+        if (data == null)
         {
-            Data = new DispelMagicAbilityData(null);
-            Data.FLevel = 1;
-            Data.FEnabled = true;
-            SetAb(Owner, FAbilityID, 1);
-            Owner.AddAbilityData(Data);
-            Result = true;
+            data = new DispelMagicAbilityData(null);
+            data.Level = 1;
+            data.Enabled = true;
+            SetAbility(owner, AbilityId, 1);
+            owner.AddAbilityData(data);
+            result = true;
         }
         else
         {
-            if (Data.FLevel != 3)
+            if (data.Level != 3)
             {
-                Result = true;
-                Data.FLevel = (byte)(Data.FLevel + 1);
+                result = true;
+                data.Level = (byte)(data.Level + 1);
                 // { Original skips level one when upgrading data created by SetEnabled. }
-                if (Data.FLevel == 1)
+                if (data.Level == 1)
                 {
-                    Data.FLevel = 2;
+                    data.Level = 2;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:4175
     public override bool Remove(AbilityOwner owner)
     {
-        DispelMagicAbilityData Data;
-        bool Result = true;
-        Data = (DispelMagicAbilityData)owner.GetAbilityData(FAbilityID);
-        if (Data != null)
+        DispelMagicAbilityData data;
+        bool result = true;
+        data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
+        if (data != null)
         {
-            if (Data.FLevel == 1)
+            if (data.Level == 1)
             {
-                SetAb(owner, FAbilityID, 0);
-                owner.RemoveAbilityData(Data);
+                SetAbility(owner, AbilityId, 0);
+                owner.RemoveAbilityData(data);
             }
             else
             {
-                Data.FLevel = (byte)(Data.FLevel - 1);
+                data.Level = (byte)(data.Level - 1);
             }
         }
         else
         {
-            SetAb(owner, FAbilityID, 0);
-            Result = false;
+            SetAbility(owner, AbilityId, 0);
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:4209
-    public override int GetDamageValue(Troop Attacker, Troop Defender)
+    public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        int Result;
+        int result;
         // { Original evaluates dispelling with the healing hit-point formula. }
-        if (!Defender.GetImmunityTypes().Contains(DamageType.None))
+        if (!defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            Result = Defender.GetHits() - Defender.GetHitPoints();
-            if (Result > 5)
+            result = defender.GetHits() - defender.GetHitPoints();
+            if (result > 5)
             {
-                Result = 5;
+                result = 5;
             }
 
-            return Result * 100;
+            return result * 100;
         }
 
         return 0;
     }
 
     // AoWAb.PAS:4221
-    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         // { Original evaluates dispelling with the healing hit-point formula. }
-        if (WallSituation == WallSituation.None && !Defender.GetImmunityTypes().Contains(DamageType.None))
+        if (wallSituation == WallSituation.None && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            var hits = Defender.GetHits();
-            var hitPoints = Defender.GetHitPoints();
-            DamageValues.SourceCost = hits - hitPoints;
-            if (DamageValues.SourceCost > 5)
+            var hits = defender.GetHits();
+            var hitPoints = defender.GetHitPoints();
+            damageValues.SourceCost = hits - hitPoints;
+            if (damageValues.SourceCost > 5)
             {
-                DamageValues.SourceCost = 5;
+                damageValues.SourceCost = 5;
             }
 
-            DamageValues.SourceDamage = DamageValues.SourceCost * 100;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
-            DamageValues.DamageTypes = Set<DamageType>.Of(DamageType.None);
+            damageValues.SourceDamage = damageValues.SourceCost * 100;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
+            damageValues.DamageTypes = Set<DamageType>.Of(DamageType.None);
         }
         else
         {
-            DamageValues.SourceDamage = 0;
-            DamageValues.SourceCost = 0;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
-            DamageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.SourceDamage = 0;
+            damageValues.SourceCost = 0;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
+            damageValues.DamageTypes = Set<DamageType>.Of();
         }
     }
 
     // AoWAb.PAS:4242
-    public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (WallSituation == WallSituation.None && CanTouch(Attacker, Defender))
+        if (wallSituation == WallSituation.None && CanTouch(attacker, defender))
         {
             // { Original assigns zero benefit, so its prefetch loop emits no commands. }
-            DamageValues.SourceCost = 0;
-            DamageValues.SourceDamage = DamageValues.SourceCost * 100;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
-            DamageValues.DamageTypes = Set<DamageType>.Of(DamageType.None);
+            damageValues.SourceCost = 0;
+            damageValues.SourceDamage = damageValues.SourceCost * 100;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
+            damageValues.DamageTypes = Set<DamageType>.Of(DamageType.None);
         }
         else
         {
-            DamageValues.SourceDamage = 0;
-            DamageValues.SourceCost = 0;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
-            DamageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.SourceDamage = 0;
+            damageValues.SourceCost = 0;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
+            damageValues.DamageTypes = Set<DamageType>.Of();
         }
     }
 
     // AoWAb.PAS:4078
-    public override void GetCombatInfo(AbilityOwner Owner, ref AbilityCombatInfo Info)
+    public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
     {
-        base.GetCombatInfo(Owner, ref Info);
-        Info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend, CombatTargetTypeElement.Enemy);
+        base.GetCombatInfo(owner, ref info);
+        info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend, CombatTargetTypeElement.Enemy);
     }
 
     // AoWAb.PAS:4202
-    public override bool CanTouch(CombatObject Source, CombatObject Target)
+    public override bool CanTouch(CombatObject source, CombatObject target)
     {
-        bool Result = base.CanTouch(Source, Target);
-        if (Result)
+        bool result = base.CanTouch(source, target);
+        if (result)
         {
-            bool condition = Source is CombatUnit && Target is CombatUnit;
+            bool condition = source is CombatUnit && target is CombatUnit;
             if (condition)
             {
-                var player = Source.GetPlayer();
-                condition = ((CombatUnit)Target).FUnit.CanDispelEnchantment(player);
+                var player = source.GetPlayer();
+                condition = ((CombatUnit)target).Troop.CanDispelEnchantment(player);
             }
 
-            Result = condition;
+            result = condition;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:4197
-    public override bool CanTouchUnit(Troop Source, Troop Target) => base.CanTouchUnit(Source, Target) && Target.CanDispelEnchantment(Source.FPlayer);
+    public override bool CanTouchUnit(Troop source, Troop target) => base.CanTouchUnit(source, target) && target.CanDispelEnchantment(source.Player);
 
     // AoWAb.PAS:4052
-    public void SetEnabled(AbilityOwner Owner, bool Enabled)
+    public void SetEnabled(AbilityOwner owner, bool enabled)
     {
-        DispelMagicAbilityData Data;
-        Data = (DispelMagicAbilityData)Owner.GetAbilityData(FAbilityID);
-        if (Data == null)
+        DispelMagicAbilityData data;
+        data = (DispelMagicAbilityData)owner.GetAbilityData(AbilityId);
+        if (data == null)
         {
-            Data = new DispelMagicAbilityData(null);
-            Owner.AddAbilityData(Data);
+            data = new DispelMagicAbilityData(null);
+            owner.AddAbilityData(data);
         }
 
-        Data.FEnabled = Enabled;
+        data.Enabled = enabled;
     }
 
     // AoWAb.PAS:4083
-    public int GetDispelMana(AbilityOwner Owner) => GetLevel(Owner) * 10 + 20;
+    public int GetDispelMana(AbilityOwner owner) => GetLevel(owner) * 10 + 20;
 
     // AoWAb.PAS:4116
-    public string GetLevelName(int Level)
+    public string GetLevelName(int level)
     {
-        string Result = "";
-        switch (Level)
+        string result = "";
+        switch (level)
         {
             case 0:
-                Result = AbilityRules.TranslateRStr(GameText.DispelMagicRStr);
+                result = AbilityRules.TranslateResourceString(GameText.s_dispelMagicText);
                 break;
             case 1:
-                Result = AbilityRules.TranslateRStr(GameText.DispelMagicRStr) + " I";
+                result = AbilityRules.TranslateResourceString(GameText.s_dispelMagicText) + " I";
                 break;
             case 2:
-                Result = AbilityRules.TranslateRStr(GameText.DispelMagicRStr) + " II";
+                result = AbilityRules.TranslateResourceString(GameText.s_dispelMagicText) + " II";
                 break;
             case 3:
-                Result = AbilityRules.TranslateRStr(GameText.DispelMagicRStr) + " III";
+                result = AbilityRules.TranslateResourceString(GameText.s_dispelMagicText) + " III";
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:4301
-    public DispelMagicAbilityCombatAction CreateCA(CombatUnit Source, CombatObject Target)
+    public DispelMagicAbilityCombatAction CreateCombatAction(CombatUnit source, CombatObject target)
     {
-        bool Successful;
-        DispelMagicAbilityCombatAction Result = new DispelMagicAbilityCombatAction(null);
-        Result.Generate(Source, Target, GetDispelMana(Source.FUnit));
-        if (Source.GetSide() == Target.GetSide())
+        bool successful;
+        DispelMagicAbilityCombatAction result = new DispelMagicAbilityCombatAction(null);
+        result.Generate(source, target, GetDispelMana(source.Troop));
+        if (source.GetSide() == target.GetSide())
         {
-            Successful = true;
+            successful = true;
         }
         else
         {
-            Successful = CombatTouchRole(Source, Target);
+            successful = CombatTouchRole(source, target);
         }
 
-        if (!Successful)
+        if (!successful)
         {
-            Result.FEnchantmentIDs.Clear();
+            result.EnchantmentIds.Clear();
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:4092
-    public override EngineClass AbilityDataClass() => P4DispelMagicDataClass;
+    public override EngineClass AbilityDataClass() => s_dispelMagicDataClass;
 
-    private static EngineClass P4DispelMagicDataClass = EngineClass.Of<DispelMagicAbilityData>();
+    private static EngineClass s_dispelMagicDataClass = EngineClass.Of<DispelMagicAbilityData>();
 
 }

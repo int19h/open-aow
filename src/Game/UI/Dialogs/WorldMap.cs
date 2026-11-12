@@ -93,149 +93,149 @@ public partial class WorldMap : DataModule
     public IvTranslator Translator;
     public VerticalScrollBar leftSB;
     public VerticalScrollBar rightSB;
-    public int FStarImage;
-    public int FStarStep;
-    public int FStarIntensity;
-    public int FPathFrame;
-    public int FPathDelay;
-    public int FPawnTicks;
-    public int FEnemyDelay;
-    public bool FDescriptionHandled;
-    public EngineObject FBookContext;
-    public NotifyEvent<object> FOnBookClosed;
-    public byte FBookAction;
+    public int StarImageValue;
+    public int StarStep;
+    public int StarIntensity;
+    public int PathFrame;
+    public int PathDelay;
+    public int PawnTicks;
+    public int EnemyDelay;
+    public bool DescriptionHandled;
+    public EngineObject BookContext;
+    public NotifyEvent<object> OnBookClosed;
+    public byte BookAction;
 
     // AoWWorldMap.pas:152
-    public WorldMapCampaign GetCampaign() => (WorldMapCampaign)GameTables.AoWEngine.FCampaign;
+    public WorldMapCampaign GetCampaign() => (WorldMapCampaign)GameTables.GameEngine.Campaign;
 
     // AoWWorldMap.pas:157
     public void UpdateCampaignState()
     {
-        int Index = default;
-        AoWHSMap Preview = default;
+        int index = default;
+        AoWHSMap preview = default;
         if (GetCampaign() != null)
         {
-            switch (GetCampaign().FState)
+            switch (GetCampaign().State)
             {
                 case 0:
                     var campaign = GetCampaign();
-                    bool condition = !IsEmpty(GetCampaignPage(WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.FCurrentScenarioID).FOutroPages, 0).FImageLibrary);
+                    bool condition = !IsEmpty(GetCampaignPage(WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId).OutroPages, 0).ImageLibrary);
                     if (!condition)
                     {
                         var campaign2 = GetCampaign();
-                        condition = GetCampaignPage(WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.FCurrentScenarioID).FOutroPages, 0).FText.Count > 0;
+                        condition = GetCampaignPage(WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.CurrentScenarioId).OutroPages, 0).Text.Count > 0;
                     }
 
                     if (condition)
                     {
-                        SetCurrentDir(GameTables.AoWEngine.StartupDirectory + "\\Int\\Scenes");
+                        SetCurrentDir(GameTables.GameEngine.StartupDirectory + "\\Int\\Scenes");
                         var campaign2 = GetCampaign();
-                        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.FCurrentScenarioID);
+                        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.CurrentScenarioId);
                         var campaign3 = GetCampaign();
-                        var campaignPage = GetCampaignPage(campaignScenario.FOutroPages, campaign3.FPage);
-                        LabelL.Text = campaignPage.FHeading;
+                        var campaignPage = GetCampaignPage(campaignScenario.OutroPages, campaign3.Page);
+                        LabelL.Text = campaignPage.Heading;
                         var campaign4 = GetCampaign();
-                        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.FCurrentScenarioID);
+                        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.CurrentScenarioId);
                         var campaign5 = GetCampaign();
-                        var aoWWorldMapCampaignPage = GetCampaignPage(campaignScenario2.FOutroPages, campaign5.FPage + 1);
-                        LabelR.Text = aoWWorldMapCampaignPage.FHeading;
+                        var worldMapCampaignPage = GetCampaignPage(campaignScenario2.OutroPages, campaign5.Page + 1);
+                        LabelR.Text = worldMapCampaignPage.Heading;
                         var campaign6 = GetCampaign();
-                        var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign6.FCurrentScenarioID);
+                        var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign6.CurrentScenarioId);
                         var campaign7 = GetCampaign();
-                        var campaignPage2 = GetCampaignPage(campaignScenario3.FOutroPages, campaign7.FPage);
-                        MemoL.Items.Assign(campaignPage2.FText);
+                        var campaignPage2 = GetCampaignPage(campaignScenario3.OutroPages, campaign7.Page);
+                        MemoL.Items.Assign(campaignPage2.Text);
                         var campaign8 = GetCampaign();
-                        var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign8.FCurrentScenarioID);
+                        var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign8.CurrentScenarioId);
                         var campaign9 = GetCampaign();
-                        var campaignPage3 = GetCampaignPage(campaignScenario4.FOutroPages, campaign9.FPage + 1);
-                        MemoR.Items.Assign(campaignPage3.FText);
-                        FStarIntensity = 50;
-                        FStarStep = 1;
+                        var campaignPage3 = GetCampaignPage(campaignScenario4.OutroPages, campaign9.Page + 1);
+                        MemoR.Items.Assign(campaignPage3.Text);
+                        StarIntensity = 50;
+                        StarStep = 1;
                         var campaign10 = GetCampaign();
-                        switch (WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign10.FCurrentScenarioID).FMapKind)
+                        switch (WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign10.CurrentScenarioId).MapKind)
                         {
                             case 0:
-                                WorldPnl.ILIndexTexture = 0;
-                                FStarImage = 13;
+                                WorldPnl.ImageLibraryIndexTexture = 0;
+                                StarImageValue = 13;
                                 break;
                             case 1:
-                                WorldPnl.ILIndexTexture = 10;
-                                FStarImage = 14;
+                                WorldPnl.ImageLibraryIndexTexture = 10;
+                                StarImageValue = 14;
                                 break;
                             case 2:
-                                WorldPnl.ILIndexTexture = 11;
-                                FStarImage = 15;
+                                WorldPnl.ImageLibraryIndexTexture = 11;
+                                StarImageValue = 15;
                                 break;
                         }
 
                         var campaign11 = GetCampaign();
-                        var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign11.FCurrentScenarioID);
+                        var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign11.CurrentScenarioId);
                         var campaign12 = GetCampaign();
-                        if (IsEmpty(GetCampaignPage(campaignScenario5.FOutroPages, campaign12.FPage).FImageLibrary))
+                        if (IsEmpty(GetCampaignPage(campaignScenario5.OutroPages, campaign12.Page).ImageLibrary))
                         {
-                            PicL.ImageLib = null;
+                            PicL.ImageLibrary = null;
                         }
                         else
                         {
                             var campaign13 = GetCampaign();
-                            var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign13.FCurrentScenarioID);
+                            var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign13.CurrentScenarioId);
                             var campaign14 = GetCampaign();
-                            var campaignPage4 = GetCampaignPage(campaignScenario6.FOutroPages, campaign14.FPage);
-                            DialogHosts.IntGfxMod.BookPL.LoadFromFile(campaignPage4.FImageLibrary);
-                            PicL.ImageLib = DialogHosts.IntGfxMod.BookPL;
+                            var campaignPage4 = GetCampaignPage(campaignScenario6.OutroPages, campaign14.Page);
+                            DialogHosts.UIGraphics.BookPL.LoadFromFile(campaignPage4.ImageLibrary);
+                            PicL.ImageLibrary = DialogHosts.UIGraphics.BookPL;
                             var campaign15 = GetCampaign();
-                            var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign15.FCurrentScenarioID);
+                            var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign15.CurrentScenarioId);
                             var campaign16 = GetCampaign();
-                            var campaignPage5 = GetCampaignPage(campaignScenario7.FOutroPages, campaign16.FPage);
-                            PicL.CurrentImage = campaignPage5.FImageIndex;
+                            var campaignPage5 = GetCampaignPage(campaignScenario7.OutroPages, campaign16.Page);
+                            PicL.CurrentImage = campaignPage5.ImageIndex;
                             PicL.WinWidth = 0;
                             PicL.WinHeight = 0;
                             PicL.Visible = true;
                         }
 
                         var campaign17 = GetCampaign();
-                        var campaignScenario8 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign17.FCurrentScenarioID);
+                        var campaignScenario8 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign17.CurrentScenarioId);
                         var campaign18 = GetCampaign();
-                        if (IsEmpty(GetCampaignPage(campaignScenario8.FOutroPages, campaign18.FPage + 1).FImageLibrary))
+                        if (IsEmpty(GetCampaignPage(campaignScenario8.OutroPages, campaign18.Page + 1).ImageLibrary))
                         {
-                            PicR.ImageLib = null;
+                            PicR.ImageLibrary = null;
                         }
                         else
                         {
                             var campaign13 = GetCampaign();
-                            var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign13.FCurrentScenarioID);
+                            var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign13.CurrentScenarioId);
                             var campaign14 = GetCampaign();
-                            var campaignPage4 = GetCampaignPage(campaignScenario6.FOutroPages, campaign14.FPage + 1);
-                            DialogHosts.IntGfxMod.BookPR.LoadFromFile(campaignPage4.FImageLibrary);
-                            PicR.ImageLib = DialogHosts.IntGfxMod.BookPR;
+                            var campaignPage4 = GetCampaignPage(campaignScenario6.OutroPages, campaign14.Page + 1);
+                            DialogHosts.UIGraphics.BookPR.LoadFromFile(campaignPage4.ImageLibrary);
+                            PicR.ImageLibrary = DialogHosts.UIGraphics.BookPR;
                             var campaign15 = GetCampaign();
-                            var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign15.FCurrentScenarioID);
+                            var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign15.CurrentScenarioId);
                             var campaign16 = GetCampaign();
-                            var campaignPage5 = GetCampaignPage(campaignScenario7.FOutroPages, campaign16.FPage + 1);
-                            PicR.CurrentImage = campaignPage5.FImageIndex;
+                            var campaignPage5 = GetCampaignPage(campaignScenario7.OutroPages, campaign16.Page + 1);
+                            PicR.CurrentImage = campaignPage5.ImageIndex;
                             PicR.WinWidth = 0;
                             PicR.WinHeight = 0;
                             PicR.Visible = true;
                         }
 
                         var campaign19 = GetCampaign();
-                        Back.Visible = campaign19.FPage > 0;
-                        if (GetCampaign().FPage == 8)
+                        Back.Visible = campaign19.Page > 0;
+                        if (GetCampaign().Page == 8)
                         {
                             Next.Visible = false;
                         }
                         else
                         {
                             var campaign13 = GetCampaign();
-                            var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign13.FCurrentScenarioID);
+                            var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign13.CurrentScenarioId);
                             var campaign14 = GetCampaign();
-                            bool test = !IsEmpty(GetCampaignPage(campaignScenario6.FOutroPages, campaign14.FPage + 2).FImageLibrary);
+                            bool test = !IsEmpty(GetCampaignPage(campaignScenario6.OutroPages, campaign14.Page + 2).ImageLibrary);
                             if (!test)
                             {
                                 var campaign15 = GetCampaign();
-                                var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign15.FCurrentScenarioID);
+                                var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign15.CurrentScenarioId);
                                 var campaign16 = GetCampaign();
-                                test = GetCampaignPage(campaignScenario7.FOutroPages, campaign16.FPage + 2).FText.Count > 0;
+                                test = GetCampaignPage(campaignScenario7.OutroPages, campaign16.Page + 2).Text.Count > 0;
                             }
 
                             Next.Visible = test;
@@ -243,16 +243,16 @@ public partial class WorldMap : DataModule
 
                         BookStart.Visible = !Next.Visible;
                         Cancel.Visible = false;
-                        var aoWBookWindow = BookWin;
-                        aoWBookWindow.FHidden = true;
-                        aoWBookWindow.Visible = true;
+                        var bookWindow = BookWin;
+                        bookWindow.Hidden = true;
+                        bookWindow.Visible = true;
 
                         SetBtn.Visible = false;
                         ShowBtn.Visible = false;
                         QuitBtn.Visible = false;
-                        if (BookWin.FBackSurface != null)
+                        if (BookWin.BackSurface != null)
                         {
-                            BookWin.FBackSurface.Cls(BookWin.FMaskColor);
+                            BookWin.BackSurface.Clear(BookWin._maskColor);
                         }
 
                         if (DialogHosts.TitleWindow.TitleWin.Visible)
@@ -263,7 +263,7 @@ public partial class WorldMap : DataModule
                     else
                     {
                         var campaign2 = GetCampaign();
-                        campaign2.FState += 1;
+                        campaign2.State += 1;
                         UpdateCampaignState();
                     }
 
@@ -276,20 +276,20 @@ public partial class WorldMap : DataModule
                     PPawn.Visible = true;
                     EPawn.Visible = true;
                     var campaign20 = GetCampaign();
-                    var campaignScenario9 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign20.FCurrentScenarioID);
-                    PPawn.WinLeft = campaignScenario9.FMapX - 25;
+                    var campaignScenario9 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign20.CurrentScenarioId);
+                    PPawn.WinLeft = campaignScenario9.MapX - 25;
                     var campaign21 = GetCampaign();
-                    var campaignScenario10 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign21.FCurrentScenarioID);
-                    PPawn.WinTop = campaignScenario10.FMapY - 65;
+                    var campaignScenario10 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign21.CurrentScenarioId);
+                    PPawn.WinTop = campaignScenario10.MapY - 65;
                     var campaign22 = GetCampaign();
-                    var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign22.FCurrentScenarioID).FPaths[3];
-                    Index = GetCampaign().FScenarios.IndexOfID(path);
-                    if (Index != -1)
+                    var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign22.CurrentScenarioId).Paths[3];
+                    index = GetCampaign().Scenarios.IndexOfId(path);
+                    if (index != -1)
                     {
-                        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
-                        EPawn.WinLeft = campaignScenario.FMapX - 25;
-                        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
-                        EPawn.WinTop = campaignScenario2.FMapY - 65;
+                        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
+                        EPawn.WinLeft = campaignScenario.MapX - 25;
+                        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
+                        EPawn.WinTop = campaignScenario2.MapY - 65;
                     }
 
                     {
@@ -306,18 +306,18 @@ public partial class WorldMap : DataModule
                     }
 
                     var campaign23 = GetCampaign();
-                    if (WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign23.FCurrentScenarioID).FPaths[0] > -1)
+                    if (WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign23.CurrentScenarioId).Paths[0] > -1)
                     {
                         Path1.Visible = true;
                         var campaign2 = GetCampaign();
-                        Path1.CurrentImage = campaign2.FFaction * 3 + (FPathFrame + 2);
+                        Path1.CurrentImage = campaign2.Faction * 3 + (PathFrame + 2);
                         var campaign3 = GetCampaign();
-                        var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.FCurrentScenarioID).FPaths[0];
-                        Index = GetCampaign().FScenarios.IndexOfID(path2);
-                        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
-                        Path1.WinLeft = campaignScenario.FMapX;
-                        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
-                        Path1.WinTop = campaignScenario2.FMapY;
+                        var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId).Paths[0];
+                        index = GetCampaign().Scenarios.IndexOfId(path2);
+                        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
+                        Path1.WinLeft = campaignScenario.MapX;
+                        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
+                        Path1.WinTop = campaignScenario2.MapY;
                     }
                     else
                     {
@@ -325,18 +325,18 @@ public partial class WorldMap : DataModule
                     }
 
                     var campaign24 = GetCampaign();
-                    if (WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign24.FCurrentScenarioID).FPaths[1] > -1)
+                    if (WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign24.CurrentScenarioId).Paths[1] > -1)
                     {
                         Path2.Visible = true;
                         var campaign2 = GetCampaign();
-                        Path2.CurrentImage = campaign2.FFaction * 3 + (FPathFrame + 2);
+                        Path2.CurrentImage = campaign2.Faction * 3 + (PathFrame + 2);
                         var campaign3 = GetCampaign();
-                        var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.FCurrentScenarioID).FPaths[1];
-                        Index = GetCampaign().FScenarios.IndexOfID(path2);
-                        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
-                        Path2.WinLeft = campaignScenario.FMapX;
-                        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
-                        Path2.WinTop = campaignScenario2.FMapY;
+                        var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId).Paths[1];
+                        index = GetCampaign().Scenarios.IndexOfId(path2);
+                        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
+                        Path2.WinLeft = campaignScenario.MapX;
+                        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
+                        Path2.WinTop = campaignScenario2.MapY;
                     }
                     else
                     {
@@ -344,18 +344,18 @@ public partial class WorldMap : DataModule
                     }
 
                     var campaign25 = GetCampaign();
-                    if (WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign25.FCurrentScenarioID).FPaths[2] > -1)
+                    if (WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign25.CurrentScenarioId).Paths[2] > -1)
                     {
                         Path3.Visible = true;
                         var campaign2 = GetCampaign();
-                        Path3.CurrentImage = campaign2.FFaction * 3 + (FPathFrame + 2);
+                        Path3.CurrentImage = campaign2.Faction * 3 + (PathFrame + 2);
                         var campaign3 = GetCampaign();
-                        var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.FCurrentScenarioID).FPaths[2];
-                        Index = GetCampaign().FScenarios.IndexOfID(path2);
-                        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
-                        Path3.WinLeft = campaignScenario.FMapX;
-                        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
-                        Path3.WinTop = campaignScenario2.FMapY;
+                        var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId).Paths[2];
+                        index = GetCampaign().Scenarios.IndexOfId(path2);
+                        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
+                        Path3.WinLeft = campaignScenario.MapX;
+                        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
+                        Path3.WinTop = campaignScenario2.MapY;
                     }
                     else
                     {
@@ -365,12 +365,12 @@ public partial class WorldMap : DataModule
                     if (!Path1.Visible && !Path2.Visible && !Path3.Visible)
                     {
                         DialogHosts.TitleWindow.TitlePnl.Visible = false;
-                        DialogHosts.TitleWindow.TitlePnl.FRedraw = false;
+                        DialogHosts.TitleWindow.TitlePnl.Redraw = false;
                         DialogHosts.TitleWindow.TitleWin.Visible = false;
-                        DialogHosts.TBWindow.TaskWindow.Visible = false;
+                        DialogHosts.TaskBar.TaskWindow.Visible = false;
                         WorldPnl.Visible = false;
                         BookWin.Visible = false;
-                        GameTables.AoWEngine.CloseCampaign();
+                        GameTables.GameEngine.CloseCampaign();
                         DialogHosts.TitleScene.ResetScene();
                         WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
                     }
@@ -378,11 +378,11 @@ public partial class WorldMap : DataModule
                     break;
                 case 2:
                     var campaign26 = GetCampaign();
-                    bool passed = !IsEmpty(GetCampaignPage(WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign26.FNextScenarioID).FIntroPages, 0).FImageLibrary);
+                    bool passed = !IsEmpty(GetCampaignPage(WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign26.NextScenarioId).IntroPages, 0).ImageLibrary);
                     if (!passed)
                     {
                         var campaign2 = GetCampaign();
-                        passed = GetCampaignPage(WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.FNextScenarioID).FIntroPages, 0).FText.Count > 0;
+                        passed = GetCampaignPage(WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.NextScenarioId).IntroPages, 0).Text.Count > 0;
                     }
 
                     if (passed)
@@ -390,67 +390,67 @@ public partial class WorldMap : DataModule
                         SetBtn.Visible = false;
                         ShowBtn.Visible = false;
                         QuitBtn.Visible = false;
-                        ShowIntroPages(GetCampaign().FNextScenarioID);
+                        ShowIntroPages(GetCampaign().NextScenarioId);
                     }
                     else
                     {
-                        FPawnTicks = 20;
+                        PawnTicks = 20;
                         BookWin.Visible = false;
                         SetBtn.Visible = false;
                         ShowBtn.Visible = false;
                         QuitBtn.Visible = false;
                         var campaign2 = GetCampaign();
-                        campaign2.FState += 1;
+                        campaign2.State += 1;
                         UpdateCampaignState();
                     }
 
                     break;
                 case 3:
-                    DialogHosts.CampaignTransferDlg.Execute();
+                    DialogHosts.CampaignTransferDialog.Execute();
                     SetBtn.Visible = false;
                     ShowBtn.Visible = false;
                     QuitBtn.Visible = false;
                     break;
                 case 4:
                     var campaign27 = GetCampaign();
-                    var campaignScenario11 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign27.FNextScenarioID);
-                    Preview = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FFileName), GameProfile.WorldMap);
-                    if (Preview != null)
+                    var campaignScenario11 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign27.NextScenarioId);
+                    preview = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FileName), GameProfile.WorldMap);
+                    if (preview != null)
                     {
-                        Index = Preview.FPlayers.IndexOfPlayerType(PlayerType.Human);
-                        bool test = Index != -1 && GetCampaign().FRaceHistory.Count > 0;
+                        index = preview.Players.IndexOfPlayerType(PlayerType.Human);
+                        bool test = index != -1 && GetCampaign().RaceHistory.Count > 0;
                         if (test)
                         {
-                            var player = Preview.FPlayers.GetPlayers(Index);
-                            test = GetCampaign().FRaceHistory.IndexOf((byte)player.FPlayerRace) == -1;
+                            var player = preview.Players.GetPlayers(index);
+                            test = GetCampaign().RaceHistory.IndexOf((byte)player.PlayerRace) == -1;
                         }
 
-                        if (test && GetCampaign().FTransferSettings.FLeader.GetSphereCount() < GetCampaign().FRaceHistory.Count * 2 + 3)
+                        if (test && GetCampaign().TransferSettings.Leader.GetSphereCount() < GetCampaign().RaceHistory.Count * 2 + 3)
                         {
                             ShowSpheres();
                         }
                         else
                         {
                             var campaign2 = GetCampaign();
-                            campaign2.FState += 1;
+                            campaign2.State += 1;
                         }
 
-                        Preview?.Dispose();
+                        preview?.Dispose();
                     }
 
                     break;
                 case 7:
                     var campaign28 = GetCampaign();
-                    if (!IsEmpty(WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign28.FNextScenarioID).FFileName))
+                    if (!IsEmpty(WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign28.NextScenarioId).FileName))
                     {
                         var campaign2 = GetCampaign();
-                        campaign2.FState += 1;
+                        campaign2.State += 1;
                         var campaign3 = GetCampaign();
-                        GetCampaign().StartScenario(campaign3.FNextScenarioID, null);
-                        SetCurrentDir(GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\");
+                        GetCampaign().StartScenario(campaign3.NextScenarioId, null);
+                        SetCurrentDir(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\");
                         var campaign4 = GetCampaign();
-                        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.FCurrentScenarioID);
-                        General.LoadGame(DialogHosts.General, FileBoundary.ReadName(campaignScenario.FFileName));
+                        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.CurrentScenarioId);
+                        General.LoadGame(DialogHosts.General, FileBoundary.ReadName(campaignScenario.FileName));
                         DialogHosts.TitleWindow.TitlePnl.Visible = true;
                         WorldPnl.Visible = false;
                         GetCampaign().SetupScenario();
@@ -460,115 +460,115 @@ public partial class WorldMap : DataModule
                     else
                     {
                         DialogHosts.WorldMap.DescLbl.Text = "";
-                        GetCampaign().FState = 0;
+                        GetCampaign().State = 0;
                         UpdateCampaignState();
                     }
 
                     break;
                 case 10:
-                    ShowIntroPages(GetCampaign().FCurrentScenarioID);
+                    ShowIntroPages(GetCampaign().CurrentScenarioId);
                     break;
             }
         }
     }
 
     // AoWWorldMap.pas:347
-    public void ShowIntroPages(int Index)
+    public void ShowIntroPages(int index)
     {
-        SetCurrentDir(GameTables.AoWEngine.StartupDirectory + "Int\\Scenes");
-        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
+        SetCurrentDir(GameTables.GameEngine.StartupDirectory + "Int\\Scenes");
+        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         var campaign = GetCampaign();
-        var campaignPage = GetCampaignPage(campaignScenario.FIntroPages, campaign.FPage);
-        LabelL.Text = campaignPage.FHeading;
-        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
+        var campaignPage = GetCampaignPage(campaignScenario.IntroPages, campaign.Page);
+        LabelL.Text = campaignPage.Heading;
+        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         var campaign2 = GetCampaign();
-        var aoWWorldMapCampaignPage = GetCampaignPage(campaignScenario2.FIntroPages, campaign2.FPage + 1);
-        LabelR.Text = aoWWorldMapCampaignPage.FHeading;
-        var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
+        var worldMapCampaignPage = GetCampaignPage(campaignScenario2.IntroPages, campaign2.Page + 1);
+        LabelR.Text = worldMapCampaignPage.Heading;
+        var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         var campaign3 = GetCampaign();
-        var campaignPage2 = GetCampaignPage(campaignScenario3.FIntroPages, campaign3.FPage);
-        MemoL.Items.Assign(campaignPage2.FText);
-        var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
+        var campaignPage2 = GetCampaignPage(campaignScenario3.IntroPages, campaign3.Page);
+        MemoL.Items.Assign(campaignPage2.Text);
+        var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         var campaign4 = GetCampaign();
-        var campaignPage3 = GetCampaignPage(campaignScenario4.FIntroPages, campaign4.FPage + 1);
-        MemoR.Items.Assign(campaignPage3.FText);
+        var campaignPage3 = GetCampaignPage(campaignScenario4.IntroPages, campaign4.Page + 1);
+        MemoR.Items.Assign(campaignPage3.Text);
         leftSB.Position = 0;
         rightSB.Position = 0;
-        var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
+        var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         var campaign5 = GetCampaign();
-        if (IsEmpty(GetCampaignPage(campaignScenario5.FIntroPages, campaign5.FPage).FImageLibrary))
+        if (IsEmpty(GetCampaignPage(campaignScenario5.IntroPages, campaign5.Page).ImageLibrary))
         {
-            PicL.ImageLib = null;
+            PicL.ImageLibrary = null;
         }
         else
         {
-            var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
+            var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             var campaign6 = GetCampaign();
-            var campaignPage4 = GetCampaignPage(campaignScenario6.FIntroPages, campaign6.FPage);
-            DialogHosts.IntGfxMod.BookPL.LoadFromFile(campaignPage4.FImageLibrary);
-            PicL.ImageLib = DialogHosts.IntGfxMod.BookPL;
-            var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
+            var campaignPage4 = GetCampaignPage(campaignScenario6.IntroPages, campaign6.Page);
+            DialogHosts.UIGraphics.BookPL.LoadFromFile(campaignPage4.ImageLibrary);
+            PicL.ImageLibrary = DialogHosts.UIGraphics.BookPL;
+            var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             var campaign7 = GetCampaign();
-            var campaignPage5 = GetCampaignPage(campaignScenario7.FIntroPages, campaign7.FPage);
-            PicL.CurrentImage = campaignPage5.FImageIndex;
+            var campaignPage5 = GetCampaignPage(campaignScenario7.IntroPages, campaign7.Page);
+            PicL.CurrentImage = campaignPage5.ImageIndex;
             PicL.WinWidth = 0;
             PicL.WinHeight = 0;
             PicL.Visible = true;
         }
 
-        var campaignScenario8 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
+        var campaignScenario8 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
         var campaign8 = GetCampaign();
-        if (IsEmpty(GetCampaignPage(campaignScenario8.FIntroPages, campaign8.FPage + 1).FImageLibrary))
+        if (IsEmpty(GetCampaignPage(campaignScenario8.IntroPages, campaign8.Page + 1).ImageLibrary))
         {
-            PicR.ImageLib = null;
+            PicR.ImageLibrary = null;
         }
         else
         {
-            var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
+            var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             var campaign6 = GetCampaign();
-            var campaignPage4 = GetCampaignPage(campaignScenario6.FIntroPages, campaign6.FPage + 1);
-            DialogHosts.IntGfxMod.BookPR.LoadFromFile(campaignPage4.FImageLibrary);
-            PicR.ImageLib = DialogHosts.IntGfxMod.BookPR;
-            var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
+            var campaignPage4 = GetCampaignPage(campaignScenario6.IntroPages, campaign6.Page + 1);
+            DialogHosts.UIGraphics.BookPR.LoadFromFile(campaignPage4.ImageLibrary);
+            PicR.ImageLibrary = DialogHosts.UIGraphics.BookPR;
+            var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             var campaign7 = GetCampaign();
-            var campaignPage5 = GetCampaignPage(campaignScenario7.FIntroPages, campaign7.FPage + 1);
-            PicR.CurrentImage = campaignPage5.FImageIndex;
+            var campaignPage5 = GetCampaignPage(campaignScenario7.IntroPages, campaign7.Page + 1);
+            PicR.CurrentImage = campaignPage5.ImageIndex;
             PicR.WinWidth = 0;
             PicR.WinHeight = 0;
             PicR.Visible = true;
         }
 
         var campaign9 = GetCampaign();
-        Back.Visible = campaign9.FPage > 0;
-        if (GetCampaign().FPage == 8)
+        Back.Visible = campaign9.Page > 0;
+        if (GetCampaign().Page == 8)
         {
             Next.Visible = false;
         }
         else
         {
-            var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
+            var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             var campaign6 = GetCampaign();
-            bool condition = !IsEmpty(GetCampaignPage(campaignScenario6.FIntroPages, campaign6.FPage + 2).FImageLibrary);
+            bool condition = !IsEmpty(GetCampaignPage(campaignScenario6.IntroPages, campaign6.Page + 2).ImageLibrary);
             if (!condition)
             {
-                var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
+                var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
                 var campaign7 = GetCampaign();
-                condition = GetCampaignPage(campaignScenario7.FIntroPages, campaign7.FPage + 2).FText.Count > 0;
+                condition = GetCampaignPage(campaignScenario7.IntroPages, campaign7.Page + 2).Text.Count > 0;
             }
 
             Next.Visible = condition;
         }
 
-        bool test = !Next.Visible || GetCampaign().FState == 10;
+        bool test = !Next.Visible || GetCampaign().State == 10;
         BookStart.Visible = test;
         Cancel.Visible = WorldPnl.Visible;
-        var aoWBookWindow = BookWin;
-        aoWBookWindow.FHidden = true;
-        aoWBookWindow.Visible = true;
+        var bookWindow = BookWin;
+        bookWindow.Hidden = true;
+        bookWindow.Visible = true;
 
-        if (BookWin.FBackSurface != null)
+        if (BookWin.BackSurface != null)
         {
-            BookWin.FBackSurface.Cls(BookWin.FMaskColor);
+            BookWin.BackSurface.Clear(BookWin._maskColor);
         }
 
         if (DialogHosts.TitleWindow.TitleWin.Visible)
@@ -580,46 +580,46 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:404
     public void ShowSpheres()
     {
-        int Picks = default;
-        LeaderSetupControl Control = default;
+        int picks = default;
+        LeaderSetupControl control = default;
         WorldPnl.Visible = false;
-        Picks = GetCampaign().FTransferSettings.FLeader.FSpherePicksMax;
-        Control = new LeaderSetupControl(null);
+        picks = GetCampaign().TransferSettings.Leader.SpherePicksMax;
+        control = new LeaderSetupControl(null);
         var campaign = GetCampaign();
-        Control.FLeader.Assign(campaign.FTransferSettings.FLeader, GameTables.AoWEngine);
-        Control.FLeader.SetSpherePicksMax((byte)(Picks + 2));
-        Control.FOriginalLeader.Assign(Control.FLeader, GameTables.AoWEngine);
-        Control.FMode = Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Spheres);
-        DialogHosts.LeaderSetupWin.Execute(Control);
-        DialogHosts.LeaderSetupWin.ClearBtn.Visible = false;
-        DialogHosts.LeaderSetupWin.DefaultBtn.Visible = false;
-        DialogHosts.LeaderSetupWin.PrevBtn.Visible = false;
-        DialogHosts.LeaderSetupWin.SetFixedSpheres(Picks);
-        var format = AbilityRules.Format(AbilityRules.TranslateRStr(AssignXNewSpheresRStr), [IntToStr(2)]);
-        DialogHosts.LeaderSetupWin.Phase3Header.Text = format;
-        Control.FOnDone = SpheresDone;
-        Control.Release();
-        DialogHosts.LeaderSetupWin.LeaderPnl.ILTexture = DialogHosts.IntGfxMod.WorldMap;
-        DialogHosts.LeaderSetupWin.LeaderPnl.ILIndexTexture = 0;
+        control.Leader.Assign(campaign.TransferSettings.Leader, GameTables.GameEngine);
+        control.Leader.SetSpherePicksMax((byte)(picks + 2));
+        control.OriginalLeader.Assign(control.Leader, GameTables.GameEngine);
+        control.Mode = Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Spheres);
+        DialogHosts.LeaderSetupWindow.Execute(control);
+        DialogHosts.LeaderSetupWindow.ClearBtn.Visible = false;
+        DialogHosts.LeaderSetupWindow.DefaultBtn.Visible = false;
+        DialogHosts.LeaderSetupWindow.PrevBtn.Visible = false;
+        DialogHosts.LeaderSetupWindow.SetFixedSpheres(picks);
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_assignNewSpheresFormat), [IntToStr(2)]);
+        DialogHosts.LeaderSetupWindow.Phase3Header.Text = format;
+        control.OnDone = SpheresDone;
+        control.Release();
+        DialogHosts.LeaderSetupWindow.LeaderPnl.ImageLibraryTexture = DialogHosts.UIGraphics.WorldMap;
+        DialogHosts.LeaderSetupWindow.LeaderPnl.ImageLibraryIndexTexture = 0;
     }
 
     // AoWWorldMap.pas:386
-    public void SpheresDone(LeaderSetupControl Sender)
+    public void SpheresDone(LeaderSetupControl sender)
     {
-        Leader Leader;
-        var leaderSetupControl = Sender;
-        if (leaderSetupControl.FStatus == LeaderSetupControl.LeaderSetupStatus.Done)
+        Leader leader;
+        var leaderSetupControl = sender;
+        if (leaderSetupControl.Status == LeaderSetupControl.LeaderSetupStatus.Done)
         {
-            Leader = (Leader)leaderSetupControl.FOriginalLeader.Copy(GameTables.AoWEngine);
-            for (int I = GetCampaign().FTransferSettings.FLeader.GetSphereCount(), last = Leader.GetSphereCount() - 1; I <= last; I++)
+            leader = (Leader)leaderSetupControl.OriginalLeader.Copy(GameTables.GameEngine);
+            for (int I = GetCampaign().TransferSettings.Leader.GetSphereCount(), last = leader.GetSphereCount() - 1; I <= last; I++)
             {
-                var sphere = Leader.GetSpheres(I);
-                GetCampaign().FTransferSettings.FSelectedSpheres.Add((byte)(int)sphere);
+                var sphere = leader.GetSpheres(I);
+                GetCampaign().TransferSettings.SelectedSpheres.Add((byte)(int)sphere);
             }
 
             WorldPnl.Visible = true;
             var campaign = GetCampaign();
-            campaign.FState += 1;
+            campaign.State += 1;
             UpdateCampaignState();
         }
     }
@@ -627,20 +627,20 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:428
     public void BookClosed()
     {
-        NotifyEvent<object> Done;
-        EngineObject Context;
-        Done = FOnBookClosed;
-        Context = FBookContext;
-        FOnBookClosed = null;
-        FBookContext = null;
-        if (Done != null)
+        NotifyEvent<object> done;
+        EngineObject context;
+        done = OnBookClosed;
+        context = BookContext;
+        OnBookClosed = null;
+        BookContext = null;
+        if (done != null)
         {
-            Done(Context);
+            done(context);
         }
 
-        if (Context != null)
+        if (context != null)
         {
-            Context.Release();
+            context.Release();
         }
 
         DialogHosts.General.Manager.OverlayPriority = 0;
@@ -649,32 +649,32 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:146
     public void ResetCampaign()
     {
-        GetCampaign().FState = 0;
-        GetCampaign().FPage = 0;
+        GetCampaign().State = 0;
+        GetCampaign().Page = 0;
         InfoPnl.Visible = false;
-        var showInfo = AbilityRules.TranslateRStr(ShowInfoRStr);
+        var showInfo = AbilityRules.TranslateResourceString(s_showInfoText);
         ShowBtn.Text = showInfo;
     }
 
     // AoWWorldMap.pas:151
     public void ShowCampaignHistory()
     {
-        WorldMapCampaignScenario Scenario;
-        GetCampaign().FState = 10;
-        GetCampaign().FPage = 0;
+        WorldMapCampaignScenario scenario;
+        GetCampaign().State = 10;
+        GetCampaign().Page = 0;
         var campaign = GetCampaign();
-        Scenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.FCurrentScenarioID);
+        scenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId);
         while (true)
         {
-            bool condition = Scenario.FIntroPages.Count > GetCampaign().FPage + 2;
+            bool condition = scenario.IntroPages.Count > GetCampaign().Page + 2;
             if (condition)
             {
                 var campaign2 = GetCampaign();
-                bool test = !IsEmpty(GetCampaignPage(Scenario.FIntroPages, campaign2.FPage + 2).FImageLibrary);
+                bool test = !IsEmpty(GetCampaignPage(scenario.IntroPages, campaign2.Page + 2).ImageLibrary);
                 if (!test)
                 {
                     var campaign3 = GetCampaign();
-                    test = GetCampaignPage(Scenario.FIntroPages, campaign3.FPage + 2).FText.Count > 0;
+                    test = GetCampaignPage(scenario.IntroPages, campaign3.Page + 2).Text.Count > 0;
                 }
 
                 condition = test;
@@ -683,10 +683,10 @@ public partial class WorldMap : DataModule
             if (!condition)
                 break;
             var campaign4 = GetCampaign();
-            campaign4.FPage += 2;
+            campaign4.Page += 2;
         }
 
-        ShowIntroPages(GetCampaign().FCurrentScenarioID);
+        ShowIntroPages(GetCampaign().CurrentScenarioId);
     }
 
     // AoWWorldMap.pas:442
@@ -698,20 +698,20 @@ public partial class WorldMap : DataModule
         button.CaptureInput = false;
         button.Visible = false;
 
-        this.BookWin.FDrawn = false;
-        if (this.BookWin.FBackSurface != null)
+        this.BookWin.Drawn = false;
+        if (this.BookWin.BackSurface != null)
         {
-            this.BookWin.FBackSurface.Cls(this.BookWin.FMaskColor);
+            this.BookWin.BackSurface.Clear(this.BookWin._maskColor);
         }
 
         AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
-        FBookAction = 1;
+        BookAction = 1;
     }
 
     // AoWWorldMap.pas:863
     public void WorldMapCreate()
     {
-        RegisterWorldMapCampaign(GameTables.AoWEngine);
+        RegisterWorldMapCampaign(GameTables.GameEngine);
     }
 
     // AoWWorldMap.pas:461
@@ -721,54 +721,54 @@ public partial class WorldMap : DataModule
         Next.CaptureInput = false;
         BookStart.CaptureInput = false;
         AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
-        FBookAction = 2;
+        BookAction = 2;
     }
 
     // AoWWorldMap.pas:471
     public void WorldPnlUpdate()
     {
-        int Frame;
-        int StartIndex;
-        int EndIndex;
+        int frame;
+        int startIndex;
+        int endIndex;
         if (WorldPnl.Visible && !BookWin.Visible)
         {
-            Path1.FDrawn = false;
-            Path2.FDrawn = false;
-            Path3.FDrawn = false;
-            PPawn.FDrawn = false;
-            EPawn.FDrawn = false;
-            FPathDelay -= 1;
-            if (FPathDelay < 1)
+            Path1.Drawn = false;
+            Path2.Drawn = false;
+            Path3.Drawn = false;
+            PPawn.Drawn = false;
+            EPawn.Drawn = false;
+            PathDelay -= 1;
+            if (PathDelay < 1)
             {
-                FPathDelay = 5;
-                Frame = 1 - FPathFrame;
-                FPathFrame = Frame;
+                PathDelay = 5;
+                frame = 1 - PathFrame;
+                PathFrame = frame;
                 var campaign = GetCampaign();
-                Path1.CurrentImage = campaign.FFaction * 3 + (Frame + 2);
+                Path1.CurrentImage = campaign.Faction * 3 + (frame + 2);
                 var campaign2 = GetCampaign();
-                Path2.CurrentImage = campaign2.FFaction * 3 + (FPathFrame + 2);
+                Path2.CurrentImage = campaign2.Faction * 3 + (PathFrame + 2);
                 var campaign3 = GetCampaign();
-                Path3.CurrentImage = campaign3.FFaction * 3 + (FPathFrame + 2);
+                Path3.CurrentImage = campaign3.Faction * 3 + (PathFrame + 2);
             }
 
-            if (GetCampaign().FState == 5)
+            if (GetCampaign().State == 5)
             {
-                if (FPawnTicks > 0)
+                if (PawnTicks > 0)
                 {
                     var campaign = GetCampaign();
-                    var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.FNextScenarioID);
+                    var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.NextScenarioId);
                     var campaign2 = GetCampaign();
-                    var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.FCurrentScenarioID);
+                    var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.CurrentScenarioId);
                     var campaign3 = GetCampaign();
-                    var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.FCurrentScenarioID);
-                    PPawn.WinLeft = (campaignScenario.FMapX - campaignScenario2.FMapX) * (20 - FPawnTicks) / 19 + campaignScenario3.FMapX - 25;
+                    var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.CurrentScenarioId);
+                    PPawn.WinLeft = (campaignScenario.MapX - campaignScenario2.MapX) * (20 - PawnTicks) / 19 + campaignScenario3.MapX - 25;
                     var campaign4 = GetCampaign();
-                    var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.FNextScenarioID);
+                    var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.NextScenarioId);
                     var campaign5 = GetCampaign();
-                    var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign5.FCurrentScenarioID);
+                    var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign5.CurrentScenarioId);
                     var campaign6 = GetCampaign();
-                    var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign6.FCurrentScenarioID);
-                    PPawn.WinTop = (campaignScenario4.FMapY - campaignScenario5.FMapY) * (20 - FPawnTicks) / 19 + campaignScenario6.FMapY - 65;
+                    var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign6.CurrentScenarioId);
+                    PPawn.WinTop = (campaignScenario4.MapY - campaignScenario5.MapY) * (20 - PawnTicks) / 19 + campaignScenario6.MapY - 65;
                     if (this.PPawn.WinTop > EPawn.WinTop)
                     {
                         this.PPawn.Priority = 10;
@@ -782,47 +782,47 @@ public partial class WorldMap : DataModule
                 }
                 else
                 {
-                    FPawnTicks = 20;
-                    FEnemyDelay = 30;
+                    PawnTicks = 20;
+                    EnemyDelay = 30;
                     var campaign = GetCampaign();
-                    campaign.FState += 1;
+                    campaign.State += 1;
                     var campaign2 = GetCampaign();
-                    var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.FNextScenarioID);
-                    if (DescLbl.Text != campaignScenario.FDescription)
+                    var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.NextScenarioId);
+                    if (DescLbl.Text != campaignScenario.Description)
                     {
                         var campaign3 = GetCampaign();
-                        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.FNextScenarioID);
-                        DescLbl.Text = campaignScenario2.FDescription;
+                        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign3.NextScenarioId);
+                        DescLbl.Text = campaignScenario2.Description;
                         this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
 
-                        FDescriptionHandled = true;
+                        DescriptionHandled = true;
                     }
                 }
 
-                FPawnTicks -= 1;
+                PawnTicks -= 1;
             }
 
-            if (GetCampaign().FState == 6)
+            if (GetCampaign().State == 6)
             {
-                if (FPawnTicks > 0)
+                if (PawnTicks > 0)
                 {
-                    FDescriptionHandled = true;
+                    DescriptionHandled = true;
                     var campaign = GetCampaign();
-                    var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.FCurrentScenarioID).FPaths[3];
-                    StartIndex = GetCampaign().FScenarios.IndexOfID(path);
+                    var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId).Paths[3];
+                    startIndex = GetCampaign().Scenarios.IndexOfId(path);
                     var campaign2 = GetCampaign();
-                    var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.FNextScenarioID).FPaths[3];
-                    EndIndex = GetCampaign().FScenarios.IndexOfID(path2);
-                    if (StartIndex != -1 && EndIndex != -1)
+                    var path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.NextScenarioId).Paths[3];
+                    endIndex = GetCampaign().Scenarios.IndexOfId(path2);
+                    if (startIndex != -1 && endIndex != -1)
                     {
-                        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), EndIndex);
-                        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), StartIndex);
-                        var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), StartIndex);
-                        EPawn.WinLeft = (campaignScenario.FMapX - campaignScenario2.FMapX) * (20 - FPawnTicks) / 19 + campaignScenario3.FMapX - 25;
-                        var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), EndIndex);
-                        var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), StartIndex);
-                        var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), StartIndex);
-                        EPawn.WinTop = (campaignScenario4.FMapY - campaignScenario5.FMapY) * (20 - FPawnTicks) / 19 + campaignScenario6.FMapY - 65;
+                        var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), endIndex);
+                        var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
+                        var campaignScenario3 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
+                        EPawn.WinLeft = (campaignScenario.MapX - campaignScenario2.MapX) * (20 - PawnTicks) / 19 + campaignScenario3.MapX - 25;
+                        var campaignScenario4 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), endIndex);
+                        var campaignScenario5 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
+                        var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), startIndex);
+                        EPawn.WinTop = (campaignScenario4.MapY - campaignScenario5.MapY) * (20 - PawnTicks) / 19 + campaignScenario6.MapY - 65;
                         if (this.PPawn.WinTop > EPawn.WinTop)
                         {
                             this.PPawn.Priority = 10;
@@ -837,29 +837,29 @@ public partial class WorldMap : DataModule
                 }
                 else
                 {
-                    if (FEnemyDelay > 0)
+                    if (EnemyDelay > 0)
                     {
-                        FEnemyDelay -= 1;
+                        EnemyDelay -= 1;
                     }
                     else
                     {
                         var campaign = GetCampaign();
-                        campaign.FState += 1;
+                        campaign.State += 1;
                         UpdateCampaignState();
                     }
                 }
 
-                FPawnTicks -= 1;
+                PawnTicks -= 1;
             }
         }
     }
 
     // AoWWorldMap.pas:566
-    public void Path1MouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void Path1MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         if (!BookWin.Visible)
         {
-            if (GetCampaign().FState == 1)
+            if (GetCampaign().State == 1)
             {
                 DescLbl.Text = "";
                 SelectCampaignPath(GetCampaign(), 0);
@@ -869,11 +869,11 @@ public partial class WorldMap : DataModule
     }
 
     // AoWWorldMap.pas:578
-    public void Path2MouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void Path2MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         if (!BookWin.Visible)
         {
-            if (GetCampaign().FState == 1)
+            if (GetCampaign().State == 1)
             {
                 DescLbl.Text = "";
                 SelectCampaignPath(GetCampaign(), 1);
@@ -883,11 +883,11 @@ public partial class WorldMap : DataModule
     }
 
     // AoWWorldMap.pas:590
-    public void Path3MouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void Path3MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         if (!BookWin.Visible)
         {
-            if (GetCampaign().FState == 1)
+            if (GetCampaign().State == 1)
             {
                 DescLbl.Text = "";
                 SelectCampaignPath(GetCampaign(), 2);
@@ -900,155 +900,155 @@ public partial class WorldMap : DataModule
     public void CancelClick()
     {
         GetCampaign().ResetNextScenario();
-        GetCampaign().FState = 1;
+        GetCampaign().State = 1;
         AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
         UpdateCampaignState();
     }
 
     // AoWWorldMap.pas:611. Bound to the player pawn.
-    public void PPawnMouseDown(Image Sender, MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void PPawnMouseDown(Image sender, MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         if (X > 20)
         {
-            if (GetCampaign().FState == 1)
+            if (GetCampaign().State == 1)
             {
-                GetCampaign().FState = 0;
-                GetCampaign().FPage = 0;
+                GetCampaign().State = 0;
+                GetCampaign().Page = 0;
                 UpdateCampaignState();
             }
         }
 
         // { Original hit test uses X. }
-        Sender.FHandled = false;
+        sender.Handled = false;
     }
 
     // AoWWorldMap.pas:611. Bound to the enemy pawn.
-    public void EPawnMouseDown(Image Sender, MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void EPawnMouseDown(Image sender, MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        Sender.FHandled = false;
+        sender.Handled = false;
     }
 
     // AoWWorldMap.pas:624. Bound to the player pawn.
-    public void PPawnMouseMove(Image Sender, Set<ShiftState> Shift, int X, int Y)
+    public void PPawnMouseMove(Image sender, Set<ShiftState> shift, int X, int Y)
     {
-        string Description = "";
+        string description = "";
         // { Original hit test uses X. }
         if (X > 20)
         {
-            if (GetCampaign().FState == 1)
+            if (GetCampaign().State == 1)
             {
-                Description = AbilityRules.TranslateRStr(ViewSummaryRStr);
+                description = AbilityRules.TranslateResourceString(s_viewSummaryText);
             }
         }
 
-        ShowPawnDescription(Sender, Description);
+        ShowPawnDescription(sender, description);
     }
 
     // AoWWorldMap.pas:624. Bound to the enemy pawn.
-    public void EPawnMouseMove(Image Sender, Set<ShiftState> Shift, int X, int Y)
+    public void EPawnMouseMove(Image sender, Set<ShiftState> shift, int X, int Y)
     {
-        string Description = "";
+        string description = "";
         // { Original hit test uses X. }
         if (X > 20)
         {
-            if (GetCampaign().FState == 1)
+            if (GetCampaign().State == 1)
             {
-                if (GetCampaign().FFaction == 0)
+                if (GetCampaign().Faction == 0)
                 {
-                    Description = AbilityRules.TranslateRStr(LobbyText.CultOfStormsRStr);
+                    description = AbilityRules.TranslateResourceString(LobbyText.s_cultOfStormsText);
                 }
                 else
                 {
-                    Description = AbilityRules.TranslateRStr(LobbyText.KeepersRStr);
+                    description = AbilityRules.TranslateResourceString(LobbyText.s_keepersText);
                 }
             }
         }
 
-        ShowPawnDescription(Sender, Description);
+        ShowPawnDescription(sender, description);
     }
 
     // AoWWorldMap.pas:624. The label update both pawn moves share.
-    private void ShowPawnDescription(Image Pawn, string Description)
+    private void ShowPawnDescription(Image pawn, string description)
     {
-        if (DescLbl.Text != Description && !IsEmpty(Description))
+        if (DescLbl.Text != description && !IsEmpty(description))
         {
-            DescLbl.Text = Description;
+            DescLbl.Text = description;
             this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
         }
 
-        FDescriptionHandled = true;
-        Pawn.FHandled = false;
+        DescriptionHandled = true;
+        pawn.Handled = false;
     }
 
     // AoWWorldMap.pas:643
-    public void Path1MouseMove(Set<ShiftState> Shift, int X, int Y)
+    public void Path1MouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        int Index;
-        if (GetCampaign().FState == 1)
+        int index;
+        if (GetCampaign().State == 1)
         {
             var campaign = GetCampaign();
-            var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.FCurrentScenarioID).FPaths[0];
-            Index = GetCampaign().FScenarios.IndexOfID(path);
-            var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
-            if (DescLbl.Text != campaignScenario.FPathDescription)
+            var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId).Paths[0];
+            index = GetCampaign().Scenarios.IndexOfId(path);
+            var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
+            if (DescLbl.Text != campaignScenario.PathDescription)
             {
-                var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
-                DescLbl.Text = campaignScenario2.FPathDescription;
+                var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
+                DescLbl.Text = campaignScenario2.PathDescription;
                 this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
             }
         }
 
-        FDescriptionHandled = true;
+        DescriptionHandled = true;
     }
 
     // AoWWorldMap.pas:661
-    public void Path2MouseMove(Set<ShiftState> Shift, int X, int Y)
+    public void Path2MouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        int Index;
-        if (GetCampaign().FState == 1)
+        int index;
+        if (GetCampaign().State == 1)
         {
             var campaign = GetCampaign();
-            var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.FCurrentScenarioID).FPaths[1];
-            Index = GetCampaign().FScenarios.IndexOfID(path);
-            var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
-            if (DescLbl.Text != campaignScenario.FPathDescription)
+            var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId).Paths[1];
+            index = GetCampaign().Scenarios.IndexOfId(path);
+            var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
+            if (DescLbl.Text != campaignScenario.PathDescription)
             {
-                var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
-                DescLbl.Text = campaignScenario2.FPathDescription;
+                var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
+                DescLbl.Text = campaignScenario2.PathDescription;
                 this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
             }
         }
 
-        FDescriptionHandled = true;
+        DescriptionHandled = true;
     }
 
     // AoWWorldMap.pas:679
-    public void Path3MouseMove(Set<ShiftState> Shift, int X, int Y)
+    public void Path3MouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        int Index;
-        if (GetCampaign().FState == 1)
+        int index;
+        if (GetCampaign().State == 1)
         {
             var campaign = GetCampaign();
-            var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.FCurrentScenarioID).FPaths[2];
-            Index = GetCampaign().FScenarios.IndexOfID(path);
-            var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
-            if (DescLbl.Text != campaignScenario.FPathDescription)
+            var path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId).Paths[2];
+            index = GetCampaign().Scenarios.IndexOfId(path);
+            var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
+            if (DescLbl.Text != campaignScenario.PathDescription)
             {
-                var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), Index);
-                DescLbl.Text = campaignScenario2.FPathDescription;
+                var campaignScenario2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
+                DescLbl.Text = campaignScenario2.PathDescription;
                 this.DescLbl.WinTop = 460 - this.DescLbl.WinHeight;
             }
         }
 
-        FDescriptionHandled = true;
+        DescriptionHandled = true;
     }
 
     // AoWWorldMap.pas:697
-    public void WorldPnlMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public void WorldPnlMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (!FDescriptionHandled)
+        if (!DescriptionHandled)
         {
-            if (GetCampaign().FState == 1)
+            if (GetCampaign().State == 1)
             {
                 if (!IsEmpty(this.DescLbl.Text))
                 {
@@ -1057,7 +1057,7 @@ public partial class WorldMap : DataModule
             }
         }
 
-        FDescriptionHandled = false;
+        DescriptionHandled = false;
     }
 
     // AoWWorldMap.pas:706
@@ -1072,9 +1072,9 @@ public partial class WorldMap : DataModule
 
         if (WorldPnl.Visible)
         {
-            FPawnTicks = 20;
+            PawnTicks = 20;
             var campaign = GetCampaign();
-            campaign.FState += 1;
+            campaign.State += 1;
             UpdateCampaignState();
         }
     }
@@ -1085,48 +1085,48 @@ public partial class WorldMap : DataModule
         Back.CaptureInput = true;
         Next.CaptureInput = true;
         BookStart.CaptureInput = true;
-        BookWin.FHidden = true;
+        BookWin.Hidden = true;
     }
 
     // AoWWorldMap.pas:729
     public void BookWinShow()
     {
-        FBookAction = 0;
+        BookAction = 0;
     }
 
     // AoWWorldMap.pas:733
     public void BookWinUpdate()
     {
         Rect R;
-        switch (FBookAction)
+        switch (BookAction)
         {
             case 3:
-                BookWin.StartAnim((PageTurnMode)1);
+                BookWin.StartAnimation((PageTurnMode)1);
                 var campaign = GetCampaign();
-                campaign.FPage -= 2;
+                campaign.Page -= 2;
                 UpdateCampaignState();
-                FBookAction = 0;
+                BookAction = 0;
                 break;
             case 4:
-                BookWin.StartAnim(0);
+                BookWin.StartAnimation(0);
                 var campaign2 = GetCampaign();
-                campaign2.FPage += 2;
+                campaign2.Page += 2;
                 UpdateCampaignState();
-                FBookAction = 0;
+                BookAction = 0;
                 break;
             case 1:
-                FBookAction = 3;
+                BookAction = 3;
                 break;
             case 2:
-                FBookAction = 4;
+                BookAction = 4;
                 break;
         }
 
-        if (BookStart.Visible != BookStartVisible)
+        if (BookStart.Visible != s_bookStartVisible)
         {
             R = new Rect(BookWin.WinLeft + BookStart.WinLeft, BookWin.WinTop + BookStart.WinTop, BookWin.WinLeft + BookStart.WinLeft + BookStart.WinWidth, BookWin.WinTop + BookStart.WinTop + BookStart.WinHeight);
-            DialogHosts.General.Manager.AddDrawRect(ref R, BookWin);
-            BookStartVisible = BookStart.Visible;
+            DialogHosts.General.Manager.AddDrawRectangle(ref R, BookWin);
+            s_bookStartVisible = BookStart.Visible;
         }
     }
 
@@ -1138,7 +1138,7 @@ public partial class WorldMap : DataModule
             UpdateCampaignState();
             SelectLbl.Visible = true;
             InfoPnl.Visible = false;
-            var showInfo = AbilityRules.TranslateRStr(ShowInfoRStr);
+            var showInfo = AbilityRules.TranslateResourceString(s_showInfoText);
             ShowBtn.Text = showInfo;
         }
         else
@@ -1150,7 +1150,7 @@ public partial class WorldMap : DataModule
             Path2.Visible = false;
             Path3.Visible = false;
             InfoPnl.Visible = true;
-            var hideInfo = AbilityRules.TranslateRStr(HideInfoRStr);
+            var hideInfo = AbilityRules.TranslateResourceString(s_hideInfoText);
             ShowBtn.Text = hideInfo;
         }
     }
@@ -1158,85 +1158,85 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:786
     public void QuitBtnClick()
     {
-        var quitCampaign = AbilityRules.TranslateRStr(QuitCampaignRStr);
-        var confirm = AbilityRules.TranslateRStr(LobbyText.ConfirmRStr);
-        DialogHosts.DialogWin.Confirm(confirm, quitCampaign, 5);
+        var quitCampaign = AbilityRules.TranslateResourceString(s_quitCampaignText);
+        var confirm = AbilityRules.TranslateResourceString(LobbyText.s_confirmText);
+        DialogHosts.ConfirmationDialog.Confirm(confirm, quitCampaign, 5);
     }
 
     // AoWWorldMap.pas:791
     public void StarImgUpdate()
     {
-        FStarIntensity += FStarStep;
-        if (FStarIntensity + FStarStep > 100)
+        StarIntensity += StarStep;
+        if (StarIntensity + StarStep > 100)
         {
-            FStarStep = -1;
+            StarStep = -1;
         }
 
-        if (FStarIntensity + FStarStep < 50)
+        if (StarIntensity + StarStep < 50)
         {
-            FStarStep = 1;
+            StarStep = 1;
         }
 
-        StarImg.FDrawn = false;
+        StarImg.Drawn = false;
     }
 
     // AoWWorldMap.pas:800
-    public void StarImgDraw(LockedSurface Surface)
+    public void StarImgDraw(LockedSurface surface)
     {
-        DialogHosts.IntGfxMod.WorldMap[FStarImage].ShowBlended(WorldPnl.WinLeft + StarImg.WinLeft, WorldPnl.WinTop + StarImg.WinTop, Surface, GraphicsState.IntensityBlendTable.LookupTables[FStarIntensity]);
+        DialogHosts.UIGraphics.WorldMap[StarImageValue].ShowBlended(WorldPnl.WinLeft + StarImg.WinLeft, WorldPnl.WinTop + StarImg.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[StarIntensity]);
     }
 
     // AoWWorldMap.pas:806
-    public void Ally1PnlPreDraw(LockedSurface Surface)
+    public void Ally1PnlPreDraw(LockedSurface surface)
     {
         Rect R;
         R = new Rect(InfoPnl.WinLeft + Ally1Pnl.WinLeft, InfoPnl.WinTop + Ally1Pnl.WinTop, InfoPnl.WinLeft + Ally1Pnl.WinLeft + Ally1Pnl.WinWidth, InfoPnl.WinTop + Ally1Pnl.WinTop + Ally1Pnl.WinHeight);
-        if (GetCampaign().FRaceHistory.Count > 0)
+        if (GetCampaign().RaceHistory.Count > 0)
         {
-            var raceHistory = GetCampaign().FRaceHistory[0];
-            AoWHSSet.Current.FRaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, Surface);
+            var raceHistory = GetCampaign().RaceHistory[0];
+            AoWHSSet.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, surface);
         }
     }
 
     // AoWWorldMap.pas:818
-    public void Ally2PnlPreDraw(LockedSurface Surface)
+    public void Ally2PnlPreDraw(LockedSurface surface)
     {
         Rect R;
         R = new Rect(InfoPnl.WinLeft + Ally2Pnl.WinLeft, InfoPnl.WinTop + Ally2Pnl.WinTop, InfoPnl.WinLeft + Ally2Pnl.WinLeft + Ally2Pnl.WinWidth, InfoPnl.WinTop + Ally2Pnl.WinTop + Ally2Pnl.WinHeight);
-        if (GetCampaign().FRaceHistory.Count > 1)
+        if (GetCampaign().RaceHistory.Count > 1)
         {
-            var raceHistory = GetCampaign().FRaceHistory[1];
-            AoWHSSet.Current.FRaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, Surface);
+            var raceHistory = GetCampaign().RaceHistory[1];
+            AoWHSSet.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, surface);
         }
     }
 
     // AoWWorldMap.pas:830
-    public void Ally3PnlPreDraw(LockedSurface Surface)
+    public void Ally3PnlPreDraw(LockedSurface surface)
     {
         Rect R;
         R = new Rect(InfoPnl.WinLeft + Ally3Pnl.WinLeft, InfoPnl.WinTop + Ally3Pnl.WinTop, InfoPnl.WinLeft + Ally3Pnl.WinLeft + Ally3Pnl.WinWidth, InfoPnl.WinTop + Ally3Pnl.WinTop + Ally3Pnl.WinHeight);
-        if (GetCampaign().FRaceHistory.Count > 2)
+        if (GetCampaign().RaceHistory.Count > 2)
         {
-            var raceHistory = GetCampaign().FRaceHistory[2];
-            AoWHSSet.Current.FRaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, Surface);
+            var raceHistory = GetCampaign().RaceHistory[2];
+            AoWHSSet.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, surface);
         }
     }
 
     // AoWWorldMap.pas:842
-    public void HeroPnlPreDraw(LockedSurface Surface)
+    public void HeroPnlPreDraw(LockedSurface surface)
     {
         Rect R;
         R = new Rect(InfoPnl.WinLeft + HeroPnl.WinLeft, InfoPnl.WinTop + HeroPnl.WinTop, InfoPnl.WinLeft + HeroPnl.WinLeft + HeroPnl.WinWidth, InfoPnl.WinTop + HeroPnl.WinTop + HeroPnl.WinHeight);
-        if (GetCampaign().FTransferSettings.FLeader != null)
+        if (GetCampaign().TransferSettings.Leader != null)
         {
-            GetCampaign().FTransferSettings.FLeader.ShowFace(R, Surface);
+            GetCampaign().TransferSettings.Leader.ShowFace(R, surface);
         }
     }
 
     // AoWWorldMap.pas:854
     public void SetBtnClick()
     {
-        DialogHosts.CampaignSettingsDlg.Dlg.Visible = true;
+        DialogHosts.CampaignSettingsDialog.Dlg.Visible = true;
     }
 
     // AoWWorldMap.pas:859
@@ -1245,72 +1245,72 @@ public partial class WorldMap : DataModule
         BookClosed();
     }
 
-    private static readonly string AssignXNewSpheresRStr = "Assign %s new spheres!";
+    private static readonly string s_assignNewSpheresFormat = "Assign %s new spheres!";
 
-    private static void RegisterWorldMapCampaign(GameEngine AEngine)
+    private static void RegisterWorldMapCampaign(GameEngine engine)
     {
-        AEngine.RegisterEClasses([EngineClass.Of<CampaignScenarioPage>(), EngineClass.Of<WorldMapCampaignScenario>(), EngineClass.Of<WorldMapCampaign>()]);
+        engine.RegisterEngineClasses([EngineClass.Of<CampaignScenarioPage>(), EngineClass.Of<WorldMapCampaignScenario>(), EngineClass.Of<WorldMapCampaign>()]);
     }
 
-    private static CampaignScenarioPage GetCampaignPage(WMCampaignScenarioPageList Pages, int Index) => (CampaignScenarioPage)Pages.FChildren.List[Index];
+    private static CampaignScenarioPage GetCampaignPage(WMCampaignScenarioPageList pages, int index) => (CampaignScenarioPage)pages._children.List[index];
 
-    private static bool BookStartVisible;
+    private static bool s_bookStartVisible;
 
-    private static void SelectCampaignPath(WorldMapCampaign Campaign, int Index)
+    private static void SelectCampaignPath(WorldMapCampaign campaign, int index)
     {
-        if (Index >= 0 && Index < 3)
+        if (index >= 0 && index < 3)
         {
-            Campaign.FState = 2;
-            Campaign.FPage = 0;
-            var path = WorldMapCampaign.GetCampaignScenario(Campaign, Campaign.FCurrentScenarioID).FPaths[Index];
-            Campaign.SelectNextScenario(Campaign.FScenarios.IndexOfID(path));
-            if (WorldMapCampaign.GetCampaignScenario(Campaign, Campaign.FNextScenarioID).FPaths[3] == -1)
+            campaign.State = 2;
+            campaign.Page = 0;
+            var path = WorldMapCampaign.GetCampaignScenario(campaign, campaign.CurrentScenarioId).Paths[index];
+            campaign.SelectNextScenario(campaign.Scenarios.IndexOfId(path));
+            if (WorldMapCampaign.GetCampaignScenario(campaign, campaign.NextScenarioId).Paths[3] == -1)
             {
-                var path2 = WorldMapCampaign.GetCampaignScenario(Campaign, Campaign.FCurrentScenarioID).FPaths[3];
-                WorldMapCampaign.GetCampaignScenario(Campaign, Campaign.FNextScenarioID).FPaths[3] = path2;
+                var path2 = WorldMapCampaign.GetCampaignScenario(campaign, campaign.CurrentScenarioId).Paths[3];
+                WorldMapCampaign.GetCampaignScenario(campaign, campaign.NextScenarioId).Paths[3] = path2;
             }
         }
     }
 
-    private static readonly string HideInfoRStr = "Hide Info";
+    private static readonly string s_hideInfoText = "Hide Info";
 
-    private static readonly string ShowInfoRStr = "Show Info";
+    private static readonly string s_showInfoText = "Show Info";
 
-    private static readonly string ViewSummaryRStr = "View Summary";
+    private static readonly string s_viewSummaryText = "View Summary";
 
-    private static readonly string QuitCampaignRStr = "Quit the Campaign?";
+    private static readonly string s_quitCampaignText = "Quit the Campaign?";
 
-    internal static void ShowCampaignMap(WorldMap Dialog)
+    internal static void ShowCampaignMap(WorldMap dialog)
     {
-        string Song = "";
-        Dialog.ResetCampaign();
-        GameTables.AoWEngine.CloseHSM(null);
+        string song = "";
+        dialog.ResetCampaign();
+        GameTables.GameEngine.CloseHsm(null);
         DialogHosts.TitleWindow.TitleWin.Visible = true;
         DialogHosts.TitleWindow.TitlePnl.Visible = false;
-        Dialog.WorldPnl.Visible = true;
-        Dialog.FPathFrame = 0;
-        Dialog.FPathDelay = 5;
-        Dialog.DescLbl.Text = "";
+        dialog.WorldPnl.Visible = true;
+        dialog.PathFrame = 0;
+        dialog.PathDelay = 5;
+        dialog.DescLbl.Text = "";
         DialogHosts.General.Manager.OverlayPriority = 249;
         AudioHost.SongPlayer.Stop(false);
-        SetCurrentDir(GameTables.AoWEngine.StartupDirectory);
-        var campaign = Dialog.GetCampaign();
-        if (IsEmpty(WorldMapCampaign.GetCampaignScenario(Dialog.GetCampaign(), campaign.FCurrentScenarioID).FImageLibrary))
+        SetCurrentDir(GameTables.GameEngine.StartupDirectory);
+        var campaign = dialog.GetCampaign();
+        if (IsEmpty(WorldMapCampaign.GetCampaignScenario(dialog.GetCampaign(), campaign.CurrentScenarioId).ImageLibrary))
         {
-            Song = "Songs\\Title.IT";
+            song = "Songs\\Title.IT";
         }
         else
         {
-            var dialogCampaign = Dialog.GetCampaign();
-            Song = "Songs\\" + WorldMapCampaign.GetCampaignScenario(Dialog.GetCampaign(), dialogCampaign.FCurrentScenarioID).FImageLibrary;
+            var dialogCampaign = dialog.GetCampaign();
+            song = "Songs\\" + WorldMapCampaign.GetCampaignScenario(dialog.GetCampaign(), dialogCampaign.CurrentScenarioId).ImageLibrary;
         }
 
-        AudioPlayback.PlaySongEx(Song, 1, 0, true);
-        var campaign2 = Dialog.GetCampaign();
-        Dialog.PPawn.CurrentImage = campaign2.FFaction + 7;
-        var campaign3 = Dialog.GetCampaign();
-        Dialog.EPawn.CurrentImage = 8 - campaign3.FFaction;
-        Dialog.UpdateCampaignState();
+        AudioPlayback.PlaySong(song, 1, 0, true);
+        var campaign2 = dialog.GetCampaign();
+        dialog.PPawn.CurrentImage = campaign2.Faction + 7;
+        var campaign3 = dialog.GetCampaign();
+        dialog.EPawn.CurrentImage = 8 - campaign3.Faction;
+        dialog.UpdateCampaignState();
     }
 
 }

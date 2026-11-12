@@ -13,69 +13,69 @@ public partial class CompressStream : MemoryStream
 {
 
     // Engine.pas:1715
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
-        bool Compressed = default;
-        ByteArray4 Magic = default;
+        bool compressed = default;
+        ByteArray4 magic = default;
         ZLibStream D;
-        byte[] Buffer;
-        int Count;
-        Stream.ReadExactly(((Span<byte>)Magic).Slice(0, 4));
-        Stream.ReadExactly(Bytes.Of(ref Compressed, 1));
-        if (!ArrayEquals<ByteArray4, byte>(Magic, CompressMagic))
+        byte[] buffer;
+        int count;
+        stream.ReadExactly(((Span<byte>)magic).Slice(0, 4));
+        stream.ReadExactly(Bytes.Of(ref compressed, 1));
+        if (!ArrayEquals<ByteArray4, byte>(magic, s_compressMagic))
         {
-            Compressed = false;
-            Stream.Seek(0, SeekOrigin.Begin);
+            compressed = false;
+            stream.Seek(0, SeekOrigin.Begin);
         }
 
-        if (Compressed)
+        if (compressed)
         {
-            Buffer = default;
-            Count = -1;
-            Array.Resize(ref Buffer, 8096);
-            D = new ZLibStream(Stream, CompressionMode.Decompress, true);
+            buffer = default;
+            count = -1;
+            Array.Resize(ref buffer, 8096);
+            D = new ZLibStream(stream, CompressionMode.Decompress, true);
             try
             {
-                while (Count != 0)
+                while (count != 0)
                 {
-                    Count = D.Read(Buffer.AsSpan(0, 8096));
-                    if (Count != 0)
+                    count = D.Read(buffer.AsSpan(0, 8096));
+                    if (count != 0)
                     {
-                        this.WriteBuffer(Buffer.AsSpan(0, Count));
+                        this.WriteBuffer(buffer.AsSpan(0, count));
                     }
                 }
             }
             finally
             {
-                Array.Resize(ref Buffer, 0);
+                Array.Resize(ref buffer, 0);
                 D?.Dispose();
             }
         }
         else
         {
-            this.CopyFrom(Stream, (int)(Stream.Length - Stream.Position));
+            this.CopyFrom(stream, (int)(stream.Length - stream.Position));
         }
 
         Position = 0;
     }
 
     // Engine.pas:1752
-    public int SaveToStreamEx(Stream Stream, Level Level)
+    public int SaveToStream(Stream stream, Level level)
     {
         ZLibStream C;
-        int StartSize;
+        int startSize;
         Position = 0;
-        int Result = 100;
-        StartSize = (int)Stream.Length;
-        Stream.Write(((ReadOnlySpan<byte>)CompressMagic).Slice(0, 4));
-        Stream.Write(Bytes.Of(ref Level, 1));
-        if (Level != Level.None)
+        int result = 100;
+        startSize = (int)stream.Length;
+        stream.Write(((ReadOnlySpan<byte>)s_compressMagic).Slice(0, 4));
+        stream.Write(Bytes.Of(ref level, 1));
+        if (level != Level.None)
         {
-            C = new ZLibStream(Stream, ZLibLevels.ForByte((byte)Level), true);
+            C = new ZLibStream(stream, ZLibLevels.ForByte((byte)level), true);
             try
             {
                 C.CopyFrom(this, 0);
-                Result = Round((double)((double)1 - (double)(Stream.Length - StartSize) / Length) * 100);
+                result = Round((double)((double)1 - (double)(stream.Length - startSize) / Length) * 100);
             }
             finally
             {
@@ -84,44 +84,44 @@ public partial class CompressStream : MemoryStream
         }
         else
         {
-            Stream.CopyFrom(this, 0);
+            stream.CopyFrom(this, 0);
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:1776
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
-        SaveToStreamEx(Stream, Level.Default);
+        SaveToStream(stream, Level.Default);
     }
 
     // Engine.pas:1781
-    public int SaveToFileEx(string FileName, Level Level)
+    public int SaveToFile(string fileName, Level level)
     {
-        int Result = default;
+        int result = default;
         Stream F;
-        F = OpenFile(FileName, 65535);
+        F = OpenFile(fileName, 65535);
         try
         {
-            Result = SaveToStreamEx(F, Level);
+            result = SaveToStream(F, level);
         }
         finally
         {
             F?.Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:1793
-    public void SaveToFile(string FileName)
+    public void SaveToFile(string fileName)
     {
         Stream F;
-        F = OpenFile(FileName, 65535);
+        F = OpenFile(fileName, 65535);
         try
         {
-            SaveToStreamEx(F, Level.Default);
+            SaveToStream(F, Level.Default);
         }
         finally
         {
@@ -130,17 +130,17 @@ public partial class CompressStream : MemoryStream
     }
 
     // An engine image the file boundary prepared: the inflated payload, at position 0.
-    public void LoadImage(byte[] Image)
+    public void LoadImage(byte[] image)
     {
-        this.WriteBuffer(Image);
+        this.WriteBuffer(image);
         Position = 0;
     }
 
     // Engine.pas:1805
-    public void LoadFromFile(string FileName)
+    public void LoadFromFile(string fileName)
     {
         Stream F;
-        F = OpenFile(FileName, 0 | 32);
+        F = OpenFile(fileName, 0 | 32);
         try
         {
             LoadFromStream(F);
@@ -151,7 +151,7 @@ public partial class CompressStream : MemoryStream
         }
     }
 
-    private static ByteArray4 CompressMagic = ByteArray4.From("CFS\0"u8);
+    private static ByteArray4 s_compressMagic = ByteArray4.From("CFS\0"u8);
 
     public enum Level : byte
     {

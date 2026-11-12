@@ -9,40 +9,40 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
-// FDaysActive
+// DaysActive
 public partial class HarmonyEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:921
-    public new const int ClassID = 135958;
+    public new const int ClassId = 135958;
 
-    public int FDaysActive;
+    public int DaysActive;
 
     // GlobalEnchantmentSpells.pas:931
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FDaysActive, 20);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref DaysActive, 20);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int("DaysActive", ref FDaysActive);
+        persister.Int32("DaysActive", ref DaysActive);
     }
 
     // GlobalEnchantmentSpells.pas:913
     public HarmonyEnchantment(ECustomNode owner) : base(owner)
     {
-        FName = AbilityRules.TranslateRStr(GameText.HarmonyRStr);
-        FEnchantmentType = GlobalEnchantmentType.Harmony;
-        FDispelMana = 50;
+        Name = AbilityRules.TranslateResourceString(GameText.s_harmonyText);
+        EnchantmentType = GlobalEnchantmentType.Harmony;
+        DispelMana = 50;
     }
 
     // GlobalEnchantmentSpells.pas:943
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayerIndex)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001986 && message.Payload.Int == PlayerIndex)
         {
             NewDay();
         }
@@ -52,25 +52,25 @@ public partial class HarmonyEnchantment : GlobalEnchantment
     public override int GetAIUpkeepPriority() => 500;
 
     // GlobalEnchantmentSpells.pas:956
-    public override bool Deactivate(byte Player)
+    public override bool Deactivate(byte player)
     {
-        base.Deactivate(Player);
-        if (FDaysActive > 10)
+        base.Deactivate(player);
+        if (DaysActive > 10)
         {
-            AoWHSMap.Current.FRaces.FRelationOffset -= 40;
+            AoWHSMap.Current.Races.RelationOffset -= 40;
         }
         else
         {
-            AoWHSMap.Current.FRaces.FRelationOffset -= FDaysActive * 4;
+            AoWHSMap.Current.Races.RelationOffset -= DaysActive * 4;
         }
 
         return true;
     }
 
     // GlobalEnchantmentSpells.pas:949
-    public override bool Activate(sbyte Player)
+    public override bool Activate(sbyte player)
     {
-        base.Activate(Player);
+        base.Activate(player);
         NewDay();
         return true;
     }
@@ -78,10 +78,10 @@ public partial class HarmonyEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:937
     public void NewDay()
     {
-        FDaysActive += 1;
-        if (FDaysActive <= 10)
+        DaysActive += 1;
+        if (DaysActive <= 10)
         {
-            AoWHSMap.Current.FRaces.FRelationOffset += 4;
+            AoWHSMap.Current.Races.RelationOffset += 4;
         }
     }
 

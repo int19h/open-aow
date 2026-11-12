@@ -20,67 +20,67 @@ public partial class PoisonPlantSpellTokenEvent : GlobalTargetSpellTokenEvent
     { }
 
     // PoisonP.pas:303
-    public new const int ClassID = 135941;
+    public new const int ClassId = 135941;
 
     // PoisonP.pas:361
     public override bool Process(Troop source, int value)
     {
         base.Process(source, value);
         CreatePoisonPlant(source);
-        AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 1);
-        AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+        AoWHSMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
+        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         return false;
     }
 
     // PoisonP.pas:308
-    public void CreatePoisonPlant(Troop Source)
+    public void CreatePoisonPlant(Troop source)
     {
-        MapLevel Level = default;
+        MapLevel level = default;
         HexNumberWalkData Walk = default;
-        PoisonPlant.Resource Resource = default;
-        AoWMapField MapF = default;
-        PoisonPlant Plant = default;
-        ImageSequenceAnimation Animation = default;
-        TwinkleAnimation Twinkle = default;
+        PoisonPlant.Resource resource = default;
+        AoWMapField mapField = default;
+        PoisonPlant plant = default;
+        ImageSequenceAnimation animation = default;
+        TwinkleAnimation twinkle = default;
         ref var walk = ref Walk;
-        Level = AoWHSMap.Current.MapContainer.MapLevels[FLocation.L];
-        HexNumberWalkData.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
-        Resource = (PoisonPlant.Resource)AoWHSSet.Current.MapObjectResourceList.FindChild(131999);
+        level = AoWHSMap.Current.MapContainer.MapLevels[Location.MapLevel];
+        HexNumberWalkData.InitializeHexNumberWalk(ref Walk, Location.X, Location.Y, 0);
+        resource = (PoisonPlant.Resource)AoWHSSet.Current.MapObjectResourceList.FindChild(131999);
         while (walk.Radius <= 1)
         {
-            if (walk.X >= 0 && walk.Y >= 0 && walk.X < Level.Width && walk.Y < Level.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                MapF = (AoWMapField)Level.GetField(walk.X, walk.Y);
-                if (((GlobalTargetSpell)AoWHSSet.Current.FSpellControl.GetSpell(12)).ValidTargetMapF(MapF) && MapF.GetArmyHS() == null)
+                mapField = (AoWMapField)level.GetField(walk.X, walk.Y);
+                if (((GlobalTargetSpell)AoWHSSet.Current.SpellControl.GetSpell(12)).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() == null)
                 {
-                    MapF.RestoreTerrain();
-                    Plant = (PoisonPlant)Resource.CreateResourceUser();
-                    Plant.FDaysRemaining = (sbyte)(3 + (AoWHSMap.Current.Random(11) - 5) / 5);
-                    Plant.FCasterPlayer = Source.FPlayer;
-                    Plant.FOriginalOverlay = MapF.OverlayType;
-                    AoWHSMap.Current.ClearTerrain(walk.X, walk.Y, FLocation.L, 0, -1);
-                    if (AoWHSMap.Current.PlaceHX(Plant, walk.X, walk.Y, FLocation.L))
+                    mapField.RestoreTerrain();
+                    plant = (PoisonPlant)resource.CreateResourceUser();
+                    plant.DaysRemaining = (sbyte)(3 + (AoWHSMap.Current.Random(11) - 5) / 5);
+                    plant.CasterPlayer = source.Player;
+                    plant.OriginalOverlay = mapField.OverlayType;
+                    AoWHSMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
+                    if (AoWHSMap.Current.PlaceHex(plant, walk.X, walk.Y, Location.MapLevel))
                     {
-                        Plant.FPlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
-                        Animation = new ImageSequenceAnimation(null);
-                        Animation.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(12).FCastImages.ImageSequences[0]);
-                        Animation.FOnShow = Plant.ShowSummonAnimation;
-                        Animation.FOnNewFrame = Plant.NewFrameSummonAnimation;
-                        Animation.FFrameCounter = -AoWHSMap.Current.Random(15);
-                        Animation.FAnimationLevel = 27;
-                        AoWHSMap.Current.PlaceHX(Animation, walk.X, walk.Y, FLocation.L);
-                        Twinkle = new TwinkleAnimation(null);
-                        Twinkle.Setup(AoWHSSet.Current.FSpellControl.GetSpell(2).FCastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(), 2, 6, Math.Abs(Animation.FFrameCounter + 5), Math.Abs(Animation.FFrameCounter + 5) / 2);
-                        AoWHSMap.Current.PlaceHX(Twinkle, walk.X, walk.Y, FLocation.L);
+                        plant.PlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
+                        animation = new ImageSequenceAnimation(null);
+                        animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(12).CastImages.ImageSequences[0]);
+                        animation.OnShow = plant.ShowSummonAnimation;
+                        animation.OnNewFrame = plant.NewFrameSummonAnimation;
+                        animation.FrameCounter = -AoWHSMap.Current.Random(15);
+                        animation.AnimationLevel = 27;
+                        AoWHSMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
+                        twinkle = new TwinkleAnimation(null);
+                        twinkle.Setup(AoWHSSet.Current.SpellControl.GetSpell(2).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(), 2, 6, Math.Abs(animation.FrameCounter + 5), Math.Abs(animation.FrameCounter + 5) / 2);
+                        AoWHSMap.Current.PlaceHex(twinkle, walk.X, walk.Y, Location.MapLevel);
                     }
                     else
                     {
-                        Plant?.Dispose();
+                        plant?.Dispose();
                     }
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref Walk);
         }
     }
 

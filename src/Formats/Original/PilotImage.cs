@@ -12,20 +12,20 @@ internal static class PilotImage
     public static JsonObject Decode(byte[] image, string className, string engine = "game")
     {
         var schema = FormatSchema.Current;
-        var cls = schema.Get(className);
-        var ctx = new DecodeContext(image, schema, engine, engine, null, FormatLimits.Default, new LayoutCounts());
-        var obj = new JsonObject();
-        ObjectImage.Decode(ctx, 0, image.Length, cls, DocumentNodePath.Root, obj);
-        return obj;
+        var classValue = schema.Get(className);
+        var context = new DecodeContext(image, schema, engine, engine, null, FormatLimits.Default, new LayoutCounts());
+        var objectValue = new JsonObject();
+        ObjectImage.Decode(context, 0, image.Length, classValue, DocumentNodePath.Root, objectValue);
+        return objectValue;
     }
 
-    public static byte[] Encode(JsonObject obj, string className, string engine = "game")
+    public static byte[] Encode(JsonObject objectValue, string className, string engine = "game")
     {
         var schema = FormatSchema.Current;
-        var cls = schema.Get(className);
-        var ctx = new EncodeContext(schema, engine, engine, null, FormatLimits.Default, ExportOptions.Default);
+        var classValue = schema.Get(className);
+        var context = new EncodeContext(schema, engine, engine, null, FormatLimits.Default, ExportOptions.Default);
         var output = new ByteBuffer();
-        ObjectImage.Encode(ctx, obj, cls, output, DocumentNodePath.Root, "$class", "$slot");
+        ObjectImage.Encode(context, objectValue, classValue, output, DocumentNodePath.Root, "$class", "$slot");
         return output.ToArray();
     }
 }

@@ -15,44 +15,44 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-// FText, FTextSeen
+// Text, TextSeen
 public partial class Sign : Structure
 {
     public Sign(ECustomNode owner) : base(owner)
     {
-        FText = new StringList();
-        FTextSeen = new BitList();
+        Text = new StringList();
+        TextSeen = new BitList();
     }
 
     // Sign.pas:99
-    public new const int ClassID = 131330;
+    public new const int ClassId = 131330;
 
-    public StringList FText;
-    public BitList FTextSeen;
+    public StringList Text;
+    public BitList TextSeen;
 
     // Sign.pas:92
     public override void Dispose()
     {
-        FText?.Dispose();
-        FTextSeen?.Dispose();
+        Text?.Dispose();
+        TextSeen?.Dispose();
         base.Dispose();
     }
 
     // Sign.pas:105
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStrings(FText, 7);
-        if (AoWHSMap.Current != null && AoWHSMap.Current.FConnectionType != (PlayerConnectionType)1)
+        base.ReadWrite(stream);
+        stream.rwStrings(Text, 7);
+        if (AoWHSMap.Current != null && AoWHSMap.Current.ConnectionType != (PlayerConnectionType)1)
         {
-            Stream.rwStreamProc(8, FTextSeen.LoadFromStream, FTextSeen.SaveToStream);
+            stream.rwStreamProc(8, TextSeen.LoadFromStream, TextSeen.SaveToStream);
         }
     }
 
     // Sign.pas:85
 
     // Sign.pas:102
-    public override sbyte GetOverlay(int Index) => -1;
+    public override sbyte GetOverlay(int index) => -1;
 
     // Sign.pas:119
     public override void Select()
@@ -60,114 +60,114 @@ public partial class Sign : Structure
         base.Select();
         if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            FTextSeen[AoWHSMap.Current.FSeatedPlayer] = true;
+            TextSeen[AoWHSMap.Current.SeatedPlayer] = true;
         }
     }
 
     // Sign.pas:113
-    public bool GetTextSeen(sbyte Player) => FTextSeen[Player];
+    public bool GetTextSeen(sbyte player) => TextSeen[player];
 
     // Sign.pas:116
-    public void SetText(StringCollection Text)
+    public void SetText(StringCollection text)
     {
-        FText.Assign(Text);
+        Text.Assign(text);
         Update();
     }
 
     // Sign.pas:125
     public bool CanChangeText()
     {
-        ArmyHexSprite ArmyHS;
-        ArmyHS = ((AoWMapField)Owner).GetArmyHS();
-        return ArmyHS != null && (byte)ArmyHS.FArmy.FPlayer == (byte)AoWHSMap.Current.FSeatedPlayer;
+        ArmyHexSprite armyHexSprite;
+        armyHexSprite = ((AoWMapField)Owner).GetArmyHexSprite();
+        return armyHexSprite != null && (byte)armyHexSprite.Army.Player == (byte)AoWHSMap.Current.SeatedPlayer;
     }
 
     // Sign.pas:134
-    public bool ChangeText(int Player, StringCollection Text)
+    public bool ChangeText(int player, StringCollection text)
     {
-        bool Result;
-        UpdateSignTokenEvent Event;
-        if (!AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy() && CanChangeText())
+        bool result;
+        UpdateSignTokenEvent eventValue;
+        if (!AoWHSMap.Current.Players.GetPlayers(player).GetBusy() && CanChangeText())
         {
-            Event = new UpdateSignTokenEvent(null);
-            Event.FXhx = GetXhx();
-            Event.FYhx = GetYhx();
-            Event.FLhx = GetLhx();
-            Event.FText.Assign(Text);
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new UpdateSignTokenEvent(null);
+            eventValue.HexX = GetHexX();
+            eventValue.HexY = GetHexY();
+            eventValue.HexLevel = GetHexLevel();
+            eventValue.Text.Assign(text);
+            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     public new partial class Resource : StructureResource
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FConnectRoads = false;
-            FTerrainBound = false;
+            ConnectRoads = false;
+            TerrainBound = false;
         }
 
         // Sign.pas:159
-        public new const int ClassID = 131331;
+        public new const int ClassId = 131331;
 
         // Sign.pas:152
 
         // Sign.pas:165
-        public override int ResourceUserClassID() => 131330;
+        public override int ResourceUserClassId() => 131330;
 
         // Sign.pas:168
-        public override void Show(int X, int Y, in LockedSurface SurfaceDesc, Structure Structure)
+        public override void Show(int X, int Y, in LockedSurface lockedSurface, Structure structure)
         {
-            ImageSequence Sequence;
-            int Index;
-            int Offset;
-            int Image;
-            bool Animate;
-            if (FImageSequenceList != null)
+            ImageSequence sequence;
+            int index;
+            int offset;
+            int image;
+            bool animate;
+            if (_imageSequenceList != null)
             {
-                Index = Structure.ImageIndex;
-                Offset = ((MapField)Structure.Owner).Xhx + ((MapField)Structure.Owner).Yhx * 16;
-                Animate = AoWHSMap.Current.FSeatedPlayer < 0 || !((Sign)Structure).GetTextSeen(AoWHSMap.Current.FSeatedPlayer);
-                if (Index < FImageSequenceList.Count)
+                index = structure.ImageIndex;
+                offset = ((MapField)structure.Owner).HexX + ((MapField)structure.Owner).HexY * 16;
+                animate = AoWHSMap.Current.SeatedPlayer < 0 || !((Sign)structure).GetTextSeen(AoWHSMap.Current.SeatedPlayer);
+                if (index < _imageSequenceList.Count)
                 {
-                    Sequence = (ImageSequence)FImageSequenceList.List[Index];
+                    sequence = (ImageSequence)_imageSequenceList.List[index];
                 }
                 else
                 {
-                    Sequence = null;
+                    sequence = null;
                 }
 
-                while (Sequence != null)
+                while (sequence != null)
                 {
-                    if (Animate)
+                    if (animate)
                     {
-                        Image = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, Offset);
+                        image = sequence.GetFrameIndex(AoWHSMap.Current.Frame, offset);
                     }
                     else
                     {
-                        Image = Sequence.GetUnloopedFrameIndex(0);
+                        image = sequence.GetUnloopedFrameIndex(0);
                     }
 
-                    if (Image != -1)
+                    if (image != -1)
                     {
-                        if (Structure.GetSelected() && (AoWHSMap.Current.Frame & 6) == 6)
+                        if (structure.GetSelected() && (AoWHSMap.Current.Frame & 6) == 6)
                         {
-                            Sequence.ImageLibrary[Image].ShowTransparent(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
+                            sequence.ImageLibrary[image].ShowTransparent(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
                         }
                         else
                         {
-                            Sequence.ImageLibrary[Image].Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
+                            sequence.ImageLibrary[image].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
                         }
                     }
 
-                    Sequence = Sequence.Next;
+                    sequence = sequence.Next;
                 }
             }
         }
@@ -175,9 +175,9 @@ public partial class Sign : Structure
         // Sign.pas:37
 
         // Sign.pas:162
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(SignRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_signText);
 
-        private static readonly string SignRStr = "Sign";
+        private static readonly string s_signText = "Sign";
 
     }
 

@@ -18,37 +18,37 @@ namespace Aow.Game.AI.Groups;
 // city location, enemy strength, required strength, target selector
 public partial class FortifyAIGroupControl : AIGroupControl
 {
-    public MapCoordinate FFortifyLocation;
-    public int FEnemyStrength;
-    public int FRequiredStrength;
-    public AIGroupTargetSelector FTargetSelector;
+    public MapCoordinate FortifyLocation;
+    public int EnemyStrength;
+    public int RequiredStrength;
+    public AIGroupTargetSelector TargetSelector;
 
     // MainAG.pas:262
     public override void Dispose()
     {
-        FTargetSelector.Release();
+        TargetSelector.Release();
         base.Dispose();
     }
 
     // MainAG.pas:256
     public FortifyAIGroupControl(ECustomNode owner) : base(owner)
     {
-        FTargetSelector = new AIGroupTargetSelector(null);
+        TargetSelector = new AIGroupTargetSelector(null);
     }
 
     // MainAG.pas:278
-    public override void TargetFoundEvent(AIGroupTargetFinder Sender, AIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
-        switch (Sender.FSelector.FTargetInfo.Mode)
+        switch (sender.Selector.TargetInfo.Mode)
         {
             case AITargetMode.Fortify:
-                base.TargetFoundEvent(Sender, Target, ref SearchDone);
+                base.TargetFoundEvent(sender, target, ref searchDone);
                 break;
             case AITargetMode.AttackArmies:
-                base.TargetFoundEvent(Sender, Target, ref SearchDone);
+                base.TargetFoundEvent(sender, target, ref searchDone);
                 break;
             case AITargetMode.Attack:
-                base.TargetFoundEvent(Sender, Target, ref SearchDone);
+                base.TargetFoundEvent(sender, target, ref searchDone);
                 break;
         }
     }
@@ -56,386 +56,386 @@ public partial class FortifyAIGroupControl : AIGroupControl
     // MainAG.pas:407
     public override void ProcessStates()
     {
-        AIGroupTargetFinder Finder;
-        AIRecruitmentGroupFinder Recruitment;
-        AIProductionLocationFinder ProductionFinder;
-        AIGroupRecruitControl Recruit;
-        AIGroupProductionControl Produce;
-        AIGroupDefenseControl Defense;
-        AIGroupControlTarget CurrentTarget;
-        AIGroupControlTarget NewTarget;
+        AIGroupTargetFinder finder;
+        AIRecruitmentGroupFinder recruitment;
+        AIProductionLocationFinder productionFinder;
+        AIGroupRecruitControl recruit;
+        AIGroupProductionControl produce;
+        AIGroupDefenseControl defense;
+        AIGroupControlTarget currentTarget;
+        AIGroupControlTarget newTarget;
         int I;
-        int Excess;
-        ArmyHexSprite Army;
-        City ACity;
-        switch (FState)
+        int excess;
+        ArmyHexSprite army;
+        City city;
+        switch (State)
         {
             case 0:
-                Finder = new AIGroupTargetFinder(null);
-                Finder.Setup(this);
-                Finder.FSelector.FTargetInfo.Mode = AITargetMode.Fortify;
-                Finder.FMode = Finder.FMode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovepathBFS);
-                Finder.FRange = 12;
-                ActivatePlugin(Finder);
-                Finder.Release();
-                FState += 1;
+                finder = new AIGroupTargetFinder(null);
+                finder.Setup(this);
+                finder.Selector.TargetInfo.Mode = AITargetMode.Fortify;
+                finder.Mode = finder.Mode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
+                finder.Range = 12;
+                ActivatePlugin(finder);
+                finder.Release();
+                State += 1;
                 break;
             case 1:
                 I = 0;
-                while (I < FTargets.Count && FTargets.GetTargets(I).FStatus.Contains(AIGroupTargetFlags.Done))
+                while (I < Targets.Count && Targets.GetTargets(I).Status.Contains(AIGroupTargetFlags.Done))
                 {
                     I += 1;
                 }
 
-                if (I < FTargets.Count)
+                if (I < Targets.Count)
                 {
-                    var surroundingEnemyStrength = GetSurroundingEnemyStrength(FTargets.GetTargets(I).FLocation, 70);
-                    FTargets.GetTargets(I).FDataA = surroundingEnemyStrength;
-                    var target = FTargets.GetTargets(I);
-                    FTargets.GetTargets(I).FStatus = target.FStatus + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Done);
+                    var surroundingEnemyStrength = GetSurroundingEnemyStrength(Targets.GetTargets(I).Location, 70);
+                    Targets.GetTargets(I).DataA = surroundingEnemyStrength;
+                    var target = Targets.GetTargets(I);
+                    Targets.GetTargets(I).Status = target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Done);
                 }
                 else
                 {
-                    FState += 1;
+                    State += 1;
                 }
 
                 break;
             case 2:
-                FTargets.Validate();
-                NewTarget = null;
-                I = FTargets.IndexOfXYL(FLocation.Packed);
+                Targets.Validate();
+                newTarget = null;
+                I = Targets.IndexOfMapCoordinate(Location.Packed);
                 if (I == -1)
                 {
-                    CurrentTarget = null;
+                    currentTarget = null;
                 }
                 else
                 {
-                    CurrentTarget = FTargets.GetTargets(I);
+                    currentTarget = Targets.GetTargets(I);
                 }
 
                 {
                     I = 0;
-                    int last = FTargets.Count - 1;
+                    int last = Targets.Count - 1;
                     for (; I <= last; I += 1)
                     {
-                        var targetData = FTargets.GetTargets(I);
-                        var targetMovePoints = FTargets.GetTargets(I);
-                        FTargets.GetTargets(I).FDataB = targetData.FData.Priority * 10 + targetMovePoints.FMovePoints * -2;
-                        Excess = FTargets.GetTargets(I).FDataA - FStrengthMax;
-                        if (Excess > 0)
+                        var targetData = Targets.GetTargets(I);
+                        var targetMovePoints = Targets.GetTargets(I);
+                        Targets.GetTargets(I).DataB = targetData.Data.Priority * 10 + targetMovePoints.MovePoints * -2;
+                        excess = Targets.GetTargets(I).DataA - StrengthMax;
+                        if (excess > 0)
                         {
-                            var target = FTargets.GetTargets(I);
-                            target.FDataB -= (int)(((uint)Excess) >> 4);
+                            var target = Targets.GetTargets(I);
+                            target.DataB -= (int)(((uint)excess) >> 4);
                         }
 
-                        Excess = FTargets.GetTargets(I).FPathStrength;
-                        if (Excess > 0)
+                        excess = Targets.GetTargets(I).PathStrength;
+                        if (excess > 0)
                         {
-                            var target = FTargets.GetTargets(I);
-                            target.FDataB -= (int)(((uint)Excess) >> 3);
+                            var target = Targets.GetTargets(I);
+                            target.DataB -= (int)(((uint)excess) >> 3);
                         }
 
-                        if (FTargets.GetTargets(I).FLocation.Packed != FLocation.Packed)
+                        if (Targets.GetTargets(I).Location.Packed != Location.Packed)
                         {
-                            var targetLocation = FTargets.GetTargets(I);
-                            Army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(targetLocation.FLocation.Packed)).GetArmyHS();
-                            if (Army != null)
+                            var targetLocation = Targets.GetTargets(I);
+                            army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(targetLocation.Location.Packed)).GetArmyHexSprite();
+                            if (army != null)
                             {
-                                var count = Army.FArmy.Count;
-                                var target = FTargets.GetTargets(I);
-                                target.FDataB -= count << 2;
+                                var count = army.Army.Count;
+                                var target = Targets.GetTargets(I);
+                                target.DataB -= count << 2;
                             }
                         }
                     }
                 }
 
-                FTargets.SortOnPriority();
-                if (FTargets.Count != 0 && FTargets.GetTargets(0) != CurrentTarget)
+                Targets.SortOnPriority();
+                if (Targets.Count != 0 && Targets.GetTargets(0) != currentTarget)
                 {
-                    FTargets.SortOnDataB();
-                    bool condition = CurrentTarget == null;
+                    Targets.SortOnDataB();
+                    bool condition = currentTarget == null;
                     if (!condition)
                     {
-                        var target = FTargets.GetTargets(0);
-                        condition = CurrentTarget.FData.Priority < target.FData.Priority;
+                        var target = Targets.GetTargets(0);
+                        condition = currentTarget.Data.Priority < target.Data.Priority;
                     }
 
                     if (condition)
                     {
-                        NewTarget = FTargets.GetTargets(0);
+                        newTarget = Targets.GetTargets(0);
                     }
                     else
                     {
-                        NewTarget = CurrentTarget;
+                        newTarget = currentTarget;
                     }
                 }
 
-                if (NewTarget != null && NewTarget != CurrentTarget)
+                if (newTarget != null && newTarget != currentTarget)
                 {
-                    FFortifyLocation = NewTarget.FLocation;
+                    FortifyLocation = newTarget.Location;
                 }
                 else
                 {
-                    if (CurrentTarget != null)
+                    if (currentTarget != null)
                     {
-                        FFortifyLocation = CurrentTarget.FLocation;
+                        FortifyLocation = currentTarget.Location;
                     }
                     else
                     {
-                        FFortifyLocation.Packed = 16777215;
+                        FortifyLocation.Packed = 16777215;
                     }
                 }
 
-                FState += 1;
+                State += 1;
                 break;
             case 3:
-                if (FFortifyLocation.Packed == 16777215)
+                if (FortifyLocation.Packed == 16777215)
                 {
-                    FEnemyStrength = GetSurroundingEnemyStrength(FLocation, 70);
+                    EnemyStrength = GetSurroundingEnemyStrength(Location, 70);
                 }
                 else
                 {
-                    FEnemyStrength = GetSurroundingEnemyStrength(FFortifyLocation, 70);
+                    EnemyStrength = GetSurroundingEnemyStrength(FortifyLocation, 70);
                 }
 
                 UpdateRequiredStrength();
-                FState += 1;
+                State += 1;
                 break;
             case 4:
-                Recruitment = new AIRecruitmentGroupFinder(null);
-                Recruitment.Setup(this);
-                ActivatePlugin(Recruitment);
-                Recruitment.Release();
-                FState += 1;
+                recruitment = new AIRecruitmentGroupFinder(null);
+                recruitment.Setup(this);
+                ActivatePlugin(recruitment);
+                recruitment.Release();
+                State += 1;
                 break;
             case 5:
-                FProductionLocations.Clear();
-                ProductionFinder = new AIProductionLocationFinder(null);
-                ProductionFinder.Setup(this);
-                ProductionFinder.FSelector.FMovePointsMax = 24;
-                ActivatePlugin(ProductionFinder);
-                ProductionFinder.Release();
-                FState += 1;
+                ProductionLocations.Clear();
+                productionFinder = new AIProductionLocationFinder(null);
+                productionFinder.Setup(this);
+                productionFinder.Selector.MovePointsMax = 24;
+                ActivatePlugin(productionFinder);
+                productionFinder.Release();
+                State += 1;
                 break;
             case 6:
-                if (FRecruitmentGroups.Count != 0 && FRequiredStrength > FStrengthMax)
+                if (RecruitmentGroups.Count != 0 && RequiredStrength > StrengthMax)
                 {
-                    Recruit = new AIGroupRecruitControl(null);
-                    Recruit.Setup(this);
-                    var strengthMax = FGroup.FProductions.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
-                    Recruit.FRecruitStrength = FRequiredStrength - (strengthMax + FStrengthMax);
-                    Recruit.FMode = AIGroupRecruitControl.Mode.AutoRecruit;
-                    ActivatePlugin(Recruit);
-                    Recruit.Release();
-                    FState += 1;
+                    recruit = new AIGroupRecruitControl(null);
+                    recruit.Setup(this);
+                    var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                    recruit.RecruitStrength = RequiredStrength - (strengthMax + StrengthMax);
+                    recruit.Mode = AIGroupRecruitControlMode.AutoRecruit;
+                    ActivatePlugin(recruit);
+                    recruit.Release();
+                    State += 1;
                 }
                 else
                 {
-                    FState = 10;
+                    State = 10;
                 }
 
                 break;
             case 7:
-                FRecruitmentGroups.Validate(this);
-                if (FStrengthMax < FRequiredStrength && FRecruitmentGroups.Count != 0)
+                RecruitmentGroups.Validate(this);
+                if (StrengthMax < RequiredStrength && RecruitmentGroups.Count != 0)
                 {
-                    Recruit = new AIGroupRecruitControl(null);
-                    Recruit.Setup(this);
-                    var strengthMax = FGroup.FProductions.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
-                    Recruit.FRecruitStrength = FRequiredStrength - (strengthMax + FStrengthMax);
-                    Recruit.FMode = AIGroupRecruitControl.Mode.ForceRecruit;
-                    ActivatePlugin(Recruit);
-                    Recruit.Release();
+                    recruit = new AIGroupRecruitControl(null);
+                    recruit.Setup(this);
+                    var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                    recruit.RecruitStrength = RequiredStrength - (strengthMax + StrengthMax);
+                    recruit.Mode = AIGroupRecruitControlMode.ForceRecruit;
+                    ActivatePlugin(recruit);
+                    recruit.Release();
                 }
 
-                FState = 10;
+                State = 10;
                 break;
             case 10:
-                if (FStrengthMax >= FEnemyStrength && FGroup.GetAdjacent())
+                if (StrengthMax >= EnemyStrength && Group.GetAdjacent())
                 {
-                    FTargets.Clear();
-                    Finder = new AIGroupTargetFinder(null);
-                    Finder.Setup(this);
-                    Finder.FSelector.FTargetInfo.Mode = AITargetMode.AttackArmies;
-                    Finder.FSelector.FMovePointsMax = 55;
-                    if (FFortifyLocation.Packed == 16777215)
+                    Targets.Clear();
+                    finder = new AIGroupTargetFinder(null);
+                    finder.Setup(this);
+                    finder.Selector.TargetInfo.Mode = AITargetMode.AttackArmies;
+                    finder.Selector.MovePointsMax = 55;
+                    if (FortifyLocation.Packed == 16777215)
                     {
-                        Finder.FSelector.FSourceLocation = FLocation;
+                        finder.Selector.SourceLocation = Location;
                     }
                     else
                     {
-                        Finder.FSelector.FSourceLocation = FFortifyLocation;
+                        finder.Selector.SourceLocation = FortifyLocation;
                     }
 
-                    Finder.FMode = Finder.FMode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovepathBFS);
-                    Finder.FRange = 12;
-                    ActivatePlugin(Finder);
-                    Finder.Release();
-                    FState += 1;
+                    finder.Mode = finder.Mode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
+                    finder.Range = 12;
+                    ActivatePlugin(finder);
+                    finder.Release();
+                    State += 1;
                 }
                 else
                 {
-                    if (FStrengthMax < FEnemyStrength)
+                    if (StrengthMax < EnemyStrength)
                     {
-                        FState = 18;
+                        State = 18;
                     }
                     else
                     {
-                        FState = 17;
+                        State = 17;
                     }
                 }
 
                 break;
             case 11:
-                if (FTargets.Count >= 1)
+                if (Targets.Count >= 1)
                 {
-                    if (FTargets.Count == 1 || FortifyCity() == null || CanBreachWall())
+                    if (Targets.Count == 1 || FortifyCity() == null || CanBreachWall())
                     {
-                        FTargetSelector.Setup(this);
-                        FTargetSelector.FPathStrengthFactor = (float)1.5;
-                        FTargetSelector.FCurrentPathStrengthFactor = (float)1.3;
-                        FTargetSelector.FSuperiority = (float)1.6;
-                        FTargetSelector.FNearSuperiority = (float)1.4;
-                        FTargetSelector.FMode = FTargetSelector.FMode - Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.MultiTargets);
-                        ActivatePlugin(FTargetSelector);
-                        FState += 1;
+                        TargetSelector.Setup(this);
+                        TargetSelector.PathStrengthFactor = (float)1.5;
+                        TargetSelector.CurrentPathStrengthFactor = (float)1.3;
+                        TargetSelector.Superiority = (float)1.6;
+                        TargetSelector.NearSuperiority = (float)1.4;
+                        TargetSelector.Mode = TargetSelector.Mode - Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.MultiTargets);
+                        ActivatePlugin(TargetSelector);
+                        State += 1;
                     }
                     else
                     {
-                        FState = 18;
+                        State = 18;
                     }
                 }
                 else
                 {
-                    FState = 13;
+                    State = 13;
                 }
 
                 break;
             case 12:
-                if (FTargetSelector.FTargetStatus == AIGroupTargetingStatus.TargetConquered)
+                if (TargetSelector.TargetStatus == AIGroupTargetingStatus.TargetConquered)
                 {
-                    FState = 10;
+                    State = 10;
                 }
                 else
                 {
-                    if (FFortifyLocation.Packed != 16777215)
+                    if (FortifyLocation.Packed != 16777215)
                     {
                         SetupME();
-                        ExecuteME(FFortifyLocation.X, FFortifyLocation.Y, FFortifyLocation.L);
+                        ExecuteME(FortifyLocation.X, FortifyLocation.Y, FortifyLocation.MapLevel);
                     }
 
-                    FState = 20;
+                    State = 20;
                 }
 
                 break;
             case 13:
-                ACity = (City)AoWHSMap.Current.MapContainer.GetFieldXYL(FLocation.Packed).FindNoneTransparentHS(typeof(City));
-                if (ACity != null && ACity.GetActiveAction() == CityAction.Migrate)
+                city = (City)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Location.Packed).FindNoneTransparentHexSprite(typeof(City));
+                if (city != null && city.GetActiveAction() == CityAction.Migrate)
                 {
-                    Defense = new AIGroupDefenseControl(null);
-                    Defense.FDefendMode = AIGroupDefenseControl.GroupDefendMode.Custom;
-                    Defense.FCustomState = 19;
-                    ActivatePlugin(Defense);
-                    Defense.Release();
+                    defense = new AIGroupDefenseControl(null);
+                    defense.DefendMode = AIGroupDefenseControl.GroupDefendMode.Custom;
+                    defense.CustomState = 19;
+                    ActivatePlugin(defense);
+                    defense.Release();
                 }
 
-                FState += 1;
+                State += 1;
                 break;
             case 14:
-                FTargets.Clear();
-                Finder = new AIGroupTargetFinder(null);
-                Finder.Setup(this);
-                Finder.FSelector.FTargetInfo.Mode = AITargetMode.Attack;
-                Finder.FSelector.FMovePointsMax = 55;
-                if (FFortifyLocation.Packed == 16777215)
+                Targets.Clear();
+                finder = new AIGroupTargetFinder(null);
+                finder.Setup(this);
+                finder.Selector.TargetInfo.Mode = AITargetMode.Attack;
+                finder.Selector.MovePointsMax = 55;
+                if (FortifyLocation.Packed == 16777215)
                 {
-                    Finder.FSelector.FSourceLocation = FLocation;
+                    finder.Selector.SourceLocation = Location;
                 }
                 else
                 {
-                    Finder.FSelector.FSourceLocation = FFortifyLocation;
+                    finder.Selector.SourceLocation = FortifyLocation;
                 }
 
-                Finder.FMode = Finder.FMode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovepathBFS);
-                Finder.FRange = 12;
-                ActivatePlugin(Finder);
-                Finder.Release();
-                FState += 1;
+                finder.Mode = finder.Mode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
+                finder.Range = 12;
+                ActivatePlugin(finder);
+                finder.Release();
+                State += 1;
                 break;
             case 15:
-                if (FTargets.Count >= 1)
+                if (Targets.Count >= 1)
                 {
-                    FTargetSelector.Setup(this);
-                    FTargetSelector.FPathStrengthFactor = (float)1.5;
-                    FTargetSelector.FCurrentPathStrengthFactor = (float)1.3;
-                    FTargetSelector.FSuperiority = (float)1.6;
-                    FTargetSelector.FNearSuperiority = (float)1.4;
-                    FTargetSelector.FMode = FTargetSelector.FMode - Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.MultiTargets);
-                    ActivatePlugin(FTargetSelector);
-                    FState += 1;
+                    TargetSelector.Setup(this);
+                    TargetSelector.PathStrengthFactor = (float)1.5;
+                    TargetSelector.CurrentPathStrengthFactor = (float)1.3;
+                    TargetSelector.Superiority = (float)1.6;
+                    TargetSelector.NearSuperiority = (float)1.4;
+                    TargetSelector.Mode = TargetSelector.Mode - Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.MultiTargets);
+                    ActivatePlugin(TargetSelector);
+                    State += 1;
                 }
                 else
                 {
-                    FState = 18;
+                    State = 18;
                 }
 
                 break;
             case 16:
-                if (FTargetSelector.FTargetStatus == AIGroupTargetingStatus.TargetConquered)
+                if (TargetSelector.TargetStatus == AIGroupTargetingStatus.TargetConquered)
                 {
-                    FState = 13;
+                    State = 13;
                 }
                 else
                 {
-                    if (FFortifyLocation.Packed != 16777215 && !Set<AIGroupTargetingStatus>.Of(AIGroupTargetingStatus.SettingupTarget, AIGroupTargetingStatus.ExecutingTarget).Contains(FTargetSelector.FTargetStatus))
+                    if (FortifyLocation.Packed != 16777215 && !Set<AIGroupTargetingStatus>.Of(AIGroupTargetingStatus.SettingUpTarget, AIGroupTargetingStatus.ExecutingTarget).Contains(TargetSelector.TargetStatus))
                     {
                         SetupME();
-                        ExecuteME(FFortifyLocation.X, FFortifyLocation.Y, FFortifyLocation.L);
+                        ExecuteME(FortifyLocation.X, FortifyLocation.Y, FortifyLocation.MapLevel);
                     }
 
-                    FState = 20;
+                    State = 20;
                 }
 
                 break;
             case 17:
-                if (FStrengthMax >= FEnemyStrength)
+                if (StrengthMax >= EnemyStrength)
                 {
-                    ACity = (City)AoWHSMap.Current.MapContainer.GetFieldXYL(FLocation.Packed).FindNoneTransparentHS(typeof(City));
-                    if (ACity != null && ACity.GetActiveAction() == CityAction.Migrate)
+                    city = (City)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Location.Packed).FindNoneTransparentHexSprite(typeof(City));
+                    if (city != null && city.GetActiveAction() == CityAction.Migrate)
                     {
-                        Defense = new AIGroupDefenseControl(null);
-                        Defense.FDefendMode = AIGroupDefenseControl.GroupDefendMode.Custom;
-                        Defense.FCustomState = 19;
-                        ActivatePlugin(Defense);
-                        Defense.Release();
+                        defense = new AIGroupDefenseControl(null);
+                        defense.DefendMode = AIGroupDefenseControl.GroupDefendMode.Custom;
+                        defense.CustomState = 19;
+                        ActivatePlugin(defense);
+                        defense.Release();
                     }
                 }
 
-                FState += 1;
+                State += 1;
                 break;
             case 18:
-                if (FFortifyLocation.Packed == 16777215)
+                if (FortifyLocation.Packed == 16777215)
                 {
                     SetupME();
-                    ExecuteME(FLocation.X, FLocation.Y, FLocation.L);
+                    ExecuteME(Location.X, Location.Y, Location.MapLevel);
                 }
                 else
                 {
                     SetupME();
-                    ExecuteME(FFortifyLocation.X, FFortifyLocation.Y, FFortifyLocation.L);
+                    ExecuteME(FortifyLocation.X, FortifyLocation.Y, FortifyLocation.MapLevel);
                 }
 
-                FState = 20;
+                State = 20;
                 break;
             case 19:
                 SetupME();
-                ExecuteME(FLocation.X, FLocation.Y, FLocation.L);
-                FState = 20;
+                ExecuteME(Location.X, Location.Y, Location.MapLevel);
+                State = 20;
                 break;
             case 20:
                 if (FortifyCity() != null)
                 {
-                    FState = 21;
+                    State = 21;
                 }
                 else
                 {
@@ -444,73 +444,73 @@ public partial class FortifyAIGroupControl : AIGroupControl
 
                 break;
             case 21:
-                ACity = FortifyCity();
-                if (ACity != null && ACity.FProduction.FStatus == ProductionControl.Status.Idle)
+                city = FortifyCity();
+                if (city != null && city.Production.Status == ProductionControlStatus.Idle)
                 {
-                    if (ACity.FWallType == 0)
+                    if (city.WallType == 0)
                     {
-                        var fortifyCost = ACity.FortifyCost();
-                        if (AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.RequestExpense(fortifyCost, 0))
+                        var fortifyCost = city.FortifyCost();
+                        if (AoWHSMap.Current.Players.GetPlayers(Group.Player).AIBudget.RequestExpense(fortifyCost, 0))
                         {
-                            if (ACity.Fortify(false))
+                            if (city.Fortify(false))
                             {
-                                var aCityFortifyCost = ACity.FortifyCost();
-                                AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.ExpenseMade(aCityFortifyCost, 0);
+                                var aCityFortifyCost = city.FortifyCost();
+                                AoWHSMap.Current.Players.GetPlayers(Group.Player).AIBudget.ExpenseMade(aCityFortifyCost, 0);
                             }
                         }
                     }
                     else
                     {
-                        if (ACity.FWallType == 1 && AoWHSMap.Current.FDay > 29)
+                        if (city.WallType == 1 && AoWHSMap.Current.Day > 29)
                         {
-                            var fortifyCost = ACity.FortifyCost();
-                            if (AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.RequestExpense(fortifyCost, 0))
+                            var fortifyCost = city.FortifyCost();
+                            if (AoWHSMap.Current.Players.GetPlayers(Group.Player).AIBudget.RequestExpense(fortifyCost, 0))
                             {
-                                if (ACity.Fortify(false))
+                                if (city.Fortify(false))
                                 {
-                                    var aCityFortifyCost = ACity.FortifyCost();
-                                    AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.ExpenseMade(aCityFortifyCost, 0);
+                                    var aCityFortifyCost = city.FortifyCost();
+                                    AoWHSMap.Current.Players.GetPlayers(Group.Player).AIBudget.ExpenseMade(aCityFortifyCost, 0);
                                 }
                             }
                         }
                     }
                 }
 
-                FState += 1;
+                State += 1;
                 break;
             case 22:
-                if (FGroup.FProductions.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall)) + FStrengthMax < FRequiredStrength)
+                if (Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall)) + StrengthMax < RequiredStrength)
                 {
-                    FProductionLocations.Clear();
-                    ProductionFinder = new AIProductionLocationFinder(null);
-                    ProductionFinder.Setup(this);
-                    ProductionFinder.FSelector.FMovePointsMax = 24;
-                    ActivatePlugin(ProductionFinder);
-                    ProductionFinder.Release();
-                    FState += 1;
+                    ProductionLocations.Clear();
+                    productionFinder = new AIProductionLocationFinder(null);
+                    productionFinder.Setup(this);
+                    productionFinder.Selector.MovePointsMax = 24;
+                    ActivatePlugin(productionFinder);
+                    productionFinder.Release();
+                    State += 1;
                 }
                 else
                 {
-                    FState += 1;
+                    State += 1;
                 }
 
                 break;
             case 23:
-                if (FProductionLocations.Count > 0)
+                if (ProductionLocations.Count > 0)
                 {
-                    Produce = new AIGroupProductionControl(null);
-                    Produce.Setup(this);
-                    var strengthMax = FGroup.FProductions.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
-                    Produce.FProduceStrength = FRequiredStrength - (strengthMax + FStrengthMax);
-                    Produce.FMode = AIGroupProductionControl.Mode.AutoProduce;
-                    ActivatePlugin(Produce);
-                    Produce.Release();
+                    produce = new AIGroupProductionControl(null);
+                    produce.Setup(this);
+                    var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                    produce.ProduceStrength = RequiredStrength - (strengthMax + StrengthMax);
+                    produce.Mode = AIGroupProductionControlMode.AutoProduce;
+                    ActivatePlugin(produce);
+                    produce.Release();
                 }
 
-                FState += 1;
+                State += 1;
                 break;
             case 24:
-                switch (FGroup.FTargetType)
+                switch (Group.TargetType)
                 {
                     case AIGroupTargetStatus.None:
                     case AIGroupTargetStatus.Idle:
@@ -518,7 +518,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                         break;
                 }
 
-                FState += 1;
+                State += 1;
                 break;
             case 25:
                 Done();
@@ -532,104 +532,104 @@ public partial class FortifyAIGroupControl : AIGroupControl
     // MainAG.pas:268
     public City FortifyCity()
     {
-        City Result;
-        if (FFortifyLocation.Packed != 16777215)
+        City result;
+        if (FortifyLocation.Packed != 16777215)
         {
-            Result = (City)AoWHSMap.Current.MapContainer.GetFieldXYL(FFortifyLocation.Packed).FindNoneTransparentHS(typeof(City));
+            result = (City)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(FortifyLocation.Packed).FindNoneTransparentHexSprite(typeof(City));
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // MainAG.pas:287
-    public int GetSurroundingEnemyStrength(MapCoordinate Location, int Radius)
+    public int GetSurroundingEnemyStrength(MapCoordinate location, int radius)
     {
-        MoveControlSettings Settings;
-        MapFieldMessage Msg = default;
+        MoveControlSettings settings;
+        MapFieldMessage message = default;
         var query = new BattleFieldQuery();
-        ref var Info = ref query.Info;
-        Settings = new MoveControlSettings(null);
-        Settings.FPlayer = FGroup.FPlayer;
-        Settings.FMode = Settings.FMode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
-        Settings.SetSourcePos(Location.X, Location.Y, Location.L);
-        Settings.FMovePointsMax = Radius;
-        Settings.FArmyHS = null;
-        Settings.FSelection = 0;
-        var moveTypesToInt = MovementTables.MoveTypesToInt(Set<MoveType>.Of(MoveType.Flying));
-        Settings.FMovePointTable = MovementTables.MovePointTables[moveTypesToInt];
-        AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
-        BattleFieldInfo.SetupBattleFieldInfo(ref Info, FGroup.FPlayer, FGroup.FIndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents), AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
-        Info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
-        Msg.MsgID = 4360;
-        Msg.Param[0] = query;
-        for (int I = Settings.FProcessedMapFields.Count - 1; I >= 0; I--)
+        ref var info = ref query.Info;
+        settings = new MoveControlSettings(null);
+        settings.Player = Group.Player;
+        settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
+        settings.SetSourcePosition(location.X, location.Y, location.MapLevel);
+        settings.MovePointsMax = radius;
+        settings.ArmyHexSprite = null;
+        settings.Selection = 0;
+        var moveTypesToInt32 = MovementTables.MoveTypesToInt32(Set<MoveType>.Of(MoveType.Flying));
+        settings.MovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
+        AoWHSMap.Current.MoveControl.ProcessMove(settings);
+        BattleFieldInfo.SetupBattleFieldInfo(ref info, Group.Player, Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+        info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
+        message.MessageId = 4360;
+        message.Param[0] = query;
+        for (int I = settings.ProcessedMapFields.Count - 1; I >= 0; I--)
         {
-            var mapField = (AoWMapField)Settings.FProcessedMapFields[I];
-            if ((mapField.FFieldFlags & 67108864) != 0)
+            var mapField = (AoWMapField)settings.ProcessedMapFields[I];
+            if ((mapField.FieldFlags & 67108864) != 0)
             {
-                mapField.SendMapFieldMsg(ref Msg);
+                mapField.SendMapFieldMessage(ref message);
             }
         }
 
-        int Result = Info.Strength;
-        Settings.Release();
-        return Result;
+        int result = info.Strength;
+        settings.Release();
+        return result;
     }
 
     // MainAG.pas:315
     public void UpdateRequiredStrength()
     {
-        int Strength;
-        PlayerStatistics Statistics;
-        FRequiredStrength = FEnemyStrength;
-        if (AoWHSMap.Current.FDay > 5)
+        int strength;
+        PlayerStatistics statistics;
+        RequiredStrength = EnemyStrength;
+        if (AoWHSMap.Current.Day > 5)
         {
-            Strength = AoWHSMap.Current.FDay / 5 * 5000;
-            if (Strength > 50000)
+            strength = AoWHSMap.Current.Day / 5 * 5000;
+            if (strength > 50000)
             {
-                Strength = 50000;
+                strength = 50000;
             }
 
-            if (Strength > FEnemyStrength)
+            if (strength > EnemyStrength)
             {
-                FRequiredStrength = Strength;
+                RequiredStrength = strength;
             }
         }
 
-        if (FRequiredStrength > 0 && AoWHSMap.Current.FDay < 10)
+        if (RequiredStrength > 0 && AoWHSMap.Current.Day < 10)
         {
-            FRequiredStrength = Round((double)(FRequiredStrength * AoWHSMap.Current.FDay) * 0.1);
+            RequiredStrength = Round((double)(RequiredStrength * AoWHSMap.Current.Day) * 0.1);
         }
 
-        Statistics = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FStatistics;
-        if (Statistics.FTurnInfo.Count > 0)
+        statistics = AoWHSMap.Current.Players.GetPlayers(Group.Player).Statistics;
+        if (statistics.TurnInfo.Count > 0)
         {
-            var count = Statistics.FTurnInfo.Count;
-            Strength = (int)(((uint)Statistics.FTurnInfo.GetTurnInfo(count - 1).FArmyStrength) >> 1);
-            if (Strength < FRequiredStrength)
+            var count = statistics.TurnInfo.Count;
+            strength = (int)(((uint)statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength) >> 1);
+            if (strength < RequiredStrength)
             {
-                FRequiredStrength = Strength;
+                RequiredStrength = strength;
             }
 
-            var fTurnInfoCount = Statistics.FTurnInfo.Count;
-            Strength = Round((double)Statistics.FTurnInfo.GetTurnInfo(fTurnInfoCount - 1).FArmyStrength * 0.1);
-            if (Strength > 50000)
+            var fTurnInfoCount = statistics.TurnInfo.Count;
+            strength = Round((double)statistics.TurnInfo.GetTurnInfo(fTurnInfoCount - 1).ArmyStrength * 0.1);
+            if (strength > 50000)
             {
-                Strength = 50000;
+                strength = 50000;
             }
 
-            if (AoWHSMap.Current.FDay < 10)
+            if (AoWHSMap.Current.Day < 10)
             {
-                Strength = Round((double)(Strength * AoWHSMap.Current.FDay) * 0.1);
+                strength = Round((double)(strength * AoWHSMap.Current.Day) * 0.1);
             }
 
-            if (Strength > FRequiredStrength)
+            if (strength > RequiredStrength)
             {
-                FRequiredStrength = Strength;
+                RequiredStrength = strength;
             }
         }
     }
@@ -637,42 +637,42 @@ public partial class FortifyAIGroupControl : AIGroupControl
     // MainAG.pas:352
     public void MakeUselessUnitsPassive()
     {
-        int Excess = default;
+        int excess = default;
         int I = default;
-        UnitUserList Units = default;
-        UnitUserList Passive = default;
-        AIGroup Group = default;
-        Excess = FStrengthMax - FRequiredStrength;
-        if (Excess > 0)
+        UnitUserList units = default;
+        UnitUserList passive = default;
+        AIGroup group = default;
+        excess = StrengthMax - RequiredStrength;
+        if (excess > 0)
         {
-            Units = new UnitUserList(null);
-            Passive = new UnitUserList(null);
-            Units.AddUnits(FGroup);
-            Units.FChildren.Sort(CompareFortifyUnits);
-            I = Units.Count;
-            while (I != 0 && Excess > 0)
+            units = new UnitUserList(null);
+            passive = new UnitUserList(null);
+            units.AddUnits(Group);
+            units._children.Sort(CompareFortifyUnits);
+            I = units.Count;
+            while (I != 0 && excess > 0)
             {
                 I -= 1;
-                if (!(Units.GetUnit(I) is Leader))
+                if (!(units.GetUnit(I) is Leader))
                 {
-                    Excess -= Units.GetUnit(I).GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
-                    if (Excess >= 0)
+                    excess -= units.GetUnit(I).GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                    if (excess >= 0)
                     {
-                        Passive.AddUnit(Units.GetUnit(I));
-                        Units.DeleteUnit(Units.GetUnit(I));
+                        passive.AddUnit(units.GetUnit(I));
+                        units.DeleteUnit(units.GetUnit(I));
                     }
                 }
             }
 
-            if (Passive.Count != 0)
+            if (passive.Count != 0)
             {
-                Group = AoWHSMap.Current.FAIGroupManager.CreateGroup(FGroup.FPlayer, FGroup.FIndependentRelation, GroupBehavior.Passive);
-                Group.AddUnits(Passive);
-                Group.Release();
+                group = AoWHSMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, GroupBehavior.Passive);
+                group.AddUnits(passive);
+                group.Release();
             }
 
-            Passive?.Dispose();
-            Units?.Dispose();
+            passive?.Dispose();
+            units?.Dispose();
         }
     }
 
@@ -680,32 +680,32 @@ public partial class FortifyAIGroupControl : AIGroupControl
     public bool CanBreachWall()
     {
         int I;
-        Troop AUnit;
-        I = FGroup.Count;
-        bool Result = FGroup.GetStrength(DamageType.Wall) != 0;
-        while (!Result && I != 0)
+        Troop troop;
+        I = Group.Count;
+        bool result = Group.GetStrength(DamageType.Wall) != 0;
+        while (!result && I != 0)
         {
             I -= 1;
-            AUnit = FGroup.GetUnit(I);
-            Result = AUnit.GetAbilityEnabled(52) && ((SpellCastingAbility)AoWHSSet.Current.FAbilityControl.GetAbility(52)).CanCastBreachWallSpell(AUnit);
+            troop = Group.GetUnit(I);
+            result = troop.GetAbilityEnabled(52) && ((SpellCastingAbility)AoWHSSet.Current.AbilityControl.GetAbility(52)).CanCastBreachWallSpell(troop);
         }
 
-        return Result;
+        return result;
     }
 
-    private static int CompareFortifyUnits(object Item1, object Item2)
+    private static int CompareFortifyUnits(object item1, object item2)
     {
-        int num = ((Troop)Item1).GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(new DamageType[1] { DamageType.Wall }));
-        int num2 = ((Troop)Item2).GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(new DamageType[1] { DamageType.Wall }));
-        if (Item1 is Leader)
+        int number = ((Troop)item1).GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(new DamageType[1] { DamageType.Wall }));
+        int number2 = ((Troop)item2).GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(new DamageType[1] { DamageType.Wall }));
+        if (item1 is Leader)
         {
-            num = num2 + 16777215;
+            number = number2 + 16777215;
         }
-        if (Item2 is Leader)
+        if (item2 is Leader)
         {
-            num2 += 16777215;
+            number2 += 16777215;
         }
-        return num2 - num;
+        return number2 - number;
     }
 
 }

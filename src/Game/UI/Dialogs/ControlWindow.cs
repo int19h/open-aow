@@ -90,33 +90,33 @@ public partial class ControlWindow : DataModule
     public Button PNext;
     public Panel PControlPnl;
     public CheckBox PGuard;
-    public Frame AoWFrame2;
+    public Frame Frame2;
     public Panel PartyB2Pbl;
-    public Frame AoWFrame1;
+    public Frame Frame1;
     public IvTranslator Translator;
     public Label PartyActionLbl1;
     public Label PartyActionLbl2;
-    public byte FSelection;
+    public byte Selection;
 
     // AOWControlWin.pas:294
-    public void DrawUnit(int Index, in Rect R, ref LockedSurface SD)
+    public void DrawUnit(int index, in Rect R, ref LockedSurface lockedSurface)
     {
-        if (DialogHosts.General.FSelectedUnits[Index] != -1)
+        if (DialogHosts.General.SelectedUnits[index] != -1)
         {
-            if (DialogHosts.General.FUnitList.GetUnit(DialogHosts.General.FSelectedUnits[Index]).GetPreviewImage() != null)
+            if (DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[index]).GetPreviewImage() != null)
             {
-                SD.ClipRect = R;
+                lockedSurface.ClipRectangle = R;
                 // { Original tests the unsorted index when checking the background library. }
-                if ((int)DialogHosts.General.FUnitList.GetUnit(Index).GetAlignment() < DialogHosts.IntGfxMod.UnitBGs.Count)
+                if ((int)DialogHosts.General.UnitList.GetUnit(index).GetAlignment() < DialogHosts.UIGraphics.UnitBGs.Count)
                 {
-                    var alignment = DialogHosts.General.FUnitList.GetUnit(DialogHosts.General.FSelectedUnits[Index]).GetAlignment();
-                    var unitBG = DialogHosts.IntGfxMod.UnitBGs[(int)alignment];
-                    unitBG.ShowClipped(R.Left + (R.Right - R.Left - unitBG.Width) / 2, R.Top + (R.Bottom - R.Top - unitBG.Height) / 2, SD);
+                    var alignment = DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[index]).GetAlignment();
+                    var unitBackground = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
+                    unitBackground.ShowClipped(R.Left + (R.Right - R.Left - unitBackground.Width) / 2, R.Top + (R.Bottom - R.Top - unitBackground.Height) / 2, lockedSurface);
                 }
 
-                var previewImage = DialogHosts.General.FUnitList.GetUnit(DialogHosts.General.FSelectedUnits[Index]).GetPreviewImage();
-                var previewImage2 = DialogHosts.General.FUnitList.GetUnit(DialogHosts.General.FSelectedUnits[Index]).GetPreviewImage();
-                DialogHosts.General.FUnitList.GetUnit(DialogHosts.General.FSelectedUnits[Index]).ShowEx(R.Left + (R.Right - R.Left - previewImage2.Width) / 2, R.Top + (R.Bottom - R.Top - previewImage.Height) / 2, SD, DialogHosts.General.FUnitShowInfo);
+                var previewImage = DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[index]).GetPreviewImage();
+                var previewImage2 = DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[index]).GetPreviewImage();
+                DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[index]).Show(R.Left + (R.Right - R.Left - previewImage2.Width) / 2, R.Top + (R.Bottom - R.Top - previewImage.Height) / 2, lockedSurface, DialogHosts.General.UnitShowInfo);
             }
         }
     }
@@ -133,24 +133,24 @@ public partial class ControlWindow : DataModule
     {
         DialogHosts.General.PlayButtonSound(0);
         MainWindow.Visible = false;
-        DialogHosts.TBWindow.ConButton.Visible = false;
+        DialogHosts.TaskBar.ConButton.Visible = false;
     }
 
     // AOWControlWin.pas:324
     public void ControlWindowResize()
     {
-        this.MainWindow.Alignment.RightOffset = this.MainWindow.WinManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
+        this.MainWindow.Alignment.RightOffset = this.MainWindow.WindowManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
         this.MainWindow.Alignment.TopOffset = this.MainWindow.WinTop;
     }
 
     // AOWControlWin.pas:333
-    public void Unit1FrameMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y, int Slot)
+    public void Unit1FrameMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
     {
-        if (DialogHosts.General.FUnitList != null && DialogHosts.General.FSelectedUnits[Slot] > -1 && DialogHosts.General.FUnitList.GetUnit(DialogHosts.General.FSelectedUnits[Slot]) != null)
+        if (DialogHosts.General.UnitList != null && DialogHosts.General.SelectedUnits[slot] > -1 && DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[slot]) != null)
         {
-            var unit = DialogHosts.General.FUnitList.GetUnit(DialogHosts.General.FSelectedUnits[Slot]);
-            DialogHosts.General.FSelectedUnit = unit;
-            if (Button == MouseButton.Left)
+            var troop = DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[slot]);
+            DialogHosts.General.SelectedUnit = troop;
+            if (button == MouseButton.Left)
             {
                 DialogHosts.UnitWindow.ShowUnit();
             }
@@ -158,12 +158,12 @@ public partial class ControlWindow : DataModule
     }
 
     // AOWControlWin.pas:348
-    public void Unit1ChkChange(CheckBox Sender)
+    public void Unit1ChkChange(CheckBox sender)
     {
         CheckStart();
-        AoWHSMap.Current.FSelectedArmy.SetSelection(FSelection);
+        AoWHSMap.Current.SelectedArmy.SetSelection(Selection);
         CheckEnd();
-        if (Sender.Checked)
+        if (sender.Checked)
         {
             DialogHosts.General.PlayButtonSound(1);
         }
@@ -176,152 +176,152 @@ public partial class ControlWindow : DataModule
     // AOWControlWin.pas:354
     public void CheckStart()
     {
-        FSelection = 0;
-        if (!Unit1Chk.Checked && DialogHosts.General.FSelectedUnits[0] != -1)
+        Selection = 0;
+        if (!Unit1Chk.Checked && DialogHosts.General.SelectedUnits[0] != -1)
         {
-            FSelection = (byte)(FSelection | (1 << DialogHosts.General.FSelectedUnits[0]));
+            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[0]));
         }
 
-        if (!Unit2Chk.Checked && DialogHosts.General.FSelectedUnits[1] != -1)
+        if (!Unit2Chk.Checked && DialogHosts.General.SelectedUnits[1] != -1)
         {
-            FSelection = (byte)(FSelection | (1 << DialogHosts.General.FSelectedUnits[1]));
+            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[1]));
         }
 
-        if (!Unit3Chk.Checked && DialogHosts.General.FSelectedUnits[2] != -1)
+        if (!Unit3Chk.Checked && DialogHosts.General.SelectedUnits[2] != -1)
         {
-            FSelection = (byte)(FSelection | (1 << DialogHosts.General.FSelectedUnits[2]));
+            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[2]));
         }
 
-        if (!Unit4Chk.Checked && DialogHosts.General.FSelectedUnits[3] != -1)
+        if (!Unit4Chk.Checked && DialogHosts.General.SelectedUnits[3] != -1)
         {
-            FSelection = (byte)(FSelection | (1 << DialogHosts.General.FSelectedUnits[3]));
+            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[3]));
         }
 
-        if (!Unit5Chk.Checked && DialogHosts.General.FSelectedUnits[4] != -1)
+        if (!Unit5Chk.Checked && DialogHosts.General.SelectedUnits[4] != -1)
         {
-            FSelection = (byte)(FSelection | (1 << DialogHosts.General.FSelectedUnits[4]));
+            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[4]));
         }
 
-        if (!Unit6Chk.Checked && DialogHosts.General.FSelectedUnits[5] != -1)
+        if (!Unit6Chk.Checked && DialogHosts.General.SelectedUnits[5] != -1)
         {
-            FSelection = (byte)(FSelection | (1 << DialogHosts.General.FSelectedUnits[5]));
+            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[5]));
         }
 
-        if (!Unit7Chk.Checked && DialogHosts.General.FSelectedUnits[6] != -1)
+        if (!Unit7Chk.Checked && DialogHosts.General.SelectedUnits[6] != -1)
         {
-            FSelection = (byte)(FSelection | (1 << DialogHosts.General.FSelectedUnits[6]));
+            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[6]));
         }
 
-        if (!Unit8Chk.Checked && DialogHosts.General.FSelectedUnits[7] != -1)
+        if (!Unit8Chk.Checked && DialogHosts.General.SelectedUnits[7] != -1)
         {
-            FSelection = (byte)(FSelection | (1 << DialogHosts.General.FSelectedUnits[7]));
+            Selection = (byte)(Selection | (1 << DialogHosts.General.SelectedUnits[7]));
         }
     }
 
     // AOWControlWin.pas:375
     public void CheckEnd()
     {
-        FSelection = AoWHSMap.Current.FSelectedArmy.GetSelection();
-        Unit1Chk.Checked = DialogHosts.General.FSelectedUnits[0] != -1 && (FSelection & (1 << DialogHosts.General.FSelectedUnits[0])) == 0;
-        Unit2Chk.Checked = DialogHosts.General.FSelectedUnits[1] != -1 && (FSelection & (1 << DialogHosts.General.FSelectedUnits[1])) == 0;
-        Unit3Chk.Checked = DialogHosts.General.FSelectedUnits[2] != -1 && (FSelection & (1 << DialogHosts.General.FSelectedUnits[2])) == 0;
-        Unit4Chk.Checked = DialogHosts.General.FSelectedUnits[3] != -1 && (FSelection & (1 << DialogHosts.General.FSelectedUnits[3])) == 0;
-        Unit5Chk.Checked = DialogHosts.General.FSelectedUnits[4] != -1 && (FSelection & (1 << DialogHosts.General.FSelectedUnits[4])) == 0;
-        Unit6Chk.Checked = DialogHosts.General.FSelectedUnits[5] != -1 && (FSelection & (1 << DialogHosts.General.FSelectedUnits[5])) == 0;
-        Unit7Chk.Checked = DialogHosts.General.FSelectedUnits[6] != -1 && (FSelection & (1 << DialogHosts.General.FSelectedUnits[6])) == 0;
-        Unit8Chk.Checked = DialogHosts.General.FSelectedUnits[7] != -1 && (FSelection & (1 << DialogHosts.General.FSelectedUnits[7])) == 0;
+        Selection = AoWHSMap.Current.SelectedArmy.GetSelection();
+        Unit1Chk.Checked = DialogHosts.General.SelectedUnits[0] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[0])) == 0;
+        Unit2Chk.Checked = DialogHosts.General.SelectedUnits[1] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[1])) == 0;
+        Unit3Chk.Checked = DialogHosts.General.SelectedUnits[2] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[2])) == 0;
+        Unit4Chk.Checked = DialogHosts.General.SelectedUnits[3] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[3])) == 0;
+        Unit5Chk.Checked = DialogHosts.General.SelectedUnits[4] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[4])) == 0;
+        Unit6Chk.Checked = DialogHosts.General.SelectedUnits[5] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[5])) == 0;
+        Unit7Chk.Checked = DialogHosts.General.SelectedUnits[6] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[6])) == 0;
+        Unit8Chk.Checked = DialogHosts.General.SelectedUnits[7] != -1 && (Selection & (1 << DialogHosts.General.SelectedUnits[7])) == 0;
         if (Unit1Chk.Checked)
         {
-            Unit1Frame.ILIndexFrame = 26;
+            Unit1Frame.ImageLibraryIndexFrame = 26;
         }
         else
         {
-            Unit1Frame.ILIndexFrame = 12;
+            Unit1Frame.ImageLibraryIndexFrame = 12;
         }
 
         if (Unit2Chk.Checked)
         {
-            Unit2Frame.ILIndexFrame = 26;
+            Unit2Frame.ImageLibraryIndexFrame = 26;
         }
         else
         {
-            Unit2Frame.ILIndexFrame = 12;
+            Unit2Frame.ImageLibraryIndexFrame = 12;
         }
 
         if (Unit3Chk.Checked)
         {
-            Unit3Frame.ILIndexFrame = 26;
+            Unit3Frame.ImageLibraryIndexFrame = 26;
         }
         else
         {
-            Unit3Frame.ILIndexFrame = 12;
+            Unit3Frame.ImageLibraryIndexFrame = 12;
         }
 
         if (Unit4Chk.Checked)
         {
-            Unit4Frame.ILIndexFrame = 26;
+            Unit4Frame.ImageLibraryIndexFrame = 26;
         }
         else
         {
-            Unit4Frame.ILIndexFrame = 12;
+            Unit4Frame.ImageLibraryIndexFrame = 12;
         }
 
         if (Unit5Chk.Checked)
         {
-            Unit5Frame.ILIndexFrame = 26;
+            Unit5Frame.ImageLibraryIndexFrame = 26;
         }
         else
         {
-            Unit5Frame.ILIndexFrame = 12;
+            Unit5Frame.ImageLibraryIndexFrame = 12;
         }
 
         if (Unit6Chk.Checked)
         {
-            Unit6Frame.ILIndexFrame = 26;
+            Unit6Frame.ImageLibraryIndexFrame = 26;
         }
         else
         {
-            Unit6Frame.ILIndexFrame = 12;
+            Unit6Frame.ImageLibraryIndexFrame = 12;
         }
 
         if (Unit7Chk.Checked)
         {
-            Unit7Frame.ILIndexFrame = 26;
+            Unit7Frame.ImageLibraryIndexFrame = 26;
         }
         else
         {
-            Unit7Frame.ILIndexFrame = 12;
+            Unit7Frame.ImageLibraryIndexFrame = 12;
         }
 
         if (Unit8Chk.Checked)
         {
-            Unit8Frame.ILIndexFrame = 26;
+            Unit8Frame.ImageLibraryIndexFrame = 26;
         }
         else
         {
-            Unit8Frame.ILIndexFrame = 12;
+            Unit8Frame.ImageLibraryIndexFrame = 12;
         }
 
-        var selection = AoWHSMap.Current.FSelectedArmy.GetSelection();
-        var partyMove = DialogHosts.General.FUnitList.GetPartyMoves(selection);
-        var mTtoInt = DialogHosts.General.MTtoInt(partyMove);
-        MoveIcon.CurrentImage = mTtoInt;
-        var fSelectedArmySelection = AoWHSMap.Current.FSelectedArmy.GetSelection();
-        var movePoints = DialogHosts.General.FUnitList.MovePoints(fSelectedArmySelection);
+        var selection = AoWHSMap.Current.SelectedArmy.GetSelection();
+        var partyMove = DialogHosts.General.UnitList.GetPartyMoves(selection);
+        var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(partyMove);
+        MoveIcon.CurrentImage = moveTypesToInt32;
+        var fSelectedArmySelection = AoWHSMap.Current.SelectedArmy.GetSelection();
+        var movePoints = DialogHosts.General.UnitList.MovePoints(fSelectedArmySelection);
         MovesLbl.Text = IntToStr(movePoints);
-        var selection2 = AoWHSMap.Current.FSelectedArmy.GetSelection();
-        var partyStatus = AoWHSMap.Current.FSelectedArmy.GetArmyHS().FArmy.GetPartyStatus(selection2);
-        var partyStatusText = AbilityRules.TranslateRStr(TPartyStatusRStr[(int)partyStatus]);
+        var selection2 = AoWHSMap.Current.SelectedArmy.GetSelection();
+        var partyStatus = AoWHSMap.Current.SelectedArmy.GetArmyHexSprite().Army.GetPartyStatus(selection2);
+        var partyStatusText = AbilityRules.TranslateResourceString(s_partyStatusTexts[(int)partyStatus]);
         PartyStatusLbl.Text = partyStatusText;
     }
 
     // AOWControlWin.pas:407
-    public void Unit1ChkMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void Unit1ChkMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (Button == MouseButton.Right)
+        if (button == MouseButton.Right)
         {
             CheckStart();
-            AoWHSMap.Current.FSelectedArmy.SetSelection((byte)~FSelection);
+            AoWHSMap.Current.SelectedArmy.SetSelection((byte)~Selection);
             CheckEnd();
         }
     }
@@ -330,25 +330,25 @@ public partial class ControlWindow : DataModule
     public void CenterClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var army = DialogHosts.General.FUnitList;
-        AoWHSMap.Current.CenterViewTo(army.FX, army.FY, army.FL);
+        var army = DialogHosts.General.UnitList;
+        AoWHSMap.Current.CenterViewTo(army.X, army.Y, army.MapLevel);
 
-        var army2 = DialogHosts.General.FUnitList;
-        AoWHSMap.Current.PlayCenterAnimation(army2.FX, army2.FY, army2.FL);
+        var army2 = DialogHosts.General.UnitList;
+        AoWHSMap.Current.PlayCenterAnimation(army2.X, army2.Y, army2.MapLevel);
     }
 
     // AOWControlWin.pas:422
-    public void Unit1FramePreDraw(Frame Sender, LockedSurface SurfDesc, int Slot)
+    public void Unit1FramePreDraw(Frame sender, LockedSurface lockedSurface, int slot)
     {
-        Rect SaveRect;
-        UIComponent Component;
-        if (DialogHosts.General.FUnitList != null)
+        Rect saveRectangle;
+        UIComponent component;
+        if (DialogHosts.General.UnitList != null)
         {
-            Component = Sender;
-            SaveRect = SurfDesc.ClipRect;
-            var rect = new Rect(Component.AOWOwner.WinLeft + Component.WinLeft + 4, Component.AOWOwner.WinTop + Component.WinTop + 3, Component.AOWOwner.WinLeft + Component.WinLeft + Component.WinWidth - 3, Component.AOWOwner.WinTop + Component.WinTop + Component.WinHeight - 7);
-            DrawUnit(Slot, rect, ref SurfDesc);
-            SurfDesc.ClipRect = SaveRect;
+            component = sender;
+            saveRectangle = lockedSurface.ClipRectangle;
+            var rectangle = new Rect(component.OwnerComponent.WinLeft + component.WinLeft + 4, component.OwnerComponent.WinTop + component.WinTop + 3, component.OwnerComponent.WinLeft + component.WinLeft + component.WinWidth - 3, component.OwnerComponent.WinTop + component.WinTop + component.WinHeight - 7);
+            DrawUnit(slot, rectangle, ref lockedSurface);
+            lockedSurface.ClipRectangle = saveRectangle;
         }
     }
 
@@ -361,7 +361,7 @@ public partial class ControlWindow : DataModule
     // AOWControlWin.pas:442
     public void PPrevClick()
     {
-        AoWHSMap.Current.SelectPrevArmy();
+        AoWHSMap.Current.SelectPreviousArmy();
     }
 
     // AOWControlWin.pas:447
@@ -373,7 +373,7 @@ public partial class ControlWindow : DataModule
     // AOWControlWin.pas:452
     public void PMoveClick()
     {
-        AoWHSMap.Current.FSelectedArmy.ExecuteMove();
+        AoWHSMap.Current.SelectedArmy.ExecuteMove();
     }
 
     // AOWControlWin.pas:457
@@ -381,31 +381,31 @@ public partial class ControlWindow : DataModule
     {
         if (PGuard.Checked)
         {
-            if (!DialogHosts.General.FUnitList.FUserMode.Contains(ArmyUserModeElement.Guard))
+            if (!DialogHosts.General.UnitList.UserMode.Contains(ArmyUserModeElement.Guard))
             {
-                DialogHosts.General.FUnitList.FUserMode = DialogHosts.General.FUnitList.FUserMode + Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
+                DialogHosts.General.UnitList.UserMode = DialogHosts.General.UnitList.UserMode + Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
             }
         }
         else
         {
-            if (DialogHosts.General.FUnitList.FUserMode.Contains(ArmyUserModeElement.Guard))
+            if (DialogHosts.General.UnitList.UserMode.Contains(ArmyUserModeElement.Guard))
             {
-                DialogHosts.General.FUnitList.FUserMode = DialogHosts.General.FUnitList.FUserMode - Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
+                DialogHosts.General.UnitList.UserMode = DialogHosts.General.UnitList.UserMode - Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
             }
         }
     }
 
-    private static readonly string PartyOwnerXRStr = "Party Owner: %s";
-    private static StringArray5 TPartyStatusRStr = StringArray5.From(["Unruly", "Unrest", "Stable", "Content", "Cheerful"]);
-    private static readonly string PartyActionRStr = "Party Action:";
-    private static readonly string PatrollingRStr = "Patrolling";
-    private static readonly string GuardingRStr = "Guarding";
-    private static readonly string ScoutingRStr = "Scouting";
-    private static readonly string SeekingRefugeRStr = "Seeking Refuge";
-    private static readonly string RaidingRStr = "Raiding";
-    private static readonly string HuntingRStr = "Hunting";
-    private static readonly string ProtectingRStr = "Protecting";
-    private static readonly string FortifiedRStr = "Fortified";
-    private static readonly string BerserkRStr = "Berserk";
-    private static readonly string WanderingRStr = "Wandering";
+    private static readonly string s_partyOwnerFormat = "Party Owner: %s";
+    private static StringArray5 s_partyStatusTexts = StringArray5.From(["Unruly", "Unrest", "Stable", "Content", "Cheerful"]);
+    private static readonly string s_partyActionText = "Party Action:";
+    private static readonly string s_patrollingText = "Patrolling";
+    private static readonly string s_guardingText = "Guarding";
+    private static readonly string s_scoutingText = "Scouting";
+    private static readonly string s_seekingRefugeText = "Seeking Refuge";
+    private static readonly string s_raidingText = "Raiding";
+    private static readonly string s_huntingText = "Hunting";
+    private static readonly string s_protectingText = "Protecting";
+    private static readonly string s_fortifiedText = "Fortified";
+    private static readonly string s_berserkText = "Berserk";
+    private static readonly string s_wanderingText = "Wandering";
 }

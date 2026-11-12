@@ -8,87 +8,87 @@ public partial class Memo
     // AoWMemo.pas:511. The editable-byte comparison tests exactly one after the bounds checks.
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int x, int y)
     {
-        FHandled = false;
-        FMouseDown = false;
-        F114 = 0;
-        bool old = FRedraw;
-        FRedraw = false;
-        if (FEditable && FItems.Count == 0)
+        Handled = false;
+        MouseDown = false;
+        UnusedMouseUpValue = 0;
+        bool old = Redraw;
+        Redraw = false;
+        if (_editable && _items.Count == 0)
         {
-            FItems.Add("");
-            FLines.Add("");
-            FColorList.Add(new ColorChange());
+            _items.Add("");
+            Lines.Add("");
+            ColorList.Add(new ColorChange());
         }
-        if (x > FAOWWindow.FWinLeft + FWinLeft - 1 && x < FAOWWindow.FWinLeft + FWinLeft + FWinWidth &&
-            y > FAOWWindow.FWinTop + FWinTop - 1 && y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        if (x > _window._winLeft + _winLeft - 1 && x < _window._winLeft + _winLeft + _winWidth &&
+            y > _window._winTop + _winTop - 1 && y < _window._winTop + _winTop + _winHeight)
         {
             int left, top, bottom;
-            if (!FNoFrame)
+            if (!NoFrame)
             {
-                left = FAOWWindow.FWinLeft + FWinLeft + FILFrame[FILIndexFrame + 3].Width - 1;
-                top = FAOWWindow.FWinTop + FWinTop + FBorderHeight + FILFrame[FILIndexFrame + 1].Height - 1;
-                bottom = FAOWWindow.FWinTop + FWinTop + FWinHeight - FILFrame[FILIndexFrame + 6].Height;
+                left = _window._winLeft + _winLeft + _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width - 1;
+                top = _window._winTop + _winTop + _borderHeight + _imageLibraryFrame[_imageLibraryIndexFrame + 1].Height - 1;
+                bottom = _window._winTop + _winTop + _winHeight - _imageLibraryFrame[_imageLibraryIndexFrame + 6].Height;
             }
             else
             {
-                left = FAOWWindow.FWinLeft + FWinLeft - 1;
-                top = FAOWWindow.FWinTop + FWinTop + FBorderHeight - 1;
-                bottom = FAOWWindow.FWinTop + FWinTop + FWinHeight;
+                left = _window._winLeft + _winLeft - 1;
+                top = _window._winTop + _winTop + _borderHeight - 1;
+                bottom = _window._winTop + _winTop + _winHeight;
             }
-            if (FEditable && x > left && x < FAOWWindow.FWinLeft + FWinLeft + FWinWidth - FScrollWidth && y > top && y < bottom && button == MouseButton.Left)
+            if (_editable && x > left && x < _window._winLeft + _winLeft + _winWidth - ScrollWidth && y > top && y < bottom && button == MouseButton.Left)
             {
-                if (Unsafe.As<bool, byte>(ref FEditable) == 1)
+                if (Unsafe.As<bool, byte>(ref _editable) == 1)
                 {
-                    FRedraw = true;
-                    FBlink = true;
-                    FBlinkCount = 0;
-                    FHandled = true;
-                    FDrawn = false;
-                    if (FNoFrame && FAOWWindow != null) FAOWWindow.FDrawn = false;
+                    Redraw = true;
+                    Blink = true;
+                    BlinkCount = 0;
+                    Handled = true;
+                    Drawn = false;
+                    if (NoFrame && _window != null) _window.Drawn = false;
                 }
-                if ((FLines.Count - FTopItem) * FItemHeight + top < y)
+                if ((Lines.Count - TopItem) * _itemHeight + top < y)
                 {
-                    FCurLine = FLines.Count - 1;
-                    FCurCol = FLines[FLines.Count - 1].Length;
-                    FRealLine = FItems.Count - 1;
-                    FRealCol = FItems[FItems.Count - 1].Length;
+                    CurrentLine = Lines.Count - 1;
+                    CurrentColumn = Lines[Lines.Count - 1].Length;
+                    RealLine = _items.Count - 1;
+                    RealColumn = _items[_items.Count - 1].Length;
                 }
                 else
                 {
-                    int length = FItems[0].Length;
-                    FRealCol = FRealLine = FCurCol = FCurLine = 0;
-                    while (FCurLine < FTopItem)
+                    int length = _items[0].Length;
+                    RealColumn = RealLine = CurrentColumn = CurrentLine = 0;
+                    while (CurrentLine < TopItem)
                     {
-                        FRealCol += FLines[FCurLine].Length;
-                        if (FRealCol >= length)
+                        RealColumn += Lines[CurrentLine].Length;
+                        if (RealColumn >= length)
                         {
-                            FRealCol = 0;
-                            FRealLine++;
-                            length = FItems[FRealLine].Length;
+                            RealColumn = 0;
+                            RealLine++;
+                            length = _items[RealLine].Length;
                         }
-                        FCurLine++;
+                        CurrentLine++;
                     }
-                    while (FLines.Count > FCurLine && (FCurLine - FTopItem + 1) * FItemHeight + top < y)
+                    while (Lines.Count > CurrentLine && (CurrentLine - TopItem + 1) * _itemHeight + top < y)
                     {
-                        FRealCol += FLines[FCurLine].Length;
-                        if (FRealCol >= length)
+                        RealColumn += Lines[CurrentLine].Length;
+                        if (RealColumn >= length)
                         {
-                            FRealCol = 0;
-                            FRealLine++;
-                            length = FItems[FRealLine].Length;
+                            RealColumn = 0;
+                            RealLine++;
+                            length = _items[RealLine].Length;
                         }
-                        FCurLine++;
+                        CurrentLine++;
                     }
-                    if (FLines.Count == FCurLine) FCurLine--;
-                    while (FLines[FCurLine].Length > FCurCol && FAOWFont.GetTextWidth(RtlUnit.Copy(FLines[FCurLine], 1, FCurCol + 1)) + left < x)
+                    if (Lines.Count == CurrentLine) CurrentLine--;
+                    while (Lines[CurrentLine].Length > CurrentColumn && _font.GetTextWidth(RtlUnit.Copy(Lines[CurrentLine], 1, CurrentColumn + 1)) + left < x)
                     {
-                        FCurCol++;
-                        FRealCol++;
+                        CurrentColumn++;
+                        RealColumn++;
                     }
                 }
             }
-            FOnMouseUp?.Invoke(this, button, shift, x, y);
+            _onMouseUp?.Invoke(this, button, shift, x, y);
         }
-        if (FRedraw != old) FDrawn = false;
+        if (Redraw != old) Drawn = false;
     }
 }

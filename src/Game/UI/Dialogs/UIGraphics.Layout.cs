@@ -52,12 +52,12 @@ public partial class UIGraphics : ILayoutModule
         ScanFog.LoadOnDemand = true;
         ScanFog.FileName = "Int\\ScanFog.ilb";
         session.EndRead(ScanFog);
-        ScanHiLites = new InterfaceImageLibrary(this);
-        session.BeginRead(ScanHiLites);
-        ScanHiLites.Name = "ScanHiLites";
-        ScanHiLites.LoadOnDemand = true;
-        ScanHiLites.FileName = "Int\\ScanHiLi.ilb";
-        session.EndRead(ScanHiLites);
+        ScanHighlights = new InterfaceImageLibrary(this);
+        session.BeginRead(ScanHighlights);
+        ScanHighlights.Name = "ScanHiLites";
+        ScanHighlights.LoadOnDemand = true;
+        ScanHighlights.FileName = "Int\\ScanHiLi.ilb";
+        session.EndRead(ScanHighlights);
         PyreAnim = new InterfaceImageLibrary(this);
         session.BeginRead(PyreAnim);
         PyreAnim.Name = "PyreAnim";
@@ -402,7 +402,7 @@ public partial class UIGraphics : ILayoutModule
         Cursors.Loaded();
         ScanTiles.Loaded();
         ScanFog.Loaded();
-        ScanHiLites.Loaded();
+        ScanHighlights.Loaded();
         PyreAnim.Loaded();
         UnitBGs.Loaded();
         FCWin.Loaded();

@@ -10,28 +10,28 @@ namespace Aow.Headless;
 
 internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
 {
-    private readonly StreamWriter writer = new(path) { NewLine = "\n", AutoFlush = true };
-    private readonly Dictionary<MethodBase, string?> sources = [];
+    private readonly StreamWriter _writer = new(path) { NewLine = "\n", AutoFlush = true };
+    private readonly Dictionary<MethodBase, string?> _sources = [];
 
-    public void Save(int day) => writer.WriteLine(JsonSerializer.Serialize(new { kind = "save", day, frame = frame() }));
+    public void Save(int day) => _writer.WriteLine(JsonSerializer.Serialize(new { kind = "save", day, frame = frame() }));
 
-    public void Line(int location, int direction, int over, int count) => writer.WriteLine(JsonSerializer.Serialize(new
+    public void Line(int location, int direction, int over, int count) => _writer.WriteLine(JsonSerializer.Serialize(new
     { kind = "line", frame = frame(), location, direction, over, count }));
 
-    public void Cost(int cost, int used) => writer.WriteLine(JsonSerializer.Serialize(new
+    public void Cost(int cost, int used) => _writer.WriteLine(JsonSerializer.Serialize(new
     { kind = "cost", frame = frame(), cost, used }));
 
-    public void Path(MoveTokenEvent move) => writer.WriteLine(JsonSerializer.Serialize(new
+    public void Path(MoveTokenEvent move) => _writer.WriteLine(JsonSerializer.Serialize(new
     {
         kind = "path",
         frame = frame(),
-        path = Enumerable.Range(0, move.FPath.Count).Select(i => unchecked((uint)move.FPath.List[i].Packed))
+        path = Enumerable.Range(0, move.Path.Count).Select(i => unchecked((uint)move.Path.List[i].Packed))
     }));
 
     public void Sort(DelphiList list, ListSortCompare compare)
     {
         if (compare.Method.Name is not ("CompareAIGroupTargetPriority" or "CompareTargetSetupPriority")) return;
-        writer.WriteLine(JsonSerializer.Serialize(new
+        _writer.WriteLine(JsonSerializer.Serialize(new
         {
             kind = "targets",
             frame = frame(),
@@ -41,12 +41,12 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
                 var target = (AIGroupControlTarget)list[i]!;
                 return new
                 {
-                    location = target.FLocation.Packed,
-                    points = target.FMovePoints,
-                    priority = target.FData.Priority,
-                    a = target.FDataA,
-                    b = target.FDataB,
-                    status = target.FStatus.Image
+                    location = target.Location.Packed,
+                    points = target.MovePoints,
+                    priority = target.Data.Priority,
+                    a = target.DataA,
+                    b = target.DataB,
+                    status = target.Status.Image
                 };
             })
         }));
@@ -56,7 +56,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
     {
         var caller = new StackTrace(1, true).GetFrames()
             .FirstOrDefault(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Game");
-        writer.WriteLine(JsonSerializer.Serialize(new
+        _writer.WriteLine(JsonSerializer.Serialize(new
         {
             kind = "rounding",
             frame = frame(),
@@ -75,7 +75,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
             .ToArray();
         bool map = stack.FirstOrDefault()?.GetMethod() is { Name: "Random", DeclaringType.Name: "AoWHSMap" };
         var caller = stack.Skip(map ? 1 : 0).FirstOrDefault();
-        writer.WriteLine(JsonSerializer.Serialize(new
+        _writer.WriteLine(JsonSerializer.Serialize(new
         {
             frame = frame(),
             kind = entry.Kind,
@@ -96,7 +96,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
     private string? Source(StackFrame? frame)
     {
         if (frame?.GetMethod() is not { } method) return null;
-        if (sources.TryGetValue(method, out var source)) return source;
+        if (_sources.TryGetValue(method, out var source)) return source;
         if (frame.GetFileName() is { } file && File.Exists(file))
         {
             var lines = File.ReadAllLines(file);
@@ -106,9 +106,9 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
                 if (match.Success) { source = match.Groups[1].Value; break; }
             }
         }
-        sources[method] = source;
+        _sources[method] = source;
         return source;
     }
 
-    public void Dispose() => writer.Dispose();
+    public void Dispose() => _writer.Dispose();
 }

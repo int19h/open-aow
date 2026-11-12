@@ -8,13 +8,13 @@ namespace Aow.Game.AI.Groups;
 public partial class RefugeAIGroup : AIGroup, IAIGroupClass
 {
     // IndependentAG.pas:551
-    public new const int ClassID = 136289;
+    public new const int ClassId = 136289;
 
     // IndependentAG.pas:544
     public RefugeAIGroup(ECustomNode owner) : base(owner)
     {
-        FProcessPriority = 1;
-        FRecruitmentPriority = 2;
+        ProcessPriority = 1;
+        RecruitmentPriority = 2;
     }
 
     // IndependentAG.pas:557

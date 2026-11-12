@@ -20,123 +20,123 @@ public partial class PestilenceStorm : Storm
     public PestilenceStorm(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135745;
+    public new const int ClassId = 135745;
 
-    public PoisonCloud.Resource FCloudResource;
+    public PoisonCloud.Resource CloudResource;
 
     // Storms.pas:644
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        int Frame;
-        int Blend;
-        ImageSequence Sequence;
-        var yhx = GetYhx();
-        HexGeometry.HXtoHP(GetXhx(), yhx, ref X, ref Y);
-        X = X - XhpSurf + 8;
-        Y = Y - YhpSurf;
-        Sequence = FCloudResource.ImageSequenceList.ImageSequences[0];
-        while (Sequence != null)
+        int frame;
+        int blend;
+        ImageSequence sequence;
+        var hexY = GetHexY();
+        HexGeometry.HexToPixel(GetHexX(), hexY, ref X, ref Y);
+        X = X - pixelXSurface + 8;
+        Y = Y - pixelYSurface;
+        sequence = CloudResource.ImageSequenceList.ImageSequences[0];
+        while (sequence != null)
         {
-            Frame = Sequence.GetUnloopedFrameIndex(FFrameCounter);
-            if (Frame != -1 && Sequence.ImageLibrary.ImageExist(Frame))
+            frame = sequence.GetUnloopedFrameIndex(FrameCounter);
+            if (frame != -1 && sequence.ImageLibrary.ImageExist(frame))
             {
-                Blend = Sequence.GetTotalSequenceFrames();
-                if (Blend != 0)
+                blend = sequence.GetTotalSequenceFrames();
+                if (blend != 0)
                 {
-                    Blend = FFrameCounter * 100 / Blend;
+                    blend = FrameCounter * 100 / blend;
                 }
                 else
                 {
-                    Blend = 100;
+                    blend = 100;
                 }
 
-                Sequence.ImageLibrary[Frame].ShowBlended(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc, GraphicsState.ShadowBlendTable.LookupTables[Blend]);
+                sequence.ImageLibrary[frame].ShowBlended(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface, GraphicsState.ShadowBlendTable.LookupTables[blend]);
             }
 
-            Sequence = Sequence.Next;
+            sequence = sequence.Next;
         }
     }
 
     // Storms.pas:725
-    public override void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo Info)
+    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info)
     {
-        AbilityRules.RetrieveStormDamageInfo(Player, StormType.Pestilence, X, Y, L, 0, 2, ref Info);
+        AbilityRules.RetrieveStormDamageInfo(player, StormType.Pestilence, X, Y, L, 0, 2, ref info);
     }
 
     // Storms.pas:716
-    public override void UpdateTargetSelection(TargetSelectionControl Selection)
+    public override void UpdateTargetSelection(TargetSelectionControl selection)
     {
-        base.UpdateTargetSelection(Selection);
+        base.UpdateTargetSelection(selection);
         // { Original adds to the map selection without clearing its existing hexes. }
-        for (int I = 0, last = HexGeometry.RadToHN(3) - 1; I <= last; I++)
+        for (int I = 0, last = HexGeometry.RadiusToHexNumber(3) - 1; I <= last; I++)
         {
-            AoWHSMap.Current.FTargetSelection.FHNs.Add(0);
+            AoWHSMap.Current.TargetSelection.HexNumbers.Add(0);
         }
     }
 
     // Storms.pas:668
-    public override void InitializeStorm(sbyte Player, sbyte X, sbyte Y, sbyte L)
+    public override void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
     {
         Rect R = default;
-        FCloudResource = (PoisonCloud.Resource)AoWHSSet.Current.MapObjectResourceList.FindChild(135744);
-        base.InitializeStorm(Player, X, Y, L);
+        CloudResource = (PoisonCloud.Resource)AoWHSSet.Current.MapObjectResourceList.FindChild(135744);
+        base.InitializeStorm(player, X, Y, L);
         R.Left = -80;
         R.Right = 96;
         R.Top = -80;
         R.Bottom = 96;
         SetDimensions(R);
-        AoWHSMap.Current.ValidateTerrainObservation(AoWHSMap.Current.FCurrentPlayer, X, Y, L, 2);
-        if (AoWHSMap.Current.FCurrentPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.TerrainVisible(X, Y, L, 2))
+        AoWHSMap.Current.ValidateTerrainObservation(AoWHSMap.Current.CurrentPlayer, X, Y, L, 2);
+        if (AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.TerrainVisible(X, Y, L, 2))
         {
-            AoWHSSet.Current.FSpellControl.GetSpell(9).FCastSounds.Play(0);
+            AoWHSSet.Current.SpellControl.GetSpell(9).CastSounds.Play(0);
         }
 
-        PlaceHX(AoWHSMap.Current.MapContainer, X, Y, L);
+        PlaceHex(AoWHSMap.Current.MapContainer, X, Y, L);
     }
 
     // Storms.pas:690
     public override bool UpdateStorm()
     {
-        bool Result;
-        ImageSequence Sequence;
-        int Frame;
-        PoisonCloud Cloud;
+        bool result;
+        ImageSequence sequence;
+        int frame;
+        PoisonCloud cloud;
         NewFrame();
-        Sequence = FCloudResource.ImageSequenceList.ImageSequences[0];
-        Frame = -1;
-        while (Sequence != null && Frame == -1)
+        sequence = CloudResource.ImageSequenceList.ImageSequences[0];
+        frame = -1;
+        while (sequence != null && frame == -1)
         {
-            Frame = Sequence.GetUnloopedFrameIndex(FFrameCounter);
-            Sequence = Sequence.Next;
+            frame = sequence.GetUnloopedFrameIndex(FrameCounter);
+            sequence = sequence.Next;
         }
 
-        if (Frame == -1)
+        if (frame == -1)
         {
-            Cloud = (PoisonCloud)FCloudResource.CreateResourceUser();
-            Cloud.FTurnsRemaining = 3;
-            Cloud.FPlayer = AoWHSMap.Current.FCurrentPlayer;
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            if (AoWHSMap.Current.PlaceHX(Cloud, xhx, yhx, lhx))
+            cloud = (PoisonCloud)CloudResource.CreateResourceUser();
+            cloud.TurnsRemaining = 3;
+            cloud.Player = AoWHSMap.Current.CurrentPlayer;
+            var hexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            if (AoWHSMap.Current.PlaceHex(cloud, hexX, hexY, hexLevel))
             {
-                Cloud.TriggerDamage();
+                cloud.TriggerDamage();
             }
             else
             {
-                Cloud?.Dispose();
+                cloud?.Dispose();
             }
 
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Storms.pas:685
@@ -148,6 +148,6 @@ public partial class PestilenceStorm : Storm
     // Animation.pas:43
 
     // Storms.pas:639
-    public override string Name() => AbilityRules.TranslateRStr(GameTables.PestilenceStormRStr);
+    public override string Name() => AbilityRules.TranslateResourceString(GameTables.s_pestilenceStormText);
 
 }

@@ -18,49 +18,49 @@ public partial class SpringOfLife : Structure
     }
 
     // Spring.pas:73
-    public new const int ClassID = 131328;
+    public new const int ClassId = 131328;
 
     // Spring.pas:70
 
     // Spring.pas:111
-    public override void ArmyPlaced(ArmyHexSprite PlacedArmy)
+    public override void ArmyPlaced(ArmyHexSprite placedArmy)
     {
-        base.ArmyPlaced(PlacedArmy);
+        base.ArmyPlaced(placedArmy);
         if (!Set<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)((MapField)Owner).TerrainType))
         {
-            ExecuteNaturesBlessing(PlacedArmy);
+            ExecuteNaturesBlessing(placedArmy);
         }
     }
 
     // Spring.pas:76
-    public void ShowBlessingAnimation(Animation Anim, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public void ShowBlessingAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
-        Xhp -= XhpSurf;
-        Yhp -= YhpSurf;
-        FResource.ImageSequenceList.Show(20, Xhp, Yhp, Anim.FFrameCounter, SurfaceDesc);
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(_hexX, _hexY, ref pixelX, ref pixelY);
+        pixelX -= pixelXSurface;
+        pixelY -= pixelYSurface;
+        _resource.ImageSequenceList.Show(20, pixelX, pixelY, animation.FrameCounter, lockedSurface);
     }
 
     // Spring.pas:86
-    public void ExecuteNaturesBlessing(ArmyHexSprite ArmyHS)
+    public void ExecuteNaturesBlessing(ArmyHexSprite armyHexSprite)
     {
-        SpringOfLifeAnimation Anim = default;
+        SpringOfLifeAnimation animation = default;
         Rect R = default;
         // { Keep the parameter in its original stack slot. }
-        for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
+        for (int I = 0, last = armyHexSprite.Army.Count - 1; I <= last; I++)
         {
-            ArmyHS.FArmy.GetUnit(I).ExpandAbility(99);
+            armyHexSprite.Army.GetUnit(I).ExpandAbility(99);
         }
 
-        bool condition = ArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer;
+        bool condition = armyHexSprite.Army.Player == AoWHSMap.Current.SeatedPlayer;
         if (!condition)
         {
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            condition = AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
+            var hexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            condition = AoWHSMap.Current.Watching(hexX, hexY, hexLevel, 0);
         }
 
         if (condition)
@@ -68,20 +68,20 @@ public partial class SpringOfLife : Structure
             AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
         }
 
-        var lhx2 = GetLhx();
-        var yhx2 = GetYhx();
-        var xhx2 = GetXhx();
-        if (AoWHSMap.Current.Visible(xhx2, yhx2, lhx2, 0))
+        var hexLevel2 = GetHexLevel();
+        var hexY2 = GetHexY();
+        var hexX2 = GetHexX();
+        if (AoWHSMap.Current.Visible(hexX2, hexY2, hexLevel2, 0))
         {
-            Anim = new SpringOfLifeAnimation(null);
+            animation = new SpringOfLifeAnimation(null);
             R = new Rect(-16, -8, 32, 40);
-            Anim.SetDimensions(R);
-            Anim.FAnimationLevel = 27;
-            Anim.FOnShow = ShowBlessingAnimation;
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            AoWHSMap.Current.PlaceHX(Anim, xhx, yhx, lhx);
+            animation.SetDimensions(R);
+            animation.AnimationLevel = 27;
+            animation.OnShow = ShowBlessingAnimation;
+            var hexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            AoWHSMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
         }
     }
 
@@ -89,23 +89,23 @@ public partial class SpringOfLife : Structure
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FTerrainBound = false;
+            TerrainBound = false;
         }
 
         // Spring.pas:123
-        public new const int ClassID = 131329;
+        public new const int ClassId = 131329;
 
         // Spring.pas:117
 
         // Spring.pas:129
-        public override int ResourceUserClassID() => 131328;
+        public override int ResourceUserClassId() => 131328;
 
         // Spring.pas:37
 
         // Spring.pas:126
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(SpringOfLifeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_springOfLifeText);
 
-        private static readonly string SpringOfLifeRStr = "Spring of Life";
+        private static readonly string s_springOfLifeText = "Spring of Life";
 
     }
 

@@ -22,15 +22,15 @@ public struct BattleFieldInfo
     public int Strength;
     public int Reserved18;
 
-    internal static void SetupBattleFieldInfo(ref BattleFieldInfo Info, sbyte Player, sbyte Relation, Set<BattleFieldInfoRequestsElement> Requests, Set<DamageType> DamageTypes)
+    internal static void SetupBattleFieldInfo(ref BattleFieldInfo info, sbyte player, sbyte relation, Set<BattleFieldInfoRequestsElement> requests, Set<DamageType> damageTypes)
     {
-        Info = default;
-        Info.Player = Player;
+        info = default;
+        info.Player = player;
         // { Original ignores the independent relation parameter. }
-        Info.Requests = Requests;
-        Info.DamageTypes = DamageTypes;
-        Info.FriendlyRelations = Set<byte>.WithBounds(0, 7).With(2);
-        Info.EnemyRelations = Set<byte>.WithBounds(0, 7).With(1).With(3);
+        info.Requests = requests;
+        info.DamageTypes = damageTypes;
+        info.FriendlyRelations = Set<byte>.WithBounds(0, 7).With(2);
+        info.EnemyRelations = Set<byte>.WithBounds(0, 7).With(1).With(3);
     }
 
 }

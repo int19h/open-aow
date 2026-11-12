@@ -6,5 +6,5 @@ public partial class Farm
 {
     protected override StructureView OwnerPanel() => StructureView.Farm;
 
-    public override string CombatMapName(CombatMapSite Site) => "Farmx000";
+    public override string CombatMapName(CombatMapSite site) => "Farmx000";
 }

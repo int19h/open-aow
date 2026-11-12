@@ -8,7 +8,7 @@ namespace Aow.Game.Commands;
 // ends the turn of the token control that prefetched it
 public partial class PassTokenTokenEvent : TokenEvent
 {
-    public new const int ClassID = NetworkSession.CID_PassTokenTE;
+    public new const int ClassId = NetworkSession.ClassIdPassTokenTokenEvent;
 
     public PassTokenTokenEvent(ECustomNode owner) : base(owner)
     { }

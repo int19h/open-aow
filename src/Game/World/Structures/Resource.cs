@@ -11,78 +11,78 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-// FSize
+// Size
 public partial class Resource : PlayerCropStructureResource
 {
     public Resource(ECustomNode owner) : base(owner)
     {
-        FRazeable = true;
+        Razeable = true;
     }
 
     // City.pas:2628
-    public new const int ClassID = 131337;
+    public new const int ClassId = 131337;
 
-    public byte FSize;
+    public byte Size;
 
     // City.pas:2622
 
     // City.pas:2669
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 536870920)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 536870920)
         {
-            ActivateMsg();
+            ActivateMessage();
         }
     }
 
     // City.pas:2638
-    public override int ResourceUserClassID() => 131336;
+    public override int ResourceUserClassId() => 131336;
 
     // City.pas:2643
-    public void ShowCity(int X, int Y, in LockedSurface SurfaceDesc, City City)
+    public void ShowCity(int X, int Y, in LockedSurface lockedSurface, City city)
     {
         int dX;
         int dY;
-        LibraryImage Image;
-        dX = FdXImage + X;
+        LibraryImage image;
+        dX = _imageOffsetX + X;
         dY = Y;
-        dY += FdYImage;
-        Image = City.FWallBackImage;
-        if (Image != null)
+        dY += _imageOffsetY;
+        image = city.WallBackImage;
+        if (image != null)
         {
-            Image.Show(dX, dY, SurfaceDesc);
+            image.Show(dX, dY, lockedSurface);
         }
 
-        if (City.FCityImage != null)
+        if (city.CityImage != null)
         {
             // { Original blinks the selected city from frame bits. }
-            if (City.GetSelected() && (AoWHSMap.Current.Frame & 6) == 6)
+            if (city.GetSelected() && (AoWHSMap.Current.Frame & 6) == 6)
             {
-                City.FCityImage.ShowTransparent(dX, dY, SurfaceDesc);
+                city.CityImage.ShowTransparent(dX, dY, lockedSurface);
             }
             else
             {
-                City.FCityImage.Show(dX, dY, SurfaceDesc);
+                city.CityImage.Show(dX, dY, lockedSurface);
             }
         }
 
-        Image = City.FWallFrontImage;
-        if (Image != null)
+        image = city.WallFrontImage;
+        if (image != null)
         {
-            Image.Show(dX, dY, SurfaceDesc);
+            image.Show(dX, dY, lockedSurface);
         }
     }
 
     // City.pas:2661
-    public new void ActivateMsg()
+    public new void ActivateMessage()
     {
-        FSize = 0;
-        for (int I = 0, last = FTerrainList.Count - 1; I <= last; I++)
+        Size = 0;
+        for (int I = 0, last = _terrainList.Count - 1; I <= last; I++)
         {
-            if (FTerrainList.Terrain[I] >= 0)
+            if (_terrainList.Terrain[I] >= 0)
             {
-                FSize = (byte)(FSize + 1);
+                Size = (byte)(Size + 1);
             }
         }
     }
@@ -90,8 +90,8 @@ public partial class Resource : PlayerCropStructureResource
     // City.pas:262
 
     // City.pas:2633
-    public override string ResourceEditName() => AbilityRules.TranslateRStr(CityRStr);
+    public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_cityText);
 
-    private static readonly string CityRStr = "City";
+    private static readonly string s_cityText = "City";
 
 }

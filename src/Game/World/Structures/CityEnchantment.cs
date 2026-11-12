@@ -14,90 +14,90 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-// FEnchantmentID, FEnchantmentLocation
+// _enchantmentId, EnchantmentLocation
 public partial class CityEnchantment : GlobalEnchantment
 {
     // City.pas:2722
-    public new const int ClassID = 131820;
+    public new const int ClassId = 131820;
 
-    public new CityEnchantmentId FEnchantmentID;
-    public MapCoordinate FEnchantmentLocation;
+    public new CityEnchantmentId _enchantmentId;
+    public MapCoordinate EnchantmentLocation;
 
     // City.pas:2727
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwData(Bytes.Of(ref FEnchantmentID, 1), 1, 20);
-        Stream.rwInteger(ref FEnchantmentLocation.Packed, 21);
+        base.ReadWrite(stream);
+        stream.rwData(Bytes.Of(ref _enchantmentId, 1), 1, 20);
+        stream.rwInteger(ref EnchantmentLocation.Packed, 21);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Enum("TCityEnchantment.EnchantmentID", ref FEnchantmentID);
-        persister.Int("EnchantmentLocation", ref FEnchantmentLocation.Packed);
+        persister.Enum("TCityEnchantment.EnchantmentID", ref _enchantmentId);
+        persister.Int32("EnchantmentLocation", ref EnchantmentLocation.Packed);
     }
 
     // City.pas:2716
     public CityEnchantment(ECustomNode owner) : base(owner)
     {
-        FEnchantmentMode = FEnchantmentMode - Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
+        EnchantmentMode = EnchantmentMode - Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
     }
 
     // City.pas:2762
-    public override string GetName() => AbilityRules.TranslateRStr(TCityEnchantmentIDRStr[(int)FEnchantmentID]);
+    public override string GetName() => AbilityRules.TranslateResourceString(s_cityEnchantmentIdTexts[(int)_enchantmentId]);
 
     // City.pas:2739
     public override MapCoordinate GetLocation()
     {
-        MapCoordinate Result = default;
-        Result.X = FEnchantmentLocation.X;
-        Result.Y = FEnchantmentLocation.Y;
-        Result.L = FEnchantmentLocation.L;
-        return Result;
+        MapCoordinate result = default;
+        result.X = EnchantmentLocation.X;
+        result.Y = EnchantmentLocation.Y;
+        result.MapLevel = EnchantmentLocation.MapLevel;
+        return result;
     }
 
     // City.pas:2767
     public override int GetAIUpkeepPriority()
     {
-        int Result;
-        City City;
-        City = GetCity();
-        if (City != null)
+        int result;
+        City city;
+        city = GetCity();
+        if (city != null)
         {
-            Result = City.AICityEnchantmentUpkeepPriority(FEnchantmentID);
+            result = city.AICityEnchantmentUpkeepPriority(_enchantmentId);
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:2746
-    public override bool Deactivate(byte Player)
+    public override bool Deactivate(byte player)
     {
-        bool Result;
-        if (FEnchantmentStatus.Contains(GlobalEnchantmentStatusElement.Activated))
+        bool result;
+        if (EnchantmentStatus.Contains(GlobalEnchantmentStatusElement.Activated))
         {
-            Result = base.Deactivate(Player);
+            result = base.Deactivate(player);
             GetCity().DeactivateEnchantment(this);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:2734
-    public override bool VisibleForPlayer(sbyte Player) => GetCity().VisibleForPlayer(Player);
+    public override bool VisibleForPlayer(sbyte player) => GetCity().VisibleForPlayer(player);
 
     // City.pas:2756
-    public City GetCity() => (City)AoWHSMap.Current.MapContainer.GetField(FEnchantmentLocation.X, FEnchantmentLocation.Y, FEnchantmentLocation.L).FindNoneTransparentHS(typeof(City));
+    public City GetCity() => (City)AoWHSMap.Current.MapContainer.GetField(EnchantmentLocation.X, EnchantmentLocation.Y, EnchantmentLocation.MapLevel).FindNoneTransparentHexSprite(typeof(City));
 
-    private static StringArray4 TCityEnchantmentIDRStr = StringArray4.From(["Fountain Of Life", "Gold Rush", "Anti Magic Shell", "Warmonger"]);
+    private static StringArray4 s_cityEnchantmentIdTexts = StringArray4.From(["Fountain Of Life", "Gold Rush", "Anti Magic Shell", "Warmonger"]);
 
 }

@@ -9,25 +9,25 @@ namespace Aow.Game.Magic.Spells;
 
 public partial class FastBattleSpellCommand : FastBattleCommand
 {
-    public FastBattleSpellCommand(int AbilityID) : base(AbilityID)
+    public FastBattleSpellCommand(int abilityId) : base(abilityId)
     { }
 
-    public int FSpellID;
+    public int SpellId;
 
     // Spells.PAS:1
     public override string GetName()
     {
-        var spell = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-        string Result = AbilityRules.Format(AbilityRules.TranslateRStr(P4CastXRStr), [spell.FSpellName]);
-        if (FTarget != null)
+        var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+        string result = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castFormat), [spell.SpellName]);
+        if (Target != null)
         {
-            Result = Result + " on " + FTarget.IDStr();
+            result = result + " on " + Target.IdString();
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string P4CastXRStr = "Cast %s";
+    private static readonly string s_castFormat = "Cast %s";
 
     // intf_P5_05.inc:10
 

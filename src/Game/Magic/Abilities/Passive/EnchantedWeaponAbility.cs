@@ -9,32 +9,32 @@ public partial class EnchantedWeaponAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1073
     public EnchantedWeaponAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(EnchantedWeaponRStr);
-        FAbilityID = 154;
+        AbilityName = AbilityRules.TranslateResourceString(s_enchantedWeaponText);
+        AbilityId = 154;
     }
 
     // PassiveAb.pas:1081
-    public override sbyte GetAttack(AbilityOwner Owner) => 1;
+    public override sbyte GetAttack(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:1087
-    public override sbyte GetDamage(AbilityOwner Owner) => 1;
+    public override sbyte GetDamage(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:1093
-    public override int GetAIUpkeepPriority(AbilityOwner Owner)
+    public override int GetAIUpkeepPriority(AbilityOwner owner)
     {
-        if (Owner is not Troop unit)
+        if (owner is not Troop troop)
         {
             return 0;
         }
 
-        int Result = unit.GetUnitLevel() + 225;
-        if (unit is Leader)
+        int result = troop.GetUnitLevel() + 225;
+        if (troop is Leader)
         {
-            Result += 50;
+            result += 50;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string EnchantedWeaponRStr = "Enchanted Weapon";
+    private static readonly string s_enchantedWeaponText = "Enchanted Weapon";
 }

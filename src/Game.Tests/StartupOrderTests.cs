@@ -13,7 +13,7 @@ public sealed class StartupOrderTests
 
     private const string Finalizations = "IndependentAG MainAG BehaviorAG City AoWE Sound Engine ImageLib GFXE";
 
-    private static readonly (string Name, string Type, string Init, string Fin)[] Delegates =
+    private static readonly (string Name, string Type, string Init, string Fin)[] s_delegates =
     [
         ("GFXE", "Aow.Game.Draw.GraphicsState", "Initialize", "Finalize"),
         ("ImageLib", "Aow.Game.Draw.Images.ImageLibraries", "Initialize", "Finalize"),
@@ -55,12 +55,12 @@ public sealed class StartupOrderTests
     public void TableKeepsTheUnitOrder()
     {
         Assert.Equal(Split(Names), Startup.Units.Select(u => u.Name));
-        Assert.Equal(Delegates.Length, Startup.Units.Length);
-        for (int i = 0; i < Delegates.Length; i++)
+        Assert.Equal(s_delegates.Length, Startup.Units.Length);
+        for (int i = 0; i < s_delegates.Length; i++)
         {
-            Assert.Equal(Delegates[i].Name, Startup.Units[i].Name);
-            AssertDelegate(Startup.Units[i].Initialize, Delegates[i].Type, Delegates[i].Init);
-            AssertDelegate(Startup.Units[i].Finalize, Delegates[i].Type, Delegates[i].Fin);
+            Assert.Equal(s_delegates[i].Name, Startup.Units[i].Name);
+            AssertDelegate(Startup.Units[i].Initialize, s_delegates[i].Type, s_delegates[i].Init);
+            AssertDelegate(Startup.Units[i].Finalize, s_delegates[i].Type, s_delegates[i].Fin);
         }
     }
 

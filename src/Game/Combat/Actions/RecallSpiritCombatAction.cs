@@ -11,31 +11,31 @@ namespace Aow.Game.Combat.Actions;
 public partial class RecallSpiritCombatAction : ExclusiveCombatSpellCombatAction
 {
     // CombatSpells.pas:1950
-    public new const int ClassID = 131781;
+    public new const int ClassId = 131781;
 
     public RecallSpiritCombatAction(ECustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:1953
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatUnit Source;
-        CombatUnit Target;
-        Unit NewUnit;
-        base.Execute(Combat);
-        if (FSucceeded)
+        CombatUnit source;
+        CombatUnit target;
+        Unit newUnit;
+        base.Execute(combat);
+        if (Succeeded)
         {
-            Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
-            Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
-            NewUnit = new Unit(null);
-            NewUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(130));
-            NewUnit.SetPlayer(Source.FUnit.FPlayer);
-            NewUnit.ExpandAbility(130);
-            NewUnit.Activate();
-            Target.SetUnit(NewUnit);
-            NewUnit.Release();
-            Target.SetStatus(Target.FStatus - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
-            Target.SetCombatPlayer((byte)Source.FCombatPlayer);
+            source = (CombatUnit)combat.CombatData.FindId(SourceId);
+            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            newUnit = new Unit(null);
+            newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(130));
+            newUnit.SetPlayer(source.Troop.Player);
+            newUnit.ExpandAbility(130);
+            newUnit.Activate();
+            target.SetUnit(newUnit);
+            newUnit.Release();
+            target.SetStatus(target.Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
+            target.SetCombatPlayer((byte)source.CombatPlayer);
         }
     }
 

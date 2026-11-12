@@ -86,7 +86,7 @@ public sealed class SysUtilsTests
         Assert.Equal("abcdef", Format("%0:1:s", 7, "abcdef"));
         Assert.Equal("abc", Format("%:s", "abc"));
         foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" }) Assert.Throws<FormatException>(() => Format(kind, 1.25));
-        foreach (FormatArg arg in new FormatArg[] { true, 1.25, new object(), (object?)null, new PointerArg(0) }) Assert.Throws<FormatException>(() => Format("%s", arg));
+        foreach (FormatArg argument in new FormatArg[] { true, 1.25, new object(), (object?)null, new PointerArg(0) }) Assert.Throws<FormatException>(() => Format("%s", argument));
         Assert.Throws<FormatException>(() => Format("%p", 1));
         Assert.Throws<FormatException>(() => Format("%d", (byte)'a'));
         Assert.Throws<FormatException>(() => Format("%0:1:d", 7, "abcdef"));
@@ -117,8 +117,8 @@ public sealed class SysUtilsTests
             Assert.Equal(-1, EncodeDate(1899, 12, 29));
             foreach (double v in new[] { date + time, -1 - time, -time })
             {
-                DecodeTime(v, out int h, out int m, out int s, out int ms);
-                Assert.Equal((12, 34, 56, 789), (h, m, s, ms));
+                DecodeTime(v, out int h, out int m, out int s, out int milliseconds);
+                Assert.Equal((12, 34, 56, 789), (h, m, s, milliseconds));
             }
             DecodeDate(-1.5, out int y, out int month, out int day);
             Assert.Equal((1899, 12, 29), (y, month, day));
@@ -131,14 +131,14 @@ public sealed class SysUtilsTests
             Assert.Equal(0, DateTimeToFileDate(EncodeDate(2100, 1, 1)));
             int dos = DateTimeToFileDate(date + time);
             Assert.Equal(date + EncodeTime(12, 34, 56, 0), FileDateToDateTime(dos));
-            ushort yearWord = 0, monthWord = 0, dayWord = 0, hourWord = 0, minuteWord = 0, secondWord = 0, msWord = 0;
+            ushort yearWord = 0, monthWord = 0, dayWord = 0, hourWord = 0, minuteWord = 0, secondWord = 0, millisecondsWord = 0;
             DecodeDate(date, ref yearWord, ref monthWord, ref dayWord);
-            DecodeTime(time, ref hourWord, ref minuteWord, ref secondWord, ref msWord);
+            DecodeTime(time, ref hourWord, ref minuteWord, ref secondWord, ref millisecondsWord);
             Assert.Equal((2024, 2, 29), ((int)yearWord, (int)monthWord, (int)dayWord));
-            Assert.Equal((12, 34, 56, 789), ((int)hourWord, (int)minuteWord, (int)secondWord, (int)msWord));
+            Assert.Equal((12, 34, 56, 789), ((int)hourWord, (int)minuteWord, (int)secondWord, (int)millisecondsWord));
             Assert.Throws<FormatException>(() => EncodeDate(1900, 2, 29));
             Assert.Throws<FormatException>(() => EncodeDate(0, 1, 1));
-            foreach (var (h, m, s, ms) in new[] { (-1, 0, 0, 0), (24, 0, 0, 0), (0, 60, 0, 0), (0, 0, 60, 0), (0, 0, 0, 1000) }) Assert.Throws<FormatException>(() => EncodeTime(h, m, s, ms));
+            foreach (var (h, m, s, milliseconds) in new[] { (-1, 0, 0, 0), (24, 0, 0, 0), (0, 60, 0, 0), (0, 0, 60, 0), (0, 0, 0, 1000) }) Assert.Throws<FormatException>(() => EncodeTime(h, m, s, milliseconds));
         }
         finally { Clock = saved; }
         var system = new SystemClock();

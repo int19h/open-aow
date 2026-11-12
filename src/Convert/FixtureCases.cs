@@ -28,10 +28,10 @@ public static partial class Fixtures
         foreach (int level in new[] { 0, 1, 2, 3 })
             yield return new("containers", $"CFS level {level}", () =>
                 RoundTrip(Cfs.Wrap(Payload(Game(Map)), level), "world-hsm", "map",
-                    d => Obj(d["$container"])["level"] is JsonInteger l && l.Value == level ? null : "level lost"));
+                    d => Object(d["$container"])["level"] is JsonInteger l && l.Value == level ? null : "level lost"));
         yield return new("containers", "raw HSM without the CFS prefix", () =>
             RoundTrip(Payload(Game(Map)), "world-hsm", "map",
-                d => Obj(d["$container"])["compression"] is JsonString { Value: "none" } ? null : "raw HSM became CFS"));
+                d => Object(d["$container"])["compression"] is JsonString { Value: "none" } ? null : "raw HSM became CFS"));
         yield return new("containers", "raw HSM and CFS level 0 stay distinct", () =>
         {
             var raw = Import(Payload(Game(Map)), "world-hsm", "map");
@@ -131,9 +131,9 @@ public static partial class Fixtures
         yield return new("presence", "a stored null object", () =>
         {
             var d = Import(Game(Campaign), "campaign", "campaign");
-            var transfer = Obj(Root(d)["TransferSettings"]);
+            var transfer = Object(Root(d)["TransferSettings"]);
             Set(transfer, "Leader", new JsonNull());
-            return OwnRoundTrip(d, (n, _) => Obj(Root(n)["TransferSettings"])["Leader"] is JsonNull ? null : "the stored null was lost");
+            return OwnRoundTrip(d, (n, _) => Object(Root(n)["TransferSettings"])["Leader"] is JsonNull ? null : "the stored null was lost");
         });
         yield return new("presence", "an empty fixed object stays present", () =>
             RoundTrip(Game(HeroList), "hero-list", "hero-list"));
@@ -177,7 +177,7 @@ public static partial class Fixtures
         yield return new("strings", "rwStringsEx signed object values", () =>
         {
             var d = Import(Game(ScenarioSet), "scenario-set", "scenario-set");
-            var settings = Obj(Root(d)["ResourceEditSettings"]);
+            var settings = Object(Root(d)["ResourceEditSettings"]);
             Set(settings, "Editors", new JsonObject()
                 .Add("lines", new JsonArray().Add(new JsonString("a")).Add(new JsonString("b")))
                 .Add("objects", new JsonArray().Add(new JsonInteger(-1)).Add(new JsonInteger(int.MinValue))));
@@ -186,7 +186,7 @@ public static partial class Fixtures
         yield return new("strings", "rwStringsEx object count mismatch", () =>
         {
             var d = Import(Game(ScenarioSet), "scenario-set", "scenario-set");
-            Set(Obj(Root(d)["ResourceEditSettings"]), "Editors", new JsonObject()
+            Set(Object(Root(d)["ResourceEditSettings"]), "Editors", new JsonObject()
                 .Add("lines", new JsonArray().Add(new JsonString("a")))
                 .Add("objects", new JsonArray().Add(new JsonInteger(1)).Add(new JsonInteger(2))));
             return Expect(Codes.Corrupt, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
@@ -197,10 +197,10 @@ public static partial class Fixtures
             yield return new("floats", "$bits " + bits, () =>
             {
                 var d = MapDocument();
-                var player = Obj(Arr(Obj(Root(d)["Players"])["Children"]).Items[1]);
-                Set(Obj(player["AIControl"]), "DefenseStrengthMultiplier", new JsonObject().Add("$bits", new JsonString(bits)));
+                var player = Object(Arr(Object(Root(d)["Players"])["Children"]).Items[1]);
+                Set(Object(player["AIControl"]), "DefenseStrengthMultiplier", new JsonObject().Add("$bits", new JsonString(bits)));
                 return OwnRoundTrip(d, (n, _) =>
-                    Obj(Obj(Obj(Arr(Obj(Root(n)["Players"])["Children"]).Items[1])["AIControl"])["DefenseStrengthMultiplier"])["$bits"] is JsonString { } s && s.Value == bits
+                    Object(Object(Object(Arr(Object(Root(n)["Players"])["Children"]).Items[1])["AIControl"])["DefenseStrengthMultiplier"])["$bits"] is JsonString { } s && s.Value == bits
                         ? null : "the bits changed");
             });
 
@@ -208,26 +208,26 @@ public static partial class Fixtures
         yield return new("identity", "deleting a child slot keeps the other slots", () =>
         {
             var d = MapDocument();
-            var children = Arr(Obj(Root(d)["Players"])["Children"]);
+            var children = Arr(Object(Root(d)["Players"])["Children"]);
             int count = children.Items.Count;
             children.Items.RemoveAt(1);
             return OwnRoundTrip(d, (n, _) =>
             {
-                var slots = Arr(Obj(Root(n)["Players"])["Children"]).Items.Select(c => ((JsonInteger)Obj(c)["$slot"]!).Value).ToList();
+                var slots = Arr(Object(Root(n)["Players"])["Children"]).Items.Select(c => ((JsonInteger)Object(c)["$slot"]!).Value).ToList();
                 return count >= 3 && !slots.Contains(1) && slots.Contains(count - 1) ? null : "slots were renumbered: " + string.Join(",", slots);
             });
         });
         yield return new("identity", "duplicate child slot", () =>
         {
             var d = MapDocument();
-            var children = Arr(Obj(Root(d)["Players"])["Children"]);
-            Set(Obj(children.Items[1]), "$slot", new JsonInteger(0));
+            var children = Arr(Object(Root(d)["Players"])["Children"]);
+            Set(Object(children.Items[1]), "$slot", new JsonInteger(0));
             return Expect(Codes.Slot, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
         });
         yield return new("identity", "incompatible class family", () =>
         {
             var d = Import(Game(Campaign), "campaign", "campaign");
-            Set(Obj(Root(d)["TransferSettings"]), "Leader", new JsonObject().Add("$class", new JsonString("TCity")));
+            Set(Object(Root(d)["TransferSettings"]), "Leader", new JsonObject().Add("$class", new JsonString("TCity")));
             return Expect(Codes.ClassFamily, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
         });
         yield return new("identity", "a field row of the wrong length", () =>
@@ -247,7 +247,7 @@ public static partial class Fixtures
             var d = MapDocument();
             var before = MapText();
             var row = Arr(FirstFields(d).Items[5]);
-            Set(Obj(row.Items[7]), "FieldFlags", new JsonInteger(7));
+            Set(Object(row.Items[7]), "FieldFlags", new JsonInteger(7));
             var after = GameFiles.Write(Import(GameFiles.Export(Parse(GameFiles.Write(d))).Bytes, "world-hsm", "map"));
             var a = System.Text.Encoding.UTF8.GetString(before).Split('\n');
             var b = System.Text.Encoding.UTF8.GetString(after).Split('\n');
@@ -293,8 +293,8 @@ public static partial class Fixtures
             var image = HeroListImage([2, 21, 0, 20, 4], Concat(I32(7), [3], "abc"u8.ToArray()));
             var d = Import(image, "hero-list", "hero-list");
             var root = Root(d);
-            var layout = Obj(root["$layout"]);
-            var entries = Arr(Obj(Arr(layout["parts"]).Items[0])["entries"]);
+            var layout = Object(root["$layout"]);
+            var entries = Arr(Object(Arr(layout["parts"]).Items[0])["entries"]);
             Arr(entries.Items[1]).Items[1] = new JsonInteger(2);
             return Expect(Codes.Layout, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
         });
@@ -303,15 +303,15 @@ public static partial class Fixtures
 
         // Limits and gzip.
         yield return new("limits", "depth limit", () => Expect(Codes.Limit,
-            () => GameFiles.Import(Game(Map), P("world-hsm"), "map", null, new FormatLimits { Depth = 4 }), Located));
+            () => GameFiles.Import(Game(Map), FindProfile("world-hsm"), "map", null, new FormatLimits { Depth = 4 }), Located));
         yield return new("limits", "node limit", () => Expect(Codes.Limit,
-            () => GameFiles.Import(Game(Map), P("world-hsm"), "map", null, new FormatLimits { Nodes = 1000 }), Located));
+            () => GameFiles.Import(Game(Map), FindProfile("world-hsm"), "map", null, new FormatLimits { Nodes = 1000 }), Located));
         yield return new("limits", "collection limit", () => Expect(Codes.Limit,
-            () => GameFiles.Import(Game(Map), P("world-hsm"), "map", null, new FormatLimits { CollectionItems = 100 }), Located));
+            () => GameFiles.Import(Game(Map), FindProfile("world-hsm"), "map", null, new FormatLimits { CollectionItems = 100 }), Located));
         yield return new("limits", "string limit", () => Expect(Codes.Limit,
-            () => GameFiles.Import(Game(Map), P("world-hsm"), "map", null, new FormatLimits { StringBytes = 10 }), Located));
+            () => GameFiles.Import(Game(Map), FindProfile("world-hsm"), "map", null, new FormatLimits { StringBytes = 10 }), Located));
         yield return new("limits", "decompressed size limit", () => Expect(Codes.Compression,
-            () => GameFiles.Import(Game(Map), P("world-hsm"), "map", null, new FormatLimits { DecompressedBytes = 50_000 }), Located));
+            () => GameFiles.Import(Game(Map), FindProfile("world-hsm"), "map", null, new FormatLimits { DecompressedBytes = 50_000 }), Located));
         yield return new("limits", "JSON depth limit", () => Expect(Codes.Limit,
             () => GameFiles.Read(GameFiles.Write(MapDocument()), null, new FormatLimits { Depth = 5 }), Located));
         yield return new("gzip", "a gzip own document reads as own JSON", () =>
@@ -345,7 +345,7 @@ public static partial class Fixtures
                 diag => diag.Span.Line == line && diag.Path == "root.NextLibraryID" ? null : $"expected line {line}");
         });
         yield return new("diagnostics", "a binary error gives the offset and the profile", () =>
-            Expect(Codes.UnknownProperty, () => GameFiles.Import(HeroListImage([1, 99, 0], I32(5)), P("hero-list"), "hero-list", "bad.ahl"),
+            Expect(Codes.UnknownProperty, () => GameFiles.Import(HeroListImage([1, 99, 0], I32(5)), FindProfile("hero-list"), "hero-list", "bad.ahl"),
                 d => d.Offset is not null && d.Profile == "hero-list" && !d.Span.IsKnown ? null : "not a binary location"));
         yield return new("diagnostics", "trailing commas and comments fail", () => ExpectAny(
             () => GameFiles.Read("{\"$format\": \"OpenAoW\", }"u8.ToArray()),
@@ -373,8 +373,8 @@ public static partial class Fixtures
     {
         var root = Root(document);
         foreach (var child in Arr(root["Children"]).Items)
-            if (Obj(child)["$class"] is JsonString { Value: "MapContainer" })
-                return Arr(Obj(Arr(Obj(child)["Children"]).Items[0])["Fields"]);
+            if (Object(child)["$class"] is JsonString { Value: "MapContainer" })
+                return Arr(Object(Arr(Object(child)["Children"]).Items[0])["Fields"]);
         throw new InvalidOperationException("No map container.");
     }
 
@@ -406,15 +406,15 @@ public static partial class Fixtures
     {
         // Items of an oracle save, copied into a library as its children.
         var save = MapDocument();
-        var items = Arr(Obj(Root(save)["ItemControl"])["Items"]);
+        var items = Arr(Object(Root(save)["ItemControl"])["Items"]);
         if (items.Items.Count == 0) return Fail("the map has no items");
         var children = new JsonArray();
         for (int k = 0; k < items.Items.Count; k++)
         {
-            var item = Copy(Envelope("hero-list", "hero-list", Obj(items.Items[k])));
-            var obj = Obj(item["root"]);
-            Set(obj, "$slot", new JsonInteger(k));
-            children.Add(obj);
+            var item = Copy(Envelope("hero-list", "hero-list", Object(items.Items[k])));
+            var objectValue = Object(item["root"]);
+            Set(objectValue, "$slot", new JsonInteger(k));
+            children.Add(objectValue);
         }
         var library = new JsonObject().Add("Name", new JsonString("Fixture items")).Add("LastID", new JsonInteger(items.Items.Count)).Add("Children", children);
         return OwnRoundTrip(Envelope("item-list", "item-list", library));
@@ -451,13 +451,13 @@ public static partial class Fixtures
     private static Outcome CampaignSaveEdit()
     {
         var campaign = CampaignWithMap(out var mapFile);
-        var map = Obj(Root(campaign)["Map"]);
-        Set(Obj(map["root"]), "Day", new JsonInteger(42));
+        var map = Object(Root(campaign)["Map"]);
+        Set(Object(map["root"]), "Day", new JsonInteger(42));
         var exported = GameFiles.Export(Parse(GameFiles.Write(campaign)));
         if (exported.Invalidated.Count == 0) return Fail("the stale nested bytes were not reported");
         if (exported.Bytes.AsSpan().IndexOf(mapFile) >= 0) return Fail("the stale nested bytes were reused");
         var again = Import(exported.Bytes, "campaign", "campaign-save");
-        var day = Obj(Obj(Root(again)["Map"])["root"])["Day"];
+        var day = Object(Object(Root(again)["Map"])["root"])["Day"];
         if (day is not JsonInteger { Value: 42 }) return Fail("the edit was lost");
         return RoundTrip(exported.Bytes, "campaign", "campaign-save");
     }
@@ -467,7 +467,7 @@ public static partial class Fixtures
     [
         new Migration(1, "test-1-rename-LibraryTitle", d =>
         {
-            var root = Obj(d["root"]);
+            var root = Object(d["root"]);
             var m = root.Find("LibraryTitle");
             if (m is not null)
             {
@@ -478,7 +478,7 @@ public static partial class Fixtures
         }),
         new Migration(2, "test-2-drop-Obsolete", d =>
         {
-            Obj(d["root"]).Remove("Obsolete");
+            Object(d["root"]).Remove("Obsolete");
             return d;
         }),
     ]);
@@ -489,7 +489,7 @@ public static partial class Fixtures
         var chain = TestChain();
         var read = GameFiles.Read(historical, "old.ahl", null, chain);
         if (read.Migrations.Count != 2 || read.DeclaredVersion != 1) return Fail("the chain did not run both steps");
-        var root = Obj(read.Document["root"]);
+        var root = Object(read.Document["root"]);
         if (root["LibraryName"] is not JsonString { Value: "Old" } || root.Find("Obsolete") is not null) return Fail("the transforms did not apply");
         if (read.Document["$version"] is not JsonInteger { Value: 3, Origin: "test-2-drop-Obsolete" }) return Fail("the version provenance is missing");
         return Pass("migrated 1 to 3 through " + string.Join(", ", read.Migrations));
@@ -509,9 +509,9 @@ public static partial class Fixtures
         var payload = Payload(GameFiles.Export(Parse(GameFiles.Write(d))).Bytes);
         var top = Walk(payload, BinaryPrimitives.ReadInt32LittleEndian(payload));
         var props = Walk(payload, top[0].Start);
-        int Int(int id) => BinaryPrimitives.ReadInt32LittleEndian(payload.AsSpan(props[id].Start, 4));
-        if (Int(28) != 0x1234567) return Fail("DefendersSeed did not reach id 28");
-        if (Int(19) != 13) return Fail("Day did not reach id 19");
+        int Int32(int id) => BinaryPrimitives.ReadInt32LittleEndian(payload.AsSpan(props[id].Start, 4));
+        if (Int32(28) != 0x1234567) return Fail("DefendersSeed did not reach id 28");
+        if (Int32(19) != 13) return Fail("Day did not reach id 19");
         if (props[7].End - props[7].Start != 7 || payload[props[7].Start] != 6) return Fail("Author did not reach id 7");
         var players = Walk(payload, props[21].Start);
         var children = Walk(payload, players[1].Start);

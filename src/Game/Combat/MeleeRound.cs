@@ -20,19 +20,19 @@ namespace Aow.Game.Combat;
 public partial class MeleeRound : IDisposable
 {
 
-    public int FCount;
-    public int FCapacity;
-    public Strike[] FStrikes = [];
-    public CombatObject FAttacker;
-    public CombatObject FDefender;
-    public int FAttackerDV;
-    public int FDefenderDV;
-    public Troop FAttackerUnit;
-    public Troop FDefenderUnit;
-    public int FAttackerStrikes;
-    public int FDefenderStrikes;
-    public Set<DamageType> FAttackerDamageTypes;
-    public Set<DamageType> FDefenderDamageTypes;
+    public int Count;
+    public int Capacity;
+    public Strike[] Strikes = [];
+    public CombatObject Attacker;
+    public CombatObject Defender;
+    public int AttackerDamageValue;
+    public int DefenderDamageValue;
+    public Troop AttackerUnit;
+    public Troop DefenderUnit;
+    public int AttackerStrikes;
+    public int DefenderStrikes;
+    public Set<DamageType> AttackerDamageTypes;
+    public Set<DamageType> DefenderDamageTypes;
 
     // AoWAb.PAS:1492
     public virtual void Dispose()
@@ -41,148 +41,148 @@ public partial class MeleeRound : IDisposable
     }
 
     // AoWAb.PAS:1498
-    public void SetCapacity(int NewCapacity)
+    public void SetCapacity(int newCapacity)
     {
-        FCapacity = NewCapacity;
-        if (FCapacity < FCount)
+        Capacity = newCapacity;
+        if (Capacity < Count)
         {
-            FCount = FCapacity;
+            Count = Capacity;
         }
 
-        Array.Resize(ref FStrikes, NewCapacity);
+        Array.Resize(ref Strikes, newCapacity);
     }
 
     // AoWAb.PAS:1505
-    public void SetCount(int NewCount)
+    public void SetCount(int newCount)
     {
-        if (NewCount > FCapacity)
+        if (newCount > Capacity)
         {
-            SetCapacity(NewCount);
+            SetCapacity(newCount);
         }
 
-        if (NewCount > FCount)
+        if (newCount > Count)
         {
-            FStrikes.AsSpan(FCount, NewCount - FCount).Clear();
+            Strikes.AsSpan(Count, newCount - Count).Clear();
         }
 
-        FCount = NewCount;
+        Count = newCount;
     }
 
     // AoWAb.PAS:1513
-    public void GetMeleeStrike(int Index, ref Strike Strike)
+    public void GetMeleeStrike(int index, ref Strike strike)
     {
-        Strike = FStrikes[Index];
+        strike = Strikes[index];
     }
 
     // AoWAb.PAS:1518
     public void Reset()
     {
         SetCount(0);
-        FAttacker = null;
-        FDefender = null;
-        FAttackerUnit = null;
-        FDefenderUnit = null;
-        FAttackerDV = -1;
-        FDefenderDV = -1;
-        FAttackerStrikes = 0;
-        FDefenderStrikes = 0;
+        Attacker = null;
+        Defender = null;
+        AttackerUnit = null;
+        DefenderUnit = null;
+        AttackerDamageValue = -1;
+        DefenderDamageValue = -1;
+        AttackerStrikes = 0;
+        DefenderStrikes = 0;
     }
 
     // AoWAb.PAS:1531
-    public void CalculateUnitStrikes(CombatSideIndex FirstSide)
+    public void CalculateUnitStrikes(CombatSideIndex firstSide)
     {
-        int AttackerCount;
-        int DefenderCount;
-        CombatSideIndex Side;
-        Troop Source;
-        Troop Target;
-        Side = FirstSide;
-        AttackerCount = 0;
-        DefenderCount = 0;
-        SetCount(FAttackerStrikes + FDefenderStrikes);
-        for (int I = 0, last = FCount - 1; I <= last; I++)
+        int attackerCount;
+        int defenderCount;
+        CombatSideIndex side;
+        Troop source;
+        Troop target;
+        side = firstSide;
+        attackerCount = 0;
+        defenderCount = 0;
+        SetCount(AttackerStrikes + DefenderStrikes);
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if (Side == CombatSideIndex.Attacker)
+            if (side == CombatSideIndex.Attacker)
             {
-                Source = FAttackerUnit;
-                Target = FDefenderUnit;
+                source = AttackerUnit;
+                target = DefenderUnit;
             }
             else
             {
-                Source = FDefenderUnit;
-                Target = FAttackerUnit;
+                source = DefenderUnit;
+                target = AttackerUnit;
             }
 
-            ref Strike Strike = ref FStrikes[I];
-            Strike.Side = Side;
-            if (I == 0 || (I == 1 && Side != FirstSide))
+            ref Strike strike = ref Strikes[I];
+            strike.Side = side;
+            if (I == 0 || (I == 1 && side != firstSide))
             {
-                if (Side == CombatSideIndex.Attacker && I == 0 && Source.GetAbilityEnabled(111))
+                if (side == CombatSideIndex.Attacker && I == 0 && source.GetAbilityEnabled(111))
                 {
-                    Strike.DamageBonus += 2;
+                    strike.DamageBonus += 2;
                 }
 
-                if (Target.GetAbilityEnabled(113))
+                if (target.GetAbilityEnabled(113))
                 {
-                    Strike.AttackBonus -= 2;
+                    strike.AttackBonus -= 2;
                 }
             }
 
-            bool condition = Source.GetAbilityEnabled(146) || Source.GetAbilityEnabled(160);
+            bool condition = source.GetAbilityEnabled(146) || source.GetAbilityEnabled(160);
             if (condition)
             {
-                var alignment = Target.GetAlignment();
+                var alignment = target.GetAlignment();
                 condition = Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignment);
             }
 
             if (condition)
             {
-                Strike.DamageBonus += 2;
-                Strike.AttackBonus += 2;
+                strike.DamageBonus += 2;
+                strike.AttackBonus += 2;
             }
 
-            bool test = Source.GetAbilityEnabled(147) || Source.GetAbilityEnabled(161);
+            bool test = source.GetAbilityEnabled(147) || source.GetAbilityEnabled(161);
             if (test)
             {
-                var alignment = Target.GetAlignment();
+                var alignment = target.GetAlignment();
                 test = Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignment);
             }
 
             if (test)
             {
-                Strike.DamageBonus += 2;
-                Strike.AttackBonus += 2;
+                strike.DamageBonus += 2;
+                strike.AttackBonus += 2;
             }
 
-            if (Source.GetAbilityEnabled(112) && Target.GetAbilityEnabled(63))
+            if (source.GetAbilityEnabled(112) && target.GetAbilityEnabled(63))
             {
-                Strike.AttackBonus += 3;
-                Strike.DamageBonus += 3;
+                strike.AttackBonus += 3;
+                strike.DamageBonus += 3;
             }
 
             // { Original uses the attacker's damage types for both sides. }
-            var defense = Target.GetDefense();
-            var resistance = Target.GetResistance();
-            var immunityTypes = Target.GetImmunityTypes();
-            var protectionTypes = Target.GetProtectionTypes();
-            var damage = Source.GetDamage();
-            var statisticsToDV = StatisticsToDV(Source.GetAttack() + Strike.AttackBonus, damage + Strike.DamageBonus, FAttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
-            Strike.DamageValue = statisticsToDV;
-            switch (Side)
+            var defense = target.GetDefense();
+            var resistance = target.GetResistance();
+            var immunityTypes = target.GetImmunityTypes();
+            var protectionTypes = target.GetProtectionTypes();
+            var damage = source.GetDamage();
+            var statisticsToDamageValue = StatisticsToDamageValue(source.GetAttack() + strike.AttackBonus, damage + strike.DamageBonus, AttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
+            strike.DamageValue = statisticsToDamageValue;
+            switch (side)
             {
                 case CombatSideIndex.Attacker:
-                    AttackerCount += 1;
-                    if (FDefenderStrikes != DefenderCount)
+                    attackerCount += 1;
+                    if (DefenderStrikes != defenderCount)
                     {
-                        Side = CombatSideIndex.Defender;
+                        side = CombatSideIndex.Defender;
                     }
 
                     break;
                 case CombatSideIndex.Defender:
-                    DefenderCount += 1;
-                    if (FAttackerStrikes != AttackerCount)
+                    defenderCount += 1;
+                    if (AttackerStrikes != attackerCount)
                     {
-                        Side = CombatSideIndex.Attacker;
+                        side = CombatSideIndex.Attacker;
                     }
 
                     break;
@@ -191,158 +191,158 @@ public partial class MeleeRound : IDisposable
     }
 
     // AoWAb.PAS:1600
-    public void CalculateFreeUnitSwing(Troop Attacker, Troop Defender)
+    public void CalculateFreeUnitSwing(Troop attacker, Troop defender)
     {
         Reset();
-        FAttackerUnit = Attacker;
-        FDefenderUnit = Defender;
-        FAttackerDamageTypes = ((StrikeAbility)AoWHSSet.Current.FAbilityControl.GetAbility(21)).GetDamageTypes(Attacker);
-        FDefenderDamageTypes = Set<DamageType>.Of();
-        if (FAttackerDamageTypes != Set<DamageType>.Of())
+        AttackerUnit = attacker;
+        DefenderUnit = defender;
+        AttackerDamageTypes = ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).GetDamageTypes(attacker);
+        DefenderDamageTypes = Set<DamageType>.Of();
+        if (AttackerDamageTypes != Set<DamageType>.Of())
         {
-            FAttackerStrikes = 1;
+            AttackerStrikes = 1;
             CalculateUnitStrikes(CombatSideIndex.Attacker);
         }
     }
 
     // AoWAb.PAS:1614
-    public void CalculateUnit(Troop Attacker, Troop Defender)
+    public void CalculateUnit(Troop attacker, Troop defender)
     {
-        CombatSideIndex Side;
+        CombatSideIndex side;
         Reset();
-        FAttackerUnit = Attacker;
-        FDefenderUnit = Defender;
-        FAttackerDamageTypes = ((StrikeAbility)AoWHSSet.Current.FAbilityControl.GetAbility(21)).GetDamageTypes(Attacker);
-        if (FAttackerDamageTypes != Set<DamageType>.Of())
+        AttackerUnit = attacker;
+        DefenderUnit = defender;
+        AttackerDamageTypes = ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).GetDamageTypes(attacker);
+        if (AttackerDamageTypes != Set<DamageType>.Of())
         {
-            FAttackerStrikes = 2;
-            if (FAttackerUnit.GetAbilityEnabled(115))
+            AttackerStrikes = 2;
+            if (AttackerUnit.GetAbilityEnabled(115))
             {
-                FAttackerStrikes += 1;
+                AttackerStrikes += 1;
             }
         }
         else
         {
-            FAttackerStrikes = 0;
+            AttackerStrikes = 0;
         }
 
-        FDefenderDamageTypes = ((StrikeAbility)AoWHSSet.Current.FAbilityControl.GetAbility(21)).GetDamageTypes(Defender);
-        if (FDefenderDamageTypes != Set<DamageType>.Of())
+        DefenderDamageTypes = ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).GetDamageTypes(defender);
+        if (DefenderDamageTypes != Set<DamageType>.Of())
         {
-            FDefenderStrikes = 2;
+            DefenderStrikes = 2;
         }
         else
         {
-            FDefenderStrikes = 0;
+            DefenderStrikes = 0;
         }
 
-        if (FDefenderUnit.GetAbilityEnabled(116) && !FAttackerUnit.GetAbilityEnabled(116) && FDefenderStrikes != 0)
+        if (DefenderUnit.GetAbilityEnabled(116) && !AttackerUnit.GetAbilityEnabled(116) && DefenderStrikes != 0)
         {
-            Side = CombatSideIndex.Defender;
+            side = CombatSideIndex.Defender;
         }
         else
         {
-            Side = CombatSideIndex.Attacker;
+            side = CombatSideIndex.Attacker;
         }
 
-        CalculateUnitStrikes(Side);
+        CalculateUnitStrikes(side);
     }
 
     // AoWAb.PAS:1642
-    public void CalculateStrikes(CombatSideIndex FirstSide)
+    public void CalculateStrikes(CombatSideIndex firstSide)
     {
-        int AttackerCount;
-        int DefenderCount;
-        CombatSideIndex Side;
-        CombatObject Source;
-        CombatObject Target;
-        Side = FirstSide;
-        AttackerCount = 0;
-        DefenderCount = 0;
-        SetCount(FAttackerStrikes + FDefenderStrikes);
-        for (int I = 0, last = FCount - 1; I <= last; I++)
+        int attackerCount;
+        int defenderCount;
+        CombatSideIndex side;
+        CombatObject source;
+        CombatObject target;
+        side = firstSide;
+        attackerCount = 0;
+        defenderCount = 0;
+        SetCount(AttackerStrikes + DefenderStrikes);
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if (Side == CombatSideIndex.Attacker)
+            if (side == CombatSideIndex.Attacker)
             {
-                Source = FAttacker;
-                Target = FDefender;
+                source = Attacker;
+                target = Defender;
             }
             else
             {
-                Source = FDefender;
-                Target = FAttacker;
+                source = Defender;
+                target = Attacker;
             }
 
-            ref Strike Strike = ref FStrikes[I];
-            Strike.Side = Side;
-            if (I == 0 || (I == 1 && Side != FirstSide))
+            ref Strike strike = ref Strikes[I];
+            strike.Side = side;
+            if (I == 0 || (I == 1 && side != firstSide))
             {
-                if (Side == CombatSideIndex.Attacker && I == 0 && Source.GetAbilityEnabled(111))
+                if (side == CombatSideIndex.Attacker && I == 0 && source.GetAbilityEnabled(111))
                 {
-                    Strike.DamageBonus += 2;
+                    strike.DamageBonus += 2;
                 }
 
-                if (Target.GetAbilityEnabled(113))
+                if (target.GetAbilityEnabled(113))
                 {
-                    Strike.AttackBonus -= 2;
+                    strike.AttackBonus -= 2;
                 }
             }
 
-            bool condition = Source.GetAbilityEnabled(146) || Source.GetAbilityEnabled(160);
+            bool condition = source.GetAbilityEnabled(146) || source.GetAbilityEnabled(160);
             if (condition)
             {
-                var alignment = Target.GetAlignment();
+                var alignment = target.GetAlignment();
                 condition = Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignment);
             }
 
             if (condition)
             {
-                Strike.AttackBonus += 2;
-                Strike.DamageBonus += 2;
+                strike.AttackBonus += 2;
+                strike.DamageBonus += 2;
             }
 
-            bool test = Source.GetAbilityEnabled(147) || Source.GetAbilityEnabled(161);
+            bool test = source.GetAbilityEnabled(147) || source.GetAbilityEnabled(161);
             if (test)
             {
-                var alignment = Target.GetAlignment();
+                var alignment = target.GetAlignment();
                 test = Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignment);
             }
 
             if (test)
             {
-                Strike.AttackBonus += 2;
-                Strike.DamageBonus += 2;
+                strike.AttackBonus += 2;
+                strike.DamageBonus += 2;
             }
 
-            if (Source.GetAbilityEnabled(112) && Target.GetAbilityEnabled(63))
+            if (source.GetAbilityEnabled(112) && target.GetAbilityEnabled(63))
             {
-                Strike.AttackBonus += 3;
-                Strike.DamageBonus += 3;
+                strike.AttackBonus += 3;
+                strike.DamageBonus += 3;
             }
 
             // { Original uses the attacker's damage types for both sides. }
-            var defense = Target.GetDefense();
-            var resistance = Target.GetResistance();
-            var immunityTypes = Target.GetImmunityTypes();
-            var protectionTypes = Target.GetProtectionTypes();
-            var damage = Source.GetDamage();
-            var statisticsToDV = StatisticsToDV(Source.GetAttack() + Strike.AttackBonus, damage + Strike.DamageBonus, FAttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
-            Strike.DamageValue = statisticsToDV;
-            switch (Side)
+            var defense = target.GetDefense();
+            var resistance = target.GetResistance();
+            var immunityTypes = target.GetImmunityTypes();
+            var protectionTypes = target.GetProtectionTypes();
+            var damage = source.GetDamage();
+            var statisticsToDamageValue = StatisticsToDamageValue(source.GetAttack() + strike.AttackBonus, damage + strike.DamageBonus, AttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
+            strike.DamageValue = statisticsToDamageValue;
+            switch (side)
             {
                 case CombatSideIndex.Attacker:
-                    AttackerCount += 1;
-                    if (FDefenderStrikes != DefenderCount)
+                    attackerCount += 1;
+                    if (DefenderStrikes != defenderCount)
                     {
-                        Side = CombatSideIndex.Defender;
+                        side = CombatSideIndex.Defender;
                     }
 
                     break;
                 case CombatSideIndex.Defender:
-                    DefenderCount += 1;
-                    if (FAttackerStrikes != AttackerCount)
+                    defenderCount += 1;
+                    if (AttackerStrikes != attackerCount)
                     {
-                        Side = CombatSideIndex.Attacker;
+                        side = CombatSideIndex.Attacker;
                     }
 
                     break;
@@ -351,62 +351,62 @@ public partial class MeleeRound : IDisposable
     }
 
     // AoWAb.PAS:1711
-    public void Calculate(CombatObject Attacker, CombatObject Defender)
+    public void Calculate(CombatObject attacker, CombatObject defender)
     {
-        CombatSideIndex Side;
+        CombatSideIndex side;
         Reset();
-        FAttacker = Attacker;
-        FDefender = Defender;
-        FAttackerDamageTypes = CombatObject.MeleeDamageTypes(Attacker);
-        if (FAttackerDamageTypes != Set<DamageType>.Of() && !Attacker.GetLocked())
+        Attacker = attacker;
+        Defender = defender;
+        AttackerDamageTypes = CombatObject.MeleeDamageTypes(attacker);
+        if (AttackerDamageTypes != Set<DamageType>.Of() && !attacker.GetLocked())
         {
-            FAttackerStrikes = 2;
-            if (FAttacker.GetAbilityEnabled(115))
+            AttackerStrikes = 2;
+            if (Attacker.GetAbilityEnabled(115))
             {
-                FAttackerStrikes += 1;
+                AttackerStrikes += 1;
             }
         }
         else
         {
-            FAttackerStrikes = 0;
+            AttackerStrikes = 0;
         }
 
-        FDefenderDamageTypes = CombatObject.MeleeDamageTypes(Defender);
-        if (FDefenderDamageTypes != Set<DamageType>.Of() && !Defender.GetLocked())
+        DefenderDamageTypes = CombatObject.MeleeDamageTypes(defender);
+        if (DefenderDamageTypes != Set<DamageType>.Of() && !defender.GetLocked())
         {
-            FDefenderStrikes = 2;
+            DefenderStrikes = 2;
         }
         else
         {
-            FDefenderStrikes = 0;
+            DefenderStrikes = 0;
         }
 
-        if (Defender.GetAbilityEnabled(116) && !Attacker.GetAbilityEnabled(116) && FDefenderStrikes != 0)
+        if (defender.GetAbilityEnabled(116) && !attacker.GetAbilityEnabled(116) && DefenderStrikes != 0)
         {
-            Side = CombatSideIndex.Defender;
+            side = CombatSideIndex.Defender;
         }
         else
         {
-            Side = CombatSideIndex.Attacker;
+            side = CombatSideIndex.Attacker;
         }
 
-        CalculateStrikes(Side);
+        CalculateStrikes(side);
     }
 
     // AoWAb.PAS:1739
-    public void CalculateSingleSide(CombatObject Attacker, CombatObject Defender)
+    public void CalculateSingleSide(CombatObject attacker, CombatObject defender)
     {
         Reset();
-        FAttacker = Attacker;
-        FDefender = Defender;
-        FAttackerDamageTypes = CombatObject.MeleeDamageTypes(Attacker);
-        FDefenderDamageTypes = Set<DamageType>.Of();
-        if (FAttackerDamageTypes != Set<DamageType>.Of() && !FAttacker.GetLocked())
+        Attacker = attacker;
+        Defender = defender;
+        AttackerDamageTypes = CombatObject.MeleeDamageTypes(attacker);
+        DefenderDamageTypes = Set<DamageType>.Of();
+        if (AttackerDamageTypes != Set<DamageType>.Of() && !Attacker.GetLocked())
         {
-            FAttackerStrikes = 2;
-            if (FAttacker.GetAbilityEnabled(115))
+            AttackerStrikes = 2;
+            if (Attacker.GetAbilityEnabled(115))
             {
-                FAttackerStrikes += 1;
+                AttackerStrikes += 1;
             }
         }
 
@@ -414,139 +414,139 @@ public partial class MeleeRound : IDisposable
     }
 
     // AoWAb.PAS:1754
-    public StrikeCombatAction CreateStrikeCA(int Index)
+    public StrikeCombatAction CreateStrikeCombatAction(int index)
     {
-        StrikeCombatAction Result = null;
-        if (Index < FCount)
+        StrikeCombatAction result = null;
+        if (index < Count)
         {
-            ref Strike Strike = ref FStrikes[Index];
-            switch (Strike.Side)
+            ref Strike strike = ref Strikes[index];
+            switch (strike.Side)
             {
                 case CombatSideIndex.Attacker:
-                    if (!FAttacker.GetLocked())
+                    if (!Attacker.GetLocked())
                     {
-                        Result = new StrikeCombatAction(null);
-                        var damage = FAttacker.GetDamage();
-                        var attack = FAttacker.GetAttack();
-                        Result.Generate(FAttacker, FDefender, (sbyte)(attack + Strike.AttackBonus), (sbyte)(damage + Strike.DamageBonus), FAttackerDamageTypes);
-                        if (FAttacker.GetAbilityEnabled(118))
+                        result = new StrikeCombatAction(null);
+                        var damage = Attacker.GetDamage();
+                        var attack = Attacker.GetAttack();
+                        result.Generate(Attacker, Defender, (sbyte)(attack + strike.AttackBonus), (sbyte)(damage + strike.DamageBonus), AttackerDamageTypes);
+                        if (Attacker.GetAbilityEnabled(118))
                         {
-                            Result.FStrikeMode = Result.FStrikeMode + Set<StrikeModeElement>.Of(StrikeModeElement.LifeStealing);
+                            result.StrikeMode = result.StrikeMode + Set<StrikeModeElement>.Of(StrikeModeElement.LifeStealing);
                         }
                     }
 
                     break;
                 case CombatSideIndex.Defender:
-                    if (!FDefender.GetLocked())
+                    if (!Defender.GetLocked())
                     {
-                        Result = new StrikeCombatAction(null);
-                        Result.SetDefensive(true);
-                        var damage = FDefender.GetDamage();
-                        var attack = FDefender.GetAttack();
-                        Result.Generate(FDefender, FAttacker, (sbyte)(attack + Strike.AttackBonus), (sbyte)(damage + Strike.DamageBonus), FDefenderDamageTypes);
+                        result = new StrikeCombatAction(null);
+                        result.SetDefensive(true);
+                        var damage = Defender.GetDamage();
+                        var attack = Defender.GetAttack();
+                        result.Generate(Defender, Attacker, (sbyte)(attack + strike.AttackBonus), (sbyte)(damage + strike.DamageBonus), DefenderDamageTypes);
                     }
 
                     break;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:1786
-    public void CalculateDV()
+    public void CalculateDamageValue()
     {
         int I;
-        int LifeStealingDV;
-        bool LifeStealing;
-        CombatObject Source;
-        FAttackerDV = 0;
-        FDefenderDV = 0;
+        int lifeStealingDamageValue;
+        bool lifeStealing;
+        CombatObject source;
+        AttackerDamageValue = 0;
+        DefenderDamageValue = 0;
         I = 0;
-        LifeStealingDV = 0;
-        Source = FAttacker;
-        if (Source != null)
+        lifeStealingDamageValue = 0;
+        source = Attacker;
+        if (source != null)
         {
-            LifeStealing = Source.GetAbilityEnabled(118);
-            if (LifeStealing && FDefender is CombatUnit && ((CombatUnit)FDefender).FUnit.GetUnitType() == UnitType.Machine)
+            lifeStealing = source.GetAbilityEnabled(118);
+            if (lifeStealing && Defender is CombatUnit && ((CombatUnit)Defender).Troop.GetUnitType() == UnitType.Machine)
             {
-                LifeStealing = false;
+                lifeStealing = false;
             }
         }
         else
         {
-            LifeStealing = FAttackerUnit.GetAbilityEnabled(118);
-            if (LifeStealing && FDefenderUnit.GetUnitType() == UnitType.Machine)
+            lifeStealing = AttackerUnit.GetAbilityEnabled(118);
+            if (lifeStealing && DefenderUnit.GetUnitType() == UnitType.Machine)
             {
-                LifeStealing = false;
+                lifeStealing = false;
             }
         }
 
-        while (I != FCount)
+        while (I != Count)
         {
-            if (FStrikes[I].Side == CombatSideIndex.Attacker)
+            if (Strikes[I].Side == CombatSideIndex.Attacker)
             {
-                FAttackerDV += FStrikes[I].DamageValue;
-                if (FStrikes[I].DamageValue > 100)
+                AttackerDamageValue += Strikes[I].DamageValue;
+                if (Strikes[I].DamageValue > 100)
                 {
-                    LifeStealingDV += 100;
+                    lifeStealingDamageValue += 100;
                 }
                 else
                 {
-                    LifeStealingDV += FStrikes[I].DamageValue;
+                    lifeStealingDamageValue += Strikes[I].DamageValue;
                 }
             }
             else
             {
-                FDefenderDV += FStrikes[I].DamageValue;
+                DefenderDamageValue += Strikes[I].DamageValue;
             }
 
             I += 1;
         }
 
-        if (LifeStealing && FDefenderDV > 0)
+        if (lifeStealing && DefenderDamageValue > 0)
         {
-            FDefenderDV -= LifeStealingDV;
-            if (FDefenderDV <= 0)
+            DefenderDamageValue -= lifeStealingDamageValue;
+            if (DefenderDamageValue <= 0)
             {
-                FDefenderDV = 1;
+                DefenderDamageValue = 1;
             }
         }
     }
 
     // AoWAb.PAS:1831
-    public int GetAttackerDV()
+    public int GetAttackerDamageValue()
     {
-        if (FAttackerDV == -1)
+        if (AttackerDamageValue == -1)
         {
-            CalculateDV();
+            CalculateDamageValue();
         }
 
-        return FAttackerDV;
+        return AttackerDamageValue;
     }
 
     // AoWAb.PAS:1837
-    public int GetDefenderDV()
+    public int GetDefenderDamageValue()
     {
-        if (FDefenderDV == -1)
+        if (DefenderDamageValue == -1)
         {
-            CalculateDV();
+            CalculateDamageValue();
         }
 
-        return FDefenderDV;
+        return DefenderDamageValue;
     }
 
-    internal static int StatisticsToDV(int Attack, int Damage, Set<DamageType> DamageTypes, int Defense, int Resistance, Set<DamageType> ImmunityTypes, Set<DamageType> ProtectionTypes)
+    internal static int StatisticsToDamageValue(int attack, int damage, Set<DamageType> damageTypes, int defense, int resistance, Set<DamageType> immunityTypes, Set<DamageType> protectionTypes)
     {
-        DamageTypes -= ImmunityTypes;
-        if (DamageTypes != Set<DamageType>.Of(Array.Empty<DamageType>()))
+        damageTypes -= immunityTypes;
+        if (damageTypes != Set<DamageType>.Of(Array.Empty<DamageType>()))
         {
-            Attack -= Defense;
-            if (DamageTypes - ProtectionTypes == Set<DamageType>.Of(Array.Empty<DamageType>()))
+            attack -= defense;
+            if (damageTypes - protectionTypes == Set<DamageType>.Of(Array.Empty<DamageType>()))
             {
-                Damage = Damage + 1 >>> 1;
+                damage = damage + 1 >>> 1;
             }
-            return AbilityRules.DMDCtoDV(Damage, Attack);
+            return AbilityRules.ExpectedDamage(damage, attack);
         }
         return 0;
     }
@@ -563,7 +563,7 @@ public partial class MeleeRound : IDisposable
         [FieldOffset(12)]
         public CombatSideIndex Side;
         [FieldOffset(13)]
-        public ByteArray7 F_0D;
+        public ByteArray7 Reserved0D;
     }
 
     // intf_P4_02.inc:123

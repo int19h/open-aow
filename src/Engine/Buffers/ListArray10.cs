@@ -8,5 +8,5 @@ namespace Aow.Engine.Buffers;
 [InlineArray(10)]
 public struct ListArray10
 {
-    private DelphiList element0;
+    private DelphiList _element0;
 }

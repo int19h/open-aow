@@ -13,51 +13,51 @@ public partial class Remedy : UnitSpell
     // UnitSpells.pas:424
     public Remedy(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(RemedyRStr);
-        FSpellID = 35;
-        FBaseManaCost = 5;
-        FSpellLevel = 1;
-        FMagicSphere = MagicSphere.Cosmos;
-        FTargetRange = 12;
-        FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
+        SpellName = AbilityRules.TranslateResourceString(s_remedyText);
+        SpellId = 35;
+        BaseManaCost = 5;
+        SpellLevel = 1;
+        MagicSphere = MagicSphere.Cosmos;
+        TargetRange = 12;
+        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
     }
 
     // UnitSpells.pas:458
-    public override bool ValidTargetUnit(Troop Source, Troop Target)
+    public override bool ValidTargetUnit(Troop source, Troop target)
     {
-        bool Result = base.ValidTargetUnit(Source, Target);
-        return Result && (Target.GetHitPoints() != Target.GetHits() || Target.GetAbilityEnabled(96) || Target.GetAbilityEnabled(92) || Target.GetAbilityEnabled(108) || Target.GetAbilityEnabled(53) || Target.GetAbilityEnabled(93) || Target.GetAbilityEnabled(127));
+        bool result = base.ValidTargetUnit(source, target);
+        return result && (target.GetHitPoints() != target.GetHits() || target.GetAbilityEnabled(96) || target.GetAbilityEnabled(92) || target.GetAbilityEnabled(108) || target.GetAbilityEnabled(53) || target.GetAbilityEnabled(93) || target.GetAbilityEnabled(127));
     }
 
     // UnitSpells.pas:436
-    public override bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data)
+    public override bool ExecuteSpell(Troop source, Troop target, int mana, ref Int32Array2 data)
     {
-        bool Result;
-        int HitPoints;
-        if (ValidTargetUnit(Source, Target))
+        bool result;
+        int hitPoints;
+        if (ValidTargetUnit(source, target))
         {
-            HitPoints = Target.GetHitPoints() + 5;
-            if (HitPoints > Target.GetHits())
+            hitPoints = target.GetHitPoints() + 5;
+            if (hitPoints > target.GetHits())
             {
-                HitPoints = Target.GetHits();
+                hitPoints = target.GetHits();
             }
 
-            Target.SetHitPoints((sbyte)HitPoints);
-            Target.RemoveAbility(93);
-            Target.RemoveAbility(96);
-            Target.RemoveAbility(108);
-            Target.RemoveAbility(53);
-            Target.RemoveAbility(92);
-            Target.RemoveAbility(127);
-            Result = true;
+            target.SetHitPoints((sbyte)hitPoints);
+            target.RemoveAbility(93);
+            target.RemoveAbility(96);
+            target.RemoveAbility(108);
+            target.RemoveAbility(53);
+            target.RemoveAbility(92);
+            target.RemoveAbility(127);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string RemedyRStr = "Remedy";
+    private static readonly string s_remedyText = "Remedy";
 }

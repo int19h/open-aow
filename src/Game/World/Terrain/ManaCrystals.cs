@@ -17,114 +17,114 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Terrain;
 
-// FAmount, FSize
+// Amount, Size
 public partial class ManaCrystals : ImageLibraryTerrainMapObject
 {
     public ManaCrystals(ECustomNode owner) : base(owner)
     {
-        FSize = 2;
-        FAmount = 0;
+        Size = 2;
+        Amount = 0;
     }
 
     // ManaCrystals.pas:80
-    public new const int ClassID = 132030;
+    public new const int ClassId = 132030;
 
-    public int FAmount;
-    public byte FSize;
+    public int Amount;
+    public byte Size;
 
     // ManaCrystals.pas:83
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FAmount, 5);
-        Stream.rwData(Bytes.Of(ref FSize, 1), 1, 6);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Amount, 5);
+        stream.rwData(Bytes.Of(ref Size, 1), 1, 6);
     }
 
     // ManaCrystals.pas:73
 
     // ManaCrystals.pas:118
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001985 && AoWHSMap.Current.FDay == 1)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001985 && AoWHSMap.Current.Day == 1)
         {
             GenerateManaCrystalsAmount();
         }
     }
 
     // ManaCrystals.pas:148
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        base.MapFieldMsgProc(ref Msg);
-        if (Msg.MsgID == 4354)
+        base.MapFieldMessageProc(ref message);
+        if (message.MessageId == 4354)
         {
-            ArmyEntered(Msg.Param[0].As<ArmyHexSprite>());
+            ArmyEntered(message.Param[0].As<ArmyHexSprite>());
             return;
         }
 
-        if (Msg.MsgID == 4608)
+        if (message.MessageId == 4608)
         {
-            if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
+            if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
             {
-                var query = Msg.Param[0].As<AITargetQuery>();
+                var query = message.Param[0].As<AITargetQuery>();
                 var info = new CrystalAIInfo { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
                 UpdateAITarget(ref info, ref query.Data.Priority);
                 query.Info.Player = info.Player;
                 query.Info.IndependentRelation = info.OtherPlayer;
                 query.Info.Mode = (AITargetMode)info.Kind;
                 // { Original marks the message only when the resulting priority is negative. }
-                if (Msg.Param[0].As<AITargetQuery>().Data.Priority < 0)
+                if (message.Param[0].As<AITargetQuery>().Data.Priority < 0)
                 {
-                    Msg.Result = 1;
+                    message.Result = 1;
                 }
             }
         }
     }
 
     // ManaCrystals.pas:111
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (Info.HN == 0)
+        if (info.HexNumber == 0)
         {
-            ((AoWMapField)(object)Info.MapField).FFieldFlags = ((AoWMapField)(object)Info.MapField).FFieldFlags | 134217728;
+            ((AoWMapField)(object)info.MapField).FieldFlags = ((AoWMapField)(object)info.MapField).FieldFlags | 134217728;
         }
     }
 
     // ManaCrystals.pas:90
     public void GenerateManaCrystalsAmount()
     {
-        if (FSize == 4)
+        if (Size == 4)
         {
-            FSize = (byte)(AoWHSMap.Current.Random(3) + 1);
+            Size = (byte)(AoWHSMap.Current.Random(3) + 1);
         }
 
-        switch (FSize)
+        switch (Size)
         {
             case 1:
-                FAmount = AoWHSMap.Current.Random(25) + 25;
+                Amount = AoWHSMap.Current.Random(25) + 25;
                 break;
             case 2:
-                FAmount = AoWHSMap.Current.Random(25) + 50;
+                Amount = AoWHSMap.Current.Random(25) + 50;
                 break;
             case 3:
-                FAmount = AoWHSMap.Current.Random(50) + 100;
+                Amount = AoWHSMap.Current.Random(50) + 100;
                 break;
         }
     }
 
     // ManaCrystals.pas:100
-    public void UpdateAITarget(ref CrystalAIInfo Info, ref int Priority)
+    public void UpdateAITarget(ref CrystalAIInfo info, ref int priority)
     {
         int P;
-        switch (Info.Kind)
+        switch (info.Kind)
         {
             case 0:
-                if (Info.Player != 0)
+                if (info.Player != 0)
                 {
-                    P = FAmount / 5 + 15;
-                    if (Priority < P)
+                    P = Amount / 5 + 15;
+                    if (priority < P)
                     {
-                        Priority = P;
+                        priority = P;
                     }
                 }
 
@@ -133,21 +133,21 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
     }
 
     // ManaCrystals.pas:125
-    public void ArmyEntered(ArmyHexSprite ArmyHS)
+    public void ArmyEntered(ArmyHexSprite armyHexSprite)
     {
-        LocationTextEventLog Log;
-        if ((byte)ArmyHS.FArmy.FPlayer == 0)
+        LocationTextEventLog log;
+        if ((byte)armyHexSprite.Army.Player == 0)
         {
             return;
         }
 
-        bool condition = (byte)AoWHSMap.Current.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer;
+        bool condition = (byte)AoWHSMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player;
         if (!condition)
         {
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            condition = AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
+            var hexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            condition = AoWHSMap.Current.Watching(hexX, hexY, hexLevel, 0);
         }
 
         if (condition)
@@ -155,21 +155,21 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
             AudioPlayback.PlaySample("SFX\\EVENTS\\MANA.WAV");
         }
 
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
-        player.FMagicControl.SetMana(player.FMagicControl.FMana + FAmount);
+        var player = AoWHSMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
+        player.MagicControl.SetMana(player.MagicControl.Mana + Amount);
 
-        Log = new LocationTextEventLog(null);
-        Log.FPlayer = (sbyte)(byte)ArmyHS.FArmy.FPlayer;
-        Log.FText = RtlUnit.Format(AbilityRules.TranslateRStr(ManaCrystalsFoundRStr), [IntToStr(FAmount)]);
-        var lhx2 = GetLhx();
-        var yhx2 = GetYhx();
-        Log.SetLocation(GetXhx(), yhx2, lhx2);
-        AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Log);
-        Log.Release();
+        log = new LocationTextEventLog(null);
+        log._player = (sbyte)(byte)armyHexSprite.Army.Player;
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_manaCrystalsFoundFormat), [IntToStr(Amount)]);
+        var hexLevel2 = GetHexLevel();
+        var hexY2 = GetHexY();
+        log.SetLocation(GetHexX(), hexY2, hexLevel2);
+        AoWHSMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(log);
+        log.Release();
         Dispose();
     }
 
-    private static readonly string ManaCrystalsFoundRStr = "%s mana crystals found";
+    private static readonly string s_manaCrystalsFoundFormat = "%s mana crystals found";
 
     // { ManaCrystals of AoWEPACK.dpl: recovered bodies and original instance layouts.
     //   Remaining inherited declaration constraints are documented at local ABI adapters. }
@@ -190,15 +190,15 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
         { }
 
         // ManaCrystals.pas:168
-        public new const int ClassID = 132031;
+        public new const int ClassId = 132031;
 
         // ManaCrystals.pas:171
-        public override int ResourceUserClassID() => 132030;
+        public override int ResourceUserClassId() => 132030;
 
         // ManaCrystals.pas:165
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(ManaCrystalsRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_manaCrystalsText);
 
-        private static readonly string ManaCrystalsRStr = "Mana Crystals";
+        private static readonly string s_manaCrystalsText = "Mana Crystals";
 
     }
 

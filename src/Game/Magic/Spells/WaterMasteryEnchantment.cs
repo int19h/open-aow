@@ -14,58 +14,58 @@ namespace Aow.Game.Magic.Spells;
 public partial class WaterMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:760
-    public new const int ClassID = 135956;
+    public new const int ClassId = 135956;
 
     // GlobalEnchantmentSpells.pas:752
     public WaterMasteryEnchantment(ECustomNode owner) : base(owner)
     {
-        FName = AbilityRules.TranslateRStr(GameText.WaterMasteryRStr);
-        FEnchantmentType = GlobalEnchantmentType.None;
-        FDispelMana = 175;
+        Name = AbilityRules.TranslateResourceString(GameText.s_waterMasteryText);
+        EnchantmentType = GlobalEnchantmentType.None;
+        DispelMana = 175;
     }
 
     // GlobalEnchantmentSpells.pas:765
     public override int GetAIUpkeepPriority() => 1250;
 
     // GlobalEnchantmentSpells.pas:791
-    public override bool Deactivate(byte Player)
+    public override bool Deactivate(byte player)
     {
-        base.Deactivate(Player);
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
-        AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery));
+        base.Deactivate(player);
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery));
         AoWHSMap.Current.UpdateVisibility();
         // { Original uses Fire for Water Mastery. }
-        AoWHSMap.Current.FGlobalMagicControl.DecDoubleSphereManaCount(MagicSphere.Fire);
+        AoWHSMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Fire);
         return true;
     }
 
     // GlobalEnchantmentSpells.pas:770
-    public override bool CanActivate(sbyte Player, ref string Reason)
+    public override bool CanActivate(sbyte player, ref string reason)
     {
-        bool Result = base.CanActivate(Player, ref Reason);
-        if (Result)
+        bool result = base.CanActivate(player, ref reason);
+        if (result)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
+            if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
             {
-                var xIsAlreadyActive = AbilityRules.TranslateRStr(GameText.XIsAlreadyActiveRStr);
+                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.s_isAlreadyActiveFormat);
                 var name = GetName();
-                Reason = RtlUnit.Format(xIsAlreadyActive, [name]);
-                Result = false;
+                reason = RtlUnit.Format(xIsAlreadyActive, [name]);
+                result = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:781
-    public override bool Activate(sbyte Player)
+    public override bool Activate(sbyte player)
     {
-        base.Activate(Player);
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
-        AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery));
+        base.Activate(player);
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery));
         AoWHSMap.Current.UpdateVisibility();
         // { Original uses Fire for Water Mastery. }
-        AoWHSMap.Current.FGlobalMagicControl.IncDoubleSphereManaCount(MagicSphere.Fire);
+        AoWHSMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Fire);
         return true;
     }
 

@@ -15,22 +15,22 @@ public partial class StartupSongList : SongList
     }
 
     // AoWHSMap.PAS:1221
-    public void OriginalSongsChanged(object Sender)
+    public void OriginalSongsChanged(object sender)
     {
-        string Name;
+        string name;
         SongNames.Clear();
         for (int I = Songs.Count - 1; I >= 0; I--)
         {
             try
             {
-                Name = AudioPlayback.GetSongName(Songs[I]);
+                name = AudioPlayback.GetSongName(Songs[I]);
             }
             catch
             {
-                Name = AbilityRules.TranslateRStr(GameText.FileNotFoundRStr);
+                name = AbilityRules.TranslateResourceString(GameText.s_fileNotFoundText);
             }
 
-            SongNames.Insert(0, Name);
+            SongNames.Insert(0, name);
         }
     }
 

@@ -16,32 +16,32 @@ public partial class IceStorm : BlastStorm
     { }
 
     // Storms.pas:363
-    public new const int ClassID = 135738;
+    public new const int ClassId = 135738;
 
     // Storms.pas:390
-    public override void ChangeStormTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+    public override void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
     {
-        FrozenWaterHexSprite Ice;
+        FrozenWaterHexSprite ice;
         // { Original sends terrain 13 to the default branch before the ice refresh test. }
-        if (TerrainType == 0)
+        if (terrainType == 0)
         {
-            TerrainType = 6;
+            terrainType = 6;
         }
         else
         {
-            if (TerrainType != 6)
+            if (terrainType != 6)
             {
-                TerrainType = 3;
+                terrainType = 3;
             }
             else
             {
-                if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)TerrainType))
+                if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)terrainType))
                 {
-                    Ice = (FrozenWaterHexSprite)MapF.FindOwnedHS(typeof(FrozenWaterHexSprite));
-                    if (Ice != null)
+                    ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
+                    if (ice != null)
                     {
-                        Ice.FDaysRemaining = (sbyte)(3 + (AoWHSMap.Current.Random(11) - 5) / 5);
-                        Ice.FCasterPlayer = FPlayer;
+                        ice.DaysRemaining = (sbyte)(3 + (AoWHSMap.Current.Random(11) - 5) / 5);
+                        ice.CasterPlayer = Player;
                     }
                 }
             }
@@ -49,20 +49,20 @@ public partial class IceStorm : BlastStorm
     }
 
     // Storms.pas:373
-    public override void StormTerrainChanged(MapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType)
+    public override void StormTerrainChanged(MapField mapField, sbyte originalTerrainType, sbyte originalOverlayType)
     {
-        FrozenWaterHexSprite Ice;
-        if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)MapF.TerrainType) && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)OriginalTerrainType))
+        FrozenWaterHexSprite ice;
+        if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)originalTerrainType))
         {
-            Ice = (FrozenWaterHexSprite)MapF.FindOwnedHS(typeof(FrozenWaterHexSprite));
-            if (Ice == null)
+            ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
+            if (ice == null)
             {
-                Ice = new FrozenWaterHexSprite(null);
-                AoWHSMap.Current.PlaceHX(Ice, MapF.Xhx, MapF.Yhx, MapF.Lhx);
+                ice = new FrozenWaterHexSprite(null);
+                AoWHSMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
             }
 
-            Ice.FDaysRemaining = (sbyte)(3 + (AoWHSMap.Current.Random(11) - 5) / 5);
-            Ice.FCasterPlayer = FPlayer;
+            ice.DaysRemaining = (sbyte)(3 + (AoWHSMap.Current.Random(11) - 5) / 5);
+            ice.CasterPlayer = Player;
         }
     }
 
@@ -75,6 +75,6 @@ public partial class IceStorm : BlastStorm
     // Animation.pas:43
 
     // Storms.pas:368
-    public override string Name() => AbilityRules.TranslateRStr(GameTables.IceStormRStr);
+    public override string Name() => AbilityRules.TranslateResourceString(GameTables.s_iceStormText);
 
 }

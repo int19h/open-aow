@@ -12,17 +12,17 @@ internal static class SpellTargets
 
     internal static Type SpellStructureClass = typeof(Structure);
 
-    internal static readonly string SpellCancelRStr = "Cancel";
+    internal static readonly string s_spellCancelText = "Cancel";
 
-    internal static readonly string SpellXCastRStr = "%s cast";
+    internal static readonly string s_spellCastFormat = "%s cast";
 
-    internal static void NotifySpellSphere(sbyte Player, MagicSphere Sphere)
+    internal static void NotifySpellSphere(sbyte player, MagicSphere sphere)
     {
-        EngineMessage Msg = default;
-        EngineMessage.InitMsg(ref Msg, 537002242, null);
-        Msg.Param[0] = Player;
-        Msg.Param[1] = (int)Sphere;
-        AoWHSMap.Current.SendMsg(ref Msg, null);
+        EngineMessage message = default;
+        EngineMessage.InitializeMessage(ref message, 537002242, null);
+        message.Param[0] = player;
+        message.Param[1] = (int)sphere;
+        AoWHSMap.Current.SendMessage(ref message, null);
     }
 
 }

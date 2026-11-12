@@ -10,15 +10,15 @@ public partial class SummonFireSprite : SummonSpell
     // SummonSpells.pas:457
     public SummonFireSprite(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(SummonFireSpriteRStr);
-        FSpellID = 21;
-        FBaseManaCost = 5;
-        FSpellLevel = 1;
-        FMagicSphere = MagicSphere.Fire;
-        FUnitIndices.Add(228);
-        FCastDuration = 10;
-        FAIBasePriority = 200;
+        SpellName = AbilityRules.TranslateResourceString(s_summonFireSpriteText);
+        SpellId = 21;
+        BaseManaCost = 5;
+        SpellLevel = 1;
+        MagicSphere = MagicSphere.Fire;
+        UnitIndices.Add(228);
+        CastDuration = 10;
+        AIBasePriority = 200;
     }
 
-    private static readonly string SummonFireSpriteRStr = "Summon Fire Sprite";
+    private static readonly string s_summonFireSpriteText = "Summon Fire Sprite";
 }

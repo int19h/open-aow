@@ -5,7 +5,7 @@ namespace Aow.Game.UI.Windows;
 
 public partial class Window
 {
-    public override bool ContainsPoint(int X, int Y) => PointInside(X, Y, FWinLeft, FWinTop, FWinWidth, FWinHeight);
+    public override bool ContainsPoint(int X, int Y) => PointInside(X, Y, _winLeft, _winTop, _winWidth, _winHeight);
 
     // A book starts a page animation from the button handler. One wheel event turns one page, so a
     // second step in the same event does not restart that animation.
@@ -13,25 +13,25 @@ public partial class Window
 
     // Children first. A child that handles the wheel stops it. Otherwise the page buttons, then
     // one vertical scroll bar. Containing the pointer does not by itself consume the wheel.
-    public override bool CheckMouseWheel(int Steps, Set<ShiftState> Shift, int X, int Y)
+    public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
     {
-        if (Steps == 0 || FWinManager == null || !FVisible || !ContainsPoint(X, Y)) return false;
+        if (steps == 0 || _windowManager == null || !_visible || !ContainsPoint(X, Y)) return false;
         var child = TopWheelChild(X, Y);
-        if (child != null && child.CheckMouseWheel(Steps, Shift, X, Y)) return true;
-        if (TurnPages(Steps)) return true;
-        return ScrollOwnedBar(Steps);
+        if (child != null && child.CheckMouseWheel(steps, shift, X, Y)) return true;
+        if (TurnPages(steps)) return true;
+        return ScrollOwnedBar(steps);
     }
 
-    private bool TurnPages(int Steps)
+    private bool TurnPages(int steps)
     {
-        Button button = Steps > 0 ? PageBack : PageForward;
+        Button button = steps > 0 ? PageBack : PageForward;
         if (button == null) return false;
-        int count = Steps < 0 ? -Steps : Steps;
+        int count = steps < 0 ? -steps : steps;
         bool turned = false;
         for (int i = 0; i < count; i++)
         {
-            if (!button.FVisible || !button.FCaptureInput || button.FOnClick == null) break;
-            button.FOnClick(button);
+            if (!button._visible || !button._captureInput || button._onClick == null) break;
+            button._onClick(button);
             turned = true;
             if (OneWheelTurnPerEvent) break;
         }

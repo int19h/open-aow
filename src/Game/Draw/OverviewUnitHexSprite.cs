@@ -5,13 +5,13 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Draw;
 
-// FUnit
+// Troop
 public partial class OverviewUnitHexSprite : UnitHexSprite
 {
     public OverviewUnitHexSprite(ECustomNode owner) : base(owner)
     { }
 
-    public Troop FUnit;
+    public Troop Troop;
 
     // OverviewUnit.pas:31
     public override void Dispose()
@@ -21,30 +21,30 @@ public partial class OverviewUnitHexSprite : UnitHexSprite
     }
 
     // OverviewUnit.pas:52
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        base.Show(XhpSurf, YhpSurf, SurfaceDesc);
+        base.Show(pixelXSurface, pixelYSurface, lockedSurface);
     }
 
     // OverviewUnit.pas:47
-    public override void ShowShadow(int X, int Y, in LockedSurface SurfaceDesc)
+    public override void ShowShadow(int X, int Y, in LockedSurface lockedSurface)
     {
-        base.ShowShadow(X, Y, SurfaceDesc);
+        base.ShowShadow(X, Y, lockedSurface);
     }
 
     // OverviewUnit.pas:37
     public void SetU(Troop U)
     {
-        if (FUnit != null)
+        if (Troop != null)
         {
-            FUnit.Release();
+            Troop.Release();
         }
 
-        FUnit = U;
-        if (FUnit != null)
+        Troop = U;
+        if (Troop != null)
         {
-            FUnit.AddRef();
-            SetUnitGFXResourceIndex(FUnit.GetUnitGFXResourceIndex());
+            Troop.AddRef();
+            SetUnitGraphicsResourceIndex(Troop.GetUnitGraphicsResourceIndex());
         }
     }
 

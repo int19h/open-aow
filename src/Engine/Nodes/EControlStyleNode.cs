@@ -7,33 +7,33 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Engine.Nodes;
 
-// FControlStyle
+// _controlStyle
 public partial class EControlStyleNode : ENode
 {
     // Engine.pas:8199
-    public new const int ClassID = 257;
+    public new const int ClassId = 257;
 
     public EControlStyleNode(ECustomNode owner) : base(owner)
     {
-        FControlStyle = base.GetControlStyle();
+        _controlStyle = base.GetControlStyle();
     }
 
-    internal Set<ControlStyleElement> FControlStyle;
+    internal Set<ControlStyleElement> _controlStyle;
 
     // Engine.pas:8204
-    public override Set<ControlStyleElement> GetControlStyle() => FControlStyle;
+    public override Set<ControlStyleElement> GetControlStyle() => _controlStyle;
 
     // Engine.pas:8209
-    public void SetControlStyle(Set<ControlStyleElement> Value)
+    public void SetControlStyle(Set<ControlStyleElement> value)
     {
-        FControlStyle = Value;
+        _controlStyle = value;
     }
 
     // Engine.pas:8214
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        RwSet(ref FControlStyle, 1, 2, Stream.rwData, 0);
+        base.ReadWrite(stream);
+        RwSet(ref _controlStyle, 1, 2, stream.rwData, 0);
     }
 
 }

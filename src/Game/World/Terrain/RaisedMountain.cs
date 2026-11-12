@@ -14,55 +14,55 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Terrain;
 
-// FMode, FPlayer, FDuration, FOriginalOverlay
+// Mode, Player, Duration, OriginalOverlay
 public partial class RaisedMountain : ImageLibraryTerrainMapObject
 {
     public RaisedMountain(ECustomNode owner) : base(owner)
     { }
 
     // Mountain.pas:178
-    public new const int ClassID = 131434;
+    public new const int ClassId = 131434;
 
-    public Set<RaisedMountainMode> FMode;
-    public sbyte FPlayer;
-    public sbyte FDuration;
-    public sbyte FOriginalOverlay;
+    public Set<RaisedMountainMode> Mode;
+    public sbyte Player;
+    public sbyte Duration;
+    public sbyte OriginalOverlay;
 
     // Mountain.pas:181
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwShortintEx(ref FPlayer, -1, 40);
-        Stream.rwShortintEx(ref FDuration, -1, 41);
-        Stream.rwShortintEx(ref FOriginalOverlay, -1, 42);
+        base.ReadWrite(stream);
+        stream.rwShortintEx(ref Player, -1, 40);
+        stream.rwShortintEx(ref Duration, -1, 41);
+        stream.rwShortintEx(ref OriginalOverlay, -1, 42);
     }
 
     // Mountain.pas:210
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001986)
         {
-            NewTurn((sbyte)Msg.Payload.Int);
+            NewTurn((sbyte)message.Payload.Int);
         }
     }
 
     // Mountain.pas:223
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (!FMode.Contains(RaisedMountainMode.Raising))
+        if (!Mode.Contains(RaisedMountainMode.Raising))
         {
-            base.Show(XhpSurf, YhpSurf, SurfaceDesc);
+            base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
     }
 
     // Mountain.pas:216
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        base.MapFieldMsgProc(ref Msg);
-        if (Msg.MsgID == 4402)
+        base.MapFieldMessageProc(ref message);
+        if (message.MessageId == 4402)
         {
-            if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
+            if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
             {
                 RestoreTerrain();
             }
@@ -72,24 +72,24 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
     // Mountain.pas:189
     public void RestoreTerrain()
     {
-        MapField Field;
-        sbyte Overlay;
-        Field = (MapField)Owner;
-        Overlay = FOriginalOverlay;
+        MapField field;
+        sbyte overlay;
+        field = (MapField)Owner;
+        overlay = OriginalOverlay;
         this.Dispose();
-        if (Overlay > 0)
+        if (overlay > 0)
         {
-            AoWHSMap.Current.PlaceTerrain(Field.Xhx, Field.Yhx, Field.Lhx, Field.TerrainType, Overlay);
+            AoWHSMap.Current.PlaceTerrain(field.HexX, field.HexY, field.HexLevel, field.TerrainType, overlay);
         }
     }
 
     // Mountain.pas:201
-    public void NewTurn(sbyte Player)
+    public void NewTurn(sbyte player)
     {
-        if (Player == FPlayer && FDuration > 0)
+        if (player == Player && Duration > 0)
         {
-            FDuration = (sbyte)(FDuration - 1);
-            if (FDuration == 0)
+            Duration = (sbyte)(Duration - 1);
+            if (Duration == 0)
             {
                 RestoreTerrain();
             }
@@ -97,42 +97,42 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
     }
 
     // Mountain.pas:228
-    public void ShowRaiseTerrainAnimation(Animation Anim, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public void ShowRaiseTerrainAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        MapField Field;
-        var lhx = Anim.GetLhx();
-        var yhx = Anim.GetYhx();
-        var xhx = Anim.GetXhx();
-        Field = AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
+        MapField field;
+        var hexLevel = animation.GetHexLevel();
+        var hexY = animation.GetHexY();
+        var hexX = animation.GetHexX();
+        field = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         // { Original tests the base mountain ID, although this object is raised terrain. }
-        if (this == Field.FindOwnedChild(131432) && Anim.FFrameCounter == 0)
+        if (this == field.FindOwnedChild(131432) && animation.FrameCounter == 0)
         {
-            bool condition = AoWHSMap.Current.FSeatedPlayer == Anim.FTag;
+            bool condition = AoWHSMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
-                var lhx2 = GetLhx();
-                var yhx2 = GetYhx();
-                var xhx2 = GetXhx();
-                condition = AoWHSMap.Current.WatchingTerrain(xhx2, yhx2, lhx2, 0);
+                var hexLevel2 = GetHexLevel();
+                var hexY2 = GetHexY();
+                var hexX2 = GetHexX();
+                condition = AoWHSMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
             }
 
             if (condition)
             {
-                AoWHSSet.Current.FSpellControl.GetSpell(19).FCastSounds.Play(0);
+                AoWHSSet.Current.SpellControl.GetSpell(19).CastSounds.Play(0);
             }
         }
     }
 
     // Mountain.pas:240
-    public void NewFrameRaiseTerrainAnimation(Animation Anim, int FrameCounter)
+    public void NewFrameRaiseTerrainAnimation(Animation animation, int frameCounter)
     {
-        var lhx = Anim.GetLhx();
-        var yhx = Anim.GetYhx();
-        var xhx = Anim.GetXhx();
-        var field = AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
-        if (field.FindOwnedChild(131434) == this && FrameCounter == 9)
+        var hexLevel = animation.GetHexLevel();
+        var hexY = animation.GetHexY();
+        var hexX = animation.GetHexX();
+        var field = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        if (field.FindOwnedChild(131434) == this && frameCounter == 9)
         {
-            FMode = FMode - Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
+            Mode = Mode - Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
         }
     }
 
@@ -142,15 +142,15 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
         { }
 
         // Mountain.pas:249
-        public new const int ClassID = 131435;
+        public new const int ClassId = 131435;
 
         // Mountain.pas:255
-        public override int ResourceUserClassID() => 131434;
+        public override int ResourceUserClassId() => 131434;
 
         // Mountain.pas:252
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(RaisedMountainRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_raisedMountainText);
 
-        private static readonly string RaisedMountainRStr = "Raised Mountain";
+        private static readonly string s_raisedMountainText = "Raised Mountain";
 
     }
 

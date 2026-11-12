@@ -6,10 +6,10 @@ namespace Aow.Game.Draw.Images;
 // a bit mask shown as a shadow, darkening the 16 bit surface under the set bits (ClassID $14)
 public partial class Shadow : BitMask, ILibraryImageClass
 {
-    static int ILibraryImageClass.ClassID => 20;
+    static int ILibraryImageClass.ClassId => 20;
     static string ILibraryImageClass.Name => "Shadow";
 
-    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new Shadow(owner);
+    static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Shadow(owner);
 
     // ImageLib.pas:5100
     public Shadow(CustomImageLibrary owner) : base(owner)
@@ -18,40 +18,40 @@ public partial class Shadow : BitMask, ILibraryImageClass
 
     // ImageLib.pas:5106
     // { SupportShowMode asks TLibraryImage, which supports nothing. }
-    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555) && base.SupportShowMode(ShowMode, PixelFormatID);
+    public override bool SupportShowMode(ShowMode showMode, int pixelFormatId) => (pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555) && base.SupportShowMode(showMode, pixelFormatId);
 
     // ImageLib.pas:5122
-    public override void ShowOpaque(int X, int Y, in LockedSurface SD)
+    public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
     {
-        if (!FDataLoaded)
+        if (!_dataLoaded)
         {
             LoadDiscardableImageData();
-            switch (SD.PixelFormatID)
+            switch (lockedSurface.PixelFormatId)
             {
                 case PixelFormats.pfRGB565:
-                    ShowShadow565(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    ShowShadow565(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, _maskData, _maskWidth, _maskHeight);
                     break;
                 case PixelFormats.pfRGB555:
-                    ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    ShowShadow555(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, _maskData, _maskWidth, _maskHeight);
                     break;
                 default:
                     throw new NotSupportedException("Surface format not supported");
             }
 
-            if (FLoadMode == LoadMode.LoadFreeOnDemand)
+            if (_loadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
         }
         else
         {
-            switch (SD.PixelFormatID)
+            switch (lockedSurface.PixelFormatId)
             {
                 case PixelFormats.pfRGB565:
-                    ShowShadow565(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    ShowShadow565(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, _maskData, _maskWidth, _maskHeight);
                     break;
                 case PixelFormats.pfRGB555:
-                    ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
+                    ShowShadow555(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, _maskData, _maskWidth, _maskHeight);
                     break;
                 default:
                     throw new NotSupportedException("Surface format not supported");
@@ -59,14 +59,14 @@ public partial class Shadow : BitMask, ILibraryImageClass
         }
     }
 
-    private static void ShowShadow565(int X, int Y, in LockedSurface SD, ReadOnlySpan<byte> Data, int Width, int Height)
+    private static void ShowShadow565(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height)
     {
-        Blit.ShowShadow565(X, Y, SD.View(), Data, Width, Height);
+        Blit.ShowShadow565(X, Y, lockedSurface.View(), data, width, height);
     }
 
-    private static void ShowShadow555(int X, int Y, in LockedSurface SD, ReadOnlySpan<byte> Data, int Width, int Height)
+    private static void ShowShadow555(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height)
     {
-        Blit.ShowShadow555(X, Y, SD.View(), Data, Width, Height);
+        Blit.ShowShadow555(X, Y, lockedSurface.View(), data, width, height);
     }
 
 }

@@ -15,7 +15,7 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
     public long Frame { get; private set; }
     public (int X, int Y) Mouse { get; set; } = (-1, -1);
 
-    private readonly InputMapper input = new();
+    private readonly InputMapper _input = new();
 
     public (int X, int Y, bool Inside) PointerPosition() => HasFocus && Mouse.X >= 0 && Mouse.Y >= 0 && Mouse.X < ClientSize.Width && Mouse.Y < ClientSize.Height ? (Mouse.X, Mouse.Y, true) : (-1, -1, false);
 
@@ -35,12 +35,12 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
     {
         var size = ClientSize;
         var viewport = new DisplayViewport(size.Width, size.Height, 1, 0, 0, size.Width, size.Height);
-        input.Wheel(y, direction, x, yPosition, viewport, sink);
+        _input.Wheel(y, direction, x, yPosition, viewport, sink);
     }
 
     public void Present(in LockedSurface surface)
     {
-        if (surface.Width < 1 || surface.Height < 1 || surface.BitCount != 16 || surface.PixelFormatID != PixelFormats.pfRGB555 || Math.Abs((long)surface.Pitch) < surface.Width * 2L)
+        if (surface.Width < 1 || surface.Height < 1 || surface.BitCount != 16 || surface.PixelFormatId != PixelFormats.pfRGB555 || Math.Abs((long)surface.Pitch) < surface.Width * 2L)
             throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", nameof(surface));
         ClientSize = (surface.Width, surface.Height);
         Frame++;

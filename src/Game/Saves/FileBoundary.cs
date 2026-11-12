@@ -125,7 +125,7 @@ public static class FileBoundary
                 Operation = "list",
                 Profile = profile,
                 Format = DetectedFormat.Original.ToString(),
-                G1 = "not applicable: header listing",
+                OriginalRoundTrip = "not applicable: header listing",
                 Validation = "not applicable: header listing",
             });
             return head.Length == count ? head : [];
@@ -140,7 +140,7 @@ public static class FileBoundary
     /// no stored CRC, and is logged.
     /// </summary>
     public static int ImageCrc32(string fileName, GameProfile profile) =>
-        Load(fileName, profile, "crc") is { } image ? EngineServices.GetCRC32(image, image.Length) : 0;
+        Load(fileName, profile, "crc") is { } image ? EngineServices.GetCrc32(image, image.Length) : 0;
 
     /// <summary>
     /// The four bytes at the end of the engine image, the stored CRC of a scenario set that

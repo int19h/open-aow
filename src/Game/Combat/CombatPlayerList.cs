@@ -11,18 +11,18 @@ public partial class CombatPlayerList : ENode
     }
 
     // Combat2.pas:132
-    public CombatPlayer GetPlayers(sbyte Index) => (CombatPlayer)FChildren.List[Index];
+    public CombatPlayer GetPlayers(sbyte index) => (CombatPlayer)_children.List[index];
 
     // Combat2.pas:135
-    public int IndexOfPlayer(byte Player)
+    public int IndexOfPlayer(byte player)
     {
-        int Result = FChildren.Count;
-        while (Result != 0)
+        int result = _children.Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (Player == (byte)((CombatPlayer)FChildren.List[Result]).FPlayer)
+            result -= 1;
+            if (player == (byte)((CombatPlayer)_children.List[result]).Player)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -30,17 +30,17 @@ public partial class CombatPlayerList : ENode
     }
 
     // Combat2.pas:146
-    public int IndexOf(byte Player, byte Relation)
+    public int IndexOf(byte player, byte relation)
     {
         CombatPlayer P;
-        int Result = FChildren.Count;
-        while (Result != 0)
+        int result = _children.Count;
+        while (result != 0)
         {
-            Result -= 1;
-            P = (CombatPlayer)FChildren.List[Result];
-            if ((sbyte)Player == P.FPlayer && P.FIndependentRelation == Relation)
+            result -= 1;
+            P = (CombatPlayer)_children.List[result];
+            if ((sbyte)player == P.Player && P.IndependentRelation == relation)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -48,9 +48,9 @@ public partial class CombatPlayerList : ENode
     }
 
     // Combat2.pas:159
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        GetPlayers((sbyte)Index)?.Dispose();
+        GetPlayers((sbyte)index)?.Dispose();
     }
 
     // intf_P3_02.inc:212

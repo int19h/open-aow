@@ -14,33 +14,33 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
-// FState, FPowerSource
+// State, PowerSource
 public partial class PowerNode : PlayerStructure
 {
     public PowerNode(ECustomNode owner) : base(owner)
     {
-        FPowerSource = new PlayerStructurePowerSource(null);
-        FPowerSource.Setup(this);
+        PowerSource = new PlayerStructurePowerSource(null);
+        PowerSource.Setup(this);
     }
 
     // PowerNode.pas:64
-    public new const int ClassID = 131482;
+    public new const int ClassId = 131482;
 
-    public Set<StateElement> FState;
-    public PlayerStructurePowerSource FPowerSource;
+    public Set<StateElement> State;
+    public PlayerStructurePowerSource PowerSource;
 
     // PowerNode.pas:58
     public override void Dispose()
     {
         base.Dispose();
-        FPowerSource?.Dispose();
+        PowerSource?.Dispose();
     }
 
     // PowerNode.pas:87
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        RwSet(ref FState, 1, 20, Stream.rwData, 0);
+        base.ReadWrite(stream);
+        RwSet(ref State, 1, 20, stream.rwData, 0);
     }
 
     // PowerNode.pas:51
@@ -49,68 +49,68 @@ public partial class PowerNode : PlayerStructure
     public override void Activate()
     {
         base.Activate();
-        if (FPlayer != -1)
+        if (Player != -1)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
+            AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(PowerSource);
         }
     }
 
     // PowerNode.pas:138
     public override void Deactivate()
     {
-        if (FPlayer != -1)
+        if (Player != -1)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
+            AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(PowerSource);
         }
 
         base.Deactivate();
     }
 
     // PowerNode.pas:76
-    public override void SetRazed(bool Value)
+    public override void SetRazed(bool value)
     {
-        if (Value)
+        if (value)
         {
             SetPlayer(-1);
-            FState = FState + Set<StateElement>.Of(StateElement.Razed);
+            State = State + Set<StateElement>.Of(StateElement.Razed);
         }
         else
         {
-            FState = FState - Set<StateElement>.Of(StateElement.Razed);
+            State = State - Set<StateElement>.Of(StateElement.Razed);
         }
 
-        FImageIndex = GetTerrainTypeImage(FTerrainType);
+        _imageIndex = GetTerrainTypeImage(_terrainType);
     }
 
     // PowerNode.pas:73
-    public override bool GetRazed() => FState.Contains(StateElement.Razed);
+    public override bool GetRazed() => State.Contains(StateElement.Razed);
 
     // PowerNode.pas:93
     public override string GetCurrentActivityText()
     {
         var power = GetPower();
-        return RtlUnit.Format(AbilityRules.TranslateRStr(GeneratingXPowerRStr), [IntToStr(power)]);
+        return RtlUnit.Format(AbilityRules.TranslateResourceString(s_generatingPowerFormat), [IntToStr(power)]);
     }
 
     // PowerNode.pas:96
-    public override void UpdateAITarget(in AITargetInfo Info, ref AITargetData Data)
+    public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
         int P;
-        switch (Info.Mode)
+        switch (info.Mode)
         {
             case AITargetMode.Attack:
-                if (Info.Player != FPlayer && !GetRazed())
+                if (info.Player != Player && !GetRazed())
                 {
-                    P = Data.Priority;
-                    if (FPlayer == 0)
+                    P = data.Priority;
+                    if (Player == 0)
                     {
                         P = 50;
                     }
                     else
                     {
-                        if (AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
+                        if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, 0))
                         {
-                            P = 50 - AoWHSMap.Current.FPlayers.GetPlayers(Info.Player).FIncome / 2;
+                            P = 50 - AoWHSMap.Current.Players.GetPlayers(info.Player).Income / 2;
                             if (P < 25)
                             {
                                 P = 25;
@@ -123,9 +123,9 @@ public partial class PowerNode : PlayerStructure
                         }
                     }
 
-                    if (Data.Priority < P)
+                    if (data.Priority < P)
                     {
-                        Data.Priority = P;
+                        data.Priority = P;
                     }
                 }
 
@@ -134,26 +134,26 @@ public partial class PowerNode : PlayerStructure
     }
 
     // PowerNode.pas:117
-    public override void SetPlayer(sbyte Player)
+    public override void SetPlayer(sbyte player)
     {
-        if (Player != FPlayer)
+        if (player != Player)
         {
-            if (FStatus.Contains(MapObjectStatusElement.Activated))
+            if (_status.Contains(MapObjectStatusElement.Activated))
             {
-                if (FPlayer != -1)
+                if (Player != -1)
                 {
-                    AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
+                    AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(PowerSource);
                 }
 
-                base.SetPlayer(Player);
-                if (FPlayer != -1)
+                base.SetPlayer(player);
+                if (Player != -1)
                 {
-                    AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
+                    AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(PowerSource);
                 }
             }
             else
             {
-                base.SetPlayer(Player);
+                base.SetPlayer(player);
             }
         }
     }
@@ -161,37 +161,37 @@ public partial class PowerNode : PlayerStructure
     // PowerNode.pas:67
     public override int GetPower()
     {
-        int Result;
+        int result;
         if (!GetRazed() && !GetBuilding())
         {
-            Result = 10;
+            result = 10;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // PowerNode.pas:145
-    public override string GetCombatEventText(Battle Combat)
+    public override string GetCombatEventText(Battle combat)
     {
-        string Result;
-        if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)
+        string result;
+        if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
         {
-            Result = AbilityRules.TranslateRStr(PowerNodeBattleWonRStr);
+            result = AbilityRules.TranslateResourceString(s_powerNodeBattleWonText);
         }
         else
         {
-            Result = "";
+            result = "";
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string GeneratingXPowerRStr = "Generating %s power";
-    private static readonly string PowerNodeBattleWonRStr = "Power Node captured";
+    private static readonly string s_generatingPowerFormat = "Generating %s power";
+    private static readonly string s_powerNodeBattleWonText = "Power Node captured";
 
     public enum StateElement : byte
     {
@@ -202,28 +202,28 @@ public partial class PowerNode : PlayerStructure
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FTerrainBound = false;
-            FClaimed = false;
-            FRazeDefenderBudget = 200;
-            FRazeable = true;
-            FRebuildGold = 50;
-            FRebuildDays = 2;
+            TerrainBound = false;
+            Claimed = false;
+            RazeDefenderBudget = 200;
+            Razeable = true;
+            RebuildGold = 50;
+            RebuildDays = 2;
         }
 
         // PowerNode.pas:166
-        public new const int ClassID = 131483;
+        public new const int ClassId = 131483;
 
         // PowerNode.pas:152
 
         // PowerNode.pas:169
-        public override int ResourceUserClassID() => 131482;
+        public override int ResourceUserClassId() => 131482;
 
         // PowerNode.pas:41
 
         // PowerNode.pas:163
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(PowerNodeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_powerNodeText);
 
-        private static readonly string PowerNodeRStr = "Power Node";
+        private static readonly string s_powerNodeText = "Power Node";
 
     }
 

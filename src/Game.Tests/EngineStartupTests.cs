@@ -17,46 +17,46 @@ public sealed class EngineStartupTests
     // These fields were untyped DelphiList. The startup walk still enters them so the recorded element paths stay.
     private static readonly HashSet<string> ConvertedListFields = new(StringComparer.Ordinal)
     {
-        "Aow.Engine.Plugin.FEngines",
-        "Aow.Game.AI.Groups.AIGroupManager.FRegisteredClasses",
-        "Aow.Game.Combat.CombatMap.FEffects",
-        "Aow.Game.Combat.CombatMap.FFleeLocations",
-        "Aow.Game.Combat.CombatMap.FWalls",
+        "Aow.Engine.Plugin._engines",
+        "Aow.Game.AI.Groups.AIGroupManager.RegisteredClasses",
+        "Aow.Game.Combat.CombatMap.Effects",
+        "Aow.Game.Combat.CombatMap.FleeLocations",
+        "Aow.Game.Combat.CombatMap.Walls",
         "Aow.Game.Combat.BattleAI.Allies",
         "Aow.Game.Combat.BattleAI.Enemies",
         "Aow.Game.Combat.BattleAI.Moves",
         "Aow.Game.Combat.BattleAI.Units",
         "Aow.Game.Combat.BattleAI.Walls",
-        "Aow.Game.Commands.CombatMoveTokenEvent.FObjects",
-        "Aow.Game.Draw.BlendTableList.FList",
-        "Aow.Game.Draw.DisplayModeList.FList",
-        "Aow.Game.Draw.Images.PaletteManager.FPalettes",
-        "Aow.Game.Draw.TacticalBattleUnitHexSprite.FAbilities",
-        "Aow.Game.Draw.Point3DList.FList",
-        "Aow.Game.GameEngine.FEClasses",
-        "Aow.Game.Magic.Abilities.AbilityControl.FAbilities",
-        "Aow.Game.Magic.Spells.SpellControl.FRegisteredSpells",
-        "Aow.Game.Net.PackageDataList.FList",
-        "Aow.Game.Net.TokenExecutor.FTCList",
-        "Aow.Game.Net.TokenManager.FTokenControls",
-        "Aow.Game.UI.Controls.Memo.FColorList",
-        "Aow.Game.UI.Controls.MenuBar.FMenus",
-        "Aow.Game.UI.Controls.TabPanel.FPanels",
-        "Aow.Game.UI.Controls.UIComponent.FBltList",
-        "Aow.Game.UI.Controls.UIComponent.FDrawList",
-        "Aow.Game.UI.Dialogs.General.FAbilities",
-        "Aow.Game.UI.Dialogs.ResultsWindow.FControls",
-        "Aow.Game.UI.Dialogs.TitleScene.FCredits",
-        "Aow.Game.UI.Windows.Menu.FSubMenus",
-        "Aow.Game.UI.Windows.HtmlMemo.FChanges",
-        "Aow.Game.UI.Windows.HtmlMemo.FFonts",
-        "Aow.Game.Units.ItemControl.FItems",
-        "Aow.Game.Units.UnitControl.FUnits",
-        "Aow.Game.World.Map.AoWHSMap.FEffects",
-        "Aow.Game.World.Map.HexSpriteSelection.FLocationHS",
-        "Aow.Game.World.Map.MapObjectResourceTerrainControl.FResources",
-        "Aow.Game.World.PadControl.FPadResources",
-        "Aow.Game.World.Terrain.FireControl.FResources",
+        "Aow.Game.Commands.CombatMoveTokenEvent.Objects",
+        "Aow.Game.Draw.BlendTableList._list",
+        "Aow.Game.Draw.DisplayModeList._list",
+        "Aow.Game.Draw.Images.PaletteManager._palettes",
+        "Aow.Game.Draw.TacticalBattleUnitHexSprite.Abilities",
+        "Aow.Game.Draw.Point3DList._list",
+        "Aow.Game.GameEngine._engineClasses",
+        "Aow.Game.Magic.Abilities.AbilityControl.Abilities",
+        "Aow.Game.Magic.Spells.SpellControl.RegisteredSpells",
+        "Aow.Game.Net.PackageDataList._list",
+        "Aow.Game.Net.TokenExecutor._tacticalBattleList",
+        "Aow.Game.Net.TokenManager._tokenControls",
+        "Aow.Game.UI.Controls.Memo.ColorList",
+        "Aow.Game.UI.Controls.MenuBar.Menus",
+        "Aow.Game.UI.Controls.TabPanel.Panels",
+        "Aow.Game.UI.Controls.UIComponent.BlitList",
+        "Aow.Game.UI.Controls.UIComponent.DrawList",
+        "Aow.Game.UI.Dialogs.General.Abilities",
+        "Aow.Game.UI.Dialogs.ResultsWindow.Controls",
+        "Aow.Game.UI.Dialogs.TitleScene.Credits",
+        "Aow.Game.UI.Windows.Menu.SubMenus",
+        "Aow.Game.UI.Windows.HtmlMemo.Changes",
+        "Aow.Game.UI.Windows.HtmlMemo.Fonts",
+        "Aow.Game.Units.ItemControl.Items",
+        "Aow.Game.Units.UnitControl.Units",
+        "Aow.Game.World.Map.AoWHSMap.Effects",
+        "Aow.Game.World.Map.HexSpriteSelection._locationHexSprite",
+        "Aow.Game.World.Map.MapObjectResourceTerrainControl._resources",
+        "Aow.Game.World.PadControl.PadResources",
+        "Aow.Game.World.Terrain.FireControl.Resources",
     };
 
     private static bool IsGenericList(object value)
@@ -71,9 +71,9 @@ public sealed class EngineStartupTests
     // These fields were hash tables. The walk records the dictionary type and does not enter its entries.
     private static readonly HashSet<string> ConvertedDictionaryFields = new(StringComparer.Ordinal)
     {
-        "Aow.Game.Draw.Images.ImageLibraryManagerList.FHashTable",
-        "Aow.Game.GameEngine.FClassTable",
-        "Aow.Game.Units.UnitControl.FUnitTable",
+        "Aow.Game.Draw.Images.ImageLibraryManagerList._hashTable",
+        "Aow.Game.GameEngine._classTable",
+        "Aow.Game.Units.UnitControl.UnitTable",
     };
 
     private static bool IsDictionary(object value)
@@ -113,13 +113,13 @@ public sealed class EngineStartupTests
             var events = fixture.Events;
             GameEngine? value = null;
             Exception? caught = null;
-            void Thrown(object? sender, FirstChanceExceptionEventArgs args)
+            void Thrown(object? sender, FirstChanceExceptionEventArgs arguments)
             {
-                if (args.Exception is XunitException) return;
-                string[] destroy = new StackTrace(args.Exception).GetFrames()
+                if (arguments.Exception is XunitException) return;
+                string[] destroy = new StackTrace(arguments.Exception).GetFrames()
                     .Where(x => x.GetMethod()?.Name == "Dispose")
                     .Select(x => x.GetMethod()!.DeclaringType!.Name).ToArray();
-                events.Add(fixture.Event("throw", args.Exception.GetType().FullName + ": " + fixture.Relative(args.Exception.Message), destroy));
+                events.Add(fixture.Event("throw", arguments.Exception.GetType().FullName + ": " + fixture.Relative(arguments.Exception.Message), destroy));
             }
             AppDomain.CurrentDomain.FirstChanceException += Thrown;
             try
@@ -134,7 +134,7 @@ public sealed class EngineStartupTests
                     };
                 }
                 catch (Exception error) { caught = error; }
-                GameEngine engine = value ?? GameTables.AoWEngine;
+                GameEngine engine = value ?? GameTables.GameEngine;
                 Assert.NotNull(engine);
                 Assert.Equal(route is "AoW" or "HS" or "Engine", caught is null);
                 var result = new JsonObject
@@ -148,8 +148,8 @@ public sealed class EngineStartupTests
                 };
                 if (route == "AoW")
                 {
-                    Assert.True(GameTables.ValidateAoWEngine());
-                    Assert.Same(value, GameTables.AoWEngine);
+                    Assert.True(GameTables.ValidateGameEngine());
+                    Assert.Same(value, GameTables.GameEngine);
                     result["ValidateAgain"] = true;
                     result["FinalSnapshot"] = Snapshot((GameEngine)value!, fixture);
                     result["MovePointTables"] = MovePoints();
@@ -157,8 +157,8 @@ public sealed class EngineStartupTests
                 else if (caught is not null)
                 {
                     Assert.Null(value);
-                    Assert.Same(engine, GameTables.AoWEngine);
-                    Assert.True(GameTables.ValidateAoWEngine());
+                    Assert.Same(engine, GameTables.GameEngine);
+                    Assert.True(GameTables.ValidateGameEngine());
                     result["ValidateAfterFailure"] = true;
                 }
                 if (value is not null)
@@ -214,7 +214,7 @@ public sealed class EngineStartupTests
             for (Type? type = value.GetType(); type is not null && type != typeof(object); type = type.BaseType)
                 foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
-                    if (field.Name == "FOwner" || field.GetValue(value) is not object child) continue;
+                    if (field.Name == "_owner" || field.GetValue(value) is not object child) continue;
                     if (LegacyRoots.Contains(child.GetType())
                         || (IsGenericList(child) && ConvertedListField(field))
                         || (IsDictionary(child) && ConvertedDictionaryField(field)))
@@ -227,17 +227,17 @@ public sealed class EngineStartupTests
 
     private static JsonObject Snapshot(GameEngine engine, EngineFixture.RecordingHost fixture) => new()
     {
-        ["Version"] = engine.FVersion,
-        ["User"] = engine.FUser.Mask,
+        ["Version"] = engine.Version,
+        ["User"] = engine.User.Mask,
         ["Options"] = engine.Options.Mask,
-        ["Debug"] = engine.FDebug,
-        ["Detail"] = engine.FAnimationDetail,
-        ["Language"] = engine.FLanguage,
-        ["DictionaryLanguage"] = engine.FDictionary.Reader.Language,
-        ["Demo"] = engine.FDemo,
+        ["Debug"] = engine.Debug,
+        ["Detail"] = engine.AnimationDetail,
+        ["Language"] = engine.Language,
+        ["DictionaryLanguage"] = engine.Dictionary.Reader.Language,
+        ["Demo"] = engine.Demo,
         ["StartupDirectory"] = fixture.Relative(engine.StartupDirectory),
-        ["DebugIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.DebugIDs.Count).Select(i => new { Name = engine.DebugIDs[i], Id = Runtime.ObjectToInt(engine.DebugIDs.Objects[i]) })),
-        ["ClassIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.EClasses.Count).Select(i => (engine.EClasses[i]!).ClassID)),
+        ["DebugIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.DebugIds.Count).Select(i => new { Name = engine.DebugIds[i], Id = Runtime.ObjectToInt(engine.DebugIds.Objects[i]) })),
+        ["ClassIDs"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.EngineClasses.Count).Select(i => (engine.EngineClasses[i]!).ClassId)),
         ["Children"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, engine.Count).Select(i => engine.Children[i].GetType().FullName)),
         ["Globals"] = fixture.State()
     };

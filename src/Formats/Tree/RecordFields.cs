@@ -10,7 +10,7 @@ namespace Aow.Formats.Tree;
 internal enum RecordFieldKind
 {
     Integer,
-    Bool,
+    Boolean,
     Enum,
     Set,
     Record,
@@ -33,7 +33,7 @@ internal abstract class RecordFieldInfo
     public virtual int Count => 0;
 
     /// <summary>The C# type of an enum, a set element, a nested record or an array element.</summary>
-    internal virtual Type? ClrType => null;
+    internal virtual Type? ColorType => null;
 
     internal abstract void Transfer(IPersister persister, Span<byte> image);
 
@@ -76,10 +76,10 @@ internal sealed class IntegerRecordField : RecordFieldInfo
 
     internal override void Transfer(IPersister persister, Span<byte> image)
     {
-        if (ElementWidth == 4 && ElementSigned) Move(persister, image, static (IPersister body, string name, ref int value) => body.Int(name, ref value));
-        else if (ElementWidth == 4 && !ElementSigned) Move(persister, image, static (IPersister body, string name, ref uint value) => body.UInt(name, ref value));
-        else if (ElementWidth == 2 && ElementSigned) Move(persister, image, static (IPersister body, string name, ref short value) => body.Short(name, ref value));
-        else if (ElementWidth == 2 && !ElementSigned) Move(persister, image, static (IPersister body, string name, ref ushort value) => body.UShort(name, ref value));
+        if (ElementWidth == 4 && ElementSigned) Move(persister, image, static (IPersister body, string name, ref int value) => body.Int32(name, ref value));
+        else if (ElementWidth == 4 && !ElementSigned) Move(persister, image, static (IPersister body, string name, ref uint value) => body.UInt32(name, ref value));
+        else if (ElementWidth == 2 && ElementSigned) Move(persister, image, static (IPersister body, string name, ref short value) => body.Int16(name, ref value));
+        else if (ElementWidth == 2 && !ElementSigned) Move(persister, image, static (IPersister body, string name, ref ushort value) => body.UInt16(name, ref value));
         else if (ElementWidth == 1 && ElementSigned) Move(persister, image, static (IPersister body, string name, ref sbyte value) => body.SByte(name, ref value));
         else if (ElementWidth == 1 && !ElementSigned) Move(persister, image, static (IPersister body, string name, ref byte value) => body.Byte(name, ref value));
         else throw new InvalidOperationException(Name + " is not a transferred integer.");
@@ -119,7 +119,7 @@ internal sealed class IntegerRecordField : RecordFieldInfo
 
 internal sealed class BooleanRecordField : RecordFieldInfo
 {
-    public override RecordFieldKind Kind => RecordFieldKind.Bool;
+    public override RecordFieldKind Kind => RecordFieldKind.Boolean;
     public override int Width => 1;
 
     internal override bool OmitsImage(TreeValue value) => value is IntegerNode { Value: 0 } || value is BooleanNode { Value: false };
@@ -139,12 +139,12 @@ internal sealed class EnumRecordField : RecordFieldInfo
     public required string ElementType { get; init; }
     public required int ElementWidth { get; init; }
     public required bool ElementSigned { get; init; }
-    internal Type? ElementClr { get; init; }
+    internal Type? ElementColor { get; init; }
     public override RecordFieldKind Kind => RecordFieldKind.Enum;
     public override int Width => ElementWidth;
     public override bool Signed => ElementSigned;
     public override string? TypeName => ElementType;
-    internal override Type? ClrType => ElementClr;
+    internal override Type? ColorType => ElementColor;
 
     internal override PropertyCodec CreateCodec() => new EnumCodec(ElementType, ElementWidth, ElementSigned);
 
@@ -152,7 +152,7 @@ internal sealed class EnumRecordField : RecordFieldInfo
     {
         var box = new object[] { ReadBytes(image, ElementWidth, ElementSigned) };
         typeof(EnumRecordField).GetMethod(nameof(Move), BindingFlags.NonPublic | BindingFlags.Static)!
-            .MakeGenericMethod(ElementClr!)
+            .MakeGenericMethod(ElementColor!)
             .Invoke(null, [persister, Name, box]);
         if (persister.Loading) WriteBytes(image, (long)box[0]!, ElementWidth);
     }
@@ -169,11 +169,11 @@ internal sealed class SetRecordField : RecordFieldInfo
 {
     public required string ElementType { get; init; }
     public required int ElementWidth { get; init; }
-    internal Type? ElementClr { get; init; }
+    internal Type? ElementColor { get; init; }
     public override RecordFieldKind Kind => RecordFieldKind.Set;
     public override int Width => ElementWidth;
     public override string? TypeName => ElementType;
-    internal override Type? ClrType => ElementClr;
+    internal override Type? ColorType => ElementColor;
 
     internal override PropertyCodec CreateCodec() => new SetCodec(ElementType, ElementWidth);
 
@@ -183,7 +183,7 @@ internal sealed class SetRecordField : RecordFieldInfo
     {
         var box = new object[] { image.ToArray() };
         typeof(SetRecordField).GetMethod(nameof(Move), BindingFlags.NonPublic | BindingFlags.Static)!
-            .MakeGenericMethod(ElementClr!)
+            .MakeGenericMethod(ElementColor!)
             .Invoke(null, [persister, name, box]);
         if (persister.Loading) ((byte[])box[0]!).CopyTo(image);
     }
@@ -206,21 +206,21 @@ internal sealed class ArrayRecordField : RecordFieldInfo
     public required int ElementWidth { get; init; }
     public required bool ElementSigned { get; init; }
     public required int ElementCount { get; init; }
-    internal Type? ElementClr { get; init; }
+    internal Type? ElementColor { get; init; }
     public override RecordFieldKind Kind => RecordFieldKind.Array;
     public override int Width => ElementWidth;
     public override bool Signed => ElementSigned;
     public override int Count => ElementCount;
-    internal override Type? ClrType => ElementClr;
+    internal override Type? ColorType => ElementColor;
 
     internal override PropertyCodec CreateCodec() => new FixedArrayCodec(ElementWidth, ElementSigned, ElementCount);
 
     internal override void Transfer(IPersister persister, Span<byte> image)
     {
-        if (ElementWidth == 4 && ElementSigned) Move(persister, image, static (IItemSlot slot, ref int item) => slot.Int(ref item));
-        else if (ElementWidth == 4 && !ElementSigned) Move(persister, image, static (IItemSlot slot, ref uint item) => slot.UInt(ref item));
-        else if (ElementWidth == 2 && ElementSigned) Move(persister, image, static (IItemSlot slot, ref short item) => slot.Short(ref item));
-        else if (ElementWidth == 2 && !ElementSigned) Move(persister, image, static (IItemSlot slot, ref ushort item) => slot.UShort(ref item));
+        if (ElementWidth == 4 && ElementSigned) Move(persister, image, static (IItemSlot slot, ref int item) => slot.Int32(ref item));
+        else if (ElementWidth == 4 && !ElementSigned) Move(persister, image, static (IItemSlot slot, ref uint item) => slot.UInt32(ref item));
+        else if (ElementWidth == 2 && ElementSigned) Move(persister, image, static (IItemSlot slot, ref short item) => slot.Int16(ref item));
+        else if (ElementWidth == 2 && !ElementSigned) Move(persister, image, static (IItemSlot slot, ref ushort item) => slot.UInt16(ref item));
         else if (ElementWidth == 1 && ElementSigned) Move(persister, image, static (IItemSlot slot, ref sbyte item) => slot.SByte(ref item));
         else if (ElementWidth == 1 && !ElementSigned) Move(persister, image, static (IItemSlot slot, ref byte item) => slot.Byte(ref item));
         else throw new InvalidOperationException(Name + " is not a transferred array.");
@@ -269,10 +269,10 @@ internal sealed class ArrayRecordField : RecordFieldInfo
 internal sealed class NestedRecordField : RecordFieldInfo
 {
     public required string ElementType { get; init; }
-    internal Type? ElementClr { get; init; }
+    internal Type? ElementColor { get; init; }
     public override RecordFieldKind Kind => RecordFieldKind.Record;
     public override string? TypeName => ElementType;
-    internal override Type? ClrType => ElementClr;
+    internal override Type? ColorType => ElementColor;
 
     internal override PropertyCodec CreateCodec() => new CatalogRecordCodec(ElementType, Size);
 

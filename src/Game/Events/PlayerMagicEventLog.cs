@@ -19,116 +19,116 @@ public partial class PlayerMagicEventLog : EventLog
     // mode, location, spell ID, value, enchantment name
     public PlayerMagicEventLog(ECustomNode owner) : base(owner)
     {
-        FLocation.Packed = 16777215;
+        Location.Packed = 16777215;
     }
 
-    public new const int ClassID = 131824;
+    public new const int ClassId = 131824;
 
-    public EventMode FMode;
-    public MapCoordinate FLocation;
-    public int FSpellID;
-    public int FValue;
-    public string FEnchantmentName = "";
+    public EventMode Mode;
+    public MapCoordinate Location;
+    public int SpellId;
+    public int Value;
+    public string EnchantmentName = "";
 
     // Spells.PAS:1854
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwData(Bytes.Of(ref FMode, 1), 1, 20);
-        Stream.rwInteger(ref FSpellID, 21);
-        Stream.rwInteger(ref FValue, 22);
-        Stream.rwString(ref FEnchantmentName, 23);
-        Stream.rwInteger(ref FLocation.Packed, 24);
+        base.ReadWrite(stream);
+        stream.rwData(Bytes.Of(ref Mode, 1), 1, 20);
+        stream.rwInteger(ref SpellId, 21);
+        stream.rwInteger(ref Value, 22);
+        stream.rwString(ref EnchantmentName, 23);
+        stream.rwInteger(ref Location.Packed, 24);
     }
 
     // Spells.PAS:1892
     public override string GetText()
     {
-        string Result = "";
-        switch (FMode)
+        string result = "";
+        switch (Mode)
         {
             case EventMode.SpellResearched:
-                var spell = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-                Result = AbilityRules.Format(AbilityRules.TranslateRStr(P4XResearchedRStr), [spell.FSpellName]);
+                var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+                result = AbilityRules.Format(AbilityRules.TranslateResourceString(s_researchedFormat), [spell.SpellName]);
                 break;
             case EventMode.OutOfMana:
-                if (AoWHSMap.Current.FSeatedPlayer == FPlayer)
+                if (AoWHSMap.Current.SeatedPlayer == _player)
                 {
-                    Result = AbilityRules.Format(AbilityRules.TranslateRStr(P4XRemovedOutOfManaRStr), [FEnchantmentName]);
+                    result = AbilityRules.Format(AbilityRules.TranslateResourceString(s_removedOutOfManaFormat), [EnchantmentName]);
                 }
                 else
                 {
-                    Result = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.P4XRemovedRStr), [FEnchantmentName]);
+                    result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_removedFormat), [EnchantmentName]);
                 }
 
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:1874
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool Result = default;
-        bool Show;
-        switch (FMode)
+        bool result = default;
+        bool show;
+        switch (Mode)
         {
             case EventMode.OutOfMana:
-                Show = Trigger == ExecuteTrigger.User;
+                show = trigger == ExecuteTrigger.User;
                 break;
             case EventMode.SpellResearched:
-                if (Trigger != ExecuteTrigger.User)
+                if (trigger != ExecuteTrigger.User)
                 {
-                    if (AoWHSMap.Current.FPlayMode == PlayMode.Turn)
+                    if (AoWHSMap.Current.PlayMode == PlayMode.Turn)
                     {
-                        Show = GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched);
+                        show = GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched);
                     }
                     else
                     {
-                        Show = GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched);
+                        show = GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched);
                     }
                 }
                 else
                 {
-                    Show = true;
+                    show = true;
                 }
 
                 break;
             case EventMode.StartResearch:
-                Show = true;
+                show = true;
                 break;
             default:
-                Show = false;
+                show = false;
                 break;
         }
 
-        if (Show)
+        if (show)
         {
-            Result = base.Execute(Mode, Trigger, Done);
+            result = base.Execute(mode, trigger, done);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:1863
     public override void ViewLocation()
     {
         sbyte X;
-        X = FLocation.X;
+        X = Location.X;
         if (X != -1)
         {
-            AoWHSMap.Current.CenterViewTo(X, FLocation.Y, FLocation.L);
-            AoWHSMap.Current.PlayCenterAnimation(FLocation.X, FLocation.Y, FLocation.L);
+            AoWHSMap.Current.CenterViewTo(X, Location.Y, Location.MapLevel);
+            AoWHSMap.Current.PlayCenterAnimation(Location.X, Location.Y, Location.MapLevel);
         }
     }
 
-    private static readonly string P4XResearchedRStr = "%s researched";
-    private static readonly string P4XRemovedOutOfManaRStr = "%s removed (out of mana)";
+    private static readonly string s_researchedFormat = "%s researched";
+    private static readonly string s_removedOutOfManaFormat = "%s removed (out of mana)";
 
     public enum EventMode : byte
     {

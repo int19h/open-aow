@@ -11,100 +11,100 @@ namespace Aow.Engine.Collections;
 
 public partial class QuadItemList : Persistent
 {
-    internal QuadInteger[] FList = [];
-    internal int FCount;
-    internal int FCapacity;
-    internal QuadInteger FDefault;
+    internal QuadInteger[] _list = [];
+    internal int _count;
+    internal int _capacity;
+    internal QuadInteger _default;
 
     // Engine.pas:5538
-    internal QuadInteger Get(int Index)
+    internal QuadInteger Get(int index)
     {
-        QuadInteger Result;
-        if (Index < 0 || Index >= FCount)
+        QuadInteger result;
+        if (index < 0 || index >= _count)
         {
-            Result = FDefault;
+            result = _default;
         }
         else
         {
-            Result = FList[Index];
+            result = _list[index];
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:5621
-    internal void Put(int Index, QuadInteger Item)
+    internal void Put(int index, QuadInteger item)
     {
-        if (Index < 0)
+        if (index < 0)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        if (Index >= FCount)
+        if (index >= _count)
         {
-            SetCount(Index + 1);
+            SetCount(index + 1);
         }
 
-        FList[Index] = Item;
+        _list[index] = item;
     }
 
     // Engine.pas:5643
-    internal void SetCapacity(int NewCapacity)
+    internal void SetCapacity(int newCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
+        if (newCapacity < _count || newCapacity > EngineServices.MaxListSize)
         {
-            Error("List capacity out of bounds (%d)", NewCapacity);
+            Error("List capacity out of bounds (%d)", newCapacity);
         }
 
-        if (NewCapacity != FCapacity)
+        if (newCapacity != _capacity)
         {
-            Array.Resize(ref FList, NewCapacity);
-            FCapacity = NewCapacity;
+            Array.Resize(ref _list, newCapacity);
+            _capacity = newCapacity;
         }
     }
 
     // Engine.pas:5654
-    internal void SetCount(int NewCount)
+    internal void SetCount(int newCount)
     {
-        if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
+        if (newCount < 0 || newCount > EngineServices.MaxListSize)
         {
-            Error("List count out of bounds (%d)", NewCount);
+            Error("List count out of bounds (%d)", newCount);
         }
 
-        if (NewCount > FCapacity)
+        if (newCount > _capacity)
         {
-            SetCapacity(NewCount);
+            SetCapacity(newCount);
         }
 
-        if (NewCount > FCount)
+        if (newCount > _count)
         {
-            FillQuadInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+            FillQuadInteger(_list.AsSpan(_count), newCount - _count, _default);
         }
 
-        FCount = NewCount;
+        _count = newCount;
     }
 
     // Engine.pas:5546
     protected internal virtual void Grow()
     {
-        int Delta;
-        if (FCapacity > 64)
+        int delta;
+        if (_capacity > 64)
         {
-            Delta = FCapacity / 4;
+            delta = _capacity / 4;
         }
         else
         {
-            if (FCapacity > 8)
+            if (_capacity > 8)
             {
-                Delta = 16;
+                delta = 16;
             }
             else
             {
-                Delta = 4;
+                delta = 4;
             }
         }
 
-        SetCapacity(FCapacity + Delta);
+        SetCapacity(_capacity + delta);
     }
 
     // Engine.pas:5452
@@ -114,51 +114,51 @@ public partial class QuadItemList : Persistent
     }
 
     // Engine.pas:5457
-    public override void Assign(Persistent Source)
+    public override void Assign(Persistent source)
     {
-        if (Source is QuadItemList)
+        if (source is QuadItemList)
         {
-            var quadItemList = (QuadItemList)Source;
-            this.FCount = quadItemList.FCount;
-            this.SetCapacity(quadItemList.FCount);
-            Array.Copy(quadItemList.FList, 0, this.FList, 0, this.FCount);
-            this.FDefault = quadItemList.FDefault;
+            var quadItemList = (QuadItemList)source;
+            this._count = quadItemList._count;
+            this.SetCapacity(quadItemList._count);
+            Array.Copy(quadItemList._list, 0, this._list, 0, this._count);
+            this._default = quadItemList._default;
         }
         else
         {
-            base.Assign(Source);
+            base.Assign(source);
         }
     }
 
     // Engine.pas:5471
-    public int Add(in QuadInteger Item)
+    public int Add(in QuadInteger item)
     {
-        int Result = FCount;
-        if (Result == FCapacity)
+        int result = _count;
+        if (result == _capacity)
         {
             Grow();
         }
 
-        FList[Result] = Item;
-        FCount += 1;
-        return Result;
+        _list[result] = item;
+        _count += 1;
+        return result;
     }
 
     // Engine.pas:5479
     public int AddABCD(int A, int B, int C, int D)
     {
-        int Result = FCount;
-        if (Result == FCapacity)
+        int result = _count;
+        if (result == _capacity)
         {
             Grow();
         }
 
-        FList[Result].A = A;
-        FList[Result].B = B;
-        FList[Result].C = C;
-        FList[Result].D = D;
-        FCount += 1;
-        return Result;
+        _list[result].First = A;
+        _list[result].Second = B;
+        _list[result].Third = C;
+        _list[result].Fourth = D;
+        _count += 1;
+        return result;
     }
 
     // Engine.pas:5490
@@ -169,43 +169,43 @@ public partial class QuadItemList : Persistent
     }
 
     // Engine.pas:5496
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        if (Index < 0 || Index >= FCount)
+        if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        FCount -= 1;
-        if (Index < FCount)
+        _count -= 1;
+        if (index < _count)
         {
-            RtlUnit.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), (FCount - Index) * 16);
+            RtlUnit.Move(MemoryMarshal.AsBytes(_list.AsSpan(index + 1, _count - index)), MemoryMarshal.AsBytes(_list.AsSpan(index, _count - index)), (_count - index) * 16);
         }
     }
 
     // Engine.pas:5516
-    public void Exchange(int Index1, int Index2)
+    public void Exchange(int index1, int index2)
     {
-        QuadInteger Item;
-        if (Index1 < 0 || Index1 >= FCount)
+        QuadInteger item;
+        if (index1 < 0 || index1 >= _count)
         {
-            Error("List index out of bounds (%d)", Index1);
+            Error("List index out of bounds (%d)", index1);
         }
 
-        if (Index2 < 0 || Index2 >= FCount)
+        if (index2 < 0 || index2 >= _count)
         {
-            Error("List index out of bounds (%d)", Index2);
+            Error("List index out of bounds (%d)", index2);
         }
 
-        Item = FList[Index1];
-        FList[Index1] = FList[Index2];
-        FList[Index2] = Item;
+        item = _list[index1];
+        _list[index1] = _list[index2];
+        _list[index2] = item;
     }
 
     // Engine.pas:5527
     public QuadItemList Expand()
     {
-        if (FCount == FCapacity)
+        if (_count == _capacity)
         {
             Grow();
         }
@@ -217,150 +217,150 @@ public partial class QuadItemList : Persistent
     public QuadInteger First() => Get(0);
 
     // Engine.pas:5556
-    public int IndexOf(in QuadInteger Item)
+    public int IndexOf(in QuadInteger item)
     {
-        int Result = 0;
-        while (Result < FCount && (FList[Result].A != Item.A || FList[Result].B != Item.B || FList[Result].C != Item.C || FList[Result].D != Item.D))
+        int result = 0;
+        while (result < _count && (_list[result].First != item.First || _list[result].Second != item.Second || _list[result].Third != item.Third || _list[result].Fourth != item.Fourth))
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:5564
     public int IndexOfItemA(int A)
     {
-        int Result = 0;
-        while (Result < FCount && FList[Result].A != A)
+        int result = 0;
+        while (result < _count && _list[result].First != A)
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:5571
     public int IndexOfItemB(int B)
     {
-        int Result = 0;
-        while (Result < FCount && FList[Result].B != B)
+        int result = 0;
+        while (result < _count && _list[result].Second != B)
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:5578
     public int IndexOfItemC(int C)
     {
-        int Result = 0;
-        while (Result < FCount && FList[Result].C != C)
+        int result = 0;
+        while (result < _count && _list[result].Third != C)
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:5585
     public int IndexOfItemD(int D)
     {
-        int Result = 0;
-        while (Result < FCount && FList[Result].D != D)
+        int result = 0;
+        while (result < _count && _list[result].Fourth != D)
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:5592
-    public void Insert(int Index, in QuadInteger Item)
+    public void Insert(int index, in QuadInteger item)
     {
-        if (Index < 0 || Index > FCount)
+        if (index < 0 || index > _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        if (FCount == FCapacity)
+        if (_count == _capacity)
         {
             Grow();
         }
 
-        if (Index < FCount)
+        if (index < _count)
         {
-            RtlUnit.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), (FCount - Index) * 16);
+            RtlUnit.Move(MemoryMarshal.AsBytes(_list.AsSpan(index, _count - index)), MemoryMarshal.AsBytes(_list.AsSpan(index + 1, _count - index)), (_count - index) * 16);
         }
 
-        FList[Index] = Item;
-        FCount += 1;
+        _list[index] = item;
+        _count += 1;
     }
 
     // Engine.pas:5603
-    public QuadInteger Last() => Get(FCount - 1);
+    public QuadInteger Last() => Get(_count - 1);
 
     // Engine.pas:5608
-    public void Move(int CurIndex, int NewIndex)
+    public void Move(int currentIndex, int newIndex)
     {
-        QuadInteger Item;
-        if (CurIndex != NewIndex)
+        QuadInteger item;
+        if (currentIndex != newIndex)
         {
-            if (NewIndex < 0 || NewIndex >= FCount)
+            if (newIndex < 0 || newIndex >= _count)
             {
-                Error("List index out of bounds (%d)", NewIndex);
+                Error("List index out of bounds (%d)", newIndex);
             }
 
-            Item = Get(CurIndex);
-            Delete(CurIndex);
-            Insert(NewIndex, Item);
+            item = Get(currentIndex);
+            Delete(currentIndex);
+            Insert(newIndex, item);
         }
     }
 
     // Engine.pas:5628
-    public int Remove(in QuadInteger Item)
+    public int Remove(in QuadInteger item)
     {
-        int Result = IndexOf(Item);
-        if (Result != -1)
+        int result = IndexOf(item);
+        if (result != -1)
         {
-            Delete(Result);
+            Delete(result);
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:5634
     public void Pack()
     {
-        for (int I = FCount - 1; I >= 0; I--)
+        for (int I = _count - 1; I >= 0; I--)
         {
-            if (FList[I].A == FDefault.A && FList[I].B == FDefault.B && FList[I].C == FDefault.C && FList[I].D == FDefault.D)
+            if (_list[I].First == _default.First && _list[I].Second == _default.Second && _list[I].Third == _default.Third && _list[I].Fourth == _default.Fourth)
             {
                 Delete(I);
             }
@@ -368,11 +368,11 @@ public partial class QuadItemList : Persistent
     }
 
     // Engine.pas:5691
-    public void Sort(QuadItemSortCompare Compare)
+    public void Sort(QuadItemSortCompare compare)
     {
-        if (FList.Length != 0 && Count > 0)
+        if (_list.Length != 0 && Count > 0)
         {
-            QuickSortQuadItem(FList, 0, Count - 1, Compare);
+            QuickSortQuadItem(_list, 0, Count - 1, compare);
         }
     }
 
@@ -425,166 +425,166 @@ public partial class QuadItemList : Persistent
     }
 
     // Engine.pas:5777
-    public bool Compare(QuadItemList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 16);
+    public bool Compare(QuadItemList list) => list._count == _count && CompareMem(MemoryMarshal.AsBytes(_list.AsSpan(0, _count)), MemoryMarshal.AsBytes(list._list.AsSpan(0, _count)), _count * 16);
 
     // Engine.pas:5784
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
-        int Run = default;
-        int Count = default;
-        QuadInteger Item = default;
+        int run = default;
+        int count = default;
+        QuadInteger item = default;
         Clear();
-        Stream.ReadExactly(Bytes.Of(ref FDefault, 16));
-        Stream.ReadExactly(Bytes.Of(ref Count, 4));
-        SetCapacity(Count);
-        while (FCount < Count)
+        stream.ReadExactly(Bytes.Of(ref _default, 16));
+        stream.ReadExactly(Bytes.Of(ref count, 4));
+        SetCapacity(count);
+        while (_count < count)
         {
-            Stream.ReadExactly(Bytes.Of(ref Item, 16));
-            if (Item.A == FDefault.A && Item.B == FDefault.B && Item.C == FDefault.C && Item.D == FDefault.D)
+            stream.ReadExactly(Bytes.Of(ref item, 16));
+            if (item.First == _default.First && item.Second == _default.Second && item.Third == _default.Third && item.Fourth == _default.Fourth)
             {
-                Stream.ReadExactly(Bytes.Of(ref Run, 4));
-                SetCount(FCount + Run);
+                stream.ReadExactly(Bytes.Of(ref run, 4));
+                SetCount(_count + run);
             }
             else
             {
-                Add(Item);
+                Add(item);
             }
         }
     }
 
     // Engine.pas:5807
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
         int I;
-        int Run = default;
+        int run = default;
         int DefaultRun()
         {
             int J;
-            int Result = 0;
+            int result = 0;
             J = I;
-            while (J < FCount && (FList[J].A == FDefault.A && FList[J].B == FDefault.B && FList[J].C == FDefault.C && FList[J].D == FDefault.D))
+            while (J < _count && (_list[J].First == _default.First && _list[J].Second == _default.Second && _list[J].Third == _default.Third && _list[J].Fourth == _default.Fourth))
             {
-                Result += 1;
+                result += 1;
                 J += 1;
             }
 
-            return Result;
+            return result;
         }
 
         I = 0;
-        Stream.Write(Bytes.Of(ref FDefault, 16));
-        Stream.Write(Bytes.Of(ref FCount, 4));
-        while (FCount != I)
+        stream.Write(Bytes.Of(ref _default, 16));
+        stream.Write(Bytes.Of(ref _count, 4));
+        while (_count != I)
         {
-            Run = DefaultRun();
-            if (Run > 0)
+            run = DefaultRun();
+            if (run > 0)
             {
-                Stream.Write(Bytes.Of(ref FDefault, 16));
-                Stream.Write(Bytes.Of(ref Run, 4));
-                I += Run;
+                stream.Write(Bytes.Of(ref _default, 16));
+                stream.Write(Bytes.Of(ref run, 4));
+                I += run;
             }
             else
             {
-                Stream.Write(MemoryMarshal.AsBytes(FList.AsSpan(I, 1)));
+                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(I, 1)));
                 I += 1;
             }
         }
     }
 
-    public int Capacity { get => FCapacity; set => SetCapacity(value); }
-    public int Count { get => FCount; set => SetCount(value); }
-    public QuadInteger Default { get => FDefault; set => FDefault = value; }
+    public int Capacity { get => _capacity; set => SetCapacity(value); }
+    public int Count { get => _count; set => SetCount(value); }
+    public QuadInteger Default { get => _default; set => _default = value; }
 
-    public QuadInteger this[int Index] { get => Get(Index); set => Put(Index, value); }
+    public QuadInteger this[int index] { get => Get(index); set => Put(index, value); }
 
-    public QuadInteger[] List { get => FList; }
+    public QuadInteger[] List { get => _list; }
 
     // Engine.pas:5505
-    protected internal static void Error(string Msg, int Data)
+    protected internal static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
     }
 
-    private static void QuickSortQuadItem(Span<QuadInteger> SortList, int L, int R, QuadItemSortCompare SCompare)
+    private static void QuickSortQuadItem(Span<QuadInteger> sortList, int L, int R, QuadItemSortCompare sCompare)
     {
-        QuadInteger tQuadInteger = default(QuadInteger);
-        int num;
+        QuadInteger quadInteger = default(QuadInteger);
+        int number;
         do
         {
-            num = L;
-            int num2 = R;
-            QuadInteger Item = SortList[L + R >>> 1];
+            number = L;
+            int number2 = R;
+            QuadInteger item = sortList[L + R >>> 1];
             while (true)
             {
-                if (SCompare(in SortList[num], in Item) < 0)
+                if (sCompare(in sortList[number], in item) < 0)
                 {
-                    num++;
+                    number++;
                     continue;
                 }
-                while (SCompare(in SortList[num2], in Item) > 0)
+                while (sCompare(in sortList[number2], in item) > 0)
                 {
-                    num2--;
+                    number2--;
                 }
-                if (num <= num2)
+                if (number <= number2)
                 {
-                    tQuadInteger = SortList[num];
-                    SortList[num] = SortList[num2];
-                    SortList[num2] = tQuadInteger;
-                    num++;
-                    num2--;
+                    quadInteger = sortList[number];
+                    sortList[number] = sortList[number2];
+                    sortList[number2] = quadInteger;
+                    number++;
+                    number2--;
                 }
-                if (num > num2)
+                if (number > number2)
                 {
                     break;
                 }
             }
-            if (L < num2)
+            if (L < number2)
             {
-                QuickSortQuadItem(SortList, L, num2, SCompare);
+                QuickSortQuadItem(sortList, L, number2, sCompare);
             }
-            L = num;
+            L = number;
         }
-        while (num < R);
+        while (number < R);
     }
 
-    private static int CompareQuadItemAAscending(in QuadInteger Item1, in QuadInteger Item2)
+    private static int CompareQuadItemAAscending(in QuadInteger item1, in QuadInteger item2)
     {
-        return Item1.A - Item2.A;
+        return item1.First - item2.First;
     }
 
-    private static int CompareQuadItemBAscending(in QuadInteger Item1, in QuadInteger Item2)
+    private static int CompareQuadItemBAscending(in QuadInteger item1, in QuadInteger item2)
     {
-        return Item1.B - Item2.B;
+        return item1.Second - item2.Second;
     }
 
-    private static int CompareQuadItemCAscending(in QuadInteger Item1, in QuadInteger Item2)
+    private static int CompareQuadItemCAscending(in QuadInteger item1, in QuadInteger item2)
     {
-        return Item1.C - Item2.C;
+        return item1.Third - item2.Third;
     }
 
-    private static int CompareQuadItemDAscending(in QuadInteger Item1, in QuadInteger Item2)
+    private static int CompareQuadItemDAscending(in QuadInteger item1, in QuadInteger item2)
     {
-        return Item1.D - Item2.D;
+        return item1.Fourth - item2.Fourth;
     }
 
-    private static int CompareQuadItemADescending(in QuadInteger Item1, in QuadInteger Item2)
+    private static int CompareQuadItemADescending(in QuadInteger item1, in QuadInteger item2)
     {
-        return Item2.A - Item1.A;
+        return item2.First - item1.First;
     }
 
-    private static int CompareQuadItemBDescending(in QuadInteger Item1, in QuadInteger Item2)
+    private static int CompareQuadItemBDescending(in QuadInteger item1, in QuadInteger item2)
     {
-        return Item2.B - Item1.B;
+        return item2.Second - item1.Second;
     }
 
-    private static int CompareQuadItemCDescending(in QuadInteger Item1, in QuadInteger Item2)
+    private static int CompareQuadItemCDescending(in QuadInteger item1, in QuadInteger item2)
     {
-        return Item2.C - Item1.C;
+        return item2.Third - item1.Third;
     }
 
-    private static int CompareQuadItemDDescending(in QuadInteger Item1, in QuadInteger Item2)
+    private static int CompareQuadItemDDescending(in QuadInteger item1, in QuadInteger item2)
     {
-        return Item2.D - Item1.D;
+        return item2.Fourth - item1.Fourth;
     }
 
     internal static void FillQuadInteger(Span<QuadInteger> buffer, int count, in QuadInteger value)
@@ -597,13 +597,13 @@ public partial class QuadItemList : Persistent
     public struct QuadInteger
     {
         [FieldOffset(0)]
-        public int A;
+        public int First;
         [FieldOffset(4)]
-        public int B;
+        public int Second;
         [FieldOffset(8)]
-        public int C;
+        public int Third;
         [FieldOffset(12)]
-        public int D;
+        public int Fourth;
     }
 
     public delegate int QuadItemSortCompare(in QuadInteger Item1, in QuadInteger Item2);

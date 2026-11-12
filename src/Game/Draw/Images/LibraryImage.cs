@@ -11,52 +11,52 @@ namespace Aow.Game.Draw.Images;
 // FFileName, FFileIndex (where the image was grabbed), FShowInfo
 public partial class LibraryImage : Persistent, ILibraryImageClass
 {
-    static int ILibraryImageClass.ClassID => 0;
+    static int ILibraryImageClass.ClassId => 0;
     static byte ILibraryImageClass.ClassVersion => 3;
     static string ILibraryImageClass.Name => "Abstract Library Image";
 
-    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new LibraryImage(owner);
+    static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new LibraryImage(owner);
 
-    private LibraryImageClass imageClass;
+    private LibraryImageClass _imageClass;
 
-    public LibraryImageClass ImageClass => imageClass ??= LibraryImageClass.Of(GetType());
+    public LibraryImageClass ImageClass => _imageClass ??= LibraryImageClass.Of(GetType());
 
     public virtual byte ClassVersion() => ImageClass.ClassVersion;
     public virtual string Name() => ImageClass.Name;
 
-    internal CustomImageLibrary FOwner;
-    internal bool FDataLoaded;
-    internal int FDataPosition;
-    internal int FDataSize;
-    internal bool FReloadingEnabled;
-    internal byte FVersion;
-    internal LoadMode FLoadMode;
-    internal int FDataWidth;
-    internal int FDataHeight;
-    internal int FWidth;
-    internal int FHeight;
-    internal int FXshift;
-    internal int FYshift;
-    internal string FFileName = "";
-    internal int FFileIndex;
-    internal ShowInfo FShowInfo;
+    internal CustomImageLibrary _owner;
+    internal bool _dataLoaded;
+    internal int _dataPosition;
+    internal int _dataSize;
+    internal bool _reloadingEnabled;
+    internal byte _version;
+    internal LoadMode _loadMode;
+    internal int _dataWidth;
+    internal int _dataHeight;
+    internal int _width;
+    internal int _height;
+    internal int _xshift;
+    internal int _yshift;
+    internal string _fileName = "";
+    internal int _fileIndex;
+    internal ShowInfo _showInfo;
 
     // ImageLib.pas:1613
-    public virtual void SetOwner(CustomImageLibrary AOwner)
+    public virtual void SetOwner(CustomImageLibrary owner)
     {
-        if (AOwner != FOwner && FOwner != null && !FDataLoaded)
+        if (owner != _owner && _owner != null && !_dataLoaded)
         {
             SetReloadingEnabled(false);
         }
 
-        FOwner = AOwner;
+        _owner = owner;
     }
 
     // ImageLib.pas:1877
-    public virtual void SetLoadMode(LoadMode Value)
+    public virtual void SetLoadMode(LoadMode value)
     {
-        FLoadMode = Value;
-        if (FLoadMode == LoadMode.LoadAlways && !FDataLoaded)
+        _loadMode = value;
+        if (_loadMode == LoadMode.LoadAlways && !_dataLoaded)
         {
             LoadDiscardableImageData();
         }
@@ -72,202 +72,202 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     public virtual bool GetTransparent() => false;
 
     // ImageLib.pas:1656
-    public virtual void SetReloadingEnabled(bool Value)
+    public virtual void SetReloadingEnabled(bool value)
     {
-        if (!Value && !FDataLoaded)
+        if (!value && !_dataLoaded)
         {
             LoadDiscardableImageData();
         }
 
-        if (Value && !FReloadingEnabled)
+        if (value && !_reloadingEnabled)
         {
             throw new InvalidOperationException("Cannot turn on Reloading when disabled");
         }
         else
         {
-            FReloadingEnabled = Value;
+            _reloadingEnabled = value;
         }
     }
 
     // ImageLib.pas:1991
-    public virtual void SetDefaultShowInfo(ShowInfo Value)
+    public virtual void SetDefaultShowInfo(ShowInfo value)
     {
-        if (SupportShowMode(Value.ShowMode, 0))
+        if (SupportShowMode(value.ShowMode, 0))
         {
-            FShowInfo = Value;
+            _showInfo = value;
         }
     }
 
     // ImageLib.pas:1620
-    public virtual void SetXshift(int Value)
+    public virtual void SetXshift(int value)
     {
-        FXshift = Value;
+        _xshift = value;
     }
 
     // ImageLib.pas:1625
-    public virtual void SetYshift(int Value)
+    public virtual void SetYshift(int value)
     {
-        FYshift = Value;
+        _yshift = value;
     }
 
     // ImageLib.pas:1630
-    public virtual void SetWidth(int Value)
+    public virtual void SetWidth(int value)
     {
-        FWidth = Value;
+        _width = value;
     }
 
     // ImageLib.pas:1635
-    public virtual void SetHeight(int Value)
+    public virtual void SetHeight(int value)
     {
-        FHeight = Value;
+        _height = value;
     }
 
     // ImageLib.pas:1640
     public virtual void GetVisualDimensions(ref Rect R)
     {
         R.Left = 0;
-        R.Right = FWidth;
+        R.Right = _width;
         R.Top = 0;
-        R.Bottom = FHeight;
+        R.Bottom = _height;
     }
 
     // ImageLib.pas:1702
-    public virtual void ReadImageData(Stream Stream)
+    public virtual void ReadImageData(Stream stream)
     {
-        Stream.ReadExactly(Bytes.Of(ref FVersion, 1));
-        LibraryDrawing.ReadStringFromStream(ref FFileName, Stream);
-        Stream.ReadExactly(Bytes.Of(ref FDataWidth, 4));
-        Stream.ReadExactly(Bytes.Of(ref FDataHeight, 4));
-        Stream.ReadExactly(Bytes.Of(ref FXshift, 4));
-        Stream.ReadExactly(Bytes.Of(ref FYshift, 4));
-        Stream.ReadExactly(Bytes.Of(ref FFileIndex, 4));
-        Stream.ReadExactly(Bytes.Of(ref FLoadMode, 1));
-        Stream.ReadExactly(Bytes.Of(ref FDataSize, 4));
-        if (FVersion > 0)
+        stream.ReadExactly(Bytes.Of(ref _version, 1));
+        LibraryDrawing.ReadStringFromStream(ref _fileName, stream);
+        stream.ReadExactly(Bytes.Of(ref _dataWidth, 4));
+        stream.ReadExactly(Bytes.Of(ref _dataHeight, 4));
+        stream.ReadExactly(Bytes.Of(ref _xshift, 4));
+        stream.ReadExactly(Bytes.Of(ref _yshift, 4));
+        stream.ReadExactly(Bytes.Of(ref _fileIndex, 4));
+        stream.ReadExactly(Bytes.Of(ref _loadMode, 1));
+        stream.ReadExactly(Bytes.Of(ref _dataSize, 4));
+        if (_version > 0)
         {
-            if (FVersion >= 2)
+            if (_version >= 2)
             {
-                Stream.ReadExactly(Bytes.Of(ref FDataPosition, 4));
+                stream.ReadExactly(Bytes.Of(ref _dataPosition, 4));
             }
 
-            Stream.ReadExactly(Bytes.Of(ref FWidth, 4));
-            Stream.ReadExactly(Bytes.Of(ref FHeight, 4));
+            stream.ReadExactly(Bytes.Of(ref _width, 4));
+            stream.ReadExactly(Bytes.Of(ref _height, 4));
         }
         else
         {
-            FWidth = FDataWidth + FXshift;
-            FHeight = FDataHeight + FYshift;
+            _width = _dataWidth + _xshift;
+            _height = _dataHeight + _yshift;
         }
 
-        if (FVersion >= 3)
+        if (_version >= 3)
         {
-            FShowInfo.ReadImage(Stream, false);
+            _showInfo.ReadImage(stream, false);
         }
     }
 
     // ImageLib.pas:1727
-    public virtual void WriteImageData(Stream Stream)
+    public virtual void WriteImageData(Stream stream)
     {
         byte V;
         V = ClassVersion();
-        Stream.Write(Bytes.Of(ref V, 1));
-        LibraryDrawing.WriteStringToStream(FFileName, Stream);
-        Stream.Write(Bytes.Of(ref FDataWidth, 4));
-        Stream.Write(Bytes.Of(ref FDataHeight, 4));
-        Stream.Write(Bytes.Of(ref FXshift, 4));
-        Stream.Write(Bytes.Of(ref FYshift, 4));
-        Stream.Write(Bytes.Of(ref FFileIndex, 4));
-        Stream.Write(Bytes.Of(ref FLoadMode, 1));
-        Stream.Write(Bytes.Of(ref FDataSize, 4));
-        Stream.Write(Bytes.Of(ref FDataPosition, 4));
-        Stream.Write(Bytes.Of(ref FWidth, 4));
-        Stream.Write(Bytes.Of(ref FHeight, 4));
-        FShowInfo.WriteImage(Stream, false);
+        stream.Write(Bytes.Of(ref V, 1));
+        LibraryDrawing.WriteStringToStream(_fileName, stream);
+        stream.Write(Bytes.Of(ref _dataWidth, 4));
+        stream.Write(Bytes.Of(ref _dataHeight, 4));
+        stream.Write(Bytes.Of(ref _xshift, 4));
+        stream.Write(Bytes.Of(ref _yshift, 4));
+        stream.Write(Bytes.Of(ref _fileIndex, 4));
+        stream.Write(Bytes.Of(ref _loadMode, 1));
+        stream.Write(Bytes.Of(ref _dataSize, 4));
+        stream.Write(Bytes.Of(ref _dataPosition, 4));
+        stream.Write(Bytes.Of(ref _width, 4));
+        stream.Write(Bytes.Of(ref _height, 4));
+        _showInfo.WriteImage(stream, false);
     }
 
     // ImageLib.pas:1747
-    public virtual void ReadDiscardableImageData(Stream Stream)
+    public virtual void ReadDiscardableImageData(Stream stream)
     {
-        FDataLoaded = true;
+        _dataLoaded = true;
     }
 
     // ImageLib.pas:1752
-    public virtual void WriteDiscardableImageData(Stream Stream)
+    public virtual void WriteDiscardableImageData(Stream stream)
     {
     }
 
     // ImageLib.pas:1756
     public virtual void ReleaseDiscardableImageData()
     {
-        FDataLoaded = false;
+        _dataLoaded = false;
     }
 
     // ImageLib.pas:1761
     public virtual void LoadDiscardableImageData()
     {
-        Stream Stream;
-        if (!FDataLoaded)
+        Stream stream;
+        if (!_dataLoaded)
         {
-            Stream = new FastLoadFileStream(FOwner.FLoadedFileName);
+            stream = new FastLoadFileStream(_owner._loadedFileName);
             try
             {
-                Stream.Seek(FDataPosition + FOwner.FDataOffset, SeekOrigin.Begin);
-                ReadDiscardableImageData(Stream);
-                FDataLoaded = true;
+                stream.Seek(_dataPosition + _owner._dataOffset, SeekOrigin.Begin);
+                ReadDiscardableImageData(stream);
+                _dataLoaded = true;
             }
             finally
             {
-                Stream?.Dispose();
+                stream?.Dispose();
             }
         }
     }
 
     // ImageLib.pas:1859
-    public virtual void SaveToStreamEx(Stream Stream, Stream DataStream)
+    public virtual void SaveToStream(Stream stream, Stream dataStream)
     {
         int P;
-        P = FDataPosition;
-        FDataPosition = (int)(DataStream.Position);
-        WriteImageData(Stream);
-        FDataPosition = P;
-        if (!FDataLoaded)
+        P = _dataPosition;
+        _dataPosition = (int)(dataStream.Position);
+        WriteImageData(stream);
+        _dataPosition = P;
+        if (!_dataLoaded)
         {
             LoadDiscardableImageData();
-            WriteDiscardableImageData(DataStream);
-            if (FLoadMode == LoadMode.LoadFreeOnDemand)
+            WriteDiscardableImageData(dataStream);
+            if (_loadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
         }
         else
         {
-            WriteDiscardableImageData(DataStream);
+            WriteDiscardableImageData(dataStream);
         }
     }
 
     // ImageLib.pas:1835
-    public virtual void LoadFromStreamEx(Stream Stream, Stream DataStream)
+    public virtual void LoadFromStream(Stream stream, Stream dataStream)
     {
-        ReadImageData(Stream);
-        if (FVersion >= 2)
+        ReadImageData(stream);
+        if (_version >= 2)
         {
-            if (FLoadMode == LoadMode.LoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile) || FDataPosition == -1)
+            if (_loadMode == LoadMode.LoadAlways || _owner == null || !_owner._reloading || !_owner._status.Contains(ImageLibraryStatusElement.LoadingFromFile) || _dataPosition == -1)
             {
-                if (FDataPosition != -1)
+                if (_dataPosition != -1)
                 {
-                    DataStream.Position = FOwner.FDataOffset + FDataPosition;
-                    ReadDiscardableImageData(DataStream);
+                    dataStream.Position = _owner._dataOffset + _dataPosition;
+                    ReadDiscardableImageData(dataStream);
                 }
                 else
                 {
-                    ReadDiscardableImageData(Stream);
+                    ReadDiscardableImageData(stream);
                 }
 
-                FReloadingEnabled = false;
+                _reloadingEnabled = false;
             }
             else
             {
-                FReloadingEnabled = true;
+                _reloadingEnabled = true;
             }
         }
         else
@@ -277,7 +277,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1985
-    public virtual int RemapToPixelFormat(int PixelFormatID)
+    public virtual int RemapToPixelFormat(int pixelFormatId)
     {
         throw new NotSupportedException("Surface format not supported");
     }
@@ -285,168 +285,168 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1685
     public virtual void Clear()
     {
-        FVersion = ClassVersion();
+        _version = ClassVersion();
         ReleaseDiscardableImageData();
-        FDataSize = 0;
-        FDataLoaded = false;
-        FDataPosition = -1;
-        FDataSize = 0;
-        FReloadingEnabled = false;
-        FXshift = 0;
-        FDataWidth = 0;
-        FWidth = 0;
-        FYshift = 0;
-        FDataHeight = 0;
-        FHeight = 0;
+        _dataSize = 0;
+        _dataLoaded = false;
+        _dataPosition = -1;
+        _dataSize = 0;
+        _reloadingEnabled = false;
+        _xshift = 0;
+        _dataWidth = 0;
+        _width = 0;
+        _yshift = 0;
+        _dataHeight = 0;
+        _height = 0;
     }
 
     // ImageLib.pas:1596
     public LibraryImage(CustomImageLibrary owner)
     {
-        FDataPosition = -1;
-        FReloadingEnabled = false;
-        FLoadMode = LoadMode.LoadOnDemand;
-        FShowInfo.ShowMode = ShowMode.Opaque;
-        FShowInfo.BlendMode = BlendMode.Alpha;
+        _dataPosition = -1;
+        _reloadingEnabled = false;
+        _loadMode = LoadMode.LoadOnDemand;
+        _showInfo.ShowMode = ShowMode.Opaque;
+        _showInfo.BlendMode = BlendMode.Alpha;
         SetOwner(owner);
     }
 
     // ImageLib.pas:1979
     public virtual string Info()
     {
-        string Result = Name() + " " + IntToStr(FWidth) + "x" + IntToStr(FHeight);
+        string result = Name() + " " + IntToStr(_width) + "x" + IntToStr(_height);
         if (GetTransparent())
         {
-            Result = Result + " Transparent";
+            result = result + " Transparent";
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:1670
     public virtual LibraryImage Copy()
     {
-        LibraryImage Result = default;
-        MemoryStream Stream;
-        Stream = new MemoryStream();
+        LibraryImage result = default;
+        MemoryStream stream;
+        stream = new MemoryStream();
         try
         {
-            WriteImageToStream(this, Stream);
-            Stream.Position = 0;
-            Result = ImageStreams.ReadImageFromStream(Stream, FOwner);
-            Result.SetOwner(null);
+            WriteImageToStream(this, stream);
+            stream.Position = 0;
+            result = ImageStreams.ReadImageFromStream(stream, _owner);
+            result.SetOwner(null);
         }
         finally
         {
-            Stream?.Dispose();
+            stream?.Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:1778
-    public virtual void SaveToStream(Stream Stream)
+    public virtual void SaveToStream(Stream stream)
     {
         int P;
-        P = FDataPosition;
-        FDataPosition = -1;
-        WriteImageData(Stream);
-        FDataPosition = P;
-        if (!FDataLoaded)
+        P = _dataPosition;
+        _dataPosition = -1;
+        WriteImageData(stream);
+        _dataPosition = P;
+        if (!_dataLoaded)
         {
             LoadDiscardableImageData();
-            WriteDiscardableImageData(Stream);
-            if (FLoadMode == LoadMode.LoadFreeOnDemand)
+            WriteDiscardableImageData(stream);
+            if (_loadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
         }
         else
         {
-            WriteDiscardableImageData(Stream);
+            WriteDiscardableImageData(stream);
         }
     }
 
     // ImageLib.pas:1796
-    public virtual void LoadFromStream(Stream Stream)
+    public virtual void LoadFromStream(Stream stream)
     {
         int P;
         Clear();
-        ReadImageData(Stream);
-        if (FVersion < 2)
+        ReadImageData(stream);
+        if (_version < 2)
         {
-            FDataPosition = (int)(Stream.Position);
-            if (FLoadMode == LoadMode.LoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile))
+            _dataPosition = (int)(stream.Position);
+            if (_loadMode == LoadMode.LoadAlways || _owner == null || !_owner._reloading || !_owner._status.Contains(ImageLibraryStatusElement.LoadingFromFile))
             {
-                ReadDiscardableImageData(Stream);
-                FReloadingEnabled = false;
+                ReadDiscardableImageData(stream);
+                _reloadingEnabled = false;
             }
             else
             {
-                Stream.Seek(FDataSize, SeekOrigin.Current);
-                FReloadingEnabled = true;
+                stream.Seek(_dataSize, SeekOrigin.Current);
+                _reloadingEnabled = true;
             }
         }
         else
         {
-            if (FLoadMode == LoadMode.LoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile) || FDataPosition == -1)
+            if (_loadMode == LoadMode.LoadAlways || _owner == null || !_owner._reloading || !_owner._status.Contains(ImageLibraryStatusElement.LoadingFromFile) || _dataPosition == -1)
             {
-                if (FDataPosition != -1)
+                if (_dataPosition != -1)
                 {
-                    P = (int)(Stream.Position);
-                    Stream.Position = FOwner.FDataOffset + FDataPosition;
-                    ReadDiscardableImageData(Stream);
-                    Stream.Position = P;
+                    P = (int)(stream.Position);
+                    stream.Position = _owner._dataOffset + _dataPosition;
+                    ReadDiscardableImageData(stream);
+                    stream.Position = P;
                 }
                 else
                 {
-                    ReadDiscardableImageData(Stream);
+                    ReadDiscardableImageData(stream);
                 }
 
-                FReloadingEnabled = false;
+                _reloadingEnabled = false;
             }
             else
             {
-                FReloadingEnabled = true;
+                _reloadingEnabled = true;
             }
         }
     }
 
     // ImageLib.pas:1996
-    public virtual void Show(int X, int Y, in LockedSurface SD)
+    public virtual void Show(int X, int Y, in LockedSurface lockedSurface)
     {
-        switch (FShowInfo.ShowMode)
+        switch (_showInfo.ShowMode)
         {
             case ShowMode.Opaque:
-                ShowOpaque(X, Y, SD);
+                ShowOpaque(X, Y, lockedSurface);
                 break;
             case ShowMode.Transparent:
-                ShowTransparent(X, Y, SD);
+                ShowTransparent(X, Y, lockedSurface);
                 break;
             case ShowMode.Blended:
-                switch (FShowInfo.BlendMode)
+                switch (_showInfo.BlendMode)
                 {
                     case BlendMode.User:
-                        if (FShowInfo.Blend is BlendTable table)
+                        if (_showInfo.Blend is BlendTable table)
                         {
-                            ShowBlended(X, Y, SD, table);
+                            ShowBlended(X, Y, lockedSurface, table);
                         }
 
                         break;
                     case BlendMode.Alpha:
-                        ShowBlended(X, Y, SD, GraphicsState.AlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, GraphicsState.AlphaBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Brighten:
-                        ShowBlended(X, Y, SD, GraphicsState.BrightenBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, GraphicsState.BrightenBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Intensity:
-                        ShowBlended(X, Y, SD, GraphicsState.IntensityBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, GraphicsState.IntensityBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Shadow:
-                        ShowBlended(X, Y, SD, GraphicsState.ShadowBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, GraphicsState.ShadowBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.LinearAlpha:
-                        ShowBlended(X, Y, SD, GraphicsState.LinearAlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, GraphicsState.LinearAlphaBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                 }
 
@@ -455,37 +455,37 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:2040
-    public virtual void ShowStretched(in Rect R, in LockedSurface SD)
+    public virtual void ShowStretched(in Rect R, in LockedSurface lockedSurface)
     {
-        switch (FShowInfo.ShowMode)
+        switch (_showInfo.ShowMode)
         {
             case ShowMode.Opaque:
-                ShowOpaqueStretched(R, SD);
+                ShowOpaqueStretched(R, lockedSurface);
                 break;
             case ShowMode.Blended:
-                switch (FShowInfo.BlendMode)
+                switch (_showInfo.BlendMode)
                 {
                     case BlendMode.User:
-                        if (FShowInfo.Blend is BlendTable table)
+                        if (_showInfo.Blend is BlendTable table)
                         {
-                            ShowBlendedStretched(R, SD, table);
+                            ShowBlendedStretched(R, lockedSurface, table);
                         }
 
                         break;
                     case BlendMode.Alpha:
-                        ShowBlendedStretched(R, SD, GraphicsState.AlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlendedStretched(R, lockedSurface, GraphicsState.AlphaBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Brighten:
-                        ShowBlendedStretched(R, SD, GraphicsState.BrightenBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlendedStretched(R, lockedSurface, GraphicsState.BrightenBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Intensity:
-                        ShowBlendedStretched(R, SD, GraphicsState.IntensityBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlendedStretched(R, lockedSurface, GraphicsState.IntensityBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Shadow:
-                        ShowBlendedStretched(R, SD, GraphicsState.ShadowBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlendedStretched(R, lockedSurface, GraphicsState.ShadowBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.LinearAlpha:
-                        ShowBlendedStretched(R, SD, GraphicsState.LinearAlphaBlendTable.Lookup[FShowInfo.Blend.Percentage]);
+                        ShowBlendedStretched(R, lockedSurface, GraphicsState.LinearAlphaBlendTable.Lookup[_showInfo.Blend.Percentage]);
                         break;
                 }
 
@@ -494,64 +494,64 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:2066
-    public virtual void ShowOpaque(int X, int Y, in LockedSurface SD)
+    public virtual void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
     {
     }
 
     // ImageLib.pas:2070
-    public virtual void ShowOpaqueStretched(in Rect R, in LockedSurface SD)
+    public virtual void ShowOpaqueStretched(in Rect R, in LockedSurface lockedSurface)
     {
     }
 
     // ImageLib.pas:2078
-    public virtual void ShowBlended(int X, int Y, in LockedSurface SD, BlendTable Table)
+    public virtual void ShowBlended(int X, int Y, in LockedSurface lockedSurface, BlendTable table)
     {
     }
 
     // ImageLib.pas:2082
-    public virtual void ShowBlendedStretched(in Rect R, in LockedSurface SD, BlendTable Table)
+    public virtual void ShowBlendedStretched(in Rect R, in LockedSurface lockedSurface, BlendTable table)
     {
     }
 
     // ImageLib.pas:2074
-    public virtual void ShowTransparent(int X, int Y, in LockedSurface SD)
+    public virtual void ShowTransparent(int X, int Y, in LockedSurface lockedSurface)
     {
     }
 
     // ImageLib.pas:2020
     // { ShowEx: the blend mode comes from the image's own show info (an original bug: ShowInfo only
     //   gives the show mode and the blend value), and bmLinearAlpha is not handled. }
-    public virtual void ShowEx(int X, int Y, in LockedSurface SD, in ShowInfo ShowInfo)
+    public virtual void Show(int X, int Y, in LockedSurface lockedSurface, in ShowInfo showInfo)
     {
-        switch (ShowInfo.ShowMode)
+        switch (showInfo.ShowMode)
         {
             case ShowMode.Opaque:
-                ShowOpaque(X, Y, SD);
+                ShowOpaque(X, Y, lockedSurface);
                 break;
             case ShowMode.Transparent:
-                ShowTransparent(X, Y, SD);
+                ShowTransparent(X, Y, lockedSurface);
                 break;
             case ShowMode.Blended:
-                switch (FShowInfo.BlendMode)
+                switch (_showInfo.BlendMode)
                 {
                     case BlendMode.User:
-                        if (ShowInfo.Blend is BlendTable table)
+                        if (showInfo.Blend is BlendTable table)
                         {
-                            ShowBlended(X, Y, SD, table);
+                            ShowBlended(X, Y, lockedSurface, table);
                         }
 
                         break;
                     case BlendMode.Alpha:
-                        ShowBlended(X, Y, SD, GraphicsState.AlphaBlendTable.Lookup[ShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, GraphicsState.AlphaBlendTable.Lookup[showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Brighten:
-                        ShowBlended(X, Y, SD, GraphicsState.BrightenBlendTable.Lookup[ShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, GraphicsState.BrightenBlendTable.Lookup[showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Intensity:
-                        ShowBlended(X, Y, SD, GraphicsState.IntensityBlendTable.Lookup[ShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, GraphicsState.IntensityBlendTable.Lookup[showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Shadow:
-                        ShowBlended(X, Y, SD, GraphicsState.ShadowBlendTable.Lookup[ShowInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, GraphicsState.ShadowBlendTable.Lookup[showInfo.Blend.Percentage]);
                         break;
                 }
 
@@ -560,21 +560,21 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:2087
-    public virtual void ShowDC(Rect? SrcRect, Rect? DestRect, int DC, int BkColor)
+    public virtual void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
     {
     }
 
     // ImageLib.pas:2091
-    public virtual bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => false;
+    public virtual bool SupportShowMode(ShowMode showMode, int pixelFormatId) => false;
 
     // ImageLib.pas:1903
-    public virtual bool SupportGrabPixelFormat(int PixelFormatID) => false;
+    public virtual bool SupportGrabPixelFormat(int pixelFormatId) => false;
 
     // ImageLib.pas:1908
-    public virtual Form CreateGrabForm(Component AOwner, in LockedSurface SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
+    public virtual Form CreateGrabForm(Component owner, in LockedSurface lockedSurface, ImagesGrabbedEvent onImagesGrabbed) => null;
 
     // ImageLib.pas:1914
-    public virtual bool GrabImage(in LockedSurface SD, in Rect R, GrabInfo GrabInfo) => false;
+    public virtual bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo) => false;
 
     // ImageLib.pas:1920
     public virtual GrabInfo CreateGrabInfo() => new GrabInfo();
@@ -590,66 +590,66 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     public void GetDimensions(ref Rect R)
     {
         R.Left = 0;
-        R.Right = FWidth;
+        R.Right = _width;
         R.Top = 0;
-        R.Bottom = FHeight;
+        R.Bottom = _height;
     }
 
     // ImageLib.pas:2061
-    public void ShowClipped(int X, int Y, in LockedSurface SD)
+    public void ShowClipped(int X, int Y, in LockedSurface lockedSurface)
     {
-        Show(X, Y, SD);
+        Show(X, Y, lockedSurface);
     }
 
-    public CustomImageLibrary Owner { get => FOwner; set => SetOwner(value); }
-    public bool DataLoaded { get => FDataLoaded; }
-    public int DataPosition { get => FDataPosition; }
-    public int DataSize { get => FDataSize; }
-    public bool ReloadingEnabled { get => FReloadingEnabled; set => SetReloadingEnabled(value); }
-    public byte Version { get => FVersion; }
-    public LoadMode LoadMode { get => FLoadMode; set => SetLoadMode(value); }
-    public int DataWidth { get => FDataWidth; }
-    public int DataHeight { get => FDataHeight; }
-    public int Width { get => FWidth; set => SetWidth(value); }
-    public int Height { get => FHeight; set => SetHeight(value); }
-    public int Xshift { get => FXshift; set => SetXshift(value); }
-    public int Yshift { get => FYshift; set => SetYshift(value); }
-    public string FileName { get => FFileName; set => FFileName = value; }
-    public int FileIndex { get => FFileIndex; set => FFileIndex = value; }
-    public ShowInfo ShowInfo { get => FShowInfo; set => SetDefaultShowInfo(value); }
+    public CustomImageLibrary Owner { get => _owner; set => SetOwner(value); }
+    public bool DataLoaded { get => _dataLoaded; }
+    public int DataPosition { get => _dataPosition; }
+    public int DataSize { get => _dataSize; }
+    public bool ReloadingEnabled { get => _reloadingEnabled; set => SetReloadingEnabled(value); }
+    public byte Version { get => _version; }
+    public LoadMode LoadMode { get => _loadMode; set => SetLoadMode(value); }
+    public int DataWidth { get => _dataWidth; }
+    public int DataHeight { get => _dataHeight; }
+    public int Width { get => _width; set => SetWidth(value); }
+    public int Height { get => _height; set => SetHeight(value); }
+    public int Xshift { get => _xshift; set => SetXshift(value); }
+    public int Yshift { get => _yshift; set => SetYshift(value); }
+    public string FileName { get => _fileName; set => _fileName = value; }
+    public int FileIndex { get => _fileIndex; set => _fileIndex = value; }
+    public ShowInfo ShowInfo { get => _showInfo; set => SetDefaultShowInfo(value); }
     public Palette Palette { get => GetPalette(); }
     public Palette RemapPalette { get => GetRemapPalette(); }
     public bool Transparent { get => GetTransparent(); }
 
-    public static void WriteImageToStream(LibraryImage Image, Stream Stream)
+    public static void WriteImageToStream(LibraryImage image, Stream stream)
     {
-        int ID = default;
-        if (Image != null)
+        int id = default;
+        if (image != null)
         {
-            ID = Image.ImageClass.ClassID;
-            Stream.Write(Bytes.Of(ref ID, 4));
-            Image.SaveToStream(Stream);
+            id = image.ImageClass.ClassId;
+            stream.Write(Bytes.Of(ref id, 4));
+            image.SaveToStream(stream);
         }
         else
         {
-            ID = 0;
-            Stream.Write(Bytes.Of(ref ID, 4));
+            id = 0;
+            stream.Write(Bytes.Of(ref id, 4));
         }
     }
 
-    internal static void WriteImageToStreamEx(LibraryImage Image, Stream Stream, Stream DataStream)
+    internal static void WriteImageToStream(LibraryImage image, Stream stream, Stream dataStream)
     {
-        int ID = default;
-        if (Image != null)
+        int id = default;
+        if (image != null)
         {
-            ID = Image.ImageClass.ClassID;
-            Stream.Write(Bytes.Of(ref ID, 4));
-            Image.SaveToStreamEx(Stream, DataStream);
+            id = image.ImageClass.ClassId;
+            stream.Write(Bytes.Of(ref id, 4));
+            image.SaveToStream(stream, dataStream);
         }
         else
         {
-            ID = 0;
-            Stream.Write(Bytes.Of(ref ID, 4));
+            id = 0;
+            stream.Write(Bytes.Of(ref id, 4));
         }
     }
 

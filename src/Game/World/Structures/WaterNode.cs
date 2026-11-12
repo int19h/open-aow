@@ -12,7 +12,7 @@ public partial class WaterNode : ProductionPlace
     { }
 
     // WaterNode.pas:37
-    public new const int ClassID = 132275;
+    public new const int ClassId = 132275;
 
     // WaterNode.pas:40
     public override MagicSphere GetMagicSphere() => MagicSphere.Water;
@@ -21,26 +21,26 @@ public partial class WaterNode : ProductionPlace
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FRazeDefenderBudget = 200;
-            FTerrainBound = false;
-            FRebuildGold = 50;
-            FRebuildDays = 2;
+            RazeDefenderBudget = 200;
+            TerrainBound = false;
+            RebuildGold = 50;
+            RebuildDays = 2;
         }
 
         // WaterNode.pas:55
-        public new const int ClassID = 132276;
+        public new const int ClassId = 132276;
 
         // WaterNode.pas:43
 
         // WaterNode.pas:58
-        public override int ResourceUserClassID() => 132275;
+        public override int ResourceUserClassId() => 132275;
 
         // WaterNode.pas:27
 
         // WaterNode.pas:52
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(WaterNodeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_waterNodeText);
 
-        private static readonly string WaterNodeRStr = "Water Node";
+        private static readonly string s_waterNodeText = "Water Node";
 
     }
 

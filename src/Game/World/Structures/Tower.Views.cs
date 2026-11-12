@@ -6,5 +6,5 @@ public partial class Tower
 {
     protected override StructureView OwnerPanel() => StructureView.WatchTower;
 
-    public override string CombatMapName(CombatMapSite Site) => "TFort000";
+    public override string CombatMapName(CombatMapSite site) => "TFort000";
 }

@@ -6,5 +6,5 @@ public partial class Mine
 {
     protected override StructureView OwnerPanel() => StructureView.Mine;
 
-    public override string CombatMapName(CombatMapSite Site) => "Minex000";
+    public override string CombatMapName(CombatMapSite site) => "Minex000";
 }

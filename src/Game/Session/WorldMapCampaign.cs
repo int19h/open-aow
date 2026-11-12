@@ -15,17 +15,17 @@ namespace Aow.Game.Session;
 public partial class WorldMapCampaign : Campaign
 {
     // AoWVideoDlg.pas:334
-    public new const int ClassID = 2248704;
+    public new const int ClassId = 2248704;
 
-    public int FFaction;
-    public int FState;
-    public int FPage;
+    public int Faction;
+    public int State;
+    public int Page;
 
     // AoWVideoDlg.pas:337
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FFaction, 30);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Faction, 30);
     }
 
     // AoWVideoDlg.pas:324
@@ -43,35 +43,35 @@ public partial class WorldMapCampaign : Campaign
     public override CampaignScenario CreateScenario() => new WorldMapCampaignScenario(null);
 
     // AoWVideoDlg.pas:353
-    public override string GetAutoSaveFileName(CampaignAutoSaveType Auto)
+    public override string GetAutoSaveFileName(CampaignAutoSaveType auto)
     {
-        string Result;
-        if (Auto == CampaignAutoSaveType.ScenarioFinished)
+        string result;
+        if (auto == CampaignAutoSaveType.ScenarioFinished)
         {
-            Result = AoWHSMap.Current.FMapName;
-            if (FFaction == 0)
+            result = AoWHSMap.Current.MapName;
+            if (Faction == 0)
             {
-                Result = Result + "_" + AbilityRules.TranslateRStr(WonRStr);
+                result = result + "_" + AbilityRules.TranslateResourceString(s_wonText);
             }
             else
             {
                 // { Original uses Won for both factions. }
-                Result = Result + "-" + AbilityRules.TranslateRStr(WonRStr);
+                result = result + "-" + AbilityRules.TranslateResourceString(s_wonText);
             }
 
             // The campaign autosave takes the extension the host writes (own-formats.md 4.2).
-            Result = Result + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
+            result = result + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
         }
         else
         {
-            Result = base.GetAutoSaveFileName(Auto);
+            result = base.GetAutoSaveFileName(auto);
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string WonRStr = "Won";
+    private static readonly string s_wonText = "Won";
 
-    internal static WorldMapCampaignScenario GetCampaignScenario(WorldMapCampaign Campaign, int Index) => (WorldMapCampaignScenario)Campaign.FScenarios.GetScenario(Index);
+    internal static WorldMapCampaignScenario GetCampaignScenario(WorldMapCampaign campaign, int index) => (WorldMapCampaignScenario)campaign.Scenarios.GetScenario(index);
 
 }

@@ -135,7 +135,7 @@ public sealed class NullNode : TreeValue
 /// </summary>
 public sealed class ObjectNode : TreeValue
 {
-    private readonly List<(string Name, TreeValue Value)> members = [];
+    private readonly List<(string Name, TreeValue Value)> _members = [];
 
     public ObjectNode(string? className, int? slot)
     {
@@ -145,13 +145,13 @@ public sealed class ObjectNode : TreeValue
 
     public string? ClassName { get; }
     public int? Slot { get; }
-    public IReadOnlyList<(string Name, TreeValue Value)> Members => members;
+    public IReadOnlyList<(string Name, TreeValue Value)> Members => _members;
 
-    internal void Add(string name, TreeValue value) => members.Add((name, value));
+    internal void Add(string name, TreeValue value) => _members.Add((name, value));
 
     public TreeValue? Find(string name)
     {
-        foreach (var (member, value) in members)
+        foreach (var (member, value) in _members)
             if (member == name) return value;
         return null;
     }
@@ -159,20 +159,20 @@ public sealed class ObjectNode : TreeValue
     /// <summary>Every reference of <paramref name="domain"/> under this object, with its path.</summary>
     public IEnumerable<(string Path, int Key)> References(string domain)
     {
-        foreach (var (name, value) in members)
+        foreach (var (name, value) in _members)
             foreach (var hit in value.ReferencesIn(domain, name))
                 yield return hit;
     }
 
     internal override void RejectVersion(int version, DocumentNodePath path)
     {
-        foreach (var (name, value) in members)
+        foreach (var (name, value) in _members)
             value.RejectVersion(version, path.Member(name));
     }
 
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
-        foreach (var (name, value) in members)
+        foreach (var (name, value) in _members)
             foreach (var hit in value.ReferencesIn(domain, path + "." + name))
                 yield return hit;
     }
@@ -181,15 +181,15 @@ public sealed class ObjectNode : TreeValue
 /// <summary>Named fields with no class and no slot. Version 1 refuses a record.</summary>
 public sealed class RecordNode : TreeValue
 {
-    private readonly List<(string Name, TreeValue Value)> members = [];
+    private readonly List<(string Name, TreeValue Value)> _members = [];
 
-    public IReadOnlyList<(string Name, TreeValue Value)> Members => members;
+    public IReadOnlyList<(string Name, TreeValue Value)> Members => _members;
 
-    internal void Add(string name, TreeValue value) => members.Add((name, value));
+    internal void Add(string name, TreeValue value) => _members.Add((name, value));
 
     public TreeValue? Find(string name)
     {
-        foreach (var (member, value) in members)
+        foreach (var (member, value) in _members)
             if (member == name) return value;
         return null;
     }
@@ -198,13 +198,13 @@ public sealed class RecordNode : TreeValue
     {
         if (version < 3)
             throw TreeErrors.Fail(Codes.Type, "Version " + version.ToString(System.Globalization.CultureInfo.InvariantCulture) + " does not store a record.", path);
-        foreach (var (name, value) in members)
+        foreach (var (name, value) in _members)
             value.RejectVersion(version, path.Member(name));
     }
 
     internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
     {
-        foreach (var (name, value) in members)
+        foreach (var (name, value) in _members)
             foreach (var hit in value.ReferencesIn(domain, path + "." + name))
                 yield return hit;
     }

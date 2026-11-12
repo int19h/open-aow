@@ -21,110 +21,110 @@ public partial class AIMoveControlSettings : EngineObject
     // AIGroup.pas:3841
     public AIMoveControlSettings(ECustomNode owner) : base(owner)
     {
-        FTransportPath = new MovePath();
-        FRefCount = 1;
+        TransportPath = new MovePath();
+        RefCount = 1;
         Clear();
     }
 
-    public int FRefCount;
-    public sbyte FPlayer;
-    public int FSourceX;
-    public int FSourceY;
-    public int FSourceL;
-    public int FDestinationX;
-    public int FDestinationY;
-    public int FDestinationL;
-    public SByteArray16By16 FMovePointTable;
-    public NotifyEvent<object> FOnDone;
-    public Troop FTransporter;
-    public int FMovePointsMax;
-    public int FQuickMovePointsMax;
-    public Set<MoveModeElement> FMoveMode;
-    public ArmyHexSprite FArmyHS;
-    public int FSelection;
-    public int FProcessCycles;
-    public AIMoveControlStatus FStatus;
-    public int FMovePoints;
-    public MovePath FTransportPath;
-    public MapCoordinate FBoardingPoint;
-    public MapCoordinate FArrivalPoint;
-    public MapCoordinate FTransportSource;
-    public MapCoordinate FTransportDestination;
+    public int RefCount;
+    public sbyte Player;
+    public int SourceX;
+    public int SourceY;
+    public int SourceL;
+    public int DestinationX;
+    public int DestinationY;
+    public int DestinationL;
+    public SByteArray16By16 MovePointTable;
+    public NotifyEvent<object> OnDone;
+    public Troop Transporter;
+    public int MovePointsMax;
+    public int QuickMovePointsMax;
+    public Set<MoveModeElement> MoveMode;
+    public ArmyHexSprite ArmyHexSprite;
+    public int Selection;
+    public int ProcessCycles;
+    public AIMoveControlStatus Status;
+    public int MovePoints;
+    public MovePath TransportPath;
+    public MapCoordinate BoardingPoint;
+    public MapCoordinate ArrivalPoint;
+    public MapCoordinate TransportSource;
+    public MapCoordinate TransportDestination;
 
     // AIGroup.pas:3849
     public override void Dispose()
     {
-        FTransportPath?.Dispose();
+        TransportPath?.Dispose();
         base.Dispose();
     }
 
     // AIGroup.pas:3874
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // AIGroup.pas:3880
     public override int Release()
     {
-        FRefCount -= 1;
-        int Result = FRefCount;
-        if (FRefCount == 0)
+        RefCount -= 1;
+        int result = RefCount;
+        if (RefCount == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:3855
     public override void Clear()
     {
         base.Clear();
-        FMovePointsMax = 175;
-        FQuickMovePointsMax = 300;
-        FBoardingPoint.X = -1;
-        FArrivalPoint.X = -1;
-        FTransportSource.X = -1;
+        MovePointsMax = 175;
+        QuickMovePointsMax = 300;
+        BoardingPoint.X = -1;
+        ArrivalPoint.X = -1;
+        TransportSource.X = -1;
         // { Original bug: clears the destination Y coordinate instead of X. }
-        FTransportDestination.Y = -1;
-        FMovePoints = -1;
-        FTransportPath.Clear();
-        FDestinationX = -1;
-        FDestinationY = -1;
-        FDestinationL = -1;
-        FSelection = 0;
-        FProcessCycles = 0;
+        TransportDestination.Y = -1;
+        MovePoints = -1;
+        TransportPath.Clear();
+        DestinationX = -1;
+        DestinationY = -1;
+        DestinationL = -1;
+        Selection = 0;
+        ProcessCycles = 0;
     }
 
     // AIGroup.pas:3887
-    public void SetSourcePos(int X, int Y, int L)
+    public void SetSourcePosition(int X, int Y, int L)
     {
-        FSourceX = X;
-        FSourceY = Y;
-        FSourceL = L;
+        SourceX = X;
+        SourceY = Y;
+        SourceL = L;
     }
 
     // AIGroup.pas:3894
-    public void SetDestinationPos(int X, int Y, int L)
+    public void SetDestinationPosition(int X, int Y, int L)
     {
-        FDestinationX = X;
-        FDestinationY = Y;
-        FDestinationL = L;
+        DestinationX = X;
+        DestinationY = Y;
+        DestinationL = L;
     }
 
     // AIGroup.pas:3901
-    public void Setup(ArmyHexSprite Army, byte Selection, int X, int Y, int L)
+    public void Setup(ArmyHexSprite army, byte selection, int X, int Y, int L)
     {
-        var lhx = Army.GetLhx();
-        var yhx = Army.GetYhx();
-        SetSourcePos(Army.GetXhx(), yhx, lhx);
-        SetDestinationPos(X, Y, L);
-        FArmyHS = Army;
-        FSelection = Selection;
-        FPlayer = Army.FArmy.FPlayer;
-        Army.FArmy.CreateMovePointTable(Selection, Bytes.Of(ref FMovePointTable));
+        var hexLevel = army.GetHexLevel();
+        var hexY = army.GetHexY();
+        SetSourcePosition(army.GetHexX(), hexY, hexLevel);
+        SetDestinationPosition(X, Y, L);
+        ArmyHexSprite = army;
+        Selection = selection;
+        Player = army.Army.Player;
+        army.Army.CreateMovePointTable(selection, Bytes.Of(ref MovePointTable));
     }
 
     // intf_P5_06.inc:154

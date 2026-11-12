@@ -52,75 +52,75 @@ internal static class FrameFixtureChecks
         Check(FrameFixture.FileStampUtc(displayedFileTime, TimeSpan.FromHours(-8)) ==
             new DateTime(2000, 1, 1, 21, 0, 0, DateTimeKind.Utc), "standard file stamp preserves captured 1 PM text");
 
-        var oldWindow = DialogHosts.MWindow;
+        var oldWindow = DialogHosts.MapWindow;
         var oldMap = AoWHSMap.Current;
-        GameEngine oldEngine = GameTables.AoWEngine;
+        GameEngine oldEngine = GameTables.GameEngine;
         var oldSettings = RtlUnit.Settings;
         try
         {
-            var mapWindow = new Window(null) { FVisible = true, FModal = true };
-            DialogHosts.MWindow = new(null) { MainWindow = mapWindow };
-            var menu = new StartMenu(null) { FVisible = true, FModal = false };
-            var hidden = new Window(null) { FVisible = false, FModal = true };
-            var manager = new WindowManager(null) { FChildren = new DelphiList() };
-            manager.FChildren.Add(mapWindow);
-            manager.FChildren.Add(menu);
-            manager.FChildren.Add(hidden);
+            var mapWindow = new Window(null) { _visible = true, _modal = true };
+            DialogHosts.MapWindow = new(null) { MainWindow = mapWindow };
+            var menu = new StartMenu(null) { _visible = true, _modal = false };
+            var hidden = new Window(null) { _visible = false, _modal = true };
+            var manager = new WindowManager(null) { Children = new DelphiList() };
+            manager.Children.Add(mapWindow);
+            manager.Children.Add(menu);
+            manager.Children.Add(hidden);
             var controller = new General(null) { Manager = manager };
             Check(!General.HasModalWindow(controller), "modeless menu and hidden window do not block the map");
-            menu.FModal = true;
+            menu._modal = true;
             Check(General.HasModalWindow(controller), "modal sibling menu blocks input");
             controller.HideTransientWindows();
-            Check(!menu.FVisible && mapWindow.FVisible, "hide modal sibling and retain map");
+            Check(!menu._visible && mapWindow._visible, "hide modal sibling and retain map");
 
-            var players = new PlayerList(null!) { FChildren = new EngineObjectList() };
-            players.FChildren.Add(new Player(null!) { FStatus = Player.Status.Playing });
-            players.FChildren.Add(new Player(null!) { FStatus = Player.Status.Terminated });
-            players.FChildren.Add(new Player(null!) { FStatus = Player.Status.Playing });
+            var players = new PlayerList(null!) { _children = new EngineObjectList() };
+            players._children.Add(new Player(null!) { Status = PlayerStatus.Playing });
+            players._children.Add(new Player(null!) { Status = PlayerStatus.Terminated });
+            players._children.Add(new Player(null!) { Status = PlayerStatus.Playing });
             AoWHSMap.Current = new AoWHSMap(null!);
-            AoWHSMap.Current.FPlayers = players;
+            AoWHSMap.Current.Players = players;
             TaskBar bar = new TaskBar(null)
             {
-                PInd = new(null) { FAligned = true },
-                TBMessEdit = new(null) { FAligned = true }
+                PInd = new(null) { Aligned = true },
+                TBMessEdit = new(null) { Aligned = true }
             };
             bar.TBMessEdit.Alignment.LeftOffset = 48;
             bar.UpdatePlayerIndicator();
             Check(bar.PInd.WinWidth == 14 && bar.TBMessEdit.Alignment.RightOffset == 292 &&
                 bar.TBMessEdit.Alignment.LeftOffset == 48, "indicator counts active players and reserves the right side");
-            Check(!bar.PInd.FAligned && !bar.TBMessEdit.FAligned, "indicator invalidates alignment");
-            Check(GameTables.TMagicSphereRStr[(int)MagicSphere.Life] == "Life" &&
-                GameTables.TMagicSphereRStr[(int)MagicSphere.Cosmos] == "Cosmos", "sphere names are initialized");
-            Check(GameTables.TPlayerBehaviorRStr[(int)Player.Behavior.Normal] == "Normal" &&
-                GameTables.TPlayerBehaviorRStr[(int)Player.Behavior.Random] == "Random", "setup behavior names are initialized");
+            Check(!bar.PInd.Aligned && !bar.TBMessEdit.Aligned, "indicator invalidates alignment");
+            Check(GameTables.s_magicSphereTexts[(int)MagicSphere.Life] == "Life" &&
+                GameTables.s_magicSphereTexts[(int)MagicSphere.Cosmos] == "Cosmos", "sphere names are initialized");
+            Check(GameTables.s_playerBehaviorTexts[(int)PlayerBehavior.Normal] == "Normal" &&
+                GameTables.s_playerBehaviorTexts[(int)PlayerBehavior.Random] == "Random", "setup behavior names are initialized");
 
             RtlUnit.Settings = new MemorySettingsStore();
-            GameTables.AoWEngine = oldEngine;
-            GameTables.AoWEngine.FRegistry.SetMovementSpeed(GameSettings.MovementSpeed.Normal);
+            GameTables.GameEngine = oldEngine;
+            GameTables.GameEngine.Registry.SetMovementSpeed(GameSettings.MovementSpeed.Normal);
             FrameFixtureInputs.MeasuredFrameRate = 9;
             var world = new MapWindow(null) { MainWindow = mapWindow };
             world.MapWindowUpdate();
-            Check(AoWHSMap.Current.FFPS == 9, "captured FPS reaches the strategic movement input");
-            var army = new MovementArmy { FMoveStep = -1, FUnitGFXResource = new(null) { F_UnitGFXResource_30 = 2 } };
+            Check(AoWHSMap.Current.FPS == 9, "captured FPS reaches the strategic movement input");
+            var army = new MovementArmy { MoveStep = -1, UnitGraphicsResource = new(null) { MoveAnimationSpeed = 2 } };
             army.MoveFirst(1, false);
-            Check(army.FMoveSteps == 4, "native capture advances each eight-step move in four frames");
+            Check(army.MoveSteps == 4, "native capture advances each eight-step move in four frames");
             foreach (int fps in new[] { 1, 6, 8, 9, 14 })
             {
                 AoWHSMap.Current.UpdateFPS(fps);
-                army.FMoveStep = -1;
+                army.MoveStep = -1;
                 army.MoveFirst(1, false);
-                Check(army.FMoveSteps == 4, "positive FPS below 15 preserves the captured movement tier: " + fps);
+                Check(army.MoveSteps == 4, "positive FPS below 15 preserves the captured movement tier: " + fps);
             }
             AoWHSMap.Current.UpdateFPS(30);
-            army.FMoveStep = -1;
+            army.MoveStep = -1;
             army.MoveFirst(1, false);
-            Check(army.FMoveSteps == 8, "normal measured FPS retains the eight-step animation");
+            Check(army.MoveSteps == 8, "normal measured FPS retains the eight-step animation");
         }
         finally
         {
-            DialogHosts.MWindow = oldWindow;
+            DialogHosts.MapWindow = oldWindow;
             AoWHSMap.Current = oldMap;
-            GameTables.AoWEngine = oldEngine;
+            GameTables.GameEngine = oldEngine;
             RtlUnit.Settings = oldSettings;
             FrameFixtureInputs.AddressAnimationPhase = null;
             FrameFixtureInputs.MeasuredFrameRate = null;
@@ -131,33 +131,33 @@ internal static class FrameFixtureChecks
 
     private sealed class StartupScope : IDisposable
     {
-        private readonly IFileSystem files = RtlUnit.Files;
-        private readonly ISettingsStore? settings = RtlUnit.Settings;
-        private readonly IDialogService? dialogs = RtlUnit.Dialogs;
-        private readonly IClock clock = RtlUnit.Clock;
-        private readonly string exe = RtlUnit.Application.ExeName;
-        private readonly bool ownExtensions = RtlUnit.WritesOwnExtensions;
-        private readonly string scratch = Path.Combine(Path.GetTempPath(), "aow-frame-inputs-" + Guid.NewGuid().ToString("N"));
+        private readonly IFileSystem _files = RtlUnit.Files;
+        private readonly ISettingsStore? _settings = RtlUnit.Settings;
+        private readonly IDialogService? _dialogs = RtlUnit.Dialogs;
+        private readonly IClock _clock = RtlUnit.Clock;
+        private readonly string _executable = RtlUnit.Application.ExeName;
+        private readonly bool _ownExtensions = RtlUnit.WritesOwnExtensions;
+        private readonly string _scratch = Path.Combine(Path.GetTempPath(), "aow-frame-inputs-" + Guid.NewGuid().ToString("N"));
 
         internal StartupScope(string root)
         {
-            Directory.CreateDirectory(scratch);
-            RtlUnit.InstallHost(new FrameFixture.FixtureHost(root, scratch, [], clock, null));
+            Directory.CreateDirectory(_scratch);
+            RtlUnit.InstallHost(new FrameFixture.FixtureHost(root, _scratch, [], _clock, null));
             Startup.InitializeAll();
             NullSoundSystem.Install();
-            GameTables.ValidateAoWEngine();
+            GameTables.ValidateGameEngine();
         }
 
         public void Dispose()
         {
-            GameTables.AoWEngine.Dispose();
-            RtlUnit.Files = files;
-            RtlUnit.Settings = settings;
-            RtlUnit.Dialogs = dialogs;
-            RtlUnit.Clock = clock;
-            RtlUnit.Application.ExeName = exe;
-            RtlUnit.WritesOwnExtensions = ownExtensions;
-            Directory.Delete(scratch, true);
+            GameTables.GameEngine.Dispose();
+            RtlUnit.Files = _files;
+            RtlUnit.Settings = _settings;
+            RtlUnit.Dialogs = _dialogs;
+            RtlUnit.Clock = _clock;
+            RtlUnit.Application.ExeName = _executable;
+            RtlUnit.WritesOwnExtensions = _ownExtensions;
+            Directory.Delete(_scratch, true);
         }
     }
 
@@ -165,8 +165,8 @@ internal static class FrameFixtureChecks
     {
         public MovementArmy() : base(null!) { }
 
-        public override void CalcShowPriority() { }
+        public override void CalculateShowPriority() { }
 
-        public override sbyte GetLhx() => 0;
+        public override sbyte GetHexLevel() => 0;
     }
 }

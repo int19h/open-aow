@@ -11,18 +11,18 @@ public partial class WebbedAbility : DurationAbility
     // PassiveAb.pas:736
     public WebbedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(WebbedRStr);
-        FAbilityID = 97;
-        FAbilityType = AbilityType.Handicap;
-        FDurationMode = DurationMode.CombatTurn;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityName = AbilityRules.TranslateResourceString(s_webbedText);
+        AbilityId = 97;
+        AbilityType = AbilityType.Handicap;
+        DurationMode = DurationMode.CombatTurn;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:751
-    public override sbyte GetDefense(AbilityOwner Owner) => -2;
+    public override sbyte GetDefense(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:746
     public override int GetTotalDuration() => 3;
 
-    private static readonly string WebbedRStr = "Webbed";
+    private static readonly string s_webbedText = "Webbed";
 }

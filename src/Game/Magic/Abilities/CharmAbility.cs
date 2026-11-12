@@ -12,29 +12,29 @@ public partial class CharmAbility : CommandAbility
     // AoWAb.PAS:5339
     public CharmAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityID = 148;
-        FAbilityName = AbilityRules.TranslateRStr(CharmRStr);
-        FCommandedAbilityID = 149;
+        AbilityId = 148;
+        AbilityName = AbilityRules.TranslateResourceString(s_charmText);
+        CommandedAbilityId = 149;
     }
 
     // AoWAb.PAS:5346
-    public override sbyte GetTouchAttack(int Level) => 5;
+    public override sbyte GetTouchAttack(int level) => 5;
 
     // AoWAb.PAS:5355
-    public override bool CanTouch(CombatObject Source, CombatObject Target)
+    public override bool CanTouch(CombatObject source, CombatObject target)
     {
-        bool Result = base.CanTouch(Source, Target);
-        if (Result)
+        bool result = base.CanTouch(source, target);
+        if (result)
         {
-            var combatUnit = (CombatUnit)Target;
-            Result = combatUnit.FUnit.GetUnitType() == UnitType.Humanoid && (ushort)combatUnit.FUnit.GetRace() != 11 && !combatUnit.FUnit.GetAbilityEnabled(129);
+            var combatUnit = (CombatUnit)target;
+            result = combatUnit.Troop.GetUnitType() == UnitType.Humanoid && (ushort)combatUnit.Troop.GetRace() != 11 && !combatUnit.Troop.GetAbilityEnabled(129);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:5350
-    public override bool CanTouchUnit(Troop Source, Troop Target) => base.CanTouchUnit(Source, Target) && (Target.GetUnitType() == UnitType.Humanoid && (ushort)Target.GetRace() != 11 && !Target.GetAbilityEnabled(129));
+    public override bool CanTouchUnit(Troop source, Troop target) => base.CanTouchUnit(source, target) && (target.GetUnitType() == UnitType.Humanoid && (ushort)target.GetRace() != 11 && !target.GetAbilityEnabled(129));
 
-    private static readonly string CharmRStr = "Charm";
+    private static readonly string s_charmText = "Charm";
 }

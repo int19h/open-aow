@@ -33,61 +33,61 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:973
     public AIGroupControl(ECustomNode owner) : base(owner)
     {
-        FTargets = new AIGroupControlTargetList(null);
-        FTargets.FControl = this;
-        FRecruitmentGroups = new AIRecruitmentGroupList(null);
-        FProductionLocations = new AIGroupProductionLocationList(null);
-        FCombatPredictor = new CombatPredictor();
+        Targets = new AIGroupControlTargetList(null);
+        Targets.Control = this;
+        RecruitmentGroups = new AIRecruitmentGroupList(null);
+        ProductionLocations = new AIGroupProductionLocationList(null);
+        CombatPredictor = new CombatPredictor();
     }
 
-    public int FProcessCycles;
-    public AIGroup FGroup;
-    public Set<StatusElement> FStatus;
-    public MapCoordinate FLocation;
-    public Army FArmy;
-    public ArmyHexSprite FArmyHS;
-    public byte FSelection;
-    public AIGroupControlTargetList FTargets;
-    public Int32Array10 FStrength;
-    public int FStrengthMax;
-    public SByteArray16By16 FMovePointTable;
-    public Set<DamageType> FImmunityTypes;
-    public CombatPredictor FCombatPredictor;
-    public AIMoveExecutor FMoveExecuter;
-    public AIRecruitmentGroupList FRecruitmentGroups;
-    public AIGroupProductionLocationList FProductionLocations;
-    public AIGroupTask FPlugin;
-    public int FState;
+    public int ProcessCycles;
+    public AIGroup Group;
+    public Set<StatusElement> Status;
+    public MapCoordinate Location;
+    public Army Army;
+    public ArmyHexSprite ArmyHexSprite;
+    public byte Selection;
+    public AIGroupControlTargetList Targets;
+    public Int32Array10 Strength;
+    public int StrengthMax;
+    public SByteArray16By16 MovePointTable;
+    public Set<DamageType> ImmunityTypes;
+    public CombatPredictor CombatPredictor;
+    public AIMoveExecutor MoveExecutor;
+    public AIRecruitmentGroupList RecruitmentGroups;
+    public AIGroupProductionLocationList ProductionLocations;
+    public AIGroupTask AIGroupTask;
+    public int State;
 
     // AIGroup.pas:983
     public override void Dispose()
     {
         DeactivatePlugin();
-        FCombatPredictor?.Dispose();
-        FTargets?.Dispose();
-        FRecruitmentGroups?.Dispose();
-        FProductionLocations?.Dispose();
-        FGroup.Release();
+        CombatPredictor?.Dispose();
+        Targets?.Dispose();
+        RecruitmentGroups?.Dispose();
+        ProductionLocations?.Dispose();
+        Group.Release();
         base.Dispose();
     }
 
     // AIGroup.pas:1084
-    public virtual void MoveExecuterDone(object Sender)
+    public virtual void MoveExecutorDone(object sender)
     {
-        if (FGroup.FTransporter != null && !FMoveExecuter.GetTransporting())
+        if (Group.Transporter != null && !MoveExecutor.GetTransporting())
         {
-            FGroup.DeleteUnit(FGroup.FTransporter);
+            Group.DeleteUnit(Group.Transporter);
         }
 
-        if (FMoveExecuter.FStatus == AIMoveExecutor.Status.Invalidated)
+        if (MoveExecutor.Status == AIMoveExecutorStatus.Invalidated)
         {
-            FState = 0;
+            State = 0;
         }
         else
         {
-            if (FMoveExecuter.FStatus == AIMoveExecutor.Status.Failed)
+            if (MoveExecutor.Status == AIMoveExecutorStatus.Failed)
             {
-                if (!FGroup.FStatus.Contains(AIGroupStatusElement.Split))
+                if (!Group.Status.Contains(AIGroupStatusElement.Split))
                 {
                     if (!Split())
                     {
@@ -103,48 +103,48 @@ public partial class AIGroupControl : EngineObject
     }
 
     // AIGroup.pas:1165
-    public virtual void TargetFoundEvent(AIGroupTargetFinder Sender, AIGroupControlTarget Target, ref bool SearchDone)
+    public virtual void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
-        FTargets.Add(Target);
+        Targets.Add(target);
     }
 
     // AIGroup.pas:1155
-    public virtual void RecruitmentGroupFoundEvent(AIRecruitmentGroup Group, ref bool SearchDone)
+    public virtual void RecruitmentGroupFoundEvent(AIRecruitmentGroup group, ref bool searchDone)
     {
-        FRecruitmentGroups.Add(Group);
+        RecruitmentGroups.Add(group);
     }
 
     // AIGroup.pas:1160
-    public virtual void ProductionLocationFoundEvent(AIGroupProductionLocation Location, ref bool SearchDone)
+    public virtual void ProductionLocationFoundEvent(AIGroupProductionLocation location, ref bool searchDone)
     {
-        FProductionLocations.Add(Location);
+        ProductionLocations.Add(location);
     }
 
     // AIGroup.pas:1266
     public virtual bool Validate()
     {
-        bool Result;
-        if (!FGroup.FStatus.Contains(AIGroupStatusElement.Done))
+        bool result;
+        if (!Group.Status.Contains(AIGroupStatusElement.Done))
         {
-            FGroup.GetLocation(ref FLocation.X, ref FLocation.Y, ref FLocation.L);
-            if (FLocation.X != -1)
+            Group.GetLocation(ref Location.X, ref Location.Y, ref Location.MapLevel);
+            if (Location.X != -1)
             {
-                FArmyHS = ((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(Unsafe.As<MapCoordinate, int>(ref FLocation))).GetArmyHS();
-                RetrieveGroupArmy(FLocation.X, FLocation.Y, FLocation.L, ref FArmy, ref FSelection);
+                ArmyHexSprite = ((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref Location))).GetArmyHexSprite();
+                RetrieveGroupArmy(Location.X, Location.Y, Location.MapLevel, ref Army, ref Selection);
                 UpdateGroupChanges();
-                Result = true;
+                result = true;
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:1246
@@ -163,234 +163,234 @@ public partial class AIGroupControl : EngineObject
     public virtual bool Split()
     {
         int I;
-        AIGroup Group;
+        AIGroup group;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        sbyte UnitX = default;
-        sbyte UnitY = default;
-        sbyte UnitL = default;
-        bool Finished;
-        bool Found;
-        bool Result = false;
-        Finished = false;
-        while (!Finished)
+        sbyte unitX = default;
+        sbyte unitY = default;
+        sbyte unitL = default;
+        bool finished;
+        bool found;
+        bool result = false;
+        finished = false;
+        while (!finished)
         {
-            I = FGroup.Count;
-            Found = false;
-            while (!Found && I != 0)
+            I = Group.Count;
+            found = false;
+            while (!found && I != 0)
             {
                 I -= 1;
-                FGroup.GetUnit(I).GetLocation(ref X, ref Y, ref L);
-                Found = X != FLocation.X || Y != FLocation.Y || L != FLocation.L;
+                Group.GetUnit(I).GetLocation(ref X, ref Y, ref L);
+                found = X != Location.X || Y != Location.Y || L != Location.MapLevel;
             }
 
-            if (Found)
+            if (found)
             {
-                var behavior = FGroup.GroupClass.Behavior;
-                Group = AoWHSMap.Current.FAIGroupManager.CreateGroup(FGroup.FPlayer, FGroup.FIndependentRelation, behavior);
-                Group.FStatus = Group.FStatus + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Split);
-                I = FGroup.Count - 1;
+                var behavior = Group.GroupClass.Behavior;
+                group = AoWHSMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, behavior);
+                group.Status = group.Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Split);
+                I = Group.Count - 1;
                 for (; I >= 0; I -= 1)
                 {
-                    FGroup.GetUnit(I).GetLocation(ref UnitX, ref UnitY, ref UnitL);
-                    if (X == UnitX && Y == UnitY && L == UnitL)
+                    Group.GetUnit(I).GetLocation(ref unitX, ref unitY, ref unitL);
+                    if (X == unitX && Y == unitY && L == unitL)
                     {
-                        Group.AddUnit(FGroup.GetUnit(I));
+                        group.AddUnit(Group.GetUnit(I));
                     }
                 }
 
-                if (Group.Count != 0)
+                if (group.Count != 0)
                 {
-                    FGroup.FStatus = FGroup.FStatus + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Split);
-                    Result = true;
+                    Group.Status = Group.Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Split);
+                    result = true;
                 }
 
-                Group.Release();
+                group.Release();
             }
             else
             {
-                Finished = true;
+                finished = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:1214
     public virtual void Activate()
     {
-        FState = 0;
-        FMoveExecuter = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIControl.FMoveExecuter;
-        AoWHSMap.Current.FAIExecuter.UseProcessTime(100);
-        FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Activated);
+        State = 0;
+        MoveExecutor = AoWHSMap.Current.Players.GetPlayers(Group.Player).AIControl.MoveExecutor;
+        AoWHSMap.Current.AIExecutor.UseProcessTime(100);
+        Status = Status + Set<StatusElement>.Of(StatusElement.Activated);
     }
 
     // AIGroup.pas:1222
     public virtual void Deactivate()
     {
-        FMoveExecuter.FOnDone = null;
-        FStatus = FStatus - Set<StatusElement>.Of(StatusElement.Activated);
+        MoveExecutor.OnDone = null;
+        Status = Status - Set<StatusElement>.Of(StatusElement.Activated);
     }
 
     // AIGroup.pas:1101
     public virtual void ResetME()
     {
-        FMoveExecuter.Reset();
-        FMoveExecuter.FOnDone = MoveExecuterDone;
+        MoveExecutor.Reset();
+        MoveExecutor.OnDone = MoveExecutorDone;
     }
 
     // AIGroup.pas:1107
     public virtual void SetupME()
     {
-        Troop AUnit;
+        Troop troop;
         ResetME();
-        AUnit = FGroup.FLeader;
-        if (AUnit != null)
+        troop = Group.Leader;
+        if (troop != null)
         {
-            FMoveExecuter.AddUnit(AUnit);
+            MoveExecutor.AddUnit(troop);
         }
 
-        for (int I = 0, last = FGroup.Count - 1; I <= last; I++)
+        for (int I = 0, last = Group.Count - 1; I <= last; I++)
         {
-            if (FGroup.GetUnit(I) != FGroup.FLeader)
+            if (Group.GetUnit(I) != Group.Leader)
             {
-                var unit = FGroup.GetUnit(I);
-                FMoveExecuter.AddUnit(unit);
+                var unit = Group.GetUnit(I);
+                MoveExecutor.AddUnit(unit);
             }
         }
 
-        if (!FGroup.GetAdjacent())
+        if (!Group.GetAdjacent())
         {
-            FMoveExecuter.FMode = FMoveExecuter.FMode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
+            MoveExecutor.Mode = MoveExecutor.Mode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
         }
 
-        AUnit = FGroup.FTransporter;
-        if (AUnit != null)
+        troop = Group.Transporter;
+        if (troop != null)
         {
-            FMoveExecuter.AddTransporter(AUnit);
+            MoveExecutor.AddTransporter(troop);
         }
     }
 
     // AIGroup.pas:1124
     public virtual void ExecuteME(sbyte X, sbyte Y, sbyte L)
     {
-        AoWMapField Field;
-        Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L);
-        if (Field.GetPlayer() != -1 && Field.GetPlayer() != FGroup.FPlayer)
+        AoWMapField field;
+        field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+        if (field.GetPlayer() != -1 && field.GetPlayer() != Group.Player)
         {
-            FMoveExecuter.FMode = FMoveExecuter.FMode + Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent, AIMoveExecutorModeElement.Attack);
+            MoveExecutor.Mode = MoveExecutor.Mode + Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent, AIMoveExecutorModeElement.Attack);
         }
 
-        FMoveExecuter.ExecuteMove(X, Y, L);
+        MoveExecutor.ExecuteMove(X, Y, L);
     }
 
     // AIGroup.pas:994
     public void Done()
     {
-        FGroup.FStatus = FGroup.FStatus + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Done);
-        FState = -1;
+        Group.Status = Group.Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Done);
+        State = -1;
     }
 
     // AIGroup.pas:1000
-    public int GetStrengthMax(Set<DamageType> DamageTypes)
+    public int GetStrengthMax(Set<DamageType> damageTypes)
     {
-        DamageType DamageType;
-        int Result = 0;
+        DamageType damageType;
+        int result = 0;
         for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
         {
-            DamageType = (DamageType)damageTypeOrdinal;
-            if (DamageTypes.Contains(DamageType) && Result < FStrength[(int)DamageType])
+            damageType = (DamageType)damageTypeOrdinal;
+            if (damageTypes.Contains(damageType) && result < Strength[(int)damageType])
             {
-                Result = FStrength[(int)DamageType];
+                result = Strength[(int)damageType];
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:1010
     public void UpdateGroupChanges()
     {
-        DamageType DamageType;
-        Troop AUnit;
-        SByteArray16By16 MovePointTable = default;
-        if (FGroup.FStatus.Contains(AIGroupStatusElement.Changed) || FProcessCycles == 1)
+        DamageType damageType;
+        Troop troop;
+        SByteArray16By16 movePointTable = default;
+        if (Group.Status.Contains(AIGroupStatusElement.Changed) || ProcessCycles == 1)
         {
-            FImmunityTypes = AbilityRules.dtAll;
-            FStrengthMax = 0;
-            FStrength = default;
-            if (FGroup.Count != 0)
+            ImmunityTypes = AbilityRules.s_allDamageTypes;
+            StrengthMax = 0;
+            Strength = default;
+            if (Group.Count != 0)
             {
-                FillBytes(Bytes.Of(ref FMovePointTable, 256), 1);
+                FillBytes(Bytes.Of(ref MovePointTable, 256), 1);
             }
             else
             {
-                FillBytes(Bytes.Of(ref FMovePointTable, 256), -1);
+                FillBytes(Bytes.Of(ref MovePointTable, 256), -1);
             }
 
-            for (int I = FGroup.Count - 1; I >= 0; I--)
+            for (int I = Group.Count - 1; I >= 0; I--)
             {
-                AUnit = FGroup.GetUnit(I);
-                FImmunityTypes = AUnit.GetImmunityTypes() & FImmunityTypes;
-                AUnit.CreateMovePointTable(ref MovePointTable);
-                AbilityRules.MaximizeMovePointTable(Bytes.Of(ref FMovePointTable), Bytes.Of(ref MovePointTable));
+                troop = Group.GetUnit(I);
+                ImmunityTypes = troop.GetImmunityTypes() & ImmunityTypes;
+                troop.CreateMovePointTable(ref movePointTable);
+                AbilityRules.MaximizeMovePointTable(Bytes.Of(ref MovePointTable), Bytes.Of(ref movePointTable));
                 for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                 {
-                    DamageType = (DamageType)damageTypeOrdinal;
-                    var strength = AUnit.GetStrength(DamageType);
-                    FStrength[(int)DamageType] += strength;
+                    damageType = (DamageType)damageTypeOrdinal;
+                    var strength = troop.GetStrength(damageType);
+                    Strength[(int)damageType] += strength;
                 }
 
-                var strengthMax = AUnit.GetStrengthMax(AbilityRules.dtAll);
-                FStrengthMax += strengthMax;
+                var strengthMax = troop.GetStrengthMax(AbilityRules.s_allDamageTypes);
+                StrengthMax += strengthMax;
             }
 
-            FGroup.FStatus = FGroup.FStatus - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
+            Group.Status = Group.Status - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
         }
     }
 
     // AIGroup.pas:1040
-    public bool RetrieveGroupArmy(sbyte X, sbyte Y, sbyte L, ref Army Army, ref byte Selection)
+    public bool RetrieveGroupArmy(sbyte X, sbyte Y, sbyte L, ref Army army, ref byte selection)
     {
-        bool Result;
-        ArmyHexSprite ArmyHS;
-        ArmyHS = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHS();
-        if (ArmyHS != null)
+        bool result;
+        ArmyHexSprite armyHexSprite;
+        armyHexSprite = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHexSprite();
+        if (armyHexSprite != null)
         {
-            Army = ArmyHS.FArmy;
-            Selection = ArmyHS.FArmy.GetGroupSelection(FGroup.FGroupID);
-            Result = true;
+            army = armyHexSprite.Army;
+            selection = armyHexSprite.Army.GetGroupSelection(Group.GroupId);
+            result = true;
         }
         else
         {
-            Selection = 0;
-            Army = null;
-            Result = false;
+            selection = 0;
+            army = null;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:1059
     public void CombineIdleGroups()
     {
-        Player Player;
-        AIGroup Group;
-        MapCoordinate Location = default;
-        Player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
-        for (int I = Player.FAIGroups.Count - 1; I >= 0; I--)
+        Player player;
+        AIGroup group;
+        MapCoordinate location = default;
+        player = AoWHSMap.Current.Players.GetPlayers(Group.Player);
+        for (int I = player.AIGroups.Count - 1; I >= 0; I--)
         {
-            Group = Player.FAIGroups.GetGroups(I);
-            if (Group != FGroup && Group.EClass.ClassID == FGroup.EClass.ClassID && Group.FStatus.Contains(AIGroupStatusElement.Done))
+            group = player.AIGroups.GetGroups(I);
+            if (group != Group && group.EngineClass.ClassId == Group.EngineClass.ClassId && group.Status.Contains(AIGroupStatusElement.Done))
             {
-                switch (Group.FTargetType)
+                switch (group.TargetType)
                 {
                     case AIGroupTargetStatus.Idle:
-                        Unsafe.As<MapCoordinate, int>(ref Location) = Group.GetLoc();
-                        if (Location.L == FLocation.L && HexGeometry.dHXtoRad(Location.X, Location.Y, FLocation.X, FLocation.Y) <= 1)
+                        Unsafe.As<MapCoordinate, int>(ref location) = group.GetLocation();
+                        if (location.MapLevel == Location.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, Location.X, Location.Y) <= 1)
                         {
-                            FGroup.AddUnits(Group);
+                            Group.AddUnits(group);
                         }
 
                         break;
@@ -402,64 +402,64 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1134
     public void ResetCP()
     {
-        FCombatPredictor.DeleteOpponents();
-        for (int I = FCombatPredictor.FSides[0].Count - 1; I >= 0; I--)
+        CombatPredictor.DeleteOpponents();
+        for (int I = CombatPredictor.Sides[0].Count - 1; I >= 0; I--)
         {
-            var units = FCombatPredictor.FSides[0].GetUnits(I);
-            if (FGroup.IndexOf(units.FUnit) == -1)
+            var units = CombatPredictor.Sides[0].GetUnits(I);
+            if (Group.IndexOf(units.Troop) == -1)
             {
-                var units2 = FCombatPredictor.FSides[0].GetUnits(I);
-                FCombatPredictor.DeleteUnit(units2.FUnit);
+                var units2 = CombatPredictor.Sides[0].GetUnits(I);
+                CombatPredictor.DeleteUnit(units2.Troop);
             }
         }
 
-        for (int I = FGroup.Count - 1; I >= 0; I--)
+        for (int I = Group.Count - 1; I >= 0; I--)
         {
-            var unit = FGroup.GetUnit(I);
-            if (FCombatPredictor.FSides[0].IndexOfUnit(unit) == -1)
+            var troop = Group.GetUnit(I);
+            if (CombatPredictor.Sides[0].IndexOfUnit(troop) == -1)
             {
-                var fGroupUnit = FGroup.GetUnit(I);
-                FCombatPredictor.AddUnit(fGroupUnit);
+                var fGroupUnit = Group.GetUnit(I);
+                CombatPredictor.AddUnit(fGroupUnit);
             }
         }
     }
 
     // AIGroup.pas:1147
-    public void SetupCP(AIGroupControlTarget Target)
+    public void SetupCP(AIGroupControlTarget target)
     {
         ResetCP();
-        if (((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(Unsafe.As<MapCoordinate, int>(ref Target.FLocation))).GetMoveAction(FGroup.FPlayer) != MoveAction.Negotiate)
+        if (((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location))).GetMoveAction(Group.Player) != MoveAction.Negotiate)
         {
-            FCombatPredictor.InitAdjacentOpponents((byte)FGroup.FPlayer, (byte)FGroup.FIndependentRelation, Target.FLocation.X, Target.FLocation.Y, Target.FLocation.L);
+            CombatPredictor.InitializeAdjacentOpponents((byte)Group.Player, (byte)Group.IndependentRelation, target.Location.X, target.Location.Y, target.Location.MapLevel);
         }
     }
 
     // AIGroup.pas:1228
-    public void ActivatePlugin(AIGroupTask Plugin)
+    public void ActivatePlugin(AIGroupTask aiGroupTask)
     {
         DeactivatePlugin();
-        FPlugin = Plugin;
-        FPlugin.AddRef();
-        FPlugin.Activate(this);
+        AIGroupTask = aiGroupTask;
+        AIGroupTask.AddRef();
+        AIGroupTask.Activate(this);
     }
 
     // AIGroup.pas:1236
     public void DeactivatePlugin()
     {
-        if (this.FPlugin != null)
+        if (this.AIGroupTask != null)
         {
-            this.FPlugin.Release();
-            this.FPlugin = null;
+            this.AIGroupTask.Release();
+            this.AIGroupTask = null;
         }
     }
 
     // AIGroup.pas:1256
-    public void MainProcessStates(bool Looped)
+    public void MainProcessStates(bool looped)
     {
         try
         {
             UpdateGroupChanges();
-            if (Looped)
+            if (looped)
             {
                 ProcessStatesLooped();
             }
@@ -475,33 +475,33 @@ public partial class AIGroupControl : EngineObject
     }
 
     // AIGroup.pas:1285
-    public bool Process(bool Looped)
+    public bool Process(bool looped)
     {
-        bool Result;
-        bool Busy;
-        FProcessCycles += 1;
+        bool result;
+        bool busy;
+        ProcessCycles += 1;
         if (Validate())
         {
             try
             {
-                Busy = false;
-                while (!Busy && !FGroup.FStatus.Contains(AIGroupStatusElement.Done) && AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() >= 0 && FMoveExecuter.FStatus != AIMoveExecutor.Status.Busy)
+                busy = false;
+                while (!busy && !Group.Status.Contains(AIGroupStatusElement.Done) && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() >= 0 && MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                 {
-                    if (FPlugin != null)
+                    if (AIGroupTask != null)
                     {
-                        Busy = FPlugin.MainProcess();
-                        if (!Busy)
+                        busy = AIGroupTask.MainProcess();
+                        if (!busy)
                         {
                             DeactivatePlugin();
-                            if (AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() >= 0 && !FGroup.FStatus.Contains(AIGroupStatusElement.Done))
+                            if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() >= 0 && !Group.Status.Contains(AIGroupStatusElement.Done))
                             {
-                                MainProcessStates(Looped);
+                                MainProcessStates(looped);
                             }
                         }
                     }
                     else
                     {
-                        MainProcessStates(Looped);
+                        MainProcessStates(looped);
                     }
                 }
             }
@@ -510,54 +510,54 @@ public partial class AIGroupControl : EngineObject
                 Done();
             }
 
-            Result = !FGroup.FStatus.Contains(AIGroupStatusElement.Done);
+            result = !Group.Status.Contains(AIGroupStatusElement.Done);
         }
         else
         {
             Done();
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:1323
     public Troop FindAvailableTransporter()
     {
-        Troop Result;
-        int Distance;
-        Troop AUnit;
-        DoubleItemList<Troop> List;
-        MapCoordinate Location = default;
-        Player Player;
-        List = new DoubleItemList<Troop>();
-        Player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
-        for (int I = 0, last = Player.FArmies.Count - 1; I <= last; I++)
+        Troop result;
+        int distance;
+        Troop troop;
+        DoubleItemList<Troop> list;
+        MapCoordinate location = default;
+        Player player;
+        list = new DoubleItemList<Troop>();
+        player = AoWHSMap.Current.Players.GetPlayers(Group.Player);
+        for (int I = 0, last = player.Armies.Count - 1; I <= last; I++)
         {
-            AUnit = Player.FArmies.GetArmy(I).Transporter(255);
-            if (AUnit != null && (AUnit.FGroup == null || AUnit.FGroup.EClass.ClassID == 136295))
+            troop = player.Armies.GetArmy(I).Transporter(255);
+            if (troop != null && (troop.Group == null || troop.Group.EngineClass.ClassId == 136295))
             {
-                AUnit.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
-                Distance = HexGeometry.dHXtoRad(Location.X, Location.Y, FLocation.X, FLocation.Y);
-                if (FLocation.L == Location.L && Distance < 30)
+                troop.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
+                distance = HexGeometry.DeltaHexToRadius(location.X, location.Y, Location.X, Location.Y);
+                if (Location.MapLevel == location.MapLevel && distance < 30)
                 {
-                    List.AddAB(AUnit, Distance);
+                    list.AddAbility(troop, distance);
                 }
             }
         }
 
-        if (List.Count != 0)
+        if (list.Count != 0)
         {
-            List.SortAscendingItemB();
-            Result = List[0].A;
+            list.SortAscendingItemB();
+            result = list[0].First;
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        List?.Dispose();
-        return Result;
+        list?.Dispose();
+        return result;
     }
 
     public enum StatusElement : byte

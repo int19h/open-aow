@@ -22,181 +22,181 @@ public partial class Crusade : Spell
     // GlobalSpells.pas:1302
     public Crusade(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(CrusadeRStr);
-        FSpellID = 75;
-        FSpellType = SpellType.Global;
-        FBaseManaCost = 0;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Life;
+        SpellName = AbilityRules.TranslateResourceString(s_crusadeText);
+        SpellId = 75;
+        SpellType = SpellType.Global;
+        BaseManaCost = 0;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Life;
     }
 
     // GlobalSpells.pas:1340
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        int Count;
-        int UnitIndex;
-        int Xhp = default;
-        int Yhp = default;
+        int count;
+        int unitIndex;
+        int pixelX = default;
+        int pixelY = default;
         sbyte X = default;
         sbyte Y = default;
-        sbyte Layer = default;
-        ArmyHexSprite Party;
-        Unit NewUnit;
-        if (ExecuteCount == 0)
+        sbyte layer = default;
+        ArmyHexSprite party;
+        Unit newUnit;
+        if (executeCount == 0)
         {
-            Source.GetLocation(ref X, ref Y, ref Layer);
-            AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, Layer, 0);
-            HexGeometry.HXtoHP(X, Y, ref Xhp, ref Yhp);
-            var worldFXHS = AoWHSMap.Current.AddEffect(WorldEffectType.Crusade);
-            worldFXHS.FX = Xhp + 16;
-            worldFXHS.FY = Yhp + 16;
-            worldFXHS.FLayer = Layer;
+            source.GetLocation(ref X, ref Y, ref layer);
+            AoWHSMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
+            HexGeometry.HexToPixel(X, Y, ref pixelX, ref pixelY);
+            var worldEffectHexSprite = AoWHSMap.Current.AddEffect(WorldEffectType.Crusade);
+            worldEffectHexSprite.X = pixelX + 16;
+            worldEffectHexSprite.Y = pixelY + 16;
+            worldEffectHexSprite.Layer = layer;
 
             if (AoWHSMap.Current.Random(100) < 20)
             {
-                Party = new ArmyHexSprite(null);
-                Party.FArmy.SetPlayer(0);
-                Count = 1;
-                UnitIndex = AoWHSMap.Current.Random(1);
-                for (int J = 0; J <= Count - 1; J++)
+                party = new ArmyHexSprite(null);
+                party.Army.SetPlayer(0);
+                count = 1;
+                unitIndex = AoWHSMap.Current.Random(1);
+                for (int J = 0; J <= count - 1; J++)
                 {
-                    NewUnit = new Unit(null);
-                    NewUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(TCrusade_ExecuteTE__LargeUnits[UnitIndex]));
-                    NewUnit.ExpandAbility(101);
-                    Party.FArmy.AddUnit(NewUnit);
-                    NewUnit.Release();
+                    newUnit = new Unit(null);
+                    newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(s_largeUnitResourceIds[unitIndex]));
+                    newUnit.ExpandAbility(101);
+                    party.Army.AddUnit(newUnit);
+                    newUnit.Release();
                 }
 
-                if (!PlaceParty(Source, Party))
+                if (!PlaceParty(source, party))
                 {
-                    Party?.Dispose();
+                    party?.Dispose();
                 }
             }
             else
             {
                 for (int I = 0; I <= 1; I++)
                 {
-                    Party = new ArmyHexSprite(null);
-                    Party.FArmy.SetPlayer(0);
-                    Count = AoWHSMap.Current.Random(3) + 4;
-                    for (int J = 0; J <= Count - 1; J++)
+                    party = new ArmyHexSprite(null);
+                    party.Army.SetPlayer(0);
+                    count = AoWHSMap.Current.Random(3) + 4;
+                    for (int J = 0; J <= count - 1; J++)
                     {
-                        NewUnit = new Unit(null);
-                        UnitIndex = AoWHSMap.Current.Random(2);
-                        NewUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(TCrusade_ExecuteTE__FootUnits[UnitIndex]));
-                        NewUnit.ExpandAbility(101);
-                        Party.FArmy.AddUnit(NewUnit);
-                        NewUnit.Release();
+                        newUnit = new Unit(null);
+                        unitIndex = AoWHSMap.Current.Random(2);
+                        newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(s_footUnitResourceIds[unitIndex]));
+                        newUnit.ExpandAbility(101);
+                        party.Army.AddUnit(newUnit);
+                        newUnit.Release();
                     }
 
-                    if (!PlaceParty(Source, Party))
+                    if (!PlaceParty(source, party))
                     {
-                        Party?.Dispose();
+                        party?.Dispose();
                     }
                 }
 
-                Party = new ArmyHexSprite(null);
-                Party.FArmy.SetPlayer(0);
-                UnitIndex = AoWHSMap.Current.Random(3);
-                Count = 2;
-                if (UnitIndex == 2)
+                party = new ArmyHexSprite(null);
+                party.Army.SetPlayer(0);
+                unitIndex = AoWHSMap.Current.Random(3);
+                count = 2;
+                if (unitIndex == 2)
                 {
-                    Count += 1;
+                    count += 1;
                 }
 
-                for (int J = 0; J <= Count - 1; J++)
+                for (int J = 0; J <= count - 1; J++)
                 {
-                    NewUnit = new Unit(null);
-                    NewUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(TCrusade_ExecuteTE__MountedUnits[UnitIndex]));
-                    NewUnit.ExpandAbility(101);
-                    Party.FArmy.AddUnit(NewUnit);
-                    NewUnit.Release();
+                    newUnit = new Unit(null);
+                    newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(s_mountedUnitResourceIds[unitIndex]));
+                    newUnit.ExpandAbility(101);
+                    party.Army.AddUnit(newUnit);
+                    newUnit.Release();
                 }
 
-                if (!PlaceParty(Source, Party))
+                if (!PlaceParty(source, party))
                 {
-                    Party?.Dispose();
+                    party?.Dispose();
                 }
             }
 
-            AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).CastingDone(Source, FBaseManaCost);
-            AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
+            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastingDone(source, BaseManaCost);
+            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
         }
 
         return false;
     }
 
     // GlobalSpells.pas:1417
-    public override bool Activate(Troop Source)
+    public override bool Activate(Troop source)
     {
-        bool Result;
-        string Reason = "";
-        SpellTokenEvent Event;
-        base.Activate(Source);
-        if (CanActivate(Source, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+        bool result;
+        string reason = "";
+        SpellTokenEvent eventValue;
+        base.Activate(source);
+        if (CanActivate(source, ref reason) && !AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            Event = new SpellTokenEvent(null);
-            Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new SpellTokenEvent(null);
+            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalSpells.pas:1313
-    public bool PlaceParty(Troop Source, ArmyHexSprite Party)
+    public bool PlaceParty(Troop source, ArmyHexSprite party)
     {
-        bool Result;
-        int TargetX = default;
-        int TargetY = default;
+        bool result;
+        int targetX = default;
+        int targetY = default;
         sbyte X = default;
         sbyte Y = default;
-        sbyte Layer = default;
-        ImageSequenceAnimation Animation;
-        Source.GetLocation(ref X, ref Y, ref Layer);
-        var radToHN = HexGeometry.RadToHN(5);
-        var random = AoWHSMap.Current.Random(radToHN);
-        HexGeometry.CenterHNtoHX(X, Y, random, ref TargetX, ref TargetY);
-        if (Party.PlaceEx((sbyte)TargetX, (sbyte)TargetY, Layer, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))
+        sbyte layer = default;
+        ImageSequenceAnimation animation;
+        source.GetLocation(ref X, ref Y, ref layer);
+        var radiusToHexNumber = HexGeometry.RadiusToHexNumber(5);
+        var random = AoWHSMap.Current.Random(radiusToHexNumber);
+        HexGeometry.CenterHexNumberToHex(X, Y, random, ref targetX, ref targetY);
+        if (party.Place((sbyte)targetX, (sbyte)targetY, layer, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))
         {
-            Party.Activate();
-            Party.FArmy.SetBehavior(255, GroupBehavior.Suicidal);
-            var lhx = Party.GetLhx();
-            var yhx = Party.GetYhx();
-            var xhx = Party.GetXhx();
-            if (AoWHSMap.Current.Watching(xhx, yhx, lhx, 0))
+            party.Activate();
+            party.Army.SetBehavior(255, GroupBehavior.Suicidal);
+            var hexLevel = party.GetHexLevel();
+            var hexY = party.GetHexY();
+            var hexX = party.GetHexX();
+            if (AoWHSMap.Current.Watching(hexX, hexY, hexLevel, 0))
             {
-                if (AoWHSSet.Current.FSpellControl.GetSpell(34).FCastImages.GetImageSequence(0) != null)
+                if (AoWHSSet.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0) != null)
                 {
                     // { Original uses Warp Party's images for Crusade parties. }
-                    Animation = new ImageSequenceAnimation(null);
-                    Animation.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(34).FCastImages.GetImageSequence(0));
-                    Animation.FAnimationLevel = 28;
-                    var partyLhx = Party.GetLhx();
-                    var partyYhx = Party.GetYhx();
-                    var partyXhx = Party.GetXhx();
-                    AoWHSMap.Current.PlaceHX(Animation, partyXhx, partyYhx, partyLhx);
+                    animation = new ImageSequenceAnimation(null);
+                    animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0));
+                    animation.AnimationLevel = 28;
+                    var partyHexLevel = party.GetHexLevel();
+                    var partyHexY = party.GetHexY();
+                    var partyHexX = party.GetHexX();
+                    AoWHSMap.Current.PlaceHex(animation, partyHexX, partyHexY, partyHexLevel);
                 }
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string CrusadeRStr = "Crusade";
-    private static Int32Array1 TCrusade_ExecuteTE__LargeUnits = Int32Array1.From([133]);
-    private static Int32Array3 TCrusade_ExecuteTE__MountedUnits = Int32Array3.From([132, 134, 128]);
-    private static Int32Array2 TCrusade_ExecuteTE__FootUnits = Int32Array2.From([129, 126]);
+    private static readonly string s_crusadeText = "Crusade";
+    private static Int32Array1 s_largeUnitResourceIds = Int32Array1.From([133]);
+    private static Int32Array3 s_mountedUnitResourceIds = Int32Array3.From([132, 134, 128]);
+    private static Int32Array2 s_footUnitResourceIds = Int32Array2.From([129, 126]);
 }

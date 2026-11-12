@@ -11,33 +11,33 @@ public partial class ExplorationSiteResource : StructureResource
 {
     public ExplorationSiteResource(ECustomNode owner) : base(owner)
     {
-        FDefenderCollections = new UnitIndexListCollection();
-        FTerrainBound = false;
+        DefenderCollections = new UnitIndexListCollection();
+        TerrainBound = false;
     }
 
     // ExploreS.pas:373
-    public new const int ClassID = 132034;
+    public new const int ClassId = 132034;
 
-    public UnitIndexListCollection FDefenderCollections;
+    public UnitIndexListCollection DefenderCollections;
 
     // ExploreS.pas:364
     public override void Dispose()
     {
-        FDefenderCollections?.Dispose();
+        DefenderCollections?.Dispose();
         base.Dispose();
     }
 
     // ExploreS.pas:376
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStreamProc(25, FDefenderCollections.LoadFromStream, FDefenderCollections.SaveToStream);
+        base.ReadWrite(stream);
+        stream.rwStreamProc(25, DefenderCollections.LoadFromStream, DefenderCollections.SaveToStream);
     }
 
     // ExploreS.pas:357
 
     // ExploreS.pas:382
-    public override int ResourceUserClassID() => 132033;
+    public override int ResourceUserClassId() => 132033;
 
     // ExploreS.pas:61
 

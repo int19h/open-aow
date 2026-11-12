@@ -14,100 +14,100 @@ public partial class AIRecruitmentGroupList : EReferenceNode
     { }
 
     // AIGroup.pas:800
-    public AIRecruitmentGroup GetRecruitmentGroups(int Index)
+    public AIRecruitmentGroup GetRecruitmentGroups(int index)
     {
-        Assert(Index >= 0 && Index < FChildren.Count, "", "AIGroup.pas", 802);
-        return (AIRecruitmentGroup)FChildren.List[Index];
+        Assert(index >= 0 && index < _children.Count, "", "AIGroup.pas", 802);
+        return (AIRecruitmentGroup)_children.List[index];
     }
 
     // AIGroup.pas:811
     public void SortOnMovePoints()
     {
-        FChildren.Sort(CompareAIRecruitmentGroupMovePoints);
+        _children.Sort(CompareAIRecruitmentGroupMovePoints);
     }
 
     // AIGroup.pas:816
     public void OutputDebugInfo()
     {
-        string Text;
-        AIRecruitmentGroup Group;
+        string text;
+        AIRecruitmentGroup group;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Group = GetRecruitmentGroups(I);
-            Text = Group.FGroup.GetType().Name + "(ID:" + IntToStr(Group.FGroup.FGroupID) + ")";
-            Text = Text + "/Loc:(" + IntToStr(Group.FLocation.X) + "," + IntToStr(Group.FLocation.Y) + "," + IntToStr(Group.FLocation.L) + ")";
-            Text = Text + "/MP:" + IntToStr(Group.FMovePoints);
-            Text = Text + "/MPBFS:" + IntToStr(Group.FPathStrength);
-            GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, Text);
+            group = GetRecruitmentGroups(I);
+            text = group.Group.GetType().Name + "(ID:" + IntToStr(group.Group.GroupId) + ")";
+            text = text + "/Loc:(" + IntToStr(group.Location.X) + "," + IntToStr(group.Location.Y) + "," + IntToStr(group.Location.MapLevel) + ")";
+            text = text + "/MP:" + IntToStr(group.MovePoints);
+            text = text + "/MPBFS:" + IntToStr(group.PathStrength);
+            GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, text);
         }
     }
 
     // AIGroup.pas:834
-    public void Add(AIRecruitmentGroup Group)
+    public void Add(AIRecruitmentGroup group)
     {
-        AddChild(Group);
+        AddChild(group);
     }
 
     // AIGroup.pas:839
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        RemoveChild(GetRecruitmentGroups(Index));
+        RemoveChild(GetRecruitmentGroups(index));
     }
 
     // AIGroup.pas:844
-    public bool Validate(AIGroupControl Control)
+    public bool Validate(AIGroupControl control)
     {
-        AIRecruitmentGroup Group;
-        bool Result = true;
+        AIRecruitmentGroup group;
+        bool result = true;
         for (int I = Count - 1; I >= 0; I--)
         {
-            Group = (AIRecruitmentGroup)FChildren.List[I];
-            if (!Group.Validate(Control))
+            group = (AIRecruitmentGroup)_children.List[I];
+            if (!group.Validate(control))
             {
-                RemoveChild(Group);
-                Result = false;
+                RemoveChild(group);
+                result = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:861
-    public bool UnitExists(Troop AUnit)
+    public bool UnitExists(Troop troop)
     {
         int I;
-        bool Result = false;
+        bool result = false;
         I = Count;
-        while (!Result && I != 0)
+        while (!result && I != 0)
         {
             I -= 1;
-            Result = ((AIRecruitmentGroup)FChildren.List[I]).FGroup.IndexOf(AUnit) != -1;
+            result = ((AIRecruitmentGroup)_children.List[I]).Group.IndexOf(troop) != -1;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:874
-    public AIRecruitmentGroup FindUnit(Troop AUnit)
+    public AIRecruitmentGroup FindUnit(Troop troop)
     {
         int I;
-        AIRecruitmentGroup Result = null;
+        AIRecruitmentGroup result = null;
         I = Count;
-        while (Result == null && I != 0)
+        while (result == null && I != 0)
         {
             I -= 1;
-            if (((AIRecruitmentGroup)FChildren.List[I]).FGroup.IndexOf(AUnit) != -1)
+            if (((AIRecruitmentGroup)_children.List[I]).Group.IndexOf(troop) != -1)
             {
-                Result = (AIRecruitmentGroup)FChildren.List[I];
+                result = (AIRecruitmentGroup)_children.List[I];
             }
         }
 
-        return Result;
+        return result;
     }
 
-    private static int CompareAIRecruitmentGroupMovePoints(object Item1, object Item2)
+    private static int CompareAIRecruitmentGroupMovePoints(object item1, object item2)
     {
-        return ((AIRecruitmentGroup)Item2).FMovePoints - ((AIRecruitmentGroup)Item1).FMovePoints;
+        return ((AIRecruitmentGroup)item2).MovePoints - ((AIRecruitmentGroup)item1).MovePoints;
     }
 
     // Engine.pas:631

@@ -21,7 +21,7 @@ namespace Aow.Game.Tests;
 [EngineState]
 public sealed class PersistCorpusTests
 {
-    private static readonly string[] Patterns =
+    private static readonly string[] s_patterns =
         ["Scenario/Custom/*.hsm", "Scenario/Campaign/*.csm", "Scenario/Campaign/*.cam", "Release/*.ahl", "Release/*.hss", "TCMaps/*.hsm", "Save/*.asg"];
 
     // These subclasses are in the installed scenarios and saves. TRaidAG, TScoutAG and the other
@@ -31,13 +31,13 @@ public sealed class PersistCorpusTests
     // Class id 80 is shared with TEObject, so a created object is not named TAbilityList. The
     // constructed tests cover the bit array. TSetupSettings is not a member of a map, campaign,
     // hero list or save. Storm and animation sprites are absent from these files.
-    private static readonly string[] Required =
+    private static readonly string[] s_required =
     [
         "GuardAIGroup", "PassiveAIGroup", "FortifyAIGroup", "NormalAIGroup", "SkirmishAIGroup",
         "AIBudgetManager", "ResourceEditSettings", "GlobalMagicControl",
     ];
 
-    private static readonly string[] Watched =
+    private static readonly string[] s_watched =
     [
 "GuardAIGroup", "PassiveAIGroup", "FortifyAIGroup", "RaidAIGroup", "ScoutAIGroup", "NormalAIGroup", "SkirmishAIGroup",
         "GuardAreaAIGroup", "PatrolAIGroup", "RefugeAIGroup", "DefenderAIGroup", "AggressorAIGroup", "ExpanderAIGroup", "ScorcherAIGroup",
@@ -48,23 +48,23 @@ public sealed class PersistCorpusTests
         "AIBudgetManager", "ResourceEditSettings", "GlobalMagicControl",
     ];
 
-    private readonly ITestOutputHelper output;
+    private readonly ITestOutputHelper _output;
 
     // TArmy.Destroy notifies AoWHSMap unless that map is being destroyed. A blank instance has no map.
-    private static AoWHSMap? reaper;
+    private static AoWHSMap? s_reaper;
 
-    public PersistCorpusTests(ITestOutputHelper output) => this.output = output;
+    public PersistCorpusTests(ITestOutputHelper output) => this._output = output;
 
     [CorpusFact]
     public void CorpusInstancesMatchTheConverter()
     {
         var previous = AoWHSMap.Current;
         var map = new AoWHSMap(null!);
-        map.FStatus = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
-        reaper = map;
-        blocked.Clear();
-        proved.Clear();
-        refusers.Clear();
+        map._status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
+        s_reaper = map;
+        s_blocked.Clear();
+        s_proved.Clear();
+        s_refusers.Clear();
         try
         {
             var schema = FormatSchema.Current;
@@ -85,73 +85,73 @@ public sealed class PersistCorpusTests
                 EqualJson(imported.Document, fromVersion1, relative + " version 1 migration");
                 EqualJson(imported.Document, fromVersion2, relative + " version 2 migration");
                 var root = (JsonObject)imported.Document["root"]!;
-                var cls = found.Profile.RootHasClass
+                var classValue = found.Profile.RootHasClass
                     ? schema.Get(((JsonString)root["$class"]!).Value)
                     : schema.Get(found.Profile.RootFamily);
-                Walk(root, cls, found.Profile.Engine, relative, schema, factory, counts);
+                Walk(root, classValue, found.Profile.Engine, relative, schema, factory, counts);
             }
             var printed = new SortedSet<string>(StringComparer.Ordinal);
             foreach (var pair in counts)
                 if (pair.Value > 0) printed.Add(pair.Key);
-            foreach (var name in Watched) printed.Add(name);
+            foreach (var name in s_watched) printed.Add(name);
             foreach (var name in printed)
             {
-                proved.TryGetValue(name, out int ok);
-                blocked.TryGetValue(name, out var held);
+                s_proved.TryGetValue(name, out int ok);
+                s_blocked.TryGetValue(name, out var held);
                 string line = held.Count == 0
                     ? name + " " + ok
                     : name + " " + ok + " blocked " + held.Count + " " + held.Reason;
-                output.WriteLine(line);
+                _output.WriteLine(line);
                 Console.WriteLine(line);
             }
-            foreach (var pair in refusers.OrderByDescending(pair => pair.Value).ThenBy(pair => pair.Key, StringComparer.Ordinal))
+            foreach (var pair in s_refusers.OrderByDescending(pair => pair.Value).ThenBy(pair => pair.Key, StringComparer.Ordinal))
             {
                 string line = "refused " + pair.Value + " " + pair.Key;
-                output.WriteLine(line);
+                _output.WriteLine(line);
                 Console.WriteLine(line);
             }
-            foreach (var name in Required)
+            foreach (var name in s_required)
             {
-                proved.TryGetValue(name, out int ok);
-                blocked.TryGetValue(name, out var held);
+                s_proved.TryGetValue(name, out int ok);
+                s_blocked.TryGetValue(name, out var held);
                 Assert.True(ok > 0, name + " has no proved instance in the corpus. " + (held.Reason ?? ""));
             }
         }
         finally
         {
-            reaper = null;
+            s_reaper = null;
             AoWHSMap.Current = previous;
             map.Dispose();
         }
     }
 
-    private static void Walk(JsonObject obj, SchemaClass cls, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, Dictionary<string, int> counts)
+    private static void Walk(JsonObject objectValue, SchemaClass classValue, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, Dictionary<string, int> counts)
     {
-        if (EngineTypes.TryGetValue(cls.Name, out var type) && EngineObject.TreePersistenceRefusal(type) == null)
+        if (s_engineTypes.TryGetValue(classValue.Name, out var type) && EngineObject.TreePersistenceRefusal(type) == null)
         {
-            counts.TryGetValue(cls.Name, out int seen);
-            counts[cls.Name] = seen + 1;
-            if (Prove(obj, cls, engine, file, schema, factory))
+            counts.TryGetValue(classValue.Name, out int seen);
+            counts[classValue.Name] = seen + 1;
+            if (Prove(objectValue, classValue, engine, file, schema, factory))
             {
-                proved.TryGetValue(cls.Name, out int ok);
-                proved[cls.Name] = ok + 1;
+                s_proved.TryGetValue(classValue.Name, out int ok);
+                s_proved[classValue.Name] = ok + 1;
             }
         }
-        foreach (var prop in cls.Properties)
+        foreach (var prop in classValue.Properties)
         {
-            var member = obj.Find(prop.Name);
+            var member = objectValue.Find(prop.Name);
             if (member is null) continue;
             if (prop.IsDynamic)
             {
                 if (member.Value is JsonArray array)
-                    foreach (var item in array.Items) Visit(cls, prop, item, engine, file, schema, factory, counts);
+                    foreach (var item in array.Items) Visit(classValue, prop, item, engine, file, schema, factory, counts);
                 continue;
             }
-            Visit(cls, prop, member.Value, engine, file, schema, factory, counts);
+            Visit(classValue, prop, member.Value, engine, file, schema, factory, counts);
         }
     }
 
-    private static void Visit(SchemaClass cls, SchemaProperty prop, JsonValue value, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, Dictionary<string, int> counts)
+    private static void Visit(SchemaClass classValue, SchemaProperty prop, JsonValue value, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, Dictionary<string, int> counts)
     {
         if (prop.Codec is FixedObjectCodec fixedObject && value is JsonObject nested)
             Walk(nested, schema.Get(fixedObject.ClassName), engine, file, schema, factory, counts);
@@ -165,7 +165,7 @@ public sealed class PersistCorpusTests
         }
         else if (prop.Codec is MapFieldsCodec && value is JsonArray rows)
         {
-            var field = schema.Get(cls.FieldClass ?? "MapField");
+            var field = schema.Get(classValue.FieldClass ?? "MapField");
             foreach (var row in rows.Items)
                 if (row is JsonArray cells)
                     foreach (var cell in cells.Items)
@@ -179,12 +179,12 @@ public sealed class PersistCorpusTests
         }
     }
 
-    private static bool Prove(JsonObject obj, SchemaClass cls, string engine, string file, FormatSchema schema, EnginePersistableFactory factory)
+    private static bool Prove(JsonObject objectValue, SchemaClass classValue, string engine, string file, FormatSchema schema, EnginePersistableFactory factory)
     {
         try
         {
-            var image = PilotImage.Encode(obj, cls.Name, engine);
-            var loaded = Blank(cls.Name);
+            var image = PilotImage.Encode(objectValue, classValue.Name, engine);
+            var loaded = Blank(classValue.Name);
             try
             {
                 try
@@ -195,50 +195,50 @@ public sealed class PersistCorpusTests
                 {
                     // The fixture loads no game resources, so a part that needs one (a unit's
                     // resource) cannot load. Such an instance proves nothing either way.
-                    Block(cls.Name, "fixture: " + error.Message);
+                    Block(classValue.Name, "fixture: " + error.Message);
                     return false;
                 }
                 var rewritten = Image(loaded);
-                var expected = PilotImage.Decode(rewritten, cls.Name, engine);
+                var expected = PilotImage.Decode(rewritten, classValue.Name, engine);
                 var tree = TreeWriter.Write(loaded, factory);
-                var actual = DocumentBackend.Write(tree, cls, schema, engine);
-                EqualJson(expected, actual, file + " " + cls.Name + " write");
+                var actual = DocumentBackend.Write(tree, classValue, schema, engine);
+                EqualJson(expected, actual, file + " " + classValue.Name + " write");
                 byte[] direct;
                 try
                 {
-                    direct = OriginalBackend.Write(tree, cls, schema, engine);
+                    direct = OriginalBackend.Write(tree, classValue, schema, engine);
                 }
                 catch (ConversionException error) when (IsDirectRefusal(error))
                 {
-                    Block(cls.Name, error.Diagnostic.Message);
+                    Block(classValue.Name, error.Diagnostic.Message);
                     return false;
                 }
-                EqualBytes(rewritten, direct, file + " " + cls.Name + " original");
-                var again = Blank(cls.Name);
+                EqualBytes(rewritten, direct, file + " " + classValue.Name + " original");
+                var again = Blank(classValue.Name);
                 try
                 {
-                    TreeReader.Read(DocumentBackend.Read(expected, cls, schema, engine), again, factory, Stop);
-                    EqualBytes(PilotImage.Encode(expected, cls.Name, engine), Image(again), file + " " + cls.Name + " read");
+                    TreeReader.Read(DocumentBackend.Read(expected, classValue, schema, engine), again, factory, Stop);
+                    EqualBytes(PilotImage.Encode(expected, classValue.Name, engine), Image(again), file + " " + classValue.Name + " read");
                 }
                 finally
                 {
                     Release(again);
                 }
-                var fromImage = Blank(cls.Name);
+                var fromImage = Blank(classValue.Name);
                 try
                 {
                     ObjectNode read;
                     try
                     {
-                        read = OriginalBackend.Read(image, cls, schema, engine);
+                        read = OriginalBackend.Read(image, classValue, schema, engine);
                     }
                     catch (ConversionException error) when (IsDirectRefusal(error))
                     {
-                        Block(cls.Name, error.Diagnostic.Message);
+                        Block(classValue.Name, error.Diagnostic.Message);
                         return false;
                     }
                     TreeReader.Read(read, fromImage, factory, Stop);
-                    EqualBytes(Image(loaded), Image(fromImage), file + " " + cls.Name + " readwrite");
+                    EqualBytes(Image(loaded), Image(fromImage), file + " " + classValue.Name + " readwrite");
                 }
                 finally
                 {
@@ -253,34 +253,34 @@ public sealed class PersistCorpusTests
         }
         catch (InvalidOperationException error) when (IsTreeRefusal(error))
         {
-            Block(cls.Name, RefusalName(error));
+            Block(classValue.Name, RefusalName(error));
             return false;
         }
         catch (Exception error) when (error is not XunitException)
         {
-            throw new InvalidOperationException(file + " " + cls.Name + " failed. " + error.Message, error);
+            throw new InvalidOperationException(file + " " + classValue.Name + " failed. " + error.Message, error);
         }
     }
 
     // An instance is proved only when the write and both reads finish. A refusal anywhere in the
     // closure blocks it. The label is the refusing class, or the direct-path diagnostic when no class is named.
-    private static readonly Dictionary<string, int> proved = new(StringComparer.Ordinal);
-    private static readonly Dictionary<string, (int Count, string Reason)> blocked = new(StringComparer.Ordinal);
-    private static readonly Dictionary<string, int> refusers = new(StringComparer.Ordinal);
+    private static readonly Dictionary<string, int> s_proved = new(StringComparer.Ordinal);
+    private static readonly Dictionary<string, (int Count, string Reason)> s_blocked = new(StringComparer.Ordinal);
+    private static readonly Dictionary<string, int> s_refusers = new(StringComparer.Ordinal);
 
     private static void Block(string className, string label)
     {
-        if (blocked.TryGetValue(className, out var seen)) blocked[className] = (seen.Count + 1, seen.Reason);
-        else blocked[className] = (1, label);
-        refusers.TryGetValue(label, out int count);
-        refusers[label] = count + 1;
+        if (s_blocked.TryGetValue(className, out var seen)) s_blocked[className] = (seen.Count + 1, seen.Reason);
+        else s_blocked[className] = (1, label);
+        s_refusers.TryGetValue(label, out int count);
+        s_refusers[label] = count + 1;
     }
 
     private static string RefusalName(InvalidOperationException error)
     {
-        const string prefix = "Class ";
-        int nameEnd = error.Message.IndexOf(' ', prefix.Length);
-        return error.Message.Substring(prefix.Length, nameEnd - prefix.Length);
+        const string Prefix = "Class ";
+        int nameEnd = error.Message.IndexOf(' ', Prefix.Length);
+        return error.Message.Substring(Prefix.Length, nameEnd - Prefix.Length);
     }
 
     private static bool IsDirectRefusal(ConversionException error)
@@ -293,15 +293,15 @@ public sealed class PersistCorpusTests
             || message.Contains("uses a case mapping.", StringComparison.Ordinal);
     }
 
-    private static readonly Dictionary<string, Type> EngineTypes = BuildEngineTypes();
+    private static readonly Dictionary<string, Type> s_engineTypes = BuildEngineTypes();
 
     private static Dictionary<string, Type> BuildEngineTypes()
     {
         var types = new Dictionary<string, Type>();
-        foreach (var eclass in EngineClass.All)
+        foreach (var engineClass in EngineClass.All)
         {
-            if (eclass.Type.Assembly != typeof(EngineObject).Assembly) continue;
-            types.TryAdd(eclass.Type.Name, eclass.Type);
+            if (engineClass.Type.Assembly != typeof(EngineObject).Assembly) continue;
+            types.TryAdd(engineClass.Type.Name, engineClass.Type);
         }
         return types;
     }
@@ -309,21 +309,21 @@ public sealed class PersistCorpusTests
     private static bool IsTreeRefusal(InvalidOperationException error)
     {
         string message = error.Message;
-        const string prefix = "Class ";
-        if (!message.StartsWith(prefix, StringComparison.Ordinal)) return false;
-        int nameEnd = message.IndexOf(' ', prefix.Length);
+        const string Prefix = "Class ";
+        if (!message.StartsWith(Prefix, StringComparison.Ordinal)) return false;
+        int nameEnd = message.IndexOf(' ', Prefix.Length);
         if (nameEnd < 0) return false;
-        string name = message.Substring(prefix.Length, nameEnd - prefix.Length);
-        return EngineTypes.TryGetValue(name, out var type) && EngineObject.TreePersistenceRefusal(type) == message;
+        string name = message.Substring(Prefix.Length, nameEnd - Prefix.Length);
+        return s_engineTypes.TryGetValue(name, out var type) && EngineObject.TreePersistenceRefusal(type) == message;
     }
 
-    private static void Release(EngineObject obj)
+    private static void Release(EngineObject objectValue)
     {
         var previous = AoWHSMap.Current;
-        AoWHSMap.Current = reaper;
+        AoWHSMap.Current = s_reaper;
         try
         {
-            obj.Dispose();
+            objectValue.Dispose();
         }
         finally
         {
@@ -333,8 +333,8 @@ public sealed class PersistCorpusTests
 
     private static EngineObject Blank(string className)
     {
-        foreach (var eclass in EngineClass.All)
-            if (eclass.ClassName == className) return eclass.Create(null!);
+        foreach (var engineClass in EngineClass.All)
+            if (engineClass.StorageKey == className) return engineClass.CreateInstance(null!);
         throw new InvalidOperationException("The engine has no class " + className + ".");
     }
 
@@ -342,7 +342,7 @@ public sealed class PersistCorpusTests
     // vanishing from both sides.
     private static void Stop(string message, ref bool continueLoad) => continueLoad = false;
 
-    private static void Load(EngineObject obj, byte[] image)
+    private static void Load(EngineObject objectValue, byte[] image)
     {
         using var memory = new MemoryStream();
         memory.Write(image);
@@ -351,7 +351,7 @@ public sealed class PersistCorpusTests
         reader.OnError = static (EStorageStream _, string _, ref bool cont) => cont = false;
         try
         {
-            obj.MainReadWrite(reader);
+            objectValue.MainReadWrite(reader);
         }
         finally
         {
@@ -359,12 +359,12 @@ public sealed class PersistCorpusTests
         }
     }
 
-    private static byte[] Image(EngineObject obj)
+    private static byte[] Image(EngineObject objectValue)
     {
         using var memory = new MemoryStream();
         using (var writer = new EWriteStorageStream(memory, EngineFixture.Engine, false))
         {
-            obj.MainReadWrite(writer);
+            objectValue.MainReadWrite(writer);
         }
         return memory.ToArray();
     }
@@ -457,7 +457,7 @@ public sealed class PersistCorpusTests
 
     private static IEnumerable<string> Files()
     {
-        foreach (var pattern in Patterns)
+        foreach (var pattern in s_patterns)
         {
             var directory = Path.Combine(Root, Path.GetDirectoryName(pattern)!);
             if (!Directory.Exists(directory)) continue;

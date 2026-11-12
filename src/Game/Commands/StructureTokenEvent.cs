@@ -19,83 +19,83 @@ public partial class StructureTokenEvent : TokenEvent
     public StructureTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135440;
+    public new const int ClassId = 135440;
 
-    public sbyte FX;
-    public sbyte FY;
-    public sbyte FL;
-    public sbyte FPlayer;
-    public int FStructureClassID;
-    public int FAction;
-    public bool FRazed;
-    public int FParam;
-    public int FParam2;
+    public sbyte X;
+    public sbyte Y;
+    public sbyte MapLevel;
+    public sbyte Player;
+    public int StructureClassId;
+    public int Action;
+    public bool Razed;
+    public int Param;
+    public int Param2;
 
     // Structur.PAS:3051
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FAction, 15);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FX), 16);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FY), 17);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FL), 18);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 19);
-        Stream.rwInteger(ref FStructureClassID, 20);
-        Stream.rwBool(ref FRazed, 21);
-        Stream.rwInteger(ref FParam, 22);
-        Stream.rwInteger(ref FParam2, 23);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Action, 15);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref X), 16);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Y), 17);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 18);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 19);
+        stream.rwInteger(ref StructureClassId, 20);
+        stream.rwBool(ref Razed, 21);
+        stream.rwInteger(ref Param, 22);
+        stream.rwInteger(ref Param2, 23);
     }
 
     // Structur.PAS:3077
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult Result;
-        if (TE.ExecuteCount != 0 || Validate())
+        ExecuteResult result;
+        if (tokenEvent.ExecuteCount != 0 || Validate())
         {
-            Result = ((Structure)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(FStructureClassID)).ExecuteTE(this, TE);
+            result = ((Structure)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel).FindOwnedChild(StructureClassId)).ExecuteTokenEvent(this, tokenEvent);
         }
         else
         {
-            Result = ExecuteResult.DoneHalt;
+            result = ExecuteResult.DoneHalt;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:3065
     public virtual bool Validate()
     {
-        bool Result;
-        Structure Structure;
-        AoWMapField MapField;
-        MapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL);
-        Structure = (Structure)MapField.FindOwnedChild(FStructureClassID);
-        if (Structure != null && Structure.EClass.ClassID == FStructureClassID)
+        bool result;
+        Structure structure;
+        AoWMapField mapField;
+        mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel);
+        structure = (Structure)mapField.FindOwnedChild(StructureClassId);
+        if (structure != null && structure.EngineClass.ClassId == StructureClassId)
         {
-            Result = MapField.GetPlayer() == FPlayer;
+            result = mapField.GetPlayer() == Player;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:2537
-    public void Initialize(int AClassID, sbyte X, sbyte Y, sbyte L)
+    public void Initialize(int classId, sbyte X, sbyte Y, sbyte L)
     {
-        AoWMapField MapField;
-        Structure Structure;
-        FX = X;
-        FY = Y;
-        FL = L;
-        MapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL);
-        Structure = (Structure)MapField.FindOwnedChild(AClassID);
-        Assert(AClassID == Structure.EClass.ClassID, "Invalid position (StructureTE)", "Structur.PAS", 3045);
-        FStructureClassID = AClassID;
-        FRazed = Structure.GetRazed();
-        FPlayer = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL)).GetPlayer();
+        AoWMapField mapField;
+        Structure structure;
+        this.X = X;
+        this.Y = Y;
+        MapLevel = L;
+        mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(this.X, this.Y, MapLevel);
+        structure = (Structure)mapField.FindOwnedChild(classId);
+        Assert(classId == structure.EngineClass.ClassId, "Invalid position (StructureTE)", "Structur.PAS", 3045);
+        StructureClassId = classId;
+        Razed = structure.GetRazed();
+        Player = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(this.X, this.Y, MapLevel)).GetPlayer();
     }
 
     // NetworkE.pas:230

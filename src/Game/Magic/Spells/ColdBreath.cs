@@ -15,9 +15,9 @@ public partial class ColdBreath : CombatSpell
     // CombatSpells.pas:1241
     public ColdBreath(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(ColdBreathRStr);
-        FSpellID = 108;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_coldBreathText);
+        SpellId = 108;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Cold);
@@ -25,5 +25,5 @@ public partial class ColdBreath : CombatSpell
         spellCombatInfo.Range = 4;
     }
 
-    private static readonly string ColdBreathRStr = "Cold Breath";
+    private static readonly string s_coldBreathText = "Cold Breath";
 }

@@ -72,7 +72,7 @@ public static class Cfs
 /// <summary>The CRC-32 of the original (Engine.GetCRC32), the reflected 0xEDB88320 polynomial.</summary>
 public static class Crc32
 {
-    private static readonly uint[] Table = Make();
+    private static readonly uint[] s_table = Make();
 
     private static uint[] Make()
     {
@@ -89,7 +89,7 @@ public static class Crc32
     public static uint Compute(ReadOnlySpan<byte> data)
     {
         uint crc = 0xFFFFFFFFu;
-        foreach (byte b in data) crc = Table[(b ^ crc) & 0xFF] ^ (crc >> 8);
+        foreach (byte b in data) crc = s_table[(b ^ crc) & 0xFF] ^ (crc >> 8);
         return crc ^ 0xFFFFFFFFu;
     }
 }

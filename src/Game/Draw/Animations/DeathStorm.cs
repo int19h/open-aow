@@ -14,14 +14,14 @@ public partial class DeathStorm : BlastStorm
     { }
 
     // Storms.pas:492
-    public new const int ClassID = 135741;
+    public new const int ClassId = 135741;
 
     // Storms.pas:502
-    public override void ChangeStormTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+    public override void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
     {
-        if (TerrainType != 0 && TerrainType != 6)
+        if (terrainType != 0 && terrainType != 6)
         {
-            TerrainType = 5;
+            terrainType = 5;
         }
     }
 
@@ -34,6 +34,6 @@ public partial class DeathStorm : BlastStorm
     // Animation.pas:43
 
     // Storms.pas:497
-    public override string Name() => AbilityRules.TranslateRStr(GameTables.DeathStormRStr);
+    public override string Name() => AbilityRules.TranslateResourceString(GameTables.s_deathStormText);
 
 }

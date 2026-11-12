@@ -43,28 +43,28 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
 
     public Structure(ECustomNode owner) : base(owner)
     {
-        FBuildingPlayer = -1;
-        FFogged = true;
+        BuildingPlayer = -1;
+        Fogged = true;
     }
 
-    public new const int ClassID = 131914;
+    public new const int ClassId = 131914;
 
-    public int FStructureID;
-    public int FUpdateCount;
-    public sbyte FBuildingPlayer;
-    public byte FBuildingDays;
-    public StructureShadow FShadow;
-    public bool FFogged;
+    public int StructureId;
+    public int UpdateCount;
+    public sbyte BuildingPlayer;
+    public byte BuildingDays;
+    public StructureShadow Shadow;
+    public bool Fogged;
 
     // Structur.PAS:1017
     public override void Dispose()
     {
-        if (FShadow != null)
+        if (Shadow != null)
         {
             DestroyShadow();
         }
 
-        if (Owner != null && FStatus.Contains(MapObjectStatusElement.ResourceLinked) && ((StructureResource)FResource).FTerrainBound)
+        if (Owner != null && _status.Contains(MapObjectStatusElement.ResourceLinked) && ((StructureResource)_resource).TerrainBound)
         {
             Owner.DestroyChildren(131334);
         }
@@ -77,43 +77,43 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1038
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref FBuildingDays, 0);
-        Stream.rwInteger(ref FStructureID, 98);
-        Stream.rwByteEx(ref Unsafe.As<sbyte, byte>(ref FBuildingPlayer), 255, 99);
+        base.ReadWrite(stream);
+        stream.rwByte(ref BuildingDays, 0);
+        stream.rwInteger(ref StructureId, 98);
+        stream.rwByteEx(ref Unsafe.As<sbyte, byte>(ref BuildingPlayer), 255, 99);
     }
 
     // Structur.PAS:1010
 
     // Structur.PAS:1629
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001985)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001985)
         {
             NewDay();
         }
         else
         {
-            if (Msg.MsgID == 537001986)
+            if (message.MessageId == 537001986)
             {
-                NewTurn((sbyte)Msg.Payload.Int);
+                NewTurn((sbyte)message.Payload.Int);
             }
             else
             {
-                if (Msg.MsgID == 537001990)
+                if (message.MessageId == 537001990)
                 {
                     SeatedPlayerChanged();
                 }
                 else
                 {
-                    if (Msg.MsgID == 537002243)
+                    if (message.MessageId == 537002243)
                     {
-                        if (!MainValidateMap(Msg.Payload.As<StringCollection>()))
+                        if (!MainValidateMap(message.Payload.As<StringCollection>()))
                         {
-                            Msg.Data[0] = 1;
+                            message.Data[0] = 1;
                         }
                     }
                 }
@@ -122,158 +122,158 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1281
-    public override sbyte GetTerrain(int Index)
+    public override sbyte GetTerrain(int index)
     {
-        sbyte Result = FResource.TerrainList.Terrain[Index];
-        if (Result >= 0)
+        sbyte result = _resource.TerrainList.Terrain[index];
+        if (result >= 0)
         {
-            Result = FTerrainType;
+            result = _terrainType;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1275
-    public override sbyte GetOverlay(int Index)
+    public override sbyte GetOverlay(int index)
     {
-        sbyte Result = FResource.TerrainList.Terrain[Index];
-        if (Result >= 0)
+        sbyte result = _resource.TerrainList.Terrain[index];
+        if (result >= 0)
         {
-            Result = 7;
+            result = 7;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1287
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo Info) => ((StructureResource)FResource).FTerrainBound || base.CanChangeTerrain(Info);
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => ((StructureResource)_resource).TerrainBound || base.CanChangeTerrain(info);
 
     // Structur.PAS:1297
-    public override void TerrainChanged(in HexSpriteTerrainInfo Info)
+    public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        if (FResource.TerrainList.Terrain[Info.HN] >= 0)
+        if (_resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
-            if (((StructureResource)FResource).FTerrainBound)
+            if (((StructureResource)_resource).TerrainBound)
             {
-                FTerrainType = Info.TerrainType;
-                FImageIndex = GetTerrainTypeImage(FTerrainType);
+                _terrainType = info.TerrainType;
+                _imageIndex = GetTerrainTypeImage(_terrainType);
             }
             else
             {
-                base.TerrainChanged(Info);
+                base.TerrainChanged(info);
             }
         }
     }
 
     // Structur.PAS:1647
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
-        ((StructureResource)FResource).Show(Xhp - XhpSurf, Yhp - YhpSurf, SurfaceDesc, this);
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(_hexX, _hexY, ref pixelX, ref pixelY);
+        ((StructureResource)_resource).Show(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface, this);
     }
 
     // Structur.PAS:1092
     public override bool PlaceOnMap()
     {
-        bool Result = base.PlaceOnMap();
+        bool result = base.PlaceOnMap();
         if (!GetEditMode())
         {
             UpdateRoads((MapField)Owner);
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1098
     public override void RemoveFromMap()
     {
-        MapField MapField;
-        MapField = (MapField)Owner;
+        MapField mapField;
+        mapField = (MapField)Owner;
         base.RemoveFromMap();
-        if (MapField != null && !GetEditMode())
+        if (mapField != null && !GetEditMode())
         {
-            UpdateRoads(MapField);
+            UpdateRoads(mapField);
         }
     }
 
     // Structur.PAS:1599
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        base.MapFieldMsgProc(ref Msg);
-        if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
+        base.MapFieldMessageProc(ref message);
+        if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
         {
-            if (Msg.MsgID == 4358)
+            if (message.MessageId == 4358)
             {
                 FogChanged();
             }
             else
             {
-                if (Msg.MsgID == 4608)
+                if (message.MessageId == 4608)
                 {
-                    UpdateAITarget(Msg.Param[0].As<AITargetQuery>().Info, ref Msg.Param[0].As<AITargetQuery>().Data);
-                    if (Msg.Param[0].As<AITargetQuery>().Data.Priority < 0)
+                    UpdateAITarget(message.Param[0].As<AITargetQuery>().Info, ref message.Param[0].As<AITargetQuery>().Data);
+                    if (message.Param[0].As<AITargetQuery>().Data.Priority < 0)
                     {
-                        Msg.Result = 1;
+                        message.Result = 1;
                     }
                 }
                 else
                 {
-                    if (Msg.MsgID == 4388)
+                    if (message.MessageId == 4388)
                     {
-                        ArmyChanged(Msg.Param[0].As<ArmyHexSprite>());
+                        ArmyChanged(message.Param[0].As<ArmyHexSprite>());
                     }
                     else
                     {
-                        if (Msg.MsgID == 4354)
+                        if (message.MessageId == 4354)
                         {
-                            ArmyPlaced(Msg.Param[0].As<ArmyHexSprite>());
+                            ArmyPlaced(message.Param[0].As<ArmyHexSprite>());
                         }
                         else
                         {
-                            if (Msg.MsgID == 4355)
+                            if (message.MessageId == 4355)
                             {
-                                ArmyRemoved(Msg.Param[0].As<ArmyHexSprite>());
+                                ArmyRemoved(message.Param[0].As<ArmyHexSprite>());
                             }
                             else
                             {
-                                if (Msg.MsgID == 4401)
+                                if (message.MessageId == 4401)
                                 {
-                                    if (((StructureResource)FResource).FConnectRoads)
+                                    if (((StructureResource)_resource).ConnectRoads)
                                     {
-                                        Msg.Param[1] = 1;
+                                        message.Param[1] = 1;
                                     }
                                 }
                                 else
                                 {
-                                    if (Msg.MsgID == 4386)
+                                    if (message.MessageId == 4386)
                                     {
-                                        Msg.Result = ((StructureResource)FResource).FScannerIcon;
+                                        message.Result = ((StructureResource)_resource).ScannerIcon;
                                     }
                                     else
                                     {
-                                        if (Msg.MsgID == 4390)
+                                        if (message.MessageId == 4390)
                                         {
                                             var defensePriority = GetDefensePriority();
-                                            Msg.Result = (int)defensePriority;
+                                            message.Result = (int)defensePriority;
                                         }
                                         else
                                         {
-                                            if (Msg.MsgID == 4391)
+                                            if (message.MessageId == 4391)
                                             {
-                                                if (GetDefenseRequirements((sbyte)Msg.Param[0].Int, ref Msg.Param[1].As<DefenseRequirementsQuery>().Requirements))
+                                                if (GetDefenseRequirements((sbyte)message.Param[0].Int, ref message.Param[1].As<DefenseRequirementsQuery>().Requirements))
                                                 {
-                                                    Msg.Result = 1;
+                                                    message.Result = 1;
                                                 }
                                             }
                                             else
                                             {
-                                                if (Msg.MsgID == 4364 && Msg.HN == 0)
+                                                if (message.MessageId == 4364 && message.HexNumber == 0)
                                                 {
-                                                    if (FResource.TerrainList.Terrain[Msg.HN] >= 0 && (!AoWHSMap.Current.FFogEnabled || !FFogged))
+                                                    if (_resource.TerrainList.Terrain[message.HexNumber] >= 0 && (!AoWHSMap.Current.FogEnabled || !Fogged))
                                                     {
-                                                        Msg.Param[0] = Msg.Param[0].Int + 3584;
+                                                        message.Param[0] = message.Param[0].Int + 3584;
                                                     }
                                                 }
                                             }
@@ -292,8 +292,8 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     public override void Activate()
     {
         base.Activate();
-        AoWHSMap.Current.FStructureControl.Register(this);
-        if (AoWHSMap.Current.FShowUnitShadows && ((StructureResource)FResource).FCastsShadow && !GetEditMode())
+        AoWHSMap.Current.StructureControl.Register(this);
+        if (AoWHSMap.Current.ShowUnitShadows && ((StructureResource)_resource).CastsShadow && !GetEditMode())
         {
             CreateShadow();
         }
@@ -302,45 +302,45 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1593
     public override void Deactivate()
     {
-        AoWHSMap.Current.FStructureControl.Unregister(this);
+        AoWHSMap.Current.StructureControl.Unregister(this);
         base.Deactivate();
     }
 
     // Structur.PAS:1886
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (FResource.TerrainList.Terrain[Info.HN] >= 0)
+        if (_resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
-            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 134217728;
+            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 134217728;
         }
     }
 
     // Structur.PAS:1184
-    public override bool CanSelect(int Xhp, int Yhp)
+    public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool Result;
+        bool result;
         int X = default;
         int Y = default;
-        int HN;
-        if (!AoWHSMap.Current.FFogEnabled || !FFogged)
+        int hexNumber;
+        if (!AoWHSMap.Current.FogEnabled || !Fogged)
         {
-            HexGeometry.HPtoHX(Xhp, Yhp, ref X, ref Y);
-            HN = HexGeometry.dHXtoHN(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, X, Y);
-            if (HN >= FResource.TerrainList.Count || FResource.TerrainList.Terrain[HN] < 0 && FResource.TerrainList.Overlay[HN] < 0)
+            HexGeometry.PixelToHex(pixelX, pixelY, ref X, ref Y);
+            hexNumber = HexGeometry.DeltaHexToHexNumber(((MapField)Owner).HexX, ((MapField)Owner).HexY, X, Y);
+            if (hexNumber >= _resource.TerrainList.Count || _resource.TerrainList.Terrain[hexNumber] < 0 && _resource.TerrainList.Overlay[hexNumber] < 0)
             {
-                Result = false;
+                result = false;
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1206
@@ -360,88 +360,88 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1308
-    public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool Result;
-        if (((StructureResource)FResource).FTerrainBound)
+        bool result;
+        if (((StructureResource)_resource).TerrainBound)
         {
-            Result = AoWHSSet.Current.FPadControl.CanPlacePad(Xhx, Yhx, Lhx, ((StructureResource)FResource).FFlagType);
+            result = AoWHSSet.Current.PadControl.CanPlacePad(hexX, hexY, hexLevel, ((StructureResource)_resource).FlagType);
         }
         else
         {
-            Result = base.CanPlace(MapContainer, Xhx, Yhx, Lhx);
+            result = base.CanPlace(mapContainer, hexX, hexY, hexLevel);
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1315
-    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool Result;
-        ImageLibraryTerrainMapObject Pad;
-        if (GetEditMode() || CanPlace(MapContainer, Xhx, Yhx, Lhx))
+        bool result;
+        ImageLibraryTerrainMapObject pad;
+        if (GetEditMode() || CanPlace(mapContainer, hexX, hexY, hexLevel))
         {
-            if (((StructureResource)FResource).FTerrainBound)
+            if (((StructureResource)_resource).TerrainBound)
             {
                 if (!GetEditMode())
                 {
-                    Pad = AoWHSSet.Current.FPadControl.PlacePad(Xhx, Yhx, Lhx, ((StructureResource)FResource).FFlagType);
+                    pad = AoWHSSet.Current.PadControl.PlacePad(hexX, hexY, hexLevel, ((StructureResource)_resource).FlagType);
                 }
                 else
                 {
-                    Pad = null;
+                    pad = null;
                 }
 
-                if (Pad != null || GetEditMode())
+                if (pad != null || GetEditMode())
                 {
-                    if (Pad != null)
+                    if (pad != null)
                     {
-                        FTerrainType = Pad.TerrainType;
+                        _terrainType = pad.TerrainType;
                     }
 
-                    Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
+                    result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
             }
             else
             {
-                Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
+                result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1292
-    public override bool ValidTerrainType(int TerrainType) => ((StructureResource)FResource).FTerrainBound && AoWHSSet.Current.FPadControl.FTerrainTypes[TerrainType] || base.ValidTerrainType(TerrainType);
+    public override bool ValidTerrainType(int terrainType) => ((StructureResource)_resource).TerrainBound && AoWHSSet.Current.PadControl.TerrainTypes[terrainType] || base.ValidTerrainType(terrainType);
 
     // Structur.PAS:1053
-    public override int GetTerrainTypeImage(int TerrainType)
+    public override int GetTerrainTypeImage(int terrainType)
     {
-        int Result;
+        int result;
         if (GetRazed())
         {
-            if (TerrainType == 3)
+            if (terrainType == 3)
             {
-                Result = 23;
+                result = 23;
             }
             else
             {
-                if (TerrainType == 5)
+                if (terrainType == 5)
                 {
-                    Result = 24;
+                    result = 24;
                 }
                 else
                 {
-                    Result = 22;
+                    result = 22;
                 }
             }
         }
@@ -449,130 +449,130 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         {
             if (GetBuilding())
             {
-                if (TerrainType == 3)
+                if (terrainType == 3)
                 {
-                    Result = 26;
+                    result = 26;
                 }
                 else
                 {
-                    if (TerrainType == 5)
+                    if (terrainType == 5)
                     {
-                        Result = 27;
+                        result = 27;
                     }
                     else
                     {
-                        Result = 25;
+                        result = 25;
                     }
                 }
             }
             else
             {
-                Result = base.GetTerrainTypeImage(TerrainType);
+                result = base.GetTerrainTypeImage(terrainType);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1159
-    public override sbyte ForceTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx)
+    public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY)
     {
-        sbyte Result;
-        if (MapLevel.Lhx != 0)
+        sbyte result;
+        if (mapLevel.HexLevel != 0)
         {
-            Result = 12;
+            result = 12;
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1239
     public virtual LibraryImage GetTopBorderImage()
     {
-        LibraryImage Result;
-        ImageSequenceList Sequences;
-        Sequences = FResource.ImageSequenceList;
-        if (Sequences != null)
+        LibraryImage result;
+        ImageSequenceList sequences;
+        sequences = _resource.ImageSequenceList;
+        if (sequences != null)
         {
-            if (Sequences.GetImageSequence(30) != null)
+            if (sequences.GetImageSequence(30) != null)
             {
-                Result = FResource.ImageSequenceList.GetImageSequence(30).GetPreviewImage();
+                result = _resource.ImageSequenceList.GetImageSequence(30).GetPreviewImage();
             }
             else
             {
-                Result = null;
+                result = null;
             }
         }
         else
         {
-            Result = FResource.ImageLibrary.GetSafe(30);
+            result = _resource.ImageLibrary.GetSafe(30);
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1251
     public virtual LibraryImage GetMiddleBorderImage()
     {
-        LibraryImage Result;
-        ImageSequenceList Sequences;
-        Sequences = FResource.ImageSequenceList;
-        if (Sequences != null)
+        LibraryImage result;
+        ImageSequenceList sequences;
+        sequences = _resource.ImageSequenceList;
+        if (sequences != null)
         {
-            if (Sequences.GetImageSequence(31) != null)
+            if (sequences.GetImageSequence(31) != null)
             {
-                Result = FResource.ImageSequenceList.GetImageSequence(31).GetPreviewImage();
+                result = _resource.ImageSequenceList.GetImageSequence(31).GetPreviewImage();
             }
             else
             {
-                Result = null;
+                result = null;
             }
         }
         else
         {
-            Result = FResource.ImageLibrary.GetSafe(31);
+            result = _resource.ImageLibrary.GetSafe(31);
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1263
     public virtual LibraryImage GetBottomBorderImage()
     {
-        LibraryImage Result;
-        ImageSequenceList Sequences;
-        Sequences = FResource.ImageSequenceList;
-        if (Sequences != null)
+        LibraryImage result;
+        ImageSequenceList sequences;
+        sequences = _resource.ImageSequenceList;
+        if (sequences != null)
         {
-            if (Sequences.GetImageSequence(32) != null)
+            if (sequences.GetImageSequence(32) != null)
             {
-                Result = FResource.ImageSequenceList.GetImageSequence(32).GetPreviewImage();
+                result = _resource.ImageSequenceList.GetImageSequence(32).GetPreviewImage();
             }
             else
             {
-                Result = null;
+                result = null;
             }
         }
         else
         {
-            Result = FResource.ImageLibrary.GetSafe(32);
+            result = _resource.ImageLibrary.GetSafe(32);
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1174
-    public virtual StringCollection GetDescription() => ((StructureResource)FResource).FDescription;
+    public virtual StringCollection GetDescription() => ((StructureResource)_resource).Description;
 
     // Structur.PAS:1164
     public virtual string GetName() => EditName();
 
     // Structur.PAS:1346
-    public virtual void SetRazed(bool Value)
+    public virtual void SetRazed(bool value)
     {
     }
 
@@ -580,105 +580,105 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     public virtual bool GetRazed() => false;
 
     // Structur.PAS:1336
-    public virtual bool GetRazeable() => ((StructureResource)FResource).FRazeable;
+    public virtual bool GetRazeable() => ((StructureResource)_resource).Razeable;
 
     // Structur.PAS:1844
-    public virtual bool RazeEx(sbyte Player)
+    public virtual bool RazeWithoutConfirmation(sbyte player)
     {
-        bool Result;
-        string Reason = "";
-        StructureTokenEvent Event;
-        if (CanRaze(Player, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
+        bool result;
+        string reason = "";
+        StructureTokenEvent eventValue;
+        if (CanRaze(player, ref reason) && !AoWHSMap.Current.Players.GetPlayers(player).GetBusy())
         {
-            Event = CreateTE();
-            SetupTE(Event);
-            Event.FAction = -1;
-            Event.FParam = Player;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = CreateTokenEvent();
+            SetupTokenEvent(eventValue);
+            eventValue.Action = -1;
+            eventValue.Param = player;
+            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1755
-    public virtual void SetupRazeDefenderAG(UnitList Attackers, UnitList Defenders)
+    public virtual void SetupRazeDefenderAIGroup(UnitList attackers, UnitList defenders)
     {
-        HuntAIGroup Group;
-        var unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(Defenders, 5);
-        Group = (HuntAIGroup)AoWHSMap.Current.FAIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
-        Group.AddUnits(Defenders);
-        for (int I = Attackers.Count - 1; I >= 0; I--)
+        HuntAIGroup group;
+        var unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(defenders, 5);
+        group = (HuntAIGroup)AoWHSMap.Current.AIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
+        group.AddUnits(defenders);
+        for (int I = attackers.Count - 1; I >= 0; I--)
         {
-            if (Attackers.GetUnit(I).FPlayer != 0)
+            if (attackers.GetUnit(I).Player != 0)
             {
-                var unit = Attackers.GetUnit(I);
-                Group.FTargetUnitIDs.Add(unit.FUnitID);
+                var troop = attackers.GetUnit(I);
+                group.TargetUnitIds.Add(troop.UnitId);
             }
         }
 
-        Group.Release();
+        group.Release();
     }
 
     // Structur.PAS:1130
-    public virtual StructureTokenEvent CreateTE() => new StructureTokenEvent(null);
+    public virtual StructureTokenEvent CreateTokenEvent() => new StructureTokenEvent(null);
 
     // Structur.PAS:1135
-    public virtual void SetupTE(StructureTokenEvent TE)
+    public virtual void SetupTokenEvent(StructureTokenEvent tokenEvent)
     {
-        var lhx = GetLhx();
-        var yhx = GetYhx();
-        var xhx = GetXhx();
-        TE.Initialize(EClass.ClassID, xhx, yhx, lhx);
+        var hexLevel = GetHexLevel();
+        var hexY = GetHexY();
+        var hexX = GetHexX();
+        tokenEvent.Initialize(EngineClass.ClassId, hexX, hexY, hexLevel);
     }
 
     // Structur.PAS:1140
-    public virtual ExecuteResult ExecuteTE(StructureTokenEvent TE, TokenExecutor Executer)
+    public virtual ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
     {
-        ExecuteResult Result;
-        Troop AUnit;
-        if (TE.FAction == -1)
+        ExecuteResult result;
+        Troop troop;
+        if (tokenEvent.Action == -1)
         {
-            if (ExecuteRaze((sbyte)TE.FParam))
+            if (ExecuteRaze((sbyte)tokenEvent.Param))
             {
-                Result = ExecuteResult.Done;
+                result = ExecuteResult.Done;
             }
             else
             {
-                Result = ExecuteResult.DoneHalt;
+                result = ExecuteResult.DoneHalt;
             }
         }
         else
         {
-            if (TE.FAction == -2)
+            if (tokenEvent.Action == -2)
             {
-                AUnit = AoWHSMap.Current.FUnitControl.FindUnit(TE.FParam);
-                if (AUnit != null && ExecuteRebuild(AUnit))
+                troop = AoWHSMap.Current.UnitControl.FindUnit(tokenEvent.Param);
+                if (troop != null && ExecuteRebuild(troop))
                 {
-                    AUnit.Killed();
-                    Result = ExecuteResult.Done;
+                    troop.Killed();
+                    result = ExecuteResult.Done;
                 }
                 else
                 {
-                    Result = ExecuteResult.DoneHalt;
+                    result = ExecuteResult.DoneHalt;
                 }
             }
             else
             {
-                Result = ExecuteResult.DoneHalt;
+                result = ExecuteResult.DoneHalt;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1505
-    public virtual bool GetDefenseRequirements(sbyte Player, ref DefenseRequirements Requirements) => false;
+    public virtual bool GetDefenseRequirements(sbyte player, ref DefenseRequirements requirements) => false;
 
     // Structur.PAS:1502
     public virtual DefensePriority GetDefensePriority() => DefensePriority.None;
@@ -689,16 +689,16 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1479
-    public virtual void NewTurn(sbyte Player)
+    public virtual void NewTurn(sbyte player)
     {
-        if (Player == FBuildingPlayer)
+        if (player == BuildingPlayer)
         {
-            if (FBuildingDays != 0)
+            if (BuildingDays != 0)
             {
-                FBuildingDays = (byte)(FBuildingDays - 1);
+                BuildingDays = (byte)(BuildingDays - 1);
             }
 
-            if (FBuildingDays == 0)
+            if (BuildingDays == 0)
             {
                 BuildingDone();
             }
@@ -712,584 +712,584 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1488
-    public virtual void ArmyPlaced(ArmyHexSprite PlacedArmy)
+    public virtual void ArmyPlaced(ArmyHexSprite placedArmy)
     {
     }
 
     // Structur.PAS:1491
-    public virtual void ArmyRemoved(ArmyHexSprite Army)
+    public virtual void ArmyRemoved(ArmyHexSprite army)
     {
     }
 
     // Structur.PAS:1494
-    public virtual void ArmyChanged(ArmyHexSprite Army)
+    public virtual void ArmyChanged(ArmyHexSprite army)
     {
     }
 
     // Structur.PAS:1200
     public virtual void PlaySelectSample()
     {
-        if (!GetRazed() && !IsEmpty(((StructureResource)FResource).FSelectSFX))
+        if (!GetRazed() && !IsEmpty(((StructureResource)_resource).SelectSfx))
         {
-            AudioPlayback.PlaySample(((StructureResource)FResource).FSelectSFX);
+            AudioPlayback.PlaySample(((StructureResource)_resource).SelectSfx);
         }
     }
 
     // Structur.PAS:1107
     public virtual void CreateShadow()
     {
-        if (FShadow != null)
+        if (Shadow != null)
         {
             DestroyShadow();
         }
 
-        FShadow = new StructureShadow(null);
-        FShadow.FStructure = this;
-        FShadow.Connect();
+        Shadow = new StructureShadow(null);
+        Shadow.Structure = this;
+        Shadow.Connect();
     }
 
     // Structur.PAS:1115
     public virtual void DestroyShadow()
     {
-        if (FShadow != null)
+        if (Shadow != null)
         {
-            if (FShadow.FShadowStatus.Contains(StructureShadowStatusElement.Connected))
+            if (Shadow.ShadowStatus.Contains(StructureShadowStatusElement.Connected))
             {
-                FShadow.Disconnect();
+                Shadow.Disconnect();
             }
 
-            FShadow?.Dispose();
-            FShadow = null;
+            Shadow?.Dispose();
+            Shadow = null;
         }
     }
 
     // Structur.PAS:1639
-    public virtual void ShowShadow(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public virtual void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
-        FResource.ImageSequenceList.Show(90, Xhp - XhpSurf, Yhp - YhpSurf, 0, SurfaceDesc);
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(_hexX, _hexY, ref pixelX, ref pixelY);
+        _resource.ImageSequenceList.Show(90, pixelX - pixelXSurface, pixelY - pixelYSurface, 0, lockedSurface);
     }
 
     // Structur.PAS:1414
     public virtual void BuildingDone()
     {
-        LocationTextEventLog Log;
-        Log = new LocationTextEventLog(null);
-        Log.FPlayer = FBuildingPlayer;
+        LocationTextEventLog log;
+        log = new LocationTextEventLog(null);
+        log._player = BuildingPlayer;
         if (GetRazed())
         {
             var editName = EditName();
-            Log.FText = AbilityRules.Format(AbilityRules.TranslateRStr(StructureRebuiltRStr), [editName]);
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_structureRebuiltFormat), [editName]);
         }
         else
         {
             var editName = EditName();
-            Log.FText = AbilityRules.Format(AbilityRules.TranslateRStr(StructureBuiltRStr), [editName]);
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_structureBuiltFormat), [editName]);
         }
 
-        var lhx = GetLhx();
-        var yhx = GetYhx();
-        Log.SetLocation(GetXhx(), yhx, lhx);
-        var yhx2 = GetYhx();
-        var lhx2 = GetLhx();
-        var xhx = GetXhx();
-        EventLog.DistributeLocationEventLog(Log, FBuildingPlayer, xhx, yhx2, lhx2, false);
-        Log.Release();
+        var hexLevel = GetHexLevel();
+        var hexY = GetHexY();
+        log.SetLocation(GetHexX(), hexY, hexLevel);
+        var hexY2 = GetHexY();
+        var hexLevel2 = GetHexLevel();
+        var hexX = GetHexX();
+        EventLog.DistributeLocationEventLog(log, BuildingPlayer, hexX, hexY2, hexLevel2, false);
+        log.Release();
         SetRazed(false);
-        FBuildingPlayer = -1;
-        FImageIndex = GetTerrainTypeImage(FTerrainType);
+        BuildingPlayer = -1;
+        _imageIndex = GetTerrainTypeImage(_terrainType);
     }
 
     // Structur.PAS:1383
-    public virtual bool ExecuteRebuild(Troop AUnit)
+    public virtual bool ExecuteRebuild(Troop troop)
     {
-        bool Result;
-        int Time = default;
-        int Cost = default;
-        string Reason = "";
-        if (CanRebuild(AUnit, ref Reason))
+        bool result;
+        int time = default;
+        int cost = default;
+        string reason = "";
+        if (CanRebuild(troop, ref reason))
         {
-            GetRebuildInfo(ref Cost, ref Time);
-            var players = AoWHSMap.Current.FPlayers.GetPlayers(AUnit.FPlayer);
-            AoWHSMap.Current.FPlayers.GetPlayers(AUnit.FPlayer).SetGems(players.FGems - Cost);
-            FBuildingDays = (byte)Time;
-            FBuildingPlayer = AUnit.FPlayer;
-            ValidateObservation(AUnit.FPlayer);
-            FImageIndex = GetTerrainTypeImage(FTerrainType);
-            Result = true;
+            GetRebuildInfo(ref cost, ref time);
+            var players = AoWHSMap.Current.Players.GetPlayers(troop.Player);
+            AoWHSMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - cost);
+            BuildingDays = (byte)time;
+            BuildingPlayer = troop.Player;
+            ValidateObservation(troop.Player);
+            _imageIndex = GetTerrainTypeImage(_terrainType);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1400
-    public virtual bool ExecuteBuild(Troop AUnit, int Days)
+    public virtual bool ExecuteBuild(Troop troop, int days)
     {
-        FBuildingDays = (byte)Days;
-        FBuildingPlayer = AUnit.FPlayer;
-        FImageIndex = GetTerrainTypeImage(FTerrainType);
-        ValidateObservation(AUnit.FPlayer);
+        BuildingDays = (byte)days;
+        BuildingPlayer = troop.Player;
+        _imageIndex = GetTerrainTypeImage(_terrainType);
+        ValidateObservation(troop.Player);
         return true;
     }
 
     // Structur.PAS:1734
-    public virtual bool GenerateRazeDefenders(sbyte Player, UnitList Units)
+    public virtual bool GenerateRazeDefenders(sbyte player, UnitList units)
     {
-        int Collection;
-        UnitIndexList Indexes;
-        var xhx = GetXhx();
-        var yhx = GetYhx();
-        RandSeed = xhx + AoWHSMap.Current.FInitialRandomSeed + yhx;
-        Collection = ((StructureResource)FResource).FDefenders.GetRndCollection();
-        if (Collection != -1)
+        int collection;
+        UnitIndexList indexes;
+        var hexX = GetHexX();
+        var hexY = GetHexY();
+        RandSeed = hexX + AoWHSMap.Current.InitialRandomSeed + hexY;
+        collection = ((StructureResource)_resource).Defenders.GetRandomCollection();
+        if (collection != -1)
         {
-            Indexes = new UnitIndexList();
-            var unitIndexListCollection = ((StructureResource)FResource).FDefenders;
-            for (int I = unitIndexListCollection.GetCollectionCount(Collection) - 1; I >= 0; I--)
+            indexes = new UnitIndexList();
+            var unitIndexListCollection = ((StructureResource)_resource).Defenders;
+            for (int I = unitIndexListCollection.GetCollectionCount(collection) - 1; I >= 0; I--)
             {
-                Indexes.Add(unitIndexListCollection.GetU(Collection, I));
+                indexes.Add(unitIndexListCollection.GetU(collection, I));
             }
 
-            Int32List.FillWithRandomUnits(Indexes, Units, 4, ((StructureResource)FResource).FRazeDefenderBudget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
-            while (Units.Count > 8)
+            Int32List.FillWithRandomUnits(indexes, units, 4, ((StructureResource)_resource).RazeDefenderBudget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+            while (units.Count > 8)
             {
-                Units.DeleteUnit(Units.GetUnit(Units.Count - 1));
+                units.DeleteUnit(units.GetUnit(units.Count - 1));
             }
 
-            Indexes?.Dispose();
+            indexes?.Dispose();
         }
 
         return true;
     }
 
     // Structur.PAS:1767
-    public virtual bool PlaceRazeDefenders(sbyte Player)
+    public virtual bool PlaceRazeDefenders(sbyte player)
     {
-        bool Result;
-        UnitList Defenders;
-        UnitList Placed;
-        UnitList Attackers;
-        Troop AUnit;
-        Defenders = new UnitList(null);
-        Placed = new UnitUserList(null);
-        Attackers = new UnitUserList(null);
-        GenerateRazeDefenders(Player, Defenders);
-        if (Defenders.Count != 0)
+        bool result;
+        UnitList defenders;
+        UnitList placed;
+        UnitList attackers;
+        Troop troop;
+        defenders = new UnitList(null);
+        placed = new UnitUserList(null);
+        attackers = new UnitUserList(null);
+        GenerateRazeDefenders(player, defenders);
+        if (defenders.Count != 0)
         {
-            for (int I = Defenders.Count - 1; I >= 0; I--)
+            for (int I = defenders.Count - 1; I >= 0; I--)
             {
-                AUnit = Defenders.GetUnit(I);
-                Placed.AddUnit(AUnit);
-                var lhx = GetLhx();
-                var yhx = GetYhx();
-                AUnit.Place(GetXhx(), yhx, lhx, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                troop = defenders.GetUnit(I);
+                placed.AddUnit(troop);
+                var hexLevel = GetHexLevel();
+                var hexY = GetHexY();
+                troop.Place(GetHexX(), hexY, hexLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
             }
 
-            ListUnits(Attackers);
-            SetupRazeDefenderAG(Attackers, Placed);
-            Result = true;
+            ListUnits(attackers);
+            SetupRazeDefenderAIGroup(attackers, placed);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        Attackers?.Dispose();
-        Placed?.Dispose();
-        Defenders?.Dispose();
-        return Result;
+        attackers?.Dispose();
+        placed?.Dispose();
+        defenders?.Dispose();
+        return result;
     }
 
     // Structur.PAS:1801
-    public virtual bool ExecuteRaze(sbyte Player)
+    public virtual bool ExecuteRaze(sbyte player)
     {
-        bool Result = default;
-        string Reason = "";
-        LocationTextEventLog Log = default;
-        ImageSequenceAnimation Animation = default;
-        if (CanRaze(Player, ref Reason))
+        bool result = default;
+        string reason = "";
+        LocationTextEventLog log = default;
+        ImageSequenceAnimation animation = default;
+        if (CanRaze(player, ref reason))
         {
             BeginUpdate();
-            Log = new LocationTextEventLog(null);
-            Log.FPlayer = Player;
+            log = new LocationTextEventLog(null);
+            log._player = player;
             var editName = EditName();
-            Log.FText = AbilityRules.Format(AbilityRules.TranslateRStr(StructureRazedRStr), [editName]);
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            Log.SetLocation(GetXhx(), yhx, lhx);
-            var yhx2 = GetYhx();
-            var lhx2 = GetLhx();
-            EventLog.DistributeLocationEventLog(Log, Player, GetXhx(), yhx2, lhx2, false);
-            Log.Release();
-            if (FResource.ImageSequenceList.GetImageSequence(20) != null)
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_structureRazedFormat), [editName]);
+            var hexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            log.SetLocation(GetHexX(), hexY, hexLevel);
+            var hexY2 = GetHexY();
+            var hexLevel2 = GetHexLevel();
+            EventLog.DistributeLocationEventLog(log, player, GetHexX(), hexY2, hexLevel2, false);
+            log.Release();
+            if (_resource.ImageSequenceList.GetImageSequence(20) != null)
             {
-                Animation = new ImageSequenceAnimation(null);
-                Animation.SetImageSequence(FResource.ImageSequenceList.GetImageSequence(20));
-                Animation.SetXhpOffset(Animation.FXhpOffset - 16);
-                Animation.SetYhpOffset(Animation.FYhpOffset - 16);
-                Animation.FOnShow = ShowRazeAnimation;
-                var lhx3 = GetLhx();
-                var yhx3 = GetYhx();
-                var xhx = GetXhx();
-                AoWHSMap.Current.PlaceHX(Animation, xhx, yhx3, lhx3);
+                animation = new ImageSequenceAnimation(null);
+                animation.SetImageSequence(_resource.ImageSequenceList.GetImageSequence(20));
+                animation.SetPixelXOffset(animation.PixelXOffset - 16);
+                animation.SetPixelYOffset(animation.PixelYOffset - 16);
+                animation.OnShow = ShowRazeAnimation;
+                var hexLevel3 = GetHexLevel();
+                var hexY3 = GetHexY();
+                var hexX = GetHexX();
+                AoWHSMap.Current.PlaceHex(animation, hexX, hexY3, hexLevel3);
             }
 
-            if (FResource.ImageSequenceList.GetImageSequence(21) != null)
+            if (_resource.ImageSequenceList.GetImageSequence(21) != null)
             {
-                Animation = new ImageSequenceAnimation(null);
-                Animation.SetImageSequence(FResource.ImageSequenceList.GetImageSequence(21));
-                Animation.FFrameCount = 300;
-                Animation.SetXhpOffset(Animation.FXhpOffset - 16);
-                Animation.SetYhpOffset(Animation.FYhpOffset - 16);
-                Animation.FLooped = true;
-                var lhx3 = GetLhx();
-                var yhx3 = GetYhx();
-                var xhx = GetXhx();
-                AoWHSMap.Current.PlaceHX(Animation, xhx, yhx3, lhx3);
+                animation = new ImageSequenceAnimation(null);
+                animation.SetImageSequence(_resource.ImageSequenceList.GetImageSequence(21));
+                animation.FrameCount = 300;
+                animation.SetPixelXOffset(animation.PixelXOffset - 16);
+                animation.SetPixelYOffset(animation.PixelYOffset - 16);
+                animation.Looped = true;
+                var hexLevel3 = GetHexLevel();
+                var hexY3 = GetHexY();
+                var hexX = GetHexX();
+                AoWHSMap.Current.PlaceHex(animation, hexX, hexY3, hexLevel3);
             }
 
-            ValidateObservation(Player);
+            ValidateObservation(player);
             SetRazed(true);
-            PlaceRazeDefenders(Player);
+            PlaceRazeDefenders(player);
             EndUpdate();
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1169
     public virtual string GetCurrentActivityText() => "-";
 
     // Structur.PAS:1564
-    public virtual bool ValidateMap(StringCollection Messages) => true;
+    public virtual bool ValidateMap(StringCollection messages) => true;
 
     // Structur.PAS:1569
-    public virtual bool MainValidateMap(StringCollection Messages)
+    public virtual bool MainValidateMap(StringCollection messages)
     {
-        StringList Errors;
-        Errors = new StringList();
-        bool Result = ValidateMap(Errors);
-        if (Errors.Count != 0)
+        StringList errors;
+        errors = new StringList();
+        bool result = ValidateMap(errors);
+        if (errors.Count != 0)
         {
             var editName = EditName();
-            var xhx = GetXhx();
-            var yhx = GetYhx();
-            var lhx = GetLhx();
-            Messages.Add(AbilityRules.Format(AbilityRules.TranslateRStr(XatLocationYRStr), [editName, "(" + IntToStr(xhx) + ", " + IntToStr(yhx) + ", " + IntToStr(lhx) + ")"]));
-            for (int I = 0, last = Errors.Count - 1; I <= last; I++)
+            var hexX = GetHexX();
+            var hexY = GetHexY();
+            var hexLevel = GetHexLevel();
+            messages.Add(AbilityRules.Format(AbilityRules.TranslateResourceString(s_atLocationFormat), [editName, "(" + IntToStr(hexX) + ", " + IntToStr(hexY) + ", " + IntToStr(hexLevel) + ")"]));
+            for (int I = 0, last = errors.Count - 1; I <= last; I++)
             {
-                Messages.Add("  " + Errors[I]);
+                messages.Add("  " + errors[I]);
             }
         }
 
-        Errors?.Dispose();
-        return Result;
+        errors?.Dispose();
+        return result;
     }
 
     // Structur.PAS:1046
-    public virtual bool ExecuteAI(sbyte Player, int Phase) => false;
+    public virtual bool ExecuteAI(sbyte player, int phase) => false;
 
     // Structur.PAS:1049
-    public virtual void UpdateAITarget(in AITargetInfo Info, ref AITargetData Data)
+    public virtual void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
     }
 
     // Structur.PAS:1125
     public virtual void Update()
     {
-        if (FUpdateCount == 0)
+        if (UpdateCount == 0)
         {
             AoWHSMap.Current.StructureChanged(this);
         }
     }
 
     // Structur.PAS:1349
-    public virtual bool VisibleForPlayer(sbyte Player)
+    public virtual bool VisibleForPlayer(sbyte player)
     {
-        HexNumberWalkData Walk = default;
-        bool Result = false;
-        if (Player >= 0)
+        HexNumberWalkData walk = default;
+        bool result = false;
+        if (player >= 0)
         {
-            HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
             while (true)
             {
                 var terrainCount = GetTerrainCount();
-                if (!(Walk.HN < terrainCount && !Result))
+                if (!(walk.HexNumber < terrainCount && !result))
                     break;
-                if (FResource.TerrainList.Used[Walk.HN])
+                if (_resource.TerrainList.Used[walk.HexNumber])
                 {
-                    var lhx = GetLhx();
-                    Result = AoWHSMap.Current.VisibleForPlayer(Walk.X, Walk.Y, lhx, Player);
+                    var hexLevel = GetHexLevel();
+                    result = AoWHSMap.Current.VisibleForPlayer(walk.X, walk.Y, hexLevel, player);
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1179
-    public virtual bool CanDblClick() => false;
+    public virtual bool CanDoubleClick() => false;
 
     // Structur.PAS:1508
-    public virtual int ListUnits(UnitList List)
+    public virtual int ListUnits(UnitList list)
     {
-        HexNumberWalkData Walk = default;
-        int Count;
-        MapLevel Level;
-        ArmyHexSprite Army;
-        int Result = 0;
-        Count = GetTerrainCount();
-        Level = (MapLevel)Owner.Owner;
-        HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
-        while (Walk.HN < Count)
+        HexNumberWalkData walk = default;
+        int count;
+        MapLevel level;
+        ArmyHexSprite army;
+        int result = 0;
+        count = GetTerrainCount();
+        level = (MapLevel)Owner.Owner;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+        while (walk.HexNumber < count)
         {
-            if (FResource.TerrainList.Terrain[Walk.HN] >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+            if (_resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                Army = ((AoWMapField)Level.GetField(Walk.X, Walk.Y)).GetArmyHS();
-                if (Army != null)
+                army = ((AoWMapField)level.GetField(walk.X, walk.Y)).GetArmyHexSprite();
+                if (army != null)
                 {
-                    List.AddUnits(Army.FArmy);
-                    Result += Army.FArmy.Count;
+                    list.AddUnits(army.Army);
+                    result += army.Army.Count;
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1535
-    public virtual int ListArmies(ArmyHSList List)
+    public virtual int ListArmies(ArmyHSList list)
     {
-        HexNumberWalkData Walk = default;
-        int Count;
-        MapLevel Level;
-        EngineObject Army;
-        List.BeginUpdate();
-        int Result = 0;
-        Count = GetTerrainCount();
-        Level = (MapLevel)Owner.Owner;
-        HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
-        while (Walk.HN < Count)
+        HexNumberWalkData walk = default;
+        int count;
+        MapLevel level;
+        EngineObject army;
+        list.BeginUpdate();
+        int result = 0;
+        count = GetTerrainCount();
+        level = (MapLevel)Owner.Owner;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+        while (walk.HexNumber < count)
         {
-            if (FResource.TerrainList.Terrain[Walk.HN] >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+            if (_resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                Army = Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
-                if (Army != null)
+                army = level.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                if (army != null)
                 {
-                    List.AddChild(Army);
-                    Result += 1;
+                    list.AddChild(army);
+                    result += 1;
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        List.EndUpdate();
-        return Result;
+        list.EndUpdate();
+        return result;
     }
 
     // Structur.PAS:1430
-    public virtual void GetRebuildInfo(ref int Cost, ref int Time)
+    public virtual void GetRebuildInfo(ref int cost, ref int time)
     {
-        Cost = ((StructureResource)FResource).FRebuildGold;
-        Time = ((StructureResource)FResource).FRebuildDays;
+        cost = ((StructureResource)_resource).RebuildGold;
+        time = ((StructureResource)_resource).RebuildDays;
     }
 
     // Structur.PAS:1439
-    public virtual bool CanRebuild(Troop AUnit, ref string Reason)
+    public virtual bool CanRebuild(Troop troop, ref string reason)
     {
-        bool Result;
-        int Cost = default;
-        int Time = default;
+        bool result;
+        int cost = default;
+        int time = default;
         if (GetRazed())
         {
             if (!GetBuilding())
             {
-                GetRebuildInfo(ref Cost, ref Time);
-                if (AoWHSMap.Current.FPlayers.GetPlayers(AUnit.FPlayer).FGems >= Cost)
+                GetRebuildInfo(ref cost, ref time);
+                if (AoWHSMap.Current.Players.GetPlayers(troop.Player).Gems >= cost)
                 {
-                    Result = true;
+                    result = true;
                 }
                 else
                 {
-                    Reason = AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
-                    Result = false;
+                    reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
+                    result = false;
                 }
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1458
-    public virtual bool Rebuild(Troop AUnit)
+    public virtual bool Rebuild(Troop troop)
     {
-        bool Result;
-        string Reason = "";
-        StructureTokenEvent Event;
-        if (CanRebuild(AUnit, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(AUnit.FPlayer).GetBusy())
+        bool result;
+        string reason = "";
+        StructureTokenEvent eventValue;
+        if (CanRebuild(troop, ref reason) && !AoWHSMap.Current.Players.GetPlayers(troop.Player).GetBusy())
         {
-            Event = CreateTE();
-            SetupTE(Event);
-            Event.FAction = -2;
-            Event.FParam = AUnit.FUnitID;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(AUnit.FPlayer).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = CreateTokenEvent();
+            SetupTokenEvent(eventValue);
+            eventValue.Action = -2;
+            eventValue.Param = troop.UnitId;
+            AoWHSMap.Current.TokenManager.GetTokenControl(troop.Player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1862
-    public virtual bool Raze(sbyte Player)
+    public virtual bool Raze(sbyte player)
     {
-        bool Result = default;
-        string Reason = "";
-        RazeStructureEventLog Log;
-        if (CanRaze(Player, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
+        bool result = default;
+        string reason = "";
+        RazeStructureEventLog log;
+        if (CanRaze(player, ref reason) && !AoWHSMap.Current.Players.GetPlayers(player).GetBusy())
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
+            if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
-                Log = new RazeStructureEventLog(null);
-                Log.FStructure = this;
-                Log.FButtons = MessageEventLog.Buttons.YesNo;
-                Log.FTitle = AbilityRules.TranslateRStr(GameText.WarningRStr);
-                var razeStructureWarning = AbilityRules.TranslateRStr(RazeStructureWarningRStr);
-                Log.FMessage.Add(razeStructureWarning);
-                var aoWETranslateRStr = AbilityRules.TranslateRStr(DoYouWishToContinueRStr);
-                Log.FMessage.Add(aoWETranslateRStr);
-                Log.Execute(true, ExecuteTrigger.User, null);
-                Log.Release();
-                Result = true;
+                log = new RazeStructureEventLog(null);
+                log.Structure = this;
+                log.Buttons = MessageEventLogButtons.YesNo;
+                log.Title = AbilityRules.TranslateResourceString(GameText.s_warningText);
+                var razeStructureWarning = AbilityRules.TranslateResourceString(s_razeStructureWarningText);
+                log.Message.Add(razeStructureWarning);
+                var translatedText = AbilityRules.TranslateResourceString(s_doYouWishToContinueText);
+                log.Message.Add(translatedText);
+                log.Execute(true, ExecuteTrigger.User, null);
+                log.Release();
+                result = true;
             }
             else
             {
-                Result = RazeEx(Player);
+                result = RazeWithoutConfirmation(player);
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1708
-    public virtual bool CanRaze(sbyte Player, ref string Reason)
+    public virtual bool CanRaze(sbyte player, ref string reason)
     {
-        bool Result;
-        CombatPredictor Predictor;
-        UnitList Defenders;
-        UnitList Units;
+        bool result;
+        CombatPredictor predictor;
+        UnitList defenders;
+        UnitList units;
         if (!GetRazed() && GetRazeable())
         {
-            Predictor = new CombatPredictor();
-            Defenders = new UnitList(null);
-            Units = new UnitUserList(null);
-            ListUnits(Units);
-            for (int I = 0, last = Units.Count - 1; I <= last; I++)
+            predictor = new CombatPredictor();
+            defenders = new UnitList(null);
+            units = new UnitUserList(null);
+            ListUnits(units);
+            for (int I = 0, last = units.Count - 1; I <= last; I++)
             {
-                if (Units.GetUnit(I).FPlayer == Player)
+                if (units.GetUnit(I).Player == player)
                 {
-                    Predictor.AddUnit(Units.GetUnit(I));
+                    predictor.AddUnit(units.GetUnit(I));
                 }
             }
 
-            Units?.Dispose();
-            GenerateRazeDefenders(Player, Defenders);
-            for (int I = 0, last = Defenders.Count - 1; I <= last; I++)
+            units?.Dispose();
+            GenerateRazeDefenders(player, defenders);
+            for (int I = 0, last = defenders.Count - 1; I <= last; I++)
             {
-                Predictor.AddOpponent(Defenders.GetUnit(I), 0);
+                predictor.AddOpponent(defenders.GetUnit(I), 0);
             }
 
-            Predictor.Execute();
-            Result = Set<byte>.WithBounds(0, 255).With(3).With(4).With(6).Contains(Predictor.FResult) && Predictor.GetSuperiority() > 50;
-            if (!Result)
+            predictor.Execute();
+            result = Set<byte>.WithBounds(0, 255).With(3).With(4).With(6).Contains(predictor.Result) && predictor.GetSuperiority() > 50;
+            if (!result)
             {
-                Reason = AbilityRules.TranslateRStr(NotEnoughForcesRStr);
+                reason = AbilityRules.TranslateResourceString(s_notEnoughForcesText);
             }
 
-            Defenders?.Dispose();
-            Predictor?.Dispose();
+            defenders?.Dispose();
+            predictor?.Dispose();
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1027
     public void BeginUpdate()
     {
-        FUpdateCount += 1;
+        UpdateCount += 1;
     }
 
     // Structur.PAS:1032
     public void EndUpdate()
     {
-        FUpdateCount -= 1;
-        if (FUpdateCount == 0)
+        UpdateCount -= 1;
+        if (UpdateCount == 0)
         {
             AoWHSMap.Current.StructureChanged(this);
         }
     }
 
     // Structur.PAS:1066
-    public void UpdateRoads(MapField MapField)
+    public void UpdateRoads(MapField mapField)
     {
-        MapLevel Level;
-        UInt16List Table;
+        MapLevel level;
+        UInt16List table;
         int X = default;
         int Y = default;
-        AbstractRoad Road;
-        Level = (MapLevel)MapField.Owner;
-        Table = FResource.TerrainList.CreateSurroundingHNTable();
-        for (int I = 0, last = Table.Count - 1; I <= last; I++)
+        AbstractRoad road;
+        level = (MapLevel)mapField.Owner;
+        table = _resource.TerrainList.CreateSurroundingHexNumberTable();
+        for (int I = 0, last = table.Count - 1; I <= last; I++)
         {
-            var item = Table[I];
-            HexGeometry.CenterHNtoHX(MapField.Xhx, MapField.Yhx, item, ref X, ref Y);
-            if (X >= 0 && Y >= 0 && X < Level.Width && Y < Level.Height)
+            var item = table[I];
+            HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, item, ref X, ref Y);
+            if (X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
             {
-                Road = (AbstractRoad)Level.GetField(X, Y).FindHS(typeof(AbstractRoad));
-                if (Road != null)
+                road = (AbstractRoad)level.GetField(X, Y).FindHexSprite(typeof(AbstractRoad));
+                if (road != null)
                 {
-                    Road.UpdateTransitions();
+                    road.UpdateTransitions();
                 }
             }
         }
 
-        Table?.Dispose();
+        table?.Dispose();
     }
 
     // Structur.PAS:1087
@@ -1298,154 +1298,154 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1217
     public void FogChanged()
     {
-        HexNumberWalkData Walk = default;
-        int Count;
-        MapLevel Level;
-        FFogged = AoWHSMap.Current.FFogEnabled;
-        if (FFogged)
+        HexNumberWalkData walk = default;
+        int count;
+        MapLevel level;
+        Fogged = AoWHSMap.Current.FogEnabled;
+        if (Fogged)
         {
-            Count = GetTerrainCount();
-            Level = (MapLevel)Owner.Owner;
-            HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
-            while (Walk.HN < Count && FFogged)
+            count = GetTerrainCount();
+            level = (MapLevel)Owner.Owner;
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+            while (walk.HexNumber < count && Fogged)
             {
-                if (FResource.TerrainList.Terrain[Walk.HN] >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+                if (_resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    var fieldValue = Level.GetField(Walk.X, Walk.Y);
-                    FFogged = Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)fieldValue).FFieldFlags).Hi).Lo == 0;
+                    var fieldValue = level.GetField(walk.X, walk.Y);
+                    Fogged = Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)fieldValue).FieldFlags).Hi).Lo == 0;
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
     }
 
     // Structur.PAS:1366
-    public bool ValidateObservation(sbyte Player)
+    public bool ValidateObservation(sbyte player)
     {
-        HexNumberWalkData Walk = default;
-        MapLevel Level;
-        bool Result = false;
-        Level = (MapLevel)Owner.Owner;
-        HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        HexNumberWalkData walk = default;
+        MapLevel level;
+        bool result = false;
+        level = (MapLevel)Owner.Owner;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
         while (true)
         {
             var terrainCount = GetTerrainCount();
-            if (!(Walk.HN < terrainCount && !Result))
+            if (!(walk.HexNumber < terrainCount && !result))
                 break;
-            if (FResource.TerrainList.Used[Walk.HN] && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+            if (_resource.TerrainList.Used[walk.HexNumber] && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                var lhx = GetLhx();
-                Result = AoWHSMap.Current.ValidateObservation(Player, (sbyte)Walk.X, (sbyte)Walk.Y, lhx, 0);
+                var hexLevel = GetHexLevel();
+                result = AoWHSMap.Current.ValidateObservation(player, (sbyte)walk.X, (sbyte)walk.Y, hexLevel, 0);
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1409
-    public bool GetBuilding() => FBuildingPlayer != -1;
+    public bool GetBuilding() => BuildingPlayer != -1;
 
     // Structur.PAS:1655
-    public bool ShowBorderImage(LockedSurface SurfaceDesc, Rect R)
+    public bool ShowBorderImage(LockedSurface lockedSurface, Rect R)
     {
-        LibraryImage TopImage;
-        LibraryImage MiddleImage;
-        LibraryImage BottomImage;
-        int Height;
+        LibraryImage topImage;
+        LibraryImage middleImage;
+        LibraryImage bottomImage;
+        int height;
         int Y;
-        bool Result = false;
+        bool result = false;
         if (GetTopBorderImage() != null)
         {
-            if (SurfaceDesc.ClipRect.Right > R.Right)
+            if (lockedSurface.ClipRectangle.Right > R.Right)
             {
-                SurfaceDesc.ClipRect.Right = R.Right;
+                lockedSurface.ClipRectangle.Right = R.Right;
             }
 
-            if (SurfaceDesc.ClipRect.Bottom > R.Bottom)
+            if (lockedSurface.ClipRectangle.Bottom > R.Bottom)
             {
-                SurfaceDesc.ClipRect.Bottom = R.Bottom;
+                lockedSurface.ClipRectangle.Bottom = R.Bottom;
             }
 
-            Height = R.Bottom - R.Top;
-            TopImage = GetTopBorderImage();
-            MiddleImage = GetMiddleBorderImage();
-            BottomImage = GetBottomBorderImage();
-            if (BottomImage != null && TopImage != null && MiddleImage != null)
+            height = R.Bottom - R.Top;
+            topImage = GetTopBorderImage();
+            middleImage = GetMiddleBorderImage();
+            bottomImage = GetBottomBorderImage();
+            if (bottomImage != null && topImage != null && middleImage != null)
             {
                 // { Original uses the height, rather than R.Bottom, for the bottom image. }
-                BottomImage.Show(R.Left, Height - BottomImage.Height, SurfaceDesc);
-                if (Height > BottomImage.Height)
+                bottomImage.Show(R.Left, height - bottomImage.Height, lockedSurface);
+                if (height > bottomImage.Height)
                 {
-                    Y = R.Bottom - BottomImage.Height - MiddleImage.Height;
-                    int last = (Height - BottomImage.Height) / MiddleImage.Height;
+                    Y = R.Bottom - bottomImage.Height - middleImage.Height;
+                    int last = (height - bottomImage.Height) / middleImage.Height;
                     for (int I = 0; I <= last; I++)
                     {
-                        MiddleImage.Show(R.Left, Y, SurfaceDesc);
-                        Y -= MiddleImage.Height;
+                        middleImage.Show(R.Left, Y, lockedSurface);
+                        Y -= middleImage.Height;
                     }
 
-                    TopImage.Show(R.Left, R.Top, SurfaceDesc);
+                    topImage.Show(R.Left, R.Top, lockedSurface);
                 }
 
-                Result = true;
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1688
-    public bool ShowBorderImageDC(int DC, Rect R)
+    public bool ShowBorderImageDisplayController(int displayController, Rect R)
     {
-        Dib16Surface Surface;
-        int Width;
-        int Height;
-        LockedSurface SurfaceDesc = default;
-        Rect BorderRect;
-        bool Result = false;
+        Dib16Surface surface;
+        int width;
+        int height;
+        LockedSurface lockedSurface = default;
+        Rect borderRectangle;
+        bool result = false;
         if (GetBottomBorderImage() != null)
         {
-            Width = R.Right - R.Left;
-            Height = R.Bottom - R.Top;
-            Surface = new Dib16Surface(Width, Height, PixelFormats.pfRGB565);
+            width = R.Right - R.Left;
+            height = R.Bottom - R.Top;
+            surface = new Dib16Surface(width, height, PixelFormats.pfRGB565);
             try
             {
-                BorderRect = new Rect(0, 0, Width, Height);
-                Surface.Lock(ref SurfaceDesc);
-                Result = ShowBorderImage(SurfaceDesc, BorderRect);
-                Surface.Unlock();
+                borderRectangle = new Rect(0, 0, width, height);
+                surface.Lock(ref lockedSurface);
+                result = ShowBorderImage(lockedSurface, borderRectangle);
+                surface.Unlock();
                 /* TODO: Implement cell or array backing for this address. */
                 throw new NotImplementedException();
             }
             finally
             {
-                Surface?.Dispose();
+                surface?.Dispose();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:1795
-    public void ShowRazeAnimation(Animation Animation, int X, int Y, in LockedSurface SurfaceDesc)
+    public void ShowRazeAnimation(Animation animation, int X, int Y, in LockedSurface lockedSurface)
     {
-        if (((ImageSequenceAnimation)Animation).FImageSequence.GetUnloopedFrameIndex(Animation.FFrameCounter) == 0 && GameTables.AoWEngine.FAnimationDetail != (byte)DetailLevel.Low)
+        if (((ImageSequenceAnimation)animation).ImageSequence.GetUnloopedFrameIndex(animation.FrameCounter) == 0 && GameTables.GameEngine.AnimationDetail != (byte)DetailLevel.Low)
         {
             var random = Random(2);
-            AudioPlayback.PlaySample(AbilityRules.ExplosionSFX[random]);
+            AudioPlayback.PlaySample(AbilityRules.s_explosionSfx[random]);
         }
     }
 
-    private static readonly string StructureRazedRStr = "%s razed";
-    private static readonly string StructureBuiltRStr = "%s built";
-    private static readonly string StructureRebuiltRStr = "%s rebuilt";
-    private static readonly string XatLocationYRStr = "%0:s at location %1:s";
-    private static readonly string NotEnoughForcesRStr = "Your forces aren't sufficient";
-    private static readonly string RazeStructureWarningRStr = "You're about to raze this structure.";
-    private static readonly string DoYouWishToContinueRStr = "Do you wish to continue?";
+    private static readonly string s_structureRazedFormat = "%s razed";
+    private static readonly string s_structureBuiltFormat = "%s built";
+    private static readonly string s_structureRebuiltFormat = "%s rebuilt";
+    private static readonly string s_atLocationFormat = "%0:s at location %1:s";
+    private static readonly string s_notEnoughForcesText = "Your forces aren't sufficient";
+    private static readonly string s_razeStructureWarningText = "You're about to raze this structure.";
+    private static readonly string s_doYouWishToContinueText = "Do you wish to continue?";
 
     // intf_P1_09.inc:78
 

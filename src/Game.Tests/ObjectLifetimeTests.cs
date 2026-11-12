@@ -30,15 +30,15 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static (WeakReference Attacker, WeakReference Target) PredictRound()
     {
-        var attacker = new CombatPredictorUnit { FEnabled = 1, FTargets = new QuadItemList<CombatPredictorUnit>() };
-        var target = new CombatPredictorUnit { FEnabled = 1, FHitPoints = 10, FCPUID = 7 };
-        attacker.FTargets.AddABCD(target, 4, target.FCPUID, 0);
+        var attacker = new CombatPredictorUnit { Enabled = 1, Targets = new QuadItemList<CombatPredictorUnit>() };
+        var target = new CombatPredictorUnit { Enabled = 1, HitPoints = 10, CpuId = 7 };
+        attacker.Targets.AddABCD(target, 4, target.CpuId, 0);
         attacker.SetupRoundTargets(0);
         attacker.SortRoundTargets();
-        Assert.Same(target, attacker.FRoundTargets[0].A);
-        Assert.Equal(4, target.FIncomingCombatValue);
+        Assert.Same(target, attacker.RoundTargets[0].First);
+        Assert.Equal(4, target.IncomingCombatValue);
         Assert.True(attacker.ExecuteRound());
-        Assert.Equal(6, target.FHitPoints);
+        Assert.Equal(6, target.HitPoints);
         var result = (new WeakReference(attacker), new WeakReference(target));
         attacker?.Dispose();
         return result;
@@ -62,11 +62,11 @@ public sealed class ObjectLifetimeTests
         var attacker = new CombatObject(owner);
         var target = new CombatObject(owner);
         attacker.AddTarget(target, 5, 0, 2);
-        Assert.Equal(0, attacker.FTargets.IndexOfItemA(target));
-        Assert.Equal(0, target.FTargetedBy.IndexOfItemA(attacker));
-        Assert.Equal(5, target.FIncomingCombatValue);
+        Assert.Equal(0, attacker.Targets.IndexOfItemA(target));
+        Assert.Equal(0, target.TargetedBy.IndexOfItemA(attacker));
+        Assert.Equal(5, target.IncomingCombatValue);
         attacker.RemoveTarget(target);
-        Assert.Equal(-1, target.FTargetedBy.IndexOfItemA(attacker));
+        Assert.Equal(-1, target.TargetedBy.IndexOfItemA(attacker));
         attacker.AddTarget(target, 3, 0, 1);
         var result = (new WeakReference(attacker), new WeakReference(target));
         attacker?.Dispose();
@@ -90,8 +90,8 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static WeakReference ShowParticle()
     {
-        var particle = new WorldEffectHexSprite(null!) { FEffectType = WorldEffectType.EMParticle, FFrame = 0 };
-        particle.FPath.Add(new Point3D { X = 1, Y = 2, Z = 3 });
+        var particle = new WorldEffectHexSprite(null!) { EffectType = WorldEffectType.EMParticle, Frame = 0 };
+        particle.Path.Add(new Point3D { X = 1, Y = 2, Z = 3 });
         Runtime.Dialogs = null;
         particle.Show(0, 0, default);
         return new WeakReference(particle);
@@ -100,13 +100,13 @@ public sealed class ObjectLifetimeTests
     [Fact]
     public void DrawnEffectsAreCollectibleOnceDropped()
     {
-        var control = AoWHSSet.Current.FSpellControl;
+        var control = AoWHSSet.Current.SpellControl;
         var spell = new EarthMastery(null!);
         WeakReference particle;
         control.RegisterSpell(spell);
         try
         {
-            Assert.Null(control.GetSpell(64).FCastImages.GetImageSequence(0));
+            Assert.Null(control.GetSpell(64).CastImages.GetImageSequence(0));
             particle = ShowParticle();
         }
         finally

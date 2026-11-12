@@ -8,47 +8,47 @@ using Aow.Rtl;
 
 namespace Aow.Engine;
 
-// FRefCount, FEngines, FCounts. A plug-in registers itself in PlugIns on creation and counts
+// _refCount, _engines, _counts. A plug-in registers itself in PlugIns on creation and counts
 // the engines it is initialized for
 public partial class Plugin : IDisposable
 {
-    internal int FRefCount;
-    internal List<GameEngine> FEngines;
-    internal Int32List FCounts;
+    internal int _refCount;
+    internal List<GameEngine> _engines;
+    internal Int32List _counts;
 
     // Engine.pas:9144
     public Plugin()
     {
-        FEngines = new List<GameEngine>();
-        FCounts = new Int32List();
-        RegisterPlugIn(this);
-        FRefCount = 1;
+        _engines = new List<GameEngine>();
+        _counts = new Int32List();
+        RegisterPlugin(this);
+        _refCount = 1;
     }
 
     // Engine.pas:9153
     public virtual void Dispose()
     {
-        while (FEngines.Count != 0)
+        while (_engines.Count != 0)
         {
-            Finalize(FEngines[FEngines.Count - 1]);
+            Finalize(_engines[_engines.Count - 1]);
         }
 
-        FEngines?.Clear();
-        FCounts?.Dispose();
-        UnregisterPlugIn(this);
+        _engines?.Clear();
+        _counts?.Dispose();
+        UnregisterPlugin(this);
     }
 
     // Engine.pas:9162
     public void AddRef()
     {
-        FRefCount += 1;
+        _refCount += 1;
     }
 
     // Engine.pas:9167
     public void Release()
     {
-        FRefCount -= 1;
-        if (FRefCount == 0)
+        _refCount -= 1;
+        if (_refCount == 0)
         {
             Dispose();
         }
@@ -58,87 +58,87 @@ public partial class Plugin : IDisposable
     public virtual string Name() => "Abstract PlugIn";
 
     // Engine.pas:9178
-    public virtual bool Initialize(GameEngine AEngine)
+    public virtual bool Initialize(GameEngine engine)
     {
-        bool Result;
+        bool result;
         int I;
         AddRef();
-        I = FEngines.IndexOf(AEngine);
+        I = _engines.IndexOf(engine);
         if (I == -1)
         {
-            FEngines.Add(AEngine);
-            FCounts.Add(1);
-            Result = true;
+            _engines.Add(engine);
+            _counts.Add(1);
+            result = true;
         }
         else
         {
-            var item = FCounts[I];
-            FCounts[I] = item + 1;
-            Result = false;
+            var item = _counts[I];
+            _counts[I] = item + 1;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:9197
-    public virtual bool Finalize(GameEngine AEngine)
+    public virtual bool Finalize(GameEngine engine)
     {
-        bool Result;
+        bool result;
         int I;
-        I = FEngines.IndexOf(AEngine);
+        I = _engines.IndexOf(engine);
         if (I != -1)
         {
-            if (FCounts[I] == 0)
+            if (_counts[I] == 0)
             {
                 throw new ArgumentException("Invalid PlugIn Finalize Usage");
             }
 
-            if (FCounts[I] == 1)
+            if (_counts[I] == 1)
             {
-                FEngines.Remove(AEngine);
-                FCounts.Delete(I);
-                Result = true;
+                _engines.Remove(engine);
+                _counts.Delete(I);
+                result = true;
             }
             else
             {
-                var item = FCounts[I];
-                FCounts[I] = item - 1;
-                Result = false;
+                var item = _counts[I];
+                _counts[I] = item - 1;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
         Release();
-        return Result;
+        return result;
     }
 
-    public int RefCount { get => FRefCount; }
+    public int RefCount { get => _refCount; }
 
-    private static void RegisterPlugIn(Plugin PlugIn)
+    private static void RegisterPlugin(Plugin plugin)
     {
         bool flag = false;
-        int num = 0;
-        while (!flag && num != EngineHost.PlugIns.Count)
+        int number = 0;
+        while (!flag && number != EngineHost.Plugins.Count)
         {
-            flag = (EngineHost.PlugIns[num]).Name() == PlugIn.Name();
-            num++;
+            flag = (EngineHost.Plugins[number]).Name() == plugin.Name();
+            number++;
         }
         if (!flag)
         {
-            EngineHost.PlugIns.Add(PlugIn);
+            EngineHost.Plugins.Add(plugin);
             return;
         }
-        throw new InvalidOperationException("PlugIn " + PlugIn.Name() + " already registered");
+        throw new InvalidOperationException("PlugIn " + plugin.Name() + " already registered");
     }
 
-    private static void UnregisterPlugIn(Plugin PlugIn)
+    private static void UnregisterPlugin(Plugin plugin)
     {
-        if (EngineHost.PlugIns.IndexOf(PlugIn) != -1)
+        if (EngineHost.Plugins.IndexOf(plugin) != -1)
         {
-            EngineHost.PlugIns.Remove(PlugIn);
+            EngineHost.Plugins.Remove(plugin);
             return;
         }
         throw new KeyNotFoundException("PlugIn not found");

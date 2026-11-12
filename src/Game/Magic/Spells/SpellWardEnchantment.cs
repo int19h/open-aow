@@ -8,14 +8,14 @@ namespace Aow.Game.Magic.Spells;
 public partial class SpellWardEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1943
-    public new const int ClassID = 135971;
+    public new const int ClassId = 135971;
 
     // GlobalEnchantmentSpells.pas:1935
     public SpellWardEnchantment(ECustomNode owner) : base(owner)
     {
-        FName = AbilityRules.TranslateRStr(GameText.SpellWardRStr);
-        FEnchantmentType = GlobalEnchantmentType.SpellWard;
-        FDispelMana = 50;
+        Name = AbilityRules.TranslateResourceString(GameText.s_spellWardText);
+        EnchantmentType = GlobalEnchantmentType.SpellWard;
+        DispelMana = 50;
     }
 
     // GlobalEnchantmentSpells.pas:1946

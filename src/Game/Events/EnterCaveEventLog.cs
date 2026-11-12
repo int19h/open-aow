@@ -5,18 +5,18 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Events;
 
-// FCave
+// Cave
 public partial class EnterCaveEventLog : MessageEventLog
 {
     public EnterCaveEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public Cave FCave;
+    public Cave Cave;
 
     // Cave.pas:442
     public override bool Yes()
     {
-        FCave.EnterEx();
+        Cave.Enter();
         return true;
     }
 

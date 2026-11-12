@@ -16,30 +16,30 @@ public sealed partial record BreakAlliance : DiplomaticProposal
 
     public override int Icon => 8;
 
-    public override string Name(DiplomaticAction Action) => AbilityRules.TranslateRStr(GameText.P5BreakAllianceRStr);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(GameText.s_breakAllianceText);
 
-    public override string LogText(DiplomaticAction Action) => AbilityRules.TranslateRStr(P5AllianceBrokenRStr);
+    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(s_allianceBrokenText);
 
-    public override void DefaultMessage(DiplomaticMessageText Text, DiplomaticActionReaction Reaction, DiplomaticRelation Relation) =>
-        Text.Proposing(109);
+    public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
+        text.Proposing(109);
 
-    public override void Sent(DiplomaticAction Action)
+    public override void Sent(DiplomaticAction action)
     {
-        Action.ApplyRelationModifiers();
-        AoWHSMap.Current.FPlayers.SetDiplomaticRelation((sbyte)(byte)Action.FSource, (sbyte)(byte)Action.FTarget, DiplomaticRelation.Peace);
-        if (Action.FSource == AoWHSMap.Current.FSeatedPlayer)
+        action.ApplyRelationModifiers();
+        AoWHSMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.Peace);
+        if (action.Source == AoWHSMap.Current.SeatedPlayer)
         {
-            var p5AllianceBroken = AbilityRules.TranslateRStr(P5AllianceBrokenRStr);
-            AoWHSMap.Current.ShowMessage(p5AllianceBroken);
+            var allianceBroken = AbilityRules.TranslateResourceString(s_allianceBrokenText);
+            AoWHSMap.Current.ShowMessage(allianceBroken);
         }
 
-        Broadcast(Action, -1, Action.FTarget);
+        Broadcast(action, -1, action.Target);
     }
 
-    public override int RelationModifier(DiplomaticAction Action, sbyte Player, sbyte Race) =>
-        Player == Action.FSource && Relation(Action.FSource, Action.FTarget) == DiplomaticRelation.Alliance
-            ? RaceModifier(Action.FTarget, Race, -40)
+    public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race) =>
+        player == action.Source && Relation(action.Source, action.Target) == DiplomaticRelation.Alliance
+            ? RaceModifier(action.Target, race, -40)
             : 0;
 
-    internal static readonly string P5AllianceBrokenRStr = "Alliance broken";
+    internal static readonly string s_allianceBrokenText = "Alliance broken";
 }

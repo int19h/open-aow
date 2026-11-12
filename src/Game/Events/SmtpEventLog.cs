@@ -11,21 +11,21 @@ public partial class SmtpEventLog : EventLog
     // Diplomacy.pas:2441
     public SmtpEventLog(ECustomNode owner) : base(owner)
     {
-        FMessage = new StringList();
+        Message = new StringList();
     }
 
-    public string FToAddress = "";
-    public string FFileName = "";
-    public string FSubject = "";
-    public StringList FMessage;
-    public bool FSuccess;
-    public string FFromAddress = "";
-    public string FError = "";
+    public string ToAddress = "";
+    public string FileName = "";
+    public string Subject = "";
+    public StringList Message;
+    public bool Success;
+    public string FromAddress = "";
+    public string Error = "";
 
     // Diplomacy.pas:2447
     public override void Dispose()
     {
-        FMessage?.Dispose();
+        Message?.Dispose();
         base.Dispose();
     }
 

@@ -11,100 +11,100 @@ namespace Aow.Engine.Collections;
 
 public partial class UInt16List : Persistent
 {
-    internal ushort[] FList = [];
-    internal int FCount;
-    internal int FCapacity;
-    internal ushort FDefault;
+    internal ushort[] _list = [];
+    internal int _count;
+    internal int _capacity;
+    internal ushort _default;
 
     // Engine.pas:4336
-    internal ushort Get(int Index)
+    internal ushort Get(int index)
     {
-        ushort Result;
-        if (Index < 0 || Index >= FCount)
+        ushort result;
+        if (index < 0 || index >= _count)
         {
-            Result = FDefault;
+            result = _default;
         }
         else
         {
-            Result = FList[Index];
+            result = _list[index];
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:4390
-    internal void Put(int Index, ushort Item)
+    internal void Put(int index, ushort item)
     {
-        if (Index < 0)
+        if (index < 0)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        if (Index >= FCount)
+        if (index >= _count)
         {
-            SetCount(Index + 1);
+            SetCount(index + 1);
         }
 
-        FList[Index] = Item;
+        _list[index] = item;
     }
 
     // Engine.pas:4410
-    internal void SetCapacity(int NewCapacity)
+    internal void SetCapacity(int newCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
+        if (newCapacity < _count || newCapacity > EngineServices.MaxListSize)
         {
-            Error("List capacity out of bounds (%d)", NewCapacity);
+            Error("List capacity out of bounds (%d)", newCapacity);
         }
 
-        if (NewCapacity != FCapacity)
+        if (newCapacity != _capacity)
         {
-            Array.Resize(ref FList, NewCapacity);
-            FCapacity = NewCapacity;
+            Array.Resize(ref _list, newCapacity);
+            _capacity = newCapacity;
         }
     }
 
     // Engine.pas:4421
-    internal void SetCount(int NewCount)
+    internal void SetCount(int newCount)
     {
-        if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
+        if (newCount < 0 || newCount > EngineServices.MaxListSize)
         {
-            Error("List count out of bounds (%d)", NewCount);
+            Error("List count out of bounds (%d)", newCount);
         }
 
-        if (NewCount > FCapacity)
+        if (newCount > _capacity)
         {
-            SetCapacity(NewCount);
+            SetCapacity(newCount);
         }
 
-        if (NewCount > FCount)
+        if (newCount > _count)
         {
-            FillWord(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+            FillWord(_list.AsSpan(_count), newCount - _count, _default);
         }
 
-        FCount = NewCount;
+        _count = newCount;
     }
 
     // Engine.pas:4344
     protected internal virtual void Grow()
     {
-        int Delta;
-        if (FCapacity > 64)
+        int delta;
+        if (_capacity > 64)
         {
-            Delta = FCapacity / 4;
+            delta = _capacity / 4;
         }
         else
         {
-            if (FCapacity > 8)
+            if (_capacity > 8)
             {
-                Delta = 16;
+                delta = 16;
             }
             else
             {
-                Delta = 4;
+                delta = 4;
             }
         }
 
-        SetCapacity(FCapacity + Delta);
+        SetCapacity(_capacity + delta);
     }
 
     // Engine.pas:4261
@@ -114,34 +114,34 @@ public partial class UInt16List : Persistent
     }
 
     // Engine.pas:4266
-    public override void Assign(Persistent Source)
+    public override void Assign(Persistent source)
     {
-        if (Source is UInt16List)
+        if (source is UInt16List)
         {
-            var wordList = (UInt16List)Source;
-            this.FCount = wordList.FCount;
-            this.SetCapacity(wordList.FCount);
-            Array.Copy(wordList.FList, 0, this.FList, 0, this.FCount);
-            this.FDefault = wordList.FDefault;
+            var uInt16List = (UInt16List)source;
+            this._count = uInt16List._count;
+            this.SetCapacity(uInt16List._count);
+            Array.Copy(uInt16List._list, 0, this._list, 0, this._count);
+            this._default = uInt16List._default;
         }
         else
         {
-            base.Assign(Source);
+            base.Assign(source);
         }
     }
 
     // Engine.pas:4280
-    public int Add(ushort Item)
+    public int Add(ushort item)
     {
-        int Result = FCount;
-        if (Result == FCapacity)
+        int result = _count;
+        if (result == _capacity)
         {
             Grow();
         }
 
-        FList[Result] = Item;
-        FCount += 1;
-        return Result;
+        _list[result] = item;
+        _count += 1;
+        return result;
     }
 
     // Engine.pas:4288
@@ -152,43 +152,43 @@ public partial class UInt16List : Persistent
     }
 
     // Engine.pas:4294
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        if (Index < 0 || Index >= FCount)
+        if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        FCount -= 1;
-        if (Index < FCount)
+        _count -= 1;
+        if (index < _count)
         {
-            Array.Copy(FList, Index + 1, FList, Index, FCount - Index);
+            Array.Copy(_list, index + 1, _list, index, _count - index);
         }
     }
 
     // Engine.pas:4314
-    public void Exchange(int Index1, int Index2)
+    public void Exchange(int index1, int index2)
     {
-        ushort Item;
-        if (Index1 < 0 || Index1 >= FCount)
+        ushort item;
+        if (index1 < 0 || index1 >= _count)
         {
-            Error("List index out of bounds (%d)", Index1);
+            Error("List index out of bounds (%d)", index1);
         }
 
-        if (Index2 < 0 || Index2 >= FCount)
+        if (index2 < 0 || index2 >= _count)
         {
-            Error("List index out of bounds (%d)", Index2);
+            Error("List index out of bounds (%d)", index2);
         }
 
-        Item = FList[Index1];
-        FList[Index1] = FList[Index2];
-        FList[Index2] = Item;
+        item = _list[index1];
+        _list[index1] = _list[index2];
+        _list[index2] = item;
     }
 
     // Engine.pas:4325
     public UInt16List Expand()
     {
-        if (FCount == FCapacity)
+        if (_count == _capacity)
         {
             Grow();
         }
@@ -200,82 +200,82 @@ public partial class UInt16List : Persistent
     public ushort First() => Get(0);
 
     // Engine.pas:4354
-    public int IndexOf(ushort Item)
+    public int IndexOf(ushort item)
     {
-        int Result = 0;
-        while (Result < FCount && FList[Result] != Item)
+        int result = 0;
+        while (result < _count && _list[result] != item)
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:4361
-    public void Insert(int Index, ushort Item)
+    public void Insert(int index, ushort item)
     {
-        if (Index < 0 || Index > FCount)
+        if (index < 0 || index > _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        if (FCount == FCapacity)
+        if (_count == _capacity)
         {
             Grow();
         }
 
-        if (Index < FCount)
+        if (index < _count)
         {
-            Array.Copy(FList, Index, FList, Index + 1, FCount - Index);
+            Array.Copy(_list, index, _list, index + 1, _count - index);
         }
 
-        FList[Index] = Item;
-        FCount += 1;
+        _list[index] = item;
+        _count += 1;
     }
 
     // Engine.pas:4372
-    public ushort Last() => Get(FCount - 1);
+    public ushort Last() => Get(_count - 1);
 
     // Engine.pas:4377
-    public void Move(int CurIndex, int NewIndex)
+    public void Move(int currentIndex, int newIndex)
     {
-        ushort Item;
-        if (CurIndex != NewIndex)
+        ushort item;
+        if (currentIndex != newIndex)
         {
-            if (NewIndex < 0 || NewIndex >= FCount)
+            if (newIndex < 0 || newIndex >= _count)
             {
-                Error("List index out of bounds (%d)", NewIndex);
+                Error("List index out of bounds (%d)", newIndex);
             }
 
-            Item = Get(CurIndex);
-            Delete(CurIndex);
-            Insert(NewIndex, Item);
+            item = Get(currentIndex);
+            Delete(currentIndex);
+            Insert(newIndex, item);
         }
     }
 
     // Engine.pas:4397
-    public int Remove(ushort Item)
+    public int Remove(ushort item)
     {
-        int Result = IndexOf(Item);
-        if (Result != -1)
+        int result = IndexOf(item);
+        if (result != -1)
         {
-            Delete(Result);
+            Delete(result);
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:4403
     public void Pack()
     {
-        for (int I = FCount - 1; I >= 0; I--)
+        for (int I = _count - 1; I >= 0; I--)
         {
-            if (this[I] == FDefault)
+            if (this[I] == _default)
             {
                 Delete(I);
             }
@@ -283,191 +283,191 @@ public partial class UInt16List : Persistent
     }
 
     // Engine.pas:4458
-    public void Sort(WordSortCompare Compare)
+    public void Sort(WordSortCompare compare)
     {
-        if (FList.Length != 0 && Count > 0)
+        if (_list.Length != 0 && Count > 0)
         {
-            QuickSortWord(FList, 0, Count - 1, Compare);
+            QuickSortWord(_list, 0, Count - 1, compare);
         }
     }
 
     // Engine.pas:4464
-    public bool Compare(UInt16List List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 2);
+    public bool Compare(UInt16List list) => list._count == _count && CompareMem(MemoryMarshal.AsBytes(_list.AsSpan(0, _count)), MemoryMarshal.AsBytes(list._list.AsSpan(0, _count)), _count * 2);
 
     // Engine.pas:4471
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
-        ushort Item = default;
-        ushort Run = default;
-        int Count = default;
+        ushort item = default;
+        ushort run = default;
+        int count = default;
         Clear();
-        Stream.ReadExactly(Bytes.Of(ref FDefault, 2));
-        Stream.ReadExactly(Bytes.Of(ref Count, 4));
-        SetCapacity(Count);
-        while (FCount < Count)
+        stream.ReadExactly(Bytes.Of(ref _default, 2));
+        stream.ReadExactly(Bytes.Of(ref count, 4));
+        SetCapacity(count);
+        while (_count < count)
         {
-            Stream.ReadExactly(Bytes.Of(ref Item, 2));
-            if (Item == FDefault)
+            stream.ReadExactly(Bytes.Of(ref item, 2));
+            if (item == _default)
             {
-                Stream.ReadExactly(Bytes.Of(ref Run, 2));
-                SetCount(FCount + Run);
+                stream.ReadExactly(Bytes.Of(ref run, 2));
+                SetCount(_count + run);
             }
             else
             {
-                Add(Item);
+                Add(item);
             }
         }
     }
 
     // Engine.pas:4493
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
         int I;
-        int Run;
+        int run;
         ushort B = default;
         int DefaultRun()
         {
             int J;
-            int Result = 0;
+            int result = 0;
             J = I;
-            while (J < FCount && FList[J] == FDefault)
+            while (J < _count && _list[J] == _default)
             {
-                Result += 1;
+                result += 1;
                 J += 1;
             }
 
-            return Result;
+            return result;
         }
 
         I = 0;
-        Stream.Write(Bytes.Of(ref FDefault, 2));
-        Stream.Write(Bytes.Of(ref FCount, 4));
-        while (FCount != I)
+        stream.Write(Bytes.Of(ref _default, 2));
+        stream.Write(Bytes.Of(ref _count, 4));
+        while (_count != I)
         {
-            Run = DefaultRun();
-            if (Run > 0)
+            run = DefaultRun();
+            if (run > 0)
             {
-                while (Run > 65535)
+                while (run > 65535)
                 {
                     B = 65535;
-                    Stream.Write(Bytes.Of(ref FDefault, 2));
-                    Stream.Write(Bytes.Of(ref B, 2));
+                    stream.Write(Bytes.Of(ref _default, 2));
+                    stream.Write(Bytes.Of(ref B, 2));
                     // { sic: the original subtracts $FF here but advances I by $FFFF }
-                    Run -= 255;
+                    run -= 255;
                     I += 65535;
                 }
 
-                B = (ushort)Run;
-                Stream.Write(Bytes.Of(ref FDefault, 2));
-                Stream.Write(Bytes.Of(ref B, 2));
-                I += Run;
+                B = (ushort)run;
+                stream.Write(Bytes.Of(ref _default, 2));
+                stream.Write(Bytes.Of(ref B, 2));
+                I += run;
             }
             else
             {
-                Stream.Write(MemoryMarshal.AsBytes(FList.AsSpan(I, 1)));
+                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(I, 1)));
                 I += 1;
             }
         }
     }
 
     // Engine.pas:4541
-    public int RandomChanceItem(int Bonus)
+    public int RandomChanceItem(int bonus)
     {
-        int Result;
-        int Total;
-        int Chance;
+        int result;
+        int total;
+        int chance;
         int R;
-        if (FCount != 0)
+        if (_count != 0)
         {
-            Total = 0;
-            for (int I = FCount - 1; I >= 0; I--)
+            total = 0;
+            for (int I = _count - 1; I >= 0; I--)
             {
-                Chance = FList[I] + Bonus;
-                if (Chance < 0)
+                chance = _list[I] + bonus;
+                if (chance < 0)
                 {
-                    Chance = 0;
+                    chance = 0;
                 }
 
-                Total += Chance;
+                total += chance;
             }
 
-            R = Random(Total);
-            Total = 0;
-            Result = 0;
-            while (Total < R)
+            R = Random(total);
+            total = 0;
+            result = 0;
+            while (total < R)
             {
-                Chance = FList[Result] + Bonus;
-                if (Chance < 0)
+                chance = _list[result] + bonus;
+                if (chance < 0)
                 {
-                    Chance = 0;
+                    chance = 0;
                 }
 
-                Total += Chance;
-                Result += 1;
+                total += chance;
+                result += 1;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
-    public int Capacity { get => FCapacity; set => SetCapacity(value); }
-    public int Count { get => FCount; set => SetCount(value); }
-    public ushort Default { get => FDefault; set => FDefault = value; }
+    public int Capacity { get => _capacity; set => SetCapacity(value); }
+    public int Count { get => _count; set => SetCount(value); }
+    public ushort Default { get => _default; set => _default = value; }
 
-    public ushort this[int Index] { get => Get(Index); set => Put(Index, value); }
+    public ushort this[int index] { get => Get(index); set => Put(index, value); }
 
-    public ushort[] List { get => FList; }
+    public ushort[] List { get => _list; }
 
     // Engine.pas:4303
-    protected internal static void Error(string Msg, int Data)
+    protected internal static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
     }
 
-    private static void QuickSortWord(Span<ushort> SortList, int L, int R, WordSortCompare SCompare)
+    private static void QuickSortWord(Span<ushort> sortList, int L, int R, WordSortCompare sCompare)
     {
-        ushort num = 0;
-        int num2;
+        ushort number = 0;
+        int number2;
         do
         {
-            num2 = L;
-            int num3 = R;
-            ushort item = SortList[L + R >>> 1];
+            number2 = L;
+            int number3 = R;
+            ushort item = sortList[L + R >>> 1];
             while (true)
             {
-                if (SCompare(SortList[num2], item) < 0)
+                if (sCompare(sortList[number2], item) < 0)
                 {
-                    num2++;
+                    number2++;
                     continue;
                 }
-                while (SCompare(SortList[num3], item) > 0)
+                while (sCompare(sortList[number3], item) > 0)
                 {
-                    num3--;
+                    number3--;
                 }
-                if (num2 <= num3)
+                if (number2 <= number3)
                 {
-                    num = SortList[num2];
-                    SortList[num2] = SortList[num3];
-                    SortList[num3] = num;
-                    num2++;
-                    num3--;
+                    number = sortList[number2];
+                    sortList[number2] = sortList[number3];
+                    sortList[number3] = number;
+                    number2++;
+                    number3--;
                 }
-                if (num2 > num3)
+                if (number2 > number3)
                 {
                     break;
                 }
             }
-            if (L < num3)
+            if (L < number3)
             {
-                QuickSortWord(SortList, L, num3, SCompare);
+                QuickSortWord(sortList, L, number3, sCompare);
             }
-            L = num2;
+            L = number2;
         }
-        while (num2 < R);
+        while (number2 < R);
     }
 
     internal static void FillWord(Span<ushort> buffer, int count, ushort value)

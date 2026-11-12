@@ -15,9 +15,9 @@ public partial class FireBreath : CombatSpell
     // CombatSpells.pas:1438
     public FireBreath(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(FireBreathRStr);
-        FSpellID = 114;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_fireBreathText);
+        SpellId = 114;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire);
@@ -26,5 +26,5 @@ public partial class FireBreath : CombatSpell
         spellCombatInfo.Radius = 3;
     }
 
-    private static readonly string FireBreathRStr = "Fire Breath";
+    private static readonly string s_fireBreathText = "Fire Breath";
 }

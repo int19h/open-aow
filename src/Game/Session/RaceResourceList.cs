@@ -14,31 +14,31 @@ public partial class RaceResourceList : EResourceList
     }
 
     // PlayerC.PAS:1896
-    public RaceResource GetRaceResource(int Index)
+    public RaceResource GetRaceResource(int index)
     {
-        RaceResource Result;
-        if (Index < GetCount() && Index >= 0)
+        RaceResource result;
+        if (index < GetCount() && index >= 0)
         {
-            Result = (RaceResource)FChildren.List[Index];
+            result = (RaceResource)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // PlayerC.PAS:1903
     public int GetMaxRaceIndex()
     {
-        int Result = Count - 1;
-        while (Result > 0 && FChildren.List[Result] == null)
+        int result = Count - 1;
+        while (result > 0 && _children.List[result] == null)
         {
-            Result -= 1;
+            result -= 1;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P1_09.inc:44

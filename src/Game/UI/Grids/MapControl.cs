@@ -15,63 +15,63 @@ namespace Aow.Game.UI.Grids;
 
 public partial class MapControl : Component
 {
-    public MapObjectEvent<Army> FOnSelectArmy;
-    public MapObjectEvent<Army> FOnDeselectArmy;
-    public MapObjectEvent<Army> FOnDblClickArmy;
-    public MapObjectEvent<Army> FOnArmyChanged;
-    public MapObjectEvent<Army> FOnArmyDestroyed;
-    public MapObjectEvent<Structure> FOnSelectStructure;
-    public MapObjectEvent<Structure> FOnDeselectStructure;
-    public MapObjectEvent<Structure> FOnDblClickStructure;
-    public MapObjectEvent<Structure> FOnStructureChanged;
-    public MapObjectEvent<Structure> FOnStructureDestroyed;
-    public MapObjectEvent<ItemHexSprite> FOnSelectItem;
-    public MapObjectEvent<ItemHexSprite> FOnDeselectItem;
-    public MapObjectEvent<Troop> FOnUnitChanged;
-    public MapObjectEvent<Troop> FOnUnitDestroyed;
-    public MapObjectEvent<AbilityActivation> FOnActivateAbility;
-    public NotifyEvent<object> FOnDiplomaticChange;
-    public NotifyEvent<object> FOnActivateHSM;
-    public NotifyEvent<object> FOnDeactivateHSM;
-    public MapPlayerEvent FOnIncomeChanged;
-    public MapPlayerEvent FOnUpkeepChanged;
-    public MapPlayerEvent FOnGemsChanged;
-    public MapPlayerEvent FOnPlayerMagicChanged;
-    public NotifyEvent<object> FOnGlobalMagicChanged;
-    public MapRefEvent<ShowMessageInfo> FOnShowMessage;
-    public MapDayEvent FOnChangeDay;
-    public NotifyEvent<sbyte> FOnNewTurn;
-    public MapPlayerEvent FOnPlayerChanged;
-    public MapPlayerEvent FOnSeatedPlayerChanged;
-    public NotifyEvent<object> FOnCombatEvent;
-    public MapExecuteLogEvent FOnExecuteEventLog;
-    public MapRefEvent<MapChangedInfo> FOnMapChanged;
-    public MapRefEvent<MapChangedInfo> FOnScannerIconsChanged;
-    public NotifyEvent<object> FOnMapSettingsChanged;
-    public MapPlayerEvent FOnLogbookChanged;
-    public NotifyEvent<object> FOnGameOver;
-    public MapPlayerEvent FOnGameTerminated;
-    public MapPlayerEvent FOnPlayerTerminated;
-    public NotifyEvent<object> FOnActivateCombatMap;
-    public NotifyEvent<object> FOnDeactivateCombatMap;
-    public MapTargetEvent FOnTargetSelectionChange;
-    public NotifyEvent<object> FOnViewPortChange;
-    public MapObjectEvent<SpellCaster> FOnCastSpell;
-    public MapEndTurnEvent FOnEndTurn;
-    public NotifyEvent<object> FOnRelationsChanged;
-    public NotifyEvent<object> FOnExitGameEvent;
-    public MapObjectEvent<HexSprite> FOnHSChanged;
+    public MapObjectEvent<Army> OnSelectArmy;
+    public MapObjectEvent<Army> OnDeselectArmy;
+    public MapObjectEvent<Army> OnDoubleClickArmy;
+    public MapObjectEvent<Army> _onArmyChanged;
+    public MapObjectEvent<Army> _onArmyDestroyed;
+    public MapObjectEvent<Structure> OnSelectStructure;
+    public MapObjectEvent<Structure> OnDeselectStructure;
+    public MapObjectEvent<Structure> OnDoubleClickStructure;
+    public MapObjectEvent<Structure> _onStructureChanged;
+    public MapObjectEvent<Structure> _onStructureDestroyed;
+    public MapObjectEvent<ItemHexSprite> OnSelectItem;
+    public MapObjectEvent<ItemHexSprite> OnDeselectItem;
+    public MapObjectEvent<Troop> _onUnitChanged;
+    public MapObjectEvent<Troop> _onUnitDestroyed;
+    public MapObjectEvent<AbilityActivation> _onActivateAbility;
+    public NotifyEvent<object> _onDiplomaticChange;
+    public NotifyEvent<object> _onActivateHsm;
+    public NotifyEvent<object> _onDeactivateHsm;
+    public MapPlayerEvent _onIncomeChanged;
+    public MapPlayerEvent _onUpkeepChanged;
+    public MapPlayerEvent _onGemsChanged;
+    public MapPlayerEvent _onPlayerMagicChanged;
+    public NotifyEvent<object> _onGlobalMagicChanged;
+    public MapRefEvent<ShowMessageInfo> _onShowMessage;
+    public MapDayEvent OnChangeDay;
+    public NotifyEvent<sbyte> _onNewTurn;
+    public MapPlayerEvent _onPlayerChanged;
+    public MapPlayerEvent _onSeatedPlayerChanged;
+    public NotifyEvent<object> OnCombatEvent;
+    public MapExecuteLogEvent _onExecuteEventLog;
+    public MapRefEvent<MapChangedInfo> _onMapChanged;
+    public MapRefEvent<MapChangedInfo> _onScannerIconsChanged;
+    public NotifyEvent<object> _onMapSettingsChanged;
+    public MapPlayerEvent _onLogbookChanged;
+    public NotifyEvent<object> _onGameOver;
+    public MapPlayerEvent _onGameTerminated;
+    public MapPlayerEvent _onPlayerTerminated;
+    public NotifyEvent<object> _onActivateCombatMap;
+    public NotifyEvent<object> _onDeactivateCombatMap;
+    public MapTargetEvent _onTargetSelectionChange;
+    public NotifyEvent<object> _onViewPortChange;
+    public MapObjectEvent<SpellCaster> _onCastSpell;
+    public MapEndTurnEvent _onEndTurn;
+    public NotifyEvent<object> _onRelationsChanged;
+    public NotifyEvent<object> OnExitGameEvent;
+    public MapObjectEvent<HexSprite> _onHexSpriteChanged;
 
     // MapCtrl.pas:186
     public override void Dispose()
     {
-        if (GameTables.AoWEngine != null)
+        if (GameTables.GameEngine != null)
         {
-            GameTables.AoWEngine.FOnHSMLoaded -= ActivateHSM;
-            GameTables.AoWEngine.FOnHSMClose -= DeactivateHSM;
+            GameTables.GameEngine.FOnHsmLoaded -= ActivateHsm;
+            GameTables.GameEngine.FOnHsmClose -= DeactivateHsm;
             if (AoWHSMap.Current != null)
             {
-                ReleaseHSM();
+                ReleaseHsm();
             }
         }
 
@@ -81,28 +81,28 @@ public partial class MapControl : Component
     // MapCtrl.pas:174
     public MapControl(Component owner) : base(owner)
     {
-        if (GameTables.ValidateAoWEngine())
+        if (GameTables.ValidateGameEngine())
         {
-            GameTables.AoWEngine.FOnHSMLoaded += ActivateHSM;
-            GameTables.AoWEngine.FOnHSMClose += DeactivateHSM;
+            GameTables.GameEngine.FOnHsmLoaded += ActivateHsm;
+            GameTables.GameEngine.FOnHsmClose += DeactivateHsm;
             if (AoWHSMap.Current != null)
             {
-                LinkToHSM();
+                LinkToHsm();
             }
         }
     }
 
     // MapCtrl.pas:197
-    public void LinkToHSM()
+    public void LinkToHsm()
     {
-        AoWHSMap.Current.FMouse.FOnDblClick += DblClick;
+        AoWHSMap.Current._mouse.FOnDoubleClick += DoubleClick;
         AoWHSMap.Current.FNewDayEvents += ChangeDay;
         AoWHSMap.Current.FCurrentPlayerChangedEvents += PlayerChanged;
         AoWHSMap.Current.FNewTurnEvents += NewTurn;
         AoWHSMap.Current.FEndTurnEvents += EndTurn;
         AoWHSMap.Current.FSeatedPlayerChangedEvents += SeatedPlayerChanged;
-        AoWHSMap.Current.FSelection.FOnSelect += SelectHS;
-        AoWHSMap.Current.FSelection.FOnDeselect += DeselectHS;
+        AoWHSMap.Current._selection.FOnSelect += SelectHexSprite;
+        AoWHSMap.Current._selection.FOnDeselect += DeselectHexSprite;
         AoWHSMap.Current.FShowMessageEvents += ShowMessage;
         AoWHSMap.Current.FMapChangedEvents += MapChanged;
         AoWHSMap.Current.FScannerIconsChangedEvents += ScannerIconsChanged;
@@ -116,40 +116,40 @@ public partial class MapControl : Component
         AoWHSMap.Current.FUnitDestroyedEvents += UnitDestroyed;
         AoWHSMap.Current.FGameTerminatedEvents += GameOver;
         AoWHSMap.Current.FGameOverEvents += GameTerminated;
-        AoWHSMap.Current.FHSChangedEvents += HSChanged;
+        AoWHSMap.Current._hexSpriteChangedEvents += HexSpriteChanged;
         AoWHSMap.Current.FPlayerTerminatedEvents += PlayerTerminated;
         AoWHSMap.Current.FExecuteEventLogEvents += ExecuteEventLog;
-        AoWHSMap.Current.FTargetSelection.FOnChange += TargetSelectionChange;
+        AoWHSMap.Current.TargetSelection.FOnChange += TargetSelectionChange;
         AoWHSMap.Current.FViewPortChangedEvents += ViewPortChange;
         AoWHSMap.Current.FCosmeticSurgeryEvents += CastSpell;
         AoWHSMap.Current.FOnActivateAbility += ActivateAbility;
-        AoWHSMap.Current.FGlobalMagicControl.FChangedEvents += GlobalMagicChanged;
+        AoWHSMap.Current.GlobalMagicControl.FChangedEvents += GlobalMagicChanged;
         AoWHSMap.Current.FPlayerChangedEvents += RelationsChanged;
         AoWHSMap.Current.FDiplomaticRelationsChangedEvents += DiplomaticChange;
         AoWHSMap.Current.FExitEvents += ExitGameEvent;
         AoWHSMap.Current.FCombatMapCreatedEvents += ActivateCombatMap;
         AoWHSMap.Current.FCombatMapDestroyedEvents += DeactivateCombatMap;
-        for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+        for (int I = 0, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
         {
-            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FGemsChangedEvents += GemsChanged;
-            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FIncomeChangedEvents += IncomeChanged;
-            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FUpkeepChangedEvents += UpkeepChanged;
-            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FLogbookChangedEvents += LogbookChanged;
-            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FMagicControl.FChangedEvents += PlayerMagicChanged;
+            ((Player)(object)(object)AoWHSMap.Current.Players.GetPlayers(I)).FGemsChangedEvents += GemsChanged;
+            ((Player)(object)(object)AoWHSMap.Current.Players.GetPlayers(I)).FIncomeChangedEvents += IncomeChanged;
+            ((Player)(object)(object)AoWHSMap.Current.Players.GetPlayers(I)).FUpkeepChangedEvents += UpkeepChanged;
+            ((Player)(object)(object)AoWHSMap.Current.Players.GetPlayers(I)).FLogbookChangedEvents += LogbookChanged;
+            ((Player)(object)(object)AoWHSMap.Current.Players.GetPlayers(I)).MagicControl.FChangedEvents += PlayerMagicChanged;
         }
     }
 
     // MapCtrl.pas:244
-    public void ReleaseHSM()
+    public void ReleaseHsm()
     {
-        AoWHSMap.Current.FMouse.FOnDblClick -= DblClick;
+        AoWHSMap.Current._mouse.FOnDoubleClick -= DoubleClick;
         AoWHSMap.Current.FNewDayEvents -= ChangeDay;
         AoWHSMap.Current.FCurrentPlayerChangedEvents -= PlayerChanged;
         AoWHSMap.Current.FNewTurnEvents -= NewTurn;
         AoWHSMap.Current.FEndTurnEvents -= EndTurn;
         AoWHSMap.Current.FSeatedPlayerChangedEvents -= SeatedPlayerChanged;
-        AoWHSMap.Current.FSelection.FOnSelect -= SelectHS;
-        AoWHSMap.Current.FSelection.FOnDeselect -= DeselectHS;
+        AoWHSMap.Current._selection.FOnSelect -= SelectHexSprite;
+        AoWHSMap.Current._selection.FOnDeselect -= DeselectHexSprite;
         AoWHSMap.Current.FShowMessageEvents -= ShowMessage;
         AoWHSMap.Current.FMapChangedEvents -= MapChanged;
         AoWHSMap.Current.FScannerIconsChangedEvents -= ScannerIconsChanged;
@@ -161,89 +161,89 @@ public partial class MapControl : Component
         AoWHSMap.Current.FUnitDestroyedEvents -= UnitDestroyed;
         AoWHSMap.Current.FStructureChangedEvents -= StructureChanged;
         AoWHSMap.Current.FStructureDestroyedEvents -= StructureDestroyed;
-        AoWHSMap.Current.FHSChangedEvents -= HSChanged;
+        AoWHSMap.Current._hexSpriteChangedEvents -= HexSpriteChanged;
         AoWHSMap.Current.FGameTerminatedEvents -= GameOver;
         AoWHSMap.Current.FGameOverEvents -= GameTerminated;
         AoWHSMap.Current.FPlayerTerminatedEvents -= PlayerTerminated;
         AoWHSMap.Current.FExecuteEventLogEvents -= ExecuteEventLog;
-        AoWHSMap.Current.FTargetSelection.FOnChange -= TargetSelectionChange;
+        AoWHSMap.Current.TargetSelection.FOnChange -= TargetSelectionChange;
         AoWHSMap.Current.FViewPortChangedEvents -= ViewPortChange;
         AoWHSMap.Current.FCosmeticSurgeryEvents -= CastSpell;
         AoWHSMap.Current.FOnActivateAbility -= ActivateAbility;
-        AoWHSMap.Current.FGlobalMagicControl.FChangedEvents -= GlobalMagicChanged;
+        AoWHSMap.Current.GlobalMagicControl.FChangedEvents -= GlobalMagicChanged;
         AoWHSMap.Current.FPlayerChangedEvents -= RelationsChanged;
         AoWHSMap.Current.FDiplomaticRelationsChangedEvents -= DiplomaticChange;
         AoWHSMap.Current.FExitEvents -= ExitGameEvent;
         AoWHSMap.Current.FCombatMapCreatedEvents -= ActivateCombatMap;
         AoWHSMap.Current.FCombatMapDestroyedEvents -= DeactivateCombatMap;
-        for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+        for (int I = 0, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
         {
-            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FGemsChangedEvents -= GemsChanged;
-            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FIncomeChangedEvents -= IncomeChanged;
-            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FUpkeepChangedEvents -= UpkeepChanged;
-            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FLogbookChangedEvents -= LogbookChanged;
-            ((Player)(object)(object)AoWHSMap.Current.FPlayers.GetPlayers(I)).FMagicControl.FChangedEvents -= PlayerMagicChanged;
+            ((Player)(object)(object)AoWHSMap.Current.Players.GetPlayers(I)).FGemsChangedEvents -= GemsChanged;
+            ((Player)(object)(object)AoWHSMap.Current.Players.GetPlayers(I)).FIncomeChangedEvents -= IncomeChanged;
+            ((Player)(object)(object)AoWHSMap.Current.Players.GetPlayers(I)).FUpkeepChangedEvents -= UpkeepChanged;
+            ((Player)(object)(object)AoWHSMap.Current.Players.GetPlayers(I)).FLogbookChangedEvents -= LogbookChanged;
+            ((Player)(object)(object)AoWHSMap.Current.Players.GetPlayers(I)).MagicControl.FChangedEvents -= PlayerMagicChanged;
         }
     }
 
     // MapCtrl.pas:291
-    public void ActivateHSM(HSMap Map)
+    public void ActivateHsm(HSMap map)
     {
-        if (Map.EClass.ClassID == 131089)
+        if (map.EngineClass.ClassId == 131089)
         {
-            LinkToHSM();
-            if (FOnActivateHSM != null)
+            LinkToHsm();
+            if (_onActivateHsm != null)
             {
-                FOnActivateHSM(this);
+                _onActivateHsm(this);
             }
         }
     }
 
     // MapCtrl.pas:300
-    public void DeactivateHSM(HSMap Map)
+    public void DeactivateHsm(HSMap map)
     {
-        if (Map.EClass.ClassID == 131089)
+        if (map.EngineClass.ClassId == 131089)
         {
-            if (FOnDeactivateHSM != null)
+            if (_onDeactivateHsm != null)
             {
-                FOnDeactivateHSM(this);
+                _onDeactivateHsm(this);
             }
 
-            ReleaseHSM();
+            ReleaseHsm();
         }
     }
 
     // MapCtrl.pas:309
-    public void DblClick(object Sender)
+    public void DoubleClick(object sender)
     {
-        HexSprite HS;
-        if (FOnDblClickArmy != null)
+        HexSprite hexSprite;
+        if (OnDoubleClickArmy != null)
         {
-            HS = AoWHSMap.Current.Selection.FindClass(typeof(ArmyHexSprite));
-            if (HS is ArmyHexSprite armyHS)
+            hexSprite = AoWHSMap.Current.Selection.FindClass(typeof(ArmyHexSprite));
+            if (hexSprite is ArmyHexSprite armyHexSprite)
             {
-                FOnDblClickArmy(armyHS.FArmy);
+                OnDoubleClickArmy(armyHexSprite.Army);
             }
         }
 
-        if (FOnDblClickStructure != null)
+        if (OnDoubleClickStructure != null)
         {
-            HS = AoWHSMap.Current.Selection.FindClass(typeof(Structure));
-            if (HS is Structure structure)
+            hexSprite = AoWHSMap.Current.Selection.FindClass(typeof(Structure));
+            if (hexSprite is Structure structure)
             {
-                FOnDblClickStructure(structure);
+                OnDoubleClickStructure(structure);
             }
         }
     }
 
     // MapCtrl.pas:350
-    public void MapChanged(MapChangedNotification Sender)
+    public void MapChanged(MapChangedNotification sender)
     {
         try
         {
-            if (FOnMapChanged != null)
+            if (_onMapChanged != null)
             {
-                FOnMapChanged(ref Sender.Info);
+                _onMapChanged(ref sender.Info);
             }
         }
         catch
@@ -253,13 +253,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:359
-    public void ScannerIconsChanged(MapChangedNotification Sender)
+    public void ScannerIconsChanged(MapChangedNotification sender)
     {
         try
         {
-            if (FOnScannerIconsChanged != null)
+            if (_onScannerIconsChanged != null)
             {
-                FOnScannerIconsChanged(ref Sender.Info);
+                _onScannerIconsChanged(ref sender.Info);
             }
         }
         catch
@@ -269,13 +269,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:368
-    public void MapSettingsChanged(object Sender)
+    public void MapSettingsChanged(object sender)
     {
         try
         {
-            if (FOnMapSettingsChanged != null)
+            if (_onMapSettingsChanged != null)
             {
-                FOnMapSettingsChanged(this);
+                _onMapSettingsChanged(this);
             }
         }
         catch
@@ -285,25 +285,25 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:324
-    public void SelectHS(object Sender)
+    public void SelectHexSprite(object sender)
     {
-        HexSpriteSelection Selection;
+        HexSpriteSelection selection;
         try
         {
-            Selection = AoWHSMap.Current.Selection;
-            if (FOnSelectArmy != null && Selection.EventHS is ArmyHexSprite armyHS && AoWHSMap.Current.FSelectedArmy.GetArmyHS() != null)
+            selection = AoWHSMap.Current.Selection;
+            if (OnSelectArmy != null && selection.EventHexSprite is ArmyHexSprite armyHexSprite && AoWHSMap.Current.SelectedArmy.GetArmyHexSprite() != null)
             {
-                FOnSelectArmy(armyHS.FArmy);
+                OnSelectArmy(armyHexSprite.Army);
             }
 
-            if (FOnSelectStructure != null && Selection.EventHS is Structure structure)
+            if (OnSelectStructure != null && selection.EventHexSprite is Structure structure)
             {
-                FOnSelectStructure(structure);
+                OnSelectStructure(structure);
             }
 
-            if (FOnSelectItem != null && Selection.EventHS is ItemHexSprite item)
+            if (OnSelectItem != null && selection.EventHexSprite is ItemHexSprite item)
             {
-                FOnSelectItem(item);
+                OnSelectItem(item);
             }
         }
         catch
@@ -313,25 +313,25 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:337
-    public void DeselectHS(object Sender)
+    public void DeselectHexSprite(object sender)
     {
-        HexSpriteSelection Selection;
+        HexSpriteSelection selection;
         try
         {
-            Selection = AoWHSMap.Current.Selection;
-            if (FOnDeselectArmy != null && Selection.EventHS is ArmyHexSprite armyHS)
+            selection = AoWHSMap.Current.Selection;
+            if (OnDeselectArmy != null && selection.EventHexSprite is ArmyHexSprite armyHexSprite)
             {
-                FOnDeselectArmy(armyHS.FArmy);
+                OnDeselectArmy(armyHexSprite.Army);
             }
 
-            if (FOnDeselectStructure != null && Selection.EventHS is Structure structure)
+            if (OnDeselectStructure != null && selection.EventHexSprite is Structure structure)
             {
-                FOnDeselectStructure(structure);
+                OnDeselectStructure(structure);
             }
 
-            if (FOnDeselectItem != null && Selection.EventHS is ItemHexSprite item)
+            if (OnDeselectItem != null && selection.EventHexSprite is ItemHexSprite item)
             {
-                FOnDeselectItem(item);
+                OnDeselectItem(item);
             }
         }
         catch
@@ -341,13 +341,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:377
-    public void PlayerChanged(object Sender)
+    public void PlayerChanged(object sender)
     {
         try
         {
-            if (FOnPlayerChanged != null)
+            if (_onPlayerChanged != null)
             {
-                FOnPlayerChanged(AoWHSMap.Current.FCurrentPlayer);
+                _onPlayerChanged(AoWHSMap.Current.CurrentPlayer);
             }
         }
         catch
@@ -357,13 +357,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:386
-    public void ExitGameEvent(object Sender)
+    public void ExitGameEvent(object sender)
     {
         try
         {
-            if (FOnExitGameEvent != null)
+            if (OnExitGameEvent != null)
             {
-                FOnExitGameEvent(this);
+                OnExitGameEvent(this);
             }
         }
         catch
@@ -377,9 +377,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (FOnNewTurn != null)
+            if (_onNewTurn != null)
             {
-                FOnNewTurn(player);
+                _onNewTurn(player);
             }
         }
         catch
@@ -393,10 +393,10 @@ public partial class MapControl : Component
     {
         try
         {
-            if (FOnEndTurn != null)
+            if (_onEndTurn != null)
             {
-                var listed = (object)AoWHSMap.Current.FPlayers.GetPlayers(player);
-                FOnEndTurn(player, !((Player)(object)listed).FSingleProcessCycle);
+                var listed = (object)AoWHSMap.Current.Players.GetPlayers(player);
+                _onEndTurn(player, !((Player)(object)listed).SingleProcessCycle);
             }
         }
         catch
@@ -406,13 +406,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:413
-    public void SeatedPlayerChanged(object Sender)
+    public void SeatedPlayerChanged(object sender)
     {
         try
         {
-            if (FOnSeatedPlayerChanged != null)
+            if (_onSeatedPlayerChanged != null)
             {
-                FOnSeatedPlayerChanged(AoWHSMap.Current.FSeatedPlayer);
+                _onSeatedPlayerChanged(AoWHSMap.Current.SeatedPlayer);
             }
         }
         catch
@@ -422,13 +422,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:422
-    public void GemsChanged(Player Player)
+    public void GemsChanged(Player player)
     {
         try
         {
-            if (FOnGemsChanged != null)
+            if (_onGemsChanged != null)
             {
-                FOnGemsChanged(Player.FPlayerIndex);
+                _onGemsChanged(player.PlayerIndex);
             }
         }
         catch
@@ -438,13 +438,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:431
-    public void IncomeChanged(Player Player)
+    public void IncomeChanged(Player player)
     {
         try
         {
-            if (FOnIncomeChanged != null)
+            if (_onIncomeChanged != null)
             {
-                FOnIncomeChanged(Player.FPlayerIndex);
+                _onIncomeChanged(player.PlayerIndex);
             }
         }
         catch
@@ -454,13 +454,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:440
-    public void UpkeepChanged(Player Player)
+    public void UpkeepChanged(Player player)
     {
         try
         {
-            if (FOnUpkeepChanged != null)
+            if (_onUpkeepChanged != null)
             {
-                FOnUpkeepChanged(Player.FPlayerIndex);
+                _onUpkeepChanged(player.PlayerIndex);
             }
         }
         catch
@@ -470,13 +470,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:449
-    public void PlayerMagicChanged(PlayerMagicControl Control)
+    public void PlayerMagicChanged(PlayerMagicControl control)
     {
         try
         {
-            if (FOnPlayerMagicChanged != null)
+            if (_onPlayerMagicChanged != null)
             {
-                FOnPlayerMagicChanged(Control.FPlayer.FPlayerIndex);
+                _onPlayerMagicChanged(control.Player.PlayerIndex);
             }
         }
         catch
@@ -486,13 +486,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:458
-    public void GlobalMagicChanged(object Sender)
+    public void GlobalMagicChanged(object sender)
     {
         try
         {
-            if (FOnGlobalMagicChanged != null)
+            if (_onGlobalMagicChanged != null)
             {
-                FOnGlobalMagicChanged(Sender);
+                _onGlobalMagicChanged(sender);
             }
         }
         catch
@@ -502,13 +502,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:467
-    public void ShowMessage(ShowMessageNotification Sender)
+    public void ShowMessage(ShowMessageNotification sender)
     {
         try
         {
-            if (FOnShowMessage != null)
+            if (_onShowMessage != null)
             {
-                FOnShowMessage(ref Sender.Info);
+                _onShowMessage(ref sender.Info);
             }
         }
         catch
@@ -518,13 +518,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:476
-    public void ChangeDay(object Sender)
+    public void ChangeDay(object sender)
     {
         try
         {
-            if (FOnChangeDay != null)
+            if (OnChangeDay != null)
             {
-                FOnChangeDay(AoWHSMap.Current.FDay);
+                OnChangeDay(AoWHSMap.Current.Day);
             }
         }
         catch
@@ -534,13 +534,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:485
-    public void CombatEvent(object Sender)
+    public void CombatEvent(object sender)
     {
         try
         {
-            if (FOnCombatEvent != null)
+            if (OnCombatEvent != null)
             {
-                FOnCombatEvent(Sender);
+                OnCombatEvent(sender);
             }
         }
         catch
@@ -550,13 +550,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:494
-    public void LogbookChanged(Player Player)
+    public void LogbookChanged(Player player)
     {
         try
         {
-            if (FOnLogbookChanged != null)
+            if (_onLogbookChanged != null)
             {
-                FOnLogbookChanged(Player.FPlayerIndex);
+                _onLogbookChanged(player.PlayerIndex);
             }
         }
         catch
@@ -566,13 +566,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:503
-    public void StructureChanged(Structure Obj)
+    public void StructureChanged(Structure objectValue)
     {
         try
         {
-            if (FOnStructureChanged != null)
+            if (_onStructureChanged != null)
             {
-                FOnStructureChanged(Obj);
+                _onStructureChanged(objectValue);
             }
         }
         catch
@@ -582,13 +582,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:512
-    public void StructureDestroyed(Structure Obj)
+    public void StructureDestroyed(Structure objectValue)
     {
         try
         {
-            if (FOnStructureDestroyed != null)
+            if (_onStructureDestroyed != null)
             {
-                FOnStructureDestroyed(Obj);
+                _onStructureDestroyed(objectValue);
             }
         }
         catch
@@ -598,13 +598,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:521
-    public void ArmyChanged(Army Obj)
+    public void ArmyChanged(Army objectValue)
     {
         try
         {
-            if (FOnArmyChanged != null)
+            if (_onArmyChanged != null)
             {
-                FOnArmyChanged(Obj);
+                _onArmyChanged(objectValue);
             }
         }
         catch
@@ -614,13 +614,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:530
-    public void ArmyDestroyed(Army Obj)
+    public void ArmyDestroyed(Army objectValue)
     {
         try
         {
-            if (FOnArmyDestroyed != null)
+            if (_onArmyDestroyed != null)
             {
-                FOnArmyDestroyed(Obj);
+                _onArmyDestroyed(objectValue);
             }
         }
         catch
@@ -630,13 +630,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:539
-    public void HSChanged(HexSprite Sender)
+    public void HexSpriteChanged(HexSprite sender)
     {
         try
         {
-            if (FOnHSChanged != null)
+            if (_onHexSpriteChanged != null)
             {
-                FOnHSChanged(Sender);
+                _onHexSpriteChanged(sender);
             }
         }
         catch
@@ -646,13 +646,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:548
-    public void UnitChanged(Troop Obj)
+    public void UnitChanged(Troop objectValue)
     {
         try
         {
-            if (FOnUnitChanged != null)
+            if (_onUnitChanged != null)
             {
-                FOnUnitChanged(Obj);
+                _onUnitChanged(objectValue);
             }
         }
         catch
@@ -662,13 +662,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:557
-    public void UnitDestroyed(Troop Obj)
+    public void UnitDestroyed(Troop objectValue)
     {
         try
         {
-            if (FOnUnitDestroyed != null)
+            if (_onUnitDestroyed != null)
             {
-                FOnUnitDestroyed(Obj);
+                _onUnitDestroyed(objectValue);
             }
         }
         catch
@@ -678,13 +678,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:566
-    public void GameOver(object Sender)
+    public void GameOver(object sender)
     {
         try
         {
-            if (FOnGameOver != null)
+            if (_onGameOver != null)
             {
-                FOnGameOver(Sender);
+                _onGameOver(sender);
             }
         }
         catch
@@ -694,13 +694,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:575
-    public void GameTerminated(object Sender)
+    public void GameTerminated(object sender)
     {
         try
         {
-            if (FOnGameTerminated != null)
+            if (_onGameTerminated != null)
             {
-                FOnGameTerminated((sbyte)AoWHSMap.Current.FGameResult);
+                _onGameTerminated((sbyte)AoWHSMap.Current.GameResult);
             }
         }
         catch
@@ -714,9 +714,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (FOnPlayerTerminated != null)
+            if (_onPlayerTerminated != null)
             {
-                FOnPlayerTerminated(player);
+                _onPlayerTerminated(player);
             }
         }
         catch
@@ -726,13 +726,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:593
-    public void ExecuteEventLog(ExecuteEventLogNotification Info)
+    public void ExecuteEventLog(ExecuteEventLogNotification info)
     {
         try
         {
-            if (FOnExecuteEventLog != null)
+            if (_onExecuteEventLog != null)
             {
-                FOnExecuteEventLog(Info.Info.Log, Info.Info.Immediate, Info.Info.Done);
+                _onExecuteEventLog(info.Info.Log, info.Info.Immediate, info.Info.Done);
             }
         }
         catch
@@ -742,13 +742,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:603
-    public void ActivateCombatMap(object Sender)
+    public void ActivateCombatMap(object sender)
     {
         try
         {
-            if (FOnActivateCombatMap != null)
+            if (_onActivateCombatMap != null)
             {
-                FOnActivateCombatMap(this);
+                _onActivateCombatMap(this);
             }
         }
         catch
@@ -758,13 +758,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:612
-    public void DeactivateCombatMap(object Sender)
+    public void DeactivateCombatMap(object sender)
     {
         try
         {
-            if (FOnDeactivateCombatMap != null)
+            if (_onDeactivateCombatMap != null)
             {
-                FOnDeactivateCombatMap(this);
+                _onDeactivateCombatMap(this);
             }
         }
         catch
@@ -774,13 +774,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:621
-    public void TargetSelectionChange(TargetSelectionControl Control)
+    public void TargetSelectionChange(TargetSelectionControl control)
     {
         try
         {
-            if (FOnTargetSelectionChange != null && Control != null && (((int)AoWHSMap.Current.FTargetSelection.FTargetMode.Image) & 8) != 0)
+            if (_onTargetSelectionChange != null && control != null && (((int)AoWHSMap.Current.TargetSelection.TargetMode.Image) & 8) != 0)
             {
-                FOnTargetSelectionChange(Control, Control.FChange);
+                _onTargetSelectionChange(control, control.Change);
             }
         }
         catch
@@ -790,13 +790,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:630
-    public void CastSpell(SpellCaster Sender)
+    public void CastSpell(SpellCaster sender)
     {
         try
         {
-            if (FOnCastSpell != null)
+            if (_onCastSpell != null)
             {
-                FOnCastSpell(Sender);
+                _onCastSpell(sender);
             }
         }
         catch
@@ -806,13 +806,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:639
-    public void ViewPortChange(object Sender)
+    public void ViewPortChange(object sender)
     {
         try
         {
-            if (FOnViewPortChange != null)
+            if (_onViewPortChange != null)
             {
-                FOnViewPortChange(this);
+                _onViewPortChange(this);
             }
         }
         catch
@@ -822,13 +822,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:648
-    public void ActivateAbility(AbilityActivation Sender)
+    public void ActivateAbility(AbilityActivation sender)
     {
         try
         {
-            if (FOnActivateAbility != null)
+            if (_onActivateAbility != null)
             {
-                FOnActivateAbility(Sender);
+                _onActivateAbility(sender);
             }
         }
         catch
@@ -838,13 +838,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:657
-    public void DiplomaticChange(object Sender)
+    public void DiplomaticChange(object sender)
     {
         try
         {
-            if (FOnDiplomaticChange != null)
+            if (_onDiplomaticChange != null)
             {
-                FOnDiplomaticChange(this);
+                _onDiplomaticChange(this);
             }
         }
         catch
@@ -854,13 +854,13 @@ public partial class MapControl : Component
     }
 
     // MapCtrl.pas:666
-    public void RelationsChanged(object Sender)
+    public void RelationsChanged(object sender)
     {
         try
         {
-            if (FOnRelationsChanged != null)
+            if (_onRelationsChanged != null)
             {
-                FOnRelationsChanged(this);
+                _onRelationsChanged(this);
             }
         }
         catch
@@ -870,142 +870,142 @@ public partial class MapControl : Component
     }
 
     [Published]
-    public MapObjectEvent<Army> OnArmySelected { get => FOnSelectArmy; set => FOnSelectArmy = value; }
+    public MapObjectEvent<Army> OnArmySelected { get => OnSelectArmy; set => OnSelectArmy = value; }
 
     [Published]
-    public MapObjectEvent<Army> OnArmyDeselected { get => FOnDeselectArmy; set => FOnDeselectArmy = value; }
+    public MapObjectEvent<Army> OnArmyDeselected { get => OnDeselectArmy; set => OnDeselectArmy = value; }
 
     [Published]
-    public MapObjectEvent<Army> OnArmyDblClick { get => FOnDblClickArmy; set => FOnDblClickArmy = value; }
+    public MapObjectEvent<Army> OnArmyDoubleClick { get => OnDoubleClickArmy; set => OnDoubleClickArmy = value; }
 
     [Published]
-    public MapObjectEvent<Army> OnArmyChanged { get => FOnArmyChanged; set => FOnArmyChanged = value; }
+    public MapObjectEvent<Army> OnArmyChanged { get => _onArmyChanged; set => _onArmyChanged = value; }
 
     [Published]
-    public MapObjectEvent<Army> OnArmyDestroyed { get => FOnArmyDestroyed; set => FOnArmyDestroyed = value; }
+    public MapObjectEvent<Army> OnArmyDestroyed { get => _onArmyDestroyed; set => _onArmyDestroyed = value; }
 
     [Published]
-    public MapObjectEvent<Structure> OnStructureSelected { get => FOnSelectStructure; set => FOnSelectStructure = value; }
+    public MapObjectEvent<Structure> OnStructureSelected { get => OnSelectStructure; set => OnSelectStructure = value; }
 
     [Published]
-    public MapObjectEvent<Structure> OnStructureDeselected { get => FOnDeselectStructure; set => FOnDeselectStructure = value; }
+    public MapObjectEvent<Structure> OnStructureDeselected { get => OnDeselectStructure; set => OnDeselectStructure = value; }
 
     [Published]
-    public MapObjectEvent<Structure> OnStructureDblClick { get => FOnDblClickStructure; set => FOnDblClickStructure = value; }
+    public MapObjectEvent<Structure> OnStructureDoubleClick { get => OnDoubleClickStructure; set => OnDoubleClickStructure = value; }
 
     [Published]
-    public MapObjectEvent<Structure> OnStructureChanged { get => FOnStructureChanged; set => FOnStructureChanged = value; }
+    public MapObjectEvent<Structure> OnStructureChanged { get => _onStructureChanged; set => _onStructureChanged = value; }
 
     [Published]
-    public MapObjectEvent<Structure> OnStructureDestroyed { get => FOnStructureDestroyed; set => FOnStructureDestroyed = value; }
+    public MapObjectEvent<Structure> OnStructureDestroyed { get => _onStructureDestroyed; set => _onStructureDestroyed = value; }
 
     [Published]
-    public MapObjectEvent<Troop> OnUnitChanged { get => FOnUnitChanged; set => FOnUnitChanged = value; }
+    public MapObjectEvent<Troop> OnUnitChanged { get => _onUnitChanged; set => _onUnitChanged = value; }
 
     [Published]
-    public MapObjectEvent<Troop> OnUnitDestroyed { get => FOnUnitDestroyed; set => FOnUnitDestroyed = value; }
+    public MapObjectEvent<Troop> OnUnitDestroyed { get => _onUnitDestroyed; set => _onUnitDestroyed = value; }
 
     [Published]
-    public NotifyEvent<object> OnActivateHSM { get => FOnActivateHSM; set => FOnActivateHSM = value; }
+    public NotifyEvent<object> OnActivateHsm { get => _onActivateHsm; set => _onActivateHsm = value; }
 
     [Published]
-    public NotifyEvent<object> OnDeactivateHSM { get => FOnDeactivateHSM; set => FOnDeactivateHSM = value; }
+    public NotifyEvent<object> OnDeactivateHsm { get => _onDeactivateHsm; set => _onDeactivateHsm = value; }
 
     [Published]
-    public MapPlayerEvent OnGemsChanged { get => FOnGemsChanged; set => FOnGemsChanged = value; }
+    public MapPlayerEvent OnGemsChanged { get => _onGemsChanged; set => _onGemsChanged = value; }
 
     [Published]
-    public MapPlayerEvent OnIncomeChanged { get => FOnIncomeChanged; set => FOnIncomeChanged = value; }
+    public MapPlayerEvent OnIncomeChanged { get => _onIncomeChanged; set => _onIncomeChanged = value; }
 
     [Published]
-    public MapPlayerEvent OnUpkeepChanged { get => FOnUpkeepChanged; set => FOnUpkeepChanged = value; }
+    public MapPlayerEvent OnUpkeepChanged { get => _onUpkeepChanged; set => _onUpkeepChanged = value; }
 
     [Published]
-    public MapRefEvent<ShowMessageInfo> OnShowMessage { get => FOnShowMessage; set => FOnShowMessage = value; }
+    public MapRefEvent<ShowMessageInfo> OnShowMessage { get => _onShowMessage; set => _onShowMessage = value; }
 
     [Published]
-    public MapDayEvent OnDayChanged { get => FOnChangeDay; set => FOnChangeDay = value; }
+    public MapDayEvent OnDayChanged { get => OnChangeDay; set => OnChangeDay = value; }
 
     [Published]
-    public MapPlayerEvent OnPlayerChanged { get => FOnPlayerChanged; set => FOnPlayerChanged = value; }
+    public MapPlayerEvent OnPlayerChanged { get => _onPlayerChanged; set => _onPlayerChanged = value; }
 
     [Published]
-    public NotifyEvent<sbyte> OnNewTurn { get => FOnNewTurn; set => FOnNewTurn = value; }
+    public NotifyEvent<sbyte> OnNewTurn { get => _onNewTurn; set => _onNewTurn = value; }
 
     [Published]
-    public MapEndTurnEvent OnEndTurn { get => FOnEndTurn; set => FOnEndTurn = value; }
+    public MapEndTurnEvent OnEndTurn { get => _onEndTurn; set => _onEndTurn = value; }
 
     [Published]
-    public MapObjectEvent<HexSprite> OnHSChanged { get => FOnHSChanged; set => FOnHSChanged = value; }
+    public MapObjectEvent<HexSprite> OnHexSpriteChanged { get => _onHexSpriteChanged; set => _onHexSpriteChanged = value; }
 
     [Published]
-    public MapPlayerEvent OnSeatedPlayerChanged { get => FOnSeatedPlayerChanged; set => FOnSeatedPlayerChanged = value; }
+    public MapPlayerEvent OnSeatedPlayerChanged { get => _onSeatedPlayerChanged; set => _onSeatedPlayerChanged = value; }
 
     [Published]
-    public MapRefEvent<MapChangedInfo> OnMapChanged { get => FOnMapChanged; set => FOnMapChanged = value; }
+    public MapRefEvent<MapChangedInfo> OnMapChanged { get => _onMapChanged; set => _onMapChanged = value; }
 
     [Published]
-    public MapRefEvent<MapChangedInfo> OnScannerIconsChanged { get => FOnScannerIconsChanged; set => FOnScannerIconsChanged = value; }
+    public MapRefEvent<MapChangedInfo> OnScannerIconsChanged { get => _onScannerIconsChanged; set => _onScannerIconsChanged = value; }
 
     [Published]
-    public NotifyEvent<object> OnMapSettingsChanged { get => FOnMapSettingsChanged; set => FOnMapSettingsChanged = value; }
+    public NotifyEvent<object> OnMapSettingsChanged { get => _onMapSettingsChanged; set => _onMapSettingsChanged = value; }
 
     [Published]
-    public NotifyEvent<object> OnCombat { get => FOnCombatEvent; set => FOnCombatEvent = value; }
+    public NotifyEvent<object> OnCombat { get => OnCombatEvent; set => OnCombatEvent = value; }
 
     [Published]
-    public MapPlayerEvent OnLogbookChanged { get => FOnLogbookChanged; set => FOnLogbookChanged = value; }
+    public MapPlayerEvent OnLogbookChanged { get => _onLogbookChanged; set => _onLogbookChanged = value; }
 
     [Published]
-    public MapTargetEvent OnTargetSelectionChange { get => FOnTargetSelectionChange; set => FOnTargetSelectionChange = value; }
+    public MapTargetEvent OnTargetSelectionChange { get => _onTargetSelectionChange; set => _onTargetSelectionChange = value; }
 
     [Published]
-    public MapObjectEvent<SpellCaster> OnCastSpell { get => FOnCastSpell; set => FOnCastSpell = value; }
+    public MapObjectEvent<SpellCaster> OnCastSpell { get => _onCastSpell; set => _onCastSpell = value; }
 
     [Published]
-    public MapObjectEvent<AbilityActivation> OnActivateAbility { get => FOnActivateAbility; set => FOnActivateAbility = value; }
+    public MapObjectEvent<AbilityActivation> OnActivateAbility { get => _onActivateAbility; set => _onActivateAbility = value; }
 
     [Published]
-    public MapPlayerEvent OnPlayerMagicChanged { get => FOnPlayerMagicChanged; set => FOnPlayerMagicChanged = value; }
+    public MapPlayerEvent OnPlayerMagicChanged { get => _onPlayerMagicChanged; set => _onPlayerMagicChanged = value; }
 
     [Published]
-    public NotifyEvent<object> OnGlobalMagicChanged { get => FOnGlobalMagicChanged; set => FOnGlobalMagicChanged = value; }
+    public NotifyEvent<object> OnGlobalMagicChanged { get => _onGlobalMagicChanged; set => _onGlobalMagicChanged = value; }
 
     [Published]
-    public NotifyEvent<object> OnRelationsChanged { get => FOnRelationsChanged; set => FOnRelationsChanged = value; }
+    public NotifyEvent<object> OnRelationsChanged { get => _onRelationsChanged; set => _onRelationsChanged = value; }
 
     [Published]
-    public NotifyEvent<object> OnActivateCombatMap { get => FOnActivateCombatMap; set => FOnActivateCombatMap = value; }
+    public NotifyEvent<object> OnActivateCombatMap { get => _onActivateCombatMap; set => _onActivateCombatMap = value; }
 
     [Published]
-    public NotifyEvent<object> OnDeactivateCombatMap { get => FOnDeactivateCombatMap; set => FOnDeactivateCombatMap = value; }
+    public NotifyEvent<object> OnDeactivateCombatMap { get => _onDeactivateCombatMap; set => _onDeactivateCombatMap = value; }
 
     [Published]
-    public MapObjectEvent<ItemHexSprite> OnItemsSelected { get => FOnSelectItem; set => FOnSelectItem = value; }
+    public MapObjectEvent<ItemHexSprite> OnItemsSelected { get => OnSelectItem; set => OnSelectItem = value; }
 
     [Published]
-    public MapObjectEvent<ItemHexSprite> OnItemsDeselected { get => FOnDeselectItem; set => FOnDeselectItem = value; }
+    public MapObjectEvent<ItemHexSprite> OnItemsDeselected { get => OnDeselectItem; set => OnDeselectItem = value; }
 
     [Published]
-    public NotifyEvent<object> OnGameOver { get => FOnGameOver; set => FOnGameOver = value; }
+    public NotifyEvent<object> OnGameOver { get => _onGameOver; set => _onGameOver = value; }
 
     [Published]
-    public MapPlayerEvent OnGameTerminated { get => FOnGameTerminated; set => FOnGameTerminated = value; }
+    public MapPlayerEvent OnGameTerminated { get => _onGameTerminated; set => _onGameTerminated = value; }
 
     [Published]
-    public MapPlayerEvent OnPlayerTerminated { get => FOnPlayerTerminated; set => FOnPlayerTerminated = value; }
+    public MapPlayerEvent OnPlayerTerminated { get => _onPlayerTerminated; set => _onPlayerTerminated = value; }
 
     [Published]
-    public MapExecuteLogEvent OnExecuteEventLog { get => FOnExecuteEventLog; set => FOnExecuteEventLog = value; }
+    public MapExecuteLogEvent OnExecuteEventLog { get => _onExecuteEventLog; set => _onExecuteEventLog = value; }
 
     [Published]
-    public NotifyEvent<object> OnViewPortChange { get => FOnViewPortChange; set => FOnViewPortChange = value; }
+    public NotifyEvent<object> OnViewPortChange { get => _onViewPortChange; set => _onViewPortChange = value; }
 
     [Published]
-    public NotifyEvent<object> OnDiplomaticChange { get => FOnDiplomaticChange; set => FOnDiplomaticChange = value; }
+    public NotifyEvent<object> OnDiplomaticChange { get => _onDiplomaticChange; set => _onDiplomaticChange = value; }
 
     [Published]
-    public NotifyEvent<object> OnExitGame { get => FOnExitGameEvent; set => FOnExitGameEvent = value; }
+    public NotifyEvent<object> OnExitGame { get => OnExitGameEvent; set => OnExitGameEvent = value; }
 
     public delegate void MapPlayerEvent(sbyte Player);
     public delegate void MapDayEvent(int Day);

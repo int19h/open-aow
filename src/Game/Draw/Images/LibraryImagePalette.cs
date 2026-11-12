@@ -4,18 +4,18 @@ using Aow.Rtl;
 namespace Aow.Game.Draw.Images;
 
 // FIndex, FPalette, FRemapPalette (the palette remapped to a pixel format, made on demand),
-// FRefCount
+// _refCount
 public partial class LibraryImagePalette : Persistent
 {
-    internal int FIndex;
-    internal Palette FPalette;
-    internal Palette FRemapPalette;
-    internal int FRefCount;
+    internal int _index;
+    internal Palette _palette;
+    internal Palette _remapPaletteValue;
+    internal int _refCount;
 
     // ImageLib.pas:7084
     public LibraryImagePalette()
     {
-        FPalette = new Palette();
+        _palette = new Palette();
     }
 
     // ImageLib.pas:7090
@@ -25,59 +25,59 @@ public partial class LibraryImagePalette : Persistent
     }
 
     // ImageLib.pas:7097
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
-        FPalette.SaveToStream(Stream);
+        _palette.SaveToStream(stream);
     }
 
     // ImageLib.pas:7102
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
-        FPalette.LoadFromStream(Stream);
+        _palette.LoadFromStream(stream);
     }
 
     // ImageLib.pas:7107
-    public Palette RemapPalette(int PixelFormatID)
+    public Palette RemapPalette(int pixelFormatId)
     {
-        Palette Result;
-        if (PixelFormatID == FPalette.PixelFormatID)
+        Palette result;
+        if (pixelFormatId == _palette.PixelFormatId)
         {
-            Result = FPalette;
+            result = _palette;
         }
         else
         {
-            PixelFormats.Color2PixelInfo(0, PixelFormatID, FPalette);
-            if (FRemapPalette == null || PixelFormatID != FRemapPalette.PixelFormatID)
+            PixelFormats.Color2PixelInfo(0, pixelFormatId, _palette);
+            if (_remapPaletteValue == null || pixelFormatId != _remapPaletteValue.PixelFormatId)
             {
-                if (FRemapPalette == null)
+                if (_remapPaletteValue == null)
                 {
-                    FRemapPalette = new Palette();
+                    _remapPaletteValue = new Palette();
                 }
 
-                FRemapPalette.Assign(FPalette);
-                FRemapPalette.Remap(PixelFormatID);
+                _remapPaletteValue.Assign(_palette);
+                _remapPaletteValue.Remap(pixelFormatId);
             }
 
-            Result = FRemapPalette;
+            result = _remapPaletteValue;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:7124
-    public override void Assign(Persistent Source)
+    public override void Assign(Persistent source)
     {
-        if (Source is LibraryImagePalette)
+        if (source is LibraryImagePalette)
         {
-            FPalette.Assign(((LibraryImagePalette)Source).FPalette);
-            if (((LibraryImagePalette)Source).FRemapPalette != null)
+            _palette.Assign(((LibraryImagePalette)source)._palette);
+            if (((LibraryImagePalette)source)._remapPaletteValue != null)
             {
-                if (FRemapPalette == null)
+                if (_remapPaletteValue == null)
                 {
-                    FRemapPalette = new Palette();
+                    _remapPaletteValue = new Palette();
                 }
 
-                FRemapPalette.Assign(((LibraryImagePalette)Source).FRemapPalette);
+                _remapPaletteValue.Assign(((LibraryImagePalette)source)._remapPaletteValue);
             }
             else
             {
@@ -89,8 +89,8 @@ public partial class LibraryImagePalette : Persistent
         }
     }
 
-    public int Index { get => FIndex; }
-    public Palette Palette { get => FPalette; }
-    public int RefCount { get => FRefCount; }
+    public int Index { get => _index; }
+    public Palette Palette { get => _palette; }
+    public int RefCount { get => _refCount; }
 
 }

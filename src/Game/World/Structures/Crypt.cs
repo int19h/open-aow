@@ -11,7 +11,7 @@ public partial class Crypt : ItemExplorationSite
     { }
 
     // Crypt.pas:34
-    public new const int ClassID = 131850;
+    public new const int ClassId = 131850;
 
     public new partial class Resource : ItemExplorationSiteResource
     {
@@ -19,15 +19,15 @@ public partial class Crypt : ItemExplorationSite
         { }
 
         // Crypt.pas:40
-        public new const int ClassID = 131851;
+        public new const int ClassId = 131851;
 
         // Crypt.pas:43
-        public override int ResourceUserClassID() => 131850;
+        public override int ResourceUserClassId() => 131850;
 
         // Crypt.pas:37
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(CryptRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_cryptText);
 
-        private static readonly string CryptRStr = "Crypt";
+        private static readonly string s_cryptText = "Crypt";
 
     }
 

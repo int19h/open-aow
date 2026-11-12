@@ -7,8 +7,8 @@ public class IvTranslator : IvCustomTranslator
 
 public partial class IvDictionary : Component
 {
-    public string FFileName = "";
-    public int FLanguage;
+    public string FileName = "";
+    public int Language;
 
     public void SetLanguage(int language) => SelectLanguage(language);
     public void SetDictionaryName(string name) => NameDictionary(name);

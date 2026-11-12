@@ -5,13 +5,13 @@ using Aow.Game.Session;
 
 namespace Aow.Game.Units;
 
-// FRace, FTime, FRelation
+// Race, Time, Relation
 public partial class MigrationItem : EngineObject
 {
     public MigrationItem(ECustomNode owner) : base(owner)
     { }
 
-    public sbyte FRace;
-    public int FTime;
-    public Status FRelation;
+    public sbyte Race;
+    public int Time;
+    public Status Relation;
 }

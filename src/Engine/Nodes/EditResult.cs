@@ -4,6 +4,6 @@ namespace Aow.Engine.Nodes;
 
 public enum EditResult : byte
 {
-    OK = 0,
+    Ok = 0,
     Cancel = 1
 }

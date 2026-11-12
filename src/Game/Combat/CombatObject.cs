@@ -23,204 +23,204 @@ namespace Aow.Game.Combat;
 
 // FCombat. FID. FTargets. FTargetedBy. outgoing CV/wall CV. incoming CV/wall CV. target counts.
 // attacker counts. target priority/cache flag. strength/cache flag. FCombatPlayer. FPosition.
-// FStatus. FControlMode
+// Status. ControlMode
 public partial class CombatObject : EngineObject
 {
 
     // Combat.pas:1922
     public CombatObject(ECustomNode owner) : base(owner)
     {
-        FTargets = new QuadItemList<CombatObject>();
-        FTargetedBy = new QuadItemList<CombatObject>();
-        FCombatPlayer = -1;
+        Targets = new QuadItemList<CombatObject>();
+        TargetedBy = new QuadItemList<CombatObject>();
+        CombatPlayer = -1;
     }
 
-    public Battle FCombat;
-    public byte FID;
-    public QuadItemList<CombatObject> FTargets;
-    public QuadItemList<CombatObject> FTargetedBy;
-    public int FCombatValue;
-    public int FWallCombatValue;
-    public int FIncomingCombatValue;
-    public int FIncomingWallCombatValue;
-    public int FTargetCount;
-    public int FWallTargetCount;
-    public int FAttackerCount;
-    public int FWallAttackerCount;
-    public int FTargetPriority;
-    public bool FTargetPriorityInvalid;
-    public int FTargetStrength;
-    public bool FTargetStrengthInvalid;
-    public sbyte FCombatPlayer;
-    public byte FPosition;
-    public Set<CombatObjectStatusElement> FStatus;
-    public Set<CombatObjectControlModeElement> FControlMode;
+    public Battle Combat;
+    public byte Id;
+    public QuadItemList<CombatObject> Targets;
+    public QuadItemList<CombatObject> TargetedBy;
+    public int CombatValue;
+    public int WallCombatValue;
+    public int IncomingCombatValue;
+    public int IncomingWallCombatValue;
+    public int TargetCount;
+    public int WallTargetCount;
+    public int AttackerCount;
+    public int WallAttackerCount;
+    public int TargetPriority;
+    public bool TargetPriorityInvalid;
+    public int TargetStrength;
+    public bool TargetStrengthInvalid;
+    public sbyte CombatPlayer;
+    public byte Position;
+    public Set<CombatObjectStatusElement> Status;
+    public Set<CombatObjectControlModeElement> ControlMode;
 
     // Combat.pas:1930
     public override void Dispose()
     {
-        if (FStatus.Contains(CombatObjectStatusElement.Activated))
+        if (Status.Contains(CombatObjectStatusElement.Activated))
         {
             Deactivate();
         }
 
-        FTargets?.Dispose();
-        FTargetedBy?.Dispose();
+        Targets?.Dispose();
+        TargetedBy?.Dispose();
         base.Dispose();
     }
 
     // Combat.pas:5620
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref FPosition, 10);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FCombatPlayer), 12);
-        RwSet(ref FStatus, 1, 13, Stream.rwData, 0);
-        Stream.rwData(Bytes.Of(ref FID, 1), 1, 14);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read))
+        base.ReadWrite(stream);
+        stream.rwByte(ref Position, 10);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref CombatPlayer), 12);
+        RwSet(ref Status, 1, 13, stream.rwData, 0);
+        stream.rwData(Bytes.Of(ref Id, 1), 1, 14);
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
-            FStatus = FStatus - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
+            Status = Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
         }
     }
 
     // Combat.pas:5524
-    public virtual void GetTargetCVDV(CombatObject Target, ref int CV, ref int DV)
+    public virtual void GetTargetCombatValueDamageValue(CombatObject target, ref int combatValue, ref int damageValue)
     {
-        CV = 0;
-        DV = 0;
+        combatValue = 0;
+        damageValue = 0;
     }
 
     // Combat.pas:5527
-    public virtual int GetTargetWallCV(CombatObject Target) => 0;
+    public virtual int GetTargetWallCombatValue(CombatObject target) => 0;
 
     // Combat.pas:1938
     public virtual void TargetsChanged()
     {
-        FTargetPriorityInvalid = true;
-        FTargetStrengthInvalid = true;
+        TargetPriorityInvalid = true;
+        TargetStrengthInvalid = true;
     }
 
     // Combat.pas:5530
     public virtual int GetTargetPriority()
     {
         int I;
-        int CV;
-        CombatObject Target;
-        int Count;
-        if (FTargetPriorityInvalid)
+        int combatValue;
+        CombatObject target;
+        int count;
+        if (TargetPriorityInvalid)
         {
-            FTargetPriority = 0;
-            Count = 0;
-            I = FTargetedBy.Count - 1;
+            TargetPriority = 0;
+            count = 0;
+            I = TargetedBy.Count - 1;
             for (; I >= 0; I -= 1)
             {
-                if (FTargetedBy.List[I].B == 0)
+                if (TargetedBy.List[I].Second == 0)
                 {
-                    Count += 1;
+                    count += 1;
                 }
             }
 
-            I = FTargets.Count - 1;
+            I = Targets.Count - 1;
             for (; I >= 0; I -= 1)
             {
-                CV = FTargets.List[I].B;
-                if (CV != 0)
+                combatValue = Targets.List[I].Second;
+                if (combatValue != 0)
                 {
-                    Target = FTargets.List[I].A;
-                    CV = Round((double)(CV * CV) / Target.FIncomingCombatValue);
-                    FTargetPriority += CV;
+                    target = Targets.List[I].First;
+                    combatValue = Round((double)(combatValue * combatValue) / target.IncomingCombatValue);
+                    TargetPriority += combatValue;
                 }
             }
 
-            FTargetPriority = (Count + 2) * FTargetPriority;
-            I = FTargetedBy.Count;
+            TargetPriority = (count + 2) * TargetPriority;
+            I = TargetedBy.Count;
             // { Original bug: the normalized priority is stored in FTargetStrength. }
             if (I != 0)
             {
-                FTargetStrength = FTargetPriority / I;
+                TargetStrength = TargetPriority / I;
             }
             else
             {
-                FTargetStrength = 0;
+                TargetStrength = 0;
             }
 
-            FTargetPriorityInvalid = false;
+            TargetPriorityInvalid = false;
         }
 
-        return FTargetPriority;
+        return TargetPriority;
     }
 
     // Combat.pas:5559
     public virtual int GetTargetStrength()
     {
-        if (FTargetStrengthInvalid)
+        if (TargetStrengthInvalid)
         {
-            FTargetStrength = 0;
-            for (int I = FTargets.Count - 1; I >= 0; I--)
+            TargetStrength = 0;
+            for (int I = Targets.Count - 1; I >= 0; I--)
             {
-                FTargetStrength += FTargets.List[I].D;
+                TargetStrength += Targets.List[I].Fourth;
             }
 
-            if (FTargetStrength != 0)
+            if (TargetStrength != 0)
             {
-                FTargetStrength = FTargetStrength / FTargets.Count;
+                TargetStrength = TargetStrength / Targets.Count;
             }
 
-            FTargetStrengthInvalid = false;
-            return FTargetStrength;
+            TargetStrengthInvalid = false;
+            return TargetStrength;
         }
 
-        return FTargetStrength;
+        return TargetStrength;
     }
 
     // Combat.pas:5633
-    public virtual bool GetEnabled() => (Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & FStatus) == Set<CombatObjectStatusElement>.Of();
+    public virtual bool GetEnabled() => (Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & Status) == Set<CombatObjectStatusElement>.Of();
 
     // Combat.pas:5706
     public virtual bool GetLocked() => false;
 
     // Combat.pas:5709
-    public virtual void SetCombatPlayer(byte Player)
+    public virtual void SetCombatPlayer(byte player)
     {
-        bool ChangedSide;
-        Battle Combat;
-        Battle NewCombat;
-        if (FStatus.Contains(CombatObjectStatusElement.Activated))
+        bool changedSide;
+        Battle combat;
+        Battle newCombat;
+        if (Status.Contains(CombatObjectStatusElement.Activated))
         {
-            bool condition = Player != 255;
+            bool condition = player != 255;
             if (condition)
             {
-                var players = FCombat.FCombatData.FPlayers.GetPlayers((sbyte)Player);
+                var players = Combat.CombatData.Players.GetPlayers((sbyte)player);
                 var side = GetSide();
-                condition = (CombatSideIndex)players.FSideIndex != side;
+                condition = (CombatSideIndex)players.SideIndex != side;
             }
 
-            ChangedSide = condition;
-            if (FCombatPlayer != -1)
+            changedSide = condition;
+            if (CombatPlayer != -1)
             {
-                Combat = FCombat;
-                var players = Combat.FCombatData.FPlayers.GetPlayers(FCombatPlayer);
-                Combat.FSides[(int)(CombatSideIndex)players.FSideIndex].RemoveChild(this);
+                combat = Combat;
+                var players = combat.CombatData.Players.GetPlayers(CombatPlayer);
+                combat.Sides[(int)(CombatSideIndex)players.SideIndex].RemoveChild(this);
             }
 
-            FCombatPlayer = (sbyte)Player;
-            if (FCombatPlayer != -1)
+            CombatPlayer = (sbyte)player;
+            if (CombatPlayer != -1)
             {
-                NewCombat = FCombat;
-                var players = NewCombat.FCombatData.FPlayers.GetPlayers(FCombatPlayer);
-                NewCombat.FSides[(int)(CombatSideIndex)players.FSideIndex].AddChild(this);
+                newCombat = Combat;
+                var players = newCombat.CombatData.Players.GetPlayers(CombatPlayer);
+                newCombat.Sides[(int)(CombatSideIndex)players.SideIndex].AddChild(this);
             }
 
-            if (ChangedSide)
+            if (changedSide)
             {
                 ResetTargets();
                 SetupTargets();
-                FCombat.ObjectSideChanged(this);
+                Combat.ObjectSideChanged(this);
             }
         }
         else
         {
-            FCombatPlayer = (sbyte)Player;
+            CombatPlayer = (sbyte)player;
         }
     }
 
@@ -249,7 +249,7 @@ public partial class CombatObject : EngineObject
     public virtual sbyte GetHitPoints() => 0;
 
     // Combat.pas:5761
-    public virtual void SetHitPoints(byte Value)
+    public virtual void SetHitPoints(byte value)
     {
     }
 
@@ -263,7 +263,7 @@ public partial class CombatObject : EngineObject
     public virtual int GetExperience() => 0;
 
     // Combat.pas:5770
-    public virtual void SetExperience(int Value)
+    public virtual void SetExperience(int value)
     {
     }
 
@@ -274,15 +274,15 @@ public partial class CombatObject : EngineObject
     public virtual int GetVisibilityRange() => 0;
 
     // Combat.pas:5785
-    public virtual bool GetAbilityEnabled(int AbilityID) => false;
+    public virtual bool GetAbilityEnabled(int abilityId) => false;
 
     // Combat.pas:5788
-    public virtual void SetAbilityEnabled(int AbilityID, bool Enabled)
+    public virtual void SetAbilityEnabled(int abilityId, bool enabled)
     {
     }
 
     // Combat.pas:5791
-    public virtual int GetAbilityLevel(int AbilityID) => 0;
+    public virtual int GetAbilityLevel(int abilityId) => 0;
 
     // Combat.pas:5794
     public virtual int GetAbilityCount() => 0;
@@ -291,114 +291,114 @@ public partial class CombatObject : EngineObject
     public virtual AbilityOwner GetAbilityOwner() => null;
 
     // Combat.pas:5672
-    public virtual void Activate(Battle ACombat)
+    public virtual void Activate(Battle combat)
     {
-        byte Player;
-        Battle Combat;
-        FCombat = ACombat;
-        FStatus = FStatus + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
-        Player = (byte)FCombatPlayer;
-        if (Player != 255)
+        byte player;
+        Battle combatLocal;
+        Combat = combat;
+        Status = Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
+        player = (byte)CombatPlayer;
+        if (player != 255)
         {
-            Combat = FCombat;
+            combatLocal = Combat;
             // { This eliminated copy preserves the original saved registers. }
-            var players = Combat.FCombatData.FPlayers.GetPlayers((sbyte)Player);
-            Combat.FSides[(int)(CombatSideIndex)players.FSideIndex].AddChild(this);
+            var players = combatLocal.CombatData.Players.GetPlayers((sbyte)player);
+            combatLocal.Sides[(int)(CombatSideIndex)players.SideIndex].AddChild(this);
         }
     }
 
     // Combat.pas:5685
     public virtual void Deactivate()
     {
-        byte Player;
-        Battle Combat;
-        FStatus = FStatus - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
-        Player = (byte)FCombatPlayer;
-        if (Player != 255)
+        byte player;
+        Battle combat;
+        Status = Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
+        player = (byte)CombatPlayer;
+        if (player != 255)
         {
-            Combat = FCombat;
+            combat = Combat;
             // { This eliminated copy preserves the original saved registers. }
-            var players = Combat.FCombatData.FPlayers.GetPlayers((sbyte)Player);
-            Combat.FSides[(int)(CombatSideIndex)players.FSideIndex].RemoveChild(this);
+            var players = combat.CombatData.Players.GetPlayers((sbyte)player);
+            combat.Sides[(int)(CombatSideIndex)players.SideIndex].RemoveChild(this);
         }
     }
 
     // Combat.pas:5813
-    public virtual void ObjectDestroyed(CombatObject Obj)
+    public virtual void ObjectDestroyed(CombatObject objectValue)
     {
-        if (Obj.GetSide() != GetSide())
+        if (objectValue.GetSide() != GetSide())
         {
-            RemoveTarget(Obj);
+            RemoveTarget(objectValue);
         }
     }
 
     // Combat.pas:5592
-    public virtual void ObjectSideChanged(CombatObject Obj)
+    public virtual void ObjectSideChanged(CombatObject objectValue)
     {
-        int CV = default;
-        int DV = default;
-        int WallCV;
-        if (Obj.GetSide() != GetSide())
+        int combatValue = default;
+        int damageValue = default;
+        int wallCombatValue;
+        if (objectValue.GetSide() != GetSide())
         {
-            GetTargetCVDV(Obj, ref CV, ref DV);
-            if (FCombat.FCombatData.FWallType != 0)
+            GetTargetCombatValueDamageValue(objectValue, ref combatValue, ref damageValue);
+            if (Combat.CombatData.WallType != 0)
             {
-                WallCV = GetTargetWallCV(Obj);
+                wallCombatValue = GetTargetWallCombatValue(objectValue);
             }
             else
             {
-                WallCV = 0;
+                wallCombatValue = 0;
             }
 
-            AddTarget(Obj, CV, WallCV, DV);
+            AddTarget(objectValue, combatValue, wallCombatValue, damageValue);
         }
         else
         {
-            RemoveTarget(Obj);
+            RemoveTarget(objectValue);
         }
     }
 
     // Combat.pas:5697
-    public virtual void Initialize(Battle ACombat)
+    public virtual void Initialize(Battle combat)
     {
-        FCombat = ACombat;
+        Combat = combat;
     }
 
     // Combat.pas:5700
-    public virtual void Finalize(FinalizeMode Mode)
+    public virtual void Finalize(FinalizeMode mode)
     {
         Dispose();
     }
 
     // Combat.pas:5614
-    public virtual int fcRoundDistance() => 0;
+    public virtual int FastBattleRoundDistance() => 0;
 
     // Combat.pas:5605
-    public virtual bool fcExecute(int MoveCost) => false;
+    public virtual bool FastBattleExecute(int moveCost) => false;
 
     // Combat.pas:5608
-    public virtual bool fcBehindWall() => false;
+    public virtual bool FastBattleBehindWall() => false;
 
     // Combat.pas:5611
-    public virtual bool fcWallInBetween(byte Target) => false;
+    public virtual bool FastBattleWallInBetween(byte target) => false;
 
     // Combat.pas:5818
-    public virtual bool SupportCombatMode(Set<CombatMode> Modes) => false;
+    public virtual bool SupportCombatMode(Set<CombatMode> modes) => false;
 
     // Combat.pas:5630
     public virtual Set<WallCombatFeaturesElement> WallCombatFeatures() => Set<WallCombatFeaturesElement>.Of();
 
     // Combat.pas:5703
-    public virtual void PlaySFX(byte Sound)
+    public virtual void PlaySfx(byte sound)
     {
     }
 
     // Combat.pas:5654
-    public virtual void NewTurn(byte CombatPlayer)
+    public virtual void NewTurn(byte combatPlayer)
     {
-        if (CombatPlayer == (byte)FCombatPlayer)
+        if (combatPlayer == (byte)CombatPlayer)
         {
-            FStatus = FStatus - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.TurnDone);
+            Status = Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.TurnDone);
         }
     }
 
@@ -413,275 +413,275 @@ public partial class CombatObject : EngineObject
     }
 
     // Combat.pas:5990
-    public virtual void Show(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public virtual void Show(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
     }
 
     // Combat.pas:5993
-    public virtual int ShowAttackAnimation(int Frame, int Direction, int X, int Y, in LockedSurface Surface) => 0;
+    public virtual int ShowAttackAnimation(int frame, int direction, int X, int Y, in LockedSurface surface) => 0;
 
     // Combat.pas:5996
-    public virtual int ShowHitAnimation(int Frame, int Direction, int X, int Y, in LockedSurface Surface) => 0;
+    public virtual int ShowHitAnimation(int frame, int direction, int X, int Y, in LockedSurface surface) => 0;
 
     // Combat.pas:5868
-    public virtual int DoDamage(CombatObject Target, int Damage)
+    public virtual int DoDamage(CombatObject target, int damage)
     {
-        int Result;
-        if (Damage != 0 && Target.GetEnabled())
+        int result;
+        if (damage != 0 && target.GetEnabled())
         {
-            Result = Target.ExecuteDamage(Damage);
-            if (Target.FStatus.Contains(CombatObjectStatusElement.Destroyed) && !Target.GetAbilityEnabled(129) && !Target.GetAbilityEnabled(128))
+            result = target.ExecuteDamage(damage);
+            if (target.Status.Contains(CombatObjectStatusElement.Destroyed) && !target.GetAbilityEnabled(129) && !target.GetAbilityEnabled(128))
             {
-                Damage = GetExperience();
-                Damage += Target.GetLevel();
-                SetExperience(Damage);
+                damage = GetExperience();
+                damage += target.GetLevel();
+                SetExperience(damage);
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:5821
-    public virtual DamageType GetOptimalDamageType(Set<DamageType> Types)
+    public virtual DamageType GetOptimalDamageType(Set<DamageType> types)
     {
-        Set<DamageType> Available;
-        Set<DamageType> Protection;
-        DamageType Result = DamageType.None;
-        Available = Types - GetImmunityTypes();
-        if (Available != Set<DamageType>.Of())
+        Set<DamageType> available;
+        Set<DamageType> protection;
+        DamageType result = DamageType.None;
+        available = types - GetImmunityTypes();
+        if (available != Set<DamageType>.Of())
         {
-            Protection = GetProtectionTypes();
-            if (Protection == Set<DamageType>.Of() || Available - Protection == Set<DamageType>.Of())
+            protection = GetProtectionTypes();
+            if (protection == Set<DamageType>.Of() || available - protection == Set<DamageType>.Of())
             {
-                while (!Available.Contains(Result))
+                while (!available.Contains(result))
                 {
-                    Result = (DamageType)((int)Result - 1);
+                    result = (DamageType)((int)result - 1);
                 }
             }
             else
             {
-                while (!Available.Contains(Result) || Protection.Contains(Result))
+                while (!available.Contains(result) || protection.Contains(result))
                 {
-                    Result = (DamageType)((int)Result - 1);
+                    result = (DamageType)((int)result - 1);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:5836
-    public virtual int ExecuteDamageRole(int AAttack, int Damage, Set<DamageType> DamageTypes)
+    public virtual int ExecuteDamageRole(int attack, int damage, Set<DamageType> damageTypes)
     {
-        Set<DamageType> Types;
-        int Attack;
-        int Result = 0;
-        Types = DamageTypes - GetImmunityTypes();
-        if (Types != Set<DamageType>.Of())
+        Set<DamageType> types;
+        int attackLocal;
+        int result = 0;
+        types = damageTypes - GetImmunityTypes();
+        if (types != Set<DamageType>.Of())
         {
-            Attack = AAttack - GetDefense();
-            Result = AbilityRules.ExecuteDamageRole(Damage, Attack);
-            if (Types - GetProtectionTypes() == Set<DamageType>.Of())
+            attackLocal = attack - GetDefense();
+            result = AbilityRules.ExecuteDamageRole(damage, attackLocal);
+            if (types - GetProtectionTypes() == Set<DamageType>.Of())
             {
-                Result = (Result + 1) / 2;
+                result = (result + 1) / 2;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:5849
-    public virtual int ExecuteDamageRoleEx(int AAttack, int Damage, Set<DamageType> DamageTypes, byte DamageMode)
+    public virtual int ExecuteDamageRole(int attack, int damage, Set<DamageType> damageTypes, byte damageMode)
     {
-        Set<DamageType> Types;
-        int Attack;
-        int Result = 0;
-        Types = DamageTypes - GetImmunityTypes();
-        if (Types != Set<DamageType>.Of())
+        Set<DamageType> types;
+        int attackLocal;
+        int result = 0;
+        types = damageTypes - GetImmunityTypes();
+        if (types != Set<DamageType>.Of())
         {
-            if (DamageMode == 1)
+            if (damageMode == 1)
             {
-                Attack = AAttack - GetResistance();
+                attackLocal = attack - GetResistance();
             }
             else
             {
-                Attack = AAttack - GetDefense();
+                attackLocal = attack - GetDefense();
             }
 
-            Result = AbilityRules.ExecuteDamageRole(Damage, Attack);
-            if (Types - GetProtectionTypes() == Set<DamageType>.Of())
+            result = AbilityRules.ExecuteDamageRole(damage, attackLocal);
+            if (types - GetProtectionTypes() == Set<DamageType>.Of())
             {
-                Result = (Result + 1) / 2;
+                result = (result + 1) / 2;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:5865
-    public virtual Set<DamageType> ExecuteDamageEffectsRole(Set<DamageType> DamageTypes) => Set<DamageType>.Of();
+    public virtual Set<DamageType> ExecuteDamageEffectsRole(Set<DamageType> damageTypes) => Set<DamageType>.Of();
 
     // Combat.pas:5895
     public virtual void Surrender()
     {
         SetHitPoints(0);
-        FStatus = FStatus + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
+        Status = Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
         ResetTargets();
-        FCombat.ObjectDestroyed(this);
+        Combat.ObjectDestroyed(this);
     }
 
     // Combat.pas:5881
     public virtual void DestroyObject()
     {
         SetHitPoints(0);
-        FStatus = FStatus + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
+        Status = Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
         for (int I = GetAbilityCount() - 1; I >= 0; I--)
         {
             if (GetAbilityEnabled(I))
             {
-                AoWHSSet.Current.FAbilityControl.GetAbility(I).CombatObjectDestroyed(this);
+                AoWHSSet.Current.AbilityControl.GetAbility(I).CombatObjectDestroyed(this);
             }
         }
 
-        if (FStatus.Contains(CombatObjectStatusElement.Destroyed))
+        if (Status.Contains(CombatObjectStatusElement.Destroyed))
         {
             ResetTargets();
-            FCombat.ObjectDestroyed(this);
+            Combat.ObjectDestroyed(this);
         }
     }
 
     // Combat.pas:5903
-    public virtual int ExecuteDamage(int Damage)
+    public virtual int ExecuteDamage(int damage)
     {
-        int Result;
-        int Hits;
-        Assert(Damage >= 0 && Damage < 50, "Invalid Damage Value (TCombatUnit.ExecuteDamage)", "Combat.pas", 5982);
-        Hits = GetHitPoints();
-        if (Hits < Damage)
+        int result;
+        int hits;
+        Assert(damage >= 0 && damage < 50, "Invalid Damage Value (TCombatUnit.ExecuteDamage)", "Combat.pas", 5982);
+        hits = GetHitPoints();
+        if (hits < damage)
         {
-            Result = Hits;
+            result = hits;
         }
         else
         {
-            Result = Damage;
+            result = damage;
         }
 
-        SetHitPoints((byte)(Hits - Result));
-        if (Damage != 0)
+        SetHitPoints((byte)(hits - result));
+        if (damage != 0)
         {
-            FStatus = FStatus + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Damaged);
+            Status = Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Damaged);
         }
 
-        if (Result != 0 && GetHitPoints() == 0)
+        if (result != 0 && GetHitPoints() == 0)
         {
             DestroyObject();
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:5862
-    public virtual Set<DamageType> ExecuteDamageEffects(Set<DamageType> DamageTypes) => Set<DamageType>.Of();
+    public virtual Set<DamageType> ExecuteDamageEffects(Set<DamageType> damageTypes) => Set<DamageType>.Of();
 
     // Combat.pas:5663
     public virtual void TurnDone()
     {
         CombatObjectTurnDoneCombatAction A;
         A = new CombatObjectTurnDoneCombatAction(null);
-        A.F_CombatObjectTurnDoneCA_0C = FID;
-        FCombat.ExecuteCombatAction(A);
+        A.CombatObjectId = Id;
+        Combat.ExecuteCombatAction(A);
         A.Release();
     }
 
     // Combat.pas:5776
-    public virtual string IDStr() => "TCombatObject";
+    public virtual string IdString() => "TCombatObject";
 
     // Combat.pas:1941
-    public void AddTarget(CombatObject Target, int CV, int WallCV, int DV)
+    public void AddTarget(CombatObject target, int combatValue, int wallCombatValue, int damageValue)
     {
-        Assert(FTargets.IndexOfItemA(Target) == -1, "target already exists use update target", "Combat.pas", 5473);
-        FCombatValue += CV;
-        FWallCombatValue += WallCV;
-        FTargets.AddABCD(Target, CV, WallCV, DV);
-        Target.FTargetedBy.AddABCD(this, CV, WallCV, DV);
-        Target.FIncomingCombatValue += CV;
-        Target.FIncomingWallCombatValue += WallCV;
-        if (CV > 0)
+        Assert(Targets.IndexOfItemA(target) == -1, "target already exists use update target", "Combat.pas", 5473);
+        CombatValue += combatValue;
+        WallCombatValue += wallCombatValue;
+        Targets.AddABCD(target, combatValue, wallCombatValue, damageValue);
+        target.TargetedBy.AddABCD(this, combatValue, wallCombatValue, damageValue);
+        target.IncomingCombatValue += combatValue;
+        target.IncomingWallCombatValue += wallCombatValue;
+        if (combatValue > 0)
         {
-            FTargetCount += 1;
-            Target.FAttackerCount += 1;
+            TargetCount += 1;
+            target.AttackerCount += 1;
         }
 
-        if (WallCV > 0)
+        if (wallCombatValue > 0)
         {
-            FWallTargetCount += 1;
-            Target.FWallAttackerCount += 1;
+            WallTargetCount += 1;
+            target.WallAttackerCount += 1;
         }
 
         TargetsChanged();
-        Target.TargetsChanged();
+        target.TargetsChanged();
     }
 
     // Combat.pas:5488
-    public void DeleteTarget(int Index)
+    public void DeleteTarget(int index)
     {
-        CombatObject Target;
-        int CV;
-        int DV;
-        if (Index != -1)
+        CombatObject target;
+        int combatValue;
+        int damageValue;
+        if (index != -1)
         {
-            Target = FTargets.List[Index].A;
-            CV = FTargets.List[Index].B;
-            DV = FTargets.List[Index].C;
-            FCombatValue -= CV;
-            FWallCombatValue -= DV;
-            FTargets.Delete(Index);
-            if (CV > 0)
+            target = Targets.List[index].First;
+            combatValue = Targets.List[index].Second;
+            damageValue = Targets.List[index].Third;
+            CombatValue -= combatValue;
+            WallCombatValue -= damageValue;
+            Targets.Delete(index);
+            if (combatValue > 0)
             {
-                FTargetCount -= 1;
+                TargetCount -= 1;
             }
 
-            if (DV > 0)
+            if (damageValue > 0)
             {
-                FWallTargetCount -= 1;
+                WallTargetCount -= 1;
             }
 
             TargetsChanged();
-            Index = Target.FTargetedBy.IndexOfItemA(this);
-            if (Index != -1)
+            index = target.TargetedBy.IndexOfItemA(this);
+            if (index != -1)
             {
-                Target.FIncomingCombatValue -= Target.FTargetedBy.List[Index].B;
+                target.IncomingCombatValue -= target.TargetedBy.List[index].Second;
                 // { Original bug: FIncomingWallCombatValue is not decremented. }
-                Target.FTargetedBy.Delete(Index);
-                if (CV > 0)
+                target.TargetedBy.Delete(index);
+                if (combatValue > 0)
                 {
-                    Target.FAttackerCount -= 1;
+                    target.AttackerCount -= 1;
                 }
 
-                if (DV > 0)
+                if (damageValue > 0)
                 {
-                    Target.FWallAttackerCount -= 1;
+                    target.WallAttackerCount -= 1;
                 }
 
-                Target.TargetsChanged();
+                target.TargetsChanged();
             }
         }
     }
 
     // Combat.pas:5515
-    public void RemoveTarget(CombatObject Target)
+    public void RemoveTarget(CombatObject target)
     {
-        DeleteTarget(FTargets.IndexOfItemA(Target));
+        DeleteTarget(Targets.IndexOfItemA(target));
     }
 
     // Combat.pas:5518
     public void ResetTargets()
     {
-        for (int I = FTargets.Count - 1; I >= 0; I--)
+        for (int I = Targets.Count - 1; I >= 0; I--)
         {
             DeleteTarget(I);
         }
@@ -690,29 +690,29 @@ public partial class CombatObject : EngineObject
     // Combat.pas:5575
     public void SetupTargets()
     {
-        int CV = default;
-        int DV = default;
-        int WallCV;
-        CombatObject Target;
-        CombatSide Side;
+        int combatValue = default;
+        int damageValue = default;
+        int wallCombatValue;
+        CombatObject target;
+        CombatSide side;
         var opponentSide = GetOpponentSide();
-        Side = FCombat.FSides[(int)opponentSide];
-        for (int I = Side.Count - 1; I >= 0; I--)
+        side = Combat.Sides[(int)opponentSide];
+        for (int I = side.Count - 1; I >= 0; I--)
         {
-            Target = Side.GetObjects(I);
-            if (!Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
+            target = side.GetObjects(I);
+            if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                GetTargetCVDV(Target, ref CV, ref DV);
-                if (FCombat.FCombatData.FWallType != 0)
+                GetTargetCombatValueDamageValue(target, ref combatValue, ref damageValue);
+                if (Combat.CombatData.WallType != 0)
                 {
-                    WallCV = GetTargetWallCV(Target);
+                    wallCombatValue = GetTargetWallCombatValue(target);
                 }
                 else
                 {
-                    WallCV = 0;
+                    wallCombatValue = 0;
                 }
 
-                AddTarget(Target, CV, WallCV, DV);
+                AddTarget(target, combatValue, wallCombatValue, damageValue);
             }
         }
     }
@@ -720,196 +720,196 @@ public partial class CombatObject : EngineObject
     // Combat.pas:5636
     public CombatSideIndex GetSide()
     {
-        CombatSideIndex Result;
-        sbyte Player;
-        Player = FCombatPlayer;
-        if (Player != -1)
+        CombatSideIndex result;
+        sbyte player;
+        player = CombatPlayer;
+        if (player != -1)
         {
-            Result = (CombatSideIndex)FCombat.FCombatData.FPlayers.GetPlayers(Player).FSideIndex;
+            result = (CombatSideIndex)Combat.CombatData.Players.GetPlayers(player).SideIndex;
         }
         else
         {
-            Result = CombatSideIndex.Neutral;
+            result = CombatSideIndex.Neutral;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:5645
     public CombatSideIndex GetOpponentSide()
     {
-        CombatSideIndex Result;
-        sbyte Player;
-        Player = FCombatPlayer;
-        if (Player != -1)
+        CombatSideIndex result;
+        sbyte player;
+        player = CombatPlayer;
+        if (player != -1)
         {
-            Result = (CombatSideIndex)(FCombat.FCombatData.FPlayers.GetPlayers(Player).FSideIndex ^ 1);
+            result = (CombatSideIndex)(Combat.CombatData.Players.GetPlayers(player).SideIndex ^ 1);
         }
         else
         {
-            Result = CombatSideIndex.Neutral;
+            result = CombatSideIndex.Neutral;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:5797
     public sbyte GetPlayer()
     {
-        sbyte Result;
-        byte Player;
-        Player = (byte)FCombatPlayer;
-        if (Player != 255)
+        sbyte result;
+        byte player;
+        player = (byte)CombatPlayer;
+        if (player != 255)
         {
-            Result = FCombat.FCombatData.FPlayers.GetPlayers((sbyte)Player).FPlayer;
+            result = Combat.CombatData.Players.GetPlayers((sbyte)player).Player;
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:5805
-    public sbyte GetPlayerIR()
+    public sbyte GetPlayerIndependentRelation()
     {
-        sbyte Result;
-        byte Player;
-        Player = (byte)FCombatPlayer;
-        if (Player != 255)
+        sbyte result;
+        byte player;
+        player = (byte)CombatPlayer;
+        if (player != 255)
         {
-            Result = (sbyte)FCombat.FCombatData.FPlayers.GetPlayers((sbyte)Player).FIndependentRelation;
+            result = (sbyte)Combat.CombatData.Players.GetPlayers((sbyte)player).IndependentRelation;
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static Set<DamageType> MeleeDamageTypes(CombatObject Source)
+    internal static Set<DamageType> MeleeDamageTypes(CombatObject source)
     {
-        Set<DamageType> Result;
-        if (Source is CombatUnit)
+        Set<DamageType> result;
+        if (source is CombatUnit)
         {
-            Result = ((StrikeAbility)AoWHSSet.Current.FAbilityControl.GetAbility(21)).GetDamageTypes(((CombatUnit)Source).FUnit);
+            result = ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).GetDamageTypes(((CombatUnit)source).Troop);
         }
         else
         {
-            Result = Set<DamageType>.Of();
+            result = Set<DamageType>.Of();
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int StrikeDV(CombatObject Source, CombatObject Target)
+    internal static int StrikeDamageValue(CombatObject source, CombatObject target)
     {
-        int Result;
-        sbyte Attack;
-        sbyte Damage;
-        Set<DamageType> Types;
-        if (Source.GetAbilityEnabled(21))
+        int result;
+        sbyte attack;
+        sbyte damage;
+        Set<DamageType> types;
+        if (source.GetAbilityEnabled(21))
         {
-            Attack = Source.GetAttack();
-            Damage = Source.GetDamage();
-            Types = MeleeDamageTypes(Source);
-            bool condition = Source.GetAbilityEnabled(146) || Source.GetAbilityEnabled(160);
+            attack = source.GetAttack();
+            damage = source.GetDamage();
+            types = MeleeDamageTypes(source);
+            bool condition = source.GetAbilityEnabled(146) || source.GetAbilityEnabled(160);
             if (condition)
             {
-                var alignment = Target.GetAlignment();
+                var alignment = target.GetAlignment();
                 condition = Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignment);
             }
 
             if (condition)
             {
-                Attack = (sbyte)(Attack + 2);
-                Damage = (sbyte)(Damage + 2);
+                attack = (sbyte)(attack + 2);
+                damage = (sbyte)(damage + 2);
             }
 
-            bool test = Source.GetAbilityEnabled(147) || Source.GetAbilityEnabled(161);
+            bool test = source.GetAbilityEnabled(147) || source.GetAbilityEnabled(161);
             if (test)
             {
-                var alignment = Target.GetAlignment();
+                var alignment = target.GetAlignment();
                 test = Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignment);
             }
 
             if (test)
             {
-                Attack = (sbyte)(Attack + 2);
-                Damage = (sbyte)(Damage + 2);
+                attack = (sbyte)(attack + 2);
+                damage = (sbyte)(damage + 2);
             }
 
-            if (Source.GetAbilityEnabled(112) && Target.GetAbilityEnabled(63))
+            if (source.GetAbilityEnabled(112) && target.GetAbilityEnabled(63))
             {
-                Attack = (sbyte)(Attack + 3);
-                Damage = (sbyte)(Damage + 3);
+                attack = (sbyte)(attack + 3);
+                damage = (sbyte)(damage + 3);
             }
 
-            Result = AbilityRules.StatisticsToLimitedDV(Attack, Damage, Types, Target.GetHitPoints(), Target.GetDefense(), Target.GetResistance(), Target.GetImmunityTypes(), Target.GetProtectionTypes());
+            result = AbilityRules.StatisticsToLimitedDamageValue(attack, damage, types, target.GetHitPoints(), target.GetDefense(), target.GetResistance(), target.GetImmunityTypes(), target.GetProtectionTypes());
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static StrikeCombatAction CreateStrikeCA(CombatObject Source, CombatObject Target, bool Defensive)
+    internal static StrikeCombatAction CreateStrikeCombatAction(CombatObject source, CombatObject target, bool defensive)
     {
-        StrikeCombatAction Result;
-        sbyte Attack;
-        Set<DamageType> Types;
-        sbyte Damage;
-        if (Source.GetAbilityEnabled(21))
+        StrikeCombatAction result;
+        sbyte attack;
+        Set<DamageType> types;
+        sbyte damage;
+        if (source.GetAbilityEnabled(21))
         {
-            Attack = Source.GetAttack();
-            Damage = Source.GetDamage();
-            Types = MeleeDamageTypes(Source);
-            bool condition = Source.GetAbilityEnabled(146) || Source.GetAbilityEnabled(160);
+            attack = source.GetAttack();
+            damage = source.GetDamage();
+            types = MeleeDamageTypes(source);
+            bool condition = source.GetAbilityEnabled(146) || source.GetAbilityEnabled(160);
             if (condition)
             {
-                var alignment = Target.GetAlignment();
+                var alignment = target.GetAlignment();
                 condition = Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignment);
             }
 
             if (condition)
             {
-                Attack = (sbyte)(Attack + 2);
-                Damage = (sbyte)(Damage + 2);
+                attack = (sbyte)(attack + 2);
+                damage = (sbyte)(damage + 2);
             }
 
-            bool test = Source.GetAbilityEnabled(147) || Source.GetAbilityEnabled(161);
+            bool test = source.GetAbilityEnabled(147) || source.GetAbilityEnabled(161);
             if (test)
             {
-                var alignment = Target.GetAlignment();
+                var alignment = target.GetAlignment();
                 test = Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignment);
             }
 
             if (test)
             {
-                Attack = (sbyte)(Attack + 2);
-                Damage = (sbyte)(Damage + 2);
+                attack = (sbyte)(attack + 2);
+                damage = (sbyte)(damage + 2);
             }
 
-            if (Source.GetAbilityEnabled(112) && Target.GetAbilityEnabled(63))
+            if (source.GetAbilityEnabled(112) && target.GetAbilityEnabled(63))
             {
-                Attack = (sbyte)(Attack + 3);
-                Damage = (sbyte)(Damage + 3);
+                attack = (sbyte)(attack + 3);
+                damage = (sbyte)(damage + 3);
             }
 
-            Result = new StrikeCombatAction(null);
-            Result.Generate(Source, Target, Attack, Damage, Types);
-            Result.SetDefensive(Defensive);
+            result = new StrikeCombatAction(null);
+            result.Generate(source, target, attack, damage, types);
+            result.SetDefensive(defensive);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P3_01.inc:157

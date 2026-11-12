@@ -43,21 +43,21 @@ public sealed partial class SpellConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly AoWHSSet previousSet = AoWHSSet.Current;
-        private readonly GameEngine previousEngine = GameTables.AoWEngine;
+        private readonly AoWHSSet _previousSet = AoWHSSet.Current;
+        private readonly GameEngine _previousEngine = GameTables.GameEngine;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
 
         internal Fixture()
         {
             var set = EngineFixture.CreateGameSet(Manager);
             AoWHSSet.Current = set;
-            GameTables.AoWEngine = null!;
+            GameTables.GameEngine = null!;
         }
 
         public void Dispose()
         {
-            AoWHSSet.Current = previousSet;
-            GameTables.AoWEngine = previousEngine;
+            AoWHSSet.Current = _previousSet;
+            GameTables.GameEngine = _previousEngine;
             Manager.Dispose();
         }
     }
@@ -76,9 +76,9 @@ public sealed partial class SpellConstructionTests
         for (Type? current = type; current is not null && current != typeof(object); current = current.BaseType)
             foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
-                if (field.Name is "eclass" or "actionClass" or "groupClass") continue; // the descriptor caches are not constructor state
+                if (field.Name is "_engineClass" or "_actionClass" or "_groupClass") continue; // the descriptor caches are not constructor state
                 object? fieldValue = field.GetValue(value);
-                fields[current.Name + "." + field.Name] = field.Name == "FOwner"
+                fields[current.Name + "." + field.Name] = field.Name == "_owner"
                     ? fieldValue is null ? null : "$owner"
                     : State(fieldValue, depth + 1);
             }
@@ -90,7 +90,7 @@ public sealed partial class SpellConstructionTests
     private static string SuccessSnapshot(EngineObject value)
     {
         var state = (SortedDictionary<string, object?>)State(value)!;
-        state["EngineObject.FOwner"] = "$owner";
+        state["EngineObject._owner"] = "$owner";
         return JsonSerializer.Serialize(state);
     }
 
@@ -98,7 +98,7 @@ public sealed partial class SpellConstructionTests
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
         GameEngine engine = new GameEngine(null!);
-        try { engine.RegisterEClasses([EngineClass.Of(type)]); }
+        try { engine.RegisterEngineClasses([EngineClass.Of(type)]); }
         catch { engine.Dispose(); throw; }
         return engine;
     }
@@ -121,21 +121,21 @@ public sealed partial class SpellConstructionTests
                 throw;
             }
         }
-        if (route == 1) return meta.Create(owner);
+        if (route == 1) return meta.CreateInstance(owner);
         if (route == 3)
         {
-            try { return (EngineObject)meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner])!; }
+            try { return (EngineObject)meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode)])!.Invoke(meta, [owner])!; }
             catch (TargetInvocationException error) when (error.InnerException is not null)
             {
                 ExceptionDispatchInfo.Capture(error.InnerException).Throw();
                 throw;
             }
         }
-        if (registered is not null) return registered.CreateEObject(meta.ClassID, owner);
+        if (registered is not null) return registered.CreateEngineObject(meta.ClassId, owner);
         GameEngine engine = RegisteredEngine(type);
         try
         {
-            return engine.CreateEObject(meta.ClassID, owner);
+            return engine.CreateEngineObject(meta.ClassId, owner);
         }
         finally { engine.Dispose(); }
     }
@@ -162,20 +162,20 @@ public sealed partial class SpellConstructionTests
                     allocated.Add(value);
                     Assert.IsType(type, value);
                     Assert.Same(argument, value.Owner);
-                    Assert.Same(EngineClass.Of(type), value.EClass);
+                    Assert.Same(EngineClass.Of(type), value.EngineClass);
                     ConstructionSnapshot.Check("SpellConstruction", name, SuccessSnapshot(value), "State");
                     if (owned) ConstructionSnapshot.Check("SpellConstruction", name, owner.Observations[^1], "Observation");
                     if (value is Spell spell)
                     {
-                        Assert.Same(fixture.Manager, spell.FCastImages.FILManager);
-                        Assert.Equal(0, spell.FSpellText.Count);
-                        Assert.Equal(0, spell.FCastSounds.Count);
+                        Assert.Same(fixture.Manager, spell.CastImages._imageLibraryManager);
+                        Assert.Equal(0, spell.SpellText.Count);
+                        Assert.Equal(0, spell.CastSounds.Count);
                     }
                     if (value is Ability ability)
                     {
-                        Assert.Same(fixture.Manager, ability.FImageSequences.FILManager);
-                        Assert.Equal(0, ability.FDescription.Count);
-                        Assert.Equal(0, ability.FSFXLibrary.Count);
+                        Assert.Same(fixture.Manager, ability.ImageSequences._imageLibraryManager);
+                        Assert.Equal(0, ability.Description.Count);
+                        Assert.Equal(0, ability.SfxLibrary.Count);
                     }
                 }
             Assert.Equal(4, owner.Members.Count);
@@ -199,8 +199,8 @@ public sealed partial class SpellConstructionTests
             Assert.Same(owner, value.Owner);
             Assert.Same(value, Assert.Single(owner.Members));
             Assert.Empty(owner.Removed);
-            if (value is Spell spell) Assert.Same(fixture.Manager, spell.FCastImages.FILManager);
-            if (value is Ability ability) Assert.Same(fixture.Manager, ability.FImageSequences.FILManager);
+            if (value is Spell spell) Assert.Same(fixture.Manager, spell.CastImages._imageLibraryManager);
+            if (value is Ability ability) Assert.Same(fixture.Manager, ability.ImageSequences._imageLibraryManager);
             value.Dispose();
             Assert.Empty(owner.Members);
             Assert.Same(value, Assert.Single(owner.Removed));
@@ -216,7 +216,7 @@ public sealed partial class SpellConstructionTests
         {
             EngineObject value = Create(type, owner, route);
             Assert.IsType(type, value);
-            Assert.Equal(1, ((CombatAction)value).FRefCount);
+            Assert.Equal(1, ((CombatAction)value).RefCount);
             Assert.Same(owner, value.Owner);
             value.Dispose();
         }
@@ -230,7 +230,7 @@ public sealed partial class SpellConstructionTests
         {
             var value = (NewCombatRoundCombatAction)Create(typeof(NewCombatRoundCombatAction), null!, route);
             Assert.IsType<NewCombatRoundCombatAction>(value);
-            Assert.Equal(1, value.FRefCount);
+            Assert.Equal(1, value.RefCount);
             value.Dispose();
         }
     }
@@ -239,8 +239,8 @@ public sealed partial class SpellConstructionTests
     public void SummonConstructionInitializesItsSpellState()
     {
         var raw = new SummonSpell(null!);
-        Assert.NotNull(raw.FSpellText);
-        Assert.NotNull(raw.FUnitIndices);
+        Assert.NotNull(raw.SpellText);
+        Assert.NotNull(raw.UnitIndices);
         Assert.Equal(0, raw.GetDispelResistance(null!));
         raw.Dispose();
     }

@@ -5,99 +5,99 @@ namespace Aow.Engine.Nodes;
 // { Engine.TEInverseSortNode: the same, sorted the other way }
 public partial class EInverseSortNode : ESortNode
 {
-    public new const int ClassID = 262;
+    public new const int ClassId = 262;
 
     public EInverseSortNode(ECustomNode owner) : base(owner)
     { }
 
     // Engine.pas:1635
-    public override int AddSortChild(EngineObject Child, int SortValue)
+    public override int AddSortChild(EngineObject child, int sortValue)
     {
-        int Result;
+        int result;
         int I;
-        if (FCount >= FCapacity)
+        if (_count >= Capacity)
         {
             Grow();
         }
 
-        if (FSorted)
+        if (_sorted)
         {
-            I = FCount;
-            while (I > 0 && SortValue < FItems[I - 1].SortValue)
+            I = _count;
+            while (I > 0 && sortValue < Items[I - 1].SortValue)
             {
                 I -= 1;
             }
 
-            if (I != FCount)
+            if (I != _count)
             {
-                Array.Copy(FItems, I, FItems, I + 1, FCount - I);
+                Array.Copy(Items, I, Items, I + 1, _count - I);
             }
 
-            FItems[I].Child = Child;
-            FItems[I].SortValue = SortValue;
-            Result = I;
+            Items[I].Child = child;
+            Items[I].SortValue = sortValue;
+            result = I;
         }
         else
         {
-            FItems[FCount].Child = Child;
-            FItems[FCount].SortValue = SortValue;
-            Result = FCount;
+            Items[_count].Child = child;
+            Items[_count].SortValue = sortValue;
+            result = _count;
         }
 
-        FCount += 1;
-        return Result;
+        _count += 1;
+        return result;
     }
 
     // Engine.pas:1658
     public override void Sort()
     {
-        if (!FSorted && FCount > 0)
+        if (!_sorted && _count > 0)
         {
-            InverseSortItems(FItems, 0, FCount - 1);
+            InverseSortItems(Items, 0, _count - 1);
         }
 
-        FSorted = true;
+        _sorted = true;
     }
 
-    private static void InverseSortItems(Span<SortItem> SortList, int L, int R)
+    private static void InverseSortItems(Span<SortItem> sortList, int L, int R)
     {
-        int num;
+        int number;
         do
         {
-            num = L;
-            int num2 = R;
-            int sortValue = SortList[L + R >>> 1].SortValue;
+            number = L;
+            int number2 = R;
+            int sortValue = sortList[L + R >>> 1].SortValue;
             while (true)
             {
-                if (sortValue < SortList[num].SortValue)
+                if (sortValue < sortList[number].SortValue)
                 {
-                    num++;
+                    number++;
                     continue;
                 }
-                while (sortValue > SortList[num2].SortValue)
+                while (sortValue > sortList[number2].SortValue)
                 {
-                    num2--;
+                    number2--;
                 }
-                if (num <= num2)
+                if (number <= number2)
                 {
-                    SortItem tSortItem = SortList[num];
-                    SortList[num] = SortList[num2];
-                    SortList[num2] = tSortItem;
-                    num++;
-                    num2--;
+                    SortItem sortItem = sortList[number];
+                    sortList[number] = sortList[number2];
+                    sortList[number2] = sortItem;
+                    number++;
+                    number2--;
                 }
-                if (num > num2)
+                if (number > number2)
                 {
                     break;
                 }
             }
-            if (L < num2)
+            if (L < number2)
             {
-                InverseSortItems(SortList, L, num2);
+                InverseSortItems(sortList, L, number2);
             }
-            L = num;
+            L = number;
         }
-        while (num < R);
+        while (number < R);
     }
 
 }

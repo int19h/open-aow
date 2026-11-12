@@ -10,36 +10,36 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
-// FUnitGFXResourceIndex
+// UnitGraphicsResourceIndex
 public partial class TroopResource : EngineResource
 {
     public TroopResource(ECustomNode owner) : base(owner)
     { }
 
-    public int FUnitGFXResourceIndex;
+    public int UnitGraphicsResourceIndex;
 
     // UnitRes.PAS:1
-    public override GameEngine GetEngine() => GameTables.AoWEngine;
+    public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // UnitRes.PAS:37
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FUnitGFXResourceIndex, 8);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref UnitGraphicsResourceIndex, 8);
     }
 
     // UnitRes.PAS:66
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 65541)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 65541)
         {
-            EditDropMsg(ref Msg);
+            EditDropMessage(ref message);
         }
 
-        if (Msg.MsgID == 65621)
+        if (message.MessageId == 65621)
         {
-            Msg.Result = 8;
+            message.Result = 8;
         }
     }
 
@@ -47,16 +47,16 @@ public partial class TroopResource : EngineResource
     public override LibraryImage GetCellImage() => GetPreviewImage();
 
     // UnitRes.PAS:44
-    public virtual bool DropUnit(int Xhx, int Yhx, int Lhx) => false;
+    public virtual bool DropUnit(int hexX, int hexY, int hexLevel) => false;
 
     // UnitRes.PAS:19
     public virtual LibraryImage GetPreviewImage()
     {
-        UnitGraphicsResource Resource;
-        Resource = AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(FUnitGFXResourceIndex);
-        if (Resource != null)
+        UnitGraphicsResource resource;
+        resource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
+        if (resource != null)
         {
-            return Resource.GetCellImage();
+            return resource.GetCellImage();
         }
 
         return null;
@@ -65,11 +65,11 @@ public partial class TroopResource : EngineResource
     // UnitRes.PAS:9
     public virtual LibraryImage GetFace()
     {
-        UnitGraphicsResource Resource;
-        Resource = AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(FUnitGFXResourceIndex);
-        if (Resource != null)
+        UnitGraphicsResource resource;
+        resource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
+        if (resource != null)
         {
-            return Resource.GetFaceImage();
+            return resource.GetFaceImage();
         }
 
         return null;
@@ -79,28 +79,28 @@ public partial class TroopResource : EngineResource
     public virtual int GetObtainValue() => 0;
 
     // UnitRes.PAS:33
-    public void SetUnitGFXResourceIndex(int Value)
+    public void SetUnitGraphicsResourceIndex(int value)
     {
-        FUnitGFXResourceIndex = Value;
+        UnitGraphicsResourceIndex = value;
     }
 
     // UnitRes.PAS:48
-    public void EditDropMsg(ref EngineMessage Msg)
+    public void EditDropMessage(ref EngineMessage message)
     {
-        MapContainer Map;
-        int Lhx;
-        int Xhx = default;
-        int Yhx = default;
-        Map = Msg.Param[0].As<MapContainer>();
-        Lhx = Msg.Data[1];
-        HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
-        if (Xhx >= 0 && Yhx >= 0 && Xhx < Map.Width && Yhx < Map.Height && DropUnit(Xhx, Yhx, Lhx))
+        MapContainer map;
+        int hexLevel;
+        int hexX = default;
+        int hexY = default;
+        map = message.Param[0].As<MapContainer>();
+        hexLevel = message.Data[1];
+        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], ref hexX, ref hexY);
+        if (hexX >= 0 && hexY >= 0 && hexX < map.Width && hexY < map.Height && DropUnit(hexX, hexY, hexLevel))
         {
-            Msg.Result = 0;
+            message.Result = 0;
         }
         else
         {
-            Msg.Result = -1;
+            message.Result = -1;
         }
     }
 

@@ -2,7 +2,7 @@ namespace Aow.Rtl.Tests;
 
 internal sealed class ProbeDirectory : IDisposable
 {
-    private readonly string previous = Directory.GetCurrentDirectory();
+    private readonly string _previous = Directory.GetCurrentDirectory();
 
     internal string Root { get; } = Path.Combine(AppContext.BaseDirectory, "probe-temp", Guid.NewGuid().ToString("N"));
 
@@ -10,7 +10,7 @@ internal sealed class ProbeDirectory : IDisposable
 
     public void Dispose()
     {
-        Directory.SetCurrentDirectory(previous);
+        Directory.SetCurrentDirectory(_previous);
         foreach (string entry in Directory.EnumerateFileSystemEntries(Root, "*", SearchOption.AllDirectories).OrderByDescending(p => p.Length))
         {
             bool directory = Directory.Exists(entry);

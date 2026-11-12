@@ -12,86 +12,86 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
-// FWallType. FHitPoints. FLocked
+// WallType. HitPoints. Locked
 public partial class CombatWall : CombatObject
 {
     // Combat.pas:1670
-    public new const int ClassID = 131759;
+    public new const int ClassId = 131759;
 
     // Combat.pas:1660
     public CombatWall(ECustomNode owner) : base(owner)
     {
-        FPosition = 128;
-        FControlMode = Set<CombatObjectControlModeElement>.Of();
+        Position = 128;
+        ControlMode = Set<CombatObjectControlModeElement>.Of();
     }
 
-    public byte FWallType;
-    public byte FHitPoints;
-    public bool FLocked;
+    public byte WallType;
+    public byte HitPoints;
+    public bool Locked;
 
     // Combat.pas:1724
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwData(Bytes.Of(ref FWallType, 1), 1, 20);
-        Stream.rwByte(ref FHitPoints, 21);
+        base.ReadWrite(stream);
+        stream.rwData(Bytes.Of(ref WallType, 1), 1, 20);
+        stream.rwByte(ref HitPoints, 21);
     }
 
     // Combat.pas:1673
     public override int GetTargetPriority()
     {
-        int Count;
-        CombatObject Obj;
-        if (FTargetPriorityInvalid)
+        int count;
+        CombatObject objectValue;
+        if (TargetPriorityInvalid)
         {
-            Count = 0;
-            for (int I = FTargetedBy.Count - 1; I >= 0; I--)
+            count = 0;
+            for (int I = TargetedBy.Count - 1; I >= 0; I--)
             {
-                if (FTargetedBy.List[I].B == 0)
+                if (TargetedBy.List[I].Second == 0)
                 {
-                    Count += 1;
+                    count += 1;
                 }
             }
 
-            FTargetPriority = 0;
-            for (int I = FCombat.FSides[(int)CombatSideIndex.Defender].Count - 1; I >= 0; I--)
+            TargetPriority = 0;
+            for (int I = Combat.Sides[(int)CombatSideIndex.Defender].Count - 1; I >= 0; I--)
             {
-                Obj = FCombat.FSides[(int)CombatSideIndex.Defender].GetObjects(I);
-                FTargetPriority += Obj.FIncomingCombatValue - Obj.FIncomingWallCombatValue;
+                objectValue = Combat.Sides[(int)CombatSideIndex.Defender].GetObjects(I);
+                TargetPriority += objectValue.IncomingCombatValue - objectValue.IncomingWallCombatValue;
             }
 
-            FTargetPriority = (Count + 2) * FTargetPriority;
-            FTargetPriorityInvalid = false;
+            TargetPriority = (count + 2) * TargetPriority;
+            TargetPriorityInvalid = false;
         }
 
-        return FTargetPriority;
+        return TargetPriority;
     }
 
     // Combat.pas:1693
     public override int GetTargetStrength()
     {
-        int Result;
-        if (!FLocked)
+        int result;
+        if (!Locked)
         {
-            if (!FCombat.FCombatData.FWallBreached)
+            if (!Combat.CombatData.WallBreached)
             {
-                Result = 10;
+                result = 10;
             }
             else
             {
-                Result = 1;
+                result = 1;
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:1752
-    public override bool GetLocked() => FLocked;
+    public override bool GetLocked() => Locked;
 
     // Combat.pas:1731
     public override sbyte GetDefense() => 0;
@@ -102,81 +102,81 @@ public partial class CombatWall : CombatObject
     // Combat.pas:1746
     public override Set<DamageType> GetImmunityTypes()
     {
-        Set<DamageType> Result = Set<DamageType>.Of(DamageType.Wall);
-        return Set<DamageType>.Of().WithRange(0, (DamageType)9) - Result;
+        Set<DamageType> result = Set<DamageType>.Of(DamageType.Wall);
+        return Set<DamageType>.Of().WithRange(0, (DamageType)9) - result;
     }
 
     // Combat.pas:1740
     public override sbyte GetHits()
     {
-        sbyte Result;
-        if (FWallType == 2)
+        sbyte result;
+        if (WallType == 2)
         {
-            Result = 10;
+            result = 10;
         }
         else
         {
-            Result = 5;
+            result = 5;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:1743
-    public override sbyte GetHitPoints() => (sbyte)FHitPoints;
+    public override sbyte GetHitPoints() => (sbyte)HitPoints;
 
     // Combat.pas:1755
-    public override void SetHitPoints(byte Value)
+    public override void SetHitPoints(byte value)
     {
-        FHitPoints = Value;
+        HitPoints = value;
     }
 
     // Combat.pas:1712
-    public override void Activate(Battle ACombat)
+    public override void Activate(Battle combat)
     {
-        base.Activate(ACombat);
-        ACombat.FCombatData.FWall = this;
+        base.Activate(combat);
+        combat.CombatData.Wall = this;
     }
 
     // Combat.pas:1718
     public override void Deactivate()
     {
-        FCombat.FCombatData.FWall = null;
+        Combat.CombatData.Wall = null;
         base.Deactivate();
     }
 
     // Combat.pas:1701
-    public override int fcRoundDistance() => 0;
+    public override int FastBattleRoundDistance() => 0;
 
     // Combat.pas:1764
-    public override void Show(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override void Show(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        switch (FWallType)
+        switch (WallType)
         {
             case 1:
-                AoWHSSet.Current.FCombatImages[21].Show(X + 15, Y + 5, Surface);
+                AoWHSSet.Current.CombatImages[21].Show(X + 15, Y + 5, surface);
                 break;
             case 2:
-                AoWHSSet.Current.FCombatImages[22].Show(X + 15, Y + 5, Surface);
+                AoWHSSet.Current.CombatImages[22].Show(X + 15, Y + 5, surface);
                 break;
         }
 
         var hits = GetHits();
-        var hitPointsToHitPcnt = HitChance.HitPointsToHitPcnt((sbyte)FHitPoints, hits);
-        HitChance.ShowHitPcnt(X, Y - 10, Surface, hitPointsToHitPcnt);
+        var hitPointsToHitPercent = HitChance.HitPointsToHitPercent((sbyte)HitPoints, hits);
+        HitChance.ShowHitPercent(X, Y - 10, surface, hitPointsToHitPercent);
     }
 
     // Combat.pas:1773
-    public override int ShowAttackAnimation(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override int ShowAttackAnimation(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        Show(Frame, Direction, X, Y, Surface);
+        Show(frame, direction, X, Y, surface);
         return 0;
     }
 
     // Combat.pas:1776
-    public override int ShowHitAnimation(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override int ShowHitAnimation(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        Show(Frame, Direction, X, Y, Surface);
+        Show(frame, direction, X, Y, surface);
         return 0;
     }
 
@@ -184,19 +184,19 @@ public partial class CombatWall : CombatObject
     public override void DestroyObject()
     {
         base.DestroyObject();
-        FCombat.FCombatData.FWallBreached = true;
+        Combat.CombatData.WallBreached = true;
     }
 
     // Combat.pas:1737
-    public override string IDStr() => "Wall";
+    public override string IdString() => "Wall";
 
     // Combat.pas:1704
-    public void Setup(byte ID, byte WallType, byte CombatPlayer)
+    public void Setup(byte id, byte wallType, byte combatPlayer)
     {
-        FID = ID;
-        FWallType = WallType;
-        FHitPoints = (byte)GetHits();
-        SetCombatPlayer(CombatPlayer);
+        Id = id;
+        WallType = wallType;
+        HitPoints = (byte)GetHits();
+        SetCombatPlayer(combatPlayer);
     }
 
     // intf_P3_01.inc:316

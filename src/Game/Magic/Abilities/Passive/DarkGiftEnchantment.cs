@@ -9,27 +9,27 @@ public partial class DarkGiftEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1249
     public DarkGiftEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(GameText.DarkGiftRStr);
-        FAbilityID = 169;
+        AbilityName = AbilityRules.TranslateResourceString(GameText.s_darkGiftText);
+        AbilityId = 169;
     }
 
     // PassiveAb.pas:1256
-    public override sbyte GetDamage(AbilityOwner Owner) => 1;
+    public override sbyte GetDamage(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:1261
-    public override int GetAIUpkeepPriority(AbilityOwner Owner)
+    public override int GetAIUpkeepPriority(AbilityOwner owner)
     {
-        if (Owner is not Troop unit)
+        if (owner is not Troop troop)
         {
             return 0;
         }
 
-        int Result = unit.GetUnitLevel() + 200;
-        if (unit is Leader)
+        int result = troop.GetUnitLevel() + 200;
+        if (troop is Leader)
         {
-            Result += 50;
+            result += 50;
         }
 
-        return Result;
+        return result;
     }
 }

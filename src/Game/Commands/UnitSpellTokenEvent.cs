@@ -19,77 +19,77 @@ namespace Aow.Game.Commands;
 // (target IDs, target users, target player, spell data)
 public partial class UnitSpellTokenEvent : SpellTokenEvent
 {
-    public new const int ClassID = 135944;
+    public new const int ClassId = 135944;
 
-    public Int32List FTargetUnitIDs;
-    public UnitUserList FTargetUnits;
-    public byte FTargetPlayer;
-    public Int32Array2 FSpellData;
+    public Int32List TargetUnitIds;
+    public UnitUserList TargetUnits;
+    public byte TargetPlayer;
+    public Int32Array2 SpellData;
 
     // Spells.PAS:1126
     public override void Dispose()
     {
-        FTargetUnitIDs?.Dispose();
-        FTargetUnits?.Dispose();
+        TargetUnitIds?.Dispose();
+        TargetUnits?.Dispose();
         base.Dispose();
     }
 
     // Spells.PAS:1136
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStreamProc(30, FTargetUnitIDs.LoadFromStream, FTargetUnitIDs.SaveToStream);
-        Stream.rwData(MemoryMarshal.AsBytes((Span<int>)FSpellData).Slice(0, 8), 8, 31);
-        Stream.rwByte(ref FTargetPlayer, 32);
+        base.ReadWrite(stream);
+        stream.rwStreamProc(30, TargetUnitIds.LoadFromStream, TargetUnitIds.SaveToStream);
+        stream.rwData(MemoryMarshal.AsBytes((Span<int>)SpellData).Slice(0, 8), 8, 31);
+        stream.rwByte(ref TargetPlayer, 32);
     }
 
     // Spells.PAS:1120
     public UnitSpellTokenEvent(ECustomNode owner) : base(owner)
     {
-        FTargetUnitIDs = new Int32List();
-        FTargetUnits = new UnitUserList(null);
+        TargetUnitIds = new Int32List();
+        TargetUnits = new UnitUserList(null);
     }
 
     // Spells.PAS:1159
     public override bool Validate(Hero source)
     {
         int I;
-        Troop Target;
+        Troop target;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        sbyte TargetX = default;
-        sbyte TargetY = default;
-        sbyte TargetL = default;
-        bool Result = base.Validate(source);
+        sbyte targetX = default;
+        sbyte targetY = default;
+        sbyte targetL = default;
+        bool result = base.Validate(source);
         source.GetLocation(ref X, ref Y, ref L);
-        I = FTargetUnitIDs.Count;
-        while (Result && I != 0)
+        I = TargetUnitIds.Count;
+        while (result && I != 0)
         {
             I -= 1;
-            var item = FTargetUnitIDs[I];
-            Target = AoWHSMap.Current.FUnitControl.FindUnit(item);
-            if (Target != null)
+            var item = TargetUnitIds[I];
+            target = AoWHSMap.Current.UnitControl.FindUnit(item);
+            if (target != null)
             {
-                Target.GetLocation(ref TargetX, ref TargetY, ref TargetL);
-                Result = Target.GetHitPoints() != 0 && (byte)Target.FPlayer == FTargetPlayer;
-                if (Result)
+                target.GetLocation(ref targetX, ref targetY, ref targetL);
+                result = target.GetHitPoints() != 0 && (byte)target.Player == TargetPlayer;
+                if (result)
                 {
-                    if (((UnitSpell)AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID)).FTargetRange != -1)
+                    if (((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).TargetRange != -1)
                     {
-                        Result = HexGeometry.dHXtoRad(X, Y, TargetX, TargetY) <= ((UnitSpell)AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID)).FTargetRange;
+                        result = HexGeometry.DeltaHexToRadius(X, Y, targetX, targetY) <= ((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).TargetRange;
                     }
                 }
 
-                FTargetUnits.AddUnit(Target);
+                TargetUnits.AddUnit(target);
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:1185
@@ -98,23 +98,23 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        Troop Target;
+        Troop target;
         base.Process(source, value);
-        if (FTargetUnits.GetCount() != 0)
+        if (TargetUnits.GetCount() != 0)
         {
-            FTargetUnits.GetUnit(0).GetLocation(ref X, ref Y, ref L);
-            AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).PlayDefaultCastEffects(source.FPlayer, X, Y, L);
-            for (int I = 0, last = FTargetUnits.GetCount() - 1; I <= last; I++)
+            TargetUnits.GetUnit(0).GetLocation(ref X, ref Y, ref L);
+            AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).PlayDefaultCastEffects(source.Player, X, Y, L);
+            for (int I = 0, last = TargetUnits.GetCount() - 1; I <= last; I++)
             {
-                Target = FTargetUnits.GetUnit(I);
-                Target.AddRef();
-                if (((UnitSpell)AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID)).ExecuteSpell(source, Target, FEventMana, ref FSpellData))
+                target = TargetUnits.GetUnit(I);
+                target.AddRef();
+                if (((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).ExecuteSpell(source, target, EventMana, ref SpellData))
                 {
-                    AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
-                    Target.Changed();
+                    AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
+                    target.Changed();
                 }
 
-                Target.Release();
+                target.Release();
             }
         }
 
@@ -122,24 +122,24 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
     }
 
     // Spells.PAS:1143
-    public void Initialize(int SpellID, Troop Source, UnitList Targets, int Mana)
+    public void Initialize(int spellId, Troop source, UnitList targets, int mana)
     {
-        FEventSpellID = SpellID;
-        FEventPlayerIndex = (byte)Source.FPlayer;
-        FEventSourceID = Source.FUnitID;
-        FEventMana = Mana;
-        if (Targets != null && Targets.GetCount() != 0)
+        EventSpellId = spellId;
+        EventPlayerIndex = (byte)source.Player;
+        EventSourceId = source.UnitId;
+        EventMana = mana;
+        if (targets != null && targets.GetCount() != 0)
         {
-            FTargetPlayer = (byte)Targets.GetUnit(0).FPlayer;
-            for (int I = 0, last = Targets.GetCount() - 1; I <= last; I++)
+            TargetPlayer = (byte)targets.GetUnit(0).Player;
+            for (int I = 0, last = targets.GetCount() - 1; I <= last; I++)
             {
-                var unit = Targets.GetUnit(I);
-                FTargetUnitIDs.Add(unit.FUnitID);
+                var troop = targets.GetUnit(I);
+                TargetUnitIds.Add(troop.UnitId);
             }
         }
         else
         {
-            FTargetPlayer = 255;
+            TargetPlayer = 255;
         }
     }
 

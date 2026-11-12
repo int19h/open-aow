@@ -15,55 +15,55 @@ public partial class ConstructAbility : AdjustableAbility
     // AoWAb.PAS:5537
     public ConstructAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(P4ConstructRStr);
-        FAbilityID = 125;
-        FAbilityType = AbilityType.Enhancement;
-        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
-        FConstructionControls = new ConstructionControlList(null);
+        AbilityName = AbilityRules.TranslateResourceString(s_constructText);
+        AbilityId = 125;
+        AbilityType = AbilityType.Enhancement;
+        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
+        ConstructionControls = new ConstructionControlList(null);
         RegisterConstructionControl(new RebuildConstructionControl(null));
         RegisterConstructionControl(new BuildRoadsControl(null));
     }
 
-    public ConstructionControlList FConstructionControls;
+    public ConstructionControlList ConstructionControls;
 
     // AoWAb.PAS:5548
     public override void Dispose()
     {
-        FConstructionControls?.Dispose();
+        ConstructionControls?.Dispose();
         base.Dispose();
     }
 
     // AoWAb.PAS:5553
-    public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner Owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action);
+    public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action);
 
     // AoWAb.PAS:5555
-    public override bool CanActivate(AbilityOwner Owner, ref string Reason)
+    public override bool CanActivate(AbilityOwner owner, ref string reason)
     {
-        bool Result;
-        if (Owner is Troop)
+        bool result;
+        if (owner is Troop)
         {
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:5560
-    public void RegisterConstructionControl(ConstructionControl Control)
+    public void RegisterConstructionControl(ConstructionControl control)
     {
         // { Pass the control ID directly without retaining a local. }
-        var id = Control.ID();
-        if (FConstructionControls.FindID(id) != null)
+        var id = control.Id();
+        if (ConstructionControls.FindId(id) != null)
         {
             throw new InvalidOperationException("Construction Control ID already used");
         }
 
-        Control.SetOwner(FConstructionControls);
+        control.SetOwner(ConstructionControls);
     }
 
-    private static readonly string P4ConstructRStr = "Construct";
+    private static readonly string s_constructText = "Construct";
 }

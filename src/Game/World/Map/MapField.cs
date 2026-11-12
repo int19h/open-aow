@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Map;
 
-// FHSList, FCapacity, FCount, FStaticCount, FStatus, FXhx, FYhx, FLhx, FReserved, FTerrainType,
+// _hexSpriteList, _capacity, _count, _staticCount, _status, _hexX, _hexY, _hexLevel, FReserved, _terrainType,
 // FOverlayType. A hexagon field of a map level. The original pooled all fields of a level in
 // one block and freed it with the level. The port allocates each field through the base
 // allocator. The sprites are sorted by their show priority. The first FStaticCount (priority
@@ -19,78 +19,78 @@ namespace Aow.Game.World.Map;
 public partial class MapField : ECustomNode
 {
     // HSEngine.pas:1933
-    public new const int ClassID = 65793;
+    public new const int ClassId = 65793;
 
     public MapField(ECustomNode owner) : base(owner)
     {
-        FTerrainType = -1;
-        FOverlayType = -1;
-        FStatus = Set<MapFieldStatusElement>.Of();
+        _terrainType = -1;
+        _overlayType = -1;
+        _status = Set<MapFieldStatusElement>.Of();
         Resize(3);
     }
 
-    internal HexSprite[] FHSList = [];
-    internal byte FCapacity;
-    internal byte FCount;
-    internal byte FStaticCount;
-    internal Set<MapFieldStatusElement> FStatus;
-    internal sbyte FXhx;
-    internal sbyte FYhx;
-    internal sbyte FLhx;
-    internal sbyte FTerrainType;
-    internal sbyte FOverlayType;
+    internal HexSprite[] _hexSpriteList = [];
+    internal byte _capacity;
+    internal byte _count;
+    internal byte _staticCount;
+    internal Set<MapFieldStatusElement> _status;
+    internal sbyte _hexX;
+    internal sbyte _hexY;
+    internal sbyte _hexLevel;
+    internal sbyte _terrainType;
+    internal sbyte _overlayType;
 
     // HSEngine.pas:1907
     public override void Dispose()
     {
-        Array.Resize(ref FHSList, 0);
-        FCount = 0;
+        Array.Resize(ref _hexSpriteList, 0);
+        _count = 0;
     }
 
     // HSEngine.pas:1928
-    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared);
+    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared);
 
     // HSEngine.pas:1923
-    public override void SetOwner(ECustomNode AOwner)
+    public override void SetOwner(ECustomNode owner)
     {
-        FOwner = AOwner;
+        _owner = owner;
     }
 
     // HSEngine.pas:2029
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
         int J;
         int I;
-        EngineObject HS = default;
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(EngineServices.smText)) == Set<StorageModeElement>.Of())
+        EngineObject hexSprite = default;
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(EngineServices.Text)) == Set<StorageModeElement>.Of())
         {
-            if (Stream.StorageMode().Contains(StorageModeElement.Read))
+            if (stream.StorageMode().Contains(StorageModeElement.Read))
             {
-                if (Stream.StorageMode().Contains(StorageModeElement.Compare))
+                if (stream.StorageMode().Contains(StorageModeElement.Compare))
                 {
                     J = 0;
-                    I = Stream.PropertyTable.First;
-                    int last = Stream.PropertyTable.Count - 1;
+                    I = stream.PropertyTable.First;
+                    int last = stream.PropertyTable.Count - 1;
                     for (; I <= last; I += 1)
                     {
-                        if (Stream.PropertyTable.Items[I].ID >= 50)
+                        if (stream.PropertyTable.Items[I].Id >= 50)
                         {
-                            HS = FHSList[J];
-                            Stream.rwCreateEObject(ref HS, this, Stream.PropertyTable.Items[I].ID);
+                            hexSprite = _hexSpriteList[J];
+                            stream.rwCreateEObject(ref hexSprite, this, stream.PropertyTable.Items[I].Id);
                             J += 1;
                         }
                     }
                 }
                 else
                 {
-                    I = Stream.PropertyTable.First;
-                    int last = Stream.PropertyTable.Count - 1;
+                    I = stream.PropertyTable.First;
+                    int last = stream.PropertyTable.Count - 1;
                     for (; I <= last; I += 1)
                     {
-                        J = Stream.PropertyTable.Items[I].ID;
+                        J = stream.PropertyTable.Items[I].Id;
                         if (J >= 50)
                         {
-                            Stream.rwCreateEObject(ref HS, this, J);
+                            stream.rwCreateEObject(ref hexSprite, this, J);
                         }
                     }
                 }
@@ -99,13 +99,13 @@ public partial class MapField : ECustomNode
             {
                 I = 50;
                 J = 0;
-                int last = FCount - 1;
+                int last = _count - 1;
                 for (; J <= last; J += 1)
                 {
-                    HS = FHSList[J];
-                    if (HS != null && HS.Owner == this && !HS.GetControlStyle().Contains(EngineServices.csShared) && HS.GetControlStyle().Contains(EngineServices.csStored))
+                    hexSprite = _hexSpriteList[J];
+                    if (hexSprite != null && hexSprite.Owner == this && !hexSprite.GetControlStyle().Contains(EngineServices.Shared) && hexSprite.GetControlStyle().Contains(EngineServices.Stored))
                     {
-                        Stream.rwCreateEObject(ref HS, this, I);
+                        stream.rwCreateEObject(ref hexSprite, this, I);
                         I += 1;
                     }
                 }
@@ -113,180 +113,180 @@ public partial class MapField : ECustomNode
         }
         else
         {
-            ReadWriteChildren(Stream);
+            ReadWriteChildren(stream);
         }
     }
 
     // HSEngine.pas:2075
-    public override void MainReadWrite(EStorageStream Stream)
+    public override void MainReadWrite(EStorageStream stream)
     {
-        ReadWrite(Stream);
+        ReadWrite(stream);
     }
 
     // HSEngine.pas:1898
 
     // HSEngine.pas:1943
-    public override EngineObject GetChild(int Index)
+    public override EngineObject GetChild(int index)
     {
-        if (Index >= FCount)
+        if (index >= _count)
         {
             throw new IndexOutOfRangeException("Index out of bounds");
         }
 
-        return FHSList[Index];
+        return _hexSpriteList[index];
     }
 
     // HSEngine.pas:1949
-    public override void SetChild(int Index, EngineObject Child)
+    public override void SetChild(int index, EngineObject child)
     {
-        if (Index >= FCount)
+        if (index >= _count)
         {
             throw new IndexOutOfRangeException("Index out of bounds");
         }
 
-        FHSList[Index] = (HexSprite)Child;
+        _hexSpriteList[index] = (HexSprite)child;
     }
 
     // HSEngine.pas:1972
-    public override int GetCount() => FCount;
+    public override int GetCount() => _count;
 
     // HSEngine.pas:2226
-    public override int RemoveChild(EngineObject Child) => RemoveHS((HexSprite)Child);
+    public override int RemoveChild(EngineObject child) => RemoveHexSprite((HexSprite)child);
 
     // HSEngine.pas:2221
-    public override int AddChild(EngineObject Child) => AddHS((HexSprite)Child, 0);
+    public override int AddChild(EngineObject child) => AddHexSprite((HexSprite)child, 0);
 
     // HSEngine.pas:2154
-    public override EngineObject FindChild(int AClassID)
+    public override EngineObject FindChild(int classId)
     {
-        EngineObject Result;
+        EngineObject result;
         int I;
         I = 0;
-        while (I < FCount && FHSList[I].EClass.ClassID != AClassID)
+        while (I < _count && _hexSpriteList[I].EngineClass.ClassId != classId)
         {
             I += 1;
         }
 
-        if (I < FCount)
+        if (I < _count)
         {
-            Result = FHSList[I];
+            result = _hexSpriteList[I];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:2211
-    public override EngineObject FindOwnedChild(int AClassID)
+    public override EngineObject FindOwnedChild(int classId)
     {
-        EngineObject Result;
+        EngineObject result;
         int I;
         I = 0;
-        while (I < FCount && !(FHSList[I].EClass.ClassID == AClassID && FHSList[I].Owner == this))
+        while (I < _count && !(_hexSpriteList[I].EngineClass.ClassId == classId && _hexSpriteList[I].Owner == this))
         {
             I += 1;
         }
 
-        if (I < FCount)
+        if (I < _count)
         {
-            Result = FHSList[I];
+            result = _hexSpriteList[I];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:1938
-    public int GetXYL() => FXhx + (FYhx << 8) + (FLhx << 16);
+    public int GetMapCoordinate() => _hexX + (_hexY << 8) + (_hexLevel << 16);
 
     // HSEngine.pas:1955
-    public int HSListDataSize() => (FCapacity << 2) + ((FCapacity + 3) & 252);
+    public int HexSpriteListDataSize() => (_capacity << 2) + ((_capacity + 3) & 252);
 
     // HSEngine.pas:2163
-    public HexSprite FindHS(Type AClass)
+    public HexSprite FindHexSprite(Type classValue)
     {
-        HexSprite Result;
+        HexSprite result;
         int I;
         I = 0;
-        while (I < FCount && !AClass.IsInstanceOfType(FHSList[I]))
+        while (I < _count && !classValue.IsInstanceOfType(_hexSpriteList[I]))
         {
             I += 1;
         }
 
-        if (I < FCount)
+        if (I < _count)
         {
-            Result = FHSList[I];
+            result = _hexSpriteList[I];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:2172
-    public HexSprite FindOwnedHS(Type AClass)
+    public HexSprite FindOwnedHexSprite(Type classValue)
     {
         int I;
-        HexSprite HS;
+        HexSprite hexSprite;
         I = 0;
-        HexSprite Result = null;
-        while (I < FCount && Result == null)
+        HexSprite result = null;
+        while (I < _count && result == null)
         {
-            HS = FHSList[I];
-            if (AClass.IsInstanceOfType(HS) && HS.Owner == this)
+            hexSprite = _hexSpriteList[I];
+            if (classValue.IsInstanceOfType(hexSprite) && hexSprite.Owner == this)
             {
-                Result = HS;
+                result = hexSprite;
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:2300
-    public void CopyDynamicVisibleHS(VisibilityList List)
+    public void CopyDynamicVisibleHexSprite(VisibilityList list)
     {
-        byte last = FStaticCount;
-        for (int I = FCount - 1; I >= last; I--)
+        byte last = _staticCount;
+        for (int I = _count - 1; I >= last; I--)
         {
-            FHSList[I].MakeVisible(List);
+            _hexSpriteList[I].MakeVisible(list);
         }
     }
 
     // HSEngine.pas:2308
-    public void CopyStaticVisibleHS(VisibilityList List)
+    public void CopyStaticVisibleHexSprite(VisibilityList list)
     {
-        for (int I = FStaticCount - 1; I >= 0; I--)
+        for (int I = _staticCount - 1; I >= 0; I--)
         {
-            FHSList[I].MakeVisible(List);
+            _hexSpriteList[I].MakeVisible(list);
         }
     }
 
     // HSEngine.pas:2316
-    public void ResetDynamicVisibleHS()
+    public void ResetDynamicVisibleHexSprite()
     {
-        byte last = FStaticCount;
-        for (int I = FCount - 1; I >= last; I--)
+        byte last = _staticCount;
+        for (int I = _count - 1; I >= last; I--)
         {
-            FHSList[I].SetVisible(false);
+            _hexSpriteList[I].SetVisible(false);
         }
     }
 
     // HSEngine.pas:2324
-    public void ResetStaticVisibleHS()
+    public void ResetStaticVisibleHexSprite()
     {
-        for (int I = FStaticCount - 1; I >= 0; I--)
+        for (int I = _staticCount - 1; I >= 0; I--)
         {
-            FHSList[I].SetVisible(false);
+            _hexSpriteList[I].SetVisible(false);
         }
     }
 
@@ -294,53 +294,53 @@ public partial class MapField : ECustomNode
     // { The sprites with a level from MinLevel to MaxLevel that a map field owns are destroyed; the list
     //   is sorted, so the walk stops at the first sprite below MinLevel. The HP position is computed and
     //   never used. }
-    public void DestroyLevelHS(int MinLevel, int MaxLevel)
+    public void DestroyLevelHexSprite(int minLevel, int maxLevel)
     {
-        int Xhp = default;
-        int Yhp = default;
-        bool Done;
+        int pixelX = default;
+        int pixelY = default;
+        bool done;
         int I;
-        int Level;
-        HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
-        I = FCount - 1;
+        int level;
+        HexGeometry.HexToPixel(_hexX, _hexY, ref pixelX, ref pixelY);
+        I = _count - 1;
         // { Preserve the original stack slot. }
-        Done = false;
-        while (!Done && I >= 0)
+        done = false;
+        while (!done && I >= 0)
         {
-            Level = FHSList[I].GetLevel();
-            if (Level <= MaxLevel)
+            level = _hexSpriteList[I].GetLevel();
+            if (level <= maxLevel)
             {
-                if (Level >= MinLevel)
+                if (level >= minLevel)
                 {
-                    if (FHSList[I].Owner is MapField)
+                    if (_hexSpriteList[I].Owner is MapField)
                     {
-                        FHSList[I].Dispose();
+                        _hexSpriteList[I].Dispose();
                     }
                 }
                 else
                 {
-                    Done = true;
+                    done = true;
                 }
             }
 
             I -= 1;
-            if (I >= FCount)
+            if (I >= _count)
             {
-                I = FCount - 1;
+                I = _count - 1;
             }
         }
     }
 
     // HSEngine.pas:2360
-    public void DestroyHS()
+    public void DestroyHexSprite()
     {
-        for (int I = FCount - 1; I >= 0; I--)
+        for (int I = _count - 1; I >= 0; I--)
         {
-            if (I <= FCount - 1)
+            if (I <= _count - 1)
             {
-                if (FHSList[I].Owner == this)
+                if (_hexSpriteList[I].Owner == this)
                 {
-                    FHSList[I].Dispose();
+                    _hexSpriteList[I].Dispose();
                 }
             }
         }
@@ -349,11 +349,11 @@ public partial class MapField : ECustomNode
     // HSEngine.pas:2369
     public void Activate()
     {
-        for (int I = FCount - 1; I >= 0; I--)
+        for (int I = _count - 1; I >= 0; I--)
         {
-            if (FHSList[I].Owner == this)
+            if (_hexSpriteList[I].Owner == this)
             {
-                FHSList[I].Activate();
+                _hexSpriteList[I].Activate();
             }
         }
     }
@@ -361,78 +361,78 @@ public partial class MapField : ECustomNode
     // HSEngine.pas:2581
     public sbyte GetDecorationType()
     {
-        MapFieldMessage Msg = default;
-        Msg.MsgID = 17;
-        Msg.Result = -1;
-        SendMapFieldMsg(ref Msg);
-        return (sbyte)Msg.Result.Int;
+        MapFieldMessage message = default;
+        message.MessageId = 17;
+        message.Result = -1;
+        SendMapFieldMessage(ref message);
+        return (sbyte)message.Result.Int;
     }
 
     // HSEngine.pas:2591
     public void UpdateNeighbourTerrain()
     {
-        HexSpriteTerrainInfo Info = default;
-        HexNumberWalkData Walk = default;
-        Info.MapField = this;
-        Info.TerrainType = FTerrainType;
-        Info.OverlayType = FOverlayType;
-        HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        HexSpriteTerrainInfo info = default;
+        HexNumberWalkData walk = default;
+        info.MapField = this;
+        info.TerrainType = _terrainType;
+        info.OverlayType = _overlayType;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
         for (int I = 1; I <= 6; I++)
         {
-            HexNumberWalkData.WalkToNextHN(ref Walk);
-            if (Walk.X >= 0 && Walk.X < ((MapLevel)Owner).FWidth && Walk.Y >= 0 && ((MapLevel)Owner).FHeight > Walk.Y)
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
+            if (walk.X >= 0 && walk.X < ((MapLevel)Owner)._width && walk.Y >= 0 && ((MapLevel)Owner)._height > walk.Y)
             {
-                Info.HN = (sbyte)OppositeHTTable[I - 1];
-                ((MapLevel)Owner).GetField(Walk.X, Walk.Y).NeighbourTerrainChanged(ref Info);
+                info.HexNumber = (sbyte)s_oppositeHexDirectionTable[I - 1];
+                ((MapLevel)Owner).GetField(walk.X, walk.Y).NeighbourTerrainChanged(ref info);
             }
         }
     }
 
-    public HexSprite[] HSList { get => FHSList; }
-    public byte Capacity { get => FCapacity; }
-    public byte StaticCount { get => FStaticCount; }
-    public Set<MapFieldStatusElement> Status { get => FStatus; set => FStatus = value; }
-    public sbyte Xhx { get => FXhx; set => FXhx = value; }
-    public sbyte Yhx { get => FYhx; set => FYhx = value; }
-    public sbyte Lhx { get => FLhx; set => FLhx = value; }
-    public int XYL { get => GetXYL(); }
-    public sbyte TerrainType { get => FTerrainType; set => FTerrainType = value; }
-    public sbyte OverlayType { get => FOverlayType; set => FOverlayType = value; }
+    public HexSprite[] HexSpriteList { get => _hexSpriteList; }
+    public byte Capacity { get => _capacity; }
+    public byte StaticCount { get => _staticCount; }
+    public Set<MapFieldStatusElement> Status { get => _status; set => _status = value; }
+    public sbyte HexX { get => _hexX; set => _hexX = value; }
+    public sbyte HexY { get => _hexY; set => _hexY = value; }
+    public sbyte HexLevel { get => _hexLevel; set => _hexLevel = value; }
+    public int MapCoordinate { get => GetMapCoordinate(); }
+    public sbyte TerrainType { get => _terrainType; set => _terrainType = value; }
+    public sbyte OverlayType { get => _overlayType; set => _overlayType = value; }
 
     public sealed class HexNumberAccessor(MapField target)
     {
-        public byte this[int Index] { get => target.GetHN(Index); set => target.SetHN(Index, value); }
+        public byte this[int index] { get => target.GetHexNumber(index); set => target.SetHexNumber(index, value); }
     }
 
-    public HexNumberAccessor HN => new HexNumberAccessor(this);
+    public HexNumberAccessor HexNumber => new HexNumberAccessor(this);
 
-    public override void SendMsg(ref EngineMessage message, EngineObject sender)
+    public override void SendMessage(ref EngineMessage message, EngineObject sender)
     {
-        if ((message.MsgID & 0x10000000) != 0)
+        if ((message.MessageId & 0x10000000) != 0)
         {
-            for (int i = FCount - 1; i >= 0; i--)
+            for (int i = _count - 1; i >= 0; i--)
             {
-                var sprite = FHSList[i];
-                if (sprite.GetLastMsg() == message.Seq) continue;
-                if ((message.MsgID & 0x20000000) != 0 && sprite.Owner != this) continue;
-                sprite.SetLastMsg(message.Seq);
-                sprite.MsgProc(ref message, this);
+                var sprite = _hexSpriteList[i];
+                if (sprite.GetLastMessage() == message.Sequence) continue;
+                if ((message.MessageId & 0x20000000) != 0 && sprite.Owner != this) continue;
+                sprite.SetLastMessage(message.Sequence);
+                sprite.MessageProc(ref message, this);
             }
         }
-        else if ((message.MsgID & 0x20000000) == 0)
+        else if ((message.MessageId & 0x20000000) == 0)
         {
-            for (int i = Count - 1; i >= 0; i--) FHSList[i].MsgProc(ref message, this);
+            for (int i = Count - 1; i >= 0; i--) _hexSpriteList[i].MessageProc(ref message, this);
         }
         else
         {
-            int count = FCount;
-            for (int i = 0; i < count; i++) SendMsgList[i] = FHSList[i];
+            int count = _count;
+            for (int i = 0; i < count; i++) s_sendMessageList[i] = _hexSpriteList[i];
             for (int i = count - 1; i >= 0; i--)
-                if (SendMsgList[i].Owner == this) SendMsgList[i].MsgProc(ref message, this);
+                if (s_sendMessageList[i].Owner == this) s_sendMessageList[i].MessageProc(ref message, this);
         }
     }
 
-    private static ByteArray6 OppositeHTTable = ByteArray6.From((ReadOnlySpan<byte>)new byte[6] { 4, 5, 6, 1, 2, 3 });
-    private static HexSpriteArray256 SendMsgList;
-    private static HexSpriteArray256 LoadedList;
+    private static ByteArray6 s_oppositeHexDirectionTable = ByteArray6.From((ReadOnlySpan<byte>)new byte[6] { 4, 5, 6, 1, 2, 3 });
+    private static HexSpriteArray256 s_sendMessageList;
+    private static HexSpriteArray256 s_loadedList;
 }

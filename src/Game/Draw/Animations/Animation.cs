@@ -18,107 +18,107 @@ public partial class Animation : HexSprite
 {
     public Animation(ECustomNode owner) : base(owner)
     {
-        FAnimationLevel = 26;
+        AnimationLevel = 26;
     }
 
     // Animation.pas:143
-    public new const int ClassID = 131815;
+    public new const int ClassId = 131815;
 
-    public sbyte FXhx;
-    public sbyte FYhx;
-    public sbyte FLhx;
-    public byte FAnimationLevel;
-    public Set<StateElement> FState;
-    public int FFrameCounter;
-    public Rect FDimensions;
-    public ShowAnimationEvent FOnShow;
-    public NewFrameAnimationEvent FOnNewFrame;
-    public int FTag;
-    public HSMap FAnimationMap;
+    public sbyte _hexX;
+    public sbyte _hexY;
+    public sbyte _hexLevel;
+    public byte AnimationLevel;
+    public Set<StateElement> State;
+    public int FrameCounter;
+    public Rect Dimensions;
+    public ShowAnimationEvent OnShow;
+    public NewFrameAnimationEvent OnNewFrame;
+    public int Tag;
+    public HSMap AnimationMap;
 
     // Animation.pas:153
     public override Set<ControlStyleElement> GetControlStyle()
     {
-        Set<ControlStyleElement> Result;
+        Set<ControlStyleElement> result;
         if (AnimationControlMode().Contains(AnimationControlModeElement.Saveable))
         {
-            Result = Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad);
+            result = Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad);
         }
         else
         {
-            Result = Set<ControlStyleElement>.Of();
+            result = Set<ControlStyleElement>.Of();
         }
 
-        return Result;
+        return result;
     }
 
     // Animation.pas:276
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwData(Bytes.Of(ref FDimensions, 16), 16, 10);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FXhx), 11);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FYhx), 12);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FLhx), 13);
-        Stream.rwInteger(ref FFrameCounter, 14);
+        base.ReadWrite(stream);
+        stream.rwData(Bytes.Of(ref Dimensions, 16), 16, 10);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _hexX), 11);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _hexY), 12);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _hexLevel), 13);
+        stream.rwInteger(ref FrameCounter, 14);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Record(persister, "Dimensions", ref FDimensions);
-        PersistSupport.UnsignedByte(persister, "Xhx", ref FXhx);
-        PersistSupport.UnsignedByte(persister, "Yhx", ref FYhx);
-        PersistSupport.UnsignedByte(persister, "Lhx", ref FLhx);
-        persister.Int("FrameCounter", ref FFrameCounter);
+        PersistSupport.Record(persister, "Dimensions", ref Dimensions);
+        PersistSupport.UnsignedByte(persister, "HexX", ref _hexX);
+        PersistSupport.UnsignedByte(persister, "HexY", ref _hexY);
+        PersistSupport.UnsignedByte(persister, "HexLevel", ref _hexLevel);
+        persister.Int32("FrameCounter", ref FrameCounter);
     }
 
     // Animation.pas:127
 
     // Animation.pas:194
-    public override byte GetLevel() => FAnimationLevel;
+    public override byte GetLevel() => AnimationLevel;
 
     // Animation.pas:207
-    public override void SetVisible(bool Value)
+    public override void SetVisible(bool value)
     {
-        if (Value)
+        if (value)
         {
-            FState = FState + Set<StateElement>.Of(StateElement.Visible);
+            State = State + Set<StateElement>.Of(StateElement.Visible);
         }
         else
         {
-            FState = FState - Set<StateElement>.Of(StateElement.Visible);
+            State = State - Set<StateElement>.Of(StateElement.Visible);
         }
     }
 
     // Animation.pas:213
-    public override bool GetVisible() => FState.Contains(StateElement.Visible);
+    public override bool GetVisible() => State.Contains(StateElement.Visible);
 
     // Animation.pas:250
-    public override bool GetSelected() => FState.Contains(StateElement.Selected);
+    public override bool GetSelected() => State.Contains(StateElement.Selected);
 
     // Animation.pas:261
-    public override sbyte GetXhx() => FXhx;
+    public override sbyte GetHexX() => _hexX;
 
     // Animation.pas:266
-    public override sbyte GetYhx() => FYhx;
+    public override sbyte GetHexY() => _hexY;
 
     // Animation.pas:271
-    public override sbyte GetLhx() => FLhx;
+    public override sbyte GetHexLevel() => _hexLevel;
 
     // Animation.pas:227
-    public override bool GetEditMode() => FState.Contains(StateElement.EditMode);
+    public override bool GetEditMode() => State.Contains(StateElement.EditMode);
 
     // Animation.pas:232
-    public override void SetEditMode(bool Value)
+    public override void SetEditMode(bool value)
     {
-        if (Value)
+        if (value)
         {
-            FState = FState + Set<StateElement>.Of(StateElement.EditMode);
+            State = State + Set<StateElement>.Of(StateElement.EditMode);
         }
         else
         {
-            FState = FState - Set<StateElement>.Of(StateElement.EditMode);
+            State = State - Set<StateElement>.Of(StateElement.EditMode);
         }
     }
 
@@ -127,8 +127,8 @@ public partial class Animation : HexSprite
     {
         int X = default;
         int Y = default;
-        HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
-        return (FAnimationLevel << 26) + ((Y + FDimensions.Bottom) << 13) + X;
+        HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
+        return (AnimationLevel << 26) + ((Y + Dimensions.Bottom) << 13) + X;
     }
 
     // Animation.pas:315
@@ -136,19 +136,19 @@ public partial class Animation : HexSprite
     {
         int X = default;
         int Y = default;
-        if (!FState.Contains(StateElement.Placed))
+        if (!State.Contains(StateElement.Placed))
         {
-            HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
+            HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
             if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
             {
-                PlaceOnMapEx(FAnimationMap.MapContainer, X + FDimensions.Left, Y + FDimensions.Top, FLhx, X + FDimensions.Right, Y + FDimensions.Bottom);
+                PlaceOnMap(AnimationMap.MapContainer, X + Dimensions.Left, Y + Dimensions.Top, _hexLevel, X + Dimensions.Right, Y + Dimensions.Bottom);
             }
             else
             {
-                PlaceUserOnMapEx(FAnimationMap.MapContainer, X + FDimensions.Left, Y + FDimensions.Top, FLhx, X + FDimensions.Right, Y + FDimensions.Bottom);
+                PlaceUserOnMap(AnimationMap.MapContainer, X + Dimensions.Left, Y + Dimensions.Top, _hexLevel, X + Dimensions.Right, Y + Dimensions.Bottom);
             }
 
-            FState = FState + Set<StateElement>.Of(StateElement.Placed);
+            State = State + Set<StateElement>.Of(StateElement.Placed);
         }
     }
 
@@ -157,38 +157,38 @@ public partial class Animation : HexSprite
     {
         int X = default;
         int Y = default;
-        if (FState.Contains(StateElement.Placed))
+        if (State.Contains(StateElement.Placed))
         {
-            HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
+            HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
             if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
             {
-                RemoveFromMapEx(X + FDimensions.Left, Y + FDimensions.Top, X + FDimensions.Right, Y + FDimensions.Bottom);
+                RemoveFromMap(X + Dimensions.Left, Y + Dimensions.Top, X + Dimensions.Right, Y + Dimensions.Bottom);
             }
             else
             {
-                RemoveUserFromMapEx(FAnimationMap.MapContainer, X + FDimensions.Left, Y + FDimensions.Top, FLhx, X + FDimensions.Right, Y + FDimensions.Bottom);
+                RemoveUserFromMap(AnimationMap.MapContainer, X + Dimensions.Left, Y + Dimensions.Top, _hexLevel, X + Dimensions.Right, Y + Dimensions.Bottom);
             }
 
-            FState = FState - Set<StateElement>.Of(StateElement.Placed);
+            State = State - Set<StateElement>.Of(StateElement.Placed);
         }
     }
 
     // Animation.pas:383
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (FOnShow != null)
+        if (OnShow != null)
         {
-            FOnShow(this, XhpSurf, YhpSurf, SurfaceDesc);
+            OnShow(this, pixelXSurface, pixelYSurface, lockedSurface);
         }
     }
 
     // Animation.pas:349
-    public override bool Place(MapContainer Map, int Xhp, int Yhp, int Lhx)
+    public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
     {
         int X = default;
         int Y = default;
-        HexGeometry.HPtoHX(Xhp, Yhp, ref X, ref Y);
-        return PlaceHX(Map, (sbyte)X, (sbyte)Y, (sbyte)Lhx);
+        HexGeometry.PixelToHex(pixelX, pixelY, ref X, ref Y);
+        return PlaceHex(map, (sbyte)X, (sbyte)Y, (sbyte)hexLevel);
     }
 
     // Animation.pas:372
@@ -197,13 +197,13 @@ public partial class Animation : HexSprite
         base.Remove();
         if (GetVisible())
         {
-            if (FAnimationLevel <= 15)
+            if (AnimationLevel <= 15)
             {
-                FAnimationMap.StaticVisibleHS.RemoveChild(this);
+                AnimationMap.StaticVisibleHexSprite.RemoveChild(this);
             }
             else
             {
-                FAnimationMap.DynamicVisibleHS.RemoveChild(this);
+                AnimationMap.DynamicVisibleHexSprite.RemoveChild(this);
             }
 
             SetVisible(false);
@@ -214,20 +214,20 @@ public partial class Animation : HexSprite
     public override void Activate()
     {
         base.Activate();
-        FState = FState + Set<StateElement>.Of(StateElement.Activated);
+        State = State + Set<StateElement>.Of(StateElement.Activated);
         if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToNewFrame))
         {
-            FAnimationMap.NewFrameEvents += NewFrameEvent;
+            AnimationMap.NewFrameEvents += NewFrameEvent;
         }
 
         if (AnimationControlMode().Contains(AnimationControlModeElement.FixedVisible))
         {
-            FAnimationMap.DynamicFixedVisibleHS.AddChild(this);
+            AnimationMap.DynamicFixedVisibleHexSprite.AddChild(this);
         }
 
         if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToOnDestroy))
         {
-            FAnimationMap.DestroyEvents += DestroyEvent;
+            AnimationMap.DestroyEvents += DestroyEvent;
         }
     }
 
@@ -235,34 +235,34 @@ public partial class Animation : HexSprite
     public override void Deactivate()
     {
         base.Deactivate();
-        if (FState.Contains(StateElement.Activated))
+        if (State.Contains(StateElement.Activated))
         {
-            FState = FState - Set<StateElement>.Of(StateElement.Activated);
+            State = State - Set<StateElement>.Of(StateElement.Activated);
             if (AnimationControlMode().Contains(AnimationControlModeElement.FixedVisible))
             {
-                FAnimationMap.DynamicFixedVisibleHS.RemoveChild(this);
-                FAnimationMap.DynamicVisibleHS.RemoveChild(this);
+                AnimationMap.DynamicFixedVisibleHexSprite.RemoveChild(this);
+                AnimationMap.DynamicVisibleHexSprite.RemoveChild(this);
             }
 
             if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToNewFrame))
             {
-                FAnimationMap.NewFrameEvents -= NewFrameEvent;
+                AnimationMap.NewFrameEvents -= NewFrameEvent;
             }
 
             if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToOnDestroy))
             {
-                FAnimationMap.DestroyEvents -= DestroyEvent;
+                AnimationMap.DestroyEvents -= DestroyEvent;
             }
         }
     }
 
     // Animation.pas:218
-    public override void MakeVisible(VisibilityList VisibilityList)
+    public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!FState.Contains(StateElement.Visible))
+        if (!State.Contains(StateElement.Visible))
         {
-            FState = FState + Set<StateElement>.Of(StateElement.Visible);
-            VisibilityList.AddSortChild(this, GetShowPriority());
+            State = State + Set<StateElement>.Of(StateElement.Visible);
+            visibilityList.AddSortChild(this, GetShowPriority());
         }
     }
 
@@ -270,79 +270,79 @@ public partial class Animation : HexSprite
     public override void Select()
     {
         base.Select();
-        FState = FState + Set<StateElement>.Of(StateElement.Selected);
+        State = State + Set<StateElement>.Of(StateElement.Selected);
     }
 
     // Animation.pas:244
     public override void Unselect()
     {
         base.Unselect();
-        FState = FState - Set<StateElement>.Of(StateElement.Selected);
+        State = State - Set<StateElement>.Of(StateElement.Selected);
     }
 
     // Animation.pas:286
-    public virtual bool PlaceTE(AnimationTokenEvent Event, TokenExecutor Executer) => PlaceHX(FAnimationMap.MapContainer, FXhx, FYhx, FLhx);
+    public virtual bool PlaceTokenEvent(AnimationTokenEvent eventValue, TokenExecutor executor) => PlaceHex(AnimationMap.MapContainer, _hexX, _hexY, _hexLevel);
 
     // Animation.pas:291
-    public virtual bool RemoveTE(AnimationTokenEvent Event, TokenExecutor Executer)
+    public virtual bool RemoveTokenEvent(AnimationTokenEvent eventValue, TokenExecutor executor)
     {
         MainRemove();
         return true;
     }
 
     // Animation.pas:297
-    public virtual bool ExecuteTE(AnimationTokenEvent Event, TokenExecutor Executer) => false;
+    public virtual bool ExecuteTokenEvent(AnimationTokenEvent eventValue, TokenExecutor executor) => false;
 
     // Animation.pas:308
-    public virtual bool CanPlace(MapContainer Map, sbyte X, sbyte Y, sbyte L)
+    public virtual bool CanPlace(MapContainer map, sbyte X, sbyte Y, sbyte L)
     {
-        bool Result;
-        if (X < 0 || Y < 0 || L < 0 || X >= Map.Width || Y >= Map.Height || L >= Map.LevelCount)
+        bool result;
+        if (X < 0 || Y < 0 || L < 0 || X >= map.Width || Y >= map.Height || L >= map.LevelCount)
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Animation.pas:357
-    public virtual bool PlaceHX(MapContainer Map, sbyte X, sbyte Y, sbyte L)
+    public virtual bool PlaceHex(MapContainer map, sbyte X, sbyte Y, sbyte L)
     {
-        bool Result;
-        if (GetEditMode() || CanPlace(Map, X, Y, L))
+        bool result;
+        if (GetEditMode() || CanPlace(map, X, Y, L))
         {
-            FAnimationMap = Map.Map;
+            AnimationMap = map.Map;
             Remove();
-            FXhx = X;
-            FYhx = Y;
-            FLhx = L;
+            _hexX = X;
+            _hexY = Y;
+            _hexLevel = L;
             Connect();
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Animation.pas:302
     public virtual void NewFrame()
     {
-        FFrameCounter += 1;
-        if (FOnNewFrame != null)
+        FrameCounter += 1;
+        if (OnNewFrame != null)
         {
-            FOnNewFrame(this, FFrameCounter);
+            OnNewFrame(this, FrameCounter);
         }
     }
 
     // Animation.pas:138
-    public void DestroyEvent(object Sender)
+    public void DestroyEvent(object sender)
     {
         if (Owner == null)
         {
@@ -351,7 +351,7 @@ public partial class Animation : HexSprite
     }
 
     // Animation.pas:148
-    public void NewFrameEvent(object Sender)
+    public void NewFrameEvent(object sender)
     {
         NewFrame();
     }
@@ -359,9 +359,9 @@ public partial class Animation : HexSprite
     // Animation.pas:255
     public void SetDimensions(Rect R)
     {
-        if (!FState.Contains(StateElement.Placed))
+        if (!State.Contains(StateElement.Placed))
         {
-            FDimensions = R;
+            Dimensions = R;
         }
         else
         {
@@ -376,7 +376,7 @@ public partial class Animation : HexSprite
 
     public enum StateElement : byte
     {
-        Visible = 0, EditMode = 1, Selected = 2, LinkedToTE = 3, Activated = 4, Placed = 5
+        Visible = 0, EditMode = 1, Selected = 2, LinkedToTokenEvent = 3, Activated = 4, Placed = 5
     }
 
     public delegate void NewFrameAnimationEvent(Animation Animation, int FrameCounter);

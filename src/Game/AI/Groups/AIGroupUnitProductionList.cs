@@ -10,7 +10,7 @@ public partial class AIGroupUnitProductionList : EReferenceNode
     { }
 
     // AIGroup.pas:2435
-    public AIGroupUnitProduction GetUnitProductions(int Index) => (AIGroupUnitProduction)FChildren.EObjects[Index];
+    public AIGroupUnitProduction GetUnitProductions(int index) => (AIGroupUnitProduction)_children.EObjects[index];
 
     // Engine.pas:631
 

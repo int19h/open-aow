@@ -13,147 +13,147 @@ public partial class WallCrushingAbility : TouchAbility
     // AoWAb.PAS:1991
     public WallCrushingAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityID = 117;
-        FAbilityType = AbilityType.Combat;
-        FAbilityName = AbilityRules.TranslateRStr(WallCrushingRStr);
-        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.UseItem);
+        AbilityId = 117;
+        AbilityType = AbilityType.Combat;
+        AbilityName = AbilityRules.TranslateResourceString(s_wallCrushingText);
+        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.UseItem);
     }
 
     // AoWAb.PAS:2076
-    public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner Owner) => Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.Participate);
+    public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner owner) => Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.Participate);
 
     // AoWAb.PAS:2000
-    public override int GetDamageValue(Troop Attacker, Troop Defender)
+    public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        var hitPoints = Defender.GetHitPoints();
-        var defense = Defender.GetDefense();
-        var resistance = Defender.GetResistance();
-        var immunityTypes = Defender.GetImmunityTypes();
-        var protectionTypes = Defender.GetProtectionTypes();
-        return AbilityRules.StatisticsToLimitedDV(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
+        var hitPoints = defender.GetHitPoints();
+        var defense = defender.GetDefense();
+        var resistance = defender.GetResistance();
+        var immunityTypes = defender.GetImmunityTypes();
+        var protectionTypes = defender.GetProtectionTypes();
+        return AbilityRules.StatisticsToLimitedDamageValue(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
     }
 
     // AoWAb.PAS:2006
-    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (WallSituation == WallSituation.None)
+        if (wallSituation == WallSituation.None)
         {
             // { Original leaves DamageTypes untouched on this successful path. }
-            var hitPoints = Defender.GetHitPoints();
-            var defense = Defender.GetDefense();
-            var resistance = Defender.GetResistance();
-            var immunityTypes = Defender.GetImmunityTypes();
-            var protectionTypes = Defender.GetProtectionTypes();
-            var statisticsToLimitedDV = AbilityRules.StatisticsToLimitedDV(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
-            DamageValues.SourceDamage = statisticsToLimitedDV;
-            var defenderProtectionTypes = Defender.GetProtectionTypes();
-            var defenderImmunityTypes = Defender.GetImmunityTypes();
+            var hitPoints = defender.GetHitPoints();
+            var defense = defender.GetDefense();
+            var resistance = defender.GetResistance();
+            var immunityTypes = defender.GetImmunityTypes();
+            var protectionTypes = defender.GetProtectionTypes();
+            var statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            damageValues.SourceDamage = statisticsToLimitedDamageValue;
+            var defenderProtectionTypes = defender.GetProtectionTypes();
+            var defenderImmunityTypes = defender.GetImmunityTypes();
             var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(6, Set<DamageType>.Of(DamageType.Wall), defenderImmunityTypes, defenderProtectionTypes);
-            DamageValues.SourceCost = statisticsToMaxDamage;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
+            damageValues.SourceCost = statisticsToMaxDamage;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
         }
         else
         {
-            DamageValues.SourceDamage = 0;
-            DamageValues.SourceCost = 0;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
-            DamageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.SourceDamage = 0;
+            damageValues.SourceCost = 0;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
+            damageValues.DamageTypes = Set<DamageType>.Of();
         }
     }
 
     // AoWAb.PAS:2096
-    public override void GetOffensiveStrength(AbilityOwner Owner, ref int Strength, ref Set<DamageType> Types)
+    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
     {
-        if (Owner is Troop unit)
+        if (owner is Troop troop)
         {
-            Strength = AbilityRules.P3LimitedDamage(unit.GetAttack(), 6, 1);
-            Types = Set<DamageType>.Of(DamageType.Wall);
+            strength = AbilityRules.LimitedDamage(troop.GetAttack(), 6, 1);
+            types = Set<DamageType>.Of(DamageType.Wall);
         }
     }
 
     // AoWAb.PAS:2027
-    public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (CanTouch(Attacker, Defender))
+        if (CanTouch(attacker, defender))
         {
-            var hitPoints = Defender.GetHitPoints();
-            var defense = Defender.GetDefense();
-            var resistance = Defender.GetResistance();
-            var immunityTypes = Defender.GetImmunityTypes();
-            var protectionTypes = Defender.GetProtectionTypes();
-            var statisticsToLimitedDV = AbilityRules.StatisticsToLimitedDV(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
-            DamageValues.SourceDamage = statisticsToLimitedDV;
-            var defenderProtectionTypes = Defender.GetProtectionTypes();
-            var defenderImmunityTypes = Defender.GetImmunityTypes();
+            var hitPoints = defender.GetHitPoints();
+            var defense = defender.GetDefense();
+            var resistance = defender.GetResistance();
+            var immunityTypes = defender.GetImmunityTypes();
+            var protectionTypes = defender.GetProtectionTypes();
+            var statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            damageValues.SourceDamage = statisticsToLimitedDamageValue;
+            var defenderProtectionTypes = defender.GetProtectionTypes();
+            var defenderImmunityTypes = defender.GetImmunityTypes();
             var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(6, Set<DamageType>.Of(DamageType.Wall), defenderImmunityTypes, defenderProtectionTypes);
-            DamageValues.SourceCost = statisticsToMaxDamage;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
+            damageValues.SourceCost = statisticsToMaxDamage;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
         }
         else
         {
-            DamageValues.SourceDamage = 0;
-            DamageValues.SourceCost = 0;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
-            DamageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.SourceDamage = 0;
+            damageValues.SourceCost = 0;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
+            damageValues.DamageTypes = Set<DamageType>.Of();
         }
     }
 
     // AoWAb.PAS:2047
-    public override void tcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, ref AbilityDamageValues DamageValues)
+    public override void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues)
     {
-        if (CanTouch(Attacker, Defender))
+        if (CanTouch(attacker, defender))
         {
-            var hitPoints = Defender.GetHitPoints();
-            var defense = Defender.GetDefense();
-            var resistance = Defender.GetResistance();
-            var immunityTypes = Defender.GetImmunityTypes();
-            var protectionTypes = Defender.GetProtectionTypes();
-            var statisticsToLimitedDV = AbilityRules.StatisticsToLimitedDV(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
-            DamageValues.SourceDamage = statisticsToLimitedDV;
-            var defenderProtectionTypes = Defender.GetProtectionTypes();
-            var defenderImmunityTypes = Defender.GetImmunityTypes();
+            var hitPoints = defender.GetHitPoints();
+            var defense = defender.GetDefense();
+            var resistance = defender.GetResistance();
+            var immunityTypes = defender.GetImmunityTypes();
+            var protectionTypes = defender.GetProtectionTypes();
+            var statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, 6, Set<DamageType>.Of(DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            damageValues.SourceDamage = statisticsToLimitedDamageValue;
+            var defenderProtectionTypes = defender.GetProtectionTypes();
+            var defenderImmunityTypes = defender.GetImmunityTypes();
             var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(6, Set<DamageType>.Of(DamageType.Wall), defenderImmunityTypes, defenderProtectionTypes);
-            DamageValues.SourceCost = statisticsToMaxDamage;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
+            damageValues.SourceCost = statisticsToMaxDamage;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
         }
         else
         {
-            DamageValues.SourceDamage = 0;
-            DamageValues.SourceCost = 0;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
-            DamageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.SourceDamage = 0;
+            damageValues.SourceCost = 0;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
+            damageValues.DamageTypes = Set<DamageType>.Of();
         }
     }
 
     // AoWAb.PAS:2067
-    public override void GetCombatInfo(AbilityOwner Owner, ref AbilityCombatInfo Info)
+    public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
     {
-        Info.Attack = 6;
-        Info.Damage = 6;
-        Info.DamageTypes = Set<DamageType>.Of(DamageType.Wall);
-        Info.RepeatCount = 1;
-        Info.TargetTypes = Set<CombatTargetTypeElement>.Of();
+        info.Attack = 6;
+        info.Damage = 6;
+        info.DamageTypes = Set<DamageType>.Of(DamageType.Wall);
+        info.RepeatCount = 1;
+        info.TargetTypes = Set<CombatTargetTypeElement>.Of();
     }
 
     // AoWAb.PAS:2105
-    public override bool CanTouch(CombatObject Source, CombatObject Target)
+    public override bool CanTouch(CombatObject source, CombatObject target)
     {
-        bool Result = base.CanTouch(Source, Target);
-        return Result && !(Target is CombatUnit);
+        bool result = base.CanTouch(source, target);
+        return result && !(target is CombatUnit);
     }
 
-    private static readonly string WallCrushingRStr = "Wall Crushing";
+    private static readonly string s_wallCrushingText = "Wall Crushing";
 
-    private static DamageCombatAction CreateDamageCA(CombatObject Source, CombatObject Target, int Attack, int Damage, Set<DamageType> DamageTypes)
+    private static DamageCombatAction CreateDamageCombatAction(CombatObject source, CombatObject target, int attack, int damage, Set<DamageType> damageTypes)
     {
-        DamageCombatAction tDamageCA = new DamageCombatAction(null);
-        tDamageCA.Generate(Source, Target, (sbyte)Attack, (sbyte)Damage, DamageTypes);
-        return tDamageCA;
+        DamageCombatAction damageCombatAction = new DamageCombatAction(null);
+        damageCombatAction.Generate(source, target, (sbyte)attack, (sbyte)damage, damageTypes);
+        return damageCombatAction;
     }
 }

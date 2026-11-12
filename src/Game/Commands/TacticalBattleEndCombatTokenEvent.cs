@@ -13,17 +13,17 @@ public partial class TacticalBattleEndCombatTokenEvent : TokenEvent
     { }
 
     // CombatTE.pas:158
-    public new const int ClassID = 2236421;
+    public new const int ClassId = 2236421;
 
     // CombatTE.pas:161
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        base.Execute(TE);
-        for (int I = 0, last = CombatMap.Current.FCombat.FCombatData.GetCount() - 1; I <= last; I++)
+        base.Execute(tokenEvent);
+        for (int I = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; I <= last; I++)
         {
-            if (CombatMap.Current.FCombat.FCombatData.GetObjects(I) != null && CombatMap.Current.FCombat.FCombatData.GetObjects(I) is CombatUnit && CombatMap.Current.FCombat.FCombatData.GetObjects(I).GetEnabled() && CombatMap.Current.FCombat.FCombatData.GetObjects(I).FCombatPlayer == CombatMap.Current.FCurrentCombatPlayer)
+            if (CombatMap.Current.Combat.CombatData.GetObjects(I) != null && CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(I).CombatPlayer == CombatMap.Current.CurrentCombatPlayer)
             {
-                CombatMap.Current.FCombat.FCombatData.GetObjects(I).Surrender();
+                CombatMap.Current.Combat.CombatData.GetObjects(I).Surrender();
             }
         }
 

@@ -76,22 +76,22 @@ public partial class FastBattleWindow : DataModule
     public UserDrawBox LShieldUser;
     public UserDrawBox RShieldUser;
     public IvTranslator Translator;
-    public byte FPhase;
-    public int FPhaseFrame;
-    public int FAnimationFrame;
-    public CombatLogbook FLogbook;
-    public int FLeftShield;
-    public byte FLeftOpacity;
-    public int FRightShield;
-    public byte FRightOpacity;
-    public CombatViewer FViewer;
-    public ExecuteDoneEvent FDone;
-    public EventLog FEvent;
+    public byte Phase;
+    public int PhaseFrame;
+    public int AnimationFrame;
+    public CombatLogbook Logbook;
+    public int LeftShield;
+    public byte LeftOpacity;
+    public int RightShield;
+    public byte RightOpacity;
+    public CombatViewer Viewer;
+    public ExecuteDoneEvent Done;
+    public EventLog Event;
 
     // FastCombatWin.pas:231
-    public void GetPartyPosition(int Index, ref int X, ref int Y)
+    public void GetPartyPosition(int index, ref int X, ref int Y)
     {
-        switch (Index)
+        switch (index)
         {
             case 0:
                 X = Party1Pnl.WinLeft;
@@ -126,188 +126,188 @@ public partial class FastBattleWindow : DataModule
     }
 
     // FastCombatWin.pas:244
-    public void DrawParties(int X, int Y, in LockedSurface Surface)
+    public void DrawParties(int X, int Y, in LockedSurface surface)
     {
-        int PX = default;
-        int PY = default;
-        int Position;
-        Battle Combat;
-        CombatObject Obj;
-        if (FViewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
+        int pixelX = default;
+        int pixelY = default;
+        int position;
+        Battle combat;
+        CombatObject objectValue;
+        if (Viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            Combat = FViewer.FCombat;
-            for (int I = 0, last = Combat.FCombatData.GetCount() - 1; I <= last; I++)
+            combat = Viewer.Combat;
+            for (int I = 0, last = combat.CombatData.GetCount() - 1; I <= last; I++)
             {
-                Obj = Combat.FCombatData.GetObjects(I);
-                if (Obj.FPosition != 128)
+                objectValue = combat.CombatData.GetObjects(I);
+                if (objectValue.Position != 128)
                 {
-                    GetPartyPosition((int)(((uint)Obj.FPosition) >> 4), ref PX, ref PY);
-                    PX = PX + X - 15;
-                    PY = PY + Y - 32;
-                    Position = Obj.FPosition & 15;
-                    PX += Position % 4 * 40;
-                    if (Position >= 4)
+                    GetPartyPosition((int)(((uint)objectValue.Position) >> 4), ref pixelX, ref pixelY);
+                    pixelX = pixelX + X - 15;
+                    pixelY = pixelY + Y - 32;
+                    position = objectValue.Position & 15;
+                    pixelX += position % 4 * 40;
+                    if (position >= 4)
                     {
-                        PY += 38;
+                        pixelY += 38;
                     }
 
-                    var combatObject = Combat.FCombatData.GetObjects(I);
-                    FViewer.ShowFieldObject(combatObject, FAnimationFrame, 3, PX, PY, Surface);
+                    var combatObject = combat.CombatData.GetObjects(I);
+                    Viewer.ShowFieldObject(combatObject, AnimationFrame, 3, pixelX, pixelY, surface);
                 }
             }
         }
     }
 
     // FastCombatWin.pas:270
-    public void DrawWalls(int X, int Y, in LockedSurface Surface)
+    public void DrawWalls(int X, int Y, in LockedSurface surface)
     {
-        int Image;
-        CombatWall Wall;
+        int image;
+        CombatWall wall;
         bool HasWall(int A, int B)
         {
-            CombatParty PA;
-            CombatParty PB;
-            bool WA;
-            bool WB;
-            PA = FViewer.FCombat.FCombatData.FParties.GetParty((byte)A);
-            PB = FViewer.FCombat.FCombatData.FParties.GetParty((byte)B);
-            WA = PA != null && PA.FWall != 0;
-            WB = PB != null && PB.FWall != 0;
-            return WA ^ WB;
+            CombatParty pa;
+            CombatParty pb;
+            bool wa;
+            bool wb;
+            pa = Viewer.Combat.CombatData.Parties.GetParty((byte)A);
+            pb = Viewer.Combat.CombatData.Parties.GetParty((byte)B);
+            wa = pa != null && pa.Wall != 0;
+            wb = pb != null && pb.Wall != 0;
+            return wa ^ wb;
         }
 
         Y -= 19;
-        if (FViewer.FCombat.FCombatData.FWallType == 2)
+        if (Viewer.Combat.CombatData.WallType == 2)
         {
-            Image = 80;
+            image = 80;
         }
         else
         {
-            Image = 60;
+            image = 60;
         }
 
-        if (FViewer.FCombat.FCombatData.FWallBreached)
+        if (Viewer.Combat.CombatData.WallBreached)
         {
-            Image += 10;
+            image += 10;
         }
 
         if (HasWall(1, 6))
         {
-            AoWHSSet.Current.FCombatImages[Image].Show(X + 180, Y + 218 - 50, Surface);
+            AoWHSSet.Current.CombatImages[image].Show(X + 180, Y + 218 - 50, surface);
         }
 
         if (HasWall(1, 2))
         {
-            AoWHSSet.Current.FCombatImages[Image].Show(X + 372, Y + 218 - 50, Surface);
+            AoWHSSet.Current.CombatImages[image].Show(X + 372, Y + 218 - 50, surface);
         }
 
         if (HasWall(0, 1))
         {
-            AoWHSSet.Current.FCombatImages[Image + 4].Show(X + 180, Y + 218, Surface);
+            AoWHSSet.Current.CombatImages[image + 4].Show(X + 180, Y + 218, surface);
         }
 
         if (HasWall(0, 6))
         {
-            AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 180, Y + 218, Surface);
+            AoWHSSet.Current.CombatImages[image + 5].Show(X + 180, Y + 218, surface);
         }
 
         if (HasWall(0, 2))
         {
-            AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 372, Y + 218, Surface);
+            AoWHSSet.Current.CombatImages[image + 5].Show(X + 372, Y + 218, surface);
         }
 
         if (HasWall(5, 6))
         {
-            AoWHSSet.Current.FCombatImages[Image + 3].Show(X + 0, Y + 275, Surface);
+            AoWHSSet.Current.CombatImages[image + 3].Show(X + 0, Y + 275, surface);
         }
 
         if (HasWall(2, 3))
         {
-            AoWHSSet.Current.FCombatImages[Image + 2].Show(X + 374, Y + 275, Surface);
+            AoWHSSet.Current.CombatImages[image + 2].Show(X + 374, Y + 275, surface);
         }
 
         if (HasWall(0, 5))
         {
-            AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 180, Y + 275, Surface);
+            AoWHSSet.Current.CombatImages[image + 5].Show(X + 180, Y + 275, surface);
         }
 
         if (HasWall(0, 3))
         {
-            AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 372, Y + 275, Surface);
+            AoWHSSet.Current.CombatImages[image + 5].Show(X + 372, Y + 275, surface);
         }
 
         if (HasWall(0, 4))
         {
-            AoWHSSet.Current.FCombatImages[Image + 4].Show(X + 180, Y + 332, Surface);
+            AoWHSSet.Current.CombatImages[image + 4].Show(X + 180, Y + 332, surface);
         }
 
         if (HasWall(4, 5))
         {
-            AoWHSSet.Current.FCombatImages[Image + 1].Show(X + 180, Y + 342, Surface);
+            AoWHSSet.Current.CombatImages[image + 1].Show(X + 180, Y + 342, surface);
         }
 
         if (HasWall(4, 3))
         {
-            AoWHSSet.Current.FCombatImages[Image + 1].Show(X + 372, Y + 342, Surface);
+            AoWHSSet.Current.CombatImages[image + 1].Show(X + 372, Y + 342, surface);
         }
 
-        var combatData = FViewer.FCombat.FCombatData;
-        if (combatData.FWallType != 0)
+        var combatData = Viewer.Combat.CombatData;
+        if (combatData.WallType != 0)
         {
-            Wall = combatData.FWall;
-            if (Wall != null)
+            wall = combatData.Wall;
+            if (wall != null)
             {
                 if (HasWall(0, 4))
                 {
-                    var hits = Wall.GetHits();
-                    var hitPointsToHitPcnt = HitChance.HitPointsToHitPcnt(Wall.GetHitPoints(), hits);
-                    HitChance.ShowHitPcnt(X + 250, Y + 332 - 45, Surface, hitPointsToHitPcnt);
+                    var hits = wall.GetHits();
+                    var hitPointsToHitPercent = HitChance.HitPointsToHitPercent(wall.GetHitPoints(), hits);
+                    HitChance.ShowHitPercent(X + 250, Y + 332 - 45, surface, hitPointsToHitPercent);
                 }
                 else
                 {
-                    var hits = Wall.GetHits();
-                    var hitPointsToHitPcnt = HitChance.HitPointsToHitPcnt(Wall.GetHitPoints(), hits);
-                    HitChance.ShowHitPcnt(X + 250, Y + 218 - 45, Surface, hitPointsToHitPcnt);
+                    var hits = wall.GetHits();
+                    var hitPointsToHitPercent = HitChance.HitPointsToHitPercent(wall.GetHitPoints(), hits);
+                    HitChance.ShowHitPercent(X + 250, Y + 218 - 45, surface, hitPointsToHitPercent);
                 }
             }
         }
     }
 
     // FastCombatWin.pas:316
-    public void DrawCombat(int X, int Y, ref LockedSurface Surface)
+    public void DrawCombat(int X, int Y, ref LockedSurface surface)
     {
-        Battle Combat;
-        int PX = default;
-        int PY = default;
-        int Glow;
-        Combat = FViewer.FCombat;
+        Battle combat;
+        int pixelX = default;
+        int pixelY = default;
+        int glow;
+        combat = Viewer.Combat;
         UpdateShields();
-        if (ModeLbl.Text != Combat.FCombatData.FHeader)
+        if (ModeLbl.Text != combat.CombatData.Header)
         {
-            ModeLbl.Text = Combat.FCombatData.FHeader;
+            ModeLbl.Text = combat.CombatData.Header;
         }
 
-        DrawParties(X, Y + 20, Surface);
-        if (Combat.FCombatData.FWallType != 0)
+        DrawParties(X, Y + 20, surface);
+        if (combat.CombatData.WallType != 0)
         {
-            DrawWalls(X, Y + 20, Surface);
+            DrawWalls(X, Y + 20, surface);
         }
 
-        FViewer.ShowFightingObjects(FAnimationFrame, X + 234, Y + 15, Surface);
-        if (FPhase == 2 || FPhase == 3)
+        Viewer.ShowFightingObjects(AnimationFrame, X + 234, Y + 15, surface);
+        if (Phase == 2 || Phase == 3)
         {
             for (int I = 0; I <= 7; I++)
             {
-                if (Combat.FCombatData.FParties.GetParty((byte)I) != null)
+                if (combat.CombatData.Parties.GetParty((byte)I) != null)
                 {
-                    if (Combat.FCombatData.FParties.GetParty((byte)I).FArmy.GetCount() == 0)
+                    if (combat.CombatData.Parties.GetParty((byte)I).Army.GetCount() == 0)
                     {
-                        if (!Set<byte>.WithBounds(0, 255).With(2).With(7).With(8).Contains(FViewer.FLogbook.FFinalData.F_CombatData_30))
+                        if (!Set<byte>.WithBounds(0, 255).With(2).With(7).With(8).Contains(Viewer.Logbook.FinalData.CombatResult))
                         {
-                            Glow = FPhaseFrame / 2;
-                            Glow = Math.Abs((Glow + 7) % 15 - 7);
-                            GetPartyPosition(I, ref PX, ref PY);
-                            AoWHSSet.Current.FCombatImages[Glow + 100].ShowClipped(PX + X - 10, PY + Y - 9, Surface);
+                            glow = PhaseFrame / 2;
+                            glow = Math.Abs((glow + 7) % 15 - 7);
+                            GetPartyPosition(I, ref pixelX, ref pixelY);
+                            AoWHSSet.Current.CombatImages[glow + 100].ShowClipped(pixelX + X - 10, pixelY + Y - 9, surface);
                         }
                     }
                 }
@@ -318,114 +318,114 @@ public partial class FastBattleWindow : DataModule
     // FastCombatWin.pas:340
     public void UpdateShields()
     {
-        CombatData Data;
-        int Left;
-        int Right;
-        int LeftOpacity;
-        int RightOpacity;
-        Data = FViewer.FCombat.FCombatData;
-        if (Data.FPlayers.GetPlayers(Data.FAttackerPlayer).FPlayer == 0)
+        CombatData data;
+        int left;
+        int right;
+        int leftOpacity;
+        int rightOpacity;
+        data = Viewer.Combat.CombatData;
+        if (data.Players.GetPlayers(data.AttackerPlayer).Player == 0)
         {
-            Left = 12;
+            left = 12;
         }
         else
         {
-            var player = Data.FPlayers.GetPlayers(Data.FAttackerPlayer);
-            Left = AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+            var player = data.Players.GetPlayers(data.AttackerPlayer);
+            left = AoWHSMap.Current.Players.GetPlayers(player.Player).PlayerRace;
         }
 
-        if (Data.FCurrentPlayer == 255 || Data.FPlayers.GetPlayers((sbyte)Data.FCurrentPlayer).FSideIndex != 0)
+        if (data.CurrentPlayer == 255 || data.Players.GetPlayers((sbyte)data.CurrentPlayer).SideIndex != 0)
         {
-            LeftOpacity = 60;
+            leftOpacity = 60;
         }
         else
         {
-            LeftOpacity = 100;
+            leftOpacity = 100;
         }
 
-        if (FPhase == 3)
+        if (Phase == 3)
         {
-            LeftOpacity = 100;
+            leftOpacity = 100;
         }
 
-        if (Data.FPlayers.GetPlayers(Data.FDefenderPlayer).FPlayer == 0)
+        if (data.Players.GetPlayers(data.DefenderPlayer).Player == 0)
         {
-            Right = 12;
+            right = 12;
         }
         else
         {
-            var player = Data.FPlayers.GetPlayers(Data.FDefenderPlayer);
-            Right = AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+            var player = data.Players.GetPlayers(data.DefenderPlayer);
+            right = AoWHSMap.Current.Players.GetPlayers(player.Player).PlayerRace;
         }
 
-        if (Data.FCurrentPlayer == 255 || Data.FPlayers.GetPlayers((sbyte)Data.FCurrentPlayer).FSideIndex != 1)
+        if (data.CurrentPlayer == 255 || data.Players.GetPlayers((sbyte)data.CurrentPlayer).SideIndex != 1)
         {
-            RightOpacity = 60;
+            rightOpacity = 60;
         }
         else
         {
-            RightOpacity = 100;
+            rightOpacity = 100;
         }
 
-        if (FPhase == 3)
+        if (Phase == 3)
         {
-            RightOpacity = 100;
+            rightOpacity = 100;
         }
 
-        if (Left != FLeftShield || LeftOpacity != FLeftOpacity)
+        if (left != LeftShield || leftOpacity != LeftOpacity)
         {
-            FLeftShield = Left;
-            FLeftOpacity = (byte)LeftOpacity;
-            LShieldUser.FDrawn = false;
+            LeftShield = left;
+            LeftOpacity = (byte)leftOpacity;
+            LShieldUser.Drawn = false;
         }
 
-        if (Right != FRightShield || RightOpacity != FRightOpacity)
+        if (right != RightShield || rightOpacity != RightOpacity)
         {
-            FRightShield = Right;
-            FRightOpacity = (byte)RightOpacity;
-            RShieldUser.FDrawn = false;
+            RightShield = right;
+            RightOpacity = (byte)rightOpacity;
+            RShieldUser.Drawn = false;
         }
     }
 
     // FastCombatWin.pas:373
     public void FinishDialog()
     {
-        ExecuteDoneEvent Done;
-        EventLog Log;
-        FViewer.Finalize();
+        ExecuteDoneEvent done;
+        EventLog log;
+        Viewer.Finalize();
         DialogHosts.General.Manager.OverlayPriority = 0;
-        Done = FDone;
-        Log = FEvent;
-        FDone = null;
-        FEvent = null;
-        if (Done != null)
+        done = Done;
+        log = Event;
+        Done = null;
+        Event = null;
+        if (done != null)
         {
-            Done(Log);
+            done(log);
         }
 
-        if (Log != null)
+        if (log != null)
         {
-            Log.Release();
+            log.Release();
         }
     }
 
     // FastCombatWin.pas:549
-    public void SetPhase(byte Phase)
+    public void SetPhase(byte phase)
     {
-        FPhase = Phase;
-        FPhaseFrame = 0;
+        Phase = phase;
+        PhaseFrame = 0;
     }
 
     // FastCombatWin.pas:389
     public void FastCombatWindowCreate()
     {
-        FViewer = new CombatViewer();
+        Viewer = new CombatViewer();
     }
 
     // FastCombatWin.pas:394
     public void FastCombatWindowDestroy()
     {
-        FViewer?.Dispose();
+        Viewer?.Dispose();
     }
 
     // FastCombatWin.pas:399
@@ -436,31 +436,31 @@ public partial class FastBattleWindow : DataModule
     }
 
     // FastCombatWin.pas:405
-    public void FCWinDrawSurface(Surface Surface, int Left, int Top)
+    public void FCWinDrawSurface(Surface surface, int left, int top)
     {
-        LockedSurface SD = default;
+        LockedSurface lockedSurface = default;
         try
         {
-            if (!FViewer.FStatus.Contains(CombatViewerStatusElement.Paused))
+            if (!Viewer.Status.Contains(CombatViewerStatusElement.Paused))
             {
-                FAnimationFrame += 1;
+                AnimationFrame += 1;
             }
 
-            if (FPhase == 1)
+            if (Phase == 1)
             {
-                FViewer.Update();
+                Viewer.Update();
             }
 
-            if (Surface.Lock(ref SD) >= 0)
+            if (surface.Lock(ref lockedSurface) >= 0)
             {
-                if (SequencePositionSld.Position != FViewer.FPosition)
+                if (SequencePositionSld.Position != Viewer.Position)
                 {
-                    SequencePositionSld.Position = FViewer.FPosition;
+                    SequencePositionSld.Position = Viewer.Position;
                 }
 
-                SD.ClipRect.Top = FCWin.WinTop + 24;
-                DrawCombat(FCWin.WinLeft + 10, FCWin.WinTop + 10, ref SD);
-                Surface.Unlock();
+                lockedSurface.ClipRectangle.Top = FCWin.WinTop + 24;
+                DrawCombat(FCWin.WinLeft + 10, FCWin.WinTop + 10, ref lockedSurface);
+                surface.Unlock();
             }
         }
         catch
@@ -472,22 +472,22 @@ public partial class FastBattleWindow : DataModule
     // FastCombatWin.pas:424
     public void FCWinUpdate()
     {
-        int Image;
+        int image;
         try
         {
-            switch (FPhase)
+            switch (Phase)
             {
                 case 0:
-                    Image = FPhaseFrame / 2;
-                    if (Image > 9)
+                    image = PhaseFrame / 2;
+                    if (image > 9)
                     {
-                        Image = 9;
+                        image = 9;
                     }
 
                     {
-                        if (Image != this.GlowImage.CurrentImage)
+                        if (image != this.GlowImage.CurrentImage)
                         {
-                            this.GlowImage.CurrentImage = Image + 20;
+                            this.GlowImage.CurrentImage = image + 20;
                         }
                     }
 
@@ -496,7 +496,7 @@ public partial class FastBattleWindow : DataModule
                         GlowImage.Visible = true;
                     }
 
-                    if (FPhaseFrame > 20)
+                    if (PhaseFrame > 20)
                     {
                         SetPhase(1);
                     }
@@ -514,8 +514,8 @@ public partial class FastBattleWindow : DataModule
                     }
 
                     {
-                        var endPosition = this.FViewer.GetEndPosition();
-                        if (this.FViewer.FPosition >= endPosition)
+                        var endPosition = this.Viewer.GetEndPosition();
+                        if (this.Viewer.Position >= endPosition)
                         {
                             SetPhase(2);
                         }
@@ -523,16 +523,16 @@ public partial class FastBattleWindow : DataModule
 
                     break;
                 case 2:
-                    Image = 9 - FPhaseFrame / 2;
-                    if (Image < 0)
+                    image = 9 - PhaseFrame / 2;
+                    if (image < 0)
                     {
-                        Image = 0;
+                        image = 0;
                     }
 
                     {
-                        if (Image != this.GlowImage.CurrentImage)
+                        if (image != this.GlowImage.CurrentImage)
                         {
-                            this.GlowImage.CurrentImage = Image + 20;
+                            this.GlowImage.CurrentImage = image + 20;
                         }
                     }
 
@@ -541,10 +541,10 @@ public partial class FastBattleWindow : DataModule
                         GlowImage.Visible = true;
                     }
 
-                    if (FPhaseFrame > 20)
+                    if (PhaseFrame > 20)
                     {
                         SetPhase(3);
-                        FPhaseFrame = 21;
+                        PhaseFrame = 21;
                     }
 
                     break;
@@ -552,14 +552,14 @@ public partial class FastBattleWindow : DataModule
                     if (GlowImage.Visible)
                     {
                         GlowImage.Visible = false;
-                        FCWin.FDrawn = false;
+                        FCWin.Drawn = false;
                     }
 
                     break;
             }
 
-            FCWin.FSurfaceValid = false;
-            FPhaseFrame += 1;
+            FCWin.SurfaceValid = false;
+            PhaseFrame += 1;
         }
         catch
         {
@@ -570,12 +570,12 @@ public partial class FastBattleWindow : DataModule
     // FastCombatWin.pas:466
     public void InitialViewClick()
     {
-        CombatViewer Viewer;
+        CombatViewer viewer;
         DialogHosts.General.PlayButtonSound(0);
-        Viewer = FViewer;
-        if (Viewer != null && Viewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
+        viewer = Viewer;
+        if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            Viewer.SetPosition(0);
+            viewer.SetPosition(0);
             SetPhase(1);
         }
     }
@@ -583,12 +583,12 @@ public partial class FastBattleWindow : DataModule
     // FastCombatWin.pas:479
     public void FinalViewClick()
     {
-        CombatViewer Viewer;
+        CombatViewer viewer;
         DialogHosts.General.PlayButtonSound(0);
-        Viewer = FViewer;
-        if (Viewer != null && Viewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
+        viewer = Viewer;
+        if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            Viewer.SetPosition(Viewer.GetEndPosition() + 1);
+            viewer.SetPosition(viewer.GetEndPosition() + 1);
             SetPhase(3);
         }
     }
@@ -597,9 +597,9 @@ public partial class FastBattleWindow : DataModule
     public void PauseBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FViewer != null && FViewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
+        if (Viewer != null && Viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            FViewer.Pause();
+            Viewer.Pause();
         }
     }
 
@@ -607,20 +607,20 @@ public partial class FastBattleWindow : DataModule
     public void PlayBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FViewer != null && FViewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
+        if (Viewer != null && Viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            FViewer.Play();
+            Viewer.Play();
         }
     }
 
     // FastCombatWin.pas:504
     public void SequencePositionSldChange()
     {
-        CombatViewer Viewer;
-        Viewer = FViewer;
-        if (Viewer != null && Viewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
+        CombatViewer viewer;
+        viewer = Viewer;
+        if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            Viewer.SetPosition(SequencePositionSld.Position);
+            viewer.SetPosition(SequencePositionSld.Position);
             SetPhase(1);
         }
     }
@@ -628,35 +628,35 @@ public partial class FastBattleWindow : DataModule
     // FastCombatWin.pas:516
     public void SequenceSpeedSldChange()
     {
-        if (FViewer != null)
+        if (Viewer != null)
         {
-            FViewer.SetSpeed((byte)(20 - SequenceSpeedSld.Position));
+            Viewer.SetSpeed((byte)(20 - SequenceSpeedSld.Position));
         }
     }
 
     // FastCombatWin.pas:521
-    public void LShieldUserDraw(UIComponent Sender, LockedSurface Surface)
+    public void LShieldUserDraw(UIComponent sender, LockedSurface surface)
     {
-        if (FLeftOpacity == 100)
+        if (LeftOpacity == 100)
         {
-            DialogHosts.IntGfxMod.Shields[FLeftShield].Show(FCWin.WinLeft + Sender.WinLeft, FCWin.WinTop + Sender.WinTop, Surface);
+            DialogHosts.UIGraphics.Shields[LeftShield].Show(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface);
         }
         else
         {
-            DialogHosts.IntGfxMod.Shields[FLeftShield].ShowBlended(FCWin.WinLeft + Sender.WinLeft, FCWin.WinTop + Sender.WinTop, Surface, GraphicsState.AlphaBlendTable.LookupTables[FLeftOpacity]);
+            DialogHosts.UIGraphics.Shields[LeftShield].ShowBlended(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[LeftOpacity]);
         }
     }
 
     // FastCombatWin.pas:530
-    public void RShieldUserDraw(UIComponent Sender, LockedSurface Surface)
+    public void RShieldUserDraw(UIComponent sender, LockedSurface surface)
     {
-        if (FRightOpacity == 100)
+        if (RightOpacity == 100)
         {
-            DialogHosts.IntGfxMod.Shields[FRightShield].Show(FCWin.WinLeft + Sender.WinLeft, FCWin.WinTop + Sender.WinTop, Surface);
+            DialogHosts.UIGraphics.Shields[RightShield].Show(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface);
         }
         else
         {
-            DialogHosts.IntGfxMod.Shields[FRightShield].ShowBlended(FCWin.WinLeft + Sender.WinLeft, FCWin.WinTop + Sender.WinTop, Surface, GraphicsState.AlphaBlendTable.LookupTables[FRightOpacity]);
+            DialogHosts.UIGraphics.Shields[RightShield].ShowBlended(FCWin.WinLeft + sender.WinLeft, FCWin.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[RightOpacity]);
         }
     }
 
@@ -667,135 +667,135 @@ public partial class FastBattleWindow : DataModule
     }
 
     // FastCombatWin.pas:544
-    public void FCWinKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void FCWinKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27 || Key == 32)
+        if (key == 27 || key == 32)
         {
             FCWin.Visible = false;
         }
     }
 
-    internal static void ShowCombatEvent(FastBattleWindow Dialog, CombatEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowCombatEvent(FastBattleWindow dialog, CombatEventLog eventValue, ExecuteDoneEvent done)
     {
-        Assert(Dialog.FEvent == null, "", "FastCombatWin.pas", 159);
+        Assert(dialog.Event == null, "", "FastCombatWin.pas", 159);
         DialogHosts.General.Manager.OverlayPriority = 49;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Dialog.FDone = Done;
-        Dialog.FLogbook = Event.FLogbook;
-        InitializeCombatDialog(Dialog, Dialog.FLogbook);
-        Dialog.FCWin.Visible = true;
+        dialog.Event = eventValue;
+        dialog.Event.AddRef();
+        dialog.Done = done;
+        dialog.Logbook = eventValue.Logbook;
+        InitializeCombatDialog(dialog, dialog.Logbook);
+        dialog.FCWin.Visible = true;
     }
 
-    internal static void InitializeCombatDialog(FastBattleWindow Dialog, CombatLogbook Logbook)
+    internal static void InitializeCombatDialog(FastBattleWindow dialog, CombatLogbook logbook)
     {
-        int RaceIndex;
-        int PartyRace;
-        sbyte PlayerIndex;
-        Battle Combat;
-        CombatParty Party;
-        Image Image;
-        Dialog.FViewer.Initialize(Logbook);
-        Combat = Dialog.FViewer.FCombat;
-        Dialog.FAnimationFrame = 0;
+        int raceIndex;
+        int partyRace;
+        sbyte playerIndex;
+        Battle combat;
+        CombatParty party;
+        Image image;
+        dialog.Viewer.Initialize(logbook);
+        combat = dialog.Viewer.Combat;
+        dialog.AnimationFrame = 0;
         for (int I = 0; I <= 7; I++)
         {
             switch (I)
             {
                 case 0:
-                    Image = Dialog.Party1Bg;
+                    image = dialog.Party1Bg;
                     break;
                 case 1:
-                    Image = Dialog.Party2Bg;
+                    image = dialog.Party2Bg;
                     break;
                 case 2:
-                    Image = Dialog.Party3Bg;
+                    image = dialog.Party3Bg;
                     break;
                 case 3:
-                    Image = Dialog.Party4Bg;
+                    image = dialog.Party4Bg;
                     break;
                 case 4:
-                    Image = Dialog.Party5Bg;
+                    image = dialog.Party5Bg;
                     break;
                 case 5:
-                    Image = Dialog.Party6Bg;
+                    image = dialog.Party6Bg;
                     break;
                 case 6:
-                    Image = Dialog.Party7Bg;
+                    image = dialog.Party7Bg;
                     break;
                 case 7:
                     // { Original reuses the second background for the eighth party. }
-                    Image = Dialog.Party2Bg;
+                    image = dialog.Party2Bg;
                     break;
                 default:
-                    Image = null;
+                    image = null;
                     break;
             }
 
-            Party = Combat.FCombatData.FParties.GetParty((byte)I);
-            if (Party != null)
+            party = combat.CombatData.Parties.GetParty((byte)I);
+            if (party != null)
             {
-                PlayerIndex = Combat.FCombatData.FPlayers.GetPlayers((sbyte)Party.FPlayerIndex).FPlayer;
-                if (PlayerIndex != 0)
+                playerIndex = combat.CombatData.Players.GetPlayers((sbyte)party.PlayerIndex).Player;
+                if (playerIndex != 0)
                 {
-                    PartyRace = AoWHSMap.Current.FPlayers.GetPlayers(PlayerIndex).FPlayerRace;
+                    partyRace = AoWHSMap.Current.Players.GetPlayers(playerIndex).PlayerRace;
                 }
                 else
                 {
-                    PartyRace = 12;
+                    partyRace = 12;
                 }
 
-                Image.CurrentImage = PartyRace + 21;
-                Image.Visible = true;
+                image.CurrentImage = partyRace + 21;
+                image.Visible = true;
             }
             else
             {
                 if (I != 7)
                 {
-                    Image.Visible = false;
+                    image.Visible = false;
                 }
             }
 
             // { Original refreshes both side labels inside the party loop. }
-            if (Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FAttackerPlayer).FPlayer == 0)
+            if (combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer).Player == 0)
             {
-                var independents = AbilityRules.TranslateRStr(ScenarioText.IndependentsRStr);
-                Dialog.LSideLbl.Text = independents;
+                var independents = AbilityRules.TranslateResourceString(ScenarioText.s_independentsText);
+                dialog.LSideLbl.Text = independents;
             }
             else
             {
-                var player = Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FAttackerPlayer);
-                RaceIndex = AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
-                var raceResource = AoWHSSet.Current.FRaceResources.GetRaceResource(RaceIndex);
-                Dialog.LSideLbl.Text = raceResource.FRaceName;
+                var player = combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer);
+                raceIndex = AoWHSMap.Current.Players.GetPlayers(player.Player).PlayerRace;
+                var raceResource = AoWHSSet.Current.RaceResources.GetRaceResource(raceIndex);
+                dialog.LSideLbl.Text = raceResource.RaceName;
             }
 
-            if (Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FDefenderPlayer).FPlayer == 0)
+            if (combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer).Player == 0)
             {
-                var independents = AbilityRules.TranslateRStr(ScenarioText.IndependentsRStr);
-                Dialog.RSideLbl.Text = independents;
+                var independents = AbilityRules.TranslateResourceString(ScenarioText.s_independentsText);
+                dialog.RSideLbl.Text = independents;
             }
             else
             {
-                var player = Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FDefenderPlayer);
-                RaceIndex = AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
-                var raceResource = AoWHSSet.Current.FRaceResources.GetRaceResource(RaceIndex);
-                Dialog.RSideLbl.Text = raceResource.FRaceName;
+                var player = combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer);
+                raceIndex = AoWHSMap.Current.Players.GetPlayers(player.Player).PlayerRace;
+                var raceResource = AoWHSSet.Current.RaceResources.GetRaceResource(raceIndex);
+                dialog.RSideLbl.Text = raceResource.RaceName;
             }
         }
 
-        Dialog.FViewer.Play();
-        Dialog.FCWin.FDrawn = false;
-        var endPosition = Dialog.FViewer.GetEndPosition();
-        Dialog.SequencePositionSld.Max = endPosition;
-        Dialog.SequenceSpeedSld.Position = 20 - Dialog.FViewer.FDelay;
-        if (Dialog.FViewer.GetEndPosition() != -1)
+        dialog.Viewer.Play();
+        dialog.FCWin.Drawn = false;
+        var endPosition = dialog.Viewer.GetEndPosition();
+        dialog.SequencePositionSld.Max = endPosition;
+        dialog.SequenceSpeedSld.Position = 20 - dialog.Viewer.Delay;
+        if (dialog.Viewer.GetEndPosition() != -1)
         {
-            Dialog.SetPhase(0);
+            dialog.SetPhase(0);
         }
         else
         {
-            Dialog.SetPhase(3);
+            dialog.SetPhase(3);
         }
     }
 

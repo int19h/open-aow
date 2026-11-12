@@ -11,53 +11,53 @@ public partial class CombatFixedImageLibraryTerrain : CombatImageLibraryTerrain
     { }
 
     // CombatILTer.pas:191
-    public new const int ClassID = 2228536;
+    public new const int ClassId = 2228536;
 
     // CombatILTer.pas:197
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo Info)
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
     {
-        bool Result;
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
+        bool result;
+        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            bool validTerrainType = ValidTerrainType(Info.MapField.TerrainType);
+            bool validTerrainType = ValidTerrainType(info.MapField.TerrainType);
             if (validTerrainType)
             {
-                var terrain = FResource.TerrainList.GetTerrain(Info.HN);
-                validTerrainType = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, FXhx, FYhx, terrain) == Info.MapField.TerrainType;
+                var terrain = _resource.TerrainList.GetTerrain(info.HexNumber);
+                validTerrainType = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, _hexX, _hexY, terrain) == info.MapField.TerrainType;
             }
 
-            Result = validTerrainType;
+            result = validTerrainType;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // CombatILTer.pas:206
-    public override void ChangeTerrain(in HexSpriteTerrainInfo Info)
+    public override void ChangeTerrain(in HexSpriteTerrainInfo info)
     {
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
+        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            if (ValidTerrainType(Info.TerrainType))
+            if (ValidTerrainType(info.TerrainType))
             {
-                FTerrainType = Info.TerrainType;
-                FImageIndex = GetTerrainTypeImage(Info.TerrainType);
+                _terrainType = info.TerrainType;
+                _imageIndex = GetTerrainTypeImage(info.TerrainType);
             }
         }
     }
 
     // CombatILTer.pas:216
-    public override void TerrainChanged(in HexSpriteTerrainInfo Info)
+    public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
+        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            if (ValidTerrainType(Info.TerrainType))
+            if (ValidTerrainType(info.TerrainType))
             {
-                FTerrainType = Info.TerrainType;
-                FImageIndex = GetTerrainTypeImage(Info.TerrainType);
+                _terrainType = info.TerrainType;
+                _imageIndex = GetTerrainTypeImage(info.TerrainType);
             }
             else
             {
@@ -67,7 +67,7 @@ public partial class CombatFixedImageLibraryTerrain : CombatImageLibraryTerrain
     }
 
     // CombatILTer.pas:194
-    public override sbyte ForceTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx) => -1;
+    public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => -1;
 
     public new partial class Resource : CombatImageLibraryTerrainResource
     {
@@ -75,10 +75,10 @@ public partial class CombatFixedImageLibraryTerrain : CombatImageLibraryTerrain
         { }
 
         // CombatILTer.pas:227
-        public new const int ClassID = 2228537;
+        public new const int ClassId = 2228537;
 
         // CombatILTer.pas:233
-        public override int ResourceUserClassID() => 2228536;
+        public override int ResourceUserClassId() => 2228536;
 
         // CombatILTer.pas:230
         public override string ResourceEditName() => "Combat FixedILTerrain";

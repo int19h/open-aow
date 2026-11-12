@@ -25,268 +25,268 @@ namespace Aow.Game.Commands;
 public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
 {
     // GlobalTargetSpells.pas:1559
-    public new const int ClassID = 135972;
+    public new const int ClassId = 135972;
 
-    public int FAngle;
-    public Animation FAnimation;
-    public ArmyId FArmyID;
+    public int Angle;
+    public Animation Animation;
+    public ArmyId ArmyId;
 
     // GlobalTargetSpells.pas:1553
     public override void Dispose()
     {
-        FArmyID?.Dispose();
+        ArmyId?.Dispose();
         base.Dispose();
     }
 
     // GlobalTargetSpells.pas:1593
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwCreateEObject(ref FArmyID, null, 40);
+        base.ReadWrite(stream);
+        stream.rwCreateEObject(ref ArmyId, null, 40);
     }
 
     // GlobalTargetSpells.pas:1547
     public TornadoTokenEvent(ECustomNode owner) : base(owner)
     {
-        FArmyID = null;
+        ArmyId = null;
     }
 
     // GlobalTargetSpells.pas:1660
     public override bool Process(Troop source, int value)
     {
-        bool Result = default;
-        UnitUserList MovedUnits = default;
-        byte Owner = default;
-        byte Selection = default;
-        MapCoordinate Location = default;
-        int Chance = default;
-        bool Exposed = default;
-        ArmyHexSprite Army = default;
-        Troop UnitObj = default;
-        AoWMapField MapF = default;
-        ArmyEventLog Log = default;
-        ImageSequenceAnimation Anim = default;
-        ArmyHexSprite Placed = default;
-        AIGroup Group = default;
+        bool result = default;
+        UnitUserList movedUnits = default;
+        byte owner = default;
+        byte selection = default;
+        MapCoordinate location = default;
+        int chance = default;
+        bool exposed = default;
+        ArmyHexSprite army = default;
+        Troop troopObject = default;
+        AoWMapField mapField = default;
+        ArmyEventLog log = default;
+        ImageSequenceAnimation animation = default;
+        ArmyHexSprite placed = default;
+        AIGroup group = default;
         if (value == 0)
         {
-            FAngle = 0;
-            var spell = AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);
-            AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
-            AoWHSMap.Current.ValidateObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 2);
-            if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(FLocation.X, FLocation.Y, FLocation.L, 2))
+            Angle = 0;
+            var spell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
+            AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
+            AoWHSMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
+            if (source.Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
             {
-                AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
+                AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
             }
 
-            Anim = (ImageSequenceAnimation)new Animation(null);
-            FAnimation = Anim;
-            Anim.FAnimationLevel = 27;
-            Anim.FOnShow = ShowAnimation;
-            Anim.FAnimationMap = AoWHSMap.Current;
-            Anim.FTag = (AoWHSMap.Current.ViewWidth & 65535) | (AoWHSMap.Current.ViewHeight << 16);
-            Anim.Activate();
+            animation = (ImageSequenceAnimation)new Animation(null);
+            Animation = animation;
+            animation.AnimationLevel = 27;
+            animation.OnShow = ShowAnimation;
+            animation.AnimationMap = AoWHSMap.Current;
+            animation.Tag = (AoWHSMap.Current.ViewWidth & 65535) | (AoWHSMap.Current.ViewHeight << 16);
+            animation.Activate();
         }
 
         if (value == 80)
         {
-            MapF = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(FLocation.X, FLocation.Y, FLocation.L);
-            if (FArmyID != null && !MapF.GetMagicShieldActive())
+            mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+            if (ArmyId != null && !mapField.GetMagicShieldActive())
             {
-                FArmyID.RetrieveArmy(ref Army, ref Selection);
-                Exposed = !(Set<byte>.WithBounds(0, 255).With(1).Contains((byte)MapF.OverlayType) || MapF.FindNoneTransparentHS(typeof(Structure)) != null);
-                for (int I = 0, last = Army.FArmy.Count - 1; I <= last; I++)
+                ArmyId.RetrieveArmy(ref army, ref selection);
+                exposed = !(Set<byte>.WithBounds(0, 255).With(1).Contains((byte)mapField.OverlayType) || mapField.FindNoneTransparentHexSprite(typeof(Structure)) != null);
+                for (int I = 0, last = army.Army.Count - 1; I <= last; I++)
                 {
-                    if ((Selection & (1 << I)) != 0)
+                    if ((selection & (1 << I)) != 0)
                     {
-                        UnitObj = Army.FArmy.GetUnit(I);
-                        switch (UnitObj.GetUnitLevel())
+                        troopObject = army.Army.GetUnit(I);
+                        switch (troopObject.GetUnitLevel())
                         {
                             case 1:
-                                Chance = 90;
+                                chance = 90;
                                 break;
                             case 2:
-                                Chance = 70;
+                                chance = 70;
                                 break;
                             case 3:
-                                Chance = 50;
+                                chance = 50;
                                 break;
                             case 4:
-                                Chance = 30;
+                                chance = 30;
                                 break;
                             default:
-                                Chance = 30;
+                                chance = 30;
                                 break;
                         }
 
-                        if (!Exposed)
+                        if (!exposed)
                         {
-                            Chance = Chance / 2;
+                            chance = chance / 2;
                         }
 
-                        if (Chance < AoWHSMap.Current.Random(100))
+                        if (chance < AoWHSMap.Current.Random(100))
                         {
-                            Selection = (byte)(Selection & ~(1 << I));
+                            selection = (byte)(selection & ~(1 << I));
                         }
                     }
                 }
 
-                if (Army.FArmy.Transporter(255) != null)
+                if (army.Army.Transporter(255) != null)
                 {
-                    if (Army.FArmy.Transporter(Selection) != null)
+                    if (army.Army.Transporter(selection) != null)
                     {
-                        Selection = 255;
+                        selection = 255;
                     }
                     else
                     {
-                        Selection = 0;
+                        selection = 0;
                     }
                 }
 
-                if (Selection != 0)
+                if (selection != 0)
                 {
-                    Log = new ArmyEventLog(null);
-                    Log.FPlayer = source.FPlayer;
-                    var tornado = AbilityRules.TranslateRStr(GameText.TornadoRStr);
-                    Log.FArmyText = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.XCastRStr), [tornado]);
-                    var tornadoText = AbilityRules.TranslateRStr(GameText.TornadoRStr);
-                    Log.FArmyMessages.Add(tornadoText);
-                    Log.FArmyIcon = 2;
-                    Log.FArmyView.Setup(Army.FArmy, Selection);
-                    var yhx = Army.Yhx;
-                    var xhx = Army.Xhx;
-                    EventLog.DistributeLocationEventLog(Log, (sbyte)FEventPlayerIndex, xhx, yhx, Army.Lhx, true);
-                    Log.Release();
-                    Location.Packed = ((Tornado)AoWHSSet.Current.FSpellControl.GetSpell(68)).CalculateWarpLocation(Army, Selection);
-                    if (Location.Packed != 16777215)
+                    log = new ArmyEventLog(null);
+                    log._player = source.Player;
+                    var tornado = AbilityRules.TranslateResourceString(GameText.s_tornadoText);
+                    log.ArmyText = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_castFormat), [tornado]);
+                    var tornadoText = AbilityRules.TranslateResourceString(GameText.s_tornadoText);
+                    log.ArmyMessages.Add(tornadoText);
+                    log.ArmyIcon = 2;
+                    log.ArmyView.Setup(army.Army, selection);
+                    var hexY = army.HexY;
+                    var hexX = army.HexX;
+                    EventLog.DistributeLocationEventLog(log, (sbyte)EventPlayerIndex, hexX, hexY, army.HexLevel, true);
+                    log.Release();
+                    location.Packed = ((Tornado)AoWHSSet.Current.SpellControl.GetSpell(68)).CalculateWarpLocation(army, selection);
+                    if (location.Packed != 16777215)
                     {
-                        if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(FLocation.X, FLocation.Y, FLocation.L, 2))
+                        if (source.Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
                         {
-                            AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(1);
+                            AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(1);
                         }
 
-                        if (AoWHSMap.Current.FSeatedPlayer == source.FPlayer || AoWHSMap.Current.VisibleForPlayer(FLocation.X, FLocation.Y, FLocation.L, AoWHSMap.Current.FSeatedPlayer))
+                        if (AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.VisibleForPlayer(Location.X, Location.Y, Location.MapLevel, AoWHSMap.Current.SeatedPlayer))
                         {
-                            if (AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1] != null)
+                            if (AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] != null)
                             {
-                                Anim = new ImageSequenceAnimation(null);
-                                Anim.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1]);
-                                AoWHSMap.Current.PlaceHX(Anim, FLocation.X, FLocation.Y, FLocation.L);
+                                animation = new ImageSequenceAnimation(null);
+                                animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1]);
+                                AoWHSMap.Current.PlaceHex(animation, Location.X, Location.Y, Location.MapLevel);
                             }
                         }
 
-                        if (AoWHSMap.Current.FSeatedPlayer == source.FPlayer || AoWHSMap.Current.VisibleForPlayer(Location.X, Location.Y, Location.L, AoWHSMap.Current.FSeatedPlayer))
+                        if (AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, AoWHSMap.Current.SeatedPlayer))
                         {
-                            if (AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1] != null)
+                            if (AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] != null)
                             {
-                                Anim = new ImageSequenceAnimation(null);
-                                Anim.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[1]);
-                                AoWHSMap.Current.PlaceHX(Anim, Location.X, Location.Y, Location.L);
+                                animation = new ImageSequenceAnimation(null);
+                                animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1]);
+                                AoWHSMap.Current.PlaceHex(animation, location.X, location.Y, location.MapLevel);
                             }
                         }
 
-                        MovedUnits = new UnitUserList(null);
-                        Owner = (byte)Army.FArmy.FPlayer;
-                        MapF = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(Location.Packed);
-                        if (Army.FArmy.ValidateSelection(255) != Selection)
+                        movedUnits = new UnitUserList(null);
+                        owner = (byte)army.Army.Player;
+                        mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(location.Packed);
+                        if (army.Army.ValidateSelection(255) != selection)
                         {
-                            for (int I = Army.FArmy.Count - 1; I >= 0; I--)
+                            for (int I = army.Army.Count - 1; I >= 0; I--)
                             {
-                                if ((Selection & (1 << I)) != 0)
+                                if ((selection & (1 << I)) != 0)
                                 {
-                                    UnitObj = Army.FArmy.GetUnit(I);
-                                    MovedUnits.AddUnit(UnitObj);
-                                    Placed = UnitObj.Place(Location.X, Location.Y, Location.L, (sbyte)(byte)Army.FArmy.FPlayer, Set<UnitPlaceModeElement>.Of());
-                                    if (Placed != null)
+                                    troopObject = army.Army.GetUnit(I);
+                                    movedUnits.AddUnit(troopObject);
+                                    placed = troopObject.Place(location.X, location.Y, location.MapLevel, (sbyte)(byte)army.Army.Player, Set<UnitPlaceModeElement>.Of());
+                                    if (placed != null)
                                     {
-                                        Placed.FArmy.UpdateExploration();
+                                        placed.Army.UpdateExploration();
                                     }
                                 }
                             }
                         }
                         else
                         {
-                            MovedUnits.AddUnits(Army.FArmy);
-                            Army.MoveTo(MapF, 0);
+                            movedUnits.AddUnits(army.Army);
+                            army.MoveTo(mapField, 0);
                         }
 
-                        if (Owner == 0)
+                        if (owner == 0)
                         {
-                            var unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(MovedUnits, 5);
-                            Group = AoWHSMap.Current.FAIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
-                            Group.AddUnits(MovedUnits);
-                            ((HuntAIGroup)Group).FTargetUnitIDs.Add(source.FUnitID);
-                            Group.Release();
+                            var unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(movedUnits, 5);
+                            group = AoWHSMap.Current.AIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
+                            group.AddUnits(movedUnits);
+                            ((HuntAIGroup)group).TargetUnitIds.Add(source.UnitId);
+                            group.Release();
                         }
 
-                        MovedUnits?.Dispose();
+                        movedUnits?.Dispose();
                     }
                 }
             }
 
-            FAnimation?.Dispose();
-            Result = false;
+            Animation?.Dispose();
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalTargetSpells.pas:1599
-    public void ShowAnimation(Animation Animation, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        int XShift;
-        int Height;
+        int pixelX = default;
+        int pixelY = default;
+        int xShift;
+        int height;
         int X;
         int Y;
-        float Angle;
-        int Direction;
-        int Radius;
-        int Last;
-        if (AoWHSMap.Current.ViewL == FLocation.L)
+        float angle;
+        int direction;
+        int radius;
+        int last;
+        if (AoWHSMap.Current.ViewL == Location.MapLevel)
         {
-            HexGeometry.HXtoHP(FLocation.X, FLocation.Y, ref Xhp, ref Yhp);
-            Xhp -= XhpSurf;
-            Yhp -= YhpSurf;
-            FAngle = FAngle + 20 + FAnimation.FFrameCounter / 5;
-            RandSeed = AoWHSMap.Current.FInitialRandomSeed;
+            HexGeometry.HexToPixel(Location.X, Location.Y, ref pixelX, ref pixelY);
+            pixelX -= pixelXSurface;
+            pixelY -= pixelYSurface;
+            Angle = this.Angle + 20 + Animation.FrameCounter / 5;
+            RandSeed = AoWHSMap.Current.InitialRandomSeed;
             for (int I = 0; I <= 200; I++)
             {
-                Direction = Random(360);
-                if (Animation.FFrameCounter >= (int)(((uint)I) >> 2) && Animation.FFrameCounter <= (int)(((uint)I) >> 4) + 68)
+                direction = Random(360);
+                if (animation.FrameCounter >= (int)(((uint)I) >> 2) && animation.FrameCounter <= (int)(((uint)I) >> 4) + 68)
                 {
-                    Radius = Round((double)((double)2.997 - Math.Log((double)((double)(I * 19) * 0.005) + 1)) * 35) + 7;
-                    Height = 200 - I - 16;
-                    XShift = Round((double)((double)Math.Sin((double)((double)FAnimation.FFrameCounter * 0.1) + (double)I * 0.02) * (200 - I)) * 0.25) + 16;
+                    radius = Round((double)((double)2.997 - Math.Log((double)((double)(I * 19) * 0.005) + 1)) * 35) + 7;
+                    height = 200 - I - 16;
+                    xShift = Round((double)((double)Math.Sin((double)((double)Animation.FrameCounter * 0.1) + (double)I * 0.02) * (200 - I)) * 0.25) + 16;
                     var pi = Math.PI;
-                    Angle = (float)((double)((double)(Direction + FAngle) * pi) / 180);
-                    if (GameTables.AoWEngine.FAnimationDetail == 0)
+                    angle = (float)((double)((double)(direction + Angle) * pi) / 180);
+                    if (GameTables.GameEngine.AnimationDetail == 0)
                     {
-                        Last = 1;
+                        last = 1;
                     }
                     else
                     {
-                        if (GameTables.AoWEngine.FAnimationDetail == 1)
+                        if (GameTables.GameEngine.AnimationDetail == 1)
                         {
-                            Last = (int)(((uint)(200 - I)) >> 5);
+                            last = (int)(((uint)(200 - I)) >> 5);
                         }
                         else
                         {
-                            Last = (int)(((uint)(200 - I)) >> 4);
+                            last = (int)(((uint)(200 - I)) >> 4);
                         }
                     }
 
-                    for (int Count = Last; Count >= 0; Count--)
+                    for (int count = last; count >= 0; count--)
                     {
-                        X = Round((double)Math.Cos(Angle) * Radius) + XShift;
-                        Y = Round((double)((double)Math.Sin(Angle) * Radius) * 0.5) + Height;
-                        AoWHSSet.Current.FSpellControl.GetSpell(68).FCastImages.Show(0, Xhp + X, Yhp - Y, 0, SurfaceDesc);
-                        Angle = (float)((double)0.035 + Angle);
+                        X = Round((double)Math.Cos(angle) * radius) + xShift;
+                        Y = Round((double)((double)Math.Sin(angle) * radius) * 0.5) + height;
+                        AoWHSSet.Current.SpellControl.GetSpell(68).CastImages.Show(0, pixelX + X, pixelY - Y, 0, lockedSurface);
+                        angle = (float)((double)0.035 + angle);
                     }
                 }
             }
@@ -294,5 +294,5 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
     }
 
     // GlobalTargetSpells.pas:215
-    public override bool Validate(Hero source) => base.Validate(source) && (FArmyID == null || FArmyID.Valid());
+    public override bool Validate(Hero source) => base.Validate(source) && (ArmyId == null || ArmyId.Valid());
 }

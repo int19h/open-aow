@@ -14,9 +14,9 @@ public partial class Tremors : CombatSpell
     public Tremors(ECustomNode owner) : base(owner)
     {
         // { Original leaves this spell name untranslated. }
-        FSpellName = TremorsRStr;
-        FSpellID = 112;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = s_tremorsText;
+        SpellId = 112;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical, DamageType.Wall);
@@ -25,5 +25,5 @@ public partial class Tremors : CombatSpell
         spellCombatInfo.Radius = 5;
     }
 
-    private static readonly string TremorsRStr = "Tremors";
+    private static readonly string s_tremorsText = "Tremors";
 }

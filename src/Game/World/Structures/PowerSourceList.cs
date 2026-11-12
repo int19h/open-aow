@@ -9,7 +9,7 @@ public partial class PowerSourceList : ENode
     { }
 
     // Spells.PAS:1828
-    public PowerSource GetItems(int Index) => (PowerSource)FChildren.List[Index];
+    public PowerSource GetItems(int index) => (PowerSource)_children.List[index];
 
     // Engine.pas:631
 

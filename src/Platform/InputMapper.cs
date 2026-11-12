@@ -6,49 +6,49 @@ namespace Aow.Platform;
 /// <summary>SDL keycodes and USB scancodes translated to the VCL event vocabulary.</summary>
 public sealed class InputMapper
 {
-    private int modifiers;
-    private uint buttons;
-    private bool inside;
-    private (byte Button, ulong Time, float X, float Y)? firstPress;
-    private byte doubleButton;
-    private float wheelY;
+    private int _modifiers;
+    private uint _buttons;
+    private bool _inside;
+    private (byte Button, ulong Time, float X, float Y)? _firstPress;
+    private byte _doubleButton;
+    private float _wheelY;
 
     public void Reset()
     {
-        modifiers = 0;
-        buttons = 0;
-        firstPress = null;
-        doubleButton = 0;
-        inside = false;
-        wheelY = 0;
+        _modifiers = 0;
+        _buttons = 0;
+        _firstPress = null;
+        _doubleButton = 0;
+        _inside = false;
+        _wheelY = 0;
     }
 
-    public void SetModifiers(int value) => modifiers = value;
+    public void SetModifiers(int value) => _modifiers = value;
 
     private Set<ShiftState> Shift(bool twice = false)
     {
         Set<ShiftState> state = default;
-        if ((modifiers & 3) != 0) state = state.With(ShiftState.Shift);
-        if ((modifiers & 192) != 0) state = state.With(ShiftState.Ctrl);
-        if ((modifiers & 768) != 0) state = state.With(ShiftState.Alt);
-        if ((buttons & 1) != 0) state = state.With(ShiftState.Left);
-        if ((buttons & 4) != 0) state = state.With(ShiftState.Right);
+        if ((_modifiers & 3) != 0) state = state.With(ShiftState.Shift);
+        if ((_modifiers & 192) != 0) state = state.With(ShiftState.Ctrl);
+        if ((_modifiers & 768) != 0) state = state.With(ShiftState.Alt);
+        if ((_buttons & 1) != 0) state = state.With(ShiftState.Left);
+        if ((_buttons & 4) != 0) state = state.With(ShiftState.Right);
         return twice ? state.With(ShiftState.Double) : state;
     }
 
     public void Motion(float x, float y, uint state, DisplayViewport viewport, IDisplayEvents sink)
     {
-        buttons = state & 5;
+        _buttons = state & 5;
         var point = viewport.Map(x, y);
         if (point.Inside) sink.MouseMove(Shift(), point.X, point.Y);
-        else if (inside) sink.MouseMove(default, -1, -1);
-        inside = point.Inside;
+        else if (_inside) sink.MouseMove(default, -1, -1);
+        _inside = point.Inside;
     }
 
     public void Leave(IDisplayEvents sink)
     {
-        if (inside) sink.MouseMove(default, -1, -1);
-        inside = false;
+        if (_inside) sink.MouseMove(default, -1, -1);
+        _inside = false;
     }
 
     // direction 1 is SDL_MOUSEWHEEL_FLIPPED. Positive y, after that correction, is away from the user.
@@ -60,10 +60,10 @@ public sealed class InputMapper
         if (direction == 1) y = -y;
         var point = viewport.Map(x, yPosition);
         if (!point.Inside) return;
-        if (y != 0 && wheelY != 0 && Math.Sign(y) != Math.Sign(wheelY)) wheelY = 0;
-        wheelY += y;
-        int steps = (int)Math.Truncate(wheelY);
-        wheelY -= steps;
+        if (y != 0 && _wheelY != 0 && Math.Sign(y) != Math.Sign(_wheelY)) _wheelY = 0;
+        _wheelY += y;
+        int steps = (int)Math.Truncate(_wheelY);
+        _wheelY -= steps;
         if (steps != 0) sink.MouseWheel(steps, Shift(), point.X, point.Y);
     }
 
@@ -71,26 +71,26 @@ public sealed class InputMapper
     {
         if (button is not (1 or 3)) return;
         uint mask = 1u << (button - 1);
-        buttons = down ? buttons | mask : buttons & ~mask;
+        _buttons = down ? _buttons | mask : _buttons & ~mask;
         var point = viewport.Map(x, y);
         var mapped = button == 1 ? MouseButton.Left : MouseButton.Right;
         if (!down)
         {
-            sink.MouseUp(mapped, Shift(doubleButton == button), point.X, point.Y);
-            if (doubleButton == button) doubleButton = 0;
+            sink.MouseUp(mapped, Shift(_doubleButton == button), point.X, point.Y);
+            if (_doubleButton == button) _doubleButton = 0;
             return;
         }
-        bool twice = point.Inside && firstPress is { } first && first.Button == button && milliseconds >= first.Time && milliseconds - first.Time <= 500
+        bool twice = point.Inside && _firstPress is { } first && first.Button == button && milliseconds >= first.Time && milliseconds - first.Time <= 500
             && Math.Abs(x - first.X) <= 4 && Math.Abs(y - first.Y) <= 4;
-        firstPress = point.Inside && !twice ? (button, milliseconds, x, y) : null;
-        doubleButton = twice ? button : (byte)0;
+        _firstPress = point.Inside && !twice ? (button, milliseconds, x, y) : null;
+        _doubleButton = twice ? button : (byte)0;
         if (twice) sink.DoubleClick();
         sink.MouseDown(mapped, Shift(twice), point.X, point.Y);
     }
 
     public void Key(int keycode, int scancode, int keyModifiers, bool down, IDisplayEvents sink)
     {
-        modifiers = keyModifiers;
+        _modifiers = keyModifiers;
         ushort key = VirtualKey(keycode, scancode);
         if (key == 0) return;
         if (!down) { sink.KeyUp(key, Shift()); return; }

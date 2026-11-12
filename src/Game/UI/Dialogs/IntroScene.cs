@@ -13,10 +13,10 @@ public partial class IntroScene : DataModule
 
     public UserWindow Window;
     public VideoPlayer VideoPlayer;
-    public IDirectSoundBuffer FSoundBuffer;
-    public int FBufferSize;
-    public IDirectSound FDirectSound;
-    public int FStreamPosition;
+    public IDirectSoundBuffer SoundBuffer;
+    public int BufferSize;
+    public IDirectSound DirectSound;
+    public int StreamPosition;
 
     // AoWIntroScene.pas:173
     public void Finish()
@@ -27,15 +27,15 @@ public partial class IntroScene : DataModule
     }
 
     // AoWIntroScene.pas:192
-    public void WindowMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void WindowMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Finish();
     }
 
     // AoWIntroScene.pas:197
-    public void WindowKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void WindowKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27 || Key == 32)
+        if (key == 27 || key == 32)
         {
             Finish();
         }

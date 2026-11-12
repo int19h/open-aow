@@ -21,54 +21,54 @@ namespace Aow.Game.Draw;
 public partial class WatcherHexSprite : SingleHexSprite
 {
     // GlobalTargetSpells.pas:1220
-    public new const int ClassID = 132989;
+    public new const int ClassId = 132989;
 
-    public byte FWatcherState;
-    public byte FUnfogRadius;
-    public WatcherEnchantment FEnchantment;
-    public int FAnimationFrame;
-    public Int32List FUnexplored;
-    public bool FVisibleForSeatedPlayer;
+    public byte WatcherState;
+    public byte UnfogRadius;
+    public WatcherEnchantment Enchantment;
+    public int AnimationFrame;
+    public Int32List Unexplored;
+    public bool VisibleForSeatedPlayer;
 
     // GlobalTargetSpells.pas:1213
     public override void Dispose()
     {
         base.Dispose();
-        FUnexplored?.Dispose();
-        FEnchantment.Release();
+        Unexplored?.Dispose();
+        Enchantment.Release();
     }
 
     // GlobalTargetSpells.pas:1344
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FEnchantment, 40);
+        base.ReadWrite(stream);
+        stream.rwEObject(Enchantment, 40);
     }
 
     // GlobalTargetSpells.pas:1203
     public WatcherHexSprite(ECustomNode owner) : base(owner)
     {
-        FEnchantment = new WatcherEnchantment(null);
-        FEnchantment.FWatcher = this;
-        FUnexplored = new Int32List();
-        FVisibleForSeatedPlayer = false;
-        FAnimationFrame = -1;
+        Enchantment = new WatcherEnchantment(null);
+        Enchantment.Watcher = this;
+        Unexplored = new Int32List();
+        VisibleForSeatedPlayer = false;
+        AnimationFrame = -1;
     }
 
     // GlobalTargetSpells.pas:1422
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        int ID;
-        base.MsgProc(ref Msg, Sender);
-        ID = Msg.MsgID;
-        if (ID == 537001992)
+        int id;
+        base.MessageProc(ref message, sender);
+        id = message.MessageId;
+        if (id == 537001992)
         {
             UpdateExploration();
             UpdateUnfog();
             return;
         }
 
-        if (ID == 537001990)
+        if (id == 537001990)
         {
             UpdateUnfog();
             UpdateVisibleForSeatedPlayer();
@@ -79,73 +79,73 @@ public partial class WatcherHexSprite : SingleHexSprite
     public override byte GetLevel() => 27;
 
     // GlobalTargetSpells.pas:1255
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        int DX = default;
-        int DY = default;
-        int Radius;
-        int Angle;
-        int PX = default;
-        int PY = default;
-        int Intensity;
-        int Delay;
-        bool condition = AoWHSMap.Current.ViewL == Lhx;
+        int deltaX = default;
+        int deltaY = default;
+        int radius;
+        int angle;
+        int pixelX = default;
+        int pixelY = default;
+        int intensity;
+        int delay;
+        bool condition = AoWHSMap.Current.ViewL == HexLevel;
         if (condition)
         {
-            var yhx = Yhx;
-            var xhx = Xhx;
-            condition = AoWHSMap.Current.Visible(xhx, yhx, Lhx, 0);
+            var hexY = HexY;
+            var hexX = HexX;
+            condition = AoWHSMap.Current.Visible(hexX, hexY, HexLevel, 0);
         }
 
         if (condition)
         {
-            var yhx = Yhx;
-            HexGeometry.HXtoHP(Xhx, yhx, ref X, ref Y);
-            X = X - XhpSurf + 16;
-            Y = Y - YhpSurf + 16;
-            if (AoWHSSet.Current.FSpellControl.GetSpell(57).FCastImages != null)
+            var hexY = HexY;
+            HexGeometry.HexToPixel(HexX, hexY, ref X, ref Y);
+            X = X - pixelXSurface + 16;
+            Y = Y - pixelYSurface + 16;
+            if (AoWHSSet.Current.SpellControl.GetSpell(57).CastImages != null)
             {
-                AoWHSSet.Current.FSpellControl.GetSpell(57).FCastImages.ShowLooped(1, X, Y, AoWHSMap.Current.Frame, SurfaceDesc);
+                AoWHSSet.Current.SpellControl.GetSpell(57).CastImages.ShowLooped(1, X, Y, AoWHSMap.Current.Frame, lockedSurface);
             }
 
-            if (FAnimationFrame != -1)
+            if (AnimationFrame != -1)
             {
-                FAnimationFrame += 1;
+                AnimationFrame += 1;
                 // The original reads the shared AoWEngine animation detail. The map engine is
                 // not the global read by this routine.
-                if (GameTables.AoWEngine.FAnimationDetail == 2 && AoWHSMap.Current.ViewL == Lhx)
+                if (GameTables.GameEngine.AnimationDetail == 2 && AoWHSMap.Current.ViewL == HexLevel)
                 {
-                    Intensity = 100 - FAnimationFrame;
-                    var yhx2 = Yhx;
-                    HexGeometry.HXtoHP(Xhx, yhx2, ref X, ref Y);
-                    X = X - XhpSurf - 8;
-                    Y = Y - YhpSurf;
-                    for (int I = FUnexplored.Count - 1; I >= 0; I--)
+                    intensity = 100 - AnimationFrame;
+                    var hexY2 = HexY;
+                    HexGeometry.HexToPixel(HexX, hexY2, ref X, ref Y);
+                    X = X - pixelXSurface - 8;
+                    Y = Y - pixelYSurface;
+                    for (int I = Unexplored.Count - 1; I >= 0; I--)
                     {
-                        HexGeometry.HNtoHP(FUnexplored[I], ref PX, ref PY);
-                        PX += X;
-                        PY += Y;
-                        AoWHSSet.Current.FGeneralImages[5].ShowBlended(PX, PY, SurfaceDesc, GraphicsState.AlphaBlendTable.LookupTables[Intensity]);
+                        HexGeometry.HexNumberToPixel(Unexplored[I], ref pixelX, ref pixelY);
+                        pixelX += X;
+                        pixelY += Y;
+                        AoWHSSet.Current.GeneralImages[5].ShowBlended(pixelX, pixelY, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[intensity]);
                     }
                 }
 
                 // { Original resets the shared random generator for deterministic particles. }
-                RandSeed = AoWHSMap.Current.FInitialRandomSeed;
+                RandSeed = AoWHSMap.Current.InitialRandomSeed;
                 for (int I = 0; I <= 300; I++)
                 {
-                    Radius = Random(VisibilityRange() << 5);
-                    Angle = Random(360);
-                    Delay = Random(80);
-                    if (FAnimationFrame - Delay >= 0)
+                    radius = Random(VisibilityRange() << 5);
+                    angle = Random(360);
+                    delay = Random(80);
+                    if (AnimationFrame - delay >= 0)
                     {
-                        AbilityRules.DegreesRadToCo(Angle, Radius, ref DX, ref DY);
-                        AoWHSSet.Current.FSpellControl.GetSpell(57).FCastImages.Show(0, X + DX, Y + DY, FAnimationFrame - Delay, SurfaceDesc);
+                        AbilityRules.PolarToCartesian(angle, radius, ref deltaX, ref deltaY);
+                        AoWHSSet.Current.SpellControl.GetSpell(57).CastImages.Show(0, X + deltaX, Y + deltaY, AnimationFrame - delay, lockedSurface);
                     }
                 }
 
-                if (FAnimationFrame == 100)
+                if (AnimationFrame == 100)
                 {
                     StopAnimation();
                 }
@@ -156,64 +156,64 @@ public partial class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1388
     public override bool PlaceOnMap()
     {
-        bool Result = base.PlaceOnMap();
+        bool result = base.PlaceOnMap();
         ((MapField)Owner).UpdateMapField();
-        return Result;
+        return result;
     }
 
     // GlobalTargetSpells.pas:1394
     public override void RemoveFromMap()
     {
-        MapField MapF;
-        MapF = (MapField)Owner;
+        MapField mapField;
+        mapField = (MapField)Owner;
         base.RemoveFromMap();
-        MapF.UpdateMapField();
+        mapField.UpdateMapField();
     }
 
     // GlobalTargetSpells.pas:1438
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        int OwnerPlayer;
-        ref var mapFieldMsg = ref Msg;
-        base.MapFieldMsgProc(ref Msg);
-        if (mapFieldMsg.MsgID == 4363)
+        int ownerPlayer;
+        ref var mapFieldMessage = ref message;
+        base.MapFieldMessageProc(ref message);
+        if (mapFieldMessage.MessageId == 4363)
         {
             if (Activated())
             {
-                OwnerPlayer = FEnchantment.FPlayerIndex;
-                if (OwnerPlayer == mapFieldMsg.Param[1].Int || (byte)AoWHSMap.Current.FPlayers.GetPlayers(OwnerPlayer << 0).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMsg.Param[1].Int) == 2)
+                ownerPlayer = Enchantment.PlayerIndex;
+                if (ownerPlayer == mapFieldMessage.Param[1].Int || (byte)AoWHSMap.Current.Players.GetPlayers(ownerPlayer << 0).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMessage.Param[1].Int) == 2)
                 {
                     var visibilityRange = VisibilityRange();
-                    if (mapFieldMsg.Param[0].Int <= visibilityRange)
+                    if (mapFieldMessage.Param[0].Int <= visibilityRange)
                     {
-                        mapFieldMsg.Result = 1;
+                        mapFieldMessage.Result = 1;
                     }
                 }
             }
         }
 
-        if (mapFieldMsg.MsgID == 4362)
+        if (mapFieldMessage.MessageId == 4362)
         {
             if (Activated())
             {
-                OwnerPlayer = FEnchantment.FPlayerIndex;
-                if (OwnerPlayer == mapFieldMsg.Param[1].Int || (byte)AoWHSMap.Current.FPlayers.GetPlayers(OwnerPlayer << 0).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMsg.Param[1].Int) == 2)
+                ownerPlayer = Enchantment.PlayerIndex;
+                if (ownerPlayer == mapFieldMessage.Param[1].Int || (byte)AoWHSMap.Current.Players.GetPlayers(ownerPlayer << 0).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)mapFieldMessage.Param[1].Int) == 2)
                 {
                     var visibilityRange = VisibilityRange();
-                    if (mapFieldMsg.Param[0].Int <= visibilityRange)
+                    if (mapFieldMessage.Param[0].Int <= visibilityRange)
                     {
-                        mapFieldMsg.Result = 1;
+                        mapFieldMessage.Result = 1;
                     }
                 }
             }
         }
 
-        if (mapFieldMsg.MsgID == 4365)
+        if (mapFieldMessage.MessageId == 4365)
         {
-            if (VisibilityRange() >= mapFieldMsg.Param[0].Int)
+            if (VisibilityRange() >= mapFieldMessage.Param[0].Int)
             {
                 // { Param[0] is already available. }
-                AoWHSMap.Current.UpdatePlayerSeen(FEnchantment.FPlayerIndex, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ((MapField)Owner).Lhx, mapFieldMsg.Param[0].Int, mapFieldMsg.Param[0].Int);
+                AoWHSMap.Current.UpdatePlayerSeen(Enchantment.PlayerIndex, ((MapField)Owner).HexX, ((MapField)Owner).HexY, ((MapField)Owner).HexLevel, mapFieldMessage.Param[0].Int, mapFieldMessage.Param[0].Int);
             }
 
             UpdateVisibleForSeatedPlayer();
@@ -223,17 +223,17 @@ public partial class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1350
     public override void Activate()
     {
-        MapField MapF;
+        MapField mapFieldLocal;
         base.Activate();
-        FWatcherState = (byte)(Set<StateElement>.FromMask(FWatcherState) + Set<StateElement>.Of(StateElement.Active)).Image;
-        FEnchantment.Activate(FEnchantment.FPlayerIndex);
+        WatcherState = (byte)(Set<StateElement>.FromMask(WatcherState) + Set<StateElement>.Of(StateElement.Active)).Image;
+        Enchantment.Activate(Enchantment.PlayerIndex);
         var mapField = (MapField)Owner;
-        AoWHSMap.Current.NotifyPlayerChanged(mapField.Xhx, mapField.Yhx, mapField.Lhx);
+        AoWHSMap.Current.NotifyPlayerChanged(mapField.HexX, mapField.HexY, mapField.HexLevel);
 
-        MapF = (MapField)Owner;
+        mapFieldLocal = (MapField)Owner;
         var visibilityRange = VisibilityRange();
         var visibilityRange2 = VisibilityRange();
-        AoWHSMap.Current.UpdatePlayerSeen(FEnchantment.FPlayerIndex, MapF.Xhx, MapF.Yhx, MapF.Lhx, visibilityRange, visibilityRange2);
+        AoWHSMap.Current.UpdatePlayerSeen(Enchantment.PlayerIndex, mapFieldLocal.HexX, mapFieldLocal.HexY, mapFieldLocal.HexLevel, visibilityRange, visibilityRange2);
         UpdateExploration();
         UpdateUnfog();
     }
@@ -242,52 +242,52 @@ public partial class WatcherHexSprite : SingleHexSprite
     public override void Deactivate()
     {
         base.Deactivate();
-        FWatcherState = (byte)(Set<StateElement>.FromMask(FWatcherState) - Set<StateElement>.Of(StateElement.Active)).Image;
-        if (FEnchantment.FEnchantmentStatus.Contains(GlobalEnchantmentStatusElement.Activated))
+        WatcherState = (byte)(Set<StateElement>.FromMask(WatcherState) - Set<StateElement>.Of(StateElement.Active)).Image;
+        if (Enchantment.EnchantmentStatus.Contains(GlobalEnchantmentStatusElement.Activated))
         {
-            FEnchantment.Deactivate((byte)FEnchantment.FPlayerIndex);
+            Enchantment.Deactivate((byte)Enchantment.PlayerIndex);
         }
 
-        AoWHSMap.Current.NotifyPlayerChanged(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ((MapField)Owner).Lhx);
+        AoWHSMap.Current.NotifyPlayerChanged(((MapField)Owner).HexX, ((MapField)Owner).HexY, ((MapField)Owner).HexLevel);
         UpdateUnfog();
     }
 
     // GlobalTargetSpells.pas:1403
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (Info.HN == 0)
+        if (info.HexNumber == 0)
         {
-            ((AoWMapField)(object)Info.MapField).FFieldFlags = ((AoWMapField)(object)Info.MapField).FFieldFlags | 4096 | 16777216;
+            ((AoWMapField)(object)info.MapField).FieldFlags = ((AoWMapField)(object)info.MapField).FieldFlags | 4096 | 16777216;
         }
     }
 
     // GlobalTargetSpells.pas:1226
-    public void StartAnimation(sbyte X, sbyte Y, sbyte Layer)
+    public void StartAnimation(sbyte X, sbyte Y, sbyte layer)
     {
-        HexNumberWalkData Walk = default;
-        MapLevel Level;
-        FAnimationFrame = 0;
-        AoWHSMap.Current.DynamicFixedVisibleHS.AddChild(this);
-        AoWHSSet.Current.FSpellControl.GetSpell(57).FCastSounds.Play(0);
-        FUnexplored.Clear();
-        if (AoWHSMap.Current.FExplorationEnabled)
+        HexNumberWalkData walk = default;
+        MapLevel level;
+        AnimationFrame = 0;
+        AoWHSMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
+        AoWHSSet.Current.SpellControl.GetSpell(57).CastSounds.Play(0);
+        Unexplored.Clear();
+        if (AoWHSMap.Current.ExplorationEnabled)
         {
-            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-            Level = AoWHSMap.Current.MapContainer.MapLevels[Layer];
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            level = AoWHSMap.Current.MapContainer.MapLevels[layer];
             while (true)
             {
                 var visibilityRange = VisibilityRange();
-                if (!(Walk.Radius <= visibilityRange))
+                if (!(walk.Radius <= visibilityRange))
                     break;
-                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+                if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    if (!((AoWMapField)Level.Field[Walk.X, Walk.Y]).GetExplored(AoWHSMap.Current.FSeatedPlayer))
+                    if (!((AoWMapField)level.Field[walk.X, walk.Y]).GetExplored(AoWHSMap.Current.SeatedPlayer))
                     {
-                        FUnexplored.Add(Walk.HN);
+                        Unexplored.Add(walk.HexNumber);
                     }
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
     }
@@ -295,26 +295,26 @@ public partial class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1248
     public void StopAnimation()
     {
-        AoWHSMap.Current.DynamicFixedVisibleHS.RemoveChild(this);
-        FAnimationFrame = -1;
-        FUnexplored.Clear();
+        AoWHSMap.Current.DynamicFixedVisibleHexSprite.RemoveChild(this);
+        AnimationFrame = -1;
+        Unexplored.Clear();
     }
 
     // GlobalTargetSpells.pas:1305
     public void UpdateExploration()
     {
-        int OwnerPlayer;
+        int ownerPlayer;
         if (Activated())
         {
-            for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
             {
-                OwnerPlayer = FEnchantment.FPlayerIndex;
-                if (OwnerPlayer == I || (byte)AoWHSMap.Current.FPlayers.GetPlayers(OwnerPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)I) == 2)
+                ownerPlayer = Enchantment.PlayerIndex;
+                if (ownerPlayer == I || (byte)AoWHSMap.Current.Players.GetPlayers(ownerPlayer).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)I) == 2)
                 {
                     var visibilityRange = VisibilityRange();
-                    var yhx = Yhx;
-                    var xhx = Xhx;
-                    AoWHSMap.Current.ExploreArea(xhx, yhx, Lhx, (sbyte)I, visibilityRange);
+                    var hexY = HexY;
+                    var hexX = HexX;
+                    AoWHSMap.Current.ExploreArea(hexX, hexY, HexLevel, (sbyte)I, visibilityRange);
                 }
             }
         }
@@ -323,31 +323,31 @@ public partial class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1321
     public void UpdateUnfog()
     {
-        int Radius;
-        if ((byte)AoWHSMap.Current.FSeatedPlayer != 255 && (FEnchantment.FPlayerIndex == AoWHSMap.Current.FSeatedPlayer || (byte)AoWHSMap.Current.FPlayers.GetPlayers(FEnchantment.FPlayerIndex).FDiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)AoWHSMap.Current.FSeatedPlayer) == 2) && Activated())
+        int radius;
+        if ((byte)AoWHSMap.Current.SeatedPlayer != 255 && (Enchantment.PlayerIndex == AoWHSMap.Current.SeatedPlayer || (byte)AoWHSMap.Current.Players.GetPlayers(Enchantment.PlayerIndex).DiplomaticRelations.GetDiplomaticRelation((sbyte)(byte)AoWHSMap.Current.SeatedPlayer) == 2) && Activated())
         {
-            Radius = VisibilityRange();
+            radius = VisibilityRange();
         }
         else
         {
-            Radius = 0;
+            radius = 0;
         }
 
-        if (Radius != FUnfogRadius)
+        if (radius != UnfogRadius)
         {
-            if (FUnfogRadius != 0)
+            if (UnfogRadius != 0)
             {
-                var yhx = Yhx;
-                var xhx = Xhx;
-                AoWHSMap.Current.FogArea(xhx, yhx, Lhx, FUnfogRadius);
+                var hexY = HexY;
+                var hexX = HexX;
+                AoWHSMap.Current.FogArea(hexX, hexY, HexLevel, UnfogRadius);
             }
 
-            FUnfogRadius = (byte)Radius;
-            if (FUnfogRadius != 0)
+            UnfogRadius = (byte)radius;
+            if (UnfogRadius != 0)
             {
-                var yhx = Yhx;
-                var xhx = Xhx;
-                AoWHSMap.Current.UnFogArea(xhx, yhx, Lhx, FUnfogRadius);
+                var hexY = HexY;
+                var hexX = HexX;
+                AoWHSMap.Current.UnFogArea(hexX, hexY, HexLevel, UnfogRadius);
             }
         }
     }
@@ -355,25 +355,25 @@ public partial class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1376
     public int VisibilityRange()
     {
-        int Result = 8;
-        if (Lhx != 0 || FEnchantment.FPlayerIndex > 0 && AoWHSMap.Current.FPlayers.GetPlayers(FEnchantment.FPlayerIndex).FMagicControl.FEnemyEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
+        int result = 8;
+        if (HexLevel != 0 || Enchantment.PlayerIndex > 0 && AoWHSMap.Current.Players.GetPlayers(Enchantment.PlayerIndex).MagicControl.EnemyEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
         {
-            Result += 1;
-            Result = (int)(((uint)Result) >> 1);
+            result += 1;
+            result = (int)(((uint)result) >> 1);
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalTargetSpells.pas:1410
     public void UpdateVisibleForSeatedPlayer()
     {
-        bool Visible;
-        Visible = FEnchantment.VisibleForPlayer(AoWHSMap.Current.FSeatedPlayer);
-        if (FVisibleForSeatedPlayer ^ Visible)
+        bool visible;
+        visible = Enchantment.VisibleForPlayer(AoWHSMap.Current.SeatedPlayer);
+        if (VisibleForSeatedPlayer ^ visible)
         {
-            FVisibleForSeatedPlayer = Visible;
-            AoWHSMap.Current.FGlobalMagicControl.TriggerChangedEvent();
+            VisibleForSeatedPlayer = visible;
+            AoWHSMap.Current.GlobalMagicControl.TriggerChangedEvent();
         }
     }
 

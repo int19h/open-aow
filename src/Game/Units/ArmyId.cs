@@ -8,105 +8,105 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
-// FUnitIDs. FPlayer. FX, FY, FL
+// UnitIds. Player. FX, FY, FL
 public partial class ArmyId : EngineObject
 {
-    public new const int ClassID = 131616;
+    public new const int ClassId = 131616;
 
     // Army.PAS:1
     public ArmyId(ECustomNode owner) : base(owner)
     {
-        FUnitIDs = new Int32List();
+        UnitIds = new Int32List();
     }
 
-    public Int32List FUnitIDs;
-    public sbyte FPlayer;
-    public sbyte FX;
-    public sbyte FY;
-    public sbyte FL;
-    public byte F_ArmyID_13;
+    public Int32List UnitIds;
+    public sbyte Player;
+    public sbyte X;
+    public sbyte Y;
+    public sbyte MapLevel;
+    public byte LocationFlag;
 
     // Army.PAS:7
     public override void Dispose()
     {
-        FUnitIDs?.Dispose();
+        UnitIds?.Dispose();
         base.Dispose();
     }
 
     // Army.PAS:24
     public bool Valid()
     {
-        bool Result;
-        ArmyHexSprite ArmyHS;
+        bool result;
+        ArmyHexSprite armyHexSprite;
         int I;
-        if (FX != -1)
+        if (X != -1)
         {
-            ArmyHS = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL)).GetArmyHS();
-            if (ArmyHS != null && ArmyHS.FArmy.FPlayer == FPlayer)
+            armyHexSprite = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel)).GetArmyHexSprite();
+            if (armyHexSprite != null && armyHexSprite.Army.Player == Player)
             {
-                I = FUnitIDs.Count;
-                Result = true;
-                while (Result && I != 0)
+                I = UnitIds.Count;
+                result = true;
+                while (result && I != 0)
                 {
                     I -= 1;
-                    var item = FUnitIDs[I];
-                    Result = ArmyHS.FArmy.IndexOfID(item) != -1;
+                    var item = UnitIds[I];
+                    result = armyHexSprite.Army.IndexOfId(item) != -1;
                 }
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:45
-    public bool RetrieveArmy(ref ArmyHexSprite ArmyHS, ref byte Selection)
+    public bool RetrieveArmy(ref ArmyHexSprite armyHexSprite, ref byte selection)
     {
-        bool Result;
+        bool result;
         int I;
-        int Index;
-        if (FX != -1)
+        int index;
+        if (X != -1)
         {
-            Selection = 0;
-            ArmyHS = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL)).GetArmyHS();
-            if (ArmyHS != null && ArmyHS.FArmy.FPlayer == FPlayer)
+            selection = 0;
+            armyHexSprite = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel)).GetArmyHexSprite();
+            if (armyHexSprite != null && armyHexSprite.Army.Player == Player)
             {
-                I = FUnitIDs.Count;
-                Result = true;
-                while (Result && I != 0)
+                I = UnitIds.Count;
+                result = true;
+                while (result && I != 0)
                 {
                     I -= 1;
-                    var item = FUnitIDs[I];
-                    Index = ArmyHS.FArmy.IndexOfID(item);
+                    var item = UnitIds[I];
+                    index = armyHexSprite.Army.IndexOfId(item);
                     // { Original shifts by the missing unit index before reporting failure. }
-                    Selection = (byte)(Selection | (1 << Index));
-                    Result = Index != -1;
+                    selection = (byte)(selection | (1 << index));
+                    result = index != -1;
                 }
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        if (!Result)
+        if (!result)
         {
-            ArmyHS = null;
-            Selection = 0;
+            armyHexSprite = null;
+            selection = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P2_07.inc:411

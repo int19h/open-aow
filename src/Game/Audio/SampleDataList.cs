@@ -8,26 +8,26 @@ namespace Aow.Game.Audio;
 public partial class SampleDataList : DelphiList<SampleData>
 {
     // Sound.pas:659
-    public SampleData Find(string Name)
+    public SampleData Find(string name)
     {
-        SampleData Result;
+        SampleData result;
         int I;
         I = 0;
-        while (I != Count && CompareText(Name, List[I].FName) != 0)
+        while (I != Count && CompareText(name, List[I]._name) != 0)
         {
             I += 1;
         }
 
         if (I != Count)
         {
-            Result = List[I];
+            result = List[I];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
 }

@@ -15,157 +15,157 @@ public partial class UnitSpellCaster : SpellCaster
     // Spells.PAS:859
     public UnitSpellCaster(ECustomNode owner) : base(owner)
     {
-        FTargetUnits = new UnitUserList(null);
+        TargetUnits = new UnitUserList(null);
     }
 
-    public UnitUserList FTargetUnits;
-    public byte FSelectionMask;
-    public bool FAllowMultipleTargets;
-    public byte FValidSelection;
+    public UnitUserList TargetUnits;
+    public byte SelectionMask;
+    public bool AllowMultipleTargets;
+    public byte ValidSelection;
 
     // Spells.PAS:864
     public override void Dispose()
     {
-        FTargetUnits?.Dispose();
+        TargetUnits?.Dispose();
         base.Dispose();
     }
 
     // Spells.PAS:947
-    public override bool CanCast(ref string Reason)
+    public override bool CanCast(ref string reason)
     {
-        bool Result;
-        Hero Hero;
-        int Mana;
-        Hero = AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FCasterSourceID);
-        if (Hero != null && !Hero.FUnitStatus.Contains(UnitStatusElement.Killed))
+        bool result;
+        Hero hero;
+        int mana;
+        hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(CasterSourceId);
+        if (hero != null && !hero.UnitStatus.Contains(UnitStatusElement.Killed))
         {
-            if (FSelectionMask != 0)
+            if (SelectionMask != 0)
             {
-                if (!AoWHSMap.Current.FPlayers.GetPlayers(Hero.FPlayer).FMagicControl.GetCheatEnabled())
+                if (!AoWHSMap.Current.Players.GetPlayers(hero.Player).MagicControl.GetCheatEnabled())
                 {
-                    Mana = GetRequiredMana();
-                    if (Hero.CastingReady() && Hero.FCastingSpellID == FCasterSpellID)
+                    mana = GetRequiredMana();
+                    if (hero.CastingReady() && hero.CastingSpellId == CasterSpellId)
                     {
-                        Mana -= AoWHSSet.Current.FSpellControl.GetSpell(FCasterSpellID).FBaseManaCost;
+                        mana -= AoWHSSet.Current.SpellControl.GetSpell(CasterSpellId).BaseManaCost;
                     }
 
-                    if (Mana <= Hero.GetCastingPoints())
+                    if (mana <= hero.GetCastingPoints())
                     {
-                        if (Mana <= AoWHSMap.Current.FPlayers.GetPlayers(Hero.FPlayer).FMagicControl.FMana)
+                        if (mana <= AoWHSMap.Current.Players.GetPlayers(hero.Player).MagicControl.Mana)
                         {
-                            Result = true;
+                            result = true;
                         }
                         else
                         {
-                            Result = false;
-                            Reason = AbilityRules.TranslateRStr(GameText.NotEnoughManaRStr);
+                            result = false;
+                            reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughManaText);
                         }
                     }
                     else
                     {
-                        Result = false;
-                        Reason = AbilityRules.TranslateRStr(GameText.P2NotEnoughCastingPointsRStr);
+                        result = false;
+                        reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughChannelingPointsText);
                     }
                 }
                 else
                 {
-                    Result = true;
+                    result = true;
                 }
             }
             else
             {
-                Result = false;
-                Reason = AbilityRules.TranslateRStr(GameText.NoUnitSelectedRStr);
+                result = false;
+                reason = AbilityRules.TranslateResourceString(GameText.s_noUnitSelectedText);
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:981
     public override bool Cast()
     {
-        bool Result;
-        UnitUserList Targets;
-        string Reason = "";
-        Troop Source;
-        if (CanCast(ref Reason))
+        bool result;
+        UnitUserList targets;
+        string reason = "";
+        Troop source;
+        if (CanCast(ref reason))
         {
-            Source = AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
-            if (Source != null)
+            source = AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId);
+            if (source != null)
             {
-                Targets = new UnitUserList(null);
-                for (int I = 0, last = FTargetUnits.Count - 1; I <= last; I++)
+                targets = new UnitUserList(null);
+                for (int I = 0, last = TargetUnits.Count - 1; I <= last; I++)
                 {
-                    if (((1 << I) & FSelectionMask) != 0)
+                    if (((1 << I) & SelectionMask) != 0)
                     {
-                        Targets.AddUnit(FTargetUnits.GetUnit(I));
+                        targets.AddUnit(TargetUnits.GetUnit(I));
                     }
                 }
 
-                Result = ((UnitSpell)AoWHSSet.Current.FSpellControl.GetSpell(FCasterSpellID)).CastSpell(Source, Targets);
-                Targets?.Dispose();
+                result = ((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(CasterSpellId)).CastSpell(source, targets);
+                targets?.Dispose();
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:896
     public int GetSelectionCount()
     {
-        int Bits;
-        int Result = 0;
-        Bits = FSelectionMask;
-        while (Bits != 0)
+        int bits;
+        int result = 0;
+        bits = SelectionMask;
+        while (bits != 0)
         {
-            if ((Bits & 1) != 0)
+            if ((bits & 1) != 0)
             {
-                Result += 1;
+                result += 1;
             }
 
-            Bits = (int)(((uint)Bits) >> 1);
+            bits = (int)(((uint)bits) >> 1);
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:1085
     public bool Valid()
     {
-        bool Result;
-        Troop Source;
-        Source = AoWHSMap.Current.FUnitControl.FindUnit<Troop>(FCasterSourceID);
-        if (Source == null || (((byte)Source.FUnitStatus.Image) & 16) != 0)
+        bool result;
+        Troop source;
+        source = AoWHSMap.Current.UnitControl.FindUnit<Troop>(CasterSourceId);
+        if (source == null || (((byte)source.UnitStatus.Image) & 16) != 0)
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P4_02.inc:1038
     public void SetSelection(byte selection)
     {
         byte value = selection;
-        var source = AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
-        ((UnitSpell)AoWHSSet.Current.FSpellControl.GetSpell(FCasterSpellID)).ValidateUnitSelection(source, FTargetUnits, ref value);
-        FSelectionMask = value;
+        var source = AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId);
+        ((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(CasterSpellId)).ValidateUnitSelection(source, TargetUnits, ref value);
+        SelectionMask = value;
     }
 }

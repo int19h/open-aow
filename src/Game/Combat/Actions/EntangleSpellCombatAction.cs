@@ -10,27 +10,27 @@ namespace Aow.Game.Combat.Actions;
 public partial class EntangleSpellCombatAction : ExclusiveCombatSpellCombatAction
 {
     // CombatSpells.pas:1328
-    public new const int ClassID = 131784;
+    public new const int ClassId = 131784;
 
     public EntangleSpellCombatAction(ECustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:1334
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatObject Source;
-        CombatUnit Target;
-        UnitEnchantmentAbilityData Data;
-        base.Execute(Combat);
-        if (FSucceeded)
+        CombatObject source;
+        CombatUnit target;
+        UnitEnchantmentAbilityData data;
+        base.Execute(combat);
+        if (Succeeded)
         {
-            Source = Combat.FCombatData.FindID(FSourceID);
-            Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
-            AoWHSSet.Current.FAbilityControl.GetAbility(94).Expand(Target.FUnit);
-            Data = (UnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(94);
-            if (Data != null)
+            source = combat.CombatData.FindId(SourceId);
+            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            AoWHSSet.Current.AbilityControl.GetAbility(94).Expand(target.Troop);
+            data = (UnitEnchantmentAbilityData)target.Troop.GetAbilityData(94);
+            if (data != null)
             {
-                Data.FEnchantmentPlayerIndex = Source.FCombatPlayer;
+                data.EnchantmentPlayerIndex = source.CombatPlayer;
             }
         }
     }

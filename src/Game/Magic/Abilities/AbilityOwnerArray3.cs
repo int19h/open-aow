@@ -6,5 +6,5 @@ namespace Aow.Game.Magic.Abilities;
 [InlineArray(3)]
 public struct AbilityOwnerArray3
 {
-    private AbilityOwner element0;
+    private AbilityOwner _element0;
 }

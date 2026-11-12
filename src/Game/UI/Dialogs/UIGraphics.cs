@@ -15,7 +15,7 @@ public partial class UIGraphics : DataModule
     public InterfaceImageLibrary Cursors;
     public InterfaceImageLibrary ScanTiles;
     public InterfaceImageLibrary ScanFog;
-    public InterfaceImageLibrary ScanHiLites;
+    public InterfaceImageLibrary ScanHighlights;
     public InterfaceImageLibrary PyreAnim;
     public InterfaceImageLibrary UnitBGs;
     public InterfaceImageLibrary FCWin;

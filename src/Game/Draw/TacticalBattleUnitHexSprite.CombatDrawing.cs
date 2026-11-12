@@ -14,139 +14,139 @@ namespace Aow.Game.Draw;
 
 public partial class TacticalBattleUnitHexSprite
 {
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
-        int Index;
+        ImageSequence sequence;
+        int index;
         int X = default;
         int Y = default;
-        int DX = default;
-        int DY = default;
-        double Progress;
-        int NX = default;
-        int NY = default;
-        int FlyingOffset;
-        int Race;
-        CityWall Wall;
-        CityWall NextWall;
-        LockedSurface SD;
+        int deltaX = default;
+        int deltaY = default;
+        double progress;
+        int hexX = default;
+        int hexY = default;
+        int flyingOffset;
+        int race;
+        CityWall wall;
+        CityWall nextWall;
+        LockedSurface lockedSurfaceLocal;
         try
         {
-            if (!(FDirection < FUnitGFXResource.FSequences.Count))
+            if (!(Direction < UnitGraphicsResource.Sequences.Count))
             {
                 OriginalUnitAssert("Invalid Unit Index", "D:\\AoWDev\\AoWTC\\inc\\TCUnitHS.pas", 4262);
             }
 
-            HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
-            XhpSurf = X - XhpSurf + FOffsetX;
-            YhpSurf = Y - YhpSurf - 8 + FOffsetY;
-            if (FUnit.GetPlayer() > 0)
+            HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+            pixelXSurface = X - pixelXSurface + OffsetX;
+            pixelYSurface = Y - pixelYSurface - 8 + OffsetY;
+            if (Unit.GetPlayer() > 0)
             {
-                var player = FUnit.GetPlayer();
-                Race = AoWHSMap.Current.FPlayers.GetPlayers(player).FPlayerRace;
+                var player = Unit.GetPlayer();
+                race = AoWHSMap.Current.Players.GetPlayers(player).PlayerRace;
             }
             else
             {
-                Race = 32;
+                race = 32;
             }
 
-            if (FUnit.GetAbilityEnabled(1))
+            if (Unit.GetAbilityEnabled(1))
             {
-                FlyingOffset = -8;
+                flyingOffset = -8;
             }
             else
             {
-                FlyingOffset = 0;
+                flyingOffset = 0;
             }
 
-            if (FUnit.GetAbilityEnabled(36))
+            if (Unit.GetAbilityEnabled(36))
             {
-                Wall = (CityWall)Owner.FindOwnedChild(2229508);
-                if (Wall == null)
+                wall = (CityWall)Owner.FindOwnedChild(2229508);
+                if (wall == null)
                 {
-                    Wall = Owner.FindOwnedChild(2229510) as CityWall;
+                    wall = Owner.FindOwnedChild(2229510) as CityWall;
                 }
 
-                if (FMoveStep == -1)
+                if (MoveStep == -1)
                 {
-                    if (Wall != null && Wall.FHitPoints > 0)
+                    if (wall != null && wall.HitPoints > 0)
                     {
-                        YhpSurf -= 32;
+                        pixelYSurface -= 32;
                     }
                 }
                 else
                 {
-                    var yhx = GetYhx();
-                    HexGeometry.CenterHNtoHX(GetXhx(), yhx, FDirection, ref NX, ref NY);
-                    NextWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229508);
-                    if (NextWall == null)
+                    var yhx = GetHexY();
+                    HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, Direction, ref hexX, ref hexY);
+                    nextWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229508);
+                    if (nextWall == null)
                     {
-                        NextWall = CombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229510) as CityWall;
+                        nextWall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
                     }
 
                     var moveSteps = GetMoveSteps();
-                    if (FMoveStep < moveSteps / 2)
+                    if (MoveStep < moveSteps / 2)
                     {
-                        if (Wall != null && Wall.FHitPoints > 0)
+                        if (wall != null && wall.HitPoints > 0)
                         {
-                            if (NextWall != null && NextWall.FHitPoints > 0)
+                            if (nextWall != null && nextWall.HitPoints > 0)
                             {
-                                YhpSurf -= 32;
+                                pixelYSurface -= 32;
                             }
                             else
                             {
                                 var moveSteps2 = GetMoveSteps();
                                 var moveSteps3 = GetMoveSteps();
-                                YhpSurf -= (moveSteps2 - FMoveStep) * 32 / moveSteps3;
+                                pixelYSurface -= (moveSteps2 - MoveStep) * 32 / moveSteps3;
                             }
                         }
                     }
                     else
                     {
-                        if (NextWall != null && NextWall.FHitPoints > 0)
+                        if (nextWall != null && nextWall.HitPoints > 0)
                         {
-                            if (Wall != null && Wall.FHitPoints > 0)
+                            if (wall != null && wall.HitPoints > 0)
                             {
-                                YhpSurf -= 32;
+                                pixelYSurface -= 32;
                             }
                             else
                             {
                                 var moveSteps2 = GetMoveSteps();
-                                YhpSurf -= FMoveStep * 32 / moveSteps2;
+                                pixelYSurface -= MoveStep * 32 / moveSteps2;
                             }
                         }
                     }
                 }
             }
 
-            switch (FAction)
+            switch (Action)
             {
                 case SpriteAction.Move:
                 case SpriteAction.Busy:
                 case SpriteAction.FreeStruck:
-                    if (FAction == SpriteAction.Move && FMoveStep != -1)
+                    if (Action == SpriteAction.Move && MoveStep != -1)
                     {
-                        HexGeometry.HNtoHP(FDirection, ref DX, ref DY);
+                        HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
                         var moveSteps = GetMoveSteps();
-                        Progress = (double)FMoveStep / moveSteps;
-                        XhpSurf += Round((double)DX * Progress);
-                        YhpSurf += Round((double)DY * Progress);
-                        Sequence = FUnitGFXResource.FSequences.ImageSequences[FDirection + 5];
+                        progress = (double)MoveStep / moveSteps;
+                        pixelXSurface += Round((double)deltaX * progress);
+                        pixelYSurface += Round((double)deltaY * progress);
+                        sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 5];
                     }
                     else
                     {
-                        Sequence = FUnitGFXResource.FSequences.ImageSequences[FDirection - 1];
+                        sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction - 1];
                     }
 
-                    while (Sequence != null)
+                    while (sequence != null)
                     {
-                        Index = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                        if (Index != -1)
+                        index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        if (index != -1)
                         {
-                            Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift + FlyingOffset, SurfaceDesc);
+                            sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + flyingOffset, lockedSurface);
                         }
 
-                        Sequence = Sequence.Next;
+                        sequence = sequence.Next;
                     }
 
                     break;
@@ -154,351 +154,351 @@ public partial class TacticalBattleUnitHexSprite
                 case SpriteAction.MeleeMiss:
                 case SpriteAction.Ability:
                 case SpriteAction.BreathAttack:
-                    Sequence = FUnitGFXResource.FSequences.ImageSequences[FDirection + 11];
-                    if (Sequence != null)
+                    sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 11];
+                    if (sequence != null)
                     {
-                        while (Sequence != null)
+                        while (sequence != null)
                         {
-                            Index = Sequence.GetUnloopedFrameIndex(FActionFrame);
-                            if (Index != -1)
+                            index = sequence.GetUnloopedFrameIndex(ActionFrame);
+                            if (index != -1)
                             {
-                                Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift + FlyingOffset, SurfaceDesc);
+                                sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + flyingOffset, lockedSurface);
                             }
 
-                            Sequence = Sequence.Next;
+                            sequence = sequence.Next;
                         }
                     }
 
                     break;
                 case SpriteAction.Hit:
-                    Sequence = FUnitGFXResource.FSequences.ImageSequences[FDirection + 17];
-                    if (Sequence != null)
+                    sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 17];
+                    if (sequence != null)
                     {
-                        while (Sequence != null)
+                        while (sequence != null)
                         {
-                            Index = Sequence.GetUnloopedFrameIndex(FActionFrame);
-                            if (Index != -1)
+                            index = sequence.GetUnloopedFrameIndex(ActionFrame);
+                            if (index != -1)
                             {
-                                Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift + FlyingOffset, SurfaceDesc);
+                                sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + flyingOffset, lockedSurface);
                             }
 
-                            Sequence = Sequence.Next;
+                            sequence = sequence.Next;
                         }
                     }
 
                     break;
                 case SpriteAction.StepUp:
                 case SpriteAction.StepBack:
-                    Sequence = FUnitGFXResource.FSequences.ImageSequences[FDirection + 5];
-                    if (Sequence != null)
+                    sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 5];
+                    if (sequence != null)
                     {
-                        while (Sequence != null)
+                        while (sequence != null)
                         {
-                            Index = Sequence.GetFrameIndex(AoWHSMap.Current.Frame + FActionFrame, FrameFixtureInputs.AnimationOffset(this));
-                            if (Index != -1)
+                            index = sequence.GetFrameIndex(AoWHSMap.Current.Frame + ActionFrame, FrameFixtureInputs.AnimationOffset(this));
+                            if (index != -1)
                             {
-                                Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift + FlyingOffset, SurfaceDesc);
+                                sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + flyingOffset, lockedSurface);
                             }
 
-                            Sequence = Sequence.Next;
+                            sequence = sequence.Next;
                         }
                     }
 
                     break;
                 case SpriteAction.RoundAttack:
                 case SpriteAction.RoundAttackHit:
-                    Sequence = AoWHSSet.Current.FImageSequences.ImageSequences[FDirection + 15];
-                    if (Sequence != null)
+                    sequence = AoWHSSet.Current.ImageSequences.ImageSequences[Direction + 15];
+                    if (sequence != null)
                     {
-                        while (Sequence != null)
+                        while (sequence != null)
                         {
-                            Index = Sequence.GetUnloopedFrameIndex(FActionFrame);
-                            if (Index != -1)
+                            index = sequence.GetUnloopedFrameIndex(ActionFrame);
+                            if (index != -1)
                             {
-                                if (Sequence.Layer == 0)
+                                if (sequence.Layer == 0)
                                 {
-                                    while (!FUnitGFXResource.FSequences.ImageSequences[FDirection + 11].ImageLibrary.ImageExist(Index))
+                                    while (!UnitGraphicsResource.Sequences.ImageSequences[Direction + 11].ImageLibrary.ImageExist(index))
                                     {
-                                        Index -= 1;
+                                        index -= 1;
                                     }
 
-                                    FUnitGFXResource.FSequences.ImageSequences[FDirection + 11].ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift + 16, YhpSurf + FlyingOffset + Sequence.dYshift + 16, SurfaceDesc);
+                                    UnitGraphicsResource.Sequences.ImageSequences[Direction + 11].ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX + 16, pixelYSurface + flyingOffset + sequence.OffsetY + 16, lockedSurface);
                                 }
                                 else
                                 {
-                                    Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift + 16, YhpSurf + Sequence.dYshift + FlyingOffset + 16, SurfaceDesc);
+                                    sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX + 16, pixelYSurface + sequence.OffsetY + flyingOffset + 16, lockedSurface);
                                 }
                             }
 
-                            Sequence = Sequence.Next;
+                            sequence = sequence.Next;
                         }
                     }
 
                     break;
             }
 
-            if (FUnit.FUnit.FUnitStatus.Contains(UnitStatusElement.Enchanted))
+            if (Unit.Troop.UnitStatus.Contains(UnitStatusElement.Enchanted))
             {
-                AoWHSSet.Current.FImageSequences.ShowLooped(70, XhpSurf + 16, YhpSurf + 18 + FlyingOffset, AoWHSMap.Current.Frame, SurfaceDesc);
+                AoWHSSet.Current.ImageSequences.ShowLooped(70, pixelXSurface + 16, pixelYSurface + 18 + flyingOffset, AoWHSMap.Current.Frame, lockedSurface);
             }
 
-            NX = 0;
-            for (; NX <= 13; NX += 1)
+            hexX = 0;
+            for (; hexX <= 13; hexX += 1)
             {
-                if (FUnit.GetAbilityEnabled(StatusAbils[NX]))
+                if (Unit.GetAbilityEnabled(s_statusAbilities[hexX]))
                 {
-                    Sequence = AoWHSSet.Current.FAbilityControl.GetAbility(StatusAbils[NX]).FImageSequences.ImageSequences[0];
-                    while (Sequence != null)
+                    sequence = AoWHSSet.Current.AbilityControl.GetAbility(s_statusAbilities[hexX]).ImageSequences.ImageSequences[0];
+                    while (sequence != null)
                     {
-                        Index = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                        if (Index != -1)
+                        index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        if (index != -1)
                         {
-                            Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift + 15, YhpSurf + Sequence.dYshift + 10 + FlyingOffset, SurfaceDesc);
+                            sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX + 15, pixelYSurface + sequence.OffsetY + 10 + flyingOffset, lockedSurface);
                         }
 
-                        Sequence = Sequence.Next;
+                        sequence = sequence.Next;
                     }
                 }
             }
 
             if (!GetSelected() || (CombatMap.Current.Frame & 6) != 6)
             {
-                if (Race == 32)
+                if (race == 32)
                 {
-                    if (FUnit.FMovePoints == 0 || FUnit.FCombatPlayer != CombatMap.Current.FSeatedCombatPlayer)
+                    if (Unit.MovePoints == 0 || Unit.CombatPlayer != CombatMap.Current.SeatedCombatPlayer)
                     {
-                        AoWHSSet.Current.FFlagControl.FFlags[70].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
+                        AoWHSSet.Current.FlagControl.Flags[70].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                     }
                     else
                     {
-                        AoWHSSet.Current.FFlagControl.FFlags[FMoveIndicator + 69].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
+                        AoWHSSet.Current.FlagControl.Flags[MoveIndicator + 69].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                     }
                 }
                 else
                 {
-                    if (FUnit.FMovePoints == 0 || FUnit.FCombatPlayer != CombatMap.Current.FSeatedCombatPlayer)
+                    if (Unit.MovePoints == 0 || Unit.CombatPlayer != CombatMap.Current.SeatedCombatPlayer)
                     {
-                        AoWHSSet.Current.FRaceResources.GetRaceResource(Race).FImageLibrary[70].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
+                        AoWHSSet.Current.RaceResources.GetRaceResource(race).ImageLibrary[70].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                     }
                     else
                     {
-                        AoWHSSet.Current.FRaceResources.GetRaceResource(Race).FImageLibrary[FMoveIndicator + 69].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
+                        AoWHSSet.Current.RaceResources.GetRaceResource(race).ImageLibrary[MoveIndicator + 69].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                     }
                 }
 
-                SD = SurfaceDesc;
-                NX = FUnit.GetHitPoints() * 10 / FUnit.GetHits();
-                if (NX == 0)
+                lockedSurfaceLocal = lockedSurface;
+                hexX = Unit.GetHitPoints() * 10 / Unit.GetHits();
+                if (hexX == 0)
                 {
-                    NX = 1;
+                    hexX = 1;
                 }
 
-                if (XhpSurf - 4 + NX < SD.ClipRect.Right)
+                if (pixelXSurface - 4 + hexX < lockedSurfaceLocal.ClipRectangle.Right)
                 {
-                    SD.ClipRect.Right = XhpSurf - 4 + NX;
+                    lockedSurfaceLocal.ClipRectangle.Right = pixelXSurface - 4 + hexX;
                 }
 
-                AoWHSSet.Current.FCombatImages[1].ShowClipped(XhpSurf - 4, YhpSurf - 4, SD);
+                AoWHSSet.Current.CombatImages[1].ShowClipped(pixelXSurface - 4, pixelYSurface - 4, lockedSurfaceLocal);
             }
         }
         catch
         {
-            MessageBox(0, "Error during ShowUnit", NullTerminatedText("Error - " + FUnit.FUnit.GetName()), 0);
+            MessageBox(0, "Error during ShowUnit", NullTerminatedText("Error - " + Unit.Troop.GetName()), 0);
         }
     }
 
-    public override void ShowShadow(int X, int Y, in LockedSurface SurfaceDesc)
+    public override void ShowShadow(int X, int Y, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
-        float Progress;
-        int PX = default;
-        int PY = default;
-        int Index;
-        int DX = default;
-        int DY = default;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref PX, ref PY);
-        X = PX - X + FOffsetX;
-        if (FBusy)
+        ImageSequence sequence;
+        float progress;
+        int pixelX = default;
+        int pixelY = default;
+        int index;
+        int deltaX = default;
+        int deltaY = default;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        X = pixelX - X + OffsetX;
+        if (Busy)
         {
-            Y = PY - Y - 8;
+            Y = pixelY - Y - 8;
         }
         else
         {
-            Y = PY - Y - 8 + FOffsetY;
+            Y = pixelY - Y - 8 + OffsetY;
         }
 
-        if (FMoveStep != -1)
+        if (MoveStep != -1)
         {
-            HexGeometry.HNtoHP(FDirection, ref DX, ref DY);
+            HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
             var moveSteps = GetMoveSteps();
-            Progress = (float)((double)FMoveStep / moveSteps);
-            X += Round((double)DX * Progress);
-            Y += Round((double)DY * Progress);
+            progress = (float)((double)MoveStep / moveSteps);
+            X += Round((double)deltaX * progress);
+            Y += Round((double)deltaY * progress);
         }
 
-        Sequence = FUnitGFXResource.FSequences.ImageSequences[FDirection + 23];
-        while (Sequence != null)
+        sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 23];
+        while (sequence != null)
         {
-            Index = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-            if (Index != -1)
+            index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+            if (index != -1)
             {
-                Sequence.ImageLibrary[Index].Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
+                sequence.ImageLibrary[index].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
             }
 
-            Sequence = Sequence.Next;
+            sequence = sequence.Next;
         }
     }
 
-    public void NewFrame(object Sender)
+    public void NewFrame(object sender)
     {
-        ImageSequence Sequence;
-        if (FActionDone)
+        ImageSequence sequence;
+        if (ActionDone)
         {
             SetAction(SpriteAction.Move);
         }
 
-        if (FMoveIndicator == 0)
+        if (MoveIndicator == 0)
         {
-            FMoveIndicator = (short)(Random(5) + 1);
-            FIndicatorStep = 1;
+            MoveIndicator = (short)(Random(5) + 1);
+            IndicatorStep = 1;
         }
         else
         {
-            FMoveIndicator = (short)(FMoveIndicator + FIndicatorStep);
-            if (FMoveIndicator == 1)
+            MoveIndicator = (short)(MoveIndicator + IndicatorStep);
+            if (MoveIndicator == 1)
             {
-                FIndicatorStep = 1;
+                IndicatorStep = 1;
             }
             else
             {
-                if (FMoveIndicator == 6)
+                if (MoveIndicator == 6)
                 {
-                    FIndicatorStep = -1;
+                    IndicatorStep = -1;
                 }
             }
         }
 
-        switch (FAction)
+        switch (Action)
         {
             case SpriteAction.StepUp:
                 var moveSteps = GetMoveSteps();
-                if (FActionFrame <= moveSteps)
+                if (ActionFrame <= moveSteps)
                 {
-                    HexGeometry.HNtoHP(FDirection, ref FOffsetX, ref FOffsetY);
+                    HexGeometry.HexNumberToPixel(Direction, ref OffsetX, ref OffsetY);
                     var moveSteps2 = GetMoveSteps();
-                    FOffsetX = FActionFrame * FOffsetX / (moveSteps2 * 2);
+                    OffsetX = ActionFrame * OffsetX / (moveSteps2 * 2);
                     var moveSteps3 = GetMoveSteps();
-                    FOffsetY = FActionFrame * FOffsetY / (moveSteps3 * 2);
-                    FActionFrame = (short)(FActionFrame + 2);
+                    OffsetY = ActionFrame * OffsetY / (moveSteps3 * 2);
+                    ActionFrame = (short)(ActionFrame + 2);
                 }
                 else
                 {
-                    HexGeometry.HNtoHP(FDirection, ref FOffsetX, ref FOffsetY);
-                    FOffsetX = FOffsetX / 2;
-                    FOffsetY = FOffsetY / 2;
-                    FActionDone = true;
+                    HexGeometry.HexNumberToPixel(Direction, ref OffsetX, ref OffsetY);
+                    OffsetX = OffsetX / 2;
+                    OffsetY = OffsetY / 2;
+                    ActionDone = true;
                 }
 
                 break;
             case SpriteAction.StepBack:
                 var moveSteps4 = GetMoveSteps();
-                if (FActionFrame <= moveSteps4)
+                if (ActionFrame <= moveSteps4)
                 {
-                    HexGeometry.HNtoHP(FDirection, ref FOffsetX, ref FOffsetY);
+                    HexGeometry.HexNumberToPixel(Direction, ref OffsetX, ref OffsetY);
                     var moveSteps2 = GetMoveSteps();
                     var moveSteps3 = GetMoveSteps();
-                    FOffsetX = (moveSteps2 - FActionFrame) * FOffsetX / (moveSteps3 * 2);
+                    OffsetX = (moveSteps2 - ActionFrame) * OffsetX / (moveSteps3 * 2);
                     var moveSteps5 = GetMoveSteps();
                     var moveSteps6 = GetMoveSteps();
-                    FOffsetY = (moveSteps5 - FActionFrame) * FOffsetY / (moveSteps6 * 2);
-                    FActionFrame = (short)(FActionFrame + 2);
+                    OffsetY = (moveSteps5 - ActionFrame) * OffsetY / (moveSteps6 * 2);
+                    ActionFrame = (short)(ActionFrame + 2);
                 }
                 else
                 {
-                    FOffsetX = 0;
-                    FOffsetY = 0;
-                    FActionDone = true;
+                    OffsetX = 0;
+                    OffsetY = 0;
+                    ActionDone = true;
                 }
 
                 break;
             case SpriteAction.MeleeHit:
             case SpriteAction.MeleeMiss:
             case SpriteAction.Ability:
-                Sequence = FUnitGFXResource.FSequences.ImageSequences[FDirection + 11];
-                if (Sequence != null)
+                sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 11];
+                if (sequence != null)
                 {
-                    FActionFrame = (short)(FActionFrame + 1);
-                    var totalSequenceFrames = Sequence.GetTotalSequenceFrames();
-                    if (FActionFrame >= totalSequenceFrames - 1)
+                    ActionFrame = (short)(ActionFrame + 1);
+                    var totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                    if (ActionFrame >= totalSequenceFrames - 1)
                     {
-                        FActionFrame = (short)(Sequence.GetTotalSequenceFrames() - 1);
-                        FActionDone = true;
+                        ActionFrame = (short)(sequence.GetTotalSequenceFrames() - 1);
+                        ActionDone = true;
                     }
                 }
 
                 break;
             case SpriteAction.BreathAttack:
-                Sequence = FUnitGFXResource.FSequences.ImageSequences[FDirection + 11];
-                if (Sequence != null)
+                sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 11];
+                if (sequence != null)
                 {
-                    var totalSequenceFrames = Sequence.GetTotalSequenceFrames();
-                    if (FActionFrame < totalSequenceFrames - 1)
+                    var totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                    if (ActionFrame < totalSequenceFrames - 1)
                     {
-                        FActionFrame = (short)(FActionFrame + 1);
+                        ActionFrame = (short)(ActionFrame + 1);
                     }
                     else
                     {
-                        FActionDone = true;
+                        ActionDone = true;
                     }
                 }
 
                 break;
             case SpriteAction.Hit:
-                Sequence = FUnitGFXResource.FSequences.ImageSequences[FDirection + 17];
-                if (Sequence != null)
+                sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 17];
+                if (sequence != null)
                 {
-                    FActionFrame = (short)(FActionFrame + 1);
-                    var totalSequenceFrames = Sequence.GetTotalSequenceFrames();
-                    if (FActionFrame >= totalSequenceFrames - 1)
+                    ActionFrame = (short)(ActionFrame + 1);
+                    var totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                    if (ActionFrame >= totalSequenceFrames - 1)
                     {
-                        FActionFrame = (short)(Sequence.GetTotalSequenceFrames() - 1);
-                        FActionDone = true;
+                        ActionFrame = (short)(sequence.GetTotalSequenceFrames() - 1);
+                        ActionDone = true;
                     }
                 }
 
                 break;
             case SpriteAction.RoundAttack:
             case SpriteAction.RoundAttackHit:
-                Sequence = AoWHSSet.Current.FImageSequences.ImageSequences[FDirection + 16];
-                if (Sequence != null)
+                sequence = AoWHSSet.Current.ImageSequences.ImageSequences[Direction + 16];
+                if (sequence != null)
                 {
-                    FActionFrame = (short)(FActionFrame + 1);
-                    var totalSequenceFrames = Sequence.GetTotalSequenceFrames();
-                    if (FActionFrame >= totalSequenceFrames - 1)
+                    ActionFrame = (short)(ActionFrame + 1);
+                    var totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                    if (ActionFrame >= totalSequenceFrames - 1)
                     {
-                        FActionFrame = (short)(Sequence.GetTotalSequenceFrames() - 1);
-                        FActionDone = true;
+                        ActionFrame = (short)(sequence.GetTotalSequenceFrames() - 1);
+                        ActionDone = true;
                     }
                 }
 
                 break;
             default:
-                FActionFrame = -1;
+                ActionFrame = -1;
                 break;
         }
 
-        switch (FAction)
+        switch (Action)
         {
             case SpriteAction.Move:
             case SpriteAction.StepUp:
             case SpriteAction.StepBack:
-                if (FMoveStep != -1)
+                if (MoveStep != -1)
                 {
-                    Sequence = FUnitGFXResource.FSequences.ImageSequences[FDirection + 5];
-                    if (Sequence != null && Sequence.SpeedCount == Sequence.SequenceSpeed && CombatMap.Current.FPlaySounds)
+                    sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 5];
+                    if (sequence != null && sequence.SpeedCount == sequence.SequenceSpeed && CombatMap.Current.PlaySounds)
                     {
-                        var frameIndex = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                        FUnitGFXResource.FSFXLibraries[1].Play(frameIndex % 100);
+                        var frameIndex = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        UnitGraphicsResource.SfxLibraries[1].Play(frameIndex % 100);
                     }
                 }
 
@@ -507,31 +507,31 @@ public partial class TacticalBattleUnitHexSprite
             case SpriteAction.MeleeMiss:
             case SpriteAction.Ability:
             case SpriteAction.BreathAttack:
-                if (FActionFrame == 0 && CombatMap.Current.FPlaySounds)
+                if (ActionFrame == 0 && CombatMap.Current.PlaySounds)
                 {
-                    if (FSelectedAbility > -1)
+                    if (SelectedAbility > -1)
                     {
-                        if (FSelectedAbility == 52)
+                        if (SelectedAbility == 52)
                         {
-                            if (FSelectedSpell != 112 && FSelectedSpell != 122 && FSelectedSpell != 119)
+                            if (SelectedSpell != 112 && SelectedSpell != 122 && SelectedSpell != 119)
                             {
-                                AoWHSSet.Current.FSpellControl.GetSpell(FSelectedSpell).FCastSounds.Play(0);
+                                AoWHSSet.Current.SpellControl.GetSpell(SelectedSpell).CastSounds.Play(0);
                             }
                         }
                         else
                         {
-                            AoWHSSet.Current.FAbilityControl.GetAbility(FSelectedAbility).FSFXLibrary.Play(0);
+                            AoWHSSet.Current.AbilityControl.GetAbility(SelectedAbility).SfxLibrary.Play(0);
                         }
                     }
                     else
                     {
-                        if (FAction == SpriteAction.MeleeMiss)
+                        if (Action == SpriteAction.MeleeMiss)
                         {
-                            FUnitGFXResource.FSFXLibraries[2].Play(1);
+                            UnitGraphicsResource.SfxLibraries[2].Play(1);
                         }
                         else
                         {
-                            FUnitGFXResource.FSFXLibraries[2].Play(0);
+                            UnitGraphicsResource.SfxLibraries[2].Play(0);
                         }
                     }
                 }
@@ -539,30 +539,30 @@ public partial class TacticalBattleUnitHexSprite
                 break;
             case SpriteAction.Hit:
             case SpriteAction.Killed:
-                if (FActionFrame == 0 && CombatMap.Current.FPlaySounds)
+                if (ActionFrame == 0 && CombatMap.Current.PlaySounds)
                 {
-                    if (FAction == SpriteAction.Hit)
+                    if (Action == SpriteAction.Hit)
                     {
-                        FUnitGFXResource.FSFXLibraries[3].Play(0);
+                        UnitGraphicsResource.SfxLibraries[3].Play(0);
                     }
                     else
                     {
-                        FUnitGFXResource.FSFXLibraries[4].Play(0);
+                        UnitGraphicsResource.SfxLibraries[4].Play(0);
                     }
                 }
 
                 break;
             case SpriteAction.RoundAttack:
             case SpriteAction.RoundAttackHit:
-                if (FActionFrame < 18 && CombatMap.Current.FPlaySounds && TacticalTables.raDir[FActionFrame] > 0)
+                if (ActionFrame < 18 && CombatMap.Current.PlaySounds && TacticalTables.s_rangedAttackDirection[ActionFrame] > 0)
                 {
-                    if (FAction == SpriteAction.RoundAttack)
+                    if (Action == SpriteAction.RoundAttack)
                     {
-                        FUnitGFXResource.FSFXLibraries[2].Play(1);
+                        UnitGraphicsResource.SfxLibraries[2].Play(1);
                     }
                     else
                     {
-                        FUnitGFXResource.FSFXLibraries[2].Play(0);
+                        UnitGraphicsResource.SfxLibraries[2].Play(0);
                     }
                 }
 

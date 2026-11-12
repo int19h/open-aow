@@ -8,29 +8,29 @@ namespace Aow.Game.World.Map;
 
 public partial class MapField
 {
-    private byte[] directions = [];
+    private byte[] _directions = [];
 
     public void Resize(byte capacity)
     {
         if (capacity is > 0 and < 3) capacity = 3;
-        Array.Resize(ref FHSList, capacity);
-        Array.Resize(ref directions, capacity);
-        FCapacity = capacity;
+        Array.Resize(ref _hexSpriteList, capacity);
+        Array.Resize(ref _directions, capacity);
+        _capacity = capacity;
     }
 
-    public byte GetHN(int index)
+    public byte GetHexNumber(int index)
     {
-        if (index >= FCount) throw new IndexOutOfRangeException("Index out of bounds");
-        return directions[index];
+        if (index >= _count) throw new IndexOutOfRangeException("Index out of bounds");
+        return _directions[index];
     }
 
-    public void SetHN(int index, byte value)
+    public void SetHexNumber(int index, byte value)
     {
-        if (index >= FCount) throw new IndexOutOfRangeException("Index out of bounds");
-        directions[index] = value;
+        if (index >= _count) throw new IndexOutOfRangeException("Index out of bounds");
+        _directions[index] = value;
     }
 
-    public int AddHS(HexSprite sprite, int hn)
+    public int AddHexSprite(HexSprite sprite, int hexNumber)
     {
         try
         {
@@ -38,55 +38,55 @@ public partial class MapField
             if (FindChildIndex(sprite) != -1) throw new InvalidOperationException("HS already defined");
         }
         catch { }
-        if (FCapacity == FCount) Resize((byte)(FCapacity + 1));
+        if (_capacity == _count) Resize((byte)(_capacity + 1));
         int priority = sprite.GetShowPriority();
-        int index = FStatus.Contains(MapFieldStatusElement.Comparing) ? FCount : 0;
-        if (!FStatus.Contains(MapFieldStatusElement.Comparing))
-            while (index < FCount && priority > FHSList[index].GetShowPriority()) index++;
-        if (index < FCount)
+        int index = _status.Contains(MapFieldStatusElement.Comparing) ? _count : 0;
+        if (!_status.Contains(MapFieldStatusElement.Comparing))
+            while (index < _count && priority > _hexSpriteList[index].GetShowPriority()) index++;
+        if (index < _count)
         {
-            Array.Copy(FHSList, index, FHSList, index + 1, FCount - index);
-            Array.Copy(directions, index, directions, index + 1, FCount - index);
+            Array.Copy(_hexSpriteList, index, _hexSpriteList, index + 1, _count - index);
+            Array.Copy(_directions, index, _directions, index + 1, _count - index);
         }
-        if ((uint)priority >> 26 <= 15) FStaticCount++;
-        FHSList[index] = sprite;
-        directions[index] = (byte)hn;
-        FCount++;
+        if ((uint)priority >> 26 <= 15) _staticCount++;
+        _hexSpriteList[index] = sprite;
+        _directions[index] = (byte)hexNumber;
+        _count++;
         return index;
     }
 
-    public int RemoveHS(HexSprite sprite)
+    public int RemoveHexSprite(HexSprite sprite)
     {
         int index = 0;
-        while (index < FCount && sprite != FHSList[index]) index++;
-        if (index == FCount) return -1;
-        FCount--;
-        if (index < FCount)
+        while (index < _count && sprite != _hexSpriteList[index]) index++;
+        if (index == _count) return -1;
+        _count--;
+        if (index < _count)
         {
-            Array.Copy(directions, index + 1, directions, index, FCount - index);
-            Array.Copy(FHSList, index + 1, FHSList, index, FCount - index);
+            Array.Copy(_directions, index + 1, _directions, index, _count - index);
+            Array.Copy(_hexSpriteList, index + 1, _hexSpriteList, index, _count - index);
         }
         if ((uint)sprite.GetShowPriority() >> 26 <= 15)
         {
-            if (FStaticCount != 0) FStaticCount--;
+            if (_staticCount != 0) _staticCount--;
             else
             {
                 try { throw new ArgumentException($"Invalid StaticCount ({sprite.GetType().Name})"); }
                 catch { }
             }
         }
-        return FCount;
+        return _count;
     }
 
     public void Remove(int index)
     {
-        FCount--;
-        if (index < FCount)
+        _count--;
+        if (index < _count)
         {
-            Array.Copy(directions, index + 1, directions, index, FCount - index);
-            Array.Copy(FHSList, index + 1, FHSList, index, FCount - index);
+            Array.Copy(_directions, index + 1, _directions, index, _count - index);
+            Array.Copy(_hexSpriteList, index + 1, _hexSpriteList, index, _count - index);
         }
-        if (FCapacity > FCount + 1) Resize(FCount);
+        if (_capacity > _count + 1) Resize(_count);
     }
 
     public void Sort()
@@ -98,176 +98,176 @@ public partial class MapField
             int index = Count - 2;
             while (!changed && index >= 0)
             {
-                if (FHSList[index].GetShowPriority() > FHSList[index + 1].GetShowPriority())
+                if (_hexSpriteList[index].GetShowPriority() > _hexSpriteList[index + 1].GetShowPriority())
                 {
                     changed = true;
-                    (FHSList[index], FHSList[index + 1]) = (FHSList[index + 1], FHSList[index]);
-                    (directions[index], directions[index + 1]) = (directions[index + 1], directions[index]);
+                    (_hexSpriteList[index], _hexSpriteList[index + 1]) = (_hexSpriteList[index + 1], _hexSpriteList[index]);
+                    (_directions[index], _directions[index + 1]) = (_directions[index + 1], _directions[index]);
                 }
                 index--;
             }
         }
-        FStaticCount = 0;
-        while (FStaticCount != FCount && (uint)FHSList[FStaticCount].GetShowPriority() >> 26 <= 15) FStaticCount++;
+        _staticCount = 0;
+        while (_staticCount != _count && (uint)_hexSpriteList[_staticCount].GetShowPriority() >> 26 <= 15) _staticCount++;
     }
 
     public void Loaded()
     {
-        int count = FCount;
-        for (int i = 0; i < count; i++) LoadedList[i] = FHSList[i];
+        int count = _count;
+        for (int i = 0; i < count; i++) s_loadedList[i] = _hexSpriteList[i];
         for (int i = count - 1; i >= 0; i--)
-            if (LoadedList[i].Owner == this && !LoadedList[i].MainLoaded()) LoadedList[i]?.Dispose();
+            if (s_loadedList[i].Owner == this && !s_loadedList[i].MainLoaded()) s_loadedList[i]?.Dispose();
     }
 
     public virtual void UpdateMapField()
     {
         HexSpriteMapFieldInfo info = new() { MapField = this };
-        for (int i = FCount - 1; i >= 0; i--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            info.HN = (sbyte)directions[i];
-            FHSList[i].UpdateMapField(info);
+            info.HexNumber = (sbyte)_directions[i];
+            _hexSpriteList[i].UpdateMapField(info);
         }
     }
 
     public void Initialize()
     {
         sbyte overlay = -1, terrain = -1;
-        for (int i = FCount - 1; i >= 0; i--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            if (terrain < 0) terrain = FHSList[i].GetTerrain(directions[i]);
-            if (overlay < 0) overlay = FHSList[i].GetOverlay(directions[i]);
+            if (terrain < 0) terrain = _hexSpriteList[i].GetTerrain(_directions[i]);
+            if (overlay < 0) overlay = _hexSpriteList[i].GetOverlay(_directions[i]);
         }
-        FOverlayType = Math.Max(overlay, (sbyte)-1);
-        FTerrainType = Math.Max(terrain, (sbyte)-1);
-        HexSpriteTerrainInfo info = new() { MapField = this, TerrainType = FTerrainType, OverlayType = FOverlayType };
-        for (int i = FCount - 1; i >= 0; i--)
+        _overlayType = Math.Max(overlay, (sbyte)-1);
+        _terrainType = Math.Max(terrain, (sbyte)-1);
+        HexSpriteTerrainInfo info = new() { MapField = this, TerrainType = _terrainType, OverlayType = _overlayType };
+        for (int i = _count - 1; i >= 0; i--)
         {
-            info.HN = (sbyte)directions[i];
-            FHSList[i].TerrainChanged(info);
+            info.HexNumber = (sbyte)_directions[i];
+            _hexSpriteList[i].TerrainChanged(info);
         }
         UpdateMapField();
     }
 
-    public int SetHNofHS(HexSprite sprite, byte hn)
+    public int SetHexNumberOfHexSprite(HexSprite sprite, byte hexNumber)
     {
         int index = FindChildIndex(sprite);
-        if (index != -1) directions[index] = hn;
+        if (index != -1) _directions[index] = hexNumber;
         return index;
     }
 
-    public int GetHNofHS(HexSprite sprite)
+    public int GetHexNumberOfHexSprite(HexSprite sprite)
     {
         int index = FindChildIndex(sprite);
-        return index == -1 ? -1 : directions[index];
+        return index == -1 ? -1 : _directions[index];
     }
 
     private HexSprite FindTop(Func<HexSprite, byte, bool> matches)
     {
-        for (int i = FCount - 1; i >= 0; i--)
-            if (matches(FHSList[i], directions[i])) return FHSList[i];
+        for (int i = _count - 1; i >= 0; i--)
+            if (matches(_hexSpriteList[i], _directions[i])) return _hexSpriteList[i];
         return null;
     }
 
-    public HexSprite GetMaxLevelNoneTransparentHS() => FindTop((sprite, hn) => sprite.GetTerrain(hn) >= 0 || sprite.GetOverlay(hn) >= 0);
-    public HexSprite GetMaxLevelTerrainHS() => FindTop((sprite, hn) => sprite.GetTerrain(hn) >= 0);
-    public HexSprite GetMaxLevelOverlayHS() => FindTop((sprite, hn) => sprite.GetOverlay(hn) >= 0);
+    public HexSprite GetMaxLevelNoneTransparentHexSprite() => FindTop((sprite, hexNumber) => sprite.GetTerrain(hexNumber) >= 0 || sprite.GetOverlay(hexNumber) >= 0);
+    public HexSprite GetMaxLevelTerrainHexSprite() => FindTop((sprite, hexNumber) => sprite.GetTerrain(hexNumber) >= 0);
+    public HexSprite GetMaxLevelOverlayHexSprite() => FindTop((sprite, hexNumber) => sprite.GetOverlay(hexNumber) >= 0);
 
     private (sbyte Terrain, sbyte Overlay) ReadTerrain()
     {
         sbyte terrain = -1, overlay = -1;
-        for (int i = FCount - 1; i >= 0; i--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            if (terrain < 0) terrain = FHSList[i].GetTerrain(directions[i]);
-            if (overlay < 0) overlay = FHSList[i].GetOverlay(directions[i]);
+            if (terrain < 0) terrain = _hexSpriteList[i].GetTerrain(_directions[i]);
+            if (overlay < 0) overlay = _hexSpriteList[i].GetOverlay(_directions[i]);
         }
         return (Math.Max(terrain, (sbyte)-1), Math.Max(overlay, (sbyte)-1));
     }
 
     public void UpdateTerrain()
     {
-        if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) return;
+        if (_status.Contains(MapFieldStatusElement.TerrainLocked)) return;
         var (terrain, overlay) = ReadTerrain();
-        if (terrain == FTerrainType && overlay == FOverlayType) return;
-        FTerrainType = terrain;
-        FOverlayType = overlay;
+        if (terrain == _terrainType && overlay == _overlayType) return;
+        _terrainType = terrain;
+        _overlayType = overlay;
         TerrainChanged();
     }
 
     public void UpdateTerrainType()
     {
-        if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) return;
+        if (_status.Contains(MapFieldStatusElement.TerrainLocked)) return;
         sbyte terrain = -1;
-        for (int i = FCount - 1; i >= 0 && terrain < 0; i--) terrain = FHSList[i].GetTerrain(directions[i]);
+        for (int i = _count - 1; i >= 0 && terrain < 0; i--) terrain = _hexSpriteList[i].GetTerrain(_directions[i]);
         terrain = Math.Max(terrain, (sbyte)-1);
-        if (terrain == FTerrainType) return;
-        FTerrainType = terrain;
+        if (terrain == _terrainType) return;
+        _terrainType = terrain;
         TerrainChanged();
     }
 
     public void UpdateOverlayType()
     {
-        if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) return;
+        if (_status.Contains(MapFieldStatusElement.TerrainLocked)) return;
         sbyte overlay = -1;
-        for (int i = FCount - 1; i >= 0 && overlay < 0; i--) overlay = FHSList[i].GetOverlay(directions[i]);
+        for (int i = _count - 1; i >= 0 && overlay < 0; i--) overlay = _hexSpriteList[i].GetOverlay(_directions[i]);
         overlay = Math.Max(overlay, (sbyte)-1);
-        if (overlay == FOverlayType) return;
-        FOverlayType = overlay;
+        if (overlay == _overlayType) return;
+        _overlayType = overlay;
         TerrainChanged();
     }
 
     public void TerrainChanged()
     {
         var locked = Set<MapFieldStatusElement>.Of(MapFieldStatusElement.TerrainLocked);
-        if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) { FStatus += locked; return; }
-        FStatus += locked;
-        HexSpriteTerrainInfo info = new() { MapField = this, TerrainType = FTerrainType, OverlayType = FOverlayType };
-        for (int i = FCount - 1; i >= 0; i--)
+        if (_status.Contains(MapFieldStatusElement.TerrainLocked)) { _status += locked; return; }
+        _status += locked;
+        HexSpriteTerrainInfo info = new() { MapField = this, TerrainType = _terrainType, OverlayType = _overlayType };
+        for (int i = _count - 1; i >= 0; i--)
         {
-            info.HN = (sbyte)directions[i];
-            FHSList[i].ChangeTerrain(info);
+            info.HexNumber = (sbyte)_directions[i];
+            _hexSpriteList[i].ChangeTerrain(info);
         }
-        FTerrainType = -1;
-        FOverlayType = -1;
-        (FTerrainType, FOverlayType) = ReadTerrain();
-        FStatus -= locked;
-        info.TerrainType = FTerrainType;
-        info.OverlayType = FOverlayType;
-        for (int i = FCount - 1; i >= 0; i--)
+        _terrainType = -1;
+        _overlayType = -1;
+        (_terrainType, _overlayType) = ReadTerrain();
+        _status -= locked;
+        info.TerrainType = _terrainType;
+        info.OverlayType = _overlayType;
+        for (int i = _count - 1; i >= 0; i--)
         {
-            info.HN = (sbyte)directions[i];
-            FHSList[i].TerrainChanged(info);
+            info.HexNumber = (sbyte)_directions[i];
+            _hexSpriteList[i].TerrainChanged(info);
         }
-        FStatus += locked;
+        _status += locked;
         UpdateNeighbourTerrain();
-        FStatus -= locked;
+        _status -= locked;
     }
 
     public void NeighbourTerrainChanged(ref HexSpriteTerrainInfo info)
     {
-        for (int i = FCount - 1; i >= 0; i--) FHSList[i].NeighbourTerrainChanged(directions[i], info);
+        for (int i = _count - 1; i >= 0; i--) _hexSpriteList[i].NeighbourTerrainChanged(_directions[i], info);
     }
 
-    public bool CanChangeTerrainEx(EngineObject sender)
+    public bool CanChangeTerrain(EngineObject sender)
     {
-        if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) return false;
+        if (_status.Contains(MapFieldStatusElement.TerrainLocked)) return false;
         HexSpriteSenderInfo info = new() { MapField = this, Sender = sender };
-        for (int i = FCount - 1; i >= 0; i--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            info.HN = (sbyte)directions[i];
-            if (!FHSList[i].CanChangeTerrain(info)) return false;
+            info.HexNumber = (sbyte)_directions[i];
+            if (!_hexSpriteList[i].CanChangeTerrain(info)) return false;
         }
         return true;
     }
 
     public bool CanChangeTerrain(EngineObject sender, sbyte terrain, sbyte overlay)
     {
-        if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) return false;
-        sbyte oldTerrain = FTerrainType, oldOverlay = FOverlayType;
-        if (terrain >= 0) FTerrainType = terrain;
-        if (overlay >= 0) FOverlayType = overlay;
-        bool result = CanChangeTerrainEx(sender);
-        if (terrain >= 0) FTerrainType = oldTerrain;
-        if (overlay >= 0) FOverlayType = oldOverlay;
+        if (_status.Contains(MapFieldStatusElement.TerrainLocked)) return false;
+        sbyte oldTerrain = _terrainType, oldOverlay = _overlayType;
+        if (terrain >= 0) _terrainType = terrain;
+        if (overlay >= 0) _overlayType = overlay;
+        bool result = CanChangeTerrain(sender);
+        if (terrain >= 0) _terrainType = oldTerrain;
+        if (overlay >= 0) _overlayType = oldOverlay;
         return result;
     }
 
@@ -275,17 +275,17 @@ public partial class MapField
     // compares the slot as a MsgArg, whose equality is that of the original word: an int or a
     // reference answer stops the loop alike, and a handler that writes 0 into an empty slot has
     // not answered.
-    public void SendMapFieldMsg(ref MapFieldMessage message)
+    public void SendMapFieldMessage(ref MapFieldMessage message)
     {
         MsgArg oldResult = message.Result;
-        int i = FCount;
+        int i = _count;
         message.MapField = this;
         while (i != 0 && oldResult == message.Result)
         {
             i--;
             if (i >= Count) continue;
-            message.HN = directions[i];
-            FHSList[i].MapFieldMsgProc(ref message);
+            message.HexNumber = _directions[i];
+            _hexSpriteList[i].MapFieldMessageProc(ref message);
         }
     }
 
@@ -293,12 +293,12 @@ public partial class MapField
     {
         HexSpriteMoveOnInfo info = new() { Sender = sender, MapField = this, MoveOverCode = moveOverCode };
         HexSpriteMoveOnResult result = new() { Code = defaultCode, Done = false, Data = 0 };
-        int i = FCount;
+        int i = _count;
         while (!result.Done && i != 0)
         {
             i--;
-            info.HN = (sbyte)directions[i];
-            FHSList[i].CanMoveOn(info, ref result);
+            info.HexNumber = (sbyte)_directions[i];
+            _hexSpriteList[i].CanMoveOn(info, ref result);
         }
         return result.Code;
     }
@@ -306,12 +306,12 @@ public partial class MapField
     public int CanMoveOver(object sender)
     {
         HexSpriteSenderInfo info = new() { Sender = sender, MapField = this };
-        int result = 1, i = FCount;
+        int result = 1, i = _count;
         while (result == 1 && i != 0)
         {
             i--;
-            info.HN = (sbyte)directions[i];
-            result = FHSList[i].CanMoveOver(info);
+            info.HexNumber = (sbyte)_directions[i];
+            result = _hexSpriteList[i].CanMoveOver(info);
         }
         return result;
     }
@@ -319,24 +319,24 @@ public partial class MapField
     public void MoveExclusive(object sender)
     {
         HexSpriteSenderInfo info = new() { Sender = sender, MapField = this };
-        for (int i = FCount - 1; i >= 0; i--)
+        for (int i = _count - 1; i >= 0; i--)
         {
-            info.HN = (sbyte)directions[i];
-            FHSList[i].MoveExclusive(info);
+            info.HexNumber = (sbyte)_directions[i];
+            _hexSpriteList[i].MoveExclusive(info);
         }
     }
 
-    public HexSprite FindNoneTransparentHS(Type type)
+    public HexSprite FindNoneTransparentHexSprite(Type type)
     {
-        for (int i = 0; i < FCount; i++)
-            if (type.IsInstanceOfType(FHSList[i]) && FHSList[i].GetTerrain(directions[i]) >= 0) return FHSList[i];
+        for (int i = 0; i < _count; i++)
+            if (type.IsInstanceOfType(_hexSpriteList[i]) && _hexSpriteList[i].GetTerrain(_directions[i]) >= 0) return _hexSpriteList[i];
         return null;
     }
 
-    public HexSprite FindNoneTransparentHSCID(int classId)
+    public HexSprite FindNoneTransparentHexSpriteClassId(int classId)
     {
-        for (int i = 0; i < FCount; i++)
-            if (FHSList[i].EClass.ClassID == classId && FHSList[i].GetTerrain(directions[i]) >= 0) return FHSList[i];
+        for (int i = 0; i < _count; i++)
+            if (_hexSpriteList[i].EngineClass.ClassId == classId && _hexSpriteList[i].GetTerrain(_directions[i]) >= 0) return _hexSpriteList[i];
         return null;
     }
 }

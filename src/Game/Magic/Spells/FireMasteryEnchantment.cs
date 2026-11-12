@@ -16,27 +16,27 @@ namespace Aow.Game.Magic.Spells;
 public partial class FireMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1647
-    public new const int ClassID = 135969;
+    public new const int ClassId = 135969;
 
     // GlobalEnchantmentSpells.pas:1639
     public FireMasteryEnchantment(ECustomNode owner) : base(owner)
     {
-        FName = AbilityRules.TranslateRStr(GameText.FireMasteryRStr);
-        FEnchantmentType = GlobalEnchantmentType.FireMastery;
-        FDispelMana = 175;
+        Name = AbilityRules.TranslateResourceString(GameText.s_fireMasteryText);
+        EnchantmentType = GlobalEnchantmentType.FireMastery;
+        DispelMana = 175;
     }
 
     // GlobalEnchantmentSpells.pas:1724
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001987)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001987)
         {
-            if (Msg.Payload.Int != 0)
+            if (message.Payload.Int != 0)
             {
-                if (AoWHSMap.Current.FPlayers.GetPlayers(Msg.Payload.Int).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
+                if (AoWHSMap.Current.Players.GetPlayers(message.Payload.Int).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
                 {
-                    UpdateFire(2, !AoWHSMap.Current.FRequestCombatType);
+                    UpdateFire(2, !AoWHSMap.Current.RequestCombatType);
                 }
             }
         }
@@ -46,62 +46,62 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
     public override int GetAIUpkeepPriority() => 1250;
 
     // GlobalEnchantmentSpells.pas:1680
-    public override bool Deactivate(byte Player)
+    public override bool Deactivate(byte player)
     {
-        Player APlayer;
-        base.Deactivate(Player);
-        APlayer = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
-        var playerMagicControl = APlayer.FMagicControl;
-        playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
+        Player playerLocal;
+        base.Deactivate(player);
+        playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        var playerMagicControl = playerLocal.MagicControl;
+        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
 
-        for (int I = APlayer.FArmies.Count - 1; I >= 0; I--)
+        for (int I = playerLocal.Armies.Count - 1; I >= 0; I--)
         {
-            for (int J = APlayer.FArmies.GetArmy(I).Count - 1; J >= 0; J--)
+            for (int J = playerLocal.Armies.GetArmy(I).Count - 1; J >= 0; J--)
             {
-                APlayer.FArmies.GetArmy(I).GetUnit(J).ResetFireMasteryProtection();
+                playerLocal.Armies.GetArmy(I).GetUnit(J).ResetFireMasteryProtection();
             }
         }
 
         // { Original doubles Water. }
-        AoWHSMap.Current.FGlobalMagicControl.DecDoubleSphereManaCount(MagicSphere.Water);
+        AoWHSMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Water);
         return true;
     }
 
     // GlobalEnchantmentSpells.pas:1653
-    public override bool CanActivate(sbyte Player, ref string Reason)
+    public override bool CanActivate(sbyte player, ref string reason)
     {
-        bool Result;
-        if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
+        bool result;
+        if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
         {
-            var xIsAlreadyActive = AbilityRules.TranslateRStr(GameText.XIsAlreadyActiveRStr);
+            var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.s_isAlreadyActiveFormat);
             var name = GetName();
-            Reason = RtlUnit.Format(xIsAlreadyActive, [name]);
-            Result = false;
+            reason = RtlUnit.Format(xIsAlreadyActive, [name]);
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1663
-    public override bool Activate(sbyte Player)
+    public override bool Activate(sbyte player)
     {
-        Player APlayer;
-        base.Activate(Player);
+        Player playerLocal;
+        base.Activate(player);
         // { Original doubles Water. }
-        AoWHSMap.Current.FGlobalMagicControl.IncDoubleSphereManaCount(MagicSphere.Water);
-        APlayer = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
-        var playerMagicControl = APlayer.FMagicControl;
-        playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
+        AoWHSMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Water);
+        playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        var playerMagicControl = playerLocal.MagicControl;
+        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
 
-        for (int I = APlayer.FArmies.Count - 1; I >= 0; I--)
+        for (int I = playerLocal.Armies.Count - 1; I >= 0; I--)
         {
-            for (int J = APlayer.FArmies.GetArmy(I).Count - 1; J >= 0; J--)
+            for (int J = playerLocal.Armies.GetArmy(I).Count - 1; J >= 0; J--)
             {
-                APlayer.FArmies.GetArmy(I).GetUnit(J).SetFireMasteryProtection();
+                playerLocal.Armies.GetArmy(I).GetUnit(J).SetFireMasteryProtection();
             }
         }
 
@@ -110,33 +110,33 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1696
-    public void UpdateFire(int Factor, bool Explosions)
+    public void UpdateFire(int factor, bool explosions)
     {
-        int Chance;
-        MapLevel MapLevel;
-        Fire Fire;
+        int chance;
+        MapLevel mapLevel;
+        Fire fire;
         RandSeed = AoWHSMap.Current.Random(16777215);
         for (int L = 0, last = AoWHSMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
         {
-            MapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(L);
-            for (int Y = 1, lastY = MapLevel.Height - 1; Y <= lastY; Y++)
+            mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+            for (int Y = 1, lastY = mapLevel.Height - 1; Y <= lastY; Y++)
             {
-                for (int X = 1, lastX = MapLevel.Width - 2; X <= lastX; X++)
+                for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
                 {
-                    Chance = AoWMapField.IgnitionChance((AoWMapField)MapLevel.GetField(X, Y));
-                    if (Chance > 0)
+                    chance = AoWMapField.IgnitionChance((AoWMapField)mapLevel.GetField(X, Y));
+                    if (chance > 0)
                     {
-                        if (AoWHSMap.Current.Random(10000) < Chance * Factor)
+                        if (AoWHSMap.Current.Random(10000) < chance * factor)
                         {
-                            Fire = AoWHSSet.Current.FFireControl.PlaceFire(X, Y, L, FireType.Large);
-                            if (Fire != null)
+                            fire = AoWHSSet.Current.FireControl.PlaceFire(X, Y, L, FireType.Large);
+                            if (fire != null)
                             {
-                                if (Explosions)
+                                if (explosions)
                                 {
-                                    Fire.SetupExplosion(Random(30));
+                                    fire.SetupExplosion(Random(30));
                                 }
 
-                                Fire.FTurnsLeft = 3;
+                                fire.TurnsLeft = 3;
                             }
                         }
                     }

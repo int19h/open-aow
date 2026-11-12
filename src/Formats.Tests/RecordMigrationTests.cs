@@ -45,8 +45,8 @@ public sealed class RecordMigrationTests : FormatsTest
         var again = GameFiles.Read(GameFiles.Write(read.Document), "record-migration.json");
         Assert.Equal(3, ((JsonInteger)((JsonObject)again.Document["root"]!)["VictoryMode"]!).Value);
         var root = (JsonObject)read.Document["root"]!;
-        var ctx = new EncodeContext(FormatSchema.Current, "game", "world-hsm", "record-migration.json", FormatLimits.Default, ExportOptions.Default);
-        Assert.NotNull(LayoutReader.Read(ctx, root, DocumentNodePath.Root));
+        var context = new EncodeContext(FormatSchema.Current, "game", "world-hsm", "record-migration.json", FormatLimits.Default, ExportOptions.Default);
+        Assert.NotNull(LayoutReader.Read(context, root, DocumentNodePath.Root));
         var fingerprint = ((JsonObject)root["$layout"]!).Find("fingerprint")!;
         string current = ((JsonString)fingerprint.Value).Value;
         string wrong = current[0] == '0' ? new string('f', 64) : new string('0', 64);
@@ -56,7 +56,7 @@ public sealed class RecordMigrationTests : FormatsTest
         Assert.Equal(Codes.Layout, compared.Diagnostic.Code);
         Assert.Equal("The retained exact layout is stale after an edit. --exact-layout refuses to rebuild it.", compared.Diagnostic.Message);
         fingerprint.Value = new JsonString("stale");
-        var malformed = Assert.Throws<ConversionException>(() => LayoutReader.Read(ctx, root, DocumentNodePath.Root));
+        var malformed = Assert.Throws<ConversionException>(() => LayoutReader.Read(context, root, DocumentNodePath.Root));
         Assert.Equal(Codes.Layout, malformed.Diagnostic.Code);
         Assert.Equal("The $layout fingerprint is not 64 lowercase hexadecimal digits.", malformed.Diagnostic.Message);
     }

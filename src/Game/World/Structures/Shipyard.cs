@@ -11,12 +11,12 @@ public partial class Shipyard : ProductionPlace
     { }
 
     // Shipyard.pas:49
-    public new const int ClassID = 132286;
+    public new const int ClassId = 132286;
 
     // Shipyard.pas:55
-    public override void UpdateAITarget(in AITargetInfo Info, ref AITargetData Data)
+    public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        base.UpdateAITarget(Info, ref Data);
+        base.UpdateAITarget(info, ref data);
     }
 
     // Shipyard.pas:52
@@ -26,24 +26,24 @@ public partial class Shipyard : ProductionPlace
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FTerrainBound = false;
-            FRazeDefenderBudget = 150;
-            FRebuildGold = 25;
-            FRebuildDays = 2;
+            TerrainBound = false;
+            RazeDefenderBudget = 150;
+            RebuildGold = 25;
+            RebuildDays = 2;
         }
 
         // Shipyard.pas:72
-        public new const int ClassID = 132287;
+        public new const int ClassId = 132287;
 
         // Shipyard.pas:60
 
         // Shipyard.pas:75
-        public override int ResourceUserClassID() => 132286;
+        public override int ResourceUserClassId() => 132286;
 
         // Shipyard.pas:29
 
         // Shipyard.pas:69
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(GameText.ShipyardRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameText.s_shipyardText);
 
     }
 

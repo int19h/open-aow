@@ -12,7 +12,7 @@ public partial class MailAttachmentList
     }
 
     // E3IMSTypes.pas:25
-    public void AddFile(string FileName)
+    public void AddFile(string fileName)
     {
         /* TODO: Implement TmsAttList.AddFile. */
         throw new NotImplementedException();

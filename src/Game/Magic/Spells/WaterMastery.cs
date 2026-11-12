@@ -15,30 +15,30 @@ public partial class WaterMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:806
     public WaterMastery(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.WaterMasteryRStr);
-        FSpellID = 45;
-        FSpellType = SpellType.Global;
-        FBaseManaCost = 1;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Water;
-        FCastDuration = 40;
-        FAIBasePriority = 1000;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_waterMasteryText);
+        SpellId = 45;
+        SpellType = SpellType.Global;
+        BaseManaCost = 1;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Water;
+        CastDuration = 40;
+        AIBasePriority = 1000;
     }
 
     // GlobalEnchantmentSpells.pas:819
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
         // { Original ignores the event step. }
-        base.ExecuteTE(Event, Source, 0);
-        Source.GetLocation(ref X, ref Y, ref L);
-        SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Water);
-        AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-        FCastSounds.Play(0);
+        base.ExecuteTokenEvent(eventValue, source, 0);
+        source.GetLocation(ref X, ref Y, ref L);
+        SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Water);
+        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+        CastSounds.Play(0);
         AoWHSMap.Current.AddEffect(WorldEffectType.WaterMastery);
-        CastingDone(Source, FBaseManaCost);
+        CastingDone(source, BaseManaCost);
         return false;
     }
 

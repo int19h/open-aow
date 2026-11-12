@@ -6,5 +6,5 @@ namespace Aow.Game.Combat;
 [InlineArray(2)]
 public struct CombatPredictorSideArray2
 {
-    private CombatPredictorSide element0;
+    private CombatPredictorSide _element0;
 }

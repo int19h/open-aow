@@ -8,15 +8,15 @@ namespace Aow.Game.Audio;
 
 public static class AudioPlayback
 {
-    public static void LockSampleData(string Name)
+    public static void LockSampleData(string name)
     {
         SampleData D;
         if (AudioHost.SoundSystem != null)
         {
-            D = AudioHost.SampleDataList.Find(Name);
+            D = AudioHost.SampleDataList.Find(name);
             if (D == null)
             {
-                AudioHost.SoundSystem.SampleDataClass().Create(Name);
+                AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
             }
             else
             {
@@ -25,10 +25,10 @@ public static class AudioPlayback
         }
     }
 
-    public static void UnlockSampleData(string Name)
+    public static void UnlockSampleData(string name)
     {
         SampleData D;
-        D = AudioHost.SampleDataList.Find(Name);
+        D = AudioHost.SampleDataList.Find(name);
         if (D != null)
         {
             D.Release();
@@ -39,11 +39,11 @@ public static class AudioPlayback
 
     public static int SamplesLoaded() => AudioHost.SampleDataList.Count;
 
-    public static bool InitializeSoundSystem(string Name, in SoundSettings Settings)
+    public static bool InitializeSoundSystem(string name, in SoundSettings settings)
     {
         SoundSystemClass C;
-        bool Result = true;
-        if (IsEmpty(Name))
+        bool result = true;
+        if (IsEmpty(name))
         {
             if (AudioHost.SoundSystems.Count != 0)
             {
@@ -56,7 +56,7 @@ public static class AudioPlayback
         }
         else
         {
-            C = AudioHost.SoundSystems.Find(Name);
+            C = AudioHost.SoundSystems.Find(name);
         }
 
         if (C != null)
@@ -66,20 +66,20 @@ public static class AudioPlayback
                 ReleaseSoundSystem();
             }
 
-            AudioHost.SoundSystem = C.Create();
-            if (!AudioHost.SoundSystem.Activate(Settings))
+            AudioHost.SoundSystem = C.CreateInstance();
+            if (!AudioHost.SoundSystem.Activate(settings))
             {
                 AudioHost.SoundSystem?.Dispose();
                 AudioHost.SoundSystem = null;
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     public static void ReleaseSoundSystem()
@@ -101,124 +101,124 @@ public static class AudioPlayback
         }
     }
 
-    internal static void FadeMusicVolume(int Volume, int Speed)
+    internal static void FadeMusicVolume(int volume, int speed)
     {
         if (AudioHost.SoundSystem != null)
         {
-            AudioHost.SoundSystem.FadeMusicVolume(Volume, Speed);
+            AudioHost.SoundSystem.FadeMusicVolume(volume, speed);
         }
     }
 
-    internal static void SetSFXVolume(int Volume)
+    internal static void SetSfxVolume(int volume)
     {
         if (AudioHost.SoundSystem != null)
         {
-            AudioHost.SoundSystem.SetSFXVolume(Volume);
+            AudioHost.SoundSystem.SetSfxVolume(volume);
         }
     }
 
-    internal static int GetSFXVolume()
+    internal static int GetSfxVolume()
     {
-        int Result;
+        int result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = AudioHost.SoundSystem.GetSFXVolume();
+            result = AudioHost.SoundSystem.GetSfxVolume();
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static bool GetSFXEnabled()
+    internal static bool GetSfxEnabled()
     {
-        bool Result;
+        bool result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = AudioHost.SoundSystem.GetSFXEnabled();
+            result = AudioHost.SoundSystem.GetSfxEnabled();
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     internal static SoundSettings GetSoundSettings()
     {
-        SoundSettings Result;
+        SoundSettings result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = AudioHost.SoundSystem.GetSoundSettings();
+            result = AudioHost.SoundSystem.GetSoundSettings();
         }
         else
         {
-            Result = default;
+            result = default;
         }
 
-        return Result;
+        return result;
     }
 
     internal static SongStatus BackupSongStatus()
     {
-        SongStatus Result;
+        SongStatus result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = AudioHost.SoundSystem.BackupSongStatus();
+            result = AudioHost.SoundSystem.BackupSongStatus();
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static string GetSongName(string FileName)
+    internal static string GetSongName(string fileName)
     {
-        string Result = "";
-        Stream Stream;
-        string Ext;
-        ByteArray28 Title;
+        string result = "";
+        Stream stream;
+        string ext;
+        ByteArray28 title;
         int P;
-        Stream = OpenFile(AudioHost.BaseSoundEnginePath + FileName, 0 | 32);
+        stream = OpenFile(AudioHost.BaseSoundEnginePath + fileName, 0 | 32);
         try
         {
-            Ext = UpperCase(ExtractFileExt(FileName));
-            Title = default;
-            if (Ext == ".IT")
+            ext = UpperCase(ExtractFileExt(fileName));
+            title = default;
+            if (ext == ".IT")
             {
-                Stream.Seek(4, SeekOrigin.Begin);
-                Stream.ReadExactly(((Span<byte>)Title).Slice(0, 28));
-                Result = StrPasBuffer(Title);
+                stream.Seek(4, SeekOrigin.Begin);
+                stream.ReadExactly(((Span<byte>)title).Slice(0, 28));
+                result = StrPasBuffer(title);
             }
             else
             {
-                if (Ext == ".S3M")
+                if (ext == ".S3M")
                 {
-                    Stream.ReadExactly(((Span<byte>)Title).Slice(0, 28));
-                    Result = StrPasBuffer(Title);
+                    stream.ReadExactly(((Span<byte>)title).Slice(0, 28));
+                    result = StrPasBuffer(title);
                 }
                 else
                 {
-                    Result = ExtractFileName(FileName);
-                    P = Pos(".", Result);
+                    result = ExtractFileName(fileName);
+                    P = Pos(".", result);
                     if (P != 0)
                     {
-                        Result = Copy(Result, 1, P - 1);
+                        result = Copy(result, 1, P - 1);
                     }
                 }
             }
         }
         finally
         {
-            Stream?.Dispose();
+            stream?.Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     public static void ProcessSound()
@@ -242,177 +242,177 @@ public static class AudioPlayback
         }
     }
 
-    internal static void SetMusicVolume(int Volume)
+    internal static void SetMusicVolume(int volume)
     {
         if (AudioHost.SoundSystem != null)
         {
-            AudioHost.SoundSystem.SetMusicVolume(Volume);
+            AudioHost.SoundSystem.SetMusicVolume(volume);
         }
     }
 
     internal static int GetMusicVolume()
     {
-        int Result;
+        int result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = AudioHost.SoundSystem.GetMusicVolume();
+            result = AudioHost.SoundSystem.GetMusicVolume();
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     internal static bool GetMusicEnabled()
     {
-        bool Result;
+        bool result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = AudioHost.SoundSystem.GetMusicEnabled();
+            result = AudioHost.SoundSystem.GetMusicEnabled();
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static Sample PlaySample(string Name)
+    internal static Sample PlaySample(string name)
     {
-        Sample Result;
+        Sample result;
         SampleData D;
-        if (AudioHost.SoundSystem != null && AudioHost.SoundSystem.SFXEnabled)
+        if (AudioHost.SoundSystem != null && AudioHost.SoundSystem.SfxEnabled)
         {
             try
             {
-                D = AudioHost.SampleDataList.Find(Name);
+                D = AudioHost.SampleDataList.Find(name);
                 if (D == null)
                 {
-                    D = AudioHost.SoundSystem.SampleDataClass().Create(Name);
-                    Result = AudioHost.SoundSystem.SampleClass().Create(D);
+                    D = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
+                    result = AudioHost.SoundSystem.SampleClass().CreateInstance(D);
                     D.Release();
                 }
                 else
                 {
-                    Result = AudioHost.SoundSystem.SampleClass().Create(D);
+                    result = AudioHost.SoundSystem.SampleClass().CreateInstance(D);
                 }
 
-                Result.Execute();
+                result.Execute();
             }
             catch
             {
-                Result = null;
+                result = null;
             }
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
-    public static Sample PlaySampleEx(string Name, int Volume, bool Looped, int Delay, SamplePanning Panning, SampleCallBack CallBack)
+    public static Sample PlaySample(string name, int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback)
     {
-        Sample Result;
+        Sample result;
         SampleData D;
-        if (AudioHost.SoundSystem != null && AudioHost.SoundSystem.SFXEnabled)
+        if (AudioHost.SoundSystem != null && AudioHost.SoundSystem.SfxEnabled)
         {
             try
             {
-                D = AudioHost.SampleDataList.Find(Name);
+                D = AudioHost.SampleDataList.Find(name);
                 if (D == null)
                 {
-                    D = AudioHost.SoundSystem.SampleDataClass().Create(Name);
-                    Result = AudioHost.SoundSystem.SampleClass().Create(D);
+                    D = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
+                    result = AudioHost.SoundSystem.SampleClass().CreateInstance(D);
                     D.Release();
                 }
                 else
                 {
-                    Result = AudioHost.SoundSystem.SampleClass().Create(D);
+                    result = AudioHost.SoundSystem.SampleClass().CreateInstance(D);
                 }
 
-                Result.Looped = Looped;
-                Result.FDelay = Delay;
-                Result.Panning = Panning;
-                Result.FCallBack = CallBack;
-                Result.Volume = Volume;
-                Result.Execute();
+                result.Looped = looped;
+                result._delay = delay;
+                result.Panning = panning;
+                result._callback = callback;
+                result.Volume = volume;
+                result.Execute();
             }
             catch
             {
-                Result = null;
+                result = null;
             }
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static bool PlaySong(string FileName)
+    internal static bool PlaySong(string fileName)
     {
-        bool Result;
+        bool result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = AudioHost.SoundSystem.PlaySong(FileName);
+            result = AudioHost.SoundSystem.PlaySong(fileName);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static bool PlaySongEx(string FileName, int FadeOut, int FadeIn, bool Loop)
+    internal static bool PlaySong(string fileName, int fadeOut, int fadeIn, bool loop)
     {
-        bool Result;
+        bool result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = AudioHost.SoundSystem.PlaySongEx(FileName, FadeOut, FadeIn, Loop);
+            result = AudioHost.SoundSystem.PlaySong(fileName, fadeOut, fadeIn, loop);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static SampleData CreateSampleData(string Name)
+    internal static SampleData CreateSampleData(string name)
     {
-        SampleData Result;
+        SampleData result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = AudioHost.SoundSystem.SampleDataClass().Create(Name);
+            result = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
-    public static SampleData CreateSampleDataEx(ReadOnlySpan<WaveFormatEx> Format, object Data, int Size)
+    public static SampleData CreateSampleData(ReadOnlySpan<WaveFormatEx> format, object data, int size)
     {
-        SampleData Result;
+        SampleData result;
         if (AudioHost.SoundSystem != null)
         {
-            Result = AudioHost.SoundSystem.SampleDataClass().CreateEx(Format[0], Data, Size);
+            result = AudioHost.SoundSystem.SampleDataClass().CreateInstance(format[0], data, size);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
 }

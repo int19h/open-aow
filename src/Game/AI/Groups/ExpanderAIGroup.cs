@@ -7,13 +7,13 @@ namespace Aow.Game.AI.Groups;
 public partial class ExpanderAIGroup : BehaviorAIGroup, IAIGroupClass
 {
     // BehaviorAG.pas:502
-    public new const int ClassID = 136290;
+    public new const int ClassId = 136290;
 
     // BehaviorAG.pas:495
     public ExpanderAIGroup(ECustomNode owner) : base(owner)
     {
-        FProcessPriority = 10;
-        FRecruitmentPriority = 10;
+        ProcessPriority = 10;
+        RecruitmentPriority = 10;
     }
 
     // BehaviorAG.pas:508

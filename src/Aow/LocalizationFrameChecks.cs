@@ -28,22 +28,22 @@ internal static class LocalizationFrameChecks
             dictionary.Close();
         }
         var coverage = new List<object>();
-        var fonts = new[] { DialogHosts.FontModule.Age8, DialogHosts.FontModule.Age10, DialogHosts.FontModule.Age16s,
-            DialogHosts.FontModule.Age10s, DialogHosts.FontModule.Age8s, DialogHosts.FontModule.Sessis14G, DialogHosts.FontModule.AoW15WhiteGrey,
-            DialogHosts.FontModule.AoW15BlackBrown, DialogHosts.FontModule.Age10LB, DialogHosts.FontModule.Age10b, DialogHosts.FontModule.Age10bs };
+        var fonts = new[] { DialogHosts.UIFonts.Age8, DialogHosts.UIFonts.Age10, DialogHosts.UIFonts.Age16s,
+            DialogHosts.UIFonts.Age10s, DialogHosts.UIFonts.Age8s, DialogHosts.UIFonts.Sessis14G, DialogHosts.UIFonts.Font15WhiteGrey,
+            DialogHosts.UIFonts.Font15BlackBrown, DialogHosts.UIFonts.Age10LB, DialogHosts.UIFonts.Age10b, DialogHosts.UIFonts.Age10bs };
         foreach (var font in fonts)
         {
             byte[] missing = germanBytes.Where(code => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0).ToArray();
             coverage.Add(new { font = font.Name, missing = missing.Select(b => (int)b).ToArray() });
         }
-        string undead = AbilityRules.TranslateRStr("Undead(plural)");
+        string undead = AbilityRules.TranslateResourceString("Undead(plural)");
         bool undeadEqual = language != 1 || undead == "Undead";
-        string mapCaption = DialogHosts.SWindow.STitleLabel.Text;
+        string mapCaption = DialogHosts.ScannerWindow.STitleLabel.Text;
         string expectedMapCaption = language == 2 ? "Weltkarte" : "World Map";
         if (mapCaption != expectedMapCaption) throw new InvalidOperationException("The startup form translation was not applied");
         // The file dialog title holds the one German text with a byte from 128 to 159 (ResStr.mld,
         // "Spiel speichern unter" and the ellipsis 0x85), shown by the languages-de-save fixture.
-        var dialogTitle = DialogHosts.FileDlgWindow?.Title?.Text ?? "";
+        var dialogTitle = DialogHosts.FileDialogWindow?.Title?.Text ?? "";
         var required = new SortedSet<string>(StringComparer.Ordinal);
         // A byte that no installed font draws, such as the ellipsis 0x85, leaves the original's
         // 5 pixel gap. The frame comparison checks that gap, so it is recorded, not a missing glyph.
@@ -54,8 +54,8 @@ internal static class LocalizationFrameChecks
             for (int index = 0; index < module.ComponentCount; index++)
             {
                 if (module.Components[index] is not Game.UI.Controls.Control control ||
-                    !control.Visible || control.FAOWWindow is not { Visible: true } || control.FAOWFont is not { } font) continue;
-                var texts = new List<string> { control.FText };
+                    !control.Visible || control._window is not { Visible: true } || control._font is not { } font) continue;
+                var texts = new List<string> { control._text };
                 if (control.GetType().GetProperty("Items")?.GetValue(control) is StringCollection items)
                     for (int item = 0; item < items.Count; item++) texts.Add(items[item]);
                 foreach (var text in texts)
@@ -103,15 +103,15 @@ internal static class LocalizationFrameChecks
             var right = new Dib16Surface(120, 40, PixelFormats.pfRGB555);
             try
             {
-                left.Cls(0);
-                right.Cls(0);
+                left.Clear(0);
+                right.Clear(0);
                 LockedSurface l = default, r = default;
                 left.Lock(ref l);
                 right.Lock(ref r);
                 try
                 {
-                    DialogHosts.FontModule.Age8.SetText(0, 0, undead, l);
-                    DialogHosts.FontModule.Age8.SetText(0, 0, "Undead", r);
+                    DialogHosts.UIFonts.Age8.SetText(0, 0, undead, l);
+                    DialogHosts.UIFonts.Age8.SetText(0, 0, "Undead", r);
                     var pixels = l.Data.AsSpan(l.DataIndex, l.Pitch * 40);
                     if (!pixels.SequenceEqual(r.Data.AsSpan(r.DataIndex, r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))
                         throw new InvalidOperationException("English Undead rendering differs");

@@ -14,36 +14,36 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
-// FUnitConcealment. FConcealedForPlayers. FMoraleValues
+// UnitConcealment. ConcealedForPlayers. MoraleValues
 public partial class ArmyView : Army
 {
-    public new const int ClassID = 131609;
+    public new const int ClassId = 131609;
 
     public ArmyView(ECustomNode owner) : base(owner)
     { }
 
-    public UInt16Array8 FUnitConcealment;
-    public ushort FConcealedForPlayers;
-    public Int32Array8 FMoraleValues;
+    public UInt16Array8 UnitConcealment;
+    public ushort ConcealedForPlayers;
+    public Int32Array8 MoraleValues;
 
     // Army.PAS:122
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwData(MemoryMarshal.AsBytes((Span<ushort>)FUnitConcealment).Slice(0, 16), 16, 40);
-        Stream.rwWord(ref FConcealedForPlayers, 41);
-        Stream.rwData(MemoryMarshal.AsBytes((Span<int>)FMoraleValues).Slice(0, 32), 32, 42);
+        base.ReadWrite(stream);
+        stream.rwData(MemoryMarshal.AsBytes((Span<ushort>)UnitConcealment).Slice(0, 16), 16, 40);
+        stream.rwWord(ref ConcealedForPlayers, 41);
+        stream.rwData(MemoryMarshal.AsBytes((Span<int>)MoraleValues).Slice(0, 32), 32, 42);
     }
 
     // Army.PAS:130
-    public override void MainReadWrite(EStorageStream Stream)
+    public override void MainReadWrite(EStorageStream stream)
     {
-        base.MainReadWrite(Stream);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read))
+        base.MainReadWrite(stream);
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             for (int I = 0, last = GetCount() - 1; I <= last; I++)
             {
-                GetUnit(I).FMoraleValue = (sbyte)FMoraleValues[I];
+                GetUnit(I).MoraleValue = (sbyte)MoraleValues[I];
             }
         }
     }
@@ -51,9 +51,9 @@ public partial class ArmyView : Army
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.UInt16Array(persister, "UnitConcealment", FUnitConcealment);
-        persister.UShort("ConcealedForPlayers", ref FConcealedForPlayers);
-        PersistSupport.Int32Array(persister, "MoraleValues", FMoraleValues);
+        PersistSupport.UInt16Array(persister, "UnitConcealment", UnitConcealment);
+        persister.UInt16("ConcealedForPlayers", ref ConcealedForPlayers);
+        PersistSupport.Int32Array(persister, "MoraleValues", MoraleValues);
     }
 
     public override void MainPersist(IPersister persister)
@@ -61,79 +61,79 @@ public partial class ArmyView : Army
         base.MainPersist(persister);
         if (!persister.Loading) return;
         for (int i = 0; i < GetCount(); i++)
-            GetUnit(i).FMoraleValue = (sbyte)FMoraleValues[i];
+            GetUnit(i).MoraleValue = (sbyte)MoraleValues[i];
     }
 
     // Army.PAS:138
-    public override void GetLocation(ref sbyte Xhx, ref sbyte Yhx, ref sbyte Lhx)
+    public override void GetLocation(ref sbyte hexX, ref sbyte hexY, ref sbyte hexLevel)
     {
-        Xhx = FX;
-        Yhx = FY;
-        Lhx = FL;
+        hexX = X;
+        hexY = Y;
+        hexLevel = MapLevel;
     }
 
     // Army.PAS:89
-    public override bool GetUnitConcealedForPlayer(int Index, sbyte Player) => (((int)(((uint)FUnitConcealment[Index]) >> (Player - 1))) & 1) != 0;
+    public override bool GetUnitConcealedForPlayer(int index, sbyte player) => (((int)(((uint)UnitConcealment[index]) >> (player - 1))) & 1) != 0;
 
     // Army.PAS:78
-    public override bool GetConcealedForPlayer(sbyte Player) => (((int)(((uint)FConcealedForPlayers) >> (Player - 1))) & 1) != 0;
+    public override bool GetConcealedForPlayer(sbyte player) => (((int)(((uint)ConcealedForPlayers) >> (player - 1))) & 1) != 0;
 
     // Army.PAS:100
-    public virtual void Setup(Army Army, byte Selection)
+    public virtual void Setup(Army army, byte selection)
     {
-        Troop AUnit;
-        AssignSettings(Army);
-        FX = Army.FX;
-        FY = Army.FY;
-        FL = Army.FL;
-        for (int I = 0, last = Army.GetCount() - 1; I <= last; I++)
+        Troop troop;
+        AssignSettings(army);
+        X = army.X;
+        Y = army.Y;
+        MapLevel = army.MapLevel;
+        for (int I = 0, last = army.GetCount() - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                AUnit = (Troop)Army.GetUnit(I).Copy(GameTables.AoWEngine);
-                AUnit.SetOwner(this);
-                AUnit.Release();
-                var unit = Army.GetUnit(I);
+                troop = (Troop)army.GetUnit(I).Copy(GameTables.GameEngine);
+                troop.SetOwner(this);
+                troop.Release();
+                var unit = army.GetUnit(I);
                 var count = GetCount();
-                FMoraleValues[count - 1] = unit.FMoraleValue;
-                for (int Player = 1, lastPlayer = AoWHSMap.Current.FPlayers.GetCount() - 1; Player <= lastPlayer; Player++)
+                MoraleValues[count - 1] = unit.MoraleValue;
+                for (int player = 1, lastPlayer = AoWHSMap.Current.Players.GetCount() - 1; player <= lastPlayer; player++)
                 {
-                    var unitConcealedForPlayer = Army.GetUnitConcealedForPlayer(I, (sbyte)Player);
-                    SetUnitConcealedForPlayer(GetCount() - 1, (sbyte)Player, unitConcealedForPlayer);
+                    var unitConcealedForPlayer = army.GetUnitConcealedForPlayer(I, (sbyte)player);
+                    SetUnitConcealedForPlayer(GetCount() - 1, (sbyte)player, unitConcealedForPlayer);
                 }
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
     }
 
     // Army.PAS:81
-    public void SetConcealedForPlayer(sbyte Player, bool Value)
+    public void SetConcealedForPlayer(sbyte player, bool value)
     {
-        int Mask;
-        Mask = 1 << (Player - 1);
-        if (Value)
+        int mask;
+        mask = 1 << (player - 1);
+        if (value)
         {
-            FConcealedForPlayers = (ushort)(FConcealedForPlayers | (ushort)Mask);
+            ConcealedForPlayers = (ushort)(ConcealedForPlayers | (ushort)mask);
         }
         else
         {
-            FConcealedForPlayers = (ushort)(FConcealedForPlayers & ~(ushort)Mask);
+            ConcealedForPlayers = (ushort)(ConcealedForPlayers & ~(ushort)mask);
         }
     }
 
     // Army.PAS:92
-    public void SetUnitConcealedForPlayer(int Index, sbyte Player, bool Value)
+    public void SetUnitConcealedForPlayer(int index, sbyte player, bool value)
     {
-        int Mask;
-        Mask = 1 << (Player - 1);
-        if (Value)
+        int mask;
+        mask = 1 << (player - 1);
+        if (value)
         {
-            FUnitConcealment[Index] = (ushort)(FUnitConcealment[Index] | (ushort)Mask);
+            UnitConcealment[index] = (ushort)(UnitConcealment[index] | (ushort)mask);
         }
         else
         {
-            FUnitConcealment[Index] = (ushort)(FUnitConcealment[Index] & ~(ushort)Mask);
+            UnitConcealment[index] = (ushort)(UnitConcealment[index] & ~(ushort)mask);
         }
     }
 

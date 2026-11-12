@@ -17,35 +17,35 @@ public partial class AntiMagicShell : CityEnchantmentSpell
     // CitySpells.pas:727
     public AntiMagicShell(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.AntiMagicShellRStr);
-        FSpellID = 54;
-        FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
-        FBaseManaCost = 1;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Cosmos;
-        FEnchantmentID = CityEnchantmentId.AntiMagicShell;
-        FCastDuration = 40;
-        FAIPriority = 500;
-        FAICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.LeaderInCity);
-        FEnchantmentSpellID = 100;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_antiMagicShellText);
+        SpellId = 54;
+        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
+        BaseManaCost = 1;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Cosmos;
+        EnchantmentId = CityEnchantmentId.AntiMagicShell;
+        CastDuration = 40;
+        AIPriority = 500;
+        AICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.LeaderInCity);
+        EnchantmentSpellId = 100;
     }
 
     // CitySpells.pas:743
-    public override void PlayDefaultCityEffects(Troop Source, City TargetCity)
+    public override void PlayDefaultCityEffects(Troop source, City targetCity)
     {
-        base.PlayDefaultCityEffects(Source, TargetCity);
-        bool condition = Source.FPlayer == AoWHSMap.Current.FSeatedPlayer;
+        base.PlayDefaultCityEffects(source, targetCity);
+        bool condition = source.Player == AoWHSMap.Current.SeatedPlayer;
         if (!condition)
         {
-            var lhx = TargetCity.GetLhx();
-            var yhx = TargetCity.GetYhx();
-            var xhx = TargetCity.GetXhx();
-            condition = AoWHSMap.Current.WatchingTerrain(xhx, yhx, lhx, 1);
+            var hexLevel = targetCity.GetHexLevel();
+            var hexY = targetCity.GetHexY();
+            var hexX = targetCity.GetHexX();
+            condition = AoWHSMap.Current.WatchingTerrain(hexX, hexY, hexLevel, 1);
         }
 
         if (condition)
         {
-            AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.PlayEx(1, -1, false, 30, SamplePanning.Center, null);
+            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(1, -1, false, 30, SamplePanning.Center, null);
         }
     }
 }

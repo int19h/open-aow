@@ -13,48 +13,48 @@ namespace Aow.Game.Combat;
 
 internal static class TacticalTables
 {
-    internal static ushort GetMeleeDirIndex(int X, int DX, int DY)
+    internal static ushort GetMeleeDirectionIndex(int X, int deltaX, int deltaY)
     {
-        ushort Result = 1;
-        switch (DY)
+        ushort result = 1;
+        switch (deltaY)
         {
             case -1:
-                switch (DX)
+                switch (deltaX)
                 {
                     case -1:
-                        Result = 3;
+                        result = 3;
                         break;
                     case 0:
-                        Result = 4;
+                        result = 4;
                         break;
                     case 1:
-                        Result = 5;
+                        result = 5;
                         break;
                 }
 
                 break;
             case 0:
-                switch (DX)
+                switch (deltaX)
                 {
                     case -1:
                         if (X / 2 * 2 == X)
                         {
-                            Result = 3;
+                            result = 3;
                         }
                         else
                         {
-                            Result = 2;
+                            result = 2;
                         }
 
                         break;
                     case 1:
                         if (X / 2 * 2 == X)
                         {
-                            Result = 5;
+                            result = 5;
                         }
                         else
                         {
-                            Result = 6;
+                            result = 6;
                         }
 
                         break;
@@ -62,93 +62,93 @@ internal static class TacticalTables
 
                 break;
             case 1:
-                switch (DX)
+                switch (deltaX)
                 {
                     case -1:
-                        Result = 2;
+                        result = 2;
                         break;
                     case 0:
-                        Result = 1;
+                        result = 1;
                         break;
                     case 1:
-                        Result = 6;
+                        result = 6;
                         break;
                 }
 
                 break;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static Int32Array2 TCAttack;
+    internal static Int32Array2 s_tacticalBattleAttack;
 
-    internal static Int32Array2 TCDamage;
+    internal static Int32Array2 s_tacticalBattleDamage;
 
-    internal static Int32Array18 raDir = Int32Array18.From([0, 0, 0, 1, 0, 2, 3, 4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0]);
+    internal static Int32Array18 s_rangedAttackDirection = Int32Array18.From([0, 0, 0, 1, 0, 2, 3, 4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0]);
 
-    internal static BattleEffectTypeArray170 AbilTypes = BattleEffectTypeArray170.From([BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Arrow, BattleEffectType.None, BattleEffectType.Rock, BattleEffectType.Rock, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.Touch, BattleEffectType.Touch, BattleEffectType.Breath, BattleEffectType.Effect, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Rock, BattleEffectType.Rock, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Ray, BattleEffectType.None, BattleEffectType.Arrow, BattleEffectType.Arrow, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.Arrow, BattleEffectType.Comet, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Breath, BattleEffectType.Breath, BattleEffectType.Breath, BattleEffectType.Breath, BattleEffectType.Breath, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Comet, BattleEffectType.Comet, BattleEffectType.Comet, BattleEffectType.Comet, BattleEffectType.Comet, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None]);
+    internal static BattleEffectTypeArray170 s_abilityTypes = BattleEffectTypeArray170.From([BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Arrow, BattleEffectType.None, BattleEffectType.Rock, BattleEffectType.Rock, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.Touch, BattleEffectType.Touch, BattleEffectType.Breath, BattleEffectType.Effect, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Rock, BattleEffectType.Rock, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Ray, BattleEffectType.None, BattleEffectType.Arrow, BattleEffectType.Arrow, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.Arrow, BattleEffectType.Comet, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Breath, BattleEffectType.Breath, BattleEffectType.Breath, BattleEffectType.Breath, BattleEffectType.Breath, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Comet, BattleEffectType.Comet, BattleEffectType.Comet, BattleEffectType.Comet, BattleEffectType.Comet, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Touch, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None]);
 
     internal static BattleEffectTypeArray131 SpellTypes = BattleEffectTypeArray131.From([BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Effect, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Effect, BattleEffectType.Effect, BattleEffectType.Effect, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Effect, BattleEffectType.Effect, BattleEffectType.None, BattleEffectType.Effect, BattleEffectType.Effect, BattleEffectType.Effect, BattleEffectType.None, BattleEffectType.Effect, BattleEffectType.Effect, BattleEffectType.Effect, BattleEffectType.Effect, BattleEffectType.Effect, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Effect, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Effect, BattleEffectType.Effect, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.Effect, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.None, BattleEffectType.CometBall, BattleEffectType.Effect, BattleEffectType.HighPrayer, BattleEffectType.Ray, BattleEffectType.Cloud, BattleEffectType.ScreenNESW, BattleEffectType.MindDecay, BattleEffectType.Chain, BattleEffectType.Breath, BattleEffectType.None, BattleEffectType.Effect, BattleEffectType.Effect, BattleEffectType.Tremors, BattleEffectType.Effect, BattleEffectType.Breath, BattleEffectType.ScreenSwarm, BattleEffectType.ScreenNS, BattleEffectType.Rock, BattleEffectType.Geyser, BattleEffectType.AltArrow, BattleEffectType.FrostBeam, BattleEffectType.Effect, BattleEffectType.Rock, BattleEffectType.CometBall, BattleEffectType.ScreenNS, BattleEffectType.SacredWrath, BattleEffectType.Winds, BattleEffectType.ShockWave, BattleEffectType.SacFlame, BattleEffectType.Resurrect, BattleEffectType.Resurrect]);
 
-    internal static Int32Array72 BreathHN = Int32Array72.From([1, 18, 7, 8, 36, 19, 20, 59, 60, 37, 38, 39, 2, 8, 9, 10, 21, 22, 23, 39, 40, 41, 42, 43, 3, 10, 11, 12, 24, 25, 26, 43, 44, 45, 46, 47, 4, 12, 13, 14, 27, 28, 29, 47, 48, 49, 50, 51, 5, 14, 15, 16, 30, 31, 32, 51, 52, 53, 54, 55, 6, 16, 17, 18, 33, 34, 35, 55, 56, 57, 58, 59]);
+    internal static Int32Array72 s_breathHexNumber = Int32Array72.From([1, 18, 7, 8, 36, 19, 20, 59, 60, 37, 38, 39, 2, 8, 9, 10, 21, 22, 23, 39, 40, 41, 42, 43, 3, 10, 11, 12, 24, 25, 26, 43, 44, 45, 46, 47, 4, 12, 13, 14, 27, 28, 29, 47, 48, 49, 50, 51, 5, 14, 15, 16, 30, 31, 32, 51, 52, 53, 54, 55, 6, 16, 17, 18, 33, 34, 35, 55, 56, 57, 58, 59]);
 
     internal static Int32Array60 BreathDirection = Int32Array60.From([1, 2, 3, 4, 5, 6, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 1]);
 
-    internal static Int32Array2 WallMaxHP = Int32Array2.From([7, 13]);
+    internal static Int32Array2 s_wallMaxHitPoints = Int32Array2.From([7, 13]);
 
-    internal static void MakeAbilPath(CombatSideIndex Side, short Ability, short Spell, short X1, short Y1, short X2, short Y2, ref Point3DList Path, ref DelphiList Obstacles)
+    internal static void MakeAbilityPath(CombatSideIndex side, short ability, short spell, short x1, short y1, short x2, short y2, ref Point3DList path, ref DelphiList obstacles)
     {
         int X = default;
         int Y = default;
-        switch (Ability)
+        switch (ability)
         {
             case 55:
-                MakeRangedPath(Side, 25, 0, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                MakeRangedPath(side, 25, 0, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
                 break;
             case 22:
             case 24:
             case 25:
-                MakeRangedPath(Side, 50, 100, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                MakeRangedPath(side, 50, 100, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
                 break;
             case 44:
             case 45:
             case 57:
             case 58:
             case 123:
-                MakeRangedPath(Side, 50, 20, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                MakeRangedPath(side, 50, 20, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
                 break;
             case 30:
             case 31:
             case >= 86 and <= 90:
                 var xyz = new Point3D();
-                Path.Add(xyz);
-                HexGeometry.HXtoHP(X2, Y2, ref X, ref Y);
-                Path[0].X = X + 12;
-                Path[0].Y = Y + 12;
-                Obstacles.Clear();
+                path.Add(xyz);
+                HexGeometry.HexToPixel(x2, y2, ref X, ref Y);
+                path[0].X = X + 12;
+                path[0].Y = Y + 12;
+                obstacles.Clear();
                 break;
             case 52:
-                switch (Spell)
+                switch (spell)
                 {
                     case 103:
-                        MakeRangedPath(Side, 25, 0, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                        MakeRangedPath(side, 25, 0, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
                         break;
                     case 107:
-                        MakeRangedPath(Side, 25, 0, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
-                        Obstacles.Clear();
+                        MakeRangedPath(side, 25, 0, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
+                        obstacles.Clear();
                         break;
                     case 117:
-                        MakeRangedPath(Side, 50, 50, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                        MakeRangedPath(side, 50, 50, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
                         break;
                     case 100:
-                        MakeRangedPath(Side, 50, 35, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                        MakeRangedPath(side, 50, 35, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
                         break;
                     case 119:
-                        MakeRangedPath(Side, 50, 20, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                        MakeRangedPath(side, 50, 20, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
                         break;
                     default:
-                        switch (SpellTypes[Spell])
+                        switch (SpellTypes[spell])
                         {
                             case BattleEffectType.Breath:
                             case BattleEffectType.Effect:
@@ -164,14 +164,14 @@ internal static class TacticalTables
                             case BattleEffectType.SacFlame:
                             case BattleEffectType.Winds:
                                 var xyz2 = new Point3D();
-                                Path.Add(xyz2);
-                                HexGeometry.HXtoHP(X2, Y2, ref X, ref Y);
-                                Path[0].X = X + 12;
-                                Path[0].Y = Y + 12;
-                                Obstacles.Clear();
+                                path.Add(xyz2);
+                                HexGeometry.HexToPixel(x2, y2, ref X, ref Y);
+                                path[0].X = X + 12;
+                                path[0].Y = Y + 12;
+                                obstacles.Clear();
                                 break;
                             default:
-                                MakeRangedPath(Side, 50, 50, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                                MakeRangedPath(side, 50, 50, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
                                 break;
                         }
 
@@ -180,59 +180,59 @@ internal static class TacticalTables
 
                 break;
             default:
-                MakeRangedPath(Side, 50, 50, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                MakeRangedPath(side, 50, 50, 50, x1, y1, x2, y2, 0, 0, true, ref path, ref obstacles);
                 break;
         }
     }
 
-    internal static void MakeRangedPath(CombatSideIndex Side, short Speed, short Arc, short UnusedHeight, short X1, short Y1, short X2, short Y2, short OffsetX, short OffsetY, bool IncludeUnits, ref Point3DList Path, ref DelphiList Obstacles)
+    internal static void MakeRangedPath(CombatSideIndex side, short speed, short arc, short unusedHeight, short x1, short y1, short x2, short y2, short offsetX, short offsetY, bool includeUnits, ref Point3DList path, ref DelphiList obstacles)
     {
         int I;
         int A;
         int B;
-        int NX = default;
-        int NY = default;
-        int Steps;
+        int hexX = default;
+        int hexY = default;
+        int steps;
         int X = default;
         int Y = default;
-        int LastX = default;
-        int LastY = default;
-        int StartX = default;
-        int StartY = default;
-        int EndX = default;
-        int EndY = default;
-        Point3D Point;
-        float Height;
-        RangedObstacle Obstacle;
-        TacticalBattleUnitHexSprite UnitHS;
-        CityWall Wall;
-        Path.Clear();
-        Obstacles.Clear();
-        HexGeometry.HXtoHP(X1, Y1, ref X, ref Y);
-        HexGeometry.HXtoHP(X2, Y2, ref LastX, ref LastY);
+        int lastX = default;
+        int lastY = default;
+        int startX = default;
+        int startY = default;
+        int endX = default;
+        int endY = default;
+        Point3D point;
+        float height;
+        RangedObstacle obstacle;
+        TacticalBattleUnitHexSprite unitHexSprite;
+        CityWall wall;
+        path.Clear();
+        obstacles.Clear();
+        HexGeometry.HexToPixel(x1, y1, ref X, ref Y);
+        HexGeometry.HexToPixel(x2, y2, ref lastX, ref lastY);
         X += 13;
         Y += 13;
-        LastX = LastX + 13 + OffsetX;
-        LastY = LastY + 13 + OffsetY;
+        lastX = lastX + 13 + offsetX;
+        lastY = lastY + 13 + offsetY;
         I = 0;
-        A = Math.Abs(X2 - X1);
-        B = Math.Abs(Y2 - Y1);
-        Steps = (A + B) * 100 / Speed;
-        if (Steps < 2)
+        A = Math.Abs(x2 - x1);
+        B = Math.Abs(y2 - y1);
+        steps = (A + B) * 100 / speed;
+        if (steps < 2)
         {
-            Steps = 2;
+            steps = 2;
         }
 
-        while (I <= Steps)
+        while (I <= steps)
         {
-            Point = new Point3D();
-            Path.Add(Point);
-            Point.X = (LastX - X) * I / Steps + X;
-            Point.Y = (LastY - Y) * I / Steps + Y;
-            B = Steps / 2;
+            point = new Point3D();
+            path.Add(point);
+            point.X = (lastX - X) * I / steps + X;
+            point.Y = (lastY - Y) * I / steps + Y;
+            B = steps / 2;
             if (I > B)
             {
-                A = Steps - I + 1;
+                A = steps - I + 1;
             }
             else
             {
@@ -246,118 +246,118 @@ internal static class TacticalTables
                 }
             }
 
-            if (Arc == 0)
+            if (arc == 0)
             {
-                Point.Z = 0;
+                point.Z = 0;
             }
             else
             {
-                Height = A * Steps * Arc / 10;
-                Point.Z = Round(Math.Sqrt(Height)) - Steps * 10 / Arc;
+                height = A * steps * arc / 10;
+                point.Z = Round(Math.Sqrt(height)) - steps * 10 / arc;
             }
 
             I += 1;
         }
 
-        LastX = 0;
-        LastY = 0;
-        Point = Path[0];
-        HexGeometry.HPtoHX(Point.X, Point.Y, ref StartX, ref StartY);
-        var count = Path.Count;
-        Point = Path[count - 1];
-        HexGeometry.HPtoHX(Point.X, Point.Y, ref EndX, ref EndY);
+        lastX = 0;
+        lastY = 0;
+        point = path[0];
+        HexGeometry.PixelToHex(point.X, point.Y, ref startX, ref startY);
+        var count = path.Count;
+        point = path[count - 1];
+        HexGeometry.PixelToHex(point.X, point.Y, ref endX, ref endY);
         I = 0;
-        int last = Path.Count - 1;
+        int last = path.Count - 1;
         for (; I <= last; I += 1)
         {
-            Point = Path[I];
-            HexGeometry.HPtoHX(Point.X, Point.Y, ref X, ref Y);
-            if ((X != StartX || Y != StartY) && (X != EndX || Y != EndY))
+            point = path[I];
+            HexGeometry.PixelToHex(point.X, point.Y, ref X, ref Y);
+            if ((X != startX || Y != startY) && (X != endX || Y != endY))
             {
-                Steps = 0;
+                steps = 0;
                 if (CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 15)
                 {
-                    Steps = 3;
+                    steps = 3;
                 }
                 else
                 {
                     if (CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 7)
                     {
-                        Steps = 3;
+                        steps = 3;
                     }
                     else
                     {
-                        A = HexGeometry.dHXtoRad(X, Y, StartX, StartY);
-                        if (!IncludeUnits)
+                        A = HexGeometry.DeltaHexToRadius(X, Y, startX, startY);
+                        if (!includeUnits)
                         {
-                            UnitHS = null;
+                            unitHexSprite = null;
                         }
                         else
                         {
-                            UnitHS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
+                            unitHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
                         }
 
-                        Wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
-                        if (Wall == null && Side == CombatSideIndex.Attacker)
+                        wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
+                        if (wall == null && side == CombatSideIndex.Attacker)
                         {
-                            Wall = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510) as CityWall;
+                            wall = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510) as CityWall;
                         }
 
                         if (A == 1)
                         {
-                            if (UnitHS != null && UnitHS.FUnit.GetSide() != Side)
+                            if (unitHexSprite != null && unitHexSprite.Unit.GetSide() != side)
                             {
-                                Steps = 1;
+                                steps = 1;
                             }
 
-                            if (Wall != null && Wall.FHitPoints > 0 && Side == CombatSideIndex.Attacker)
+                            if (wall != null && wall.HitPoints > 0 && side == CombatSideIndex.Attacker)
                             {
-                                Steps = 4;
+                                steps = 4;
                             }
                         }
                         else
                         {
                             if (A > 1)
                             {
-                                if (UnitHS != null)
+                                if (unitHexSprite != null)
                                 {
-                                    Steps = 1;
+                                    steps = 1;
                                 }
 
-                                if (Wall == null)
+                                if (wall == null)
                                 {
                                     if (CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].OverlayType == 8)
                                     {
-                                        Steps = 1;
+                                        steps = 1;
                                     }
                                 }
                                 else
                                 {
-                                    if (Wall.FHitPoints > 0)
+                                    if (wall.HitPoints > 0)
                                     {
                                         if (A > 2)
                                         {
-                                            Steps = 2;
+                                            steps = 2;
                                         }
                                         else
                                         {
-                                            Wall = null;
+                                            wall = null;
                                             B = 1;
-                                            while (Wall == null && B < 7)
+                                            while (wall == null && B < 7)
                                             {
-                                                HexGeometry.CenterHNtoHX(StartX, StartY, B, ref NX, ref NY);
-                                                Wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229508);
-                                                if (Wall == null)
+                                                HexGeometry.CenterHexNumberToHex(startX, startY, B, ref hexX, ref hexY);
+                                                wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229508);
+                                                if (wall == null)
                                                 {
-                                                    Wall = CombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229510) as CityWall;
+                                                    wall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
                                                 }
 
                                                 B += 1;
                                             }
 
-                                            if (Wall == null)
+                                            if (wall == null)
                                             {
-                                                Steps = 2;
+                                                steps = 2;
                                             }
                                         }
                                     }
@@ -367,28 +367,28 @@ internal static class TacticalTables
                     }
                 }
 
-                if (Steps > 0)
+                if (steps > 0)
                 {
-                    switch (Steps)
+                    switch (steps)
                     {
                         case 1:
-                            HexGeometry.HXtoHP(X, Y, ref A, ref B);
-                            A = Point.X + 11 - A;
+                            HexGeometry.HexToPixel(X, Y, ref A, ref B);
+                            A = point.X + 11 - A;
                             if (A > 23)
                             {
                                 A = 47 - A;
                             }
 
-                            B = Point.Y + 3 - B;
+                            B = point.Y + 3 - B;
                             if (B > 15)
                             {
                                 B = 31 - B;
                             }
 
-                            A = (A + B - Point.Z) * 2;
+                            A = (A + B - point.Z) * 2;
                             break;
                         case 2:
-                            A = 200 - Point.Z * 3;
+                            A = 200 - point.Z * 3;
                             break;
                         case 3:
                             A = 100;
@@ -400,32 +400,32 @@ internal static class TacticalTables
 
                     if (A > 0)
                     {
-                        if (X != LastX || Y != LastY)
+                        if (X != lastX || Y != lastY)
                         {
-                            Obstacle = new RangedObstacle();
-                            Obstacle.PathIndex = I;
-                            Obstacles.Add(Obstacle);
-                            LastX = X;
-                            LastY = Y;
-                            Steps = 1;
+                            obstacle = new RangedObstacle();
+                            obstacle.PathIndex = I;
+                            obstacles.Add(obstacle);
+                            lastX = X;
+                            lastY = Y;
+                            steps = 1;
                         }
                         else
                         {
-                            Obstacle = (RangedObstacle)Obstacles[Obstacles.Count - 1];
-                            if (Steps == 2 && Obstacle.Chance < A)
+                            obstacle = (RangedObstacle)obstacles[obstacles.Count - 1];
+                            if (steps == 2 && obstacle.Chance < A)
                             {
-                                Obstacle.Chance = A;
+                                obstacle.Chance = A;
                             }
                         }
 
-                        if (Steps != 2 && Steps != 4)
+                        if (steps != 2 && steps != 4)
                         {
-                            Obstacle.Chance += A;
+                            obstacle.Chance += A;
                         }
 
-                        if (Obstacle.Chance > 100)
+                        if (obstacle.Chance > 100)
                         {
-                            Obstacle.Chance = 100;
+                            obstacle.Chance = 100;
                         }
                     }
                 }

@@ -21,69 +21,69 @@ public partial class Enchantment : EngineObject
     // ID, source, upkeep, dispel resistance
     public Enchantment(ECustomNode owner) : base(owner)
     {
-        FDispelResistance = 10;
-        FUpkeep = 1;
-        FSource = -1;
-        FEnchantmentID = 0;
+        DispelResistance = 10;
+        Upkeep = 1;
+        Source = -1;
+        EnchantmentId = 0;
     }
 
-    public int FEnchantmentID;
-    public sbyte FSource;
-    public int FUpkeep;
-    public sbyte FDispelResistance;
+    public int EnchantmentId;
+    public sbyte Source;
+    public int Upkeep;
+    public sbyte DispelResistance;
 
     // Spells.PAS:1726
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDispelResistance), 10);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FSource), 11);
-        Stream.rwInteger(ref FUpkeep, 12);
-        Stream.rwInteger(ref FEnchantmentID, 13);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DispelResistance), 10);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Source), 11);
+        stream.rwInteger(ref Upkeep, 12);
+        stream.rwInteger(ref EnchantmentId, 13);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.UnsignedByte(persister, "DispelResistance", ref FDispelResistance);
-        PersistSupport.UnsignedByte(persister, "Source", ref FSource);
-        persister.Int("Upkeep", ref FUpkeep);
-        persister.Int("EnchantmentID", ref FEnchantmentID);
+        PersistSupport.UnsignedByte(persister, "DispelResistance", ref DispelResistance);
+        PersistSupport.UnsignedByte(persister, "Source", ref Source);
+        persister.Int32("Upkeep", ref Upkeep);
+        persister.Int32("EnchantmentID", ref EnchantmentId);
     }
 
     // Spells.PAS:1700
-    public virtual string GetName() => AbilityRules.TranslateRStr(P4UndefinedRStr);
+    public virtual string GetName() => AbilityRules.TranslateResourceString(s_undefinedText);
 
     // Spells.PAS:1702
-    public virtual string GetBinding() => AbilityRules.TranslateRStr(GameTables.NoneRStr);
+    public virtual string GetBinding() => AbilityRules.TranslateResourceString(GameTables.s_noneText);
 
     // Spells.PAS:1734
-    public virtual void SetUpkeep(int Value)
+    public virtual void SetUpkeep(int value)
     {
-        if (Value != FUpkeep)
+        if (value != Upkeep)
         {
-            FUpkeep = Value;
-            if (FSource > -1)
+            Upkeep = value;
+            if (Source > -1)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(FSource).FMagicControl.Update();
+                AoWHSMap.Current.Players.GetPlayers(Source).MagicControl.Update();
             }
         }
     }
 
     // Spells.PAS:1742
-    public virtual void SetSource(sbyte Player)
+    public virtual void SetSource(sbyte player)
     {
-        if (Player != FSource)
+        if (player != Source)
         {
-            if (FSource > -1)
+            if (Source > -1)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(FSource).FMagicControl.UnregisterEnchantment(this);
+                AoWHSMap.Current.Players.GetPlayers(Source).MagicControl.UnregisterEnchantment(this);
             }
 
-            FSource = Player;
-            if (FSource > -1)
+            Source = player;
+            if (Source > -1)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(FSource).FMagicControl.RegisterEnchantment(this);
+                AoWHSMap.Current.Players.GetPlayers(Source).MagicControl.RegisterEnchantment(this);
             }
         }
     }
@@ -102,7 +102,7 @@ public partial class Enchantment : EngineObject
     // Spells.PAS:1706
     public virtual bool CenterToLocation()
     {
-        bool Result;
+        bool result;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
@@ -117,18 +117,18 @@ public partial class Enchantment : EngineObject
             else
             {
                 var binding = GetBinding();
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.XIsOutOfSightRStr), [binding]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_isOutOfSightFormat), [binding]);
                 AoWHSMap.Current.ShowMessage(format);
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:1751
@@ -141,23 +141,23 @@ public partial class Enchantment : EngineObject
     }
 
     // Spells.PAS:1753
-    public int DispelChance(int Mana)
+    public int DispelChance(int mana)
     {
-        int Result = Mana - FDispelResistance * 10 + 50;
-        if (Result < 10)
+        int result = mana - DispelResistance * 10 + 50;
+        if (result < 10)
         {
-            Result = 10;
+            result = 10;
         }
 
-        if (Result > 90)
+        if (result > 90)
         {
-            Result = 90;
+            result = 90;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string P4UndefinedRStr = "Undefined";
+    private static readonly string s_undefinedText = "Undefined";
 
     // intf_P4_01.inc:28
 

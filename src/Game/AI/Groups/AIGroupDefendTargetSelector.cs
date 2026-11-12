@@ -18,208 +18,208 @@ namespace Aow.Game.AI.Groups;
 // control, selector, targets, mode, path step, radius, damage, factor
 public partial class AIGroupDefendTargetSelector : AIGroupTask
 {
-    public AIGroupControl FControl;
-    public AIMoveTargetSelector FSelector;
-    public AIGroupControlTargetList FTargets;
-    public Set<ModeElement> FMode;
-    public int FPathStep;
-    public int FBattleFieldRadius;
-    public Set<DamageType> FDamageTypes;
-    public float FMovePointsFactor;
+    public AIGroupControl Control;
+    public AIMoveTargetSelector Selector;
+    public AIGroupControlTargetList Targets;
+    public Set<ModeElement> Mode;
+    public int PathStep;
+    public int BattleFieldRadius;
+    public Set<DamageType> DamageTypes;
+    public float MovePointsFactor;
 
     // AGCPlugins.pas:164
     public override void Dispose()
     {
-        FSelector?.Dispose();
-        FTargets?.Dispose();
+        Selector?.Dispose();
+        Targets?.Dispose();
         base.Dispose();
     }
 
     // AGCPlugins.pas:157
     public AIGroupDefendTargetSelector(ECustomNode owner) : base(owner)
     {
-        FSelector = new AIMoveTargetSelector(null);
-        FTargets = new AIGroupControlTargetList(null);
+        Selector = new AIMoveTargetSelector(null);
+        Targets = new AIGroupControlTargetList(null);
     }
 
     // AGCPlugins.pas:245
-    public override bool Activate(AIGroupControl Control)
+    public override bool Activate(AIGroupControl control)
     {
-        FControl = Control;
-        FSelector.Search(Control);
-        FState = 0;
+        Control = control;
+        Selector.Search(control);
+        State = 0;
         return true;
     }
 
     // AGCPlugins.pas:253
     public override bool Process()
     {
-        bool Result;
-        switch (FState)
+        bool result;
+        switch (State)
         {
             case 0:
-                if (FSelector.FStatus == AIMoveTargetSelector.Status.Searching)
+                if (Selector.Status == AIMoveTargetSelectorStatus.Searching)
                 {
-                    Result = FSelector.Process();
+                    result = Selector.Process();
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
 
-                if (!Result)
+                if (!result)
                 {
-                    FTargets.SortOnPriority();
-                    FState += 1;
+                    Targets.SortOnPriority();
+                    State += 1;
                 }
 
                 break;
             case 1:
-                if (FTargets.Count != 0)
+                if (Targets.Count != 0)
                 {
-                    FControl.FGroup.SetupTarget(null, AIGroupTargetStatus.Idle, 0);
-                    FControl.SetupME();
-                    var targetLocation = FTargets.GetTargets(0);
-                    if (Unsafe.As<MapCoordinate, int>(ref targetLocation.FLocation) == Unsafe.As<MapCoordinate, int>(ref FControl.FLocation))
+                    Control.Group.SetupTarget(null, AIGroupTargetStatus.Idle, 0);
+                    Control.SetupME();
+                    var targetLocation = Targets.GetTargets(0);
+                    if (Unsafe.As<MapCoordinate, int>(ref targetLocation.Location) == Unsafe.As<MapCoordinate, int>(ref Control.Location))
                     {
-                        FControl.FMoveExecuter.FMode = FControl.FMoveExecuter.FMode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
+                        Control.MoveExecutor.Mode = Control.MoveExecutor.Mode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
                     }
 
-                    var target = FTargets.GetTargets(0);
-                    var target2 = FTargets.GetTargets(0);
-                    var target3 = FTargets.GetTargets(0);
-                    FControl.ExecuteME(target3.FLocation.X, target2.FLocation.Y, target.FLocation.L);
-                    FState = 2;
+                    var target = Targets.GetTargets(0);
+                    var target2 = Targets.GetTargets(0);
+                    var target3 = Targets.GetTargets(0);
+                    Control.ExecuteME(target3.Location.X, target2.Location.Y, target.Location.MapLevel);
+                    State = 2;
                 }
                 else
                 {
-                    FControl.SetupME();
-                    var aiMoveExecuter = FControl.FMoveExecuter;
-                    aiMoveExecuter.FMode = aiMoveExecuter.FMode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
+                    Control.SetupME();
+                    var aiMoveExecutor = Control.MoveExecutor;
+                    aiMoveExecutor.Mode = aiMoveExecutor.Mode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
 
-                    var aiGroupControl = FControl;
-                    aiGroupControl.ExecuteME(aiGroupControl.FLocation.X, aiGroupControl.FLocation.Y, aiGroupControl.FLocation.L);
+                    var aiGroupControl = Control;
+                    aiGroupControl.ExecuteME(aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel);
 
-                    FControl.FGroup.SetupTarget(null, AIGroupTargetStatus.Idle, 0);
+                    Control.Group.SetupTarget(null, AIGroupTargetStatus.Idle, 0);
                     Done();
                 }
 
-                Result = false;
+                result = false;
                 break;
             case 2:
                 Done();
-                Result = false;
+                result = false;
                 break;
             default:
-                Result = false;
+                result = false;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // AGCPlugins.pas:171
     public void Reset()
     {
-        FSelector.Reset();
-        this.FSelector.FOnTargetFound = TargetFoundEvent;
-        this.FSelector.FMovePointsMax = 150;
-        this.FSelector.FMovePointsMin = 0;
-        this.FSelector.FTargetInfo.Mode = AITargetMode.Defend;
+        Selector.Reset();
+        this.Selector.OnTargetFound = TargetFoundEvent;
+        this.Selector.MovePointsMax = 150;
+        this.Selector.MovePointsMin = 0;
+        this.Selector.TargetInfo.Mode = AITargetMode.Defend;
 
-        FPathStep = 7;
-        FDamageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
-        FBattleFieldRadius = 10;
-        FMovePointsFactor = -1;
-        FMode = Set<ModeElement>.Of();
+        PathStep = 7;
+        DamageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        BattleFieldRadius = 10;
+        MovePointsFactor = -1;
+        Mode = Set<ModeElement>.Of();
     }
 
     // AGCPlugins.pas:188
-    public int GetMovepathBattleFieldStrength(MovePath Path)
+    public int GetMovePathBattleFieldStrength(MovePath path)
     {
-        int Result;
+        int result;
         int I;
-        BattleFieldInfo Info = default;
-        if (Path != null && FPathStep < Path.Count)
+        BattleFieldInfo info = default;
+        if (path != null && PathStep < path.Count)
         {
-            Result = 0;
-            I = FPathStep;
-            BattleFieldInfo.SetupBattleFieldInfo(ref Info, FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), FDamageTypes);
-            Info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
-            Info.Requests = Info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
-            while (I < Path.Count)
+            result = 0;
+            I = PathStep;
+            BattleFieldInfo.SetupBattleFieldInfo(ref info, Control.Group.Player, Control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), DamageTypes);
+            info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
+            info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
+            while (I < path.Count)
             {
-                Info.Strength = 0;
-                var pathL = Path[I];
-                var pathY = Path[I];
-                var pathX = Path[I];
-                AoWHSMap.Current.RetrieveBattleFieldInfo(pathX.X, pathY.Y, pathL.L, FBattleFieldRadius, ref Info);
-                if (Result < Info.Strength)
+                info.Strength = 0;
+                var pathL = path[I];
+                var pathY = path[I];
+                var pathX = path[I];
+                AoWHSMap.Current.RetrieveBattleFieldInfo(pathX.X, pathY.Y, pathL.MapLevel, BattleFieldRadius, ref info);
+                if (result < info.Strength)
                 {
-                    Result = Info.Strength;
+                    result = info.Strength;
                 }
 
-                I += FPathStep;
+                I += PathStep;
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // AGCPlugins.pas:213
-    public void TargetFoundEvent(MoveTarget Target, ref bool SearchDone)
+    public void TargetFoundEvent(MoveTarget target, ref bool searchDone)
     {
-        AIGroupControlTarget NewTarget;
-        NewTarget = new AIGroupControlTarget(null);
-        NewTarget.FInfo = this.FSelector.FTargetInfo;
+        AIGroupControlTarget newTarget;
+        newTarget = new AIGroupControlTarget(null);
+        newTarget.Info = this.Selector.TargetInfo;
 
-        NewTarget.FData = Target.FData;
-        NewTarget.FLocation = Target.FLocation;
-        NewTarget.FMovePoints = Target.FMovePoints;
-        NewTarget.FData.Priority += Round((double)Target.FMovePoints * FMovePointsFactor);
-        if (FMode.Contains(ModeElement.CalculateMovepathBFS))
+        newTarget.Data = target.Data;
+        newTarget.Location = target.Location;
+        newTarget.MovePoints = target.MovePoints;
+        newTarget.Data.Priority += Round((double)target.MovePoints * MovePointsFactor);
+        if (Mode.Contains(ModeElement.CalculateMovePathBfs))
         {
-            NewTarget.FPathStrength = GetMovepathBattleFieldStrength(Target.FMovepath);
+            newTarget.PathStrength = GetMovePathBattleFieldStrength(target.MovePath);
         }
 
-        if (Target.FTransporterID != -1)
+        if (target.TransporterId != -1)
         {
-            NewTarget.FTransporterID = Target.FTransporterID;
+            newTarget.TransporterId = target.TransporterId;
         }
 
-        if (NewTarget.FPathStrength < FControl.FStrengthMax)
+        if (newTarget.PathStrength < Control.StrengthMax)
         {
-            FTargets.Add(NewTarget);
+            Targets.Add(newTarget);
         }
 
-        NewTarget.Release();
+        newTarget.Release();
     }
 
     // AGCPlugins.pas:229
-    public bool Setup(AIGroupControl Control)
+    public bool Setup(AIGroupControl control)
     {
         Reset();
-        FSelector.FSourceLocation = Control.FLocation;
-        FSelector.FMovePointTable = Control.FMovePointTable;
-        FSelector.FTargetInfo.Player = Control.FGroup.FPlayer;
-        FSelector.FTargetInfo.IndependentRelation = Control.FGroup.FIndependentRelation;
-        switch (AoWHSMap.Current.FPlayers.GetPlayers(Control.FGroup.FPlayer).FPlayerType)
+        Selector.SourceLocation = control.Location;
+        Selector.MovePointTable = control.MovePointTable;
+        Selector.TargetInfo.Player = control.Group.Player;
+        Selector.TargetInfo.IndependentRelation = control.Group.IndependentRelation;
+        switch (AoWHSMap.Current.Players.GetPlayers(control.Group.Player).PlayerType)
         {
-            case PlayerType.CPU2:
-                FMode = FMode + Set<ModeElement>.Of(ModeElement.CalculateMovepathBFS);
+            case PlayerType.Cpu2:
+                Mode = Mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
                 break;
-            case PlayerType.CPU3:
-                FMode = FMode + Set<ModeElement>.Of(ModeElement.CalculateMovepathBFS);
+            case PlayerType.Cpu3:
+                Mode = Mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
                 break;
-            case PlayerType.CPU4:
-                FMode = FMode + Set<ModeElement>.Of(ModeElement.CalculateMovepathBFS);
+            case PlayerType.Cpu4:
+                Mode = Mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
                 break;
-            case PlayerType.CPU5:
-                FMode = FMode + Set<ModeElement>.Of(ModeElement.CalculateMovepathBFS);
+            case PlayerType.Cpu5:
+                Mode = Mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
                 break;
         }
 
@@ -228,7 +228,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
 
     public enum ModeElement : byte
     {
-        CalculateMovepathBFS = 0
+        CalculateMovePathBfs = 0
     }
 
 }

@@ -11,7 +11,7 @@ public partial class AltarOfLife : Altar
     { }
 
     // AltLife.pas:36
-    public new const int ClassID = 131635;
+    public new const int ClassId = 131635;
 
     // AltLife.pas:39
     public override Storm CreateStorm() => new DivineStorm(null);
@@ -23,19 +23,19 @@ public partial class AltarOfLife : Altar
         }
 
         // AltLife.pas:52
-        public new const int ClassID = 131636;
+        public new const int ClassId = 131636;
 
         // AltLife.pas:44
 
         // AltLife.pas:55
-        public override int ResourceUserClassID() => 131635;
+        public override int ResourceUserClassId() => 131635;
 
         // AltLife.pas:26
 
         // AltLife.pas:49
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(AltarOfLifeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_altarOfLifeText);
 
-        private static readonly string AltarOfLifeRStr = "Altar of Life";
+        private static readonly string s_altarOfLifeText = "Altar of Life";
 
     }
 

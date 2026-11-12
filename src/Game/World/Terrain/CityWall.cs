@@ -24,138 +24,138 @@ public partial class CityWall : CombatImageLibraryTerrain
     { }
 
     // CityWall.pas:78
-    public new const int ClassID = 2229508;
+    public new const int ClassId = 2229508;
 
-    public int FHitPoints;
-    public int FDamageImage;
-    public int FFlagID;
-    public bool FPlaySound;
-    public byte FWallType;
+    public int HitPoints;
+    public int DamageImage;
+    public int FlagId;
+    public bool PlaySound;
+    public byte WallType;
 
     // CityWall.pas:133
-    public override sbyte GetOverlay(int Index)
+    public override sbyte GetOverlay(int index)
     {
-        sbyte Result;
-        if (Index == 0)
+        sbyte result;
+        if (index == 0)
         {
-            if (FHitPoints == 0)
+            if (HitPoints == 0)
             {
-                Result = 6;
+                result = 6;
             }
             else
             {
-                Result = 8;
+                result = 8;
             }
         }
         else
         {
-            Result = base.GetOverlay(Index);
+            result = base.GetOverlay(index);
         }
 
-        return Result;
+        return result;
     }
 
     // CityWall.pas:230
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        AbilityCombatInfo AbilityInfo = default;
-        SpellCombatInfo SpellInfo = default;
-        base.MapFieldMsgProc(ref Msg);
-        if (Msg.HN == 0)
+        AbilityCombatInfo abilityInfo = default;
+        SpellCombatInfo spellInfo = default;
+        base.MapFieldMessageProc(ref message);
+        if (message.HexNumber == 0)
         {
-            switch (Msg.MsgID)
+            switch (message.MessageId)
             {
                 case 200704:
-                    AoWHSSet.Current.FAbilityControl.GetAbility(65).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                    AoWHSSet.Current.AbilityControl.GetAbility(65).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                     RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense = GetDefense();
-                    var executeDamageRole = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense);
-                    SetHitPoints(FHitPoints - executeDamageRole);
+                    var executeDamageRole = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense);
+                    SetHitPoints(HitPoints - executeDamageRole);
                     break;
                 case 200705:
-                    AoWHSSet.Current.FAbilityControl.GetAbility(24).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                    AoWHSSet.Current.AbilityControl.GetAbility(24).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                     RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense2 = GetDefense();
-                    var executeDamageRole2 = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense2);
-                    SetHitPoints(FHitPoints - executeDamageRole2);
+                    var executeDamageRole2 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense2);
+                    SetHitPoints(HitPoints - executeDamageRole2);
                     break;
                 case 200706:
-                    AoWHSSet.Current.FAbilityControl.GetAbility(44).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                    AoWHSSet.Current.AbilityControl.GetAbility(44).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                     RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense3 = GetDefense();
-                    var executeDamageRole3 = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense3);
-                    SetHitPoints(FHitPoints - executeDamageRole3);
+                    var executeDamageRole3 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense3);
+                    SetHitPoints(HitPoints - executeDamageRole3);
                     break;
                 case 200707:
-                    AoWHSSet.Current.FSpellControl.GetSpell(117).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                    AoWHSSet.Current.SpellControl.GetSpell(117).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                     RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense4 = GetDefense();
-                    var executeDamageRole4 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense4);
-                    SetHitPoints(FHitPoints - executeDamageRole4);
+                    var executeDamageRole4 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense4);
+                    SetHitPoints(HitPoints - executeDamageRole4);
                     break;
                 case 200714:
-                    if (FWallType == 1)
+                    if (WallType == 1)
                     {
-                        AoWHSSet.Current.FAbilityControl.GetAbility(31).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                        AoWHSSet.Current.AbilityControl.GetAbility(31).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                         RandSeed = AoWHSMap.Current.Random(16777215);
                         var defense5 = GetDefense();
-                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense5);
-                        SetHitPoints(FHitPoints - executeDamageRole5);
+                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense5);
+                        SetHitPoints(HitPoints - executeDamageRole5);
                     }
 
                     break;
                 case 200715:
-                    if (FWallType == 1)
+                    if (WallType == 1)
                     {
-                        AoWHSSet.Current.FSpellControl.GetSpell(113).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                        AoWHSSet.Current.SpellControl.GetSpell(113).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                         RandSeed = AoWHSMap.Current.Random(16777215);
                         var defense5 = GetDefense();
-                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense5);
-                        SetHitPoints(FHitPoints - executeDamageRole5);
+                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense5);
+                        SetHitPoints(HitPoints - executeDamageRole5);
                     }
 
                     break;
                 case 200710:
-                    AoWHSSet.Current.FSpellControl.GetSpell(116).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                    AoWHSSet.Current.SpellControl.GetSpell(116).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                     RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense6 = GetDefense();
-                    var executeDamageRole6 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense6);
-                    SetHitPoints(FHitPoints - executeDamageRole6);
+                    var executeDamageRole6 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense6);
+                    SetHitPoints(HitPoints - executeDamageRole6);
                     break;
                 case 200717:
-                    AoWHSSet.Current.FSpellControl.GetSpell(127).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                    AoWHSSet.Current.SpellControl.GetSpell(127).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                     RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense7 = GetDefense();
-                    var executeDamageRole7 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense7);
-                    SetHitPoints(FHitPoints - executeDamageRole7);
+                    var executeDamageRole7 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense7);
+                    SetHitPoints(HitPoints - executeDamageRole7);
                     break;
                 case 200718:
-                    if (FWallType == 1)
+                    if (WallType == 1)
                     {
-                        AoWHSSet.Current.FSpellControl.GetSpell(128).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                        AoWHSSet.Current.SpellControl.GetSpell(128).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                         RandSeed = AoWHSMap.Current.Random(16777215);
                         var defense5 = GetDefense();
-                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense5);
-                        SetHitPoints(FHitPoints - executeDamageRole5);
+                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense5);
+                        SetHitPoints(HitPoints - executeDamageRole5);
                     }
 
                     break;
                 case 200708:
-                    FPlaySound = Msg.Param[1].Int == 0;
-                    AoWHSSet.Current.FSpellControl.GetSpell(112).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                    PlaySound = message.Param[1].Int == 0;
+                    AoWHSSet.Current.SpellControl.GetSpell(112).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                     RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense8 = GetDefense();
-                    var executeDamageRole8 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense8);
-                    SetHitPoints(FHitPoints - executeDamageRole8);
-                    Msg.Param[1] = 1;
+                    var executeDamageRole8 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense8);
+                    SetHitPoints(HitPoints - executeDamageRole8);
+                    message.Param[1] = 1;
                     break;
                 case 200711:
-                    if (FWallType == 1)
+                    if (WallType == 1)
                     {
                         RandSeed = AoWHSMap.Current.Random(16777215);
                         var defense5 = GetDefense();
-                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(TacticalTables.TCDamage[1], TacticalTables.TCAttack[1] - defense5);
-                        SetHitPoints(FHitPoints - executeDamageRole5);
+                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(TacticalTables.s_tacticalBattleDamage[1], TacticalTables.s_tacticalBattleAttack[1] - defense5);
+                        SetHitPoints(HitPoints - executeDamageRole5);
                     }
 
                     break;
@@ -164,324 +164,324 @@ public partial class CityWall : CombatImageLibraryTerrain
     }
 
     // CityWall.pas:155
-    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)
     {
-        if (Info.HN == 0)
+        if (info.HexNumber == 0)
         {
-            if (FHitPoints == 0)
+            if (HitPoints == 0)
             {
-                MoveResult.Code = ((MoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][6 - -1];
+                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][6 - -1];
             }
             else
             {
-                if (((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.Wall))
+                if (((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall))
                 {
-                    MoveResult.Code = 25;
-                    MoveResult.Done = true;
+                    moveResult.Code = 25;
+                    moveResult.Done = true;
                 }
                 else
                 {
-                    if (((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.WallCrushing) && GetXhx() == ((MoveControl)Info.Sender).FDestinationX && GetYhx() == ((MoveControl)Info.Sender).FDestinationY)
+                    if (((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.WallCrushing) && GetHexX() == ((MoveControl)info.Sender).DestinationX && GetHexY() == ((MoveControl)info.Sender).DestinationY)
                     {
-                        MoveResult.Code = 0;
+                        moveResult.Code = 0;
                     }
                     else
                     {
-                        if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(1) || ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(66) || ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(36))
+                        if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36))
                         {
-                            MoveResult.Code = ((MoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][-1 - -1];
+                            moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][-1 - -1];
                         }
                         else
                         {
-                            if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59))
+                            if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
                             {
-                                MoveResult.Code = -1;
+                                moveResult.Code = -1;
                             }
                             else
                             {
-                                MoveResult.Code = ((MoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][8 - -1];
+                                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - -1];
                             }
                         }
                     }
                 }
             }
 
-            MoveResult.Done = true;
+            moveResult.Done = true;
         }
     }
 
     // CityWall.pas:180
-    public override int CanMoveOver(in HexSpriteSenderInfo Info)
+    public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int Result;
-        if (Info.HN == 0)
+        int result;
+        if (info.HexNumber == 0)
         {
-            if (FHitPoints == 0 || ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(66) || ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(36) || ((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.Climbing) || ((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.Wall))
+            if (HitPoints == 0 || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Climbing) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall))
             {
-                Result = 1;
+                result = 1;
             }
             else
             {
-                if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59))
+                if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
                 {
-                    Result = 0;
+                    result = 0;
                 }
                 else
                 {
-                    if (((MoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][8 - -1] != 0)
+                    if (((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - -1] != 0)
                     {
-                        Result = 1;
+                        result = 1;
                     }
                     else
                     {
-                        Result = 0;
+                        result = 0;
                     }
                 }
             }
         }
         else
         {
-            Result = 1;
+            result = 1;
         }
 
-        return Result;
+        return result;
     }
 
     // CityWall.pas:81
     public override void Activate()
     {
-        PlayerStructure Structure;
-        bool Razed;
+        PlayerStructure structure;
+        bool razed;
         base.Activate();
         if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            Razed = false;
-            FPlaySound = true;
-            Structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLoc).GetField(CombatPlacement.CombatXLoc, CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(City));
-            if (Structure != null)
+            razed = false;
+            PlaySound = true;
+            structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.s_combatLLocation).GetField(CombatPlacement.s_combatXLocation, CombatPlacement.s_combatYLocation).FindNoneTransparentHexSprite(typeof(City));
+            if (structure != null)
             {
-                FWallType = ((City)Structure).FWallType;
-                Razed = Structure.GetRazed();
-                if (Structure.FPlayer == -1)
+                WallType = ((City)structure).WallType;
+                razed = structure.GetRazed();
+                if (structure.Player == -1)
                 {
-                    FFlagID = -1;
+                    FlagId = -1;
                 }
                 else
                 {
-                    FFlagID = AoWHSMap.Current.FPlayers.GetPlayers(Structure.FPlayer).FPlayerRace;
+                    FlagId = AoWHSMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
                 }
             }
             else
             {
-                Structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLoc).GetField(CombatPlacement.CombatXLoc, CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(Tower));
-                if (Structure != null)
+                structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.s_combatLLocation).GetField(CombatPlacement.s_combatXLocation, CombatPlacement.s_combatYLocation).FindNoneTransparentHexSprite(typeof(Tower));
+                if (structure != null)
                 {
-                    FWallType = 1;
-                    Razed = Structure.GetRazed();
-                    if (Structure.FPlayer == -1)
+                    WallType = 1;
+                    razed = structure.GetRazed();
+                    if (structure.Player == -1)
                     {
-                        FFlagID = -1;
+                        FlagId = -1;
                     }
                     else
                     {
-                        FFlagID = AoWHSMap.Current.FPlayers.GetPlayers(Structure.FPlayer).FPlayerRace;
+                        FlagId = AoWHSMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
                     }
                 }
                 else
                 {
-                    FWallType = 0;
+                    WallType = 0;
                 }
             }
 
-            if (FWallType == 0)
+            if (WallType == 0)
             {
                 RemoveFromMap();
-                var yhx = GetYhx();
-                var xhx = GetXhx();
-                UpdateMapFields(CombatMap.Current.MapContainer.GetMapLevel(0), xhx, yhx);
+                var hexY = GetHexY();
+                var hexX = GetHexX();
+                UpdateMapFields(CombatMap.Current.MapContainer.GetMapLevel(0), hexX, hexY);
                 this.Dispose();
             }
             else
             {
-                if (Razed)
+                if (razed)
                 {
                     SetHitPoints(0);
                 }
                 else
                 {
-                    SetHitPoints(TacticalTables.WallMaxHP[FWallType - 1]);
+                    SetHitPoints(TacticalTables.s_wallMaxHitPoints[WallType - 1]);
                 }
 
-                if (FFlagID == -1)
+                if (FlagId == -1)
                 {
-                    FFlagID = 32;
+                    FlagId = 32;
                 }
 
-                CombatMap.Current.FWalls.Add(this);
+                CombatMap.Current.Walls.Add(this);
             }
         }
         else
         {
-            FWallType = 2;
+            WallType = 2;
         }
     }
 
     // CityWall.pas:147
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        base.UpdateMapField(Info);
-        if (Info.HN == 0)
+        base.UpdateMapField(info);
+        if (info.HexNumber == 0)
         {
-            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 16384 | 8192;
+            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 16384 | 8192;
         }
     }
 
     // CityWall.pas:141
-    public override bool ValidTerrainType(int TerrainType) => true;
+    public override bool ValidTerrainType(int terrainType) => true;
 
     // CityWall.pas:144
-    public override int GetTerrainTypeImage(int TerrainType) => 0;
+    public override int GetTerrainTypeImage(int terrainType) => 0;
 
     // CityWall.pas:363
-    public override void ShowShadow(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
     }
 
     // CityWall.pas:130
-    public byte GetDirection() => ((Resource)FResource).FDirection;
+    public byte GetDirection() => ((Resource)_resource).Direction;
 
     // CityWall.pas:197
     public new int GetDefense() => -2;
 
     // CityWall.pas:200
-    public void SetHitPoints(int Value)
+    public void SetHitPoints(int value)
     {
-        BattleEffectSprite Effect;
-        Point3D Point;
-        if (Value < 0)
+        BattleEffectSprite effect;
+        Point3D point;
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        if (Value < FHitPoints)
+        if (value < HitPoints)
         {
-            if (Value == 0)
+            if (value == 0)
             {
-                CombatMap.Current.FCombat.FCombatData.FWallBreached = true;
-                if (FPlaySound && CombatMap.Current.FPlaySounds)
+                CombatMap.Current.Combat.CombatData.WallBreached = true;
+                if (PlaySound && CombatMap.Current.PlaySounds)
                 {
                     AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                 }
 
-                Effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
-                Point = new Point3D();
-                Effect.FPath.Add(Point);
-                HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Point.X, ref Point.Y);
-                Point.X = Random(20) + Point.X + 6;
-                Point.Y = Random(20) + Point.Y - 20;
+                effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
+                point = new Point3D();
+                effect.Path.Add(point);
+                HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref point.X, ref point.Y);
+                point.X = Random(20) + point.X + 6;
+                point.Y = Random(20) + point.Y - 20;
             }
             else
             {
-                if (FPlaySound && CombatMap.Current.FPlaySounds)
+                if (PlaySound && CombatMap.Current.PlaySounds)
                 {
                     AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
                 }
             }
         }
 
-        FHitPoints = Value;
-        if (TacticalTables.WallMaxHP[FWallType - 1] == FHitPoints)
+        HitPoints = value;
+        if (TacticalTables.s_wallMaxHitPoints[WallType - 1] == HitPoints)
         {
-            FDamageImage = 0;
+            DamageImage = 0;
         }
         else
         {
-            if (TacticalTables.WallMaxHP[FWallType - 1] / 2 < FHitPoints)
+            if (TacticalTables.s_wallMaxHitPoints[WallType - 1] / 2 < HitPoints)
             {
-                FDamageImage = 1;
+                DamageImage = 1;
             }
             else
             {
-                if (FHitPoints > 0)
+                if (HitPoints > 0)
                 {
-                    FDamageImage = 2;
+                    DamageImage = 2;
                 }
                 else
                 {
-                    FDamageImage = 3;
+                    DamageImage = 3;
                 }
             }
         }
 
-        FPlaySound = true;
+        PlaySound = true;
     }
 
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
-        int ImageIndex;
-        int Xhp = default;
-        int Yhp = default;
-        int TerrainOffset;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-        XhpSurf = Xhp - XhpSurf;
-        YhpSurf = Yhp - YhpSurf;
-        var yhx = GetYhx();
-        var xhx = GetXhx();
-        switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
+        ImageSequence sequence;
+        int imageIndex;
+        int pixelX = default;
+        int pixelY = default;
+        int terrainOffset;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        pixelXSurface = pixelX - pixelXSurface;
+        pixelYSurface = pixelY - pixelYSurface;
+        var hexY = GetHexY();
+        var hexX = GetHexX();
+        switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType)
         {
             case 3:
-                TerrainOffset = 10;
+                terrainOffset = 10;
                 break;
             case 5:
             case 7:
             case 12:
-                TerrainOffset = 20;
+                terrainOffset = 20;
                 break;
             default:
-                TerrainOffset = 0;
+                terrainOffset = 0;
                 break;
         }
 
-        Sequence = FResource.ImageSequenceList.GetImageSequence(WallISIndex[FWallType - 1] + (TerrainOffset + FDamageImage));
-        if (Sequence != null)
+        sequence = _resource.ImageSequenceList.GetImageSequence(s_wallIsIndex[WallType - 1] + (terrainOffset + DamageImage));
+        if (sequence != null)
         {
             do
             {
-                switch (Sequence.Layer)
+                switch (sequence.Layer)
                 {
                     case 7:
-                        ImageIndex = Sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                        if (ImageIndex != -1)
+                        imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        if (imageIndex != -1)
                         {
                             if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                             {
-                                var xhx2 = GetXhx();
-                                var yhx2 = GetYhx();
-                                AoWHSSet.Current.FFlagControl.ShowFlagEx(XhpSurf + 21 + Sequence.dXshift, YhpSurf + Sequence.dYshift + 16, xhx2 + AoWHSMap.Current.Frame + yhx2 * 100, (byte)FFlagID, SurfaceDesc, false);
+                                var hexX2 = GetHexX();
+                                var hexY2 = GetHexY();
+                                AoWHSSet.Current.FlagControl.ShowFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + AoWHSMap.Current.Frame + hexY2 * 100, (byte)FlagId, lockedSurface, false);
                             }
                         }
 
                         break;
                     default:
                         {
-                            ImageIndex = Sequence.GetUnloopedFrameIndex(FImageIndex);
-                            if (ImageIndex != -1)
+                            imageIndex = sequence.GetUnloopedFrameIndex(_imageIndex);
+                            if (imageIndex != -1)
                             {
-                                Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
+                                sequence.ImageLibrary[imageIndex].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);
                             }
                         }
 
                         break;
                 }
 
-                Sequence = Sequence.Next;
+                sequence = sequence.Next;
             }
-            while (!(Sequence == null));
+            while (!(sequence == null));
         }
     }
 
-    private static Int32Array2 WallISIndex = Int32Array2.From([30, 0]);
+    private static Int32Array2 s_wallIsIndex = Int32Array2.From([30, 0]);
 
     public new partial class Resource : CombatImageLibraryTerrainResource
     {
@@ -489,19 +489,19 @@ public partial class CityWall : CombatImageLibraryTerrain
         { }
 
         // CityWall.pas:366
-        public new const int ClassID = 2229509;
+        public new const int ClassId = 2229509;
 
-        public byte FDirection;
+        public byte Direction;
 
         // CityWall.pas:369
-        public override void ReadWrite(EStorageStream Stream)
+        public override void ReadWrite(EStorageStream stream)
         {
-            base.ReadWrite(Stream);
-            Stream.rwByte(ref FDirection, 25);
+            base.ReadWrite(stream);
+            stream.rwByte(ref Direction, 25);
         }
 
         // CityWall.pas:378
-        public override int ResourceUserClassID() => 2229508;
+        public override int ResourceUserClassId() => 2229508;
 
         // CityWall.pas:375
         public override string ResourceEditName() => "Combat City Wall";

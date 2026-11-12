@@ -11,62 +11,62 @@ namespace Aow.Game.Session;
 public partial class WorldMapCampaignScenario : CampaignScenario
 {
     // AoWVideoDlg.pas:304
-    public new const int ClassID = 2248705;
+    public new const int ClassId = 2248705;
 
-    public string FImageLibrary = "";
-    public string FPathDescription = "";
-    public string FDescription = "";
-    public bool F_WMCampaignScenario_20;
+    public string ImageLibrary = "";
+    public string PathDescription = "";
+    public string Description = "";
+    public bool Reserved20;
     // rwBool
-    public int FMapX;
-    public int FMapY;
-    public Int32List FPaths;
-    public WMCampaignScenarioPageList FIntroPages;
-    public WMCampaignScenarioPageList FOutroPages;
-    public byte FMapKind;
+    public int MapX;
+    public int MapY;
+    public Int32List Paths;
+    public WMCampaignScenarioPageList IntroPages;
+    public WMCampaignScenarioPageList OutroPages;
+    public byte MapKind;
 
     // AoWVideoDlg.pas:295
     public override void Dispose()
     {
-        FIntroPages?.Dispose();
-        FOutroPages?.Dispose();
-        FPaths?.Dispose();
+        IntroPages?.Dispose();
+        OutroPages?.Dispose();
+        Paths?.Dispose();
         base.Dispose();
     }
 
     // AoWVideoDlg.pas:308
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+        base.ReadWrite(stream);
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            Stream.rwString(ref FImageLibrary, 12);
+            stream.rwString(ref ImageLibrary, 12);
         }
 
-        Stream.rwString(ref FPathDescription, 13);
-        Stream.rwString(ref FDescription, 14);
-        Stream.rwBool(ref F_WMCampaignScenario_20, 15);
-        Stream.rwInteger(ref FMapX, 16);
-        Stream.rwInteger(ref FMapY, 17);
-        Stream.rwEObject(FIntroPages, 19);
-        Stream.rwEObject(FOutroPages, 20);
-        Stream.rwStreamProc(21, FPaths.LoadFromStream, FPaths.SaveToStream);
-        Stream.rwData(Bytes.Of(ref FMapKind, 1), 1, 22);
+        stream.rwString(ref PathDescription, 13);
+        stream.rwString(ref Description, 14);
+        stream.rwBool(ref Reserved20, 15);
+        stream.rwInteger(ref MapX, 16);
+        stream.rwInteger(ref MapY, 17);
+        stream.rwEObject(IntroPages, 19);
+        stream.rwEObject(OutroPages, 20);
+        stream.rwStreamProc(21, Paths.LoadFromStream, Paths.SaveToStream);
+        stream.rwData(Bytes.Of(ref MapKind, 1), 1, 22);
     }
 
     // AoWVideoDlg.pas:278
     public WorldMapCampaignScenario(ECustomNode owner) : base(owner)
     {
-        FIntroPages = new WMCampaignScenarioPageList(null);
-        FOutroPages = new WMCampaignScenarioPageList(null);
+        IntroPages = new WMCampaignScenarioPageList(null);
+        OutroPages = new WMCampaignScenarioPageList(null);
         for (int I = 0; I <= 9; I++)
         {
-            new CampaignScenarioPage(FIntroPages);
-            new CampaignScenarioPage(FOutroPages);
+            new CampaignScenarioPage(IntroPages);
+            new CampaignScenarioPage(OutroPages);
         }
 
-        FPaths = new Int32List();
-        FPaths.Default = -1;
+        Paths = new Int32List();
+        Paths.Default = -1;
     }
 
 }

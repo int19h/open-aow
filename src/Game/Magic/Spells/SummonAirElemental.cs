@@ -10,15 +10,15 @@ public partial class SummonAirElemental : SummonSpell
     // SummonSpells.pas:366
     public SummonAirElemental(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(SummonAirElementalRStr);
-        FSpellID = 27;
-        FBaseManaCost = 5;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Air;
-        FUnitIndices.Add(224);
-        FCastDuration = 40;
-        FAIBasePriority = 750;
+        SpellName = AbilityRules.TranslateResourceString(s_summonAirElementalText);
+        SpellId = 27;
+        BaseManaCost = 5;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Air;
+        UnitIndices.Add(224);
+        CastDuration = 40;
+        AIBasePriority = 750;
     }
 
-    private static readonly string SummonAirElementalRStr = "Summon Air Elemental";
+    private static readonly string s_summonAirElementalText = "Summon Air Elemental";
 }

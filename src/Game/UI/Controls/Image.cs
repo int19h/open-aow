@@ -5,33 +5,33 @@ namespace Aow.Game.UI.Controls;
 
 // { The AoWImage unit of aowInt.dpl: TAOWImage, a control that shows one image of an image
 //   library as a texture filling its rectangle, or plays the images AnimStart..AnimEnd as an
-//   animation, one image every AnimFrameDelay updates. Its mouse events get coordinates relative
+//   animation, one image every AnimationFrameDelay updates. Its mouse events get coordinates relative
 //   to the control. }
 // Fields: FAnimate, FAnimFrameDelay, FFrameCount (updates left until the next image),
-// FAnimStart, FCurrentImage, FAnimEnd, FImageLib
+// _animationStart, _currentImage, _animationEnd, _imageLibrary
 public partial class Image : Control
 {
     public Image(Component owner) : base(owner)
     { }
 
-    public bool FAnimate;
-    public int FAnimFrameDelay;
-    public int FFrameCount;
-    public int FAnimStart;
-    public int FCurrentImage;
-    public int FAnimEnd;
+    public bool _animate;
+    public int _animationFrameDelay;
+    public int FrameCount;
+    public int _animationStart;
+    public int _currentImage;
+    public int _animationEnd;
 
     // AoWImage.pas:79
     public override void SetSize()
     {
-        if (FWinWidth == 0)
+        if (_winWidth == 0)
         {
-            FWinWidth = FImageLib[FCurrentImage].Width;
+            _winWidth = _imageLibrary[_currentImage].Width;
         }
 
-        if (FWinHeight == 0)
+        if (_winHeight == 0)
         {
-            FWinHeight = FImageLib[FCurrentImage].Height;
+            _winHeight = _imageLibrary[_currentImage].Height;
         }
 
         base.SetSize();
@@ -41,19 +41,19 @@ public partial class Image : Control
     public override void Update()
     {
         int I;
-        if (FVisible && FAnimate == true)
+        if (_visible && _animate == true)
         {
-            if (FFrameCount > 0)
+            if (FrameCount > 0)
             {
-                FFrameCount -= 1;
+                FrameCount -= 1;
             }
             else
             {
-                FFrameCount = FAnimFrameDelay;
-                I = FCurrentImage + 1;
-                if (I > FAnimEnd)
+                FrameCount = _animationFrameDelay;
+                I = _currentImage + 1;
+                if (I > _animationEnd)
                 {
-                    I = FAnimStart;
+                    I = _animationStart;
                 }
 
                 SetCurrent(I);
@@ -64,172 +64,172 @@ public partial class Image : Control
     }
 
     // AoWImage.pas:163
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        base.CheckMouseDown(Button, Shift, X, Y);
-        FHandled = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        base.CheckMouseDown(button, shift, X, Y);
+        Handled = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = FCaptureInput;
-            if (FOnMouseDown != null)
+            Handled = _captureInput;
+            if (_onMouseDown != null)
             {
-                FOnMouseDown(this, Button, Shift, X - FAOWWindow.FWinLeft - FWinLeft, Y - FAOWWindow.FWinTop - FWinTop);
+                _onMouseDown(this, button, shift, X - _window._winLeft - _winLeft, Y - _window._winTop - _winTop);
             }
         }
     }
 
     // AoWImage.pas:177
-    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        FHandled = false;
-        FRedraw = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        Handled = false;
+        Redraw = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = FCaptureInput;
-            if (FOnMouseUp != null)
+            Handled = _captureInput;
+            if (_onMouseUp != null)
             {
-                FOnMouseUp(this, Button, Shift, X, Y);
+                _onMouseUp(this, button, shift, X, Y);
             }
         }
     }
 
     // AoWImage.pas:190
-    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        base.CheckMouseMove(Shift, X, Y);
-        FHandled = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        base.CheckMouseMove(shift, X, Y);
+        Handled = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = FCaptureInput;
-            if (FOnMouseMove != null)
+            Handled = _captureInput;
+            if (_onMouseMove != null)
             {
-                FOnMouseMove(this, Shift, X - FAOWWindow.FWinLeft - FWinLeft, Y - FAOWWindow.FWinTop - FWinTop);
+                _onMouseMove(this, shift, X - _window._winLeft - _winLeft, Y - _window._winTop - _winTop);
             }
         }
     }
 
     // AoWImage.pas:203
-    public override void CheckKeyPress(ref byte Key)
+    public override void CheckKeyPress(ref byte key)
     {
-        FHandled = false;
+        Handled = false;
     }
 
     // AoWImage.pas:88
-    public void SetAnim(bool Value)
+    public void SetAnimation(bool value)
     {
-        if (Value != FAnimate)
+        if (value != _animate)
         {
-            FAnimate = Value;
-            FValid = false;
+            _animate = value;
+            Valid = false;
         }
     }
 
     // AoWImage.pas:97
-    public void SetStart(int Value)
+    public void SetStart(int value)
     {
-        if (Value < 0)
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        if (Value != FAnimStart)
+        if (value != _animationStart)
         {
-            FAnimStart = Value;
-            FValid = false;
+            _animationStart = value;
+            Valid = false;
         }
     }
 
     // AoWImage.pas:108
-    public void SetCurrent(int Value)
+    public void SetCurrent(int value)
     {
-        if (Value < FAnimStart)
+        if (value < _animationStart)
         {
-            Value = FAnimStart;
+            value = _animationStart;
         }
 
-        if (Value != FCurrentImage)
+        if (value != _currentImage)
         {
-            FCurrentImage = Value;
-            FDrawn = false;
+            _currentImage = value;
+            Drawn = false;
         }
     }
 
     // AoWImage.pas:119
-    public void SetEnd(int Value)
+    public void SetEnd(int value)
     {
-        if (Value != FAnimEnd)
+        if (value != _animationEnd)
         {
-            FAnimEnd = Value;
-            FValid = false;
+            _animationEnd = value;
+            Valid = false;
         }
     }
 
     [Published]
-    public int AnimStart { get => FAnimStart; set => SetStart(value); }
+    public int AnimationStart { get => _animationStart; set => SetStart(value); }
 
     [Published]
-    public int CurrentImage { get => FCurrentImage; set => SetCurrent(value); }
+    public int CurrentImage { get => _currentImage; set => SetCurrent(value); }
 
     [Published]
-    public int AnimEnd { get => FAnimEnd; set => SetEnd(value); }
+    public int AnimationEnd { get => _animationEnd; set => SetEnd(value); }
 
     [Published]
-    public bool Animate { get => FAnimate; set => SetAnim(value); }
+    public bool Animate { get => _animate; set => SetAnimation(value); }
 
     [Published]
-    public int AnimFrameDelay { get => FAnimFrameDelay; set => FAnimFrameDelay = value; }
+    public int AnimationFrameDelay { get => _animationFrameDelay; set => _animationFrameDelay = value; }
 
     public new NotifyEvent<Image> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<Image> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<Image> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<Image> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<Image> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<Image> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<Image> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<Image> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<Image> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 }

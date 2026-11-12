@@ -25,46 +25,46 @@ namespace Aow.Game.AI.Groups;
 public partial class AIGroup : UnitUserList, IAIGroupClass
 {
     // AIGroup.pas:101
-    public new const int ClassID = 136272;
+    public new const int ClassId = 136272;
 
     // AIGroup.pas:57
     public AIGroup(ECustomNode owner) : base(owner)
     {
-        FRefCount = 1;
-        FStatus = Set<AIGroupStatusElement>.Of();
-        FProductions = new AIGroupProductionList(null);
-        FGroupID = -1;
-        FPlayer = -1;
-        FIndependentRelation = -1;
-        FTransporterID = -1;
-        FLeaderID = -1;
-        FProcessPriority = 10;
-        FRecruitmentPriority = 10;
+        RefCount = 1;
+        Status = Set<AIGroupStatusElement>.Of();
+        Productions = new AIGroupProductionList(null);
+        GroupId = -1;
+        Player = -1;
+        IndependentRelation = -1;
+        TransporterId = -1;
+        LeaderId = -1;
+        ProcessPriority = 10;
+        RecruitmentPriority = 10;
     }
 
-    public Set<AIGroupStatusElement> FStatus;
-    public int FRefCount;
-    public Troop FLeader;
-    public Troop FTransporter;
-    public AIGroupProductionList FProductions;
-    public int FGroupID;
-    public sbyte FPlayer;
-    public int FLeaderID;
-    public int FTransporterID;
-    public sbyte FIndependentRelation;
-    public MapCoordinate FTargetXYL;
-    public AIGroupTargetStatus FTargetType;
-    public int FGoldBudget;
-    public int FManaBudget;
-    public int FTargetMovePoints;
-    public byte FTargetMode;
-    public byte FProcessPriority;
-    public byte FRecruitmentPriority;
+    public Set<AIGroupStatusElement> Status;
+    public int RefCount;
+    public Troop Leader;
+    public Troop Transporter;
+    public AIGroupProductionList Productions;
+    public int GroupId;
+    public sbyte Player;
+    public int LeaderId;
+    public int TransporterId;
+    public sbyte IndependentRelation;
+    public MapCoordinate TargetMapCoordinate;
+    public AIGroupTargetStatus TargetType;
+    public int GoldBudget;
+    public int ManaBudget;
+    public int TargetMovePoints;
+    public byte TargetMode;
+    public byte ProcessPriority;
+    public byte RecruitmentPriority;
 
     // AIGroup.pas:72
     public override void Dispose()
     {
-        if (AoWHSMap.Current != null && AoWHSMap.Current.FUnitControl == null && Count != 0)
+        if (AoWHSMap.Current != null && AoWHSMap.Current.UnitControl == null && Count != 0)
         {
             // { Original diagnostic raises and immediately swallows its exception. }
             try
@@ -76,105 +76,105 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
             }
         }
 
-        if (FStatus.Contains(AIGroupStatusElement.Activated))
+        if (Status.Contains(AIGroupStatusElement.Activated))
         {
             Deactivate();
         }
 
         Clear();
-        FProductions?.Dispose();
+        Productions?.Dispose();
         base.Dispose();
     }
 
     // AIGroup.pas:104
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FGroupID, 20);
-        Stream.rwIntegerEx(ref FTransporterID, -1, 21);
-        Stream.rwIntegerEx(ref FLeaderID, -1, 22);
-        Stream.rwInteger(ref Unsafe.As<MapCoordinate, int>(ref FTargetXYL), 23);
-        Stream.rwData(Bytes.Of(ref FTargetType, 1), 1, 24);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 25);
-        Stream.rwData(Bytes.Of(ref FIndependentRelation, 1), 1, 26);
-        Stream.rwByte(ref FProcessPriority, 27);
-        Stream.rwByte(ref FRecruitmentPriority, 28);
-        Stream.rwInteger(ref FGoldBudget, 29);
-        Stream.rwInteger(ref FManaBudget, 30);
-        Stream.rwInteger(ref FTargetMovePoints, 31);
-        Stream.rwData(Bytes.Of(ref FTargetMode, 1), 1, 32);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref GroupId, 20);
+        stream.rwIntegerEx(ref TransporterId, -1, 21);
+        stream.rwIntegerEx(ref LeaderId, -1, 22);
+        stream.rwInteger(ref Unsafe.As<MapCoordinate, int>(ref TargetMapCoordinate), 23);
+        stream.rwData(Bytes.Of(ref TargetType, 1), 1, 24);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 25);
+        stream.rwData(Bytes.Of(ref IndependentRelation, 1), 1, 26);
+        stream.rwByte(ref ProcessPriority, 27);
+        stream.rwByte(ref RecruitmentPriority, 28);
+        stream.rwInteger(ref GoldBudget, 29);
+        stream.rwInteger(ref ManaBudget, 30);
+        stream.rwInteger(ref TargetMovePoints, 31);
+        stream.rwData(Bytes.Of(ref TargetMode, 1), 1, 32);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int("GroupID", ref FGroupID);
-        persister.Int("TransporterID", ref FTransporterID, -1);
-        persister.Int("LeaderID", ref FLeaderID, -1);
-        int target = FTargetXYL.Packed;
-        persister.Int("TargetXYL", ref target);
-        if (persister.Loading) FTargetXYL.Packed = target;
-        persister.Enum("TargetType", ref FTargetType);
-        PersistSupport.UnsignedByte(persister, "Player", ref FPlayer);
-        persister.RawSByte("IndependentRelation", ref FIndependentRelation);
-        persister.Byte("ProcessPriority", ref FProcessPriority);
-        persister.Byte("RecruitmentPriority", ref FRecruitmentPriority);
-        persister.Int("GoldBudget", ref FGoldBudget);
-        persister.Int("ManaBudget", ref FManaBudget);
-        persister.Int("TargetMovePoints", ref FTargetMovePoints);
-        persister.RawByte("TargetMode", ref FTargetMode);
+        persister.Int32("GroupID", ref GroupId);
+        persister.Int32("TransporterID", ref TransporterId, -1);
+        persister.Int32("LeaderID", ref LeaderId, -1);
+        int target = TargetMapCoordinate.Packed;
+        persister.Int32("TargetXYL", ref target);
+        if (persister.Loading) TargetMapCoordinate.Packed = target;
+        persister.Enum("TargetType", ref TargetType);
+        PersistSupport.UnsignedByte(persister, "Player", ref Player);
+        persister.RawSByte("IndependentRelation", ref IndependentRelation);
+        persister.Byte("ProcessPriority", ref ProcessPriority);
+        persister.Byte("RecruitmentPriority", ref RecruitmentPriority);
+        persister.Int32("GoldBudget", ref GoldBudget);
+        persister.Int32("ManaBudget", ref ManaBudget);
+        persister.Int32("TargetMovePoints", ref TargetMovePoints);
+        persister.RawByte("TargetMode", ref TargetMode);
     }
 
     // AIGroup.pas:88
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // AIGroup.pas:94
     public override int Release()
     {
-        FRefCount -= 1;
-        int Result = FRefCount;
-        if (FRefCount == 0)
+        RefCount -= 1;
+        int result = RefCount;
+        if (RefCount == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:127
     public override void Clear()
     {
-        Troop Transporter;
-        while (FChildren.Count != 0)
+        Troop transporter;
+        while (_children.Count != 0)
         {
-            DeleteUnit((Troop)FChildren.List[FChildren.Count - 1]);
+            DeleteUnit((Troop)_children.List[_children.Count - 1]);
         }
 
-        Transporter = FTransporter;
-        if (Transporter != null)
+        transporter = Transporter;
+        if (transporter != null)
         {
-            DeleteUnit(Transporter);
+            DeleteUnit(transporter);
         }
 
-        FLeader = null;
-        FLeaderID = -1;
+        Leader = null;
+        LeaderId = -1;
     }
 
     // AIGroup.pas:515
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001986)
         {
-            NewTurn((sbyte)Msg.Payload.Int);
+            NewTurn((sbyte)message.Payload.Int);
         }
         else
         {
-            if (Msg.MsgID == 536870920)
+            if (message.MessageId == 536870920)
             {
                 Activate();
                 ValidateEmpty();
@@ -183,129 +183,129 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     }
 
     // AIGroup.pas:162
-    public override void GetLocation(ref sbyte Xhx, ref sbyte Yhx, ref sbyte Lhx)
+    public override void GetLocation(ref sbyte hexX, ref sbyte hexY, ref sbyte hexLevel)
     {
-        MapCoordinate Location = default;
-        Location.Packed = GetLoc();
-        Xhx = Location.X;
-        Yhx = Location.Y;
-        Lhx = Location.L;
+        MapCoordinate location = default;
+        location.Packed = GetLocation();
+        hexX = location.X;
+        hexY = location.Y;
+        hexLevel = location.MapLevel;
     }
 
     // AIGroup.pas:365
-    public override bool AddUnit(Troop AUnit)
+    public override bool AddUnit(Troop troop)
     {
-        bool Result;
-        AIGroup Group;
-        if (IndexOf(AUnit) == -1)
+        bool result;
+        AIGroup group;
+        if (IndexOf(troop) == -1)
         {
-            Group = AUnit.FGroup;
-            if (Group != null)
+            group = troop.Group;
+            if (group != null)
             {
-                Group.DeleteUnit(AUnit);
+                group.DeleteUnit(troop);
             }
 
-            if (AUnit.FUnitID != FTransporterID || !AUnit.GetTransporter())
+            if (troop.UnitId != TransporterId || !troop.GetTransporter())
             {
-                AddChild(AUnit);
-                if (FLeaderID == -1)
+                AddChild(troop);
+                if (LeaderId == -1)
                 {
-                    SetLeader(AUnit);
+                    SetLeader(troop);
                 }
             }
             else
             {
-                FTransporter = AUnit;
-                FTransporter.AddRef();
+                Transporter = troop;
+                Transporter.AddRef();
             }
 
-            AUnit.FGroupID = FGroupID;
-            AUnit.FGroup = this;
-            FStatus = FStatus + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
-            Result = true;
+            troop.GroupId = GroupId;
+            troop.Group = this;
+            Status = Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
         ValidateEmpty();
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:401
-    public override bool DeleteUnit(Troop AUnit)
+    public override bool DeleteUnit(Troop troop)
     {
-        bool Result;
+        bool result;
         int I;
-        sbyte X1 = default;
-        sbyte Y1 = default;
-        sbyte L1 = default;
-        sbyte X2 = default;
-        sbyte Y2 = default;
-        sbyte L2 = default;
-        Troop Leader;
-        AUnit.AddRef();
-        if (RemoveChild(AUnit) != -1)
+        sbyte x1 = default;
+        sbyte y1 = default;
+        sbyte l1 = default;
+        sbyte x2 = default;
+        sbyte y2 = default;
+        sbyte l2 = default;
+        Troop leader;
+        troop.AddRef();
+        if (RemoveChild(troop) != -1)
         {
-            AUnit.FGroupID = 0;
-            AUnit.FGroup = null;
-            Leader = FLeader;
-            if (Leader == AUnit)
+            troop.GroupId = 0;
+            troop.Group = null;
+            leader = Leader;
+            if (leader == troop)
             {
-                Leader.GetLocation(ref X1, ref Y1, ref L1);
-                FLeader = null;
-                FLeaderID = -1;
+                leader.GetLocation(ref x1, ref y1, ref l1);
+                Leader = null;
+                LeaderId = -1;
                 I = Count;
-                while (I != 0 && FLeader == null)
+                while (I != 0 && Leader == null)
                 {
                     I -= 1;
-                    ((Troop)FChildren.List[I]).GetLocation(ref X2, ref Y2, ref L2);
-                    if (X1 == X2 && Y1 == Y2 && L1 == L2)
+                    ((Troop)_children.List[I]).GetLocation(ref x2, ref y2, ref l2);
+                    if (x1 == x2 && y1 == y2 && l1 == l2)
                     {
-                        SetLeader((Troop)FChildren.List[I]);
+                        SetLeader((Troop)_children.List[I]);
                     }
                 }
 
-                if (FLeader == null && Count != 0)
+                if (Leader == null && Count != 0)
                 {
-                    SetLeader((Troop)FChildren.List[0]);
+                    SetLeader((Troop)_children.List[0]);
                 }
             }
 
-            FStatus = FStatus + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
-            Result = true;
+            Status = Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
+            result = true;
         }
         else
         {
-            if (AUnit == FTransporter)
+            if (troop == Transporter)
             {
-                AUnit.FGroupID = 0;
-                AUnit.FGroup = null;
-                FTransporterID = -1;
-                FTransporter.Release();
-                FTransporter = null;
-                FStatus = FStatus + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
-                Result = true;
+                troop.GroupId = 0;
+                troop.Group = null;
+                TransporterId = -1;
+                Transporter.Release();
+                Transporter = null;
+                Status = Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
+                result = true;
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
 
         ValidateEmpty();
-        AUnit.Release();
-        return Result;
+        troop.Release();
+        return result;
     }
 
     // AIGroup.pas:391
-    public override bool AddUnits(UnitList Units)
+    public override bool AddUnits(UnitList units)
     {
         AddRef();
-        for (int I = Units.Count - 1; I >= 0; I--)
+        for (int I = units.Count - 1; I >= 0; I--)
         {
-            AddUnit(Units.GetUnit(I));
+            AddUnit(units.GetUnit(I));
         }
 
         Release();
@@ -313,397 +313,397 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     }
 
     // AIGroup.pas:212
-    public virtual int GetGoldBudget() => FGoldBudget;
+    public virtual int GetGoldBudget() => GoldBudget;
 
     // AIGroup.pas:216
-    public virtual int GetManaBudget() => FManaBudget;
+    public virtual int GetManaBudget() => ManaBudget;
 
     // AIGroup.pas:148
-    public virtual int GetLoc()
+    public virtual int GetLocation()
     {
-        MapCoordinate Location = default;
+        MapCoordinate location = default;
         // { Reach the leader through its field. }
-        if (FLeader != null)
+        if (Leader != null)
         {
-            FLeader.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
-            Location.Flag = 0;
+            Leader.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
+            location.Tag = 0;
         }
         else
         {
-            Location.Packed = 16777215;
+            location.Packed = 16777215;
         }
 
-        return Location.Packed;
+        return location.Packed;
     }
 
     // AIGroup.pas:510
-    public virtual void NewTurn(sbyte Player)
+    public virtual void NewTurn(sbyte player)
     {
-        if (Player == FPlayer)
+        if (player == Player)
         {
-            FStatus = FStatus - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Done);
+            Status = Status - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Done);
         }
     }
 
     // AIGroup.pas:138
     public virtual AIGroupControl CreateGroupControl()
     {
-        AIGroupControl Result = (AIGroupControl)GroupControlClass().Create(null);
-        Result.FGroup = this;
+        AIGroupControl result = (AIGroupControl)GroupControlClass().CreateInstance(null);
+        result.Group = this;
         AddRef();
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:463
-    public virtual bool DefendLocation(int Location, DefensePriority Priority)
+    public virtual bool DefendLocation(int location, DefensePriority priority)
     {
-        bool Result;
-        MapCoordinate GroupLocation = default;
-        GroupLocation.Packed = GetLoc();
-        if (Unsafe.As<int, MapCoordinate>(ref Location).L == GroupLocation.L && HexGeometry.dHXtoRad(Unsafe.As<int, MapCoordinate>(ref Location).X, Unsafe.As<int, MapCoordinate>(ref Location).Y, GroupLocation.X, GroupLocation.Y) <= 1)
+        bool result;
+        MapCoordinate groupLocation = default;
+        groupLocation.Packed = GetLocation();
+        if (Unsafe.As<int, MapCoordinate>(ref location).MapLevel == groupLocation.MapLevel && HexGeometry.DeltaHexToRadius(Unsafe.As<int, MapCoordinate>(ref location).X, Unsafe.As<int, MapCoordinate>(ref location).Y, groupLocation.X, groupLocation.Y) <= 1)
         {
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:459
-    public virtual bool CooperateWithGroup(AIGroup Group, AIGroupControlTarget Target) => Group.GroupClass.Behavior == GroupClass.Behavior;
+    public virtual bool CooperateWithGroup(AIGroup group, AIGroupControlTarget target) => group.GroupClass.Behavior == GroupClass.Behavior;
 
     // AIGroup.pas:473
-    public virtual bool GetRecruitableUnits(AIGroup Recruiter, UnitList Units, UnitList Recruitable) => false;
+    public virtual bool GetRecruitableUnits(AIGroup recruiter, UnitList units, UnitList recruitable) => false;
 
     // AIGroup.pas:144
-    public int GetProcessPriority() => Count + (FProcessPriority << 16);
+    public int GetProcessPriority() => Count + (ProcessPriority << 16);
 
     // AIGroup.pas:171
     public bool GetAdjacent()
     {
-        MapCoordinateList Locations;
+        MapCoordinateList locations;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        Locations = new MapCoordinateList();
+        locations = new MapCoordinateList();
         for (int I = Count - 1; I >= 0; I--)
         {
             GetUnit(I).GetLocation(ref X, ref Y, ref L);
-            Locations.Add(HexGeometry.PackXYL(X, Y, L));
+            locations.Add(HexGeometry.PackMapCoordinate(X, Y, L));
         }
 
-        bool Result = MapCoordinateList.LocationsConnected(Locations);
-        Locations?.Dispose();
-        return Result;
+        bool result = MapCoordinateList.LocationsConnected(locations);
+        locations?.Dispose();
+        return result;
     }
 
     // AIGroup.pas:186
-    public void SetLeader(Troop AUnit)
+    public void SetLeader(Troop troop)
     {
-        if (IndexOf(AUnit) != -1)
+        if (IndexOf(troop) != -1)
         {
-            FLeader = AUnit;
-            FLeaderID = AUnit.FUnitID;
+            Leader = troop;
+            LeaderId = troop.UnitId;
         }
     }
 
     // AIGroup.pas:194
     public int GetMovePointsMin()
     {
-        int Result = 50;
+        int result = 50;
         for (int I = Count - 1; I >= 0; I--)
         {
-            if (Result > GetUnit(I).GetMovePoints())
+            if (result > GetUnit(I).GetMovePoints())
             {
-                Result = GetUnit(I).GetMovePoints();
+                result = GetUnit(I).GetMovePoints();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:203
     public int GetMovesMin()
     {
-        int Result = 50;
+        int result = 50;
         for (int I = Count - 1; I >= 0; I--)
         {
-            if (Result > GetUnit(I).GetMoves())
+            if (result > GetUnit(I).GetMoves())
             {
-                Result = GetUnit(I).GetMoves();
+                result = GetUnit(I).GetMoves();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:220
     public void ResetTargetExpense()
     {
-        FGoldBudget = 0;
-        FManaBudget = 0;
+        GoldBudget = 0;
+        ManaBudget = 0;
     }
 
     // AIGroup.pas:225
     public void ReturnTargetExpense()
     {
-        if (FGoldBudget > 0 || FManaBudget > 0)
+        if (GoldBudget > 0 || ManaBudget > 0)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIBudget.ReturnExpense(FGoldBudget, FManaBudget);
-            FGoldBudget = 0;
-            FManaBudget = 0;
+            AoWHSMap.Current.Players.GetPlayers(Player).AIBudget.ReturnExpense(GoldBudget, ManaBudget);
+            GoldBudget = 0;
+            ManaBudget = 0;
         }
     }
 
     // AIGroup.pas:234
-    public bool RequestTargetExpense(int Gold, int Mana)
+    public bool RequestTargetExpense(int gold, int mana)
     {
         int G;
         int M;
-        G = Gold - FGoldBudget;
-        M = Mana - FManaBudget;
-        var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-        return AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIBudget.RequestBudgetExpense(G, M, players.FAIBudget.FDefaultBudget, true);
+        G = gold - GoldBudget;
+        M = mana - ManaBudget;
+        var players = AoWHSMap.Current.Players.GetPlayers(Player);
+        return AoWHSMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(G, M, players.AIBudget.DefaultBudget, true);
     }
 
     // AIGroup.pas:243
-    public bool MakeTargetExpense(int Gold, int Mana)
+    public bool MakeTargetExpense(int gold, int mana)
     {
-        bool Result;
-        if (RequestTargetExpense(Gold, Mana))
+        bool result;
+        if (RequestTargetExpense(gold, mana))
         {
             ReturnTargetExpense();
-            var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-            Result = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIBudget.BudgetExpenseMade(Gold, Mana, players.FAIBudget.FDefaultBudget, AIBudgetManager.ExpenseMode.PoolThenBudget);
-            if (Result)
+            var players = AoWHSMap.Current.Players.GetPlayers(Player);
+            result = AoWHSMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(gold, mana, players.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.PoolThenBudget);
+            if (result)
             {
-                FGoldBudget = Gold;
-                FManaBudget = Mana;
+                GoldBudget = gold;
+                ManaBudget = mana;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:258
-    public bool SetupTargetEx(MapCoordinate Location, int MovePoints, AIGroupTargetStatus TargetType, byte Mode, int TransporterID, int Gold, int Mana)
+    public bool SetupTarget(MapCoordinate location, int movePoints, AIGroupTargetStatus targetType, byte mode, int transporterId, int gold, int mana)
     {
-        bool Result;
-        Troop Transporter;
-        if (Unsafe.As<MapCoordinate, int>(ref Location) != 16777215)
+        bool result;
+        Troop transporter;
+        if (Unsafe.As<MapCoordinate, int>(ref location) != 16777215)
         {
-            Unsafe.As<MapCoordinate, int>(ref FTargetXYL) = Unsafe.As<MapCoordinate, int>(ref Location) + 0;
-            FTargetType = TargetType;
-            FTargetMovePoints = MovePoints;
-            FTargetMode = (byte)(Mode << 0);
-            if (TargetType == AIGroupTargetStatus.Execute)
+            Unsafe.As<MapCoordinate, int>(ref TargetMapCoordinate) = Unsafe.As<MapCoordinate, int>(ref location) + 0;
+            TargetType = targetType;
+            TargetMovePoints = movePoints;
+            TargetMode = (byte)(mode << 0);
+            if (targetType == AIGroupTargetStatus.Execute)
             {
                 var movePointsMin = GetMovePointsMin();
-                FTargetMovePoints -= movePointsMin;
+                TargetMovePoints -= movePointsMin;
             }
 
-            Result = MakeTargetExpense(Gold, Mana);
+            result = MakeTargetExpense(gold, mana);
         }
         else
         {
-            Unsafe.As<MapCoordinate, int>(ref FTargetXYL) = 16777215;
-            FTargetType = TargetType;
-            FTargetMode = (byte)(Mode << 0);
-            FTargetMovePoints = 0;
+            Unsafe.As<MapCoordinate, int>(ref TargetMapCoordinate) = 16777215;
+            TargetType = targetType;
+            TargetMode = (byte)(mode << 0);
+            TargetMovePoints = 0;
             ReturnTargetExpense();
-            Result = true;
+            result = true;
         }
 
-        if (Unsafe.As<MapCoordinate, int>(ref Location) != 16777215 && TransporterID != -1)
+        if (Unsafe.As<MapCoordinate, int>(ref location) != 16777215 && transporterId != -1)
         {
-            AddTransporter(AoWHSMap.Current.FUnitControl.FindUnit(TransporterID));
+            AddTransporter(AoWHSMap.Current.UnitControl.FindUnit(transporterId));
         }
         else
         {
-            Transporter = FTransporter;
-            if (Transporter != null)
+            transporter = Transporter;
+            if (transporter != null)
             {
-                DeleteUnit(Transporter);
+                DeleteUnit(transporter);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:290
-    public bool SetupTarget(AIGroupControlTarget Target, AIGroupTargetStatus TargetType, byte Mode)
+    public bool SetupTarget(AIGroupControlTarget target, AIGroupTargetStatus targetType, byte mode)
     {
-        bool Result;
-        Troop Transporter;
-        if (Target != null)
+        bool result;
+        Troop transporter;
+        if (target != null)
         {
-            FTargetXYL = Target.FLocation;
-            FTargetType = TargetType;
-            FTargetMovePoints = Target.FMovePoints;
-            FTargetMode = Mode;
-            if (TargetType == AIGroupTargetStatus.Execute)
+            TargetMapCoordinate = target.Location;
+            TargetType = targetType;
+            TargetMovePoints = target.MovePoints;
+            TargetMode = mode;
+            if (targetType == AIGroupTargetStatus.Execute)
             {
                 var movePointsMin = GetMovePointsMin();
-                FTargetMovePoints -= movePointsMin;
+                TargetMovePoints -= movePointsMin;
             }
 
-            var targetMana = Target.GetTargetMana();
-            Result = MakeTargetExpense(Target.GetTargetGold(), targetMana);
+            var targetMana = target.GetTargetMana();
+            result = MakeTargetExpense(target.GetTargetGold(), targetMana);
         }
         else
         {
-            Unsafe.As<MapCoordinate, int>(ref FTargetXYL) = 16777215;
-            FTargetType = TargetType;
-            FTargetMode = Mode;
-            FTargetMovePoints = 0;
+            Unsafe.As<MapCoordinate, int>(ref TargetMapCoordinate) = 16777215;
+            TargetType = targetType;
+            TargetMode = mode;
+            TargetMovePoints = 0;
             ReturnTargetExpense();
-            Result = true;
+            result = true;
         }
 
-        if (Target != null && Target.FTransporterID != -1)
+        if (target != null && target.TransporterId != -1)
         {
-            AddTransporter(AoWHSMap.Current.FUnitControl.FindUnit(Target.FTransporterID));
+            AddTransporter(AoWHSMap.Current.UnitControl.FindUnit(target.TransporterId));
         }
         else
         {
-            Transporter = FTransporter;
-            if (Transporter != null)
+            transporter = Transporter;
+            if (transporter != null)
             {
-                DeleteUnit(Transporter);
+                DeleteUnit(transporter);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:321
     public void ValidateEmpty()
     {
-        bool Empty;
-        Empty = Count == 0 && FTransporterID == -1;
-        if (Empty && !FStatus.Contains(AIGroupStatusElement.Empty))
+        bool empty;
+        empty = Count == 0 && TransporterId == -1;
+        if (empty && !Status.Contains(AIGroupStatusElement.Empty))
         {
-            FStatus = FStatus + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Empty);
+            Status = Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Empty);
             Release();
         }
         else
         {
-            if (!Empty && FStatus.Contains(AIGroupStatusElement.Empty))
+            if (!empty && Status.Contains(AIGroupStatusElement.Empty))
             {
-                FStatus = FStatus - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Empty);
+                Status = Status - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Empty);
                 AddRef();
             }
         }
     }
 
     // AIGroup.pas:337
-    public void AddTransporter(Troop AUnit)
+    public void AddTransporter(Troop troop)
     {
-        Troop OldTransporter;
-        AIGroup Group;
-        OldTransporter = FTransporter;
-        if (OldTransporter != AUnit)
+        Troop oldTransporter;
+        AIGroup group;
+        oldTransporter = Transporter;
+        if (oldTransporter != troop)
         {
-            if (OldTransporter != null)
+            if (oldTransporter != null)
             {
-                OldTransporter.FGroup = null;
-                OldTransporter.FGroupID = 0;
-                OldTransporter.Release();
+                oldTransporter.Group = null;
+                oldTransporter.GroupId = 0;
+                oldTransporter.Release();
             }
 
-            Group = AUnit.FGroup;
-            if (Group != null)
+            group = troop.Group;
+            if (group != null)
             {
-                Group.DeleteUnit(AUnit);
-                AUnit.FGroupID = 0;
+                group.DeleteUnit(troop);
+                troop.GroupId = 0;
             }
 
-            FTransporterID = AUnit.FUnitID;
-            FTransporter = AUnit;
-            FTransporter.AddRef();
-            AUnit.FGroupID = FGroupID;
-            AUnit.FGroup = this;
+            TransporterId = troop.UnitId;
+            Transporter = troop;
+            Transporter.AddRef();
+            troop.GroupId = GroupId;
+            troop.Group = this;
             ValidateEmpty();
         }
     }
 
     // AIGroup.pas:446
-    public void UnitProduced(ProductionControl Control, Troop AUnit)
+    public void UnitProduced(ProductionControl control, Troop troop)
     {
-        sbyte X1 = default;
-        sbyte Y1 = default;
-        sbyte L1 = default;
-        sbyte X2 = default;
-        sbyte Y2 = default;
-        sbyte L2 = default;
-        if (FLeader != null)
+        sbyte x1 = default;
+        sbyte y1 = default;
+        sbyte l1 = default;
+        sbyte x2 = default;
+        sbyte y2 = default;
+        sbyte l2 = default;
+        if (Leader != null)
         {
-            GetLocation(ref X1, ref Y1, ref L1);
-            AUnit.GetLocation(ref X2, ref Y2, ref L2);
-            if (L1 == L2 && HexGeometry.dHXtoRad(X1, Y1, X2, Y2) <= 2)
+            GetLocation(ref x1, ref y1, ref l1);
+            troop.GetLocation(ref x2, ref y2, ref l2);
+            if (l1 == l2 && HexGeometry.DeltaHexToRadius(x1, y1, x2, y2) <= 2)
             {
-                AddUnit(AUnit);
+                AddUnit(troop);
             }
 
-            FProductions.DeleteUnit(AUnit);
+            Productions.DeleteUnit(troop);
         }
     }
 
     // AIGroup.pas:475
     public void Activate()
     {
-        sbyte Player;
-        Assert(!FStatus.Contains(AIGroupStatusElement.Activated), "", "AIGroup.pas", 479);
-        FStatus = FStatus + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Activated);
-        Player = FPlayer;
-        if (Player != -1)
+        sbyte player;
+        Assert(!Status.Contains(AIGroupStatusElement.Activated), "", "AIGroup.pas", 479);
+        Status = Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Activated);
+        player = Player;
+        if (player != -1)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).FAIGroups.AddChild(this);
+            AoWHSMap.Current.Players.GetPlayers(player).AIGroups.AddChild(this);
         }
 
-        FLeader = FindID(FLeaderID);
-        Assert(FTransporter != null || FTransporterID == -1, "", "AIGroup.pas", 485);
+        Leader = FindId(LeaderId);
+        Assert(Transporter != null || TransporterId == -1, "", "AIGroup.pas", 485);
     }
 
     // AIGroup.pas:488
     public void Deactivate()
     {
-        sbyte Player;
-        if (!FStatus.Contains(AIGroupStatusElement.Activated))
+        sbyte player;
+        if (!Status.Contains(AIGroupStatusElement.Activated))
         {
             // { Preserve the original assertion diagnostic. }
             Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AIGroup.pas", 24094);
         }
 
-        FStatus = FStatus - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Activated);
-        Player = FPlayer;
-        if (Player != -1)
+        Status = Status - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Activated);
+        player = Player;
+        if (player != -1)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).FAIGroups.RemoveChild(this);
+            AoWHSMap.Current.Players.GetPlayers(player).AIGroups.RemoveChild(this);
         }
     }
 
     // AIGroup.pas:498
-    public void SetPlayer(sbyte Player)
+    public void SetPlayer(sbyte player)
     {
-        if (Player != FPlayer)
+        if (player != Player)
         {
-            if (FStatus.Contains(AIGroupStatusElement.Activated) && FPlayer != -1)
+            if (Status.Contains(AIGroupStatusElement.Activated) && Player != -1)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIGroups.RemoveChild(this);
+                AoWHSMap.Current.Players.GetPlayers(Player).AIGroups.RemoveChild(this);
             }
 
-            FPlayer = Player;
-            if (FStatus.Contains(AIGroupStatusElement.Activated) && FPlayer != -1)
+            Player = player;
+            if (Status.Contains(AIGroupStatusElement.Activated) && Player != -1)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIGroups.AddChild(this);
+                AoWHSMap.Current.Players.GetPlayers(Player).AIGroups.AddChild(this);
             }
         }
     }

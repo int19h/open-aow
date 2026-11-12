@@ -7,25 +7,25 @@ namespace Aow.Game.World;
 
 public partial class MapObject
 {
-    private int unlinkedResourceId;
+    private int _unlinkedResourceId;
 
-    protected internal int GetResourceID() => GetResourceLinked() ? FResource.ResourceID : unlinkedResourceId;
+    protected internal int GetResourceId() => GetResourceLinked() ? _resource.ResourceId : _unlinkedResourceId;
 
-    protected internal void SetResourceID(int value)
+    protected internal void SetResourceId(int value)
     {
         if (GetResourceLinked()) throw new InvalidOperationException("Cannot set ResourceID when resource is linked!");
-        unlinkedResourceId = value;
-        FResource = null;
+        _unlinkedResourceId = value;
+        _resource = null;
     }
 
     public virtual bool LinkToResource(GameEngine engine)
     {
         if (!GetResourceLinked())
         {
-            var resource = GetResourceList(engine).FindResource(unlinkedResourceId);
+            var resource = GetResourceList(engine).FindResource(_unlinkedResourceId);
             if (resource != null)
             {
-                FResource = (MapObjectResource)resource;
+                _resource = (MapObjectResource)resource;
                 SetResourceLinked(true);
             }
         }
@@ -34,18 +34,18 @@ public partial class MapObject
 
     public override void ReadWrite(EStorageStream stream)
     {
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(EngineServices.smText, StorageModeElement.Compare)) != default) return;
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(EngineServices.Text, StorageModeElement.Compare)) != default) return;
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             SetResourceLinked(false);
-            stream.rwInteger(ref unlinkedResourceId, 1);
-            FResource = null;
+            stream.rwInteger(ref _unlinkedResourceId, 1);
+            _resource = null;
             LinkToResource(stream.Engine);
-            if (!GetResourceLinked()) throw new MapObjectResourceMissingException($"Resource Missing {GetType().Name} {unlinkedResourceId}");
+            if (!GetResourceLinked()) throw new MapObjectResourceMissingException($"Resource Missing {GetType().Name} {_unlinkedResourceId}");
         }
         else
         {
-            int id = GetResourceID();
+            int id = GetResourceId();
             stream.rwInteger(ref id, 1);
         }
     }

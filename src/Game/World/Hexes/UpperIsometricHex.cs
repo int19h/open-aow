@@ -12,36 +12,36 @@ public partial class UpperIsometricHex : IsometricHex
     public UpperIsometricHex(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131440;
+    public new const int ClassId = 131440;
 
     // IsoHex.pas:355
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        CustomImageLibrary IL;
-        int Xhp = default;
-        int Yhp = default;
-        if (FDynamic == null)
+        CustomImageLibrary imageLibrary;
+        int pixelX = default;
+        int pixelY = default;
+        if (Dynamic == null)
         {
-            HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-            Xhp = Xhp - XhpSurf - 8;
-            Yhp = Yhp - YhpSurf;
-            IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-            IL[(int)(((uint)FSides) >> 6) + 40].Show(Xhp, Yhp, SurfaceDesc);
-            Xhp -= 6;
-            Yhp -= 9;
-            if ((FSides & 1) != 0)
+            HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+            pixelX = pixelX - pixelXSurface - 8;
+            pixelY = pixelY - pixelYSurface;
+            imageLibrary = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+            imageLibrary[(int)(((uint)Sides) >> 6) + 40].Show(pixelX, pixelY, lockedSurface);
+            pixelX -= 6;
+            pixelY -= 9;
+            if ((Sides & 1) != 0)
             {
-                IL[31].Show(Xhp, Yhp, SurfaceDesc);
+                imageLibrary[31].Show(pixelX, pixelY, lockedSurface);
             }
 
-            if ((FSides & 2) != 0)
+            if ((Sides & 2) != 0)
             {
-                IL[32].Show(Xhp, Yhp, SurfaceDesc);
+                imageLibrary[32].Show(pixelX, pixelY, lockedSurface);
             }
 
-            if ((FSides & 32) != 0)
+            if ((Sides & 32) != 0)
             {
-                IL[30].Show(Xhp, Yhp, SurfaceDesc);
+                imageLibrary[30].Show(pixelX, pixelY, lockedSurface);
             }
         }
     }
@@ -51,15 +51,15 @@ public partial class UpperIsometricHex : IsometricHex
         public Resource(ECustomNode owner) : base(owner)
         { }
 
-        public new const int ClassID = 131441;
+        public new const int ClassId = 131441;
 
         // IsoHex.pas:443
-        public override int ResourceUserClassID() => 131440;
+        public override int ResourceUserClassId() => 131440;
 
         // IsoHex.pas:448
-        public override string ResourceEditName() => UpperIsometricHexagonStr;
+        public override string ResourceEditName() => s_upperIsometricHexText;
 
-        private static readonly string UpperIsometricHexagonStr = "Upper Isometric Hexagon";
+        private static readonly string s_upperIsometricHexText = "Upper Isometric Hexagon";
 
     }
 

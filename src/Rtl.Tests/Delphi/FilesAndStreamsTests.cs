@@ -20,7 +20,7 @@ public sealed class FilesAndStreamsTests
     }
 
     [Fact]
-    public void FileOperationsUseReplaceableSystemIoDefault()
+    public void FileOperationsUseReplaceableSystemIODefault()
     {
         using var directory = new ProbeDirectory();
         var saved = Files;

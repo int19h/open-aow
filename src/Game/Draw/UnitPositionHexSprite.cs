@@ -14,32 +14,32 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw;
 
-// FPosition. FIndex. FImageIndex. FImages. FDirection
+// Position. Index. ImageIndex. Images. Direction
 public partial class UnitPositionHexSprite : SingleHexSprite
 {
     public UnitPositionHexSprite(ECustomNode owner) : base(owner)
     {
-        FPosition = 0;
-        FIndex = 0;
-        FDirection = 1;
+        Position = 0;
+        Index = 0;
+        Direction = 1;
     }
 
     // AoWTC.pas:5016
-    public new const int ClassID = 2228483;
+    public new const int ClassId = 2228483;
 
-    public sbyte FPosition;
-    public sbyte FIndex;
-    public int FImageIndex;
-    public CustomImageLibrary FImages;
-    public byte FDirection;
+    public sbyte Position;
+    public sbyte Index;
+    public int ImageIndex;
+    public CustomImageLibrary Images;
+    public byte Direction;
 
     // AoWTC.pas:5060
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPosition), 25);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FIndex), 26);
-        Stream.rwByte(ref FDirection, 27);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Position), 25);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Index), 26);
+        stream.rwByte(ref Direction, 27);
     }
 
     // AoWTC.pas:5008
@@ -48,12 +48,12 @@ public partial class UnitPositionHexSprite : SingleHexSprite
     public override byte GetLevel() => 27;
 
     // AoWTC.pas:5074
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
-        FImages[FImageIndex].ShowClipped(X - XhpSurf - 8, Y - YhpSurf - 8, SurfaceDesc);
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+        Images[ImageIndex].ShowClipped(X - pixelXSurface - 8, Y - pixelYSurface - 8, lockedSurface);
     }
 
     // AoWTC.pas:5031
@@ -61,21 +61,21 @@ public partial class UnitPositionHexSprite : SingleHexSprite
     {
         MapCoordinate P = default;
         base.Activate();
-        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && CombatMap.Current.FUnitPositions.ValidatePosition(ref FPosition, ref FIndex))
+        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && CombatMap.Current.UnitPositions.ValidatePosition(ref Position, ref Index))
         {
-            var yhx = GetYhx();
-            var packXYL = HexGeometry.PackXYL(GetXhx(), yhx, 0);
-            CombatMap.Current.FUnitPositions.SetUnitPosition(FPosition, FIndex, packXYL);
-            FImages = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCUNITS.ILB");
+            var hexY = GetHexY();
+            var packMapCoordinate = HexGeometry.PackMapCoordinate(GetHexX(), hexY, 0);
+            CombatMap.Current.UnitPositions.SetUnitPosition(Position, Index, packMapCoordinate);
+            Images = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCUNITS.ILB");
             UpdateImageIndex();
         }
         else
         {
-            P.X = GetXhx();
-            P.Y = GetYhx();
-            P.L = 0;
-            P.Flag = (sbyte)FDirection;
-            CombatMap.Current.FUnitPositions.SetUnitPosition(FPosition, FIndex, P);
+            P.X = GetHexX();
+            P.Y = GetHexY();
+            P.MapLevel = 0;
+            P.Tag = (sbyte)Direction;
+            CombatMap.Current.UnitPositions.SetUnitPosition(Position, Index, P);
             Dispose();
         }
     }
@@ -85,21 +85,21 @@ public partial class UnitPositionHexSprite : SingleHexSprite
     {
         if (Activated() && ((MapLevel)Owner.Owner).Map.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCUNITS.ILB");
-            var unitPosition = CombatMap.Current.FUnitPositions.GetUnitPosition(FPosition, FIndex);
-            var xhx = GetXhx();
-            bool condition = unitPosition.X == xhx;
+            AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCUNITS.ILB");
+            var unitPosition = CombatMap.Current.UnitPositions.GetUnitPosition(Position, Index);
+            var hexX = GetHexX();
+            bool condition = unitPosition.X == hexX;
             if (condition)
             {
-                var fUnitPositionsUnitPosition = CombatMap.Current.FUnitPositions.GetUnitPosition(FPosition, FIndex);
-                var yhx = GetYhx();
-                condition = fUnitPositionsUnitPosition.Y == yhx;
+                var fUnitPositionsUnitPosition = CombatMap.Current.UnitPositions.GetUnitPosition(Position, Index);
+                var hexY = GetHexY();
+                condition = fUnitPositionsUnitPosition.Y == hexY;
             }
 
             if (condition)
             {
-                var packXYL = HexGeometry.PackXYL(-1, -1, -1);
-                CombatMap.Current.FUnitPositions.SetUnitPosition(FPosition, FIndex, packXYL);
+                var packMapCoordinate = HexGeometry.PackMapCoordinate(-1, -1, -1);
+                CombatMap.Current.UnitPositions.SetUnitPosition(Position, Index, packMapCoordinate);
             }
         }
 
@@ -107,12 +107,12 @@ public partial class UnitPositionHexSprite : SingleHexSprite
     }
 
     // AoWTC.pas:5068
-    public override bool CanPlace(MapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx) => Map.GetField(Xhx, Yhx, Lhx).FindOwnedChild(2228483) == null && CombatMap.Current.FUnitPositions.ValidatePosition(ref FPosition, ref FIndex);
+    public override bool CanPlace(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel) => map.GetField(hexX, hexY, hexLevel).FindOwnedChild(2228483) == null && CombatMap.Current.UnitPositions.ValidatePosition(ref Position, ref Index);
 
     // AoWTC.pas:5026
     public void UpdateImageIndex()
     {
-        FImageIndex = FPosition * 8 + FIndex;
+        ImageIndex = Position * 8 + Index;
     }
 
     // AoWTC.pas:223

@@ -10,27 +10,27 @@ public partial class PlayerStructureIncomeSource : IncomeSource
     public PlayerStructureIncomeSource(ECustomNode owner) : base(owner)
     { }
 
-    public PlayerStructure FStructure;
+    public PlayerStructure Structure;
 
     // Structur.PAS:2486
-    public override string Name() => FStructure.GetName();
+    public override string Name() => Structure.GetName();
 
     // Structur.PAS:2491
-    public override int Income() => FStructure.GetIncome();
+    public override int Income() => Structure.GetIncome();
 
     // Structur.PAS:2496
     public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
-        X = FStructure.Xhx;
-        Y = FStructure.Yhx;
-        L = FStructure.Lhx;
+        X = Structure.HexX;
+        Y = Structure.HexY;
+        L = Structure.HexLevel;
     }
 
     // Structur.PAS:2481
-    // (FStructure)
-    public void Setup(PlayerStructure Structure)
+    // (Structure)
+    public void Setup(PlayerStructure structure)
     {
-        FStructure = Structure;
+        Structure = structure;
     }
 
     // Engine.pas:524

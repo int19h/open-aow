@@ -33,38 +33,38 @@ public partial class CityJoinDialog : DataModule
     public ArnoLine CityPicLine;
     public Button CloseBtn;
     public IvTranslator Translator;
-    public sbyte FRace;
-    public ExecuteDoneEvent FDone;
-    public NegotiateRequestEventLog FEvent;
+    public sbyte Race;
+    public ExecuteDoneEvent Done;
+    public NegotiateRequestEventLog Event;
 
     // AoWCityJoinDlg.pas:55
     public void FinishDialog()
     {
-        ExecuteDoneEvent Done;
-        NegotiateRequestEventLog Log;
-        Done = FDone;
-        Log = FEvent;
-        FDone = null;
-        FEvent = null;
-        if (Done != null)
+        ExecuteDoneEvent done;
+        NegotiateRequestEventLog log;
+        done = Done;
+        log = Event;
+        Done = null;
+        Event = null;
+        if (done != null)
         {
-            Done(Log);
+            done(log);
         }
 
-        if (Log != null)
+        if (log != null)
         {
-            Log.Release();
+            log.Release();
         }
     }
 
     // AoWCityJoinDlg.pas:69
     public void AcceptBtnClick()
     {
-        string Reason = "";
+        string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (!FEvent.Accept(ref Reason))
+        if (!Event.Accept(ref reason))
         {
-            AoWHSMap.Current.ShowWarning(Reason);
+            AoWHSMap.Current.ShowWarning(reason);
         }
         else
         {
@@ -75,11 +75,11 @@ public partial class CityJoinDialog : DataModule
     // AoWCityJoinDlg.pas:78
     public void AttackBtnClick()
     {
-        string Reason = "";
+        string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (!FEvent.Reject(ref Reason))
+        if (!Event.Reject(ref reason))
         {
-            AoWHSMap.Current.ShowWarning(Reason);
+            AoWHSMap.Current.ShowWarning(reason);
         }
         else
         {
@@ -95,13 +95,13 @@ public partial class CityJoinDialog : DataModule
     }
 
     // AoWCityJoinDlg.pas:93
-    public void DlgDrawBack(LockedSurface Surface)
+    public void DlgDrawBack(LockedSurface surface)
     {
-        LibraryImage Face;
-        Face = AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).GetFace();
-        if (Face != null)
+        LibraryImage face;
+        face = AoWHSSet.Current.RaceResources.GetRaceResource(Race).GetFace();
+        if (face != null)
         {
-            Face.ShowClipped(CeltFrame.WinLeft + 10, CeltFrame.WinTop + 28, Surface);
+            face.ShowClipped(CeltFrame.WinLeft + 10, CeltFrame.WinTop + 28, surface);
         }
     }
 
@@ -119,35 +119,35 @@ public partial class CityJoinDialog : DataModule
     }
 
     // AoWCityJoinDlg.pas:113
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             Dlg.Visible = false;
         }
     }
 
-    internal static void ShowCityNegotiation(CityJoinDialog Dialog, NegotiateRequestEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowCityNegotiation(CityJoinDialog dialog, NegotiateRequestEventLog eventValue, ExecuteDoneEvent done)
     {
-        NegotiateRequestEventLog Log;
-        City Town;
-        Dialog.FDone = Done;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Log = Dialog.FEvent;
-        var text = Log.FJoinMessage.Text;
-        Dialog.Memo.Items.Text = text;
-        Dialog.ApproachLbl.Text = Log.FText;
-        Town = (City)AoWHSMap.Current.MapContainer.GetField(Log.FX, Log.FY, Log.FL).FindNoneTransparentHS(typeof(City));
-        Dialog.FRace = Town.FRace;
-        var topCityActionImage = Town.GetTopCityActionImage(null);
-        Dialog.CityPicLine.ImageTop = topCityActionImage;
-        var middleCityActionImage = Town.GetMiddleCityActionImage(null);
-        Dialog.CityPicLine.ImageMiddle = middleCityActionImage;
-        var bottomCityActionImage = Town.GetBottomCityActionImage(null);
-        Dialog.CityPicLine.ImageBottom = bottomCityActionImage;
-        Dialog.Dlg.Visible = true;
-        AoWHSMap.Current.FTutorialControl.ShowMessage(62, true, true);
+        NegotiateRequestEventLog log;
+        City town;
+        dialog.Done = done;
+        dialog.Event = eventValue;
+        dialog.Event.AddRef();
+        log = dialog.Event;
+        var text = log.JoinMessage.Text;
+        dialog.Memo.Items.Text = text;
+        dialog.ApproachLbl.Text = log.Text;
+        town = (City)AoWHSMap.Current.MapContainer.GetField(log.X, log.Y, log.MapLevel).FindNoneTransparentHexSprite(typeof(City));
+        dialog.Race = town.Race;
+        var topCityActionImage = town.GetTopCityActionImage(null);
+        dialog.CityPicLine.ImageTop = topCityActionImage;
+        var middleCityActionImage = town.GetMiddleCityActionImage(null);
+        dialog.CityPicLine.ImageMiddle = middleCityActionImage;
+        var bottomCityActionImage = town.GetBottomCityActionImage(null);
+        dialog.CityPicLine.ImageBottom = bottomCityActionImage;
+        dialog.Dlg.Visible = true;
+        AoWHSMap.Current.TutorialControl.ShowMessage(62, true, true);
     }
 
 }

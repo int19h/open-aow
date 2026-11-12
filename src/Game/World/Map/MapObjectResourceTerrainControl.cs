@@ -13,19 +13,19 @@ namespace Aow.Game.World.Map;
 // a terrain type on a map field
 public partial class MapObjectResourceTerrainControl : EngineObject
 {
-    internal GameEngine FHSEngine;
-    internal int FTries;
-    internal List<DelphiList> FResources;
-    internal Type FMOClass;
+    internal GameEngine _hexSpriteEngine;
+    internal int _tries;
+    internal List<DelphiList> _resources;
+    internal Type _mapObjectClass;
 
     // HSEngine.pas:4522
     internal void Initialize()
     {
         Clear();
-        for (int I = 0, last = FHSEngine.FHSSet.TerrainTypes.Count - 1; I <= last; I++)
+        for (int I = 0, last = _hexSpriteEngine._hexSpriteSet.TerrainTypes.Count - 1; I <= last; I++)
         {
             var list = new DelphiList();
-            FResources.Add(list);
+            _resources.Add(list);
         }
     }
 
@@ -33,178 +33,178 @@ public partial class MapObjectResourceTerrainControl : EngineObject
     public override void Dispose()
     {
         Clear();
-        FResources?.Clear();
-        FResources = null;
+        _resources?.Clear();
+        _resources = null;
         base.Dispose();
     }
 
     // HSEngine.pas:4505
-    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.csShared);
+    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Shared);
 
     // HSEngine.pas:4489
     public MapObjectResourceTerrainControl(ECustomNode owner) : base(owner)
     {
-        FResources = new List<DelphiList>();
-        FMOClass = typeof(MapObject);
-        FTries = 5;
+        _resources = new List<DelphiList>();
+        _mapObjectClass = typeof(MapObject);
+        _tries = 5;
     }
 
     // HSEngine.pas:4510
     public override void Clear()
     {
-        if (FResources != null)
+        if (_resources != null)
         {
-            for (int I = FResources.Count - 1; I >= 0; I--)
+            for (int I = _resources.Count - 1; I >= 0; I--)
             {
-                (FResources[I] as IDisposable)?.Dispose();
-                FResources.RemoveAt(I);
+                (_resources[I] as IDisposable)?.Dispose();
+                _resources.RemoveAt(I);
             }
         }
     }
 
     // HSEngine.pas:4531
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 536870920)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 536870920)
         {
-            FHSEngine = Msg.Payload.As<GameEngine>();
+            _hexSpriteEngine = message.Payload.As<GameEngine>();
             Initialize();
         }
     }
 
     // HSEngine.pas:4585
-    public virtual MapObject CreateMO(sbyte TerrainType)
+    public virtual MapObject CreateMapObject(sbyte terrainType)
     {
-        MapObject Result;
+        MapObject result;
         int I;
-        DelphiList List;
-        int Count;
+        DelphiList list;
+        int count;
         MapObjectResource R;
-        I = TerrainType;
-        List = FResources[I];
-        Count = List.Count;
-        if (Count != 0)
+        I = terrainType;
+        list = _resources[I];
+        count = list.Count;
+        if (count != 0)
         {
-            var random = Random(Count);
-            R = (MapObjectResource)List.List[random];
-            Result = (MapObject)R.CreateResourceUser();
+            var random = Random(count);
+            R = (MapObjectResource)list.List[random];
+            result = (MapObject)R.CreateResourceUser();
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:4604
-    public virtual MapObject Place(MapContainer Container, sbyte X, sbyte Y, sbyte L, sbyte TerrainType)
+    public virtual MapObject Place(MapContainer container, sbyte X, sbyte Y, sbyte L, sbyte terrainType)
     {
-        DelphiList List;
+        DelphiList list;
         MapObjectResource R;
-        MapField MapF;
-        MapObject MO;
-        MapObject Result = null;
-        List = FResources[TerrainType];
-        if (List.Count != 0)
+        MapField mapField;
+        MapObject mapObject;
+        MapObject result = null;
+        list = _resources[terrainType];
+        if (list.Count != 0)
         {
             R = null;
-            MapF = Container.GetField(X, Y, L);
-            MO = (MapObject)MapF.FindOwnedHS(FMOClass);
-            if (MO != null)
+            mapField = container.GetField(X, Y, L);
+            mapObject = (MapObject)mapField.FindOwnedHexSprite(_mapObjectClass);
+            if (mapObject != null)
             {
-                R = GetRndResource(TerrainType, MO.FResource.EClass.ClassID);
+                R = GetRandomResource(terrainType, mapObject._resource.EngineClass.ClassId);
                 if (R != null)
                 {
-                    MO.SetResource(R);
-                    MapF.UpdateTerrain();
-                    Result = MO;
+                    mapObject.SetResource(R);
+                    mapField.UpdateTerrain();
+                    result = mapObject;
                 }
             }
 
             if (R == null)
             {
-                var random = Random(List.Count);
-                R = (MapObjectResource)List.List[random];
+                var random = Random(list.Count);
+                R = (MapObjectResource)list.List[random];
                 if (R != null)
                 {
-                    Result = R.PlaceResourceUser(Container.FMap, X, Y, L);
+                    result = R.PlaceResourceUser(container._map, X, Y, L);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:4637
-    public virtual MapObject PlaceClass(MapContainer Container, sbyte X, sbyte Y, sbyte L, sbyte TerrainType, int AClassID)
+    public virtual MapObject PlaceClass(MapContainer container, sbyte X, sbyte Y, sbyte L, sbyte terrainType, int classId)
     {
         MapObjectResource R;
-        MapField MapF;
-        MapObject MO;
-        MapObject Result = null;
-        if ((FResources[TerrainType]).Count != 0)
+        MapField mapField;
+        MapObject mapObject;
+        MapObject result = null;
+        if ((_resources[terrainType]).Count != 0)
         {
             R = null;
-            MapF = Container.GetField(X, Y, L);
-            MO = (MapObject)MapF.FindOwnedHS(FMOClass);
-            if (MO != null && MO.FResource.EClass.ClassID == AClassID)
+            mapField = container.GetField(X, Y, L);
+            mapObject = (MapObject)mapField.FindOwnedHexSprite(_mapObjectClass);
+            if (mapObject != null && mapObject._resource.EngineClass.ClassId == classId)
             {
-                R = GetRndResource(TerrainType, MO.FResource.EClass.ClassID);
+                R = GetRandomResource(terrainType, mapObject._resource.EngineClass.ClassId);
                 if (R != null)
                 {
-                    MO.SetResource(R);
-                    MapF.UpdateTerrain();
-                    Result = MO;
+                    mapObject.SetResource(R);
+                    mapField.UpdateTerrain();
+                    result = mapObject;
                 }
             }
 
             if (R == null)
             {
-                R = GetRndResource(TerrainType, AClassID);
+                R = GetRandomResource(terrainType, classId);
                 if (R != null)
                 {
-                    Result = R.PlaceResourceUser(Container.FMap, X, Y, L);
+                    result = R.PlaceResourceUser(container._map, X, Y, L);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:4541
-    public MapObjectResource GetRndResource(int TerrainType, int AClassID)
+    public MapObjectResource GetRandomResource(int terrainType, int classId)
     {
-        MapObjectResource Result;
-        DelphiList List;
+        MapObjectResource result;
+        DelphiList list;
         int I;
-        List = FResources[TerrainType];
-        if (List.Count != 0)
+        list = _resources[terrainType];
+        if (list.Count != 0)
         {
             I = 0;
-            Result = null;
-            while (I != FTries && Result == null)
+            result = null;
+            while (I != _tries && result == null)
             {
-                var random = Random(List.Count);
-                Result = (MapObjectResource)List.List[random];
-                if (Result.EClass.ClassID != AClassID)
+                var random = Random(list.Count);
+                result = (MapObjectResource)list.List[random];
+                if (result.EngineClass.ClassId != classId)
                 {
-                    Result = null;
+                    result = null;
                 }
 
                 I += 1;
             }
 
-            if (Result == null)
+            if (result == null)
             {
                 I = 0;
-                while (I != List.Count && Result == null)
+                while (I != list.Count && result == null)
                 {
-                    Result = (MapObjectResource)List.List[I];
-                    if (Result.EClass.ClassID != AClassID)
+                    result = (MapObjectResource)list.List[I];
+                    if (result.EngineClass.ClassId != classId)
                     {
-                        Result = null;
+                        result = null;
                     }
 
                     I += 1;
@@ -213,31 +213,31 @@ public partial class MapObjectResourceTerrainControl : EngineObject
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:4572
-    public void RegisterResource(MapObjectResource Resource)
+    public void RegisterResource(MapObjectResource resource)
     {
-        sbyte TerrainType;
-        TerrainType = Resource.FTerrainList.GetTerrain(0);
-        if (TerrainType >= 0 && TerrainType < FResources.Count)
+        sbyte terrainType;
+        terrainType = resource._terrainList.GetTerrain(0);
+        if (terrainType >= 0 && terrainType < _resources.Count)
         {
-            if ((FResources[TerrainType]).IndexOf(Resource) != -1 || Resource == null)
+            if ((_resources[terrainType]).IndexOf(resource) != -1 || resource == null)
             {
                 throw new InvalidOperationException("Resource double defined (TMORTerrainControl)");
             }
 
-            (FResources[TerrainType]).Add(Resource);
+            (_resources[terrainType]).Add(resource);
         }
     }
 
-    public GameEngine HSEngine { get => FHSEngine; }
-    public int Tries { get => FTries; set => FTries = value; }
-    public List<DelphiList> Resources { get => FResources; }
-    public Type MOClass { get => FMOClass; set => FMOClass = value; }
+    public GameEngine HexSpriteEngine { get => _hexSpriteEngine; }
+    public int Tries { get => _tries; set => _tries = value; }
+    public List<DelphiList> Resources { get => _resources; }
+    public Type MapObjectClass { get => _mapObjectClass; set => _mapObjectClass = value; }
 
 }

@@ -18,40 +18,40 @@ public partial class PassiveAIGroupControl : AIGroupControl
     // MainAG.pas:199
     public override void ProcessStates()
     {
-        MapCoordinate Location = default;
-        GroupDefenseSelector Selector;
-        AIGroup Group;
-        Troop AUnit;
-        switch (FState)
+        MapCoordinate location = default;
+        GroupDefenseSelector selector;
+        AIGroup group;
+        Troop troop;
+        switch (State)
         {
             case 0:
                 CombinePassiveGroups();
-                Location.Packed = FGroup.GetLoc();
-                Selector = new GroupDefenseSelector();
-                Selector.Execute(FGroup, Location.X, Location.Y, Location.L, null);
-                if (Selector.FDefenders.Count != FGroup.Count && FGroup.FPlayer != 0)
+                location.Packed = Group.GetLocation();
+                selector = new GroupDefenseSelector();
+                selector.Execute(Group, location.X, location.Y, location.MapLevel, null);
+                if (selector.Defenders.Count != Group.Count && Group.Player != 0)
                 {
-                    var randomGroupBehavior = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIControl.GetRandomGroupBehavior();
-                    Group = AoWHSMap.Current.FAIGroupManager.CreateGroup(FGroup.FPlayer, FGroup.FIndependentRelation, randomGroupBehavior);
-                    for (int I = FGroup.Count - 1; I >= 0; I--)
+                    var randomGroupBehavior = AoWHSMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
+                    group = AoWHSMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, randomGroupBehavior);
+                    for (int I = Group.Count - 1; I >= 0; I--)
                     {
-                        AUnit = FGroup.GetUnit(I);
-                        if (Selector.FDefenders.IndexOf(AUnit) == -1)
+                        troop = Group.GetUnit(I);
+                        if (selector.Defenders.IndexOf(troop) == -1)
                         {
-                            Group.AddUnit(AUnit);
+                            group.AddUnit(troop);
                         }
                     }
 
-                    Group.Release();
+                    group.Release();
                 }
 
-                if (Selector.FDefenseLocation.Packed != 16777215)
+                if (selector.DefenseLocation.Packed != 16777215)
                 {
-                    FGroup.FTargetXYL = Selector.FDefenseLocation;
-                    FGroup.FTargetMode = (byte)AIGroupDefenseControl.GroupDefendMode.Custom;
+                    Group.TargetMapCoordinate = selector.DefenseLocation;
+                    Group.TargetMode = (byte)AIGroupDefenseControl.GroupDefendMode.Custom;
                     SetupME();
-                    FMoveExecuter.FMode = FMoveExecuter.FMode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
-                    ExecuteME(Selector.FDefenseLocation.X, Selector.FDefenseLocation.Y, Selector.FDefenseLocation.L);
+                    MoveExecutor.Mode = MoveExecutor.Mode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
+                    ExecuteME(selector.DefenseLocation.X, selector.DefenseLocation.Y, selector.DefenseLocation.MapLevel);
                     Done();
                 }
                 else
@@ -59,7 +59,7 @@ public partial class PassiveAIGroupControl : AIGroupControl
                     Done();
                 }
 
-                Selector?.Dispose();
+                selector?.Dispose();
                 break;
         }
     }
@@ -67,21 +67,21 @@ public partial class PassiveAIGroupControl : AIGroupControl
     // MainAG.pas:176
     public void CombinePassiveGroups()
     {
-        Player Player;
-        MapCoordinate Location = default;
-        MapCoordinate OtherLocation = default;
-        AIGroup Group;
-        Player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
-        Location.Packed = FGroup.GetLoc();
-        for (int I = Player.FAIGroups.Count - 1; I >= 0; I--)
+        Player player;
+        MapCoordinate location = default;
+        MapCoordinate otherLocation = default;
+        AIGroup group;
+        player = AoWHSMap.Current.Players.GetPlayers(Group.Player);
+        location.Packed = Group.GetLocation();
+        for (int I = player.AIGroups.Count - 1; I >= 0; I--)
         {
-            Group = Player.FAIGroups.GetGroups(I);
-            if (FGroup.FGroupID != Group.FGroupID && Group.EClass.ClassID == 136280 && FGroup.FIndependentRelation == Group.FIndependentRelation)
+            group = player.AIGroups.GetGroups(I);
+            if (Group.GroupId != group.GroupId && group.EngineClass.ClassId == 136280 && Group.IndependentRelation == group.IndependentRelation)
             {
-                OtherLocation.Packed = Group.GetLoc();
-                if (Location.L == OtherLocation.L && HexGeometry.dHXtoRad(Location.X, Location.Y, OtherLocation.X, OtherLocation.Y) <= 1)
+                otherLocation.Packed = group.GetLocation();
+                if (location.MapLevel == otherLocation.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, otherLocation.X, otherLocation.Y) <= 1)
                 {
-                    FGroup.AddUnits(Group);
+                    Group.AddUnits(group);
                 }
             }
         }

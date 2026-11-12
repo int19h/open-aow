@@ -13,89 +13,89 @@ public partial class CombatMapEvents
     public void TCMapActivateMap()
     {
         AudioHost.SongPlayer.Pause(false);
-        if (GameTables.AoWEngine.FDemo)
+        if (GameTables.GameEngine.Demo)
         {
-            AudioPlayback.PlaySongEx("Songs\\Combat\\Defend.IT", 2, 0, true);
+            AudioPlayback.PlaySong("Songs\\Combat\\Defend.IT", 2, 0, true);
         }
         else
         {
             switch (Random(3))
             {
                 case 0:
-                    AudioPlayback.PlaySongEx("Songs\\Combat\\Defend.IT", 2, 0, true);
+                    AudioPlayback.PlaySong("Songs\\Combat\\Defend.IT", 2, 0, true);
                     break;
                 case 1:
-                    AudioPlayback.PlaySongEx("Songs\\Combat\\Outnum.IT", 2, 0, true);
+                    AudioPlayback.PlaySong("Songs\\Combat\\Outnum.IT", 2, 0, true);
                     break;
                 case 2:
-                    AudioPlayback.PlaySongEx("Songs\\Combat\\Races.IT", 2, 0, true);
+                    AudioPlayback.PlaySong("Songs\\Combat\\Races.IT", 2, 0, true);
                     break;
             }
         }
 
-        DialogHosts.MWindow.MapViewer.HSMap = CombatMap.Current;
-        DialogHosts.TCScanner.Scanner.SetMap(CombatMap.Current);
-        DialogHosts.TCScanner.Scanner.FPreviousWidth = 0;
-        DialogHosts.TCScanner.Scanner.FIncremental = false;
-        DialogHosts.TCScanner.Scanner.FSized = false;
-        DialogHosts.TCScanner.Scanner.FUpdateStep = -1;
+        DialogHosts.MapWindow.MapViewer.HexSpriteMap = CombatMap.Current;
+        DialogHosts.CombatScanner.Scanner.SetMap(CombatMap.Current);
+        DialogHosts.CombatScanner.Scanner.PreviousWidth = 0;
+        DialogHosts.CombatScanner.Scanner.Incremental = false;
+        DialogHosts.CombatScanner.Scanner.Sized = false;
+        DialogHosts.CombatScanner.Scanner.UpdateStep = -1;
 
-        DialogHosts.MWindow.MainWindow.Visible = true;
+        DialogHosts.MapWindow.MainWindow.Visible = true;
         DialogHosts.General.HideWindows();
-        CombatMap.Current = (CombatMap)AoWHSMap.Current.FCombatMap;
-        DialogHosts.MWindow.MainWindow.Visible = CombatMap.Current.FPlaySounds;
-        DialogHosts.MWindow.FWorldAlignWidth = DialogHosts.MWindow.MainWindow.Alignment.AlignWidth;
-        DialogHosts.MWindow.FWorldAlignHeight = DialogHosts.MWindow.MainWindow.Alignment.AlignHeight;
-        DialogHosts.MWindow.FWorldRect.Left = DialogHosts.MWindow.MainWindow.Alignment.LeftOffset;
-        DialogHosts.MWindow.FWorldRect.Top = DialogHosts.MWindow.MainWindow.Alignment.TopOffset;
-        if (DialogHosts.MWindow.FWorldAlignWidth == AlignWidth.Both)
+        CombatMap.Current = (CombatMap)AoWHSMap.Current.CombatMap;
+        DialogHosts.MapWindow.MainWindow.Visible = CombatMap.Current.PlaySounds;
+        DialogHosts.MapWindow.WorldAlignWidth = DialogHosts.MapWindow.MainWindow.Alignment.AlignWidth;
+        DialogHosts.MapWindow.WorldAlignHeight = DialogHosts.MapWindow.MainWindow.Alignment.AlignHeight;
+        DialogHosts.MapWindow.WorldRectangle.Left = DialogHosts.MapWindow.MainWindow.Alignment.LeftOffset;
+        DialogHosts.MapWindow.WorldRectangle.Top = DialogHosts.MapWindow.MainWindow.Alignment.TopOffset;
+        if (DialogHosts.MapWindow.WorldAlignWidth == AlignWidth.Both)
         {
-            DialogHosts.MWindow.FWorldRect.Right = DialogHosts.MWindow.MainWindow.Alignment.RightOffset;
+            DialogHosts.MapWindow.WorldRectangle.Right = DialogHosts.MapWindow.MainWindow.Alignment.RightOffset;
         }
         else
         {
-            DialogHosts.MWindow.FWorldRect.Right = DialogHosts.MWindow.MainWindow.WinWidth;
+            DialogHosts.MapWindow.WorldRectangle.Right = DialogHosts.MapWindow.MainWindow.WinWidth;
         }
 
-        if (DialogHosts.MWindow.FWorldAlignHeight == AlignHeight.Both)
+        if (DialogHosts.MapWindow.WorldAlignHeight == AlignHeight.Both)
         {
-            DialogHosts.MWindow.FWorldRect.Bottom = DialogHosts.MWindow.MainWindow.Alignment.BottomOffset;
+            DialogHosts.MapWindow.WorldRectangle.Bottom = DialogHosts.MapWindow.MainWindow.Alignment.BottomOffset;
         }
         else
         {
-            DialogHosts.MWindow.FWorldRect.Bottom = DialogHosts.MWindow.MainWindow.WinHeight;
+            DialogHosts.MapWindow.WorldRectangle.Bottom = DialogHosts.MapWindow.MainWindow.WinHeight;
         }
 
-        DialogHosts.MWindow.MainWindow.Alignment.LeftOffset = DialogHosts.MWindow.FMapRect.Left;
-        DialogHosts.MWindow.MainWindow.Alignment.TopOffset = DialogHosts.MWindow.FMapRect.Top;
-        DialogHosts.MWindow.MainWindow.Alignment.RightOffset = DialogHosts.MWindow.FMapRect.Right;
-        DialogHosts.MWindow.MainWindow.Alignment.BottomOffset = DialogHosts.MWindow.FMapRect.Bottom;
-        DialogHosts.MWindow.MainWindow.WinWidth = DialogHosts.MWindow.FMapRect.Right;
-        DialogHosts.MWindow.MainWindow.WinHeight = DialogHosts.MWindow.FMapRect.Bottom;
-        DialogHosts.MWindow.MainWindow.Alignment.AlignWidth = DialogHosts.MWindow.FMapAlignWidth;
-        DialogHosts.MWindow.MainWindow.Alignment.AlignHeight = DialogHosts.MWindow.FMapAlignHeight;
-        DialogHosts.MWindow.MainWindow.FAligned = false;
-        DialogHosts.TBWindow.TBWorld.Visible = false;
-        DialogHosts.TBWindow.TBCombat.Visible = true;
-        DialogHosts.TBWindow.UpdateCombatPlayerIndicator();
-        DialogHosts.TBWindow.AutoBtn.Checked = false;
-        DialogHosts.TBWindow.TCChatBtn.Visible = DialogHosts.TBWindow.ChatBtn.Visible;
-        DialogHosts.TBWindow.TCUnitBtn.Visible = false;
-        DialogHosts.TBWindow.TaskWindow.FDrawn = false;
-        DialogHosts.TCScanner.TCScannerWin.Visible = CombatMap.Current.FPlaySounds;
-        DialogHosts.TBWindow.TCScannerBtn.Visible = CombatMap.Current.FPlaySounds;
-        DialogHosts.TCUnit.TCUnitWin.Visible = false;
-        if (!CombatMap.Current.FPlaySounds)
+        DialogHosts.MapWindow.MainWindow.Alignment.LeftOffset = DialogHosts.MapWindow.MapRectangle.Left;
+        DialogHosts.MapWindow.MainWindow.Alignment.TopOffset = DialogHosts.MapWindow.MapRectangle.Top;
+        DialogHosts.MapWindow.MainWindow.Alignment.RightOffset = DialogHosts.MapWindow.MapRectangle.Right;
+        DialogHosts.MapWindow.MainWindow.Alignment.BottomOffset = DialogHosts.MapWindow.MapRectangle.Bottom;
+        DialogHosts.MapWindow.MainWindow.WinWidth = DialogHosts.MapWindow.MapRectangle.Right;
+        DialogHosts.MapWindow.MainWindow.WinHeight = DialogHosts.MapWindow.MapRectangle.Bottom;
+        DialogHosts.MapWindow.MainWindow.Alignment.AlignWidth = DialogHosts.MapWindow.MapAlignWidth;
+        DialogHosts.MapWindow.MainWindow.Alignment.AlignHeight = DialogHosts.MapWindow.MapAlignHeight;
+        DialogHosts.MapWindow.MainWindow.Aligned = false;
+        DialogHosts.TaskBar.TBWorld.Visible = false;
+        DialogHosts.TaskBar.TBCombat.Visible = true;
+        DialogHosts.TaskBar.UpdateCombatPlayerIndicator();
+        DialogHosts.TaskBar.AutoBtn.Checked = false;
+        DialogHosts.TaskBar.TCChatBtn.Visible = DialogHosts.TaskBar.ChatBtn.Visible;
+        DialogHosts.TaskBar.TCUnitBtn.Visible = false;
+        DialogHosts.TaskBar.TaskWindow.Drawn = false;
+        DialogHosts.CombatScanner.TCScannerWin.Visible = CombatMap.Current.PlaySounds;
+        DialogHosts.TaskBar.TCScannerBtn.Visible = CombatMap.Current.PlaySounds;
+        DialogHosts.CombatUnitInfo.TCUnitWin.Visible = false;
+        if (!CombatMap.Current.PlaySounds)
         {
-            FChatHeight = DialogHosts.ChatWindow.ChatWin.WinHeight;
+            ChatHeight = DialogHosts.ChatWindow.ChatWin.WinHeight;
             DialogHosts.ChatWindow.ChatWin.Alignment.AlignHeight = AlignHeight.Both;
         }
         else
         {
-            FChatHeight = 0;
+            ChatHeight = 0;
         }
 
-        if (DialogHosts.General.FChatVisible || !CombatMap.Current.FPlaySounds)
+        if (DialogHosts.General.ChatVisible || !CombatMap.Current.PlaySounds)
         {
             DialogHosts.ChatWindow.ChatWin.Visible = true;
         }

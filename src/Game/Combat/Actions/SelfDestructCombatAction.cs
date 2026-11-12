@@ -11,34 +11,34 @@ namespace Aow.Game.Combat.Actions;
 
 public partial class SelfDestructCombatAction : DamageCombatAction
 {
-    public new const int ClassID = 131764;
+    public new const int ClassId = 131764;
 
     public SelfDestructCombatAction(ECustomNode owner) : base(owner)
     { }
 
     // AoWAb.PAS:2116
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatObject Source;
-        CombatObject Target;
-        Source = Combat.FCombatData.FindID(FSourceID);
-        Target = Combat.FCombatData.FindID(FTargetID);
-        FDamageDone = (byte)Source.DoDamage(Target, FDamage);
-        if (FEffects.Value != Set<DamageType>.Of())
+        CombatObject source;
+        CombatObject target;
+        source = combat.CombatData.FindId(SourceId);
+        target = combat.CombatData.FindId(TargetId);
+        DamageDone = (byte)source.DoDamage(target, Damage);
+        if (Effects.Value != Set<DamageType>.Of())
         {
-            Target.ExecuteDamageEffects(FEffects.Value);
+            target.ExecuteDamageEffects(Effects.Value);
         }
 
-        Source.ExecuteDamage(Source.GetHitPoints());
+        source.ExecuteDamage(source.GetHitPoints());
     }
 
     // AoWAb.PAS:2127
-    public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override void ShowObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
-        if ((Obj.FID == FTargetID || Obj.FID == FSourceID) && Viewer.FTime >= Viewer.FDelay - 2)
+        base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
+        if ((objectValue.Id == TargetId || objectValue.Id == SourceId) && viewer.Time >= viewer.Delay - 2)
         {
-            AoWHSSet.Current.FAbilityControl.GetAbility(65).FImageSequences.Show(40, X + 32, Y + 32, Viewer.FTime, Surface);
+            AoWHSSet.Current.AbilityControl.GetAbility(65).ImageSequences.Show(40, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

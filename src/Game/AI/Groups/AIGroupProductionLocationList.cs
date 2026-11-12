@@ -14,40 +14,40 @@ public partial class AIGroupProductionLocationList : EReferenceNode
     { }
 
     // AIGroup.pas:907
-    public AIGroupProductionLocation GetProductionLocation(int Index)
+    public AIGroupProductionLocation GetProductionLocation(int index)
     {
-        Assert(Index >= 0 && Index < FChildren.Count, "", "AIGroup.pas", 909);
-        return (AIGroupProductionLocation)FChildren.List[Index];
+        Assert(index >= 0 && index < _children.Count, "", "AIGroup.pas", 909);
+        return (AIGroupProductionLocation)_children.List[index];
     }
 
     // AIGroup.pas:919
     public void SortOnMovePoints()
     {
-        FChildren.Sort(CompareAIProductionLocationMovePoints);
+        _children.Sort(CompareAIProductionLocationMovePoints);
     }
 
     // AIGroup.pas:924
-    public void Add(AIGroupProductionLocation Location)
+    public void Add(AIGroupProductionLocation location)
     {
-        AddChild(Location);
+        AddChild(location);
     }
 
     // AIGroup.pas:929
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        RemoveChild(GetProductionLocation(Index));
+        RemoveChild(GetProductionLocation(index));
     }
 
     // AIGroup.pas:934
-    public int IndexOfPC(ProductionControl Control)
+    public int IndexOfPC(ProductionControl control)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (((AIGroupProductionLocation)FChildren.List[Result]).FProductionControl == Control)
+            result -= 1;
+            if (((AIGroupProductionLocation)_children.List[result]).ProductionControl == control)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -55,44 +55,44 @@ public partial class AIGroupProductionLocationList : EReferenceNode
     }
 
     // AIGroup.pas:945
-    public AIGroupProductionLocation FindPC(ProductionControl Control)
+    public AIGroupProductionLocation FindPC(ProductionControl control)
     {
-        AIGroupProductionLocation Result;
+        AIGroupProductionLocation result;
         int I;
-        I = IndexOfPC(Control);
+        I = IndexOfPC(control);
         if (I != -1)
         {
-            Result = (AIGroupProductionLocation)FChildren.List[I];
+            result = (AIGroupProductionLocation)_children.List[I];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:956
-    public bool Validate(AIGroupControl Control)
+    public bool Validate(AIGroupControl control)
     {
-        AIGroupProductionLocation Location;
-        bool Result = true;
+        AIGroupProductionLocation location;
+        bool result = true;
         for (int I = Count - 1; I >= 0; I--)
         {
-            Location = (AIGroupProductionLocation)FChildren.List[I];
-            if (!Location.Validate(Control))
+            location = (AIGroupProductionLocation)_children.List[I];
+            if (!location.Validate(control))
             {
-                RemoveChild(Location);
-                Result = false;
+                RemoveChild(location);
+                result = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
-    private static int CompareAIProductionLocationMovePoints(object Item1, object Item2)
+    private static int CompareAIProductionLocationMovePoints(object item1, object item2)
     {
-        return ((AIGroupProductionLocation)Item2).FMovePoints - ((AIGroupProductionLocation)Item1).FMovePoints;
+        return ((AIGroupProductionLocation)item2).MovePoints - ((AIGroupProductionLocation)item1).MovePoints;
     }
 
     // Engine.pas:631

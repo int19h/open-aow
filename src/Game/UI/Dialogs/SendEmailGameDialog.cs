@@ -21,8 +21,8 @@ public partial class SendEmailGameDialog : DataModule
     public Frame BCeltL;
     public Frame TCeltL;
     public Image TCeltLineL;
-    public Image AOWImage1;
-    public Image AOWImage2;
+    public Image Image1;
+    public Image Image2;
     public Panel OKCancelPnl;
     public Button OKBtn;
     public Button ExitBtn;
@@ -39,54 +39,54 @@ public partial class SendEmailGameDialog : DataModule
     public Panel EditPnl;
     public Button Close;
     public IvTranslator Translator;
-    public ExecuteDoneEvent FDone;
-    public SendEmailGameEventLog FSendEvent;
+    public ExecuteDoneEvent Done;
+    public SendEmailGameEventLog SendEvent;
 
     // AoWSendEmailGameDlg.pas:63
     public void FinishDialog()
     {
-        ExecuteDoneEvent Done;
-        EventLog Event;
+        ExecuteDoneEvent done;
+        EventLog eventValue;
         Dlg.Visible = false;
-        Done = FDone;
-        Event = FSendEvent;
-        FDone = null;
-        FSendEvent = null;
-        if (Done != null)
+        done = Done;
+        eventValue = SendEvent;
+        Done = null;
+        SendEvent = null;
+        if (done != null)
         {
-            Done(Event);
+            done(eventValue);
         }
 
-        if (Event != null)
+        if (eventValue != null)
         {
-            Event.Release();
+            eventValue.Release();
         }
     }
 
     // AoWSendEmailGameDlg.pas:77
-    public void ShowSendDialog(SendEmailGameEventLog Event, ExecuteDoneEvent Done)
+    public void ShowSendDialog(SendEmailGameEventLog eventValue, ExecuteDoneEvent done)
     {
-        FDone = Done;
-        FSendEvent = Event;
-        FSendEvent.AddRef();
-        var sendEmailGameEventLog = FSendEvent;
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
-        EmailAddressEdit.Text = player.FPBEMSettings.FEmailGame.FEmailAddress;
+        Done = done;
+        SendEvent = eventValue;
+        SendEvent.AddRef();
+        var sendEmailGameEventLog = SendEvent;
+        var player = AoWHSMap.Current.Players.GetPlayers(SendEvent.SendPlayer);
+        EmailAddressEdit.Text = player.PbemSettings.EmailGame.EmailAddress;
         // { Original reuses the resource-string temporary for the formatted text. }
-        var nameEx = AoWHSMap.Current.FPlayers.GetPlayers(FSendEvent.FSendPlayer).GetNameEx();
-        var format = AbilityRules.Format(AbilityRules.TranslateRStr(NextPlayerXRStr), [nameEx]);
+        var nameEx = AoWHSMap.Current.Players.GetPlayers(SendEvent.SendPlayer).GetNameWithRace();
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_nextPlayerFormat), [nameEx]);
         RecipientNameLbl.Text = format;
-        if (sendEmailGameEventLog.FMode == 2)
+        if (sendEmailGameEventLog.Mode == 2)
         {
-            var smtpServer = GameTables.AoWEngine.FRegistry.GetSMTPServer();
+            var smtpServer = GameTables.GameEngine.Registry.GetSmtpServer();
             AutomatedChk.Checked = !IsEmpty(smtpServer);
-            var fRegistrySMTPServer = GameTables.AoWEngine.FRegistry.GetSMTPServer();
-            ManualChk.Checked = IsEmpty(fRegistrySMTPServer);
+            var fRegistrySmtpServer = GameTables.GameEngine.Registry.GetSmtpServer();
+            ManualChk.Checked = IsEmpty(fRegistrySmtpServer);
         }
         else
         {
-            AutomatedChk.Checked = sendEmailGameEventLog.FMode == 0;
-            ManualChk.Checked = sendEmailGameEventLog.FMode == 1;
+            AutomatedChk.Checked = sendEmailGameEventLog.Mode == 0;
+            ManualChk.Checked = sendEmailGameEventLog.Mode == 1;
         }
 
         Dlg.Visible = true;
@@ -103,12 +103,12 @@ public partial class SendEmailGameDialog : DataModule
     {
         if (AutomatedChk.Checked)
         {
-            FSendEvent.FMode = 0;
+            SendEvent.Mode = 0;
         }
 
         if (ManualChk.Checked)
         {
-            FSendEvent.FMode = 1;
+            SendEvent.Mode = 1;
         }
 
         Dlg.Visible = false;
@@ -117,24 +117,24 @@ public partial class SendEmailGameDialog : DataModule
     // AoWSendEmailGameDlg.pas:114
     public void ExitBtnClick()
     {
-        FSendEvent.FMode = 2;
+        SendEvent.Mode = 2;
         Dlg.Visible = false;
     }
 
     // AoWSendEmailGameDlg.pas:120
     public void EmailAddressEditChange()
     {
-        AoWHSMap.Current.FPlayers.GetPlayers(FSendEvent.FSendPlayer).FPBEMSettings.FEmailGame.FEmailAddress = EmailAddressEdit.Text;
+        AoWHSMap.Current.Players.GetPlayers(SendEvent.SendPlayer).PbemSettings.EmailGame.EmailAddress = EmailAddressEdit.Text;
     }
 
     // AoWSendEmailGameDlg.pas:125
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             Dlg.Visible = false;
         }
     }
 
-    private static readonly string NextPlayerXRStr = "Next Player: %s";
+    private static readonly string s_nextPlayerFormat = "Next Player: %s";
 }

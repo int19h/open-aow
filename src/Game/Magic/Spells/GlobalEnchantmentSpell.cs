@@ -9,159 +9,159 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
-// FAIBasePriority
+// AIBasePriority
 public partial class GlobalEnchantmentSpell : Spell
 {
-    public int FAIBasePriority;
+    public int AIBasePriority;
 
     // GlobalEnchantmentSpells.pas:413
     public GlobalEnchantmentSpell(ECustomNode owner) : base(owner)
     {
-        FAIBasePriority = -1;
+        AIBasePriority = -1;
     }
 
     // GlobalEnchantmentSpells.pas:429
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        if (ExecuteCount == 0)
+        if (executeCount == 0)
         {
-            ((GlobalEnchantmentSpellTokenEvent)Event).FEnchantment.Cast(Source.FPlayer);
+            ((GlobalEnchantmentSpellTokenEvent)eventValue).Enchantment.Cast(source.Player);
         }
 
         return false;
     }
 
     // GlobalEnchantmentSpells.pas:494
-    public override void AIPrefetchCastSpellActions(Troop Source, AICastSpellActionList Actions)
+    public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
     {
-        AICastSpellAction Action;
-        bool aiCanCastSpell = AICanCastSpell(Source);
+        AICastSpellAction action;
+        bool aiCanCastSpell = AICanCastSpell(source);
         if (aiCanCastSpell)
         {
             var aiUpkeepPriority = AIUpkeepPriority();
-            aiCanCastSpell = AIRequestCastSpellExpense(Source, FBaseManaCost, FManaUpkeep, aiUpkeepPriority);
+            aiCanCastSpell = AIRequestCastSpellExpense(source, BaseManaCost, ManaUpkeep, aiUpkeepPriority);
         }
 
         if (aiCanCastSpell)
         {
-            Action = CreateCastSpellAction();
-            SetupCastSpellAction(Source, Action);
-            Action.FPriority = FAIBasePriority;
-            Action.SetOwner(Actions);
+            action = CreateCastSpellAction();
+            SetupCastSpellAction(source, action);
+            action.Priority = AIBasePriority;
+            action.SetOwner(actions);
         }
     }
 
     // GlobalEnchantmentSpells.pas:507
-    public override bool AIExecuteCastSpellAction(Troop Source)
+    public override bool AIExecuteCastSpellAction(Troop source)
     {
-        bool Result;
-        string Reason = "";
-        if (AICanCastSpell(Source))
+        bool result;
+        string reason = "";
+        if (AICanCastSpell(source))
         {
             var aiUpkeepPriority = AIUpkeepPriority();
-            AICastSpellExpenseMade(Source, FBaseManaCost, FManaUpkeep, aiUpkeepPriority);
-            var hero = (Hero)Source;
-            if (hero.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
+            AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, aiUpkeepPriority);
+            var hero = (Hero)source;
+            if (hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                Result = this.Activate(Source);
+                result = this.Activate(source);
             }
             else
             {
-                if (hero.FCastingSpellID != FSpellID)
+                if (hero.CastingSpellId != SpellId)
                 {
-                    hero.ExecuteStartCasting(FSpellID);
-                    Result = true;
+                    hero.ExecuteStartCasting(SpellId);
+                    result = true;
                 }
                 else
                 {
-                    Result = true;
+                    result = true;
                 }
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:435
-    public override bool CanActivate(Troop Source, ref string MessageText)
+    public override bool CanActivate(Troop source, ref string messageText)
     {
-        GlobalEnchantment Enchantment;
-        bool Result = base.CanActivate(Source, ref MessageText);
-        if (Result)
+        GlobalEnchantment enchantment;
+        bool result = base.CanActivate(source, ref messageText);
+        if (result)
         {
-            if (!AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
+            if (!AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
-                Enchantment = CreateEnchantment();
-                if (Enchantment != null)
+                enchantment = CreateEnchantment();
+                if (enchantment != null)
                 {
-                    SetupEnchantment(Source, Enchantment);
-                    Result = Enchantment.CanCast(Source.FPlayer, ref MessageText);
-                    Enchantment.Release();
+                    SetupEnchantment(source, enchantment);
+                    result = enchantment.CanCast(source.Player, ref messageText);
+                    enchantment.Release();
                 }
             }
             else
             {
-                Result = false;
-                MessageText = AbilityRules.TranslateRStr(GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveRStr);
+                result = false;
+                messageText = AbilityRules.TranslateResourceString(GameText.s_cannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:458
-    public override bool Activate(Troop Source)
+    public override bool Activate(Troop source)
     {
-        bool Result;
-        GlobalEnchantmentSpellTokenEvent Event;
-        string Reason = "";
-        if (CanActivate(Source, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+        bool result;
+        GlobalEnchantmentSpellTokenEvent eventValue;
+        string reason = "";
+        if (CanActivate(source, ref reason) && !AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            Event = new GlobalEnchantmentSpellTokenEvent(null);
-            Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-            Event.FEnchantment = CreateEnchantment();
-            SetupEnchantment(Source, Event.FEnchantment);
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new GlobalEnchantmentSpellTokenEvent(null);
+            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            eventValue.Enchantment = CreateEnchantment();
+            SetupEnchantment(source, eventValue.Enchantment);
+            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:476
-    public virtual bool AICanCastSpell(Troop Source)
+    public virtual bool AICanCastSpell(Troop source)
     {
-        string Reason = "";
-        bool Result = FAIBasePriority != -1 && ((Hero)Source).CanCastSpell(FSpellID, ref Reason);
-        return Result && CanActivate(Source, ref Reason);
+        string reason = "";
+        bool result = AIBasePriority != -1 && ((Hero)source).CanCastSpell(SpellId, ref reason);
+        return result && CanActivate(source, ref reason);
     }
 
     // GlobalEnchantmentSpells.pas:419
     public virtual GlobalEnchantment CreateEnchantment() => null;
 
     // GlobalEnchantmentSpells.pas:424
-    public virtual void SetupEnchantment(Troop Source, GlobalEnchantment Enchantment)
+    public virtual void SetupEnchantment(Troop source, GlobalEnchantment enchantment)
     {
-        Enchantment.FEnchantmentManaUpkeep = FManaUpkeep;
+        enchantment.EnchantmentManaUpkeep = ManaUpkeep;
     }
 
     // GlobalEnchantmentSpells.pas:484
     public int AIUpkeepPriority()
     {
-        GlobalEnchantment Enchantment;
+        GlobalEnchantment enchantment;
         // { Original creates the base enchantment here. }
-        Enchantment = new GlobalEnchantment(null);
-        int Result = Enchantment.GetAIUpkeepPriority();
-        Enchantment.Release();
-        return Result;
+        enchantment = new GlobalEnchantment(null);
+        int result = enchantment.GetAIUpkeepPriority();
+        enchantment.Release();
+        return result;
     }
 }

@@ -17,110 +17,110 @@ namespace Aow.Game.Session;
 // race, defaults, player relations, enabled
 public partial class Race : EngineObject
 {
-    public new const int ClassID = 131586;
+    public new const int ClassId = 131586;
 
     // Ability.PAS:212
     public Race(ECustomNode owner) : base(owner)
     {
-        FPlayerRelations = new Int32List();
-        FDefaultRelations = new ByteList();
-        FRace = -1;
-        FEnabled = false;
+        PlayerRelations = new Int32List();
+        DefaultRelations = new ByteList();
+        RaceIndex = -1;
+        Enabled = false;
     }
 
-    public sbyte FRace;
-    public ByteList FDefaultRelations;
+    public sbyte RaceIndex;
+    public ByteList DefaultRelations;
     // TStatus values
-    public Int32List FPlayerRelations;
-    public bool FEnabled;
+    public Int32List PlayerRelations;
+    public bool Enabled;
 
     // Ability.PAS:221
     public override void Dispose()
     {
         SetEnabled(false);
-        FPlayerRelations?.Dispose();
-        FDefaultRelations?.Dispose();
+        PlayerRelations?.Dispose();
+        DefaultRelations?.Dispose();
         base.Dispose();
     }
 
     // Ability.PAS:343
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        bool Enabled = default;
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FRace), 2);
-        Stream.rwStreamProc(3, FPlayerRelations.LoadFromStream, FPlayerRelations.SaveToStream);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        bool enabled = default;
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref RaceIndex), 2);
+        stream.rwStreamProc(3, PlayerRelations.LoadFromStream, PlayerRelations.SaveToStream);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             // { Original leaves this local uninitialized if property 4 is absent. }
-            Stream.rwBool(ref Enabled, 4);
-            SetEnabled(Enabled);
+            stream.rwBool(ref enabled, 4);
+            SetEnabled(enabled);
         }
         else
         {
-            Stream.rwBool(ref FEnabled, 4);
+            stream.rwBool(ref Enabled, 4);
         }
 
-        Stream.rwStreamProc(5, FDefaultRelations.LoadFromStream, FDefaultRelations.SaveToStream);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read) && FDefaultRelations.Count == 0)
+        stream.rwStreamProc(5, DefaultRelations.LoadFromStream, DefaultRelations.SaveToStream);
+        if (stream.StorageMode().Contains(StorageModeElement.Read) && DefaultRelations.Count == 0)
         {
             ResetDefaultRaceRelations();
         }
     }
 
     // Ability.PAS:361
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001985)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001985)
         {
             NewDay();
         }
     }
 
     // Ability.PAS:229
-    public int GetRelationValue(sbyte Race)
+    public int GetRelationValue(sbyte race)
     {
-        int Result;
-        int Player;
-        Player = AoWHSMap.Current.FPlayers.RaceToPlayer(Race);
-        if (Player == -1)
+        int result;
+        int player;
+        player = AoWHSMap.Current.Players.RaceToPlayer(race);
+        if (player == -1)
         {
-            Result = StatusToStatusValue((Status)FDefaultRelations[Race]);
+            result = StatusToStatusValue((Status)DefaultRelations[race]);
         }
         else
         {
-            Result = FPlayerRelations[Player - 1];
+            result = PlayerRelations[player - 1];
         }
 
-        return Result + ((RaceList)Owner).FRelationOffset;
+        return result + ((RaceList)Owner).RelationOffset;
     }
 
     // Ability.PAS:239
-    public Status GetRelation(sbyte Race)
+    public Status GetRelation(sbyte race)
     {
-        Status Result;
-        int Player;
-        Player = AoWHSMap.Current.FPlayers.RaceToPlayer(Race);
-        if (Player == -1)
+        Status result;
+        int player;
+        player = AoWHSMap.Current.Players.RaceToPlayer(race);
+        if (player == -1)
         {
-            Result = StatusValueToStatus(StatusToStatusValue((Status)FDefaultRelations[Race]) + AoWHSMap.Current.FRaces.FRelationOffset);
+            result = StatusValueToStatus(StatusToStatusValue((Status)DefaultRelations[race]) + AoWHSMap.Current.Races.RelationOffset);
         }
         else
         {
-            Result = StatusValueToStatus(FPlayerRelations[Player - 1] + AoWHSMap.Current.FRaces.FRelationOffset);
+            result = StatusValueToStatus(PlayerRelations[player - 1] + AoWHSMap.Current.Races.RelationOffset);
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:249
-    public void SetPlayerRelationValue(sbyte Player, int Value)
+    public void SetPlayerRelationValue(sbyte player, int value)
     {
-        if (Player > 0)
+        if (player > 0)
         {
             // { Original dereferences AoWHSMap before the nil check below. }
-            FPlayerRelations[Player - 1] = Value - AoWHSMap.Current.FRaces.FRelationOffset;
+            PlayerRelations[player - 1] = value - AoWHSMap.Current.Races.RelationOffset;
             if (AoWHSMap.Current != null)
             {
                 AoWHSMap.Current.TriggerRelationsChanged();
@@ -129,66 +129,66 @@ public partial class Race : EngineObject
     }
 
     // Ability.PAS:259
-    public int GetPlayerRelationValue(sbyte Player)
+    public int GetPlayerRelationValue(sbyte player)
     {
-        int Result;
-        if (Player > 0)
+        int result;
+        if (player > 0)
         {
-            Result = FPlayerRelations[Player - 1] + AoWHSMap.Current.FRaces.FRelationOffset;
+            result = PlayerRelations[player - 1] + AoWHSMap.Current.Races.RelationOffset;
         }
         else
         {
-            Result = 50;
+            result = 50;
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:265
-    public Status GetPlayerRelation(sbyte Player)
+    public Status GetPlayerRelation(sbyte player)
     {
-        Status Result;
-        if (Player > 0)
+        Status result;
+        if (player > 0)
         {
-            Result = StatusValueToStatus(FPlayerRelations[Player - 1] + AoWHSMap.Current.FRaces.FRelationOffset);
+            result = StatusValueToStatus(PlayerRelations[player - 1] + AoWHSMap.Current.Races.RelationOffset);
         }
         else
         {
-            Result = Status.Neutral;
+            result = Status.Neutral;
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:271
     public void NewDay()
     {
-        int DefaultValue;
-        if (AoWHSMap.Current.FDay != 1)
+        int defaultValue;
+        if (AoWHSMap.Current.Day != 1)
         {
-            if ((AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments & Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.Hatred, GlobalEnchantmentType.Harmony)) == Set<GlobalEnchantmentType>.Of())
+            if ((AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments & Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.Hatred, GlobalEnchantmentType.Harmony)) == Set<GlobalEnchantmentType>.Of())
             {
-                for (int I = 0, last = FPlayerRelations.Count - 1; I <= last; I++)
+                for (int I = 0, last = PlayerRelations.Count - 1; I <= last; I++)
                 {
-                    var players = AoWHSMap.Current.FPlayers.GetPlayers(I + 1);
-                    DefaultValue = StatusToStatusValue((Status)FDefaultRelations[players.FPlayerRace]);
-                    if (FPlayerRelations[I] > DefaultValue)
+                    var players = AoWHSMap.Current.Players.GetPlayers(I + 1);
+                    defaultValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
+                    if (PlayerRelations[I] > defaultValue)
                     {
-                        var item = FPlayerRelations[I];
-                        FPlayerRelations[I] = item - 1;
-                        if (FPlayerRelations[I] < DefaultValue)
+                        var item = PlayerRelations[I];
+                        PlayerRelations[I] = item - 1;
+                        if (PlayerRelations[I] < defaultValue)
                         {
-                            FPlayerRelations[I] = DefaultValue;
+                            PlayerRelations[I] = defaultValue;
                         }
                     }
 
-                    if (FPlayerRelations[I] < DefaultValue)
+                    if (PlayerRelations[I] < defaultValue)
                     {
-                        var item = FPlayerRelations[I];
-                        FPlayerRelations[I] = item + 1;
-                        if (FPlayerRelations[I] > DefaultValue)
+                        var item = PlayerRelations[I];
+                        PlayerRelations[I] = item + 1;
+                        if (PlayerRelations[I] > defaultValue)
                         {
-                            FPlayerRelations[I] = DefaultValue;
+                            PlayerRelations[I] = defaultValue;
                         }
                     }
                 }
@@ -201,30 +201,30 @@ public partial class Race : EngineObject
     }
 
     // Ability.PAS:298
-    public Status GetDefaultRaceRelation(sbyte Race)
+    public Status GetDefaultRaceRelation(sbyte race)
     {
-        Status Result;
-        if (Race >= 0 && Race < FDefaultRelations.Count)
+        Status result;
+        if (race >= 0 && race < DefaultRelations.Count)
         {
-            Result = (Status)FDefaultRelations[Race];
+            result = (Status)DefaultRelations[race];
         }
         else
         {
-            Result = Status.Neutral;
+            result = Status.Neutral;
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:308
     public void ResetDefaultRaceRelations()
     {
-        FDefaultRelations.Clear();
-        if (FRace >= 0 && FRace <= 11)
+        DefaultRelations.Clear();
+        if (RaceIndex >= 0 && RaceIndex <= 11)
         {
             for (int I = 0; I <= 11; I++)
             {
-                FDefaultRelations.Add((byte)(int)DefaultRaceRelations[FRace][I]);
+                DefaultRelations.Add((byte)(int)s_defaultRaceRelations[RaceIndex][I]);
             }
         }
     }
@@ -232,49 +232,49 @@ public partial class Race : EngineObject
     // Ability.PAS:317
     public void ResetPlayerRelations()
     {
-        FPlayerRelations.Clear();
-        for (int I = 1, last = AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
+        PlayerRelations.Clear();
+        for (int I = 1, last = AoWHSMap.Current.Players.GetCount() - 1; I <= last; I++)
         {
-            var players = AoWHSMap.Current.FPlayers.GetPlayers(I);
-            var statusToStatusValue = StatusToStatusValue((Status)FDefaultRelations[players.FPlayerRace]);
-            FPlayerRelations.Add(statusToStatusValue);
+            var players = AoWHSMap.Current.Players.GetPlayers(I);
+            var statusToStatusValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
+            PlayerRelations.Add(statusToStatusValue);
         }
     }
 
     // Ability.PAS:326
-    public void SetRace(sbyte Value)
+    public void SetRace(sbyte value)
     {
-        FRace = Value;
+        RaceIndex = value;
         ResetDefaultRaceRelations();
     }
 
     // Ability.PAS:332
-    public void SetEnabled(bool Value)
+    public void SetEnabled(bool value)
     {
-        if (Value != FEnabled)
+        if (value != Enabled)
         {
-            if (AoWHSSet.Current.FRaceResources.GetRaceResource(FRace) != null)
+            if (AoWHSSet.Current.RaceResources.GetRaceResource(RaceIndex) != null)
             {
-                if (Value)
+                if (value)
                 {
-                    AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).AddRef();
+                    AoWHSSet.Current.RaceResources.GetRaceResource(RaceIndex).AddRef();
                 }
                 else
                 {
-                    AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).Release();
+                    AoWHSSet.Current.RaceResources.GetRaceResource(RaceIndex).Release();
                 }
 
-                FEnabled = Value;
+                Enabled = value;
             }
         }
     }
 
-    private static StatusArray12By12 DefaultRaceRelations = StatusArray12By12.From([StatusArray12.From([Status.Friendly, Status.Polite, Status.Polite, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), StatusArray12.From([Status.Polite, Status.Friendly, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), StatusArray12.From([Status.Polite, Status.Polite, Status.Friendly, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), StatusArray12.From([Status.Polite, Status.Neutral, Status.Polite, Status.Friendly, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Friendly, Status.Friendly, Status.Polite, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Friendly, Status.Friendly, Status.Friendly, Status.Polite, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Polite, Status.Friendly, Status.Friendly, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), StatusArray12.From([Status.Polite, Status.Wary, Status.Wary, Status.Wary, Status.Friendly, Status.Polite, Status.Friendly, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Friendly, Status.Friendly, Status.Polite, Status.Polite]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Friendly, Status.Friendly, Status.Friendly, Status.Polite]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Polite, Status.Friendly, Status.Friendly, Status.Polite]), StatusArray12.From([Status.Wary, Status.Wary, Status.Wary, Status.Wary, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Polite, Status.Polite, Status.Polite, Status.Friendly])]);
+    private static StatusArray12By12 s_defaultRaceRelations = StatusArray12By12.From([StatusArray12.From([Status.Friendly, Status.Polite, Status.Polite, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), StatusArray12.From([Status.Polite, Status.Friendly, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), StatusArray12.From([Status.Polite, Status.Polite, Status.Friendly, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), StatusArray12.From([Status.Polite, Status.Neutral, Status.Polite, Status.Friendly, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Friendly, Status.Friendly, Status.Polite, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Friendly, Status.Friendly, Status.Friendly, Status.Polite, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Polite, Status.Friendly, Status.Friendly, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), StatusArray12.From([Status.Polite, Status.Wary, Status.Wary, Status.Wary, Status.Friendly, Status.Polite, Status.Friendly, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Friendly, Status.Friendly, Status.Polite, Status.Polite]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Friendly, Status.Friendly, Status.Friendly, Status.Polite]), StatusArray12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Polite, Status.Friendly, Status.Friendly, Status.Polite]), StatusArray12.From([Status.Wary, Status.Wary, Status.Wary, Status.Wary, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Polite, Status.Polite, Status.Polite, Status.Friendly])]);
 
-    private static int StatusToStatusValue(Status Status)
+    private static int StatusToStatusValue(Status status)
     {
         int result;
-        switch ((int)Status)
+        switch ((int)status)
         {
             case 0:
                 result = 10;
@@ -299,20 +299,20 @@ public partial class Race : EngineObject
         return result;
     }
 
-    internal static Status StatusValueToStatus(int Value)
+    internal static Status StatusValueToStatus(int value)
     {
         Status result;
-        if (Value <= 20)
+        if (value <= 20)
         {
             result = Status.Hostile;
         }
-        else if (Value > 80)
+        else if (value > 80)
         {
             result = Status.Friendly;
         }
         else
         {
-            switch (Value)
+            switch (value)
             {
                 case 21:
                 case 22:

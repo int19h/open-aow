@@ -23,197 +23,197 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
     { }
 
     // CombatTE.pas:624
-    public new const int ClassID = 2236418;
+    public new const int ClassId = 2236418;
 
-    public BattleEffectSprite FEffect;
-    public int FAbilityID;
-    public PossessCombatAction FPossessAction;
-    public EntangleCombatAction FEntangleAction;
-    public WebCombatAction FWebAction;
-    public TurnUndeadCombatAction FTurnUndeadAction;
-    public HealingCombatAction FHealingAction;
-    public CommandCombatAction FCommandAction;
-    public InvokeDeathCombatAction FDeathAction;
-    public DispelMagicAbilityCombatAction FDispelAction;
-    public BattleEffectType FEffectType;
-    public bool FSuccessful;
-    public int FDamage;
-    public CityWall FWall;
+    public BattleEffectSprite Effect;
+    public int AbilityId;
+    public PossessCombatAction PossessAction;
+    public EntangleCombatAction EntangleAction;
+    public WebCombatAction WebAction;
+    public TurnUndeadCombatAction TurnUndeadAction;
+    public HealingCombatAction HealingAction;
+    public CommandCombatAction CommandAction;
+    public InvokeDeathCombatAction DeathAction;
+    public DispelMagicAbilityCombatAction DispelAction;
+    public BattleEffectType EffectType;
+    public bool Successful;
+    public int Damage;
+    public CityWall Wall;
 
     // CombatTE.pas:627
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FAbilityID, 30);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref AbilityId, 30);
     }
 
     // CombatTE.pas:633
     public override MoveStatus LastMove()
     {
-        Point3D Point;
+        Point3D point;
         int I = default;
         int X = default;
         int Y = default;
-        TacticalBattleUnitHexSprite HS;
-        MapFieldMessage Msg = default;
-        MoveStatus Result = MoveStatus.Moving;
+        TacticalBattleUnitHexSprite hexSprite;
+        MapFieldMessage message = default;
+        MoveStatus result = MoveStatus.Moving;
         try
         {
-            switch (FStep)
+            switch (Step)
             {
                 case TokenStep.Start:
                     try
                     {
-                        FEffectType = TacticalTables.AbilTypes[FAbilityID];
-                        FUnit.FUnitHS.CancelMove();
-                        FUnit.FUnitHS.Unselect();
-                        FUnit.FUnitHS.FSelectedAbility = FAbilityID;
-                        bool notExplorationEnabled = !CombatMap.Current.FExplorationEnabled;
+                        EffectType = TacticalTables.s_abilityTypes[AbilityId];
+                        Unit.UnitHexSprite.CancelMove();
+                        Unit.UnitHexSprite.Unselect();
+                        Unit.UnitHexSprite.SelectedAbility = AbilityId;
+                        bool notExplorationEnabled = !CombatMap.Current.ExplorationEnabled;
                         if (!notExplorationEnabled)
                         {
-                            var yhx = FUnit.FUnitHS.Yhx;
-                            var xhx = FUnit.FUnitHS.Xhx;
-                            notExplorationEnabled = ((AoWMapField)CombatMap.Current.MapContainer.GetField(xhx, yhx, 0)).GetExplored(CombatMap.Current.FSeatedPlayer);
+                            var hexY = Unit.UnitHexSprite.HexY;
+                            var hexX = Unit.UnitHexSprite.HexX;
+                            notExplorationEnabled = ((AoWMapField)CombatMap.Current.MapContainer.GetField(hexX, hexY, 0)).GetExplored(CombatMap.Current.SeatedPlayer);
                         }
 
                         if (notExplorationEnabled)
                         {
-                            var yhx = FUnit.FUnitHS.Yhx;
-                            var xhx = FUnit.FUnitHS.Xhx;
-                            CombatMap.Current.MakeVisible(xhx, yhx, 0, 5);
+                            var hexY = Unit.UnitHexSprite.HexY;
+                            var hexX = Unit.UnitHexSprite.HexX;
+                            CombatMap.Current.MakeVisible(hexX, hexY, 0, 5);
                         }
 
-                        var fUnitHSYhx = FUnit.FUnitHS.Yhx;
-                        var pathY = FPath[0];
-                        var fUnitHSXhx = FUnit.FUnitHS.Xhx;
-                        var pathX = FPath[0];
-                        var meleeDirIndex = TacticalTables.GetMeleeDirIndex(FUnit.FUnitHS.Xhx, fUnitHSXhx - pathX.X, fUnitHSYhx - pathY.Y);
-                        FUnit.FUnitHS.SetDirection((byte)meleeDirIndex);
-                        if (FAbilityID == 65)
+                        var fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
+                        var pathY = Path[0];
+                        var fUnitHexSpriteHexX = Unit.UnitHexSprite.HexX;
+                        var pathX = Path[0];
+                        var meleeDirIndex = TacticalTables.GetMeleeDirectionIndex(Unit.UnitHexSprite.HexX, fUnitHexSpriteHexX - pathX.X, fUnitHexSpriteHexY - pathY.Y);
+                        Unit.UnitHexSprite.SetDirection((byte)meleeDirIndex);
+                        if (AbilityId == 65)
                         {
-                            FStep = TokenStep.InitStrike;
+                            Step = TokenStep.InitializeStrike;
                         }
                         else
                         {
-                            if (FAbilityID == 114)
+                            if (AbilityId == 114)
                             {
-                                FStep = TokenStep.ExeStrike;
-                                FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.RoundAttack);
+                                Step = TokenStep.ExecuteStrike;
+                                Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.RoundAttack);
                             }
                             else
                             {
-                                FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepUp);
-                                var path = FPath[0];
-                                var path2 = FPath[0];
-                                HS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(path2.X, path.Y).FindOwnedChild(2228484);
-                                if (HS == null)
+                                Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepUp);
+                                var path = Path[0];
+                                var path2 = Path[0];
+                                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(path2.X, path.Y).FindOwnedChild(2228484);
+                                if (hexSprite == null)
                                 {
-                                    FPreviousUnit = null;
+                                    PreviousUnit = null;
                                 }
                                 else
                                 {
-                                    FPreviousUnit = HS.FUnit;
+                                    PreviousUnit = hexSprite.Unit;
                                 }
 
-                                if (FPreviousUnit != null && FAbilityID != 117)
+                                if (PreviousUnit != null && AbilityId != 117)
                                 {
-                                    FPreviousUnit.FUnitHS.SetDirection((byte)(FUnit.FUnitHS.FDirection + 3));
-                                    if (FPreviousUnit.FUnitHS.FDirection > 6)
+                                    PreviousUnit.UnitHexSprite.SetDirection((byte)(Unit.UnitHexSprite.Direction + 3));
+                                    if (PreviousUnit.UnitHexSprite.Direction > 6)
                                     {
-                                        FPreviousUnit.FUnitHS.SetDirection((byte)(FPreviousUnit.FUnitHS.FDirection - 6));
+                                        PreviousUnit.UnitHexSprite.SetDirection((byte)(PreviousUnit.UnitHexSprite.Direction - 6));
                                     }
                                 }
                                 else
                                 {
-                                    if (FAbilityID == 117)
+                                    if (AbilityId == 117)
                                     {
-                                        var path3 = FPath[0];
-                                        var path4 = FPath[0];
-                                        FWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].GetField(path4.X, path3.Y).FindOwnedChild(2229508);
-                                        if (FWall == null)
+                                        var path3 = Path[0];
+                                        var path4 = Path[0];
+                                        Wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].GetField(path4.X, path3.Y).FindOwnedChild(2229508);
+                                        if (Wall == null)
                                         {
-                                            var path5 = FPath[0];
-                                            var path6 = FPath[0];
-                                            FWall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path6.X, path5.Y).FindOwnedChild(2229510) as CityWall;
+                                            var path5 = Path[0];
+                                            var path6 = Path[0];
+                                            Wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path6.X, path5.Y).FindOwnedChild(2229510) as CityWall;
                                         }
 
-                                        if (FWall == null && FAbilityID == 117)
+                                        if (Wall == null && AbilityId == 117)
                                         {
-                                            Result = MoveStatus.Done;
+                                            result = MoveStatus.Done;
                                         }
                                     }
                                     else
                                     {
-                                        Result = MoveStatus.Done;
+                                        result = MoveStatus.Done;
                                     }
                                 }
 
-                                FStep = TokenStep.StepUp;
+                                Step = TokenStep.StepUp;
                             }
                         }
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token Start", "Error - TCTouchToken " + IntToStr(FAbilityID), 0);
+                        MessageBox(0, "Error during Token Start", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
                     }
 
                     break;
                 case TokenStep.StepUp:
                     try
                     {
-                        if (FUnit.FUnitHS.FActionDone)
+                        if (Unit.UnitHexSprite.ActionDone)
                         {
-                            FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Ability);
-                            FStep = TokenStep.InitStrike;
+                            Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Ability);
+                            Step = TokenStep.InitializeStrike;
                         }
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token StepUp", "Error - TCTouchToken " + IntToStr(FAbilityID), 0);
+                        MessageBox(0, "Error during Token StepUp", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
                     }
 
                     break;
-                case TokenStep.InitStrike:
+                case TokenStep.InitializeStrike:
                     try
                     {
-                        if (FPreviousUnit != null)
+                        if (PreviousUnit != null)
                         {
-                            if (FUnit.FUnitHS.FActionDone)
+                            if (Unit.UnitHexSprite.ActionDone)
                             {
-                                FEffect = CombatMap.Current.AddEffect(FEffectType);
-                                FEffect.FAbilityIndex = FAbilityID;
-                                Point = new Point3D();
-                                var yhx = FPreviousUnit.FUnitHS.Yhx;
-                                HexGeometry.HXtoHP(FPreviousUnit.FUnitHS.Xhx, yhx, ref Point.X, ref Point.Y);
-                                Point.X += 16;
-                                FEffect.FPath.Add(Point);
-                                FStep = TokenStep.ExeStrike;
+                                Effect = CombatMap.Current.AddEffect(EffectType);
+                                Effect.AbilityIndex = AbilityId;
+                                point = new Point3D();
+                                var hexY = PreviousUnit.UnitHexSprite.HexY;
+                                HexGeometry.HexToPixel(PreviousUnit.UnitHexSprite.HexX, hexY, ref point.X, ref point.Y);
+                                point.X += 16;
+                                Effect.Path.Add(point);
+                                Step = TokenStep.ExecuteStrike;
                             }
                         }
                         else
                         {
-                            if (FWall != null || FAbilityID == 65)
+                            if (Wall != null || AbilityId == 65)
                             {
-                                switch (FAbilityID)
+                                switch (AbilityId)
                                 {
                                     case 117:
-                                        FStep = TokenStep.End;
-                                        FDamage = 0;
+                                        Step = TokenStep.End;
+                                        Damage = 0;
                                         RandSeed = AoWHSMap.Current.Random(16777215);
-                                        var defense = FWall.GetDefense();
-                                        var executeDamageRole = AbilityRules.ExecuteDamageRole(TacticalTables.TCDamage[0], TacticalTables.TCAttack[0] - defense);
-                                        FWall.SetHitPoints(FWall.FHitPoints - executeDamageRole);
-                                        FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepBack);
+                                        var defense = Wall.GetDefense();
+                                        var executeDamageRole = AbilityRules.ExecuteDamageRole(TacticalTables.s_tacticalBattleDamage[0], TacticalTables.s_tacticalBattleAttack[0] - defense);
+                                        Wall.SetHitPoints(Wall.HitPoints - executeDamageRole);
+                                        Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepBack);
                                         break;
                                     case 65:
-                                        FEffect = CombatMap.Current.AddEffect(FEffectType);
-                                        FEffect.FAbilityIndex = FAbilityID;
-                                        Point = new Point3D();
-                                        var path = FPath[1];
-                                        HexGeometry.HXtoHP(FPath[1].X, path.Y, ref Point.X, ref Point.Y);
-                                        Point.X += 16;
-                                        FEffect.FPath.Add(Point);
-                                        FStep = TokenStep.ExeStrike;
+                                        Effect = CombatMap.Current.AddEffect(EffectType);
+                                        Effect.AbilityIndex = AbilityId;
+                                        point = new Point3D();
+                                        var path = Path[1];
+                                        HexGeometry.HexToPixel(Path[1].X, path.Y, ref point.X, ref point.Y);
+                                        point.X += 16;
+                                        Effect.Path.Add(point);
+                                        Step = TokenStep.ExecuteStrike;
                                         break;
                                 }
                             }
@@ -221,64 +221,64 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token InitStrike", "Error - TCTouchToken " + IntToStr(FAbilityID), 0);
+                        MessageBox(0, "Error during Token InitStrike", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
                     }
 
                     break;
-                case TokenStep.ExeStrike:
+                case TokenStep.ExecuteStrike:
                     try
                     {
-                        if (FEffect == null)
+                        if (Effect == null)
                         {
-                            if (!FUnit.GetEnabled())
+                            if (!Unit.GetEnabled())
                             {
-                                Result = MoveStatus.Done;
+                                result = MoveStatus.Done;
                             }
                             else
                             {
-                                switch (FAbilityID)
+                                switch (AbilityId)
                                 {
                                     case 114:
-                                        if (FUnit.FUnitHS.FActionDone || FUnit.FUnitHS.FActionFrame >= 17)
+                                        if (Unit.UnitHexSprite.ActionDone || Unit.UnitHexSprite.ActionFrame >= 17)
                                         {
-                                            Result = MoveStatus.Done;
+                                            result = MoveStatus.Done;
                                         }
                                         else
                                         {
-                                            if (TacticalTables.raDir[FUnit.FUnitHS.FActionFrame] > 0)
+                                            if (TacticalTables.s_rangedAttackDirection[Unit.UnitHexSprite.ActionFrame] > 0)
                                             {
-                                                I = (TacticalTables.raDir[FUnit.FUnitHS.FActionFrame] + FUnit.FUnitHS.FDirection) % 6 + 1;
-                                                var path = FPath[1];
-                                                HexGeometry.CenterHNtoHX(FPath[1].X, path.Y, I, ref X, ref Y);
-                                                HS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).FindOwnedChild(2228484);
-                                                if (HS == null || HS == FUnit.FUnitHS)
+                                                I = (TacticalTables.s_rangedAttackDirection[Unit.UnitHexSprite.ActionFrame] + Unit.UnitHexSprite.Direction) % 6 + 1;
+                                                var path = Path[1];
+                                                HexGeometry.CenterHexNumberToHex(Path[1].X, path.Y, I, ref X, ref Y);
+                                                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).FindOwnedChild(2228484);
+                                                if (hexSprite == null || hexSprite == Unit.UnitHexSprite)
                                                 {
-                                                    FPreviousUnit = null;
+                                                    PreviousUnit = null;
                                                 }
                                                 else
                                                 {
-                                                    if (HS.FUnit.GetAbilityEnabled(1))
+                                                    if (hexSprite.Unit.GetAbilityEnabled(1))
                                                     {
-                                                        FPreviousUnit = null;
+                                                        PreviousUnit = null;
                                                     }
                                                     else
                                                     {
                                                         RandSeed = AoWHSMap.Current.Random(16777215);
-                                                        FStrike = CombatObject.CreateStrikeCA(FUnit, HS.FUnit, true);
-                                                        if (FStrike.FDamage > 0)
+                                                        Strike = CombatObject.CreateStrikeCombatAction(Unit, hexSprite.Unit, true);
+                                                        if (Strike.Damage > 0)
                                                         {
-                                                            HS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
-                                                            FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.RoundAttackHit);
-                                                            TacticalBattleUnit.MakeHitBlood(HS.FUnit, FStrike.FDamage);
-                                                            CombatMap.Current.FCombat.ExecuteCombatAction(FStrike);
+                                                            hexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
+                                                            Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.RoundAttackHit);
+                                                            TacticalBattleUnit.MakeHitBlood(hexSprite.Unit, Strike.Damage);
+                                                            CombatMap.Current.Combat.ExecuteCombatAction(Strike);
                                                         }
                                                         else
                                                         {
-                                                            FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.RoundAttack);
+                                                            Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.RoundAttack);
                                                         }
 
-                                                        FStrike.Release();
-                                                        FStrike = null;
+                                                        Strike.Release();
+                                                        Strike = null;
                                                     }
                                                 }
                                             }
@@ -290,142 +290,142 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                         }
                         else
                         {
-                            if (FEffect.FDone)
+                            if (Effect.Done)
                             {
-                                if (!FUnit.GetEnabled())
+                                if (!Unit.GetEnabled())
                                 {
-                                    Result = MoveStatus.Done;
+                                    result = MoveStatus.Done;
                                 }
                                 else
                                 {
-                                    switch (FAbilityID)
+                                    switch (AbilityId)
                                     {
                                         case 40:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            FEntangleAction = ((EntangleAbility)AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID)).CreateEntangleCA(FUnit, FPreviousUnit);
-                                            FSuccessful = FEntangleAction.FSuccessful;
-                                            CombatMap.Current.FCombat.ExecuteCombatAction(FEntangleAction);
-                                            FEntangleAction.Release();
+                                            EntangleAction = ((EntangleAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateEntangleCombatAction(Unit, PreviousUnit);
+                                            Successful = EntangleAction.Successful;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(EntangleAction);
+                                            EntangleAction.Release();
                                             break;
                                         case 27:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            FWebAction = ((WebAbility)AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID)).CreateWebCA(FUnit, FPreviousUnit);
-                                            FSuccessful = FWebAction.FSuccessful;
-                                            CombatMap.Current.FCombat.ExecuteCombatAction(FWebAction);
-                                            FWebAction.Release();
+                                            WebAction = ((WebAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateWebCombatAction(Unit, PreviousUnit);
+                                            Successful = WebAction.Successful;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(WebAction);
+                                            WebAction.Release();
                                             break;
                                         case 28:
                                         case 29:
                                         case 148:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            FCommandAction = ((CommandAbility)AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID)).CreateCommandCA(FUnit, FPreviousUnit);
-                                            FSuccessful = FCommandAction.FSuccessful;
-                                            CombatMap.Current.FCombat.ExecuteCombatAction(FCommandAction);
-                                            FCommandAction.Release();
+                                            CommandAction = ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCommandCombatAction(Unit, PreviousUnit);
+                                            Successful = CommandAction.Successful;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(CommandAction);
+                                            CommandAction.Release();
                                             break;
                                         case 38:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            FTurnUndeadAction = ((TurnUndeadAbility)AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID)).CreateTurnUndeadCA(FUnit, FPreviousUnit);
-                                            FSuccessful = FTurnUndeadAction.GetSuccessfull();
-                                            CombatMap.Current.FCombat.ExecuteCombatAction(FTurnUndeadAction);
-                                            FTurnUndeadAction.Release();
+                                            TurnUndeadAction = ((TurnUndeadAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateTurnUndeadCombatAction(Unit, PreviousUnit);
+                                            Successful = TurnUndeadAction.GetSuccessful();
+                                            CombatMap.Current.Combat.ExecuteCombatAction(TurnUndeadAction);
+                                            TurnUndeadAction.Release();
                                             break;
                                         case 35:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            FDeathAction = ((InvokeDeathAbility)AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID)).CreateCA(FUnit, FPreviousUnit);
-                                            FSuccessful = FDeathAction.FSuccessful;
-                                            CombatMap.Current.FCombat.ExecuteCombatAction(FDeathAction);
-                                            FDeathAction.Release();
+                                            DeathAction = ((InvokeDeathAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(Unit, PreviousUnit);
+                                            Successful = DeathAction.Successful;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(DeathAction);
+                                            DeathAction.Release();
                                             break;
                                         case 47:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            FHealingAction = ((HealingAbility)AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID)).CreateHealingCA(FUnit, FPreviousUnit);
-                                            FSuccessful = true;
-                                            CombatMap.Current.FCombat.ExecuteCombatAction(FHealingAction);
-                                            FHealingAction.Release();
+                                            HealingAction = ((HealingAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateHealingCombatAction(Unit, PreviousUnit);
+                                            Successful = true;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(HealingAction);
+                                            HealingAction.Release();
                                             break;
                                         case 60:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            FDispelAction = ((DispelMagicAbility)AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID)).CreateCA(FUnit, FPreviousUnit);
-                                            FSuccessful = FDispelAction.FEnchantmentIDs.Count > 0;
-                                            CombatMap.Current.FCombat.ExecuteCombatAction(FDispelAction);
-                                            FDispelAction.Release();
+                                            DispelAction = ((DispelMagicAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(Unit, PreviousUnit);
+                                            Successful = DispelAction.EnchantmentIds.Count > 0;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(DispelAction);
+                                            DispelAction.Release();
                                             break;
                                         case 106:
                                         case 107:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            FPossessAction = ((PossessAbility)AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID)).CreatePossessCA(FUnit, FPreviousUnit);
-                                            FSuccessful = FPossessAction.FSuccessful;
-                                            CombatMap.Current.FCombat.ExecuteCombatAction(FPossessAction);
-                                            FPossessAction.Release();
-                                            var unitGFXResourceIndex = FUnit.FUnit.GetUnitGFXResourceIndex();
-                                            FUnit.FUnitHS.SetUnitGFXResourceIndex(unitGFXResourceIndex);
-                                            if (!FPreviousUnit.GetEnabled())
+                                            PossessAction = ((PossessAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreatePossessCombatAction(Unit, PreviousUnit);
+                                            Successful = PossessAction.Successful;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(PossessAction);
+                                            PossessAction.Release();
+                                            var unitGraphicsResourceIndex = Unit.Troop.GetUnitGraphicsResourceIndex();
+                                            Unit.UnitHexSprite.SetUnitGraphicsResourceIndex(unitGraphicsResourceIndex);
+                                            if (!PreviousUnit.GetEnabled())
                                             {
-                                                FUnit.FUnitHS.MoveTo((MapField)FPreviousUnit.FUnitHS.Owner, 0);
-                                                FUnit.FUnitHS.SetDirection(FPreviousUnit.FUnitHS.FDirection);
-                                                FUnit.FUnitHS.FOffsetX = 0;
-                                                FUnit.FUnitHS.FOffsetY = 0;
-                                                FPreviousUnit.FUnitHS?.Dispose();
-                                                FPreviousUnit.FUnitHS = null;
-                                                Result = MoveStatus.Done;
+                                                Unit.UnitHexSprite.MoveTo((MapField)PreviousUnit.UnitHexSprite.Owner, 0);
+                                                Unit.UnitHexSprite.SetDirection(PreviousUnit.UnitHexSprite.Direction);
+                                                Unit.UnitHexSprite.OffsetX = 0;
+                                                Unit.UnitHexSprite.OffsetY = 0;
+                                                PreviousUnit.UnitHexSprite?.Dispose();
+                                                PreviousUnit.UnitHexSprite = null;
+                                                result = MoveStatus.Done;
                                             }
 
                                             break;
                                     }
                                 }
 
-                                if (!FUnit.GetEnabled() || ((FAbilityID == 106 || FAbilityID == 107) && FSuccessful))
+                                if (!Unit.GetEnabled() || ((AbilityId == 106 || AbilityId == 107) && Successful))
                                 {
-                                    Result = MoveStatus.Done;
+                                    result = MoveStatus.Done;
                                 }
                                 else
                                 {
-                                    if (!FSuccessful && FPreviousUnit != null && FPreviousUnit.GetEnabled() && !FPreviousUnit.GetLocked() && CombatObject.MeleeDamageTypes(FPreviousUnit) != Set<DamageType>.Of() && FPreviousUnit.GetSide() != FUnit.GetSide())
+                                    if (!Successful && PreviousUnit != null && PreviousUnit.GetEnabled() && !PreviousUnit.GetLocked() && CombatObject.MeleeDamageTypes(PreviousUnit) != Set<DamageType>.Of() && PreviousUnit.GetSide() != Unit.GetSide())
                                     {
                                         RandSeed = AoWHSMap.Current.Random(16777215);
-                                        FStrike = CombatObject.CreateStrikeCA(FPreviousUnit, FUnit, true);
-                                        if (FStrike.FDamage == 0)
+                                        Strike = CombatObject.CreateStrikeCombatAction(PreviousUnit, Unit, true);
+                                        if (Strike.Damage == 0)
                                         {
-                                            FPreviousUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.MeleeMiss);
+                                            PreviousUnit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.MeleeMiss);
                                         }
                                         else
                                         {
-                                            FPreviousUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.MeleeHit);
+                                            PreviousUnit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.MeleeHit);
                                         }
 
-                                        FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Busy);
-                                        FStep = TokenStep.EndStrike;
+                                        Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Busy);
+                                        Step = TokenStep.EndStrike;
                                     }
                                     else
                                     {
-                                        FStep = TokenStep.End;
-                                        FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepBack);
+                                        Step = TokenStep.End;
+                                        Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepBack);
                                     }
                                 }
                             }
                             else
                             {
-                                if (FUnit.GetEnabled())
+                                if (Unit.GetEnabled())
                                 {
-                                    switch (FAbilityID)
+                                    switch (AbilityId)
                                     {
                                         case 65:
-                                            if (FEffect.FFrame == 5)
+                                            if (Effect.Frame == 5)
                                             {
-                                                Msg.MsgID = 200704;
-                                                Msg.Param[0] = FUnit;
-                                                Msg.Result = -1;
+                                                message.MessageId = 200704;
+                                                message.Param[0] = Unit;
+                                                message.Result = -1;
                                                 I = 0;
                                                 for (; I <= 6; I += 1)
                                                 {
-                                                    var path = FPath[1];
-                                                    HexGeometry.CenterHNtoHX(FPath[1].X, path.Y, I, ref X, ref Y);
-                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                    var path = Path[1];
+                                                    HexGeometry.CenterHexNumberToHex(Path[1].X, path.Y, I, ref X, ref Y);
+                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
                                                     EffectPaths.CreateFire(false, 50, X, Y);
                                                 }
 
-                                                FUnit.FDeathMethod = TacticalBattleUnit.DeathMethod.Explode;
+                                                Unit.DeathMethod = TacticalBattleUnitDeathMethod.Explode;
                                             }
 
                                             break;
@@ -436,102 +436,102 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token ExeStrike", "Error - TCTouchToken " + IntToStr(FAbilityID), 0);
+                        MessageBox(0, "Error during Token ExeStrike", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
                     }
 
                     break;
                 case TokenStep.EndStrike:
                     try
                     {
-                        if (FPreviousUnit.FUnitHS.FActionDone)
+                        if (PreviousUnit.UnitHexSprite.ActionDone)
                         {
-                            if (FStrike.FDamage > 0)
+                            if (Strike.Damage > 0)
                             {
-                                FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
-                                TacticalBattleUnit.MakeHitBlood(FUnit, FStrike.FDamage);
+                                Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
+                                TacticalBattleUnit.MakeHitBlood(Unit, Strike.Damage);
                             }
 
-                            var yhx = FUnit.FUnitHS.Yhx;
-                            HexGeometry.HXtoHP(FUnit.FUnitHS.Xhx, yhx, ref I, ref X);
-                            if (FStrike.FDamageTypes.Value - FStrike.FEffects.Value != Set<DamageType>.Of())
+                            var hexY = Unit.UnitHexSprite.HexY;
+                            HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, ref I, ref X);
+                            if (Strike.DamageTypes.Value - Strike.Effects.Value != Set<DamageType>.Of())
                             {
-                                CombatEvents.MakeDEHSList(I + FUnit.FUnitHS.FOffsetX, X + FUnit.FUnitHS.FOffsetY, FStrike.FDamageTypes.Value - FStrike.FEffects.Value, false);
+                                CombatEvents.MakeDamageEffectHexSpriteList(I + Unit.UnitHexSprite.OffsetX, X + Unit.UnitHexSprite.OffsetY, Strike.DamageTypes.Value - Strike.Effects.Value, false);
                             }
 
-                            if (FStrike.FEffects.Value != Set<DamageType>.Of())
+                            if (Strike.Effects.Value != Set<DamageType>.Of())
                             {
-                                CombatEvents.MakeDEHSList(I + FUnit.FUnitHS.FOffsetX, X + FUnit.FUnitHS.FOffsetY, FStrike.FEffects.Value, true);
+                                CombatEvents.MakeDamageEffectHexSpriteList(I + Unit.UnitHexSprite.OffsetX, X + Unit.UnitHexSprite.OffsetY, Strike.Effects.Value, true);
                             }
 
-                            FStep = TokenStep.ExeEndStrike;
+                            Step = TokenStep.ExecuteEndStrike;
                         }
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token StrikeBack", "Error - TCTouchToken " + IntToStr(FAbilityID), 0);
+                        MessageBox(0, "Error during Token StrikeBack", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
                     }
 
                     break;
-                case TokenStep.ExeEndStrike:
+                case TokenStep.ExecuteEndStrike:
                     try
                     {
-                        if (FUnit.FUnitHS.FActionDone || FStrike.FDamage == 0)
+                        if (Unit.UnitHexSprite.ActionDone || Strike.Damage == 0)
                         {
-                            if (FStrike.FDamage > 0)
+                            if (Strike.Damage > 0)
                             {
-                                CombatMap.Current.FCombat.ExecuteCombatAction(FStrike);
+                                CombatMap.Current.Combat.ExecuteCombatAction(Strike);
                             }
 
-                            if (FUnit.GetEnabled())
+                            if (Unit.GetEnabled())
                             {
-                                FStep = TokenStep.End;
-                                FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepBack);
+                                Step = TokenStep.End;
+                                Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepBack);
                             }
                             else
                             {
-                                Result = MoveStatus.Done;
+                                result = MoveStatus.Done;
                             }
                         }
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token ExeStrikeBack", "Error - TCTouchToken " + IntToStr(FAbilityID), 0);
+                        MessageBox(0, "Error during Token ExeStrikeBack", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
                     }
 
                     break;
                 case TokenStep.End:
-                    if (FUnit.FUnitHS.FActionDone)
+                    if (Unit.UnitHexSprite.ActionDone)
                     {
-                        Result = MoveStatus.Done;
+                        result = MoveStatus.Done;
                     }
 
                     break;
             }
 
-            if (Result == MoveStatus.Done)
+            if (result == MoveStatus.Done)
             {
-                if (FUnit.GetEnabled())
+                if (Unit.GetEnabled())
                 {
-                    FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Move);
-                    FUnit.FUnitHS.FSelectedAbility = -1;
-                    FUnit.FMovePoints = 0;
-                    FUnit.FUnitHS.Unselect();
-                    if (FUnit.FCombatPlayer == CombatMap.Current.FCurrentCombatPlayer)
+                    Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Move);
+                    Unit.UnitHexSprite.SelectedAbility = -1;
+                    Unit.MovePoints = 0;
+                    Unit.UnitHexSprite.Unselect();
+                    if (Unit.CombatPlayer == CombatMap.Current.CurrentCombatPlayer)
                     {
-                        var xhx = FUnit.FUnitHS.Xhx;
-                        CombatMap.Current.FPlayers.GetPlayers(CombatMap.Current.FCurrentCombatPlayer).FLastX = xhx;
-                        var yhx = FUnit.FUnitHS.Yhx;
-                        CombatMap.Current.FPlayers.GetPlayers(CombatMap.Current.FCurrentCombatPlayer).FLastY = yhx;
+                        var hexX = Unit.UnitHexSprite.HexX;
+                        CombatMap.Current.Players.GetPlayers(CombatMap.Current.CurrentCombatPlayer).LastX = hexX;
+                        var hexY = Unit.UnitHexSprite.HexY;
+                        CombatMap.Current.Players.GetPlayers(CombatMap.Current.CurrentCombatPlayer).LastY = hexY;
                     }
                 }
             }
         }
         catch
         {
-            MessageBox(0, "Error during Token", "Error - TCTouchToken " + IntToStr(FAbilityID), 0);
+            MessageBox(0, "Error during Token", "Error - TCTouchToken " + IntToStr(AbilityId), 0);
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P5_07.inc:765

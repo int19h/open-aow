@@ -10,37 +10,37 @@ namespace Aow.Game.UI.Controls;
 // top, middle, bottom, copied line image library
 public partial class ArnoLine : Control
 {
-    public LibraryImage FImageTop;
-    public LibraryImage FImageMiddle;
-    public LibraryImage FImageBottom;
-    public InterfaceImageLibrary FLineLibrary;
+    public LibraryImage _imageTop;
+    public LibraryImage _imageMiddle;
+    public LibraryImage _imageBottom;
+    public InterfaceImageLibrary LineLibrary;
 
     // AoWArnoLine.pas:47
     public override void Dispose()
     {
-        FLineLibrary?.Dispose();
+        LineLibrary?.Dispose();
         base.Dispose();
     }
 
     // AoWArnoLine.pas:41
     public ArnoLine(Component owner) : base(owner)
     {
-        FLineLibrary = new InterfaceImageLibrary(this);
+        LineLibrary = new InterfaceImageLibrary(this);
     }
 
     // AoWArnoLine.pas:53
     public override void Validate()
     {
-        if (FImageTop != null && FImageMiddle != null && FImageBottom != null)
+        if (_imageTop != null && _imageMiddle != null && _imageBottom != null)
         {
-            FLineLibrary.Clear();
-            var copy = FImageTop.Copy();
-            FLineLibrary.Add(copy);
-            var fImageMiddleCopy = FImageMiddle.Copy();
-            FLineLibrary.Add(fImageMiddleCopy);
-            var fImageBottomCopy = FImageBottom.Copy();
-            FLineLibrary.Add(fImageBottomCopy);
-            FValid = true;
+            LineLibrary.Clear();
+            var copy = _imageTop.Copy();
+            LineLibrary.Add(copy);
+            var fImageMiddleCopy = _imageMiddle.Copy();
+            LineLibrary.Add(fImageMiddleCopy);
+            var fImageBottomCopy = _imageBottom.Copy();
+            LineLibrary.Add(fImageBottomCopy);
+            Valid = true;
         }
 
         base.Validate();
@@ -49,37 +49,37 @@ public partial class ArnoLine : Control
     // AoWArnoLine.pas:93
     public override void SetSize()
     {
-        FWinWidth = FImageTop.Width;
+        _winWidth = _imageTop.Width;
         base.SetSize();
     }
 
     // AoWArnoLine.pas:99
-    public override void Draw(LockedSurface SurfDesc)
+    public override void Draw(LockedSurface lockedSurface)
     {
-        Rect OldClip = default;
+        Rect oldClip = default;
         try
         {
-            if (FValid && FVisible)
+            if (Valid && _visible)
             {
-                if (FOnPreDraw != null)
+                if (_onPreDraw != null)
                 {
-                    FOnPreDraw(this, SurfDesc);
+                    _onPreDraw(this, lockedSurface);
                 }
 
-                OldClip = SurfDesc.ClipRect;
-                if (FWinTop > SurfDesc.ClipRect.Top)
+                oldClip = lockedSurface.ClipRectangle;
+                if (_winTop > lockedSurface.ClipRectangle.Top)
                 {
-                    SurfDesc.ClipRect.Top = FWinTop;
+                    lockedSurface.ClipRectangle.Top = _winTop;
                 }
 
-                var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                FLineLibrary.DrawILLv(0, rect, ref SurfDesc);
-                if (FOnDraw != null)
+                var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                LineLibrary.DrawVerticalStrip(0, rectangle, ref lockedSurface);
+                if (_onDraw != null)
                 {
-                    FOnDraw(this, SurfDesc);
+                    _onDraw(this, lockedSurface);
                 }
 
-                SurfDesc.ClipRect = OldClip;
+                lockedSurface.ClipRectangle = oldClip;
             }
         }
         catch
@@ -89,95 +89,95 @@ public partial class ArnoLine : Control
     }
 
     // AoWArnoLine.pas:66
-    public void SetITop(LibraryImage Value)
+    public void SetITop(LibraryImage value)
     {
-        if (Value != FImageTop)
+        if (value != _imageTop)
         {
-            FImageTop = Value;
-            FValid = false;
+            _imageTop = value;
+            Valid = false;
         }
     }
 
     // AoWArnoLine.pas:75
-    public void SetIMiddle(LibraryImage Value)
+    public void SetIMiddle(LibraryImage value)
     {
-        if (Value != FImageMiddle)
+        if (value != _imageMiddle)
         {
-            FImageMiddle = Value;
-            FValid = false;
+            _imageMiddle = value;
+            Valid = false;
         }
     }
 
     // AoWArnoLine.pas:84
-    public void SetIBottom(LibraryImage Value)
+    public void SetIBottom(LibraryImage value)
     {
-        if (Value != FImageBottom)
+        if (value != _imageBottom)
         {
-            FImageBottom = Value;
-            FValid = false;
+            _imageBottom = value;
+            Valid = false;
         }
     }
 
     [Published]
-    public LibraryImage ImageTop { get => FImageTop; set => SetITop(value); }
+    public LibraryImage ImageTop { get => _imageTop; set => SetITop(value); }
 
     [Published]
-    public LibraryImage ImageMiddle { get => FImageMiddle; set => SetIMiddle(value); }
+    public LibraryImage ImageMiddle { get => _imageMiddle; set => SetIMiddle(value); }
 
     [Published]
-    public LibraryImage ImageBottom { get => FImageBottom; set => SetIBottom(value); }
+    public LibraryImage ImageBottom { get => _imageBottom; set => SetIBottom(value); }
 
     public new NotifyEvent<ArnoLine> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<ArnoLine> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<ArnoLine> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<ArnoLine> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<ArnoLine> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<ArnoLine> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<ArnoLine> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<ArnoLine> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<ArnoLine> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 }

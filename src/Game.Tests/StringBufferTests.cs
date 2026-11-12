@@ -132,38 +132,38 @@ public sealed class StringBufferTests
         var font = new ImageLibraryFont(null!);
         var memo = new Memo(null!)
         {
-            FNoFrame = true,
-            FWinWidth = 28,
-            FWinHeight = 30,
-            FAOWFont = font,
-            FColorChangeChar = (byte)'#'
+            NoFrame = true,
+            _winWidth = 28,
+            _winHeight = 30,
+            _font = font,
+            _colorChangeChar = (byte)'#'
         };
-        memo.FItems.Add("#80FF00A B\0ignored");
-        memo.FItems.Add("\u20AC \u00FF\u00FF\u00FF");
+        memo._items.Add("#80FF00A B\0ignored");
+        memo._items.Add("\u20AC \u00FF\u00FF\u00FF");
         memo.SetSize();
-        Assert.Equal(3, memo.FLines.Count);
-        Assert.Equal("A B", memo.FLines[0]);
-        Assert.Equal("\u20AC ", memo.FLines[1]);
-        Assert.Equal("\u00FF\u00FF\u00FF", memo.FLines[2]);
-        var color = Assert.IsType<ColorChange>(memo.FColorList[0]);
-        Assert.True(color.FHasColor);
-        Assert.Equal(0x80FF00, color.FColor);
+        Assert.Equal(3, memo.Lines.Count);
+        Assert.Equal("A B", memo.Lines[0]);
+        Assert.Equal("\u20AC ", memo.Lines[1]);
+        Assert.Equal("\u00FF\u00FF\u00FF", memo.Lines[2]);
+        var color = Assert.IsType<ColorChange>(memo.ColorList[0]);
+        Assert.True(color.HasColor);
+        Assert.Equal(0x80FF00, color.Color);
     }
 
     [Fact]
     public void HtmlWalkKeepsTagOffsetsAndNulTermination()
     {
-        var memo = new HtmlMemo(null!) { FWinWidth = 100, FWinHeight = 30 };
-        memo.FItems.Add("<INT><COLOR=80FF00><SPACING=3><ALIGN=RIGHT>\0<COLOR=FFFFFF>");
+        var memo = new HtmlMemo(null!) { _winWidth = 100, _winHeight = 30 };
+        memo._items.Add("<INT><COLOR=80FF00><SPACING=3><ALIGN=RIGHT>\0<COLOR=FFFFFF>");
         memo.SetSize();
-        Assert.Equal(4, memo.FChanges.Count);
-        var color = Assert.IsType<HtmlMemo.ChangeInfo>(memo.FChanges[1]);
-        var spacing = Assert.IsType<HtmlMemo.ChangeInfo>(memo.FChanges[2]);
-        var alignment = Assert.IsType<HtmlMemo.ChangeInfo>(memo.FChanges[3]);
-        Assert.Equal(0x80FF00, color.FColor);
-        Assert.Equal(3, spacing.FSpacing);
-        Assert.Equal(TextAlignment.Right, alignment.FAlign);
-        Assert.Equal(0x80FF00, alignment.FColor);
+        Assert.Equal(4, memo.Changes.Count);
+        var color = Assert.IsType<HtmlMemo.ChangeInfo>(memo.Changes[1]);
+        var spacing = Assert.IsType<HtmlMemo.ChangeInfo>(memo.Changes[2]);
+        var alignment = Assert.IsType<HtmlMemo.ChangeInfo>(memo.Changes[3]);
+        Assert.Equal(0x80FF00, color.Color);
+        Assert.Equal(3, spacing.Spacing);
+        Assert.Equal(TextAlignment.Right, alignment.Align);
+        Assert.Equal(0x80FF00, alignment.Color);
     }
 
     [Fact]
@@ -171,11 +171,11 @@ public sealed class StringBufferTests
     {
         var memo = new HtmlMemo(null!)
         {
-            FWinWidth = 100,
-            FWinHeight = 30,
-            FAOWFont = new ImageLibraryFont(null!)
+            _winWidth = 100,
+            _winHeight = 30,
+            _font = new ImageLibraryFont(null!)
         };
-        memo.FItems.Add("<INT>text");
+        memo._items.Add("<INT>text");
         Assert.Throws<IndexOutOfRangeException>(() => memo.SetSize());
     }
 }

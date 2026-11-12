@@ -7,53 +7,53 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat;
 
-// FPositions: packed MapCoordinate entries, eight per army position
+// Positions: packed MapCoordinate entries, eight per army position
 public partial class UnitPositionControl : EngineObject
 {
-    public MapCoordinateList FPositions;
+    public MapCoordinateList Positions;
 
     // AoWTC.pas:4943
     public override void Dispose()
     {
-        FPositions?.Dispose();
-        FPositions = null;
+        Positions?.Dispose();
+        Positions = null;
         base.Dispose();
     }
 
     // AoWTC.pas:4936
     public UnitPositionControl(ECustomNode owner) : base(owner)
     {
-        FPositions = new MapCoordinateList();
-        var packXYL = HexGeometry.PackXYL(-1, -1, -1);
-        FPositions.Default = packXYL;
+        Positions = new MapCoordinateList();
+        var packMapCoordinate = HexGeometry.PackMapCoordinate(-1, -1, -1);
+        Positions.Default = packMapCoordinate;
     }
 
     // AoWTC.pas:4990
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        UnitPositionHexSprite HS;
+        UnitPositionHexSprite hexSprite;
         int X = default;
         int Y = default;
         int L;
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 65541)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 65541)
         {
-            L = Msg.Data[1];
-            HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref X, ref Y);
+            L = message.Data[1];
+            HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], ref X, ref Y);
             if (CombatMap.Current.MapContainer.GetField(X, Y, L).TerrainType != 15)
             {
-                HS = (UnitPositionHexSprite)CombatMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(2228483);
-                if (HS == null)
+                hexSprite = (UnitPositionHexSprite)CombatMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(2228483);
+                if (hexSprite == null)
                 {
-                    HS = new UnitPositionHexSprite(null);
-                    if (!CombatMap.Current.PlaceHX(HS, X, Y, L))
+                    hexSprite = new UnitPositionHexSprite(null);
+                    if (!CombatMap.Current.PlaceHex(hexSprite, X, Y, L))
                     {
-                        HS?.Dispose();
-                        HS = null;
+                        hexSprite?.Dispose();
+                        hexSprite = null;
                     }
                 }
 
-                if (HS != null)
+                if (hexSprite != null)
                 {
                 }
             }
@@ -61,69 +61,69 @@ public partial class UnitPositionControl : EngineObject
     }
 
     // AoWTC.pas:4950
-    public MapCoordinate GetUnitPosition(int Position, int Index)
+    public MapCoordinate GetUnitPosition(int position, int index)
     {
-        MapCoordinate Result = default;
+        MapCoordinate result = default;
         int I;
-        I = Position * 8 + Index;
-        if (I < FPositions.Count)
+        I = position * 8 + index;
+        if (I < Positions.Count)
         {
-            Result = FPositions[I];
+            result = Positions[I];
         }
         else
         {
-            Result.X = -1;
-            Result.Y = -1;
-            Result.L = -1;
+            result.X = -1;
+            result.Y = -1;
+            result.MapLevel = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:4963
-    public void SetUnitPosition(int Position, int Index, MapCoordinate Value)
+    public void SetUnitPosition(int position, int index, MapCoordinate value)
     {
-        if (Position < 7 && Index < 8)
+        if (position < 7 && index < 8)
         {
-            FPositions[Position * 8 + Index] = Value;
+            Positions[position * 8 + index] = value;
         }
     }
 
     // AoWTC.pas:4969
-    public bool ValidatePosition(ref sbyte Position, ref sbyte Index)
+    public bool ValidatePosition(ref sbyte position, ref sbyte index)
     {
-        bool Result = FPositions[Position * 8 + Index].X == -1;
-        if (!Result)
+        bool result = Positions[position * 8 + index].X == -1;
+        if (!result)
         {
-            Index = 0;
-            while (FPositions[Position * 8 + Index].X != -1 && Index != 8)
+            index = 0;
+            while (Positions[position * 8 + index].X != -1 && index != 8)
             {
-                Index = (sbyte)(Index + 1);
+                index = (sbyte)(index + 1);
             }
 
-            Result = Index != 8;
+            result = index != 8;
         }
 
-        if (!Result)
+        if (!result)
         {
-            Position = 0;
-            while (!Result && Position < 7)
+            position = 0;
+            while (!result && position < 7)
             {
-                while (FPositions[Position * 8 + Index].X != -1 && Index != 8)
+                while (Positions[position * 8 + index].X != -1 && index != 8)
                 {
-                    Index = (sbyte)(Index + 1);
+                    index = (sbyte)(index + 1);
                 }
 
-                Result = Index != 8;
-                if (!Result)
+                result = index != 8;
+                if (!result)
                 {
-                    Index = 0;
-                    Position = (sbyte)(Position + 1);
+                    index = 0;
+                    position = (sbyte)(position + 1);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
 }

@@ -12,97 +12,97 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Structures;
 
 // { ot=1 }
-// FMode
+// Mode
 public partial class Farm : PlayerCropStructure
 {
     public Farm(ECustomNode owner) : base(owner)
     { }
 
     // Farm.pas:54
-    public new const int ClassID = 131950;
+    public new const int ClassId = 131950;
 
-    public Set<ModeElement> FMode;
+    public Set<ModeElement> Mode;
 
     // Farm.pas:81
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        RwSet(ref FMode, 1, 20, Stream.rwData, 0);
+        base.ReadWrite(stream);
+        RwSet(ref Mode, 1, 20, stream.rwData, 0);
     }
 
     // Farm.pas:130
-    public override void TerrainChanged(in HexSpriteTerrainInfo Info)
+    public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        base.TerrainChanged(Info);
-        if (Info.HN == 0)
+        base.TerrainChanged(info);
+        if (info.HexNumber == 0)
         {
             UpdateCrops();
         }
     }
 
     // Farm.pas:64
-    public override void SetRazed(bool Value)
+    public override void SetRazed(bool value)
     {
-        if (Value)
+        if (value)
         {
             SetPlayer(-1);
-            FMode = FMode + Set<ModeElement>.Of(ModeElement.Razed);
+            Mode = Mode + Set<ModeElement>.Of(ModeElement.Razed);
         }
         else
         {
-            FMode = FMode - Set<ModeElement>.Of(ModeElement.Razed);
+            Mode = Mode - Set<ModeElement>.Of(ModeElement.Razed);
         }
 
         UpdateCrops();
-        FImageIndex = GetTerrainTypeImage(FTerrainType);
+        _imageIndex = GetTerrainTypeImage(_terrainType);
     }
 
     // Farm.pas:59
-    public override bool GetRazed() => FMode.Contains(ModeElement.Razed);
+    public override bool GetRazed() => Mode.Contains(ModeElement.Razed);
 
     // Farm.pas:76
     public override string GetCurrentActivityText()
     {
         var income = GetIncome();
-        return RtlUnit.Format(AbilityRules.TranslateRStr(GameText.ProducingXIncomeRStr), [IntToStr(income)]);
+        return RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_producingIncomeFormat), [IntToStr(income)]);
     }
 
     // Farm.pas:111
-    public override void UpdateAITarget(in AITargetInfo Info, ref AITargetData Data)
+    public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        int Priority;
+        int priority;
         if (!GetRazed() || GetBuilding())
         {
-            switch (Info.Mode)
+            switch (info.Mode)
             {
                 case AITargetMode.Attack:
-                    if (Info.Player != FPlayer && !GetRazed())
+                    if (info.Player != Player && !GetRazed())
                     {
-                        Priority = Data.Priority;
-                        if (FPlayer == 0)
+                        priority = data.Priority;
+                        if (Player == 0)
                         {
-                            Priority = 50;
+                            priority = 50;
                         }
                         else
                         {
-                            if (AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
+                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, 0))
                             {
-                                Priority = 50 - AoWHSMap.Current.FPlayers.GetPlayers(Info.Player).FIncome / 2;
-                                if (Priority < 25)
+                                priority = 50 - AoWHSMap.Current.Players.GetPlayers(info.Player).Income / 2;
+                                if (priority < 25)
                                 {
-                                    Priority = 25;
+                                    priority = 25;
                                 }
 
-                                if (Priority > 75)
+                                if (priority > 75)
                                 {
-                                    Priority = 75;
+                                    priority = 75;
                                 }
                             }
                         }
 
-                        if (Priority > Data.Priority)
+                        if (priority > data.Priority)
                         {
-                            Data.Priority = Priority;
+                            data.Priority = priority;
                         }
                     }
 
@@ -112,36 +112,36 @@ public partial class Farm : PlayerCropStructure
     }
 
     // Farm.pas:92
-    public override bool CanPlaceCrop(MapField Field) => Field.TerrainType != 5 && base.CanPlaceCrop(Field);
+    public override bool CanPlaceCrop(MapField field) => field.TerrainType != 5 && base.CanPlaceCrop(field);
 
     // Farm.pas:87
-    public override bool CropsEnabled() => base.CropsEnabled() && FTerrainType != 5;
+    public override bool CropsEnabled() => base.CropsEnabled() && _terrainType != 5;
 
     // Farm.pas:97
     public override void UpdateCrops()
     {
-        int Count;
-        if (!GetEditMode() && FStatus.Contains(MapObjectStatusElement.Activated))
+        int count;
+        if (!GetEditMode() && _status.Contains(MapObjectStatusElement.Activated))
         {
-            if (GetRazed() || FTerrainType == 5)
+            if (GetRazed() || _terrainType == 5)
             {
-                Count = 0;
+                count = 0;
             }
             else
             {
                 if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                 {
-                    Count = ((PlayerCropStructureResource)FResource).FCropLocations.Count;
+                    count = ((PlayerCropStructureResource)_resource).CropLocations.Count;
                 }
                 else
                 {
-                    Count = -1;
+                    count = -1;
                 }
             }
 
-            if (Count != -1)
+            if (count != -1)
             {
-                SetCropCount(Count);
+                SetCropCount(count);
             }
 
             UpdateCropSettings();
@@ -158,27 +158,27 @@ public partial class Farm : PlayerCropStructure
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FClaimed = false;
-            FRazeable = true;
-            FRazeDefenderBudget = 50;
-            FRebuildGold = 25;
-            FRebuildDays = 2;
+            Claimed = false;
+            Razeable = true;
+            RazeDefenderBudget = 50;
+            RebuildGold = 25;
+            RebuildDays = 2;
         }
 
         // Farm.pas:151
-        public new const int ClassID = 131951;
+        public new const int ClassId = 131951;
 
         // Farm.pas:136
 
         // Farm.pas:156
-        public override int ResourceUserClassID() => 131950;
+        public override int ResourceUserClassId() => 131950;
 
         // Farm.pas:36
 
         // Farm.pas:146
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(FarmRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_farmText);
 
-        private static readonly string FarmRStr = "Farm";
+        private static readonly string s_farmText = "Farm";
 
     }
 

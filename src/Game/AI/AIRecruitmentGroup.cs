@@ -11,15 +11,15 @@ public partial class AIRecruitmentGroup : EngineObject
     // AIGroup.pas:750
     public AIRecruitmentGroup(ECustomNode owner) : base(owner)
     {
-        FRefCount = 1;
+        RefCount = 1;
     }
 
-    public int FRefCount;
-    public MapCoordinate FLocation;
-    public AIGroup FGroup;
-    public int FMovePoints;
-    public int FTransporterID;
-    public int FPathStrength;
+    public int RefCount;
+    public MapCoordinate Location;
+    public AIGroup Group;
+    public int MovePoints;
+    public int TransporterId;
+    public int PathStrength;
 
     // AIGroup.pas:756
     public override void Dispose()
@@ -31,57 +31,57 @@ public partial class AIRecruitmentGroup : EngineObject
     // AIGroup.pas:762
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // AIGroup.pas:768
     public override int Release()
     {
-        FRefCount -= 1;
-        int Result = FRefCount;
-        if (FRefCount == 0)
+        RefCount -= 1;
+        int result = RefCount;
+        if (RefCount == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:788
-    public virtual bool Validate(AIGroupControl Control)
+    public virtual bool Validate(AIGroupControl control)
     {
-        bool Result;
-        MapCoordinate Location = default;
-        if (FGroup.Count != 0)
+        bool result;
+        MapCoordinate location = default;
+        if (Group.Count != 0)
         {
-            Location.Packed = FGroup.GetLoc();
-            Result = Location.X == FLocation.X && Location.Y == FLocation.Y && Location.L == FLocation.L && FGroup.FPlayer == Control.FGroup.FPlayer;
+            location.Packed = Group.GetLocation();
+            result = location.X == Location.X && location.Y == Location.Y && location.MapLevel == Location.MapLevel && Group.Player == control.Group.Player;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:775
-    public void SetGroup(AIGroup Group)
+    public void SetGroup(AIGroup group)
     {
-        AIGroup OldGroup;
-        OldGroup = FGroup;
-        if (OldGroup != Group)
+        AIGroup oldGroup;
+        oldGroup = Group;
+        if (oldGroup != group)
         {
-            if (OldGroup != null)
+            if (oldGroup != null)
             {
-                OldGroup.Release();
+                oldGroup.Release();
             }
 
-            FGroup = Group;
-            if (FGroup != null)
+            Group = group;
+            if (Group != null)
             {
-                FGroup.AddRef();
+                Group.AddRef();
             }
         }
     }

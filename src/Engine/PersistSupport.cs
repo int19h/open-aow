@@ -22,7 +22,7 @@ public static class PersistSupport
     {
         var list = new List<int>(values.Length);
         for (int i = 0; i < values.Length; i++) list.Add(values[i]);
-        persister.List(name, list, static (IItemSlot slot, ref int item) => slot.Int(ref item));
+        persister.List(name, list, static (IItemSlot slot, ref int item) => slot.Int32(ref item));
         if (!persister.Loading) return;
         if (list.Count > values.Length)
             throw new InvalidOperationException(name + " holds at most " + values.Length + " values.");
@@ -33,7 +33,7 @@ public static class PersistSupport
     {
         var list = new List<ushort>(values.Length);
         for (int i = 0; i < values.Length; i++) list.Add(values[i]);
-        persister.List(name, list, static (IItemSlot slot, ref ushort item) => slot.UShort(ref item));
+        persister.List(name, list, static (IItemSlot slot, ref ushort item) => slot.UInt16(ref item));
         if (!persister.Loading) return;
         if (list.Count > values.Length)
             throw new InvalidOperationException(name + " holds at most " + values.Length + " values.");
@@ -58,7 +58,7 @@ public static class PersistSupport
         }
     }
 
-    public static void LinesEx(IPersister persister, string name, StringCollection lines)
+    public static void LinesWithValues(IPersister persister, string name, StringCollection lines)
     {
         var copy = new List<string>(lines.Count);
         var objects = new List<int>(lines.Count);

@@ -17,9 +17,9 @@ public partial class Terror : CombatSpell
     // CombatSpells.pas:1759
     public Terror(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(TerrorRStr);
-        FSpellID = 105;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_terrorText);
+        SpellId = 105;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Death);
@@ -28,127 +28,127 @@ public partial class Terror : CombatSpell
     }
 
     // CombatSpells.pas:1775
-    public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
+    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        TacticalBattleTerrorCombatAction Action;
-        Action = new TacticalBattleTerrorCombatAction(null);
-        Action.Generate(Source, Target);
-        if (ChargeMana)
+        TacticalBattleTerrorCombatAction action;
+        action = new TacticalBattleTerrorCombatAction(null);
+        action.Generate(source, target);
+        if (chargeMana)
         {
-            Action.FManaCost = ((Hero)((CombatUnit)Source).FUnit).CastingMana(this);
+            action.ManaCost = ((Hero)((CombatUnit)source).Troop).CastingMana(this);
         }
 
-        return Action;
+        return action;
     }
 
     // CombatSpells.pas:1862
-    public override void tcGetDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values)
+    public override void TacticalBattleGetDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        int Value;
-        if (!Target.GetAbilityEnabled(108) && Target.FCombatValue != 0 && Target is CombatUnit && !Target.GetImmunityTypes().Contains(DamageType.Death))
+        int value;
+        if (!target.GetAbilityEnabled(108) && target.CombatValue != 0 && target is CombatUnit && !target.GetImmunityTypes().Contains(DamageType.Death))
         {
-            Value = Round((double)HitChance.HitRoleProbability(6 - Target.GetResistance()) * 100);
+            value = Round((double)HitChance.HitRoleProbability(6 - target.GetResistance()) * 100);
         }
         else
         {
-            Value = 0;
+            value = 0;
         }
 
-        if (Value != 0)
+        if (value != 0)
         {
-            Values.SourceDamage = Value;
-            Values.SourceCost = Value / 100;
-            Values.TargetDamage = 0;
-            Values.TargetCost = 0;
-            Values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
+            values.SourceDamage = value;
+            values.SourceCost = value / 100;
+            values.TargetDamage = 0;
+            values.TargetCost = 0;
+            values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
         }
         else
         {
-            Values.SourceDamage = 0;
-            Values.SourceCost = 0;
-            Values.TargetDamage = 0;
-            Values.TargetCost = 0;
-            Values.DamageTypes = Set<DamageType>.Of();
+            values.SourceDamage = 0;
+            values.SourceCost = 0;
+            values.TargetDamage = 0;
+            values.TargetCost = 0;
+            values.DamageTypes = Set<DamageType>.Of();
         }
     }
 
     // CombatSpells.pas:1786
-    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
+    public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
-        CombatSide Side;
-        CombatObject Target;
-        int Value;
-        FastBattleSpellCommand Command;
-        Value = 0;
-        var opponentSide = Commands.FSource.GetOpponentSide();
-        Side = Commands.FCombat.FSides[(int)opponentSide];
-        for (int I = Side.GetCount() - 1; I >= 0; I--)
+        CombatSide side;
+        CombatObject target;
+        int value;
+        FastBattleSpellCommand command;
+        value = 0;
+        var opponentSide = commands.Source.GetOpponentSide();
+        side = commands.Combat.Sides[(int)opponentSide];
+        for (int I = side.GetCount() - 1; I >= 0; I--)
         {
-            Target = Side.GetObjects(I);
-            if (!Target.GetAbilityEnabled(108) && Target.FCombatValue != 0 && Target is CombatUnit && !Target.GetImmunityTypes().Contains(DamageType.Death))
+            target = side.GetObjects(I);
+            if (!target.GetAbilityEnabled(108) && target.CombatValue != 0 && target is CombatUnit && !target.GetImmunityTypes().Contains(DamageType.Death))
             {
-                Value += Target.GetTargetPriority();
+                value += target.GetTargetPriority();
             }
         }
 
-        if (Value != 0)
+        if (value != 0)
         {
-            Command = new FastBattleSpellCommand(52);
-            Command.FTarget = null;
-            Command.FMoveCost = 1;
-            Command.FSpellID = FSpellID;
-            Command.FExpectedDV = Value;
-            Commands.Add(Command);
+            command = new FastBattleSpellCommand(52);
+            command.Target = null;
+            command.MoveCost = 1;
+            command.SpellId = SpellId;
+            command.ExpectedDamageValue = value;
+            commands.Add(command);
         }
     }
 
     // CombatSpells.pas:1815
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
+    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
     {
-        FastBattleTerrorCombatAction Action;
-        Action = new FastBattleTerrorCombatAction(null);
-        Action.Generate(Source);
-        Action.FManaCost = ((Hero)((CombatUnit)Source).FUnit).CastingMana(this);
-        Source.FCombat.ExecuteCombatAction(Action);
-        Action.Release();
+        FastBattleTerrorCombatAction action;
+        action = new FastBattleTerrorCombatAction(null);
+        action.Generate(source);
+        action.ManaCost = ((Hero)((CombatUnit)source).Troop).CastingMana(this);
+        source.Combat.ExecuteCombatAction(action);
+        action.Release();
         return true;
     }
 
     // CombatSpells.pas:1828
-    public override void fcGetDamageValueEx(CombatObject Source, CombatObject Target, WallSituation WallSituation, ref AbilityDamageValues Values)
+    public override void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
-        int Value;
-        CombatSide Side;
-        CombatObject Opponent;
-        Value = 0;
-        var opponentSide = Source.GetOpponentSide();
-        Side = Source.FCombat.FSides[(int)opponentSide];
-        for (int I = Side.GetCount() - 1; I >= 0; I--)
+        int value;
+        CombatSide side;
+        CombatObject opponent;
+        value = 0;
+        var opponentSide = source.GetOpponentSide();
+        side = source.Combat.Sides[(int)opponentSide];
+        for (int I = side.GetCount() - 1; I >= 0; I--)
         {
-            Opponent = Side.GetObjects(I);
-            if (!Opponent.GetAbilityEnabled(108) && Opponent.FCombatValue != 0 && Opponent is CombatUnit && !Opponent.GetImmunityTypes().Contains(DamageType.Death))
+            opponent = side.GetObjects(I);
+            if (!opponent.GetAbilityEnabled(108) && opponent.CombatValue != 0 && opponent is CombatUnit && !opponent.GetImmunityTypes().Contains(DamageType.Death))
             {
-                Value += Round((double)HitChance.HitRoleProbability(6 - Opponent.GetResistance()) * 100);
+                value += Round((double)HitChance.HitRoleProbability(6 - opponent.GetResistance()) * 100);
             }
         }
 
-        if (Value != 0)
+        if (value != 0)
         {
-            Values.SourceDamage = Value;
-            Values.SourceCost = Value / 100;
-            Values.TargetDamage = 0;
-            Values.TargetCost = 0;
-            Values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
+            values.SourceDamage = value;
+            values.SourceCost = value / 100;
+            values.TargetDamage = 0;
+            values.TargetCost = 0;
+            values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
         }
         else
         {
-            Values.SourceDamage = 0;
-            Values.SourceCost = 0;
-            Values.TargetDamage = 0;
-            Values.TargetCost = 0;
-            Values.DamageTypes = Set<DamageType>.Of();
+            values.SourceDamage = 0;
+            values.SourceCost = 0;
+            values.TargetDamage = 0;
+            values.TargetCost = 0;
+            values.DamageTypes = Set<DamageType>.Of();
         }
     }
 
-    private static readonly string TerrorRStr = "Terror";
+    private static readonly string s_terrorText = "Terror";
 }

@@ -13,31 +13,31 @@ namespace Aow.Game.AI.Groups;
 public partial class PatrolAIGroup : AIGroup, IAIGroupClass
 {
     // IndependentAG.pas:295
-    public new const int ClassID = 136274;
+    public new const int ClassId = 136274;
 
-    public MapCoordinate FPatrolFrom;
-    public MapCoordinate FPatrolTo;
-    public sbyte FPreviousHeading;
-    public int FPatrolStrength;
+    public MapCoordinate PatrolFrom;
+    public MapCoordinate PatrolTo;
+    public sbyte PreviousHeading;
+    public int PatrolStrength;
 
     // IndependentAG.pas:304
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FPatrolFrom.Packed, 40);
-        Stream.rwInteger(ref FPatrolTo.Packed, 41);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPreviousHeading), 42);
-        Stream.rwInteger(ref FPatrolStrength, 43);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref PatrolFrom.Packed, 40);
+        stream.rwInteger(ref PatrolTo.Packed, 41);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref PreviousHeading), 42);
+        stream.rwInteger(ref PatrolStrength, 43);
     }
 
     // IndependentAG.pas:285
     public PatrolAIGroup(ECustomNode owner) : base(owner)
     {
-        FProcessPriority = 1;
-        FRecruitmentPriority = 2;
-        FPatrolFrom.Packed = 16777215;
-        FPatrolTo.Packed = 16777215;
-        FPreviousHeading = 0;
+        ProcessPriority = 1;
+        RecruitmentPriority = 2;
+        PatrolFrom.Packed = 16777215;
+        PatrolTo.Packed = 16777215;
+        PreviousHeading = 0;
     }
 
     // IndependentAG.pas:301

@@ -3,23 +3,23 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw;
 
-// Rect
+// Bounds
 public partial class Rectangle
 {
-    public Rect Rect;
+    public Rect Bounds;
 
     // GFXE.pas:2432
-    public Rectangle(int ALeft, int ATop, int ARight, int ABottom)
+    public Rectangle(int left, int top, int right, int bottom)
     {
-        Rect.Left = ALeft;
-        Rect.Top = ATop;
-        Rect.Right = ARight;
-        Rect.Bottom = ABottom;
+        Bounds.Left = left;
+        Bounds.Top = top;
+        Bounds.Right = right;
+        Bounds.Bottom = bottom;
     }
 
     // GFXE.pas:2440
     public Rectangle(in Rect R)
     {
-        Rect = R;
+        Bounds = R;
     }
 }

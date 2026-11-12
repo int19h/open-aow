@@ -24,7 +24,7 @@ public sealed class ThrowingCastTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly AoWHSMap previous = AoWHSMap.Current;
+        private readonly AoWHSMap _previous = AoWHSMap.Current;
 
         public MapScope()
         {
@@ -34,7 +34,7 @@ public sealed class ThrowingCastTests
 
         public AoWHSMap Map { get; }
 
-        public void Dispose() => AoWHSMap.Current = previous;
+        public void Dispose() => AoWHSMap.Current = _previous;
     }
 
     private sealed class ItemSite : Structure
@@ -48,7 +48,7 @@ public sealed class ThrowingCastTests
         public override sbyte GetTerrain(int index) => 0;
 
         // The tag query reads the resource. This site has none and leaves the query unanswered.
-        public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+        public override void MapFieldMessageProc(ref MapFieldMessage message)
         {
         }
 
@@ -64,8 +64,8 @@ public sealed class ThrowingCastTests
     {
         var player = new Player(null!);
         var leader = new Leader(null!);
-        leader.FOwner = player.FHeroes;
-        player.FLeader = leader;
+        leader._owner = player.Heroes;
+        player.Leader = leader;
         sbyte x = 0;
         sbyte y = 0;
         sbyte level = 0;
@@ -75,11 +75,11 @@ public sealed class ThrowingCastTests
         Assert.Equal((sbyte)-1, level);
 
         var army = new Army(null!);
-        army.FStatus = Set<ArmyStatusElement>.Of(ArmyStatusElement.Activated);
-        army.FX = 4;
-        army.FY = 6;
-        army.FL = 1;
-        leader.FOwner = army;
+        army.Status = Set<ArmyStatusElement>.Of(ArmyStatusElement.Activated);
+        army.X = 4;
+        army.Y = 6;
+        army.MapLevel = 1;
+        leader._owner = army;
         player.GetLeaderLocation(ref x, ref y, ref level);
         Assert.Equal((sbyte)4, x);
         Assert.Equal((sbyte)6, y);
@@ -91,25 +91,25 @@ public sealed class ThrowingCastTests
     {
         using var scope = new MapScope();
         var heroList = new HeroList(null!);
-        var unit = new Troop(null!) { FUnitID = 9 };
-        unit.FOwner = heroList;
+        var troop = new Troop(null!) { UnitId = 9 };
+        troop._owner = heroList;
         int source = -1;
         int count = -1;
         scope.Map.FOnActivateAbility += sender =>
         {
             var info = (UnitSelectionActivation)sender;
-            source = info.FUnitSelector.FSourceUnitID;
-            count = info.FUnitSelector.FUnits.GetCount();
+            source = info.UnitSelector.SourceUnitId;
+            count = info.UnitSelector.Units.GetCount();
         };
         var ability = new HealingAbility(null!);
         string reason = "";
-        Assert.True(ability.Activate(unit, ref reason));
+        Assert.True(ability.Activate(troop, ref reason));
         Assert.Equal(9, source);
         Assert.Equal(0, count);
 
         var list = new UnitUserList(null!);
-        var listed = new Troop(null!) { FUnitID = 8 };
-        listed.FOwner = list;
+        var listed = new Troop(null!) { UnitId = 8 };
+        listed._owner = list;
         source = -1;
         Assert.True(ability.Activate(listed, ref reason));
         Assert.Equal(8, source);
@@ -119,25 +119,25 @@ public sealed class ThrowingCastTests
     public void NonHeroFindIsAbsentAndAHeroStillResolves()
     {
         using var scope = new MapScope();
-        scope.Map.FSeatedPlayer = 0;
-        var unit = new Troop(null!) { FUnitID = 42, FPlayer = 0 };
-        var hero = new Hero(null!) { FUnitID = 43, FPlayer = 4 };
-        scope.Map.FUnitControl.RegisterUnit(unit);
-        scope.Map.FUnitControl.RegisterUnit(hero);
+        scope.Map.SeatedPlayer = 0;
+        var troop = new Troop(null!) { UnitId = 42, Player = 0 };
+        var hero = new Hero(null!) { UnitId = 43, Player = 4 };
+        scope.Map.UnitControl.RegisterUnit(troop);
+        scope.Map.UnitControl.RegisterUnit(hero);
 
-        var skipped = new HeroUpgradeEventLog(null!) { FUnitID = 42 };
+        var skipped = new HeroUpgradeEventLog(null!) { UnitId = 42 };
         Assert.False(skipped.Execute(false, ExecuteTrigger.User, null!));
 
-        var resolved = new HeroUpgradeEventLog(null!) { FUnitID = 43 };
+        var resolved = new HeroUpgradeEventLog(null!) { UnitId = 43 };
         Assert.False(resolved.Execute(false, ExecuteTrigger.User, null!));
 
-        var spell = new SpellTokenEvent(null!) { FEventSourceID = 42 };
-        var executer = new TokenExecutor(null!);
-        Assert.Equal(ExecuteResult.DoneHalt, spell.Execute(executer));
+        var spell = new SpellTokenEvent(null!) { EventSourceId = 42 };
+        var executor = new TokenExecutor(null!);
+        Assert.Equal(ExecuteResult.DoneHalt, spell.Execute(executor));
 
-        executer.FExecuteCount = 1;
+        executor._executeCount = 1;
         ExecuteResult? later = null;
-        var error = Record.Exception(() => later = spell.Execute(executer));
+        var error = Record.Exception(() => later = spell.Execute(executor));
         Assert.IsNotType<InvalidCastException>(error);
         if (error == null)
         {
@@ -155,24 +155,24 @@ public sealed class ThrowingCastTests
             var container = new MapContainer(null!);
             var level = new MapLevel(container);
             level.CreateMapFieldList(1, 1);
-            container.FMap = map;
-            map.FMapContainer = container;
+            container._map = map;
+            map._mapContainer = container;
             var combat = new TacticalBattle(null!);
             map.SetCombat(combat);
-            combat.FCombatData.FWallType = 1;
+            combat.CombatData.WallType = 1;
             var field = container.MapLevels[0].Field[0, 0];
             var structure = new CombatStructure(null!);
-            structure.FOwner = field;
-            field.FHSList[0] = structure;
-            field.FCount = 1;
+            structure._owner = field;
+            field._hexSpriteList[0] = structure;
+            field._count = 1;
             var ai = new BattleAI();
             int value = 7;
             ai.EvalHex(null!, 0, 0, 0, 0, ref value, true, false, null!, null);
             Assert.Equal(7, value);
 
             var door = new CityWallDoor(null!);
-            door.FOwner = field;
-            field.FHSList[0] = door;
+            door._owner = field;
+            field._hexSpriteList[0] = door;
             value = 7;
             ai.EvalHex(null!, 0, 0, 0, 0, ref value, true, false, null!, null);
             Assert.Equal(7, value);
@@ -193,16 +193,16 @@ public sealed class ThrowingCastTests
             var container = new MapContainer(null!);
             var level = new AoWMapLevel(container);
             level.CreateMapFieldList(7, 7);
-            container.FMap = scope.Map;
-            scope.Map.FMapContainer = container;
+            container._map = scope.Map;
+            scope.Map._mapContainer = container;
             var field = container.MapLevels[0].Field[3, 3];
-            field.AddHS(new ItemSite(), 0);
+            field.AddHexSprite(new ItemSite(), 0);
 
-            var combat = new TacticalBattle(null!) { FExplorationSite = 1 };
-            combat.FItems = new PrisonersArmy(null!);
+            var combat = new TacticalBattle(null!) { ExplorationSite = 1 };
+            combat.Items = new PrisonersArmy(null!);
             var prisoners = new RandomBattleMapGenerator();
             var error = Record.Exception(() => prisoners.RandomMap(combat, 3, 3, 0));
-            Assert.Null(prisoners.FItems);
+            Assert.Null(prisoners.Items);
             // The generator keeps going after the item field and can fail on the map file.
             // The prisoners cast is the one whose message names ItemList.
             if (error is InvalidCastException cast)
@@ -211,10 +211,10 @@ public sealed class ThrowingCastTests
             }
 
             var items = new ItemList(null!);
-            combat.FItems = items;
+            combat.Items = items;
             var laidOut = new RandomBattleMapGenerator();
             Record.Exception(() => laidOut.RandomMap(combat, 3, 3, 0));
-            Assert.Same(items, laidOut.FItems);
+            Assert.Same(items, laidOut.Items);
         }
         finally
         {
@@ -229,45 +229,45 @@ public sealed class ThrowingCastTests
         var container = new MapContainer(null!);
         var level = new MapLevel(container);
         level.CreateMapFieldList(1, 1);
-        container.FMap = scope.Map;
-        container.FWidth = 1;
-        container.FHeight = 1;
-        container.FLevelCount = 1;
-        scope.Map.FMapContainer = container;
+        container._map = scope.Map;
+        container._width = 1;
+        container._height = 1;
+        container._levelCount = 1;
+        scope.Map._mapContainer = container;
 
         var tactical = new MoveControlSettings(null!);
-        tactical.FArmyHS = new TacticalBattleUnitHexSprite(null!);
-        tactical.SetSourcePos(0, 0, 0);
-        tactical.SetDestinationPos(1, 0, 0);
-        var error = Record.Exception(() => scope.Map.FMoveControl.Activate(tactical));
-        Assert.Null(scope.Map.FMoveControl.FArmyHS);
+        tactical.ArmyHexSprite = new TacticalBattleUnitHexSprite(null!);
+        tactical.SetSourcePosition(0, 0, 0);
+        tactical.SetDestinationPosition(1, 0, 0);
+        var error = Record.Exception(() => scope.Map.MoveControl.Activate(tactical));
+        Assert.Null(scope.Map.MoveControl.ArmyHexSprite);
         Assert.Null(error);
 
-        scope.Map.FMoveControl.Deactivate();
+        scope.Map.MoveControl.Deactivate();
         var army = new ArmyHexSprite(null!);
         var world = new MoveControlSettings(null!);
-        world.FArmyHS = army;
-        world.SetSourcePos(0, 0, 0);
-        world.SetDestinationPos(1, 0, 0);
-        Assert.True(scope.Map.FMoveControl.Activate(world));
-        Assert.Same(army, scope.Map.FMoveControl.FArmyHS);
+        world.ArmyHexSprite = army;
+        world.SetSourcePosition(0, 0, 0);
+        world.SetDestinationPosition(1, 0, 0);
+        Assert.True(scope.Map.MoveControl.Activate(world));
+        Assert.Same(army, scope.Map.MoveControl.ArmyHexSprite);
 
         var previous = CombatMap.Current;
         var combatMap = new CombatMap(null!);
         try
         {
             var settings = new CombatMoveControlSettings(null!);
-            settings.FArmyHS = new ArmyHexSprite(null!);
-            settings.SetSourcePos(-1, -1, -1);
-            settings.SetDestinationPos(-1, -1, -1);
-            var control = (CombatMoveControl)combatMap.FMoveControl;
+            settings.ArmyHexSprite = new ArmyHexSprite(null!);
+            settings.SetSourcePosition(-1, -1, -1);
+            settings.SetDestinationPosition(-1, -1, -1);
+            var control = (CombatMoveControl)combatMap.MoveControl;
             control.ProcessMove(settings);
-            Assert.Null(control.FUnitHS);
+            Assert.Null(control.UnitHexSprite);
 
             var unit = new TacticalBattleUnitHexSprite(null!);
-            settings.FArmyHS = unit;
+            settings.ArmyHexSprite = unit;
             control.ProcessMove(settings);
-            Assert.Same(unit, control.FUnitHS);
+            Assert.Same(unit, control.UnitHexSprite);
         }
         finally
         {

@@ -7,24 +7,24 @@ public partial class TurnButton
     // A port addition the original does not have.
     internal bool Press()
     {
-        if (FAnimating)
+        if (_animating)
         {
             return false;
         }
 
-        if (FButtonChecked)
+        if (ButtonChecked)
         {
-            FButtonChecked = false;
+            ButtonChecked = false;
         }
         else
         {
-            FButtonChecked = true;
+            ButtonChecked = true;
         }
 
-        FDrawn = false;
-        if (FOnPlayerChange != null)
+        Drawn = false;
+        if (OnPlayerChange != null)
         {
-            FOnPlayerChange(this);
+            OnPlayerChange(this);
         }
 
         return true;

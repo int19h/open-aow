@@ -12,11 +12,11 @@ public partial class DeathStormSpell : StormSpell
     // Storms.pas:969
     public DeathStormSpell(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameTables.DeathStormRStr);
-        FSpellID = 5;
-        FBaseManaCost = 5;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Death;
+        SpellName = AbilityRules.TranslateResourceString(GameTables.s_deathStormText);
+        SpellId = 5;
+        BaseManaCost = 5;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Death;
     }
 
     // Storms.pas:979

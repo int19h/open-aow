@@ -12,61 +12,61 @@ namespace Aow.Game.AI.Groups;
 public partial class PassiveAIGroup : AIGroup, IAIGroupClass
 {
     // MainAG.pas:129
-    public new const int ClassID = 136280;
+    public new const int ClassId = 136280;
 
     // MainAG.pas:122
     public PassiveAIGroup(ECustomNode owner) : base(owner)
     {
-        FProcessPriority = 0;
-        FRecruitmentPriority = 1;
+        ProcessPriority = 0;
+        RecruitmentPriority = 1;
     }
 
     // MainAG.pas:138
-    public override int GetLoc()
+    public override int GetLocation()
     {
-        MapCoordinate Location = default;
-        if (FTargetMode == (byte)AIGroupDefenseControl.GroupDefendMode.Custom)
+        MapCoordinate location = default;
+        if (TargetMode == (byte)AIGroupDefenseControl.GroupDefendMode.Custom)
         {
-            Location = FTargetXYL;
+            location = TargetMapCoordinate;
         }
         else
         {
-            Location.Packed = base.GetLoc();
+            location.Packed = base.GetLocation();
         }
 
-        return Location.Packed;
+        return location.Packed;
     }
 
     // MainAG.pas:147
-    public override bool GetRecruitableUnits(AIGroup Recruiter, UnitList Units, UnitList Recruitable)
+    public override bool GetRecruitableUnits(AIGroup recruiter, UnitList units, UnitList recruitable)
     {
-        MapCoordinate Location = default;
-        GroupDefenseSelector Selector;
-        Troop AUnit;
-        Location.Packed = GetLoc();
-        bool Result = false;
-        Selector = new GroupDefenseSelector();
-        Selector.Execute(this, Location.X, Location.Y, Location.L, Units);
-        if (Selector.FDefenders.Count != 0)
+        MapCoordinate location = default;
+        GroupDefenseSelector selector;
+        Troop troop;
+        location.Packed = GetLocation();
+        bool result = false;
+        selector = new GroupDefenseSelector();
+        selector.Execute(this, location.X, location.Y, location.MapLevel, units);
+        if (selector.Defenders.Count != 0)
         {
-            for (int I = Units.Count - 1; I >= 0; I--)
+            for (int I = units.Count - 1; I >= 0; I--)
             {
-                AUnit = Units.GetUnit(I);
-                if (Selector.FDefenders.IndexOf(AUnit) == -1)
+                troop = units.GetUnit(I);
+                if (selector.Defenders.IndexOf(troop) == -1)
                 {
-                    Recruitable.AddUnit(AUnit);
-                    Result = true;
+                    recruitable.AddUnit(troop);
+                    result = true;
                 }
             }
         }
         else
         {
-            Recruitable.AddUnits(Units);
-            Result = true;
+            recruitable.AddUnits(units);
+            result = true;
         }
 
-        Selector?.Dispose();
-        return Result;
+        selector?.Dispose();
+        return result;
     }
 
     // MainAG.pas:135

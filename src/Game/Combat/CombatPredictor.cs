@@ -17,78 +17,78 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat;
 
-// FAllUnits. FActiveUnits. FSides. FResult. FSuperiority. FEfficiency. FWall. FRound.
-// FNextCPUID. FInvalid. FWork
+// AllUnits. ActiveUnits. Sides. Result. Superiority. Efficiency. Wall. Round.
+// NextCpuId. Invalid. Work
 public partial class CombatPredictor : IDisposable
 {
     // CombatPredictor.pas:292
     public CombatPredictor()
     {
-        FAllUnits = new CombatPredictorUnitList();
-        FActiveUnits = new CombatPredictorUnitList();
+        AllUnits = new CombatPredictorUnitList();
+        ActiveUnits = new CombatPredictorUnitList();
         var combatPredictorSide = new CombatPredictorSide();
-        FSides[0] = combatPredictorSide;
+        Sides[0] = combatPredictorSide;
         var combatPredictorSide2 = new CombatPredictorSide();
-        FSides[1] = combatPredictorSide2;
+        Sides[1] = combatPredictorSide2;
     }
 
-    public CombatPredictorUnitList FAllUnits;
-    public CombatPredictorUnitList FActiveUnits;
-    public CombatPredictorSideArray2 FSides;
-    public byte FResult;
-    public int FSuperiority;
-    public int FEfficiency;
-    public CombatPredictorUnit FWall;
-    public int FRound;
-    public int FNextCPUID;
-    public byte FInvalid;
-    public int FWork;
+    public CombatPredictorUnitList AllUnits;
+    public CombatPredictorUnitList ActiveUnits;
+    public CombatPredictorSideArray2 Sides;
+    public byte Result;
+    public int Superiority;
+    public int Efficiency;
+    public CombatPredictorUnit Wall;
+    public int Round;
+    public int NextCpuId;
+    public byte Invalid;
+    public int Work;
 
     // CombatPredictor.pas:301
     public virtual void Dispose()
     {
         Reset();
-        FAllUnits?.Dispose();
-        FActiveUnits?.Dispose();
-        FSides[0]?.Dispose();
-        FSides[1]?.Dispose();
+        AllUnits?.Dispose();
+        ActiveUnits?.Dispose();
+        Sides[0]?.Dispose();
+        Sides[1]?.Dispose();
     }
 
     // CombatPredictor.pas:311
     public void Reset()
     {
-        for (int I = FAllUnits.Count - 1; I >= 0; I--)
+        for (int I = AllUnits.Count - 1; I >= 0; I--)
         {
-            (FAllUnits.List[I] as IDisposable)?.Dispose();
+            (AllUnits.List[I] as IDisposable)?.Dispose();
         }
 
-        FWall = null;
-        FAllUnits.Count = 0;
-        FActiveUnits.Count = 0;
-        FSides[0].Count = 0;
-        FSides[1].Count = 0;
-        FSuperiority = -1;
-        FEfficiency = -1;
-        FNextCPUID = 0;
+        Wall = null;
+        AllUnits.Count = 0;
+        ActiveUnits.Count = 0;
+        Sides[0].Count = 0;
+        Sides[1].Count = 0;
+        Superiority = -1;
+        Efficiency = -1;
+        NextCpuId = 0;
     }
 
     // CombatPredictor.pas:325
-    public int CreateUniqueCPUID()
+    public int CreateUniqueCpuId()
     {
-        int Result = FNextCPUID;
-        FNextCPUID += 1;
-        return Result;
+        int result = NextCpuId;
+        NextCpuId += 1;
+        return result;
     }
 
     // CombatPredictor.pas:328
     public void EnableAllUnits()
     {
-        for (int I = FAllUnits.Count - 1; I >= 0; I--)
+        for (int I = AllUnits.Count - 1; I >= 0; I--)
         {
-            if ((FAllUnits.List[I]).FEnabled == 0)
+            if ((AllUnits.List[I]).Enabled == 0)
             {
-                (FAllUnits.List[I]).FEnabled = 1;
-                FInvalid = 1;
+                (AllUnits.List[I]).Enabled = 1;
+                Invalid = 1;
             }
         }
     }
@@ -96,7 +96,7 @@ public partial class CombatPredictor : IDisposable
     // CombatPredictor.pas:339
     public void Validate()
     {
-        if (FInvalid != 0)
+        if (Invalid != 0)
         {
             Execute();
         }
@@ -105,63 +105,63 @@ public partial class CombatPredictor : IDisposable
     // CombatPredictor.pas:342
     public void ResetCombat()
     {
-        FInvalid = 1;
-        FSuperiority = -1;
-        FEfficiency = -1;
-        FRound = 0;
-        for (int I = FAllUnits.Count - 1; I >= 0; I--)
+        Invalid = 1;
+        Superiority = -1;
+        Efficiency = -1;
+        Round = 0;
+        for (int I = AllUnits.Count - 1; I >= 0; I--)
         {
-            (FAllUnits.List[I]).ResetCombat();
+            (AllUnits.List[I]).ResetCombat();
         }
     }
 
     // CombatPredictor.pas:352
-    public void SetupCombat(byte WallPhase)
+    public void SetupCombat(byte wallPhase)
     {
         CombatPredictorUnit U;
-        FActiveUnits.Clear();
-        if (FSides[0].F_CombatPredictorSide_10[0] != 0)
+        ActiveUnits.Clear();
+        if (Sides[0].UnitRemovedFlags[0] != 0)
         {
-            for (int I = FSides[1].Count - 1; I >= 0; I--)
+            for (int I = Sides[1].Count - 1; I >= 0; I--)
             {
-                (FSides[1].List[I]).InvalidateTargets();
+                (Sides[1].List[I]).InvalidateTargets();
             }
 
-            FSides[0].F_CombatPredictorSide_10[0] = 0;
+            Sides[0].UnitRemovedFlags[0] = 0;
         }
 
-        if (FSides[1].F_CombatPredictorSide_10[0] != 0)
+        if (Sides[1].UnitRemovedFlags[0] != 0)
         {
-            for (int I = FSides[0].Count - 1; I >= 0; I--)
+            for (int I = Sides[0].Count - 1; I >= 0; I--)
             {
-                (FSides[0].List[I]).InvalidateTargets();
+                (Sides[0].List[I]).InvalidateTargets();
             }
 
-            FSides[1].F_CombatPredictorSide_10[0] = 0;
+            Sides[1].UnitRemovedFlags[0] = 0;
         }
 
-        for (int I = FAllUnits.Count - 1; I >= 0; I--)
+        for (int I = AllUnits.Count - 1; I >= 0; I--)
         {
-            (FAllUnits.List[I]).ResetRoundTargets();
+            (AllUnits.List[I]).ResetRoundTargets();
         }
 
-        for (int I = FAllUnits.Count - 1; I >= 0; I--)
+        for (int I = AllUnits.Count - 1; I >= 0; I--)
         {
-            (FAllUnits.List[I]).SetupRoundTargets(WallPhase);
+            (AllUnits.List[I]).SetupRoundTargets(wallPhase);
         }
 
-        for (int I = FAllUnits.Count - 1; I >= 0; I--)
+        for (int I = AllUnits.Count - 1; I >= 0; I--)
         {
-            (FAllUnits.List[I]).UpdateRoundTargetPriority();
+            (AllUnits.List[I]).UpdateRoundTargetPriority();
         }
 
-        for (int I = FAllUnits.Count - 1; I >= 0; I--)
+        for (int I = AllUnits.Count - 1; I >= 0; I--)
         {
-            U = FAllUnits.List[I];
-            if (U.FEnabled != 0 && U.FRoundTargets.Count != 0)
+            U = AllUnits.List[I];
+            if (U.Enabled != 0 && U.RoundTargets.Count != 0)
             {
                 U.SortRoundTargets();
-                FActiveUnits.Add(U);
+                ActiveUnits.Add(U);
             }
         }
     }
@@ -170,144 +170,144 @@ public partial class CombatPredictor : IDisposable
     public bool ExecuteCombatRound()
     {
         CombatPredictorUnit U;
-        bool Result = false;
-        for (int I = FActiveUnits.Count - 1; I >= 0; I--)
+        bool result = false;
+        for (int I = ActiveUnits.Count - 1; I >= 0; I--)
         {
-            U = FActiveUnits.List[I];
+            U = ActiveUnits.List[I];
             if (!U.ExecuteRound())
             {
-                FActiveUnits.Delete(I);
+                ActiveUnits.Delete(I);
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
 
-        for (int I = FActiveUnits.Count - 1; I >= 0; I--)
+        for (int I = ActiveUnits.Count - 1; I >= 0; I--)
         {
-            U = FActiveUnits.List[I];
-            if (U.FHitPoints <= 0)
+            U = ActiveUnits.List[I];
+            if (U.HitPoints <= 0)
             {
-                FActiveUnits.Delete(I);
+                ActiveUnits.Delete(I);
             }
         }
 
-        if (Result)
+        if (result)
         {
-            FRound += 1;
+            Round += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // CombatPredictor.pas:398
     public bool CanPassWall()
     {
-        bool Result;
+        bool result;
         int I;
         try
         {
-            Result = false;
-            I = FAllUnits.Count;
-            while (!Result && I != 0)
+            result = false;
+            I = AllUnits.Count;
+            while (!result && I != 0)
             {
                 I -= 1;
-                if (FAllUnits.GetUnits(I).FUnit != null)
+                if (AllUnits.GetUnits(I).Troop != null)
                 {
-                    Result = FAllUnits.GetUnits(I).FUnit.GetWallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
+                    result = AllUnits.GetUnits(I).Troop.GetWallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
                 }
             }
         }
         catch
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // CombatPredictor.pas:415
     public void FinishCombat()
     {
-        CombatPredictorUnit Wall;
-        Int32Array2 Surviving;
-        Int32Array2 Hits;
+        CombatPredictorUnit wall;
+        Int32Array2 surviving;
+        Int32Array2 hits;
         CombatPredictorUnit U;
-        Surviving = default;
-        Hits = default;
-        for (int I = FAllUnits.Count - 1; I >= 0; I--)
+        surviving = default;
+        hits = default;
+        for (int I = AllUnits.Count - 1; I >= 0; I--)
         {
-            U = FAllUnits.List[I];
+            U = AllUnits.List[I];
             U.FinishCombat();
-            if (!U.FStatus.Contains(CombatPredictorUnitStatusElement.Destroyed))
+            if (!U.Status.Contains(CombatPredictorUnitStatusElement.Destroyed))
             {
-                Surviving[U.FSide] += 1;
+                surviving[U.Side] += 1;
             }
 
-            Hits[U.FSide] += U.FHitPoints;
+            hits[U.Side] += U.HitPoints;
         }
 
-        if (Surviving[1] == 0 && Surviving[0] == 0)
+        if (surviving[1] == 0 && surviving[0] == 0)
         {
-            if (Hits[0] >= Hits[1])
+            if (hits[0] >= hits[1])
             {
-                FResult = 3;
+                Result = 3;
             }
             else
             {
-                FResult = 4;
+                Result = 4;
             }
         }
         else
         {
-            if (Surviving[1] == 0)
+            if (surviving[1] == 0)
             {
-                FResult = 3;
+                Result = 3;
             }
             else
             {
-                Wall = FWall;
-                if (Wall != null && Wall.FHitPoints > 0)
+                wall = Wall;
+                if (wall != null && wall.HitPoints > 0)
                 {
-                    if (Surviving[1] == 1 && CanPassWall())
+                    if (surviving[1] == 1 && CanPassWall())
                     {
-                        FResult = 3;
+                        Result = 3;
                     }
                     else
                     {
-                        FResult = 8;
+                        Result = 8;
                     }
                 }
                 else
                 {
-                    if (Surviving[0] == 0)
+                    if (surviving[0] == 0)
                     {
-                        FResult = 4;
+                        Result = 4;
                     }
                     else
                     {
-                        FResult = 2;
+                        Result = 2;
                     }
                 }
             }
         }
 
-        FActiveUnits.Clear();
+        ActiveUnits.Clear();
     }
 
     // CombatPredictor.pas:440
     public CombatResult Execute()
     {
-        if (FWall != null)
+        if (Wall != null)
         {
             ResetCombat();
             SetupCombat(1);
-            while (FWall.FHitPoints > 0 && ExecuteCombatRound())
+            while (Wall.HitPoints > 0 && ExecuteCombatRound())
             {
             }
 
-            if (FWall.FHitPoints <= 0)
+            if (Wall.HitPoints <= 0)
             {
                 SetupCombat(0);
                 while (ExecuteCombatRound())
@@ -328,282 +328,282 @@ public partial class CombatPredictor : IDisposable
             FinishCombat();
         }
 
-        AoWHSMap.Current.FAIExecuter.UseProcessTime(FWork * 58);
-        CombatResult Result = (CombatResult)FResult;
-        FInvalid = 0;
-        return Result;
+        AoWHSMap.Current.AIExecutor.UseProcessTime(Work * 58);
+        CombatResult result = (CombatResult)Result;
+        Invalid = 0;
+        return result;
     }
 
     // CombatPredictor.pas:466
-    public void DeleteUnit(Troop AUnit)
+    public void DeleteUnit(Troop troop)
     {
         int I;
         int J;
         CombatPredictorUnit U;
         DamageType D;
-        I = FAllUnits.IndexOfUnit(AUnit);
+        I = AllUnits.IndexOfUnit(troop);
         if (I != -1)
         {
-            U = FAllUnits.GetUnits(I);
-            J = FSides[U.FSide].IndexOfUnit(AUnit);
+            U = AllUnits.GetUnits(I);
+            J = Sides[U.Side].IndexOfUnit(troop);
             if (J != -1)
             {
-                if (FSides[U.FSide].GetUnits(J) == FWall)
+                if (Sides[U.Side].GetUnits(J) == Wall)
                 {
-                    FWall = null;
+                    Wall = null;
                 }
 
-                FSides[U.FSide].Delete(J);
-                FSides[U.FSide].F_CombatPredictorSide_10[0] = 1;
+                Sides[U.Side].Delete(J);
+                Sides[U.Side].UnitRemovedFlags[0] = 1;
                 // { Original adds strength when deleting a unit. }
                 for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
                 {
                     D = (DamageType)dOrdinal;
-                    var strength = AUnit.GetStrength(D);
-                    FSides[U.FSide].FStrength[(int)D] += strength;
+                    var strength = troop.GetStrength(D);
+                    Sides[U.Side].Strength[(int)D] += strength;
                 }
             }
 
-            FInvalid = 1;
-            FAllUnits.Delete(I);
+            Invalid = 1;
+            AllUnits.Delete(I);
             U?.Dispose();
         }
     }
 
     // CombatPredictor.pas:489
-    public CombatPredictorUnit AddUnitEx(Troop AUnit, byte Side, byte BehindWall)
+    public CombatPredictorUnit AddUnit(Troop troop, byte side, byte behindWall)
     {
         CombatPredictorUnit U;
         DamageType D;
         U = new CombatPredictorUnit();
-        U.Setup(AUnit, (CombatPredictor)(object)this, Side);
-        U.FBehindWall = BehindWall;
-        FAllUnits.Add(U);
-        FSides[Side].Add(U);
-        FSides[Side].F_CombatPredictorSide_10[0] = 1;
+        U.Setup(troop, (CombatPredictor)(object)this, side);
+        U.BehindWall = behindWall;
+        AllUnits.Add(U);
+        Sides[side].Add(U);
+        Sides[side].UnitRemovedFlags[0] = 1;
         for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
         {
             D = (DamageType)dOrdinal;
-            var strength = AUnit.GetStrength(D);
-            FSides[Side].FStrength[(int)D] += strength;
+            var strength = troop.GetStrength(D);
+            Sides[side].Strength[(int)D] += strength;
         }
 
-        FInvalid = 1;
+        Invalid = 1;
         return U;
     }
 
     // CombatPredictor.pas:504
-    public void AddUnit(Troop AUnit)
+    public void AddUnit(Troop troop)
     {
-        AddUnitEx(AUnit, 0, 0);
+        AddUnit(troop, 0, 0);
     }
 
     // CombatPredictor.pas:507
-    public void AddUnits(UnitList Units)
+    public void AddUnits(UnitList units)
     {
-        for (int I = 0, last = Units.Count - 1; I <= last; I++)
+        for (int I = 0, last = units.Count - 1; I <= last; I++)
         {
-            AddUnit(Units.GetUnit(I));
+            AddUnit(units.GetUnit(I));
         }
     }
 
     // CombatPredictor.pas:514
-    public void AddOpponent(Troop AUnit, byte BehindWall)
+    public void AddOpponent(Troop troop, byte behindWall)
     {
-        AddUnitEx(AUnit, 1, BehindWall);
+        AddUnit(troop, 1, behindWall);
     }
 
     // CombatPredictor.pas:517
-    public void AddOpponents(UnitList Units, byte BehindWall)
+    public void AddOpponents(UnitList units, byte behindWall)
     {
-        for (int I = 0, last = Units.Count - 1; I <= last; I++)
+        for (int I = 0, last = units.Count - 1; I <= last; I++)
         {
-            AddOpponent(Units.GetUnit(I), BehindWall);
+            AddOpponent(units.GetUnit(I), behindWall);
         }
     }
 
     // CombatPredictor.pas:524
-    public void AddWall(WallType WallType)
+    public void AddWall(WallType wallType)
     {
-        WallCombatant Wall;
-        CombatPredictorUnit UnitObj;
-        if (WallType == WallType.None)
+        WallCombatant wall;
+        CombatPredictorUnit unitObject;
+        if (wallType == WallType.None)
         {
             // { Preserve the original assertion diagnostic. }
             Assert(false, "Use DeleteWall instead!", "D:\\AoWDev\\AoWE\\inc\\CombatPredictor.pas", 18391);
         }
 
-        UnitObj = FWall;
-        if (UnitObj == null)
+        unitObject = Wall;
+        if (unitObject == null)
         {
-            Wall = new WallCombatant(null);
-            Wall.SetWallType(WallType);
-            Wall.FHits = (sbyte)(Wall.FHits + 5);
-            Wall.FHitPoints = (sbyte)(Wall.FHitPoints + 5);
-            FWall = AddUnitEx(Wall, 1, 0);
-            Wall.Release();
+            wall = new WallCombatant(null);
+            wall.SetWallType(wallType);
+            wall.Hits = (sbyte)(wall.Hits + 5);
+            wall.HitPoints = (sbyte)(wall.HitPoints + 5);
+            Wall = AddUnit(wall, 1, 0);
+            wall.Release();
         }
         else
         {
-            ((WallCombatant)UnitObj.FUnit).SetWallType(WallType);
+            ((WallCombatant)unitObject.Troop).SetWallType(wallType);
         }
     }
 
     // CombatPredictor.pas:714
     public void DeleteWall()
     {
-        CombatPredictorUnit Wall;
-        Wall = FWall;
-        if (Wall != null)
+        CombatPredictorUnit wall;
+        wall = Wall;
+        if (wall != null)
         {
-            DeleteUnit(Wall.FUnit);
-            FWall = null;
+            DeleteUnit(wall.Troop);
+            Wall = null;
         }
     }
 
     // CombatPredictor.pas:725
     public void DeleteUnits()
     {
-        for (int I = FSides[0].Count - 1; I >= 0; I--)
+        for (int I = Sides[0].Count - 1; I >= 0; I--)
         {
-            DeleteUnit(FSides[0].GetUnits(I).FUnit);
+            DeleteUnit(Sides[0].GetUnits(I).Troop);
         }
     }
 
     // CombatPredictor.pas:732
     public void DeleteOpponents()
     {
-        for (int I = FSides[1].Count - 1; I >= 0; I--)
+        for (int I = Sides[1].Count - 1; I >= 0; I--)
         {
-            DeleteUnit(FSides[1].GetUnits(I).FUnit);
+            DeleteUnit(Sides[1].GetUnits(I).Troop);
         }
     }
 
     // CombatPredictor.pas:739
-    public void InitAdjacentArmies(ArmyHexSprite Army, sbyte X, sbyte Y, sbyte L)
+    public void InitializeAdjacentArmies(ArmyHexSprite army, sbyte X, sbyte Y, sbyte L)
     {
-        MapLevel Level;
-        ArmyHexSprite ArmyHS;
+        MapLevel level;
+        ArmyHexSprite armyHexSprite;
         Troop U;
-        byte Defender;
-        byte Player;
-        byte Relation;
-        byte DefenderRelation;
-        CombatSideIndex Side;
-        MapField Field;
-        MapFieldMessage Msg = default;
-        HexNumberWalkData Walk = default;
-        AddUnits(Army.FArmy);
-        Level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
-        var army = Army.FArmy;
-        Player = (byte)army.FPlayer;
-        Relation = (byte)army.FIndependentRelation;
+        byte defender;
+        byte player;
+        byte relation;
+        byte defenderRelation;
+        CombatSideIndex side;
+        MapField field;
+        MapFieldMessage message = default;
+        HexNumberWalkData walk = default;
+        AddUnits(army.Army);
+        level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+        var armyLocal = army.Army;
+        player = (byte)armyLocal.Player;
+        relation = (byte)armyLocal.IndependentRelation;
 
-        Defender = (byte)((AoWMapField)Level.GetField(X, Y)).GetPlayer();
-        DefenderRelation = ((AoWMapField)Level.GetField(X, Y)).GetIndependentRelation();
-        if (Defender != 255)
+        defender = (byte)((AoWMapField)level.GetField(X, Y)).GetPlayer();
+        defenderRelation = ((AoWMapField)level.GetField(X, Y)).GetIndependentRelation();
+        if (defender != 255)
         {
-            Msg.MsgID = 4387;
-            var fieldValue = Level.GetField(X, Y);
-            Msg.Param[0] = fieldValue;
-            Msg.Result = 0;
-            Level.GetField(X, Y).SendMapFieldMsg(ref Msg);
-            if ((WallType)Msg.Result.Int != WallType.None)
+            message.MessageId = 4387;
+            var fieldValue = level.GetField(X, Y);
+            message.Param[0] = fieldValue;
+            message.Result = 0;
+            level.GetField(X, Y).SendMapFieldMessage(ref message);
+            if ((WallType)message.Result.Int != WallType.None)
             {
-                AddWall((WallType)Msg.Result.Int);
+                AddWall((WallType)message.Result.Int);
             }
 
-            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-            while (Walk.Radius <= 1)
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            while (walk.Radius <= 1)
             {
-                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+                if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    ArmyHS = (ArmyHexSprite)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
-                    if (ArmyHS != null && ArmyHS != Army)
+                    armyHexSprite = (ArmyHexSprite)level.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                    if (armyHexSprite != null && armyHexSprite != army)
                     {
-                        Side = CombatAbilityTables.GetCombatSide((sbyte)Player, (sbyte)Relation, (sbyte)Defender, (sbyte)DefenderRelation, ArmyHS.FArmy.FPlayer, ArmyHS.FArmy.FIndependentRelation);
-                        if (Side != CombatSideIndex.Neutral)
+                        side = CombatAbilityTables.GetCombatSide((sbyte)player, (sbyte)relation, (sbyte)defender, (sbyte)defenderRelation, armyHexSprite.Army.Player, armyHexSprite.Army.IndependentRelation);
+                        if (side != CombatSideIndex.Neutral)
                         {
-                            Field = Level.GetField(X, Y);
-                            Msg.MsgID = 4387;
-                            var levelField = Level.GetField(Walk.X, Walk.Y);
-                            Msg.Param[0] = levelField;
-                            Msg.Result = 0;
-                            Field.SendMapFieldMsg(ref Msg);
-                            for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
+                            field = level.GetField(X, Y);
+                            message.MessageId = 4387;
+                            var levelField = level.GetField(walk.X, walk.Y);
+                            message.Param[0] = levelField;
+                            message.Result = 0;
+                            field.SendMapFieldMessage(ref message);
+                            for (int I = 0, last = armyHexSprite.Army.Count - 1; I <= last; I++)
                             {
-                                U = ArmyHS.FArmy.GetUnit(I);
-                                if (U.ValidTerrain(Field.TerrainType, Field.OverlayType))
+                                U = armyHexSprite.Army.GetUnit(I);
+                                if (U.ValidTerrain(field.TerrainType, field.OverlayType))
                                 {
-                                    AddUnitEx(U, (byte)(int)Side, (byte)((WallType)Msg.Result.Int != WallType.None ? 1 : 0));
+                                    AddUnit(U, (byte)(int)side, (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
                                 }
                             }
                         }
                     }
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
     }
 
     // CombatPredictor.pas:790
-    public void InitAdjacentOpponents(byte Player, byte Relation, sbyte X, sbyte Y, sbyte L)
+    public void InitializeAdjacentOpponents(byte player, byte relation, sbyte X, sbyte Y, sbyte L)
     {
-        MapLevel Level;
-        ArmyHexSprite ArmyHS;
+        MapLevel level;
+        ArmyHexSprite armyHexSprite;
         Troop U;
-        byte DefenderRelation;
-        byte Defender;
-        CombatSideIndex Side;
-        MapField Field;
-        MapFieldMessage Msg = default;
-        HexNumberWalkData Walk = default;
-        Level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
-        Defender = (byte)((AoWMapField)Level.GetField(X, Y)).GetPlayer();
-        DefenderRelation = ((AoWMapField)Level.GetField(X, Y)).GetIndependentRelation();
-        if (Defender != 255)
+        byte defenderRelation;
+        byte defender;
+        CombatSideIndex side;
+        MapField field;
+        MapFieldMessage message = default;
+        HexNumberWalkData walk = default;
+        level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+        defender = (byte)((AoWMapField)level.GetField(X, Y)).GetPlayer();
+        defenderRelation = ((AoWMapField)level.GetField(X, Y)).GetIndependentRelation();
+        if (defender != 255)
         {
-            Msg.MsgID = 4387;
-            var fieldValue = Level.GetField(X, Y);
-            Msg.Param[0] = fieldValue;
-            Msg.Result = 0;
-            Level.GetField(X, Y).SendMapFieldMsg(ref Msg);
-            if ((WallType)Msg.Result.Int != WallType.None)
+            message.MessageId = 4387;
+            var fieldValue = level.GetField(X, Y);
+            message.Param[0] = fieldValue;
+            message.Result = 0;
+            level.GetField(X, Y).SendMapFieldMessage(ref message);
+            if ((WallType)message.Result.Int != WallType.None)
             {
-                AddWall((WallType)Msg.Result.Int);
+                AddWall((WallType)message.Result.Int);
             }
 
-            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-            while (Walk.Radius <= 1)
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            while (walk.Radius <= 1)
             {
-                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+                if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    ArmyHS = (ArmyHexSprite)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
-                    if (ArmyHS != null)
+                    armyHexSprite = (ArmyHexSprite)level.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                    if (armyHexSprite != null)
                     {
-                        Side = CombatAbilityTables.GetCombatSide((sbyte)Player, (sbyte)Relation, (sbyte)Defender, (sbyte)DefenderRelation, ArmyHS.FArmy.FPlayer, ArmyHS.FArmy.FIndependentRelation);
-                        if (Side == CombatSideIndex.Defender)
+                        side = CombatAbilityTables.GetCombatSide((sbyte)player, (sbyte)relation, (sbyte)defender, (sbyte)defenderRelation, armyHexSprite.Army.Player, armyHexSprite.Army.IndependentRelation);
+                        if (side == CombatSideIndex.Defender)
                         {
-                            Field = Level.GetField(X, Y);
-                            Msg.MsgID = 4387;
-                            var levelField = Level.GetField(Walk.X, Walk.Y);
-                            Msg.Param[0] = levelField;
-                            Msg.Result = 0;
-                            Field.SendMapFieldMsg(ref Msg);
-                            for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
+                            field = level.GetField(X, Y);
+                            message.MessageId = 4387;
+                            var levelField = level.GetField(walk.X, walk.Y);
+                            message.Param[0] = levelField;
+                            message.Result = 0;
+                            field.SendMapFieldMessage(ref message);
+                            for (int I = 0, last = armyHexSprite.Army.Count - 1; I <= last; I++)
                             {
-                                U = ArmyHS.FArmy.GetUnit(I);
-                                if (U.ValidTerrain(Field.TerrainType, Field.OverlayType))
+                                U = armyHexSprite.Army.GetUnit(I);
+                                if (U.ValidTerrain(field.TerrainType, field.OverlayType))
                                 {
-                                    AddUnitEx(U, (byte)(int)Side, (byte)((WallType)Msg.Result.Int != WallType.None ? 1 : 0));
+                                    AddUnit(U, (byte)(int)side, (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
                                 }
                             }
                         }
                     }
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
     }
@@ -612,309 +612,309 @@ public partial class CombatPredictor : IDisposable
     public int GetSuperiority()
     {
         CombatPredictorUnit U;
-        int Total;
-        int Left;
-        int Value;
-        if (FSuperiority == -1)
+        int total;
+        int left;
+        int value;
+        if (Superiority == -1)
         {
-            if (FResult == 3)
+            if (Result == 3)
             {
-                Total = 0;
-                Left = 0;
-                for (int I = FSides[0].Count - 1; I >= 0; I--)
+                total = 0;
+                left = 0;
+                for (int I = Sides[0].Count - 1; I >= 0; I--)
                 {
-                    U = FSides[0].List[I];
-                    Value = U.FCombatValueTotal;
-                    Total += Value;
-                    if (U.FHitPoints > 0)
+                    U = Sides[0].List[I];
+                    value = U.CombatValueTotal;
+                    total += value;
+                    if (U.HitPoints > 0)
                     {
-                        Left += U.FHitPoints * Value / U.FInitialHitPoints;
+                        left += U.HitPoints * value / U.InitialHitPoints;
                     }
                 }
 
-                if (Total == Left)
+                if (total == left)
                 {
-                    FSuperiority = 999;
+                    Superiority = 999;
                 }
                 else
                 {
-                    if (Left > 0)
+                    if (left > 0)
                     {
-                        FSuperiority = Total * 100 / (Total - Left);
+                        Superiority = total * 100 / (total - left);
                     }
                     else
                     {
-                        FSuperiority = 100;
+                        Superiority = 100;
                     }
                 }
             }
             else
             {
-                if (Set<byte>.WithBounds(0, 255).With(2).With(4).With(8).Contains(FResult))
+                if (Set<byte>.WithBounds(0, 255).With(2).With(4).With(8).Contains(Result))
                 {
-                    Total = 0;
-                    Left = 0;
-                    for (int I = FSides[1].Count - 1; I >= 0; I--)
+                    total = 0;
+                    left = 0;
+                    for (int I = Sides[1].Count - 1; I >= 0; I--)
                     {
-                        U = FSides[1].List[I];
-                        Value = U.FCombatValueTotal;
-                        Total += Value;
-                        if (U.FHitPoints > 0)
+                        U = Sides[1].List[I];
+                        value = U.CombatValueTotal;
+                        total += value;
+                        if (U.HitPoints > 0)
                         {
-                            Left += U.FHitPoints * Value / U.FInitialHitPoints;
+                            left += U.HitPoints * value / U.InitialHitPoints;
                         }
                     }
 
-                    if (Total == 0)
+                    if (total == 0)
                     {
-                        FSuperiority = 0;
+                        Superiority = 0;
                     }
                     else
                     {
-                        if (Left > 0)
+                        if (left > 0)
                         {
-                            FSuperiority = (Total - Left) * 100 / Total;
+                            Superiority = (total - left) * 100 / total;
                         }
                         else
                         {
-                            FSuperiority = 100;
+                            Superiority = 100;
                         }
                     }
                 }
                 else
                 {
-                    if (FResult == 6)
+                    if (Result == 6)
                     {
-                        FSuperiority = 200;
+                        Superiority = 200;
                     }
                     else
                     {
-                        FSuperiority = 0;
+                        Superiority = 0;
                     }
                 }
             }
         }
 
-        return FSuperiority;
+        return Superiority;
     }
 
     // CombatPredictor.pas:872
     public int GetEfficiency()
     {
-        Int32Array2 Lost = default;
-        byte Side;
+        Int32Array2 lost = default;
+        byte side;
         CombatPredictorUnit U;
-        if (FEfficiency == -1)
+        if (Efficiency == -1)
         {
             for (int sideOrdinal = 0; sideOrdinal <= 1; sideOrdinal++)
             {
-                Side = (byte)sideOrdinal;
-                Lost[Side] = 0;
-                for (int I = FSides[Side].Count - 1; I >= 0; I--)
+                side = (byte)sideOrdinal;
+                lost[side] = 0;
+                for (int I = Sides[side].Count - 1; I >= 0; I--)
                 {
-                    U = FSides[Side].List[I];
-                    if (U.FStatus.Contains(CombatPredictorUnitStatusElement.Destroyed))
+                    U = Sides[side].List[I];
+                    if (U.Status.Contains(CombatPredictorUnitStatusElement.Destroyed))
                     {
-                        var obtainValue = U.FUnit.GetObtainValue();
-                        Lost[Side] += obtainValue;
+                        var obtainValue = U.Troop.GetObtainValue();
+                        lost[side] += obtainValue;
                     }
                     else
                     {
-                        if (U.FHitPoints < U.FInitialHitPoints)
+                        if (U.HitPoints < U.InitialHitPoints)
                         {
-                            var obtainValue = U.FUnit.GetObtainValue();
-                            Lost[Side] += Round((double)(obtainValue * U.FHitPoints) / (U.FInitialHitPoints * 2));
+                            var obtainValue = U.Troop.GetObtainValue();
+                            lost[side] += Round((double)(obtainValue * U.HitPoints) / (U.InitialHitPoints * 2));
                         }
                     }
                 }
             }
 
-            if (Lost[0] != 0)
+            if (lost[0] != 0)
             {
-                FEfficiency = Lost[1] * 100 / Lost[0];
+                Efficiency = lost[1] * 100 / lost[0];
             }
             else
             {
-                if (Lost[1] != 0 || FSides[1].Count == 0)
+                if (lost[1] != 0 || Sides[1].Count == 0)
                 {
-                    FEfficiency = 999;
+                    Efficiency = 999;
                 }
                 else
                 {
-                    FEfficiency = 100;
+                    Efficiency = 100;
                 }
             }
         }
 
-        return FEfficiency;
+        return Efficiency;
     }
 
     // CombatPredictor.pas:899
-    public void ListRequiredUnitsEx(UnitList Required, UnitList Optional, UnitList Useless, int Superiority)
+    public void ListRequiredUnits(UnitList required, UnitList optional, UnitList useless, int superiority)
     {
-        DoubleItemList<CombatPredictorUnit> List = default;
-        int Total = default;
-        int Score = default;
-        int Budget = default;
+        DoubleItemList<CombatPredictorUnit> list = default;
+        int total = default;
+        int score = default;
+        int budget = default;
         CombatPredictorUnit U = default;
-        int Maximum = default;
-        int Minimum = default;
-        int Count = default;
-        int Previous = default;
-        bool Done = default;
+        int maximum = default;
+        int minimum = default;
+        int count = default;
+        int previous = default;
+        bool done = default;
         EnableAllUnits();
         Validate();
-        if (GetSuperiority() > Superiority && FSides[0].Count != 0)
+        if (GetSuperiority() > superiority && Sides[0].Count != 0)
         {
-            List = new DoubleItemList<CombatPredictorUnit>();
-            Total = 0;
-            for (int I = FSides[0].Count - 1; I >= 0; I--)
+            list = new DoubleItemList<CombatPredictorUnit>();
+            total = 0;
+            for (int I = Sides[0].Count - 1; I >= 0; I--)
             {
-                U = FSides[0].List[I];
-                if (U.FIncomingCombatValue != 0)
+                U = Sides[0].List[I];
+                if (U.IncomingCombatValue != 0)
                 {
-                    Score = U.FCombatValueTotal * 100 / U.FIncomingCombatValue;
+                    score = U.CombatValueTotal * 100 / U.IncomingCombatValue;
                 }
                 else
                 {
-                    Score = 9999;
+                    score = 9999;
                 }
 
-                Total += U.FCombatValueTotal;
-                List.AddAB(U, Score);
+                total += U.CombatValueTotal;
+                list.AddAbility(U, score);
             }
 
-            List.Sort(P3CompareRequiredUnits);
-            Minimum = 1;
-            Maximum = List.Count;
-            if (Superiority != 0 && GetSuperiority() != 0)
+            list.Sort(CompareRequiredUnits);
+            minimum = 1;
+            maximum = list.Count;
+            if (superiority != 0 && GetSuperiority() != 0)
             {
-                Budget = Round((double)((double)((double)100 / Superiority) - (double)100 / GetSuperiority()) * ((double)Total * 0.65));
-                Count = List.Count;
-                while (Count > 1 && Budget > 0)
+                budget = Round((double)((double)((double)100 / superiority) - (double)100 / GetSuperiority()) * ((double)total * 0.65));
+                count = list.Count;
+                while (count > 1 && budget > 0)
                 {
-                    Count -= 1;
-                    Budget -= List[Count].A.FCombatValueTotal;
+                    count -= 1;
+                    budget -= list[count].First.CombatValueTotal;
                 }
 
-                if (Count < Minimum)
+                if (count < minimum)
                 {
-                    Count = Minimum;
+                    count = minimum;
                 }
 
-                if (Count >= Maximum)
+                if (count >= maximum)
                 {
-                    Count = Maximum - 1;
+                    count = maximum - 1;
                 }
             }
             else
             {
-                Count = Maximum - 1;
+                count = maximum - 1;
             }
 
-            Previous = Maximum;
-            Done = List.Count <= 1;
-            while (!Done)
+            previous = maximum;
+            done = list.Count <= 1;
+            while (!done)
             {
-                for (int I = Count - 1; I >= 0; I--)
+                for (int I = count - 1; I >= 0; I--)
                 {
-                    List.List[I].A.SetEnabled(1);
+                    list.List[I].First.SetEnabled(1);
                 }
 
-                for (int I = List.Count - 1; I >= Count; I--)
+                for (int I = list.Count - 1; I >= count; I--)
                 {
-                    List.List[I].A.SetEnabled(0);
+                    list.List[I].First.SetEnabled(0);
                 }
 
                 Execute();
-                if (GetSuperiority() >= Superiority)
+                if (GetSuperiority() >= superiority)
                 {
-                    Previous = Count;
-                    Done = Minimum == Previous;
-                    if (!Done)
+                    previous = count;
+                    done = minimum == previous;
+                    if (!done)
                     {
-                        Count -= 1;
-                        if (Count > Minimum && GetSuperiority() - Superiority > 300 / List.Count)
+                        count -= 1;
+                        if (count > minimum && GetSuperiority() - superiority > 300 / list.Count)
                         {
-                            Count -= 1;
+                            count -= 1;
                         }
 
-                        if (Count > Minimum && GetSuperiority() - Superiority > 600 / List.Count)
+                        if (count > minimum && GetSuperiority() - superiority > 600 / list.Count)
                         {
-                            Count -= 1;
+                            count -= 1;
                         }
                     }
                 }
                 else
                 {
-                    if (GetSuperiority() < Superiority)
+                    if (GetSuperiority() < superiority)
                     {
-                        Minimum = Count + 1;
-                        Done = Previous == Minimum;
-                        if (!Done)
+                        minimum = count + 1;
+                        done = previous == minimum;
+                        if (!done)
                         {
-                            Count += 1;
-                            if (Count + 1 != Previous && Superiority - GetSuperiority() > 300 / List.Count)
+                            count += 1;
+                            if (count + 1 != previous && superiority - GetSuperiority() > 300 / list.Count)
                             {
-                                Count += 1;
+                                count += 1;
                             }
 
-                            if (Count + 1 != Previous && Superiority - GetSuperiority() > 600 / List.Count)
+                            if (count + 1 != previous && superiority - GetSuperiority() > 600 / list.Count)
                             {
-                                Count += 1;
+                                count += 1;
                             }
                         }
                     }
                 }
             }
 
-            if (Required != null)
+            if (required != null)
             {
-                for (int I = 0; I <= Minimum - 1; I++)
+                for (int I = 0; I <= minimum - 1; I++)
                 {
-                    Required.AddUnit(List.List[I].A.FUnit);
+                    required.AddUnit(list.List[I].First.Troop);
                 }
             }
 
-            if (Optional != null)
+            if (optional != null)
             {
-                for (int I = List.Count - 1; I >= Minimum; I--)
+                for (int I = list.Count - 1; I >= minimum; I--)
                 {
-                    Optional.AddUnit(List.List[I].A.FUnit);
+                    optional.AddUnit(list.List[I].First.Troop);
                 }
             }
 
-            if (Useless != null)
+            if (useless != null)
             {
-                for (int I = List.Count - 1; I >= Minimum; I--)
+                for (int I = list.Count - 1; I >= minimum; I--)
                 {
-                    U = List.List[I].A;
-                    if (U.FCombatValueTotal <= 0)
+                    U = list.List[I].First;
+                    if (U.CombatValueTotal <= 0)
                     {
-                        Useless.AddUnit(U.FUnit);
+                        useless.AddUnit(U.Troop);
                     }
                 }
             }
 
-            List?.Dispose();
+            list?.Dispose();
         }
         else
         {
-            for (int I = FSides[0].Count - 1; I >= 0; I--)
+            for (int I = Sides[0].Count - 1; I >= 0; I--)
             {
-                U = FSides[0].List[I];
-                if (U.FCombatValueTotal == 0)
+                U = Sides[0].List[I];
+                if (U.CombatValueTotal == 0)
                 {
-                    if (Useless != null)
+                    if (useless != null)
                     {
-                        Useless.AddUnit(U.FUnit);
+                        useless.AddUnit(U.Troop);
                     }
                 }
                 else
                 {
-                    if (Required != null)
+                    if (required != null)
                     {
-                        Required.AddUnit(U.FUnit);
+                        required.AddUnit(U.Troop);
                     }
                 }
             }
@@ -922,104 +922,104 @@ public partial class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:988
-    public void ListRequiredUnits(UnitList Required, int Superiority)
+    public void ListRequiredUnits(UnitList required, int superiority)
     {
-        ListRequiredUnitsEx(Required, null, null, Superiority);
+        ListRequiredUnits(required, null, null, superiority);
     }
 
     // CombatPredictor.pas:991
-    public void ListOptionalUnits(UnitList Optional, int Superiority)
+    public void ListOptionalUnits(UnitList optional, int superiority)
     {
-        ListRequiredUnitsEx(null, Optional, null, Superiority);
+        ListRequiredUnits(null, optional, null, superiority);
     }
 
     // CombatPredictor.pas:994
-    public void ListUselessUnits(UnitList Useless)
+    public void ListUselessUnits(UnitList useless)
     {
         CombatPredictorUnit U;
-        for (int I = FSides[0].Count - 1; I >= 0; I--)
+        for (int I = Sides[0].Count - 1; I >= 0; I--)
         {
-            U = FSides[0].List[I];
-            if (U.FCombatValueTotal <= 0)
+            U = Sides[0].List[I];
+            if (U.CombatValueTotal <= 0)
             {
-                Useless.AddUnit(U.FUnit);
+                useless.AddUnit(U.Troop);
             }
         }
     }
 
     // CombatPredictor.pas:1004
-    public int Usefullness(Troop AUnit)
+    public int Usefullness(Troop troop)
     {
-        int Result;
-        CombatPredictorUnit Wall;
+        int result;
+        CombatPredictorUnit wall;
         CombatPredictorUnit U;
-        CombatPredictorUnit Target;
+        CombatPredictorUnit target;
         int I;
-        bool AllDead;
-        bool Useful;
+        bool allDead;
+        bool useful;
         EnableAllUnits();
         Validate();
         U = new CombatPredictorUnit();
-        U.Setup(AUnit, (CombatPredictor)(object)this, 0);
-        Wall = FWall;
-        if (Wall != null && Wall.FHitPoints > 0)
+        U.Setup(troop, (CombatPredictor)(object)this, 0);
+        wall = Wall;
+        if (wall != null && wall.HitPoints > 0)
         {
             U.UpdateWallTargets();
-            Result = U.FWallCombatValue;
-            Useful = false;
-            I = U.FWallTargets.Count;
-            while (I != 0 && !Useful)
+            result = U.WallCombatValue;
+            useful = false;
+            I = U.WallTargets.Count;
+            while (I != 0 && !useful)
             {
                 I -= 1;
-                if (U.FWallTargets.List[I].B > 0)
+                if (U.WallTargets.List[I].Second > 0)
                 {
-                    Target = U.FWallTargets.List[I].A;
-                    Useful = Target == FWall && Target.FHitPoints > 0;
+                    target = U.WallTargets.List[I].First;
+                    useful = target == Wall && target.HitPoints > 0;
                 }
             }
 
-            if (Useful)
+            if (useful)
             {
-                Result = Result | 8388608;
+                result = result | 8388608;
             }
         }
         else
         {
             U.UpdateTargets();
-            Result = U.FCombatValue;
-            I = FSides[0].Count;
-            AllDead = true;
-            while (I != 0 && AllDead)
+            result = U.CombatValue;
+            I = Sides[0].Count;
+            allDead = true;
+            while (I != 0 && allDead)
             {
                 I -= 1;
-                AllDead = FSides[0].GetUnits(I).FStatus.Contains(CombatPredictorUnitStatusElement.Destroyed);
+                allDead = Sides[0].GetUnits(I).Status.Contains(CombatPredictorUnitStatusElement.Destroyed);
             }
 
-            Useful = false;
-            I = U.FTargets.Count;
-            while (I != 0 && !Useful)
+            useful = false;
+            I = U.Targets.Count;
+            while (I != 0 && !useful)
             {
                 I -= 1;
-                if (U.FTargets.List[I].B > 0)
+                if (U.Targets.List[I].Second > 0)
                 {
-                    Target = U.FTargets.List[I].A;
-                    Useful = Target != FWall && (Target.FHitPoints > 0 || FResult == 3 || AllDead);
+                    target = U.Targets.List[I].First;
+                    useful = target != Wall && (target.HitPoints > 0 || Result == 3 || allDead);
                 }
             }
 
-            if (Useful)
+            if (useful)
             {
-                Result = Result | 8388608;
+                result = result | 8388608;
             }
         }
 
         U?.Dispose();
-        return Result;
+        return result;
     }
 
-    private static int P3CompareRequiredUnits(in DoubleItem<CombatPredictorUnit> A, in DoubleItem<CombatPredictorUnit> B)
+    private static int CompareRequiredUnits(in DoubleItem<CombatPredictorUnit> A, in DoubleItem<CombatPredictorUnit> B)
     {
-        return B.B - A.B;
+        return B.Second - A.Second;
     }
 
     // intf_P3_01.inc:92

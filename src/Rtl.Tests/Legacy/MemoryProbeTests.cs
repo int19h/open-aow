@@ -6,8 +6,8 @@ public sealed class MemoryProbeTests
 {
     private struct Item
     {
-        public int A;
-        public int B;
+        public int First;
+        public int Second;
     }
 
     [ProbeFact("integer-list-slots")]
@@ -48,17 +48,17 @@ public sealed class MemoryProbeTests
         var items = Ptr<Item>.Alloc(5);
         for (int i = 0; i < 5; i++)
         {
-            items[i].A = i + 1;
-            items[i].B = (i + 1) * 10;
+            items[i].First = i + 1;
+            items[i].Second = (i + 1) * 10;
         }
         int count = 3;
         Ptr<Item>.Copy(items + 1, items, count);
-        for (int i = 0; i < 5; i++) probe.Fact("left", i + " " + items[i].A + " " + items[i].B);
+        for (int i = 0; i < 5; i++) probe.Fact("left", i + " " + items[i].First + " " + items[i].Second);
         Ptr<Item>.Copy(items, items + 1, count);
-        for (int i = 0; i < 5; i++) probe.Fact("right", i + " " + items[i].A + " " + items[i].B);
+        for (int i = 0; i < 5; i++) probe.Fact("right", i + " " + items[i].First + " " + items[i].Second);
         count = 0;
         Ptr<Item>.Copy(items + 4, items, count);
-        probe.Fact("zero", items.Value.A + " " + items.Value.B);
+        probe.Fact("zero", items.Value.First + " " + items.Value.Second);
         probe.End();
     }
 

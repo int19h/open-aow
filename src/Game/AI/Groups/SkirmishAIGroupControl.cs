@@ -15,54 +15,54 @@ public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
     // BehaviorAG.pas:738
     public override void ProcessStates()
     {
-        AIGroupTargetFinder Finder;
-        AIGroup Group;
-        switch (FState)
+        AIGroupTargetFinder finder;
+        AIGroup group;
+        switch (State)
         {
             case 0:
-                FTargets.Clear();
-                Finder = new AIGroupTargetFinder(null);
-                Finder.Setup(this);
-                if (FGroup.FTransporter == null)
+                Targets.Clear();
+                finder = new AIGroupTargetFinder(null);
+                finder.Setup(this);
+                if (Group.Transporter == null)
                 {
                     var availableTransporter = FindAvailableTransporter();
-                    Finder.FSelector.SetTransporter(availableTransporter);
+                    finder.Selector.SetTransporter(availableTransporter);
                 }
                 else
                 {
-                    Finder.FSelector.SetTransporter(FGroup.FTransporter);
+                    finder.Selector.SetTransporter(Group.Transporter);
                 }
 
-                ActivatePlugin(Finder);
-                Finder.Release();
-                FState += 1;
+                ActivatePlugin(finder);
+                finder.Release();
+                State += 1;
                 break;
             case 1:
-                if (FTargets.Count != 0)
+                if (Targets.Count != 0)
                 {
-                    FTargetSelector.Setup(this);
-                    FTargetSelector.FSuperiority = 3;
-                    FTargetSelector.FNearSuperiority = 2;
-                    FTargetSelector.FMode = FTargetSelector.FMode - Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.Cooperate, AIGroupTargetingModes.Recruit, AIGroupTargetingModes.Produce);
-                    ActivatePlugin(FTargetSelector);
-                    FState += 1;
+                    TargetSelector.Setup(this);
+                    TargetSelector.Superiority = 3;
+                    TargetSelector.NearSuperiority = 2;
+                    TargetSelector.Mode = TargetSelector.Mode - Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.Cooperate, AIGroupTargetingModes.Recruit, AIGroupTargetingModes.Produce);
+                    ActivatePlugin(TargetSelector);
+                    State += 1;
                 }
                 else
                 {
-                    FState = 10;
+                    State = 10;
                 }
 
                 break;
             case 2:
-                if (FTargetSelector.FTargetStatus == AIGroupTargetingStatus.TargetConquered)
+                if (TargetSelector.TargetStatus == AIGroupTargetingStatus.TargetConquered)
                 {
-                    FState = 5;
+                    State = 5;
                 }
                 else
                 {
-                    if (FTargetSelector.FTargetStatus == AIGroupTargetingStatus.NoTargetsFound)
+                    if (TargetSelector.TargetStatus == AIGroupTargetingStatus.NoTargetsFound)
                     {
-                        FState = 10;
+                        State = 10;
                     }
                     else
                     {
@@ -72,10 +72,10 @@ public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
 
                 break;
             case 5:
-                var player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
-                if (Set<PlayerType>.Of(PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType))
+                var player = AoWHSMap.Current.Players.GetPlayers(Group.Player);
+                if (Set<PlayerType>.Of(PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(player.PlayerType))
                 {
-                    FState = 0;
+                    State = 0;
                 }
                 else
                 {
@@ -84,15 +84,15 @@ public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
 
                 break;
             case 10:
-                if (FGroup.FTransporter != null)
+                if (Group.Transporter != null)
                 {
-                    FGroup.DeleteUnit(FGroup.FTransporter);
+                    Group.DeleteUnit(Group.Transporter);
                 }
 
-                var randomGroupBehavior = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIControl.GetRandomGroupBehavior();
-                Group = AoWHSMap.Current.FAIGroupManager.CreateGroup(FGroup.FPlayer, 0, randomGroupBehavior);
-                Group.AddUnits(FGroup);
-                Group.Release();
+                var randomGroupBehavior = AoWHSMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
+                group = AoWHSMap.Current.AIGroupManager.CreateGroup(Group.Player, 0, randomGroupBehavior);
+                group.AddUnits(Group);
+                group.Release();
                 Done();
                 break;
         }

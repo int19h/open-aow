@@ -21,28 +21,28 @@ public sealed class MouseWheelTests
 
     private static void Place(UIComponent component, UIComponent owner, int left, int top, int width, int height, int priority = 0)
     {
-        component.FWinLeft = left;
-        component.FWinTop = top;
-        component.FWinWidth = width;
-        component.FWinHeight = height;
-        component.FPriority = priority;
+        component._winLeft = left;
+        component._winTop = top;
+        component._winWidth = width;
+        component._winHeight = height;
+        component._priority = priority;
         component.SetOwner(owner);
     }
 
     private static void Fill(ListBox list, int count, int shown)
     {
-        list.F11C = shown;
-        for (int i = 0; i < count; i++) list.FItems.Add("item" + i);
+        list.VisibleRows = shown;
+        for (int i = 0; i < count; i++) list._items.Add("item" + i);
     }
 
     private static VerticalScrollBar Bar(UIComponent owner, int left, int top, int width, int height, int max, int visible)
     {
         var bar = new VerticalScrollBar(null);
         Place(bar, owner, left, top, width, height);
-        bar.FMin = 0;
-        bar.FMax = max;
-        bar.FNumberVisible = visible;
-        bar.FSmallChange = 1;
+        bar._min = 0;
+        bar._max = max;
+        bar._numberVisible = visible;
+        bar._smallChange = 1;
         return bar;
     }
 
@@ -110,15 +110,15 @@ public sealed class MouseWheelTests
         Set<ShiftState> shift = default;
 
         Assert.True(manager.CheckMouseWheel(-1, shift, 140, 100));
-        Assert.Equal(1, list.F15C);
-        Assert.Equal(0, bar.FPosition);
+        Assert.Equal(1, list.FirstShownItem);
+        Assert.Equal(0, bar._position);
 
         Assert.True(manager.CheckMouseWheel(-1, shift, 125, 90));
-        Assert.Equal(1, list.F15C);
-        Assert.Equal(1, bar.FPosition);
+        Assert.Equal(1, list.FirstShownItem);
+        Assert.Equal(1, bar._position);
 
         Assert.False(manager.CheckMouseWheel(0, shift, 140, 100));
-        Assert.Equal(1, list.F15C);
+        Assert.Equal(1, list.FirstShownItem);
     }
 
     [Fact]
@@ -138,8 +138,8 @@ public sealed class MouseWheelTests
         Set<ShiftState> shift = default;
 
         Assert.True(manager.CheckMouseWheel(-2, shift, 90, 90));
-        Assert.Equal(0, list.F15C);
-        Assert.Equal(2, bar.FPosition);
+        Assert.Equal(0, list.FirstShownItem);
+        Assert.Equal(2, bar._position);
     }
 
     [Fact]
@@ -157,24 +157,24 @@ public sealed class MouseWheelTests
         // The window contains the pointer, so the manager accepts the wheel. Two bars mean the panel scrolls neither.
         Assert.False(window.CheckMouseWheel(-1, shift, 20, 20));
         Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
-        Assert.Equal(0, first.FPosition);
-        Assert.Equal(0, second.FPosition);
+        Assert.Equal(0, first._position);
+        Assert.Equal(0, second._position);
 
         Assert.True(manager.CheckMouseWheel(-1, shift, 205, 10));
-        Assert.Equal(1, first.FPosition);
-        Assert.Equal(0, second.FPosition);
+        Assert.Equal(1, first._position);
+        Assert.Equal(0, second._position);
 
-        second.FVisible = false;
+        second._visible = false;
         Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
-        Assert.Equal(2, first.FPosition);
-        Assert.Equal(0, second.FPosition);
+        Assert.Equal(2, first._position);
+        Assert.Equal(0, second._position);
     }
 
     [Fact]
     public void AModalWindowBlocksEveryWindowUnderTheOverlay()
     {
         var manager = new WindowManager(null);
-        manager.FOverlayPriority = 10;
+        manager._overlayPriority = 10;
         var back = new Window(null);
         Place(back, manager, 0, 0, 400, 300, 1);
         var backList = new ListBox(null);
@@ -188,15 +188,15 @@ public sealed class MouseWheelTests
         Set<ShiftState> shift = default;
 
         Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
-        Assert.Equal(1, modalList.F15C);
-        Assert.Equal(0, backList.F15C);
+        Assert.Equal(1, modalList.FirstShownItem);
+        Assert.Equal(0, backList.FirstShownItem);
 
         Assert.False(manager.CheckMouseWheel(-1, shift, 200, 20));
-        Assert.Equal(0, backList.F15C);
+        Assert.Equal(0, backList.FirstShownItem);
 
         modalList.SetOwner(null);
         Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
-        Assert.Equal(0, backList.F15C);
+        Assert.Equal(0, backList.FirstShownItem);
     }
 
     [Fact]
@@ -209,32 +209,32 @@ public sealed class MouseWheelTests
         Place(list, window, 0, 0, 80, 40);
         Fill(list, 10, 3);
         var bar = Bar(window, 90, 0, 16, 40, 9, 3);
-        bar.FSmallChange = 2;
-        list.FVScrollBar = bar;
+        bar._smallChange = 2;
+        list._verticalScrollBar = bar;
         int changes = 0;
-        bar.FOnChange = _ =>
+        bar._onChange = _ =>
         {
             changes++;
-            list.ListOffset = bar.FPosition;
+            list.ListOffset = bar._position;
         };
         Set<ShiftState> shift = default;
 
         Assert.True(list.CheckMouseWheel(-4, shift, 10, 10));
-        Assert.Equal(7, bar.FPosition);
-        Assert.Equal(7, list.F15C);
+        Assert.Equal(7, bar._position);
+        Assert.Equal(7, list.FirstShownItem);
         Assert.Equal(4, changes);
 
         Assert.True(list.CheckMouseWheel(-1, shift, 10, 10));
-        Assert.Equal(7, bar.FPosition);
+        Assert.Equal(7, bar._position);
         Assert.Equal(5, changes);
 
         Assert.True(bar.CheckMouseWheel(4, shift, 95, 10));
-        Assert.Equal(0, bar.FPosition);
-        Assert.Equal(0, list.F15C);
+        Assert.Equal(0, bar._position);
+        Assert.Equal(0, list.FirstShownItem);
         Assert.Equal(9, changes);
 
         Assert.True(bar.CheckMouseWheel(1, shift, 95, 10));
-        Assert.Equal(0, bar.FPosition);
+        Assert.Equal(0, bar._position);
         Assert.Equal(10, changes);
     }
 
@@ -251,18 +251,18 @@ public sealed class MouseWheelTests
         Fill(list, 10, 4);
         var bar = Bar(panel, 140, 10, 16, 40, 9, 3);
         int changes = 0;
-        list.FOnChange = _ => changes++;
+        list._onChange = _ => changes++;
         Set<ShiftState> shift = default;
 
         Assert.True(manager.CheckMouseWheel(-1, shift, 30, 30));
-        Assert.Equal(1, list.F15C);
+        Assert.Equal(1, list.FirstShownItem);
         Assert.True(manager.CheckMouseWheel(-100, shift, 30, 30));
-        Assert.Equal(6, list.F15C);
+        Assert.Equal(6, list.FirstShownItem);
         Assert.True(manager.CheckMouseWheel(1, shift, 30, 30));
-        Assert.Equal(5, list.F15C);
+        Assert.Equal(5, list.FirstShownItem);
         Assert.True(manager.CheckMouseWheel(100, shift, 30, 30));
-        Assert.Equal(0, list.F15C);
-        Assert.Equal(0, bar.FPosition);
+        Assert.Equal(0, list.FirstShownItem);
+        Assert.Equal(0, bar._position);
         Assert.Equal(0, changes);
     }
 
@@ -275,18 +275,18 @@ public sealed class MouseWheelTests
         int page = 0;
         var back = new Button(null);
         var forward = new Button(null);
-        back.FVisible = false;
-        back.FOnClick = _ =>
+        back._visible = false;
+        back._onClick = _ =>
         {
             page--;
-            forward.FVisible = true;
-            if (page == 0) back.FVisible = false;
+            forward._visible = true;
+            if (page == 0) back._visible = false;
         };
-        forward.FOnClick = _ =>
+        forward._onClick = _ =>
         {
             page++;
-            back.FVisible = true;
-            if (page == 2) forward.FVisible = false;
+            back._visible = true;
+            if (page == 2) forward._visible = false;
         };
         book.PageBack = back;
         book.PageForward = forward;
@@ -297,11 +297,11 @@ public sealed class MouseWheelTests
 
         Assert.True(manager.CheckMouseWheel(-5, shift, 120, 80));
         Assert.Equal(1, page);
-        Assert.True(back.FVisible);
-        Assert.True(forward.FVisible);
+        Assert.True(back._visible);
+        Assert.True(forward._visible);
         Assert.True(manager.CheckMouseWheel(-1, shift, 120, 80));
         Assert.Equal(2, page);
-        Assert.False(forward.FVisible);
+        Assert.False(forward._visible);
         Assert.False(book.CheckMouseWheel(-1, shift, 120, 80));
         Assert.True(manager.CheckMouseWheel(-1, shift, 120, 80));
         Assert.Equal(2, page);
@@ -310,19 +310,19 @@ public sealed class MouseWheelTests
         Assert.Equal(1, page);
         Assert.True(manager.CheckMouseWheel(1, shift, 120, 80));
         Assert.Equal(0, page);
-        Assert.False(back.FVisible);
+        Assert.False(back._visible);
         Assert.False(book.CheckMouseWheel(1, shift, 120, 80));
         Assert.True(manager.CheckMouseWheel(1, shift, 120, 80));
         Assert.Equal(0, page);
 
         Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
         Assert.Equal(0, page);
-        Assert.Equal(1, list.F15C);
+        Assert.Equal(1, list.FirstShownItem);
 
-        book.FAnimating = true;
+        book.Animating = true;
         Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
         Assert.Equal(0, page);
-        Assert.Equal(1, list.F15C);
+        Assert.Equal(1, list.FirstShownItem);
     }
 
     [Fact]
@@ -337,28 +337,28 @@ public sealed class MouseWheelTests
         Fill(list, 2, 4);
         var memo = new Memo(null);
         Place(memo, window, 90, 10, 70, 40);
-        memo.FCaptureInput = false;
+        memo._captureInput = false;
         var memoBar = Bar(window, 140, 10, 16, 40, 0, 1);
-        memoBar.FVisible = false;
-        memo.FVScrollBar = memoBar;
+        memoBar._visible = false;
+        memo._verticalScrollBar = memoBar;
         Set<ShiftState> shift = default;
 
         Assert.False(list.CheckMouseWheel(-1, shift, 20, 20));
         Assert.True(window.CheckMouseWheel(-1, shift, 20, 20));
-        Assert.Equal(0, list.F15C);
-        Assert.Equal(1, parent.FPosition);
+        Assert.Equal(0, list.FirstShownItem);
+        Assert.Equal(1, parent._position);
 
         Assert.False(memo.CheckMouseWheel(-1, shift, 100, 20));
         Assert.True(window.CheckMouseWheel(-1, shift, 100, 20));
-        Assert.Equal(0, memoBar.FPosition);
-        Assert.Equal(2, parent.FPosition);
+        Assert.Equal(0, memoBar._position);
+        Assert.Equal(2, parent._position);
 
-        memoBar.FMax = 8;
-        memoBar.FNumberVisible = 3;
-        memoBar.FVisible = true;
+        memoBar._max = 8;
+        memoBar._numberVisible = 3;
+        memoBar._visible = true;
         Assert.True(window.CheckMouseWheel(-1, shift, 100, 20));
-        Assert.Equal(1, memoBar.FPosition);
-        Assert.Equal(2, parent.FPosition);
+        Assert.Equal(1, memoBar._position);
+        Assert.Equal(2, parent._position);
     }
 
     [Fact]
@@ -369,37 +369,37 @@ public sealed class MouseWheelTests
         Place(window, manager, 0, 0, 80, 80);
         var bar = new VerticalScrollBar(null);
         Place(bar, window, 10, 10, 16, 40);
-        bar.FMin = 0;
-        bar.FMax = 5;
-        bar.FNumberVisible = 2;
-        bar.FSmallChange = 2;
-        bar.F14C = bar.FMax - bar.FMin + 1;
-        bar.FDelay = 1;
+        bar._min = 0;
+        bar._max = 5;
+        bar._numberVisible = 2;
+        bar._smallChange = 2;
+        bar.PositionCount = bar._max - bar._min + 1;
+        bar._delay = 1;
         var library = new InterfaceImageLibrary(null);
         var image = new Picture16(library);
         image.SetHeight(8);
         library.SetImage(0, image);
-        bar.FILIDec = library;
-        bar.FILIInc = library;
+        bar._imageLibraryIDecrement = library;
+        bar._imageLibraryImageIncrement = library;
         int changes = 0;
-        bar.FOnChange = _ => changes++;
-        int x = window.FWinLeft + bar.FWinLeft + 1;
-        int top = window.FWinTop + bar.FWinTop;
+        bar._onChange = _ => changes++;
+        int x = window._winLeft + bar._winLeft + 1;
+        int top = window._winTop + bar._winTop;
 
         bar.CheckMouseDown(MouseButton.Left, default, x, top + 1);
-        Assert.Equal(0, bar.FPosition);
+        Assert.Equal(0, bar._position);
         Assert.Equal(1, changes);
 
-        bar.CheckMouseDown(MouseButton.Left, default, x, top + bar.FWinHeight - 1);
-        Assert.Equal(2, bar.FPosition);
+        bar.CheckMouseDown(MouseButton.Left, default, x, top + bar._winHeight - 1);
+        Assert.Equal(2, bar._position);
         Assert.Equal(2, changes);
-        Assert.Equal(4, bar.F151);
+        Assert.Equal(4, bar.HeldPart);
 
         bar.Update();
-        Assert.Equal(4, bar.FPosition);
+        Assert.Equal(4, bar._position);
         Assert.Equal(3, changes);
         bar.Update();
-        Assert.Equal(4, bar.FPosition);
+        Assert.Equal(4, bar._position);
         Assert.Equal(4, changes);
     }
 }

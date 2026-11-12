@@ -11,7 +11,7 @@ public partial class AltarOfLightning : Altar
     { }
 
     // AltLight.pas:36
-    public new const int ClassID = 131645;
+    public new const int ClassId = 131645;
 
     // AltLight.pas:39
     public override Storm CreateStorm() => new LightningStorm(null);
@@ -23,19 +23,19 @@ public partial class AltarOfLightning : Altar
         }
 
         // AltLight.pas:52
-        public new const int ClassID = 131646;
+        public new const int ClassId = 131646;
 
         // AltLight.pas:44
 
         // AltLight.pas:55
-        public override int ResourceUserClassID() => 131645;
+        public override int ResourceUserClassId() => 131645;
 
         // AltLight.pas:26
 
         // AltLight.pas:49
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(AltarOfLightningRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_altarOfLightningText);
 
-        private static readonly string AltarOfLightningRStr = "Altar of Lightning";
+        private static readonly string s_altarOfLightningText = "Altar of Lightning";
 
     }
 

@@ -16,70 +16,70 @@ public sealed partial record Upgrade : ProductionOrder
 
     public override CityAction CityAction => CityAction.Upgrade;
 
-    public override string Name(ProductionControl Control) =>
-        Control.ProductionCity() != null ? AbilityRules.TranslateRStr(GameText.UpgradeRStr) : base.Name(Control);
+    public override string Name(ProductionControl control) =>
+        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(GameText.s_upgradeText) : base.Name(control);
 
-    public override string NameProgressive(ProductionControl Control) =>
-        Control.ProductionCity() != null ? AbilityRules.TranslateRStr(UpgradingRStr) : base.NameProgressive(Control);
+    public override string NameProgressive(ProductionControl control) =>
+        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(s_upgradingText) : base.NameProgressive(control);
 
-    public override bool CanExecute(ProductionControl Control, ref string Reason)
+    public override bool CanExecute(ProductionControl control, ref string reason)
     {
-        var city = Control.ProductionCity();
+        var city = control.ProductionCity();
         if (city == null)
         {
-            return base.CanExecute(Control, ref Reason);
+            return base.CanExecute(control, ref reason);
         }
 
-        if (AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).FGems >= city.UpgradeCost())
+        if (AoWHSMap.Current.Players.GetPlayers(control.GetPlayer()).Gems >= city.UpgradeCost())
         {
             return true;
         }
 
-        Reason = AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
+        reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
         return false;
     }
 
-    public override void Executed(ProductionControl Control)
+    public override void Executed(ProductionControl control)
     {
-        var city = Control.ProductionCity();
+        var city = control.ProductionCity();
         if (city == null)
         {
             return;
         }
 
-        Control.FSettings.FTurnsTotal = (sbyte)city.UpgradeTime();
-        Control.FSettings.FTurnsLeft = Control.FSettings.FTurnsTotal;
-        Control.FSettings.FPlayer = Control.GetPlayer();
-        Control.FSettings.FGold = city.UpgradeCost();
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
-        AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).SetGems(player.FGems - Control.FSettings.FGold);
-        Control.FStatus = ProductionControl.Status.Producing;
+        control.Settings.TurnsTotal = (sbyte)city.UpgradeTime();
+        control.Settings.TurnsLeft = control.Settings.TurnsTotal;
+        control.Settings.Player = control.GetPlayer();
+        control.Settings.Gold = city.UpgradeCost();
+        var player = AoWHSMap.Current.Players.GetPlayers(control.GetPlayer());
+        AoWHSMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(player.Gems - control.Settings.Gold);
+        control.Status = ProductionControlStatus.Producing;
     }
 
-    public override void Completed(ProductionControl Control)
+    public override void Completed(ProductionControl control)
     {
-        var city = Control.ProductionCity();
+        var city = control.ProductionCity();
         if (city == null)
         {
             return;
         }
 
-        Control.BeginUpdate();
-        city.SetUpgradeLevel((byte)(city.FUpgradeLevel + 1));
-        ChangeRelation(Control, city, 5);
-        Control.ProductionDone();
-        Log(Control, city, RtlUnit.Format(AbilityRules.TranslateRStr(XUpgradedRStr), [city.GetName()]));
-        Control.EndUpdate();
+        control.BeginUpdate();
+        city.SetUpgradeLevel((byte)(city.UpgradeLevel + 1));
+        ChangeRelation(control, city, 5);
+        control.ProductionDone();
+        Log(control, city, RtlUnit.Format(AbilityRules.TranslateResourceString(s_upgradedFormat), [city.GetName()]));
+        control.EndUpdate();
     }
 
-    public override bool Loopable(ProductionControl Control) => Control.ProductionCity() == null;
+    public override bool Loopable(ProductionControl control) => control.ProductionCity() == null;
 
-    public override int ActivityImage(City City) => 43;
+    public override int ActivityImage(City city) => 43;
 
-    public override int? CitySequence(City City, int Row) => 33 + Row;
+    public override int? CitySequence(City city, int row) => 33 + row;
 
-    public override string RealmActivity(City City) => "2";
+    public override string RealmActivity(City city) => "2";
 
-    private static readonly string UpgradingRStr = "Upgrading";
-    private static readonly string XUpgradedRStr = "%s upgraded";
+    private static readonly string s_upgradingText = "Upgrading";
+    private static readonly string s_upgradedFormat = "%s upgraded";
 }

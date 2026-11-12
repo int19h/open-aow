@@ -19,87 +19,87 @@ namespace Aow.Game.UI.Controls;
 // while it is set
 public partial class Memo : Control
 {
-    public int F114;
-    public StringList FItems;
-    public List<ColorChange> FColorList;
-    public VerticalScrollBar FVScrollBar;
-    public int FNumVisible;
-    public int FTopItem;
-    public bool FScrollSet;
-    public NotifyEvent<Memo> FOnDrawItem;
-    public int FScrollWidth;
-    public bool FScrollVisible;
-    public byte FCursorChar;
-    public bool FBlink;
-    public byte FBlinkDelay;
-    public byte FBlinkCount;
-    public int FCurCol;
-    public int FCurLine;
-    public int FRealCol;
-    public int FRealLine;
-    public bool FEditable;
-    public InterfaceImageLibrary FILFrame;
-    public InterfaceImageLibrary FILTexture;
-    public int FItemHeight;
-    public byte FColorChangeChar;
-    public TextAlignment FTextAlign;
-    public bool FNoFrame;
-    public int FILIndexFrame;
-    public int FILIndexTexture;
-    public int FDrawIndex;
-    public Rect FItemRect;
-    public StringList FLines;
+    public int UnusedMouseUpValue;
+    public StringList _items;
+    public List<ColorChange> ColorList;
+    public VerticalScrollBar _verticalScrollBar;
+    public int NumberVisible;
+    public int TopItem;
+    public bool ScrollSet;
+    public NotifyEvent<Memo> _onDrawItem;
+    public int ScrollWidth;
+    public bool ScrollVisible;
+    public byte _cursorChar;
+    public bool Blink;
+    public byte _blinkDelay;
+    public byte BlinkCount;
+    public int CurrentColumn;
+    public int CurrentLine;
+    public int RealColumn;
+    public int RealLine;
+    public bool _editable;
+    public InterfaceImageLibrary _imageLibraryFrame;
+    public InterfaceImageLibrary _imageLibraryTexture;
+    public int _itemHeight;
+    public byte _colorChangeChar;
+    public TextAlignment _textAlign;
+    public bool NoFrame;
+    public int _imageLibraryIndexFrame;
+    public int _imageLibraryIndexTexture;
+    public int DrawIndex;
+    public Rect ItemRectangle;
+    public StringList Lines;
 
     // AoWMemo.pas:126
     public Memo(Component owner) : base(owner)
     {
-        FLines = new StringList();
-        FItems = new StringList();
-        FItems.OnChange = OnChangeText;
-        FColorList = new List<ColorChange>();
-        FNumVisible = 3;
-        FCursorChar = 124;
-        FEditable = true;
+        Lines = new StringList();
+        _items = new StringList();
+        _items.OnChange = OnChangeText;
+        ColorList = new List<ColorChange>();
+        NumberVisible = 3;
+        _cursorChar = 124;
+        _editable = true;
     }
 
     // AoWMemo.pas:138
     public override void Dispose()
     {
-        FLines?.Dispose();
-        FItems?.Dispose();
-        for (int I = 0, last = FColorList.Count - 1; I <= last; I++)
+        Lines?.Dispose();
+        _items?.Dispose();
+        for (int I = 0, last = ColorList.Count - 1; I <= last; I++)
         {
         }
 
-        FColorList?.Clear();
+        ColorList?.Clear();
         base.Dispose();
     }
 
     // AoWMemo.pas:150
     public override void Validate()
     {
-        if (FAOWFont != null)
+        if (_font != null)
         {
-            if (FILFrame != null)
+            if (_imageLibraryFrame != null)
             {
-                FILFrame = FILFrame.CheckIL(FILIndexFrame, 8, this);
+                _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
             }
 
-            if (FILTexture != null)
+            if (_imageLibraryTexture != null)
             {
-                FILTexture = FILTexture.CheckIL(FILIndexTexture, 1, this);
+                _imageLibraryTexture = _imageLibraryTexture.CheckImageLibrary(_imageLibraryIndexTexture, 1, this);
             }
 
-            if (FILFrame != null && FILTexture != null)
+            if (_imageLibraryFrame != null && _imageLibraryTexture != null)
             {
-                FNoFrame = false;
+                NoFrame = false;
             }
             else
             {
-                FNoFrame = true;
+                NoFrame = true;
             }
 
-            FValid = true;
+            Valid = true;
         }
 
         base.Validate();
@@ -110,187 +110,187 @@ public partial class Memo : Control
     //   not fit starts a new line) and sets up the scroll bar }
     public override void SetSize()
     {
-        int Len;
+        int length;
         int W;
         ReadOnlySpan<byte> text;
         string S;
         int J;
-        int Start;
-        int TW;
-        ColorChange CC;
-        if (FItemHeight < 1)
+        int start;
+        int tw;
+        ColorChange cc;
+        if (_itemHeight < 1)
         {
-            FItemHeight = 10;
+            _itemHeight = 10;
         }
 
-        switch (FNoFrame)
+        switch (NoFrame)
         {
             case false:
-                var ilFrameHeight = FILFrame[FILIndexFrame];
-                var ilFrame = FILFrame[FILIndexFrame + 5];
-                if (ilFrameHeight.Height + ilFrame.Height > FWinHeight)
+                var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
+                var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+                if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > _winHeight)
                 {
-                    var ilFrame2 = FILFrame[FILIndexFrame];
-                    var ilFrame3 = FILFrame[FILIndexFrame + 5];
-                    FWinHeight = ilFrame2.Height + ilFrame3.Height;
+                    var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
+                    var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+                    _winHeight = imageLibraryFrame2.Height + imageLibraryFrame3.Height;
                 }
 
-                if (FILFrame[FILIndexFrame].Width > FWinWidth)
+                if (_imageLibraryFrame[_imageLibraryIndexFrame].Width > _winWidth)
                 {
-                    FWinWidth = FILFrame[FILIndexFrame].Width;
+                    _winWidth = _imageLibraryFrame[_imageLibraryIndexFrame].Width;
                 }
 
-                var ilFrame4 = FILFrame[FILIndexFrame + 1];
-                var ilFrame5 = FILFrame[FILIndexFrame + 6];
-                FNumVisible = (FWinHeight - ilFrame4.Height - ilFrame5.Height) / FItemHeight;
-                FScrollWidth = FILFrame[FILIndexFrame + 4].Width;
-                FMasked = false;
+                var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                NumberVisible = (_winHeight - imageLibraryFrame4.Height - imageLibraryFrame5.Height) / _itemHeight;
+                ScrollWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 4].Width;
+                _masked = false;
                 break;
             case true:
-                FNumVisible = FWinHeight / FItemHeight;
-                FScrollWidth = 0;
-                FMasked = true;
+                NumberVisible = _winHeight / _itemHeight;
+                ScrollWidth = 0;
+                _masked = true;
                 break;
         }
 
-        if (FVScrollBar != null)
+        if (_verticalScrollBar != null)
         {
-            FScrollWidth = FVScrollBar.WinWidth;
-            FTopItem = FVScrollBar.Position;
+            ScrollWidth = _verticalScrollBar.WinWidth;
+            TopItem = _verticalScrollBar.Position;
         }
 
-        for (int I = 0, last = FColorList.Count - 1; I <= last; I++)
+        for (int I = 0, last = ColorList.Count - 1; I <= last; I++)
         {
-            CC = FColorList[I];
+            cc = ColorList[I];
         }
 
-        FColorList.Clear();
-        FLines.Clear();
-        for (int I = 0, last = FItems.Count - 1; I <= last; I++)
+        ColorList.Clear();
+        Lines.Clear();
+        for (int I = 0, last = _items.Count - 1; I <= last; I++)
         {
-            FLines.Add("");
+            Lines.Add("");
             var colorChange = new ColorChange();
-            FColorList.Add(colorChange);
+            ColorList.Add(colorChange);
             J = 0;
-            Start = 0;
-            if (!FNoFrame)
+            start = 0;
+            if (!NoFrame)
             {
-                W = FILFrame[FILIndexFrame + 3].Width + FScrollWidth + FBorderWidth * 2;
+                W = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + ScrollWidth + _borderWidth * 2;
             }
             else
             {
-                W = FBorderWidth * 2;
+                W = _borderWidth * 2;
             }
 
-            string item = NullTerminatedText(FItems[I]);
+            string item = NullTerminatedText(_items[I]);
             text = Cp1252.Encode(item);
-            Len = text.Length;
-            if (Len > 6 && text[0] == FColorChangeChar)
+            length = text.Length;
+            if (length > 6 && text[0] == _colorChangeChar)
             {
-                CC = FColorList[FColorList.Count - 1];
-                CC.FHasColor = true;
+                cc = ColorList[ColorList.Count - 1];
+                cc.HasColor = true;
                 try
                 {
-                    var item2 = FItems[I];
-                    CC.FColor = StrToInt("$" + Copy(item2, 2, 6));
+                    var item2 = _items[I];
+                    cc.Color = StrToInt("$" + Copy(item2, 2, 6));
                 }
                 catch
                 {
                 }
 
                 J = 8;
-                Start = 7;
+                start = 7;
             }
 
-            while (J < Len)
+            while (J < length)
             {
-                if (text[J] == 32 || J == Len - 1)
+                if (text[J] == 32 || J == length - 1)
                 {
-                    S = Copy(item, Start + 1, J + 1 - Start);
-                    TW = FAOWFont.GetTextWidth(S);
-                    if (W + TW > FWinWidth)
+                    S = Copy(item, start + 1, J + 1 - start);
+                    tw = _font.GetTextWidth(S);
+                    if (W + tw > _winWidth)
                     {
-                        FLines.Add(S);
+                        Lines.Add(S);
                         var colorChange2 = new ColorChange();
-                        FColorList.Add(colorChange2);
-                        if (!FNoFrame)
+                        ColorList.Add(colorChange2);
+                        if (!NoFrame)
                         {
-                            W = TW + (FILFrame[FILIndexFrame + 3].Width + FScrollWidth + FBorderWidth * 2);
+                            W = tw + (_imageLibraryFrame[_imageLibraryIndexFrame + 3].Width + ScrollWidth + _borderWidth * 2);
                         }
                         else
                         {
-                            W = TW + FBorderWidth * 2;
+                            W = tw + _borderWidth * 2;
                         }
                     }
                     else
                     {
-                        var count = FLines.Count;
-                        var line = FLines[count - 1];
-                        var fLinesCount = FLines.Count;
-                        FLines[fLinesCount - 1] = line + S;
-                        W = W + TW;
+                        var count = Lines.Count;
+                        var line = Lines[count - 1];
+                        var fLinesCount = Lines.Count;
+                        Lines[fLinesCount - 1] = line + S;
+                        W = W + tw;
                     }
 
-                    Start = J + 1;
+                    start = J + 1;
                 }
 
                 J += 1;
             }
         }
 
-        if (FLines.Count < FTopItem + FNumVisible)
+        if (Lines.Count < TopItem + NumberVisible)
         {
-            FTopItem = FLines.Count - FNumVisible;
+            TopItem = Lines.Count - NumberVisible;
         }
 
-        if (FTopItem < 0)
+        if (TopItem < 0)
         {
-            FTopItem = 0;
+            TopItem = 0;
         }
 
-        FScrollSet = false;
-        if (!FScrollSet)
+        ScrollSet = false;
+        if (!ScrollSet)
         {
-            if (!FNoFrame)
+            if (!NoFrame)
             {
-                FScrollWidth = FILFrame[FILIndexFrame + 4].Width;
+                ScrollWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 4].Width;
             }
             else
             {
-                FScrollWidth = 0;
+                ScrollWidth = 0;
             }
 
-            FScrollVisible = false;
-            if (FVScrollBar != null)
+            ScrollVisible = false;
+            if (_verticalScrollBar != null)
             {
-                FScrollSet = true;
-                if (FAOWWindow != FVScrollBar.AOWWindow)
+                ScrollSet = true;
+                if (_window != _verticalScrollBar.Window)
                 {
-                    FVScrollBar.AOWWindow = FAOWWindow;
+                    _verticalScrollBar.Window = _window;
                 }
 
-                FVScrollBar.Min = 0;
-                var count = FLines.Count;
-                FVScrollBar.Max = count - 2;
-                FVScrollBar.Priority = FPriority + 1;
-                FVScrollBar.Position = FTopItem;
-                FVScrollBar.NumberVisible = FNumVisible - 1;
-                FVScrollBar.WinHeight = FWinHeight;
-                FVScrollBar.LargeChange = FNumVisible - 1;
-                FVScrollBar.Visible = FVisible;
-                if (FVScrollBar.VanishWhenFull == true && FLines.Count - 1 < FNumVisible)
+                _verticalScrollBar.Min = 0;
+                var count = Lines.Count;
+                _verticalScrollBar.Max = count - 2;
+                _verticalScrollBar.Priority = _priority + 1;
+                _verticalScrollBar.Position = TopItem;
+                _verticalScrollBar.NumberVisible = NumberVisible - 1;
+                _verticalScrollBar.WinHeight = _winHeight;
+                _verticalScrollBar.LargeChange = NumberVisible - 1;
+                _verticalScrollBar.Visible = _visible;
+                if (_verticalScrollBar.VanishWhenFull == true && Lines.Count - 1 < NumberVisible)
                 {
-                    FVScrollBar.Visible = false;
+                    _verticalScrollBar.Visible = false;
                 }
                 else
                 {
-                    FScrollWidth = FVScrollBar.WinWidth;
+                    ScrollWidth = _verticalScrollBar.WinWidth;
                 }
 
-                FVScrollBar.FSized = false;
-                FVScrollBar.WinLeft = FWinLeft + FWinWidth - FVScrollBar.WinWidth;
-                FVScrollBar.WinTop = FWinTop;
-                FScrollVisible = FVScrollBar.Visible;
+                _verticalScrollBar.Sized = false;
+                _verticalScrollBar.WinLeft = _winLeft + _winWidth - _verticalScrollBar.WinWidth;
+                _verticalScrollBar.WinTop = _winTop;
+                ScrollVisible = _verticalScrollBar.Visible;
             }
         }
 
@@ -303,57 +303,57 @@ public partial class Memo : Control
     {
         int P;
         base.Update();
-        if (FVisible)
+        if (_visible)
         {
-            if (FVScrollBar != null && FLines.Count > 0)
+            if (_verticalScrollBar != null && Lines.Count > 0)
             {
-                if (FVScrollBar.Position != FTopItem)
+                if (_verticalScrollBar.Position != TopItem)
                 {
-                    P = FVScrollBar.Position;
-                    FTopItem = P;
-                    if (FLines.Count < P + FNumVisible)
+                    P = _verticalScrollBar.Position;
+                    TopItem = P;
+                    if (Lines.Count < P + NumberVisible)
                     {
-                        FTopItem = FLines.Count - FNumVisible;
+                        TopItem = Lines.Count - NumberVisible;
                     }
 
-                    if (FTopItem < 0)
+                    if (TopItem < 0)
                     {
-                        FTopItem = 0;
+                        TopItem = 0;
                     }
 
-                    FDrawn = false;
-                    if (FNoFrame == true)
+                    Drawn = false;
+                    if (NoFrame == true)
                     {
-                        if (FAOWWindow != null)
+                        if (_window != null)
                         {
-                            FAOWWindow.FDrawn = false;
+                            _window.Drawn = false;
                         }
                     }
                 }
             }
 
-            if (FEditable && FBlinkDelay > 0 && FRedraw == true)
+            if (_editable && _blinkDelay > 0 && Redraw == true)
             {
-                FBlinkCount = (byte)(FBlinkCount + 1);
-                if (FBlinkCount > FBlinkDelay)
+                BlinkCount = (byte)(BlinkCount + 1);
+                if (BlinkCount > _blinkDelay)
                 {
-                    FDrawn = false;
-                    if (FNoFrame == true)
+                    Drawn = false;
+                    if (NoFrame == true)
                     {
-                        if (FAOWWindow != null)
+                        if (_window != null)
                         {
-                            FAOWWindow.FDrawn = false;
+                            _window.Drawn = false;
                         }
                     }
 
-                    FBlinkCount = 0;
-                    if (FBlink == true)
+                    BlinkCount = 0;
+                    if (Blink == true)
                     {
-                        FBlink = false;
+                        Blink = false;
                     }
                     else
                     {
-                        FBlink = true;
+                        Blink = true;
                     }
                 }
             }
@@ -361,140 +361,140 @@ public partial class Memo : Control
     }
 
     // AoWMemo.pas:333
-    public override void SetVisible(bool Value)
+    public override void SetVisible(bool value)
     {
-        base.SetVisible(Value);
-        if (FVScrollBar != null)
+        base.SetVisible(value);
+        if (_verticalScrollBar != null)
         {
-            FVScrollBar.Visible = FVisible;
+            _verticalScrollBar.Visible = _visible;
         }
     }
 
     // AoWMemo.pas:378
     // { Draw draws the frame and the texture, the visible lines (clipped to the text area) and the
     //   cursor }
-    public override void Draw(LockedSurface SurfDesc)
+    public override void Draw(LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
         int W = default;
-        Rect OldClip = default;
+        Rect oldClip = default;
         int H = default;
-        ColorChange CC = default;
+        ColorChange cc = default;
         try
         {
-            if (FValid && FVisible)
+            if (Valid && _visible)
             {
-                if (FOnPreDraw != null)
+                if (_onPreDraw != null)
                 {
-                    FOnPreDraw(this, SurfDesc);
+                    _onPreDraw(this, lockedSurface);
                 }
 
-                FAOWFont.Color = FColor;
-                OldClip = SurfDesc.ClipRect;
-                switch (FNoFrame)
+                _font.Color = Color;
+                oldClip = lockedSurface.ClipRectangle;
+                switch (NoFrame)
                 {
                     case false:
-                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                        FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
-                        var ilFrameHeight = FILFrame[FILIndexFrame + 1];
-                        var ilFrame = FILFrame[FILIndexFrame + 6];
-                        var ilFrameWidth = FILFrame[FILIndexFrame + 3];
-                        var ilFrame2 = FILFrame[FILIndexFrame + 1];
-                        var ilFrame3 = FILFrame[FILIndexFrame + 3];
-                        var rect2 = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame3.Width, FAOWWindow.FWinTop + FWinTop + ilFrame2.Height, FWinWidth - ilFrameWidth.Width - FScrollWidth, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
-                        FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
-                        var ilFrame4 = FILFrame[FILIndexFrame + 3];
-                        X = FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width;
-                        var ilFrame5 = FILFrame[FILIndexFrame + 1];
-                        Y = FAOWWindow.FWinTop + FWinTop + ilFrame5.Height;
-                        var ilFrame6 = FILFrame[FILIndexFrame + 1];
-                        var ilFrame7 = FILFrame[FILIndexFrame + 6];
-                        H = FWinHeight - ilFrame6.Height - ilFrame7.Height;
-                        var ilFrame8 = FILFrame[FILIndexFrame + 3];
-                        W = FWinWidth - ilFrame8.Width - FScrollWidth;
+                        var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                        _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
+                        var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                        var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        var rectangle2 = new Rect(_window._winLeft + _winLeft + imageLibraryFrame3.Width, _window._winTop + _winTop + imageLibraryFrame2.Height, _winWidth - imageLibraryFrameWidth.Width - ScrollWidth, _winHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle2, ref lockedSurface);
+                        var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        X = _window._winLeft + _winLeft + imageLibraryFrame4.Width;
+                        var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        Y = _window._winTop + _winTop + imageLibraryFrame5.Height;
+                        var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                        H = _winHeight - imageLibraryFrame6.Height - imageLibraryFrame7.Height;
+                        var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        W = _winWidth - imageLibraryFrame8.Width - ScrollWidth;
                         break;
                     default:
-                        X = FAOWWindow.FWinLeft + FWinLeft;
-                        Y = FAOWWindow.FWinTop + FWinTop;
-                        H = FWinHeight;
-                        W = FWinWidth - FScrollWidth;
+                        X = _window._winLeft + _winLeft;
+                        Y = _window._winTop + _winTop;
+                        H = _winHeight;
+                        W = _winWidth - ScrollWidth;
                         break;
                 }
 
-                if (X + W < OldClip.Right)
+                if (X + W < oldClip.Right)
                 {
-                    SurfDesc.ClipRect.Right = X + W;
+                    lockedSurface.ClipRectangle.Right = X + W;
                 }
 
-                if (Y + H < OldClip.Bottom)
+                if (Y + H < oldClip.Bottom)
                 {
-                    SurfDesc.ClipRect.Bottom = Y + H;
+                    lockedSurface.ClipRectangle.Bottom = Y + H;
                 }
 
-                for (int I = 0, last = FNumVisible; I <= last; I++)
+                for (int I = 0, last = NumberVisible; I <= last; I++)
                 {
-                    var count = FLines.Count;
-                    if (FTopItem + I < count)
+                    var count = Lines.Count;
+                    if (TopItem + I < count)
                     {
-                        CC = FColorList[FTopItem + I];
-                        if (CC.FHasColor)
+                        cc = ColorList[TopItem + I];
+                        if (cc.HasColor)
                         {
-                            FAOWFont.Color = CC.FColor;
+                            _font.Color = cc.Color;
                         }
 
-                        switch (FTextAlign)
+                        switch (_textAlign)
                         {
                             case TextAlignment.Left:
-                                var line = FLines[FTopItem + I];
-                                FAOWFont.SetText(FBorderWidth + X, FBorderHeight + Y + FItemHeight * I, line, SurfDesc);
+                                var line = Lines[TopItem + I];
+                                _font.SetText(_borderWidth + X, _borderHeight + Y + _itemHeight * I, line, lockedSurface);
                                 break;
                             case TextAlignment.Right:
-                                var line2 = FLines[FTopItem + I];
-                                var textWidth = FAOWFont.GetTextWidth(line2);
-                                var line3 = FLines[FTopItem + I];
-                                FAOWFont.SetText(X + W - FBorderWidth - textWidth, FBorderHeight + Y + FItemHeight * I, line3, SurfDesc);
+                                var line2 = Lines[TopItem + I];
+                                var textWidth = _font.GetTextWidth(line2);
+                                var line3 = Lines[TopItem + I];
+                                _font.SetText(X + W - _borderWidth - textWidth, _borderHeight + Y + _itemHeight * I, line3, lockedSurface);
                                 break;
                             default:
-                                var line4 = FLines[FTopItem + I];
-                                var faowFontTextWidth = FAOWFont.GetTextWidth(line4);
-                                var line5 = FLines[FTopItem + I];
-                                FAOWFont.SetText(X + W / 2 - faowFontTextWidth / 2, FBorderHeight + Y + FItemHeight * I, line5, SurfDesc);
+                                var line4 = Lines[TopItem + I];
+                                var fontTextWidth = _font.GetTextWidth(line4);
+                                var line5 = Lines[TopItem + I];
+                                _font.SetText(X + W / 2 - fontTextWidth / 2, _borderHeight + Y + _itemHeight * I, line5, lockedSurface);
                                 break;
                         }
 
-                        FDrawIndex = FTopItem + I;
-                        FItemRect = new Rect(X, Y + FItemHeight * I, X + W, Y + (I + 1) * FItemHeight);
-                        if (FItemRect.Bottom > SurfDesc.ClipRect.Bottom)
+                        DrawIndex = TopItem + I;
+                        ItemRectangle = new Rect(X, Y + _itemHeight * I, X + W, Y + (I + 1) * _itemHeight);
+                        if (ItemRectangle.Bottom > lockedSurface.ClipRectangle.Bottom)
                         {
-                            FItemRect.Bottom = SurfDesc.ClipRect.Bottom;
+                            ItemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
                         }
 
-                        if (FOnDrawItem != null)
+                        if (_onDrawItem != null)
                         {
-                            FOnDrawItem(this);
+                            _onDrawItem(this);
                         }
                     }
                 }
 
-                SurfDesc.ClipRect = OldClip;
-                bool condition = FCurLine - FTopItem > -1 && FCurLine - FTopItem < FNumVisible;
+                lockedSurface.ClipRectangle = oldClip;
+                bool condition = CurrentLine - TopItem > -1 && CurrentLine - TopItem < NumberVisible;
                 if (condition)
                 {
-                    var count = FLines.Count;
-                    condition = FCurLine - FTopItem < count;
+                    var count = Lines.Count;
+                    condition = CurrentLine - TopItem < count;
                 }
 
-                if (condition && FRedraw == true && FEditable && FBlink == true)
+                if (condition && Redraw == true && _editable && Blink == true)
                 {
-                    var line = FLines[FCurLine];
-                    var textWidth = FAOWFont.GetTextWidth(Copy(line, 1, FCurCol));
-                    FAOWFont.SetText(FBorderWidth + X + textWidth, FBorderHeight + Y + (FCurLine - FTopItem) * FItemHeight, Cp1252.Text(FCursorChar), SurfDesc);
+                    var line = Lines[CurrentLine];
+                    var textWidth = _font.GetTextWidth(Copy(line, 1, CurrentColumn));
+                    _font.SetText(_borderWidth + X + textWidth, _borderHeight + Y + (CurrentLine - TopItem) * _itemHeight, Cp1252.Text(_cursorChar), lockedSurface);
                 }
 
-                if (FOnDraw != null)
+                if (_onDraw != null)
                 {
-                    FOnDraw(this, SurfDesc);
+                    _onDraw(this, lockedSurface);
                 }
             }
         }
@@ -505,36 +505,36 @@ public partial class Memo : Control
     }
 
     // AoWMemo.pas:497
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        base.CheckMouseDown(Button, Shift, X, Y);
-        FHandled = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        base.CheckMouseDown(button, shift, X, Y);
+        Handled = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (FOnMouseDown != null)
+            Handled = true;
+            if (_onMouseDown != null)
             {
-                FOnMouseDown(this, Button, Shift, X, Y);
+                _onMouseDown(this, button, shift, X, Y);
             }
         }
     }
 
     // AoWMemo.pas:610
-    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        base.CheckMouseMove(Shift, X, Y);
-        FHandled = false;
-        if (FVisible && X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth - FScrollWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        base.CheckMouseMove(shift, X, Y);
+        Handled = false;
+        if (_visible && X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth - ScrollWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (FEditable == true)
+            Handled = true;
+            if (_editable == true)
             {
-                FAOWWindow.FCursor = -4;
+                _window._cursor = -4;
             }
 
-            if (FOnMouseMove != null)
+            if (_onMouseMove != null)
             {
-                FOnMouseMove(this, Shift, X, Y);
+                _onMouseMove(this, shift, X, Y);
             }
         }
     }
@@ -542,62 +542,62 @@ public partial class Memo : Control
     // AoWMemo.pas:715
     // { CheckKeyPress edits the text: Backspace, Enter (splits the paragraph) and the printable
     //   characters }
-    public override void CheckKeyPress(ref byte Key)
+    public override void CheckKeyPress(ref byte key)
     {
-        bool Changed;
-        bool Moved;
+        bool changed;
+        bool moved;
         byte C = default;
-        FHandled = FRedraw;
-        Changed = false;
-        Moved = false;
-        if (FEditable && FRedraw == true && FValid == true && FVisible == true)
+        Handled = Redraw;
+        changed = false;
+        moved = false;
+        if (_editable && Redraw == true && Valid == true && _visible == true)
         {
-            switch (Key)
+            switch (key)
             {
                 case 8:
-                    if (FRealCol > 0)
+                    if (RealColumn > 0)
                     {
-                        var itemLength = FItems[FRealLine];
-                        var item = FItems[FRealLine];
-                        var item2 = FItems[FRealLine];
-                        FItems[FRealLine] = Copy(item2, 1, FRealCol - 1) + Copy(item, FRealCol + 1, itemLength.Length - FRealCol + 1);
-                        FRealCol -= 1;
-                        Changed = true;
+                        var itemLength = _items[RealLine];
+                        var item = _items[RealLine];
+                        var item2 = _items[RealLine];
+                        _items[RealLine] = Copy(item2, 1, RealColumn - 1) + Copy(item, RealColumn + 1, itemLength.Length - RealColumn + 1);
+                        RealColumn -= 1;
+                        changed = true;
                     }
                     else
                     {
-                        if (FRealLine > 0)
+                        if (RealLine > 0)
                         {
-                            FRealCol = FItems[FRealLine - 1].Length;
-                            var item = FItems[FRealLine - 1];
-                            var item2 = FItems[FRealLine];
-                            FItems[FRealLine - 1] = item + item2;
-                            FItems.Delete(FRealLine);
-                            FRealLine -= 1;
-                            Changed = true;
+                            RealColumn = _items[RealLine - 1].Length;
+                            var item = _items[RealLine - 1];
+                            var item2 = _items[RealLine];
+                            _items[RealLine - 1] = item + item2;
+                            _items.Delete(RealLine);
+                            RealLine -= 1;
+                            changed = true;
                         }
                     }
 
                     break;
                 case 13:
-                    if (FLines[FCurLine].Length == FCurCol)
+                    if (Lines[CurrentLine].Length == CurrentColumn)
                     {
-                        FItems.Insert(FRealLine + 1, "");
-                        var item = FItems[FRealLine];
-                        FItems[FRealLine] = Copy(item, 1, FRealCol + 1);
+                        _items.Insert(RealLine + 1, "");
+                        var item = _items[RealLine];
+                        _items[RealLine] = Copy(item, 1, RealColumn + 1);
                     }
                     else
                     {
-                        var itemLength = FItems[FRealLine];
-                        var item = FItems[FRealLine];
-                        FItems.Insert(FRealLine + 1, Copy(item, FRealCol + 1, itemLength.Length));
-                        var item2 = FItems[FRealLine];
-                        FItems[FRealLine] = Copy(item2, 1, FRealCol);
+                        var itemLength = _items[RealLine];
+                        var item = _items[RealLine];
+                        _items.Insert(RealLine + 1, Copy(item, RealColumn + 1, itemLength.Length));
+                        var item2 = _items[RealLine];
+                        _items[RealLine] = Copy(item2, 1, RealColumn);
                     }
 
-                    FRealCol = 0;
-                    FRealLine += 1;
-                    Changed = true;
+                    RealColumn = 0;
+                    RealLine += 1;
+                    changed = true;
                     break;
                 case >= 0 and <= 7:
                 case >= 9 and <= 12:
@@ -605,488 +605,488 @@ public partial class Memo : Control
                     break;
                 default:
                     {
-                        C = Key;
-                        if (FLines[FCurLine].Length == FCurCol)
+                        C = key;
+                        if (Lines[CurrentLine].Length == CurrentColumn)
                         {
-                            var itemLength = FItems[FRealLine];
-                            var item = FItems[FRealLine];
-                            var item2 = FItems[FRealLine];
-                            FItems[FRealLine] = Copy(item2, 1, FRealCol + 1) + Cp1252.Text(C) + Copy(item, FRealCol + 2, itemLength.Length - FRealCol);
+                            var itemLength = _items[RealLine];
+                            var item = _items[RealLine];
+                            var item2 = _items[RealLine];
+                            _items[RealLine] = Copy(item2, 1, RealColumn + 1) + Cp1252.Text(C) + Copy(item, RealColumn + 2, itemLength.Length - RealColumn);
                         }
                         else
                         {
-                            var itemLength = FItems[FRealLine];
-                            var item = FItems[FRealLine];
-                            var item2 = FItems[FRealLine];
-                            FItems[FRealLine] = Copy(item2, 1, FRealCol) + Cp1252.Text(C) + Copy(item, FRealCol + 1, itemLength.Length - FRealCol);
+                            var itemLength = _items[RealLine];
+                            var item = _items[RealLine];
+                            var item2 = _items[RealLine];
+                            _items[RealLine] = Copy(item2, 1, RealColumn) + Cp1252.Text(C) + Copy(item, RealColumn + 1, itemLength.Length - RealColumn);
                         }
 
-                        FRealCol += 1;
-                        Changed = true;
+                        RealColumn += 1;
+                        changed = true;
                     }
 
                     break;
             }
 
-            if (Moved == true)
+            if (moved == true)
             {
-                CurToReal();
+                CurrentToReal();
             }
 
-            if (Changed == true)
+            if (changed == true)
             {
-                RealToCur();
+                RealToCurrent();
             }
 
             KeyStuff();
             // { tests OnKeyDown and calls OnKeyPress (original bug) }
-            if (FOnKeyDown != null)
+            if (_onKeyDown != null)
             {
-                FOnKeyPress(this, ref Key);
+                _onKeyPress(this, ref key);
             }
 
-            if (FOnChange != null)
+            if (_onChange != null)
             {
-                FOnChange(this);
+                _onChange(this);
             }
         }
     }
 
     // AoWMemo.pas:627
     // { CheckKeyDown moves the cursor with the arrow keys and deletes with Delete }
-    public override void CheckKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        bool Changed;
-        bool Moved;
-        FHandled = FRedraw;
-        Changed = false;
-        Moved = false;
-        if (FEditable && FRedraw == true && FValid == true && FVisible == true)
+        bool changed;
+        bool moved;
+        Handled = Redraw;
+        changed = false;
+        moved = false;
+        if (_editable && Redraw == true && Valid == true && _visible == true)
         {
-            switch (Key)
+            switch (key)
             {
                 case 37:
-                    if (FRealCol > 0)
+                    if (RealColumn > 0)
                     {
-                        FRealCol -= 1;
+                        RealColumn -= 1;
                     }
                     else
                     {
-                        if (FRealLine > 0)
+                        if (RealLine > 0)
                         {
-                            FRealLine -= 1;
-                            FRealCol = FItems[FRealLine].Length;
+                            RealLine -= 1;
+                            RealColumn = _items[RealLine].Length;
                         }
                     }
 
-                    if (FCurCol > 0)
+                    if (CurrentColumn > 0)
                     {
-                        FCurCol -= 1;
+                        CurrentColumn -= 1;
                     }
                     else
                     {
-                        if (FCurLine > 0)
+                        if (CurrentLine > 0)
                         {
-                            FCurLine -= 1;
-                            FCurCol = FLines[FCurLine].Length;
+                            CurrentLine -= 1;
+                            CurrentColumn = Lines[CurrentLine].Length;
                         }
                     }
 
                     break;
                 case 38:
-                    if (FCurLine > 0)
+                    if (CurrentLine > 0)
                     {
-                        FCurLine -= 1;
-                        if (FLines[FCurLine].Length < FCurCol)
+                        CurrentLine -= 1;
+                        if (Lines[CurrentLine].Length < CurrentColumn)
                         {
-                            FCurCol = FLines[FCurLine].Length;
+                            CurrentColumn = Lines[CurrentLine].Length;
                         }
 
-                        Moved = true;
+                        moved = true;
                     }
 
                     break;
                 case 39:
-                    if (FLines[FCurLine].Length > FCurCol)
+                    if (Lines[CurrentLine].Length > CurrentColumn)
                     {
-                        FCurCol += 1;
+                        CurrentColumn += 1;
                     }
                     else
                     {
-                        if (FLines.Count - 1 > FCurLine)
+                        if (Lines.Count - 1 > CurrentLine)
                         {
-                            FCurCol = 0;
-                            FCurLine += 1;
+                            CurrentColumn = 0;
+                            CurrentLine += 1;
                         }
                     }
 
-                    if (FItems[FRealLine].Length > FRealCol)
+                    if (_items[RealLine].Length > RealColumn)
                     {
-                        FRealCol += 1;
+                        RealColumn += 1;
                     }
                     else
                     {
-                        if (FItems.Count - 1 > FRealLine)
+                        if (_items.Count - 1 > RealLine)
                         {
-                            FRealCol = 0;
-                            FRealLine += 1;
+                            RealColumn = 0;
+                            RealLine += 1;
                         }
                     }
 
                     break;
                 case 40:
-                    if (FLines.Count - 1 > FCurLine)
+                    if (Lines.Count - 1 > CurrentLine)
                     {
-                        FCurLine += 1;
-                        if (FLines[FCurLine].Length < FCurCol)
+                        CurrentLine += 1;
+                        if (Lines[CurrentLine].Length < CurrentColumn)
                         {
-                            FCurCol = FLines[FCurLine].Length;
+                            CurrentColumn = Lines[CurrentLine].Length;
                         }
 
-                        Moved = true;
+                        moved = true;
                     }
 
                     break;
                 case 46:
-                    if (FItems[FRealLine].Length > FRealCol)
+                    if (_items[RealLine].Length > RealColumn)
                     {
-                        var itemLength = FItems[FRealLine];
-                        var item = FItems[FRealLine];
-                        var item2 = FItems[FRealLine];
-                        FItems[FRealLine] = Copy(item2, 1, FRealCol) + Copy(item, FRealCol + 2, itemLength.Length - FRealCol);
-                        Changed = true;
+                        var itemLength = _items[RealLine];
+                        var item = _items[RealLine];
+                        var item2 = _items[RealLine];
+                        _items[RealLine] = Copy(item2, 1, RealColumn) + Copy(item, RealColumn + 2, itemLength.Length - RealColumn);
+                        changed = true;
                     }
                     else
                     {
-                        if (FItems.Count - 1 > FRealLine)
+                        if (_items.Count - 1 > RealLine)
                         {
-                            var item = FItems[FRealLine];
-                            var item2 = FItems[FRealLine + 1];
-                            FItems[FRealLine] = item + item2;
-                            FItems.Delete(FRealLine + 1);
-                            Changed = true;
+                            var item = _items[RealLine];
+                            var item2 = _items[RealLine + 1];
+                            _items[RealLine] = item + item2;
+                            _items.Delete(RealLine + 1);
+                            changed = true;
                         }
                     }
 
                     break;
             }
 
-            if (Changed == true)
+            if (changed == true)
             {
-                RealToCur();
+                RealToCurrent();
             }
 
-            if (Moved == true)
+            if (moved == true)
             {
-                CurToReal();
+                CurrentToReal();
             }
 
             KeyStuff();
-            if (FOnKeyDown != null)
+            if (_onKeyDown != null)
             {
-                FOnKeyDown(this, ref Key, Shift);
+                _onKeyDown(this, ref key, shift);
             }
 
-            if (FOnChange != null)
+            if (_onChange != null)
             {
-                FOnChange(this);
+                _onChange(this);
             }
         }
     }
 
     // AoWMemo.pas:340
-    public virtual void SetILFrame(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)
     {
-        if (Value != FILFrame)
+        if (value != _imageLibraryFrame)
         {
-            FValid = false;
-            FILFrame = Value;
+            Valid = false;
+            _imageLibraryFrame = value;
         }
     }
 
     // AoWMemo.pas:349
-    public virtual void SetILTexture(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryTexture(InterfaceImageLibrary value)
     {
-        if (Value != FILTexture)
+        if (value != _imageLibraryTexture)
         {
-            FValid = false;
-            FILTexture = Value;
+            Valid = false;
+            _imageLibraryTexture = value;
         }
     }
 
     // AoWMemo.pas:296
-    public void SetFStrings(StringList Value)
+    public void SetFStrings(StringList value)
     {
-        FLines.Clear();
-        FItems.Clear();
-        for (int I = 0, last = Value.Count - 1; I <= last; I++)
+        Lines.Clear();
+        _items.Clear();
+        for (int I = 0, last = value.Count - 1; I <= last; I++)
         {
-            var valueValue = Value[I];
-            FLines.Add(valueValue);
-            var valueValue2 = Value[I];
-            FItems.Add(valueValue2);
+            var valueValue = value[I];
+            Lines.Add(valueValue);
+            var valueValue2 = value[I];
+            _items.Add(valueValue2);
         }
 
-        if (FLines.Count < FNumVisible)
+        if (Lines.Count < NumberVisible)
         {
-            FNumVisible = FLines.Count;
+            NumberVisible = Lines.Count;
         }
 
-        if (FLines.Count < FTopItem + FNumVisible)
+        if (Lines.Count < TopItem + NumberVisible)
         {
-            FTopItem = FLines.Count - FNumVisible;
+            TopItem = Lines.Count - NumberVisible;
         }
 
-        FSized = false;
+        Sized = false;
     }
 
     // AoWMemo.pas:314
-    public void SetListOff(int Value)
+    public void SetListOff(int value)
     {
-        if (Value >= FLines.Count)
+        if (value >= Lines.Count)
         {
-            Value = FLines.Count - 1;
+            value = Lines.Count - 1;
         }
 
-        if (Value != FTopItem)
+        if (value != TopItem)
         {
-            FTopItem = Value;
-            FDrawn = false;
+            TopItem = value;
+            Drawn = false;
         }
     }
 
     // AoWMemo.pas:325
-    public void SetVScroll(VerticalScrollBar Value)
+    public void SetVScroll(VerticalScrollBar value)
     {
-        FVScrollBar = Value;
-        if (Value != null)
+        _verticalScrollBar = value;
+        if (value != null)
         {
-            Value.Priority = FPriority;
+            value.Priority = _priority;
         }
 
-        FSized = false;
+        Sized = false;
     }
 
     // AoWMemo.pas:358
-    public void SetILFIndex(int Value)
+    public void SetILFIndex(int value)
     {
-        if (Value != FILIndexFrame)
+        if (value != _imageLibraryIndexFrame)
         {
-            FILIndexFrame = Value;
-            FValid = false;
+            _imageLibraryIndexFrame = value;
+            Valid = false;
         }
     }
 
     // AoWMemo.pas:367
-    public void SetILTIndex(int Value)
+    public void SetImageLibraryTileIndex(int value)
     {
-        if (Value != FILIndexTexture)
+        if (value != _imageLibraryIndexTexture)
         {
-            FILIndexTexture = Value;
-            FValid = false;
+            _imageLibraryIndexTexture = value;
+            Valid = false;
         }
     }
 
     // AoWMemo.pas:789
     // { CurToReal finds the cursor in FItems from the cursor in FLines; it adds the length of the
     //   cursor's line for every line up to it, not of each line (original bug) }
-    public void CurToReal()
+    public void CurrentToReal()
     {
-        int Len;
+        int length;
         int I;
-        Len = FItems[0].Length;
-        FRealCol = 0;
-        FRealLine = 0;
+        length = _items[0].Length;
+        RealColumn = 0;
+        RealLine = 0;
         I = 0;
-        while (I <= FCurLine)
+        while (I <= CurrentLine)
         {
-            var line = FLines[FCurLine];
-            FRealCol = FRealCol + line.Length;
-            if (FRealCol >= Len)
+            var line = Lines[CurrentLine];
+            RealColumn = RealColumn + line.Length;
+            if (RealColumn >= length)
             {
-                FRealCol = 0;
-                FRealLine += 1;
-                Len = FItems[FRealLine].Length;
+                RealColumn = 0;
+                RealLine += 1;
+                length = _items[RealLine].Length;
             }
 
             I += 1;
         }
 
-        FRealCol = FRealCol + FCurCol;
+        RealColumn = RealColumn + CurrentColumn;
     }
 
     // AoWMemo.pas:812
     // { RealToCur wraps the text again and finds the cursor in FLines from the cursor in FItems }
-    public void RealToCur()
+    public void RealToCurrent()
     {
-        int Len;
+        int length;
         int I;
         SetSize();
-        Len = FItems[0].Length;
-        FCurCol = 0;
-        FCurLine = 0;
+        length = _items[0].Length;
+        CurrentColumn = 0;
+        CurrentLine = 0;
         I = 0;
-        while (I < FRealLine)
+        while (I < RealLine)
         {
-            var line = FLines[FCurLine];
-            FCurCol = FCurCol + line.Length;
-            if (FCurCol >= Len)
+            var line = Lines[CurrentLine];
+            CurrentColumn = CurrentColumn + line.Length;
+            if (CurrentColumn >= length)
             {
-                FCurCol = 0;
+                CurrentColumn = 0;
                 I += 1;
-                Len = FItems[I].Length;
+                length = _items[I].Length;
             }
 
-            FCurLine += 1;
+            CurrentLine += 1;
         }
 
-        I = FLines[FCurLine].Length;
-        while (I < FRealCol && FLines.Count > FCurLine)
+        I = Lines[CurrentLine].Length;
+        while (I < RealColumn && Lines.Count > CurrentLine)
         {
-            FCurLine += 1;
-            I = I + FLines[FCurLine].Length;
+            CurrentLine += 1;
+            I = I + Lines[CurrentLine].Length;
         }
 
-        FCurCol = FLines[FCurLine].Length + FRealCol - I;
+        CurrentColumn = Lines[CurrentLine].Length + RealColumn - I;
     }
 
     // AoWMemo.pas:842
     // { KeyStuff scrolls the cursor into view and shows it }
     public void KeyStuff()
     {
-        if (FNumVisible + FTopItem - 1 < FCurLine)
+        if (NumberVisible + TopItem - 1 < CurrentLine)
         {
-            if (FVScrollBar != null)
+            if (_verticalScrollBar != null)
             {
-                FVScrollBar.Position = FVScrollBar.Position + 1;
+                _verticalScrollBar.Position = _verticalScrollBar.Position + 1;
             }
 
-            FTopItem += 1;
+            TopItem += 1;
         }
 
-        if (FCurLine < FTopItem)
+        if (CurrentLine < TopItem)
         {
-            if (FVScrollBar != null)
+            if (_verticalScrollBar != null)
             {
-                FVScrollBar.Position = FVScrollBar.Position - 1;
+                _verticalScrollBar.Position = _verticalScrollBar.Position - 1;
             }
 
-            FTopItem -= 1;
+            TopItem -= 1;
         }
 
-        FBlink = true;
-        FBlinkCount = 0;
-        FDrawn = false;
-        if (FNoFrame == true)
+        Blink = true;
+        BlinkCount = 0;
+        Drawn = false;
+        if (NoFrame == true)
         {
-            if (FAOWWindow != null)
+            if (_window != null)
             {
-                FAOWWindow.FDrawn = false;
+                _window.Drawn = false;
             }
         }
     }
 
-    public int ListOffset { get => FTopItem; set => SetListOff(value); }
+    public int ListOffset { get => TopItem; set => SetListOff(value); }
 
     [Published]
-    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont Font { get => _font; set => _font = value; }
 
     [Published]
-    public StringList Items { get => FItems; set => SetFStrings(value); }
+    public StringList Items { get => _items; set => SetFStrings(value); }
 
     [Published]
-    public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
+    public int BorderWidth { get => _borderWidth; set => _borderWidth = value; }
 
     [Published]
-    public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
+    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
 
     [Published]
-    public VerticalScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
+    public VerticalScrollBar VerticalScrollBar { get => _verticalScrollBar; set => SetVScroll(value); }
 
     [Published]
-    public NotifyEvent<Memo> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+    public NotifyEvent<Memo> OnDrawItem { get => _onDrawItem; set => _onDrawItem = value; }
 
     [Published]
-    public byte CursorChar { get => FCursorChar; set => FCursorChar = value; }
+    public byte CursorChar { get => _cursorChar; set => _cursorChar = value; }
 
     [Published]
-    public byte BlinkDelay { get => FBlinkDelay; set => FBlinkDelay = value; }
+    public byte BlinkDelay { get => _blinkDelay; set => _blinkDelay = value; }
 
     [Published]
-    public bool Editable { get => FEditable; set => FEditable = value; }
+    public bool Editable { get => _editable; set => _editable = value; }
 
     [Published]
-    public InterfaceImageLibrary ILFrame { get => FILFrame; set => SetILFrame(value); }
+    public InterfaceImageLibrary ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
 
     [Published]
-    public InterfaceImageLibrary ILTexture { get => FILTexture; set => SetILTexture(value); }
+    public InterfaceImageLibrary ImageLibraryTexture { get => _imageLibraryTexture; set => SetImageLibraryTexture(value); }
 
     [Published]
-    public int ILIndexFrame { get => FILIndexFrame; set => SetILFIndex(value); }
+    public int ImageLibraryIndexFrame { get => _imageLibraryIndexFrame; set => SetILFIndex(value); }
 
     [Published]
-    public int ILIndexTexture { get => FILIndexTexture; set => SetILTIndex(value); }
+    public int ImageLibraryIndexTexture { get => _imageLibraryIndexTexture; set => SetImageLibraryTileIndex(value); }
 
     [Published]
-    public int ItemHeight { get => FItemHeight; set => FItemHeight = value; }
+    public int ItemHeight { get => _itemHeight; set => _itemHeight = value; }
 
     [Published]
-    public byte ColorChangeChar { get => FColorChangeChar; set => FColorChangeChar = value; }
+    public byte ColorChangeChar { get => _colorChangeChar; set => _colorChangeChar = value; }
 
     [Published]
-    public TextAlignment TextAlign { get => FTextAlign; set => FTextAlign = value; }
+    public TextAlignment TextAlign { get => _textAlign; set => _textAlign = value; }
 
     public new NotifyEvent<Memo> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<Memo> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<Memo> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<Memo> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<Memo> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<Memo> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<Memo> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<Memo> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<Memo> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 }

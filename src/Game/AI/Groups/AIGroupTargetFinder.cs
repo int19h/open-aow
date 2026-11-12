@@ -17,113 +17,113 @@ public partial class AIGroupTargetFinder : AIGroupTask
     // AIGroup.pas:1889
     public AIGroupTargetFinder(ECustomNode owner) : base(owner)
     {
-        FSelector = new AIMoveTargetSelector(null);
+        Selector = new AIMoveTargetSelector(null);
     }
 
-    public AIGroupControl FControl;
-    public AIMoveTargetSelector FSelector;
-    public Set<AIGroupTargetFinderModeElement> FMode;
-    public int FRange;
-    public int FTargetRange;
-    public int FStep;
-    public Set<DamageType> FDamageTypes;
+    public AIGroupControl Control;
+    public AIMoveTargetSelector Selector;
+    public Set<AIGroupTargetFinderModeElement> Mode;
+    public int Range;
+    public int TargetRange;
+    public int Step;
+    public Set<DamageType> DamageTypes;
 
     // AIGroup.pas:1895
     public override void Dispose()
     {
-        FSelector?.Dispose();
+        Selector?.Dispose();
         base.Dispose();
     }
 
     // AIGroup.pas:1958
-    public override bool GetBusy() => FSelector.FStatus == AIMoveTargetSelector.Status.Searching;
+    public override bool GetBusy() => Selector.Status == AIMoveTargetSelectorStatus.Searching;
 
     // AIGroup.pas:1948
-    public override bool Activate(AIGroupControl Control)
+    public override bool Activate(AIGroupControl control)
     {
-        base.Activate(Control);
-        FControl = Control;
-        if (FMode.Contains(AIGroupTargetFinderModeElement.CalculateMovepathBFS))
+        base.Activate(control);
+        Control = control;
+        if (Mode.Contains(AIGroupTargetFinderModeElement.CalculateMovePathBfs))
         {
-            FSelector.FMode = FSelector.FMode + Set<AIMoveTargetSelectorModeElement>.Of(AIMoveTargetSelectorModeElement.CreateMovepaths);
+            Selector.Mode = Selector.Mode + Set<AIMoveTargetSelectorModeElement>.Of(AIMoveTargetSelectorModeElement.CreateMovePaths);
         }
 
-        FSelector.Search(Control);
+        Selector.Search(control);
         return true;
     }
 
     // AIGroup.pas:1963
     public override bool Process()
     {
-        bool Result;
-        if (FSelector.FStatus == AIMoveTargetSelector.Status.Searching)
+        bool result;
+        if (Selector.Status == AIMoveTargetSelectorStatus.Searching)
         {
-            Result = FSelector.Process();
-            if (!Result)
+            result = Selector.Process();
+            if (!result)
             {
-                FControl.FTargets.SortOnPriority();
+                Control.Targets.SortOnPriority();
                 Done();
             }
         }
         else
         {
-            Result = false;
+            result = false;
             Done();
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:1919
     public virtual void Reset()
     {
-        FSelector.Reset();
-        this.FSelector.FOnTargetFound = TargetFoundEvent;
-        this.FSelector.FMovePointsMax = 200;
-        this.FSelector.FMovePointsMin = 150;
+        Selector.Reset();
+        this.Selector.OnTargetFound = TargetFoundEvent;
+        this.Selector.MovePointsMax = 200;
+        this.Selector.MovePointsMin = 150;
 
-        FDamageTypes = AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
-        FRange = 9;
-        FTargetRange = 9;
-        FStep = 4;
-        FMode = Set<AIGroupTargetFinderModeElement>.Of();
+        DamageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        Range = 9;
+        TargetRange = 9;
+        Step = 4;
+        Mode = Set<AIGroupTargetFinderModeElement>.Of();
     }
 
     // AIGroup.pas:1935
-    public virtual bool Setup(AIGroupControl Control)
+    public virtual bool Setup(AIGroupControl control)
     {
         Reset();
-        FSelector.FSourceLocation = Control.FLocation;
-        FSelector.FMovePointTable = Control.FMovePointTable;
-        FSelector.FTargetInfo.Player = Control.FGroup.FPlayer;
-        FSelector.FTargetInfo.IndependentRelation = Control.FGroup.FIndependentRelation;
-        FSelector.FTargetInfo.Mode = AITargetMode.Attack;
-        FSelector.FUnits.AddUnits(Control.FGroup);
-        FMode = FMode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovepathBFS);
+        Selector.SourceLocation = control.Location;
+        Selector.MovePointTable = control.MovePointTable;
+        Selector.TargetInfo.Player = control.Group.Player;
+        Selector.TargetInfo.IndependentRelation = control.Group.IndependentRelation;
+        Selector.TargetInfo.Mode = AITargetMode.Attack;
+        Selector.Units.AddUnits(control.Group);
+        Mode = Mode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
         return true;
     }
 
     // AIGroup.pas:1901
-    public void TargetFoundEvent(MoveTarget Target, ref bool SearchDone)
+    public void TargetFoundEvent(MoveTarget target, ref bool searchDone)
     {
-        AIGroupControlTarget NewTarget;
-        NewTarget = new AIGroupControlTarget(null);
-        NewTarget.FInfo = FSelector.FTargetInfo;
-        NewTarget.FData = Target.FData;
-        NewTarget.FLocation = Target.FLocation;
-        NewTarget.FMovePoints = Target.FMovePoints;
-        if (FMode.Contains(AIGroupTargetFinderModeElement.CalculateMovepathBFS))
+        AIGroupControlTarget newTarget;
+        newTarget = new AIGroupControlTarget(null);
+        newTarget.Info = Selector.TargetInfo;
+        newTarget.Data = target.Data;
+        newTarget.Location = target.Location;
+        newTarget.MovePoints = target.MovePoints;
+        if (Mode.Contains(AIGroupTargetFinderModeElement.CalculateMovePathBfs))
         {
-            NewTarget.FPathStrength = AbilityRules.GetMovepathBattleFieldStrength(FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, Target.FMovepath, FTargetRange, FRange, FStep);
+            newTarget.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(Control.Group.Player, Control.Group.IndependentRelation, target.MovePath, TargetRange, Range, Step);
         }
 
-        if (Target.FTransporterID != -1)
+        if (target.TransporterId != -1)
         {
-            NewTarget.FTransporterID = Target.FTransporterID;
+            newTarget.TransporterId = target.TransporterId;
         }
 
-        FControl.TargetFoundEvent(this, NewTarget, ref SearchDone);
-        NewTarget.Release();
+        Control.TargetFoundEvent(this, newTarget, ref searchDone);
+        newTarget.Release();
     }
 
     // intf_P5_07.inc:301

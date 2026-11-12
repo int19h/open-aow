@@ -9,12 +9,12 @@ namespace Aow.Game.World.Map;
 public struct RaceTerrain
 {
     [FieldOffset(0)]
-    public ushort Preferred__image;
+    public ushort PreferredImage;
 
-    public Set<TerrainType> Preferred { get => Set<TerrainType>.FromMask(Preferred__image); set => Preferred__image = (ushort)value.Image; }
+    public Set<TerrainType> Preferred { get => Set<TerrainType>.FromMask(PreferredImage); set => PreferredImage = (ushort)value.Image; }
 
     [FieldOffset(2)]
-    public ushort Disliked__image;
+    public ushort DislikedImage;
 
-    public Set<TerrainType> Disliked { get => Set<TerrainType>.FromMask(Disliked__image); set => Disliked__image = (ushort)value.Image; }
+    public Set<TerrainType> Disliked { get => Set<TerrainType>.FromMask(DislikedImage); set => DislikedImage = (ushort)value.Image; }
 }

@@ -20,48 +20,48 @@ public partial class CombatFlowControlTokenEvent : TokenEvent
     public CombatFlowControlTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135448;
+    public new const int ClassId = 135448;
 
-    public Set<CombatFlowControlModeElement> FMode;
-    public int FPlayer;
+    public Set<CombatFlowControlModeElement> Mode;
+    public int Player;
 
     // MoveT.PAS:3596
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        RwSet(ref FMode, 1, 30, Stream.rwData, 0);
-        Stream.rwInteger(ref FPlayer, 31);
+        base.ReadWrite(stream);
+        RwSet(ref Mode, 1, 30, stream.rwData, 0);
+        stream.rwInteger(ref Player, 31);
     }
 
     // MoveT.PAS:3603
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        if (FMode.Contains(CombatFlowControlModeElement.SetAutoSwitch))
+        if (Mode.Contains(CombatFlowControlModeElement.SetAutoSwitch))
         {
-            AoWHSMap.Current.FTokenManager.TokenExecuter.HoldTC = false;
+            AoWHSMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = false;
         }
 
-        if (FMode.Contains(CombatFlowControlModeElement.LockAIExecuter))
+        if (Mode.Contains(CombatFlowControlModeElement.LockAIExecutor))
         {
-            AoWHSMap.Current.FAIExecuter.Lock();
+            AoWHSMap.Current.AIExecutor.Lock();
         }
 
-        if (FMode.Contains(CombatFlowControlModeElement.UnlockAIExecuter))
+        if (Mode.Contains(CombatFlowControlModeElement.UnlockAIExecutor))
         {
-            AoWHSMap.Current.FAIExecuter.Unlock();
+            AoWHSMap.Current.AIExecutor.Unlock();
         }
 
-        if (FMode.Contains(CombatFlowControlModeElement.ActivateTC))
+        if (Mode.Contains(CombatFlowControlModeElement.ActivateTacticalBattle))
         {
-            AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(FPlayer);
+            AoWHSMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(Player);
         }
 
-        if (FMode.Contains(CombatFlowControlModeElement.EnableTurnTimer))
+        if (Mode.Contains(CombatFlowControlModeElement.EnableTurnTimer))
         {
             AoWHSMap.Current.EnableTurnTimer();
         }
 
-        if (FMode.Contains(CombatFlowControlModeElement.DisableTurnTimer))
+        if (Mode.Contains(CombatFlowControlModeElement.DisableTurnTimer))
         {
             AoWHSMap.Current.DisableTurnTimer();
         }

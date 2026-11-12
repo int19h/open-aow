@@ -15,58 +15,58 @@ public partial class DiplomaticActionTokenEvent : TokenEvent
     { }
 
     // Diplomacy.pas:1125
-    public new const int ClassID = 135432;
+    public new const int ClassId = 135432;
 
-    public int FOperation;
-    public DiplomaticAction FAction;
+    public int Operation;
+    public DiplomaticAction Action;
 
     // Diplomacy.pas:1117
     public override void Dispose()
     {
-        DiplomaticAction Action;
+        DiplomaticAction action;
         base.Dispose();
-        Action = FAction;
-        if (Action != null)
+        action = Action;
+        if (action != null)
         {
-            Action.Release();
+            action.Release();
         }
     }
 
     // Diplomacy.pas:1140
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwCreateEObject(ref FAction, null, 20);
-        Stream.rwInteger(ref FOperation, 21);
+        base.ReadWrite(stream);
+        stream.rwCreateEObject(ref Action, null, 20);
+        stream.rwInteger(ref Operation, 21);
     }
 
     // Diplomacy.pas:1147
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        string ErrorText = "";
-        switch (FOperation)
+        string errorText = "";
+        switch (Operation)
         {
             case 0:
-                if (FAction.CanSend(ref ErrorText))
+                if (Action.CanSend(ref errorText))
                 {
-                    FAction.ExecuteSend(this);
-                    FAction.UpdateAIDiplomaticActionsLog(FAction.FSource);
+                    Action.ExecuteSend(this);
+                    Action.UpdateAIDiplomaticActionsLog(Action.Source);
                 }
 
                 break;
             case 1:
-                if (FAction.CanAccept(ref ErrorText))
+                if (Action.CanAccept(ref errorText))
                 {
-                    FAction.ExecuteAccept(this);
-                    FAction.UpdateAIDiplomaticActionsLog(FAction.FTarget);
+                    Action.ExecuteAccept(this);
+                    Action.UpdateAIDiplomaticActionsLog(Action.Target);
                 }
 
                 break;
             case 2:
-                if (FAction.CanReject(ref ErrorText))
+                if (Action.CanReject(ref errorText))
                 {
-                    FAction.ExecuteReject(this);
-                    FAction.UpdateAIDiplomaticActionsLog(FAction.FTarget);
+                    Action.ExecuteReject(this);
+                    Action.UpdateAIDiplomaticActionsLog(Action.Target);
                 }
 
                 break;
@@ -76,21 +76,21 @@ public partial class DiplomaticActionTokenEvent : TokenEvent
     }
 
     // Diplomacy.pas:1128
-    public void SetDiplomaticAction(DiplomaticAction Action)
+    public void SetDiplomaticAction(DiplomaticAction action)
     {
-        DiplomaticAction Old;
-        Old = FAction;
-        if (Old != Action)
+        DiplomaticAction old;
+        old = Action;
+        if (old != action)
         {
-            if (Old != null)
+            if (old != null)
             {
-                Old.Release();
+                old.Release();
             }
 
-            FAction = Action;
-            if (FAction != null)
+            Action = action;
+            if (Action != null)
             {
-                FAction.AddRef();
+                Action.AddRef();
             }
         }
     }

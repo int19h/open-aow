@@ -8,18 +8,18 @@ namespace Aow.Game.Combat;
 public partial class CombatPredictorUnitList : DelphiList<CombatPredictorUnit>
 {
     // CombatPredictor.pas:253
-    public CombatPredictorUnit GetUnits(int Index) => List[Index];
+    public CombatPredictorUnit GetUnits(int index) => List[index];
 
     // CombatPredictor.pas:256
-    public int IndexOfUnit(Troop AUnit)
+    public int IndexOfUnit(Troop troop)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (List[Result].FUnit == AUnit)
+            result -= 1;
+            if (List[result].Troop == troop)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -27,15 +27,15 @@ public partial class CombatPredictorUnitList : DelphiList<CombatPredictorUnit>
     }
 
     // CombatPredictor.pas:267
-    public int IndexOfCPUID(int CPUID)
+    public int IndexOfCpuId(int cpuId)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (List[Result].FCPUID == CPUID)
+            result -= 1;
+            if (List[result].CpuId == cpuId)
             {
-                return Result;
+                return result;
             }
         }
 

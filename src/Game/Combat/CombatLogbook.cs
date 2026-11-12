@@ -6,89 +6,89 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Combat;
 
-// FRefCount. FInitialData. FFinalData. FActions. result flag
+// RefCount. InitialData. FinalData. Actions. result flag
 public partial class CombatLogbook : EngineObject
 {
     // Combat2.pas:381
-    public new const int ClassID = 131749;
+    public new const int ClassId = 131749;
 
     // Combat2.pas:349
     public CombatLogbook(ECustomNode owner) : base(owner)
     {
-        FRefCount = 1;
-        FActions = new CombatActionList(null);
-        FFinalData = new CombatData(null);
-        FInitialData = new CombatData(null);
-        F_CombatLogbook_19 = false;
+        RefCount = 1;
+        Actions = new CombatActionList(null);
+        FinalData = new CombatData(null);
+        InitialData = new CombatData(null);
+        PlayerEliminated = false;
     }
 
-    public int FRefCount;
-    public CombatData FInitialData;
-    public CombatData FFinalData;
-    public CombatActionList FActions;
-    public CombatResult FCombatResult;
-    public bool F_CombatLogbook_19;
+    public int RefCount;
+    public CombatData InitialData;
+    public CombatData FinalData;
+    public CombatActionList Actions;
+    public CombatResult CombatResult;
+    public bool PlayerEliminated;
 
     // Combat2.pas:359
     public override void Dispose()
     {
         Clear();
-        FActions?.Dispose();
-        FFinalData?.Dispose();
-        FInitialData?.Dispose();
+        Actions?.Dispose();
+        FinalData?.Dispose();
+        InitialData?.Dispose();
         base.Dispose();
     }
 
     // Combat2.pas:396
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FInitialData, 5);
-        Stream.rwEObject(FFinalData, 6);
-        Stream.rwEObject(FActions, 7);
-        Stream.rwBool(ref F_CombatLogbook_19, 8);
+        base.ReadWrite(stream);
+        stream.rwEObject(InitialData, 5);
+        stream.rwEObject(FinalData, 6);
+        stream.rwEObject(Actions, 7);
+        stream.rwBool(ref PlayerEliminated, 8);
     }
 
     // Combat2.pas:384
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // Combat2.pas:387
     public override int Release()
     {
         int N;
-        FRefCount -= 1;
-        N = FRefCount;
-        int Result = N;
+        RefCount -= 1;
+        N = RefCount;
+        int result = N;
         if (N == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // Combat2.pas:374
     public override void Clear()
     {
-        FFinalData.Clear();
-        FInitialData.Clear();
-        FActions.Clear();
+        FinalData.Clear();
+        InitialData.Clear();
+        Actions.Clear();
     }
 
     // Combat2.pas:368
-    public void SetInitialData(CombatData Data)
+    public void SetInitialData(CombatData data)
     {
-        FInitialData.Assign(Data, GameTables.AoWEngine);
+        InitialData.Assign(data, GameTables.GameEngine);
     }
 
     // Combat2.pas:371
-    public void SetFinalData(CombatData Data)
+    public void SetFinalData(CombatData data)
     {
-        FFinalData.Assign(Data, GameTables.AoWEngine);
+        FinalData.Assign(data, GameTables.GameEngine);
     }
 
     // intf_P3_02.inc:278

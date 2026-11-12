@@ -4,26 +4,26 @@ using Aow.Rtl;
 namespace Aow.Game.Draw;
 
 // the interface of a display controller. 35 new virtual methods, all abstract but GetSurface
-// and BltInvalidatedSurface
+// and BlitInvalidatedSurface
 public partial class CustomDisplayController : Component
 {
     public CustomDisplayController(Component owner) : base(owner)
     { }
 
     // DisplayC.pas:74
-    public virtual Matrix GetInvMatrix()
+    public virtual Matrix GetInverseMatrix()
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:75
-    public virtual void SetPrimarySurfaceRgn(in Rect R)
+    public virtual void SetPrimarySurfaceRegion(in Rect R)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:76
-    public virtual Rect? GetPrimarySurfaceRgn()
+    public virtual Rect? GetPrimarySurfaceRegion()
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -47,7 +47,7 @@ public partial class CustomDisplayController : Component
     }
 
     // DisplayC.pas:554
-    public virtual Surface GetSurface(int Index) => null;
+    public virtual Surface GetSurface(int index) => null;
 
     // DisplayC.pas:81
     public virtual int GetSurfaceCount()
@@ -56,13 +56,13 @@ public partial class CustomDisplayController : Component
     }
 
     // DisplayC.pas:82
-    public virtual bool WndProc(ref Message Message)
+    public virtual bool WindowProc(ref Message message)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:83
-    public virtual int SupportDisplayMode(CustomDisplay ADisplay)
+    public virtual int SupportDisplayMode(CustomDisplay display)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -74,7 +74,7 @@ public partial class CustomDisplayController : Component
     }
 
     // DisplayC.pas:85
-    public virtual void ShowError(string Msg)
+    public virtual void ShowError(string message)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -98,19 +98,19 @@ public partial class CustomDisplayController : Component
     }
 
     // DisplayC.pas:89
-    public virtual void GetPixPosofBlock(int BX, int BY, Rect R, ref int PX, ref int PY, ref int BW, ref int BH)
+    public virtual void GetPixelPositionOfBlock(int bx, int by, Rect R, ref int pixelX, ref int pixelY, ref int bw, ref int bh)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:90
-    public virtual void GetBlockPosofPix(int PX, int PY, Rect R, ref int BX, ref int BY)
+    public virtual void GetBlockPositionOfPixel(int pixelX, int pixelY, Rect R, ref int bx, ref int by)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:91
-    public virtual int GetInvBlockSize(int X, int Y, Matrix Matrix, ref int BW, ref int BH)
+    public virtual int GetInverseBlockSize(int X, int Y, Matrix matrix, ref int bw, ref int bh)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -128,7 +128,7 @@ public partial class CustomDisplayController : Component
     }
 
     // DisplayC.pas:94
-    public virtual int Activate(CustomDisplay ADisplay)
+    public virtual int Activate(CustomDisplay display)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -140,111 +140,111 @@ public partial class CustomDisplayController : Component
     }
 
     // DisplayC.pas:96
-    public virtual int FlipSurface(int Index)
+    public virtual int FlipSurface(int index)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:97
-    public virtual int BltSurface(int Index)
+    public virtual int BlitSurface(int index)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:562
     // { Blits the invalidated blocks of back surface Index to the primary surface: every block the
-    //   matrix marks is merged with its marked neighbours (GetInvBlockSize) into one rectangle, and
+    //   matrix marks is merged with its marked neighbours (GetInverseBlockSize) into one rectangle, and
     //   the marks count down, so a block is blitted once per back surface. }
-    public virtual int BltInvalidatedSurface(int Index)
+    public virtual int BlitInvalidatedSurface(int index)
     {
-        int Result;
+        int result;
         Matrix M;
-        int BW = default;
-        int BH = default;
-        int PX2 = default;
-        int PY2 = default;
-        int BlkW = default;
-        int BlkH = default;
+        int bw = default;
+        int bh = default;
+        int pixelX2 = default;
+        int pixelY2 = default;
+        int blockWidth = default;
+        int blockHeight = default;
         int V;
-        Rect ClipR = default;
-        Rect SrcR = default;
-        Rect DstR = default;
-        if (GetInvMatrix() != null)
+        Rect clipR = default;
+        Rect sourceR = default;
+        Rect destinationR = default;
+        if (GetInverseMatrix() != null)
         {
-            Result = 0;
-            var invMatrix = GetInvMatrix();
-            M = new Matrix(GetInvMatrix().Width, invMatrix.Height);
-            for (int I = 0, last = GetInvMatrix().Width - 1; I <= last; I++)
+            result = 0;
+            var inverseMatrix = GetInverseMatrix();
+            M = new Matrix(GetInverseMatrix().Width, inverseMatrix.Height);
+            for (int I = 0, last = GetInverseMatrix().Width - 1; I <= last; I++)
             {
-                for (int J = 0, lastJ = GetInvMatrix().Height - 1; J <= lastJ; J++)
+                for (int J = 0, lastJ = GetInverseMatrix().Height - 1; J <= lastJ; J++)
                 {
-                    if (GetInvMatrix().GetVal((byte)I, (byte)J) != 0)
+                    if (GetInverseMatrix().GetValue((byte)I, (byte)J) != 0)
                     {
-                        M.SetVal((byte)I, (byte)J, 1);
+                        M.SetValue((byte)I, (byte)J, 1);
                     }
                 }
             }
 
-            ClipR.Left = 0;
-            ClipR.Right = GetSurface(1).Width;
-            ClipR.Top = 0;
-            ClipR.Bottom = GetSurface(1).Height;
+            clipR.Left = 0;
+            clipR.Right = GetSurface(1).Width;
+            clipR.Top = 0;
+            clipR.Bottom = GetSurface(1).Height;
             for (int J = 0, lastJ = M.Height - 1; J <= lastJ; J++)
             {
                 for (int I = 0, last = M.Width - 1; I <= last; I++)
                 {
-                    if (Result >= 0)
+                    if (result >= 0)
                     {
-                        V = GetInvMatrix().GetVal((byte)I, (byte)J);
+                        V = GetInverseMatrix().GetValue((byte)I, (byte)J);
                         if (V != 0)
                         {
-                            GetInvMatrix().SetVal((byte)I, (byte)J, (byte)(V - 1));
+                            GetInverseMatrix().SetValue((byte)I, (byte)J, (byte)(V - 1));
                         }
 
-                        if (M.GetVal((byte)I, (byte)J) != 0)
+                        if (M.GetValue((byte)I, (byte)J) != 0)
                         {
-                            GetInvBlockSize(I, J, M, ref BW, ref BH);
-                            GetPixPosofBlock(I, J, ClipR, ref SrcR.Left, ref SrcR.Top, ref BlkW, ref BlkH);
-                            if (BW > 1 || BH > 1)
+                            GetInverseBlockSize(I, J, M, ref bw, ref bh);
+                            GetPixelPositionOfBlock(I, J, clipR, ref sourceR.Left, ref sourceR.Top, ref blockWidth, ref blockHeight);
+                            if (bw > 1 || bh > 1)
                             {
-                                GetPixPosofBlock(I + BW - 1, J + BH - 1, ClipR, ref PX2, ref PY2, ref BlkW, ref BlkH);
-                                SrcR.Right = PX2 + BlkW;
-                                SrcR.Bottom = PY2 + BlkH;
+                                GetPixelPositionOfBlock(I + bw - 1, J + bh - 1, clipR, ref pixelX2, ref pixelY2, ref blockWidth, ref blockHeight);
+                                sourceR.Right = pixelX2 + blockWidth;
+                                sourceR.Bottom = pixelY2 + blockHeight;
                             }
                             else
                             {
-                                SrcR.Right = SrcR.Left + BlkW;
-                                SrcR.Bottom = SrcR.Top + BlkH;
+                                sourceR.Right = sourceR.Left + blockWidth;
+                                sourceR.Bottom = sourceR.Top + blockHeight;
                             }
 
-                            var primarySurfaceRgn = GetPrimarySurfaceRgn();
-                            GetPixPosofBlock(I, J, primarySurfaceRgn.Value, ref DstR.Left, ref DstR.Top, ref BlkW, ref BlkH);
-                            var primarySurfaceRgn2 = GetPrimarySurfaceRgn();
-                            DstR.Left += primarySurfaceRgn2.Value.Left;
-                            var primarySurfaceRgn3 = GetPrimarySurfaceRgn();
-                            DstR.Top += primarySurfaceRgn3.Value.Top;
-                            if (BW > 1 || BH > 1)
+                            var primarySurfaceRegion = GetPrimarySurfaceRegion();
+                            GetPixelPositionOfBlock(I, J, primarySurfaceRegion.Value, ref destinationR.Left, ref destinationR.Top, ref blockWidth, ref blockHeight);
+                            var primarySurfaceRegion2 = GetPrimarySurfaceRegion();
+                            destinationR.Left += primarySurfaceRegion2.Value.Left;
+                            var primarySurfaceRegion3 = GetPrimarySurfaceRegion();
+                            destinationR.Top += primarySurfaceRegion3.Value.Top;
+                            if (bw > 1 || bh > 1)
                             {
-                                var primarySurfaceRgn4 = GetPrimarySurfaceRgn();
-                                GetPixPosofBlock(I + BW - 1, J + BH - 1, primarySurfaceRgn4.Value, ref PX2, ref PY2, ref BlkW, ref BlkH);
-                                var primarySurfaceRgn5 = GetPrimarySurfaceRgn();
-                                DstR.Right = PX2 + BlkW + primarySurfaceRgn5.Value.Left;
-                                var primarySurfaceRgn6 = GetPrimarySurfaceRgn();
-                                DstR.Bottom = PY2 + BlkH + primarySurfaceRgn6.Value.Top;
+                                var primarySurfaceRegion4 = GetPrimarySurfaceRegion();
+                                GetPixelPositionOfBlock(I + bw - 1, J + bh - 1, primarySurfaceRegion4.Value, ref pixelX2, ref pixelY2, ref blockWidth, ref blockHeight);
+                                var primarySurfaceRegion5 = GetPrimarySurfaceRegion();
+                                destinationR.Right = pixelX2 + blockWidth + primarySurfaceRegion5.Value.Left;
+                                var primarySurfaceRegion6 = GetPrimarySurfaceRegion();
+                                destinationR.Bottom = pixelY2 + blockHeight + primarySurfaceRegion6.Value.Top;
                             }
                             else
                             {
-                                DstR.Right = DstR.Left + BlkW;
-                                DstR.Bottom = DstR.Top + BlkH;
+                                destinationR.Right = destinationR.Left + blockWidth;
+                                destinationR.Bottom = destinationR.Top + blockHeight;
                             }
 
                             var surface = GetSurface(0);
-                            Result = GetSurface(Index).BltStretch(surface, SrcR, DstR);
-                            for (int X = 0, lastX = BW - 1; X <= lastX; X++)
+                            result = GetSurface(index).BlitStretch(surface, sourceR, destinationR);
+                            for (int X = 0, lastX = bw - 1; X <= lastX; X++)
                             {
-                                for (int Y = 0, lastY = BH - 1; Y <= lastY; Y++)
+                                for (int Y = 0, lastY = bh - 1; Y <= lastY; Y++)
                                 {
-                                    M.SetVal((byte)(I + X), (byte)(J + Y), 0);
+                                    M.SetValue((byte)(I + X), (byte)(J + Y), 0);
                                 }
                             }
                         }
@@ -256,10 +256,10 @@ public partial class CustomDisplayController : Component
         }
         else
         {
-            Result = DisplayCodes.DCERR_FAILED;
+            result = DisplayCodes.DCERR_FAILED;
         }
 
-        return Result;
+        return result;
     }
 
     // DisplayC.pas:99
@@ -269,31 +269,31 @@ public partial class CustomDisplayController : Component
     }
 
     // DisplayC.pas:100
-    public virtual WinControl OutputWnd()
+    public virtual WinControl OutputWindow()
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:101
-    public virtual int ResizeBackSurfaces(int AWidth, int AHeight)
+    public virtual int ResizeBackSurfaces(int width, int height)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:102
-    public virtual void GetMousePos(ref int X, ref int Y)
+    public virtual void GetMousePosition(ref int X, ref int Y)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:103
-    public virtual int RealizePaletNow()
+    public virtual int RealizePaletteNow()
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:104
-    public virtual int SetPalet(Palette Palette)
+    public virtual int SetPalette(Palette palette)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -305,7 +305,7 @@ public partial class CustomDisplayController : Component
     }
 
     // DisplayC.pas:106
-    public virtual void InitInvMatrix(byte AWidth, byte AHeight)
+    public virtual void InitializeInverseMatrix(byte width, byte height)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }

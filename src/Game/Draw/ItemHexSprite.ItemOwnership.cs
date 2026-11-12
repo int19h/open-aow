@@ -8,8 +8,8 @@ public partial class ItemHexSprite
 {
     public ItemHexSprite(ECustomNode owner) : base(owner)
     {
-        FItems = new ItemHSList(null);
-        FItems.Sprite = this;
-        FItems.FOnChanged = ItemsChanged;
+        Items = new ItemHSList(null);
+        Items.Sprite = this;
+        Items.OnChanged = ItemsChanged;
     }
 }

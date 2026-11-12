@@ -14,36 +14,36 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
-// FItemCount, FItems
+// ItemCount, Items
 public partial class ItemExplorationSite : ExplorationSite
 {
     public ItemExplorationSite(ECustomNode owner) : base(owner)
     {
-        FItems = new ExplorationSiteItemList(null);
-        FItemCount = 2;
+        Items = new ExplorationSiteItemList(null);
+        ItemCount = 2;
     }
 
     // ItemExpS.pas:102
-    public new const int ClassID = 132083;
+    public new const int ClassId = 132083;
 
-    public byte FItemCount;
+    public byte ItemCount;
     // 0 user-defined, 4 random
-    public ExplorationSiteItemList FItems;
+    public ExplorationSiteItemList Items;
 
     // ItemExpS.pas:95
     public override void Dispose()
     {
         base.Dispose();
-        FItems?.Dispose();
-        FItems = null;
+        Items?.Dispose();
+        Items = null;
     }
 
     // ItemExpS.pas:107
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FItems, 8);
-        Stream.rwData(Bytes.Of(ref FItemCount, 1), 1, 9);
+        base.ReadWrite(stream);
+        stream.rwEObject(Items, 8);
+        stream.rwData(Bytes.Of(ref ItemCount, 1), 1, 9);
     }
 
     // ItemExpS.pas:88
@@ -52,7 +52,7 @@ public partial class ItemExplorationSite : ExplorationSite
     public override void Activate()
     {
         base.Activate();
-        FItems.RegisterItems();
+        Items.RegisterItems();
     }
 
     // ItemExpS.pas:120
@@ -65,57 +65,57 @@ public partial class ItemExplorationSite : ExplorationSite
     public override void NewDay()
     {
         base.NewDay();
-        if (AoWHSMap.Current.FDay == 1)
+        if (AoWHSMap.Current.Day == 1)
         {
             Generate();
         }
     }
 
     // ItemExpS.pas:125
-    public override bool GetExplored() => FItems.Count == 0;
+    public override bool GetExplored() => Items.Count == 0;
 
     // ItemExpS.pas:146
-    public override void SetupCombat(Combat.Battle Combat, ArmyHexSprite Army)
+    public override void SetupCombat(Combat.Battle combat, ArmyHexSprite army)
     {
-        base.SetupCombat(Combat, Army);
-        Combat.FItems = FItems;
+        base.SetupCombat(combat, army);
+        combat.Items = Items;
     }
 
     // ItemExpS.pas:152
-    public override void ExecuteSearchDone(CombatType CombatType, CombatResult CombatResult)
+    public override void ExecuteSearchDone(CombatType combatType, CombatResult combatResult)
     {
-        ArmyHexSprite Army;
-        ItemExplorationSiteEventLog Log;
-        Item Item = default;
-        if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(CombatResult))
+        ArmyHexSprite army;
+        ItemExplorationSiteEventLog log;
+        Item item = default;
+        if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult))
         {
-            Army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
-            Log = new ItemExplorationSiteEventLog(null);
-            Log.FPlayer = Army.FArmy.FPlayer;
-            Log.FTitle = AbilityRules.TranslateRStr(ItemsFoundRStr);
-            var xhx = GetXhx();
-            Log.FLocation.X = xhx;
-            var yhx = GetYhx();
-            Log.FLocation.Y = yhx;
-            var lhx = GetLhx();
-            Log.FLocation.L = lhx;
-            for (int I = FItems.Count - 1; I >= 0; I--)
+            army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+            log = new ItemExplorationSiteEventLog(null);
+            log._player = army.Army.Player;
+            log.Title = AbilityRules.TranslateResourceString(s_itemsFoundText);
+            var hexX = GetHexX();
+            log.Location.X = hexX;
+            var hexY = GetHexY();
+            log.Location.Y = hexY;
+            var hexLevel = GetHexLevel();
+            log.Location.MapLevel = hexLevel;
+            for (int I = Items.Count - 1; I >= 0; I--)
             {
-                Item = FItems.GetItem(I);
-                Log.FItemIDs.Add(Item.FItemID);
-                var lhx2 = GetLhx();
-                var yhx2 = GetYhx();
-                var xhx2 = GetXhx();
-                Item.PlaceOnMap(AoWHSMap.Current, xhx2, yhx2, lhx2);
+                item = Items.GetItem(I);
+                log.ItemIds.Add(item.ItemId);
+                var hexLevel2 = GetHexLevel();
+                var hexY2 = GetHexY();
+                var hexX2 = GetHexX();
+                item.PlaceOnMap(AoWHSMap.Current, hexX2, hexY2, hexLevel2);
             }
 
             // { Original parses the formatted text as CSV. }
-            var itemsExplored = AbilityRules.TranslateRStr(ItemsExploredRStr);
-            var resourceEditName = FResource.ResourceEditName();
+            var itemsExplored = AbilityRules.TranslateResourceString(s_itemsExploredFormat);
+            var resourceEditName = _resource.ResourceEditName();
             var format = RtlUnit.Format(itemsExplored, [resourceEditName]);
-            Log.FMessages.CommaText = format;
-            Log.Execute(false, ExecuteTrigger.Event, null);
-            Log.Release();
+            log.Messages.CommaText = format;
+            log.Execute(false, ExecuteTrigger.Event, null);
+            log.Release();
             Update();
         }
     }
@@ -123,30 +123,30 @@ public partial class ItemExplorationSite : ExplorationSite
     // ItemExpS.pas:130
     public virtual void Generate()
     {
-        Item Item;
-        if (FItemCount != 0)
+        Item item;
+        if (ItemCount != 0)
         {
             RandSeed = AoWHSMap.Current.Random(16777215);
-            if (FItemCount == 4)
+            if (ItemCount == 4)
             {
-                FItemCount = (byte)(AoWHSMap.Current.Random(3) + 1);
+                ItemCount = (byte)(AoWHSMap.Current.Random(3) + 1);
             }
 
-            FItems.Clear();
-            for (int itemOrdinal = 1, last = FItemCount; itemOrdinal <= last; itemOrdinal++)
+            Items.Clear();
+            for (int itemOrdinal = 1, last = ItemCount; itemOrdinal <= last; itemOrdinal++)
             {
-                Item = AoWHSMap.Current.FItemControl.GenerateItem(itAll, 0, 65535);
-                if (Item != null)
+                item = AoWHSMap.Current.ItemControl.GenerateItem(s_itAll, 0, 65535);
+                if (item != null)
                 {
-                    Item.Owner = FItems;
+                    item.Owner = Items;
                 }
             }
         }
     }
 
-    private static readonly string ItemsExploredRStr = "\"From the %s\",\"you recovered the following items:\"";
-    private static readonly string ItemsFoundRStr = "Items Found";
-    private static Set<ItemType> itAll = Set<ItemType>.FromMask(127uL);
+    private static readonly string s_itemsExploredFormat = "\"From the %s\",\"you recovered the following items:\"";
+    private static readonly string s_itemsFoundText = "Items Found";
+    private static Set<ItemType> s_itAll = Set<ItemType>.FromMask(127uL);
 
     // ItemExpS.pas:32
 

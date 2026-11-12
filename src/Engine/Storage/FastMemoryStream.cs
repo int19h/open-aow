@@ -8,13 +8,13 @@ namespace Aow.Engine.Storage;
 // { The game's FMemStr unit (Enginep.dpl), written for Delphi 3.02 and compared with the original code
 //   by tools/match.py. TFastMemoryStream is Delphi 3's TMemoryStream with a direct Position field, a
 //   32/128-byte capacity granularity and one-, two- and four-byte fast paths in Read and Write. }
-// FMemory, FSize, FPosition, FCapacity
+// _memory, _size, _position, _capacity
 public partial class FastMemoryStream : Stream
 {
-    internal byte[] FMemory = [];
-    internal int FSize;
-    internal int FPosition;
-    internal int FCapacity;
+    internal byte[] _memory = [];
+    internal int _size;
+    internal int _position;
+    internal int _capacity;
 
     public override bool CanRead => true;
 
@@ -22,12 +22,12 @@ public partial class FastMemoryStream : Stream
 
     public override bool CanWrite => true;
 
-    public override long Length => FSize;
+    public override long Length => _size;
 
     public override long Position
     {
-        get => FPosition;
-        set => FPosition = (int)value;
+        get => _position;
+        set => _position = (int)value;
     }
 
     public override void Flush()
@@ -35,28 +35,28 @@ public partial class FastMemoryStream : Stream
     }
 
     // FMemStr.pas:125
-    internal void SetCapacity(int NewCapacity)
+    internal void SetCapacity(int newCapacity)
     {
-        if (NewCapacity > 0)
+        if (newCapacity > 0)
         {
-            if (FCapacity > 32)
+            if (_capacity > 32)
             {
-                NewCapacity = (NewCapacity + 127) & ~127;
+                newCapacity = (newCapacity + 127) & ~127;
             }
             else
             {
-                NewCapacity = (NewCapacity + 31) & ~31;
+                newCapacity = (newCapacity + 31) & ~31;
             }
         }
 
-        if (NewCapacity != FCapacity)
+        if (newCapacity != _capacity)
         {
-            Array.Resize(ref FMemory, NewCapacity);
+            Array.Resize(ref _memory, newCapacity);
 
-            FCapacity = NewCapacity;
-            if (FCapacity > FSize)
+            _capacity = newCapacity;
+            if (_capacity > _size)
             {
-                FSize = FCapacity;
+                _size = _capacity;
             }
         }
     }
@@ -64,14 +64,14 @@ public partial class FastMemoryStream : Stream
     // FMemStr.pas:152. A shorter length leaves the position at NewSize - 1.
     public override void SetLength(long value)
     {
-        int NewSize = (int)value;
-        if (NewSize < FPosition)
+        int newSize = (int)value;
+        if (newSize < _position)
         {
-            FPosition = NewSize - 1;
+            _position = newSize - 1;
         }
 
-        SetCapacity(NewSize);
-        FSize = NewSize;
+        SetCapacity(newSize);
+        _size = newSize;
     }
 
     // FMemStr.pas:90
@@ -88,46 +88,46 @@ public partial class FastMemoryStream : Stream
     }
 
     // FMemStr.pas:43
-    public override int Read(Span<byte> Buffer)
+    public override int Read(Span<byte> buffer)
     {
-        if (Buffer.IsEmpty) return 0;
-        int Count = Buffer.Length;
-        int Result = FSize - FPosition;
-        if (Result > 0)
+        if (buffer.IsEmpty) return 0;
+        int count = buffer.Length;
+        int result = _size - _position;
+        if (result > 0)
         {
-            if (Result > Count)
+            if (result > count)
             {
-                Result = Count;
+                result = count;
             }
 
-            if (Count == 4)
+            if (count == 4)
             {
-                int value__3 = MemoryMarshal.Read<int>(FMemory.AsSpan(FPosition, 4));
-                MemoryMarshal.Write(Buffer, in value__3);
+                int value3 = MemoryMarshal.Read<int>(_memory.AsSpan(_position, 4));
+                MemoryMarshal.Write(buffer, in value3);
             }
             else
             {
-                if (Count == 1)
+                if (count == 1)
                 {
-                    byte value__4 = MemoryMarshal.Read<byte>(FMemory.AsSpan(FPosition, 1));
-                    MemoryMarshal.Write(Buffer, in value__4);
+                    byte value4 = MemoryMarshal.Read<byte>(_memory.AsSpan(_position, 1));
+                    MemoryMarshal.Write(buffer, in value4);
                 }
                 else
                 {
-                    if (Count == 2)
+                    if (count == 2)
                     {
-                        ushort value__5 = MemoryMarshal.Read<ushort>(FMemory.AsSpan(FPosition, 2));
-                        MemoryMarshal.Write(Buffer, in value__5);
+                        ushort value5 = MemoryMarshal.Read<ushort>(_memory.AsSpan(_position, 2));
+                        MemoryMarshal.Write(buffer, in value5);
                     }
                     else
                     {
-                        Move(FMemory.AsSpan(FPosition, Result), Buffer.Slice(0, Result), Result);
+                        Move(_memory.AsSpan(_position, result), buffer.Slice(0, result), result);
                     }
                 }
             }
 
-            FPosition += Result;
-            return Result;
+            _position += result;
+            return result;
         }
 
         return 0;
@@ -140,140 +140,140 @@ public partial class FastMemoryStream : Stream
     }
 
     // FMemStr.pas:159. A non-empty write that stores nothing raises the stream write error.
-    public override void Write(ReadOnlySpan<byte> Buffer)
+    public override void Write(ReadOnlySpan<byte> buffer)
     {
-        int Count = Buffer.Length;
-        int Pos;
-        if (FPosition >= 0 && Count >= 0)
+        int count = buffer.Length;
+        int position;
+        if (_position >= 0 && count >= 0)
         {
-            Pos = FPosition + Count;
-            if (Pos > 0)
+            position = _position + count;
+            if (position > 0)
             {
-                if (Pos > FSize)
+                if (position > _size)
                 {
-                    if (Pos > FCapacity)
+                    if (position > _capacity)
                     {
-                        SetCapacity(Pos);
+                        SetCapacity(position);
                     }
 
-                    FSize = Pos;
+                    _size = position;
                 }
 
-                if (Count == 4)
+                if (count == 4)
                 {
-                    int value__6 = MemoryMarshal.Read<int>(Buffer);
-                    MemoryMarshal.Write(FMemory.AsSpan(FPosition, 4), in value__6);
+                    int value6 = MemoryMarshal.Read<int>(buffer);
+                    MemoryMarshal.Write(_memory.AsSpan(_position, 4), in value6);
                 }
                 else
                 {
-                    if (Count == 1)
+                    if (count == 1)
                     {
-                        byte value__7 = MemoryMarshal.Read<byte>(Buffer);
-                        MemoryMarshal.Write(FMemory.AsSpan(FPosition, 1), in value__7);
+                        byte value7 = MemoryMarshal.Read<byte>(buffer);
+                        MemoryMarshal.Write(_memory.AsSpan(_position, 1), in value7);
                     }
                     else
                     {
-                        if (Count == 2)
+                        if (count == 2)
                         {
-                            ushort value__8 = MemoryMarshal.Read<ushort>(Buffer);
-                            MemoryMarshal.Write(FMemory.AsSpan(FPosition, 2), in value__8);
+                            ushort value8 = MemoryMarshal.Read<ushort>(buffer);
+                            MemoryMarshal.Write(_memory.AsSpan(_position, 2), in value8);
                         }
                         else
                         {
-                            if (Count != 0)
-                                Move(Buffer.Slice(0, Count), FMemory.AsSpan(FPosition, Count), Count);
+                            if (count != 0)
+                                Move(buffer.Slice(0, count), _memory.AsSpan(_position, count), count);
                         }
                     }
                 }
 
-                FPosition = Pos;
+                _position = position;
                 return;
             }
         }
 
-        if (Count != 0) throw new IOException("Stream write error");
+        if (count != 0) throw new IOException("Stream write error");
     }
 
     // FMemStr.pas:63
     public override long Seek(long offset, SeekOrigin origin)
     {
-        int Offset = (int)offset;
+        int offsetLocal = (int)offset;
         switch (origin)
         {
             case SeekOrigin.Begin:
-                FPosition = Offset;
+                _position = offsetLocal;
                 break;
             case SeekOrigin.Current:
-                FPosition += Offset;
+                _position += offsetLocal;
                 break;
             case SeekOrigin.End:
-                FPosition = FSize + Offset;
+                _position = _size + offsetLocal;
                 break;
         }
 
-        return FPosition;
+        return _position;
     }
 
     // FMemStr.pas:96
     public void Clear()
     {
         SetCapacity(0);
-        FSize = 0;
-        FPosition = 0;
+        _size = 0;
+        _position = 0;
     }
 
     // FMemStr.pas:103
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
-        int Count;
-        Stream.Position = 0;
-        Count = (int)Stream.Length;
-        SetLength(Count);
-        if (Count != 0)
+        int count;
+        stream.Position = 0;
+        count = (int)stream.Length;
+        SetLength(count);
+        if (count != 0)
         {
-            Stream.ReadBuffer(FMemory.AsSpan(0, Count));
+            stream.ReadBuffer(_memory.AsSpan(0, count));
         }
     }
 
     // FMemStr.pas:113
-    public void LoadFromFile(string FileName)
+    public void LoadFromFile(string fileName)
     {
-        Stream Stream;
-        Stream = OpenFile(FileName, 0);
+        Stream stream;
+        stream = OpenFile(fileName, 0);
         try
         {
-            LoadFromStream(Stream);
+            LoadFromStream(stream);
         }
         finally
         {
-            Stream?.Dispose();
+            stream?.Dispose();
         }
     }
 
     // FMemStr.pas:73
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
-        if (FSize != 0)
+        if (_size != 0)
         {
-            Stream.WriteBuffer(FMemory.AsSpan(0, FSize));
+            stream.WriteBuffer(_memory.AsSpan(0, _size));
         }
     }
 
     // FMemStr.pas:78
-    public void SaveToFile(string FileName)
+    public void SaveToFile(string fileName)
     {
-        Stream Stream;
-        Stream = OpenFile(FileName, 65535);
+        Stream stream;
+        stream = OpenFile(fileName, 65535);
         try
         {
-            SaveToStream(Stream);
+            SaveToStream(stream);
         }
         finally
         {
-            Stream?.Dispose();
+            stream?.Dispose();
         }
     }
 
-    public byte[] Memory { get => FMemory; }
-    public int Capacity { get => FCapacity; set => SetCapacity(value); }
+    public byte[] Memory { get => _memory; }
+    public int Capacity { get => _capacity; set => SetCapacity(value); }
 }

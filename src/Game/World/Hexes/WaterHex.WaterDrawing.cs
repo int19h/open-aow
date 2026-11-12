@@ -12,227 +12,227 @@ namespace Aow.Game.World.Hexes;
 
 public partial class WaterHex
 {
-    public override void ShowDynamic(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void ShowDynamic(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
+        int pixelX = default;
+        int pixelY = default;
         int X;
         int Y;
-        CustomImageLibrary IL;
-        int Variant;
-        ImageSequence Sequence;
-        int Image;
-        bool Showing;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-        Xhp = Xhp - XhpSurf - 8;
-        Yhp = Yhp - YhpSurf;
+        CustomImageLibrary imageLibrary;
+        int variant;
+        ImageSequence sequence;
+        int image;
+        bool showing;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        pixelX = pixelX - pixelXSurface - 8;
+        pixelY = pixelY - pixelYSurface;
         // { Original uses the shared engine settings and the Flood enchantment. }
-        if (GameTables.AoWEngine.FAnimationDetail != 0 && (((((AoWMapField)Owner).FFieldFlags >> 16) & 255) != 0 || !((GameMap)((MapLevel)Owner.Owner).Map).FFogEnabled))
+        if (GameTables.GameEngine.AnimationDetail != 0 && (((((AoWMapField)Owner).FieldFlags >> 16) & 255) != 0 || !((GameMap)((MapLevel)Owner.Owner).Map).FogEnabled))
         {
-            FAnimationFrame = (sbyte)(FAnimationFrame + 1);
-            if (FAnimationFrame >= 0)
+            AnimationFrame = (sbyte)(AnimationFrame + 1);
+            if (AnimationFrame >= 0)
             {
-                Showing = false;
-                if (FAnimationFrame == 0)
+                showing = false;
+                if (AnimationFrame == 0)
                 {
                     // { Original tests the Flood enchantment. }
-                    if (AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(GlobalEnchantmentType.Flood))
+                    if (AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.Flood))
                     {
-                        if (FOpenSides == 0 && Random(300) == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                        if (OpenSides == 0 && Random(300) == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                         {
-                            FAnimationIndex = (byte)(Random(10) + 30);
+                            AnimationIndex = (byte)(Random(10) + 30);
                         }
                         else
                         {
                             if (Random(10) < 3)
                             {
-                                FAnimationIndex = (byte)(Random(9) + 50);
+                                AnimationIndex = (byte)(Random(9) + 50);
                             }
                             else
                             {
-                                FAnimationIndex = (byte)(Random(10) + 20);
+                                AnimationIndex = (byte)(Random(10) + 20);
                             }
                         }
                     }
                     else
                     {
-                        if (FOpenSides == 0 && Random(700) == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                        if (OpenSides == 0 && Random(700) == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                         {
-                            FAnimationIndex = (byte)(Random(10) + 30);
+                            AnimationIndex = (byte)(Random(10) + 30);
                         }
                         else
                         {
-                            FAnimationIndex = (byte)(Random(10) + 20);
+                            AnimationIndex = (byte)(Random(10) + 20);
                         }
                     }
                 }
 
-                if (FAnimationIndex < FResource.ImageSequenceList.Count)
+                if (AnimationIndex < _resource.ImageSequenceList.Count)
                 {
-                    Sequence = (ImageSequence)FResource.ImageSequenceList.List[FAnimationIndex];
-                    while (Sequence != null)
+                    sequence = (ImageSequence)_resource.ImageSequenceList.List[AnimationIndex];
+                    while (sequence != null)
                     {
-                        Image = Sequence.GetUnloopedFrameIndex(FAnimationFrame);
-                        if (Image != -1)
+                        image = sequence.GetUnloopedFrameIndex(AnimationFrame);
+                        if (image != -1)
                         {
-                            Showing = true;
-                            if (Sequence.ImageLibrary.ImageExist(Image))
+                            showing = true;
+                            if (sequence.ImageLibrary.ImageExist(image))
                             {
-                                Sequence.ImageLibrary[Image].Show(Sequence.dXshift + Xhp, Sequence.dYshift + Yhp, SurfaceDesc);
+                                sequence.ImageLibrary[image].Show(sequence.OffsetX + pixelX, sequence.OffsetY + pixelY, lockedSurface);
                             }
                         }
 
-                        Sequence = Sequence.Next;
+                        sequence = sequence.Next;
                     }
                 }
 
-                if (!Showing)
+                if (!showing)
                 {
-                    if (GameTables.AoWEngine.FAnimationDetail == 1)
+                    if (GameTables.GameEngine.AnimationDetail == 1)
                     {
-                        FAnimationFrame = (sbyte)(-20 - Random(25));
+                        AnimationFrame = (sbyte)(-20 - Random(25));
                     }
                     else
                     {
-                        FAnimationFrame = (sbyte)(-10 - Random(25));
+                        AnimationFrame = (sbyte)(-10 - Random(25));
                     }
                 }
             }
         }
 
-        base.ShowDynamic(XhpSurf, YhpSurf, SurfaceDesc);
-        IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        Variant = FrameFixtureInputs.TextureVariant(this);
-        if (Variant == 3)
+        base.ShowDynamic(pixelXSurface, pixelYSurface, lockedSurface);
+        imageLibrary = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        variant = FrameFixtureInputs.TextureVariant(this);
+        if (variant == 3)
         {
-            Variant = 0;
+            variant = 0;
         }
 
-        if (FOpenSides != 0)
+        if (OpenSides != 0)
         {
-            X = Xhp - 19;
-            Y = Yhp - 32;
-            if ((FOpenSides & 1) != 0)
+            X = pixelX - 19;
+            Y = pixelY - 32;
+            if ((OpenSides & 1) != 0)
             {
-                if ((FOpenSides & 35) == 35)
+                if ((OpenSides & 35) == 35)
                 {
-                    IL[FShoreTerrain[1 - 1] + 6].Show(X, Y, SurfaceDesc);
+                    imageLibrary[ShoreTerrain[1 - 1] + 6].Show(X, Y, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 35) == 1)
+                    if ((OpenSides & 35) == 1)
                     {
-                        IL[FShoreTerrain[1 - 1] + 13].Show(X, Y, SurfaceDesc);
+                        imageLibrary[ShoreTerrain[1 - 1] + 13].Show(X, Y, lockedSurface);
                     }
                 }
 
-                if ((FOpenSides & 7) == 7)
+                if ((OpenSides & 7) == 7)
                 {
-                    IL[FShoreTerrain[2 - 1] + 25].Show(X, Y, SurfaceDesc);
+                    imageLibrary[ShoreTerrain[2 - 1] + 25].Show(X, Y, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 3) == 3)
+                    if ((OpenSides & 3) == 3)
                     {
-                        IL[Variant + 3 + FShoreTerrain[2 - 1]].Show(X, Y, SurfaceDesc);
+                        imageLibrary[variant + 3 + ShoreTerrain[2 - 1]].Show(X, Y, lockedSurface);
                     }
                 }
 
-                if ((FOpenSides & 49) == 49)
+                if ((OpenSides & 49) == 49)
                 {
-                    IL[FShoreTerrain[6 - 1] + 24].Show(X, Y, SurfaceDesc);
+                    imageLibrary[ShoreTerrain[6 - 1] + 24].Show(X, Y, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 33) == 33)
+                    if ((OpenSides & 33) == 33)
                     {
-                        IL[Variant + FShoreTerrain[6 - 1]].Show(X, Y, SurfaceDesc);
+                        imageLibrary[variant + ShoreTerrain[6 - 1]].Show(X, Y, lockedSurface);
                     }
                 }
             }
             else
             {
-                if ((FOpenSides & 6) == 6)
+                if ((OpenSides & 6) == 6)
                 {
-                    IL[Variant + 10 + FShoreTerrain[3 - 1]].Show(X, Y, SurfaceDesc);
+                    imageLibrary[variant + 10 + ShoreTerrain[3 - 1]].Show(X, Y, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 2) == 2)
+                    if ((OpenSides & 2) == 2)
                     {
-                        IL[FShoreTerrain[2 - 1] + 17].Show(X, Y, SurfaceDesc);
+                        imageLibrary[ShoreTerrain[2 - 1] + 17].Show(X, Y, lockedSurface);
                     }
                 }
 
-                if ((FOpenSides & 48) == 48)
+                if ((OpenSides & 48) == 48)
                 {
-                    IL[Variant + 7 + FShoreTerrain[5 - 1]].Show(X, Y, SurfaceDesc);
+                    imageLibrary[variant + 7 + ShoreTerrain[5 - 1]].Show(X, Y, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 32) == 32)
+                    if ((OpenSides & 32) == 32)
                     {
-                        IL[FShoreTerrain[6 - 1] + 16].Show(X, Y, SurfaceDesc);
+                        imageLibrary[ShoreTerrain[6 - 1] + 16].Show(X, Y, lockedSurface);
                     }
                 }
             }
 
-            if ((FOpenSides & 8) != 0)
+            if ((OpenSides & 8) != 0)
             {
-                if ((FOpenSides & 14) == 14)
+                if ((OpenSides & 14) == 14)
                 {
-                    IL[FShoreTerrain[3 - 1] + 22].Show(X, Y + 1, SurfaceDesc);
+                    imageLibrary[ShoreTerrain[3 - 1] + 22].Show(X, Y + 1, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 12) == 12)
+                    if ((OpenSides & 12) == 12)
                     {
-                        if (Variant == 2)
+                        if (variant == 2)
                         {
-                            IL[FShoreTerrain[3 - 1] + 19].Show(X, Y + 1, SurfaceDesc);
+                            imageLibrary[ShoreTerrain[3 - 1] + 19].Show(X, Y + 1, lockedSurface);
                         }
                         else
                         {
-                            IL[Variant + 30 + FShoreTerrain[3 - 1]].Show(X, Y + 1, SurfaceDesc);
+                            imageLibrary[variant + 30 + ShoreTerrain[3 - 1]].Show(X, Y + 1, lockedSurface);
                         }
                     }
                 }
 
-                if ((FOpenSides & 56) == 56)
+                if ((OpenSides & 56) == 56)
                 {
-                    IL[FShoreTerrain[5 - 1] + 21].Show(X, Y, SurfaceDesc);
+                    imageLibrary[ShoreTerrain[5 - 1] + 21].Show(X, Y, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 24) == 24)
+                    if ((OpenSides & 24) == 24)
                     {
-                        if (Variant == 2)
+                        if (variant == 2)
                         {
-                            IL[FShoreTerrain[5 - 1] + 18].Show(X, Y + 1, SurfaceDesc);
+                            imageLibrary[ShoreTerrain[5 - 1] + 18].Show(X, Y + 1, lockedSurface);
                         }
                         else
                         {
-                            IL[Variant + 28 + FShoreTerrain[5 - 1]].Show(X, Y, SurfaceDesc);
+                            imageLibrary[variant + 28 + ShoreTerrain[5 - 1]].Show(X, Y, lockedSurface);
                         }
                     }
                 }
 
-                if ((FOpenSides & 28) == 8)
+                if ((OpenSides & 28) == 8)
                 {
-                    IL[FShoreTerrain[4 - 1] + 23].Show(X, Y, SurfaceDesc);
+                    imageLibrary[ShoreTerrain[4 - 1] + 23].Show(X, Y, lockedSurface);
                 }
             }
             else
             {
-                if ((FOpenSides & 14) == 4)
+                if ((OpenSides & 14) == 4)
                 {
-                    IL[FShoreTerrain[3 - 1] + 15].Show(X, Y, SurfaceDesc);
+                    imageLibrary[ShoreTerrain[3 - 1] + 15].Show(X, Y, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 56) == 16)
+                    if ((OpenSides & 56) == 16)
                     {
-                        IL[FShoreTerrain[5 - 1] + 14].Show(X, Y, SurfaceDesc);
+                        imageLibrary[ShoreTerrain[5 - 1] + 14].Show(X, Y, lockedSurface);
                     }
                 }
             }

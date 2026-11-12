@@ -10,31 +10,31 @@ public partial class AIGroupList : ENode
     { }
 
     // AIGroup.pas:526
-    public AIGroup GetGroups(int Index)
+    public AIGroup GetGroups(int index)
     {
-        AIGroup Result;
-        if (Index >= 0 && Index < Count)
+        AIGroup result;
+        if (index >= 0 && index < Count)
         {
-            Result = (AIGroup)FChildren.List[Index];
+            result = (AIGroup)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:533
-    public int IndexOfID(int ID)
+    public int IndexOfId(int id)
     {
-        int Result = FChildren.Count;
-        while (Result != 0)
+        int result = _children.Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (ID == ((AIGroup)FChildren.List[Result]).FGroupID)
+            result -= 1;
+            if (id == ((AIGroup)_children.List[result]).GroupId)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -42,37 +42,37 @@ public partial class AIGroupList : ENode
     }
 
     // AIGroup.pas:544
-    public AIGroup FindID(int ID)
+    public AIGroup FindId(int id)
     {
-        AIGroup Result;
+        AIGroup result;
         int I;
-        I = IndexOfID(ID);
+        I = IndexOfId(id);
         if (I != -1)
         {
-            Result = (AIGroup)FChildren.List[I];
+            result = (AIGroup)_children.List[I];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:559
     public void SortOnProcessPriority()
     {
-        FChildren.Sort(CompareAIGroupProcessPriority);
+        _children.Sort(CompareAIGroupProcessPriority);
     }
 
-    private static int CompareAIGroupProcessPriority(object Item1, object Item2)
+    private static int CompareAIGroupProcessPriority(object item1, object item2)
     {
-        int num = ((AIGroup)Item2).GetProcessPriority() - ((AIGroup)Item1).GetProcessPriority();
-        if (num == 0)
+        int number = ((AIGroup)item2).GetProcessPriority() - ((AIGroup)item1).GetProcessPriority();
+        if (number == 0)
         {
-            num = ((AIGroup)Item2).FGroupID - ((AIGroup)Item1).FGroupID;
+            number = ((AIGroup)item2).GroupId - ((AIGroup)item1).GroupId;
         }
-        return num;
+        return number;
     }
 
     // Engine.pas:631

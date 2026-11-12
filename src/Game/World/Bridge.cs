@@ -19,228 +19,228 @@ public partial class Bridge : AbstractRoad
     }
 
     // Bridge.pas:48
-    public new const int ClassID = 131444;
+    public new const int ClassId = 131444;
 
-    internal ushort FTransitions;
+    internal ushort _transitions;
 
     // Bridge.pas:43
 
     // Bridge.pas:53
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-        ((Resource)FResource).Show(Xhp - XhpSurf - 8 - 6, Yhp - YhpSurf - 9, SurfaceDesc, this);
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        ((Resource)_resource).Show(pixelX - pixelXSurface - 8 - 6, pixelY - pixelYSurface - 9, lockedSurface, this);
     }
 
     // Bridge.pas:63
     // { Original oddity: the overlay of the owner of the previous owner (a map level, not a map field)
     //   is updated. }
-    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField MapField;
-        HexSprite OldRoad;
-        MapField OldOwner;
-        MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
-        OldRoad = MapField.FindHS(typeof(AbstractRoad));
-        if (OldRoad != null)
+        MapField mapField;
+        HexSprite oldRoad;
+        MapField oldOwner;
+        mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+        oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
+        if (oldRoad != null)
         {
-            OldRoad.Dispose();
+            oldRoad.Dispose();
         }
 
-        OldOwner = (MapField)Owner;
-        Owner = MapField;
-        FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
+        oldOwner = (MapField)Owner;
+        Owner = mapField;
+        _status = _status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
         // { The original refreshes the overlay of the previous field's owner, a map level read as a map field, which is undefined, so skipped. }
-        if (OldOwner?.Owner is MapField OldOwnerField)
+        if (oldOwner?.Owner is MapField oldOwnerField)
         {
-            OldOwnerField.UpdateOverlayType();
+            oldOwnerField.UpdateOverlayType();
         }
 
-        MapField.UpdateOverlayType();
+        mapField.UpdateOverlayType();
         UpdateTransitions();
-        MapContainer.Map.InvalidateStaticScene(Xhx, Yhx, Lhx);
+        mapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
         return true;
     }
 
     // Bridge.pas:82
     public override void UpdateTransitions()
     {
-        ByteArray6 Sides = default;
-        int Transitions;
-        int MaxDistance;
-        int MaxSide;
-        bool HasRoad;
-        bool InShore;
-        int Xhx = default;
-        int Yhx = default;
-        int Shores;
-        sbyte TerrainType;
-        MapLevel Level;
-        int Start;
-        int Distance;
-        MapField MapField;
-        bool IsShore;
-        Transitions = 0;
-        Level = (MapLevel)Owner.Owner;
-        Shores = 0;
-        InShore = false;
-        for (int HN = 1; HN <= 6; HN++)
+        ByteArray6 sides = default;
+        int transitions;
+        int maxDistance;
+        int maxSide;
+        bool hasRoad;
+        bool inShore;
+        int hexX = default;
+        int hexY = default;
+        int shores;
+        sbyte terrainType;
+        MapLevel level;
+        int start;
+        int distance;
+        MapField mapField;
+        bool isShore;
+        transitions = 0;
+        level = (MapLevel)Owner.Owner;
+        shores = 0;
+        inShore = false;
+        for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
         {
-            HexGeometry.HNtoHX(HN, ref Xhx, ref Yhx);
-            HexGeometry.TranslateHX(0, 0, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
-            if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
+            HexGeometry.HexNumberToHex(hexNumber, ref hexX, ref hexY);
+            HexGeometry.TranslateHex(0, 0, ((MapField)Owner).HexX, ((MapField)Owner).HexY, hexX, hexY, ref hexX, ref hexY);
+            if (hexX >= 0 && hexY >= 0 && level.Width > hexX && level.Height > hexY)
             {
-                MapField = Level.GetField(Xhx, Yhx);
-                TerrainType = MapField.TerrainType;
-                HasRoad = MapField.FindHS(typeof(AbstractRoad)) != null;
-                IsShore = TerrainType != 0 && FResource.TerrainList.GetTerrain(0) != TerrainType && MapField.FindHS(typeof(BorderHexagon)) == null;
-                if (HasRoad)
+                mapField = level.GetField(hexX, hexY);
+                terrainType = mapField.TerrainType;
+                hasRoad = mapField.FindHexSprite(typeof(AbstractRoad)) != null;
+                isShore = terrainType != 0 && _resource.TerrainList.GetTerrain(0) != terrainType && mapField.FindHexSprite(typeof(BorderHexagon)) == null;
+                if (hasRoad)
                 {
-                    Sides[HN - 1] = 1;
-                    InShore = false;
+                    sides[hexNumber - 1] = 1;
+                    inShore = false;
                 }
                 else
                 {
-                    if (IsShore)
+                    if (isShore)
                     {
-                        if (!InShore)
+                        if (!inShore)
                         {
-                            Shores += 1;
+                            shores += 1;
                         }
 
-                        Sides[HN - 1] = (byte)(Shores + 2);
-                        InShore = true;
+                        sides[hexNumber - 1] = (byte)(shores + 2);
+                        inShore = true;
                     }
                     else
                     {
-                        Sides[HN - 1] = 0;
-                        InShore = false;
+                        sides[hexNumber - 1] = 0;
+                        inShore = false;
                     }
                 }
             }
             else
             {
-                Sides[HN - 1] = 0;
+                sides[hexNumber - 1] = 0;
             }
         }
 
         // { the shores on side 1 and side 6 are one shore }
-        if (Sides[1 - 1] > 2 && Sides[6 - 1] > 2 && Sides[1 - 1] != Sides[6 - 1])
+        if (sides[1 - 1] > 2 && sides[6 - 1] > 2 && sides[1 - 1] != sides[6 - 1])
         {
-            for (int HN = 3; HN <= 6; HN++)
+            for (int hexNumber = 3; hexNumber <= 6; hexNumber++)
             {
-                if (Sides[HN - 1] == Sides[6 - 1])
+                if (sides[hexNumber - 1] == sides[6 - 1])
                 {
-                    Sides[HN - 1] = Sides[1 - 1];
+                    sides[hexNumber - 1] = sides[1 - 1];
                 }
             }
 
-            Shores -= 1;
+            shores -= 1;
         }
 
         // { the side the bridge starts from: a road, else the first side without water }
-        Start = 1;
-        while (Start <= 6 && Sides[Start - 1] != 1)
+        start = 1;
+        while (start <= 6 && sides[start - 1] != 1)
         {
-            Start += 1;
+            start += 1;
         }
 
-        if (Start == 1)
+        if (start == 1)
         {
-            if (Sides[2 - 1] == 1)
+            if (sides[2 - 1] == 1)
             {
-                Start = 2;
+                start = 2;
             }
             else
             {
-                if (Sides[3 - 1] == 1)
+                if (sides[3 - 1] == 1)
                 {
-                    Start = 3;
+                    start = 3;
                 }
             }
         }
 
-        if (Start == 7)
+        if (start == 7)
         {
-            Start = 1;
-            while (Start <= 6 && Sides[Start - 1] == 0)
+            start = 1;
+            while (start <= 6 && sides[start - 1] == 0)
             {
-                Start += 1;
+                start += 1;
             }
 
-            if (Start == 1)
+            if (start == 1)
             {
-                if (Sides[2 - 1] != 0)
+                if (sides[2 - 1] != 0)
                 {
-                    Start = 2;
+                    start = 2;
                 }
                 else
                 {
-                    if (Sides[3 - 1] == 0)
+                    if (sides[3 - 1] == 0)
                     {
-                        Start = 3;
+                        start = 3;
                     }
                 }
             }
         }
 
-        if (Start <= 6)
+        if (start <= 6)
         {
             // { of every shore keep the side farthest from the start }
-            for (int Shore = 3; Shore <= Shores + 2; Shore++)
+            for (int shore = 3; shore <= shores + 2; shore++)
             {
-                MaxDistance = 0;
-                MaxSide = 0;
-                if (Shore != Sides[Start - 1] || Shores == 1)
+                maxDistance = 0;
+                maxSide = 0;
+                if (shore != sides[start - 1] || shores == 1)
                 {
-                    for (int HN = 1; HN <= 6; HN++)
+                    for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
                     {
-                        if (Shore == Sides[HN - 1])
+                        if (shore == sides[hexNumber - 1])
                         {
-                            Distance = Math.Abs(HN - Start);
-                            if (Distance > 3)
+                            distance = Math.Abs(hexNumber - start);
+                            if (distance > 3)
                             {
-                                Distance = Math.Abs(Distance - 6);
+                                distance = Math.Abs(distance - 6);
                             }
 
-                            if (Distance > MaxDistance)
+                            if (distance > maxDistance)
                             {
-                                MaxDistance = Distance;
-                                MaxSide = HN;
+                                maxDistance = distance;
+                                maxSide = hexNumber;
                             }
                         }
                     }
                 }
                 else
                 {
-                    MaxSide = Start;
+                    maxSide = start;
                 }
 
-                for (int HN = 1; HN <= 6; HN++)
+                for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
                 {
-                    if (HN != Start && Shore == Sides[HN - 1])
+                    if (hexNumber != start && shore == sides[hexNumber - 1])
                     {
-                        if (HN != MaxSide)
+                        if (hexNumber != maxSide)
                         {
-                            Sides[HN - 1] = 0;
+                            sides[hexNumber - 1] = 0;
                         }
                         else
                         {
-                            Sides[HN - 1] = 2;
+                            sides[hexNumber - 1] = 2;
                         }
                     }
                 }
             }
 
-            for (int HN = 1; HN <= 6; HN++)
+            for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
             {
-                Transitions += Sides[HN - 1] << ((HN - 1) * 2);
+                transitions += sides[hexNumber - 1] << ((hexNumber - 1) * 2);
             }
         }
 
-        FTransitions = (ushort)Transitions;
+        _transitions = (ushort)transitions;
     }
 
     public new partial class Resource : AbstractRoadResource
@@ -251,119 +251,119 @@ public partial class Bridge : AbstractRoad
         }
 
         // Bridge.pas:205
-        public new const int ClassID = 131445;
+        public new const int ClassId = 131445;
 
         // Bridge.pas:189
 
         // Bridge.pas:195
-        public override int ResourceUserClassID() => 131444;
+        public override int ResourceUserClassId() => 131444;
 
         // Bridge.pas:210
-        public void Show(int Xhp, int Yhp, in LockedSurface SurfaceDesc, Bridge Bridge)
+        public void Show(int pixelX, int pixelY, in LockedSurface lockedSurface, Bridge bridge)
         {
-            int Transitions;
-            int Base;
-            Transitions = Bridge.FTransitions;
-            Base = 1;
-            FImageLibrary[Base + 18].Show(Xhp, Yhp, SurfaceDesc);
-            if ((Transitions & 3) != 0)
+            int transitions;
+            int baseValue;
+            transitions = bridge._transitions;
+            baseValue = 1;
+            _imageLibrary[baseValue + 18].Show(pixelX, pixelY, lockedSurface);
+            if ((transitions & 3) != 0)
             {
-                if ((Transitions & 3) == 1)
+                if ((transitions & 3) == 1)
                 {
-                    FImageLibrary[Base + 6].Show(Xhp, Yhp, SurfaceDesc);
+                    _imageLibrary[baseValue + 6].Show(pixelX, pixelY, lockedSurface);
                 }
 
-                FImageLibrary[Base + 12].Show(Xhp, Yhp, SurfaceDesc);
+                _imageLibrary[baseValue + 12].Show(pixelX, pixelY, lockedSurface);
             }
 
-            if ((Transitions & 12) != 0)
+            if ((transitions & 12) != 0)
             {
-                if ((Transitions & 12) == 4)
+                if ((transitions & 12) == 4)
                 {
-                    FImageLibrary[Base + 7].Show(Xhp, Yhp, SurfaceDesc);
+                    _imageLibrary[baseValue + 7].Show(pixelX, pixelY, lockedSurface);
                 }
 
-                FImageLibrary[Base + 13].Show(Xhp, Yhp, SurfaceDesc);
+                _imageLibrary[baseValue + 13].Show(pixelX, pixelY, lockedSurface);
             }
 
-            if ((Transitions & 48) != 0)
+            if ((transitions & 48) != 0)
             {
-                if ((Transitions & 48) == 16)
+                if ((transitions & 48) == 16)
                 {
-                    FImageLibrary[Base + 8].Show(Xhp, Yhp, SurfaceDesc);
+                    _imageLibrary[baseValue + 8].Show(pixelX, pixelY, lockedSurface);
                 }
                 else
                 {
-                    FImageLibrary[Base + 2].Show(Xhp, Yhp, SurfaceDesc);
+                    _imageLibrary[baseValue + 2].Show(pixelX, pixelY, lockedSurface);
                 }
 
-                FImageLibrary[Base + 14].Show(Xhp, Yhp, SurfaceDesc);
+                _imageLibrary[baseValue + 14].Show(pixelX, pixelY, lockedSurface);
             }
 
-            if ((Transitions & 192) != 0)
+            if ((transitions & 192) != 0)
             {
-                if ((Transitions & 192) == 64)
+                if ((transitions & 192) == 64)
                 {
-                    FImageLibrary[Base + 9].Show(Xhp, Yhp, SurfaceDesc);
+                    _imageLibrary[baseValue + 9].Show(pixelX, pixelY, lockedSurface);
                 }
                 else
                 {
-                    FImageLibrary[Base + 3].Show(Xhp, Yhp, SurfaceDesc);
+                    _imageLibrary[baseValue + 3].Show(pixelX, pixelY, lockedSurface);
                 }
 
-                FImageLibrary[Base + 15].Show(Xhp, Yhp, SurfaceDesc);
+                _imageLibrary[baseValue + 15].Show(pixelX, pixelY, lockedSurface);
             }
 
-            if ((Transitions & 768) != 0)
+            if ((transitions & 768) != 0)
             {
-                if ((Transitions & 768) == 256)
+                if ((transitions & 768) == 256)
                 {
-                    FImageLibrary[Base + 10].Show(Xhp, Yhp, SurfaceDesc);
+                    _imageLibrary[baseValue + 10].Show(pixelX, pixelY, lockedSurface);
                 }
                 else
                 {
-                    FImageLibrary[Base + 4].Show(Xhp, Yhp, SurfaceDesc);
+                    _imageLibrary[baseValue + 4].Show(pixelX, pixelY, lockedSurface);
                 }
 
-                FImageLibrary[Base + 16].Show(Xhp, Yhp, SurfaceDesc);
+                _imageLibrary[baseValue + 16].Show(pixelX, pixelY, lockedSurface);
             }
 
-            if ((Transitions & 3072) != 0)
+            if ((transitions & 3072) != 0)
             {
-                if ((Transitions & 3072) == 1024)
+                if ((transitions & 3072) == 1024)
                 {
-                    FImageLibrary[Base + 11].Show(Xhp, Yhp, SurfaceDesc);
+                    _imageLibrary[baseValue + 11].Show(pixelX, pixelY, lockedSurface);
                 }
 
-                FImageLibrary[Base + 17].Show(Xhp, Yhp, SurfaceDesc);
+                _imageLibrary[baseValue + 17].Show(pixelX, pixelY, lockedSurface);
             }
         }
 
         // Bridge.pas:253
         public override EditorClass Editor()
         {
-            EditorClass Result = FEngine.Editors.FindEditor(131445);
-            if (Result == null)
+            EditorClass result = _engine.Editors.FindEditor(131445);
+            if (result == null)
             {
-                Result = base.Editor();
+                result = base.Editor();
             }
 
-            return Result;
+            return result;
         }
 
         // Bridge.pas:259
-        public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+        public override void MessageProc(ref EngineMessage message, EngineObject sender)
         {
-            if (Msg.MsgID != 65556)
+            if (message.MessageId != 65556)
             {
-                base.MsgProc(ref Msg, Sender);
+                base.MessageProc(ref message, sender);
             }
         }
 
         // Bridge.pas:28
 
         // Bridge.pas:200
-        public override string ResourceEditName() => HexText.BridgeStr;
+        public override string ResourceEditName() => HexText.s_bridgeText;
 
     }
 

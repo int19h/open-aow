@@ -10,46 +10,46 @@ using Aow.Rtl;
 
 namespace Aow.Game.World;
 
-// FMessage
+// Message
 public partial class TutorialMessageEvent : FlagEvent
 {
     public TutorialMessageEvent(ECustomNode owner) : base(owner)
     {
-        FMessage = new StringList();
+        Message = new StringList();
     }
 
     // FlagEvents.pas:245
-    public new const int ClassID = 132459;
+    public new const int ClassId = 132459;
 
-    public StringList FMessage;
+    public StringList Message;
 
     // FlagEvents.pas:239
     public override void Dispose()
     {
-        FMessage?.Dispose();
+        Message?.Dispose();
         base.Dispose();
     }
 
     // FlagEvents.pas:250
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStrings(FMessage, 40);
+        base.ReadWrite(stream);
+        stream.rwStrings(Message, 40);
     }
 
     // FlagEvents.pas:233
 
     // FlagEvents.pas:256
-    public override bool Trigger(sbyte Player)
+    public override bool Trigger(sbyte player)
     {
-        TutorialMessageEventLog Log;
-        if (AoWHSMap.Current.FSeatedPlayer == Player)
+        TutorialMessageEventLog log;
+        if (AoWHSMap.Current.SeatedPlayer == player)
         {
-            Log = new TutorialMessageEventLog(null);
-            var text = FMessage.Text;
-            Log.FMessage.Text = text;
-            AoWHSMap.Current.TriggerExecuteEventLog(Log, FTriggerMode == TriggerMode.Instant, null);
-            Log.Release();
+            log = new TutorialMessageEventLog(null);
+            var text = Message.Text;
+            log.Message.Text = text;
+            AoWHSMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);
+            log.Release();
         }
 
         return true;
@@ -61,15 +61,15 @@ public partial class TutorialMessageEvent : FlagEvent
         { }
 
         // FlagEvents.pas:269
-        public new const int ClassID = 132460;
+        public new const int ClassId = 132460;
 
         // FlagEvents.pas:279
-        public override int ResourceUserClassID() => 132459;
+        public override int ResourceUserClassId() => 132459;
 
         // FlagEvents.pas:274
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(TutorialMessageEventRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_tutorialMessageEventText);
 
-        private static readonly string TutorialMessageEventRStr = "Tutorial Message Event";
+        private static readonly string s_tutorialMessageEventText = "Tutorial Message Event";
 
     }
 

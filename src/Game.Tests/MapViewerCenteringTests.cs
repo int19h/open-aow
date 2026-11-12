@@ -19,18 +19,18 @@ public sealed class MapViewerCenteringTests
     // Draws white over the whole scene and a red column and row on the map's left and top edges.
     private sealed class PaintedMap() : HSMap(null!)
     {
-        public override void UpdateStaticScene() => FStaticSceneInvalid = false;
-        public override void UpdateDynamicScene() => FDynamicSceneInvalid = false;
+        public override void UpdateStaticScene() => _staticSceneInvalid = false;
+        public override void UpdateDynamicScene() => _dynamicSceneInvalid = false;
 
-        public override void DrawDynamicScene(ref LockedSurface SD)
+        public override void DrawDynamicScene(ref LockedSurface lockedSurface)
         {
         }
 
-        public override void DrawStaticScene(ref LockedSurface SD)
+        public override void DrawStaticScene(ref LockedSurface lockedSurface)
         {
-            PixelFormats.ColorFillSD(new Rect(0, 0, SD.Width, SD.Height), 0xFFFFFF, SD);
-            PixelFormats.ColorFillSD(new Rect(16 - FViewXhp, 0, 17 - FViewXhp, SD.Height), 0x0000FF, SD);
-            PixelFormats.ColorFillSD(new Rect(0, 16 - FViewYhp, SD.Width, 17 - FViewYhp), 0x0000FF, SD);
+            PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), 0xFFFFFF, lockedSurface);
+            PixelFormats.ColorFillSurfaceDescription(new Rect(16 - _viewPixelX, 0, 17 - _viewPixelX, lockedSurface.Height), 0x0000FF, lockedSurface);
+            PixelFormats.ColorFillSurfaceDescription(new Rect(0, 16 - _viewPixelY, lockedSurface.Width, 17 - _viewPixelY), 0x0000FF, lockedSurface);
         }
     }
 
@@ -42,24 +42,24 @@ public sealed class MapViewerCenteringTests
 
         public Fixture(int sceneWidth, int sceneHeight)
         {
-            Map.FMapContainer = new MapContainer(null!) { FWidth = MapWidth, FHeight = MapHeight, FLevelCount = 1 };
-            Viewer.HSMap = Map;
+            Map._mapContainer = new MapContainer(null!) { _width = MapWidth, _height = MapHeight, _levelCount = 1 };
+            Viewer.HexSpriteMap = Map;
             Viewer.SceneWidth = sceneWidth;
             Viewer.SceneHeight = sceneHeight;
             Viewer.ChangeScene(100, 30, 0);
-            LockedSurface sd = default;
-            Assert.Equal(PixelFormats.GFXE_OK, Target.Lock(ref sd));
-            PixelFormats.ColorFillSD(new Rect(0, 0, sd.Width, sd.Height), 0x00FF00, sd);
+            LockedSurface lockedSurface = default;
+            Assert.Equal(PixelFormats.GFXE_OK, Target.Lock(ref lockedSurface));
+            PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), 0x00FF00, lockedSurface);
             Target.Unlock();
             Viewer.ShowScene(SceneLeft, SceneTop, Target);
         }
 
         public int Pixel(int x, int y)
         {
-            LockedSurface sd = default;
-            Target.Lock(ref sd);
-            var data = sd.Data;
-            int at = sd.DataIndex + y * sd.Pitch + x * 2;
+            LockedSurface lockedSurface = default;
+            Target.Lock(ref lockedSurface);
+            var data = lockedSurface.Data;
+            int at = lockedSurface.DataIndex + y * lockedSurface.Pitch + x * 2;
             int value = data[at] | data[at + 1] << 8;
             Target.Unlock();
             return value;
@@ -90,7 +90,7 @@ public sealed class MapViewerCenteringTests
         public void Dispose()
         {
             Viewer.Dispose();
-            Map.FMapContainer?.Dispose();
+            Map._mapContainer?.Dispose();
             Map.Dispose();
             Target.Dispose();
         }
@@ -105,9 +105,9 @@ public sealed class MapViewerCenteringTests
         // The original clamp: MaxXhp - SceneWidth - 16, and SceneY as asked.
         Assert.Equal(336 - 400 - 16, viewer.SceneX);
         Assert.Equal(30, viewer.SceneY);
-        Assert.Equal(-80, fixture.Map.ViewXhp);
-        Assert.Equal(new Rect(96, 0, 400, 200), viewer.GetMapSceneRect());
-        Assert.Equal(new Rect(48, 0, 352, 200), viewer.GetMapDisplayRect());
+        Assert.Equal(-80, fixture.Map.ViewPixelX);
+        Assert.Equal(new Rect(96, 0, 400, 200), viewer.GetMapSceneRectangle());
+        Assert.Equal(new Rect(48, 0, 352, 200), viewer.GetMapDisplayRectangle());
         fixture.AssertPicture(new Rect(48, 0, 352, 200), 48, -1);
 
         int x = 48, y = 5;
@@ -126,8 +126,8 @@ public sealed class MapViewerCenteringTests
         // The scene point 390 lies past MaxXhp 336 and inside the map at 310.
         var mouse = fixture.Map.Mouse;
         mouse.Move(default, 390, 5);
-        Assert.Equal(310, mouse.GetXhp());
-        Assert.Equal(35, mouse.GetYhp());
+        Assert.Equal(310, mouse.GetPixelX());
+        Assert.Equal(35, mouse.GetPixelY());
     }
 
     [Fact]
@@ -138,8 +138,8 @@ public sealed class MapViewerCenteringTests
         Assert.True(viewer.GetSceneExceedsMap());
         Assert.Equal(-80, viewer.SceneX);
         Assert.Equal(272 - 300 - 16, viewer.SceneY);
-        Assert.Equal(new Rect(96, 60, 400, 300), viewer.GetMapSceneRect());
-        Assert.Equal(new Rect(48, 30, 352, 270), viewer.GetMapDisplayRect());
+        Assert.Equal(new Rect(96, 60, 400, 300), viewer.GetMapSceneRectangle());
+        Assert.Equal(new Rect(48, 30, 352, 270), viewer.GetMapDisplayRectangle());
         fixture.AssertPicture(new Rect(48, 30, 352, 270), 48, 30);
 
         int x = 48, y = 29;
@@ -160,9 +160,9 @@ public sealed class MapViewerCenteringTests
         viewer.SceneX = 0;
         Assert.Equal(16, viewer.SceneX);
         viewer.SceneX = 20;
-        Assert.Equal(new Rect(0, 0, 300, 200), viewer.GetMapSceneRect());
-        Assert.Equal(new Rect(0, 0, 300, 200), viewer.GetMapDisplayRect());
-        Assert.Null(viewer.FCenteredSurface);
+        Assert.Equal(new Rect(0, 0, 300, 200), viewer.GetMapSceneRectangle());
+        Assert.Equal(new Rect(0, 0, 300, 200), viewer.GetMapDisplayRectangle());
+        Assert.Null(viewer._centeredSurface);
         fixture.AssertPicture(new Rect(0, 0, 300, 200), -4, -1);
 
         int x = 299, y = 199;
@@ -182,7 +182,7 @@ public sealed class MapViewerCenteringTests
         for (int x = 0; x < 300 && !found; x++)
         {
             mouse.Move(default, x, 200);
-            found = mouse.Xhx != -1 && mouse.Yhx == -1;
+            found = mouse.HexX != -1 && mouse.HexY == -1;
         }
         Assert.True(found);
     }

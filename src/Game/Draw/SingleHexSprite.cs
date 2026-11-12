@@ -5,57 +5,57 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Draw;
 
-// a sprite on one hexagon. FStatus: bit 1 visible, 2 edit mode, 4 selected, 8 activated (a
+// a sprite on one hexagon. _status: bit 1 visible, 2 edit mode, 4 selected, 8 activated (a
 // Byte: the original sets the bits with or/and, which a set with Include does not give)
 public partial class SingleHexSprite : HexSprite
 {
     public SingleHexSprite(ECustomNode owner) : base(owner)
     { }
 
-    internal byte FStatus;
+    internal byte _status;
 
     // HXSPRITE.PAS:640
-    public override void SetVisible(bool Value)
+    public override void SetVisible(bool value)
     {
-        if (Value)
+        if (value)
         {
-            FStatus = (byte)(FStatus | 1);
+            _status = (byte)(_status | 1);
         }
         else
         {
-            FStatus = (byte)(FStatus & 254);
+            _status = (byte)(_status & 254);
         }
     }
 
     // HXSPRITE.PAS:646
-    public override bool GetVisible() => (FStatus & 1) != 0;
+    public override bool GetVisible() => (_status & 1) != 0;
 
     // HXSPRITE.PAS:683
-    public override bool GetSelected() => (FStatus & 4) != 0;
+    public override bool GetSelected() => (_status & 4) != 0;
 
     // HXSPRITE.PAS:660
-    public override bool GetEditMode() => (FStatus & 2) != 0;
+    public override bool GetEditMode() => (_status & 2) != 0;
 
     // HXSPRITE.PAS:665
-    public override void SetEditMode(bool Value)
+    public override void SetEditMode(bool value)
     {
-        if (Value)
+        if (value)
         {
-            FStatus = (byte)(FStatus | 2);
+            _status = (byte)(_status | 2);
         }
         else
         {
-            FStatus = (byte)(FStatus & 253);
+            _status = (byte)(_status & 253);
         }
     }
 
     // HXSPRITE.PAS:713
     public override int GetShowPriority()
     {
-        int Xhp = default;
-        int Yhp = default;
-        HexGeometry.HXtoHP(((MapField)Owner).FXhx, ((MapField)Owner).FYhx, ref Xhp, ref Yhp);
-        return (GetLevel() << 26) + ((Yhp + 32) << 13) + (Xhp + 16);
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(((MapField)Owner)._hexX, ((MapField)Owner)._hexY, ref pixelX, ref pixelY);
+        return (GetLevel() << 26) + ((pixelY + 32) << 13) + (pixelX + 16);
     }
 
     // HXSPRITE.PAS:704
@@ -70,32 +70,32 @@ public partial class SingleHexSprite : HexSprite
     }
 
     // HXSPRITE.PAS:749
-    public override bool Place(MapContainer Map, int Xhp, int Yhp, int Lhx)
+    public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
     {
-        int Xhx = default;
-        int Yhx = default;
-        HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-        return PlaceHX(Map, (sbyte)Xhx, (sbyte)Yhx, (sbyte)Lhx);
+        int hexX = default;
+        int hexY = default;
+        HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
+        return PlaceHex(map, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel);
     }
 
     // HXSPRITE.PAS:721
     public override void Remove()
     {
-        MapField MapF;
+        MapField mapField;
         if (Owner != null)
         {
-            MapF = (MapField)Owner;
+            mapField = (MapField)Owner;
             RemoveFromMap();
             if (GetVisible())
             {
                 if (GetLevel() <= 15)
                 {
-                    ((MapLevel)MapF.Owner).FMapContainer.FMap.FStaticVisibleHS.RemoveChild(this);
-                    ((MapLevel)MapF.Owner).FMapContainer.FMap.FStaticSceneInvalid = true;
+                    ((MapLevel)mapField.Owner)._mapContainer._map._staticVisibleHexSprite.RemoveChild(this);
+                    ((MapLevel)mapField.Owner)._mapContainer._map._staticSceneInvalid = true;
                 }
                 else
                 {
-                    ((MapLevel)MapF.Owner).FMapContainer.FMap.FDynamicVisibleHS.RemoveChild(this);
+                    ((MapLevel)mapField.Owner)._mapContainer._map._dynamicVisibleHexSprite.RemoveChild(this);
                 }
             }
 
@@ -106,23 +106,23 @@ public partial class SingleHexSprite : HexSprite
     // HXSPRITE.PAS:688
     public override void Activate()
     {
-        FStatus = (byte)(FStatus | 8);
+        _status = (byte)(_status | 8);
     }
 
     // HXSPRITE.PAS:693
     public override void Deactivate()
     {
         base.Deactivate();
-        FStatus = (byte)(FStatus & 247);
+        _status = (byte)(_status & 247);
     }
 
     // HXSPRITE.PAS:651
-    public override void MakeVisible(VisibilityList VisibilityList)
+    public override void MakeVisible(VisibilityList visibilityList)
     {
-        if ((FStatus & 1) == 0)
+        if ((_status & 1) == 0)
         {
-            FStatus = (byte)(FStatus | 1);
-            VisibilityList.AddSortChild(this, GetShowPriority());
+            _status = (byte)(_status | 1);
+            visibilityList.AddSortChild(this, GetShowPriority());
         }
     }
 
@@ -130,37 +130,37 @@ public partial class SingleHexSprite : HexSprite
     public override void Select()
     {
         base.Select();
-        FStatus = (byte)(FStatus | 4);
+        _status = (byte)(_status | 4);
     }
 
     // HXSPRITE.PAS:677
     public override void Unselect()
     {
         base.Unselect();
-        FStatus = (byte)(FStatus & 251);
+        _status = (byte)(_status & 251);
     }
 
     // HXSPRITE.PAS:743
-    public virtual bool CanPlace(MapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx) => Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < Map.FWidth && Yhx < Map.FHeight && Lhx < Map.FLevelCount;
+    public virtual bool CanPlace(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel) => hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < map._width && hexY < map._height && hexLevel < map._levelCount;
 
     // HXSPRITE.PAS:757
-    public virtual bool PlaceHX(MapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public virtual bool PlaceHex(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool Result;
-        if (GetEditMode() || CanPlace(Map, Xhx, Yhx, Lhx))
+        bool result;
+        if (GetEditMode() || CanPlace(map, hexX, hexY, hexLevel))
         {
             Remove();
-            SetOwner(Map.GetField(Xhx, Yhx, Lhx));
-            Result = PlaceOnMap();
+            SetOwner(map.GetField(hexX, hexY, hexLevel));
+            result = PlaceOnMap();
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // HXSPRITE.PAS:699
-    public bool Activated() => (FStatus & 8) != 0;
+    public bool Activated() => (_status & 8) != 0;
 }

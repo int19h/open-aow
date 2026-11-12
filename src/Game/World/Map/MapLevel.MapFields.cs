@@ -7,10 +7,10 @@ namespace Aow.Game.World.Map;
 
 public partial class MapLevel
 {
-    private MapField[] fields = [];
+    private MapField[] _fields = [];
 
-    public override EngineObject GetChild(int index) => fields[index];
-    public MapField GetField(int x, int y) => fields[y * FWidth + x];
+    public override EngineObject GetChild(int index) => _fields[index];
+    public MapField GetField(int x, int y) => _fields[y * _width + x];
 
     // HSEngine.pas:2960 stores adjacent instances in a raw allocation.
     // Managed instances retain the same row order and virtual construction.
@@ -18,39 +18,39 @@ public partial class MapLevel
     {
         DestroyMapFieldList();
         var type = MapFieldClass();
-        FWidth = width;
-        FHeight = height;
-        FCount = width * height;
-        FFieldSize = type.InstanceSize;
-        FFieldsSize = FFieldSize * FCount;
-        fields = new MapField[FCount];
+        _width = width;
+        _height = height;
+        _count = width * height;
+        _fieldSize = type.InstanceSize;
+        FieldsSize = _fieldSize * _count;
+        _fields = new MapField[_count];
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
             {
-                var field = (MapField)type.Create(this);
-                field.FXhx = (sbyte)x;
-                field.FYhx = (sbyte)y;
-                field.FLhx = (sbyte)FLhx;
-                fields[y * width + x] = field;
+                var field = (MapField)type.CreateInstance(this);
+                field._hexX = (sbyte)x;
+                field._hexY = (sbyte)y;
+                field._hexLevel = (sbyte)_hexLevel;
+                _fields[y * width + x] = field;
             }
-        FHNOffsets = default;
-        for (int hn = 1; hn <= 6; hn++)
+        HexNumberOffsets = default;
+        for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
             for (int parity = 0; parity <= 1; parity++)
-                FHNOffsets[parity][hn] = (HexGeometry.HNtoXYTable[parity][hn].X
-                    + HexGeometry.HNtoXYTable[parity][hn].Y * width) * FFieldSize;
+                HexNumberOffsets[parity][hexNumber] = (HexGeometry.s_hexNumberToXYTable[parity][hexNumber].X
+                    + HexGeometry.s_hexNumberToXYTable[parity][hexNumber].Y * width) * _fieldSize;
 
     }
 
     public void DestroyMapFieldList()
     {
-        fields = [];
-        FFieldsSize = 0;
+        _fields = [];
+        FieldsSize = 0;
     }
 
     public override void Dispose()
     {
-        foreach (var field in fields) field?.Dispose();
-        FCount = 0;
+        foreach (var field in _fields) field?.Dispose();
+        _count = 0;
         DestroyMapFieldList();
         base.Dispose();
     }
@@ -59,45 +59,45 @@ public partial class MapLevel
     {
         base.ReadWrite(stream);
         var mode = stream.StorageMode();
-        if ((mode & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText))
+        if ((mode & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text))
             == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
-            FEngine = stream.Engine;
-            FMapContainer = (MapContainer)Owner;
-            FMap = FMapContainer.FMap;
+            Engine = stream.Engine;
+            _mapContainer = (MapContainer)Owner;
+            _map = _mapContainer._map;
         }
-        byte width = (byte)FWidth, height = (byte)FHeight, level = (byte)FLhx;
+        byte width = (byte)_width, height = (byte)_height, level = (byte)_hexLevel;
         stream.rwByte(ref width, 3);
         stream.rwByte(ref height, 4);
         stream.rwByte(ref level, 5);
-        FWidth = width;
-        FHeight = height;
-        FLhx = level;
+        _width = width;
+        _height = height;
+        _hexLevel = level;
         MapProgress progress = new()
         {
-            Level = FLhx,
+            Level = _hexLevel,
             Percent = 0,
             ProgressType = mode.Contains(StorageModeElement.Read) ? MapProgressType.Loading : MapProgressType.Saving
         };
         bool notify = !mode.Contains(StorageModeElement.Translate);
-        if (notify) FMap.NotifyProgress(progress);
-        if ((mode & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.Compare))
+        if (notify) _map.NotifyProgress(progress);
+        if ((mode & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare))
             == Set<StorageModeElement>.Of(StorageModeElement.Read) && width != 0)
             CreateMapFieldList(width, height);
         if (mode.Contains(StorageModeElement.SetupCompare))
-            foreach (var field in fields) field.FStatus += Set<MapFieldStatusElement>.Of(MapFieldStatusElement.Comparing);
+            foreach (var field in _fields) field._status += Set<MapFieldStatusElement>.Of(MapFieldStatusElement.Comparing);
         var property = stream.OpenPropertyStream(6);
-        if (property != null || mode.Contains(EngineServices.smText))
+        if (property != null || mode.Contains(EngineServices.Text))
         {
-            int step = FCount / 10;
-            for (int i = 0; i < FCount; i++)
+            int step = _count / 10;
+            for (int i = 0; i < _count; i++)
             {
-                stream.rwEObjectStream(fields[i], i + 100);
+                stream.rwEObjectStream(_fields[i], i + 100);
                 if (--step == 0)
                 {
                     progress.Percent += 10;
-                    if (notify) FMap.NotifyProgress(progress);
-                    step = FCount / 10;
+                    if (notify) _map.NotifyProgress(progress);
+                    step = _count / 10;
                 }
             }
         }
@@ -105,23 +105,23 @@ public partial class MapLevel
 
     private void VisitFields(MapProgressType type, int divisor, int increment, Action<MapField> action, bool final)
     {
-        MapProgress progress = new() { Level = FLhx, Percent = 0, ProgressType = type };
-        FMap.NotifyProgress(progress);
-        int step = FCount / divisor;
-        foreach (var field in fields)
+        MapProgress progress = new() { Level = _hexLevel, Percent = 0, ProgressType = type };
+        _map.NotifyProgress(progress);
+        int step = _count / divisor;
+        foreach (var field in _fields)
         {
             action(field);
             if (--step == 0)
             {
                 progress.Percent += increment;
-                FMap.NotifyProgress(progress);
-                step = FCount / divisor;
+                _map.NotifyProgress(progress);
+                step = _count / divisor;
             }
         }
-        if (final) { progress.Percent = 100; FMap.NotifyProgress(progress); }
+        if (final) { progress.Percent = 100; _map.NotifyProgress(progress); }
     }
 
-    public void DestroyHS() => VisitFields(MapProgressType.Destroying, 10, 10, f => f.DestroyHS(), false);
+    public void DestroyHexSprite() => VisitFields(MapProgressType.Destroying, 10, 10, f => f.DestroyHexSprite(), false);
     public void UpdateTerrain() => VisitFields(MapProgressType.UpdatingTerrain, 5, 20, f => f.Initialize(), true);
     public void Loaded() => VisitFields(MapProgressType.Initializing, 5, 20, f => f.Loaded(), true);
     public void Activate() => VisitFields(MapProgressType.Activating, 5, 20, f => f.Activate(), true);

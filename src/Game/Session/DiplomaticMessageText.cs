@@ -11,37 +11,37 @@ namespace Aow.Game.Session;
 public sealed class DiplomaticMessageText(TextControl textControl, int alignment, string sourceRace, string targetRace, string otherRace, StringCollection text)
 {
     // Text Number of the alignment row, the source's races first.
-    public void Proposing(int Number, bool AboutOther = false)
+    public void Proposing(int number, bool aboutOther = false)
     {
-        textControl.RetrieveText(alignment + Number, text);
-        text.Text = AboutOther
+        textControl.RetrieveText(alignment + number, text);
+        text.Text = aboutOther
             ? AbilityRules.Format(text.Text, [sourceRace, targetRace, otherRace])
             : AbilityRules.Format(text.Text, [sourceRace, targetRace]);
     }
 
     // Text Number of the alignment row, the target's races first.
-    public void Replying(int Number, bool AboutOther = false)
+    public void Replying(int number, bool aboutOther = false)
     {
-        textControl.RetrieveText(alignment + Number, text);
-        text.Text = AboutOther
+        textControl.RetrieveText(alignment + number, text);
+        text.Text = aboutOther
             ? AbilityRules.Format(text.Text, [targetRace, sourceRace, otherRace])
             : AbilityRules.Format(text.Text, [targetRace, sourceRace]);
     }
 
     // The proposal's text while unanswered, the reply's once accepted or rejected, none once ignored.
-    public void Exchange(DiplomaticActionReaction Reaction, int Proposed, int Accepted, int Rejected, bool AboutOther = false)
+    public void Exchange(DiplomaticActionReaction reaction, int proposed, int accepted, int rejected, bool aboutOther = false)
     {
-        if (Reaction == DiplomaticActionReaction.None)
+        if (reaction == DiplomaticActionReaction.None)
         {
-            Proposing(Proposed, AboutOther);
+            Proposing(proposed, aboutOther);
         }
-        else if (Reaction == DiplomaticActionReaction.Accept)
+        else if (reaction == DiplomaticActionReaction.Accept)
         {
-            Replying(Accepted, AboutOther);
+            Replying(accepted, aboutOther);
         }
-        else if (Reaction == DiplomaticActionReaction.Reject)
+        else if (reaction == DiplomaticActionReaction.Reject)
         {
-            Replying(Rejected, AboutOther);
+            Replying(rejected, aboutOther);
         }
     }
 }

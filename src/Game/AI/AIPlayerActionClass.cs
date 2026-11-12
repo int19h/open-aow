@@ -9,29 +9,29 @@ namespace Aow.Game.AI;
 // One explicit registration per action class keeps descriptor identity in the game lists.
 public sealed class AIPlayerActionClass
 {
-    private static readonly Catalog<Type, AIPlayerActionClass> catalog = new("AI player action class");
-    private readonly Func<int> priority;
+    private static readonly Catalog<Type, AIPlayerActionClass> s_catalog = new("AI player action class");
+    private readonly Func<int> _priority;
 
-    private AIPlayerActionClass(EngineClass eclass, Func<int> priority, Set<AIPlayerProcessPhase> supportedPhases)
+    private AIPlayerActionClass(EngineClass engineClass, Func<int> priority, Set<AIPlayerProcessPhase> supportedPhases)
     {
-        Class = eclass;
-        this.priority = priority;
+        Class = engineClass;
+        this._priority = priority;
         SupportedPhases = supportedPhases;
     }
 
     public EngineClass Class { get; }
-    public string ClassName => Class.ClassName;
+    public string StorageKey => Class.StorageKey;
     // Abstract base actions register without invoking their abstract priority getter.
-    public int Priority => priority();
+    public int Priority => _priority();
     public Set<AIPlayerProcessPhase> SupportedPhases { get; }
 
-    public AIPlayerAction Create(ECustomNode AOwner) => (AIPlayerAction)Class.Create(AOwner);
+    public AIPlayerAction CreateInstance(ECustomNode owner) => (AIPlayerAction)Class.CreateInstance(owner);
 
     public static AIPlayerActionClass Register<T>() where T : AIPlayerAction, IAIPlayerActionClass =>
-        catalog.Add(typeof(T), new AIPlayerActionClass(EngineClass.Of<T>(), static () => T.Priority, T.SupportedPhases));
+        s_catalog.Add(typeof(T), new AIPlayerActionClass(EngineClass.Of<T>(), static () => T.Priority, T.SupportedPhases));
 
-    public static AIPlayerActionClass Of<T>() where T : AIPlayerAction, IAIPlayerActionClass => catalog[typeof(T)];
-    public static AIPlayerActionClass Of(Type type) => catalog[type];
+    public static AIPlayerActionClass Of<T>() where T : AIPlayerAction, IAIPlayerActionClass => s_catalog[typeof(T)];
+    public static AIPlayerActionClass Of(Type type) => s_catalog[type];
 
-    public static IReadOnlyList<AIPlayerActionClass> All => catalog.All;
+    public static IReadOnlyList<AIPlayerActionClass> All => s_catalog.All;
 }
