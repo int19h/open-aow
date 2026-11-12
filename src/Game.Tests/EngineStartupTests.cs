@@ -86,7 +86,7 @@ public sealed class EngineStartupTests
         ConvertedDictionaryFields.Contains((field.DeclaringType?.FullName ?? "") + "." + MemberNames.Of(field));
 
     [Fact]
-    public async Task RealStartupSideEffectsStateAndFourFailuresMatchBaseCommit()
+    public async Task RealStartupSideEffectsStateAndThreeFailuresMatchBaseCommit()
     {
         // The base recording starts in a fresh process. Earlier tests populate lazy class caches.
         if (Environment.GetEnvironmentVariable("AOW_ENGINE_STARTUP_ISOLATED") is null)
@@ -106,7 +106,7 @@ public sealed class EngineStartupTests
             return;
         }
         var actual = new JsonObject();
-        foreach (string route in new[] { "AoW", "HS", "Engine", "debug", "dictionary", "images", "plugin" })
+        foreach (string route in new[] { "AoW", "HS", "Engine", "debug", "dictionary", "images" })
         {
             using var fixture = new EngineFixture.RecordingHost(route);
             Runtime.InstallHost(fixture);

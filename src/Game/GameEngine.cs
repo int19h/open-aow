@@ -910,64 +910,6 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         engine.RegisterEngineClasses([EngineClass.Of<UnitSpellTokenEvent>(), EngineClass.Of<UnitSpellCombatAction>()]);
     }
 
-    private static void LoadExternalPlugIns(string Directory)
-    {
-        string Dir;
-        void LoadFrom(string directory)
-        {
-            SearchRec sr = default;
-            StringList directories;
-            bool found;
-            int H = default;
-            found = FindFirst(directory + "*.DPL", 63 - 16, ref sr) == 0;
-            while (found)
-            {
-                try
-                {
-                    /* TODO: Implement the native Delphi package loader. */
-                    throw new NotImplementedException();
-                    EngineHost.Packages.AddObject(directory + sr.Name, IntToObject(H));
-                }
-                catch
-                {
-                    throw new IOException("Unable to load PlugIn: " + directory + sr.Name);
-                }
-
-                found = FindNext(ref sr) == 0;
-            }
-
-            FindClose(ref sr);
-            directories = new StringList();
-            found = FindFirst(directory + "*.*", 16, ref sr) == 0;
-            while (found)
-            {
-                if ((sr.Attr & 16) != 0 && sr.Name != "." && sr.Name != "..")
-                {
-                    directories.Add(directory + sr.Name + "\\");
-                }
-
-                found = FindNext(ref sr) == 0;
-            }
-
-            FindClose(ref sr);
-            for (int I = 0, last = directories.Count - 1; I <= last; I++)
-            {
-                LoadFrom(directories[I]);
-            }
-
-            directories?.Dispose();
-        }
-
-        Dir = ExpandFileName(Directory);
-        // { the original tests the character of Directory, not of Dir }
-        if (!IsEmpty(Dir) && Directory[Dir.Length - 1] != 92)
-        {
-            Dir = Dir + "\\";
-        }
-
-        LoadFrom(Dir);
-    }
-
     internal static void StringFromStream(ref string S, Stream stream)
     {
         int length = default;

@@ -192,7 +192,7 @@ rules code with editor dialogs. It was reviewed against `doc/modules.md` and the
 | sound, editor | SFXEdDlg, SpinEdit | 300 | drop |
 | graphics | GFXE, GFXDiag, DisplayC | 16,100 | transpile the Pascal surface, clipping, palette and blend table code of GFXE and the display control's loop of DisplayC; rewrite the 28 assembler blitters; replace the DIB and DirectDraw surfaces with memory surfaces of the same names and the eight display controllers with one SDL presenter; drop GFXDiag and the DirectDraw binding. `specs/graphics.md` |
 | zoom display | Adcpack | 400 | drop: nothing in the game or the editor imports it |
-| ability plug-in | AbilityP (AbilPack) | 500 | drop: a `Plugin` (Delphi `TPlugIn`) package that only `LoadExternalPlugIns` could load from a `PLUGINS` directory, which the shipped game does not have; neither executable loads it statically (`data/initialization-order.json`) |
+| ability plug-in | AbilityP (AbilPack) | 500 | drop: a `Plugin` (Delphi `TPlugIn`) package that only `LoadExternalPlugIns` could load from a `PLUGINS` directory, which the shipped game does not have; neither executable loads it statically (`data/initialization-order.json`). The port has no Delphi package loader (#199), and external plug-ins wait for the mod specification |
 | effects | aowFX | 300 | transpile (pure particle code) |
 | network, protocol | NetworkE | 1,800 | transpile (token protocol on `EngineObject`) |
 | network, transport | aowDPlay | 2,100 | rewrite on sockets |

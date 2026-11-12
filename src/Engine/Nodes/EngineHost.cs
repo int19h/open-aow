@@ -9,29 +9,6 @@ namespace Aow.Engine.Nodes;
 
 public static class EngineHost
 {
-    internal static void UnloadExternalPlugIns()
-    {
-        string S;
-        for (int I = Packages.Count - 1; I >= 0; I--)
-        {
-            try
-            {
-                S = Packages[I];
-                // { the original hands the name, not the handle in Objects, to UnloadPackage }
-                /* TODO: Implement the native Delphi package loader. */
-                throw new NotImplementedException();
-                Packages.Delete(I);
-            }
-            catch
-            {
-                S = "Could not release PlugIn: " + Packages[I];
-                throw new InvalidOperationException(S);
-            }
-        }
-
-        Packages.Clear();
-    }
-
     internal static void ReleaseCrc32Table()
     {
         Crc32Table = [];
@@ -43,8 +20,6 @@ public static class EngineHost
 
     public static List<Plugin> Plugins { get; set; }
 
-    public static StringList Packages { get; set; }
-
     internal static int[] Crc32Table { get; set; } = [];
 
     internal static void Initialize()
@@ -53,14 +28,11 @@ public static class EngineHost
         VerifyEngineObjectEnabled = true;
         Engines = new List<GameEngine>();
         Plugins = new List<Plugin>();
-        Packages = new StringList();
     }
 
     internal static void Finalize()
     {
         ReleaseCrc32Table();
-        UnloadExternalPlugIns();
-        Packages?.Dispose();
         Engines?.Clear();
         Plugins?.Clear();
     }
