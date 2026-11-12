@@ -8,7 +8,7 @@ public partial class AIGroupUnitProductionList : EReferenceNode, IChildList<AIGr
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroupUnitProduction, so the cast never fails.
-    public AIGroupUnitProduction this[int index] => (AIGroupUnitProduction)_children.List[index];
+    public AIGroupUnitProduction this[int index] => (AIGroupUnitProduction)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroupUnitProduction;
 
@@ -18,7 +18,7 @@ public partial class AIGroupUnitProductionList : EReferenceNode, IChildList<AIGr
     { }
 
     // AIGroup.pas:2435
-    public AIGroupUnitProduction GetUnitProductions(int index) => (AIGroupUnitProduction)_children.EObjects[index];
+    public AIGroupUnitProduction GetUnitProductions(int index) => (AIGroupUnitProduction)GetChildInRange(index);
 
     // Engine.pas:631
 

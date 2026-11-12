@@ -11,7 +11,7 @@ public partial class CombatPartyList : ENode, IChildList<CombatParty>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatParty, so the cast never fails.
-    public CombatParty this[int index] => (CombatParty)_children.List[index];
+    public CombatParty this[int index] => (CombatParty)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is CombatParty;
 
@@ -58,7 +58,7 @@ public partial class CombatPartyList : ENode, IChildList<CombatParty>
     public CombatParty GetParty(byte position)
     {
         CombatParty result;
-        if (position < _children.Count)
+        if (position < Count)
         {
             result = this[position];
         }
@@ -73,9 +73,9 @@ public partial class CombatPartyList : ENode, IChildList<CombatParty>
     // Combat2.pas:99
     public void Activate(Battle combat)
     {
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if (_children.List[I] != null)
+            if (GetChild(I) != null)
             {
                 this[I].Activate(combat);
             }
@@ -85,9 +85,9 @@ public partial class CombatPartyList : ENode, IChildList<CombatParty>
     // Combat2.pas:107
     public void Deactivate(Battle combat)
     {
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if (_children.List[I] != null)
+            if (GetChild(I) != null)
             {
                 this[I].Deactivate(combat);
             }

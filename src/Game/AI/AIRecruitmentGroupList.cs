@@ -12,7 +12,7 @@ public partial class AIRecruitmentGroupList : EReferenceNode, IChildList<AIRecru
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIRecruitmentGroup, so the cast never fails.
-    public AIRecruitmentGroup this[int index] => (AIRecruitmentGroup)_children.List[index];
+    public AIRecruitmentGroup this[int index] => (AIRecruitmentGroup)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIRecruitmentGroup;
 
@@ -24,14 +24,14 @@ public partial class AIRecruitmentGroupList : EReferenceNode, IChildList<AIRecru
     // AIGroup.pas:800
     public AIRecruitmentGroup GetRecruitmentGroups(int index)
     {
-        Assert(index >= 0 && index < _children.Count, "", "AIGroup.pas", 802);
+        Assert(index >= 0 && index < Count, "", "AIGroup.pas", 802);
         return this[index];
     }
 
     // AIGroup.pas:811
     public void SortOnMovePoints()
     {
-        _children.Sort(CompareAIRecruitmentGroupMovePoints);
+        SortChildren(CompareAIRecruitmentGroupMovePoints);
     }
 
     // AIGroup.pas:816

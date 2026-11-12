@@ -113,6 +113,8 @@ internal static class LegacyRoots
         typeof(FireControl),
         typeof(Canvas),
         typeof(DelphiList),
+        // A DelphiList until issue 158 typed the node's child slots.
+        typeof(EngineObjectList),
         typeof(Filer),
         typeof(GDConnection),
         typeof(GDFile),

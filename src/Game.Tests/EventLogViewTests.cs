@@ -299,7 +299,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             if (joins is bool joinsLocal)
             {
                 var army = new ArmyHexSprite(_field);
-                army.Army._children.Add(new JoiningHero(joinsLocal));
+                army.Army.AddChild(new JoiningHero(joinsLocal));
                 Assert.Same(army, _field.FindOwnedChild(ArmyHexSprite.ClassId));
             }
         }
@@ -309,8 +309,8 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             var info = (ArmyInfoEventLog)log;
             if (info.ArmyView.GetCount() == 0)
             {
-                info.ArmyView._children.Add(new Unit(null!));
-                info.ArmyView._children.Add(new JoiningHero(false));
+                info.ArmyView.AddChild(new Unit(null!));
+                info.ArmyView.AddChild(new JoiningHero(false));
             }
             info.Selection = selection;
         }

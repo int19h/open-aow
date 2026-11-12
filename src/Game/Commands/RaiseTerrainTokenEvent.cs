@@ -37,7 +37,7 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
     // Mountain.pas:261
     public void RaiseTerrain(Troop caster)
     {
-        DelphiList resources = default;
+        MapObjectResourceList resources = default;
         MapLevel level = default;
         HexNumberWalkData walk = default;
         AoWMapField field = default;
@@ -46,7 +46,7 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
         int I = default;
         bool found = default;
         ImageSequenceAnimation animation = default;
-        resources = AoWHSSet.Current.MapObjectResourceList._children;
+        resources = AoWHSSet.Current.MapObjectResourceList;
         level = AoWHSMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, Location.X, Location.Y, 0);
         while (walk.Radius <= 1)
@@ -62,7 +62,7 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
                     while (!found && I != 0)
                     {
                         I -= 1;
-                        resource = (MapObjectResource)resources.List[I];
+                        resource = resources[I];
                         found = resource.EngineClass.ClassId == 131435 && resource.TerrainList.UsedTerrain() == 1;
                     }
 

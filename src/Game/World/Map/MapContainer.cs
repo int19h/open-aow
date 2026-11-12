@@ -13,7 +13,7 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<HSMap>, 
 {
     // The level in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a level, so the cast never fails.
-    public MapLevel this[int index] => (MapLevel)_children.List[index];
+    public MapLevel this[int index] => (MapLevel)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is MapLevel;
 
@@ -116,7 +116,7 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<HSMap>, 
     // HSEngine.pas:3249
     public virtual void RemoveLevel(int index)
     {
-        if (index >= 0 && index < _children.Count)
+        if (index >= 0 && index < Count)
         {
             this[index].DestroyHexSprite();
             this[index]?.Dispose();

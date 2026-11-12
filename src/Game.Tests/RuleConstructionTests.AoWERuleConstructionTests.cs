@@ -310,7 +310,7 @@ public sealed partial class RuleConstructionTests
             Assert.NotNull(value.MoveControlSettings.Path);
             Assert.NotNull(value.MoveControlSettings.SubMoves);
             Assert.NotNull(value.MoveControlSettings.Units);
-            Assert.Equal(0, value.MoveSettingsList._children.Count);
+            Assert.Equal(0, value.MoveSettingsList.Count);
             Assert.Equal(-1, value.CurrentMove);
         }
         finally { value.Dispose(); }

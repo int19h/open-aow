@@ -11,7 +11,7 @@ public partial class SfxSequence : ENode, IChildList<Sfx>
 {
     // The sound effect in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Sfx, so the cast never fails.
-    public Sfx this[int index] => (Sfx)this._children.List[index];
+    public Sfx this[int index] => (Sfx)this.GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is Sfx;
 
@@ -38,9 +38,9 @@ public partial class SfxSequence : ENode, IChildList<Sfx>
     public Sample Play()
     {
         Sample result;
-        if (this._children.Count != 0)
+        if (this.Count != 0)
         {
-            var random = Random(this._children.Count);
+            var random = Random(this.Count);
             result = this[random].Play();
         }
         else
@@ -55,9 +55,9 @@ public partial class SfxSequence : ENode, IChildList<Sfx>
     public Sample Play(int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback)
     {
         Sample result = default;
-        if (this._children.Count != 0)
+        if (this.Count != 0)
         {
-            var random = Random(this._children.Count);
+            var random = Random(this.Count);
             result = this[random].Play(volume, looped, delay, panning, callback);
         }
         else

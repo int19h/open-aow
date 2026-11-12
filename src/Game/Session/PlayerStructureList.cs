@@ -10,7 +10,7 @@ public partial class PlayerStructureList : EChangeNotifyEventList, IChildList<Pl
 {
     // The structure in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a structure, so the cast never fails.
-    public PlayerStructure this[int index] => (PlayerStructure)_children.List[index];
+    public PlayerStructure this[int index] => (PlayerStructure)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is PlayerStructure;
 

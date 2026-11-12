@@ -9,7 +9,7 @@ public partial class UnitProductionList : ENode, IChildList<UnitProduction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an UnitProduction, so the cast never fails.
-    public UnitProduction this[int index] => (UnitProduction)_children.List[index];
+    public UnitProduction this[int index] => (UnitProduction)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is UnitProduction;
 
@@ -61,7 +61,7 @@ public partial class UnitProductionList : ENode, IChildList<UnitProduction>
     // Structur.PAS:55
     public void SortOnLevel()
     {
-        _children.Sort(CompareUnitProductionLevel);
+        SortChildren(CompareUnitProductionLevel);
     }
 
     private static int CompareUnitProductionLevel(object item1, object item2)

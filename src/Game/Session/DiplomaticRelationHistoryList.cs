@@ -7,7 +7,7 @@ public partial class DiplomaticRelationHistoryList : ENode, IChildList<Diplomati
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a DiplomaticRelationHistoryItem, so the cast never fails.
-    public DiplomaticRelationHistoryItem this[int index] => (DiplomaticRelationHistoryItem)_children.List[index];
+    public DiplomaticRelationHistoryItem this[int index] => (DiplomaticRelationHistoryItem)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is DiplomaticRelationHistoryItem;
 
@@ -19,7 +19,7 @@ public partial class DiplomaticRelationHistoryList : ENode, IChildList<Diplomati
     { }
 
     // Player.PAS:45
-    public DiplomaticRelationHistoryItem GetItems(int index) => (DiplomaticRelationHistoryItem)_children.EObjects[index];
+    public DiplomaticRelationHistoryItem GetItems(int index) => (DiplomaticRelationHistoryItem)GetChildInRange(index);
 
     // Player.PAS:50
     public int GetLastModifiedOnDay()

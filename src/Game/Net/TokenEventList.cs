@@ -6,13 +6,13 @@ using Aow.Game.Commands;
 
 namespace Aow.Game.Net;
 
-// FList (stored with id 5), a reference node of token events
+// FList (stored with id 5), a reference list of token events
 public partial class TokenEventList : EngineObject
 {
     // NetworkE.pas:995
     public new const int ClassId = ClassIdTokenEventList;
 
-    internal EReferenceNode List { get; }
+    internal TokenEventReferenceList List { get; }
 
     // NetworkE.pas:1000
     public override void ReadWrite(EStorageStream stream)
@@ -24,7 +24,7 @@ public partial class TokenEventList : EngineObject
     // NetworkE.pas:982
     public TokenEventList(ECustomNode owner) : base(owner)
     {
-        List = new EReferenceNode(null);
+        List = new TokenEventReferenceList(null);
     }
 
     // NetworkE.pas:1046
@@ -55,7 +55,7 @@ public partial class TokenEventList : EngineObject
         while (result != 0)
         {
             result -= 1;
-            if (((TokenEvent)List._children.List[result])._tokenCounter == tokenCounter)
+            if (List[result]._tokenCounter == tokenCounter)
             {
                 return result;
             }
@@ -70,7 +70,7 @@ public partial class TokenEventList : EngineObject
         int C;
         int result = 0;
         C = List.Count;
-        while (result != C && ((EngineObject)List._children.List[result]).EngineClass.ClassId != classId)
+        while (result != C && List[result].EngineClass.ClassId != classId)
         {
             result += 1;
         }
@@ -84,7 +84,7 @@ public partial class TokenEventList : EngineObject
     }
 
     // NetworkE.pas:1036
-    public TokenEvent GetEvent(int index) => (TokenEvent)List._children.List[index];
+    public TokenEvent GetEvent(int index) => List[index];
 
     // NetworkE.pas:1041
     public int GetCount() => List.Count;
@@ -92,7 +92,7 @@ public partial class TokenEventList : EngineObject
     // NetworkE.pas:1056
     public void SortOnTokenCounter()
     {
-        List._children.Sort(CompareTokenCounter);
+        List.SortChildren(CompareTokenCounter);
     }
 
     // NetworkE.pas:1061

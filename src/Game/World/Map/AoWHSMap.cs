@@ -2710,18 +2710,18 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:3167
     public void PlaceTerrain(sbyte X, sbyte Y, sbyte L, sbyte terrainType, sbyte overlayType)
     {
-        EngineObjectList resources;
+        MapObjectResourceList resources;
         DelphiList candidates;
         MapObjectResource resource;
         RandSeed = Current.Random(16777215);
-        resources = AoWHSSet.Current.MapObjectResourceList._children;
+        resources = AoWHSSet.Current.MapObjectResourceList;
         if (!Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)overlayType))
         {
             candidates = new DelphiList();
             candidates.Clear();
             for (int I = 0, last = resources.Count - 1; I <= last; I++)
             {
-                resource = (MapObjectResource)resources.List[I];
+                resource = resources[I];
                 if (resource.EngineClass.ClassId == 131431 && resource.TerrainList.UsedTerrain() == 1 && resource.TerrainList.Terrain[0] == terrainType && resource.TerrainList.Overlay[0] == overlayType)
                 {
                     candidates.Add(resource);

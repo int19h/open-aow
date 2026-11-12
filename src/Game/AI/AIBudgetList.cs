@@ -7,7 +7,7 @@ public partial class AIBudgetList : ENode, IChildList<AIBudget>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIBudget, so the cast never fails.
-    public AIBudget this[int index] => (AIBudget)_children.List[index];
+    public AIBudget this[int index] => (AIBudget)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIBudget;
 

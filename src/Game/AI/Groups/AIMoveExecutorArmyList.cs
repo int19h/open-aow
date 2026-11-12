@@ -14,7 +14,7 @@ public partial class AIMoveExecutorArmyList : ENode, IChildList<AIMoveExecutorAr
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIMoveExecutorArmy, so the cast never fails.
-    public AIMoveExecutorArmy this[int index] => (AIMoveExecutorArmy)_children.List[index];
+    public AIMoveExecutorArmy this[int index] => (AIMoveExecutorArmy)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIMoveExecutorArmy;
 
@@ -106,7 +106,7 @@ public partial class AIMoveExecutorArmyList : ENode, IChildList<AIMoveExecutorAr
     // AIGroup.pas:4721
     public void SortOnMovePoints()
     {
-        _children.Sort(CompareExecutorArmies);
+        SortChildren(CompareExecutorArmies);
     }
 
     private static int CompareExecutorArmies(object item1, object item2)

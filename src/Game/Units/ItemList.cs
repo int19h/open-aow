@@ -15,9 +15,13 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an Item, so the cast never fails.
-    public Item this[int index] => (Item)_children.List[index];
+    public Item this[int index] => (Item)GetChild(index);
 
-    protected sealed override bool AcceptsChild(EngineObject child) => child is Item;
+    // An item list takes items only. A list of one kind of item narrows that through AcceptsItem,
+    // and cannot widen it.
+    protected sealed override bool AcceptsChild(EngineObject child) => child is Item item && AcceptsItem(item);
+
+    protected virtual bool AcceptsItem(Item item) => true;
 
     int IChildSink<Item>.AddChild(Item child) => AddChild(child);
 
@@ -36,9 +40,9 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
         base.MainReadWrite(stream);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
-            for (int I = 0, last = _children.Count - 1; I <= last; I++)
+            for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                if (_children.List[I] != null)
+                if (GetChild(I) != null)
                 {
                     this[I].Release();
                 }
@@ -52,7 +56,7 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
         EngineObject child;
         for (int I = Count - 1; I >= 0; I--)
         {
-            if (_children.List[I] != null)
+            if (GetChild(I) != null)
             {
                 child = this[I];
                 if (child != null)
@@ -60,7 +64,7 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
                     if (child.Owner != this)
                     {
                         child.Release();
-                        _children.Delete(I);
+                        DeleteChildAt(I);
                     }
                     else
                     {
@@ -148,7 +152,7 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
         {
             I = 0;
             result = null;
-            while (I != _children.Count && result == null)
+            while (I != Count && result == null)
             {
                 item = this[I];
                 if (item != null && itemId == item.ItemId)
@@ -176,20 +180,20 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
     // Army.PAS:4609
     public void SortOnName()
     {
-        _children.SortStable(CompareItemNames);
+        SortChildrenStable(CompareItemNames);
     }
 
     // Army.PAS:4619
     public void SortOnType()
     {
-        _children.SortStable(CompareItemTypes);
+        SortChildrenStable(CompareItemTypes);
     }
 
     // Army.PAS:4622
     public void RegisterItems()
     {
         Item item;
-        for (int I = _children.Count - 1; I >= 0; I--)
+        for (int I = Count - 1; I >= 0; I--)
         {
             item = this[I];
             if (item != null && !item.Status.Contains(ItemStatusElement.Registered))

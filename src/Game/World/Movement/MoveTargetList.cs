@@ -12,7 +12,7 @@ public partial class MoveTargetList : EReferenceNode, IChildList<MoveTarget>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a MoveTarget, so the cast never fails.
-    public MoveTarget this[int index] => (MoveTarget)_children.List[index];
+    public MoveTarget this[int index] => (MoveTarget)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is MoveTarget;
 
@@ -56,7 +56,7 @@ public partial class MoveTargetList : EReferenceNode, IChildList<MoveTarget>
     // AIGroup.pas:4275
     public void SortOnMovePoints()
     {
-        _children.Sort(CompareMoveTargets);
+        SortChildren(CompareMoveTargets);
     }
 
     private static int CompareMoveTargets(object item1, object item2)

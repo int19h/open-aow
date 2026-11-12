@@ -149,7 +149,7 @@ public partial class HeroControl : EngineObject
     public Hero FindId(int id) => _heroes.FindHero(id);
 
     // Hero.PAS:2467
-    public int IndexOf(Hero hero) => _heroes._children.IndexOf(hero);
+    public int IndexOf(Hero hero) => _heroes.IndexOfChild(hero);
 
     // Hero.PAS:2470
     public int IndexOfLibrary(string libraryName, int libraryId)
@@ -264,7 +264,7 @@ public partial class HeroControl : EngineObject
         Hero hero;
         int result = 0;
         count = 0;
-        for (int I = _heroes._children.Count - 1; I >= 0; I--)
+        for (int I = _heroes.Count - 1; I >= 0; I--)
         {
             hero = _heroes[I];
             if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0)
@@ -291,7 +291,7 @@ public partial class HeroControl : EngineObject
     {
         Hero hero;
         int result = 30;
-        for (int I = _heroes._children.Count - 1; I >= 0; I--)
+        for (int I = _heroes.Count - 1; I >= 0; I--)
         {
             hero = _heroes[I];
             if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && result > hero.GetLevel())
@@ -307,7 +307,7 @@ public partial class HeroControl : EngineObject
     public void ListDeadHeroes(HeroList list)
     {
         Hero hero;
-        for (int I = _heroes._children.Count - 1; I >= 0; I--)
+        for (int I = _heroes.Count - 1; I >= 0; I--)
         {
             hero = _heroes[I];
             if (hero.HeroStatus.Contains(HeroStatusElement.Died))

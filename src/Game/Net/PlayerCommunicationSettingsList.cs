@@ -8,7 +8,7 @@ public partial class PlayerCommunicationSettingsList : ENode, IChildList<PlayerC
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a PlayerCommunicationSettings, so the cast never fails.
-    public PlayerCommunicationSettings this[int index] => (PlayerCommunicationSettings)_children.List[index];
+    public PlayerCommunicationSettings this[int index] => (PlayerCommunicationSettings)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is PlayerCommunicationSettings;
 

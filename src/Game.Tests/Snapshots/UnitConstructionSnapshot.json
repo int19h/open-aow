@@ -341,8 +341,8 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
@@ -367,8 +367,8 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList.items"
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList\u00601.items"
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
@@ -452,8 +452,8 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
@@ -478,8 +478,8 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList.items"
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList\u00601.items"
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
@@ -563,8 +563,8 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
@@ -589,8 +589,8 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList.items"
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList\u00601.items"
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
@@ -678,8 +678,8 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
@@ -704,8 +704,8 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList.items"
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList\u00601.items"
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
@@ -797,8 +797,8 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
@@ -823,8 +823,8 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList.items"
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList\u00601.items"
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
@@ -916,8 +916,8 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,
@@ -942,8 +942,8 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList.items"
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": "$ref:$.Hero.HeroItems.EChangeNotifyNode._children.DelphiList\u00601.items"
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null,

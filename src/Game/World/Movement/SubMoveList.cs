@@ -7,7 +7,7 @@ public partial class SubMoveList : ENode, IChildList<PathFindingStep>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a PathFindingStep, so the cast never fails.
-    public PathFindingStep this[int index] => (PathFindingStep)_children.List[index];
+    public PathFindingStep this[int index] => (PathFindingStep)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is PathFindingStep;
 
@@ -23,7 +23,7 @@ public partial class SubMoveList : ENode, IChildList<PathFindingStep>
     public int DeleteMapCoordinate(int location)
     {
         int result = 0;
-        for (int I = _children.Count - 1; I >= 0; I--)
+        for (int I = Count - 1; I >= 0; I--)
         {
             if (location == this[I].Location.Packed)
             {
@@ -44,7 +44,7 @@ public partial class SubMoveList : ENode, IChildList<PathFindingStep>
     // MoveT.PAS:62
     public int IndexOfMapCoordinate(int location)
     {
-        int result = _children.Count;
+        int result = Count;
         while (result != 0)
         {
             result -= 1;

@@ -7,7 +7,7 @@ public partial class EnchantmentList : ENode, IChildList<Enchantment>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an Enchantment, so the cast never fails.
-    public Enchantment this[int index] => (Enchantment)_children.List[index];
+    public Enchantment this[int index] => (Enchantment)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is Enchantment;
 

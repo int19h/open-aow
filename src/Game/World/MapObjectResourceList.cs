@@ -11,7 +11,7 @@ public partial class MapObjectResourceList : EResourceList, IChildList<MapObject
 {
     // The map object resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a MapObjectResource, so the cast never fails.
-    public new MapObjectResource this[int index] => (MapObjectResource)_children.List[index];
+    public new MapObjectResource this[int index] => (MapObjectResource)GetChild(index);
 
     protected sealed override bool AcceptsResource(EngineResource resource) => resource is MapObjectResource;
 
@@ -32,7 +32,7 @@ public partial class MapObjectResourceList : EResourceList, IChildList<MapObject
         // { Preserve the original stack locals. }
         bool result = false;
         I = 0;
-        int last = _children.Count - 1;
+        int last = Count - 1;
         for (; I <= last; I += 1)
         {
             R = this[I];

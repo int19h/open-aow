@@ -2463,7 +2463,7 @@ public partial class City : PlayerCropStructure
             }
 
             s_sortingCity = this;
-            Production.UnitProductions._children.Sort(CompareCityProductions);
+            Production.UnitProductions.SortChildren(CompareCityProductions);
         }
     }
 

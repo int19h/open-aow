@@ -152,9 +152,9 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     public override void Clear()
     {
         Troop transporter;
-        while (_children.Count != 0)
+        while (Count != 0)
         {
-            DeleteUnit((Troop)_children.List[_children.Count - 1]);
+            DeleteUnit(this[Count - 1]);
         }
 
         transporter = Transporter;
@@ -263,16 +263,16 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
                 while (I != 0 && Leader == null)
                 {
                     I -= 1;
-                    ((Troop)_children.List[I]).GetLocation(ref x2, ref y2, ref l2);
+                    this[I].GetLocation(ref x2, ref y2, ref l2);
                     if (x1 == x2 && y1 == y2 && l1 == l2)
                     {
-                        SetLeader((Troop)_children.List[I]);
+                        SetLeader(this[I]);
                     }
                 }
 
                 if (Leader == null && Count != 0)
                 {
-                    SetLeader((Troop)_children.List[0]);
+                    SetLeader(this[0]);
                 }
             }
 

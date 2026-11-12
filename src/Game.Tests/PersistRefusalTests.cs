@@ -575,6 +575,7 @@ public sealed class PersistRefusalTests
         "TextControlItem",
         "TextEventLog",
         "TokenEventList",
+        "TokenEventReferenceList",
         "TokenPackage",
         "Tornado",
         "TornadoTokenEvent",

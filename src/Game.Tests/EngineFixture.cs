@@ -147,6 +147,116 @@ public sealed partial class EngineFixture : IDisposable
         public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
     }
 
+    // Issue 158 part 3: a troop takes a unit list, an item an item list, and the children of a
+    // reference list, an event log and a player take their list.
+    internal sealed class UnitsOwner(Owner recorder) : Units.UnitList(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    internal sealed class ItemsOwner(Owner recorder) : Units.ItemList(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    internal sealed class RecruitmentGroupsOwner(Owner recorder) : AI.AIRecruitmentGroupList(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    internal sealed class ControlTargetsOwner(Owner recorder) : AI.Groups.AIGroupControlTargetList(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    internal sealed class ProductionLocationsOwner(Owner recorder) : AI.Groups.AIGroupProductionLocationList(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    internal sealed class UnitProductionsOwner(Owner recorder) : AI.Groups.AIGroupUnitProductionList(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    internal sealed class CombatActionsOwner(Owner recorder) : Combat.CombatActionList(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    internal sealed class TokenEventsOwner(Owner recorder) : Net.TokenEventReferenceList(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    internal sealed class DiplomaticActionsOwner(Owner recorder) : Session.DiplomaticActionList(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    internal sealed class MoveTargetsOwner(Owner recorder) : World.Movement.MoveTargetList(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    internal sealed class EventLogsOwner(Owner recorder) : Events.EventLogList(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    internal sealed class PlayersOwner(Owner recorder) : Session.PlayerList(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
     // A map makes its selection and visibility lists in its constructor. They stay its own
     // children, and forwarding starts once the map is built.
     internal sealed class MapOwner : HSMap, IForwarder
@@ -175,6 +285,18 @@ public sealed partial class EngineFixture : IDisposable
         : typeof(MapContainer).IsAssignableFrom(type) || typeof(VisibilityList).IsAssignableFrom(type) || typeof(HexSpriteSelection).IsAssignableFrom(type) ? new MapOwner(recorder)
         : typeof(Session.Race).IsAssignableFrom(type) ? new RaceListOwner(recorder)
         : typeof(World.Structures.ProductionItem).IsAssignableFrom(type) ? new QueueOwner(recorder)
+        : typeof(Magic.Abilities.Troop).IsAssignableFrom(type) ? new UnitsOwner(recorder)
+        : typeof(Magic.Abilities.Item).IsAssignableFrom(type) ? new ItemsOwner(recorder)
+        : typeof(AI.AIRecruitmentGroup).IsAssignableFrom(type) ? new RecruitmentGroupsOwner(recorder)
+        : typeof(AI.Groups.AIGroupControlTarget).IsAssignableFrom(type) ? new ControlTargetsOwner(recorder)
+        : typeof(AI.Groups.AIGroupProductionLocation).IsAssignableFrom(type) ? new ProductionLocationsOwner(recorder)
+        : typeof(AI.Groups.AIGroupUnitProduction).IsAssignableFrom(type) ? new UnitProductionsOwner(recorder)
+        : typeof(Combat.Actions.CombatAction).IsAssignableFrom(type) ? new CombatActionsOwner(recorder)
+        : typeof(Commands.TokenEvent).IsAssignableFrom(type) ? new TokenEventsOwner(recorder)
+        : typeof(Session.DiplomaticAction).IsAssignableFrom(type) ? new DiplomaticActionsOwner(recorder)
+        : typeof(World.Movement.MoveTarget).IsAssignableFrom(type) ? new MoveTargetsOwner(recorder)
+        : typeof(Events.EventLog).IsAssignableFrom(type) ? new EventLogsOwner(recorder)
+        : typeof(Session.Player).IsAssignableFrom(type) ? new PlayersOwner(recorder)
         : recorder;
 
     // Whether the owner is the recorder or an owner that forwards to it.

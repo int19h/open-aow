@@ -7,7 +7,7 @@ public partial class WMCampaignScenarioPageList : ENode, IChildList<CampaignScen
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CampaignScenarioPage, so the cast never fails.
-    public CampaignScenarioPage this[int index] => (CampaignScenarioPage)_children.List[index];
+    public CampaignScenarioPage this[int index] => (CampaignScenarioPage)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is CampaignScenarioPage;
 

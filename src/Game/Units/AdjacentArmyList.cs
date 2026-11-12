@@ -12,7 +12,7 @@ public partial class AdjacentArmyList : ENode, IChildList<AdjacentArmy>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AdjacentArmy, so the cast never fails.
-    public AdjacentArmy this[int index] => (AdjacentArmy)_children.List[index];
+    public AdjacentArmy this[int index] => (AdjacentArmy)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AdjacentArmy;
 

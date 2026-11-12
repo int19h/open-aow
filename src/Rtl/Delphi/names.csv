@@ -2199,6 +2199,7 @@ type,TmsMessage,Aow.Game.Net.MailMessage
 type,TmsMessageHeader,Aow.Game.Net.MailHeader
 type,TmsSMTP,Aow.Game.Net.SmtpSender
 type,TokenControlsAccessor,Aow.Game.Net.TokenManager.TokenControlsAccessor
+type,TokenEventReferenceList,Aow.Game.Net.TokenEventReferenceList
 type,Trade,Aow.Game.World.Structures.Trade
 type,TranslationTarget,Aow.Rtl.Localize.TranslationTarget
 type,TranslatorProperties,Aow.Rtl.Localize.TranslatorProperties

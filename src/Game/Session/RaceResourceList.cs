@@ -9,7 +9,7 @@ public partial class RaceResourceList : EResourceList, IChildList<RaceResource>
 {
     // The race resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a RaceResource, so the cast never fails.
-    public new RaceResource this[int index] => (RaceResource)_children.List[index];
+    public new RaceResource this[int index] => (RaceResource)GetChild(index);
 
     protected sealed override bool AcceptsResource(EngineResource resource) => resource is RaceResource;
 
@@ -41,7 +41,7 @@ public partial class RaceResourceList : EResourceList, IChildList<RaceResource>
     public int GetMaxRaceIndex()
     {
         int result = Count - 1;
-        while (result > 0 && _children.List[result] == null)
+        while (result > 0 && GetChild(result) == null)
         {
             result -= 1;
         }

@@ -12,7 +12,7 @@ public partial class MoveSettingsList : ENode, IChildList<MoveSettings>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a MoveSettings, so the cast never fails.
-    public MoveSettings this[int index] => (MoveSettings)_children.List[index];
+    public MoveSettings this[int index] => (MoveSettings)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is MoveSettings;
 

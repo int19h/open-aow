@@ -14,7 +14,7 @@ public partial class SetupSettings : ENode, IChildList<PlayerSetupSettings>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a PlayerSetupSettings, so the cast never fails.
-    public PlayerSetupSettings this[int index] => (PlayerSetupSettings)_children.List[index];
+    public PlayerSetupSettings this[int index] => (PlayerSetupSettings)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is PlayerSetupSettings;
 
@@ -134,7 +134,7 @@ public partial class SetupSettings : ENode, IChildList<PlayerSetupSettings>
     public PlayerSetupSettings GetSettings(int index)
     {
         PlayerSetupSettings result;
-        if (index >= 0 && index < _children.Count)
+        if (index >= 0 && index < Count)
         {
             result = this[index];
         }
@@ -152,7 +152,7 @@ public partial class SetupSettings : ENode, IChildList<PlayerSetupSettings>
         int I;
         int result = -1;
         I = 0;
-        while (result == -1 && I != _children.Count)
+        while (result == -1 && I != Count)
         {
             if (this[I].PlayerId == player)
             {
@@ -171,7 +171,7 @@ public partial class SetupSettings : ENode, IChildList<PlayerSetupSettings>
         int I;
         int result = -1;
         I = 0;
-        while (result == -1 && I != _children.Count)
+        while (result == -1 && I != Count)
         {
             if (this[I].Behavior.Flags == remoteId)
             {
@@ -190,7 +190,7 @@ public partial class SetupSettings : ENode, IChildList<PlayerSetupSettings>
         int I;
         int result = -1;
         I = 0;
-        while (result == -1 && I != _children.Count)
+        while (result == -1 && I != Count)
         {
             if (race == (byte)this[I].Race)
             {

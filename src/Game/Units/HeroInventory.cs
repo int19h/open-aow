@@ -31,9 +31,9 @@ public partial class HeroInventory : ItemList
     public int GetFreeSlot()
     {
         int result = 0;
-        while (result < _children.Count && result != 8)
+        while (result < Count && result != 8)
         {
-            if (_children.List[result] == null)
+            if (GetChild(result) == null)
             {
                 return result;
             }

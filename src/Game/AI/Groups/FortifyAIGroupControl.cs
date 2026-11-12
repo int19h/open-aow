@@ -648,7 +648,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
             units = new UnitUserList(null);
             passive = new UnitUserList(null);
             units.AddUnits(Group);
-            units._children.Sort(CompareFortifyUnits);
+            units.SortChildren(CompareFortifyUnits);
             I = units.Count;
             while (I != 0 && excess > 0)
             {

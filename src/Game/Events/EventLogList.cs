@@ -11,7 +11,7 @@ public partial class EventLogList : ENode, IChildList<EventLog>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an EventLog, so the cast never fails.
-    public EventLog this[int index] => (EventLog)_children.List[index];
+    public EventLog this[int index] => (EventLog)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is EventLog;
 
@@ -37,7 +37,7 @@ public partial class EventLogList : ENode, IChildList<EventLog>
         {
             if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Compare, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
-                for (int I = 0, last = _children.Count - 1; I <= last; I++)
+                for (int I = 0, last = Count - 1; I <= last; I++)
                 {
                     this[I].Release();
                 }
@@ -55,7 +55,7 @@ public partial class EventLogList : ENode, IChildList<EventLog>
             this[I].Release();
         }
 
-        _children.Clear();
+        ClearChildren();
     }
 
     // EventLog.pas:478
@@ -67,7 +67,7 @@ public partial class EventLogList : ENode, IChildList<EventLog>
     // EventLog.pas:464
     public override int RemoveChild(EngineObject child)
     {
-        int result = _children.Remove(child);
+        int result = DropChild(child);
         if (result != -1)
         {
             child.SetOwner(null);
@@ -81,14 +81,13 @@ public partial class EventLogList : ENode, IChildList<EventLog>
     // EventLog.pas:456
     public override int AddChild(EngineObject child)
     {
-        CheckChild(child);
-        _children.Add(child);
+        AppendChild(child);
         if (child.AddRef() == -1)
         {
             throw new NotSupportedException("EObject doesn't support ReferenceCounting");
         }
 
-        int result = _children.Count - 1;
+        int result = Count - 1;
         Changed();
         return result;
     }

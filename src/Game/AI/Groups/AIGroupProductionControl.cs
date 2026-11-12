@@ -546,7 +546,7 @@ public partial class AIGroupProductionControl : AIGroupTask
             }
         }
 
-        _producibleUnits._children.Sort(CompareProducibleUnits);
+        _producibleUnits.SortChildren(CompareProducibleUnits);
     }
 
     private static int CompareProducibleUnits(object item1, object item2)

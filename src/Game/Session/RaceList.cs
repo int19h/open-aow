@@ -14,7 +14,7 @@ public partial class RaceList : EControlStyleNode, IChildList<Race>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Race, so the cast never fails.
-    public Race this[int index] => (Race)_children.List[index];
+    public Race this[int index] => (Race)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is Race;
 
@@ -32,7 +32,7 @@ public partial class RaceList : EControlStyleNode, IChildList<Race>
     public Race GetRace(int index)
     {
         Race result;
-        if (index >= 0 && index < _children.Count)
+        if (index >= 0 && index < Count)
         {
             result = this[index];
         }
@@ -48,9 +48,9 @@ public partial class RaceList : EControlStyleNode, IChildList<Race>
     public int GetEnabledRaces()
     {
         int result = 0;
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if (_children.List[I] != null && this[I].Enabled)
+            if (GetChild(I) != null && this[I].Enabled)
             {
                 result += 1;
             }
@@ -65,11 +65,11 @@ public partial class RaceList : EControlStyleNode, IChildList<Race>
         sbyte result;
         DelphiList races;
         races = new DelphiList();
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if (_children.List[I] != null && this[I].Enabled)
+            if (GetChild(I) != null && this[I].Enabled)
             {
-                races.Add(_children.List[I]);
+                races.Add(GetChild(I));
             }
         }
 
@@ -90,9 +90,9 @@ public partial class RaceList : EControlStyleNode, IChildList<Race>
     // Ability.PAS:407
     public void ResetPlayerRelations()
     {
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if (_children.List[I] != null)
+            if (GetChild(I) != null)
             {
                 this[I].ResetPlayerRelations();
             }
@@ -102,9 +102,9 @@ public partial class RaceList : EControlStyleNode, IChildList<Race>
     // Ability.PAS:415
     public void ResetDefaultRelations()
     {
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if (_children.List[I] != null)
+            if (GetChild(I) != null)
             {
                 this[I].ResetDefaultRaceRelations();
             }

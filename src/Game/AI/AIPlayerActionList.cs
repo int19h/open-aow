@@ -8,7 +8,7 @@ public partial class AIPlayerActionList : ENode, IChildList<AIPlayerAction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIPlayerAction, so the cast never fails.
-    public AIPlayerAction this[int index] => (AIPlayerAction)_children.List[index];
+    public AIPlayerAction this[int index] => (AIPlayerAction)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIPlayerAction;
 
@@ -21,7 +21,7 @@ public partial class AIPlayerActionList : ENode, IChildList<AIPlayerAction>
     public AIPlayerAction GetActions(int index) => this[index];
 
     // AI.pas:31
-    public int IndexOf(AIPlayerAction action) => _children.IndexOf(action);
+    public int IndexOf(AIPlayerAction action) => IndexOfChild(action);
 
     // Engine.pas:631
 

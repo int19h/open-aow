@@ -10,8 +10,16 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.AI.Groups;
 
 // references. info. data. location. moves. transporter. status. path strength. data A. data B
-public partial class AIGroupControlTarget : EngineObject
+public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlTargetList>, IOwnedSink<AIGroupControlTargetList>
 {
+    // A reference list holds the target and owns it only while the list saves or loads it, and
+    // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
+    public new AIGroupControlTargetList Owner { get => (AIGroupControlTargetList)base.Owner; set => SetOwner(value); }
+
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is AIGroupControlTargetList;
+
+    void IOwnedSink<AIGroupControlTargetList>.SetOwner(AIGroupControlTargetList owner) => SetOwner(owner);
+
     // AIGroup.pas:635
     public AIGroupControlTarget(ECustomNode owner) : base(owner)
     {

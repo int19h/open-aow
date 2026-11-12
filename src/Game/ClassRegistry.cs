@@ -1082,6 +1082,9 @@ internal static class ClassRegistry
         DiplomaticProposal.Register(Player.ImpersonatedMessage.Kind, static (gold, mana) => new Player.ImpersonatedMessage());
         DiplomaticProposal.Register(Player.SuggestAllianceBreak.Kind, static (gold, mana) => new Player.SuggestAllianceBreak(gold, mana));
         DiplomaticProposal.Register(Player.SuggestWarDeclaration.Kind, static (gold, mana) => new Player.SuggestWarDeclaration(gold, mana));
+        // Issue 158: the typed token event list keeps the stored class id of TEReferenceNode. It is
+        // registered last, so the compiler's names of the registrations above stay the same.
+        EngineClass.Register(ENode.ClassId, static owner => new TokenEventReferenceList(owner), 12);
         FormatMapping.Register("AoWHSMap", new Reference("CurrentPlayer", PlayerSlots.Instance), new ReferenceList("TurnOrder", PlayerSlots.Instance), new RequiredChild("MapContainer"));
         FormatMapping.Register("MapContainer", new CountedChildren("MapLevel", "LevelCount"));
         FormatMapping.Register("ProductionItem", new ProductionOrderCases());

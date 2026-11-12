@@ -9,7 +9,7 @@ public partial class UnitResourceList : EResourceList, IChildList<UnitResource>
 {
     // The unit resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a UnitResource, so the cast never fails.
-    public new UnitResource this[int index] => (UnitResource)_children.List[index];
+    public new UnitResource this[int index] => (UnitResource)GetChild(index);
 
     protected sealed override bool AcceptsResource(EngineResource resource) => resource is UnitResource;
 
@@ -25,7 +25,7 @@ public partial class UnitResourceList : EResourceList, IChildList<UnitResource>
     public UnitResource GetUnitResource(int index)
     {
         UnitResource result;
-        if (index >= 0 && index < _children.Count)
+        if (index >= 0 && index < Count)
         {
             result = this[index];
         }

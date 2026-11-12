@@ -8,7 +8,7 @@ public partial class ProductionQueue : ENode, IChildList<ProductionItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a ProductionItem, so the cast never fails.
-    public ProductionItem this[int index] => (ProductionItem)_children.List[index];
+    public ProductionItem this[int index] => (ProductionItem)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is ProductionItem;
 
@@ -38,7 +38,7 @@ public partial class ProductionQueue : ENode, IChildList<ProductionItem>
     // Structur.PAS:89
     public int IndexOfId(int id)
     {
-        int result = _children.Count;
+        int result = Count;
         while (result != 0)
         {
             result -= 1;
@@ -55,7 +55,7 @@ public partial class ProductionQueue : ENode, IChildList<ProductionItem>
     public int IndexOf(ProductionOrder order)
     {
         ProductionItem item;
-        int result = _children.Count;
+        int result = Count;
         while (result != 0)
         {
             result -= 1;

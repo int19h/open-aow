@@ -564,15 +564,27 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   `IOwnedSink<TOwner>` and `IChildSink<TChild>` are the write sides. The generic owner and child
   setters, which the loader uses, check the declared type once (`AcceptsOwner`, `AcceptsChild`),
   so a wrong owner or child is refused where it enters and the typed reads need no check. The
-  owner and the children still live in the untyped storage of `EngineObject` and of the node
-  classes, and every write of a child goes through the checked adder, setter or `InsertChild`.
+  owner still lives in the untyped field of `EngineObject`. The children of an `ENode` or an
+  `EChangeNotifyNode` live in a private `EngineObjectList`, a `DelphiList<EngineObject>` that
+  keeps empty slots in place (the slot is the stored slot). Every write of a child goes through
+  the checked adder, setter, `InsertChild`, `AppendChild` or `PlaceChild`. Reads go through
+  `GetChild` (the slot without a range check, as the original reads it), `GetChildInRange` and
+  the typed indexers, and the original's direct reorderings of the list are node members that do
+  not notify: `SortChildren`, `MoveChild`, `ExchangeChildren`, `PackChildren`, `DropChild`,
+  `DeleteChildAt` and `ClearChildren`. A change-notifying node's `Sort` notifies as before.
   A node whose children are of a few unrelated kinds declares them as a C# union: the engine's
   children are a `GameEngineChild` (its control node, its sprite set or a map), and a sprite set's
   children are an `HSSetChild` (a resource list, a terrain control or a control object). The
   children stay in one ordered list, so slots and stored order do not change. The resource lists
-  take resources only and narrow that to their own kind through `AcceptsResource`. Units and
-  armies, the reference lists' children and the move from list inheritance to owner-exposed
-  collections come in later parts of that issue.
+  take resources only and narrow that to their own kind through `AcceptsResource`, and the unit
+  and item lists take troops and items through `AcceptsTroop` and `AcceptsItem` in the same way.
+  A troop's owner is a `TroopOwner` union: the unit list it stands in, or the hero list of a hero
+  no army holds. An item's owner is an item list. A dungeon's prisoners keep the items left on
+  the battlefield in their own item list, apart from the troops. The children of the reference
+  lists (token events, move targets, combat and diplomatic actions, the AI's targets and
+  productions), event logs and players take their list as their owner, which is also the owner a
+  reference list gives its ownerless children while it saves them. The move from list
+  inheritance to owner-exposed collections comes in a later part of that issue.
 - Formats are free. Once the readers for the original formats exist as converting adapters, the
   port's own save and map formats can change, and the comparator (section 5) reads both. Nothing
   requires that the original loads a file the port wrote. Milestone 9.7 did this

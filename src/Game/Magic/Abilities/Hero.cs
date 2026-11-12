@@ -2037,8 +2037,8 @@ public partial class Hero : Troop
         {
             item1 = AoWHSMap.Current.ItemControl.FindItem(itemId1);
             item2 = AoWHSMap.Current.ItemControl.FindItem(itemId2);
-            owner1 = (ItemList)item1.Owner;
-            owner2 = (ItemList)item2.Owner;
+            owner1 = item1.Owner;
+            owner2 = item2.Owner;
             owner1.BeginUpdate();
             owner2.BeginUpdate();
             index1 = item1.Owner.FindChildIndex(item1);

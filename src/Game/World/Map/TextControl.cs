@@ -10,7 +10,7 @@ public partial class TextControl : ENode, IChildList<TextControlItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a TextControlItem, so the cast never fails.
-    public TextControlItem this[int index] => (TextControlItem)_children.List[index];
+    public TextControlItem this[int index] => (TextControlItem)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is TextControlItem;
 
@@ -23,7 +23,7 @@ public partial class TextControl : ENode, IChildList<TextControlItem>
     public TextControlItem GetItem(int index)
     {
         TextControlItem result;
-        if (index >= 0 && index < _children.Count)
+        if (index >= 0 && index < Count)
         {
             result = this[index];
         }
@@ -68,7 +68,7 @@ public partial class TextControl : ENode, IChildList<TextControlItem>
     // Structur.PAS:4458
     public void Sort()
     {
-        _children.SortStable(CompareTextControlItems);
+        SortChildrenStable(CompareTextControlItems);
     }
 
     // Structur.PAS:4463

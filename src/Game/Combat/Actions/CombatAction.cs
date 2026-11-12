@@ -1,5 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
+using Aow.Game.Combat;
 
 using Aow.Game.Draw;
 
@@ -8,8 +9,15 @@ using Aow.Rtl;
 namespace Aow.Game.Combat.Actions;
 
 // RefCount
-public partial class CombatAction : EngineObject
+public partial class CombatAction : EngineObject, IOwned<CombatActionList>, IOwnedSink<CombatActionList>
 {
+    // A reference list holds the action and owns it only while the list saves or loads it, and
+    // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
+    public new CombatActionList Owner { get => (CombatActionList)base.Owner; set => SetOwner(value); }
+
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is CombatActionList;
+
+    void IOwnedSink<CombatActionList>.SetOwner(CombatActionList owner) => SetOwner(owner);
 
     // Combat2.pas:698
     public CombatAction(ECustomNode owner) : base(owner)

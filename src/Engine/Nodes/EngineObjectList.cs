@@ -3,18 +3,11 @@ using Aow.Rtl;
 
 namespace Aow.Engine.Nodes;
 
-// the child list of a TENode
-public partial class EngineObjectList : DelphiList
+// The child slots of a TENode or a TEChangeNotifyNode, in stored order. An empty slot holds null,
+// and the slot index is the stored slot. The storage and the sorts are the TList ones, so the
+// order of equal keys and the spare slot past Count stay as the original keeps them.
+public partial class EngineObjectList : DelphiList<EngineObject>
 {
-    // Engine.pas:7136
-    protected internal EngineObject GetEngineObject(int index) => (EngineObject)this[index];
-
-    // Engine.pas:7141
-    protected internal void SetEngineObject(int index, EngineObject value)
-    {
-        this[index] = value;
-    }
-
     // Engine.pas:7146
     public EngineObject FindObject(int classId)
     {
@@ -25,13 +18,13 @@ public partial class EngineObjectList : DelphiList
         found = false;
         while (!found && I < Count)
         {
-            found = List[I] != null && classId == ((EngineObject)List[I]).EngineClass.ClassId;
+            found = List[I] != null && classId == List[I].EngineClass.ClassId;
             I += 1;
         }
 
         if (found)
         {
-            result = (EngineObject)List[I - 1];
+            result = List[I - 1];
         }
         else
         {
@@ -51,7 +44,7 @@ public partial class EngineObjectList : DelphiList
         found = false;
         while (!found && I < Count)
         {
-            found = List[I] != null && classId == ((EngineObject)List[I]).EngineClass.ClassId;
+            found = List[I] != null && classId == List[I].EngineClass.ClassId;
             I += 1;
         }
 
@@ -74,7 +67,7 @@ public partial class EngineObjectList : DelphiList
     {
         for (int index = Count - 1; index >= 0; index--)
         {
-            (List[index] as IDisposable)?.Dispose();
+            List[index]?.Dispose();
             Delete(index);
         }
     }
@@ -88,17 +81,10 @@ public partial class EngineObjectList : DelphiList
         ok = true;
         while (I < Count)
         {
-            ok = List[I] == null || classId == ((EngineObject)List[I]).EngineClass.ClassId;
+            ok = List[I] == null || classId == List[I].EngineClass.ClassId;
             I += 1;
         }
 
         return ok && Count != 0;
     }
-
-    public sealed class ObjectsAccessor(EngineObjectList target)
-    {
-        public EngineObject this[int index] { get => target.GetEngineObject(index); set => target.SetEngineObject(index, value); }
-    }
-
-    public ObjectsAccessor EObjects => new ObjectsAccessor(this);
 }

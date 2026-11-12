@@ -15,7 +15,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Player, so the cast never fails.
-    public Player this[int index] => (Player)_children.List[index];
+    public Player this[int index] => (Player)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is Player;
 
@@ -43,7 +43,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
     public override void Assign(EngineObject source, GameEngine engine)
     {
         SetNumberOfPlayers(((PlayerList)source).GetNumberOfPlayers());
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
             var players = ((PlayerList)source).GetPlayers(I);
             this[I].Assign(players, GameTables.GameEngine);
@@ -126,7 +126,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
         I = 1;
         int result = 0;
         // { Original tests the active count, not the index, and can run past the list. }
-        while (result != _children.Count)
+        while (result != Count)
         {
             if (this[I].GameOverStatus != GameOverStatus.Lost)
             {
@@ -142,7 +142,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
     // Player.PAS:1526
     public void BeginUpdate()
     {
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
             this[I].BeginUpdate();
         }
@@ -151,7 +151,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
     // Player.PAS:1534
     public void EndUpdate()
     {
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
             this[I].EndUpdate();
         }
@@ -163,7 +163,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
     public Player GetPlayers(int index)
     {
         Player result;
-        if (index >= 0 && index < _children.Count)
+        if (index >= 0 && index < Count)
         {
             result = this[index];
         }
@@ -207,9 +207,9 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
         Player player;
         count = 0;
         int result = 0;
-        for (int I = 1, last = _children.Count - 1; I <= last; I++)
+        for (int I = 1, last = Count - 1; I <= last; I++)
         {
-            player = (Player)_children.EObjects[I];
+            player = (Player)GetChildInRange(I);
             for (int J = player.Heroes.Count - 1; J >= 0; J--)
             {
                 result += player.Heroes.GetHero(J).GetLevel();
@@ -233,23 +233,23 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
     public int GetAverageHeroCount()
     {
         int result = 0;
-        for (int I = 1, last = _children.Count - 1; I <= last; I++)
+        for (int I = 1, last = Count - 1; I <= last; I++)
         {
-            result += ((Player)_children.EObjects[I]).Heroes.Count;
+            result += ((Player)GetChildInRange(I)).Heroes.Count;
         }
 
-        return result / (_children.Count - 1);
+        return result / (Count - 1);
     }
 
     // Player.PAS:1607
     public int GetMaxHeroCount()
     {
         int result = 0;
-        for (int I = 1, last = _children.Count - 1; I <= last; I++)
+        for (int I = 1, last = Count - 1; I <= last; I++)
         {
-            if (((Player)_children.EObjects[I]).Heroes.Count > result)
+            if (((Player)GetChildInRange(I)).Heroes.Count > result)
             {
-                result = ((Player)_children.EObjects[I]).Heroes.Count;
+                result = ((Player)GetChildInRange(I)).Heroes.Count;
             }
         }
 
@@ -257,7 +257,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
     }
 
     // Player.PAS:1617
-    public byte GetNumberOfPlayers() => (byte)(_children.Count - 1);
+    public byte GetNumberOfPlayers() => (byte)(Count - 1);
 
     // Player.PAS:1622
     public int RaceToPlayer(sbyte race)
@@ -266,7 +266,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
         int result = -1;
         I = 1;
         // { Original uses <> Count and assumes at least the independent player exists. }
-        while (result == -1 && I != _children.Count)
+        while (result == -1 && I != Count)
         {
             if (this[I].PlayerRace == race)
             {
@@ -310,7 +310,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
         {
             GetPlayers(Count - 1).Dispose();
             var count = Count;
-            _children.Delete(count - 1);
+            DeleteChildAt(count - 1);
         }
     }
 
@@ -335,7 +335,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
         }
 
         I = 1;
-        int limit = _children.Count - 1;
+        int limit = Count - 1;
         for (; I <= limit; I += 1)
         {
             index = available.IndexOf(this[I].PlayerRace);
@@ -396,14 +396,14 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
         Player player;
         valid = true;
         I = 1;
-        while (valid && I < _children.Count)
+        while (valid && I < Count)
         {
             player = this[I];
             valid = player.PlayerRace != -1 && races.GetRace(player.PlayerRace).Enabled;
             if (valid)
             {
                 J = 1;
-                while (valid && J != _children.Count)
+                while (valid && J != Count)
                 {
                     valid = J == I || GetPlayers(J).PlayerRace != player.PlayerRace;
                     J += 1;
@@ -477,7 +477,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
         LocalHumanPlayers.Clear();
         LocalPlayers.Clear();
         ActivePlayers.Clear();
-        for (int i = 0; i < _children.Count; i++)
+        for (int i = 0; i < Count; i++)
         {
             var player = this[i];
             if (player.Status != PlayerStatus.Playing) continue;

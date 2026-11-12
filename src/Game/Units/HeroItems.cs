@@ -246,7 +246,7 @@ public partial class HeroItems : ItemList
         Item result;
         int index;
         index = ((int)position) & 127;
-        if (index < _children.Count)
+        if (index < Count)
         {
             result = this[index];
         }

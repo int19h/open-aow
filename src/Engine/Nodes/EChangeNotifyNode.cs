@@ -22,7 +22,9 @@ public partial class EChangeNotifyNode : ECustomNode
         _updateCount = 0;
     }
 
-    public EngineObjectList _children;
+    // The child slots. Every write of a child goes through AddChild, SetChild or the members
+    // below, so the child check in CheckChild sees each child that enters.
+    private EngineObjectList _children;
     private int _updateCount;
 
     // Engine.pas:7212
@@ -42,7 +44,7 @@ public partial class EChangeNotifyNode : ECustomNode
         I = Count - 1;
         for (; I >= 0; I -= 1)
         {
-            C = (EngineObject)_children.List[I];
+            C = _children.List[I];
             if (C != null && C.Owner == this)
             {
                 if (!C.GetControlStyle().Contains(EngineServices.Shared))
@@ -59,7 +61,7 @@ public partial class EChangeNotifyNode : ECustomNode
         I = Count - 1;
         for (; I >= 0; I -= 1)
         {
-            C = (EngineObject)_children.List[I];
+            C = _children.List[I];
             if (C != null)
             {
                 if (!(C.Owner == this && C.GetControlStyle().Contains(EngineServices.Shared)))
@@ -83,7 +85,7 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     // Engine.pas:7251
-    public override EngineObject GetChild(int index) => (EngineObject)_children.List[index];
+    public override EngineObject GetChild(int index) => _children.List[index];
 
     // Engine.pas:7256
     public override void SetChild(int index, EngineObject child)
@@ -812,7 +814,7 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     // Engine.pas:7964
-    public void Sort(ListSortCompare compare)
+    public void Sort(ListSortCompare<EngineObject> compare)
     {
         BeginUpdate();
         _children.Sort(compare);
@@ -820,7 +822,7 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     // Keeps the order of equal items. Reflecting pool ordering is the only caller.
-    public void SortStable(ListSortCompare compare)
+    public void SortStable(ListSortCompare<EngineObject> compare)
     {
         BeginUpdate();
         _children.SortStable(compare);
@@ -873,7 +875,7 @@ public partial class EChangeNotifyNode : ECustomNode
                     {
                         if (children.List[I] != null)
                         {
-                            var node = (EngineObject)children.List[I];
+                            var node = children.List[I];
                             if (node.GetLastMessage() != message.Sequence)
                             {
                                 node.SetLastMessage(message.Sequence);
@@ -888,7 +890,7 @@ public partial class EChangeNotifyNode : ECustomNode
                     {
                         if (children.List[I] != null)
                         {
-                            var node = (EngineObject)children[I];
+                            var node = children[I];
                             if (node.GetLastMessage() != message.Sequence && node.Owner == this)
                             {
                                 node.SetLastMessage(message.Sequence);
@@ -906,7 +908,7 @@ public partial class EChangeNotifyNode : ECustomNode
                     {
                         if (children.List[I] != null)
                         {
-                            var node = (EngineObject)children.List[I];
+                            var node = children.List[I];
                             node.MessageProc(ref message, this);
                         }
                     }
@@ -917,7 +919,7 @@ public partial class EChangeNotifyNode : ECustomNode
                     {
                         if (children.List[I] != null)
                         {
-                            var node = (EngineObject)children[I];
+                            var node = children[I];
                             if (node.Owner == this)
                             {
                                 node.MessageProc(ref message, this);
@@ -935,7 +937,7 @@ public partial class EChangeNotifyNode : ECustomNode
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
-                        var node = (EngineObject)children.List[I];
+                        var node = children.List[I];
                         if (node.GetLastMessage() != message.Sequence)
                         {
                             node.SetLastMessage(message.Sequence);
@@ -947,7 +949,7 @@ public partial class EChangeNotifyNode : ECustomNode
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
-                        var node = (EngineObject)children[I];
+                        var node = children[I];
                         if (node.GetLastMessage() != message.Sequence && node.Owner == this)
                         {
                             node.SetLastMessage(message.Sequence);
@@ -962,7 +964,7 @@ public partial class EChangeNotifyNode : ECustomNode
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
-                        var node = (EngineObject)children.List[I];
+                        var node = children.List[I];
                         node.MessageProc(ref message, this);
                     }
                 }
@@ -970,7 +972,7 @@ public partial class EChangeNotifyNode : ECustomNode
                 {
                     for (int I = children.Count - 1; I >= 0; I--)
                     {
-                        var node = (EngineObject)children[I];
+                        var node = children[I];
                         if (node.Owner == this)
                         {
                             node.MessageProc(ref message, this);
@@ -1031,7 +1033,7 @@ public partial class EChangeNotifyNode : ECustomNode
         C = null;
         while (!found && I < _children.Count)
         {
-            C = (EngineObject)_children.List[I];
+            C = _children.List[I];
             found = C != null && classId == C.EngineClass.ClassId;
             I += 1;
         }
@@ -1061,6 +1063,55 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     public int UpdateCount { get => _updateCount; }
+
+    // The child in slot index, with the range check of TList.Get. GetChild reads the slot without it.
+    public EngineObject GetChildInRange(int index) => _children[index];
+
+    // The first slot that holds the child, or -1. FindChildIndex searches from the last slot.
+    public int IndexOfChild(EngineObject child) => _children.IndexOf(child);
+
+    // The members below reorder or drop child slots as the original's direct writes of FChildren
+    // do: no change notification, no reference count, no release.
+    public void SortChildren(ListSortCompare<EngineObject> compare) => _children.Sort(compare);
+
+    // Keeps the order of equal children.
+    public void SortChildrenStable(ListSortCompare<EngineObject> compare) => _children.SortStable(compare);
+
+    public void MoveChild(int current, int target) => _children.Move(current, target: target);
+
+    public void ExchangeChildren(int first, int second) => _children.Exchange(first, second: second);
+
+    // Removes the first slot that holds the child and returns its index, or -1.
+    public int DropChild(EngineObject child) => _children.Remove(child);
+
+    protected void DeleteChildAt(int index) => _children.Delete(index);
+
+    // Removes the empty slots.
+    protected void PackChildren() => _children.Pack();
+
+    // Drops every slot without disposing or releasing a child.
+    public void ClearChildren() => _children.Clear();
+
+    // Appends the child after the check AddChild makes, for an AddChild override that keeps its
+    // own bookkeeping.
+    protected int AppendChild(EngineObject child)
+    {
+        CheckChild(child);
+        return _children.Add(child);
+    }
+
+    // Writes the child into slot index after the check, padding the slots before it with empty
+    // ones. The previous child of the slot is not disposed or released.
+    protected void PlaceChild(int index, EngineObject child)
+    {
+        CheckChild(child);
+        while (index >= Count)
+        {
+            _children.Add(null);
+        }
+
+        _children.List[index] = child;
+    }
 
     // Engine.pas:680
 

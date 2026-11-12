@@ -436,8 +436,8 @@
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EngineObject._owner": null
           },
@@ -446,8 +446,8 @@
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -458,8 +458,8 @@
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           "EngineObject._owner": null
         },
@@ -477,8 +477,8 @@
       "CombatMap.Walls": [],
       "ENode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
-        "DelphiList.count": 6,
-        "DelphiList.items": [
+        "DelphiList`1.count": 6,
+        "DelphiList`1.items": [
           "$ref:$.HSMap._selection",
           "$ref:$.HSMap._staticVisibleHexSprite",
           "$ref:$.HSMap._dynamicVisibleHexSprite",
@@ -648,8 +648,8 @@
         },
         "ENode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
-          "DelphiList.count": 0,
-          "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
         },
         "EngineObject._owner": "$owner",
         "HexSpriteSelection._eventHexSprite": null,
@@ -1186,8 +1186,8 @@
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EngineObject._owner": null
           },
@@ -1196,8 +1196,8 @@
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -1208,8 +1208,8 @@
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           "EngineObject._owner": null
         },
@@ -1227,8 +1227,8 @@
       "CombatMap.Walls": [],
       "ENode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
-        "DelphiList.count": 6,
-        "DelphiList.items": [
+        "DelphiList`1.count": 6,
+        "DelphiList`1.items": [
           "$ref:$.HSMap._selection",
           "$ref:$.HSMap._staticVisibleHexSprite",
           "$ref:$.HSMap._dynamicVisibleHexSprite",
@@ -1398,8 +1398,8 @@
         },
         "ENode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
-          "DelphiList.count": 0,
-          "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
         },
         "EngineObject._owner": "$owner",
         "HexSpriteSelection._eventHexSprite": null,
@@ -1936,8 +1936,8 @@
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EngineObject._owner": null
           },
@@ -1946,8 +1946,8 @@
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -1958,8 +1958,8 @@
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           "EngineObject._owner": null
         },
@@ -1977,8 +1977,8 @@
       "CombatMap.Walls": [],
       "ENode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
-        "DelphiList.count": 6,
-        "DelphiList.items": [
+        "DelphiList`1.count": 6,
+        "DelphiList`1.items": [
           "$ref:$.HSMap._selection",
           "$ref:$.HSMap._staticVisibleHexSprite",
           "$ref:$.HSMap._dynamicVisibleHexSprite",
@@ -2148,8 +2148,8 @@
         },
         "ENode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
-          "DelphiList.count": 0,
-          "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
         },
         "EngineObject._owner": "$owner",
         "HexSpriteSelection._eventHexSprite": null,
@@ -2686,8 +2686,8 @@
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EngineObject._owner": null
           },
@@ -2696,8 +2696,8 @@
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -2708,8 +2708,8 @@
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           "EngineObject._owner": null
         },
@@ -2727,8 +2727,8 @@
       "CombatMap.Walls": [],
       "ENode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
-        "DelphiList.count": 6,
-        "DelphiList.items": [
+        "DelphiList`1.count": 6,
+        "DelphiList`1.items": [
           "$ref:$.HSMap._selection",
           "$ref:$.HSMap._staticVisibleHexSprite",
           "$ref:$.HSMap._dynamicVisibleHexSprite",
@@ -2898,8 +2898,8 @@
         },
         "ENode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
-          "DelphiList.count": 0,
-          "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
         },
         "EngineObject._owner": "$owner",
         "HexSpriteSelection._eventHexSprite": null,
@@ -3438,8 +3438,8 @@
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EngineObject._owner": null
           },
@@ -3448,8 +3448,8 @@
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -3460,8 +3460,8 @@
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           "EngineObject._owner": null
         },
@@ -3479,8 +3479,8 @@
       "CombatMap.Walls": [],
       "ENode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
-        "DelphiList.count": 6,
-        "DelphiList.items": [
+        "DelphiList`1.count": 6,
+        "DelphiList`1.items": [
           "$ref:$.HSMap._selection",
           "$ref:$.HSMap._staticVisibleHexSprite",
           "$ref:$.HSMap._dynamicVisibleHexSprite",
@@ -3650,8 +3650,8 @@
         },
         "ENode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
-          "DelphiList.count": 0,
-          "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
         },
         "EngineObject._owner": "$owner",
         "HexSpriteSelection._eventHexSprite": null,
@@ -4190,8 +4190,8 @@
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EngineObject._owner": null
           },
@@ -4200,8 +4200,8 @@
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -4212,8 +4212,8 @@
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           "EngineObject._owner": null
         },
@@ -4231,8 +4231,8 @@
       "CombatMap.Walls": [],
       "ENode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
-        "DelphiList.count": 6,
-        "DelphiList.items": [
+        "DelphiList`1.count": 6,
+        "DelphiList`1.items": [
           "$ref:$.HSMap._selection",
           "$ref:$.HSMap._staticVisibleHexSprite",
           "$ref:$.HSMap._dynamicVisibleHexSprite",
@@ -4402,8 +4402,8 @@
         },
         "ENode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
-          "DelphiList.count": 0,
-          "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
         },
         "EngineObject._owner": "$owner",
         "HexSpriteSelection._eventHexSprite": null,
@@ -4942,8 +4942,8 @@
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EngineObject._owner": null
           },
@@ -4952,8 +4952,8 @@
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -4964,8 +4964,8 @@
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           "EngineObject._owner": null
         },
@@ -4983,8 +4983,8 @@
       "CombatMap.Walls": [],
       "ENode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
-        "DelphiList.count": 6,
-        "DelphiList.items": [
+        "DelphiList`1.count": 6,
+        "DelphiList`1.items": [
           "$ref:$.HSMap._selection",
           "$ref:$.HSMap._staticVisibleHexSprite",
           "$ref:$.HSMap._dynamicVisibleHexSprite",
@@ -5154,8 +5154,8 @@
         },
         "ENode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
-          "DelphiList.count": 0,
-          "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
         },
         "EngineObject._owner": "$owner",
         "HexSpriteSelection._eventHexSprite": null,
@@ -5694,8 +5694,8 @@
             "$type": "Aow.Game.World.Movement.SubMoveList",
             "ENode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EngineObject._owner": null
           },
@@ -5704,8 +5704,8 @@
             "$type": "Aow.Game.Units.UnitUserList",
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -5716,8 +5716,8 @@
           "$type": "Aow.Game.World.Movement.MoveSettingsList",
           "ENode._children": {
             "$type": "Aow.Engine.Nodes.EngineObjectList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           "EngineObject._owner": null
         },
@@ -5735,8 +5735,8 @@
       "CombatMap.Walls": [],
       "ENode._children": {
         "$type": "Aow.Engine.Nodes.EngineObjectList",
-        "DelphiList.count": 6,
-        "DelphiList.items": [
+        "DelphiList`1.count": 6,
+        "DelphiList`1.items": [
           "$ref:$.HSMap._selection",
           "$ref:$.HSMap._staticVisibleHexSprite",
           "$ref:$.HSMap._dynamicVisibleHexSprite",
@@ -5906,8 +5906,8 @@
         },
         "ENode._children": {
           "$type": "Aow.Engine.Nodes.EngineObjectList",
-          "DelphiList.count": 0,
-          "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
         },
         "EngineObject._owner": "$owner",
         "HexSpriteSelection._eventHexSprite": null,

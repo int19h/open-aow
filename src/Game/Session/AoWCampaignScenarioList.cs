@@ -7,7 +7,7 @@ public partial class AoWCampaignScenarioList : ENode, IChildList<CampaignScenari
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CampaignScenario, so the cast never fails.
-    public CampaignScenario this[int index] => (CampaignScenario)_children.List[index];
+    public CampaignScenario this[int index] => (CampaignScenario)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is CampaignScenario;
 
@@ -20,7 +20,7 @@ public partial class AoWCampaignScenarioList : ENode, IChildList<CampaignScenari
     public CampaignScenario GetScenario(int index)
     {
         CampaignScenario result;
-        if (index >= 0 && index < _children.Count)
+        if (index >= 0 && index < Count)
         {
             result = this[index];
         }

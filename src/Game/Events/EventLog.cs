@@ -15,8 +15,14 @@ namespace Aow.Game.Events;
 
 // { ot=1 }
 // day, unique ID, player, reference count
-public partial class EventLog : EngineObject
+public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<EventLogList>
 {
+    // The list that holds the log. AcceptsOwner admits only that list, so the cast never fails.
+    public new EventLogList Owner { get => (EventLogList)base.Owner; set => SetOwner(value); }
+
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is EventLogList;
+
+    void IOwnedSink<EventLogList>.SetOwner(EventLogList owner) => SetOwner(owner);
 
     public EventLog(ECustomNode owner) : base(owner)
     {

@@ -15,20 +15,24 @@ public sealed partial class RuleConstructionTests
     {
         "Troop", "Unit", "Hero", "Leader", "HypotheticalUnit", "WallCombatant"    }.Select(name => new object[] { name });
 
-    private sealed class UnitOwner(bool reject) : EngineFixture.Owner
+    // A troop takes a unit list or a hero list as its owner (issue 158). This unit list records
+    // each membership change and keeps its members apart from its child slots.
+    private sealed class UnitOwner(bool reject) : UnitList(null!)
     {
         internal List<string> Events { get; } = [];
+
+        internal List<EngineObject> Members { get; } = [];
 
         public override int AddChild(EngineObject child)
         {
             var troop = (Troop)child;
             Events.Add($"insert:{troop.RefCount}:{troop.UnitId}:{troop.GroupId}");
             if (reject) return -1;
-            base.AddChild(child);
+            Members.Add(child);
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(EngineObject child) => base.RemoveChild(child) < 0 ? -1 : 0;
+        public override int RemoveChild(EngineObject child) => Members.Remove(child) ? 0 : -1;
     }
 
     private static Troop CreateUnit(Type type, ECustomNode owner, int route)

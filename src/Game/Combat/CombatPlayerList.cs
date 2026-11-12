@@ -7,7 +7,7 @@ public partial class CombatPlayerList : ENode, IChildList<CombatPlayer>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatPlayer, so the cast never fails.
-    public CombatPlayer this[int index] => (CombatPlayer)_children.List[index];
+    public CombatPlayer this[int index] => (CombatPlayer)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is CombatPlayer;
 
@@ -24,7 +24,7 @@ public partial class CombatPlayerList : ENode, IChildList<CombatPlayer>
     // Combat2.pas:135
     public int IndexOfPlayer(byte player)
     {
-        int result = _children.Count;
+        int result = Count;
         while (result != 0)
         {
             result -= 1;
@@ -41,7 +41,7 @@ public partial class CombatPlayerList : ENode, IChildList<CombatPlayer>
     public int IndexOf(byte player, byte relation)
     {
         CombatPlayer P;
-        int result = _children.Count;
+        int result = Count;
         while (result != 0)
         {
             result -= 1;

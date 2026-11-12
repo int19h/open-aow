@@ -465,8 +465,11 @@ part and loop on the right. The AI sorts candidate lists with its own comparator
 equal elements after this exact algorithm decides which candidate wins, so the algorithm is ported
 as written and probe `lists` checks it on arrays with many equal keys.
 
-`DelphiList` of the shim is also the base of the engine's `EngineObjectList` (Delphi `TEObjectList`) and `EngineObjectClassList` (Delphi `TEObjectClassList`)
-(generated code).
+`DelphiList` of the shim is also the base of the engine's `EngineObjectClassList` (Delphi
+`TEObjectClassList`). The engine's `EngineObjectList` (Delphi `TEObjectList`), the child slots of
+a node, is a `DelphiList<EngineObject>`: the same storage, spare slot and sorts, typed to engine
+objects. `DelphiList<T>.TraceSort` sees each sort of a list of that element type, and the
+headless host's random trace hooks it for the node lists.
 
 ### 4.2 StringCollection and StringList
 

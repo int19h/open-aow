@@ -13,7 +13,7 @@ public partial class FaceResourceList : EResourceList, IChildList<FaceResource>
 {
     // The face in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a FaceResource, so the cast never fails.
-    public new FaceResource this[int index] => (FaceResource)_children.List[index];
+    public new FaceResource this[int index] => (FaceResource)GetChild(index);
 
     protected sealed override bool AcceptsResource(EngineResource resource) => resource is FaceResource;
 
@@ -47,7 +47,7 @@ public partial class FaceResourceList : EResourceList, IChildList<FaceResource>
     public FaceResource GetFaceResource(int index)
     {
         FaceResource result;
-        if (index < _children.Count && index >= 0)
+        if (index < Count && index >= 0)
         {
             result = this[index];
         }
@@ -71,10 +71,10 @@ public partial class FaceResourceList : EResourceList, IChildList<FaceResource>
             result -= 1;
             if (result < 0)
             {
-                result = _children.Count - 1;
+                result = Count - 1;
             }
         }
-        while (!(_children.List[result] != null && (developer || !this[result].DeveloperOnly)));
+        while (!(GetChild(result) != null && (developer || !this[result].DeveloperOnly)));
         return result;
     }
 
@@ -88,12 +88,12 @@ public partial class FaceResourceList : EResourceList, IChildList<FaceResource>
         do
         {
             result += 1;
-            if (result >= _children.Count)
+            if (result >= Count)
             {
                 result = 0;
             }
         }
-        while (!(_children.List[result] != null && (developer || !this[result].DeveloperOnly)));
+        while (!(GetChild(result) != null && (developer || !this[result].DeveloperOnly)));
         return result;
     }
 

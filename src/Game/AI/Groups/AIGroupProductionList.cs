@@ -17,7 +17,7 @@ public partial class AIGroupProductionList : ENode, IChildList<AIGroupProduction
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroupProduction, so the cast never fails.
-    public AIGroupProduction this[int index] => (AIGroupProduction)_children.List[index];
+    public AIGroupProduction this[int index] => (AIGroupProduction)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroupProduction;
 

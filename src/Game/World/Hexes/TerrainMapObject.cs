@@ -141,19 +141,19 @@ public partial class TerrainMapObject : MultiHexMapObject
         TerrainList terrainList;
         HSMap map;
         TerrainMapObjectResource R;
-        EngineObjectList resources;
+        MapObjectResourceList resources;
         int I;
         bool found;
         if (_resource.TerrainList.UsedTerrain() > 1)
         {
             R = null;
-            resources = GetResourceList(_resource.Engine)._children;
+            resources = GetResourceList(_resource.Engine);
             I = resources.Count;
             found = false;
             while (!found && I != 0)
             {
                 I -= 1;
-                if (resources.List[I] is TerrainMapObjectResource terrain)
+                if (resources[I] is TerrainMapObjectResource terrain)
                 {
                     R = terrain;
                     found = R.EngineClass.ClassId == _resource.EngineClass.ClassId && R._decorationType == ((TerrainMapObjectResource)_resource)._decorationType && R._terrainType == ((TerrainMapObjectResource)_resource)._terrainType && R.TerrainList.UsedTerrain() == 1 && R.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == R.TerrainList.GetOverlay(0);
@@ -195,13 +195,13 @@ public partial class TerrainMapObject : MultiHexMapObject
     {
         TerrainMapObjectResource result;
         DelphiList candidates;
-        EngineObjectList resources;
+        MapObjectResourceList resources;
         TerrainMapObjectResource R;
         candidates = new DelphiList();
-        resources = GetResourceList(_resource.Engine)._children;
+        resources = GetResourceList(_resource.Engine);
         for (int I = 0, last = resources.Count - 1; I <= last; I++)
         {
-            if (resources.List[I] is TerrainMapObjectResource terrain)
+            if (resources[I] is TerrainMapObjectResource terrain)
             {
                 R = terrain;
                 if (R.EngineClass.ClassId == _resource.EngineClass.ClassId && R._terrainType == ((TerrainMapObjectResource)_resource)._terrainType && R._decorationType == decorationType && R != _resource && R.TerrainList.CompareTerrain(_resource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))

@@ -9,7 +9,7 @@ public partial class HeroList : EReferenceNode, IChildList<Hero>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Hero, so the cast never fails.
-    public Hero this[int index] => (Hero)_children.List[index];
+    public Hero this[int index] => (Hero)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is Hero;
 
@@ -24,7 +24,7 @@ public partial class HeroList : EReferenceNode, IChildList<Hero>
         int I;
         I = 0;
         Hero result = null;
-        while (I != _children.Count && result == null)
+        while (I != Count && result == null)
         {
             if (id == this[I].UnitId)
             {
@@ -41,7 +41,7 @@ public partial class HeroList : EReferenceNode, IChildList<Hero>
     public Hero GetHero(int index)
     {
         Hero result;
-        if (index >= 0 && index < _children.Count)
+        if (index >= 0 && index < Count)
         {
             result = this[index];
         }

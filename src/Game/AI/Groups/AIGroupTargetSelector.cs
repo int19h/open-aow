@@ -105,7 +105,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         GroupControl.Targets.Validate();
         if (State != 21 && _target != null)
         {
-            if (GroupControl.Targets._children.IndexOf(_target) == -1)
+            if (GroupControl.Targets.IndexOfChild(_target) == -1)
             {
                 _target = null;
                 if (State > 0 && State < 10)
@@ -200,7 +200,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
             }
         }
 
-        GroupControl.Targets._children.Sort(CompareTargetSetupPriority);
+        GroupControl.Targets.SortChildren(CompareTargetSetupPriority);
         for (int I = GroupControl.Targets.Count - 1, last = _targetLimit + 1; I >= last; I--)
         {
             GroupControl.Targets.Delete(I);
@@ -319,7 +319,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     }
                     else
                     {
-                        GroupControl.Targets._children.Sort(CompareTargetSetupPriority);
+                        GroupControl.Targets.SortChildren(CompareTargetSetupPriority);
                         State = 10;
                     }
 
@@ -645,7 +645,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     break;
                 case 21:
-                    if (GroupControl.Targets._children.IndexOf(_target) == -1)
+                    if (GroupControl.Targets.IndexOfChild(_target) == -1)
                     {
                         GroupControl.Group.ResetTargetExpense();
                         TargetStatus = AIGroupTargetingStatus.TargetConquered;
@@ -678,7 +678,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     break;
                 case 31:
-                    I = GroupControl.Targets._children.IndexOf(_nextTarget);
+                    I = GroupControl.Targets.IndexOfChild(_nextTarget);
                     while (I < GroupControl.Targets.Count && (I == -1 || GroupControl.Targets.GetTargets(I).TransporterId != -1 || !GroupControl.Targets.GetTargets(I).Status.Contains(AIGroupTargetFlags.Valid)))
                     {
                         I += 1;

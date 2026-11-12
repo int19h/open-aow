@@ -223,17 +223,20 @@ public partial class Army : UnitList
     public override int AddChild(EngineObject child)
     {
         int result;
-        if (!Status.Contains(ArmyStatusElement.Activated) || ((Troop)child).CanActivate())
+        // The check refuses a child that is not a troop before the troop is read.
+        CheckChild(child);
+        var troop = (Troop)child;
+        if (!Status.Contains(ArmyStatusElement.Activated) || troop.CanActivate())
         {
             result = base.AddChild(child);
             if (result != -1)
             {
-                if (Status.Contains(ArmyStatusElement.Activated) && !((Troop)child).UnitStatus.Contains(UnitStatusElement.Activated))
+                if (Status.Contains(ArmyStatusElement.Activated) && !troop.UnitStatus.Contains(UnitStatusElement.Activated))
                 {
-                    ((Troop)child).Activate();
+                    troop.Activate();
                 }
 
-                ((Troop)child).SetPlayer(Player);
+                troop.SetPlayer(Player);
             }
         }
         else
@@ -396,7 +399,7 @@ public partial class Army : UnitList
         {
             if ((((int)(((uint)selection) >> I)) & 1) != 0)
             {
-                ((Troop)_children.List[I]).Killed();
+                this[I].Killed();
             }
         }
 
@@ -407,11 +410,11 @@ public partial class Army : UnitList
     public int GetStrength(byte selection, DamageType damageType)
     {
         int result = 0;
-        for (int I = _children.Count - 1; I >= 0; I--)
+        for (int I = Count - 1; I >= 0; I--)
         {
             if (((1 << I) & selection) != 0)
             {
-                result += ((Troop)_children.List[I]).GetStrength(damageType);
+                result += this[I].GetStrength(damageType);
             }
         }
 
@@ -422,11 +425,11 @@ public partial class Army : UnitList
     public int GetStrengthMax(byte selection, Set<DamageType> damageTypes)
     {
         int result = 0;
-        for (int I = _children.Count - 1; I >= 0; I--)
+        for (int I = Count - 1; I >= 0; I--)
         {
             if (((1 << I) & selection) != 0)
             {
-                result += ((Troop)_children.List[I]).GetStrengthMax(damageTypes);
+                result += this[I].GetStrengthMax(damageTypes);
             }
         }
 
@@ -442,9 +445,9 @@ public partial class Army : UnitList
         GroupBehavior behavior;
         bool includeUnit;
         relation = AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, Player, IndependentRelation);
-        for (int I = _children.Count - 1; I >= 0; I--)
+        for (int I = Count - 1; I >= 0; I--)
         {
-            troop = (Troop)_children.List[I];
+            troop = this[I];
             if (troop.Group != null)
             {
                 behavior = troop.Group.GroupClass.Behavior;
@@ -454,7 +457,7 @@ public partial class Army : UnitList
                 behavior = GroupBehavior.Passive;
             }
 
-            includeUnit = info.Units == null || info.Units._children.IndexOf(troop) == -1;
+            includeUnit = info.Units == null || info.Units.IndexOfChild(troop) == -1;
             if (includeUnit && info.Requests.Contains(BattleFieldInfoRequestsElement.IgnorePassiveIndependents))
             {
                 includeUnit = troop.Player != 0 || troop.Group != null && troop.Group.GroupClass.Behavior != GroupBehavior.Passive && troop.Group.GroupClass.Behavior != GroupBehavior.Guard;
@@ -490,7 +493,7 @@ public partial class Army : UnitList
         {
             if ((selection & 1) != 0)
             {
-                troop = (Troop)_children.List[I];
+                troop = this[I];
                 if (troop.GetHitPoints() != troop.GetHits())
                 {
                     result = true;
@@ -510,15 +513,15 @@ public partial class Army : UnitList
         int result;
         int I;
         I = 0;
-        while ((selection & 1) == 0 && I != _children.Count)
+        while ((selection & 1) == 0 && I != Count)
         {
             I += 1;
             selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        if (I != _children.Count)
+        if (I != Count)
         {
-            result = ((Troop)_children.List[I]).UnitId;
+            result = this[I].UnitId;
         }
         else
         {
@@ -538,18 +541,18 @@ public partial class Army : UnitList
         different = false;
         I = 0;
         found = false;
-        while (I != _children.Count && !different)
+        while (I != Count && !different)
         {
             if ((selection & 1) != 0)
             {
                 if (!found)
                 {
-                    result = ((Troop)_children.List[I]).Group;
+                    result = this[I].Group;
                     found = true;
                 }
                 else
                 {
-                    different = result != ((Troop)_children.List[I]).Group;
+                    different = result != this[I].Group;
                 }
             }
 
@@ -568,11 +571,11 @@ public partial class Army : UnitList
     // Army.PAS:445
     public void SetGroup(byte selection, AIGroup group)
     {
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
             if ((selection & 1) != 0)
             {
-                group.AddUnit((Troop)_children.List[I]);
+                group.AddUnit(this[I]);
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
@@ -583,10 +586,10 @@ public partial class Army : UnitList
     public byte GetGroupSelection(int groupId)
     {
         byte result = 0;
-        for (int I = _children.Count - 1; I >= 0; I--)
+        for (int I = Count - 1; I >= 0; I--)
         {
             result = (byte)(result << 1);
-            if (groupId == ((Troop)_children.List[I]).GroupId)
+            if (groupId == this[I].GroupId)
             {
                 result = (byte)(result | 1);
             }
@@ -620,11 +623,11 @@ public partial class Army : UnitList
         group = AoWHSMap.Current.AIGroupManager.CreateGroup(Player, IndependentRelation, behavior);
         if (group != null)
         {
-            for (int I = 0, last = _children.Count - 1; I <= last; I++)
+            for (int I = 0, last = Count - 1; I <= last; I++)
             {
                 if ((selection & 1) != 0)
                 {
-                    group.AddUnit((Troop)_children.List[I]);
+                    group.AddUnit(this[I]);
                 }
 
                 selection = (byte)(int)(((uint)selection) >> 1);
@@ -720,7 +723,7 @@ public partial class Army : UnitList
             if (index != -1)
             {
                 selection = (byte)(selection & ~(1 << index));
-                if (((Troop)_children.List[index]).GroupId == 0)
+                if (this[index].GroupId == 0)
                 {
                     SetBehavior((byte)(1 << index), GroupBehavior.Transport);
                 }
@@ -758,7 +761,7 @@ public partial class Army : UnitList
                 }
                 else
                 {
-                    SetGroup(selection, ((Troop)_children.List[index]).Group);
+                    SetGroup(selection, this[index].Group);
                 }
             }
         }
@@ -777,7 +780,7 @@ public partial class Army : UnitList
         {
             if ((selection & 1) != 0)
             {
-                id.UnitIds.Add(((Troop)_children.List[I]).UnitId);
+                id.UnitIds.Add(this[I].UnitId);
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
@@ -929,7 +932,7 @@ public partial class Army : UnitList
         {
             if ((selection & 1) != 0)
             {
-                race = ((Troop)_children.List[I]).GetRace();
+                race = this[I].GetRace();
                 if (race != -1)
                 {
                     if (result != -1)
@@ -1000,13 +1003,13 @@ public partial class Army : UnitList
         if (X != -1 && MapLevel != -1 && Status.Contains(ArmyStatusElement.Activated))
         {
             ConcealedUnits = 0;
-            I = _children.Count;
+            I = Count;
             field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel);
             while (I != 0)
             {
                 I -= 1;
                 ConcealedUnits = (byte)(ConcealedUnits << 1);
-                if (((Troop)_children.List[I]).ConcealedOnMapField(field))
+                if (this[I].ConcealedOnMapField(field))
                 {
                     ConcealedUnits = (byte)(ConcealedUnits | 1);
                 }
@@ -1023,7 +1026,7 @@ public partial class Army : UnitList
         upkeep = 0;
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            upkeep = (byte)(upkeep + ((Troop)_children.List[I]).GetUpkeep());
+            upkeep = (byte)(upkeep + this[I].GetUpkeep());
         }
 
         previous = _upkeep;
@@ -1051,7 +1054,7 @@ public partial class Army : UnitList
             for (int I = GetCount() - 1; I >= 0; I--)
             {
                 selection = (byte)(selection << 1);
-                if (!((Troop)_children.List[I]).ValidTerrain(terrainType, overlayType))
+                if (!this[I].ValidTerrain(terrainType, overlayType))
                 {
                     selection = (byte)(selection | 1);
                 }
@@ -1136,9 +1139,9 @@ public partial class Army : UnitList
         Unit newUnit;
         AoWHSMap.Current.LockGameOverEvent();
         BeginUpdate();
-        for (int I = _children.Count - 1; I >= 0; I--)
+        for (int I = Count - 1; I >= 0; I--)
         {
-            troop = (Troop)_children.List[I];
+            troop = this[I];
             if (troop.GetHitPoints() == 0)
             {
                 if (troop.GetAbilityEnabled(107))
@@ -1167,9 +1170,9 @@ public partial class Army : UnitList
         Troop troop;
         string sourceName = "";
         level = 0;
-        for (int I = _children.Count - 1; I >= 0; I--)
+        for (int I = Count - 1; I >= 0; I--)
         {
-            troop = (Troop)_children.List[I];
+            troop = this[I];
             troop.UpdateMoraleValue();
             if (troop.GetAbilityEnabled(46) || troop.GetAbilityLevel(46) > 0)
             {
@@ -1189,9 +1192,9 @@ public partial class Army : UnitList
 
         if (level > 0)
         {
-            for (int I = _children.Count - 1; I >= 0; I--)
+            for (int I = Count - 1; I >= 0; I--)
             {
-                troop = (Troop)_children.List[I];
+                troop = this[I];
                 if (troop.GetAbilityLevel(46) < level)
                 {
                     ((LeadershipAbility)AoWHSSet.Current.AbilityControl.GetAbility(46)).SetExternalSource(troop, (byte)level, sourceName);
@@ -1247,9 +1250,9 @@ public partial class Army : UnitList
             OldAIBehavior = GetOldAIBehavior();
         }
 
-        for (int I = _children.Count - 1; I >= 0; I--)
+        for (int I = Count - 1; I >= 0; I--)
         {
-            troop = (Troop)_children.List[I];
+            troop = this[I];
             if (!troop.UnitStatus.Contains(UnitStatusElement.Activated))
             {
                 troop.Activate();
@@ -1286,9 +1289,9 @@ public partial class Army : UnitList
                 _unfogRange = 0;
             }
 
-            for (int I = _children.Count - 1; I >= 0; I--)
+            for (int I = Count - 1; I >= 0; I--)
             {
-                troop = (Troop)_children.List[I];
+                troop = this[I];
                 if (troop.UnitStatus.Contains(UnitStatusElement.Activated))
                 {
                     troop.Deactivate();
@@ -1307,12 +1310,12 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:1211
-    public byte ValidateSelection(byte selection) => (byte)(selection & AbilityRules.ArmySelectionMasks[_children.Count]);
+    public byte ValidateSelection(byte selection) => (byte)(selection & AbilityRules.ArmySelectionMasks[Count]);
 
     // Army.PAS:1216
     public int SelectionCount(byte selection)
     {
-        selection = (byte)(selection & AbilityRules.ArmySelectionMasks[_children.Count]);
+        selection = (byte)(selection & AbilityRules.ArmySelectionMasks[Count]);
         int result = 0;
         while (selection != 0)
         {
@@ -1334,7 +1337,7 @@ public partial class Army : UnitList
         if (IndexOfTransporter(255) != -1 && (UnitsInTransporter() & ~selection) != 0 && Transporter(selection) != null)
         {
             var transporter = Transporter(255);
-            result = (byte)(result & ~(1 << _children.IndexOf(transporter)));
+            result = (byte)(result & ~(1 << IndexOfChild(transporter)));
         }
 
         return result;
@@ -1357,7 +1360,7 @@ public partial class Army : UnitList
     {
         AoWMapField field;
         field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel);
-        return ((Troop)_children.List[index]).ConcealedOnMapField(field);
+        return this[index].ConcealedOnMapField(field);
     }
 
     // Army.PAS:1262
@@ -1405,9 +1408,9 @@ public partial class Army : UnitList
                     AoWHSMap.Current.Players.GetPlayers(Player).Armies.AddChild(this);
                 }
 
-                for (int I = _children.Count - 1; I >= 0; I--)
+                for (int I = Count - 1; I >= 0; I--)
                 {
-                    ((Troop)_children.List[I]).SetPlayer(Player);
+                    this[I].SetPlayer(Player);
                 }
 
                 if (X != -1)
@@ -1445,7 +1448,7 @@ public partial class Army : UnitList
         {
             if ((selection & 1) != 0)
             {
-                result = result & ((Troop)_children.List[I]).GetImmunityTypes();
+                result = result & this[I].GetImmunityTypes();
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
@@ -1459,11 +1462,11 @@ public partial class Army : UnitList
     public int ObtainValue(byte selection)
     {
         int result = 0;
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
             if ((selection & 1) != 0)
             {
-                result += ((Troop)_children.List[I]).GetObtainValue();
+                result += this[I].GetObtainValue();
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
@@ -1492,7 +1495,7 @@ public partial class Army : UnitList
                 {
                     if ((selection & 1) != 0)
                     {
-                        troop = (Troop)_children.List[I];
+                        troop = this[I];
                         if (troop.GetMovePoints() < result)
                         {
                             result = troop.GetMovePoints();
@@ -1531,7 +1534,7 @@ public partial class Army : UnitList
                 {
                     if ((selection & 1) != 0)
                     {
-                        troop = (Troop)_children.List[I];
+                        troop = this[I];
                         if (troop.GetMoves() < result)
                         {
                             result = troop.GetMoves();
@@ -1567,7 +1570,7 @@ public partial class Army : UnitList
             {
                 if ((selection & 1) != 0)
                 {
-                    result = result + ((Troop)_children.List[I]).GetMoveTypes();
+                    result = result + this[I].GetMoveTypes();
                 }
 
                 selection = (byte)(int)(((uint)selection) >> 1);
@@ -1594,7 +1597,7 @@ public partial class Army : UnitList
             {
                 if (((1 << I) & selection) != 0)
                 {
-                    moves = ((Troop)_children.List[I]).GetMoveTypes();
+                    moves = this[I].GetMoveTypes();
                     common = common & moves;
                     if (moveType != -1)
                     {
@@ -1670,7 +1673,7 @@ public partial class Army : UnitList
             {
                 if ((selection & 1) != 0)
                 {
-                    ((Troop)_children.List[I]).CreateMovePointTable(ref unitTable);
+                    this[I].CreateMovePointTable(ref unitTable);
                     AbilityRules.MaximizeMovePointTable(Bytes.Of(ref table), Bytes.Of(ref unitTable));
                 }
 
@@ -1701,7 +1704,7 @@ public partial class Army : UnitList
             {
                 if ((selection & 1) != 0)
                 {
-                    ((Troop)_children.List[I]).CreateMovePointTable(ref unitTable);
+                    this[I].CreateMovePointTable(ref unitTable);
                     AbilityRules.MaximizeMovePointTable(table, Bytes.Of(ref unitTable));
                     count += 1;
                 }
@@ -1731,7 +1734,7 @@ public partial class Army : UnitList
             {
                 if (((1 << I) & selection) != 0)
                 {
-                    result = ((Troop)_children.List[I]).ValidTerrain(terrainType, overlayType);
+                    result = this[I].ValidTerrain(terrainType, overlayType);
                 }
 
                 I += 1;
@@ -1758,7 +1761,7 @@ public partial class Army : UnitList
             result = true;
             while (I != GetCount() && result)
             {
-                result = ((Troop)_children.List[I]).ValidTerrain(terrainType, overlayType);
+                result = this[I].ValidTerrain(terrainType, overlayType);
                 I += 1;
             }
         }
@@ -1780,9 +1783,9 @@ public partial class Army : UnitList
         I = 0;
         if (!Status.Contains(ArmyStatusElement.Activated))
         {
-            while (result && I != _children.Count)
+            while (result && I != Count)
             {
-                result = ((Troop)_children.List[I]).CanActivate();
+                result = this[I].CanActivate();
                 I += 1;
             }
         }
@@ -1799,17 +1802,17 @@ public partial class Army : UnitList
         troop = Transporter(255);
         if (troop == null)
         {
-            for (int I = _children.Count - 1; I >= 0; I--)
+            for (int I = Count - 1; I >= 0; I--)
             {
-                ((Troop)_children.List[I]).MovedTo(oldField, newField, maxCost);
+                this[I].MovedTo(oldField, newField, maxCost);
             }
         }
         else
         {
             troop.MovedTo(oldField, newField, maxCost);
-            for (int I = _children.Count - 1; I >= 0; I--)
+            for (int I = Count - 1; I >= 0; I--)
             {
-                troop = (Troop)_children.List[I];
+                troop = this[I];
                 if (!troop.GetTransporter())
                 {
                     troop.MovedTo(oldField, newField, 0);
@@ -1828,7 +1831,7 @@ public partial class Army : UnitList
         int result = 8;
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            capacity = ((Troop)_children.List[I]).GetTransportCapacity();
+            capacity = this[I].GetTransportCapacity();
             if (capacity != 0 && result > capacity + 1)
             {
                 result = capacity + 1;
@@ -1849,7 +1852,7 @@ public partial class Army : UnitList
         {
             if ((selection & 1) != 0)
             {
-                troop = (Troop)_children.List[I];
+                troop = this[I];
                 if (troop is Hero && types.Contains(((Hero)troop).GetHeroType()))
                 {
                     result = (Hero)troop;
@@ -1873,9 +1876,9 @@ public partial class Army : UnitList
         {
             if ((selection & 1) != 0)
             {
-                if (((EngineObject)_children.List[I]).EngineClass.ClassId == 131634)
+                if (this[I].EngineClass.ClassId == 131634)
                 {
-                    result = (Leader)_children.List[I];
+                    result = (Leader)this[I];
                 }
             }
 
@@ -1896,9 +1899,9 @@ public partial class Army : UnitList
         {
             if ((selection & 1) != 0)
             {
-                if (((Troop)_children.List[I]).GetTransporter())
+                if (this[I].GetTransporter())
                 {
-                    result = (Troop)_children.List[I];
+                    result = this[I];
                 }
             }
 
@@ -1916,7 +1919,7 @@ public partial class Army : UnitList
         while (result != 0)
         {
             result -= 1;
-            if (((1 << result) & selection) != 0 && ((Troop)_children.List[result]).GetTransporter())
+            if (((1 << result) & selection) != 0 && this[result].GetTransporter())
             {
                 return result;
             }
@@ -1938,7 +1941,7 @@ public partial class Army : UnitList
             result = 0;
             while (I != GetCount())
             {
-                if (!((Troop)_children.List[I]).ValidTerrain(field.TerrainType, field.OverlayType))
+                if (!this[I].ValidTerrain(field.TerrainType, field.OverlayType))
                 {
                     result = (byte)(result + (1 << I));
                 }
@@ -1962,15 +1965,15 @@ public partial class Army : UnitList
         byte range;
         vision = 0;
         trueVision = 0;
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            range = (byte)((Troop)_children.List[I]).VisibilityRange();
+            range = (byte)this[I].VisibilityRange();
             if (range > vision)
             {
                 vision = range;
             }
 
-            range = (byte)((Troop)_children.List[I]).TrueVisionRange();
+            range = (byte)this[I].TrueVisionRange();
             if (range > trueVision)
             {
                 trueVision = range;
@@ -2285,13 +2288,13 @@ public partial class Army : UnitList
         int I;
         Troop result = null;
         I = 0;
-        while (I != _children.Count && result == null)
+        while (I != Count && result == null)
         {
             if ((selection & 1) != 0)
             {
                 if (index == 0)
                 {
-                    result = (Troop)_children.List[I];
+                    result = this[I];
                 }
 
                 index -= 1;
@@ -2359,11 +2362,11 @@ public partial class Army : UnitList
         evilArmy = null;
         races = new DelphiList();
         units = new DelphiList();
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
             if ((selection & 1) != 0)
             {
-                units.Add(_children.List[I]);
+                units.Add(this[I]);
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
@@ -2501,13 +2504,13 @@ public partial class Army : UnitList
         {
             race = -1;
             valid = true;
-            I = _children.Count;
+            I = Count;
             while (valid && I != 0)
             {
                 I -= 1;
-                if (!((Troop)_children.List[I]).GetAbilityEnabled(107))
+                if (!this[I].GetAbilityEnabled(107))
                 {
-                    unitRace = ((Troop)_children.List[I]).GetRace();
+                    unitRace = this[I].GetRace();
                 }
                 else
                 {
@@ -2558,14 +2561,14 @@ public partial class Army : UnitList
                 }
             }
 
-            I = _children.Count;
+            I = Count;
             while (valid && I != 0)
             {
                 I -= 1;
-                bool condition = race == ((Troop)_children.List[I]).GetRace();
+                bool condition = race == this[I].GetRace();
                 if (!condition)
                 {
-                    var alignment = ((Troop)_children.List[I]).GetAlignment();
+                    var alignment = this[I].GetAlignment();
                     condition = AoWHSSet.Current.RaceResources.GetRaceResource(race).Alignments.Contains(alignment);
                 }
 
@@ -2578,10 +2581,10 @@ public partial class Army : UnitList
                 good = true;
                 neutral = true;
                 I = 0;
-                int last = _children.Count - 1;
+                int last = Count - 1;
                 for (; I <= last; I += 1)
                 {
-                    troop = (Troop)_children.List[I];
+                    troop = this[I];
                     Alignment = troop.GetAlignment();
                     evil = evil && AlignmentTables.EvilAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Units.Alignment.Evil, Units.Alignment.PureEvil).Contains(Alignment));
                     good = good && AlignmentTables.GoodAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Units.Alignment.PureGood, Units.Alignment.Good).Contains(Alignment));
@@ -2755,11 +2758,11 @@ public partial class Army : UnitList
         morale = 100;
         count = 0;
         predictor = new CombatPredictor();
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
             if ((selection & 1) != 0)
             {
-                troop = (Troop)_children.List[I];
+                troop = this[I];
                 unitMorale = troop.MoraleValue;
                 if (troop.GetUnitType() != UnitType.Machine)
                 {
@@ -2841,10 +2844,10 @@ public partial class Army : UnitList
                 if (chance > AoWHSMap.Current.Random(100))
                 {
                     selection = 0;
-                    for (int I = _children.Count - 1; I >= 0; I--)
+                    for (int I = Count - 1; I >= 0; I--)
                     {
                         selection = (byte)(selection << 1);
-                        if (((Troop)_children.List[I]).MoraleValue <= 40)
+                        if (this[I].MoraleValue <= 40)
                         {
                             selection = (byte)(selection | 1);
                         }
@@ -2868,7 +2871,7 @@ public partial class Army : UnitList
         while (I != 0 && !result)
         {
             I -= 1;
-            if (((Troop)_children.List[I]).GetAbilityEnabled(101))
+            if (this[I].GetAbilityEnabled(101))
             {
                 result = true;
             }
@@ -2880,9 +2883,9 @@ public partial class Army : UnitList
             I = GetCount() - 1;
             for (; I >= 0; I -= 1)
             {
-                if (((Troop)_children.List[I]).GetAbilityEnabled(101))
+                if (this[I].GetAbilityEnabled(101))
                 {
-                    ((Troop)_children.List[I]).ValidateCrusader();
+                    this[I].ValidateCrusader();
                 }
             }
 
@@ -2995,7 +2998,7 @@ public partial class Army : UnitList
             for (int I = Count - 1; I >= 0; I--)
             {
                 result = (byte)(result << 1);
-                troop = (Troop)_children.List[I];
+                troop = this[I];
                 if (troop.CanJoin(player))
                 {
                     result = (byte)(result | 1);
@@ -3031,7 +3034,7 @@ public partial class Army : UnitList
             while (!wantsJoin && I != 0)
             {
                 I -= 1;
-                wantsJoin = ((Troop)_children.List[I]).OfferToJoin(player);
+                wantsJoin = this[I].OfferToJoin(player);
             }
 
             if (wantsJoin)
@@ -3051,7 +3054,7 @@ public partial class Army : UnitList
         {
             if ((selection & 1) != 0)
             {
-                result += ((Troop)_children.List[I]).JoinAmount(player);
+                result += this[I].JoinAmount(player);
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
@@ -3370,7 +3373,7 @@ public partial class Army : UnitList
         damaged = false;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            damage = ((Troop)_children.List[I]).ExecuteStormDamage(storm, distance);
+            damage = this[I].ExecuteStormDamage(storm, distance);
             if (damage != 0)
             {
                 damaged = true;
@@ -3496,9 +3499,9 @@ public partial class Army : UnitList
     public void ResetMoveDone()
     {
         Troop troop;
-        for (int I = _children.Count - 1; I >= 0; I--)
+        for (int I = Count - 1; I >= 0; I--)
         {
-            troop = (Troop)_children.List[I];
+            troop = this[I];
             troop.UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.MoveDone);
         }
     }
