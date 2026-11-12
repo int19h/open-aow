@@ -1,9 +1,11 @@
 using Aow.Engine;
+using Aow.Engine.Nodes;
 
 namespace Aow.Game.Tests;
 
 // The fixed channels replace the registry each engine filled at startup. The values and labels are
 // the ids and names that registry held, in its order (the engine startup snapshot before issue 193).
+[Collection("Engine")]
 public sealed class DebugChannelTests
 {
     [Fact]
@@ -30,6 +32,7 @@ public sealed class DebugChannelTests
     [Fact]
     public void MessagesCarryTheirChannel()
     {
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         using var engine = new GameEngine(null!);
         var received = new List<(DebugChannel Channel, string Text)>();
         void Handler(EngineDebugNotification notification) => received.Add((notification.Info.Channel, notification.Info.Text));
