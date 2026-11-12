@@ -9,45 +9,45 @@ public class QuadItemList<TA> : RecordList<QuadItem<TA>> where TA : class
     public int IndexOfItemA(TA A)
     {
         int result = 0;
-        while (result < _count && !ReferenceEquals(_list[result].First, A))
+        while (result < Count && !ReferenceEquals(_list[result].First, A))
         {
             result += 1;
         }
 
-        return result == _count ? -1 : result;
+        return result == Count ? -1 : result;
     }
 
     public int IndexOfItemB(int B)
     {
         int result = 0;
-        while (result < _count && _list[result].Second != B)
+        while (result < Count && _list[result].Second != B)
         {
             result += 1;
         }
 
-        return result == _count ? -1 : result;
+        return result == Count ? -1 : result;
     }
 
     public int IndexOfItemC(int C)
     {
         int result = 0;
-        while (result < _count && _list[result].Third != C)
+        while (result < Count && _list[result].Third != C)
         {
             result += 1;
         }
 
-        return result == _count ? -1 : result;
+        return result == Count ? -1 : result;
     }
 
     public int IndexOfItemD(int D)
     {
         int result = 0;
-        while (result < _count && _list[result].Fourth != D)
+        while (result < Count && _list[result].Fourth != D)
         {
             result += 1;
         }
 
-        return result == _count ? -1 : result;
+        return result == Count ? -1 : result;
     }
 
     public void SortAscendingItemB() => Sort(static (in item1, in item2) => item1.Second - item2.Second);

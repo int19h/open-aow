@@ -15,47 +15,56 @@ namespace Aow.Game.UI.Grids;
 // surfaces, update step, incremental
 public partial class Scanner : Controls.Control
 {
-    public int HalfRowInset;
-    public ImageLibrary _tilesImageLibrary;
-    public ImageLibrary HighlightImageLibrary;
-    public ImageLibrary _fogImageLibrary;
-    public ImageLibrary ObjectsImageLibrary;
-    public int TTop;
-    public int THeight;
-    public int TLeft;
-    public int TWidth;
-    public bool ShowHighlights;
-    public bool _buildings;
-    public bool _armies;
-    public bool _naturals;
-    public NotifyEvent<Scanner> OnMapPositionChange;
-    public int Steps;
-    public GameMap Map;
-    public InterfaceImageLibrary _imageLibraryFrame;
-    public int _imageLibraryIndexFrame;
-    public int MapWidth;
-    public int MapHeight;
-    public MapLevel Level;
-    public bool ObjectsDrawn;
-    public int PreviousWidth;
-    public int PreviousHeight;
-    public int DrawableHeight;
-    public Surface MapSurface;
-    public Surface ObjectSurface;
-    public int UpdateStep;
-    public bool Incremental;
+    private int _halfRowInset;
+    private ImageLibrary _tilesImageLibrary;
+    private ImageLibrary _highlightImageLibrary;
+    private ImageLibrary _fogImageLibrary;
+    private ImageLibrary _objectsImageLibrary;
+
+    public int TTop { get; private set; }
+
+    private int _tHeight;
+
+    public int TLeft { get; private set; }
+
+    private int _tWidth;
+    private bool _showHighlights;
+    private bool _buildings;
+    private bool _armies;
+    private bool _naturals;
+    private NotifyEvent<Scanner> _onMapPositionChange;
+    private int _steps;
+    private GameMap _map;
+    private InterfaceImageLibrary _imageLibraryFrame;
+    private int _imageLibraryIndexFrame;
+    private int _mapWidth;
+    private int _mapHeight;
+
+    public MapLevel Level { get; private set; }
+
+    private bool _objectsDrawn;
+
+    public int PreviousWidth { get; set; }
+
+    private int _previousHeight;
+    private int _drawableHeight;
+    private Surface _mapSurface;
+    private Surface _objectSurface;
+
+    public int UpdateStep { get; set; }
+    public bool Incremental { get; set; }
 
     // Scanner.pas:126
     public override void Dispose()
     {
-        if (MapSurface != null)
+        if (_mapSurface != null)
         {
-            MapSurface.Dispose();
+            _mapSurface.Dispose();
         }
 
-        if (ObjectSurface != null)
+        if (_objectSurface != null)
         {
-            ObjectSurface.Dispose();
+            _objectSurface.Dispose();
         }
 
         base.Dispose();
@@ -64,11 +73,11 @@ public partial class Scanner : Controls.Control
     // Scanner.pas:116
     public Scanner(Component owner) : base(owner)
     {
-        Steps = 1;
+        _steps = 1;
         TLeft = -1;
         TTop = -1;
-        TWidth = -1;
-        THeight = -1;
+        _tWidth = -1;
+        _tHeight = -1;
     }
 
     // Scanner.pas:398
@@ -81,7 +90,7 @@ public partial class Scanner : Controls.Control
             _imageLibraryFrame = frame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
         }
 
-        if (_imageLibraryFrame != null && _tilesImageLibrary != null && ObjectsImageLibrary != null && Map != null && _fogImageLibrary != null && HighlightImageLibrary != null)
+        if (_imageLibraryFrame != null && _tilesImageLibrary != null && _objectsImageLibrary != null && _map != null && _fogImageLibrary != null && _highlightImageLibrary != null)
         {
             Valid = true;
         }
@@ -93,19 +102,19 @@ public partial class Scanner : Controls.Control
     public override void SetSize()
     {
         LockedSurface lockedSurface = default;
-        if ((_winWidth != PreviousWidth || _winHeight != PreviousHeight) && _winWidth > 0 && _winHeight > 0)
+        if ((WinWidth != PreviousWidth || WinHeight != _previousHeight) && WinWidth > 0 && WinHeight > 0)
         {
-            HalfRowInset = _winHeight / MapHeight / 2;
-            DrawableHeight = _winHeight - HalfRowInset;
-            if (MapSurface != null)
+            _halfRowInset = WinHeight / _mapHeight / 2;
+            _drawableHeight = WinHeight - _halfRowInset;
+            if (_mapSurface != null)
             {
-                ObjectSurface.Resize(_winWidth, _winHeight);
-                ObjectSurface.Clear(65280);
-                MapSurface.Resize(_winWidth, _winHeight);
-                MapSurface.Lock(ref lockedSurface);
-                for (int X = 0, last = _winWidth / _fogImageLibrary[0].Width; X <= last; X++)
+                _objectSurface.Resize(WinWidth, WinHeight);
+                _objectSurface.Clear(65280);
+                _mapSurface.Resize(WinWidth, WinHeight);
+                _mapSurface.Lock(ref lockedSurface);
+                for (int X = 0, last = WinWidth / _fogImageLibrary[0].Width; X <= last; X++)
                 {
-                    for (int Y = 0, lastY = _winHeight / _fogImageLibrary[0].Height; Y <= lastY; Y++)
+                    for (int Y = 0, lastY = WinHeight / _fogImageLibrary[0].Height; Y <= lastY; Y++)
                     {
                         var fogImageLibraryHeight = _fogImageLibrary[0];
                         var fogImageLibraryWidth = _fogImageLibrary[0];
@@ -113,11 +122,11 @@ public partial class Scanner : Controls.Control
                     }
                 }
 
-                MapSurface.Unlock();
+                _mapSurface.Unlock();
                 if (!Incremental)
                 {
-                    DrawMap(0, 0, MapWidth, MapHeight);
-                    UpdateStep = Steps;
+                    DrawMap(0, 0, _mapWidth, _mapHeight);
+                    UpdateStep = _steps;
                 }
                 else
                 {
@@ -125,8 +134,8 @@ public partial class Scanner : Controls.Control
                 }
             }
 
-            PreviousWidth = _winWidth;
-            PreviousHeight = _winHeight;
+            PreviousWidth = WinWidth;
+            _previousHeight = WinHeight;
         }
 
         base.SetSize();
@@ -136,18 +145,18 @@ public partial class Scanner : Controls.Control
     public override void Update()
     {
         base.Update();
-        if (_visible && MapSurface != null)
+        if (Visible && _mapSurface != null)
         {
             if (!Incremental)
             {
                 Incremental = true;
             }
 
-            if (UpdateStep < Steps)
+            if (UpdateStep < _steps)
             {
                 if (UpdateStep > -1)
                 {
-                    DrawMap(0, MapHeight * UpdateStep / Steps, MapWidth, MapHeight / Steps + 1);
+                    DrawMap(0, _mapHeight * UpdateStep / _steps, _mapWidth, _mapHeight / _steps + 1);
                 }
 
                 UpdateStep += 1;
@@ -162,29 +171,29 @@ public partial class Scanner : Controls.Control
         LockedSurface surfaceDescription = default;
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
                 if (_onPreDraw != null)
                 {
                     _onPreDraw(this, lockedSurface);
                 }
 
-                if (MapSurface != null && MapSurface.PixelFormatId != lockedSurface.PixelFormatId)
+                if (_mapSurface != null && _mapSurface.PixelFormatId != lockedSurface.PixelFormatId)
                 {
-                    ObjectSurface?.Dispose();
-                    MapSurface?.Dispose();
-                    MapSurface = null;
+                    _objectSurface?.Dispose();
+                    _mapSurface?.Dispose();
+                    _mapSurface = null;
                 }
 
-                if (MapSurface == null)
+                if (_mapSurface == null)
                 {
-                    ObjectSurface = new DataSurface(_winWidth, _winHeight, lockedSurface.PixelFormatId, null);
-                    ObjectSurface.Clear(65280);
-                    MapSurface = new DataSurface(_winWidth, _winHeight, lockedSurface.PixelFormatId, null);
-                    MapSurface.Lock(ref surfaceDescription);
-                    for (int X = 0, last = _winWidth / _fogImageLibrary[0].Width; X <= last; X++)
+                    _objectSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, null);
+                    _objectSurface.Clear(65280);
+                    _mapSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, null);
+                    _mapSurface.Lock(ref surfaceDescription);
+                    for (int X = 0, last = WinWidth / _fogImageLibrary[0].Width; X <= last; X++)
                     {
-                        for (int Y = 0, lastY = _winHeight / _fogImageLibrary[0].Height; Y <= lastY; Y++)
+                        for (int Y = 0, lastY = WinHeight / _fogImageLibrary[0].Height; Y <= lastY; Y++)
                         {
                             var fogImageLibraryHeight = _fogImageLibrary[0];
                             var fogImageLibraryWidth = _fogImageLibrary[0];
@@ -192,11 +201,11 @@ public partial class Scanner : Controls.Control
                         }
                     }
 
-                    MapSurface.Unlock();
+                    _mapSurface.Unlock();
                     if (!Incremental)
                     {
-                        DrawMap(0, 0, MapWidth, MapHeight);
-                        UpdateStep = Steps;
+                        DrawMap(0, 0, _mapWidth, _mapHeight);
+                        UpdateStep = _steps;
                     }
                     else
                     {
@@ -204,24 +213,24 @@ public partial class Scanner : Controls.Control
                     }
                 }
 
-                if (!ObjectsDrawn)
+                if (!_objectsDrawn)
                 {
                     DrawObjects();
                 }
 
-                R = new Rect(0, 0, _winWidth, _winHeight);
+                R = new Rect(0, 0, WinWidth, WinHeight);
                 surfaceDescription = lockedSurface;
-                var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _window._winLeft + _winLeft + _winWidth, _window._winTop + _winTop + _winHeight);
+                var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, Window.WinLeft + WinLeft + WinWidth, Window.WinTop + WinTop + WinHeight);
                 surfaceDescription.ClipRectangle = rectangle;
-                MapSurface.Lock(ref lockedSurface);
-                LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, R, surfaceDescription, _window._winLeft + _winLeft, _window._winTop + _winTop);
-                MapSurface.Unlock();
-                ObjectSurface.Lock(ref lockedSurface);
-                LockedSurface.BlitSpriteClipped16(lockedSurface, R, surfaceDescription, _window._winLeft + _winLeft, _window._winTop + _winTop, 65280);
-                ObjectSurface.Unlock();
-                if (MapWidth > 0 && MapHeight > 0)
+                _mapSurface.Lock(ref lockedSurface);
+                LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, R, surfaceDescription, Window.WinLeft + WinLeft, Window.WinTop + WinTop);
+                _mapSurface.Unlock();
+                _objectSurface.Lock(ref lockedSurface);
+                LockedSurface.BlitSpriteClipped16(lockedSurface, R, surfaceDescription, Window.WinLeft + WinLeft, Window.WinTop + WinTop, 65280);
+                _objectSurface.Unlock();
+                if (_mapWidth > 0 && _mapHeight > 0)
                 {
-                    var rectangle2 = new Rect(_window._winLeft + _winLeft + TLeft * _winWidth / MapWidth, _window._winTop + _winTop + TTop * _winHeight / MapHeight, TWidth * _winWidth / MapWidth, (THeight + 2) * _winHeight / MapHeight);
+                    var rectangle2 = new Rect(Window.WinLeft + WinLeft + TLeft * WinWidth / _mapWidth, Window.WinTop + WinTop + TTop * WinHeight / _mapHeight, _tWidth * WinWidth / _mapWidth, (_tHeight + 2) * WinHeight / _mapHeight);
                     _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle2, ref surfaceDescription);
                 }
 
@@ -243,21 +252,21 @@ public partial class Scanner : Controls.Control
         int mapY;
         int oldLeft;
         int oldTop;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             MouseDown = true;
-            X = (X - _window._winLeft - _winLeft) * MapWidth / _winWidth;
-            mapY = (Y - _window._winTop - _winTop) * MapHeight / DrawableHeight;
+            X = (X - Window.WinLeft - WinLeft) * _mapWidth / WinWidth;
+            mapY = (Y - Window.WinTop - WinTop) * _mapHeight / _drawableHeight;
             oldLeft = TLeft;
             oldTop = TTop;
-            TLeft = X - TWidth / 2;
-            TTop = mapY - THeight / 2;
+            TLeft = X - _tWidth / 2;
+            TTop = mapY - _tHeight / 2;
             if (TTop != oldTop || oldLeft != TLeft)
             {
                 Drawn = false;
-                if (OnMapPositionChange != null)
+                if (_onMapPositionChange != null)
                 {
-                    OnMapPositionChange(this);
+                    _onMapPositionChange(this);
                 }
             }
         }
@@ -267,7 +276,7 @@ public partial class Scanner : Controls.Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (_onMouseUp != null)
@@ -288,23 +297,23 @@ public partial class Scanner : Controls.Control
         int oldTop = default;
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (X >= _window._winLeft + _winLeft && X <= _window._winLeft + _winLeft + _winWidth - 1 && Y >= _window._winTop + _winTop && Y <= _window._winTop + _winTop + _winHeight - 1)
+        if (X >= Window.WinLeft + WinLeft && X <= Window.WinLeft + WinLeft + WinWidth - 1 && Y >= Window.WinTop + WinTop && Y <= Window.WinTop + WinTop + WinHeight - 1)
         {
             Handled = true;
             if (MouseDown == true)
             {
                 oldLeft = TLeft;
                 oldTop = TTop;
-                mapX = (X - _window._winLeft - _winLeft) * MapWidth / _winWidth;
-                mapY = (Y - _window._winTop - _winTop) * MapHeight / DrawableHeight;
-                TLeft = mapX - TWidth / 2;
-                TTop = mapY - THeight / 2;
+                mapX = (X - Window.WinLeft - WinLeft) * _mapWidth / WinWidth;
+                mapY = (Y - Window.WinTop - WinTop) * _mapHeight / _drawableHeight;
+                TLeft = mapX - _tWidth / 2;
+                TTop = mapY - _tHeight / 2;
                 if (TTop != oldTop || TLeft != oldLeft)
                 {
                     Drawn = false;
-                    if (OnMapPositionChange != null)
+                    if (_onMapPositionChange != null)
                     {
-                        OnMapPositionChange(this);
+                        _onMapPositionChange(this);
                     }
                 }
             }
@@ -339,10 +348,10 @@ public partial class Scanner : Controls.Control
     // Scanner.pas:151
     public void SetObjectImageLibrary(ImageLibrary value)
     {
-        if (value != ObjectsImageLibrary)
+        if (value != _objectsImageLibrary)
         {
             Valid = false;
-            ObjectsImageLibrary = value;
+            _objectsImageLibrary = value;
         }
     }
 
@@ -385,13 +394,13 @@ public partial class Scanner : Controls.Control
         Level = value;
         if (AoWHSMap.Current.CombatMap != null)
         {
-            MapWidth = Level.Width - 16;
-            MapHeight = Level.Height - 12;
+            _mapWidth = Level.Width - 16;
+            _mapHeight = Level.Height - 12;
         }
         else
         {
-            MapWidth = Level.Width - 12;
-            MapHeight = Level.Height - 12;
+            _mapWidth = Level.Width - 12;
+            _mapHeight = Level.Height - 12;
         }
     }
 
@@ -400,11 +409,11 @@ public partial class Scanner : Controls.Control
     {
         if (AoWHSMap.Current.CombatMap != null)
         {
-            MapWidth = value - 16;
+            _mapWidth = value - 16;
         }
         else
         {
-            MapWidth = value - 12;
+            _mapWidth = value - 12;
         }
     }
 
@@ -413,12 +422,12 @@ public partial class Scanner : Controls.Control
     {
         if (AoWHSMap.Current.CombatMap != null)
         {
-            MapHeight = value - 12;
+            _mapHeight = value - 12;
         }
         else
         {
             // { Both original branches subtract 12. }
-            MapHeight = value - 12;
+            _mapHeight = value - 12;
         }
     }
 
@@ -509,11 +518,11 @@ public partial class Scanner : Controls.Control
             field = (AoWMapField)Level.GetField(X + 6, Y + 6);
         }
 
-        if (Map.ExplorationEnabled)
+        if (_map.ExplorationEnabled)
         {
-            if (field.GetExplored(Map.SeatedPlayer))
+            if (field.GetExplored(_map.SeatedPlayer))
             {
-                if (Map.FogEnabled)
+                if (_map.FogEnabled)
                 {
                     if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Lo == 0)
                     {
@@ -536,7 +545,7 @@ public partial class Scanner : Controls.Control
         }
         else
         {
-            if (Map.FogEnabled)
+            if (_map.FogEnabled)
             {
                 if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Lo == 0)
                 {
@@ -595,7 +604,7 @@ public partial class Scanner : Controls.Control
     // Scanner.pas:301
     public void SetHimgLibrary(ImageLibrary value)
     {
-        HighlightImageLibrary = value;
+        _highlightImageLibrary = value;
         Valid = false;
     }
 
@@ -609,18 +618,18 @@ public partial class Scanner : Controls.Control
     // Scanner.pas:313
     public void SetSteps(int value)
     {
-        Steps = value;
-        if (Steps < 1)
+        _steps = value;
+        if (_steps < 1)
         {
-            Steps = 1;
+            _steps = 1;
         }
     }
 
     // Scanner.pas:319
     public void SetObDrawn(bool value)
     {
-        ObjectsDrawn = value;
-        if (!ObjectsDrawn)
+        _objectsDrawn = value;
+        if (!_objectsDrawn)
         {
             Drawn = false;
         }
@@ -649,39 +658,39 @@ public partial class Scanner : Controls.Control
     // Scanner.pas:359
     public void SetTWidth(int value)
     {
-        if (value != TWidth)
+        if (value != _tWidth)
         {
             Drawn = false;
-            TWidth = value;
+            _tWidth = value;
         }
     }
 
     // Scanner.pas:368
     public void SetTHeight(int value)
     {
-        if (value != THeight)
+        if (value != _tHeight)
         {
             Drawn = false;
-            THeight = value;
+            _tHeight = value;
         }
     }
 
     // Scanner.pas:377
     public void SetMap(GameMap value)
     {
-        Map = value;
-        if (Map != null)
+        _map = value;
+        if (_map != null)
         {
-            Level = Map.MapContainer.GetMapLevel(0);
+            Level = _map.MapContainer.GetMapLevel(0);
             if (AoWHSMap.Current.CombatMap != null)
             {
-                MapWidth = Level.Width - 16;
-                MapHeight = Level.Height - 12;
+                _mapWidth = Level.Width - 16;
+                _mapHeight = Level.Height - 12;
             }
             else
             {
-                MapWidth = Level.Width - 12;
-                MapHeight = Level.Height - 12;
+                _mapWidth = Level.Width - 12;
+                _mapHeight = Level.Height - 12;
             }
 
             Incremental = false;
@@ -701,7 +710,7 @@ public partial class Scanner : Controls.Control
         LockedSurface lockedSurface = default;
         try
         {
-            if (Valid && MapSurface != null && _visible)
+            if (Valid && _mapSurface != null && Visible)
             {
                 if (X < 0)
                 {
@@ -721,33 +730,33 @@ public partial class Scanner : Controls.Control
                 }
                 else
                 {
-                    yOffset = HalfRowInset;
+                    yOffset = _halfRowInset;
                 }
 
-                if (MapSurface.Lock(ref lockedSurface) >= 0)
+                if (_mapSurface.Lock(ref lockedSurface) >= 0)
                 {
-                    if (MapWidth < width + X)
+                    if (_mapWidth < width + X)
                     {
-                        width = MapWidth - X;
+                        width = _mapWidth - X;
                     }
 
-                    if (MapHeight < Y + height)
+                    if (_mapHeight < Y + height)
                     {
-                        height = MapHeight - Y;
+                        height = _mapHeight - Y;
                     }
 
                     for (int mapX = X; mapX <= width + X - 1; mapX++)
                     {
                         for (int mapY = Y; mapY <= Y + height - 1; mapY++)
                         {
-                            var rectangle = new Rect(_winWidth * mapX / MapWidth, DrawableHeight * mapY / MapHeight + yOffset, (mapX + 1) * _winWidth / MapWidth, (mapY + 1) * DrawableHeight / MapHeight + yOffset);
+                            var rectangle = new Rect(WinWidth * mapX / _mapWidth, _drawableHeight * mapY / _mapHeight + yOffset, (mapX + 1) * WinWidth / _mapWidth, (mapY + 1) * _drawableHeight / _mapHeight + yOffset);
                             lockedSurface.ClipRectangle = rectangle;
                             explored = GetExplored(mapX, mapY);
                             if (explored == 0)
                             {
-                                for (int tileX = _winWidth * mapX / MapWidth / _fogImageLibrary[0].Width, last = (mapX + 1) * _winWidth / MapWidth / _fogImageLibrary[0].Width; tileX <= last; tileX++)
+                                for (int tileX = WinWidth * mapX / _mapWidth / _fogImageLibrary[0].Width, last = (mapX + 1) * WinWidth / _mapWidth / _fogImageLibrary[0].Width; tileX <= last; tileX++)
                                 {
-                                    for (int tileY = (DrawableHeight * mapY / MapHeight + yOffset) / _fogImageLibrary[0].Height, lastTileY = ((mapY + 1) * DrawableHeight / MapHeight + yOffset) / _fogImageLibrary[0].Height; tileY <= lastTileY; tileY++)
+                                    for (int tileY = (_drawableHeight * mapY / _mapHeight + yOffset) / _fogImageLibrary[0].Height, lastTileY = ((mapY + 1) * _drawableHeight / _mapHeight + yOffset) / _fogImageLibrary[0].Height; tileY <= lastTileY; tileY++)
                                     {
                                         var fogImageLibraryHeight = _fogImageLibrary[0];
                                         var fogImageLibraryWidth = _fogImageLibrary[0];
@@ -771,9 +780,9 @@ public partial class Scanner : Controls.Control
                                 imageIndex = overlayIndex * 16 + terrain;
                                 if (terrain == 15)
                                 {
-                                    for (int tileX = _winWidth * mapX / MapWidth / _fogImageLibrary[0].Width, last = (mapX + 1) * _winWidth / MapWidth / _fogImageLibrary[0].Width; tileX <= last; tileX++)
+                                    for (int tileX = WinWidth * mapX / _mapWidth / _fogImageLibrary[0].Width, last = (mapX + 1) * WinWidth / _mapWidth / _fogImageLibrary[0].Width; tileX <= last; tileX++)
                                     {
-                                        for (int tileY = (DrawableHeight * mapY / MapHeight + yOffset) / _fogImageLibrary[0].Height, lastTileY = ((mapY + 1) * DrawableHeight / MapHeight + yOffset) / _fogImageLibrary[0].Height; tileY <= lastTileY; tileY++)
+                                        for (int tileY = (_drawableHeight * mapY / _mapHeight + yOffset) / _fogImageLibrary[0].Height, lastTileY = ((mapY + 1) * _drawableHeight / _mapHeight + yOffset) / _fogImageLibrary[0].Height; tileY <= lastTileY; tileY++)
                                         {
                                             var fogImageLibraryHeight = _fogImageLibrary[0];
                                             var fogImageLibraryWidth = _fogImageLibrary[0];
@@ -785,9 +794,9 @@ public partial class Scanner : Controls.Control
                                 {
                                     if (imageIndex < _tilesImageLibrary.Count && _tilesImageLibrary[imageIndex] != null)
                                     {
-                                        for (int tileX = _winWidth * mapX / MapWidth / _tilesImageLibrary[imageIndex].Width, last = (mapX + 1) * _winWidth / MapWidth / _tilesImageLibrary[imageIndex].Width; tileX <= last; tileX++)
+                                        for (int tileX = WinWidth * mapX / _mapWidth / _tilesImageLibrary[imageIndex].Width, last = (mapX + 1) * WinWidth / _mapWidth / _tilesImageLibrary[imageIndex].Width; tileX <= last; tileX++)
                                         {
-                                            for (int tileY = (DrawableHeight * mapY / MapHeight + yOffset) / _tilesImageLibrary[imageIndex].Height, lastTileY = ((mapY + 1) * DrawableHeight / MapHeight + yOffset) / _tilesImageLibrary[imageIndex].Height; tileY <= lastTileY; tileY++)
+                                            for (int tileY = (_drawableHeight * mapY / _mapHeight + yOffset) / _tilesImageLibrary[imageIndex].Height, lastTileY = ((mapY + 1) * _drawableHeight / _mapHeight + yOffset) / _tilesImageLibrary[imageIndex].Height; tileY <= lastTileY; tileY++)
                                             {
                                                 var tilesImageLibraryHeight = _tilesImageLibrary[imageIndex];
                                                 var tilesImageLibraryWidth = _tilesImageLibrary[imageIndex];
@@ -796,21 +805,21 @@ public partial class Scanner : Controls.Control
                                         }
                                     }
 
-                                    if ((overlay == 0 || overlay == 10) && ShowHighlights == true && mapY < MapHeight - 1 && mapX > 0 && GetOverlay(mapX - 1, mapY + 1) != overlay)
+                                    if ((overlay == 0 || overlay == 10) && _showHighlights == true && mapY < _mapHeight - 1 && mapX > 0 && GetOverlay(mapX - 1, mapY + 1) != overlay)
                                     {
-                                        HighlightImageLibrary[1].ShowClipped(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, lockedSurface);
+                                        _highlightImageLibrary[1].ShowClipped(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, lockedSurface);
                                     }
 
-                                    if ((overlay == 0 || overlay == 10) && ShowHighlights == true && mapY > 0 && mapX < MapWidth - 1 && GetOverlay(mapX + 1, mapY - 1) != overlay)
+                                    if ((overlay == 0 || overlay == 10) && _showHighlights == true && mapY > 0 && mapX < _mapWidth - 1 && GetOverlay(mapX + 1, mapY - 1) != overlay)
                                     {
-                                        HighlightImageLibrary[0].ShowClipped(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, lockedSurface);
+                                        _highlightImageLibrary[0].ShowClipped(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, lockedSurface);
                                     }
 
                                     if (explored == 2)
                                     {
-                                        for (int tileX = _winWidth * mapX / MapWidth / _fogImageLibrary[1].Width, last = (mapX + 1) * _winWidth / MapWidth / _fogImageLibrary[1].Width; tileX <= last; tileX++)
+                                        for (int tileX = WinWidth * mapX / _mapWidth / _fogImageLibrary[1].Width, last = (mapX + 1) * WinWidth / _mapWidth / _fogImageLibrary[1].Width; tileX <= last; tileX++)
                                         {
-                                            for (int tileY = (DrawableHeight * mapY / MapHeight + yOffset) / _fogImageLibrary[1].Height, lastTileY = ((mapY + 1) * DrawableHeight / MapHeight + yOffset) / _fogImageLibrary[1].Height; tileY <= lastTileY; tileY++)
+                                            for (int tileY = (_drawableHeight * mapY / _mapHeight + yOffset) / _fogImageLibrary[1].Height, lastTileY = ((mapY + 1) * _drawableHeight / _mapHeight + yOffset) / _fogImageLibrary[1].Height; tileY <= lastTileY; tileY++)
                                             {
                                                 var fogImageLibraryHeight = _fogImageLibrary[1];
                                                 var fogImageLibraryWidth = _fogImageLibrary[1];
@@ -824,7 +833,7 @@ public partial class Scanner : Controls.Control
 
                         if (yOffset == 0)
                         {
-                            yOffset = HalfRowInset;
+                            yOffset = _halfRowInset;
                         }
                         else
                         {
@@ -832,7 +841,7 @@ public partial class Scanner : Controls.Control
                         }
                     }
 
-                    MapSurface.Unlock();
+                    _mapSurface.Unlock();
                     SetObDrawn(false);
                     Drawn = false;
                 }
@@ -854,15 +863,15 @@ public partial class Scanner : Controls.Control
         int building;
         int objectValue;
         LockedSurface lockedSurface = default;
-        if (ObjectSurface != null)
+        if (_objectSurface != null)
         {
-            ObjectSurface.Clear(65280);
+            _objectSurface.Clear(65280);
             yOffset = 0;
-            if (ObjectSurface.Lock(ref lockedSurface) >= 0)
+            if (_objectSurface.Lock(ref lockedSurface) >= 0)
             {
-                for (int X = 0, last = MapWidth - 1; X <= last; X++)
+                for (int X = 0, last = _mapWidth - 1; X <= last; X++)
                 {
-                    for (int Y = 0, lastY = MapHeight - 1; Y <= lastY; Y++)
+                    for (int Y = 0, lastY = _mapHeight - 1; Y <= lastY; Y++)
                     {
                         if (GetExplored(X, Y) == 1)
                         {
@@ -875,11 +884,11 @@ public partial class Scanner : Controls.Control
                                 if (building > 0 && _buildings)
                                 {
                                     imageIndex = 7 - (((int)(((uint)building) >> 22)) & 3) + (((int)(((uint)building) >> 16)) & 63) * 6;
-                                    if (imageIndex < ObjectsImageLibrary.Count && imageIndex > -1 && ObjectsImageLibrary[imageIndex] != null)
+                                    if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] != null)
                                     {
-                                        var objectsImageLibraryHeight = ObjectsImageLibrary[imageIndex];
-                                        var objectsImageLibraryWidth = ObjectsImageLibrary[imageIndex];
-                                        ObjectsImageLibrary[imageIndex].ShowClipped(_winWidth / (MapWidth * 2) + X * _winWidth / MapWidth - objectsImageLibraryWidth.Width / 2, _winHeight / (MapHeight * 2) + Y * _winHeight / MapHeight - objectsImageLibraryHeight.Height / 2 + yOffset, lockedSurface);
+                                        var objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
+                                        var objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];
+                                        _objectsImageLibrary[imageIndex].ShowClipped(WinWidth / (_mapWidth * 2) + X * WinWidth / _mapWidth - objectsImageLibraryWidth.Width / 2, WinHeight / (_mapHeight * 2) + Y * WinHeight / _mapHeight - objectsImageLibraryHeight.Height / 2 + yOffset, lockedSurface);
                                     }
                                 }
                                 else
@@ -887,11 +896,11 @@ public partial class Scanner : Controls.Control
                                     if (natural > 0 && _naturals)
                                     {
                                         imageIndex = (int)(((uint)natural) >> 8) * 6 + 9;
-                                        if (imageIndex < ObjectsImageLibrary.Count && imageIndex > -1 && ObjectsImageLibrary[imageIndex] != null)
+                                        if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] != null)
                                         {
-                                            var objectsImageLibraryHeight = ObjectsImageLibrary[imageIndex];
-                                            var objectsImageLibraryWidth = ObjectsImageLibrary[imageIndex];
-                                            ObjectsImageLibrary[imageIndex].ShowClipped(_winWidth / (MapWidth * 2) + X * _winWidth / MapWidth - objectsImageLibraryWidth.Width / 2, _winHeight / (MapHeight * 2) + Y * _winHeight / MapHeight - objectsImageLibraryHeight.Height / 2 + yOffset, lockedSurface);
+                                            var objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
+                                            var objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];
+                                            _objectsImageLibrary[imageIndex].ShowClipped(WinWidth / (_mapWidth * 2) + X * WinWidth / _mapWidth - objectsImageLibraryWidth.Width / 2, WinHeight / (_mapHeight * 2) + Y * WinHeight / _mapHeight - objectsImageLibraryHeight.Height / 2 + yOffset, lockedSurface);
                                         }
                                     }
                                 }
@@ -899,11 +908,11 @@ public partial class Scanner : Controls.Control
                                 if (army > 0 && _armies)
                                 {
                                     imageIndex = army * 6 + 8;
-                                    if (imageIndex < ObjectsImageLibrary.Count && imageIndex > -1 && ObjectsImageLibrary[imageIndex] != null)
+                                    if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] != null)
                                     {
-                                        var objectsImageLibraryHeight = ObjectsImageLibrary[imageIndex];
-                                        var objectsImageLibraryWidth = ObjectsImageLibrary[imageIndex];
-                                        ObjectsImageLibrary[imageIndex].ShowClipped(_winWidth / (MapWidth * 2) + X * _winWidth / MapWidth - objectsImageLibraryWidth.Width / 2, _winHeight / (MapHeight * 2) + Y * _winHeight / MapHeight - objectsImageLibraryHeight.Height / 2 + yOffset, lockedSurface);
+                                        var objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
+                                        var objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];
+                                        _objectsImageLibrary[imageIndex].ShowClipped(WinWidth / (_mapWidth * 2) + X * WinWidth / _mapWidth - objectsImageLibraryWidth.Width / 2, WinHeight / (_mapHeight * 2) + Y * WinHeight / _mapHeight - objectsImageLibraryHeight.Height / 2 + yOffset, lockedSurface);
                                     }
                                 }
                             }
@@ -912,7 +921,7 @@ public partial class Scanner : Controls.Control
 
                     if (yOffset == 0)
                     {
-                        yOffset = HalfRowInset;
+                        yOffset = _halfRowInset;
                     }
                     else
                     {
@@ -920,7 +929,7 @@ public partial class Scanner : Controls.Control
                     }
                 }
 
-                ObjectSurface.Unlock();
+                _objectSurface.Unlock();
                 Drawn = false;
                 SetObDrawn(true);
             }
@@ -931,13 +940,13 @@ public partial class Scanner : Controls.Control
     public ImageLibrary TilesImageLibrary { get => _tilesImageLibrary; set => SetImageLibrary(value); }
 
     [Published]
-    public ImageLibrary HighlightsImageLibrary { get => HighlightImageLibrary; set => SetHimgLibrary(value); }
+    public ImageLibrary HighlightsImageLibrary { get => _highlightImageLibrary; set => SetHimgLibrary(value); }
 
     [Published]
     public ImageLibrary FogImageLibrary { get => _fogImageLibrary; set => SetFogimgLibrary(value); }
 
     [Published]
-    public ImageLibrary ImageLibraryObjects { get => ObjectsImageLibrary; set => SetObjectImageLibrary(value); }
+    public ImageLibrary ImageLibraryObjects { get => _objectsImageLibrary; set => SetObjectImageLibrary(value); }
 
     [Published]
     public int TileBoxTop { get => TTop; set => SetTTop(value); }
@@ -946,13 +955,13 @@ public partial class Scanner : Controls.Control
     public int TileBoxLeft { get => TLeft; set => SetTLeft(value); }
 
     [Published]
-    public int TileBoxWidth { get => TWidth; set => SetTWidth(value); }
+    public int TileBoxWidth { get => _tWidth; set => SetTWidth(value); }
 
     [Published]
-    public int TileBoxHeight { get => THeight; set => SetTHeight(value); }
+    public int TileBoxHeight { get => _tHeight; set => SetTHeight(value); }
 
     [Published]
-    public bool HighLights { get => ShowHighlights; set => ShowHighlights = value; }
+    public bool HighLights { get => _showHighlights; set => _showHighlights = value; }
 
     [Published]
     public bool Buildings { get => _buildings; set => SetBuildings(value); }
@@ -964,10 +973,10 @@ public partial class Scanner : Controls.Control
     public bool Naturals { get => _naturals; set => SetNaturals(value); }
 
     [Published]
-    public NotifyEvent<Scanner> OnChangeTileBox { get => OnMapPositionChange; set => OnMapPositionChange = value; }
+    public NotifyEvent<Scanner> OnChangeTileBox { get => _onMapPositionChange; set => _onMapPositionChange = value; }
 
     [Published]
-    public int MapDrawSteps { get => Steps; set => SetSteps(value); }
+    public int MapDrawSteps { get => _steps; set => SetSteps(value); }
 
     [Published]
     public InterfaceImageLibrary ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }

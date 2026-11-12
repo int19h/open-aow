@@ -10,12 +10,12 @@ public partial class MailMessage : Component
     public MailMessage(Component owner) : base(owner)
     { }
 
-    public MailHeader Header;
-    public string Subject = "";
-    public bool IncludeHeader;
-    public bool Encode;
-    public MailAttachmentList Attachments;
-    public MailAddressList Recipients;
+    public MailHeader Header { get; }
+    public string Subject { get; set; } = "";
+    public bool IncludeHeader { get; set; }
+    public bool Encode { get; set; }
+    public MailAttachmentList Attachments { get; }
+    public MailAddressList Recipients { get; }
 
     // AoWSMTPDlg.pas:20
     public void SetBody(StringCollection value)

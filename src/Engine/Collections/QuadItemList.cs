@@ -11,10 +11,10 @@ namespace Aow.Engine.Collections;
 
 public partial class QuadItemList : Persistent
 {
-    internal QuadInteger[] _list = [];
-    internal int _count;
-    internal int _capacity;
-    internal QuadInteger _default;
+    private QuadInteger[] _list = [];
+    private int _count;
+    private int _capacity;
+    private QuadInteger _default;
 
     // Engine.pas:5538
     internal QuadInteger Get(int index)

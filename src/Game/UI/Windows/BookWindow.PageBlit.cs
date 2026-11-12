@@ -8,15 +8,15 @@ public partial class BookWindow
 {
     public override void Blit(Surface surface)
     {
-        if (PageSurface is not null && (PageSurface.PixelFormatId != BackSurface.PixelFormatId ||
-            PageSurface.Width != BackSurface.Width || PageSurface.Height != BackSurface.Height ||
-            PageSurface is DirectDrawSurface != BackSurface is DirectDrawSurface))
+        if (_pageSurface is not null && (_pageSurface.PixelFormatId != BackSurface.PixelFormatId ||
+            _pageSurface.Width != BackSurface.Width || _pageSurface.Height != BackSurface.Height ||
+            _pageSurface is DirectDrawSurface != BackSurface is DirectDrawSurface))
         {
-            PageSurface?.Dispose();
-            PageSurface = null;
+            _pageSurface?.Dispose();
+            _pageSurface = null;
         }
-        var area = new Rect(0, 0, _winWidth, _winHeight);
-        if (PageSurface is null)
+        var area = new Rect(0, 0, WinWidth, WinHeight);
+        if (_pageSurface is null)
         {
             if (BackSurface is DirectDrawSurface direct)
             {
@@ -24,43 +24,43 @@ public partial class BookWindow
                     ? Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.VideoMemory, DirectDrawSurfaceCreationFlagsElement.SystemMemory)
                     : Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.SystemMemory);
                 var page = new DirectDrawSurface();
-                page.CreateSurface(_winWidth, _winHeight, BackSurface.PixelFormatId, flags);
-                PageSurface = page;
+                page.CreateSurface(WinWidth, WinHeight, BackSurface.PixelFormatId, flags);
+                _pageSurface = page;
             }
-            else PageSurface = new DataSurface(_winWidth, _winHeight, BackSurface.PixelFormatId, null);
-            BackSurface.BlitAreaClipped(PageSurface, area, 0, 0);
+            else _pageSurface = new DataSurface(WinWidth, WinHeight, BackSurface.PixelFormatId, null);
+            BackSurface.BlitAreaClipped(_pageSurface, area, 0, 0);
         }
         if (!Animating)
         {
             base.Blit(surface);
             return;
         }
-        if (FirstAnimationFrame || !PreviousSurfaceValid)
+        if (_firstAnimationFrame || !_previousSurfaceValid)
         {
-            area = new Rect(0, 0, _winWidth, _winHeight);
-            Surface initial = PageTurnMode == PageTurnMode.Left ? BackSurface : PageSurface;
-            if (PageTurnMode is PageTurnMode.Left or PageTurnMode.Right)
+            area = new Rect(0, 0, WinWidth, WinHeight);
+            Surface initial = _pageTurnMode == PageTurnMode.Left ? BackSurface : _pageSurface;
+            if (_pageTurnMode is PageTurnMode.Left or PageTurnMode.Right)
             {
-                if (!_masked) initial.BlitAreaClipped(surface, area, _winLeft, _winTop);
-                else initial.BlitAreaColorKeyClipped(surface, area, _winLeft, _winTop,
+                if (!Masked) initial.BlitAreaClipped(surface, area, WinLeft, WinTop);
+                else initial.BlitAreaColorKeyClipped(surface, area, WinLeft, WinTop,
                     PixelFormats.Color2PixelInfo(_maskColor, BackSurface.PixelFormatId, null));
             }
-            FirstAnimationFrame = false;
+            _firstAnimationFrame = false;
         }
         LockedSurface destination = default, source = default, oldPage = default;
         surface.Lock(ref destination);
         BackSurface.Lock(ref source);
-        PageSurface.Lock(ref oldPage);
-        PageTurn.RenderScene(_winLeft + _borderWidth, _winTop + _borderHeight, destination,
+        _pageSurface.Lock(ref oldPage);
+        PageTurn.RenderScene(WinLeft + _borderWidth, WinTop + _borderHeight, destination,
             _borderWidth, _borderHeight, oldPage, _borderWidth, _borderHeight, source, ref area);
-        PageSurface.Unlock();
+        _pageSurface.Unlock();
         BackSurface.Unlock();
         surface.Unlock();
         BackRectangle.Top = area.Top;
         // AOWTools keeps the area above the window intact
-        if (BackRectangle.Top >= _winTop && BackRectangle.Top <= _winTop + FrameTop) BackRectangle.Top = _winTop - 1;
-        BackRectangle.Bottom = _winTop - area.Top + _winHeight;
+        if (BackRectangle.Top >= WinTop && BackRectangle.Top <= WinTop + FrameTop) BackRectangle.Top = WinTop - 1;
+        BackRectangle.Bottom = WinTop - area.Top + WinHeight;
         SurfaceValid = true;
-        _onDrawSurface?.Invoke(this, surface, _winLeft, _winTop);
+        _onDrawSurface?.Invoke(this, surface, WinLeft, WinTop);
     }
 }

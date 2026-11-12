@@ -57,8 +57,8 @@ public sealed partial class EngineFixture : IDisposable
     // Observers override insertion around this one membership and removal implementation.
     internal class Owner() : ECustomNode(null!)
     {
-        internal readonly List<EngineObject> Members = [];
-        internal int Removals;
+        internal List<EngineObject> Members { get; } = [];
+        internal int Removals { get; private set; }
 
         public override int AddChild(EngineObject child)
         {

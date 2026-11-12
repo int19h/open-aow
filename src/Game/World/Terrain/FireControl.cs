@@ -16,15 +16,15 @@ public partial class FireControl : IDisposable
     // Resources
     public FireControl()
     {
-        Resources = new List<Fire.Resource>();
+        _resources = new List<Fire.Resource>();
     }
 
-    public List<Fire.Resource> Resources;
+    private List<Fire.Resource> _resources;
 
     // Structur.PAS:3726
     public virtual void Dispose()
     {
-        Resources?.Clear();
+        _resources?.Clear();
     }
 
     // Structur.PAS:3732
@@ -33,11 +33,11 @@ public partial class FireControl : IDisposable
         Fire.Resource result;
         List<Fire.Resource> resources;
         resources = new List<Fire.Resource>();
-        for (int I = 0, last = Resources.Count - 1; I <= last; I++)
+        for (int I = 0, last = _resources.Count - 1; I <= last; I++)
         {
-            if (Resources[I].FireType == fireType)
+            if (_resources[I].FireType == fireType)
             {
-                resources.Add(Resources[I]);
+                resources.Add(_resources[I]);
             }
         }
 
@@ -88,13 +88,13 @@ public partial class FireControl : IDisposable
     // Structur.PAS:3771
     public void RegisterFireResource(Fire.Resource resource)
     {
-        Resources.Add(resource);
+        _resources.Add(resource);
     }
 
     // Structur.PAS:3776
     public void UnregisterFireResource(Fire.Resource resource)
     {
-        Resources.Remove(resource);
+        _resources.Remove(resource);
     }
 
     // intf_P1_11.inc:62

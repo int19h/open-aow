@@ -32,7 +32,7 @@ public partial class HSMap : ENode
     public HSMap(ECustomNode owner) : base(owner)
     {
         _mouse = CreateMouse();
-        _mouse._hexSpriteMap = this;
+        _mouse.HexSpriteMap = this;
         _selection = new HexSpriteSelection(this);
         _selection.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
         _staticVisibleHexSprite = new VisibilityList(this);
@@ -44,85 +44,85 @@ public partial class HSMap : ENode
         _dynamicFixedVisibleHexSprite = new VisibilityList(this);
         _dynamicFixedVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
         _timer = new ETimerNode(this);
-        _hexSpriteChangedEventsStore = new();
-        _terrainChangedEventsStore = new();
-        _viewPortChangedEventsStore = new();
-        _newFrameEventsStore = new();
-        _destroyEventsStore = new();
+        HexSpriteChangedEventsStore = new();
+        TerrainChangedEventsStore = new();
+        ViewPortChangedEventsStore = new();
+        NewFrameEventsStore = new();
+        DestroyEventsStore = new();
     }
 
-    internal HexSpriteMapMouse _mouse;
-    internal MapContainer _mapContainer;
-    internal GameEngine _engine;
-    internal HexSpriteSelection _selection;
-    internal VisibilityList _staticVisibleHexSprite;
-    internal VisibilityList _dynamicVisibleHexSprite;
-    internal VisibilityList _staticFixedVisibleHexSprite;
-    internal VisibilityList _dynamicFixedVisibleHexSprite;
-    internal ETimerNode _timer;
-    internal bool _staticSceneInvalid;
-    internal bool _dynamicSceneInvalid;
-    internal int _version;
-    internal string _hssFileName = "";
-    internal Set<HexSpriteMapStatusElement> _status;
-    internal int _frame;
+    private HexSpriteMapMouse _mouse;
+    private MapContainer _mapContainer;
+    private GameEngine _engine;
+    private HexSpriteSelection _selection;
+    private VisibilityList _staticVisibleHexSprite;
+    private VisibilityList _dynamicVisibleHexSprite;
+    private VisibilityList _staticFixedVisibleHexSprite;
+    private VisibilityList _dynamicFixedVisibleHexSprite;
+    private ETimerNode _timer;
+    private bool _staticSceneInvalid;
+    private bool _dynamicSceneInvalid;
+    private int _version;
+    private string _hssFileName = "";
+    private Set<HexSpriteMapStatusElement> _status;
+    private int _frame;
 
-    internal EventStore<TerrainChangedNotification> _terrainChangedEventsStore;
+    internal EventStore<TerrainChangedNotification> TerrainChangedEventsStore { get; }
 
     internal event NotifyEvent<TerrainChangedNotification> FTerrainChangedEvents
     {
-        add => _terrainChangedEventsStore.Add(value);
-        remove => _terrainChangedEventsStore.Remove(value);
+        add => TerrainChangedEventsStore.Add(value);
+        remove => TerrainChangedEventsStore.Remove(value);
     }
 
-    internal CenterViewEvent _onCenterView;
-    internal ChangeViewEvent _onChangeView;
-    internal ViewLevelEvent _onViewLevel;
-    internal Aow.Engine.ProgressEvent _onProgress;
-    internal int _terrainChangedLockCounter;
+    private CenterViewEvent _onCenterView;
+    private ChangeViewEvent _onChangeView;
+    private ViewLevelEvent _onViewLevel;
+    private Aow.Engine.ProgressEvent _onProgress;
+    private int _terrainChangedLockCounter;
 
-    internal EventStore<HSMap> _newFrameEventsStore;
+    internal EventStore<HSMap> NewFrameEventsStore { get; }
 
     internal event NotifyEvent<HSMap> FNewFrameEvents
     {
-        add => _newFrameEventsStore.Add(value);
-        remove => _newFrameEventsStore.Remove(value);
+        add => NewFrameEventsStore.Add(value);
+        remove => NewFrameEventsStore.Remove(value);
     }
 
-    internal EventStore<HSMap> _viewPortChangedEventsStore;
+    internal EventStore<HSMap> ViewPortChangedEventsStore { get; }
 
     internal event NotifyEvent<HSMap> FViewPortChangedEvents
     {
-        add => _viewPortChangedEventsStore.Add(value);
-        remove => _viewPortChangedEventsStore.Remove(value);
+        add => ViewPortChangedEventsStore.Add(value);
+        remove => ViewPortChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<HSMap> _destroyEventsStore;
+    internal EventStore<HSMap> DestroyEventsStore { get; }
 
     internal event NotifyEvent<HSMap> FDestroyEvents
     {
-        add => _destroyEventsStore.Add(value);
-        remove => _destroyEventsStore.Remove(value);
+        add => DestroyEventsStore.Add(value);
+        remove => DestroyEventsStore.Remove(value);
     }
 
-    internal EventStore<HexSprite> _hexSpriteChangedEventsStore;
+    internal EventStore<HexSprite> HexSpriteChangedEventsStore { get; }
 
     internal event NotifyEvent<HexSprite> _hexSpriteChangedEvents
     {
-        add => _hexSpriteChangedEventsStore.Add(value);
-        remove => _hexSpriteChangedEventsStore.Remove(value);
+        add => HexSpriteChangedEventsStore.Add(value);
+        remove => HexSpriteChangedEventsStore.Remove(value);
     }
 
-    internal string _fileName = "";
+    private string _fileName = "";
     protected internal int _viewPixelX;
     protected internal int _viewPixelY;
     protected internal int _viewL;
-    protected internal int _viewWidth;
-    protected internal int _viewHeight;
-    protected internal int _viewHexX;
-    protected internal int _viewHexY;
-    protected internal int _viewWidthHex;
-    protected internal int _viewHeightHex;
+    private int _viewWidth;
+    private int _viewHeight;
+    private int _viewHexX;
+    private int _viewHexY;
+    private int _viewWidthHex;
+    private int _viewHeightHex;
 
     // HSMAP.PAS:37
     public override void Dispose()
@@ -130,26 +130,26 @@ public partial class HSMap : ENode
         EngineMessage message = default;
         LockTerrainChangedEvent();
         _status = _status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
-        _selection._onSelectStore.Clear();
-        _selection._onDeselectStore.Clear();
+        _selection.OnSelectStore.Clear();
+        _selection.OnDeselectStore.Clear();
         _selection.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
         _selection.UnselectAll();
-        _destroyEventsStore.Raise(this);
-        _hexSpriteChangedEventsStore.Clear();
+        DestroyEventsStore.Raise(this);
+        HexSpriteChangedEventsStore.Clear();
         _staticVisibleHexSprite.QuickClear();
         _dynamicVisibleHexSprite.QuickClear();
         _staticFixedVisibleHexSprite.QuickClear();
         _dynamicFixedVisibleHexSprite.QuickClear();
         EngineMessage.InitializeMessage(ref message, 536936471, this);
         SendMessage(ref message, this);
-        _newFrameEventsStore.Clear();
+        NewFrameEventsStore.Clear();
         base.Dispose();
-        _hexSpriteChangedEventsStore.Clear();
-        _terrainChangedEventsStore.Clear();
-        _viewPortChangedEventsStore.Clear();
-        _newFrameEventsStore.Clear();
+        HexSpriteChangedEventsStore.Clear();
+        TerrainChangedEventsStore.Clear();
+        ViewPortChangedEventsStore.Clear();
+        NewFrameEventsStore.Clear();
         _mouse?.Dispose();
-        _destroyEventsStore.Clear();
+        DestroyEventsStore.Clear();
         UnlockTerrainChangedEvent();
     }
 
@@ -242,7 +242,7 @@ public partial class HSMap : ENode
         info.Level = L;
         var mapLevel = _mapContainer.GetMapLevel(L);
         info.MapLevel = mapLevel;
-        _terrainChangedEventsStore.Raise(notification);
+        TerrainChangedEventsStore.Raise(notification);
     }
 
     // HSMAP.PAS:705
@@ -286,9 +286,9 @@ public partial class HSMap : ENode
     // HSMAP.PAS:273
     public virtual void FillLevelWithResource(int L, MapObjectResource resource)
     {
-        for (int Y = 0, last = _mapContainer._height - 1; Y <= last; Y++)
+        for (int Y = 0, last = _mapContainer.Height - 1; Y <= last; Y++)
         {
-            for (int X = 0, lastX = _mapContainer._width - 1; X <= lastX; X++)
+            for (int X = 0, lastX = _mapContainer.Width - 1; X <= lastX; X++)
             {
                 resource.PlaceResourceUser(this, (sbyte)X, (sbyte)Y, (sbyte)L);
             }
@@ -324,7 +324,7 @@ public partial class HSMap : ENode
     // { Tests OnCenterView instead of OnViewLevel (original slip). }
     public virtual void ViewLevel(int hexLevel)
     {
-        if (_onCenterView != null && hexLevel < _mapContainer._levelCount)
+        if (_onCenterView != null && hexLevel < _mapContainer.LevelCount)
         {
             _onViewLevel(hexLevel);
         }
@@ -407,11 +407,11 @@ public partial class HSMap : ENode
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
         while (walk.Radius <= radius)
         {
-            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel._width && walk.Y < mapLevel._height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 mapField = mapLevel.GetField(walk.X, walk.Y);
-                list[walk.HexNumber] = mapField._terrainType;
-                mapField._terrainType = (sbyte)terrainType;
+                list[walk.HexNumber] = mapField.TerrainType;
+                mapField.TerrainType = (sbyte)terrainType;
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -420,12 +420,12 @@ public partial class HSMap : ENode
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
         while (walk.Radius <= radius)
         {
-            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel._width && walk.Y < mapLevel._height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 mapField = mapLevel.GetField(walk.X, walk.Y);
                 if (!mapField.CanChangeTerrain(mapObject))
                 {
-                    mapField._terrainType = list[walk.HexNumber];
+                    mapField.TerrainType = list[walk.HexNumber];
                     list[walk.HexNumber] = -127;
                 }
             }
@@ -436,9 +436,9 @@ public partial class HSMap : ENode
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
         while (walk.Radius <= radius)
         {
-            if (list[walk.HexNumber] != -127 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel._width && walk.Y < mapLevel._height)
+            if (list[walk.HexNumber] != -127 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                mapLevel.GetField(walk.X, walk.Y)._terrainType = (sbyte)terrainType;
+                mapLevel.GetField(walk.X, walk.Y).TerrainType = (sbyte)terrainType;
                 mapLevel.GetField(walk.X, walk.Y).TerrainChanged();
                 count += 1;
             }
@@ -457,9 +457,9 @@ public partial class HSMap : ENode
             }
 
             R.Right = X + radius + 1;
-            if (R.Right > mapLevel._width)
+            if (R.Right > mapLevel.Width)
             {
-                R.Left = mapLevel._width;
+                R.Left = mapLevel.Width;
             }
 
             R.Top = Y - radius;
@@ -469,9 +469,9 @@ public partial class HSMap : ENode
             }
 
             R.Bottom = Y + radius + 1;
-            if (R.Bottom > mapLevel._height)
+            if (R.Bottom > mapLevel.Height)
             {
-                R.Bottom = mapLevel._height;
+                R.Bottom = mapLevel.Height;
             }
 
             TerrainChanged(R, (sbyte)L);
@@ -505,16 +505,16 @@ public partial class HSMap : ENode
             HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
             while (walk.Radius <= radius)
             {
-                if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel._width && walk.Y < mapLevel._height)
+                if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     mapField = mapLevel.GetField(walk.X, walk.Y);
-                    terrainType = mapField._terrainType;
-                    overlayType = mapField._overlayType;
+                    terrainType = mapField.TerrainType;
+                    overlayType = mapField.OverlayType;
                     orgList[walk.HexNumber * 2] = terrainType;
                     orgList[walk.HexNumber * 2 + 1] = overlayType;
                     changeTerrainProc(mapField, ref terrainType, ref overlayType);
-                    mapField._terrainType = terrainType;
-                    mapField._overlayType = overlayType;
+                    mapField.TerrainType = terrainType;
+                    mapField.OverlayType = overlayType;
                     newList[walk.HexNumber * 2] = terrainType;
                     newList[walk.HexNumber * 2 + 1] = overlayType;
                 }
@@ -525,13 +525,13 @@ public partial class HSMap : ENode
             HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
             while (walk.Radius <= radius)
             {
-                if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel._width && walk.Y < mapLevel._height)
+                if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     mapField = mapLevel.GetField(walk.X, walk.Y);
                     if (!mapField.CanChangeTerrain(mapObject))
                     {
-                        mapField._terrainType = orgList[walk.HexNumber * 2];
-                        mapField._overlayType = orgList[walk.HexNumber * 2 + 1];
+                        mapField.TerrainType = orgList[walk.HexNumber * 2];
+                        mapField.OverlayType = orgList[walk.HexNumber * 2 + 1];
                         changed[walk.HexNumber] = false;
                     }
                     else
@@ -546,14 +546,14 @@ public partial class HSMap : ENode
             HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
             while (walk.Radius <= radius)
             {
-                if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel._width && walk.Y < mapLevel._height)
+                if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     if (changed[walk.HexNumber])
                     {
                         var item = newList[walk.HexNumber * 2];
-                        mapLevel.GetField(walk.X, walk.Y)._terrainType = item;
+                        mapLevel.GetField(walk.X, walk.Y).TerrainType = item;
                         var newListItem = newList[walk.HexNumber * 2 + 1];
-                        mapLevel.GetField(walk.X, walk.Y)._overlayType = newListItem;
+                        mapLevel.GetField(walk.X, walk.Y).OverlayType = newListItem;
                         mapLevel.GetField(walk.X, walk.Y).TerrainChanged();
                         count += 1;
                     }
@@ -582,9 +582,9 @@ public partial class HSMap : ENode
                 }
 
                 R.Right = X + radius + 1;
-                if (R.Right > mapLevel._width)
+                if (R.Right > mapLevel.Width)
                 {
-                    R.Left = mapLevel._width;
+                    R.Left = mapLevel.Width;
                 }
 
                 R.Top = Y - radius;
@@ -594,9 +594,9 @@ public partial class HSMap : ENode
                 }
 
                 R.Bottom = Y + radius + 1;
-                if (R.Bottom > mapLevel._height)
+                if (R.Bottom > mapLevel.Height)
                 {
-                    R.Bottom = mapLevel._height;
+                    R.Bottom = mapLevel.Height;
                 }
 
                 TerrainChanged(R, (sbyte)L);
@@ -689,7 +689,7 @@ public partial class HSMap : ENode
             _frame = 0;
         }
 
-        _newFrameEventsStore.Raise(this);
+        NewFrameEventsStore.Raise(this);
     }
 
     // HSMAP.PAS:91
@@ -720,9 +720,9 @@ public partial class HSMap : ENode
         }
 
         R.Right = X + radius + 1;
-        if (R.Right > mapLevel._width)
+        if (R.Right > mapLevel.Width)
         {
-            R.Right = mapLevel._width;
+            R.Right = mapLevel.Width;
         }
 
         R.Top = Y - radius;
@@ -732,9 +732,9 @@ public partial class HSMap : ENode
         }
 
         R.Bottom = Y + radius + 1;
-        if (R.Bottom > mapLevel._height)
+        if (R.Bottom > mapLevel.Height)
         {
-            R.Bottom = mapLevel._height;
+            R.Bottom = mapLevel.Height;
         }
 
         TerrainChanged(R, L);
@@ -774,7 +774,7 @@ public partial class HSMap : ENode
     {
         int X = default;
         int Y = default;
-        HexGeometry.HexToPixel(this._mapContainer._width - 1, this._mapContainer._height - 1, ref X, ref Y);
+        HexGeometry.HexToPixel(this._mapContainer.Width - 1, this._mapContainer.Height - 1, ref X, ref Y);
 
         X += 40;
         return X;
@@ -785,13 +785,13 @@ public partial class HSMap : ENode
     {
         int Y = default;
         int X = default;
-        if (this._mapContainer._height > 1)
+        if (this._mapContainer.Height > 1)
         {
-            HexGeometry.HexToPixel(1, this._mapContainer._height - 1, ref X, ref Y);
+            HexGeometry.HexToPixel(1, this._mapContainer.Height - 1, ref X, ref Y);
         }
         else
         {
-            HexGeometry.HexToPixel(0, this._mapContainer._height - 1, ref X, ref Y);
+            HexGeometry.HexToPixel(0, this._mapContainer.Height - 1, ref X, ref Y);
         }
 
         Y += 32;
@@ -818,7 +818,7 @@ public partial class HSMap : ENode
         message.MessageId = 16;
         while (walk.Radius <= radius)
         {
-            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel._width && walk.Y < mapLevel._height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 mapLevel.GetField(walk.X, walk.Y).SendMapFieldMessage(ref message);
             }
@@ -839,9 +839,9 @@ public partial class HSMap : ENode
         }
 
         R.Right = X + radius + 1;
-        if (R.Right > mapLevel._width)
+        if (R.Right > mapLevel.Width)
         {
-            R.Left = mapLevel._width;
+            R.Left = mapLevel.Width;
         }
 
         R.Top = Y - radius;
@@ -851,9 +851,9 @@ public partial class HSMap : ENode
         }
 
         R.Bottom = Y + radius + 1;
-        if (R.Bottom > mapLevel._height)
+        if (R.Bottom > mapLevel.Height)
         {
-            R.Bottom = mapLevel._height;
+            R.Bottom = mapLevel.Height;
         }
 
         TerrainChanged(R, (sbyte)L);
@@ -895,14 +895,14 @@ public partial class HSMap : ENode
             _viewHeight = height;
             HexGeometry.PixelToHex(_viewPixelX - 8, _viewPixelY - 16, ref x1, ref y1);
             HexGeometry.PixelToHex(_viewPixelX + width - 1 + 8, _viewPixelY + height - 1 + 16, ref x2, ref y2);
-            if (x2 >= _mapContainer._width)
+            if (x2 >= _mapContainer.Width)
             {
-                x2 = _mapContainer._width - 1;
+                x2 = _mapContainer.Width - 1;
             }
 
-            if (y2 >= _mapContainer._height)
+            if (y2 >= _mapContainer.Height)
             {
-                y2 = _mapContainer._height - 1;
+                y2 = _mapContainer.Height - 1;
             }
 
             if (x1 < 0)
@@ -920,7 +920,7 @@ public partial class HSMap : ENode
             _viewHexX = x1;
             _viewHexY = y1;
             result = true;
-            _viewPortChangedEventsStore.Raise(this);
+            ViewPortChangedEventsStore.Raise(this);
         }
         else
         {
@@ -960,7 +960,7 @@ public partial class HSMap : ENode
             }
 
             _staticVisibleHexSprite.QuickClear();
-            _staticVisibleHexSprite._sorted = false;
+            _staticVisibleHexSprite.Sorted = false;
         }
         catch
         {
@@ -984,7 +984,7 @@ public partial class HSMap : ENode
         }
 
         _dynamicVisibleHexSprite.QuickClear();
-        _dynamicVisibleHexSprite._sorted = false;
+        _dynamicVisibleHexSprite.Sorted = false;
     }
 
     // HSMAP.PAS:745
@@ -994,7 +994,7 @@ public partial class HSMap : ENode
     }
 
     public HexSpriteMapMouse Mouse { get => _mouse; }
-    public MapContainer MapContainer { get => _mapContainer; }
+    public MapContainer MapContainer { get => _mapContainer; internal set => _mapContainer = value; }
     public GameEngine Engine { get => _engine; }
     public HexSpriteSelection Selection { get => _selection; }
     public VisibilityList StaticVisibleHexSprite { get => _staticVisibleHexSprite; }
@@ -1011,8 +1011,8 @@ public partial class HSMap : ENode
 
     public event NotifyEvent<TerrainChangedNotification> TerrainChangedEvents
     {
-        add => _terrainChangedEventsStore.Add(value);
-        remove => _terrainChangedEventsStore.Remove(value);
+        add => TerrainChangedEventsStore.Add(value);
+        remove => TerrainChangedEventsStore.Remove(value);
     }
 
     public CenterViewEvent OnCenterView { get => _onCenterView; set => _onCenterView = value; }
@@ -1022,26 +1022,26 @@ public partial class HSMap : ENode
 
     public event NotifyEvent<HSMap> NewFrameEvents
     {
-        add => _newFrameEventsStore.Add(value);
-        remove => _newFrameEventsStore.Remove(value);
+        add => NewFrameEventsStore.Add(value);
+        remove => NewFrameEventsStore.Remove(value);
     }
 
     public event NotifyEvent<HSMap> ViewPortChangedEvents
     {
-        add => _viewPortChangedEventsStore.Add(value);
-        remove => _viewPortChangedEventsStore.Remove(value);
+        add => ViewPortChangedEventsStore.Add(value);
+        remove => ViewPortChangedEventsStore.Remove(value);
     }
 
     public event NotifyEvent<HSMap> DestroyEvents
     {
-        add => _destroyEventsStore.Add(value);
-        remove => _destroyEventsStore.Remove(value);
+        add => DestroyEventsStore.Add(value);
+        remove => DestroyEventsStore.Remove(value);
     }
 
     public event NotifyEvent<HexSprite> HexSpriteChangedEvents
     {
-        add => _hexSpriteChangedEventsStore.Add(value);
-        remove => _hexSpriteChangedEventsStore.Remove(value);
+        add => HexSpriteChangedEventsStore.Add(value);
+        remove => HexSpriteChangedEventsStore.Remove(value);
     }
 
     public string FileName { get => _fileName; set => _fileName = value; }

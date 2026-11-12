@@ -15,7 +15,7 @@ public partial class UnitWindow
     {
         var hero = (Hero)DialogHosts.General.SelectedUnit;
         if (hero is null || AoWHSMap.Current.Players.GetPlayers(hero.Player).GetBusy() || !check.Checked) return;
-        CursorImage = null;
+        _cursorImage = null;
         var selected = s_selectedItem;
         if (check != selected)
         {
@@ -48,22 +48,22 @@ public partial class UnitWindow
             else if (check.Tag != -1)
             {
                 s_selectedItem = check;
-                Highlight = 50;
-                HighlightStep = 10;
+                _highlight = 50;
+                _highlightStep = 10;
                 var item = hero.Inventory.FindItem(check.Tag) ?? hero.HeroItems.FindItem(check.Tag) ?? hero.GetItemsOnGround()?.FindItem(check.Tag);
                 if (item is not null)
                 {
-                    CursorImage = item.GetImage();
-                    ItemType = item.ItemType;
+                    _cursorImage = item.GetImage();
+                    _itemType = item.ItemType;
                     ItemUseBtn.Visible = item.ItemType == ItemType.Scroll;
                 }
                 else
                 {
-                    ItemType = ItemType.Use;
+                    _itemType = ItemType.Use;
                     ItemUseBtn.Visible = false;
                 }
-                BlinkDelay = 2;
-                ItemVisible = true;
+                _blinkDelay = 2;
+                _itemVisible = true;
             }
             else check.Checked = false;
         }
@@ -72,15 +72,15 @@ public partial class UnitWindow
             selected.Checked = false;
             ClearItemSelection();
         }
-        GameHost.MainForm.FCursorImage = CursorImage;
+        GameHost.MainForm.FCursorImage = _cursorImage;
     }
 
     private void ClearItemSelection()
     {
         s_selectedItem = null;
         UnitWin.Cursor = 0;
-        ItemType = ItemType.Use;
+        _itemType = ItemType.Use;
         ItemUseBtn.Visible = false;
-        ItemVisible = false;
+        _itemVisible = false;
     }
 }

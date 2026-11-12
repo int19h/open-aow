@@ -8,5 +8,5 @@ public struct ShowMessageInfo
 
     public string Text { readonly get => _text ?? ""; set => _text = value; }
 
-    public int Color;
+    public int Color { get; set; }
 }

@@ -28,23 +28,23 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     public new const int ClassId = 135424;
 
     public Set<ArmyMoveModeElement> Mode;
-    public Int32List UnitIds;
+    private Int32List _unitIds;
     public byte Selection;
     public ArmyHexSprite ArmyHexSprite;
-    public sbyte Player;
+    private sbyte _player;
     public sbyte TargetPlayer;
     public sbyte TargetX;
     public sbyte TargetY;
     public sbyte TargetL;
-    public sbyte DestinationX;
-    public sbyte DestinationY;
-    public sbyte DestinationL;
-    public bool Animate;
+    private sbyte _destinationX;
+    private sbyte _destinationY;
+    private sbyte _destinationL;
+    private bool _animate;
 
     // MoveT.PAS:2066
     public override void Dispose()
     {
-        UnitIds?.Dispose();
+        _unitIds?.Dispose();
         base.Dispose();
     }
 
@@ -52,22 +52,22 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(30, UnitIds.LoadFromStream, UnitIds.SaveToStream);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 31);
+        stream.rwStreamProc(30, _unitIds.LoadFromStream, _unitIds.SaveToStream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _player), 31);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TargetX), 32);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TargetY), 33);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TargetL), 34);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TargetPlayer), 35);
         RwSet(ref Mode, 1, 36, stream.rwData, 0);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationX), 37);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationY), 38);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationL), 39);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _destinationX), 37);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _destinationY), 38);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _destinationL), 39);
     }
 
     // MoveT.PAS:2060
     public MoveArmyTokenEvent(ECustomNode owner) : base(owner)
     {
-        UnitIds = new Int32List();
+        _unitIds = new Int32List();
     }
 
     // MoveT.PAS:2137
@@ -92,19 +92,19 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             }
             else
             {
-                I = UnitIds.Count;
+                I = _unitIds.Count;
                 Selection = 0;
                 while (I != 0 && result)
                 {
                     I -= 1;
-                    var item = UnitIds[I];
+                    var item = _unitIds[I];
                     unitIndex = ArmyHexSprite.Army.IndexOfId(item);
                     if (unitIndex != -1)
                     {
                         Selection = (byte)(Selection | (1 << unitIndex));
                     }
 
-                    var fUnitIdsItem = UnitIds[I];
+                    var fUnitIdsItem = _unitIds[I];
                     result = ArmyHexSprite.Army.IndexOfId(fUnitIdsItem) != -1;
                 }
 
@@ -117,7 +117,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
                 }
 
                 result = result && AoWHSMap.Current.MoveControl.ValidPath(settings, Path);
-                result = result && ArmyHexSprite.Army.Player == Player;
+                result = result && ArmyHexSprite.Army.Player == _player;
                 targetPlayer = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(TargetX, TargetY, TargetL)).GetPlayer();
                 result = result && (targetPlayer == TargetPlayer || targetPlayer == ArmyHexSprite.Army.Player);
                 if (Mode.Contains(ArmyMoveModeElement.BuildRoads))
@@ -126,7 +126,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
                     if (condition)
                     {
                         var movePoints = ArmyHexSprite.Army.MovePoints(Selection);
-                        condition = AbilityRules.RoadConstructionCost(Player, Path, movePoints) <= AoWHSMap.Current.Players.GetPlayers(Player).Gems;
+                        condition = AbilityRules.RoadConstructionCost(_player, Path, movePoints) <= AoWHSMap.Current.Players.GetPlayers(_player).Gems;
                     }
 
                     result = condition;
@@ -136,9 +136,9 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             }
         }
 
-        if (!result && AoWHSMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human && AoWHSMap.Current.Players.GetPlayers(Player).AIControl.MoveExecutor.Status == AIMoveExecutorStatus.Busy)
+        if (!result && AoWHSMap.Current.Players.GetPlayers(_player).PlayerType != PlayerType.Human && AoWHSMap.Current.Players.GetPlayers(_player).AIControl.MoveExecutor.Status == AIMoveExecutorStatus.Busy)
         {
-            AoWHSMap.Current.Players.GetPlayers(Player).AIControl.MoveExecutor.InvalidateMove(ArmyHexSprite, Selection);
+            AoWHSMap.Current.Players.GetPlayers(_player).AIControl.MoveExecutor.InvalidateMove(ArmyHexSprite, Selection);
         }
 
         return result;
@@ -150,7 +150,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         int last;
         ArmyHexSprite armyHexSprite;
         base.InitializeMove();
-        Animate = false;
+        _animate = false;
         last = Path.Count - 1;
         Selection = ArmyHexSprite.Army.ValidateSelection(Selection);
         var validateSelection = ArmyHexSprite.Army.ValidateSelection(255);
@@ -184,9 +184,9 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
 
         var army = ArmyHexSprite.Army;
         army.Mode = army.Mode.With(ArmyModeElement.Moving);
-        army.DestinationX = this.DestinationX;
-        army.DestinationY = this.DestinationY;
-        army.DestinationL = this.DestinationL;
+        army.DestinationX = this._destinationX;
+        army.DestinationY = this._destinationY;
+        army.DestinationL = this._destinationL;
     }
 
     // MoveT.PAS:2221
@@ -308,9 +308,9 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         int direction;
         bool instant;
         AoWMapField field;
-        if ((MoveVisible(MoveIndex) || Animate) && (Path[MoveIndex].MapLevel == AoWHSMap.Current.ViewL || AoWHSMap.Current.ShowIndependentMoves))
+        if ((MoveVisible(MoveIndex) || _animate) && (Path[MoveIndex].MapLevel == AoWHSMap.Current.ViewL || AoWHSMap.Current.ShowIndependentMoves))
         {
-            Animate = true;
+            _animate = true;
             direction = GetDirection(MoveIndex);
             if (direction == 0)
             {
@@ -441,7 +441,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
             }
 
             ArmyHexSprite = armyHexSprite;
-            Player = armyHexSprite.Army.Player;
+            _player = armyHexSprite.Army.Player;
             Mode = mode;
             TargetPlayer = GetMapField(path[0]).GetPlayer();
             TargetX = path[0].X;
@@ -453,13 +453,13 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
                 if (((1 << I) & selection) != 0)
                 {
                     var troop = armyHexSprite.Army.GetUnit(I);
-                    UnitIds.Add(troop.UnitId);
+                    _unitIds.Add(troop.UnitId);
                 }
             }
 
-            DestinationX = ArmyHexSprite.Army.DestinationX;
-            DestinationY = ArmyHexSprite.Army.DestinationY;
-            DestinationL = ArmyHexSprite.Army.DestinationL;
+            _destinationX = ArmyHexSprite.Army.DestinationX;
+            _destinationY = ArmyHexSprite.Army.DestinationY;
+            _destinationL = ArmyHexSprite.Army.DestinationL;
             result = true;
         }
         else

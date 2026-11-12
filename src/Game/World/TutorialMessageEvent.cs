@@ -15,18 +15,18 @@ public partial class TutorialMessageEvent : FlagEvent
 {
     public TutorialMessageEvent(ECustomNode owner) : base(owner)
     {
-        Message = new StringList();
+        _message = new StringList();
     }
 
     // FlagEvents.pas:245
     public new const int ClassId = 132459;
 
-    public StringList Message;
+    private StringList _message;
 
     // FlagEvents.pas:239
     public override void Dispose()
     {
-        Message?.Dispose();
+        _message?.Dispose();
         base.Dispose();
     }
 
@@ -34,7 +34,7 @@ public partial class TutorialMessageEvent : FlagEvent
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStrings(Message, 40);
+        stream.rwStrings(_message, 40);
     }
 
     // FlagEvents.pas:233
@@ -46,7 +46,7 @@ public partial class TutorialMessageEvent : FlagEvent
         if (AoWHSMap.Current.SeatedPlayer == player)
         {
             log = new TutorialMessageEventLog(null);
-            var text = Message.Text;
+            var text = _message.Text;
             log.Message.Text = text;
             AoWHSMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);
             log.Release();

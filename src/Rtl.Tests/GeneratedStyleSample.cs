@@ -39,8 +39,8 @@ public struct SampleRecord
 
 public class Sample(int value) : IDisposable
 {
-    public int Value = value;
-    public bool Destroyed;
+    public int Value { get; } = value;
+    public bool Destroyed { get; private set; }
 
     public virtual int ClassId => 1;
 
@@ -55,7 +55,7 @@ public sealed class SampleChild(int value) : Sample(value + 10)
 
 public sealed class FailingSample : Sample
 {
-    public static FailingSample? LastInstance;
+    public static FailingSample? LastInstance { get; private set; }
 
     private FailingSample(ConstructionContext context, int value) : base(value)
     {
@@ -70,12 +70,12 @@ public sealed class FailingSample : Sample
 
 public static class GeneratedStyleSample
 {
-    public static int TypedConstant = 7;
-    public static Func<int, Sample> ClassConstant = static value => new SampleChild(value);
+    private static int s_typedConstant = 7;
+    private static Func<int, Sample> s_classConstant = static value => new SampleChild(value);
 
     public static SampleRecord Run()
     {
-        var instance = ClassConstant(TypedConstant);
+        var instance = s_classConstant(s_typedConstant);
         try
         {
             var records = new SampleRecord[3];

@@ -234,7 +234,7 @@ public sealed class AsmStubsProbeTests
 
         bits.Count = 32;
         var guard = new byte[64];
-        bits._list = guard.AsMemory(32);
+        bits.List = guard.AsMemory(32);
         try
         {
             try
@@ -263,7 +263,7 @@ public sealed class AsmStubsProbeTests
         }
         finally
         {
-            bits._list = Memory<byte>.Empty;
+            bits.List = Memory<byte>.Empty;
         }
 
         return lines;

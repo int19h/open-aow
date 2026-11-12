@@ -10,19 +10,21 @@ namespace Aow.Game.UI.Windows;
 // surface, page-turn mode
 public partial class BookWindow : Window
 {
-    public NotifyEvent<BookWindow> OnAnimationComplete;
-    public bool FirstAnimationFrame;
-    public bool PreviousSurfaceValid;
-    public PageTurnControl PageTurn;
-    public bool Animating;
-    public Surface PageSurface;
-    public PageTurnMode PageTurnMode;
+    private NotifyEvent<BookWindow> _onAnimationComplete;
+    private bool _firstAnimationFrame;
+    private bool _previousSurfaceValid;
+
+    public PageTurnControl PageTurn { get; }
+    public bool Animating { get; set; }
+
+    private Surface _pageSurface;
+    private PageTurnMode _pageTurnMode;
 
     // AoWBookWindow.pas:50
     public override void Dispose()
     {
         Surface S;
-        S = PageSurface;
+        S = _pageSurface;
         if (S != null)
         {
             S?.Dispose();
@@ -40,15 +42,15 @@ public partial class BookWindow : Window
     // AoWBookWindow.pas:78
     public override void Update()
     {
-        if (_visible && Animating)
+        if (Visible && Animating)
         {
             SurfaceValid = false;
             if (!PageTurn.UpdateScene())
             {
                 Animating = false;
-                if (OnAnimationComplete != null)
+                if (_onAnimationComplete != null)
                 {
-                    OnAnimationComplete(this);
+                    _onAnimationComplete(this);
                 }
             }
         }
@@ -60,16 +62,16 @@ public partial class BookWindow : Window
     public override void SetVisible(bool value)
     {
         Surface S;
-        if (value != _visible)
+        if (value != Visible)
         {
             Animating = false;
             if (_freeSurfaceOnHide)
             {
-                S = PageSurface;
+                S = _pageSurface;
                 if (S != null)
                 {
                     S?.Dispose();
-                    PageSurface = null;
+                    _pageSurface = null;
                 }
             }
         }
@@ -80,9 +82,9 @@ public partial class BookWindow : Window
     // AoWBookWindow.pas:113
     public override void DrawSurface(Surface surface)
     {
-        PreviousSurfaceValid = SurfaceValid;
+        _previousSurfaceValid = SurfaceValid;
         base.DrawSurface(surface);
-        if (PreviousSurfaceValid && Animating)
+        if (_previousSurfaceValid && Animating)
         {
             Blit(surface);
         }
@@ -98,13 +100,13 @@ public partial class BookWindow : Window
         }
         else
         {
-            if (X > _winLeft - 1 && X < _winLeft + _winWidth && Y > _winTop - 1 && Y < _winTop + _winHeight)
+            if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
                 SurfaceValid = false;
                 Animating = false;
-                if (OnAnimationComplete != null)
+                if (_onAnimationComplete != null)
                 {
-                    OnAnimationComplete(this);
+                    _onAnimationComplete(this);
                 }
             }
         }
@@ -136,26 +138,26 @@ public partial class BookWindow : Window
         LockedSurface source = default;
         LockedSurface destination = default;
         Rect R;
-        if (BackSurface != null && PageSurface != null)
+        if (BackSurface != null && _pageSurface != null)
         {
-            R = new Rect(0, 0, _winWidth, _winHeight);
+            R = new Rect(0, 0, WinWidth, WinHeight);
             BackSurface.Lock(ref source);
-            PageSurface.Lock(ref destination);
+            _pageSurface.Lock(ref destination);
             LockedSurface.BlitSurfaceDescriptionRectangleClipped(source, R, destination, 0, 0);
-            PageSurface.Unlock();
+            _pageSurface.Unlock();
             BackSurface.Unlock();
             PageTurn.SetPageDimensions(271, 368);
             PageTurn.Speed = 15;
             PageTurn.Start(mode);
-            PageTurnMode = mode;
+            _pageTurnMode = mode;
             Drawn = false;
             Animating = true;
-            FirstAnimationFrame = true;
+            _firstAnimationFrame = true;
         }
     }
 
     [Published]
-    public NotifyEvent<BookWindow> OnAnimationDone { get => OnAnimationComplete; set => OnAnimationComplete = value; }
+    public NotifyEvent<BookWindow> OnAnimationDone { get => _onAnimationComplete; set => _onAnimationComplete = value; }
 
     public new NotifyEvent<BookWindow> OnChange
     {

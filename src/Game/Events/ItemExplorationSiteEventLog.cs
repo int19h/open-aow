@@ -22,8 +22,9 @@ public partial class ItemExplorationSiteEventLog : EventLog
     // ItemExpS.pas:201
     public new const int ClassId = 132085;
 
-    public Int32List ItemIds;
-    public StringList Messages;
+    public Int32List ItemIds { get; }
+    public StringList Messages { get; }
+
     public string Title = "";
     public MapCoordinate Location;
 

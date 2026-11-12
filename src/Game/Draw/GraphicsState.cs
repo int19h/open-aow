@@ -3,15 +3,15 @@ namespace Aow.Game.Draw;
 
 public static class GraphicsState
 {
-    public static LookupBlendTableCollection100 AlphaBlendTable;
+    public static LookupBlendTableCollection100 AlphaBlendTable { get; set; }
 
-    public static LookupBlendTableCollection100 IntensityBlendTable;
+    public static LookupBlendTableCollection100 IntensityBlendTable { get; set; }
 
-    public static LookupBlendTableCollection100 BrightenBlendTable;
+    public static LookupBlendTableCollection100 BrightenBlendTable { get; set; }
 
-    public static LookupBlendTableCollection100 ShadowBlendTable;
+    public static LookupBlendTableCollection100 ShadowBlendTable { get; set; }
 
-    public static LookupBlendTableCollection100 LinearAlphaBlendTable;
+    public static LookupBlendTableCollection100 LinearAlphaBlendTable { get; set; }
 
     internal static void RegisterImageFileClasses(ReadOnlySpan<ImageFileClass> classes)
     {
@@ -29,9 +29,9 @@ public static class GraphicsState
         }
     }
 
-    internal static int s_forcedPixelFormatId;
+    internal static int ForcedPixelFormatId { get; set; }
 
-    internal static ImageFileClassList ImageFileClassList;
+    internal static ImageFileClassList ImageFileClassList { get; private set; }
 
     internal static void InitializeBlendTables(int bits, int count)
     {
@@ -50,7 +50,7 @@ public static class GraphicsState
         ShadowBlendTable = new LookupBlendTableCollection100();
         LinearAlphaBlendTable = new LookupBlendTableCollection100();
         InitializeBlendTables(5, 31);
-        s_forcedPixelFormatId = 0;
+        ForcedPixelFormatId = 0;
         ImageFileClassList = new ImageFileClassList();
         RegisterImageFileClasses([ImageFileClass.Of<BmpImageFile>()]);
     }

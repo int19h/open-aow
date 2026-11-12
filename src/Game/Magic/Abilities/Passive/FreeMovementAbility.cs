@@ -9,7 +9,7 @@ public partial class FreeMovementAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1187
     public FreeMovementAbility(ECustomNode owner) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_freeMovementText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.FreeMovementText);
         AbilityId = 157;
     }
 }

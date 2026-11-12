@@ -12,7 +12,7 @@ public partial class Sfx : EngineObject
     public Sfx(ECustomNode owner) : base(owner)
     { }
 
-    internal string _fileName = "";
+    private string _fileName = "";
 
     // Sound.pas:1027
     public override void ReadWrite(EStorageStream stream)

@@ -36,19 +36,24 @@ public partial class CombatData : EngineObject
     public Set<DamageType> ImmunityTypes;
     public sbyte AttackerPlayer;
     public sbyte DefenderPlayer;
-    public ByteList InvolvedLeaders;
-    public ByteList DefeatedLeaders;
+
+    public ByteList InvolvedLeaders { get; set; }
+    public ByteList DefeatedLeaders { get; set; }
+
     public byte CombatResult;
-    public byte CurrentPlayer;
-    public ENode CombatObjects;
-    public CombatPlayerList Players;
-    public CombatPartyList Parties;
-    public ByteList TurnOrder;
+
+    public byte CurrentPlayer { get; set; }
+    public ENode CombatObjects { get; set; }
+    public CombatPlayerList Players { get; }
+    public CombatPartyList Parties { get; }
+    public ByteList TurnOrder { get; }
+
     public int Round;
     public string Header = "";
     public byte WallType;
     public bool WallBreached;
-    public CombatWall Wall;
+
+    public CombatWall Wall { get; set; }
 
     // Combat2.pas:173
     public override void Dispose()

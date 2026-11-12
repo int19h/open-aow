@@ -21,7 +21,7 @@ public partial class CityProductionControl : ProductionControl
     public CityProductionControl(ECustomNode owner) : base(owner)
     { }
 
-    public City City;
+    public City City { get; set; }
 
     // City.pas:645
     public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
@@ -73,7 +73,7 @@ public partial class CityProductionControl : ProductionControl
         log._player = city.Player;
         var name = Settings.Unit.GetName();
         var fCityName = City.GetName();
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_producedFormat), [name, fCityName]);
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.ProducedFormat), [name, fCityName]);
         var cityHexLevel = city.GetHexLevel();
         var hexY2 = city.GetHexY();
         log.SetLocation(city.GetHexX(), hexY2, cityHexLevel);
@@ -94,7 +94,7 @@ public partial class CityProductionControl : ProductionControl
         var unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
         var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         var name = City.GetName();
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_installedFormat), [unitName, name]);
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.InstalledFormat), [unitName, name]);
         var hexLevel = city.GetHexLevel();
         var hexY = city.GetHexY();
         log.SetLocation(city.GetHexX(), hexY, hexLevel);

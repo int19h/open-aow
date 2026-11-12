@@ -18,7 +18,7 @@ public partial class EngineResource : EngineObject
     public EngineResource(ECustomNode owner) : base(owner)
     { }
 
-    internal ECustomNode _resourceList;
+    private ECustomNode _resourceList;
     internal int _resourceId;
     internal int _editId;
     internal int _editIndex;

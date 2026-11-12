@@ -34,123 +34,123 @@ public partial class Window : GenericWindow
                 {
                     var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame];
                     var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
-                    if (imageLibraryFrameWidth.Width + imageLibraryFrame.Width > _winWidth)
+                    if (imageLibraryFrameWidth.Width + imageLibraryFrame.Width > WinWidth)
                     {
                         var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
                         var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
-                        _winWidth = imageLibraryFrame2.Width + imageLibraryFrame3.Width;
+                        SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
                     }
 
                     var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
                     var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
-                    if (imageLibraryFrameHeight.Height + imageLibraryFrame4.Height > _winHeight)
+                    if (imageLibraryFrameHeight.Height + imageLibraryFrame4.Height > WinHeight)
                     {
                         var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
                         var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
-                        _winHeight = imageLibraryFrame2.Height + imageLibraryFrame3.Height;
+                        SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                     }
 
-                    if (_minWidth > 0 && _minWidth > _winWidth)
+                    if (_minWidth > 0 && _minWidth > WinWidth)
                     {
-                        _winWidth = _minWidth;
+                        SetWinWidthWithoutInvalidate(_minWidth);
                     }
 
-                    if (_minHeight > 0 && _minHeight > _winHeight)
+                    if (_minHeight > 0 && _minHeight > WinHeight)
                     {
-                        _winHeight = _minHeight;
+                        SetWinHeightWithoutInvalidate(_minHeight);
                     }
 
-                    if (_maxWidth > 0 && _maxWidth < _winWidth)
+                    if (_maxWidth > 0 && _maxWidth < WinWidth)
                     {
-                        _winWidth = _maxWidth;
+                        SetWinWidthWithoutInvalidate(_maxWidth);
                     }
 
-                    if (_maxHeight > 0 && _maxHeight < _winHeight)
+                    if (_maxHeight > 0 && _maxHeight < WinHeight)
                     {
-                        _winHeight = _maxHeight;
+                        SetWinHeightWithoutInvalidate(_maxHeight);
                     }
 
-                    if (_windowManager._winWidth > 0 && _windowManager._winHeight > 0)
+                    if (_windowManager.WinWidth > 0 && _windowManager.WinHeight > 0)
                     {
                         if (_useManagerBorders)
                         {
-                            if (_windowManager._winWidth - _windowManager._borderRight < _winLeft + _winWidth)
+                            if (_windowManager.WinWidth - _windowManager.BorderRight < WinLeft + WinWidth)
                             {
-                                _winLeft = _windowManager._winWidth - _windowManager._borderRight - _winWidth;
+                                SetWinLeftWithoutInvalidate(_windowManager.WinWidth - _windowManager.BorderRight - WinWidth);
                             }
 
-                            if (_windowManager._borderLeft > _winLeft)
+                            if (_windowManager.BorderLeft > WinLeft)
                             {
-                                _winLeft = _windowManager._borderLeft;
-                                if (_windowManager._winWidth - _windowManager._borderRight < _winLeft + _winWidth)
+                                SetWinLeftWithoutInvalidate(_windowManager.BorderLeft);
+                                if (_windowManager.WinWidth - _windowManager.BorderRight < WinLeft + WinWidth)
                                 {
-                                    _winWidth = _windowManager._winWidth - _windowManager._borderRight - _winLeft;
+                                    SetWinWidthWithoutInvalidate(_windowManager.WinWidth - _windowManager.BorderRight - WinLeft);
                                 }
                             }
 
-                            if (_windowManager._winHeight - _windowManager._borderBottom < _winTop + _winHeight)
+                            if (_windowManager.WinHeight - _windowManager.BorderBottom < WinTop + WinHeight)
                             {
-                                _winTop = _windowManager._winHeight - _windowManager._borderBottom - _winHeight;
+                                SetWinTopWithoutInvalidate(_windowManager.WinHeight - _windowManager.BorderBottom - WinHeight);
                             }
 
-                            if (_windowManager._borderTop > _winTop)
+                            if (_windowManager.BorderTop > WinTop)
                             {
-                                _winTop = _windowManager._borderTop;
-                                if (_windowManager._winHeight - _windowManager._borderBottom < _winTop + _winHeight)
+                                SetWinTopWithoutInvalidate(_windowManager.BorderTop);
+                                if (_windowManager.WinHeight - _windowManager.BorderBottom < WinTop + WinHeight)
                                 {
-                                    _winHeight = _windowManager._winHeight - _windowManager._borderBottom - _winTop;
+                                    SetWinHeightWithoutInvalidate(_windowManager.WinHeight - _windowManager.BorderBottom - WinTop);
                                 }
                             }
                         }
                         else
                         {
-                            if (_windowManager._winWidth < _winLeft + _winWidth)
+                            if (_windowManager.WinWidth < WinLeft + WinWidth)
                             {
-                                _winLeft = _windowManager._winWidth - _winWidth;
+                                SetWinLeftWithoutInvalidate(_windowManager.WinWidth - WinWidth);
                             }
 
-                            if (_winLeft < 0)
+                            if (WinLeft < 0)
                             {
-                                _winLeft = 0;
-                                if (_windowManager._winWidth < _winLeft + _winWidth)
+                                SetWinLeftWithoutInvalidate(0);
+                                if (_windowManager.WinWidth < WinLeft + WinWidth)
                                 {
-                                    _winWidth = _windowManager._winWidth - _winLeft;
+                                    SetWinWidthWithoutInvalidate(_windowManager.WinWidth - WinLeft);
                                 }
                             }
 
-                            if (_windowManager._winHeight < _winTop + _winHeight)
+                            if (_windowManager.WinHeight < WinTop + WinHeight)
                             {
-                                _winTop = _windowManager._winHeight - _winHeight;
+                                SetWinTopWithoutInvalidate(_windowManager.WinHeight - WinHeight);
                             }
 
-                            if (_winTop < 0)
+                            if (WinTop < 0)
                             {
-                                _winTop = 0;
-                                if (_windowManager._winHeight < _winTop + _winHeight)
+                                SetWinTopWithoutInvalidate(0);
+                                if (_windowManager.WinHeight < WinTop + WinHeight)
                                 {
-                                    _winHeight = _windowManager._winHeight - _winTop;
+                                    SetWinHeightWithoutInvalidate(_windowManager.WinHeight - WinTop);
                                 }
                             }
                         }
                     }
 
-                    if (_masked)
+                    if (Masked)
                     {
                         if (WindowStyle == Style.Hollow)
                         {
-                            FrameLeft = _winWidth;
+                            FrameLeft = WinWidth;
                             FrameRight = 0;
-                            FrameTop = _winHeight;
+                            FrameTop = WinHeight;
                             FrameBottom = 0;
                         }
                         else
                         {
                             FrameLeft = _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width;
                             var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
-                            FrameRight = _winWidth - imageLibraryFrame2.Width;
+                            FrameRight = WinWidth - imageLibraryFrame2.Width;
                             FrameTop = _imageLibraryFrame[_imageLibraryIndexFrame + 1].Height;
                             var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                            FrameBottom = _winHeight - imageLibraryFrame3.Height;
+                            FrameBottom = WinHeight - imageLibraryFrame3.Height;
                         }
                     }
                 }
@@ -160,95 +160,95 @@ public partial class Window : GenericWindow
             case Style.Blank:
                 if (_imageLibraryTexture != null || WindowStyle == Style.Blank)
                 {
-                    if (_minWidth > 0 && _minWidth > _winWidth)
+                    if (_minWidth > 0 && _minWidth > WinWidth)
                     {
-                        _winWidth = _minWidth;
+                        SetWinWidthWithoutInvalidate(_minWidth);
                     }
 
-                    if (_minHeight > 0 && _minHeight > _winHeight)
+                    if (_minHeight > 0 && _minHeight > WinHeight)
                     {
-                        _winHeight = _minHeight;
+                        SetWinHeightWithoutInvalidate(_minHeight);
                     }
 
-                    if (_maxWidth > 0 && _maxWidth < _winWidth)
+                    if (_maxWidth > 0 && _maxWidth < WinWidth)
                     {
-                        _winWidth = _maxWidth;
+                        SetWinWidthWithoutInvalidate(_maxWidth);
                     }
 
-                    if (_maxHeight > 0 && _maxHeight < _winHeight)
+                    if (_maxHeight > 0 && _maxHeight < WinHeight)
                     {
-                        _winHeight = _maxHeight;
+                        SetWinHeightWithoutInvalidate(_maxHeight);
                     }
 
-                    if (_windowManager._winWidth > 0 && _windowManager._winHeight > 0)
+                    if (_windowManager.WinWidth > 0 && _windowManager.WinHeight > 0)
                     {
                         if (_useManagerBorders)
                         {
-                            if (_windowManager._winWidth - _windowManager._borderRight < _winLeft + WinWidth)
+                            if (_windowManager.WinWidth - _windowManager.BorderRight < WinLeft + WinWidth)
                             {
-                                _winLeft = _windowManager._winWidth - _windowManager._borderRight - _winWidth;
+                                SetWinLeftWithoutInvalidate(_windowManager.WinWidth - _windowManager.BorderRight - WinWidth);
                             }
 
-                            if (_windowManager.BorderLeft > _winLeft)
+                            if (_windowManager.BorderLeft > WinLeft)
                             {
-                                _winLeft = _windowManager._borderLeft;
-                                if (_windowManager._winWidth - _windowManager._borderRight < _winLeft + _winWidth)
+                                SetWinLeftWithoutInvalidate(_windowManager.BorderLeft);
+                                if (_windowManager.WinWidth - _windowManager.BorderRight < WinLeft + WinWidth)
                                 {
-                                    _winWidth = _windowManager._winWidth - _windowManager._borderRight - _winLeft;
+                                    SetWinWidthWithoutInvalidate(_windowManager.WinWidth - _windowManager.BorderRight - WinLeft);
                                 }
                             }
 
-                            if (_windowManager._winHeight - _windowManager._borderBottom < _winTop + _winHeight)
+                            if (_windowManager.WinHeight - _windowManager.BorderBottom < WinTop + WinHeight)
                             {
-                                _winTop = _windowManager._winHeight - _windowManager._borderBottom - _winHeight;
+                                SetWinTopWithoutInvalidate(_windowManager.WinHeight - _windowManager.BorderBottom - WinHeight);
                             }
 
-                            if (_windowManager.BorderTop > _winTop)
+                            if (_windowManager.BorderTop > WinTop)
                             {
-                                _winTop = _windowManager._borderTop;
-                                if (_windowManager._winHeight - _windowManager._borderBottom < _winTop + _winHeight)
+                                SetWinTopWithoutInvalidate(_windowManager.BorderTop);
+                                if (_windowManager.WinHeight - _windowManager.BorderBottom < WinTop + WinHeight)
                                 {
-                                    _winHeight = _windowManager._winHeight - _windowManager._borderBottom - _winTop;
+                                    SetWinHeightWithoutInvalidate(_windowManager.WinHeight - _windowManager.BorderBottom - WinTop);
                                 }
                             }
                         }
                         else
                         {
-                            if (_windowManager._winWidth < _winLeft + WinWidth)
+                            if (_windowManager.WinWidth < WinLeft + WinWidth)
                             {
-                                _winLeft = _windowManager._winWidth - _winWidth;
+                                SetWinLeftWithoutInvalidate(_windowManager.WinWidth - WinWidth);
                             }
 
-                            if (_winLeft < 0)
+                            if (WinLeft < 0)
                             {
-                                _winLeft = 0;
-                                if (_windowManager._winWidth < _winLeft + _winWidth)
+                                SetWinLeftWithoutInvalidate(0);
+                                if (_windowManager.WinWidth < WinLeft + WinWidth)
                                 {
-                                    _winWidth = _windowManager._winWidth - _winLeft;
+                                    SetWinWidthWithoutInvalidate(_windowManager.WinWidth - WinLeft);
                                 }
                             }
 
-                            if (_windowManager._winHeight < _winTop + _winHeight)
+                            if (_windowManager.WinHeight < WinTop + WinHeight)
                             {
-                                _winTop = _windowManager._winHeight - _winHeight;
+                                SetWinTopWithoutInvalidate(_windowManager.WinHeight - WinHeight);
                             }
 
-                            if (_winTop < 0)
+                            if (WinTop < 0)
                             {
-                                _winTop = 0;
-                                if (_windowManager._winHeight < _winTop + _winHeight)
+                                SetWinTopWithoutInvalidate(0);
+                                if (_windowManager.WinHeight < WinTop + WinHeight)
                                 {
-                                    _winHeight = _windowManager._winHeight - _winTop;
+                                    SetWinHeightWithoutInvalidate(_windowManager.WinHeight - WinTop);
                                 }
                             }
                         }
                     }
 
-                    if (_masked)
+                    if (Masked)
                     {
-                        FrameLeft = _winWidth;
+                        FrameLeft = WinWidth;
                         FrameRight = 0;
-                        FrameTop = _winHeight;
+                        FrameTop = WinHeight;
                         FrameBottom = 0;
                     }
                 }
@@ -258,8 +258,8 @@ public partial class Window : GenericWindow
 
         if (_doubleBuffered && BackSurface != null)
         {
-            BackSurface.Resize(_winWidth, _winHeight);
-            if (_masked)
+            BackSurface.Resize(WinWidth, WinHeight);
+            if (Masked)
             {
                 BackSurface.Clear(_maskColor);
             }
@@ -281,14 +281,14 @@ public partial class Window : GenericWindow
         base.ReAlign();
         if (_useManagerBorders)
         {
-            if (_alignment.AlignWidth == AlignWidth.Center)
+            if (Alignment.AlignWidth == AlignWidth.Center)
             {
-                _winLeft = (_ownerComponent._winWidth - _windowManager._borderLeft - _windowManager._borderRight) / 2 + _windowManager._borderLeft - _winWidth / 2;
+                SetWinLeftWithoutInvalidate((OwnerComponent.WinWidth - _windowManager.BorderLeft - _windowManager.BorderRight) / 2 + _windowManager.BorderLeft - WinWidth / 2);
             }
 
-            if (_alignment.AlignHeight == AlignHeight.Center)
+            if (Alignment.AlignHeight == AlignHeight.Center)
             {
-                _winTop = (_ownerComponent._winHeight - _windowManager._borderTop - _windowManager._borderBottom) / 2 + _windowManager._borderTop - _winHeight / 2;
+                SetWinTopWithoutInvalidate((OwnerComponent.WinHeight - _windowManager.BorderTop - _windowManager.BorderBottom) / 2 + _windowManager.BorderTop - WinHeight / 2);
             }
         }
     }
@@ -298,12 +298,12 @@ public partial class Window : GenericWindow
     {
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
                 switch (WindowStyle)
                 {
                     case Style.Normal:
-                        var rectangle = new Rect(_winLeft, _winTop, _winWidth, _winHeight);
+                        var rectangle = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
                         var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
@@ -311,15 +311,15 @@ public partial class Window : GenericWindow
                         var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                         var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        var rectangle2 = new Rect(_winLeft + imageLibraryFrame4.Width, _winTop + imageLibraryFrame3.Height, _winWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, _winHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        var rectangle2 = new Rect(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle2, ref lockedSurface);
                         break;
                     case Style.Hollow:
-                        var rectangle3 = new Rect(_winLeft, _winTop, _winWidth, _winHeight);
+                        var rectangle3 = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle3, ref lockedSurface);
                         break;
                     case Style.Borderless:
-                        var rectangle4 = new Rect(_winLeft, _winTop, _winWidth, _winHeight);
+                        var rectangle4 = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
                         _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle4, ref lockedSurface);
                         break;
                 }
@@ -347,18 +347,18 @@ public partial class Window : GenericWindow
         Handled = false;
         Redraw = false;
         Dragging = 0;
-        if (_windowManager != null && !_windowManager.Handled && _visible == true)
+        if (_windowManager != null && !_windowManager.Handled && Visible == true)
         {
-            if (X > _winLeft - 1 && X < _winLeft + _winWidth && Y > _winTop - 1 && Y < _winTop + _winHeight)
+            if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
-                SetPriority(_priority);
+                SetPriority(Priority);
             }
 
             for (int I = Children.Count - 1; I >= 0; I--)
             {
                 C = (UIComponent)Children[I];
                 C.Handled = false;
-                if ((!Handled || C.Redraw) && C._visible == true && C._captureInput)
+                if ((!Handled || C.Redraw) && C.Visible == true && C.CaptureInput)
                 {
                     C.CheckMouseDown(button, shift, X, Y);
                 }
@@ -371,90 +371,90 @@ public partial class Window : GenericWindow
                 }
             }
 
-            if (!Handled && X > _winLeft - 1 && X < _winLeft + _winWidth && Y > _winTop - 1 && Y < _winTop + _winHeight)
+            if (!Handled && X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
                 DragX = 0;
                 DragY = 0;
-                if (button == MouseButton.Left && _draggable == true && Y < _winTop + _borderHeight + _dragHeight - 1)
+                if (button == MouseButton.Left && _draggable == true && Y < WinTop + _borderHeight + _dragHeight - 1)
                 {
                     Dragging = 1;
-                    DragX = X - _winLeft;
-                    DragY = Y - _winTop;
+                    DragX = X - WinLeft;
+                    DragY = Y - WinTop;
                 }
 
                 if (button == MouseButton.Left && _resizable == true)
                 {
                     ResizingX = 0;
                     ResizingY = 0;
-                    if (X < _winLeft + _borderWidth - 1)
+                    if (X < WinLeft + _borderWidth - 1)
                     {
                         Dragging = 2;
                         ResizingX = 1;
-                        DragX = X - _winLeft;
-                        if (Y < _borderHeight * 5 + _winTop - 1)
+                        DragX = X - WinLeft;
+                        if (Y < _borderHeight * 5 + WinTop - 1)
                         {
                             ResizingY = 1;
-                            DragY = Y - _winTop;
+                            DragY = Y - WinTop;
                         }
 
-                        if (Y > _winTop + _winHeight - _borderHeight * 5)
+                        if (Y > WinTop + WinHeight - _borderHeight * 5)
                         {
                             ResizingY = 2;
-                            DragY = _winTop + _winHeight - Y;
+                            DragY = WinTop + WinHeight - Y;
                         }
                     }
 
-                    if (X > _winLeft + _winWidth - _borderHeight)
+                    if (X > WinLeft + WinWidth - _borderHeight)
                     {
                         Dragging = 2;
                         ResizingX = 2;
-                        DragX = _winLeft + _winWidth - X;
-                        if (Y < _borderHeight * 5 + _winTop - 1)
+                        DragX = WinLeft + WinWidth - X;
+                        if (Y < _borderHeight * 5 + WinTop - 1)
                         {
                             ResizingY = 1;
-                            DragY = Y - _winTop;
+                            DragY = Y - WinTop;
                         }
 
-                        if (Y > _winTop + _winHeight - _borderHeight * 5)
+                        if (Y > WinTop + WinHeight - _borderHeight * 5)
                         {
                             ResizingY = 2;
-                            DragY = _winTop + _winHeight - Y;
+                            DragY = WinTop + WinHeight - Y;
                         }
                     }
 
-                    if (Y < _winTop + _borderHeight - 1)
+                    if (Y < WinTop + _borderHeight - 1)
                     {
                         Dragging = 2;
                         ResizingY = 1;
-                        DragY = Y - _winTop;
-                        if (X < _borderWidth * 5 + _winLeft - 1)
+                        DragY = Y - WinTop;
+                        if (X < _borderWidth * 5 + WinLeft - 1)
                         {
                             ResizingX = 1;
-                            DragX = X - _winLeft;
+                            DragX = X - WinLeft;
                         }
 
-                        if (X > _winLeft + _winWidth - _borderWidth * 5)
+                        if (X > WinLeft + WinWidth - _borderWidth * 5)
                         {
                             ResizingX = 2;
-                            DragX = _winLeft + _winWidth - X;
+                            DragX = WinLeft + WinWidth - X;
                         }
                     }
 
-                    if (Y > _winTop + _winHeight - _borderHeight)
+                    if (Y > WinTop + WinHeight - _borderHeight)
                     {
                         Dragging = 2;
                         ResizingY = 2;
-                        DragY = _winTop + _winHeight - Y;
-                        if (X < _borderWidth * 5 + _winLeft - 1)
+                        DragY = WinTop + WinHeight - Y;
+                        if (X < _borderWidth * 5 + WinLeft - 1)
                         {
                             ResizingX = 1;
-                            DragX = X - _winLeft;
+                            DragX = X - WinLeft;
                         }
 
-                        if (X > _winLeft + _winWidth - _borderWidth * 5)
+                        if (X > WinLeft + WinWidth - _borderWidth * 5)
                         {
                             ResizingX = 2;
-                            DragX = _winLeft + _winWidth - X;
+                            DragX = WinLeft + WinWidth - X;
                         }
                     }
                 }
@@ -493,14 +493,14 @@ public partial class Window : GenericWindow
     {
         UIComponent C = default;
         Handled = false;
-        if (_visible && Valid)
+        if (Visible && Valid)
         {
             Dragging = 0;
             for (int I = Children.Count - 1; I >= 0; I--)
             {
                 C = (UIComponent)Children[I];
                 C.Handled = false;
-                if ((!Handled || C.Redraw == true) && C._visible == true && C._captureInput)
+                if ((!Handled || C.Redraw == true) && C.Visible == true && C.CaptureInput)
                 {
                     C.CheckMouseUp(button, shift, X, Y);
                 }
@@ -511,7 +511,7 @@ public partial class Window : GenericWindow
                 }
             }
 
-            if (X > _winLeft - 1 && X < _winLeft + _winWidth && Y > _winTop - 1 && Y < _winTop + _winHeight)
+            if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
                 Handled = true;
             }
@@ -551,33 +551,33 @@ public partial class Window : GenericWindow
         _cursor = WindowCursor;
         InResizeArea = true;
         resized = false;
-        if (_visible == true)
+        if (Visible == true)
         {
             switch (Dragging)
             {
                 case 1:
-                    _winLeft = X - DragX;
-                    _winTop = Y - DragY;
+                    SetWinLeftWithoutInvalidate(X - DragX);
+                    SetWinTopWithoutInvalidate(Y - DragY);
                     if (_windowManager != null && _useManagerBorders)
                     {
-                        if (_windowManager._borderLeft > _winLeft)
+                        if (_windowManager.BorderLeft > WinLeft)
                         {
-                            _winLeft = _windowManager._borderLeft;
+                            SetWinLeftWithoutInvalidate(_windowManager.BorderLeft);
                         }
 
-                        if (_windowManager._winWidth - _windowManager._borderRight < _winLeft + _winWidth)
+                        if (_windowManager.WinWidth - _windowManager.BorderRight < WinLeft + WinWidth)
                         {
-                            _winLeft = _windowManager._winWidth - _windowManager._borderRight - _winWidth;
+                            SetWinLeftWithoutInvalidate(_windowManager.WinWidth - _windowManager.BorderRight - WinWidth);
                         }
 
-                        if (_windowManager._borderTop > _winTop)
+                        if (_windowManager.BorderTop > WinTop)
                         {
-                            _winTop = _windowManager._borderTop;
+                            SetWinTopWithoutInvalidate(_windowManager.BorderTop);
                         }
 
-                        if (_windowManager._winHeight - _windowManager._borderBottom < _winTop + _winHeight)
+                        if (_windowManager.WinHeight - _windowManager.BorderBottom < WinTop + WinHeight)
                         {
-                            _winTop = _windowManager._winHeight - _windowManager._borderBottom - _winHeight;
+                            SetWinTopWithoutInvalidate(_windowManager.WinHeight - _windowManager.BorderBottom - WinHeight);
                         }
                     }
 
@@ -597,50 +597,50 @@ public partial class Window : GenericWindow
                     switch (ResizingX)
                     {
                         case 1:
-                            if (_winLeft + DragX > X)
+                            if (WinLeft + DragX > X)
                             {
                                 if (_windowManager != null && _useManagerBorders)
                                 {
-                                    if (_windowManager._borderLeft > X - DragX)
+                                    if (_windowManager.BorderLeft > X - DragX)
                                     {
-                                        X = _windowManager._borderLeft + DragX;
+                                        X = _windowManager.BorderLeft + DragX;
                                     }
                                 }
                             }
 
-                            I = _winLeft + _winWidth;
-                            _winWidth = _winWidth - X + _winLeft + DragX;
-                            if (_winWidth < _minWidth)
+                            I = WinLeft + WinWidth;
+                            SetWinWidthWithoutInvalidate(WinWidth - X + WinLeft + DragX);
+                            if (WinWidth < _minWidth)
                             {
-                                _winWidth = _minWidth;
+                                SetWinWidthWithoutInvalidate(_minWidth);
                             }
 
-                            if (_maxWidth < _winWidth && _maxWidth > 0)
+                            if (_maxWidth < WinWidth && _maxWidth > 0)
                             {
-                                _winWidth = _maxWidth;
+                                SetWinWidthWithoutInvalidate(_maxWidth);
                             }
 
-                            _winLeft = I - _winWidth;
+                            SetWinLeftWithoutInvalidate(I - WinWidth);
                             resized = true;
                             break;
                         case 2:
-                            _winWidth = X + DragX - _winLeft;
+                            SetWinWidthWithoutInvalidate(X + DragX - WinLeft);
                             if (_windowManager != null && _useManagerBorders)
                             {
-                                if (_windowManager._winWidth - _windowManager._borderRight < _winLeft + _winWidth)
+                                if (_windowManager.WinWidth - _windowManager.BorderRight < WinLeft + WinWidth)
                                 {
-                                    _winWidth = _windowManager._winWidth - _windowManager._borderRight - _winLeft;
+                                    SetWinWidthWithoutInvalidate(_windowManager.WinWidth - _windowManager.BorderRight - WinLeft);
                                 }
                             }
 
-                            if (_minWidth > _winWidth)
+                            if (_minWidth > WinWidth)
                             {
-                                _winWidth = _minWidth;
+                                SetWinWidthWithoutInvalidate(_minWidth);
                             }
 
-                            if (_maxWidth < _winWidth && _maxWidth > 0)
+                            if (_maxWidth < WinWidth && _maxWidth > 0)
                             {
-                                _winWidth = _maxWidth;
+                                SetWinWidthWithoutInvalidate(_maxWidth);
                             }
 
                             resized = true;
@@ -650,50 +650,50 @@ public partial class Window : GenericWindow
                     switch (ResizingY)
                     {
                         case 1:
-                            if (_winTop + DragY > Y)
+                            if (WinTop + DragY > Y)
                             {
                                 if (_windowManager != null && _useManagerBorders)
                                 {
-                                    if (_windowManager._borderTop > Y - DragY)
+                                    if (_windowManager.BorderTop > Y - DragY)
                                     {
-                                        Y = _windowManager._borderTop + DragY;
+                                        Y = _windowManager.BorderTop + DragY;
                                     }
                                 }
                             }
 
-                            I = _winTop + _winHeight;
-                            _winHeight = _winHeight - Y + _winTop + DragY;
-                            if (_winHeight < _minHeight)
+                            I = WinTop + WinHeight;
+                            SetWinHeightWithoutInvalidate(WinHeight - Y + WinTop + DragY);
+                            if (WinHeight < _minHeight)
                             {
-                                _winHeight = _minHeight;
+                                SetWinHeightWithoutInvalidate(_minHeight);
                             }
 
-                            if (_maxHeight < _winHeight && _maxHeight > 0)
+                            if (_maxHeight < WinHeight && _maxHeight > 0)
                             {
-                                _winHeight = _maxHeight;
+                                SetWinHeightWithoutInvalidate(_maxHeight);
                             }
 
-                            _winTop = I - _winHeight;
+                            SetWinTopWithoutInvalidate(I - WinHeight);
                             resized = true;
                             break;
                         case 2:
-                            _winHeight = Y + DragY - _winTop;
+                            SetWinHeightWithoutInvalidate(Y + DragY - WinTop);
                             if (_windowManager != null && _useManagerBorders)
                             {
-                                if (_windowManager._winHeight - _windowManager._borderBottom < _winTop + _winHeight)
+                                if (_windowManager.WinHeight - _windowManager.BorderBottom < WinTop + WinHeight)
                                 {
-                                    _winHeight = _windowManager._winHeight - _windowManager._borderBottom - _winTop;
+                                    SetWinHeightWithoutInvalidate(_windowManager.WinHeight - _windowManager.BorderBottom - WinTop);
                                 }
                             }
 
-                            if (_minHeight > _winHeight)
+                            if (_minHeight > WinHeight)
                             {
-                                _winHeight = _minHeight;
+                                SetWinHeightWithoutInvalidate(_minHeight);
                             }
 
-                            if (_maxHeight < _winHeight && _maxHeight > 0)
+                            if (_maxHeight < WinHeight && _maxHeight > 0)
                             {
-                                _winHeight = _maxHeight;
+                                SetWinHeightWithoutInvalidate(_maxHeight);
                             }
 
                             resized = true;
@@ -718,7 +718,7 @@ public partial class Window : GenericWindow
             {
                 C = (UIComponent)Children[I];
                 C.Handled = false;
-                if ((!Handled || C.Redraw == true || C.ToolTipCount > 0) && C._visible == true && C._captureInput)
+                if ((!Handled || C.Redraw == true || C.ToolTipCount > 0) && C.Visible == true && C.CaptureInput)
                 {
                     C.CheckMouseMove(shift, X, Y);
                 }
@@ -729,65 +729,65 @@ public partial class Window : GenericWindow
                 }
             }
 
-            if (!Handled && X > _winLeft - 1 && X < _winLeft + _winWidth && Y > _winTop - 1 && Y < _winTop + _winHeight)
+            if (!Handled && X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
                 Handled = true;
                 if (_resizable == true)
                 {
-                    if (X < _winLeft + _borderWidth - 1)
+                    if (X < WinLeft + _borderWidth - 1)
                     {
                         _cursor = -9;
-                        if (Y < _borderHeight * 5 + _winTop - 1)
+                        if (Y < _borderHeight * 5 + WinTop - 1)
                         {
                             _cursor = -8;
                         }
 
-                        if (Y > _winTop + _winHeight - _borderHeight * 5)
+                        if (Y > WinTop + WinHeight - _borderHeight * 5)
                         {
                             _cursor = -6;
                         }
                     }
                     else
                     {
-                        if (X > _winLeft + _winWidth - _borderWidth)
+                        if (X > WinLeft + WinWidth - _borderWidth)
                         {
                             _cursor = -9;
-                            if (Y < _borderHeight * 5 + _winTop - 1)
+                            if (Y < _borderHeight * 5 + WinTop - 1)
                             {
                                 _cursor = -6;
                             }
 
-                            if (Y > _winTop + _winHeight - _borderHeight * 5)
+                            if (Y > WinTop + WinHeight - _borderHeight * 5)
                             {
                                 _cursor = -8;
                             }
                         }
                         else
                         {
-                            if (Y < _winTop + _borderHeight - 1)
+                            if (Y < WinTop + _borderHeight - 1)
                             {
                                 _cursor = -7;
-                                if (X < _borderWidth * 5 + _winLeft - 1)
+                                if (X < _borderWidth * 5 + WinLeft - 1)
                                 {
                                     _cursor = -8;
                                 }
 
-                                if (X > _winLeft + _winWidth - _borderWidth * 5)
+                                if (X > WinLeft + WinWidth - _borderWidth * 5)
                                 {
                                     _cursor = -6;
                                 }
                             }
                             else
                             {
-                                if (Y > _winTop + _winHeight - _borderHeight)
+                                if (Y > WinTop + WinHeight - _borderHeight)
                                 {
                                     _cursor = -7;
-                                    if (X < _borderWidth * 5 + _winLeft - 1)
+                                    if (X < _borderWidth * 5 + WinLeft - 1)
                                     {
                                         _cursor = -6;
                                     }
 
-                                    if (X > _winLeft + _winWidth - _borderWidth * 5)
+                                    if (X > WinLeft + WinWidth - _borderWidth * 5)
                                     {
                                         _cursor = -8;
                                     }

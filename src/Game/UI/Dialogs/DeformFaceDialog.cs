@@ -35,15 +35,15 @@ public partial class DeformFaceDialog : DataModule
     public Button NextFaceBtn;
     public Label UnitNameLbl;
     public IvTranslator Translator;
-    public CosmeticSurgerySpellCaster Caster;
+    private CosmeticSurgerySpellCaster _caster;
 
     // AoWDeformFaceDlg.pas:127
     public void Execute(CosmeticSurgerySpellCaster caster)
     {
         Troop U;
-        Caster = caster;
-        Caster.AddRef();
-        U = AoWHSMap.Current.UnitControl.FindUnit(Caster.TargetUnitId);
+        _caster = caster;
+        _caster.AddRef();
+        U = AoWHSMap.Current.UnitControl.FindUnit(_caster.TargetUnitId);
         if (U != null)
         {
             var name = U.GetName();
@@ -59,8 +59,8 @@ public partial class DeformFaceDialog : DataModule
     // AoWDeformFaceDlg.pas:121
     public void Finish()
     {
-        Caster.Release();
-        Caster = null;
+        _caster.Release();
+        _caster = null;
     }
 
     // AoWDeformFaceDlg.pas:55
@@ -75,9 +75,9 @@ public partial class DeformFaceDialog : DataModule
     {
         string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (Caster.CanCast(ref reason))
+        if (_caster.CanCast(ref reason))
         {
-            Caster.Cast();
+            _caster.Cast();
             Dlg.Visible = false;
         }
         else
@@ -92,7 +92,7 @@ public partial class DeformFaceDialog : DataModule
         Rect R;
         int face;
         FaceResource resource;
-        face = Caster.FaceIndex;
+        face = _caster.FaceIndex;
         while (offset < 0)
         {
             offset += 1;
@@ -119,8 +119,8 @@ public partial class DeformFaceDialog : DataModule
     public void PrevFaceBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var previousFace = AoWHSSet.Current.FaceResources.PreviousFace(Caster.FaceIndex);
-        Caster.FaceIndex = previousFace;
+        var previousFace = AoWHSSet.Current.FaceResources.PreviousFace(_caster.FaceIndex);
+        _caster.FaceIndex = previousFace;
         Dlg.Drawn = false;
     }
 
@@ -128,8 +128,8 @@ public partial class DeformFaceDialog : DataModule
     public void NextFaceBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var nextFace = AoWHSSet.Current.FaceResources.NextFace(Caster.FaceIndex);
-        Caster.FaceIndex = nextFace;
+        var nextFace = AoWHSSet.Current.FaceResources.NextFace(_caster.FaceIndex);
+        _caster.FaceIndex = nextFace;
         Dlg.Drawn = false;
     }
 

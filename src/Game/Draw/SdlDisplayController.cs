@@ -18,13 +18,13 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
     {
         int result = base.Activate(display);
         if (result < 0) return result;
-        _status = _status.With(Windowed).With(Visible);
+        Status = Status.With(Windowed).With(Visible);
         _surfaces[0] = new ScreenSurface(host);
         try
         {
-            for (int i = 1; i <= (int)display._bufferingScheme; i++)
+            for (int i = 1; i <= (int)display.BufferingScheme; i++)
             {
-                _surfaces[i] = new Dib16Surface(display._backSurfaceWidth, display._backSurfaceHeight, PixelFormats.pfRGB555);
+                _surfaces[i] = new Dib16Surface(display.BackSurfaceWidth, display.BackSurfaceHeight, PixelFormats.pfRGB555);
                 _surfaces[i].Clear(display.Color);
             }
             return 0;
@@ -71,9 +71,9 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
         host.ShowSystemCursor(x == -1);
     }
 
-    public override int Hide() { _status = _status.Without(Visible); return 0; }
+    public override int Hide() { Status = Status.Without(Visible); return 0; }
 
-    public override int Show() { _status = _status.With(Visible); return 0; }
+    public override int Show() { Status = Status.With(Visible); return 0; }
 
     public override bool WindowProc(ref Message message) => false;
     public override int SupportDisplayMode(CustomDisplay display) => 0;

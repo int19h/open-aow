@@ -23,8 +23,8 @@ public partial class ItemLibraryManager : EngineObject
         Libraries = new ENode(null);
     }
 
-    public ItemLibrary SystemLibrary;
-    public ENode Libraries;
+    public ItemLibrary SystemLibrary { get; }
+    public ENode Libraries { get; }
 
     // Army.PAS:4974
     public override void Dispose()

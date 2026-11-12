@@ -16,7 +16,7 @@ public partial class Slow : CombatSpell
     // CombatSpells.pas:1284
     public Slow(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_slowText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.SlowText);
         SpellId = 110;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 9;

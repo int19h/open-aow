@@ -8,7 +8,7 @@ namespace Aow.Game.Draw;
 public partial class Point3DList : IDisposable
 {
 
-    internal List<Point3D> _list;
+    private List<Point3D> _list;
 
     // aowFX.pas:93
     public Point3DList()

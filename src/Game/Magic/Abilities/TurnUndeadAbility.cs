@@ -23,7 +23,7 @@ public partial class TurnUndeadAbility : TouchAbility
     {
         AbilityId = 38;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_turnUndeadText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.TurnUndeadText);
         AbilityType = AbilityType.Combat;
     }
 
@@ -345,19 +345,19 @@ public partial class TurnUndeadAbility : TouchAbility
         switch (level)
         {
             case 0:
-                result = AbilityRules.TranslateResourceString(GameText.s_turnUndeadText);
+                result = AbilityRules.TranslateResourceString(GameText.TurnUndeadText);
                 break;
             case 1:
-                result = AbilityRules.TranslateResourceString(GameText.s_turnUndeadText) + " I";
+                result = AbilityRules.TranslateResourceString(GameText.TurnUndeadText) + " I";
                 break;
             case 2:
-                result = AbilityRules.TranslateResourceString(GameText.s_turnUndeadText) + " II";
+                result = AbilityRules.TranslateResourceString(GameText.TurnUndeadText) + " II";
                 break;
             case 3:
-                result = AbilityRules.TranslateResourceString(GameText.s_turnUndeadText) + " III";
+                result = AbilityRules.TranslateResourceString(GameText.TurnUndeadText) + " III";
                 break;
             case 4:
-                result = AbilityRules.TranslateResourceString(GameText.s_turnUndeadText) + " IV";
+                result = AbilityRules.TranslateResourceString(GameText.TurnUndeadText) + " IV";
                 break;
         }
 
@@ -413,6 +413,6 @@ public partial class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3164
-    public override EngineClass AbilityDataClass() => AbilityRules.s_multiLevelDataClass;
+    public override EngineClass AbilityDataClass() => AbilityRules.MultiLevelDataClass;
 
 }

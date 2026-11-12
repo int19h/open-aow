@@ -28,14 +28,14 @@ public sealed partial class RuleConstructionTests
     private sealed class RuleOwner : EngineFixture.Owner
     {
 
-        internal readonly List<string> Observations = [];
-        internal bool Reject = false;
+        private readonly List<string> _observations = [];
+        private bool _reject = false;
 
         public override int AddChild(EngineObject child)
         {
             base.AddChild(child);
-            Observations.Add(Snapshot(child));
-            if (Reject) throw new InvalidOperationException("owner rejects after insertion");
+            _observations.Add(Snapshot(child));
+            if (_reject) throw new InvalidOperationException("owner rejects after insertion");
             return Members.Count - 1;
         }
 
@@ -47,17 +47,18 @@ public sealed partial class RuleConstructionTests
         private readonly AoWHSSet _previousSet = AoWHSSet.Current;
         private readonly GameEngine _previousEngine = GameTables.GameEngine;
         private readonly AoWHSMap _previousMap = AoWHSMap.Current;
-        internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
-        internal readonly AoWHSMap Map;
+        private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
+
+        internal AoWHSMap Map { get; }
 
         internal Fixture()
         {
             GameTables.GameEngine = EngineFixture.Engine;
             Map = new AoWHSMap(null!);
-            var set = EngineFixture.CreateGameSet(Manager);
+            var set = EngineFixture.CreateGameSet(_manager);
             AoWHSSet.Current = set;
             GameTables.GameEngine = null!;
-            Map._status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
+            Map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
             Map.Races = new RaceList(null!);
             Map.UnitControl = new UnitControl(null!);
             Map.HeroControl = new HeroControl(null!);
@@ -69,7 +70,7 @@ public sealed partial class RuleConstructionTests
             AoWHSSet.Current = _previousSet;
             GameTables.GameEngine = _previousEngine;
             AoWHSMap.Current = _previousMap;
-            Manager.Dispose();
+            _manager.Dispose();
             Map.Races.Dispose();
             Map.UnitControl.Dispose();
             Map.HeroControl.Dispose();
@@ -98,7 +99,7 @@ public sealed partial class RuleConstructionTests
             if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
-                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
+                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
                     if (field.Name is "_engineClass" or "_actionClass" or "_groupClass") continue; // the descriptor caches are not constructor state
                     // CF-2 stores priority as a delegate. Keep its value in the base recording's key.
@@ -107,7 +108,7 @@ public sealed partial class RuleConstructionTests
                         fields[current.Name + ".<Priority>k__BackingField"] = actionClass.Priority;
                         continue;
                     }
-                    string key = current.Name + "." + field.Name;
+                    string key = current.Name + "." + MemberNames.Of(field);
                     object? child = field.GetValue(item);
                     if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     fields[key] = State(child, path + "." + key);
@@ -254,7 +255,7 @@ public sealed partial class RuleConstructionTests
 
     private sealed class ObservedAISettings(ECustomNode owner) : AIMoveControlSettings(owner)
     {
-        internal bool SawInitializedFields;
+        internal bool SawInitializedFields { get; private set; }
 
         public override void Clear()
         {
@@ -265,7 +266,7 @@ public sealed partial class RuleConstructionTests
 
     private sealed class ObservedSelector : MoveSelector
     {
-        internal bool SawPreAssignmentFields;
+        internal bool SawPreAssignmentFields { get; private set; }
 
         public override MoveControlSettings CreateMoveControlSettings()
         {

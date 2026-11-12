@@ -25,7 +25,7 @@ public partial class Altar : PlayerStructure
     // Altar.pas:59
     public new const int ClassId = 132081;
 
-    public Storm Storm;
+    private Storm _storm;
     public AltarMode Mode;
     public byte RechargeDays;
 
@@ -50,7 +50,7 @@ public partial class Altar : PlayerStructure
             Mode = AltarMode.Idle;
         }
 
-        _imageIndex = GetTerrainTypeImage(_terrainType);
+        ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // Altar.pas:243
@@ -65,21 +65,21 @@ public partial class Altar : PlayerStructure
         {
             if (executor.ExecuteCount == 0 && CanTarget(ref reason))
             {
-                Storm = CreateStorm();
+                _storm = CreateStorm();
                 var player = AoWHSMap.Current.Players.GetPlayers(Player);
                 var targetMana = TargetMana();
                 AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(player.MagicControl.Mana - targetMana);
                 RechargeDays = 0;
-                Storm.InitializeStorm(Player, (sbyte)(tokenEvent.Param & 255), (sbyte)(((int)(((uint)tokenEvent.Param) >> 8)) & 255), (sbyte)(((int)(((uint)tokenEvent.Param) >> 16)) & 255));
+                _storm.InitializeStorm(Player, (sbyte)(tokenEvent.Param & 255), (sbyte)(((int)(((uint)tokenEvent.Param) >> 8)) & 255), (sbyte)(((int)(((uint)tokenEvent.Param) >> 16)) & 255));
             }
 
-            if (Storm != null)
+            if (_storm != null)
             {
-                if (!Storm.UpdateStorm())
+                if (!_storm.UpdateStorm())
                 {
-                    Storm.FinalizeStorm();
-                    Storm?.Dispose();
-                    Storm = null;
+                    _storm.FinalizeStorm();
+                    _storm?.Dispose();
+                    _storm = null;
                     result = ExecuteResult.Done;
                     Update();
                 }
@@ -234,7 +234,7 @@ public partial class Altar : PlayerStructure
         else
         {
             result = false;
-            reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughManaText);
+            reason = AbilityRules.TranslateResourceString(GameText.NotEnoughManaText);
         }
 
         return result;
@@ -247,7 +247,7 @@ public partial class Altar : PlayerStructure
         TargetSelectionControl selection = default;
         string reason = "";
         selection = AoWHSMap.Current.TargetSelection;
-        if (!GetRazed() && Player >= 0 && TargetMana() <= AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && Storm == null)
+        if (!GetRazed() && Player >= 0 && TargetMana() <= AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm == null)
         {
             selection.Initialize(this);
             selection.TargetMode = selection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
@@ -256,13 +256,13 @@ public partial class Altar : PlayerStructure
             selection.SourceL = GetHexLevel();
             selection.Range = 12;
             selection.FOnChange += OnTargetSelectionChange;
-            Storm = CreateStorm();
-            Storm.UpdateTargetSelection(AoWHSMap.Current.TargetSelection);
-            var name = Storm.Name();
-            var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_selectTargetLocationForOnMapFormat), [name]);
+            _storm = CreateStorm();
+            _storm.UpdateTargetSelection(AoWHSMap.Current.TargetSelection);
+            var name = _storm.Name();
+            var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.SelectTargetLocationForOnMapFormat), [name]);
             selection.Text.Text = format;
             selection.Title = EditName();
-            selection.CancelText = AbilityRules.TranslateResourceString(GameText.s_cancelText);
+            selection.CancelText = AbilityRules.TranslateResourceString(GameText.CancelText);
             selection.SourceImage = GetTopBorderImage();
             selection.ValidTargetImage = GetMiddleBorderImage();
             selection.InvalidTargetImage = GetBottomBorderImage();
@@ -305,8 +305,8 @@ public partial class Altar : PlayerStructure
         switch (selection.Change)
         {
             case TargetSelectionChange.Deactivated:
-                Storm?.Dispose();
-                Storm = null;
+                _storm?.Dispose();
+                _storm = null;
                 selection.FOnChange -= OnTargetSelectionChange;
                 Update();
                 break;
@@ -317,8 +317,8 @@ public partial class Altar : PlayerStructure
                     selection.Deactivate();
                 }
 
-                Storm?.Dispose();
-                Storm = null;
+                _storm?.Dispose();
+                _storm = null;
                 Update();
                 break;
         }

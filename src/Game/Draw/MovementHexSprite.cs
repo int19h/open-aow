@@ -13,7 +13,7 @@ public partial class MovementHexSprite : SingleHexSprite
     // FleeLoc.pas:172
     public new const int ClassId = 2228490;
 
-    public bool Enabled;
+    public bool Enabled { get; set; }
 
     // FleeLoc.pas:175
     public override int GetShowPriority() => 32;

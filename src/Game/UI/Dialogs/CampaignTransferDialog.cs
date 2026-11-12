@@ -108,16 +108,16 @@ public partial class CampaignTransferDialog : DataModule
     public Image RManaImg;
     public Image ResBackG;
     public IvTranslator Translator;
-    public int LeftHero;
-    public int RightHero;
-    public int LeftUnit;
-    public int RightUnit;
-    public int LeftItem;
-    public int RightItem;
-    public byte LeftKind;
-    public int LeftSelection;
-    public byte RightKind;
-    public int RightSelection;
+    private int _leftHero;
+    private int _rightHero;
+    private int _leftUnit;
+    private int _rightUnit;
+    private int _leftItem;
+    private int _rightItem;
+    private byte _leftKind;
+    private int _leftSelection;
+    private byte _rightKind;
+    private int _rightSelection;
 
     // AoWCampaignTransferDlg.pas:683
     public void UpdateControls()
@@ -131,33 +131,33 @@ public partial class CampaignTransferDialog : DataModule
         GoldLeftLbl.Text = IntToStr(S.TransferGoldMax - S.SelectedTransferGold);
         ManaSlider.Position = S.SelectedTransferMana;
         GoldSlider.Position = S.SelectedTransferGold;
-        LHeroLB.Visible = LeftHero != 0;
+        LHeroLB.Visible = _leftHero != 0;
         var count = S.Heroes.Count;
-        LHeroRB.Visible = count > LeftHero + 4;
-        LItemLB.Visible = LeftItem != 0;
+        LHeroRB.Visible = count > _leftHero + 4;
+        LItemLB.Visible = _leftItem != 0;
         var fItemsCount = S.Items.Count;
-        LItemRB.Visible = fItemsCount > LeftItem + 4;
-        LUnitLB.Visible = LeftUnit != 0;
+        LItemRB.Visible = fItemsCount > _leftItem + 4;
+        LUnitLB.Visible = _leftUnit != 0;
         var fUnitsCount = S.Units.Count;
-        LUnitRB.Visible = fUnitsCount > LeftUnit + 4;
-        RHeroLB.Visible = RightHero != 0;
-        RHeroRB.Visible = RightHero + 4 < S.SelectedHeroes.Count;
-        RItemLB.Visible = RightItem != 0;
-        RItemRB.Visible = RightItem + 4 < S.SelectedItems.Count;
-        RUnitLB.Visible = RightUnit != 0;
-        RUnitRB.Visible = RightUnit + 4 < S.SelectedUnits.Count;
+        LUnitRB.Visible = fUnitsCount > _leftUnit + 4;
+        RHeroLB.Visible = _rightHero != 0;
+        RHeroRB.Visible = _rightHero + 4 < S.SelectedHeroes.Count;
+        RItemLB.Visible = _rightItem != 0;
+        RItemRB.Visible = _rightItem + 4 < S.SelectedItems.Count;
+        RUnitLB.Visible = _rightUnit != 0;
+        RUnitRB.Visible = _rightUnit + 4 < S.SelectedUnits.Count;
         TransBookWin.Drawn = false;
     }
 
     // AoWCampaignTransferDlg.pas:710
     public void ResetSelection()
     {
-        LeftHero = 0;
-        RightHero = 0;
-        LeftUnit = 0;
-        RightUnit = 0;
-        LeftItem = 0;
-        RightItem = 0;
+        _leftHero = 0;
+        _rightHero = 0;
+        _leftUnit = 0;
+        _rightUnit = 0;
+        _leftItem = 0;
+        _rightItem = 0;
         ClearLeftSelection();
         ClearRightSelection();
     }
@@ -177,8 +177,8 @@ public partial class CampaignTransferDialog : DataModule
         LUnit2.Checked = false;
         LUnit3.Checked = false;
         LUnit4.Checked = false;
-        LeftKind = 0;
-        LeftSelection = -1;
+        _leftKind = 0;
+        _leftSelection = -1;
     }
 
     // AoWCampaignTransferDlg.pas:740
@@ -196,8 +196,8 @@ public partial class CampaignTransferDialog : DataModule
         RUnit2.Checked = false;
         RUnit3.Checked = false;
         RUnit4.Checked = false;
-        RightKind = 0;
-        RightSelection = -1;
+        _rightKind = 0;
+        _rightSelection = -1;
     }
 
     // AoWCampaignTransferDlg.pas:173
@@ -241,9 +241,9 @@ public partial class CampaignTransferDialog : DataModule
     // AoWCampaignTransferDlg.pas:204
     public void LHeroLBClick()
     {
-        if (LeftHero != 0)
+        if (_leftHero != 0)
         {
-            LeftHero -= 1;
+            _leftHero -= 1;
         }
 
         LHeroPnl.Drawn = false;
@@ -253,9 +253,9 @@ public partial class CampaignTransferDialog : DataModule
     // AoWCampaignTransferDlg.pas:211
     public void LHeroRBClick()
     {
-        if (GameTables.GameEngine.Campaign.TransferSettings.Heroes.Count > LeftHero + 4)
+        if (GameTables.GameEngine.Campaign.TransferSettings.Heroes.Count > _leftHero + 4)
         {
-            LeftHero += 1;
+            _leftHero += 1;
         }
 
         LHeroPnl.Drawn = false;
@@ -265,9 +265,9 @@ public partial class CampaignTransferDialog : DataModule
     // AoWCampaignTransferDlg.pas:218
     public void LItemLBClick()
     {
-        if (LeftItem != 0)
+        if (_leftItem != 0)
         {
-            LeftItem -= 1;
+            _leftItem -= 1;
         }
 
         LItemPnl.Drawn = false;
@@ -277,9 +277,9 @@ public partial class CampaignTransferDialog : DataModule
     // AoWCampaignTransferDlg.pas:225
     public void LItemRBClick()
     {
-        if (GameTables.GameEngine.Campaign.TransferSettings.Items.Count > LeftItem + 4)
+        if (GameTables.GameEngine.Campaign.TransferSettings.Items.Count > _leftItem + 4)
         {
-            LeftItem += 1;
+            _leftItem += 1;
         }
 
         LItemPnl.Drawn = false;
@@ -289,9 +289,9 @@ public partial class CampaignTransferDialog : DataModule
     // AoWCampaignTransferDlg.pas:232
     public void LUnitLBClick()
     {
-        if (LeftUnit != 0)
+        if (_leftUnit != 0)
         {
-            LeftUnit -= 1;
+            _leftUnit -= 1;
         }
 
         LUnitPnl.Drawn = false;
@@ -301,9 +301,9 @@ public partial class CampaignTransferDialog : DataModule
     // AoWCampaignTransferDlg.pas:239
     public void LUnitRBClick()
     {
-        if (GameTables.GameEngine.Campaign.TransferSettings.Units.Count > LeftUnit + 4)
+        if (GameTables.GameEngine.Campaign.TransferSettings.Units.Count > _leftUnit + 4)
         {
-            LeftUnit += 1;
+            _leftUnit += 1;
         }
 
         LUnitPnl.Drawn = false;
@@ -313,9 +313,9 @@ public partial class CampaignTransferDialog : DataModule
     // AoWCampaignTransferDlg.pas:246
     public void RHeroLBClick()
     {
-        if (RightHero != 0)
+        if (_rightHero != 0)
         {
-            RightHero -= 1;
+            _rightHero -= 1;
         }
 
         RHeroPnl.Drawn = false;
@@ -325,9 +325,9 @@ public partial class CampaignTransferDialog : DataModule
     // AoWCampaignTransferDlg.pas:253
     public void RHeroRBClick()
     {
-        if (RightHero + 4 < GameTables.GameEngine.Campaign.TransferSettings.SelectedHeroes.Count)
+        if (_rightHero + 4 < GameTables.GameEngine.Campaign.TransferSettings.SelectedHeroes.Count)
         {
-            RightHero += 1;
+            _rightHero += 1;
         }
 
         RHeroPnl.Drawn = false;
@@ -337,9 +337,9 @@ public partial class CampaignTransferDialog : DataModule
     // AoWCampaignTransferDlg.pas:260
     public void RItemLBClick()
     {
-        if (RightItem != 0)
+        if (_rightItem != 0)
         {
-            RightItem -= 1;
+            _rightItem -= 1;
         }
 
         RItemPnl.Drawn = false;
@@ -349,9 +349,9 @@ public partial class CampaignTransferDialog : DataModule
     // AoWCampaignTransferDlg.pas:267
     public void RItemRBClick()
     {
-        if (RightItem + 4 < GameTables.GameEngine.Campaign.TransferSettings.SelectedItems.Count)
+        if (_rightItem + 4 < GameTables.GameEngine.Campaign.TransferSettings.SelectedItems.Count)
         {
-            RightItem += 1;
+            _rightItem += 1;
         }
 
         RItemPnl.Drawn = false;
@@ -361,9 +361,9 @@ public partial class CampaignTransferDialog : DataModule
     // AoWCampaignTransferDlg.pas:274
     public void RUnitLBClick()
     {
-        if (RightUnit != 0)
+        if (_rightUnit != 0)
         {
-            RightUnit -= 1;
+            _rightUnit -= 1;
         }
 
         RUnitPnl.Drawn = false;
@@ -373,9 +373,9 @@ public partial class CampaignTransferDialog : DataModule
     // AoWCampaignTransferDlg.pas:281
     public void RUnitRBClick()
     {
-        if (RightUnit + 4 < GameTables.GameEngine.Campaign.TransferSettings.SelectedUnits.Count)
+        if (_rightUnit + 4 < GameTables.GameEngine.Campaign.TransferSettings.SelectedUnits.Count)
         {
-            RightUnit += 1;
+            _rightUnit += 1;
         }
 
         RUnitPnl.Drawn = false;
@@ -389,7 +389,7 @@ public partial class CampaignTransferDialog : DataModule
         CampaignTransferSettings S;
         Rect R;
         S = GameTables.GameEngine.Campaign.TransferSettings;
-        objectValue = S.Heroes.GetHero(LeftHero + slot);
+        objectValue = S.Heroes.GetHero(_leftHero + slot);
         if (objectValue != null)
         {
             var checkBox = sender;
@@ -398,7 +398,7 @@ public partial class CampaignTransferDialog : DataModule
             R.Left += 1;
             objectValue.ShowFace(R, lockedSurface);
             R.Left -= 1;
-            if (S.SelectedHeroes.IndexOf(LeftHero + slot) != -1)
+            if (S.SelectedHeroes.IndexOf(_leftHero + slot) != -1)
             {
                 DialogHosts.UIGraphics.CityWin[5].ShowBlended(R.Left, R.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
             }
@@ -422,9 +422,9 @@ public partial class CampaignTransferDialog : DataModule
         CampaignTransferSettings S;
         Rect R;
         S = GameTables.GameEngine.Campaign.TransferSettings;
-        if (RightHero + slot < S.SelectedHeroes.Count)
+        if (_rightHero + slot < S.SelectedHeroes.Count)
         {
-            var selectedHero = S.SelectedHeroes[RightHero + slot];
+            var selectedHero = S.SelectedHeroes[_rightHero + slot];
             objectValue = S.Heroes.GetHero(selectedHero);
             if (objectValue != null)
             {
@@ -456,9 +456,9 @@ public partial class CampaignTransferDialog : DataModule
         Rect R;
         S = GameTables.GameEngine.Campaign.TransferSettings;
         var count = S.Units.Count;
-        if (LeftUnit + slot < count)
+        if (_leftUnit + slot < count)
         {
-            objectValue = S.Units.GetUnit(LeftUnit + slot);
+            objectValue = S.Units.GetUnit(_leftUnit + slot);
             if (objectValue != null)
             {
                 var checkBox = sender;
@@ -471,7 +471,7 @@ public partial class CampaignTransferDialog : DataModule
                 info.Frame = 0;
                 info.Looped = false;
                 objectValue.Show(R.Left - 8, R.Top, lockedSurface, info);
-                if (S.SelectedUnits.IndexOf(LeftUnit + slot) != -1)
+                if (S.SelectedUnits.IndexOf(_leftUnit + slot) != -1)
                 {
                     DialogHosts.UIGraphics.CityWin[5].ShowBlended(R.Left, R.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
                 }
@@ -497,9 +497,9 @@ public partial class CampaignTransferDialog : DataModule
         UnitShowInfo info = default;
         Rect R;
         S = GameTables.GameEngine.Campaign.TransferSettings;
-        if (RightUnit + slot < S.SelectedUnits.Count)
+        if (_rightUnit + slot < S.SelectedUnits.Count)
         {
-            var selectedUnit = S.SelectedUnits[RightUnit + slot];
+            var selectedUnit = S.SelectedUnits[_rightUnit + slot];
             objectValue = S.Units.GetUnit(selectedUnit);
             if (objectValue != null)
             {
@@ -533,7 +533,7 @@ public partial class CampaignTransferDialog : DataModule
         CampaignTransferSettings S;
         Rect R;
         S = GameTables.GameEngine.Campaign.TransferSettings;
-        objectValue = S.Items.GetItem(LeftItem + slot);
+        objectValue = S.Items.GetItem(_leftItem + slot);
         if (objectValue != null)
         {
             var checkBox = sender;
@@ -541,7 +541,7 @@ public partial class CampaignTransferDialog : DataModule
 
             DialogHosts.UIGraphics.CityWin[4].Show(R.Left, R.Top, lockedSurface);
             objectValue.Show(R.Left + 5, R.Top + 10, lockedSurface);
-            if (S.SelectedItems.IndexOf(LeftItem + slot) != -1)
+            if (S.SelectedItems.IndexOf(_leftItem + slot) != -1)
             {
                 DialogHosts.UIGraphics.CityWin[5].ShowBlended(R.Left, R.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
             }
@@ -565,9 +565,9 @@ public partial class CampaignTransferDialog : DataModule
         CampaignTransferSettings S;
         Rect R;
         S = GameTables.GameEngine.Campaign.TransferSettings;
-        if (RightItem + slot < S.SelectedItems.Count)
+        if (_rightItem + slot < S.SelectedItems.Count)
         {
-            var selectedItem = S.SelectedItems[RightItem + slot];
+            var selectedItem = S.SelectedItems[_rightItem + slot];
             objectValue = S.Items.GetItem(selectedItem);
             if (objectValue != null)
             {
@@ -597,8 +597,8 @@ public partial class CampaignTransferDialog : DataModule
             ClearLeftSelection();
             var checkBox = sender;
             checkBox.Checked = true;
-            LeftKind = 1;
-            LeftSelection = slot + LeftHero;
+            _leftKind = 1;
+            _leftSelection = slot + _leftHero;
         }
     }
 
@@ -608,8 +608,8 @@ public partial class CampaignTransferDialog : DataModule
         ClearLeftSelection();
         var checkBox = sender;
         checkBox.Checked = true;
-        LeftKind = 2;
-        LeftSelection = slot + LeftItem;
+        _leftKind = 2;
+        _leftSelection = slot + _leftItem;
     }
 
     // AoWCampaignTransferDlg.pas:495
@@ -618,8 +618,8 @@ public partial class CampaignTransferDialog : DataModule
         ClearLeftSelection();
         var checkBox = sender;
         checkBox.Checked = true;
-        LeftKind = 3;
-        LeftSelection = slot + LeftUnit;
+        _leftKind = 3;
+        _leftSelection = slot + _leftUnit;
     }
 
     // AoWCampaignTransferDlg.pas:506
@@ -628,8 +628,8 @@ public partial class CampaignTransferDialog : DataModule
         ClearRightSelection();
         var checkBox = sender;
         checkBox.Checked = true;
-        RightKind = 1;
-        RightSelection = slot + RightHero;
+        _rightKind = 1;
+        _rightSelection = slot + _rightHero;
     }
 
     // AoWCampaignTransferDlg.pas:517
@@ -638,8 +638,8 @@ public partial class CampaignTransferDialog : DataModule
         ClearRightSelection();
         var checkBox = sender;
         checkBox.Checked = true;
-        RightKind = 2;
-        RightSelection = slot + RightItem;
+        _rightKind = 2;
+        _rightSelection = slot + _rightItem;
     }
 
     // AoWCampaignTransferDlg.pas:528
@@ -648,8 +648,8 @@ public partial class CampaignTransferDialog : DataModule
         ClearRightSelection();
         var checkBox = sender;
         checkBox.Checked = true;
-        RightKind = 3;
-        RightSelection = slot + RightUnit;
+        _rightKind = 3;
+        _rightSelection = slot + _rightUnit;
     }
 
     // AoWCampaignTransferDlg.pas:539
@@ -657,10 +657,10 @@ public partial class CampaignTransferDialog : DataModule
     {
         CampaignTransferSettings S;
         S = GameTables.GameEngine.Campaign.TransferSettings;
-        switch (LeftKind)
+        switch (_leftKind)
         {
             case 1:
-                if (S.AddHero(LeftSelection))
+                if (S.AddHero(_leftSelection))
                 {
                     LHeroPnl.Drawn = false;
                     RHeroPnl.Drawn = false;
@@ -670,7 +670,7 @@ public partial class CampaignTransferDialog : DataModule
 
                 break;
             case 2:
-                if (S.AddItem(LeftSelection))
+                if (S.AddItem(_leftSelection))
                 {
                     LItemPnl.Drawn = false;
                     RItemPnl.Drawn = false;
@@ -680,7 +680,7 @@ public partial class CampaignTransferDialog : DataModule
 
                 break;
             case 3:
-                if (S.AddUnit(LeftSelection))
+                if (S.AddUnit(_leftSelection))
                 {
                     LUnitPnl.Drawn = false;
                     RUnitPnl.Drawn = false;
@@ -697,10 +697,10 @@ public partial class CampaignTransferDialog : DataModule
     {
         CampaignTransferSettings S;
         S = GameTables.GameEngine.Campaign.TransferSettings;
-        switch (RightKind)
+        switch (_rightKind)
         {
             case 1:
-                if (S.DeleteHero(S.SelectedHeroes[RightSelection]))
+                if (S.DeleteHero(S.SelectedHeroes[_rightSelection]))
                 {
                     LHeroPnl.Drawn = false;
                     RHeroPnl.Drawn = false;
@@ -712,7 +712,7 @@ public partial class CampaignTransferDialog : DataModule
 
                 break;
             case 2:
-                if (S.DeleteItem(S.SelectedItems[RightSelection]))
+                if (S.DeleteItem(S.SelectedItems[_rightSelection]))
                 {
                     LItemPnl.Drawn = false;
                     RItemPnl.Drawn = false;
@@ -724,7 +724,7 @@ public partial class CampaignTransferDialog : DataModule
 
                 break;
             case 3:
-                if (S.DeleteUnit(S.SelectedUnits[RightSelection]))
+                if (S.DeleteUnit(S.SelectedUnits[_rightSelection]))
                 {
                     LUnitPnl.Drawn = false;
                     RUnitPnl.Drawn = false;
@@ -743,9 +743,9 @@ public partial class CampaignTransferDialog : DataModule
     {
         CampaignTransferSettings S;
         S = GameTables.GameEngine.Campaign.TransferSettings;
-        sender.Checked = LeftKind == 1 && slot + LeftHero == LeftSelection;
+        sender.Checked = _leftKind == 1 && slot + _leftHero == _leftSelection;
         var checkBox = sender;
-        checkBox._captureInput = !checkBox.Checked && S.Heroes.Count > slot + LeftHero && S.SelectedHeroes.IndexOf(slot + LeftHero) == -1;
+        checkBox.CaptureInput = !checkBox.Checked && S.Heroes.Count > slot + _leftHero && S.SelectedHeroes.IndexOf(slot + _leftHero) == -1;
     }
 
     // AoWCampaignTransferDlg.pas:617
@@ -753,9 +753,9 @@ public partial class CampaignTransferDialog : DataModule
     {
         CampaignTransferSettings S;
         S = GameTables.GameEngine.Campaign.TransferSettings;
-        sender.Checked = LeftKind == 2 && slot + LeftItem == LeftSelection;
+        sender.Checked = _leftKind == 2 && slot + _leftItem == _leftSelection;
         var checkBox = sender;
-        checkBox._captureInput = !checkBox.Checked && S.Items.Count > slot + LeftItem && S.SelectedItems.IndexOf(slot + LeftItem) == -1;
+        checkBox.CaptureInput = !checkBox.Checked && S.Items.Count > slot + _leftItem && S.SelectedItems.IndexOf(slot + _leftItem) == -1;
     }
 
     // AoWCampaignTransferDlg.pas:629
@@ -763,9 +763,9 @@ public partial class CampaignTransferDialog : DataModule
     {
         CampaignTransferSettings S;
         S = GameTables.GameEngine.Campaign.TransferSettings;
-        sender.Checked = LeftKind == 3 && slot + LeftUnit == LeftSelection;
+        sender.Checked = _leftKind == 3 && slot + _leftUnit == _leftSelection;
         var checkBox = sender;
-        checkBox._captureInput = !checkBox.Checked && S.Units.Count > slot + LeftUnit && S.SelectedUnits.IndexOf(slot + LeftUnit) == -1;
+        checkBox.CaptureInput = !checkBox.Checked && S.Units.Count > slot + _leftUnit && S.SelectedUnits.IndexOf(slot + _leftUnit) == -1;
     }
 
     // AoWCampaignTransferDlg.pas:641
@@ -773,9 +773,9 @@ public partial class CampaignTransferDialog : DataModule
     {
         CampaignTransferSettings S;
         S = GameTables.GameEngine.Campaign.TransferSettings;
-        sender.Checked = RightKind == 1 && slot + RightHero == RightSelection;
+        sender.Checked = _rightKind == 1 && slot + _rightHero == _rightSelection;
         var checkBox = sender;
-        checkBox._captureInput = !checkBox.Checked && slot + RightHero < S.SelectedHeroes.Count;
+        checkBox.CaptureInput = !checkBox.Checked && slot + _rightHero < S.SelectedHeroes.Count;
     }
 
     // AoWCampaignTransferDlg.pas:652
@@ -783,9 +783,9 @@ public partial class CampaignTransferDialog : DataModule
     {
         CampaignTransferSettings S;
         S = GameTables.GameEngine.Campaign.TransferSettings;
-        sender.Checked = RightKind == 2 && slot + RightItem == RightSelection;
+        sender.Checked = _rightKind == 2 && slot + _rightItem == _rightSelection;
         var checkBox = sender;
-        checkBox._captureInput = !checkBox.Checked && slot + RightItem < S.SelectedItems.Count;
+        checkBox.CaptureInput = !checkBox.Checked && slot + _rightItem < S.SelectedItems.Count;
     }
 
     // AoWCampaignTransferDlg.pas:663
@@ -793,9 +793,9 @@ public partial class CampaignTransferDialog : DataModule
     {
         CampaignTransferSettings S;
         S = GameTables.GameEngine.Campaign.TransferSettings;
-        sender.Checked = RightKind == 3 && slot + RightUnit == RightSelection;
+        sender.Checked = _rightKind == 3 && slot + _rightUnit == _rightSelection;
         var checkBox = sender;
-        checkBox._captureInput = !checkBox.Checked && slot + RightUnit < S.SelectedUnits.Count;
+        checkBox.CaptureInput = !checkBox.Checked && slot + _rightUnit < S.SelectedUnits.Count;
     }
 
     // AoWCampaignTransferDlg.pas:674

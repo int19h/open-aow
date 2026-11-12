@@ -37,7 +37,7 @@ public partial class HealingAbility : TouchAbility
         }
         else
         {
-            var used = AbilityRules.TranslateResourceString(GameText.s_usedText);
+            var used = AbilityRules.TranslateResourceString(GameText.UsedText);
             result = AbilityName + " (" + LowerCase(used) + ")";
         }
 
@@ -138,7 +138,7 @@ public partial class HealingAbility : TouchAbility
 
             selector = new HealingUnitSelector();
             var healing = AbilityRules.TranslateResourceString(s_healingText);
-            selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_selectUnitFormat), [healing]);
+            selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.SelectUnitFormat), [healing]);
             if (troop != null)
             {
                 if (troop.Owner is HeroList)
@@ -155,7 +155,7 @@ public partial class HealingAbility : TouchAbility
 
             info.SetUnitSelector(selector);
             // { Original omits Selector.Release here. }
-            AoWHSMap.Current._onActivateAbilityStore.Raise(info);
+            AoWHSMap.Current.OnActivateAbilityStore.Raise(info);
             info.Release();
             result = true;
         }

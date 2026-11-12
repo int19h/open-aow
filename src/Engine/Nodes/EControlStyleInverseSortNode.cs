@@ -14,7 +14,7 @@ public partial class EControlStyleInverseSortNode : EInverseSortNode
         _controlStyle = base.GetControlStyle();
     }
 
-    internal Set<ControlStyleElement> _controlStyle;
+    private Set<ControlStyleElement> _controlStyle;
 
     // Engine.pas:1700
     public override Set<ControlStyleElement> GetControlStyle() => _controlStyle;

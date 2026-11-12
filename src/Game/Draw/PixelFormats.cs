@@ -160,11 +160,11 @@ public static class PixelFormats
     {
         if (pixelFormatId == pfRGB565 || pixelFormatId == pfRGB555)
         {
-            GraphicsState.s_forcedPixelFormatId = pixelFormatId;
+            GraphicsState.ForcedPixelFormatId = pixelFormatId;
         }
         else
         {
-            GraphicsState.s_forcedPixelFormatId = 0;
+            GraphicsState.ForcedPixelFormatId = 0;
         }
     }
 

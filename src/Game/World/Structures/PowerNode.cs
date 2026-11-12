@@ -19,21 +19,21 @@ public partial class PowerNode : PlayerStructure
 {
     public PowerNode(ECustomNode owner) : base(owner)
     {
-        PowerSource = new PlayerStructurePowerSource(null);
-        PowerSource.Setup(this);
+        _powerSource = new PlayerStructurePowerSource(null);
+        _powerSource.Setup(this);
     }
 
     // PowerNode.pas:64
     public new const int ClassId = 131482;
 
     public Set<StateElement> State;
-    public PlayerStructurePowerSource PowerSource;
+    private PlayerStructurePowerSource _powerSource;
 
     // PowerNode.pas:58
     public override void Dispose()
     {
         base.Dispose();
-        PowerSource?.Dispose();
+        _powerSource?.Dispose();
     }
 
     // PowerNode.pas:87
@@ -51,7 +51,7 @@ public partial class PowerNode : PlayerStructure
         base.Activate();
         if (Player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(PowerSource);
+            AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
         }
     }
 
@@ -60,7 +60,7 @@ public partial class PowerNode : PlayerStructure
     {
         if (Player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(PowerSource);
+            AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
         }
 
         base.Deactivate();
@@ -79,7 +79,7 @@ public partial class PowerNode : PlayerStructure
             State = State - Set<StateElement>.Of(StateElement.Razed);
         }
 
-        _imageIndex = GetTerrainTypeImage(_terrainType);
+        ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // PowerNode.pas:73
@@ -138,17 +138,17 @@ public partial class PowerNode : PlayerStructure
     {
         if (player != Player)
         {
-            if (_status.Contains(MapObjectStatusElement.Activated))
+            if (Status.Contains(MapObjectStatusElement.Activated))
             {
                 if (Player != -1)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(PowerSource);
+                    AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
                 }
 
                 base.SetPlayer(player);
                 if (Player != -1)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(PowerSource);
+                    AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
                 }
             }
             else

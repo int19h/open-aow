@@ -6,7 +6,7 @@ namespace Aow.Game.Draw;
 // _list
 public partial class DisplayModeList : IDisposable
 {
-    internal List<DisplayModeItem> _list;
+    private List<DisplayModeItem> _list;
 
     // GFXE.pas:12629
     internal DisplayModeItem GetItems(int index) => _list[index];

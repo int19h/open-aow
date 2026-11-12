@@ -6,10 +6,10 @@ namespace Aow.Game.Net;
 // FEvents, FTokenManager, FPlayer, FActive. The token events of one player
 public partial class TokenControl : IDisposable
 {
-    internal TokenEventList _events;
-    internal TokenManager _tokenManager;
-    internal int _player;
-    internal bool _active;
+    private TokenEventList _events;
+    private TokenManager _tokenManager;
+    private int _player;
+    private bool _active;
 
     // NetworkE.pas:1189
     // { Keeps the events sorted on their token counters; an event without one goes to the end }
@@ -54,11 +54,11 @@ public partial class TokenControl : IDisposable
         TokenEvent tokenEvent;
         if (Global() || Local())
         {
-            if (_events.Count != 0 || executor._holdTacticalBattle != true)
+            if (_events.Count != 0 || executor.HoldTacticalBattle != true)
             {
                 if (Local())
                 {
-                    if (executor._onSyncError != null)
+                    if (executor.OnSyncError != null)
                     {
                         tokenEvent = new SyncTokenEvent(null);
                         var syncValue = executor.GetSyncValue();
@@ -124,7 +124,7 @@ public partial class TokenControl : IDisposable
     {
         if (Local() && !Global() && events.Count != 0)
         {
-            _tokenManager._tokenPackageDistributor.SendTokenEvents(_player, NetworkSession.AllPlayers, events);
+            _tokenManager.TokenPackageDistributor.SendTokenEvents(_player, NetworkSession.AllPlayers, events);
         }
     }
 
@@ -135,9 +135,9 @@ public partial class TokenControl : IDisposable
         _tokenManager = manager;
         _player = player;
         _active = true;
-        if (_tokenManager != null && _tokenManager._tokenExecutor != null)
+        if (_tokenManager != null && _tokenManager.TokenExecutor != null)
         {
-            _tokenManager._tokenExecutor.AddTacticalBattle(this);
+            _tokenManager.TokenExecutor.AddTacticalBattle(this);
         }
     }
 
@@ -170,9 +170,9 @@ public partial class TokenControl : IDisposable
     // NetworkE.pas:1180
     public virtual void Dispose()
     {
-        if (_tokenManager != null && _tokenManager._tokenExecutor != null)
+        if (_tokenManager != null && _tokenManager.TokenExecutor != null)
         {
-            _tokenManager._tokenExecutor.RemoveTacticalBattle(this);
+            _tokenManager.TokenExecutor.RemoveTacticalBattle(this);
         }
 
         _events?.Dispose();
@@ -193,21 +193,21 @@ public partial class TokenControl : IDisposable
     // NetworkE.pas:1246
     public bool Local()
     {
-        var playerCommunicationControl = _tokenManager._tokenPackageDistributor._pc._playerCommunicationControl;
+        var playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
         return playerCommunicationControl.GetPlayers(_player)._connectionMode == ConnectionMode.Local;
     }
 
     // NetworkE.pas:1252
     public bool Global()
     {
-        var playerCommunicationControl = _tokenManager._tokenPackageDistributor._pc._playerCommunicationControl;
+        var playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
         return playerCommunicationControl.GetPlayers(_player)._connectionMode == ConnectionMode.Global;
     }
 
     // NetworkE.pas:1258
     public bool Remote()
     {
-        var playerCommunicationControl = _tokenManager._tokenPackageDistributor._pc._playerCommunicationControl;
+        var playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
         return playerCommunicationControl.GetPlayers(_player)._connectionMode == ConnectionMode.Remote;
     }
 
@@ -227,7 +227,7 @@ public partial class TokenControl : IDisposable
             passToken = false;
             while (inOrder && !passToken && I < _events.Count)
             {
-                inOrder = _events[I]._tokenCounter == executor._tokenCounter + I;
+                inOrder = _events[I]._tokenCounter == executor.TokenCounter + I;
                 passToken = _events[I].EngineClass.ClassId == NetworkSession.ClassIdPassTokenTokenEvent;
                 I += 1;
             }

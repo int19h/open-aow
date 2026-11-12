@@ -50,21 +50,24 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     public new const int ClassId = 131914;
 
     public int StructureId;
-    public int UpdateCount;
+
+    public int UpdateCount { get; private set; }
+
     public sbyte BuildingPlayer;
     public byte BuildingDays;
-    public StructureShadow Shadow;
-    public bool Fogged;
+    private StructureShadow _shadow;
+
+    public bool Fogged { get; private set; }
 
     // Structur.PAS:1017
     public override void Dispose()
     {
-        if (Shadow != null)
+        if (_shadow != null)
         {
             DestroyShadow();
         }
 
-        if (Owner != null && _status.Contains(MapObjectStatusElement.ResourceLinked) && ((StructureResource)_resource).TerrainBound)
+        if (Owner != null && Status.Contains(MapObjectStatusElement.ResourceLinked) && ((StructureResource)_resource).TerrainBound)
         {
             Owner.DestroyChildren(131334);
         }
@@ -127,7 +130,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         sbyte result = _resource.TerrainList.Terrain[index];
         if (result >= 0)
         {
-            result = _terrainType;
+            result = TerrainType;
         }
 
         return result;
@@ -155,8 +158,8 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         {
             if (((StructureResource)_resource).TerrainBound)
             {
-                _terrainType = info.TerrainType;
-                _imageIndex = GetTerrainTypeImage(_terrainType);
+                TerrainType = info.TerrainType;
+                ImageIndex = GetTerrainTypeImage(TerrainType);
             }
             else
             {
@@ -397,7 +400,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                 {
                     if (pad != null)
                     {
-                        _terrainType = pad.TerrainType;
+                        TerrainType = pad.TerrainType;
                     }
 
                     result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
@@ -738,28 +741,28 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1107
     public virtual void CreateShadow()
     {
-        if (Shadow != null)
+        if (_shadow != null)
         {
             DestroyShadow();
         }
 
-        Shadow = new StructureShadow(null);
-        Shadow.Structure = this;
-        Shadow.Connect();
+        _shadow = new StructureShadow(null);
+        _shadow.Structure = this;
+        _shadow.Connect();
     }
 
     // Structur.PAS:1115
     public virtual void DestroyShadow()
     {
-        if (Shadow != null)
+        if (_shadow != null)
         {
-            if (Shadow.ShadowStatus.Contains(StructureShadowStatusElement.Connected))
+            if (_shadow.ShadowStatus.Contains(StructureShadowStatusElement.Connected))
             {
-                Shadow.Disconnect();
+                _shadow.Disconnect();
             }
 
-            Shadow?.Dispose();
-            Shadow = null;
+            _shadow?.Dispose();
+            _shadow = null;
         }
     }
 
@@ -799,7 +802,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         log.Release();
         SetRazed(false);
         BuildingPlayer = -1;
-        _imageIndex = GetTerrainTypeImage(_terrainType);
+        ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // Structur.PAS:1383
@@ -817,7 +820,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
             BuildingDays = (byte)time;
             BuildingPlayer = troop.Player;
             ValidateObservation(troop.Player);
-            _imageIndex = GetTerrainTypeImage(_terrainType);
+            ImageIndex = GetTerrainTypeImage(TerrainType);
             result = true;
         }
         else
@@ -833,7 +836,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     {
         BuildingDays = (byte)days;
         BuildingPlayer = troop.Player;
-        _imageIndex = GetTerrainTypeImage(_terrainType);
+        ImageIndex = GetTerrainTypeImage(TerrainType);
         ValidateObservation(troop.Player);
         return true;
     }
@@ -1127,7 +1130,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                 }
                 else
                 {
-                    reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
+                    reason = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
                     result = false;
                 }
             }
@@ -1181,7 +1184,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                 log = new RazeStructureEventLog(null);
                 log.Structure = this;
                 log.Buttons = MessageEventLogButtons.YesNo;
-                log.Title = AbilityRules.TranslateResourceString(GameText.s_warningText);
+                log.Title = AbilityRules.TranslateResourceString(GameText.WarningText);
                 var razeStructureWarning = AbilityRules.TranslateResourceString(s_razeStructureWarningText);
                 log.Message.Add(razeStructureWarning);
                 var translatedText = AbilityRules.TranslateResourceString(s_doYouWishToContinueText);

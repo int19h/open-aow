@@ -17,8 +17,8 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
     // Shipyard.pas:93
     public override void GetInfo(Troop troop, ref string text, ref int gold, ref int days)
     {
-        var shipyard = AbilityRules.TranslateResourceString(GameText.s_shipyardText);
-        text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_buildFormat), [shipyard]);
+        var shipyard = AbilityRules.TranslateResourceString(GameText.ShipyardText);
+        text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.BuildFormat), [shipyard]);
         gold = 50;
         days = 2;
     }

@@ -30,8 +30,8 @@ public partial class NewTurnDialog : DataModule
     public Image TCeltLineL;
     public Image TCeltLineR;
     public Image FaceFrame;
-    public ExecuteDoneEvent Done;
-    public NewTurnEventLog NewTurn;
+    private ExecuteDoneEvent _done;
+    private NewTurnEventLog _newTurn;
 
     // AoWNewTurnDialog.pas:50
     public void FinishDialog()
@@ -39,7 +39,7 @@ public partial class NewTurnDialog : DataModule
         ExecuteDoneEvent done;
         NewTurnEventLog eventValue;
         DialogHosts.General.Manager.OverlayPriority = 0;
-        if (NewTurn == null)
+        if (_newTurn == null)
         {
             AoWHSMap.Current.SetSeatedPlayer(AoWHSMap.Current.CurrentPlayer);
             if (AoWHSMap.Current.SeatedPlayer > -1)
@@ -48,10 +48,10 @@ public partial class NewTurnDialog : DataModule
             }
         }
 
-        done = Done;
-        eventValue = NewTurn;
-        Done = null;
-        NewTurn = null;
+        done = _done;
+        eventValue = _newTurn;
+        _done = null;
+        _newTurn = null;
         if (done != null)
         {
             done(eventValue);
@@ -71,22 +71,22 @@ public partial class NewTurnDialog : DataModule
         switch (eventValue.Mode)
         {
             case NewTurnEventLogMode.Dialog:
-                if (NewTurn != null)
+                if (_newTurn != null)
                 {
-                    NewTurn.Release();
-                    NewTurn = null;
+                    _newTurn.Release();
+                    _newTurn = null;
                 }
 
-                Done = done;
-                NewTurn = eventValue;
-                NewTurn.AddRef();
+                _done = done;
+                _newTurn = eventValue;
+                _newTurn.AddRef();
                 TurnMsg.Text = eventValue.Text;
                 var name = AoWHSMap.Current.Players.GetPlayers(eventValue.TurnPlayer).GetName();
                 PlayerName.Text = name;
                 if (eventValue.TurnPlayer != 0)
                 {
                     var player = AoWHSMap.Current.Players.GetPlayers(eventValue.TurnPlayer);
-                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[player.PlayerRace]);
+                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
                     PlayerRace.Text = raceNamesPlural;
                 }
                 else
@@ -103,7 +103,7 @@ public partial class NewTurnDialog : DataModule
                     Day = 1;
                 }
 
-                var day = AbilityRules.TranslateResourceString(GameText.s_dayText);
+                var day = AbilityRules.TranslateResourceString(GameText.DayText);
                 Turn.Text = day + " " + IntToStr(Day);
                 race = AoWHSMap.Current.Players.GetPlayers(eventValue.TurnPlayer).PlayerRace;
                 if (race == -1)
@@ -115,7 +115,7 @@ public partial class NewTurnDialog : DataModule
                 RShield.CurrentImage = race + 26;
                 NewTDlg.Drawn = false;
                 NewTDlg.Visible = true;
-                if (NewTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
+                if (_newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
                 {
                     var clickToBegin = AbilityRules.TranslateResourceString(s_clickToBeginText);
                     ClickMsg.Text = clickToBegin;
@@ -136,7 +136,7 @@ public partial class NewTurnDialog : DataModule
     // AoWNewTurnDialog.pas:106
     public void NewTDlgMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (CombatMap.Current == null && NewTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
+        if (CombatMap.Current == null && _newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
         {
             NewTDlg.Visible = false;
         }
@@ -145,7 +145,7 @@ public partial class NewTurnDialog : DataModule
     // AoWNewTurnDialog.pas:111
     public void NewTDlgKeyPress(ref byte key)
     {
-        if (NewTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable) && (key == 32 || key == 13 || key == 27))
+        if (_newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable) && (key == 32 || key == 13 || key == 27))
         {
             NewTDlg.Visible = false;
         }
@@ -165,10 +165,10 @@ public partial class NewTurnDialog : DataModule
         }
         else
         {
-            if (AoWHSMap.Current.Players.GetPlayers(NewTurn.TurnPlayer).Leader != null)
+            if (AoWHSMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader != null)
             {
                 R = new Rect(NewTDlg.WinLeft + 188, NewTDlg.WinTop + 40, NewTDlg.WinLeft + 188 + 103, NewTDlg.WinTop + 40 + 128);
-                AoWHSMap.Current.Players.GetPlayers(NewTurn.TurnPlayer).Leader.ShowFace(R, surface);
+                AoWHSMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader.ShowFace(R, surface);
             }
         }
     }

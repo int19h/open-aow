@@ -9,7 +9,7 @@ public partial class UnitShadowHexSprite : HexSprite
     public UnitShadowHexSprite(ECustomNode owner) : base(owner)
     { }
 
-    public UnitHexSprite UnitHexSprite;
+    public UnitHexSprite UnitHexSprite { get; set; }
 
     // UnitHS.PAS:153
     public override int GetShowPriority() => (UnitHexSprite.GetShowPriority() & 67108863) + 1677721600;

@@ -18,22 +18,22 @@ namespace Aow.Game.AI.Groups;
 // city location, enemy strength, required strength, target selector
 public partial class FortifyAIGroupControl : AIGroupControl
 {
-    public MapCoordinate FortifyLocation;
-    public int EnemyStrength;
-    public int RequiredStrength;
-    public AIGroupTargetSelector TargetSelector;
+    private MapCoordinate _fortifyLocation;
+    private int _enemyStrength;
+    private int _requiredStrength;
+    private AIGroupTargetSelector _targetSelector;
 
     // MainAG.pas:262
     public override void Dispose()
     {
-        TargetSelector.Release();
+        _targetSelector.Release();
         base.Dispose();
     }
 
     // MainAG.pas:256
     public FortifyAIGroupControl(ECustomNode owner) : base(owner)
     {
-        TargetSelector = new AIGroupTargetSelector(null);
+        _targetSelector = new AIGroupTargetSelector(null);
     }
 
     // MainAG.pas:278
@@ -172,30 +172,30 @@ public partial class FortifyAIGroupControl : AIGroupControl
 
                 if (newTarget != null && newTarget != currentTarget)
                 {
-                    FortifyLocation = newTarget.Location;
+                    _fortifyLocation = newTarget.Location;
                 }
                 else
                 {
                     if (currentTarget != null)
                     {
-                        FortifyLocation = currentTarget.Location;
+                        _fortifyLocation = currentTarget.Location;
                     }
                     else
                     {
-                        FortifyLocation.Packed = 16777215;
+                        _fortifyLocation.Packed = 16777215;
                     }
                 }
 
                 State += 1;
                 break;
             case 3:
-                if (FortifyLocation.Packed == 16777215)
+                if (_fortifyLocation.Packed == 16777215)
                 {
-                    EnemyStrength = GetSurroundingEnemyStrength(Location, 70);
+                    _enemyStrength = GetSurroundingEnemyStrength(Location, 70);
                 }
                 else
                 {
-                    EnemyStrength = GetSurroundingEnemyStrength(FortifyLocation, 70);
+                    _enemyStrength = GetSurroundingEnemyStrength(_fortifyLocation, 70);
                 }
 
                 UpdateRequiredStrength();
@@ -218,12 +218,12 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 State += 1;
                 break;
             case 6:
-                if (RecruitmentGroups.Count != 0 && RequiredStrength > StrengthMax)
+                if (RecruitmentGroups.Count != 0 && _requiredStrength > StrengthMax)
                 {
                     recruit = new AIGroupRecruitControl(null);
                     recruit.Setup(this);
                     var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
-                    recruit.RecruitStrength = RequiredStrength - (strengthMax + StrengthMax);
+                    recruit.RecruitStrength = _requiredStrength - (strengthMax + StrengthMax);
                     recruit.Mode = AIGroupRecruitControlMode.AutoRecruit;
                     ActivatePlugin(recruit);
                     recruit.Release();
@@ -237,12 +237,12 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 break;
             case 7:
                 RecruitmentGroups.Validate(this);
-                if (StrengthMax < RequiredStrength && RecruitmentGroups.Count != 0)
+                if (StrengthMax < _requiredStrength && RecruitmentGroups.Count != 0)
                 {
                     recruit = new AIGroupRecruitControl(null);
                     recruit.Setup(this);
                     var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
-                    recruit.RecruitStrength = RequiredStrength - (strengthMax + StrengthMax);
+                    recruit.RecruitStrength = _requiredStrength - (strengthMax + StrengthMax);
                     recruit.Mode = AIGroupRecruitControlMode.ForceRecruit;
                     ActivatePlugin(recruit);
                     recruit.Release();
@@ -251,20 +251,20 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 State = 10;
                 break;
             case 10:
-                if (StrengthMax >= EnemyStrength && Group.GetAdjacent())
+                if (StrengthMax >= _enemyStrength && Group.GetAdjacent())
                 {
                     Targets.Clear();
                     finder = new AIGroupTargetFinder(null);
                     finder.Setup(this);
                     finder.Selector.TargetInfo.Mode = AITargetMode.AttackArmies;
                     finder.Selector.MovePointsMax = 55;
-                    if (FortifyLocation.Packed == 16777215)
+                    if (_fortifyLocation.Packed == 16777215)
                     {
                         finder.Selector.SourceLocation = Location;
                     }
                     else
                     {
-                        finder.Selector.SourceLocation = FortifyLocation;
+                        finder.Selector.SourceLocation = _fortifyLocation;
                     }
 
                     finder.Mode = finder.Mode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
@@ -275,7 +275,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 }
                 else
                 {
-                    if (StrengthMax < EnemyStrength)
+                    if (StrengthMax < _enemyStrength)
                     {
                         State = 18;
                     }
@@ -291,13 +291,13 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 {
                     if (Targets.Count == 1 || FortifyCity() == null || CanBreachWall())
                     {
-                        TargetSelector.Setup(this);
-                        TargetSelector.PathStrengthFactor = (float)1.5;
-                        TargetSelector.CurrentPathStrengthFactor = (float)1.3;
-                        TargetSelector.Superiority = (float)1.6;
-                        TargetSelector.NearSuperiority = (float)1.4;
-                        TargetSelector.Mode = TargetSelector.Mode - Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.MultiTargets);
-                        ActivatePlugin(TargetSelector);
+                        _targetSelector.Setup(this);
+                        _targetSelector.PathStrengthFactor = (float)1.5;
+                        _targetSelector.CurrentPathStrengthFactor = (float)1.3;
+                        _targetSelector.Superiority = (float)1.6;
+                        _targetSelector.NearSuperiority = (float)1.4;
+                        _targetSelector.Mode = _targetSelector.Mode - Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.MultiTargets);
+                        ActivatePlugin(_targetSelector);
                         State += 1;
                     }
                     else
@@ -312,16 +312,16 @@ public partial class FortifyAIGroupControl : AIGroupControl
 
                 break;
             case 12:
-                if (TargetSelector.TargetStatus == AIGroupTargetingStatus.TargetConquered)
+                if (_targetSelector.TargetStatus == AIGroupTargetingStatus.TargetConquered)
                 {
                     State = 10;
                 }
                 else
                 {
-                    if (FortifyLocation.Packed != 16777215)
+                    if (_fortifyLocation.Packed != 16777215)
                     {
                         SetupME();
-                        ExecuteME(FortifyLocation.X, FortifyLocation.Y, FortifyLocation.MapLevel);
+                        ExecuteME(_fortifyLocation.X, _fortifyLocation.Y, _fortifyLocation.MapLevel);
                     }
 
                     State = 20;
@@ -347,13 +347,13 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 finder.Setup(this);
                 finder.Selector.TargetInfo.Mode = AITargetMode.Attack;
                 finder.Selector.MovePointsMax = 55;
-                if (FortifyLocation.Packed == 16777215)
+                if (_fortifyLocation.Packed == 16777215)
                 {
                     finder.Selector.SourceLocation = Location;
                 }
                 else
                 {
-                    finder.Selector.SourceLocation = FortifyLocation;
+                    finder.Selector.SourceLocation = _fortifyLocation;
                 }
 
                 finder.Mode = finder.Mode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
@@ -365,13 +365,13 @@ public partial class FortifyAIGroupControl : AIGroupControl
             case 15:
                 if (Targets.Count >= 1)
                 {
-                    TargetSelector.Setup(this);
-                    TargetSelector.PathStrengthFactor = (float)1.5;
-                    TargetSelector.CurrentPathStrengthFactor = (float)1.3;
-                    TargetSelector.Superiority = (float)1.6;
-                    TargetSelector.NearSuperiority = (float)1.4;
-                    TargetSelector.Mode = TargetSelector.Mode - Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.MultiTargets);
-                    ActivatePlugin(TargetSelector);
+                    _targetSelector.Setup(this);
+                    _targetSelector.PathStrengthFactor = (float)1.5;
+                    _targetSelector.CurrentPathStrengthFactor = (float)1.3;
+                    _targetSelector.Superiority = (float)1.6;
+                    _targetSelector.NearSuperiority = (float)1.4;
+                    _targetSelector.Mode = _targetSelector.Mode - Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.MultiTargets);
+                    ActivatePlugin(_targetSelector);
                     State += 1;
                 }
                 else
@@ -381,16 +381,16 @@ public partial class FortifyAIGroupControl : AIGroupControl
 
                 break;
             case 16:
-                if (TargetSelector.TargetStatus == AIGroupTargetingStatus.TargetConquered)
+                if (_targetSelector.TargetStatus == AIGroupTargetingStatus.TargetConquered)
                 {
                     State = 13;
                 }
                 else
                 {
-                    if (FortifyLocation.Packed != 16777215 && !Set<AIGroupTargetingStatus>.Of(AIGroupTargetingStatus.SettingUpTarget, AIGroupTargetingStatus.ExecutingTarget).Contains(TargetSelector.TargetStatus))
+                    if (_fortifyLocation.Packed != 16777215 && !Set<AIGroupTargetingStatus>.Of(AIGroupTargetingStatus.SettingUpTarget, AIGroupTargetingStatus.ExecutingTarget).Contains(_targetSelector.TargetStatus))
                     {
                         SetupME();
-                        ExecuteME(FortifyLocation.X, FortifyLocation.Y, FortifyLocation.MapLevel);
+                        ExecuteME(_fortifyLocation.X, _fortifyLocation.Y, _fortifyLocation.MapLevel);
                     }
 
                     State = 20;
@@ -398,7 +398,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
 
                 break;
             case 17:
-                if (StrengthMax >= EnemyStrength)
+                if (StrengthMax >= _enemyStrength)
                 {
                     city = (City)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Location.Packed).FindNoneTransparentHexSprite(typeof(City));
                     if (city != null && city.GetActiveAction() == CityAction.Migrate)
@@ -414,7 +414,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 State += 1;
                 break;
             case 18:
-                if (FortifyLocation.Packed == 16777215)
+                if (_fortifyLocation.Packed == 16777215)
                 {
                     SetupME();
                     ExecuteME(Location.X, Location.Y, Location.MapLevel);
@@ -422,7 +422,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 else
                 {
                     SetupME();
-                    ExecuteME(FortifyLocation.X, FortifyLocation.Y, FortifyLocation.MapLevel);
+                    ExecuteME(_fortifyLocation.X, _fortifyLocation.Y, _fortifyLocation.MapLevel);
                 }
 
                 State = 20;
@@ -479,7 +479,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 State += 1;
                 break;
             case 22:
-                if (Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall)) + StrengthMax < RequiredStrength)
+                if (Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall)) + StrengthMax < _requiredStrength)
                 {
                     ProductionLocations.Clear();
                     productionFinder = new AIProductionLocationFinder(null);
@@ -501,7 +501,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                     produce = new AIGroupProductionControl(null);
                     produce.Setup(this);
                     var strengthMax = Group.Productions.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
-                    produce.ProduceStrength = RequiredStrength - (strengthMax + StrengthMax);
+                    produce.ProduceStrength = _requiredStrength - (strengthMax + StrengthMax);
                     produce.Mode = AIGroupProductionControlMode.AutoProduce;
                     ActivatePlugin(produce);
                     produce.Release();
@@ -533,9 +533,9 @@ public partial class FortifyAIGroupControl : AIGroupControl
     public City FortifyCity()
     {
         City result;
-        if (FortifyLocation.Packed != 16777215)
+        if (_fortifyLocation.Packed != 16777215)
         {
-            result = (City)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(FortifyLocation.Packed).FindNoneTransparentHexSprite(typeof(City));
+            result = (City)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(_fortifyLocation.Packed).FindNoneTransparentHexSprite(typeof(City));
         }
         else
         {
@@ -585,7 +585,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
     {
         int strength;
         PlayerStatistics statistics;
-        RequiredStrength = EnemyStrength;
+        _requiredStrength = _enemyStrength;
         if (AoWHSMap.Current.Day > 5)
         {
             strength = AoWHSMap.Current.Day / 5 * 5000;
@@ -594,15 +594,15 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 strength = 50000;
             }
 
-            if (strength > EnemyStrength)
+            if (strength > _enemyStrength)
             {
-                RequiredStrength = strength;
+                _requiredStrength = strength;
             }
         }
 
-        if (RequiredStrength > 0 && AoWHSMap.Current.Day < 10)
+        if (_requiredStrength > 0 && AoWHSMap.Current.Day < 10)
         {
-            RequiredStrength = Round((double)(RequiredStrength * AoWHSMap.Current.Day) * 0.1);
+            _requiredStrength = Round((double)(_requiredStrength * AoWHSMap.Current.Day) * 0.1);
         }
 
         statistics = AoWHSMap.Current.Players.GetPlayers(Group.Player).Statistics;
@@ -610,9 +610,9 @@ public partial class FortifyAIGroupControl : AIGroupControl
         {
             var count = statistics.TurnInfo.Count;
             strength = (int)(((uint)statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength) >> 1);
-            if (strength < RequiredStrength)
+            if (strength < _requiredStrength)
             {
-                RequiredStrength = strength;
+                _requiredStrength = strength;
             }
 
             var fTurnInfoCount = statistics.TurnInfo.Count;
@@ -627,9 +627,9 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 strength = Round((double)(strength * AoWHSMap.Current.Day) * 0.1);
             }
 
-            if (strength > RequiredStrength)
+            if (strength > _requiredStrength)
             {
-                RequiredStrength = strength;
+                _requiredStrength = strength;
             }
         }
     }
@@ -642,7 +642,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
         UnitUserList units = default;
         UnitUserList passive = default;
         AIGroup group = default;
-        excess = StrengthMax - RequiredStrength;
+        excess = StrengthMax - _requiredStrength;
         if (excess > 0)
         {
             units = new UnitUserList(null);

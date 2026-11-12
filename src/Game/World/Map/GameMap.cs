@@ -29,11 +29,11 @@ public partial class GameMap : HSMap
         _showMessageEventsStore = new();
         _mapChangedEventsStore = new();
         _scannerIconsChangedEventsStore = new();
-        BackHexSelector = new CustomFixedVisibleHexSprite(null);
-        BackHexSelector.OnShow = ShowBackHexSelector;
-        FrontHexSelector = new CustomFixedVisibleHexSprite(null);
-        FrontHexSelector.OnShow = ShowFrontHexSelector;
-        HexSelectorVisible = false;
+        _backHexSelector = new CustomFixedVisibleHexSprite(null);
+        _backHexSelector.OnShow = ShowBackHexSelector;
+        _frontHexSelector = new CustomFixedVisibleHexSprite(null);
+        _frontHexSelector.OnShow = ShowFrontHexSelector;
+        _hexSelectorVisible = false;
         ExplorationEnabled = true;
         FogEnabled = true;
         SeatedPlayer = 1;
@@ -41,9 +41,10 @@ public partial class GameMap : HSMap
     }
 
     public sbyte CurrentPlayer;
-    public sbyte SeatedPlayer;
 
-    internal EventStore<ShowMessageNotification> _showMessageEventsStore;
+    public sbyte SeatedPlayer { get; set; }
+
+    private EventStore<ShowMessageNotification> _showMessageEventsStore;
 
     public event NotifyEvent<ShowMessageNotification> FShowMessageEvents
     {
@@ -51,12 +52,13 @@ public partial class GameMap : HSMap
         remove => _showMessageEventsStore.Remove(value);
     }
 
-    public string MessageText = "";
-    public byte MessageFrame;
-    public int FPS;
-    public int MapChangedLockCount;
+    private string _messageText = "";
+    private byte _messageFrame;
 
-    internal EventStore<MapChangedNotification> _mapChangedEventsStore;
+    public int FPS { get; private set; }
+    public int MapChangedLockCount { get; private set; }
+
+    private EventStore<MapChangedNotification> _mapChangedEventsStore;
 
     public event NotifyEvent<MapChangedNotification> FMapChangedEvents
     {
@@ -64,7 +66,7 @@ public partial class GameMap : HSMap
         remove => _mapChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<MapChangedNotification> _scannerIconsChangedEventsStore;
+    private EventStore<MapChangedNotification> _scannerIconsChangedEventsStore;
 
     public event NotifyEvent<MapChangedNotification> FScannerIconsChangedEvents
     {
@@ -72,15 +74,17 @@ public partial class GameMap : HSMap
         remove => _scannerIconsChangedEventsStore.Remove(value);
     }
 
-    public int ScannerIconsChangedLockCount;
+    private int _scannerIconsChangedLockCount;
     public bool FogEnabled;
     public bool ExplorationEnabled;
-    public bool ShowGrid;
-    public CustomFixedVisibleHexSprite BackHexSelector;
-    public CustomFixedVisibleHexSprite FrontHexSelector;
-    public sbyte SelectorX;
-    public sbyte SelectorY;
-    public bool HexSelectorVisible;
+
+    public bool ShowGrid { get; set; }
+
+    private CustomFixedVisibleHexSprite _backHexSelector;
+    private CustomFixedVisibleHexSprite _frontHexSelector;
+    private sbyte _selectorX;
+    private sbyte _selectorY;
+    private bool _hexSelectorVisible;
 
     // AoWHSMap.PAS:383
     public override void Dispose()
@@ -88,8 +92,8 @@ public partial class GameMap : HSMap
         _showMessageEventsStore.Clear();
         _mapChangedEventsStore.Clear();
         HideHexSelector();
-        BackHexSelector?.Dispose();
-        FrontHexSelector?.Dispose();
+        _backHexSelector?.Dispose();
+        _frontHexSelector?.Dispose();
         _scannerIconsChangedEventsStore.Clear();
         base.Dispose();
         _showMessageEventsStore.Clear();
@@ -191,7 +195,7 @@ public partial class GameMap : HSMap
     {
         base.NewFrame();
         UpdateShowMessage();
-        if (HexSelectorVisible)
+        if (_hexSelectorVisible)
         {
             UpdateHexSelector();
         }
@@ -202,9 +206,9 @@ public partial class GameMap : HSMap
     {
         int pixelX = default;
         int pixelY = default;
-        if (SelectorX != -1 && SelectorY != -1 && AoWHSMap.Current.Mouse.Capture == AoWHSMap.Current.SelectedArmy)
+        if (_selectorX != -1 && _selectorY != -1 && AoWHSMap.Current.Mouse.Capture == AoWHSMap.Current.SelectedArmy)
         {
-            HexGeometry.HexToPixel(SelectorX, SelectorY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(_selectorX, _selectorY, ref pixelX, ref pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY = pixelY - pixelYSurface - 32 + 2;
             AoWHSSet.Current.GeneralImages[7].Show(pixelX, pixelY, lockedSurface);
@@ -216,9 +220,9 @@ public partial class GameMap : HSMap
     {
         int pixelX = default;
         int pixelY = default;
-        if (SelectorX != -1 && SelectorY != -1 && AoWHSMap.Current.Mouse.Capture == AoWHSMap.Current.SelectedArmy)
+        if (_selectorX != -1 && _selectorY != -1 && AoWHSMap.Current.Mouse.Capture == AoWHSMap.Current.SelectedArmy)
         {
-            HexGeometry.HexToPixel(SelectorX, SelectorY, ref pixelX, ref pixelY);
+            HexGeometry.HexToPixel(_selectorX, _selectorY, ref pixelX, ref pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY = pixelY - pixelYSurface - 32 + 2;
             AoWHSSet.Current.GeneralImages[6].Show(pixelX, pixelY, lockedSurface);
@@ -231,37 +235,37 @@ public partial class GameMap : HSMap
         int pixelX = default;
         int pixelY = default;
         HexSprite hexSprite;
-        if (HexSelectorVisible)
+        if (_hexSelectorVisible)
         {
-            SelectorX = (sbyte)Mouse.HexX;
-            SelectorY = (sbyte)Mouse.HexY;
-            if (SelectorX != -1 && SelectorY != -1)
+            _selectorX = (sbyte)Mouse.HexX;
+            _selectorY = (sbyte)Mouse.HexY;
+            if (_selectorX != -1 && _selectorY != -1)
             {
-                HexGeometry.HexToPixel(SelectorX, SelectorY, ref pixelX, ref pixelY);
-                hexSprite = MapContainer.GetField(SelectorX, SelectorY, ViewL).GetMaxLevelNoneTransparentHexSprite();
+                HexGeometry.HexToPixel(_selectorX, _selectorY, ref pixelX, ref pixelY);
+                hexSprite = MapContainer.GetField(_selectorX, _selectorY, ViewL).GetMaxLevelNoneTransparentHexSprite();
                 if (hexSprite != null)
                 {
                     if (hexSprite.GetShowPriority() > 1744830464)
                     {
                         var showPriority = hexSprite.GetShowPriority();
-                        FrontHexSelector.ShowPriority = showPriority + 100;
+                        _frontHexSelector.ShowPriority = showPriority + 100;
                     }
                     else
                     {
-                        FrontHexSelector.ShowPriority = 1744830464 + ((pixelY + 32 + 32) << 13) + pixelX;
+                        _frontHexSelector.ShowPriority = 1744830464 + ((pixelY + 32 + 32) << 13) + pixelX;
                     }
                 }
                 else
                 {
-                    FrontHexSelector.ShowPriority = 1744830464 + ((pixelY + 32 + 32) << 13) + pixelX;
+                    _frontHexSelector.ShowPriority = 1744830464 + ((pixelY + 32 + 32) << 13) + pixelX;
                 }
 
-                BackHexSelector.ShowPriority = 1744830464 + ((pixelY + 32 - 8) << 13) + pixelX;
+                _backHexSelector.ShowPriority = 1744830464 + ((pixelY + 32 - 8) << 13) + pixelX;
             }
         }
         else
         {
-            SelectorX = -1;
+            _selectorX = -1;
         }
     }
 
@@ -342,8 +346,8 @@ public partial class GameMap : HSMap
         info.Text = text;
         info.Color = 16777215;
         _showMessageEventsStore.Raise(notification);
-        MessageText = text;
-        MessageFrame = 128;
+        _messageText = text;
+        _messageFrame = 128;
     }
 
     // AoWHSMap.PAS:566
@@ -359,8 +363,8 @@ public partial class GameMap : HSMap
         info.Text = text;
         info.Color = 16777215;
         _showMessageEventsStore.Raise(notification);
-        MessageText = text;
-        MessageFrame = 160;
+        _messageText = text;
+        _messageFrame = 160;
     }
 
     // AoWHSMap.PAS:420
@@ -457,20 +461,20 @@ public partial class GameMap : HSMap
     // AoWHSMap.PAS:490
     public void LockScannerIconsChangedEvent()
     {
-        ScannerIconsChangedLockCount += 1;
+        _scannerIconsChangedLockCount += 1;
     }
 
     // AoWHSMap.PAS:495
     public void UnlockScannerIconsChangedEvent()
     {
-        Assert(ScannerIconsChangedLockCount != 0, "Invalid ScannerIcons Lock usage", "AoWHSMap.PAS", 497);
-        ScannerIconsChangedLockCount -= 1;
+        Assert(_scannerIconsChangedLockCount != 0, "Invalid ScannerIcons Lock usage", "AoWHSMap.PAS", 497);
+        _scannerIconsChangedLockCount -= 1;
     }
 
     // AoWHSMap.PAS:500
     public void ScannerIconsChanged(in Rect R, int L)
     {
-        if (ScannerIconsChangedLockCount == 0 && (Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated, HexSpriteMapStatusElement.Destroying) & Status) == Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated))
+        if (_scannerIconsChangedLockCount == 0 && (Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated, HexSpriteMapStatusElement.Destroying) & Status) == Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated))
         {
             TriggerScannerIconsChangedEvent(R, L);
         }
@@ -540,14 +544,14 @@ public partial class GameMap : HSMap
     {
         var notification = new ShowMessageNotification();
         ref var info = ref notification.Info;
-        if (MessageFrame != 0)
+        if (_messageFrame != 0)
         {
-            MessageFrame = (byte)(MessageFrame - 1);
-            if (((MessageFrame & 16) == 0 && (MessageFrame & 15) < 7) || ((MessageFrame & 16) == 16 && (MessageFrame & 15) < 11))
+            _messageFrame = (byte)(_messageFrame - 1);
+            if (((_messageFrame & 16) == 0 && (_messageFrame & 15) < 7) || ((_messageFrame & 16) == 16 && (_messageFrame & 15) < 11))
             {
-                info.Text = MessageText;
-                MessageFrame = (byte)(MessageFrame & 240);
-                if ((MessageFrame & 16) == 0)
+                info.Text = _messageText;
+                _messageFrame = (byte)(_messageFrame & 240);
+                if ((_messageFrame & 16) == 0)
                 {
                     info.Color = 3487029;
                 }
@@ -559,7 +563,7 @@ public partial class GameMap : HSMap
                 _showMessageEventsStore.Raise(notification);
             }
 
-            if (MessageFrame == 0)
+            if (_messageFrame == 0)
             {
                 info.Text = "";
                 info.Color = 16777215;
@@ -661,11 +665,11 @@ public partial class GameMap : HSMap
     // AoWHSMap.PAS:738
     public void ShowHexSelector()
     {
-        if (!HexSelectorVisible)
+        if (!_hexSelectorVisible)
         {
-            HexSelectorVisible = true;
-            DynamicFixedVisibleHexSprite.AddChild(BackHexSelector);
-            DynamicFixedVisibleHexSprite.AddChild(FrontHexSelector);
+            _hexSelectorVisible = true;
+            DynamicFixedVisibleHexSprite.AddChild(_backHexSelector);
+            DynamicFixedVisibleHexSprite.AddChild(_frontHexSelector);
             UpdateHexSelector();
         }
     }
@@ -673,13 +677,13 @@ public partial class GameMap : HSMap
     // AoWHSMap.PAS:748
     public void HideHexSelector()
     {
-        if (HexSelectorVisible)
+        if (_hexSelectorVisible)
         {
-            DynamicVisibleHexSprite.RemoveChild(BackHexSelector);
-            DynamicVisibleHexSprite.RemoveChild(FrontHexSelector);
-            DynamicFixedVisibleHexSprite.RemoveChild(BackHexSelector);
-            DynamicFixedVisibleHexSprite.RemoveChild(FrontHexSelector);
-            HexSelectorVisible = false;
+            DynamicVisibleHexSprite.RemoveChild(_backHexSelector);
+            DynamicVisibleHexSprite.RemoveChild(_frontHexSelector);
+            DynamicFixedVisibleHexSprite.RemoveChild(_backHexSelector);
+            DynamicFixedVisibleHexSprite.RemoveChild(_frontHexSelector);
+            _hexSelectorVisible = false;
         }
     }
 

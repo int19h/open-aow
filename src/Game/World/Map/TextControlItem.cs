@@ -18,7 +18,9 @@ public partial class TextControlItem : EngineObject
     }
 
     public int Id;
-    public StringCollection Text;
+
+    public StringCollection Text { get; }
+
     public string Name = "";
 
     // Structur.PAS:4400

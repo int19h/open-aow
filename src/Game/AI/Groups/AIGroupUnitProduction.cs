@@ -12,19 +12,20 @@ public partial class AIGroupUnitProduction : EngineObject
     // AIGroup.pas:2389
     public AIGroupUnitProduction(ECustomNode owner) : base(owner)
     {
-        RefCount = 1;
+        _refCount = 1;
     }
 
-    public int RefCount;
-    public Unit Unit;
-    public AIGroupProductionLocation ProductionLocation;
-    public int Gold;
-    public int Mana;
-    public int GoldUpkeep;
-    public int ManaUpkeep;
-    public int ProductionTime;
-    public int Priority;
-    public bool Research;
+    private int _refCount;
+
+    public Unit Unit { get; private set; }
+    public AIGroupProductionLocation ProductionLocation { get; private set; }
+    public int Gold { get; set; }
+    public int Mana { get; set; }
+    public int GoldUpkeep { get; set; }
+    public int ManaUpkeep { get; set; }
+    public int ProductionTime { get; set; }
+    public int Priority { get; set; }
+    public bool Research { get; set; }
 
     // AIGroup.pas:2395
     public override void Dispose()
@@ -37,16 +38,16 @@ public partial class AIGroupUnitProduction : EngineObject
     // AIGroup.pas:2402
     public override int AddRef()
     {
-        RefCount += 1;
-        return RefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // AIGroup.pas:2408
     public override int Release()
     {
         int count;
-        RefCount -= 1;
-        count = RefCount;
+        _refCount -= 1;
+        count = _refCount;
         int result = count;
         if (count == 0)
         {

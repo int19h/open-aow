@@ -14,13 +14,13 @@ public partial class SmtpEventLog : EventLog
         Message = new StringList();
     }
 
-    public string ToAddress = "";
-    public string FileName = "";
-    public string Subject = "";
-    public StringList Message;
-    public bool Success;
-    public string FromAddress = "";
-    public string Error = "";
+    public string ToAddress { get; } = "";
+    public string FileName { get; } = "";
+    public string Subject { get; } = "";
+    public StringList Message { get; }
+    public bool Success { get; set; }
+    public string FromAddress { get; } = "";
+    public string Error { get; set; } = "";
 
     // Diplomacy.pas:2447
     public override void Dispose()

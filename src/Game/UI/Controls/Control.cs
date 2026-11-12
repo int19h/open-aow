@@ -9,16 +9,16 @@ namespace Aow.Game.UI.Controls;
 // _toolTip
 public partial class Control : UIComponent
 {
-    public StringList _toolTipText;
-    public int ToolTipShown;
-    public BaseWindow _window;
-    public ToolTip _toolTip;
+    private StringList _toolTipText;
+    private int _toolTipShown;
+    private BaseWindow _window;
+    private ToolTip _toolTip;
 
     // AoWControl.pas:46
     public Control(Component owner) : base(owner)
     {
         _toolTipText = new StringList();
-        _captureInput = true;
+        CaptureInput = true;
     }
 
     // AoWControl.pas:53
@@ -40,31 +40,31 @@ public partial class Control : UIComponent
         BaseWindow W;
         if (Valid)
         {
-            if (_visible)
+            if (Visible)
             {
                 base.Update();
                 if (_toolTip != null)
                 {
                     if (ToolTipCount > 0)
                     {
-                        if (ToolTipShown > 0 && MouseIn == true && _toolTip._showDuration > 0)
+                        if (_toolTipShown > 0 && MouseIn == true && _toolTip.ShowDuration > 0)
                         {
-                            if (ToolTipShown < _toolTip._showDuration)
+                            if (_toolTipShown < _toolTip.ShowDuration)
                             {
-                                ToolTipShown += 1;
+                                _toolTipShown += 1;
                             }
                             else
                             {
-                                if (!_toolTip._toolTipStatic && _toolTip != null)
+                                if (!_toolTip.ToolTipStatic && _toolTip != null)
                                 {
                                     _toolTip.SetVisible(false);
                                 }
 
-                                ToolTipShown = 0;
+                                _toolTipShown = 0;
                             }
                         }
 
-                        if (_toolTip._toolTipDelay > ToolTipCount)
+                        if (_toolTip.ToolTipDelay > ToolTipCount)
                         {
                             ToolTipCount += 1;
                         }
@@ -73,7 +73,7 @@ public partial class Control : UIComponent
                             if (_toolTipText.Count > 0 && !MouseIn)
                             {
                                 _toolTip.SetFStrings(_toolTipText);
-                                if (!_toolTip._toolTipStatic)
+                                if (!_toolTip.ToolTipStatic)
                                 {
                                     _toolTip.SetVisible(true);
                                     _window.Redraw = true;
@@ -81,24 +81,24 @@ public partial class Control : UIComponent
                                 }
 
                                 W = _window;
-                                while (W._ownerComponent is BaseWindow)
+                                while (W.OwnerComponent is BaseWindow)
                                 {
-                                    W = (BaseWindow)W._ownerComponent;
+                                    W = (BaseWindow)W.OwnerComponent;
                                 }
 
                                 if (_window != W)
                                 {
-                                    var rectangle = new Rect(_window._winLeft + W._winLeft + _winLeft, _window._winTop + W._winTop + _winTop, _window._winLeft + W._winLeft + ToolTipLeft, _window._winTop + W._winTop + _winTop + _winHeight);
+                                    var rectangle = new Rect(_window.WinLeft + W.WinLeft + WinLeft, _window.WinTop + W.WinTop + WinTop, _window.WinLeft + W.WinLeft + ToolTipLeft, _window.WinTop + W.WinTop + WinTop + WinHeight);
                                     _toolTip.ControlRectangle = rectangle;
                                 }
                                 else
                                 {
-                                    var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _window._winLeft + ToolTipLeft, _window._winTop + _winTop + _winHeight);
+                                    var rectangle = new Rect(_window.WinLeft + WinLeft, _window.WinTop + WinTop, _window.WinLeft + ToolTipLeft, _window.WinTop + WinTop + WinHeight);
                                     _toolTip.ControlRectangle = rectangle;
                                 }
 
                                 MouseIn = true;
-                                ToolTipShown = 1;
+                                _toolTipShown = 1;
                             }
                         }
                     }
@@ -106,7 +106,7 @@ public partial class Control : UIComponent
                     {
                         if (MouseIn == true)
                         {
-                            if (!_toolTip._toolTipStatic && _toolTip != null)
+                            if (!_toolTip.ToolTipStatic && _toolTip != null)
                             {
                                 _toolTip.SetVisible(false);
                             }
@@ -116,71 +116,71 @@ public partial class Control : UIComponent
                     }
                 }
 
-                if (OldRectangle.Right > 0 && OldRectangle.Bottom > 0 && (OldRectangle.Left != _winLeft || OldRectangle.Top != _winTop || OldRectangle.Right != _winWidth || OldRectangle.Bottom != _winHeight))
+                if (OldRectangle.Right > 0 && OldRectangle.Bottom > 0 && (OldRectangle.Left != WinLeft || OldRectangle.Top != WinTop || OldRectangle.Right != WinWidth || OldRectangle.Bottom != WinHeight))
                 {
-                    if (_ownerComponent._ownerComponent._ownerComponent == null)
+                    if (OwnerComponent.OwnerComponent.OwnerComponent == null)
                     {
                         R = new Rect(OldRectangle.Left, OldRectangle.Top, OldRectangle.Left + OldRectangle.Right - 1, OldRectangle.Top + OldRectangle.Bottom - 1);
                     }
                     else
                     {
-                        R = new Rect(_ownerComponent._winLeft + OldRectangle.Left, _ownerComponent._winTop + OldRectangle.Top, _ownerComponent._winLeft + OldRectangle.Left + OldRectangle.Right - 1, _ownerComponent._winTop + OldRectangle.Top + OldRectangle.Bottom - 1);
+                        R = new Rect(OwnerComponent.WinLeft + OldRectangle.Left, OwnerComponent.WinTop + OldRectangle.Top, OwnerComponent.WinLeft + OldRectangle.Left + OldRectangle.Right - 1, OwnerComponent.WinTop + OldRectangle.Top + OldRectangle.Bottom - 1);
                     }
 
-                    _ownerComponent.AddDrawRectangle(ref R, this);
+                    OwnerComponent.AddDrawRectangle(ref R, this);
                     Drawn = false;
                 }
                 else
                 {
-                    if (_masked && !Drawn)
+                    if (Masked && !Drawn)
                     {
-                        if (_ownerComponent._ownerComponent._ownerComponent == null)
+                        if (OwnerComponent.OwnerComponent.OwnerComponent == null)
                         {
-                            R = new Rect(_winLeft, _winTop, _winLeft + _winWidth - 1, _winTop + _winHeight - 1);
+                            R = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
                         }
                         else
                         {
-                            R = new Rect(_ownerComponent._winLeft + _winLeft, _ownerComponent._winTop + _winTop, _ownerComponent._winLeft + _winLeft + _winWidth - 1, _ownerComponent._winTop + _winTop + _winHeight - 1);
+                            R = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
                         }
 
-                        _ownerComponent.AddDrawRectangle(ref R, this);
+                        OwnerComponent.AddDrawRectangle(ref R, this);
                     }
                 }
 
                 if (!Drawn)
                 {
-                    if (_ownerComponent._ownerComponent._ownerComponent == null)
+                    if (OwnerComponent.OwnerComponent.OwnerComponent == null)
                     {
-                        R = new Rect(_winLeft, _winTop, _winLeft + _winWidth - 1, _winTop + _winHeight - 1);
+                        R = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
                     }
                     else
                     {
-                        R = new Rect(_ownerComponent._winLeft + _winLeft, _ownerComponent._winTop + _winTop, _ownerComponent._winLeft + _winLeft + _winWidth - 1, _ownerComponent._winTop + _winTop + _winHeight - 1);
+                        R = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
                     }
 
-                    var indexOf = _ownerComponent.Children.IndexOf(this);
-                    _ownerComponent.InvalidateRectangle(indexOf, ref R, this);
+                    var indexOf = OwnerComponent.Children.IndexOf(this);
+                    OwnerComponent.InvalidateRectangle(indexOf, ref R, this);
                 }
 
-                OldRectangle.Left = _winLeft;
-                OldRectangle.Top = _winTop;
-                OldRectangle.Right = _winWidth;
-                OldRectangle.Bottom = _winHeight;
+                OldRectangle.Left = WinLeft;
+                OldRectangle.Top = WinTop;
+                OldRectangle.Right = WinWidth;
+                OldRectangle.Bottom = WinHeight;
             }
             else
             {
                 if (Hidden)
                 {
-                    if (_ownerComponent._ownerComponent._ownerComponent == null)
+                    if (OwnerComponent.OwnerComponent.OwnerComponent == null)
                     {
-                        R = new Rect(_winLeft, _winTop, _winLeft + _winWidth - 1, _winTop + _winHeight - 1);
+                        R = new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1);
                     }
                     else
                     {
-                        R = new Rect(_ownerComponent._winLeft + _winLeft, _ownerComponent._winTop + _winTop, _ownerComponent._winLeft + _winLeft + _winWidth - 1, _ownerComponent._winTop + _winTop + _winHeight - 1);
+                        R = new Rect(OwnerComponent.WinLeft + WinLeft, OwnerComponent.WinTop + WinTop, OwnerComponent.WinLeft + WinLeft + WinWidth - 1, OwnerComponent.WinTop + WinTop + WinHeight - 1);
                     }
 
-                    _ownerComponent.AddDrawRectangle(ref R, this);
+                    OwnerComponent.AddDrawRectangle(ref R, this);
                     Hidden = false;
                 }
             }
@@ -191,7 +191,7 @@ public partial class Control : UIComponent
     public override void SetOwner(UIComponent value)
     {
         base.SetOwner(value);
-        _window = (BaseWindow)_ownerComponent;
+        _window = (BaseWindow)OwnerComponent;
     }
 
     // AoWControl.pas:190
@@ -200,24 +200,24 @@ public partial class Control : UIComponent
         if (_toolTip != null)
         {
             _toolTip.SetVisible(false);
-            ToolTipShown = _toolTip._showDuration;
+            _toolTipShown = _toolTip.ShowDuration;
             MouseIn = true;
-            ToolTipCount = _toolTip._toolTipDelay;
+            ToolTipCount = _toolTip.ToolTipDelay;
         }
     }
 
     // AoWControl.pas:201
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (X < _window._winLeft + _winLeft || X > _window._winLeft + _winLeft + _winWidth - 1 || Y < _window._winTop + _winTop || Y > _window._winTop + _winTop + _winHeight - 1)
+        if (X < _window.WinLeft + WinLeft || X > _window.WinLeft + WinLeft + WinWidth - 1 || Y < _window.WinTop + WinTop || Y > _window.WinTop + WinTop + WinHeight - 1)
         {
             ToolTipCount = 0;
         }
         else
         {
-            if (_toolTip != null && _toolTip._toolTipDelay > ToolTipCount)
+            if (_toolTip != null && _toolTip.ToolTipDelay > ToolTipCount)
             {
-                ToolTipLeft = X - _window._winLeft;
+                ToolTipLeft = X - _window.WinLeft;
                 ToolTipCount = 1;
             }
         }

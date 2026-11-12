@@ -44,22 +44,22 @@ public partial class HSSet : ECustomOwner
         _sfxManager = new SfxManager(null);
     }
 
-    internal Set<HexSpriteSetStatusElement> _status;
-    internal HexControl _hexControl;
-    internal RoadControl _roadControl;
-    internal GameEngine _activatedEngine;
+    private Set<HexSpriteSetStatusElement> _status;
+    private HexControl _hexControl;
+    private RoadControl _roadControl;
+    private GameEngine _activatedEngine;
 
     public GameEngine ActivatedEngine { get => _activatedEngine; }
 
-    internal MapObjectResourceList _mapObjectResourceList;
-    internal ResourceEditSettings _resourceEditSettings;
-    internal ImageLibraryManager _imageLibraryManager;
-    internal SfxManager _sfxManager;
-    internal PluginControl _pluginControl;
-    internal string _name = "";
-    internal StringList _terrainTypes;
-    internal StringList _overlayTypes;
-    internal StringList _decorationTypes;
+    private MapObjectResourceList _mapObjectResourceList;
+    private ResourceEditSettings _resourceEditSettings;
+    private ImageLibraryManager _imageLibraryManager;
+    private SfxManager _sfxManager;
+    private PluginControl _pluginControl;
+    private string _name = "";
+    private StringList _terrainTypes;
+    private StringList _overlayTypes;
+    private StringList _decorationTypes;
 
     // HSEngine.pas:3368
     public override void Dispose()

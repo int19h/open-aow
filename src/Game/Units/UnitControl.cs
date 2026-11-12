@@ -19,12 +19,13 @@ public partial class UnitControl : EngineObject
     {
         UnitTable = new Dictionary<int, Troop>();
         Units = new List<Troop>();
-        NextUnitId = 1;
+        _nextUnitId = 1;
     }
 
-    public int NextUnitId;
-    public Dictionary<int, Troop> UnitTable;
-    public List<Troop> Units;
+    private int _nextUnitId;
+
+    public Dictionary<int, Troop> UnitTable { get; set; }
+    public List<Troop> Units { get; }
 
     // Unit.PAS:8
     public override void Dispose()
@@ -37,10 +38,10 @@ public partial class UnitControl : EngineObject
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref NextUnitId, 10);
-        if (NextUnitId <= 0)
+        stream.rwInteger(ref _nextUnitId, 10);
+        if (_nextUnitId <= 0)
         {
-            NextUnitId = 1;
+            _nextUnitId = 1;
         }
     }
 
@@ -69,16 +70,16 @@ public partial class UnitControl : EngineObject
     // Unit.PAS:39
     public int GetFreeId()
     {
-        while (UnitTable.ContainsKey(NextUnitId))
+        while (UnitTable.ContainsKey(_nextUnitId))
         {
-            NextUnitId += 1;
-            if (NextUnitId > 268435455)
+            _nextUnitId += 1;
+            if (_nextUnitId > 268435455)
             {
-                NextUnitId = 1;
+                _nextUnitId = 1;
             }
         }
 
-        return NextUnitId;
+        return _nextUnitId;
     }
 
     // Unit.PAS:48

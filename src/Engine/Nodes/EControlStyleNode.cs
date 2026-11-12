@@ -18,7 +18,7 @@ public partial class EControlStyleNode : ENode
         _controlStyle = base.GetControlStyle();
     }
 
-    internal Set<ControlStyleElement> _controlStyle;
+    private Set<ControlStyleElement> _controlStyle;
 
     // Engine.pas:8204
     public override Set<ControlStyleElement> GetControlStyle() => _controlStyle;

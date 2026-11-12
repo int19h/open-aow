@@ -15,8 +15,8 @@ public partial class StructureShadow : HexSprite
     public StructureShadow(ECustomNode owner) : base(owner)
     { }
 
-    public Set<StructureShadowStatusElement> ShadowStatus;
-    public Structure Structure;
+    public Set<StructureShadowStatusElement> ShadowStatus { get; private set; }
+    public Structure Structure { get; set; }
 
     // Structur.PAS:934
     public override void Dispose()

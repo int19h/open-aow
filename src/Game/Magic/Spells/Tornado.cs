@@ -20,7 +20,7 @@ public partial class Tornado : GlobalTargetSpell
     // GlobalTargetSpells.pas:1798
     public Tornado(ECustomNode owner) : base(owner)
     {
-        this.SpellName = AbilityRules.TranslateResourceString(GameText.s_tornadoText);
+        this.SpellName = AbilityRules.TranslateResourceString(GameText.TornadoText);
         SpellId = 68;
         AboveGroundOnly = true;
     }

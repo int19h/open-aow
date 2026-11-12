@@ -16,7 +16,7 @@ public partial class ArenaTokenEvent : StructureTokenEvent
     // Arena.pas:86
     public new const int ClassId = 133294;
 
-    public Int32List UnitIds;
+    public Int32List UnitIds { get; }
 
     // Arena.pas:80
     public override void Dispose()

@@ -20,28 +20,38 @@ public partial class CombatPredictorUnit : IDisposable
         RoundTargets = new QuadItemList<CombatPredictorUnit>();
     }
 
-    public Troop Troop;
-    public int CpuId;
-    public CombatPredictor Predictor;
-    public int InitialHitPoints;
-    public byte Side;
-    public CombatPredictorSide Opponents;
-    public byte Enabled;
-    public byte BehindWall;
-    public QuadItemList<CombatPredictorUnit> Targets;
-    public int CombatValue;
-    public QuadItemList<CombatPredictorUnit> WallTargets;
-    public int WallCombatValue;
-    public byte TargetsInvalid;
-    public byte WallTargetsInvalid;
-    public QuadItemList<CombatPredictorUnit> RoundTargets;
-    public int CombatValueTotal;
-    public int CombatRounds;
-    public int IncomingCombatValue;
-    public int IneffectiveAttackers;
-    public int TargetPriority;
-    public int HitPoints;
-    public Set<CombatPredictorUnitStatusElement> Status;
+    public Troop Troop { get; private set; }
+    public int CpuId { get; set; }
+
+    private CombatPredictor _predictor;
+
+    public int InitialHitPoints { get; private set; }
+    public byte Side { get; private set; }
+
+    private CombatPredictorSide _opponents;
+
+    public byte Enabled { get; set; }
+    public byte BehindWall { get; set; }
+    public QuadItemList<CombatPredictorUnit> Targets { get; set; }
+    public int CombatValue { get; private set; }
+    public QuadItemList<CombatPredictorUnit> WallTargets { get; private set; }
+    public int WallCombatValue { get; private set; }
+
+    private byte _targetsInvalid;
+    private byte _wallTargetsInvalid;
+
+    public QuadItemList<CombatPredictorUnit> RoundTargets { get; }
+    public int CombatValueTotal { get; private set; }
+
+    private int _combatRounds;
+
+    public int IncomingCombatValue { get; private set; }
+
+    private int _ineffectiveAttackers;
+    private int _targetPriority;
+
+    public int HitPoints { get; set; }
+    public Set<CombatPredictorUnitStatusElement> Status { get; private set; }
 
     // CombatPredictor.pas:4
     public virtual void Dispose()
@@ -77,7 +87,7 @@ public partial class CombatPredictorUnit : IDisposable
         if (value != Enabled)
         {
             Enabled = value;
-            Predictor.Invalid = 1;
+            _predictor.Invalid = 1;
         }
     }
 
@@ -94,7 +104,7 @@ public partial class CombatPredictorUnit : IDisposable
 
         for (int I = Targets.Count - 1; I >= 0; I--)
         {
-            J = Opponents.IndexOfCpuId(Targets.List[I].Third);
+            J = _opponents.IndexOfCpuId(Targets.List[I].Third);
             if (J == -1)
             {
                 Targets.Delete(I);
@@ -105,13 +115,13 @@ public partial class CombatPredictorUnit : IDisposable
 
         if (Targets.Count != 0)
         {
-            for (int I = Opponents.Count - 1; I >= 0; I--)
+            for (int I = _opponents.Count - 1; I >= 0; I--)
             {
-                U = Opponents.GetUnits(I);
+                U = _opponents.GetUnits(I);
                 J = Targets.IndexOfItemC(U.CpuId);
                 if (J == -1)
                 {
-                    Predictor.Work += 1;
+                    _predictor.Work += 1;
                     V = Troop.GetCombatValue(U.Troop, 0);
                     if (V < 0)
                     {
@@ -126,10 +136,10 @@ public partial class CombatPredictorUnit : IDisposable
         else
         {
             CombatValue = 0;
-            for (int I = Opponents.Count - 1; I >= 0; I--)
+            for (int I = _opponents.Count - 1; I >= 0; I--)
             {
-                Predictor.Work += 1;
-                U = Opponents.List[I];
+                _predictor.Work += 1;
+                U = _opponents.List[I];
                 V = Troop.GetCombatValue(U.Troop, 0);
                 if (V < 0)
                 {
@@ -141,7 +151,7 @@ public partial class CombatPredictorUnit : IDisposable
             }
         }
 
-        TargetsInvalid = 0;
+        _targetsInvalid = 0;
     }
 
     // CombatPredictor.pas:89
@@ -160,7 +170,7 @@ public partial class CombatPredictorUnit : IDisposable
 
         for (int I = WallTargets.Count - 1; I >= 0; I--)
         {
-            J = Opponents.IndexOfCpuId(WallTargets.List[I].Third);
+            J = _opponents.IndexOfCpuId(WallTargets.List[I].Third);
             if (J == -1)
             {
                 WallTargets.Delete(I);
@@ -171,9 +181,9 @@ public partial class CombatPredictorUnit : IDisposable
 
         if (WallTargets.Count != 0)
         {
-            for (int I = Opponents.Count - 1; I >= 0; I--)
+            for (int I = _opponents.Count - 1; I >= 0; I--)
             {
-                U = Opponents.List[I];
+                U = _opponents.List[I];
                 J = WallTargets.IndexOfItemC(U.CpuId);
                 if (J == -1)
                 {
@@ -207,7 +217,7 @@ public partial class CombatPredictorUnit : IDisposable
                         mode = 0;
                     }
 
-                    Predictor.Work += 1;
+                    _predictor.Work += 1;
                     V = Troop.GetCombatValue(U.Troop, mode);
                     if (V < 0)
                     {
@@ -222,9 +232,9 @@ public partial class CombatPredictorUnit : IDisposable
         else
         {
             WallCombatValue = 0;
-            for (int I = Opponents.Count - 1; I >= 0; I--)
+            for (int I = _opponents.Count - 1; I >= 0; I--)
             {
-                U = Opponents.List[I];
+                U = _opponents.List[I];
                 if (!passing)
                 {
                     if (BehindWall != 0)
@@ -255,7 +265,7 @@ public partial class CombatPredictorUnit : IDisposable
                     mode = 0;
                 }
 
-                Predictor.Work += 1;
+                _predictor.Work += 1;
                 V = Troop.GetCombatValue(U.Troop, mode);
                 if (V < 0)
                 {
@@ -268,21 +278,21 @@ public partial class CombatPredictorUnit : IDisposable
             }
         }
 
-        WallTargetsInvalid = 0;
+        _wallTargetsInvalid = 0;
     }
 
     // CombatPredictor.pas:145
     public void InvalidateTargets()
     {
-        TargetsInvalid = 1;
-        WallTargetsInvalid = 1;
+        _targetsInvalid = 1;
+        _wallTargetsInvalid = 1;
     }
 
     // CombatPredictor.pas:148
     public void ResetCombat()
     {
         HitPoints = InitialHitPoints;
-        CombatRounds = 0;
+        _combatRounds = 0;
         Status = Set<CombatPredictorUnitStatusElement>.Of();
     }
 
@@ -292,7 +302,7 @@ public partial class CombatPredictorUnit : IDisposable
         RoundTargets.Clear();
         CombatValueTotal = 0;
         IncomingCombatValue = 0;
-        IneffectiveAttackers = 0;
+        _ineffectiveAttackers = 0;
     }
 
     // CombatPredictor.pas:163
@@ -304,7 +314,7 @@ public partial class CombatPredictorUnit : IDisposable
         {
             if (wallStanding != 0)
             {
-                if (WallTargetsInvalid != 0)
+                if (_wallTargetsInvalid != 0)
                 {
                     UpdateWallTargets();
                 }
@@ -313,7 +323,7 @@ public partial class CombatPredictorUnit : IDisposable
             }
             else
             {
-                if (TargetsInvalid != 0)
+                if (_targetsInvalid != 0)
                 {
                     UpdateTargets();
                 }
@@ -335,7 +345,7 @@ public partial class CombatPredictorUnit : IDisposable
                     }
                     else
                     {
-                        U.IneffectiveAttackers += 1;
+                        U._ineffectiveAttackers += 1;
                         RoundTargets.Delete(I);
                     }
                 }
@@ -352,15 +362,15 @@ public partial class CombatPredictorUnit : IDisposable
     {
         if (Enabled != 0)
         {
-            TargetPriority = 0;
+            _targetPriority = 0;
             for (int I = RoundTargets.Count - 1; I >= 0; I--)
             {
-                TargetPriority += RoundTargets.List[I].First.IneffectiveAttackers;
+                _targetPriority += RoundTargets.List[I].First._ineffectiveAttackers;
             }
         }
         else
         {
-            TargetPriority = 0;
+            _targetPriority = 0;
         }
     }
 
@@ -376,7 +386,7 @@ public partial class CombatPredictorUnit : IDisposable
             V = RoundTargets.List[I].Second;
             if (U.CombatValueTotal != 0)
             {
-                priority = V * 100 * 1000 / U.IncomingCombatValue + U.TargetPriority * 100 + V;
+                priority = V * 100 * 1000 / U.IncomingCombatValue + U._targetPriority * 100 + V;
             }
             else
             {
@@ -398,7 +408,7 @@ public partial class CombatPredictorUnit : IDisposable
         bool result = false;
         if (I != 0)
         {
-            CombatRounds += 1;
+            _combatRounds += 1;
         }
 
         while (I != 0 && !result)

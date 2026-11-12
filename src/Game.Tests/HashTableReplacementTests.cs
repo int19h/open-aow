@@ -76,14 +76,14 @@ public sealed class HashTableReplacementTests
     {
         var list = new ImageLibraryManagerList(new ImageLibraryManager(null!));
         ImageLibraryManagerObject added = list.AddImageLibraryFile("Town.ilb");
-        Assert.True(list._hashTable.TryGetValue("TOWN.ILB", out ImageLibraryManagerObject? found));
+        Assert.True(list.HashTable.TryGetValue("TOWN.ILB", out ImageLibraryManagerObject? found));
         Assert.Same(added, found);
-        Assert.False(list._hashTable.ContainsKey("missing.ilb"));
+        Assert.False(list.HashTable.ContainsKey("missing.ilb"));
         Assert.Null(list.LinkToImageLibrary("missing.ilb"));
         Assert.False(list.ReleaseImageLibrary("missing.ilb"));
         var duplicate = Assert.Throws<InvalidOperationException>(() => list.AddImageLibraryFile("town.ilb"));
         Assert.Equal("ID already in HashTable", duplicate.Message);
-        Assert.Same(added, list._hashTable["TOWN.ILB"]);
+        Assert.Same(added, list.HashTable["TOWN.ILB"]);
     }
 
     [Fact]

@@ -31,18 +31,18 @@ public partial class EReferenceNode : ENode
         {
             for (int I = 0, last = _children.Count - 1; I <= last; I++)
             {
-                if (((EngineObject)_children.List[I])._owner == null)
+                if (((EngineObject)_children.List[I]).Owner == null)
                 {
-                    ((EngineObject)_children.List[I])._owner = this;
+                    ((EngineObject)_children.List[I]).SetOwnerWithoutNotify(this);
                 }
             }
 
             base.ReadWriteChildren(stream);
             for (int I = 0, last = _children.Count - 1; I <= last; I++)
             {
-                if (((EngineObject)_children.List[I])._owner == this)
+                if (((EngineObject)_children.List[I]).Owner == this)
                 {
-                    ((EngineObject)_children.List[I])._owner = null;
+                    ((EngineObject)_children.List[I]).SetOwnerWithoutNotify(null);
                 }
             }
         }
@@ -80,9 +80,9 @@ public partial class EReferenceNode : ENode
     // Engine.pas:8183
     public override int AddChild(EngineObject child)
     {
-        if (child._owner == this)
+        if (child.Owner == this)
         {
-            child._owner = null;
+            child.SetOwnerWithoutNotify(null);
         }
 
         _children.Add(child);

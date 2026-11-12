@@ -36,7 +36,7 @@ public sealed class ClassesTests
 
     private sealed class Assigned : Persistent
     {
-        internal Persistent? Target;
+        internal Persistent? Target { get; private set; }
 
         protected internal override void AssignTo(Persistent target) => Target = target;
     }

@@ -27,7 +27,7 @@ public partial class BlessedEnchantment : UnitEnchantmentAbility
         var unitEnchantmentAbilityData = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
         if (unitEnchantmentAbilityData.Enchantment.Source == -2)
         {
-            result = AbilityRules.TranslateResourceString(GameText.s_lifeMasteryText);
+            result = AbilityRules.TranslateResourceString(GameText.LifeMasteryText);
         }
         else
         {

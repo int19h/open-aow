@@ -19,7 +19,7 @@ public partial class AirMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:641
     public AirMasteryEnchantment(ECustomNode owner) : base(owner)
     {
-        Name = AbilityRules.TranslateResourceString(GameText.s_airMasteryText);
+        Name = AbilityRules.TranslateResourceString(GameText.AirMasteryText);
         EnchantmentType = GlobalEnchantmentType.None;
         DispelMana = 175;
     }
@@ -46,7 +46,7 @@ public partial class AirMasteryEnchantment : GlobalEnchantment
         {
             if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.AirMastery))
             {
-                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.s_isAlreadyActiveFormat);
+                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.IsAlreadyActiveFormat);
                 var name = GetName();
                 reason = RtlUnit.Format(xIsAlreadyActive, [name]);
                 result = false;

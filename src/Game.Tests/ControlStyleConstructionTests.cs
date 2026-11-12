@@ -85,17 +85,18 @@ public sealed class ControlStyleConstructionTests
 
     private sealed class Converted : ControlStyleObject
     {
-        internal int Calls;
-        internal int Marker;
-        internal int ObservedMarker;
-        internal Set<ControlStyleElement> ObservedStyle;
+        private int _calls;
+        private int _marker;
 
-        internal Converted(ECustomNode owner) : base(owner) { Marker = 77; }
+        internal int ObservedMarker { get; private set; }
+        internal Set<ControlStyleElement> ObservedStyle { get; private set; }
+
+        internal Converted(ECustomNode owner) : base(owner) { _marker = 77; }
 
         public override void SetOwner(ECustomNode owner)
         {
-            Calls++;
-            ObservedMarker = Marker;
+            _calls++;
+            ObservedMarker = _marker;
             ObservedStyle = GetControlStyle();
             base.SetOwner(owner);
         }
@@ -111,14 +112,13 @@ public sealed class ControlStyleConstructionTests
         Assert.Empty(fixture.Owner.Members);
     }
 
-    private static FieldInfo Field(Type type, string name) =>
-        type.GetField(name, BindingFlags.Instance | BindingFlags.NonPublic)!;
+    private static FieldInfo Field(Type type, string name) => MemberNames.Field(type, name)!;
 
     private sealed class FlagOwner : AoWHSSet
     {
         public FlagOwner() : base(null!, null!) { }
 
-        internal readonly List<EngineObject> Members = [];
+        internal List<EngineObject> Members { get; } = [];
 
         public override int AddChild(EngineObject child) { Members.Add(child); return Members.Count - 1; }
 
@@ -127,9 +127,12 @@ public sealed class ControlStyleConstructionTests
 
     private sealed class FlagFixture : IDisposable
     {
-        internal readonly FlagOwner Owner;
-        internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
-        internal readonly ImageLibraryManagerObject Entry;
+        internal FlagOwner Owner { get; }
+
+        private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
+
+        internal ImageLibraryManagerObject Entry { get; }
+
         private readonly AoWHSSet _previous = AoWHSSet.Current;
         private readonly IFileSystem _previousFiles = Runtime.Files;
         private readonly string _previousStartup = EngineFixture.Engine.StartupDirectory;
@@ -138,7 +141,8 @@ public sealed class ControlStyleConstructionTests
         private readonly string _previousExecutable = Runtime.Application.ExeName;
         private readonly string _root;
         private readonly bool _ownsRoot;
-        internal readonly FlagFiles Files;
+
+        internal FlagFiles Files { get; }
 
         internal FlagFixture(bool loaded, string? directory = null)
         {
@@ -156,13 +160,13 @@ public sealed class ControlStyleConstructionTests
             try
             {
                 Owner = new FlagOwner();
-                Field(typeof(HSSet), "_imageLibraryManager").SetValue(Owner, Manager);
-                Field(typeof(ImageLibraryManager), "_searchPath").SetValue(Manager, "9.3b-2-missing/");
-                var disk = (ImageLibraryManagerList)Field(typeof(ImageLibraryManager), "_diskList").GetValue(Manager)!;
+                Field(typeof(HSSet), "_imageLibraryManager").SetValue(Owner, _manager);
+                Field(typeof(ImageLibraryManager), "_searchPath").SetValue(_manager, "9.3b-2-missing/");
+                var disk = (ImageLibraryManagerList)Field(typeof(ImageLibraryManager), "_diskList").GetValue(_manager)!;
                 if (directory is null) Entry = disk.AddImageLibraryFile("Flags.ILB");
                 else
                 {
-                    Manager.ExecutePathSearch(directory);
+                    _manager.ExecutePathSearch(directory);
                     Entry = Assert.IsType<ImageLibraryManagerObject>(disk.Objects[0]);
                 }
                 if (loaded)
@@ -183,7 +187,7 @@ public sealed class ControlStyleConstructionTests
             finally
             {
                 AoWHSSet.Current = _previous;
-                try { Manager.Dispose(); }
+                try { _manager.Dispose(); }
                 finally { RestoreFiles(); }
             }
         }
@@ -203,8 +207,9 @@ public sealed class ControlStyleConstructionTests
     {
         private readonly string _root;
         private readonly PhysicalFileSystem _files = new();
-        internal readonly List<string> OpenedPaths = [];
-        internal readonly List<string> EnumeratedDirectories = [];
+
+        internal List<string> OpenedPaths { get; } = [];
+        internal List<string> EnumeratedDirectories { get; } = [];
 
         internal FlagFiles(string root)
         {
@@ -324,7 +329,7 @@ public sealed class ControlStyleConstructionTests
     {
         internal ReadEngine() : base(null!) { }
 
-        internal EngineObject? Created;
+        internal EngineObject? Created { get; private set; }
 
         public override EngineObject CreateEngineObject(int classId, ECustomNode owner)
         {

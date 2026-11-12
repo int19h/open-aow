@@ -28,18 +28,18 @@ public partial class HelpWindow : DataModule
     public Memo HeaderMemo;
     public Memo HelpMemo;
     public IvTranslator Translator;
-    public ExecuteDoneEvent Done;
-    public HelpMessageEventLog HelpEvent;
+    private ExecuteDoneEvent _done;
+    private HelpMessageEventLog _helpEvent;
 
     // aowHelpWin.pas:53
     public void FinishDialog()
     {
         ExecuteDoneEvent done;
         HelpMessageEventLog eventValue;
-        done = Done;
-        eventValue = HelpEvent;
-        Done = null;
-        HelpEvent = null;
+        done = _done;
+        eventValue = _helpEvent;
+        _done = null;
+        _helpEvent = null;
         if (done != null)
         {
             done(eventValue);
@@ -55,8 +55,8 @@ public partial class HelpWindow : DataModule
     public void ShowHelpEvent(HelpMessageEventLog eventValue, bool unused, ExecuteDoneEvent done)
     {
         FinishDialog();
-        HelpEvent = eventValue;
-        HelpEvent.AddRef();
+        _helpEvent = eventValue;
+        _helpEvent.AddRef();
         HeaderMemo.Items.Clear();
         if (eventValue.Message.Count > 0)
         {
@@ -78,13 +78,13 @@ public partial class HelpWindow : DataModule
 
         if (eventValue.Mode != 0)
         {
-            Done = done;
+            _done = done;
         }
         else
         {
             if (done != null)
             {
-                done(HelpEvent);
+                done(_helpEvent);
             }
         }
 

@@ -39,7 +39,7 @@ public sealed class WallCrushingFastBattleTests
 
     private sealed class RecordingWall(ECustomNode owner) : CombatWall(owner)
     {
-        internal readonly List<(int Attack, int Damage, Set<DamageType> Types)> Rolls = [];
+        internal List<(int Attack, int Damage, Set<DamageType> Types)> Rolls { get; } = [];
 
         public override int ExecuteDamageRole(int attack, int damage, Set<DamageType> damageTypes)
         {

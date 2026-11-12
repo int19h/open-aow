@@ -19,8 +19,9 @@ namespace Aow.Game.Magic.Spells;
 // source unit ID. city target modes
 public partial class CityTargetSpell : Spell
 {
-    public int SourceId;
-    public Set<CityTargetModeElement> CityTargetMode;
+    private int _sourceId;
+
+    public Set<CityTargetModeElement> CityTargetMode { get; protected set; }
 
     // CitySpells.pas:209
     public CityTargetSpell(ECustomNode owner) : base(owner)
@@ -35,7 +36,7 @@ public partial class CityTargetSpell : Spell
         string reason = "";
         if (CanActivate(source, ref reason))
         {
-            SourceId = source.UnitId;
+            _sourceId = source.UnitId;
             SetupTargetSelection(source, AoWHSMap.Current.TargetSelection);
             AoWHSMap.Current.TargetSelection.Activate();
             result = true;
@@ -53,7 +54,7 @@ public partial class CityTargetSpell : Spell
     {
         Troop source = default;
         bool valid = default;
-        source = AoWHSMap.Current.UnitControl.FindUnit(SourceId);
+        source = AoWHSMap.Current.UnitControl.FindUnit(_sourceId);
         if (source != null)
         {
             switch (targetSelection.Change)
@@ -150,7 +151,7 @@ public partial class CityTargetSpell : Spell
         var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_selectTargetCityForOnMapFormat), [SpellName]);
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
-        targetSelection.CancelText = AbilityRules.TranslateResourceString(GameText.s_cancelText);
+        targetSelection.CancelText = AbilityRules.TranslateResourceString(GameText.CancelText);
         targetSelection.SourceImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
         targetSelection.ValidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
         targetSelection.InvalidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
@@ -159,7 +160,7 @@ public partial class CityTargetSpell : Spell
         targetSelection.SourceY = Y;
         targetSelection.SourceL = L;
         targetSelection.Range = 12;
-        if (targetSelection._onChangeStore.Count > 1)
+        if (targetSelection.OnChangeStore.Count > 1)
         {
             // { Original rejects two existing listeners. }
             throw new InvalidOperationException("oohps");
@@ -236,7 +237,7 @@ public partial class CityTargetSpell : Spell
         AoWMapField field;
         City targetCity;
         level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
-        source = AoWHSMap.Current.UnitControl.FindUnit(SourceId);
+        source = AoWHSMap.Current.UnitControl.FindUnit(_sourceId);
         if (source != null && X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
         {
             field = (AoWMapField)level.GetField(X, Y);

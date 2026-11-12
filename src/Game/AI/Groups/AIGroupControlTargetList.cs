@@ -13,7 +13,7 @@ public partial class AIGroupControlTargetList : EReferenceNode
     public AIGroupControlTargetList(ECustomNode owner) : base(owner)
     { }
 
-    public AIGroupControl Control;
+    public AIGroupControl Control { get; set; }
 
     // AIGroup.pas:684
     public AIGroupControlTarget GetTargets(int index)

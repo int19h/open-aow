@@ -10,14 +10,14 @@ namespace Aow.Game.Magic.Abilities;
 // attack. defense. resistance. hits. damage. immunity. protection. hit points
 public partial class HypotheticalUnit : Troop
 {
-    public sbyte Attack;
-    public sbyte Defense;
-    public sbyte Resistance;
-    public sbyte Hits;
-    public sbyte Damage;
-    public Set<DamageType> ImmunityTypes;
-    public Set<DamageType> ProtectionTypes;
-    public sbyte HitPoints;
+    private sbyte _attack;
+    private sbyte _defense;
+    private sbyte _resistance;
+    private sbyte _hits;
+    private sbyte _damage;
+    private Set<DamageType> _immunityTypes;
+    private Set<DamageType> _protectionTypes;
+    private sbyte _hitPoints;
 
     // Unit.PAS:2534
     public HypotheticalUnit(ECustomNode owner) : base(owner)
@@ -26,34 +26,34 @@ public partial class HypotheticalUnit : Troop
     }
 
     // Unit.PAS:2591
-    public override sbyte GetAttack() => Attack;
+    public override sbyte GetAttack() => _attack;
 
     // Unit.PAS:2593
-    public override sbyte GetDefense() => Defense;
+    public override sbyte GetDefense() => _defense;
 
     // Unit.PAS:2595
-    public override sbyte GetDamage() => Damage;
+    public override sbyte GetDamage() => _damage;
 
     // Unit.PAS:2603
-    public override sbyte GetResistance() => Resistance;
+    public override sbyte GetResistance() => _resistance;
 
     // Unit.PAS:2597
-    public override sbyte GetHits() => Hits;
+    public override sbyte GetHits() => _hits;
 
     // Unit.PAS:2599
-    public override sbyte GetHitPoints() => HitPoints;
+    public override sbyte GetHitPoints() => _hitPoints;
 
     // Unit.PAS:2601
     public override void SetHitPoints(sbyte value)
     {
-        HitPoints = value;
+        _hitPoints = value;
     }
 
     // Unit.PAS:2605
-    public override Set<DamageType> GetImmunityTypes() => ImmunityTypes;
+    public override Set<DamageType> GetImmunityTypes() => _immunityTypes;
 
     // Unit.PAS:2607
-    public override Set<DamageType> GetProtectionTypes() => ProtectionTypes;
+    public override Set<DamageType> GetProtectionTypes() => _protectionTypes;
 
     // Unit.PAS:2539
     public void MakeDefaultLevelUnit(sbyte level)
@@ -62,44 +62,44 @@ public partial class HypotheticalUnit : Troop
         switch (level)
         {
             case 1:
-                Attack = 4;
-                Defense = 2;
-                Resistance = 3;
-                Damage = 3;
-                Hits = 5;
+                _attack = 4;
+                _defense = 2;
+                _resistance = 3;
+                _damage = 3;
+                _hits = 5;
                 SetAbilitySet(21, 1);
                 SetAbilitySet(0, 1);
-                ImmunityTypes = Set<DamageType>.Of(DamageType.Wall);
+                _immunityTypes = Set<DamageType>.Of(DamageType.Wall);
                 break;
             case 2:
-                Attack = 5;
-                Defense = 3;
-                Resistance = 3;
-                Damage = 3;
-                Hits = 8;
+                _attack = 5;
+                _defense = 3;
+                _resistance = 3;
+                _damage = 3;
+                _hits = 8;
                 SetAbilitySet(21, 1);
                 SetAbilitySet(0, 1);
-                ImmunityTypes = Set<DamageType>.Of(DamageType.Wall);
+                _immunityTypes = Set<DamageType>.Of(DamageType.Wall);
                 break;
             case 3:
-                Attack = 6;
-                Defense = 3;
-                Resistance = 4;
-                Damage = 7;
-                Hits = 15;
+                _attack = 6;
+                _defense = 3;
+                _resistance = 4;
+                _damage = 7;
+                _hits = 15;
                 SetAbilitySet(21, 1);
                 SetAbilitySet(0, 1);
-                ImmunityTypes = Set<DamageType>.Of(DamageType.Wall);
-                ProtectionTypes = Set<DamageType>.Of(DamageType.Physical);
+                _immunityTypes = Set<DamageType>.Of(DamageType.Wall);
+                _protectionTypes = Set<DamageType>.Of(DamageType.Physical);
                 break;
             default:
                 {
-                    Attack = 6;
-                    Defense = 3;
-                    Resistance = 4;
-                    Damage = 7;
-                    Hits = 20;
-                    ImmunityTypes = Set<DamageType>.Of(DamageType.Physical, DamageType.Wall);
+                    _attack = 6;
+                    _defense = 3;
+                    _resistance = 4;
+                    _damage = 7;
+                    _hits = 20;
+                    _immunityTypes = Set<DamageType>.Of(DamageType.Physical, DamageType.Wall);
                     SetAbilitySet(21, 1);
                     SetAbilitySet(0, 1);
                 }
@@ -107,7 +107,7 @@ public partial class HypotheticalUnit : Troop
                 break;
         }
 
-        HitPoints = Hits;
+        _hitPoints = _hits;
     }
 
 }

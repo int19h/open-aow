@@ -27,7 +27,8 @@ public partial class FastBattleUnit : CombatUnit
     {
     }
 
-    public int RoundDistance;
+    public int RoundDistance { get; set; }
+
     public Set<FastBattleUnitStateElement> State;
 
     // AIGroup.pas:6797

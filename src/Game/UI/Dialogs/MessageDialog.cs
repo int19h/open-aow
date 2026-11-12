@@ -42,8 +42,8 @@ public partial class MessageDialog : DataModule
     public VerticalScrollBar HeaderMemoSB;
     public Label HeaderLbl;
     public IvTranslator Translator;
-    public ExecuteDoneEvent Done;
-    public MessageEventLog Event;
+    private ExecuteDoneEvent _done;
+    private MessageEventLog _event;
 
     // AoWMessageDlg.pas:68
     public void FinishDialog()
@@ -51,10 +51,10 @@ public partial class MessageDialog : DataModule
         ExecuteDoneEvent done;
         MessageEventLog log;
         Dlg.Visible = false;
-        done = Done;
-        log = Event;
-        Done = null;
-        Event = null;
+        done = _done;
+        log = _event;
+        _done = null;
+        _event = null;
         if (done != null)
         {
             done(log);
@@ -75,7 +75,7 @@ public partial class MessageDialog : DataModule
     // AoWMessageDlg.pas:88
     public void YesBtnClick()
     {
-        if (Event.Yes())
+        if (_event.Yes())
         {
             Dlg.Visible = false;
         }
@@ -84,7 +84,7 @@ public partial class MessageDialog : DataModule
     // AoWMessageDlg.pas:93
     public void NoBtnClick()
     {
-        if (Event.No())
+        if (_event.No())
         {
             Dlg.Visible = false;
         }
@@ -93,9 +93,9 @@ public partial class MessageDialog : DataModule
     // AoWMessageDlg.pas:98
     public void OKBtnClick()
     {
-        if (Event != null)
+        if (_event != null)
         {
-            if (!Event.Ok())
+            if (!_event.Ok())
             {
                 return;
             }
@@ -107,7 +107,7 @@ public partial class MessageDialog : DataModule
     // AoWMessageDlg.pas:105
     public void OKBtn2Click()
     {
-        if (Event.Ok())
+        if (_event.Ok())
         {
             Dlg.Visible = false;
         }
@@ -116,7 +116,7 @@ public partial class MessageDialog : DataModule
     // AoWMessageDlg.pas:110
     public void CancelBtnClick()
     {
-        if (Event.Cancel())
+        if (_event.Cancel())
         {
             Dlg.Visible = false;
         }
@@ -126,7 +126,7 @@ public partial class MessageDialog : DataModule
     {
         ResetMessageDialog(DialogHosts.MessageDialog);
         DialogHosts.MessageDialog.MessageMemo.Items.Add("");
-        var demoVersionMessage = AbilityRules.TranslateResourceString(GameText.s_demoVersionMessageText);
+        var demoVersionMessage = AbilityRules.TranslateResourceString(GameText.DemoVersionMessageText);
         DialogHosts.MessageDialog.MessageMemo.Items.Add(demoVersionMessage);
         DialogHosts.MessageDialog.OKPnl.Visible = true;
         DialogHosts.MessageDialog.Dlg.Visible = true;
@@ -141,7 +141,7 @@ public partial class MessageDialog : DataModule
         dialog.MessageMemo.Items.Clear();
         dialog.MemoPnl.Visible = true;
         dialog.HeaderMemoPnl.Visible = false;
-        var message = AbilityRules.TranslateResourceString(GameText.s_messageText);
+        var message = AbilityRules.TranslateResourceString(GameText.MessageText);
         dialog.TitleLbl.Text = message;
     }
 
@@ -149,10 +149,10 @@ public partial class MessageDialog : DataModule
     {
         MessageEventLog log;
         ResetMessageDialog(dialog);
-        dialog.Done = done;
-        dialog.Event = eventValue;
-        dialog.Event.AddRef();
-        log = dialog.Event;
+        dialog._done = done;
+        dialog._event = eventValue;
+        dialog._event.AddRef();
+        log = dialog._event;
         dialog.TitleLbl.Text = log.Title;
         switch (log.Layout)
         {

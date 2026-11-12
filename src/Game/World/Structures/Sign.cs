@@ -27,8 +27,8 @@ public partial class Sign : Structure
     // Sign.pas:99
     public new const int ClassId = 131330;
 
-    public StringList Text;
-    public BitList TextSeen;
+    public StringList Text { get; }
+    public BitList TextSeen { get; }
 
     // Sign.pas:92
     public override void Dispose()
@@ -130,14 +130,14 @@ public partial class Sign : Structure
             int offset;
             int image;
             bool animate;
-            if (_imageSequenceList != null)
+            if (ImageSequenceList != null)
             {
                 index = structure.ImageIndex;
                 offset = ((MapField)structure.Owner).HexX + ((MapField)structure.Owner).HexY * 16;
                 animate = AoWHSMap.Current.SeatedPlayer < 0 || !((Sign)structure).GetTextSeen(AoWHSMap.Current.SeatedPlayer);
-                if (index < _imageSequenceList.Count)
+                if (index < ImageSequenceList.Count)
                 {
-                    sequence = (ImageSequence)_imageSequenceList.List[index];
+                    sequence = (ImageSequence)ImageSequenceList.List[index];
                 }
                 else
                 {

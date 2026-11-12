@@ -28,18 +28,18 @@ public partial class CityRebelDialog : DataModule
     public Label Label3;
     public Frame Frame1;
     public IvTranslator Translator;
-    public ExecuteDoneEvent OnClose;
-    public CityRebellionEventLog Event;
+    private ExecuteDoneEvent _onClose;
+    private CityRebellionEventLog _event;
 
     // AoWCityRebelDlg.pas:49
     public void ClearEvent()
     {
         CityRebellionEventLog eventValue;
         ExecuteDoneEvent notify;
-        notify = OnClose;
-        eventValue = Event;
-        OnClose = null;
-        Event = null;
+        notify = _onClose;
+        eventValue = _event;
+        _onClose = null;
+        _event = null;
         if (notify != null)
         {
             notify(eventValue);
@@ -62,7 +62,7 @@ public partial class CityRebelDialog : DataModule
     public void CenterButClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var cityRebellionEventLog = Event;
+        var cityRebellionEventLog = _event;
         AoWHSMap.Current.CenterViewTo(cityRebellionEventLog.HexX, cityRebellionEventLog.HexY, cityRebellionEventLog.HexLevel);
     }
 
@@ -83,10 +83,10 @@ public partial class CityRebelDialog : DataModule
 
     internal static void ShowRebellion(CityRebelDialog dialog, CityRebellionEventLog eventValue, ExecuteDoneEvent done)
     {
-        dialog.OnClose = done;
-        dialog.Event = eventValue;
-        dialog.Event.AddRef();
-        dialog.CityNameLabel.Text = dialog.Event.CityName;
+        dialog._onClose = done;
+        dialog._event = eventValue;
+        dialog._event.AddRef();
+        dialog.CityNameLabel.Text = dialog._event.CityName;
         dialog.RebelWin.Visible = true;
     }
 

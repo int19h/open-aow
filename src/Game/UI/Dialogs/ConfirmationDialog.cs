@@ -37,13 +37,14 @@ public partial class ConfirmationDialog : DataModule
     public Frame SignBLine;
     public Image SIcon;
     public IvTranslator Translator;
-    public byte Action;
-    public bool SkipCombatChoice;
+    private byte _action;
+
+    public bool SkipCombatChoice { get; }
 
     // AOWDialogWin.pas:121
     public void Confirm(string title, string text, byte action)
     {
-        Action = action;
+        _action = action;
         DTitle.Text = title;
         DMessage.Text = text;
         yesPnl.Visible = true;
@@ -84,7 +85,7 @@ public partial class ConfirmationDialog : DataModule
         string reason = "";
         Structure structure;
         DialogHosts.General.PlayButtonSound(0);
-        switch (Action)
+        switch (_action)
         {
             case 0:
             case 1:
@@ -168,7 +169,7 @@ public partial class ConfirmationDialog : DataModule
 
     internal static void ConfirmDialog(ConfirmationDialog dialog, string title, string message, byte kind)
     {
-        dialog.Action = kind;
+        dialog._action = kind;
         dialog.DTitle.Text = title;
         dialog.DMessage.Text = message;
         dialog.yesPnl.Visible = true;

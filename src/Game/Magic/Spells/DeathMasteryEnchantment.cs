@@ -20,7 +20,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1475
     public DeathMasteryEnchantment(ECustomNode owner) : base(owner)
     {
-        Name = AbilityRules.TranslateResourceString(GameText.s_deathMasteryText);
+        Name = AbilityRules.TranslateResourceString(GameText.DeathMasteryText);
         EnchantmentType = GlobalEnchantmentType.None;
         DispelMana = 175;
     }
@@ -66,7 +66,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
         {
             if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
             {
-                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.s_isAlreadyActiveFormat);
+                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.IsAlreadyActiveFormat);
                 var name = GetName();
                 reason = RtlUnit.Format(xIsAlreadyActive, [name]);
                 result = false;

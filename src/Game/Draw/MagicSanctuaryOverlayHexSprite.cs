@@ -13,11 +13,12 @@ public partial class MagicSanctuaryOverlayHexSprite : SingleHexSprite
 {
     public MagicSanctuaryOverlayHexSprite(ECustomNode owner) : base(owner)
     {
-        FadeEndFrame = -1;
+        _fadeEndFrame = -1;
     }
 
-    public MagicSanctuary Structure;
-    public int FadeEndFrame;
+    public MagicSanctuary Structure { get; set; }
+
+    private int _fadeEndFrame;
 
     // MagicSanctuary.pas:67
 
@@ -40,21 +41,21 @@ public partial class MagicSanctuaryOverlayHexSprite : SingleHexSprite
         if (sequence != null)
         {
             blend = 50;
-            if (FadeEndFrame != -1 && FadeEndFrame > AoWHSMap.Current.Frame)
+            if (_fadeEndFrame != -1 && _fadeEndFrame > AoWHSMap.Current.Frame)
             {
-                framesLeft = FadeEndFrame - AoWHSMap.Current.Frame;
+                framesLeft = _fadeEndFrame - AoWHSMap.Current.Frame;
                 if (framesLeft <= 20)
                 {
                     blend += (10 - Math.Abs(framesLeft - 10)) * 3;
                 }
                 else
                 {
-                    FadeEndFrame = -1;
+                    _fadeEndFrame = -1;
                 }
             }
             else
             {
-                FadeEndFrame = -1;
+                _fadeEndFrame = -1;
             }
 
             frameIndex = sequence.GetFrameIndex(0, 0);
@@ -65,7 +66,7 @@ public partial class MagicSanctuaryOverlayHexSprite : SingleHexSprite
     // MagicSanctuary.pas:105
     public void FadeUp()
     {
-        FadeEndFrame = AoWHSMap.Current.Frame + 20;
+        _fadeEndFrame = AoWHSMap.Current.Frame + 20;
     }
 
     // MagicSanctuary.pas:22

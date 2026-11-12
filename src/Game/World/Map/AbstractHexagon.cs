@@ -21,8 +21,8 @@ public partial class AbstractHexagon : MapObject
     {
         int pixelX;
         int pixelY;
-        pixelX = ((MapField)Owner)._hexX * 32 + 8;
-        pixelY = (((MapField)Owner)._hexX & 1) * 16 + ((MapField)Owner)._hexY * 32;
+        pixelX = ((MapField)Owner).HexX * 32 + 8;
+        pixelY = (((MapField)Owner).HexX & 1) * 16 + ((MapField)Owner).HexY * 32;
         return pixelX + (pixelY << 13);
     }
 
@@ -45,7 +45,7 @@ public partial class AbstractHexagon : MapObject
                     var hexLevel = GetHexLevel();
                     var hexY = GetHexY();
                     var hexX = GetHexX();
-                    _resource._engine._hexSpriteMap._mapContainer._map.InvalidateStaticScene(hexX, hexY, hexLevel);
+                    _resource.Engine.HexSpriteMap.MapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
                 }
                 else
                 {
@@ -84,7 +84,7 @@ public partial class AbstractHexagon : MapObject
     public override void SetResource(MapObjectResource value)
     {
         base.SetResource(value);
-        if (_status.Contains(MapObjectStatusElement.Activated))
+        if (Status.Contains(MapObjectStatusElement.Activated))
         {
             UpdateTransitions();
         }
@@ -96,7 +96,7 @@ public partial class AbstractHexagon : MapObject
         bool result;
         MapField mapField;
         HexSprite hexSprite;
-        if (hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer._width && hexY < mapContainer._height && hexLevel < mapContainer._levelCount)
+        if (hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount)
         {
             mapField = mapContainer.GetField(hexX, hexY, hexLevel);
             hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();

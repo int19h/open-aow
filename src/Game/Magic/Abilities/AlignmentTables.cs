@@ -123,16 +123,16 @@ internal static class AlignmentTables
         return result;
     }
 
-    internal static Set<Alignment> s_pureGoodAlignments = Set<Alignment>.FromMask(67UL);
+    internal static Set<Alignment> PureGoodAlignments { get; } = Set<Alignment>.FromMask(67UL);
 
-    internal static Set<Alignment> s_goodAlignments = Set<Alignment>.FromMask(75UL);
+    internal static Set<Alignment> GoodAlignments { get; } = Set<Alignment>.FromMask(75UL);
 
-    internal static Set<Alignment> s_neutralAlignments = Set<Alignment>.FromMask(90UL);
+    internal static Set<Alignment> NeutralAlignments { get; } = Set<Alignment>.FromMask(90UL);
 
-    internal static Set<Alignment> s_evilAlignments = Set<Alignment>.FromMask(120UL);
+    internal static Set<Alignment> EvilAlignments { get; } = Set<Alignment>.FromMask(120UL);
 
-    internal static Set<Alignment> s_pureEvilAlignments = Set<Alignment>.FromMask(112UL);
+    internal static Set<Alignment> PureEvilAlignments { get; } = Set<Alignment>.FromMask(112UL);
 
-    internal static string s_noneText = "None";
+    internal static string NoneText { get; } = "None";
 
 }

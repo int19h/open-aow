@@ -39,7 +39,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
                     {
                         var duration = GetDuration(owner);
                         var totalDuration = GetTotalDuration();
-                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_durationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
+                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.DurationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
                         result = result + " " + format;
                     }
 
@@ -47,12 +47,12 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
                 case DurationMode.CombatTurn:
                     var duration2 = GetDuration(owner);
                     var totalDuration2 = GetTotalDuration();
-                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_durationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
+                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.DurationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
                     result = base.GetName(owner) + " " + formattedText;
                     break;
                 case DurationMode.EntireCombat:
                     var name = base.GetName(owner);
-                    var durationEntireCombat = AbilityRules.TranslateResourceString(GameText.s_durationEntireCombatText);
+                    var durationEntireCombat = AbilityRules.TranslateResourceString(GameText.DurationEntireCombatText);
                     result = name + " " + durationEntireCombat;
                     break;
                 default:
@@ -81,7 +81,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
             // { Original also reports player zero as unknown. }
             if (data.Enchantment.Source <= 0)
             {
-                result = AbilityRules.TranslateResourceString(GameTables.s_unknownText);
+                result = AbilityRules.TranslateResourceString(GameTables.UnknownText);
             }
             else
             {
@@ -97,7 +97,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         }
         else
         {
-            result = AbilityRules.TranslateResourceString(GameTables.s_unknownText);
+            result = AbilityRules.TranslateResourceString(GameTables.UnknownText);
         }
 
         return result;

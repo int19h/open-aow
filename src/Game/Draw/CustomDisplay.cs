@@ -6,46 +6,51 @@ namespace Aow.Game.Draw;
 
 // the display control. FFSWinControl, the events (OnBltSurface, OnUpdateFrame,
 // OnSurfaceDataLost, OnResize, OnError, OnActivateDisplayController, OnDeactivateDisplayController, OnHide, OnShow,
-// OnResizeBackSurface, OnSwapDisplayController), _frameRate, _frameTime (ms per frame), _currentFrameRate,
-// _updateFrameThread, Status, _options (2 bytes), _updateFrameMode, _backSurfaceControlMode,
+// OnResizeBackSurface, OnSwapDisplayController), _frameRate, FrameTime (ms per frame), _currentFrameRate,
+// UpdateFrameThread, Status, _options (2 bytes), _updateFrameMode, _backSurfaceControlMode,
 // FBufferingScheme, FBackSurfaceWidth, FBackSurfaceHeight, FSurfaceIndex (the back surface to
 // show), _pauseCount, _mouseAboveSurface, _primaryDisplayController, _secondaryDisplayController, _activeDisplayController
 public partial class CustomDisplay : WinControl
 {
 
-    internal DirectDrawFullScreenWindowControl _fullScreenWindowControl;
-    internal NotifyEvent<object> _onBlitSurface;
-    internal UpdateFrameEvent _onUpdateFrame;
-    internal SurfaceDataLostEvent _onSurfaceDataLost;
-    internal NotifyEvent<object> _onResize;
-    internal ErrorEvent _onError;
-    internal DCNotifyEvent _onActivateDisplayController;
-    internal DCNotifyEvent _onDeactivateDisplayController;
-    internal NotifyEvent<object> _onHide;
-    internal NotifyEvent<object> _onShow;
-    internal ResizeBackSurfaceEvent _onResizeBackSurface;
-    internal SwapDCEvent _onSwapDisplayController;
-    internal int _frameRate;
-    internal int _frameTime;
-    protected internal int _currentFrameRate;
+    private DirectDrawFullScreenWindowControl _fullScreenWindowControl;
+    private NotifyEvent<object> _onBlitSurface;
+    private UpdateFrameEvent _onUpdateFrame;
+    private SurfaceDataLostEvent _onSurfaceDataLost;
+    private NotifyEvent<object> _onResize;
+    private ErrorEvent _onError;
+    private DCNotifyEvent _onActivateDisplayController;
+    private DCNotifyEvent _onDeactivateDisplayController;
+    private NotifyEvent<object> _onHide;
+    private NotifyEvent<object> _onShow;
+    private ResizeBackSurfaceEvent _onResizeBackSurface;
+    private SwapDCEvent _onSwapDisplayController;
+    private int _frameRate;
 
-    public int CurrentFrameRate { get => _currentFrameRate; }
+    internal int FrameTime { get; private set; }
 
-    internal UpdateFrameThread _updateFrameThread;
-    public Set<DisplayStatusElement> Status;
-    internal Set<OptionsElement> _options;
-    internal UpdateFrameMode _updateFrameMode;
-    internal BackSurfaceControlMode _backSurfaceControlMode;
-    internal BufferingScheme _bufferingScheme;
-    internal int _backSurfaceWidth;
-    internal int _backSurfaceHeight;
-    public int SurfaceIndex;
+    private int _currentFrameRate;
+
+    public int CurrentFrameRate { get => _currentFrameRate; internal set => _currentFrameRate = value; }
+
+    internal UpdateFrameThread UpdateFrameThread { get; }
+    public Set<DisplayStatusElement> Status { get; private set; }
+
+    private Set<OptionsElement> _options;
+    private UpdateFrameMode _updateFrameMode;
+    private BackSurfaceControlMode _backSurfaceControlMode;
+    private BufferingScheme _bufferingScheme;
+    private int _backSurfaceWidth;
+    private int _backSurfaceHeight;
+
+    public int SurfaceIndex { get; private set; }
+
     // direct frame blit
-    internal int _pauseCount;
-    internal bool _mouseAboveSurface;
-    internal CustomDisplayController _primaryDisplayController;
-    internal CustomDisplayController _secondaryDisplayController;
-    internal CustomDisplayController _activeDisplayController;
+    private int _pauseCount;
+    private bool _mouseAboveSurface;
+    private CustomDisplayController _primaryDisplayController;
+    private CustomDisplayController _secondaryDisplayController;
+    private CustomDisplayController _activeDisplayController;
 
     // DisplayC.pas:1397
     internal void SetBufferingScheme(BufferingScheme value)
@@ -298,11 +303,11 @@ public partial class CustomDisplay : WinControl
         _frameRate = value;
         if (_frameRate != 0)
         {
-            _frameTime = Round((double)1000 / _frameRate);
+            FrameTime = Round((double)1000 / _frameRate);
         }
         else
         {
-            _frameTime = 0;
+            FrameTime = 0;
         }
     }
 

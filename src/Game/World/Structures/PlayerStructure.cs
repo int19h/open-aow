@@ -26,7 +26,7 @@ public partial class PlayerStructure : Structure
 
     public PlayerStructure(ECustomNode owner) : base(owner)
     {
-        VictoryLocations = new BitList();
+        _victoryLocations = new BitList();
         UnfogRange = 0;
     }
 
@@ -34,15 +34,16 @@ public partial class PlayerStructure : Structure
 
     public sbyte Player;
     public byte ProductionPriority;
-    public byte _flagId;
-    public BitList VictoryLocations;
-    public byte UnfogRange;
+    private byte _flagId;
+    private BitList _victoryLocations;
+
+    public byte UnfogRange { get; protected set; }
 
     // Structur.PAS:1977
     public override void Dispose()
     {
         base.Dispose();
-        VictoryLocations?.Dispose();
+        _victoryLocations?.Dispose();
     }
 
     // Structur.PAS:2180
@@ -50,7 +51,7 @@ public partial class PlayerStructure : Structure
     {
         base.ReadWrite(stream);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 5);
-        stream.rwStreamProc(6, VictoryLocations.LoadFromStream, VictoryLocations.SaveToStream);
+        stream.rwStreamProc(6, _victoryLocations.LoadFromStream, _victoryLocations.SaveToStream);
         stream.rwByte(ref ProductionPriority, 7);
     }
 
@@ -127,7 +128,7 @@ public partial class PlayerStructure : Structure
                     message.Param[0] = message.Param[0].Int + 3584;
                 }
 
-                if (AoWHSMap.Current.VictoryCondition == AoWHSMapVictoryCondition.CaptureLocations && VictoryLocations[AoWHSMap.Current.SeatedPlayer])
+                if (AoWHSMap.Current.VictoryCondition == AoWHSMapVictoryCondition.CaptureLocations && _victoryLocations[AoWHSMap.Current.SeatedPlayer])
                 {
                     message.Param[0] = message.Param[0].Int | 16777216;
                 }
@@ -469,7 +470,7 @@ public partial class PlayerStructure : Structure
             {
                 for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
                 {
-                    if (VictoryLocations[I])
+                    if (_victoryLocations[I])
                     {
                         if (I == Player || AoWHSMap.Current.AlliedVictory && AoWHSMap.Current.Players.GetDiplomaticRelation(Player, (sbyte)I) == DiplomaticRelation.Alliance)
                         {
@@ -492,7 +493,7 @@ public partial class PlayerStructure : Structure
     // Structur.PAS:2159
     public virtual void UpdateFlagId()
     {
-        if (!_status.Contains(MapObjectStatusElement.EditMode))
+        if (!Status.Contains(MapObjectStatusElement.EditMode))
         {
             if (Player > 0)
             {
@@ -542,12 +543,12 @@ public partial class PlayerStructure : Structure
         int range;
         int X = default;
         int Y = default;
-        if (!_status.Contains(MapObjectStatusElement.PlacedOnMap))
+        if (!Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
             return;
         }
 
-        if (_status.Contains(MapObjectStatusElement.Activated) && Player != -1 && AoWHSMap.Current.SeatedPlayer != -1 && (AoWHSMap.Current.SeatedPlayer == Player || AoWHSMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(AoWHSMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance))
+        if (Status.Contains(MapObjectStatusElement.Activated) && Player != -1 && AoWHSMap.Current.SeatedPlayer != -1 && (AoWHSMap.Current.SeatedPlayer == Player || AoWHSMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(AoWHSMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance))
         {
             range = VisibilityRange();
         }
@@ -590,7 +591,7 @@ public partial class PlayerStructure : Structure
     {
         int X = default;
         int Y = default;
-        if (_status.Contains(MapObjectStatusElement.PlacedOnMap) && Player > 0)
+        if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Player > 0)
         {
             for (int player = 1, last = AoWHSMap.Current.Players.Count - 1; player <= last; player++)
             {
@@ -629,7 +630,7 @@ public partial class PlayerStructure : Structure
             if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
             {
                 var editName = EditName();
-                result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_structureCapturedFormat), [editName]);
+                result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.StructureCapturedFormat), [editName]);
             }
             else
             {
@@ -644,12 +645,12 @@ public partial class PlayerStructure : Structure
     public virtual void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
     {
         LocationTextEventLog log;
-        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && _status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)_resource).Claimed)
+        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)_resource).Claimed)
         {
             log = new LocationTextEventLog(null);
             log._player = newPlayer;
             var editName = EditName();
-            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_structureCapturedFormat), [editName]);
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.StructureCapturedFormat), [editName]);
             log.HexX = GetHexX();
             log.HexY = GetHexY();
             log.HexLevel = GetHexLevel();
@@ -731,14 +732,14 @@ public partial class PlayerStructure : Structure
     }
 
     // Structur.PAS:1986
-    public bool GetVictoryLocation(sbyte player) => VictoryLocations[player];
+    public bool GetVictoryLocation(sbyte player) => _victoryLocations[player];
 
     // Structur.PAS:1991
     public void SetVictoryLocation(sbyte player, bool value)
     {
-        if (VictoryLocations[player] != value)
+        if (_victoryLocations[player] != value)
         {
-            VictoryLocations[player] = value;
+            _victoryLocations[player] = value;
             if (value)
             {
                 AoWHSMap.Current.Players.GetPlayers(player).RegisterVictoryLocation(this);
@@ -755,9 +756,9 @@ public partial class PlayerStructure : Structure
     // Structur.PAS:2002
     public void RegisterVictoryLocations()
     {
-        for (int I = 1, last = VictoryLocations.Count - 1; I <= last; I++)
+        for (int I = 1, last = _victoryLocations.Count - 1; I <= last; I++)
         {
-            if (VictoryLocations[I])
+            if (_victoryLocations[I])
             {
                 if (AoWHSMap.Current.Players.GetPlayers(I) != null)
                 {
@@ -765,7 +766,7 @@ public partial class PlayerStructure : Structure
                 }
                 else
                 {
-                    VictoryLocations[I] = false;
+                    _victoryLocations[I] = false;
                 }
             }
         }
@@ -774,9 +775,9 @@ public partial class PlayerStructure : Structure
     // Structur.PAS:2013
     public void UnregisterVictoryLocations()
     {
-        for (int I = 1, last = VictoryLocations.Count - 1; I <= last; I++)
+        for (int I = 1, last = _victoryLocations.Count - 1; I <= last; I++)
         {
-            if (VictoryLocations[I] && AoWHSMap.Current.Players.GetPlayers(I) != null)
+            if (_victoryLocations[I] && AoWHSMap.Current.Players.GetPlayers(I) != null)
             {
                 AoWHSMap.Current.Players.GetPlayers(I).UnregisterVictoryLocation(this);
             }
@@ -791,7 +792,7 @@ public partial class PlayerStructure : Structure
     {
         int X = default;
         int Y = default;
-        if (_status.Contains(MapObjectStatusElement.PlacedOnMap) && Player > 0)
+        if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Player > 0)
         {
             for (int I = 0, last = _resource.TerrainList.Count - 1; I <= last; I++)
             {

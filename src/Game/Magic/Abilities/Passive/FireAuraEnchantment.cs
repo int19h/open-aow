@@ -12,7 +12,7 @@ public partial class FireAuraEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1294
     public FireAuraEnchantment(ECustomNode owner) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_fireAuraText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.FireAuraText);
         AbilityId = 163;
     }
 

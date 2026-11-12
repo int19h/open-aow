@@ -9,13 +9,13 @@ public partial class CombatPredictorUnit
     {
         Troop = troop;
         troop.AddRef();
-        Predictor = predictor;
+        _predictor = predictor;
         CpuId = predictor.CreateUniqueCpuId();
         Side = side;
         InitialHitPoints = troop.GetHitPoints() * 100;
         Enabled = 1;
-        TargetsInvalid = 1;
-        WallTargetsInvalid = 1;
-        Opponents = predictor.Sides[side == 0 ? 1 : 0];
+        _targetsInvalid = 1;
+        _wallTargetsInvalid = 1;
+        _opponents = predictor.Sides[side == 0 ? 1 : 0];
     }
 }

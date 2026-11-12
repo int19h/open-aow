@@ -12,15 +12,18 @@ namespace Aow.Game.Draw;
 // `Pointer(Integer(SD.Data) + n)` is DataIndex + n, and `SD.Data = nil` is a null Data.
 public struct LockedSurface
 {
-    public int Width;
-    public int Height;
-    public int BitCount;
-    public int Pitch;
+    public int Width { get; set; }
+    public int Height { get; set; }
+    public int BitCount { get; set; }
+    public int Pitch { get; set; }
+
     public Rect ClipRectangle;
-    public byte[] Data;
-    public int DataIndex;
-    public Palette Palette;
-    public int PixelFormatId;
+
+    public byte[] Data { get; set; }
+    public int DataIndex { get; set; }
+    public Palette Palette { get; init; }
+    public int PixelFormatId { get; init; }
+
     public int RMask;
     public int GMask;
     public int BMask;

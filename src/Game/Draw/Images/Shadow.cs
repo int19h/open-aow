@@ -23,16 +23,16 @@ public partial class Shadow : BitMask, ILibraryImageClass
     // ImageLib.pas:5122
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
     {
-        if (!_dataLoaded)
+        if (!DataLoaded)
         {
             LoadDiscardableImageData();
             switch (lockedSurface.PixelFormatId)
             {
                 case PixelFormats.pfRGB565:
-                    ShowShadow565(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, _maskData, _maskWidth, _maskHeight);
+                    ShowShadow565(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, MaskData, _maskWidth, _maskHeight);
                     break;
                 case PixelFormats.pfRGB555:
-                    ShowShadow555(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, _maskData, _maskWidth, _maskHeight);
+                    ShowShadow555(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, MaskData, _maskWidth, _maskHeight);
                     break;
                 default:
                     throw new NotSupportedException("Surface format not supported");
@@ -48,10 +48,10 @@ public partial class Shadow : BitMask, ILibraryImageClass
             switch (lockedSurface.PixelFormatId)
             {
                 case PixelFormats.pfRGB565:
-                    ShowShadow565(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, _maskData, _maskWidth, _maskHeight);
+                    ShowShadow565(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, MaskData, _maskWidth, _maskHeight);
                     break;
                 case PixelFormats.pfRGB555:
-                    ShowShadow555(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, _maskData, _maskWidth, _maskHeight);
+                    ShowShadow555(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, MaskData, _maskWidth, _maskHeight);
                     break;
                 default:
                     throw new NotSupportedException("Surface format not supported");

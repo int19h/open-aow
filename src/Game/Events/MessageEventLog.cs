@@ -17,18 +17,21 @@ public partial class MessageEventLog : EventLog
     public MessageEventLog(ECustomNode owner) : base(owner)
     {
         Message = new StringList();
-        Title = AbilityRules.TranslateResourceString(GameText.s_messageText);
+        Title = AbilityRules.TranslateResourceString(GameText.MessageText);
         Buttons = MessageEventLogButtons.Ok;
         PressedButton = PressedEventLogButton.None;
         Layout = MessageEventLogLayout.Normal;
     }
 
     public string Title = "";
-    public string Header = "";
-    public StringCollection Message;
+
+    public string Header { get; } = "";
+    public StringCollection Message { get; }
+
     public MessageEventLogLayout Layout;
     public MessageEventLogButtons Buttons;
-    public PressedEventLogButton PressedButton;
+
+    public PressedEventLogButton PressedButton { get; private set; }
 
     // EventLog.pas:832
     public override void Dispose()

@@ -8,8 +8,8 @@ namespace Aow.Engine.Collections;
 public class RecordList<TRecord> : Persistent where TRecord : struct
 {
     internal TRecord[] _list = [];
-    internal int _count;
-    internal int _capacity;
+    private int _count;
+    private int _capacity;
 
     internal TRecord Get(int index) => index < 0 || index >= _count ? default : _list[index];
 

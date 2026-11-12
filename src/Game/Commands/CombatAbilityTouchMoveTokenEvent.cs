@@ -25,20 +25,22 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
     // CombatTE.pas:624
     public new const int ClassId = 2236418;
 
-    public BattleEffectSprite Effect;
+    private BattleEffectSprite _effect;
     public int AbilityId;
-    public PossessCombatAction PossessAction;
-    public EntangleCombatAction EntangleAction;
-    public WebCombatAction WebAction;
-    public TurnUndeadCombatAction TurnUndeadAction;
-    public HealingCombatAction HealingAction;
-    public CommandCombatAction CommandAction;
-    public InvokeDeathCombatAction DeathAction;
-    public DispelMagicAbilityCombatAction DispelAction;
-    public BattleEffectType EffectType;
-    public bool Successful;
-    public int Damage;
-    public CityWall Wall;
+    private PossessCombatAction _possessAction;
+    private EntangleCombatAction _entangleAction;
+    private WebCombatAction _webAction;
+    private TurnUndeadCombatAction _turnUndeadAction;
+    private HealingCombatAction _healingAction;
+    private CommandCombatAction _commandAction;
+    private InvokeDeathCombatAction _deathAction;
+    private DispelMagicAbilityCombatAction _dispelAction;
+    private BattleEffectType _effectType;
+    private bool _successful;
+
+    public int Damage { get; private set; }
+
+    private CityWall _wall;
 
     // CombatTE.pas:627
     public override void ReadWrite(EStorageStream stream)
@@ -64,7 +66,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                 case TokenStep.Start:
                     try
                     {
-                        EffectType = TacticalTables.s_abilityTypes[AbilityId];
+                        _effectType = TacticalTables.s_abilityTypes[AbilityId];
                         Unit.UnitHexSprite.CancelMove();
                         Unit.UnitHexSprite.Unselect();
                         Unit.UnitHexSprite.SelectedAbility = AbilityId;
@@ -129,15 +131,15 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                     {
                                         var path3 = Path[0];
                                         var path4 = Path[0];
-                                        Wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].GetField(path4.X, path3.Y).FindOwnedChild(2229508);
-                                        if (Wall == null)
+                                        _wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].GetField(path4.X, path3.Y).FindOwnedChild(2229508);
+                                        if (_wall == null)
                                         {
                                             var path5 = Path[0];
                                             var path6 = Path[0];
-                                            Wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path6.X, path5.Y).FindOwnedChild(2229510) as CityWall;
+                                            _wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path6.X, path5.Y).FindOwnedChild(2229510) as CityWall;
                                         }
 
-                                        if (Wall == null && AbilityId == 117)
+                                        if (_wall == null && AbilityId == 117)
                                         {
                                             result = MoveStatus.Done;
                                         }
@@ -180,19 +182,19 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                         {
                             if (Unit.UnitHexSprite.ActionDone)
                             {
-                                Effect = CombatMap.Current.AddEffect(EffectType);
-                                Effect.AbilityIndex = AbilityId;
+                                _effect = CombatMap.Current.AddEffect(_effectType);
+                                _effect.AbilityIndex = AbilityId;
                                 point = new Point3D();
                                 var hexY = PreviousUnit.UnitHexSprite.HexY;
                                 HexGeometry.HexToPixel(PreviousUnit.UnitHexSprite.HexX, hexY, ref point.X, ref point.Y);
                                 point.X += 16;
-                                Effect.Path.Add(point);
+                                _effect.Path.Add(point);
                                 Step = TokenStep.ExecuteStrike;
                             }
                         }
                         else
                         {
-                            if (Wall != null || AbilityId == 65)
+                            if (_wall != null || AbilityId == 65)
                             {
                                 switch (AbilityId)
                                 {
@@ -200,19 +202,19 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                         Step = TokenStep.End;
                                         Damage = 0;
                                         RandSeed = AoWHSMap.Current.Random(16777215);
-                                        var defense = Wall.GetDefense();
+                                        var defense = _wall.GetDefense();
                                         var executeDamageRole = AbilityRules.ExecuteDamageRole(TacticalTables.s_tacticalBattleDamage[0], TacticalTables.s_tacticalBattleAttack[0] - defense);
-                                        Wall.SetHitPoints(Wall.HitPoints - executeDamageRole);
+                                        _wall.SetHitPoints(_wall.HitPoints - executeDamageRole);
                                         Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepBack);
                                         break;
                                     case 65:
-                                        Effect = CombatMap.Current.AddEffect(EffectType);
-                                        Effect.AbilityIndex = AbilityId;
+                                        _effect = CombatMap.Current.AddEffect(_effectType);
+                                        _effect.AbilityIndex = AbilityId;
                                         point = new Point3D();
                                         var path = Path[1];
                                         HexGeometry.HexToPixel(Path[1].X, path.Y, ref point.X, ref point.Y);
                                         point.X += 16;
-                                        Effect.Path.Add(point);
+                                        _effect.Path.Add(point);
                                         Step = TokenStep.ExecuteStrike;
                                         break;
                                 }
@@ -228,7 +230,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                 case TokenStep.ExecuteStrike:
                     try
                     {
-                        if (Effect == null)
+                        if (_effect == null)
                         {
                             if (!Unit.GetEnabled())
                             {
@@ -290,7 +292,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                         }
                         else
                         {
-                            if (Effect.Done)
+                            if (_effect.Done)
                             {
                                 if (!Unit.GetEnabled())
                                 {
@@ -302,62 +304,62 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                     {
                                         case 40:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            EntangleAction = ((EntangleAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateEntangleCombatAction(Unit, PreviousUnit);
-                                            Successful = EntangleAction.Successful;
-                                            CombatMap.Current.Combat.ExecuteCombatAction(EntangleAction);
-                                            EntangleAction.Release();
+                                            _entangleAction = ((EntangleAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateEntangleCombatAction(Unit, PreviousUnit);
+                                            _successful = _entangleAction.Successful;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(_entangleAction);
+                                            _entangleAction.Release();
                                             break;
                                         case 27:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            WebAction = ((WebAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateWebCombatAction(Unit, PreviousUnit);
-                                            Successful = WebAction.Successful;
-                                            CombatMap.Current.Combat.ExecuteCombatAction(WebAction);
-                                            WebAction.Release();
+                                            _webAction = ((WebAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateWebCombatAction(Unit, PreviousUnit);
+                                            _successful = _webAction.Successful;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(_webAction);
+                                            _webAction.Release();
                                             break;
                                         case 28:
                                         case 29:
                                         case 148:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            CommandAction = ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCommandCombatAction(Unit, PreviousUnit);
-                                            Successful = CommandAction.Successful;
-                                            CombatMap.Current.Combat.ExecuteCombatAction(CommandAction);
-                                            CommandAction.Release();
+                                            _commandAction = ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCommandCombatAction(Unit, PreviousUnit);
+                                            _successful = _commandAction.Successful;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(_commandAction);
+                                            _commandAction.Release();
                                             break;
                                         case 38:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            TurnUndeadAction = ((TurnUndeadAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateTurnUndeadCombatAction(Unit, PreviousUnit);
-                                            Successful = TurnUndeadAction.GetSuccessful();
-                                            CombatMap.Current.Combat.ExecuteCombatAction(TurnUndeadAction);
-                                            TurnUndeadAction.Release();
+                                            _turnUndeadAction = ((TurnUndeadAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateTurnUndeadCombatAction(Unit, PreviousUnit);
+                                            _successful = _turnUndeadAction.GetSuccessful();
+                                            CombatMap.Current.Combat.ExecuteCombatAction(_turnUndeadAction);
+                                            _turnUndeadAction.Release();
                                             break;
                                         case 35:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            DeathAction = ((InvokeDeathAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(Unit, PreviousUnit);
-                                            Successful = DeathAction.Successful;
-                                            CombatMap.Current.Combat.ExecuteCombatAction(DeathAction);
-                                            DeathAction.Release();
+                                            _deathAction = ((InvokeDeathAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(Unit, PreviousUnit);
+                                            _successful = _deathAction.Successful;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(_deathAction);
+                                            _deathAction.Release();
                                             break;
                                         case 47:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            HealingAction = ((HealingAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateHealingCombatAction(Unit, PreviousUnit);
-                                            Successful = true;
-                                            CombatMap.Current.Combat.ExecuteCombatAction(HealingAction);
-                                            HealingAction.Release();
+                                            _healingAction = ((HealingAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateHealingCombatAction(Unit, PreviousUnit);
+                                            _successful = true;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(_healingAction);
+                                            _healingAction.Release();
                                             break;
                                         case 60:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            DispelAction = ((DispelMagicAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(Unit, PreviousUnit);
-                                            Successful = DispelAction.EnchantmentIds.Count > 0;
-                                            CombatMap.Current.Combat.ExecuteCombatAction(DispelAction);
-                                            DispelAction.Release();
+                                            _dispelAction = ((DispelMagicAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(Unit, PreviousUnit);
+                                            _successful = _dispelAction.EnchantmentIds.Count > 0;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(_dispelAction);
+                                            _dispelAction.Release();
                                             break;
                                         case 106:
                                         case 107:
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            PossessAction = ((PossessAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreatePossessCombatAction(Unit, PreviousUnit);
-                                            Successful = PossessAction.Successful;
-                                            CombatMap.Current.Combat.ExecuteCombatAction(PossessAction);
-                                            PossessAction.Release();
+                                            _possessAction = ((PossessAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreatePossessCombatAction(Unit, PreviousUnit);
+                                            _successful = _possessAction.Successful;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(_possessAction);
+                                            _possessAction.Release();
                                             var unitGraphicsResourceIndex = Unit.Troop.GetUnitGraphicsResourceIndex();
                                             Unit.UnitHexSprite.SetUnitGraphicsResourceIndex(unitGraphicsResourceIndex);
                                             if (!PreviousUnit.GetEnabled())
@@ -375,13 +377,13 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                     }
                                 }
 
-                                if (!Unit.GetEnabled() || ((AbilityId == 106 || AbilityId == 107) && Successful))
+                                if (!Unit.GetEnabled() || ((AbilityId == 106 || AbilityId == 107) && _successful))
                                 {
                                     result = MoveStatus.Done;
                                 }
                                 else
                                 {
-                                    if (!Successful && PreviousUnit != null && PreviousUnit.GetEnabled() && !PreviousUnit.GetLocked() && CombatObject.MeleeDamageTypes(PreviousUnit) != Set<DamageType>.Of() && PreviousUnit.GetSide() != Unit.GetSide())
+                                    if (!_successful && PreviousUnit != null && PreviousUnit.GetEnabled() && !PreviousUnit.GetLocked() && CombatObject.MeleeDamageTypes(PreviousUnit) != Set<DamageType>.Of() && PreviousUnit.GetSide() != Unit.GetSide())
                                     {
                                         RandSeed = AoWHSMap.Current.Random(16777215);
                                         Strike = CombatObject.CreateStrikeCombatAction(PreviousUnit, Unit, true);
@@ -411,7 +413,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                     switch (AbilityId)
                                     {
                                         case 65:
-                                            if (Effect.Frame == 5)
+                                            if (_effect.Frame == 5)
                                             {
                                                 message.MessageId = 200704;
                                                 message.Param[0] = Unit;

@@ -19,15 +19,15 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
         Path = new MovePath();
     }
 
-    public MovePath Path;
-    public int MovePoints;
-    public int Moves;
-    public sbyte SourceX;
-    public sbyte SourceY;
-    public sbyte SourceL;
-    public sbyte DestinationX;
-    public sbyte DestinationY;
-    public sbyte DestinationL;
+    public MovePath Path { get; private set; }
+    public int MovePoints { get; set; }
+    public int Moves { get; set; }
+    public sbyte SourceX { get; set; }
+    public sbyte SourceY { get; set; }
+    public sbyte SourceL { get; set; }
+    public sbyte DestinationX { get; set; }
+    public sbyte DestinationY { get; set; }
+    public sbyte DestinationL { get; set; }
 
     // AIGroup.pas:4446
     public override void Dispose()

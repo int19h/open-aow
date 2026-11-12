@@ -37,8 +37,8 @@ public partial class CombatChoice : DataModule
     public UserDrawBox MapView;
     public Image InfoSep;
     public IvTranslator Translator;
-    public CombatTypeRequestEventLog Request;
-    public NotifyEvent<object> OnDone;
+    private CombatTypeRequestEventLog _request;
+    private NotifyEvent<object> _onDone;
 
     // TCFCDlg.pas:119
     public void Finish()
@@ -46,10 +46,10 @@ public partial class CombatChoice : DataModule
         NotifyEvent<object> done;
         CombatTypeRequestEventLog request;
         DialogHosts.General.Manager.OverlayPriority = 0;
-        done = OnDone;
-        request = Request;
-        OnDone = null;
-        Request = null;
+        done = _onDone;
+        request = _request;
+        _onDone = null;
+        _request = null;
         if (done != null)
         {
             done(request);
@@ -65,7 +65,7 @@ public partial class CombatChoice : DataModule
     public void CancelBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Request.Select(0);
+        _request.Select(0);
         Dlg.Visible = false;
     }
 
@@ -82,7 +82,7 @@ public partial class CombatChoice : DataModule
         var checkBox = sender;
         if (checkBox.Checked)
         {
-            Request.Select((CombatType)1);
+            _request.Select((CombatType)1);
         }
 
         if (checkBox.Checked)
@@ -101,7 +101,7 @@ public partial class CombatChoice : DataModule
         var checkBox = sender;
         if (checkBox.Checked)
         {
-            Request.Select((CombatType)2);
+            _request.Select((CombatType)2);
         }
 
         if (checkBox.Checked)
@@ -126,7 +126,7 @@ public partial class CombatChoice : DataModule
         R = new Rect(Dlg.WinLeft + sender.WinLeft, Dlg.WinTop + sender.WinTop, Dlg.WinLeft + sender.WinLeft + sender.WinWidth, Dlg.WinTop + sender.WinTop + sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
-        HexGeometry.HexToPixel(Request.X, Request.Y, ref X, ref Y);
+        HexGeometry.HexToPixel(_request.X, _request.Y, ref X, ref Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -140,7 +140,7 @@ public partial class CombatChoice : DataModule
         }
 
         LockedSurface.CreateFrom(lockedSurface, R, ref viewSurfaceDescription);
-        AoWHSMap.Current.SetViewPort(X, Y, Request.MapLevel, R.Right - R.Left, R.Bottom - R.Top);
+        AoWHSMap.Current.SetViewPort(X, Y, _request.MapLevel, R.Right - R.Left, R.Bottom - R.Top);
         AoWHSMap.Current.UpdateStaticScene();
         AoWHSMap.Current.UpdateDynamicScene();
         AoWHSMap.Current.DrawStaticScene(ref viewSurfaceDescription);
@@ -164,7 +164,7 @@ public partial class CombatChoice : DataModule
     {
         if (sender.Checked)
         {
-            Request.Select((CombatType)2);
+            _request.Select((CombatType)2);
         }
 
         Dlg.Visible = false;
@@ -175,7 +175,7 @@ public partial class CombatChoice : DataModule
     {
         if (sender.Checked)
         {
-            Request.Select((CombatType)1);
+            _request.Select((CombatType)1);
         }
 
         Dlg.Visible = false;
@@ -198,9 +198,9 @@ public partial class CombatChoice : DataModule
         }
         else
         {
-            dialog.Request = eventValue;
-            dialog.Request.AddRef();
-            dialog.OnDone = RebindDelegate<NotifyEvent<object>>(done);
+            dialog._request = eventValue;
+            dialog._request.AddRef();
+            dialog._onDone = RebindDelegate<NotifyEvent<object>>(done);
             DialogHosts.General.Manager.OverlayPriority = 49;
             if (dialog.TCchk.Checked)
             {
@@ -211,7 +211,7 @@ public partial class CombatChoice : DataModule
                 eventValue.Select((CombatType)1);
             }
 
-            if (AoWHSMap.Current.Players.GetPlayers(dialog.Request._player).PlayerType == PlayerType.Human)
+            if (AoWHSMap.Current.Players.GetPlayers(dialog._request.Player).PlayerType == PlayerType.Human)
             {
                 dialog.CancelBtn.Visible = true;
                 dialog.FightBtn.Alignment.AlignWidth = AlignWidth.Left;

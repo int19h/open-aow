@@ -57,8 +57,10 @@ public partial class EmailGameSettingsDialog : DataModule
     public Panel LocalPnl;
     public Button CloseBtn;
     public IvTranslator Translator;
-    public StringList EmailAddresses;
-    public SetupControl SetupControl;
+
+    public StringList EmailAddresses { get; private set; }
+
+    private SetupControl _setupControl;
 
     // AoWEmailGameSettingsDlg.pas:85
     public void EmailGameSettingsDlgCreate()
@@ -95,17 +97,17 @@ public partial class EmailGameSettingsDialog : DataModule
         int index;
         if (SettingsComplete())
         {
-            if (SetupControl != null)
+            if (_setupControl != null)
             {
                 for (int I = 0, last = EmailAddresses.Count - 1; I <= last; I++)
                 {
                     var objectValue = EmailAddresses.Objects[I];
-                    index = SetupControl.Settings.IndexOfRace((byte)ObjectToInt(objectValue));
+                    index = _setupControl.Settings.IndexOfRace((byte)ObjectToInt(objectValue));
                     var emailAddress = EmailAddresses[I];
-                    SetupControl.Settings.GetSettings(index).EmailAddress = emailAddress;
+                    _setupControl.Settings.GetSettings(index).EmailAddress = emailAddress;
                 }
 
-                SetupControl.Settings.EmailGameName = EmailGameNameEdit.Text;
+                _setupControl.Settings.EmailGameName = EmailGameNameEdit.Text;
                 GameHost.DeferredSetupAction = 1;
                 Dlg.Visible = false;
             }
@@ -177,7 +179,7 @@ public partial class EmailGameSettingsDialog : DataModule
             emailEdit.CaptureInput = true;
             emailEdit.Text = EmailAddresses[index];
             var objectValue = EmailAddresses.Objects[index];
-            nameLabel.Text = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[ObjectToInt(objectValue)]);
+            nameLabel.Text = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[ObjectToInt(objectValue)]);
         }
         else
         {
@@ -221,7 +223,7 @@ public partial class EmailGameSettingsDialog : DataModule
     // AoWEmailGameSettingsDlg.pas:211
     public void ResetSettings()
     {
-        SetupControl = null;
+        _setupControl = null;
         EmailAddresses.Clear();
         PlayerSB.Visible = true;
         PlayerSB.Position = 0;
@@ -234,8 +236,8 @@ public partial class EmailGameSettingsDialog : DataModule
     {
         SetupControl C;
         ResetSettings();
-        SetupControl = control;
-        C = SetupControl;
+        _setupControl = control;
+        C = _setupControl;
         for (int I = 0, last = C.Settings.Count - 1; I <= last; I++)
         {
             if (C.Settings.GetSettings(I).Behavior.PlayerType == 0)

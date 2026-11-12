@@ -11,38 +11,38 @@ public partial class AIPlayerActionManager : EngineObject
     // AI.pas:36
     public AIPlayerActionManager(ECustomNode owner) : base(owner)
     {
-        RegisteredClasses = new DelphiList<AIPlayerActionClass>();
+        _registeredClasses = new DelphiList<AIPlayerActionClass>();
     }
 
-    public DelphiList<AIPlayerActionClass> RegisteredClasses;
+    private DelphiList<AIPlayerActionClass> _registeredClasses;
 
     // AI.pas:42
     public override void Dispose()
     {
-        RegisteredClasses?.Dispose();
+        _registeredClasses?.Dispose();
         base.Dispose();
     }
 
     // AI.pas:48
-    public int GetCount() => RegisteredClasses.Count;
+    public int GetCount() => _registeredClasses.Count;
 
     // AI.pas:53
-    public AIPlayerActionClass GetRegisteredClasses(int index) => RegisteredClasses.List[index];
+    public AIPlayerActionClass GetRegisteredClasses(int index) => _registeredClasses.List[index];
 
     // AI.pas:63
     public void RegisterClasses(ReadOnlySpan<AIPlayerActionClass> classes)
     {
         for (int I = 0, last = classes.Length - 1; I <= last; I++)
         {
-            if (RegisteredClasses.IndexOf(classes[I]) != -1)
+            if (_registeredClasses.IndexOf(classes[I]) != -1)
             {
                 throw new InvalidOperationException("AIPlayerAction already Registered");
             }
 
-            RegisteredClasses.Add(classes[I]);
+            _registeredClasses.Add(classes[I]);
         }
 
-        RegisteredClasses.Sort(CompareAIPlayerActionClasses);
+        _registeredClasses.Sort(CompareAIPlayerActionClasses);
     }
 
     // AI.pas:76
@@ -50,7 +50,7 @@ public partial class AIPlayerActionManager : EngineObject
     {
         for (int I = 0, last = classes.Length - 1; I <= last; I++)
         {
-            RegisteredClasses.Remove(classes[I]);
+            _registeredClasses.Remove(classes[I]);
         }
     }
 

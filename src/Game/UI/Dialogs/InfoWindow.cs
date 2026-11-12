@@ -110,11 +110,12 @@ public partial class InfoWindow : DataModule
     public Label PopulationRaceLbl;
     public Label PopulationLbl;
     public IvTranslator Translator;
-    public ItemHexSprite ItemBag;
+
+    public ItemHexSprite ItemBag { get; set; }
     // Renderers of the structure views (Structure.Views.cs): the panel of each InfoPanel key and the
     // screen of each InfoButton key. ClassRegistry adds the original renderers.
-    public static readonly Catalog<StructureView, Action<InfoWindow, Structure>> StructurePanels = new("structure info panel");
-    public static readonly Catalog<StructureView, Action<InfoWindow, Structure>> StructureButtons = new("structure info button");
+    public static Catalog<StructureView, Action<InfoWindow, Structure>> StructurePanels { get; } = new("structure info panel");
+    public static Catalog<StructureView, Action<InfoWindow, Structure>> StructureButtons { get; } = new("structure info button");
 
     // AoWInfoWin.pas:137
     public void InfoWinResize()
@@ -314,7 +315,7 @@ public partial class InfoWindow : DataModule
         var description = structure.GetDescription();
         dialog.SBmemo.Items.Assign(description);
         dialog.SBmemo.Items.Add("");
-        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_incomeFormat), [IntToStr(structure.Income)]);
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.IncomeFormat), [IntToStr(structure.Income)]);
         dialog.SBmemo.Items.Add(format);
         dialog.RazePnl.Visible = true;
     }
@@ -338,7 +339,7 @@ public partial class InfoWindow : DataModule
         dialog.SBmemo.Sized = false;
         var canTeleport = structure.CanTeleport(AoWHSMap.Current.SeatedPlayer);
         dialog.MainBtn.Visible = canTeleport;
-        var teleport = AbilityRules.TranslateResourceString(Teleport.Resource.s_teleportText);
+        var teleport = AbilityRules.TranslateResourceString(Teleport.Resource.TeleportText);
         dialog.MainBtn.Text = teleport;
         dialog.RazePnl.Visible = dialog.MainBtn.Visible;
     }
@@ -352,7 +353,7 @@ public partial class InfoWindow : DataModule
         dialog.SBmemo.Items.Assign(description);
         var canEnter = structure.CanEnter(AoWHSMap.Current.SeatedPlayer);
         dialog.MainBtn.Visible = canEnter;
-        var enter = AbilityRules.TranslateResourceString(GameText.s_enterText);
+        var enter = AbilityRules.TranslateResourceString(GameText.EnterText);
         dialog.MainBtn.Text = enter;
     }
 
@@ -365,7 +366,7 @@ public partial class InfoWindow : DataModule
         dialog.SBmemo.Items.Assign(description);
         var canEnter = structure.CanEnter(AoWHSMap.Current.SeatedPlayer);
         dialog.MainBtn.Visible = canEnter;
-        var enter = AbilityRules.TranslateResourceString(GameText.s_enterText);
+        var enter = AbilityRules.TranslateResourceString(GameText.EnterText);
         dialog.MainBtn.Text = enter;
     }
 
@@ -381,11 +382,11 @@ public partial class InfoWindow : DataModule
         switch (structure.Entrance)
         {
             case CaveEntrance.Up:
-                var goUp = AbilityRules.TranslateResourceString(GameText.s_goUpText);
+                var goUp = AbilityRules.TranslateResourceString(GameText.GoUpText);
                 dialog.MainBtn.Text = goUp;
                 break;
             case CaveEntrance.Down:
-                var goDown = AbilityRules.TranslateResourceString(GameText.s_goDownText);
+                var goDown = AbilityRules.TranslateResourceString(GameText.GoDownText);
                 dialog.MainBtn.Text = goDown;
                 break;
         }
@@ -408,22 +409,22 @@ public partial class InfoWindow : DataModule
         dialog.ExplorationSitePnl.Visible = true;
         var description = DialogHosts.General.Structure.GetDescription();
         dialog.ESMemo.Items.Assign(description);
-        var status = AbilityRules.TranslateResourceString(CityScreen.s_statusText);
+        var status = AbilityRules.TranslateResourceString(CityScreen.StatusText);
         dialog.ESLbl.Text = status + ":";
         if (structure.GetExplored())
         {
-            var explored = AbilityRules.TranslateResourceString(GameText.s_exploredText);
+            var explored = AbilityRules.TranslateResourceString(GameText.ExploredText);
             dialog.ESStatusLbl.Text = explored;
         }
         else
         {
-            var unexplored = AbilityRules.TranslateResourceString(GameText.s_unexploredText);
+            var unexplored = AbilityRules.TranslateResourceString(GameText.UnexploredText);
             dialog.ESStatusLbl.Text = unexplored;
         }
 
         var canSearch = ((ExplorationSite)DialogHosts.General.Structure).CanSearch(AoWHSMap.Current.SeatedPlayer);
         dialog.MainBtn.Visible = canSearch;
-        var search = AbilityRules.TranslateResourceString(GameText.s_searchText);
+        var search = AbilityRules.TranslateResourceString(GameText.SearchText);
         dialog.MainBtn.Text = search;
     }
 
@@ -434,12 +435,12 @@ public partial class InfoWindow : DataModule
         dialog.AltarPnl.Visible = true;
         if (structure.GetTargeting())
         {
-            var cancel = AbilityRules.TranslateResourceString(GameText.s_cancelText);
+            var cancel = AbilityRules.TranslateResourceString(GameText.CancelText);
             dialog.MainBtn.Text = cancel;
         }
         else
         {
-            var target = AbilityRules.TranslateResourceString(GameText.s_targetText);
+            var target = AbilityRules.TranslateResourceString(GameText.TargetText);
             dialog.MainBtn.Text = target;
         }
 
@@ -467,7 +468,7 @@ public partial class InfoWindow : DataModule
         dialog.SBmemo.Items.Add("");
         dialog.SBmemo.Items.Add("");
         dialog.SBmemo.Items.Add("");
-        var statusWarMode = AbilityRules.TranslateResourceString(GameText.s_statusWarModeText);
+        var statusWarMode = AbilityRules.TranslateResourceString(GameText.StatusWarModeText);
         dialog.SBmemo.Items.Add(statusWarMode);
     }
 
@@ -476,7 +477,7 @@ public partial class InfoWindow : DataModule
         string reason = "";
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        var enter = AbilityRules.TranslateResourceString(GameText.s_enterText);
+        var enter = AbilityRules.TranslateResourceString(GameText.EnterText);
         dialog.MainBtn.Text = enter;
         dialog.MainBtn.Visible = true;
         DialogHosts.General.City = structure;
@@ -486,13 +487,13 @@ public partial class InfoWindow : DataModule
         var name = DialogHosts.General.City.GetName();
         dialog.StructNameLbl.Text = name;
         var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[DialogHosts.General.City.Race]);
-        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_raceFormat), [raceNames]);
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.RaceFormat), [raceNames]);
         dialog.CityRaceLbl.Text = format;
         dialog.CityLevelLbl.Text = IntToStr(structure.UpgradeLevel);
         dialog.CityIncomeLbl.Text = IntToStr(structure.Income);
         var civilStatus = structure.GetCivilStatus();
         var civilStatusText = AbilityRules.TranslateResourceString(CityScreen.s_civilStatusTexts[(int)civilStatus]);
-        var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_statusFormat), [civilStatusText]);
+        var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.StatusFormat), [civilStatusText]);
         dialog.CivilStatusLbl.Text = formattedText;
         if (structure.Production.Queue.GetCount() != 0)
         {
@@ -507,7 +508,7 @@ public partial class InfoWindow : DataModule
                 }
                 else
                 {
-                    var unlimited = AbilityRules.TranslateResourceString(MapEvents.s_unlimitedText);
+                    var unlimited = AbilityRules.TranslateResourceString(MapEvents.UnlimitedText);
                     dialog.ActiveCityActionMemo.Items.Add(LowerCase(unlimited));
                 }
             }
@@ -525,7 +526,7 @@ public partial class InfoWindow : DataModule
         else
         {
             dialog.ActiveCityActionMemo.Items.Add("");
-            var producingMerchandise = AbilityRules.TranslateResourceString(GameText.s_producingMerchandiseText);
+            var producingMerchandise = AbilityRules.TranslateResourceString(GameText.ProducingMerchandiseText);
             dialog.ActiveCityActionMemo.Items.Add(producingMerchandise);
         }
 
@@ -539,7 +540,7 @@ public partial class InfoWindow : DataModule
         string reason = "";
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        var enter = AbilityRules.TranslateResourceString(GameText.s_enterText);
+        var enter = AbilityRules.TranslateResourceString(GameText.EnterText);
         dialog.MainBtn.Text = enter;
         dialog.MainBtn.Visible = true;
         DialogHosts.General.ProductionPlace = (ProductionPlace)DialogHosts.General.Structure;
@@ -589,7 +590,7 @@ public partial class InfoWindow : DataModule
                 else
                 {
                     // { Original writes the city memo in this branch. }
-                    var unlimited = AbilityRules.TranslateResourceString(MapEvents.s_unlimitedText);
+                    var unlimited = AbilityRules.TranslateResourceString(MapEvents.UnlimitedText);
                     dialog.ActiveCityActionMemo.Items.Add(LowerCase(unlimited));
                 }
             }
@@ -611,18 +612,18 @@ public partial class InfoWindow : DataModule
                 dialog.ActiveActionMemo.Items.Add("");
                 if (structure.GetBaseIncome() != 0)
                 {
-                    var producingMerchandise = AbilityRules.TranslateResourceString(GameText.s_producingMerchandiseText);
+                    var producingMerchandise = AbilityRules.TranslateResourceString(GameText.ProducingMerchandiseText);
                     dialog.ActiveActionMemo.Items.Add(producingMerchandise);
                 }
                 else
                 {
-                    var none = AbilityRules.TranslateResourceString(GameTables.s_noneText);
+                    var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
                     dialog.ActiveActionMemo.Items.Add(none);
                 }
             }
             else
             {
-                var generatingExtraPower = AbilityRules.TranslateResourceString(GameText.s_generatingExtraPowerText);
+                var generatingExtraPower = AbilityRules.TranslateResourceString(GameText.GeneratingExtraPowerText);
                 dialog.ActiveActionMemo.Items.Add(generatingExtraPower);
             }
         }
@@ -650,14 +651,14 @@ public partial class InfoWindow : DataModule
         if (structure is City)
         {
             var name = structure.GetName();
-            text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_cityFormat), [name]);
+            text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.CityFormat), [name]);
         }
         else
         {
             text = structure.GetName();
         }
 
-        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_liesInRuinsFormat), [text]);
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.LiesInRuinsFormat), [text]);
         dialog.SBmemo.Items.Text = format;
         dialog.SBmemo.Items.Insert(0, "");
         dialog.SBmemo.Items.Insert(0, "");
@@ -672,7 +673,7 @@ public partial class InfoWindow : DataModule
         if (structure is City && structure.Player == 0)
         {
             dialog.PopulationRaceLbl.Visible = true;
-            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[((City)structure).Race]);
+            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[((City)structure).Race]);
             dialog.PopulationRaceLbl.Text = raceNamesPlural;
             dialog.PopulationLbl.Visible = true;
             dialog.NotYoursMemo.Items.Clear();
@@ -691,7 +692,7 @@ public partial class InfoWindow : DataModule
                 raceIndex = 12;
             }
 
-            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[raceIndex]);
+            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[raceIndex]);
             dialog.OwnerRaceLbl.Text = raceNamesPlural;
             dialog.OwnerRaceLbl.Visible = true;
             dialog.LShield.CurrentImage = raceIndex + 26;

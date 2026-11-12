@@ -9,10 +9,10 @@ public partial class Sample : IDisposable
 {
     public static SampleClass Descriptor { get; } = new("Sample", Create);
 
-    internal int _delay;
-    internal SampleData _sampleData;
-    internal SampleCallBack _callback;
-    internal Set<StatusElement> _status;
+    private int _delay;
+    private SampleData _sampleData;
+    private SampleCallBack _callback;
+    private Set<StatusElement> _status;
 
     // Sound.pas:746
     protected internal virtual bool GetPlaying() => _delay != 0;

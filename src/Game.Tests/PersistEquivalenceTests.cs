@@ -102,8 +102,8 @@ public sealed class PersistEquivalenceTests
         Check("ControlStyleObject", bits);
         Check("ResourceEditSettings", new ResourceEditSettings(null!));
         var editors = new ResourceEditSettings(null!) { _controlStyle = Set<ControlStyleElement>.FromMask(0) };
-        editors._editors.AddObject("", Runtime.IntToObject(0));
-        editors._editors.AddObject("Gate", Runtime.IntToObject(4));
+        editors.Editors.AddObject("", Runtime.IntToObject(0));
+        editors.Editors.AddObject("Gate", Runtime.IntToObject(4));
         Check("ResourceEditSettings", editors);
     }
 
@@ -320,7 +320,7 @@ public sealed class PersistEquivalenceTests
     {
         var previous = AoWHSMap.Current;
         var map = new AoWHSMap(null!);
-        map._status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
+        map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
         AoWHSMap.Current = map;
         try
         {
@@ -850,7 +850,7 @@ public sealed class PersistEquivalenceTests
     {
         var previous = AoWHSMap.Current;
         var map = new AoWHSMap(null!);
-        map._status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
+        map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
         AoWHSMap.Current = map;
         try
         {

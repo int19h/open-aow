@@ -12,7 +12,7 @@ public partial class WindWalkingEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1336
     public WindWalkingEnchantment(ECustomNode owner) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_windWalkingText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.WindWalkingText);
         AbilityId = 165;
     }
 

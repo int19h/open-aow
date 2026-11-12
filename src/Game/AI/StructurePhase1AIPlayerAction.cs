@@ -11,7 +11,7 @@ public partial class StructurePhase1AIPlayerAction : StructureAIPlayerAction, IA
     // (inherited phase)
     public StructurePhase1AIPlayerAction(ECustomNode owner) : base(owner)
     {
-        _phase = 1;
+        Phase = 1;
     }
 
     // intf_P1_12.inc:16

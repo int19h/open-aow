@@ -7,7 +7,7 @@ namespace Aow.Game.World.Map;
 // events, scanner events, scanner lock, fog/exploration, selectors, selector visibility
 public struct MapChangedInfo
 {
-    public Rect Bounds;
-    public int Level;
-    public MapLevel MapLevel;
+    public Rect Bounds { get; set; }
+    public int Level { get; set; }
+    public MapLevel MapLevel { get; set; }
 }

@@ -17,7 +17,7 @@ public partial class Storm : Animation
     public Storm(ECustomNode owner) : base(owner)
     { }
 
-    public sbyte Player;
+    public sbyte Player { get; private set; }
 
     // Storms.pas:34
     public virtual void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info)

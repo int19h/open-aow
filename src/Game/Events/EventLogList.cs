@@ -12,8 +12,9 @@ public partial class EventLogList : ENode
     public EventLogList(ECustomNode owner) : base(owner)
     { }
 
-    public int UpdateCount;
-    public NotifyEvent<object> OnChanged;
+    private int _updateCount;
+
+    public NotifyEvent<object> OnChanged { get; set; }
 
     // EventLog.pas:481
     public override void MainReadWrite(EStorageStream stream)
@@ -86,7 +87,7 @@ public partial class EventLogList : ENode
     // EventLog.pas:494
     public void Changed()
     {
-        if (UpdateCount == 0 && OnChanged != null)
+        if (_updateCount == 0 && OnChanged != null)
         {
             OnChanged(this);
         }
@@ -95,14 +96,14 @@ public partial class EventLogList : ENode
     // EventLog.pas:499
     public void BeginUpdate()
     {
-        UpdateCount += 1;
+        _updateCount += 1;
     }
 
     // EventLog.pas:502
     public void EndUpdate()
     {
-        UpdateCount -= 1;
-        if (UpdateCount == 0)
+        _updateCount -= 1;
+        if (_updateCount == 0)
         {
             Changed();
         }

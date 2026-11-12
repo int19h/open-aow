@@ -24,11 +24,11 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     public virtual byte ClassVersion() => ImageClass.ClassVersion;
     public virtual string Name() => ImageClass.Name;
 
-    internal CustomImageLibrary _owner;
-    internal bool _dataLoaded;
+    private CustomImageLibrary _owner;
+    private bool _dataLoaded;
     internal int _dataPosition;
     internal int _dataSize;
-    internal bool _reloadingEnabled;
+    private bool _reloadingEnabled;
     internal byte _version;
     internal LoadMode _loadMode;
     internal int _dataWidth;
@@ -208,10 +208,10 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         Stream stream;
         if (!_dataLoaded)
         {
-            stream = new FastLoadFileStream(_owner._loadedFileName);
+            stream = new FastLoadFileStream(_owner.LoadedFileName);
             try
             {
-                stream.Seek(_dataPosition + _owner._dataOffset, SeekOrigin.Begin);
+                stream.Seek(_dataPosition + _owner.DataOffset, SeekOrigin.Begin);
                 ReadDiscardableImageData(stream);
                 _dataLoaded = true;
             }
@@ -251,11 +251,11 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         ReadImageData(stream);
         if (_version >= 2)
         {
-            if (_loadMode == LoadMode.LoadAlways || _owner == null || !_owner._reloading || !_owner._status.Contains(ImageLibraryStatusElement.LoadingFromFile) || _dataPosition == -1)
+            if (_loadMode == LoadMode.LoadAlways || _owner == null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatusElement.LoadingFromFile) || _dataPosition == -1)
             {
                 if (_dataPosition != -1)
                 {
-                    dataStream.Position = _owner._dataOffset + _dataPosition;
+                    dataStream.Position = _owner.DataOffset + _dataPosition;
                     ReadDiscardableImageData(dataStream);
                 }
                 else
@@ -376,7 +376,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         if (_version < 2)
         {
             _dataPosition = (int)(stream.Position);
-            if (_loadMode == LoadMode.LoadAlways || _owner == null || !_owner._reloading || !_owner._status.Contains(ImageLibraryStatusElement.LoadingFromFile))
+            if (_loadMode == LoadMode.LoadAlways || _owner == null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatusElement.LoadingFromFile))
             {
                 ReadDiscardableImageData(stream);
                 _reloadingEnabled = false;
@@ -389,12 +389,12 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         }
         else
         {
-            if (_loadMode == LoadMode.LoadAlways || _owner == null || !_owner._reloading || !_owner._status.Contains(ImageLibraryStatusElement.LoadingFromFile) || _dataPosition == -1)
+            if (_loadMode == LoadMode.LoadAlways || _owner == null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatusElement.LoadingFromFile) || _dataPosition == -1)
             {
                 if (_dataPosition != -1)
                 {
                     P = (int)(stream.Position);
-                    stream.Position = _owner._dataOffset + _dataPosition;
+                    stream.Position = _owner.DataOffset + _dataPosition;
                     ReadDiscardableImageData(stream);
                     stream.Position = P;
                 }
@@ -602,7 +602,10 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     }
 
     public CustomImageLibrary Owner { get => _owner; set => SetOwner(value); }
-    public bool DataLoaded { get => _dataLoaded; }
+
+    protected void SetOwnerWithoutReloadCheck(CustomImageLibrary value) => _owner = value;
+
+    public bool DataLoaded { get => _dataLoaded; protected set => _dataLoaded = value; }
     public int DataPosition { get => _dataPosition; }
     public int DataSize { get => _dataSize; }
     public bool ReloadingEnabled { get => _reloadingEnabled; set => SetReloadingEnabled(value); }

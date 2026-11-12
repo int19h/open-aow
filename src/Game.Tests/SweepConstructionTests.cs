@@ -22,7 +22,7 @@ public sealed class SweepConstructionTests
     private sealed class SweepOwner : EngineFixture.Owner
     {
 
-        internal readonly List<string> Observations = [];
+        internal List<string> Observations { get; } = [];
 
         public override int AddChild(EngineObject child)
         {
@@ -40,13 +40,13 @@ public sealed class SweepConstructionTests
         private readonly AoWHSSet _previousSet = AoWHSSet.Current;
         private readonly GameEngine _previousEngine = GameTables.GameEngine;
         private readonly AoWHSMap _previousMap = AoWHSMap.Current;
-        internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
-        internal readonly MapObjectResourceList CombatResources = new MapObjectResourceList(null!);
+        private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
+        private readonly MapObjectResourceList _combatResources = new MapObjectResourceList(null!);
 
         internal Fixture()
         {
             Runtime.RandSeed = 123456789;
-            var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.CombatResources = CombatResources; });
+            var set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
             AoWHSSet.Current = set;
             GameTables.GameEngine = EngineFixture.Engine;
             AoWHSMap.Current = null!;
@@ -61,8 +61,8 @@ public sealed class SweepConstructionTests
             AoWHSSet.Current = _previousSet;
             GameTables.GameEngine = _previousEngine;
             AoWHSMap.Current = _previousMap;
-            CombatResources.Dispose();
-            Manager.Dispose();
+            _combatResources.Dispose();
+            _manager.Dispose();
         }
     }
 
@@ -88,10 +88,10 @@ public sealed class SweepConstructionTests
             if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
-                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
+                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
                     if (field.Name == "_engineClass") continue; // the descriptor cache is not constructor state
-                    string key = current.Name + "." + field.Name;
+                    string key = current.Name + "." + MemberNames.Of(field);
                     object? child = field.GetValue(item);
                     if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     fields[key] = State(child, path + "." + key);

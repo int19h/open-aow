@@ -32,28 +32,28 @@ public partial class AoWHSSet : HSSet
 {
     public new const int ClassId = 131088;
 
-    public CustomImageLibrary GeneralImages;
-    public CustomImageLibrary CursorImages;
-    public CustomImageLibrary CombatImages;
-    public RaceResourceList RaceResources;
-    public PadControl PadControl;
-    public UnitResourceList UnitResources;
-    public UnitGFXResourceList UnitGraphicsResources;
-    public HeroResourceList HeroResources;
-    public ItemGFXList ItemGraphicsResources;
-    public ItemLibraryManager ItemLibraries;
-    public HeroLibraryManager HeroLibraries;
-    public FaceResourceList FaceResources;
-    public FlagControl FlagControl;
-    public FireControl FireControl;
-    public AbilityControl AbilityControl;
-    public SpellControl SpellControl;
-    public MapObjectResourceList CombatResources;
-    public HexControl CombatHexes;
-    public RoadControl CombatRoads;
-    public ImageSequenceList ImageSequences;
-    public TextControl TextControl;
-    public int HssCrc;
+    public CustomImageLibrary GeneralImages { get; }
+    public CustomImageLibrary CursorImages { get; }
+    public CustomImageLibrary CombatImages { get; }
+    public RaceResourceList RaceResources { get; }
+    public PadControl PadControl { get; }
+    public UnitResourceList UnitResources { get; set; }
+    public UnitGFXResourceList UnitGraphicsResources { get; set; }
+    public HeroResourceList HeroResources { get; set; }
+    public ItemGFXList ItemGraphicsResources { get; }
+    public ItemLibraryManager ItemLibraries { get; }
+    public HeroLibraryManager HeroLibraries { get; }
+    public FaceResourceList FaceResources { get; }
+    public FlagControl FlagControl { get; }
+    public FireControl FireControl { get; }
+    public AbilityControl AbilityControl { get; set; }
+    public SpellControl SpellControl { get; }
+    public MapObjectResourceList CombatResources { get; set; }
+    public HexControl CombatHexes { get; }
+    public RoadControl CombatRoads { get; }
+    public ImageSequenceList ImageSequences { get; }
+    public TextControl TextControl { get; set; }
+    public int HssCrc { get; private set; }
 
     // Ability.PAS:74
     public override void Dispose()
@@ -165,7 +165,7 @@ public partial class AoWHSSet : HSSet
         ImageLibraryManager.ExecutePathSearch(GameTables.GameEngine.StartupDirectory + "IMAGES");
         SfxManager.ExecutePathSearch(GameTables.GameEngine.StartupDirectory + "SFX");
         ImageSequences = new ImageSequenceList(ImageLibraryManager, null);
-        var water = AbilityRules.TranslateResourceString(GameTables.s_waterText);
+        var water = AbilityRules.TranslateResourceString(GameTables.WaterText);
         TerrainTypes.Add(water);
         var translatedText = AbilityRules.TranslateResourceString(s_grassText);
         TerrainTypes.Add(translatedText);
@@ -179,13 +179,13 @@ public partial class AoWHSSet : HSSet
         TerrainTypes.Add(wasteland);
         var ice = AbilityRules.TranslateResourceString(s_iceText);
         TerrainTypes.Add(ice);
-        var earth = AbilityRules.TranslateResourceString(GameTables.s_earthText);
+        var earth = AbilityRules.TranslateResourceString(GameTables.EarthText);
         TerrainTypes.Add(earth);
         var rock = AbilityRules.TranslateResourceString(s_rockText);
         TerrainTypes.Add(rock);
         var lava = AbilityRules.TranslateResourceString(s_lavaText);
         TerrainTypes.Add(lava);
-        var waterText = AbilityRules.TranslateResourceString(GameTables.s_waterText);
+        var waterText = AbilityRules.TranslateResourceString(GameTables.WaterText);
         TerrainTypes.Add(waterText);
         var reserved = AbilityRules.TranslateResourceString(s_reservedText);
         TerrainTypes.Add(reserved);
@@ -197,11 +197,11 @@ public partial class AoWHSSet : HSSet
         TerrainTypes.Add(coast);
         var border = AbilityRules.TranslateResourceString(s_borderText);
         TerrainTypes.Add(border);
-        var mountain = AbilityRules.TranslateResourceString(GameText.s_mountainText);
+        var mountain = AbilityRules.TranslateResourceString(GameText.MountainText);
         OverlayTypes.Add(mountain);
         var denseVegetation = AbilityRules.TranslateResourceString(s_denseVegetationText);
         OverlayTypes.Add(denseVegetation);
-        var hill = AbilityRules.TranslateResourceString(GameText.s_hillText);
+        var hill = AbilityRules.TranslateResourceString(GameText.HillText);
         OverlayTypes.Add(hill);
         var vegetation = AbilityRules.TranslateResourceString(s_vegetationText);
         OverlayTypes.Add(vegetation);
@@ -211,15 +211,15 @@ public partial class AoWHSSet : HSSet
         OverlayTypes.Add(bridge);
         var rubble = AbilityRules.TranslateResourceString(s_rubbleText);
         OverlayTypes.Add(rubble);
-        var structure = AbilityRules.TranslateResourceString(GameText.s_structureText);
+        var structure = AbilityRules.TranslateResourceString(GameText.StructureText);
         OverlayTypes.Add(structure);
-        var obstacle = AbilityRules.TranslateResourceString(GameText.s_obstacleText);
+        var obstacle = AbilityRules.TranslateResourceString(GameText.ObstacleText);
         OverlayTypes.Add(obstacle);
         var lightVegetation = AbilityRules.TranslateResourceString(s_lightVegetationText);
         OverlayTypes.Add(lightVegetation);
         var solid = AbilityRules.TranslateResourceString(s_solidText);
         OverlayTypes.Add(solid);
-        var none = AbilityRules.TranslateResourceString(GameTables.s_noneText);
+        var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
         DecorationTypes.Add(none);
         var rocks = AbilityRules.TranslateResourceString(s_rocksText);
         DecorationTypes.Add(rocks);
@@ -375,6 +375,6 @@ public partial class AoWHSSet : HSSet
 
     private static readonly string s_gamePackLoadedText = "Game Pack Loaded";
 
-    public static AoWHSSet Current;
+    public static AoWHSSet Current { get; set; }
 
 }

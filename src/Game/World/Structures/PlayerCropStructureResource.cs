@@ -15,7 +15,7 @@ public partial class PlayerCropStructureResource : PlayerStructureResource
     // Crops.pas:599
     public new const int ClassId = 131919;
 
-    public UInt16List CropLocations;
+    public UInt16List CropLocations { get; private set; }
 
     // Crops.pas:592
     public override void Dispose()

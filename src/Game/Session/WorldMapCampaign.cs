@@ -18,8 +18,9 @@ public partial class WorldMapCampaign : Campaign
     public new const int ClassId = 2248704;
 
     public int Faction;
-    public int State;
-    public int Page;
+
+    public int State { get; set; }
+    public int Page { get; set; }
 
     // AoWVideoDlg.pas:337
     public override void ReadWrite(EStorageStream stream)

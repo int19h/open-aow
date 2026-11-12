@@ -29,19 +29,23 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     // AoWTC.pas:3348
     public new const int ClassId = 2228484;
 
-    public TacticalBattleUnit Unit;
-    public short MoveIndicator;
-    public short IndicatorStep;
-    public SpriteAction Action;
-    public bool ActionDone;
-    public short ActionFrame;
+    public TacticalBattleUnit Unit { get; set; }
+
+    private short _moveIndicator;
+    private short _indicatorStep;
+
+    public SpriteAction Action { get; private set; }
+    public bool ActionDone { get; private set; }
+    public short ActionFrame { get; private set; }
+
     public int OffsetX;
     public int OffsetY;
-    public int SelectedAbility;
-    public int SelectedSpell;
-    public int CombatAbilityCount;
-    public List<CombatAbilityRef> Abilities;
-    public bool Busy;
+
+    public int SelectedAbility { get; set; }
+    public int SelectedSpell { get; set; }
+    public int CombatAbilityCount { get; private set; }
+    public List<CombatAbilityRef> Abilities { get; private set; }
+    public bool Busy { get; set; }
 
     // AoWTC.pas:3566
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -660,7 +664,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
 
         CombatMap.Current.UnitSelection.RangedPath.Clear();
         CombatMap.Current.UnitSelection.UpdateMoveCursor();
-        CombatMap.Current._unitChangedEventsStore.Raise(this);
+        CombatMap.Current.UnitChangedEventsStore.Raise(this);
         return result;
     }
 
@@ -708,7 +712,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         }
 
         CombatMap.Current.UnitSelection.UpdateMoveCursor();
-        CombatMap.Current._unitChangedEventsStore.Raise(this);
+        CombatMap.Current.UnitChangedEventsStore.Raise(this);
         return result;
     }
 

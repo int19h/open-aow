@@ -21,8 +21,8 @@ public partial class GameOverEventLog : EventLog
     // EventLog.pas:777
     public new const int ClassId = 131812;
 
-    public StringList Message;
-    public sbyte TargetPlayer;
+    public StringList Message { get; }
+    public sbyte TargetPlayer { get; set; }
 
     // EventLog.pas:774
     public override void Dispose()

@@ -11,8 +11,7 @@ namespace Aow.Game.Tests;
 [EngineState]
 public sealed class StorageStreamConstructionTests
 {
-    private static T Field<T>(object value, string name) => (T)value.GetType()
-        .GetField(name, BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(value)!;
+    private static T Field<T>(object value, string name) => (T)MemberNames.Field(value.GetType(), name)!.GetValue(value)!;
 
     private sealed class StoredObject() : EngineObject(null!)
     {

@@ -19,7 +19,8 @@ public partial class CommandAbilityData : AbilityData
     }
 
     public int AbilityId;
-    public ByteList CommandedUnits;
+
+    public ByteList CommandedUnits { get; }
 
     // AoWAb.PAS:4954
     public override void Dispose()

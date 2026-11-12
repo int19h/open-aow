@@ -17,8 +17,8 @@ namespace Aow.Game.Magic.Spells;
 // targeting storm, caster
 public partial class StormSpell : Spell
 {
-    public Storm TargetStorm;
-    public Troop Source;
+    private Storm _targetStorm;
+    private Troop _source;
 
     // Storms.pas:762
     public StormSpell(ECustomNode owner) : base(owner)
@@ -108,7 +108,7 @@ public partial class StormSpell : Spell
             if (L != 0)
             {
                 result = false;
-                messageText = AbilityRules.TranslateResourceString(GameText.s_cannotCastSpellInUndergroundText);
+                messageText = AbilityRules.TranslateResourceString(GameText.CannotCastSpellInUndergroundText);
             }
         }
 
@@ -127,28 +127,28 @@ public partial class StormSpell : Spell
         base.Activate(source);
         if (CanActivate(source, ref reason))
         {
-            Source = source;
+            _source = source;
             source.GetLocation(ref X, ref Y, ref L);
             selection = AoWHSMap.Current.TargetSelection;
-            TargetStorm = CreateStorm();
+            _targetStorm = CreateStorm();
             selection.Initialize(this);
             selection.TargetMode = selection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
             selection.SourceX = X;
             selection.SourceY = Y;
             selection.SourceL = L;
             AoWHSMap.Current.MakeVisible(X, Y, L, 5);
-            var name = TargetStorm.Name();
-            var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_selectTargetLocationForOnMapFormat), [name]);
+            var name = _targetStorm.Name();
+            var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.SelectTargetLocationForOnMapFormat), [name]);
             selection.Text.Text = format;
             selection.Title = SpellName;
-            selection.CancelText = AbilityRules.TranslateResourceString(GameText.s_cancelText);
+            selection.CancelText = AbilityRules.TranslateResourceString(GameText.CancelText);
             selection.Range = 12;
             selection.FOnChange += OnTargetSelectionChange;
             selection.SourceImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
             selection.ValidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
             selection.InvalidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
             selection.Activate();
-            TargetStorm.UpdateTargetSelection(AoWHSMap.Current.TargetSelection);
+            _targetStorm.UpdateTargetSelection(AoWHSMap.Current.TargetSelection);
             result = true;
         }
         else
@@ -234,19 +234,19 @@ public partial class StormSpell : Spell
         switch (selection.Change)
         {
             case TargetSelectionChange.Deactivated:
-                TargetStorm?.Dispose();
-                TargetStorm = null;
+                _targetStorm?.Dispose();
+                _targetStorm = null;
                 selection.FOnChange -= OnTargetSelectionChange;
                 break;
             case TargetSelectionChange.Selected:
                 selection.FOnChange -= OnTargetSelectionChange;
-                if (ExecuteStormSpell(Source, selection.TargetX, selection.TargetY, selection.TargetL))
+                if (ExecuteStormSpell(_source, selection.TargetX, selection.TargetY, selection.TargetL))
                 {
                     selection.Deactivate();
                 }
 
-                TargetStorm?.Dispose();
-                TargetStorm = null;
+                _targetStorm?.Dispose();
+                _targetStorm = null;
                 break;
         }
     }

@@ -22,7 +22,7 @@ public partial class DispelMagicAbility : TouchAbility
     public DispelMagicAbility(ECustomNode owner) : base(owner)
     {
         AbilityId = 60;
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_dispelMagicText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.DispelMagicText);
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
         AbilityType = AbilityType.Enhancement;
     }
@@ -33,7 +33,7 @@ public partial class DispelMagicAbility : TouchAbility
         string result = GetLevelName(GetLevel(owner));
         if (owner != null && !GetEnabled(owner))
         {
-            result = result + " (" + LowerCase(AbilityRules.TranslateResourceString(GameText.s_usedText)) + ")";
+            result = result + " (" + LowerCase(AbilityRules.TranslateResourceString(GameText.UsedText)) + ")";
         }
 
         return result;
@@ -172,8 +172,8 @@ public partial class DispelMagicAbility : TouchAbility
             }
 
             selector = new DispelMagicAbilityUnitSelector();
-            var dispelMagic = AbilityRules.TranslateResourceString(GameText.s_dispelMagicText);
-            selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_selectUnitFormat), [dispelMagic]);
+            var dispelMagic = AbilityRules.TranslateResourceString(GameText.DispelMagicText);
+            selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.SelectUnitFormat), [dispelMagic]);
             if (troop != null)
             {
                 if (troop.Owner is HeroList)
@@ -190,7 +190,7 @@ public partial class DispelMagicAbility : TouchAbility
 
             info.SetUnitSelector(selector);
             selector.Release();
-            AoWHSMap.Current._onActivateAbilityStore.Raise(info);
+            AoWHSMap.Current.OnActivateAbilityStore.Raise(info);
             info.Release();
             result = true;
         }
@@ -401,16 +401,16 @@ public partial class DispelMagicAbility : TouchAbility
         switch (level)
         {
             case 0:
-                result = AbilityRules.TranslateResourceString(GameText.s_dispelMagicText);
+                result = AbilityRules.TranslateResourceString(GameText.DispelMagicText);
                 break;
             case 1:
-                result = AbilityRules.TranslateResourceString(GameText.s_dispelMagicText) + " I";
+                result = AbilityRules.TranslateResourceString(GameText.DispelMagicText) + " I";
                 break;
             case 2:
-                result = AbilityRules.TranslateResourceString(GameText.s_dispelMagicText) + " II";
+                result = AbilityRules.TranslateResourceString(GameText.DispelMagicText) + " II";
                 break;
             case 3:
-                result = AbilityRules.TranslateResourceString(GameText.s_dispelMagicText) + " III";
+                result = AbilityRules.TranslateResourceString(GameText.DispelMagicText) + " III";
                 break;
         }
 

@@ -20,8 +20,8 @@ public partial class Picture16 : Image16, ILibraryImageClass
     public Picture16(CustomImageLibrary owner) : base(owner)
     { }
 
-    internal int _pitch;
-    internal byte[] _buffer;
+    private int _pitch;
+    private byte[] _buffer;
 
     // The rows of the picture: FBuffer from its first byte, FPitch bytes apart.
     internal SurfaceView View => new(_buffer, 0, _pitch);
@@ -96,10 +96,10 @@ public partial class Picture16 : Image16, ILibraryImageClass
     // ImageLib.pas:2219
     public override void ReleaseDiscardableImageData()
     {
-        if (_dataLoaded)
+        if (DataLoaded)
         {
             _buffer = null;
-            _dataLoaded = false;
+            DataLoaded = false;
         }
     }
 
@@ -138,7 +138,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
         {
             Clear();
             result = true;
-            _dataLoaded = true;
+            DataLoaded = true;
             _dataWidth = R.Right - R.Left;
             _dataHeight = R.Bottom - R.Top;
             _width = _dataWidth;
@@ -196,7 +196,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                     break;
             }
 
-            _pixelFormatId = _storedPixelFormatId;
+            PixelFormatId = _storedPixelFormatId;
         }
         catch
         {
@@ -211,17 +211,17 @@ public partial class Picture16 : Image16, ILibraryImageClass
     public override int RemapToPixelFormat(int pixelFormatId)
     {
         int result = 0;
-        if (pixelFormatId != _pixelFormatId)
+        if (pixelFormatId != PixelFormatId)
         {
             switch (pixelFormatId)
             {
                 case PixelFormats.pfRGB565:
                     PixelRemap.RemapSurface555To565(View, View, _dataWidth, _dataHeight);
-                    _pixelFormatId = PixelFormats.pfRGB565;
+                    PixelFormatId = PixelFormats.pfRGB565;
                     break;
                 case PixelFormats.pfRGB555:
                     PixelRemap.RemapSurface565To555(View, View, _dataWidth, _dataHeight);
-                    _pixelFormatId = PixelFormats.pfRGB555;
+                    PixelFormatId = PixelFormats.pfRGB555;
                     break;
                 default:
                     result = PixelFormats.GFXE_NOTSUPPORTED;
@@ -287,12 +287,12 @@ public partial class Picture16 : Image16, ILibraryImageClass
 
             if (H > 0)
             {
-                if (!_dataLoaded)
+                if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
                     source = View.At(sx * 2 + sy * _pitch);
                     destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
-                    if (lockedSurface.PixelFormatId == _pixelFormatId)
+                    if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         BlitRects.BlitRectangle(source, destination, W * 2, H);
                     }
@@ -315,7 +315,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                 {
                     source = View.At(sx * 2 + sy * _pitch);
                     destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
-                    if (lockedSurface.PixelFormatId == _pixelFormatId)
+                    if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         BlitRects.BlitRectangle(source, destination, W * 2, H);
                     }
@@ -388,16 +388,16 @@ public partial class Picture16 : Image16, ILibraryImageClass
 
             if (H > 0)
             {
-                if (!_dataLoaded)
+                if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
                     source = View.At(sx * 2 + sy * _pitch);
                     destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
-                    if (lockedSurface.PixelFormatId == _pixelFormatId)
+                    if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         if (table.Bits == 5)
                         {
-                            switch (_pixelFormatId)
+                            switch (PixelFormatId)
                             {
                                 case PixelFormats.pfRGB565:
                                     BlendSurface565(source, destination, W, H, ((BlendTable5Bit)table).Bytes);
@@ -421,7 +421,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
 
                         if (table.Bits == 5)
                         {
-                            switch (_pixelFormatId)
+                            switch (PixelFormatId)
                             {
                                 case PixelFormats.pfRGB565:
                                     BlendSurface565(source, destination, W, H, ((BlendTable5Bit)table).Bytes);
@@ -446,11 +446,11 @@ public partial class Picture16 : Image16, ILibraryImageClass
                 {
                     source = View.At(sx * 2 + sy * _pitch);
                     destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
-                    if (lockedSurface.PixelFormatId == _pixelFormatId)
+                    if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         if (table.Bits == 5)
                         {
-                            switch (_pixelFormatId)
+                            switch (PixelFormatId)
                             {
                                 case PixelFormats.pfRGB565:
                                     BlendSurface565(source, destination, W, H, ((BlendTable5Bit)table).Bytes);
@@ -474,7 +474,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
 
                         if (table.Bits == 5)
                         {
-                            switch (_pixelFormatId)
+                            switch (PixelFormatId)
                             {
                                 case PixelFormats.pfRGB565:
                                     BlendSurface565(source, destination, W, H, ((BlendTable5Bit)table).Bytes);
@@ -549,14 +549,14 @@ public partial class Picture16 : Image16, ILibraryImageClass
 
             if (H > 0)
             {
-                if (!_dataLoaded)
+                if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
                     source = View.At(sx * 2 + sy * _pitch);
                     destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
-                    if (lockedSurface.PixelFormatId == _pixelFormatId)
+                    if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        if (_pixelFormatId == PixelFormats.pfRGB565)
+                        if (PixelFormatId == PixelFormats.pfRGB565)
                         {
                             BlitTransparent565(source, destination, W, H);
                         }
@@ -572,7 +572,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        if (_pixelFormatId == PixelFormats.pfRGB565)
+                        if (PixelFormatId == PixelFormats.pfRGB565)
                         {
                             BlitTransparent565(source, destination, W, H);
                         }
@@ -591,9 +591,9 @@ public partial class Picture16 : Image16, ILibraryImageClass
                 {
                     source = View.At(sx * 2 + sy * _pitch);
                     destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
-                    if (lockedSurface.PixelFormatId == _pixelFormatId)
+                    if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        if (_pixelFormatId == PixelFormats.pfRGB565)
+                        if (PixelFormatId == PixelFormats.pfRGB565)
                         {
                             BlitTransparent565(source, destination, W, H);
                         }
@@ -609,7 +609,7 @@ public partial class Picture16 : Image16, ILibraryImageClass
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        if (_pixelFormatId == PixelFormats.pfRGB565)
+                        if (PixelFormatId == PixelFormats.pfRGB565)
                         {
                             BlitTransparent565(source, destination, W, H);
                         }

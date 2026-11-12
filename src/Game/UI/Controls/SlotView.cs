@@ -14,6 +14,6 @@ internal abstract class SlotView<TOwner, TEvent>(TOwner owner, TEvent typed)
     where TOwner : class
     where TEvent : class, Delegate
 {
-    internal readonly TOwner Owner = owner;
-    internal readonly TEvent Typed = typed;
+    internal TOwner Owner { get; } = owner;
+    internal TEvent Typed { get; } = typed;
 }

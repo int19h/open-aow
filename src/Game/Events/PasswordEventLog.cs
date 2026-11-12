@@ -17,10 +17,10 @@ public partial class PasswordEventLog : EventLog
         PressedButton = PressedEventLogButton.None;
     }
 
-    public string Password = "";
-    public string Title = "";
-    public string Prompt = "";
-    public PressedEventLogButton PressedButton;
+    public string Password { get; set; } = "";
+    public string Title { get; set; } = "";
+    public string Prompt { get; set; } = "";
+    public PressedEventLogButton PressedButton { get; set; }
 
     private static readonly string s_enterPasswordText = "Enter password:";
     private static readonly string s_passwordVerificationText = "Password Verification";

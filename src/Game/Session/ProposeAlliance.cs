@@ -17,12 +17,12 @@ public sealed partial record ProposeAlliance(int Gold = 0, int Mana = 0) : Offer
 
     public override int Icon => 10;
 
-    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(s_proposeAllianceText);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(ProposeAllianceText);
 
     public override string LogText(DiplomaticAction action)
     {
-        var subject = AbilityRules.TranslateResourceString(s_allianceProposalText);
-        var accepted = action.Source == AoWHSMap.Current.SeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateResourceString(s_madeAllianceText);
+        var subject = AbilityRules.TranslateResourceString(AllianceProposalText);
+        var accepted = action.Source == AoWHSMap.Current.SeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateResourceString(MadeAllianceText);
         return Outcome(action, subject, subject, accepted, subject);
     }
 
@@ -92,7 +92,7 @@ public sealed partial record ProposeAlliance(int Gold = 0, int Mana = 0) : Offer
         return 0;
     }
 
-    internal static readonly string s_proposeAllianceText = "Propose alliance";
-    internal static readonly string s_allianceProposalText = "Alliance proposal";
-    internal static readonly string s_madeAllianceText = "Made alliance";
+    internal static string ProposeAllianceText { get; } = "Propose alliance";
+    internal static string AllianceProposalText { get; } = "Alliance proposal";
+    internal static string MadeAllianceText { get; } = "Made alliance";
 }

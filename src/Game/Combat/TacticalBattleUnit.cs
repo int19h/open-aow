@@ -21,12 +21,12 @@ public partial class TacticalBattleUnit : CombatUnit
     public TacticalBattleUnit(ECustomNode owner) : base(owner)
     { }
 
-    public int MovePoints;
-    public TacticalBattleUnitHexSprite UnitHexSprite;
-    public byte PositionIndex;
-    public byte PositionGroup;
-    public bool CanFlee;
-    public TacticalBattleUnitDeathMethod DeathMethod;
+    public int MovePoints { get; set; }
+    public TacticalBattleUnitHexSprite UnitHexSprite { get; set; }
+    public byte PositionIndex { get; set; }
+    public byte PositionGroup { get; set; }
+    public bool CanFlee { get; set; }
+    public TacticalBattleUnitDeathMethod DeathMethod { get; set; }
 
     // AoWTC.pas:2626
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -251,7 +251,7 @@ public partial class TacticalBattleUnit : CombatUnit
             EffectPaths.CreateFire(false, 50, UnitHexSprite.GetHexX(), hexY);
         }
 
-        CombatMap.Current._unitChangedEventsStore.Raise(UnitHexSprite);
+        CombatMap.Current.UnitChangedEventsStore.Raise(UnitHexSprite);
     }
 
     internal static void MakeHitBlood(TacticalBattleUnit unitObject, int damage)

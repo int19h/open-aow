@@ -22,23 +22,25 @@ public partial class Race : EngineObject
     // Ability.PAS:212
     public Race(ECustomNode owner) : base(owner)
     {
-        PlayerRelations = new Int32List();
+        _playerRelations = new Int32List();
         DefaultRelations = new ByteList();
         RaceIndex = -1;
         Enabled = false;
     }
 
     public sbyte RaceIndex;
-    public ByteList DefaultRelations;
+
+    public ByteList DefaultRelations { get; }
+
     // TStatus values
-    public Int32List PlayerRelations;
+    private Int32List _playerRelations;
     public bool Enabled;
 
     // Ability.PAS:221
     public override void Dispose()
     {
         SetEnabled(false);
-        PlayerRelations?.Dispose();
+        _playerRelations?.Dispose();
         DefaultRelations?.Dispose();
         base.Dispose();
     }
@@ -49,7 +51,7 @@ public partial class Race : EngineObject
         bool enabled = default;
         base.ReadWrite(stream);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref RaceIndex), 2);
-        stream.rwStreamProc(3, PlayerRelations.LoadFromStream, PlayerRelations.SaveToStream);
+        stream.rwStreamProc(3, _playerRelations.LoadFromStream, _playerRelations.SaveToStream);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             // { Original leaves this local uninitialized if property 4 is absent. }
@@ -90,7 +92,7 @@ public partial class Race : EngineObject
         }
         else
         {
-            result = PlayerRelations[player - 1];
+            result = _playerRelations[player - 1];
         }
 
         return result + ((RaceList)Owner).RelationOffset;
@@ -108,7 +110,7 @@ public partial class Race : EngineObject
         }
         else
         {
-            result = StatusValueToStatus(PlayerRelations[player - 1] + AoWHSMap.Current.Races.RelationOffset);
+            result = StatusValueToStatus(_playerRelations[player - 1] + AoWHSMap.Current.Races.RelationOffset);
         }
 
         return result;
@@ -120,7 +122,7 @@ public partial class Race : EngineObject
         if (player > 0)
         {
             // { Original dereferences AoWHSMap before the nil check below. }
-            PlayerRelations[player - 1] = value - AoWHSMap.Current.Races.RelationOffset;
+            _playerRelations[player - 1] = value - AoWHSMap.Current.Races.RelationOffset;
             if (AoWHSMap.Current != null)
             {
                 AoWHSMap.Current.TriggerRelationsChanged();
@@ -134,7 +136,7 @@ public partial class Race : EngineObject
         int result;
         if (player > 0)
         {
-            result = PlayerRelations[player - 1] + AoWHSMap.Current.Races.RelationOffset;
+            result = _playerRelations[player - 1] + AoWHSMap.Current.Races.RelationOffset;
         }
         else
         {
@@ -150,7 +152,7 @@ public partial class Race : EngineObject
         Status result;
         if (player > 0)
         {
-            result = StatusValueToStatus(PlayerRelations[player - 1] + AoWHSMap.Current.Races.RelationOffset);
+            result = StatusValueToStatus(_playerRelations[player - 1] + AoWHSMap.Current.Races.RelationOffset);
         }
         else
         {
@@ -168,27 +170,27 @@ public partial class Race : EngineObject
         {
             if ((AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments & Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.Hatred, GlobalEnchantmentType.Harmony)) == Set<GlobalEnchantmentType>.Of())
             {
-                for (int I = 0, last = PlayerRelations.Count - 1; I <= last; I++)
+                for (int I = 0, last = _playerRelations.Count - 1; I <= last; I++)
                 {
                     var players = AoWHSMap.Current.Players.GetPlayers(I + 1);
                     defaultValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
-                    if (PlayerRelations[I] > defaultValue)
+                    if (_playerRelations[I] > defaultValue)
                     {
-                        var item = PlayerRelations[I];
-                        PlayerRelations[I] = item - 1;
-                        if (PlayerRelations[I] < defaultValue)
+                        var item = _playerRelations[I];
+                        _playerRelations[I] = item - 1;
+                        if (_playerRelations[I] < defaultValue)
                         {
-                            PlayerRelations[I] = defaultValue;
+                            _playerRelations[I] = defaultValue;
                         }
                     }
 
-                    if (PlayerRelations[I] < defaultValue)
+                    if (_playerRelations[I] < defaultValue)
                     {
-                        var item = PlayerRelations[I];
-                        PlayerRelations[I] = item + 1;
-                        if (PlayerRelations[I] > defaultValue)
+                        var item = _playerRelations[I];
+                        _playerRelations[I] = item + 1;
+                        if (_playerRelations[I] > defaultValue)
                         {
-                            PlayerRelations[I] = defaultValue;
+                            _playerRelations[I] = defaultValue;
                         }
                     }
                 }
@@ -232,12 +234,12 @@ public partial class Race : EngineObject
     // Ability.PAS:317
     public void ResetPlayerRelations()
     {
-        PlayerRelations.Clear();
+        _playerRelations.Clear();
         for (int I = 1, last = AoWHSMap.Current.Players.GetCount() - 1; I <= last; I++)
         {
             var players = AoWHSMap.Current.Players.GetPlayers(I);
             var statusToStatusValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
-            PlayerRelations.Add(statusToStatusValue);
+            _playerRelations.Add(statusToStatusValue);
         }
     }
 

@@ -110,7 +110,7 @@ public partial class ResurrectHero : Spell
             }
             else
             {
-                var noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GameText.s_noHeroAnswersYourCallText);
+                var noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GameText.NoHeroAnswersYourCallText);
                 AoWHSMap.Current.ShowMessage(noHeroAnswersYourCall);
             }
 

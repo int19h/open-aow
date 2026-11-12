@@ -16,14 +16,14 @@ public partial class HeroLibrary : HeroList
     { }
 
     public string LibraryName = "";
-    public int NextLibraryId;
+    private int _nextLibraryId;
 
     // Hero.PAS:2639
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
         stream.rwString(ref LibraryName, 20);
-        stream.rwInteger(ref NextLibraryId, 21);
+        stream.rwInteger(ref _nextLibraryId, 21);
     }
 
     // Hero.PAS:2592
@@ -52,19 +52,19 @@ public partial class HeroLibrary : HeroList
         do
         {
             I = 0;
-            NextLibraryId += 1;
-            if (NextLibraryId > 268435455)
+            _nextLibraryId += 1;
+            if (_nextLibraryId > 268435455)
             {
-                NextLibraryId = 0;
+                _nextLibraryId = 0;
             }
 
-            while (I != _children.Count && ((Hero)_children.List[I]).LibraryId != NextLibraryId)
+            while (I != _children.Count && ((Hero)_children.List[I]).LibraryId != _nextLibraryId)
             {
                 I += 1;
             }
         }
         while (!(I == _children.Count));
-        return NextLibraryId;
+        return _nextLibraryId;
     }
 
     // Hero.PAS:2602
@@ -86,7 +86,7 @@ public partial class HeroLibrary : HeroList
         string result = LibraryName;
         if (IsEmpty(result))
         {
-            result = AbilityRules.TranslateResourceString(GameText.s_systemText);
+            result = AbilityRules.TranslateResourceString(GameText.SystemText);
         }
 
         return result;

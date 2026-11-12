@@ -30,14 +30,18 @@ public partial class CombatUnitSelectionControl : MoveSelector
         TargetImages = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TargHex.ILB");
     }
 
-    public Set<PathKind> PathInvalid;
-    public CustomImageLibrary TargetImages;
-    public RangedPathHexSprite RangedPathHexSprite;
-    public int TargetX;
-    public int TargetY;
-    public ushort CursorImage;
-    public ushort CursorFrame;
-    public HexSprite MouseOverTarget;
+    private Set<PathKind> _pathInvalid;
+
+    public CustomImageLibrary TargetImages { get; }
+    public RangedPathHexSprite RangedPathHexSprite { get; }
+
+    private int _targetX;
+    private int _targetY;
+    private ushort _cursorImage;
+    private ushort _cursorFrame;
+
+    public HexSprite MouseOverTarget { get; private set; }
+
     public Point3DList RangedPath;
     public DelphiList Obstacles;
 
@@ -318,11 +322,11 @@ public partial class CombatUnitSelectionControl : MoveSelector
         unitHexSprite = (TacticalBattleUnitHexSprite)moveSettings.MoveObject;
         if (GetTacticalBattleUnitHexSprite() != null && (GetTacticalBattleUnitHexSprite().SelectedAbility == 117 || GetTacticalBattleUnitHexSprite().SelectedAbility == 65))
         {
-            ((CombatMoveControlSettings)MoveControlSettings).MoveFlags = Set<CombatMoveModeElement>.FromMask((byte)PathInvalid.Image) + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Climbing);
+            ((CombatMoveControlSettings)MoveControlSettings).MoveFlags = Set<CombatMoveModeElement>.FromMask((byte)_pathInvalid.Image) + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Climbing);
         }
         else
         {
-            ((CombatMoveControlSettings)MoveControlSettings).MoveFlags = Set<CombatMoveModeElement>.FromMask((byte)PathInvalid.Image);
+            ((CombatMoveControlSettings)MoveControlSettings).MoveFlags = Set<CombatMoveModeElement>.FromMask((byte)_pathInvalid.Image);
         }
 
         MoveControlSettings.Reset();
@@ -436,11 +440,11 @@ public partial class CombatUnitSelectionControl : MoveSelector
 
         if (unitHexSprite.SelectedAbility > -1)
         {
-            CursorFrame = (ushort)(CursorFrame + 1);
-            if (CursorFrame >= 5)
+            _cursorFrame = (ushort)(_cursorFrame + 1);
+            if (_cursorFrame >= 5)
             {
-                CursorFrame = 0;
-                CursorImage = (ushort)(CursorImage + 1);
+                _cursorFrame = 0;
+                _cursorImage = (ushort)(_cursorImage + 1);
             }
 
             if (unitHexSprite.SelectedAbility == 52)
@@ -456,9 +460,9 @@ public partial class CombatUnitSelectionControl : MoveSelector
 
             if (targetHexSprite == null || (targetHexSprite == unitHexSprite && !targets.Contains(CombatTargetTypeElement.Friend)))
             {
-                if (CursorImage < 85 || CursorImage > 88)
+                if (_cursorImage < 85 || _cursorImage > 88)
                 {
-                    CursorImage = 85;
+                    _cursorImage = 85;
                 }
             }
             else
@@ -467,34 +471,34 @@ public partial class CombatUnitSelectionControl : MoveSelector
                 {
                     if ((targets.Contains(CombatTargetTypeElement.Friend) && unitHexSprite.Unit.GetSide() == targetHexSprite.Unit.GetSide() || targets.Contains(CombatTargetTypeElement.Enemy) && unitHexSprite.Unit.GetSide() != targetHexSprite.Unit.GetSide()) && ((TouchAbility)AoWHSSet.Current.AbilityControl.GetAbility(unitHexSprite.SelectedAbility)).CanTouch(unitHexSprite.Unit, targetHexSprite.Unit))
                     {
-                        if (CursorImage < 105 || CursorImage > 107)
+                        if (_cursorImage < 105 || _cursorImage > 107)
                         {
-                            CursorImage = 105;
+                            _cursorImage = 105;
                         }
                     }
                     else
                     {
-                        CursorImage = 89;
+                        _cursorImage = 89;
                     }
                 }
                 else
                 {
                     if (targets.Contains(CombatTargetTypeElement.Friend) && unitHexSprite.Unit.GetSide() == targetHexSprite.Unit.GetSide() || targets.Contains(CombatTargetTypeElement.Enemy) && unitHexSprite.Unit.GetSide() != targetHexSprite.Unit.GetSide())
                     {
-                        if (CursorImage < 80 || CursorImage > 83)
+                        if (_cursorImage < 80 || _cursorImage > 83)
                         {
-                            CursorImage = 80;
+                            _cursorImage = 80;
                         }
                     }
                     else
                     {
-                        CursorImage = 89;
+                        _cursorImage = 89;
                     }
                 }
             }
 
             CombatMap.Current.Mouse.CursorMode = 256;
-            CombatMap.Current.Mouse.Cursor = CursorImage;
+            CombatMap.Current.Mouse.Cursor = _cursorImage;
         }
         else
         {
@@ -512,9 +516,9 @@ public partial class CombatUnitSelectionControl : MoveSelector
                     }
                     else
                     {
-                        CursorImage = 89;
+                        _cursorImage = 89;
                         CombatMap.Current.Mouse.CursorMode = 256;
-                        CombatMap.Current.Mouse.Cursor = CursorImage;
+                        CombatMap.Current.Mouse.Cursor = _cursorImage;
                     }
                 }
             }
@@ -777,7 +781,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                     {
                         RangedPath.Clear();
                         MouseOverTarget = null;
-                        CombatMap.Current._mouseOverTargetEventsStore.Raise(MouseOverTarget);
+                        CombatMap.Current.MouseOverTargetEventsStore.Raise(MouseOverTarget);
                     }
                 }
                 else
@@ -856,8 +860,8 @@ public partial class CombatUnitSelectionControl : MoveSelector
             {
                 // { Original retains this unused with temporary. }
                 GetTacticalBattleUnitHexSprite();
-                TargetX = X;
-                TargetY = Y;
+                _targetX = X;
+                _targetY = Y;
                 var yhx = unitHexSprite.GetHexY();
                 direction = HexGeometry.DeltaHexToHexNumber(unitHexSprite.GetHexX(), yhx, X, Y);
                 hexX = X;
@@ -1174,19 +1178,19 @@ public partial class CombatUnitSelectionControl : MoveSelector
                     if (condition)
                     {
                         var hexX = CombatMap.Current.Mouse.HexX;
-                        condition = TargetX == hexX;
+                        condition = _targetX == hexX;
                     }
 
                     bool test = condition;
                     if (test)
                     {
                         var hexY = CombatMap.Current.Mouse.HexY;
-                        test = TargetY == hexY;
+                        test = _targetY == hexY;
                     }
 
                     if (test)
                     {
-                        if (unitHexSprite.AbilityRangedTacticalBattle((ushort)TargetX, (ushort)TargetY))
+                        if (unitHexSprite.AbilityRangedTacticalBattle((ushort)_targetX, (ushort)_targetY))
                         {
                             RangedPath.Clear();
                             UpdateMoveCursor();
@@ -1267,7 +1271,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                                                 var mouseHexY = CombatMap.Current.Mouse.HexY;
                                                 var hexX = CombatMap.Current.Mouse.HexX;
                                                 MouseOverTarget = (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, mouseHexY].FindOwnedChild(2228484);
-                                                CombatMap.Current._mouseOverTargetEventsStore.Raise(MouseOverTarget);
+                                                CombatMap.Current.MouseOverTargetEventsStore.Raise(MouseOverTarget);
                                             }
                                         }
 
@@ -1318,7 +1322,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
             GetTacticalBattleUnitHexSprite().Unit.Troop.CreateMovePointTable(ref MoveControlSettings.MovePointTable);
         }
 
-        PathInvalid = Set<PathKind>.Of(PathKind.Ranged);
+        _pathInvalid = Set<PathKind>.Of(PathKind.Ranged);
     }
 
     // AoWTC.pas:3300

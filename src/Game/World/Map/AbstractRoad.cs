@@ -21,8 +21,8 @@ public partial class AbstractRoad : MapObject
     {
         int pixelX;
         int pixelY;
-        pixelX = ((MapField)Owner)._hexX * 32 + 8;
-        pixelY = (((MapField)Owner)._hexX & 1) * 16 + ((MapField)Owner)._hexY * 32;
+        pixelX = ((MapField)Owner).HexX * 32 + 8;
+        pixelY = (((MapField)Owner).HexX & 1) * 16 + ((MapField)Owner).HexY * 32;
         return pixelX + ((pixelY << 13) + 671088640);
     }
 
@@ -41,7 +41,7 @@ public partial class AbstractRoad : MapObject
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                _resource._engine._hexSpriteMap._mapContainer._map.InvalidateStaticScene(hexX, hexY, hexLevel);
+                _resource.Engine.HexSpriteMap.MapContainer.Map.InvalidateStaticScene(hexX, hexY, hexLevel);
             }
             else
             {
@@ -73,12 +73,12 @@ public partial class AbstractRoad : MapObject
     {
         bool result;
         HexSprite hexSprite;
-        bool condition = hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer._width && hexY < mapContainer._height && hexLevel < mapContainer._levelCount;
+        bool condition = hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount;
         if (condition)
         {
             var fieldValue = mapContainer.GetField(hexX, hexY, hexLevel);
-            var terrain = _resource._terrainList.GetTerrain(0);
-            condition = fieldValue._terrainType == terrain;
+            var terrain = _resource.TerrainList.GetTerrain(0);
+            condition = fieldValue.TerrainType == terrain;
         }
 
         if (condition)

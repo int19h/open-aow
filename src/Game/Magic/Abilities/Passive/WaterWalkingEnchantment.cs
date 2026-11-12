@@ -12,7 +12,7 @@ public partial class WaterWalkingEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1315
     public WaterWalkingEnchantment(ECustomNode owner) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_waterWalkingText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.WaterWalkingText);
         AbilityId = 164;
     }
 

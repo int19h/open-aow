@@ -17,15 +17,15 @@ public partial class TutorialControl : EngineObject
     // AoWHSMap.PAS:1
     public TutorialControl(ECustomNode owner) : base(owner)
     {
-        ShownMessages = new Int32List();
+        _shownMessages = new Int32List();
     }
 
-    public Int32List ShownMessages;
+    private Int32List _shownMessages;
 
     // AoWHSMap.PAS:6
     public override void Dispose()
     {
-        ShownMessages?.Dispose();
+        _shownMessages?.Dispose();
         base.Dispose();
     }
 
@@ -33,7 +33,7 @@ public partial class TutorialControl : EngineObject
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(20, ShownMessages.LoadFromStream, ShownMessages.SaveToStream);
+        stream.rwStreamProc(20, _shownMessages.LoadFromStream, _shownMessages.SaveToStream);
     }
 
     // AoWHSMap.PAS:16
@@ -42,7 +42,7 @@ public partial class TutorialControl : EngineObject
         TutorialMessageEventLog log;
         if (AoWHSMap.Current.GameType == GameType.Tutorial && AoWHSMap.Current.TextControl.FindId(id) != null)
         {
-            if (onceOnly && ShownMessages.IndexOf(id) != -1)
+            if (onceOnly && _shownMessages.IndexOf(id) != -1)
             {
                 return;
             }
@@ -52,7 +52,7 @@ public partial class TutorialControl : EngineObject
             log.Message.Assign(idLocal.Text);
             AoWHSMap.Current.TriggerExecuteEventLog(log, immediate, null);
             log.Release();
-            ShownMessages.Add(id);
+            _shownMessages.Add(id);
         }
     }
 

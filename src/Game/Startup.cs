@@ -17,8 +17,7 @@ public static class Startup
 {
     // The units in the order the Delphi program initializes them. Finalization runs the table
     // backwards.
-    internal static readonly StartupUnit[] Units =
-    [
+    internal static StartupUnit[] Units { get; } = [
         new("GFXE", GraphicsState.Initialize, GraphicsState.Finalize),
         new("ImageLib", ImageLibraries.Initialize, ImageLibraries.Finalize),
         new("Engine", EngineHost.Initialize, EngineHost.Finalize),

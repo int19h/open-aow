@@ -21,9 +21,9 @@ public static class ImageLibraries
         }
     }
 
-    internal static string BaseImageLibraryPath = "";
+    internal static string BaseImageLibraryPath { get; set; } = "";
 
-    public static List<LibraryImageClass> LibraryImageClasses;
+    public static List<LibraryImageClass> LibraryImageClasses { get; set; }
 
     public static void Initialize()
     {

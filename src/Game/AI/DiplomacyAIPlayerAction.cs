@@ -21,13 +21,13 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
     {
     }
 
-    public sbyte NextPlayer;
+    private sbyte _nextPlayer;
 
     // Diplomacy.pas:1549
     public override bool Activate()
     {
         bool result = base.Activate();
-        NextPlayer = 0;
+        _nextPlayer = 0;
         return result;
     }
 
@@ -41,26 +41,26 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
             while (true)
             {
                 var count = AoWHSMap.Current.Players.Count;
-                if (!(NextPlayer < count && !Control.Player.GetBusy()))
+                if (!(_nextPlayer < count && !Control.Player.GetBusy()))
                     break;
-                NextPlayer = (sbyte)(NextPlayer + 1);
+                _nextPlayer = (sbyte)(_nextPlayer + 1);
                 while (true)
                 {
                     var fPlayersCount = AoWHSMap.Current.Players.Count;
-                    if (!(NextPlayer < fPlayersCount && (Control.Player.GetFirstDaySeen((sbyte)(byte)NextPlayer) == -1 || Control.Player.PlayerIndex == NextPlayer)))
+                    if (!(_nextPlayer < fPlayersCount && (Control.Player.GetFirstDaySeen((sbyte)(byte)_nextPlayer) == -1 || Control.Player.PlayerIndex == _nextPlayer)))
                         break;
-                    NextPlayer = (sbyte)(NextPlayer + 1);
+                    _nextPlayer = (sbyte)(_nextPlayer + 1);
                 }
 
                 var count2 = AoWHSMap.Current.Players.Count;
-                if (NextPlayer < count2)
+                if (_nextPlayer < count2)
                 {
-                    ExecuteDiplomacy(NextPlayer);
+                    ExecuteDiplomacy(_nextPlayer);
                 }
             }
 
             var count3 = AoWHSMap.Current.Players.Count;
-            result = NextPlayer < count3;
+            result = _nextPlayer < count3;
         }
         else
         {
@@ -263,28 +263,28 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
         Control.ListIdealPeaceWarPlayers(idealPeace, idealWar);
         player = Control.Player.PlayerIndex;
         var players = AoWHSMap.Current.Players.GetPlayers(player);
-        S = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[players.PlayerRace]);
+        S = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players.PlayerRace]);
         var name = AoWHSMap.Current.Players.GetPlayers(player).GetName();
         S = S + "/" + name;
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, "DIPLOMACY (" + S + ")");
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, "IDEAL PEACE PLAYERS");
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, "DIPLOMACY (" + S + ")");
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, "IDEAL PEACE PLAYERS");
         for (int I = 0, last = idealPeace.Count - 1; I <= last; I++)
         {
             var item = idealPeace[I];
             var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(item);
-            S = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[fPlayersPlayers.PlayerRace]);
+            S = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[fPlayersPlayers.PlayerRace]);
             var idealPeaceItem = idealPeace[I];
             var name2 = AoWHSMap.Current.Players.GetPlayers(idealPeaceItem).GetName();
             S = S + "/" + name2;
-            GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, S);
+            GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, S);
         }
 
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, "IDEAL WAR PLAYERS");
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, "IDEAL WAR PLAYERS");
         for (int I = 0, last = idealWar.Count - 1; I <= last; I++)
         {
             var item = idealWar[I];
             var name2 = AoWHSMap.Current.Players.GetPlayers(item).GetName();
-            GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, name2);
+            GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, name2);
         }
 
         idealPeace?.Dispose();

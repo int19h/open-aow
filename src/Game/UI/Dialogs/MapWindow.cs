@@ -22,10 +22,11 @@ public partial class MapWindow : DataModule
     public HexSpriteMapViewer MapViewer;
     public Rect WorldRectangle;
     public Rect MapRectangle;
-    public AlignWidth WorldAlignWidth;
-    public AlignWidth MapAlignWidth;
-    public AlignHeight WorldAlignHeight;
-    public AlignHeight MapAlignHeight;
+
+    public AlignWidth WorldAlignWidth { get; set; }
+    public AlignWidth MapAlignWidth { get; set; }
+    public AlignHeight WorldAlignHeight { get; set; }
+    public AlignHeight MapAlignHeight { get; set; }
 
     // AOWMWindow.pas:61
     public bool InsideMap(int X, int Y) => X > this.MainWindow.WinLeft + 12 && X < this.MainWindow.WinLeft + this.MainWindow.WinWidth - 12 && Y > this.MainWindow.WinTop + 12 && Y < this.MainWindow.WinTop + this.MainWindow.WinHeight - 12;

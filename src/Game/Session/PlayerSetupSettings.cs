@@ -24,10 +24,13 @@ public partial class PlayerSetupSettings : EngineObject
     public sbyte Race;
     // AoW.exe
     public Set<PlayerSetupStatusElement> Status;
-    public Leader Leader;
+
+    public Leader Leader { get; private set; }
+
     public byte PlayerId;
     public byte BehaviorMode;
-    public string EmailAddress = "";
+
+    public string EmailAddress { get; set; } = "";
 
     // AoWSetup.pas:305
     public override void Dispose()

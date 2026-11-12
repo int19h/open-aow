@@ -141,8 +141,8 @@ public sealed class EngineClassTests
     {
         // The static class references of inc/Combat.pas evaluate during type initialization, after
         // the module initializer filled the registry.
-        Assert.Equal(typeof(CommandAbilityData), CommandAbility.s_commandDataClass.Type);
-        Assert.Equal(EngineClass.Of<CommandAbilityData>().ClassId, CommandAbility.s_commandDataClass.ClassId);
+        Assert.Equal(typeof(CommandAbilityData), CommandAbility.CommandDataClass.Type);
+        Assert.Equal(EngineClass.Of<CommandAbilityData>().ClassId, CommandAbility.CommandDataClass.ClassId);
     }
 
     private sealed class Unregistered : EngineObject

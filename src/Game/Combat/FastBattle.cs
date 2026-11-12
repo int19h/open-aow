@@ -20,7 +20,7 @@ public partial class FastBattle : Battle
     {
     }
 
-    public int WallSiegeObjectCount;
+    public int WallSiegeObjectCount { get; set; }
 
     // AIGroup.pas:7175
     public override CombatUnit CreateCombatUnit() => new FastBattleUnit(null);
@@ -63,7 +63,7 @@ public partial class FastBattle : Battle
                 else
                 {
                     CombatResult = CombatResult.CannotInflictDamage;
-                    header = AbilityRules.TranslateResourceString(GameText.s_cannotInflictDamageText);
+                    header = AbilityRules.TranslateResourceString(GameText.CannotInflictDamageText);
                     SetLogbookHeader(header);
                 }
             }
@@ -74,7 +74,7 @@ public partial class FastBattle : Battle
         }
         else
         {
-            header = AbilityRules.TranslateResourceString(GameText.s_cannotBreachWallText);
+            header = AbilityRules.TranslateResourceString(GameText.CannotBreachWallText);
             SetLogbookHeader(header);
             CombatResult = CombatResult.CannotBreachWall;
         }

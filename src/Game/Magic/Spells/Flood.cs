@@ -18,7 +18,7 @@ public partial class Flood : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1356
     public Flood(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_floodText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.FloodText);
         SpellId = 50;
         SpellType = SpellType.Global;
         BaseManaCost = 1;

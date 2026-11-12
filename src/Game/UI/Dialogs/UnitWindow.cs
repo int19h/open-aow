@@ -139,15 +139,15 @@ public partial class UnitWindow : DataModule
     public Button PNext;
     public Button PPrev;
     public IvTranslator Translator;
-    public int Highlight;
-    public ItemType ItemType;
-    public int HighlightStep;
-    public bool ItemVisible;
-    public int BlinkDelay;
-    public LibraryImage CursorImage;
-    public int GroundOffset;
-    public int GroundCount;
-    public UnitShowInfo ShowInfo;
+    private int _highlight;
+    private ItemType _itemType;
+    private int _highlightStep;
+    private bool _itemVisible;
+    private int _blinkDelay;
+    private LibraryImage _cursorImage;
+    private int _groundOffset;
+    private int _groundCount;
+    private UnitShowInfo _showInfo;
 
     // AoWUnitWindow.pas:985
     public void UpdateGround(int offset)
@@ -170,53 +170,53 @@ public partial class UnitWindow : DataModule
             {
                 if (((Hero)U).GetItemsOnGround() != null)
                 {
-                    GroundCount = ((Hero)U).GetItemsOnGround().Count;
-                    GroundOffset = offset;
+                    _groundCount = ((Hero)U).GetItemsOnGround().Count;
+                    _groundOffset = offset;
                     // { Original last-page clamp leaves only four items visible. }
-                    if (GroundCount < offset + 5)
+                    if (_groundCount < offset + 5)
                     {
-                        GroundOffset = GroundCount - 4;
+                        _groundOffset = _groundCount - 4;
                     }
 
-                    if (GroundOffset < 0)
+                    if (_groundOffset < 0)
                     {
-                        GroundOffset = 0;
+                        _groundOffset = 0;
                     }
 
-                    GroundL.Visible = GroundOffset > 0;
-                    GroundR.Visible = GroundOffset + 5 <= GroundCount;
+                    GroundL.Visible = _groundOffset > 0;
+                    GroundR.Visible = _groundOffset + 5 <= _groundCount;
                     var count = ((Hero)U).GetItemsOnGround().Count;
-                    if (GroundOffset < count)
+                    if (_groundOffset < count)
                     {
-                        var item = ((Hero)U).GetItemsOnGround().GetItem(GroundOffset);
+                        var item = ((Hero)U).GetItemsOnGround().GetItem(_groundOffset);
                         Gnd1.Tag = item.ItemId;
                     }
 
                     var count2 = ((Hero)U).GetItemsOnGround().Count;
-                    if (GroundOffset + 1 < count2)
+                    if (_groundOffset + 1 < count2)
                     {
-                        var item = ((Hero)U).GetItemsOnGround().GetItem(GroundOffset + 1);
+                        var item = ((Hero)U).GetItemsOnGround().GetItem(_groundOffset + 1);
                         Gnd2.Tag = item.ItemId;
                     }
 
                     var count3 = ((Hero)U).GetItemsOnGround().Count;
-                    if (GroundOffset + 2 < count3)
+                    if (_groundOffset + 2 < count3)
                     {
-                        var item = ((Hero)U).GetItemsOnGround().GetItem(GroundOffset + 2);
+                        var item = ((Hero)U).GetItemsOnGround().GetItem(_groundOffset + 2);
                         Gnd3.Tag = item.ItemId;
                     }
 
                     var count4 = ((Hero)U).GetItemsOnGround().Count;
-                    if (GroundOffset + 3 < count4)
+                    if (_groundOffset + 3 < count4)
                     {
-                        var item = ((Hero)U).GetItemsOnGround().GetItem(GroundOffset + 3);
+                        var item = ((Hero)U).GetItemsOnGround().GetItem(_groundOffset + 3);
                         Gnd4.Tag = item.ItemId;
                     }
 
                     var count5 = ((Hero)U).GetItemsOnGround().Count;
-                    if (GroundOffset + 4 < count5)
+                    if (_groundOffset + 4 < count5)
                     {
-                        var item = ((Hero)U).GetItemsOnGround().GetItem(GroundOffset + 4);
+                        var item = ((Hero)U).GetItemsOnGround().GetItem(_groundOffset + 4);
                         Gnd5.Tag = item.ItemId;
                     }
                 }
@@ -365,7 +365,7 @@ public partial class UnitWindow : DataModule
     {
         CheckBox check;
         check = sender;
-        ItemBanner.s_itemId = check.Tag;
+        ItemBanner.ItemId = check.Tag;
     }
 
     // AoWUnitWindow.pas:575
@@ -380,7 +380,7 @@ public partial class UnitWindow : DataModule
     // AoWUnitWindow.pas:586
     public void UnitWindowCreate()
     {
-        ItemType = (ItemType)6;
+        _itemType = (ItemType)6;
     }
 
     // AoWUnitWindow.pas:591
@@ -388,14 +388,14 @@ public partial class UnitWindow : DataModule
     {
         if (UnitWin.Visible)
         {
-            Highlight += HighlightStep;
-            if (Highlight > 100 || Highlight < 50)
+            _highlight += _highlightStep;
+            if (_highlight > 100 || _highlight < 50)
             {
-                HighlightStep = -HighlightStep;
-                Highlight += HighlightStep;
+                _highlightStep = -_highlightStep;
+                _highlight += _highlightStep;
             }
 
-            switch (ItemType)
+            switch (_itemType)
             {
                 case ItemType.Attack:
                     Attack.Drawn = false;
@@ -417,11 +417,11 @@ public partial class UnitWindow : DataModule
 
             if (s_selectedItem != null)
             {
-                BlinkDelay -= 1;
-                if (BlinkDelay < 0)
+                _blinkDelay -= 1;
+                if (_blinkDelay < 0)
                 {
-                    BlinkDelay = 2;
-                    ItemVisible = !ItemVisible;
+                    _blinkDelay = 2;
+                    _itemVisible = !_itemVisible;
                 }
             }
         }
@@ -543,13 +543,13 @@ public partial class UnitWindow : DataModule
     // AoWUnitWindow.pas:714
     public void GroundRClick()
     {
-        UpdateGround(GroundOffset + 1);
+        UpdateGround(_groundOffset + 1);
     }
 
     // AoWUnitWindow.pas:719
     public void GroundLClick()
     {
-        UpdateGround(GroundOffset - 1);
+        UpdateGround(_groundOffset - 1);
     }
 
     // AoWUnitWindow.pas:724
@@ -615,18 +615,18 @@ public partial class UnitWindow : DataModule
     {
         if (DialogHosts.General.SelectedUnit != null)
         {
-            ShowInfo.Direction = 3;
+            _showInfo.Direction = 3;
             if (DialogHosts.General.SelectedUnit is Hero)
             {
-                ShowInfo.Overlays = Set<UnitOverlayModesElement>.Of();
+                _showInfo.Overlays = Set<UnitOverlayModesElement>.Of();
             }
             else
             {
-                ShowInfo.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
+                _showInfo.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
             }
 
             var image = sender;
-            DialogHosts.General.SelectedUnit.Show(image.WinLeft + 49, image.WinTop + 78, lockedSurface, ShowInfo);
+            DialogHosts.General.SelectedUnit.Show(image.WinLeft + 49, image.WinTop + 78, lockedSurface, _showInfo);
         }
     }
 
@@ -648,7 +648,7 @@ public partial class UnitWindow : DataModule
                         sender.PopupMenu = DialogHosts.ItemBanner.IBannerPopup;
                     }
 
-                    ItemBanner.s_itemId = sender.Tag;
+                    ItemBanner.ItemId = sender.Tag;
                 }
                 else
                 {
@@ -665,10 +665,10 @@ public partial class UnitWindow : DataModule
     public void HeadDraw(UIComponent sender, LockedSurface lockedSurface)
     {
         Gnd1Draw(sender, lockedSurface);
-        if (s_selectedItem != null && sender != s_selectedItem && ItemType == 0)
+        if (s_selectedItem != null && sender != s_selectedItem && _itemType == 0)
         {
             var checkBox = sender;
-            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[Highlight]);
+            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -676,10 +676,10 @@ public partial class UnitWindow : DataModule
     public void TorsoDraw(UIComponent sender, LockedSurface lockedSurface)
     {
         Gnd1Draw(sender, lockedSurface);
-        if (s_selectedItem != null && sender != s_selectedItem && ItemType == (ItemType)1)
+        if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)1)
         {
             var checkBox = sender;
-            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[Highlight]);
+            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -687,10 +687,10 @@ public partial class UnitWindow : DataModule
     public void AttackDraw(UIComponent sender, LockedSurface lockedSurface)
     {
         Gnd1Draw(sender, lockedSurface);
-        if (s_selectedItem != null && sender != s_selectedItem && ItemType == (ItemType)2)
+        if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)2)
         {
             var checkBox = sender;
-            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[Highlight]);
+            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -698,10 +698,10 @@ public partial class UnitWindow : DataModule
     public void DefendDraw(UIComponent sender, LockedSurface lockedSurface)
     {
         Gnd1Draw(sender, lockedSurface);
-        if (s_selectedItem != null && sender != s_selectedItem && ItemType == (ItemType)3)
+        if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)3)
         {
             var checkBox = sender;
-            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[Highlight]);
+            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -709,10 +709,10 @@ public partial class UnitWindow : DataModule
     public void RingLDraw(UIComponent sender, LockedSurface lockedSurface)
     {
         Gnd1Draw(sender, lockedSurface);
-        if (s_selectedItem != null && sender != s_selectedItem && ItemType == (ItemType)4)
+        if (s_selectedItem != null && sender != s_selectedItem && _itemType == (ItemType)4)
         {
             var checkBox = sender;
-            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[Highlight]);
+            DialogHosts.UIGraphics.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[_highlight]);
         }
     }
 
@@ -720,7 +720,7 @@ public partial class UnitWindow : DataModule
     public void DisbandBtnClick()
     {
         var disbandUnit = AbilityRules.TranslateResourceString(s_disbandUnitText);
-        var confirm = AbilityRules.TranslateResourceString(LobbyText.s_confirmText);
+        var confirm = AbilityRules.TranslateResourceString(LobbyText.ConfirmText);
         DialogHosts.ConfirmationDialog.Confirm(confirm, disbandUnit, 7);
     }
 

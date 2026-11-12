@@ -15,7 +15,7 @@ public partial class SpellWard : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1949
     public SpellWard(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_spellWardText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.SpellWardText);
         SpellId = 65;
         SpellType = SpellType.Global;
         BaseManaCost = 1;

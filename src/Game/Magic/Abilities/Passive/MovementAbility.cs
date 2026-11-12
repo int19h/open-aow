@@ -10,7 +10,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 // (MoveTypes.)
 public partial class MovementAbility : AdjustableAbility
 {
-    public Set<MoveType> MoveTypes;
+    public Set<MoveType> MoveTypes { get; set; }
 
     // PassiveAb.pas:1409
     public MovementAbility(ECustomNode owner) : base(owner)

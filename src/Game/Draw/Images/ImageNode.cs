@@ -11,31 +11,32 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
 
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new ImageNode(owner);
 
-    internal LibraryImage[] _images;
-    internal int _capacity;
-    internal int _count;
+    internal LibraryImage[] Images { get; private set; }
+    internal int Capacity { get; private set; }
+
+    private int _count;
 
     // ImageLib.pas:1313
     internal void SetCapacity(int newCapacity)
     {
-        if (newCapacity != _capacity)
+        if (newCapacity != Capacity)
         {
-            _images = ReallocArray(_images, newCapacity);
-            _capacity = newCapacity;
+            Images = ReallocArray(Images, newCapacity);
+            Capacity = newCapacity;
         }
     }
 
     // ImageLib.pas:1322
     internal void SetCount(int newCount)
     {
-        if (newCount > _capacity)
+        if (newCount > Capacity)
         {
             SetCapacity(newCount);
         }
 
         if (newCount > _count)
         {
-            ClearElements(_images, _count, newCount - _count);
+            ClearElements(Images, _count, newCount - _count);
         }
 
         _count = newCount;
@@ -58,7 +59,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     public override string Info() => "Image Node";
 
     // ImageLib.pas:1330
-    public LibraryImage GetImage(int index) => _images[index];
+    public LibraryImage GetImage(int index) => Images[index];
 
     // ImageLib.pas:1335
     public LibraryImage GetSafeImage(int index)
@@ -66,7 +67,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
         LibraryImage result;
         if (index >= 0 && index < _count)
         {
-            result = _images[index];
+            result = Images[index];
         }
         else
         {
@@ -83,14 +84,14 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
         _height = 0;
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            if (_images[I]._width > _width)
+            if (Images[I]._width > _width)
             {
-                _width = _images[I]._width;
+                _width = Images[I]._width;
             }
 
-            if (_images[I]._height > _height)
+            if (Images[I]._height > _height)
             {
-                _height = _images[I]._height;
+                _height = Images[I]._height;
             }
         }
     }
@@ -99,7 +100,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     public int Add(LibraryImage image)
     {
         SetCount(_count + 1);
-        _images[_count - 1] = image;
+        Images[_count - 1] = image;
         if (image._width > _width)
         {
             _width = image._width;
@@ -116,17 +117,17 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1365
     public void Insert(int index, LibraryImage image)
     {
-        if (_capacity == _count)
+        if (Capacity == _count)
         {
-            SetCapacity(_capacity + 1);
+            SetCapacity(Capacity + 1);
         }
 
         if (index < _count)
         {
-            MoveElements(_images, index, _images, index + 1, _count - index);
+            MoveElements(Images, index, Images, index + 1, _count - index);
         }
 
-        _images[index] = image;
+        Images[index] = image;
         if (image._width > _width)
         {
             _width = image._width;
@@ -145,7 +146,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         int I;
         I = _count;
-        while (I >= 0 && image != _images[I])
+        while (I >= 0 && image != Images[I])
         {
             I -= 1;
         }
@@ -155,7 +156,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
             _count -= 1;
             if (I < _count)
             {
-                MoveElements(_images, I + 1, _images, I, _count - I);
+                MoveElements(Images, I + 1, Images, I, _count - I);
             }
 
             UpdateDimensions();
@@ -166,7 +167,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     public int IndexOf(LibraryImage image)
     {
         int result = _count - 1;
-        while (result >= 0 && image != _images[result])
+        while (result >= 0 && image != Images[result])
         {
             result -= 1;
         }
@@ -182,7 +183,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
             _count -= 1;
             if (index < _count)
             {
-                MoveElements(_images, index + 1, _images, index, _count - index);
+                MoveElements(Images, index + 1, Images, index, _count - index);
             }
 
             UpdateDimensions();
@@ -194,7 +195,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            WriteImageToStream(_images[I], stream, dataStream);
+            WriteImageToStream(Images[I], stream, dataStream);
         }
 
         WriteImageToStream(null, stream);
@@ -205,7 +206,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            WriteImageToStream(_images[I], stream);
+            WriteImageToStream(Images[I], stream);
         }
 
         WriteImageToStream(null, stream);
@@ -216,11 +217,11 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         LibraryImage image;
         Clear();
-        image = ImageStreams.ReadImageFromStream(stream, _owner);
+        image = ImageStreams.ReadImageFromStream(stream, Owner);
         while (image != null)
         {
             Add(image);
-            image = ImageStreams.ReadImageFromStream(stream, _owner);
+            image = ImageStreams.ReadImageFromStream(stream, Owner);
         }
     }
 
@@ -228,11 +229,11 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     public override void LoadFromStream(Stream stream, Stream dataStream)
     {
         LibraryImage image;
-        image = ImageStreams.ReadImageFromStream(stream, dataStream, _owner);
+        image = ImageStreams.ReadImageFromStream(stream, dataStream, Owner);
         while (image != null)
         {
             Add(image);
-            image = ImageStreams.ReadImageFromStream(stream, dataStream, _owner);
+            image = ImageStreams.ReadImageFromStream(stream, dataStream, Owner);
         }
     }
 
@@ -241,7 +242,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = _count - 1; I >= 0; I--)
         {
-            _images[I].Dispose();
+            Images[I].Dispose();
         }
 
         _count = 0;
@@ -253,7 +254,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            _images[I].SetReloadingEnabled(false);
+            Images[I].SetReloadingEnabled(false);
         }
     }
 
@@ -262,10 +263,10 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            _images[I].SetOwner(owner);
+            Images[I].SetOwner(owner);
         }
 
-        _owner = owner;
+        SetOwnerWithoutReloadCheck(owner);
     }
 
     // ImageLib.pas:1473
@@ -277,7 +278,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
         while (I != 0 && result == 0)
         {
             I -= 1;
-            result = _images[I].RemapToPixelFormat(pixelFormatId);
+            result = Images[I].RemapToPixelFormat(pixelFormatId);
         }
 
         return result;
@@ -288,7 +289,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            _images[I].Show(X, Y, lockedSurface);
+            Images[I].Show(X, Y, lockedSurface);
         }
     }
 
@@ -297,7 +298,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            _images[I].ShowOpaque(X, Y, lockedSurface);
+            Images[I].ShowOpaque(X, Y, lockedSurface);
         }
     }
 
@@ -306,7 +307,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            _images[I].ShowTransparent(X, Y, lockedSurface);
+            Images[I].ShowTransparent(X, Y, lockedSurface);
         }
     }
 
@@ -315,7 +316,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            _images[I].ShowBlended(X, Y, lockedSurface, table);
+            Images[I].ShowBlended(X, Y, lockedSurface, table);
         }
     }
 
@@ -331,7 +332,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            _images[I].Show(X, Y, lockedSurface, showInfo);
+            Images[I].Show(X, Y, lockedSurface, showInfo);
         }
     }
 
@@ -344,7 +345,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
         while (result && I != 0)
         {
             I -= 1;
-            result = _images[I].SupportShowMode(showMode, pixelFormatId);
+            result = Images[I].SupportShowMode(showMode, pixelFormatId);
         }
 
         return result;
@@ -355,7 +356,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            _images[I].SetLoadMode(value);
+            Images[I].SetLoadMode(value);
         }
 
         _loadMode = value;
@@ -366,10 +367,10 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            _images[I].ReleaseDiscardableImageData();
+            Images[I].ReleaseDiscardableImageData();
         }
 
-        _dataLoaded = false;
+        DataLoaded = false;
     }
 
     // ImageLib.pas:1586
@@ -377,13 +378,13 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            _images[I].LoadDiscardableImageData();
+            Images[I].LoadDiscardableImageData();
         }
 
-        _dataLoaded = true;
+        DataLoaded = true;
     }
 
-    public int Count { get => _count; }
+    public int Count { get => _count; internal set => _count = value; }
 
     public LibraryImage this[int index] { get => GetImage(index); }
 

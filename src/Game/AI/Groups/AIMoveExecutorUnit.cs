@@ -16,19 +16,23 @@ public partial class AIMoveExecutorUnit : EngineObject
     public AIMoveExecutorUnit(ECustomNode owner) : base(owner)
     { }
 
-    public Troop Troop;
-    public int UnitId;
+    public Troop Troop { get; private set; }
+    public int UnitId { get; private set; }
+
     public MapCoordinate Location;
-    public MapCoordinate Origin;
+    private MapCoordinate _origin;
     public MapCoordinate Destination;
-    public int TransporterId;
-    public AIMoveExecutorTransportStatus TransportStatus;
+
+    public int TransporterId { get; set; }
+    public AIMoveExecutorTransportStatus TransportStatus { get; set; }
+
     public MapCoordinate BoardingPoint;
     public MapCoordinate ArrivalPoint;
     public MapCoordinate TransportSource;
     public MapCoordinate TransportDestination;
-    public AIMoveExecutorUnitStatus Status;
-    public byte MoveResult;
+
+    public AIMoveExecutorUnitStatus Status { get; set; }
+    public byte MoveResult { get; set; }
 
     // AIGroup.pas:4280
     public void Initialize(Troop troop, sbyte X, sbyte Y, sbyte L)
@@ -39,10 +43,10 @@ public partial class AIMoveExecutorUnit : EngineObject
         Location.Y = Y;
         Location.MapLevel = L;
         Location.Tag = 0;
-        Origin.X = X;
-        Origin.Y = Y;
-        Origin.MapLevel = L;
-        Origin.Tag = 0;
+        _origin.X = X;
+        _origin.Y = Y;
+        _origin.MapLevel = L;
+        _origin.Tag = 0;
         Destination.X = -1;
         Destination.Y = -1;
         Destination.MapLevel = -1;

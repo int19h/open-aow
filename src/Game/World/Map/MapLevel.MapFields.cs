@@ -28,9 +28,9 @@ public partial class MapLevel
             for (int x = 0; x < width; x++)
             {
                 var field = (MapField)type.CreateInstance(this);
-                field._hexX = (sbyte)x;
-                field._hexY = (sbyte)y;
-                field._hexLevel = (sbyte)_hexLevel;
+                field.HexX = (sbyte)x;
+                field.HexY = (sbyte)y;
+                field.HexLevel = (sbyte)_hexLevel;
                 _fields[y * width + x] = field;
             }
         HexNumberOffsets = default;
@@ -64,7 +64,7 @@ public partial class MapLevel
         {
             Engine = stream.Engine;
             _mapContainer = (MapContainer)Owner;
-            _map = _mapContainer._map;
+            _map = _mapContainer.Map;
         }
         byte width = (byte)_width, height = (byte)_height, level = (byte)_hexLevel;
         stream.rwByte(ref width, 3);
@@ -85,7 +85,7 @@ public partial class MapLevel
             == Set<StorageModeElement>.Of(StorageModeElement.Read) && width != 0)
             CreateMapFieldList(width, height);
         if (mode.Contains(StorageModeElement.SetupCompare))
-            foreach (var field in _fields) field._status += Set<MapFieldStatusElement>.Of(MapFieldStatusElement.Comparing);
+            foreach (var field in _fields) field.Status += Set<MapFieldStatusElement>.Of(MapFieldStatusElement.Comparing);
         var property = stream.OpenPropertyStream(6);
         if (property != null || mode.Contains(EngineServices.Text))
         {

@@ -5,19 +5,19 @@ namespace Aow.Game.UI.Windows;
 
 public partial class HtmlMemo
 {
-    public override bool WantsMouseWheel => _visible;
+    public override bool WantsMouseWheel => Visible;
 
     public override bool ContainsPoint(int X, int Y)
     {
-        int left = _winLeft;
-        int top = _winTop;
+        int left = WinLeft;
+        int top = WinTop;
         if (_window != null)
         {
-            left += _window._winLeft;
-            top += _window._winTop;
+            left += _window.WinLeft;
+            top += _window.WinTop;
         }
 
-        return PointInside(X, Y, left, top, _winWidth, _winHeight);
+        return PointInside(X, Y, left, top, WinWidth, WinHeight);
     }
 
     public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
@@ -26,7 +26,7 @@ public partial class HtmlMemo
         VerticalScrollBar bar = WheelScrollBar ?? _verticalScrollBar;
         if (bar == null || !bar.HasWheelRange()) return false;
         bar.ScrollSteps(steps);
-        TopItem = bar._position;
+        _topItem = bar.Position;
         return true;
     }
 }

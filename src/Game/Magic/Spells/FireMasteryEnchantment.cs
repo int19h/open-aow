@@ -21,7 +21,7 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1639
     public FireMasteryEnchantment(ECustomNode owner) : base(owner)
     {
-        Name = AbilityRules.TranslateResourceString(GameText.s_fireMasteryText);
+        Name = AbilityRules.TranslateResourceString(GameText.FireMasteryText);
         EnchantmentType = GlobalEnchantmentType.FireMastery;
         DispelMana = 175;
     }
@@ -73,7 +73,7 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
         bool result;
         if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
         {
-            var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.s_isAlreadyActiveFormat);
+            var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.IsAlreadyActiveFormat);
             var name = GetName();
             reason = RtlUnit.Format(xIsAlreadyActive, [name]);
             result = false;

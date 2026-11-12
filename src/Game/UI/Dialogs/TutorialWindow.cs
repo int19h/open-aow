@@ -20,18 +20,18 @@ public partial class TutorialWindow : DataModule
     public Memo HeaderMemo;
     public VerticalScrollBar AbVSB;
     public IvTranslator Translator;
-    public ExecuteDoneEvent Done;
-    public EventLog Event;
+    private ExecuteDoneEvent _done;
+    private EventLog _event;
 
     // AoWTutorialWin.pas:51
     public void FinishDialog()
     {
         ExecuteDoneEvent done;
         EventLog log;
-        done = Done;
-        log = Event;
-        Done = null;
-        Event = null;
+        done = _done;
+        log = _event;
+        _done = null;
+        _event = null;
         if (done != null)
         {
             done(log);
@@ -67,9 +67,9 @@ public partial class TutorialWindow : DataModule
     {
         dialog.AbVSB.Position = 0;
         dialog.FinishDialog();
-        dialog.Event = eventValue;
-        dialog.Event.AddRef();
-        dialog.Done = done;
+        dialog._event = eventValue;
+        dialog._event.AddRef();
+        dialog._done = done;
         dialog.HeaderMemo.Items.Clear();
         if (eventValue.Message.Count > 0)
         {
@@ -96,9 +96,9 @@ public partial class TutorialWindow : DataModule
     {
         dialog.AbVSB.Position = 0;
         dialog.FinishDialog();
-        dialog.Event = eventValue;
-        dialog.Event.AddRef();
-        dialog.Done = done;
+        dialog._event = eventValue;
+        dialog._event.AddRef();
+        dialog._done = done;
         dialog.HeaderMemo.Items.Clear();
         dialog.HeaderMemo.Items.Add(eventValue.HelpFileName);
         dialog.MessageMemo.Items.Clear();

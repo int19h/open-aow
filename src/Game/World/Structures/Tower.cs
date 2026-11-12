@@ -51,7 +51,7 @@ public partial class Tower : PlayerStructure
             State = State - Set<StateElement>.Of(StateElement.Razed);
         }
 
-        _imageIndex = GetTerrainTypeImage(_terrainType);
+        ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // Tower.pas:82
@@ -127,7 +127,7 @@ public partial class Tower : PlayerStructure
         // Tower.pas:35
 
         // Tower.pas:121
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameText.s_towerText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameText.TowerText);
 
     }
 

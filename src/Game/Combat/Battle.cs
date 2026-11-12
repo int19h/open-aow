@@ -45,14 +45,17 @@ public partial class Battle : EngineObject
         Clear();
     }
 
-    public Set<CombatStatusElement> Status;
-    public CombatData CombatData;
-    public int NextCombatObjectId;
-    public CombatResult CombatResult;
+    public Set<CombatStatusElement> Status { get; set; }
+    public CombatData CombatData { get; init; }
+
+    private int _nextCombatObjectId;
+
+    public CombatResult CombatResult { get; protected set; }
+
     public CombatLogbook Logbook;
     public CombatSideArray2 Sides;
 
-    internal EventStore<Battle> _executedEventsStore;
+    private EventStore<Battle> _executedEventsStore;
 
     public event NotifyEvent<Battle> FExecutedEvents
     {
@@ -60,12 +63,13 @@ public partial class Battle : EngineObject
         remove => _executedEventsStore.Remove(value);
     }
 
-    public int ExecutedLock;
-    public ExecutedEvent OnExecuted;
-    public bool Terminated;
-    public NotifyEvent<Battle> OnTerminated;
-    public byte ExplorationSite;
-    public EngineObject Items;
+    private int _executedLock;
+
+    public ExecutedEvent OnExecuted { get; set; }
+    public bool Terminated { get; private set; }
+    public NotifyEvent<Battle> OnTerminated { get; protected set; }
+    public byte ExplorationSite { get; set; }
+    public EngineObject Items { get; set; }
 
     // item list or prisoners army
     // Combat.pas:6082
@@ -104,7 +108,7 @@ public partial class Battle : EngineObject
     {
         base.Clear();
         Logbook.Clear();
-        NextCombatObjectId = 1;
+        _nextCombatObjectId = 1;
         CombatData.Clear();
         Status = Set<CombatStatusElement>.Of();
     }
@@ -547,8 +551,8 @@ public partial class Battle : EngineObject
     // Combat.pas:6131
     public byte CreateUniqueCombatObjectId()
     {
-        byte result = (byte)NextCombatObjectId;
-        NextCombatObjectId += 1;
+        byte result = (byte)_nextCombatObjectId;
+        _nextCombatObjectId += 1;
         return result;
     }
 
@@ -851,15 +855,15 @@ public partial class Battle : EngineObject
     // Combat.pas:6568
     public void LockExecuted()
     {
-        ExecutedLock += 1;
+        _executedLock += 1;
     }
 
     // Combat.pas:6571
     // { }
     public void UnlockExecuted()
     {
-        ExecutedLock -= 1;
-        if (ExecutedLock == 0 && OnExecuted != null)
+        _executedLock -= 1;
+        if (_executedLock == 0 && OnExecuted != null)
         {
             OnExecuted(this);
         }
@@ -894,13 +898,13 @@ public partial class Battle : EngineObject
                 {
                     if (CombatResult == CombatResult.CannotBreachWall)
                     {
-                        result = AbilityRules.TranslateResourceString(GameText.s_cannotBreachWallText);
+                        result = AbilityRules.TranslateResourceString(GameText.CannotBreachWallText);
                     }
                     else
                     {
                         if (CombatResult == CombatResult.CannotInflictDamage)
                         {
-                            result = AbilityRules.TranslateResourceString(GameText.s_cannotInflictDamageText);
+                            result = AbilityRules.TranslateResourceString(GameText.CannotInflictDamageText);
                         }
                         else
                         {

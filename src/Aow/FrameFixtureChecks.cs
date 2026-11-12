@@ -58,10 +58,13 @@ internal static class FrameFixtureChecks
         var oldSettings = RtlUnit.Settings;
         try
         {
-            var mapWindow = new Window(null) { _visible = true, _modal = true };
+            var mapWindow = new Window(null) { _modal = true };
+            mapWindow.SetVisibleWithoutUpdate(true);
             DialogHosts.MapWindow = new(null) { MainWindow = mapWindow };
-            var menu = new StartMenu(null) { _visible = true, _modal = false };
-            var hidden = new Window(null) { _visible = false, _modal = true };
+            var menu = new StartMenu(null) { _modal = false };
+            menu.SetVisibleWithoutUpdate(true);
+            var hidden = new Window(null) { _modal = true };
+            hidden.SetVisibleWithoutUpdate(false);
             var manager = new WindowManager(null) { Children = new DelphiList() };
             manager.Children.Add(mapWindow);
             manager.Children.Add(menu);
@@ -71,7 +74,7 @@ internal static class FrameFixtureChecks
             menu._modal = true;
             Check(General.HasModalWindow(controller), "modal sibling menu blocks input");
             controller.HideTransientWindows();
-            Check(!menu._visible && mapWindow._visible, "hide modal sibling and retain map");
+            Check(!menu.Visible && mapWindow.Visible, "hide modal sibling and retain map");
 
             var players = new PlayerList(null!) { _children = new EngineObjectList() };
             players._children.Add(new Player(null!) { Status = PlayerStatus.Playing });

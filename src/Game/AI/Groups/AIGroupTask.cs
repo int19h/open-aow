@@ -16,29 +16,30 @@ public partial class AIGroupTask : EngineObject
     // AIGroup.pas:1354
     public AIGroupTask(ECustomNode owner) : base(owner)
     {
-        RefCount = 1;
+        _refCount = 1;
         State = -1;
     }
 
-    public int RefCount;
-    public int ProcessCycles;
-    public AIGroupControl GroupControl;
-    public Set<AIGroupTaskStatusElement> Status;
-    public int State;
+    private int _refCount;
+    private int _processCycles;
+
+    public AIGroupControl GroupControl { get; protected set; }
+    public Set<AIGroupTaskStatusElement> Status { get; private set; }
+    public int State { get; protected set; }
 
     // AIGroup.pas:1361
     public override int AddRef()
     {
-        RefCount += 1;
-        return RefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // AIGroup.pas:1367
     public override int Release()
     {
-        RefCount -= 1;
-        int result = RefCount;
-        if (RefCount == 0)
+        _refCount -= 1;
+        int result = _refCount;
+        if (_refCount == 0)
         {
             Dispose();
         }
@@ -57,7 +58,7 @@ public partial class AIGroupTask : EngineObject
     // AIGroup.pas:1388
     public virtual bool Activate(AIGroupControl control)
     {
-        ProcessCycles = 0;
+        _processCycles = 0;
         GroupControl = control;
         Status = Status + Set<AIGroupTaskStatusElement>.Of(AIGroupTaskStatusElement.Activated);
         State = 0;
@@ -90,7 +91,7 @@ public partial class AIGroupTask : EngineObject
         int I;
         try
         {
-            ProcessCycles += 1;
+            _processCycles += 1;
             Validate();
             busy = false;
             I = 0;

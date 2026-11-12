@@ -34,6 +34,6 @@ public partial class DeathStorm : BlastStorm
     // Animation.pas:43
 
     // Storms.pas:497
-    public override string Name() => AbilityRules.TranslateResourceString(GameTables.s_deathStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GameTables.DeathStormText);
 
 }

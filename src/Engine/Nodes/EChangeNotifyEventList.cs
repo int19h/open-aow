@@ -12,7 +12,7 @@ public partial class EChangeNotifyEventList : EChangeNotifyNode
         _eventsStore = new();
     }
 
-    internal EventStore<EChangeNotifyEventList> _eventsStore;
+    private EventStore<EChangeNotifyEventList> _eventsStore;
 
     internal event NotifyEvent<EChangeNotifyEventList> FEvents
     {

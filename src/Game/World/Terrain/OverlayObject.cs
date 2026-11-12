@@ -23,13 +23,13 @@ public partial class OverlayObject : FixedImageLibraryTerrainMapObject
         // OverlayObject.pas:42
         public new const int ClassId = 131229;
 
-        public int OverlayType;
+        private int _overlayType;
 
         // OverlayObject.pas:48
         public override void ReadWrite(EStorageStream stream)
         {
             base.ReadWrite(stream);
-            stream.rwInteger(ref OverlayType, 40);
+            stream.rwInteger(ref _overlayType, 40);
         }
 
         // OverlayObject.pas:45

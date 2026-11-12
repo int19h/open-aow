@@ -6,7 +6,7 @@ namespace Aow.Game.Draw;
 // _list
 public partial class BlendTableList : IDisposable
 {
-    internal List<BlendTable> _list;
+    private List<BlendTable> _list;
 
     // GFXE.pas:9642
     internal int GetCount() => _list.Count;

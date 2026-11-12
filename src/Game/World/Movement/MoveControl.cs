@@ -25,42 +25,54 @@ public partial class MoveControl : IDisposable
         Map = owner;
         GapStarts = new MapCoordinateList();
         GapEnds = new MapCoordinateList();
-        DirectRoute = new MapCoordinateList();
+        _directRoute = new MapCoordinateList();
     }
 
-    public HSMap Map;
-    public Set<StatusElement> Status;
-    public sbyte Player;
-    public Set<MoveModeElement> Mode;
-    public int SourceX;
-    public int SourceY;
-    public int SourceL;
-    public int DestinationX;
-    public int DestinationY;
-    public int DestinationL;
-    public MapLevel MapLevel;
-    public int ProcessedCount;
-    public int MovePointsLimit;
+    public HSMap Map { get; init; }
+
+    private Set<StatusElement> _status;
+
+    public sbyte Player { get; private set; }
+    public Set<MoveModeElement> Mode { get; private set; }
+
+    private int _sourceX;
+    private int _sourceY;
+    private int _sourceL;
+
+    public int DestinationX { get; set; }
+    public int DestinationY { get; set; }
+    public int DestinationL { get; private set; }
+    public MapLevel MapLevel { get; set; }
+
+    private int _processedCount;
+
+    public int MovePointsLimit { get; set; }
+
     public SByteArray16By16 MovePointTable;
-    public DelphiList ProcessedMapFields;
-    public ArmyHexSprite ArmyHexSprite;
-    public int Selection;
-    public ArmyHexSprite TransporterArmy;
-    public MoveOnMovePointProc OnMovePoint;
-    public Int32Array8[] FieldOffsets = new Int32Array8[2];
-    public Int32Array8By2 PointOffsets;
-    public MapCoordinateList GapStarts;
-    public MapCoordinateList GapEnds;
-    public MapCoordinateList DirectRoute;
-    public int ExploredMask;
-    public MoveControlSettings Settings;
+    private DelphiList _processedMapFields;
+
+    public ArmyHexSprite ArmyHexSprite { get; private set; }
+    public int Selection { get; private set; }
+    public ArmyHexSprite TransporterArmy { get; private set; }
+    public MoveOnMovePointProc OnMovePoint { get; set; }
+
+    private Int32Array8[] _fieldOffsets = new Int32Array8[2];
+    private Int32Array8By2 _pointOffsets;
+
+    public MapCoordinateList GapStarts { get; init; }
+    public MapCoordinateList GapEnds { get; init; }
+
+    private MapCoordinateList _directRoute;
+    private int _exploredMask;
+
+    public MoveControlSettings Settings { get; set; }
 
     // MoveT.PAS:266
     public virtual void Dispose()
     {
         GapStarts?.Dispose();
         GapEnds?.Dispose();
-        DirectRoute?.Dispose();
+        _directRoute?.Dispose();
     }
 
     // MoveT.PAS:474
@@ -68,7 +80,7 @@ public partial class MoveControl : IDisposable
     {
         AoWMapField field;
         PathFindingStep pathFindingStep;
-        ProcessedCount = 0;
+        _processedCount = 0;
         Settings.ClearMovePoints();
         Settings.SubMoves.Clear();
         Settings.SubMoveIndex = 0;
@@ -80,7 +92,7 @@ public partial class MoveControl : IDisposable
         }
 
         // { Original bug: the Y bound also uses the map width. }
-        if (!(MapLevel != null && SourceX >= 0 && SourceX < MapLevel.Width && SourceY >= 0 && SourceY < MapLevel.Width))
+        if (!(MapLevel != null && _sourceX >= 0 && _sourceX < MapLevel.Width && _sourceY >= 0 && _sourceY < MapLevel.Width))
         {
             // { Preserve the original assertion diagnostic. }
             Assert(false, "Invalid settings (TMoveControl)", "D:\\AoWDev\\AoWE\\inc\\MoveT.PAS", 32187);
@@ -94,9 +106,9 @@ public partial class MoveControl : IDisposable
                 Settings.SetupLevel(Settings.DestinationL);
             }
 
-            if (SourceL == DestinationL && MovePointsLimit > 40 && DestinationX != -1)
+            if (_sourceL == DestinationL && MovePointsLimit > 40 && DestinationX != -1)
             {
-                MovePointsLimit = GetMovePointsCostFast(SourceX, SourceY, DestinationX, DestinationY);
+                MovePointsLimit = GetMovePointsCostFast(_sourceX, _sourceY, DestinationX, DestinationY);
                 if (MovePointsLimit == -1 || MovePointsLimit > Settings.MovePointsMax)
                 {
                     MovePointsLimit = Settings.MovePointsMax;
@@ -105,11 +117,11 @@ public partial class MoveControl : IDisposable
                 AoWHSMap.Current.AIExecutor.UseProcessTime(MovePointsLimit);
             }
 
-            Settings.SetMovePoints(SourceX, SourceY, SourceL, 0);
-            field = (AoWMapField)MapLevel.GetField(SourceX, SourceY);
+            Settings.SetMovePoints(_sourceX, _sourceY, _sourceL, 0);
+            field = (AoWMapField)MapLevel.GetField(_sourceX, _sourceY);
             if (Mode.Contains(MoveModeElement.LogProcessedMapFields))
             {
-                ProcessedMapFields.Add(field);
+                _processedMapFields.Add(field);
             }
 
             pathFindingStep = SetupSubMove(field, null);
@@ -124,7 +136,7 @@ public partial class MoveControl : IDisposable
         else
         {
             Settings.SetupLevel(Settings.SourceL);
-            Settings.SetMovePoints(SourceX, SourceY, SourceL, 0);
+            Settings.SetMovePoints(_sourceX, _sourceY, _sourceL, 0);
             Settings.Status = MoveControlSettingsStatus.Processed;
         }
 
@@ -169,15 +181,15 @@ public partial class MoveControl : IDisposable
         Deactivate();
         Player = -1;
         MapLevel = null;
-        SourceX = -1;
-        SourceY = -1;
-        SourceL = -1;
+        _sourceX = -1;
+        _sourceY = -1;
+        _sourceL = -1;
         DestinationX = -1;
         DestinationY = -1;
         DestinationL = -1;
-        ProcessedCount = 0;
+        _processedCount = 0;
         OnMovePoint = DefaultMoveOnMovePointProc;
-        ProcessedMapFields = null;
+        _processedMapFields = null;
     }
 
     // MoveT.PAS:299
@@ -268,7 +280,7 @@ public partial class MoveControl : IDisposable
 
                 if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && previous == 16777215)
                 {
-                    ProcessedMapFields.Add(target);
+                    _processedMapFields.Add(target);
                 }
 
                 Settings.SetMovePoints(target.HexX, target.HexY, target.HexLevel, points);
@@ -384,9 +396,9 @@ public partial class MoveControl : IDisposable
             count = pathFindingStep.MovePointLines[0].Second;
             HexGeometry.CenterHexNumberToHex(pathFindingStep.Location.X, pathFindingStep.Location.Y, direction, ref X, ref Y);
             pathFindingStep.MovePointLines.Delete(0);
-            processed = ProcessedCount;
+            processed = _processedCount;
             ProcessHex((AoWMapField)MapLevel.GetField(X, Y), direction, count - 1);
-            processed = ProcessedCount - processed;
+            processed = _processedCount - processed;
             AoWHSMap.Current.AIExecutor.UseProcessTime(Round((double)((double)processed / 430) * 1000));
         }
 
@@ -396,7 +408,7 @@ public partial class MoveControl : IDisposable
     // MoveT.PAS:1315
     public bool Process()
     {
-        Assert(Status.Contains(StatusElement.Activated), "", "MoveT.PAS", 1339);
+        Assert(_status.Contains(StatusElement.Activated), "", "MoveT.PAS", 1339);
         switch (Settings.Status)
         {
             case MoveControlSettingsStatus.Idle:
@@ -437,7 +449,7 @@ public partial class MoveControl : IDisposable
     public int ExploredOnlyMoveOnMovePointProc(AoWMapField mapField, int moveOverCode)
     {
         int points;
-        if ((mapField.FieldFlags & ExploredMask) != 0)
+        if ((mapField.FieldFlags & _exploredMask) != 0)
         {
             points = MovePointTable[mapField.TerrainType][mapField.OverlayType - -1];
             if ((mapField.FieldFlags & 16384) != 0)
@@ -456,9 +468,9 @@ public partial class MoveControl : IDisposable
     // MoveT.PAS:1504
     public void Deactivate()
     {
-        if (Status.Contains(StatusElement.Activated))
+        if (_status.Contains(StatusElement.Activated))
         {
-            Status = Status - Set<StatusElement>.Of(StatusElement.Activated);
+            _status = _status - Set<StatusElement>.Of(StatusElement.Activated);
             if (Settings.Status == MoveControlSettingsStatus.Processing)
             {
                 Settings.MovePointsLimit = MovePointsLimit;
@@ -481,9 +493,9 @@ public partial class MoveControl : IDisposable
                 points = -1;
                 if (DestinationX == -1 || ValidLocation(DestinationX, DestinationY, DestinationL))
                 {
-                    if (SourceL == DestinationL && mode.Contains(CanMoveModeElement.Fast))
+                    if (_sourceL == DestinationL && mode.Contains(CanMoveModeElement.Fast))
                     {
-                        points = GetMovePointsCostFast(SourceX, SourceY, DestinationX, DestinationY);
+                        points = GetMovePointsCostFast(_sourceX, _sourceY, DestinationX, DestinationY);
                     }
 
                     if (points == -1 && mode.Contains(CanMoveModeElement.Exact))
@@ -551,9 +563,9 @@ public partial class MoveControl : IDisposable
         clear = true;
         GapStarts.Count = 0;
         GapEnds.Count = 0;
-        DirectRoute.Count = 0;
+        _directRoute.Count = 0;
         overCode = 1;
-        DirectRoute.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, 0);
+        _directRoute.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, 0);
         X = 0;
         Y = 0;
         direction = 0;
@@ -686,7 +698,7 @@ public partial class MoveControl : IDisposable
 
             sourceX = X;
             sourceY = Y;
-            DirectRoute.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, (sbyte)points);
+            _directRoute.AddMapCoordinate((sbyte)sourceX, (sbyte)sourceY, (sbyte)points);
         }
 
         if (!clear)
@@ -706,13 +718,13 @@ public partial class MoveControl : IDisposable
         gapIndex = 0;
         points = 0;
         CalculateGaps(sourceX, sourceY, destinationX, destinationY);
-        while (I < DirectRoute.Count && points != -1)
+        while (I < _directRoute.Count && points != -1)
         {
-            cost = DirectRoute[I].MapLevel;
+            cost = _directRoute[I].MapLevel;
             if (cost < 0)
             {
-                var item = DirectRoute[I - 1];
-                var fDirectRouteItem = DirectRoute[I - 1];
+                var item = _directRoute[I - 1];
+                var fDirectRouteItem = _directRoute[I - 1];
                 gapIndex = GapStarts.IndexOfXY(fDirectRouteItem.X, item.Y);
                 cost = CalculateTurnAroundMovePoints(ref gapIndex);
                 if (cost != -1)
@@ -720,7 +732,7 @@ public partial class MoveControl : IDisposable
                     points += cost;
                     var fGapEndsItem = GapEnds[gapIndex];
                     var item2 = GapEnds[gapIndex];
-                    I = DirectRoute.IndexOfXY(item2.X, fGapEndsItem.Y);
+                    I = _directRoute.IndexOfXY(item2.X, fGapEndsItem.Y);
                 }
                 else
                 {

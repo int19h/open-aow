@@ -8,13 +8,8 @@ namespace Aow.Game.Tests;
 
 public sealed class GraphicsConstructionTests
 {
-    private static object? Field(object value, string name)
-    {
-        for (Type? type = value.GetType(); type is not null; type = type.BaseType)
-            if (type.GetField(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly) is { } field)
-                return field.GetValue(value);
-        throw new InvalidOperationException(name);
-    }
+    private static object? Field(object value, string name) =>
+        (MemberNames.Field(value.GetType(), name) ?? throw new InvalidOperationException(name)).GetValue(value);
 
     public static IEnumerable<object[]> Images()
     {
@@ -146,7 +141,7 @@ public sealed class GraphicsConstructionTests
         var imageLibraryManager = new ImageLibraryManager(null!);
         var list = new ImageLibraryManagerList(imageLibraryManager);
         Assert.Same(imageLibraryManager, Field(list, "_owner"));
-        Assert.NotNull(Field(list, "_hashTable"));
+        Assert.NotNull(Field(list, "HashTable"));
         var sequences = new ImageSequenceList(imageLibraryManager, null!);
         Assert.Same(imageLibraryManager, Field(sequences, "_imageLibraryManager"));
         Assert.Equal(0, sequences.Count);
@@ -299,9 +294,9 @@ public sealed class GraphicsConstructionTests
     {
         static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new ObservedImage(owner);
 
-        public int DerivedValue;
-        public int SeenDerivedValue;
-        public int SeenPosition;
+        public int DerivedValue { get; }
+        public int SeenDerivedValue { get; private set; }
+        public int SeenPosition { get; private set; }
 
         internal ObservedImage(CustomImageLibrary owner) : base(owner) { DerivedValue = 77; }
 

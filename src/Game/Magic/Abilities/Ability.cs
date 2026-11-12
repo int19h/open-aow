@@ -34,12 +34,15 @@ public partial class Ability : EngineObject
         ImageSequences = new ImageSequenceList(AoWHSSet.Current.ImageLibraryManager, null);
     }
 
-    public string AbilityName = "";
-    public int AbilityId;
-    public StringList Description;
+    public string AbilityName { get; set; } = "";
+    public int AbilityId { get; set; }
+    public StringList Description { get; }
+
     public int SkillPointCost;
-    public SfxLibrary SfxLibrary;
-    public ImageSequenceList ImageSequences;
+
+    public SfxLibrary SfxLibrary { get; }
+    public ImageSequenceList ImageSequences { get; init; }
+
     public Set<AbilitySelectionType> SelectionTypes;
 
     // Ability.PAS:1245
@@ -180,7 +183,7 @@ public partial class Ability : EngineObject
                 info.UnitId = 0;
             }
 
-            AoWHSMap.Current._onActivateAbilityStore.Raise(info);
+            AoWHSMap.Current.OnActivateAbilityStore.Raise(info);
             info.Release();
             result = true;
         }
@@ -217,7 +220,7 @@ public partial class Ability : EngineObject
                 info.UnitId = 0;
             }
 
-            AoWHSMap.Current.CombatMap._abilityActivatedEventsStore.Raise(info);
+            AoWHSMap.Current.CombatMap.AbilityActivatedEventsStore.Raise(info);
             info.Release();
             result = true;
         }

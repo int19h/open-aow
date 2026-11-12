@@ -30,19 +30,20 @@ public partial class SelectedArmy : MoveSelector
     // Army.PAS:3567
     public SelectedArmy() : base()
     {
-        SelectedUnitGraphics = new Int32List();
+        _selectedUnitGraphics = new Int32List();
     }
 
-    public SelectedArmyMode Mode;
-    public int RoadBuilderId;
-    public Int32List SelectedUnitGraphics;
-    public bool IgnoreMouseDown;
+    private SelectedArmyMode _mode;
+    private int _roadBuilderId;
+    private Int32List _selectedUnitGraphics;
+
+    public bool IgnoreMouseDown { get; set; }
 
     // Army.PAS:3573
     public override void Dispose()
     {
         ResetSelectedUnitGraphics();
-        SelectedUnitGraphics?.Dispose();
+        _selectedUnitGraphics?.Dispose();
         base.Dispose();
     }
 
@@ -178,7 +179,7 @@ public partial class SelectedArmy : MoveSelector
                 var item2 = settings.Path[0];
                 armyHexSprite.Army.SetDestinationPosition(item2.X, fPathItem.Y, item.MapLevel);
                 MoveControlSettings.Path.Clear();
-                if (Mode == SelectedArmyMode.BuildRoads)
+                if (_mode == SelectedArmyMode.BuildRoads)
                 {
                     if (settings.MovePoints < settings.PathMovePoints)
                     {
@@ -303,7 +304,7 @@ public partial class SelectedArmy : MoveSelector
             result = base.ValidateSelection(field);
         }
 
-        if (Mode == SelectedArmyMode.BuildRoads)
+        if (_mode == SelectedArmyMode.BuildRoads)
         {
             if (field.GetPlayer() != -1 && field.GetPlayer() != GetArmyHexSprite().Army.Player)
             {
@@ -340,7 +341,7 @@ public partial class SelectedArmy : MoveSelector
 
                 if (condition)
                 {
-                    if (Mode == SelectedArmyMode.BuildRoads)
+                    if (_mode == SelectedArmyMode.BuildRoads)
                     {
                         cost = AbilityRules.RoadConstructionCost(armyHexSprite.Army.Player, moveSettings.Path, moveSettings.MovePoints);
                         if (cost <= AoWHSMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).Gems)
@@ -358,7 +359,7 @@ public partial class SelectedArmy : MoveSelector
                         }
                         else
                         {
-                            var notEnoughGold = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
+                            var notEnoughGold = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
                             AoWHSMap.Current.ShowWarning(notEnoughGold);
                         }
                     }
@@ -393,7 +394,7 @@ public partial class SelectedArmy : MoveSelector
                     {
                         var player = field.GetPlayer();
                         var players = AoWHSMap.Current.Players.GetPlayers(player);
-                        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[players.PlayerRace]);
+                        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players.PlayerRace]);
                         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_armyNotAtWarFormat), [raceNamesPlural]);
                         AoWHSMap.Current.ShowMessage(format);
                     }
@@ -425,7 +426,7 @@ public partial class SelectedArmy : MoveSelector
     public override void Deactivate()
     {
         base.Deactivate();
-        Mode = SelectedArmyMode.Default;
+        _mode = SelectedArmyMode.Default;
     }
 
     // Army.PAS:3642
@@ -489,9 +490,9 @@ public partial class SelectedArmy : MoveSelector
         if (CurrentMove != -1)
         {
             selection = GetArmyHexSprite().Army.ValidateMoveSelection(selection);
-            if (Mode == SelectedArmyMode.BuildRoads)
+            if (_mode == SelectedArmyMode.BuildRoads)
             {
-                selection = (byte)(selection | (1 << GetArmyHexSprite().Army.IndexOfId(RoadBuilderId)));
+                selection = (byte)(selection | (1 << GetArmyHexSprite().Army.IndexOfId(_roadBuilderId)));
             }
 
             if (selection != 0)
@@ -528,11 +529,11 @@ public partial class SelectedArmy : MoveSelector
     // Army.PAS:3647
     public void ResetSelectedUnitGraphics()
     {
-        for (int I = SelectedUnitGraphics.Count - 1; I >= 0; I--)
+        for (int I = _selectedUnitGraphics.Count - 1; I >= 0; I--)
         {
-            var item = SelectedUnitGraphics[I];
+            var item = _selectedUnitGraphics[I];
             AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(item).Release();
-            SelectedUnitGraphics.Delete(I);
+            _selectedUnitGraphics.Delete(I);
         }
     }
 
@@ -553,7 +554,7 @@ public partial class SelectedArmy : MoveSelector
         }
 
         ResetSelectedUnitGraphics();
-        SelectedUnitGraphics.Assign(list);
+        _selectedUnitGraphics.Assign(list);
         list?.Dispose();
     }
 
@@ -655,7 +656,7 @@ public partial class SelectedArmy : MoveSelector
             valid = valid && armyHexSprite.Army.Transporter(255) == null;
         }
 
-        return valid && Mode != SelectedArmyMode.BuildRoads;
+        return valid && _mode != SelectedArmyMode.BuildRoads;
     }
 
     // Army.PAS:4002
@@ -774,7 +775,7 @@ public partial class SelectedArmy : MoveSelector
         {
             Clear();
             IgnoreMouseDown = false;
-            Mode = SelectedArmyMode.Default;
+            _mode = SelectedArmyMode.Default;
             if (armyHexSprite != null)
             {
                 if (armyHexSprite.Army.Player == AoWHSMap.Current.SeatedPlayer)
@@ -834,8 +835,8 @@ public partial class SelectedArmy : MoveSelector
 
             var selectRoadConstructionPath = AbilityRules.TranslateResourceString(s_selectRoadConstructionPathText);
             AoWHSMap.Current.ShowMessage(selectRoadConstructionPath);
-            RoadBuilderId = troop.UnitId;
-            Mode = SelectedArmyMode.BuildRoads;
+            _roadBuilderId = troop.UnitId;
+            _mode = SelectedArmyMode.BuildRoads;
         }
     }
 

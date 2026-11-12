@@ -16,7 +16,7 @@ public partial class Fury : UnitSpell
     // UnitSpells.pas:336
     public Fury(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_furyText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.FuryText);
         SpellId = 33;
         AIValue = 175;
         BaseManaCost = 5;

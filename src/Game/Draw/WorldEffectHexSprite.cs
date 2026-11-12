@@ -15,13 +15,15 @@ namespace Aow.Game.Draw;
 // FFinished, Frame, FX, FY, Layer, Path, EffectType
 public partial class WorldEffectHexSprite : FixedVisibleHexSprite
 {
-    public bool Done;
-    public int Frame;
-    public int X;
-    public int Y;
-    public int Layer;
+    public bool Done { get; private set; }
+    public int Frame { get; set; }
+    public int X { get; set; }
+    public int Y { get; set; }
+    public int Layer { get; set; }
+
     public Point3DList Path;
-    public WorldEffectType EffectType;
+
+    public WorldEffectType EffectType { get; set; }
 
     // Army.PAS:5334
     public override void Dispose()

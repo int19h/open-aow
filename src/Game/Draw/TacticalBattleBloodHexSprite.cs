@@ -15,9 +15,9 @@ public partial class TacticalBattleBloodHexSprite : SingleHexSprite
 
     public new const int ClassId = 2228487;
 
-    public int Frame;
-    public int OffsetX;
-    public int OffsetY;
+    public int Frame { get; set; }
+    public int OffsetX { get; set; }
+    public int OffsetY { get; set; }
 
     // AoWTC.pas:6393
     public override byte GetLevel() => 26;

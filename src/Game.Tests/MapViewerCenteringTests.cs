@@ -19,8 +19,8 @@ public sealed class MapViewerCenteringTests
     // Draws white over the whole scene and a red column and row on the map's left and top edges.
     private sealed class PaintedMap() : HSMap(null!)
     {
-        public override void UpdateStaticScene() => _staticSceneInvalid = false;
-        public override void UpdateDynamicScene() => _dynamicSceneInvalid = false;
+        public override void UpdateStaticScene() => StaticSceneInvalid = false;
+        public override void UpdateDynamicScene() => DynamicSceneInvalid = false;
 
         public override void DrawDynamicScene(ref LockedSurface lockedSurface)
         {
@@ -36,32 +36,33 @@ public sealed class MapViewerCenteringTests
 
     private sealed class Fixture : IDisposable
     {
-        public readonly PaintedMap Map = new();
-        public readonly HexSpriteMapViewer Viewer = new(null!);
-        public readonly DataSurface Target = new(420, 320, PixelFormats.pfRGB555, null!);
+        public PaintedMap Map { get; } = new();
+        public HexSpriteMapViewer Viewer { get; } = new(null!);
+
+        private readonly DataSurface _target = new(420, 320, PixelFormats.pfRGB555, null!);
 
         public Fixture(int sceneWidth, int sceneHeight)
         {
-            Map._mapContainer = new MapContainer(null!) { _width = MapWidth, _height = MapHeight, _levelCount = 1 };
+            Map.MapContainer = new MapContainer(null!) { Width = MapWidth, Height = MapHeight, LevelCount = 1 };
             Viewer.HexSpriteMap = Map;
             Viewer.SceneWidth = sceneWidth;
             Viewer.SceneHeight = sceneHeight;
             Viewer.ChangeScene(100, 30, 0);
             LockedSurface lockedSurface = default;
-            Assert.Equal(PixelFormats.GFXE_OK, Target.Lock(ref lockedSurface));
+            Assert.Equal(PixelFormats.GFXE_OK, _target.Lock(ref lockedSurface));
             PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, lockedSurface.Height), 0x00FF00, lockedSurface);
-            Target.Unlock();
-            Viewer.ShowScene(SceneLeft, SceneTop, Target);
+            _target.Unlock();
+            Viewer.ShowScene(SceneLeft, SceneTop, _target);
         }
 
         public int Pixel(int x, int y)
         {
             LockedSurface lockedSurface = default;
-            Target.Lock(ref lockedSurface);
+            _target.Lock(ref lockedSurface);
             var data = lockedSurface.Data;
             int at = lockedSurface.DataIndex + y * lockedSurface.Pitch + x * 2;
             int value = data[at] | data[at + 1] << 8;
-            Target.Unlock();
+            _target.Unlock();
             return value;
         }
 
@@ -90,9 +91,9 @@ public sealed class MapViewerCenteringTests
         public void Dispose()
         {
             Viewer.Dispose();
-            Map._mapContainer?.Dispose();
+            Map.MapContainer?.Dispose();
             Map.Dispose();
-            Target.Dispose();
+            _target.Dispose();
         }
     }
 
@@ -162,7 +163,7 @@ public sealed class MapViewerCenteringTests
         viewer.SceneX = 20;
         Assert.Equal(new Rect(0, 0, 300, 200), viewer.GetMapSceneRectangle());
         Assert.Equal(new Rect(0, 0, 300, 200), viewer.GetMapDisplayRectangle());
-        Assert.Null(viewer._centeredSurface);
+        Assert.Null(viewer.CenteredSurface);
         fixture.AssertPicture(new Rect(0, 0, 300, 200), -4, -1);
 
         int x = 299, y = 199;

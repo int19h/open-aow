@@ -26,11 +26,13 @@ public partial class CityWall : CombatImageLibraryTerrain
     // CityWall.pas:78
     public new const int ClassId = 2229508;
 
-    public int HitPoints;
-    public int DamageImage;
-    public int FlagId;
-    public bool PlaySound;
-    public byte WallType;
+    public int HitPoints { get; private set; }
+
+    private int _damageImage;
+    private int _flagId;
+    private bool _playSound;
+
+    public byte WallType { get; private set; }
 
     // CityWall.pas:133
     public override sbyte GetOverlay(int index)
@@ -141,7 +143,7 @@ public partial class CityWall : CombatImageLibraryTerrain
 
                     break;
                 case 200708:
-                    PlaySound = message.Param[1].Int == 0;
+                    _playSound = message.Param[1].Int == 0;
                     AoWHSSet.Current.SpellControl.GetSpell(112).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                     RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense8 = GetDefense();
@@ -256,35 +258,35 @@ public partial class CityWall : CombatImageLibraryTerrain
         if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             razed = false;
-            PlaySound = true;
-            structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.s_combatLLocation).GetField(CombatPlacement.s_combatXLocation, CombatPlacement.s_combatYLocation).FindNoneTransparentHexSprite(typeof(City));
+            _playSound = true;
+            structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite(typeof(City));
             if (structure != null)
             {
                 WallType = ((City)structure).WallType;
                 razed = structure.GetRazed();
                 if (structure.Player == -1)
                 {
-                    FlagId = -1;
+                    _flagId = -1;
                 }
                 else
                 {
-                    FlagId = AoWHSMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
+                    _flagId = AoWHSMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
                 }
             }
             else
             {
-                structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.s_combatLLocation).GetField(CombatPlacement.s_combatXLocation, CombatPlacement.s_combatYLocation).FindNoneTransparentHexSprite(typeof(Tower));
+                structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite(typeof(Tower));
                 if (structure != null)
                 {
                     WallType = 1;
                     razed = structure.GetRazed();
                     if (structure.Player == -1)
                     {
-                        FlagId = -1;
+                        _flagId = -1;
                     }
                     else
                     {
-                        FlagId = AoWHSMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
+                        _flagId = AoWHSMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
                     }
                 }
                 else
@@ -312,9 +314,9 @@ public partial class CityWall : CombatImageLibraryTerrain
                     SetHitPoints(TacticalTables.s_wallMaxHitPoints[WallType - 1]);
                 }
 
-                if (FlagId == -1)
+                if (_flagId == -1)
                 {
-                    FlagId = 32;
+                    _flagId = 32;
                 }
 
                 CombatMap.Current.Walls.Add(this);
@@ -368,7 +370,7 @@ public partial class CityWall : CombatImageLibraryTerrain
             if (value == 0)
             {
                 CombatMap.Current.Combat.CombatData.WallBreached = true;
-                if (PlaySound && CombatMap.Current.PlaySounds)
+                if (_playSound && CombatMap.Current.PlaySounds)
                 {
                     AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                 }
@@ -382,7 +384,7 @@ public partial class CityWall : CombatImageLibraryTerrain
             }
             else
             {
-                if (PlaySound && CombatMap.Current.PlaySounds)
+                if (_playSound && CombatMap.Current.PlaySounds)
                 {
                     AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
                 }
@@ -392,28 +394,28 @@ public partial class CityWall : CombatImageLibraryTerrain
         HitPoints = value;
         if (TacticalTables.s_wallMaxHitPoints[WallType - 1] == HitPoints)
         {
-            DamageImage = 0;
+            _damageImage = 0;
         }
         else
         {
             if (TacticalTables.s_wallMaxHitPoints[WallType - 1] / 2 < HitPoints)
             {
-                DamageImage = 1;
+                _damageImage = 1;
             }
             else
             {
                 if (HitPoints > 0)
                 {
-                    DamageImage = 2;
+                    _damageImage = 2;
                 }
                 else
                 {
-                    DamageImage = 3;
+                    _damageImage = 3;
                 }
             }
         }
 
-        PlaySound = true;
+        _playSound = true;
     }
 
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -443,7 +445,7 @@ public partial class CityWall : CombatImageLibraryTerrain
                 break;
         }
 
-        sequence = _resource.ImageSequenceList.GetImageSequence(s_wallIsIndex[WallType - 1] + (terrainOffset + DamageImage));
+        sequence = _resource.ImageSequenceList.GetImageSequence(s_wallIsIndex[WallType - 1] + (terrainOffset + _damageImage));
         if (sequence != null)
         {
             do
@@ -458,14 +460,14 @@ public partial class CityWall : CombatImageLibraryTerrain
                             {
                                 var hexX2 = GetHexX();
                                 var hexY2 = GetHexY();
-                                AoWHSSet.Current.FlagControl.ShowFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + AoWHSMap.Current.Frame + hexY2 * 100, (byte)FlagId, lockedSurface, false);
+                                AoWHSSet.Current.FlagControl.ShowFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + AoWHSMap.Current.Frame + hexY2 * 100, (byte)_flagId, lockedSurface, false);
                             }
                         }
 
                         break;
                     default:
                         {
-                            imageIndex = sequence.GetUnloopedFrameIndex(_imageIndex);
+                            imageIndex = sequence.GetUnloopedFrameIndex(ImageIndex);
                             if (imageIndex != -1)
                             {
                                 sequence.ImageLibrary[imageIndex].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);

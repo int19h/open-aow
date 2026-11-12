@@ -18,7 +18,7 @@ public partial class ExplorationSiteResource : StructureResource
     // ExploreS.pas:373
     public new const int ClassId = 132034;
 
-    public UnitIndexListCollection DefenderCollections;
+    public UnitIndexListCollection DefenderCollections { get; }
 
     // ExploreS.pas:364
     public override void Dispose()

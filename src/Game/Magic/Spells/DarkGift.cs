@@ -15,7 +15,7 @@ public partial class DarkGift : UnitSpell
     // UnitSpells.pas:830
     public DarkGift(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_darkGiftText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.DarkGiftText);
         SpellId = 77;
         BaseManaCost = 5;
         SpellLevel = 3;

@@ -27,14 +27,14 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:1
     public PlayerControl(ECustomNode owner) : base(owner)
     {
-        DisconnectedPlayers = new DoubleItemList();
+        _disconnectedPlayers = new DoubleItemList();
     }
 
-    public ExitGameCallBack ExitCallback;
-    public ExitGameMode ExitMode;
-    public string Password = "";
-    public DoubleItemList DisconnectedPlayers;
-    public bool OutOfSyncShown;
+    private ExitGameCallBack _exitCallback;
+    private ExitGameMode _exitMode;
+    private string _password = "";
+    private DoubleItemList _disconnectedPlayers;
+    private bool _outOfSyncShown;
 
     // PlayerC.PAS:7
     public override void Dispose()
@@ -46,7 +46,7 @@ public partial class PlayerControl : EngineObject
             tokenExecutor.OnSyncError = null;
         }
 
-        DisconnectedPlayers?.Dispose();
+        _disconnectedPlayers?.Dispose();
         base.Dispose();
     }
 
@@ -109,7 +109,7 @@ public partial class PlayerControl : EngineObject
 
         try
         {
-            AoWHSMap.Current._newDayEventsStore.Raise(this);
+            AoWHSMap.Current.NewDayEventsStore.Raise(this);
         }
         catch
         {
@@ -118,7 +118,7 @@ public partial class PlayerControl : EngineObject
         if (AoWHSMap.Current.DayLimit == AoWHSMap.Current.Day)
         {
             messageLog = new MessageEventLog(null);
-            messageLog.Title = AbilityRules.TranslateResourceString(GameText.s_infoText);
+            messageLog.Title = AbilityRules.TranslateResourceString(GameText.InfoText);
             messageLog.Buttons = MessageEventLogButtons.Ok;
             messageLog.Layout = MessageEventLogLayout.Normal;
             var turnLimitReached = AbilityRules.TranslateResourceString(s_turnLimitReachedText);
@@ -171,7 +171,7 @@ public partial class PlayerControl : EngineObject
         EngineMessage.InitializeMessage(ref message, 537001986, this);
         message.Payload = player;
         AoWHSMap.Current.SendMessage(ref message, this);
-        AoWHSMap.Current._newTurnEventsStore.Raise(player);
+        AoWHSMap.Current.NewTurnEventsStore.Raise(player);
         EngineMessage.InitializeMessage(ref message, 537001987, this);
         message.Payload = player;
         AoWHSMap.Current.SendMessage(ref message, this);
@@ -212,7 +212,7 @@ public partial class PlayerControl : EngineObject
             }
             catch
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_couldNotSaveFormat), [fileName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.CouldNotSaveFormat), [fileName]);
                 AoWHSMap.Current.ShowWarning(format);
             }
         }
@@ -225,7 +225,7 @@ public partial class PlayerControl : EngineObject
             }
             catch
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_couldNotSaveFormat), [fileName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.CouldNotSaveFormat), [fileName]);
                 AoWHSMap.Current.ShowWarning(format);
             }
         }
@@ -381,10 +381,10 @@ public partial class PlayerControl : EngineObject
             {
                 if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous || AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer)
                 {
-                    ExitMode = mode;
-                    ExitCallback = done;
+                    _exitMode = mode;
+                    _exitCallback = done;
                     log = new MessageEventLog(null);
-                    log.Title = AbilityRules.TranslateResourceString(s_confirmText);
+                    log.Title = AbilityRules.TranslateResourceString(ConfirmText);
                     log.Buttons = MessageEventLogButtons.YesNoCancel;
                     log.Layout = MessageEventLogLayout.Normal;
                     var yourAboutToExitAMultiPlayerGame = AbilityRules.TranslateResourceString(s_yourAboutToExitMultiPlayerGameText);
@@ -397,7 +397,7 @@ public partial class PlayerControl : EngineObject
                 else
                 {
                     log = new MessageEventLog(null);
-                    log.Title = AbilityRules.TranslateResourceString(GameText.s_messageText);
+                    log.Title = AbilityRules.TranslateResourceString(GameText.MessageText);
                     log.Buttons = MessageEventLogButtons.Ok;
                     log.Layout = MessageEventLogLayout.Normal;
                     var pleaseWaitTillItIsYourTurn = AbilityRules.TranslateResourceString(s_pleaseWaitTillItIsYourTurnText);
@@ -410,14 +410,14 @@ public partial class PlayerControl : EngineObject
             {
                 if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Modified) && AoWHSMap.Current.GameStatus != AoWHSMapGameStatus.Terminated && AoWHSMap.Current.GameType != GameType.Tutorial)
                 {
-                    if (!(ExitCallback != null))
+                    if (!(_exitCallback != null))
                     {
                         if (mode != ExitGameMode.Reload)
                         {
-                            ExitMode = mode;
-                            ExitCallback = done;
+                            _exitMode = mode;
+                            _exitCallback = done;
                             log = new MessageEventLog(null);
-                            log.Title = AbilityRules.TranslateResourceString(s_confirmText);
+                            log.Title = AbilityRules.TranslateResourceString(ConfirmText);
                             log.Buttons = MessageEventLogButtons.YesNoCancel;
                             if (GameTables.GameEngine.Campaign == null && !IsEmpty(AoWHSMap.Current.FileName) && !DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
                             {
@@ -455,7 +455,7 @@ public partial class PlayerControl : EngineObject
                     }
                     else
                     {
-                        ExitCallback(ExitMode, false);
+                        _exitCallback(_exitMode, false);
                     }
                 }
                 else
@@ -519,18 +519,18 @@ public partial class PlayerControl : EngineObject
         int player;
         int count;
         PlayerConnectionEventLog log;
-        for (int I = DisconnectedPlayers.Count - 1; I >= 0; I--)
+        for (int I = _disconnectedPlayers.Count - 1; I >= 0; I--)
         {
-            player = DisconnectedPlayers[I].First;
+            player = _disconnectedPlayers[I].First;
             if (AoWHSMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.None)
             {
                 if (AoWHSMap.Current.TokenManager.PlayerReady(AoWHSMap.Current.CurrentPlayer) && AoWHSMap.Current.TokenManager.TokenExecutor.ActiveTacticalBattle.Count == 0)
                 {
-                    count = DisconnectedPlayers[I].Second;
+                    count = _disconnectedPlayers[I].Second;
                     if (count > 0)
                     {
                         count -= 1;
-                        DisconnectedPlayers.List[I].Second = count;
+                        _disconnectedPlayers.List[I].Second = count;
                     }
 
                     if (count == 0)
@@ -539,13 +539,13 @@ public partial class PlayerControl : EngineObject
                         log.Setup((sbyte)player, 2);
                         AoWHSMap.Current.TriggerExecuteEventLog(log, false, null);
                         log.Release();
-                        DisconnectedPlayers.Delete(I);
+                        _disconnectedPlayers.Delete(I);
                     }
                 }
             }
             else
             {
-                DisconnectedPlayers.Delete(I);
+                _disconnectedPlayers.Delete(I);
             }
         }
     }
@@ -575,13 +575,13 @@ public partial class PlayerControl : EngineObject
         PlayerConnectionEventLog log;
         if (AoWHSMap.Current.TokenManager.TokenExecutor.ActiveTacticalBattle.Active)
         {
-            if (!OutOfSyncShown)
+            if (!_outOfSyncShown)
             {
                 log = new PlayerConnectionEventLog(null);
                 log.Setup(-1, 3);
                 AoWHSMap.Current.TriggerExecuteEventLog(log, AoWHSMap.Current.Combat != null, null);
                 log.Release();
-                OutOfSyncShown = true;
+                _outOfSyncShown = true;
             }
             else
             {
@@ -603,7 +603,7 @@ public partial class PlayerControl : EngineObject
             race = AoWHSMap.Current.Players.GetPlayers(I).PlayerRace;
             if (race != -1)
             {
-                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[race]);
+                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[race]);
                 text = text + "(" + raceNamesPlural + ")";
             }
 
@@ -632,20 +632,20 @@ public partial class PlayerControl : EngineObject
             }
 
             AoWHSMap.Current.ExecuteExitGame();
-            if (ExitCallback != null)
+            if (_exitCallback != null)
             {
-                ExitCallback(ExitMode, true);
+                _exitCallback(_exitMode, true);
             }
         }
         else
         {
-            if (ExitCallback != null)
+            if (_exitCallback != null)
             {
-                ExitCallback(ExitMode, false);
+                _exitCallback(_exitMode, false);
             }
         }
 
-        ExitCallback = null;
+        _exitCallback = null;
     }
 
     // PlayerC.PAS:326
@@ -689,12 +689,12 @@ public partial class PlayerControl : EngineObject
                 }
 
                 AoWHSMap.Current.ExecuteExitGame();
-                if (ExitCallback != null)
+                if (_exitCallback != null)
                 {
-                    ExitCallback(ExitMode, true);
+                    _exitCallback(_exitMode, true);
                 }
 
-                ExitCallback = null;
+                _exitCallback = null;
             }
         }
         else
@@ -702,23 +702,23 @@ public partial class PlayerControl : EngineObject
             if (((MessageEventLog)log).PressedButton == PressedEventLogButton.No)
             {
                 AoWHSMap.Current.ExecuteExitGame();
-                if (ExitCallback != null)
+                if (_exitCallback != null)
                 {
-                    ExitCallback(ExitMode, true);
+                    _exitCallback(_exitMode, true);
                 }
 
-                ExitCallback = null;
+                _exitCallback = null;
             }
             else
             {
                 if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Cancel)
                 {
-                    if (ExitCallback != null)
+                    if (_exitCallback != null)
                     {
-                        ExitCallback(ExitMode, false);
+                        _exitCallback(_exitMode, false);
                     }
 
-                    ExitCallback = null;
+                    _exitCallback = null;
                 }
             }
         }
@@ -734,8 +734,8 @@ public partial class PlayerControl : EngineObject
             {
                 tokenEvent = new TerminatePlayerTokenEvent(null);
                 tokenEvent.Player = AoWHSMap.Current.SeatedPlayer;
-                tokenEvent.ExitCallback = ExitCallback;
-                tokenEvent.ExitMode = ExitMode;
+                tokenEvent.ExitCallback = _exitCallback;
+                tokenEvent.ExitMode = _exitMode;
                 AoWHSMap.Current.TokenManager.GetTokenControl(AoWHSMap.Current.SeatedPlayer).AddEvent(tokenEvent);
                 tokenEvent.Release();
             }
@@ -764,10 +764,10 @@ public partial class PlayerControl : EngineObject
         string password = "";
         MessageEventLog messageLog = default;
         password = AbilityRules.Encode(((PasswordEventLog)log).Password, 0);
-        if (((PasswordEventLog)log).PressedButton != PressedEventLogButton.Ok || password != Password)
+        if (((PasswordEventLog)log).PressedButton != PressedEventLogButton.Ok || password != _password)
         {
             messageLog = new MessageEventLog(null);
-            messageLog.Title = AbilityRules.TranslateResourceString(GameText.s_warningText);
+            messageLog.Title = AbilityRules.TranslateResourceString(GameText.WarningText);
             messageLog.Buttons = MessageEventLogButtons.YesNo;
             var passwordFailed = AbilityRules.TranslateResourceString(s_passwordFailedText);
             messageLog.Message.Text = passwordFailed;
@@ -792,7 +792,7 @@ public partial class PlayerControl : EngineObject
             SetSeatedPlayer(-1);
         }
 
-        Password = password;
+        _password = password;
         log = new PasswordEventLog(null);
         AoWHSMap.Current.TriggerExecuteEventLog(log, false, ValidatePasswordCallback);
         log.Release();
@@ -801,15 +801,17 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:551
     public void PlayerDisconnected(sbyte player)
     {
-        if (DisconnectedPlayers.IndexOfItemA(player) == -1)
+        if (_disconnectedPlayers.IndexOfItemA(player) == -1)
         {
-            DisconnectedPlayers.AddAbility(player, 150);
+            _disconnectedPlayers.AddAbility(player, 150);
         }
     }
 
     private static readonly string s_newDayFormat = "Day %d dawns";
     private static readonly string s_turnLimitReachedText = "Sorry, turn limit reached!";
-    internal static readonly string s_confirmText = "Confirm";
+
+    internal static string ConfirmText { get; } = "Confirm";
+
     private static readonly string s_yourAboutToExitMultiPlayerGameText = "You're about to exit a multi-player game!";
     private static readonly string s_doYouWantToContinueExitingText = "Do you want to continue exiting?";
     private static readonly string s_pleaseWaitTillItIsYourTurnText = "Please, wait till it is your turn.";

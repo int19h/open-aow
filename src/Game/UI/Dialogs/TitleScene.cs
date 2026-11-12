@@ -36,25 +36,29 @@ public partial class TitleScene : DataModule
     public Label NameLbl;
     public Label Copyright;
     public Label Version;
-    public int Frame;
-    public int TotalFrame;
-    public MouseButton MouseButton;
-    public int MouseX;
-    public int MouseY;
-    public int SelectedButton;
-    public int PressedButton;
-    public int HoverButton;
-    public Rect SceneRectangle;
-    public bool RedrawBackground;
-    public bool ShowCredits;
-    public List<StringList> Credits;
-    public int CreditPage;
-    public int CreditFrame;
-    public bool ShowIntro;
-    public ByteArray3 Padding;
-    public int IntroFrame;
-    public ImageLibraryFont Font;
-    public ImageLibraryFont CreditsFont;
+    private int _frame;
+    private int _totalFrame;
+
+    public MouseButton MouseButton { get; private set; }
+
+    private int _mouseX;
+    private int _mouseY;
+    private int _selectedButton;
+    private int _pressedButton;
+    private int _hoverButton;
+    private Rect _sceneRectangle;
+    private bool _redrawBackground;
+    private bool _showCredits;
+    private List<StringList> _credits;
+    private int _creditPage;
+    private int _creditFrame;
+    private bool _showIntro;
+
+    public ByteArray3 Padding { get; }
+
+    private int _introFrame;
+    private ImageLibraryFont _font;
+    private ImageLibraryFont _creditsFont;
 
     // AoWTitleScene.pas:103
     public void DrawCredits(ref LockedSurface surface)
@@ -65,17 +69,17 @@ public partial class TitleScene : DataModule
         int alpha;
         ShowInfo info = default;
         StringCollection lines;
-        CreditFrame += 1;
+        _creditFrame += 1;
         info.ShowMode = ShowMode.Blended;
         info.BlendMode = BlendMode.Alpha;
-        lines = Credits[CreditPage];
+        lines = _credits[_creditPage];
         X = surface.Width / 2;
         var count = lines.Count;
-        Y = surface.Height / 2 - ((count * 25 + CreditsFont.Height) / 2 + 35);
+        Y = surface.Height / 2 - ((count * 25 + _creditsFont.Height) / 2 + 35);
         duration = lines.Count * 30 + 20 + 50;
         if (lines.Count > 0)
         {
-            alpha = CreditFrame;
+            alpha = _creditFrame;
             if (alpha > duration)
             {
                 alpha = 100 - (alpha - duration) * 5;
@@ -91,24 +95,24 @@ public partial class TitleScene : DataModule
                 if (alpha < 100)
                 {
                     var line = lines[0];
-                    CreditsFont.SetText(X, Y, line, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
+                    _creditsFont.SetText(X, Y, line, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
                 }
                 else
                 {
                     var line = lines[0];
-                    CreditsFont.SetTextCentered(X, Y, line, surface);
+                    _creditsFont.SetTextCentered(X, Y, line, surface);
                 }
             }
 
             for (int I = 1, last = lines.Count - 1; I <= last; I++)
             {
-                if (CreditFrame > duration)
+                if (_creditFrame > duration)
                 {
-                    alpha = 100 - (CreditFrame - duration) * 5;
+                    alpha = 100 - (_creditFrame - duration) * 5;
                 }
                 else
                 {
-                    alpha = (CreditFrame - (I * 30 + 20)) * 10;
+                    alpha = (_creditFrame - (I * 30 + 20)) * 10;
                 }
 
                 if (alpha > 0)
@@ -117,28 +121,28 @@ public partial class TitleScene : DataModule
                     if (alpha < 100)
                     {
                         var line = lines[I];
-                        CreditsFont.SetText(X, Y + I * 25 + 5, line, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
+                        _creditsFont.SetText(X, Y + I * 25 + 5, line, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
                     }
                     else
                     {
                         var line = lines[I];
-                        CreditsFont.SetTextCentered(X, Y + I * 25 + 5, line, surface);
+                        _creditsFont.SetTextCentered(X, Y + I * 25 + 5, line, surface);
                     }
                 }
             }
         }
 
-        if (CreditFrame > duration + 20)
+        if (_creditFrame > duration + 20)
         {
-            CreditPage += 1;
-            if (CreditPage < Credits.Count)
+            _creditPage += 1;
+            if (_creditPage < _credits.Count)
             {
-                CreditFrame = 0;
+                _creditFrame = 0;
             }
             else
             {
-                TotalFrame = 0;
-                ShowCredits = false;
+                _totalFrame = 0;
+                _showCredits = false;
             }
         }
     }
@@ -153,11 +157,11 @@ public partial class TitleScene : DataModule
         int opacity;
         ShowInfo info = default;
         string text = "";
-        IntroFrame += 1;
+        _introFrame += 1;
         X = surface.Width / 2;
         Y = surface.Height / 2;
-        page = IntroFrame / 130;
-        frame = IntroFrame % 130;
+        page = _introFrame / 130;
+        frame = _introFrame % 130;
         switch (frame)
         {
             case >= 0 and <= 10:
@@ -194,11 +198,11 @@ public partial class TitleScene : DataModule
                 info.ShowMode = ShowMode.Blended;
                 info.BlendMode = BlendMode.Alpha;
                 info.Blend = opacity;
-                CreditsFont.SetText(X, Y - CreditsFont.Height / 2, text, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
+                _creditsFont.SetText(X, Y - _creditsFont.Height / 2, text, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
             }
             else
             {
-                CreditsFont.SetTextCentered(X, Y - CreditsFont.Height / 2, text, surface);
+                _creditsFont.SetTextCentered(X, Y - _creditsFont.Height / 2, text, surface);
             }
         }
 
@@ -225,10 +229,10 @@ public partial class TitleScene : DataModule
                 case 1:
                     var northAmerica = AbilityRules.TranslateResourceString(s_northAmericaText);
                     var titleSceneImageLibrary = TitleSceneIL[6];
-                    CreditsFont.SetTextCentered(X - 75, Y - titleSceneImageLibrary.Height / 2 - 20, northAmerica, surface);
+                    _creditsFont.SetTextCentered(X - 75, Y - titleSceneImageLibrary.Height / 2 - 20, northAmerica, surface);
                     var europe = AbilityRules.TranslateResourceString(s_europeText);
                     var titleSceneImageLibrary2 = TitleSceneIL[6];
-                    CreditsFont.SetTextCentered(X + 75 + 15, Y - titleSceneImageLibrary2.Height / 2 - 20, europe, surface);
+                    _creditsFont.SetTextCentered(X + 75 + 15, Y - titleSceneImageLibrary2.Height / 2 - 20, europe, surface);
                     if (TitleSceneIL[6] != null)
                     {
                         var titleSceneImageLibraryHeight = TitleSceneIL[6];
@@ -263,11 +267,11 @@ public partial class TitleScene : DataModule
                         info.ShowMode = ShowMode.Blended;
                         info.BlendMode = BlendMode.Alpha;
                         info.Blend = opacity;
-                        CreditsFont.SetText(X, Y - CreditsFont.Height / 2, "Copyright (C) 1999,2000 Triumph Studios", surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
+                        _creditsFont.SetText(X, Y - _creditsFont.Height / 2, "Copyright (C) 1999,2000 Triumph Studios", surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
                     }
                     else
                     {
-                        CreditsFont.SetTextCentered(X, Y - CreditsFont.Height / 2, "Copyright (C) 1999,2000 Triumph Studios", surface);
+                        _creditsFont.SetTextCentered(X, Y - _creditsFont.Height / 2, "Copyright (C) 1999,2000 Triumph Studios", surface);
                     }
 
                     break;
@@ -276,7 +280,7 @@ public partial class TitleScene : DataModule
 
         if (page == 3)
         {
-            ShowIntro = false;
+            _showIntro = false;
         }
     }
 
@@ -289,20 +293,20 @@ public partial class TitleScene : DataModule
         int spacing;
         int image;
         Rect R;
-        SceneRectangle.Left = 0;
-        SceneRectangle.Right = surface.Width;
-        SceneRectangle.Top = surface.Height / 2 - 240;
-        SceneRectangle.Bottom = SceneRectangle.Top + 480;
-        if (RedrawBackground)
+        _sceneRectangle.Left = 0;
+        _sceneRectangle.Right = surface.Width;
+        _sceneRectangle.Top = surface.Height / 2 - 240;
+        _sceneRectangle.Bottom = _sceneRectangle.Top + 480;
+        if (_redrawBackground)
         {
-            R = SceneRectangle;
+            R = _sceneRectangle;
             var titleSceneImageLibrary = TitleSceneIL[0];
             R.Top += titleSceneImageLibrary.Height;
             PixelFormats.ColorFillSurfaceDescription(R, 0, surface);
         }
 
-        Y = SceneRectangle.Top;
-        frame = Frame - 25;
+        Y = _sceneRectangle.Top;
+        frame = _frame - 25;
         if (frame < 0)
         {
             frame = 0;
@@ -312,26 +316,26 @@ public partial class TitleScene : DataModule
         TitleSceneIL[0].Show(frame, Y, surface);
         var titleSceneImageLibraryWidth = TitleSceneIL[0];
         TitleSceneIL[0].Show(frame + titleSceneImageLibraryWidth.Width, Y, surface);
-        if (!ShowCredits && Frame > 25)
+        if (!_showCredits && _frame > 25)
         {
-            if (Frame < 75)
+            if (_frame < 75)
             {
-                frame = (Frame - 25) * 2;
+                frame = (_frame - 25) * 2;
             }
             else
             {
-                if (TotalFrame <= 730)
+                if (_totalFrame <= 730)
                 {
                     frame = 100;
                 }
                 else
                 {
-                    frame = (750 - TotalFrame) * 5;
+                    frame = (750 - _totalFrame) * 5;
                 }
             }
 
             var titleSceneImageLibrary = TitleSceneIL[1];
-            X = (SceneRectangle.Right - SceneRectangle.Left - titleSceneImageLibrary.Width) / 2;
+            X = (_sceneRectangle.Right - _sceneRectangle.Left - titleSceneImageLibrary.Width) / 2;
             if (frame < 100)
             {
                 var lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(frame);
@@ -344,16 +348,16 @@ public partial class TitleScene : DataModule
         }
 
         spacing = 120;
-        X = (TitleSceneIL[10].Width + SceneRectangle.Left + SceneRectangle.Right) / 2 - 320;
+        X = (TitleSceneIL[10].Width + _sceneRectangle.Left + _sceneRectangle.Right) / 2 - 320;
         for (int I = 0; I <= 4; I++)
         {
-            if (I == PressedButton && I == HitTest())
+            if (I == _pressedButton && I == HitTest())
             {
                 image = 2;
             }
             else
             {
-                if (PressedButton == -1 && I == HoverButton)
+                if (_pressedButton == -1 && I == _hoverButton)
                 {
                     image = 1;
                 }
@@ -366,10 +370,10 @@ public partial class TitleScene : DataModule
             TitleSceneIL[I * 3 + 10 + image].Show(X + spacing * I, Y + 355, surface);
             if (I == HitTest())
             {
-                Font.Color = 16777215;
+                _font.Color = 16777215;
                 var translatedText = AbilityRules.TranslateResourceString(TitleCaptions.TitleButtons[I]);
                 var titleSceneImageLibrary = TitleSceneIL[10];
-                Font.SetTextCentered(X + spacing * I + titleSceneImageLibrary.Width / 2, Y + 445, translatedText, surface);
+                _font.SetTextCentered(X + spacing * I + titleSceneImageLibrary.Width / 2, Y + 445, translatedText, surface);
             }
 
             if (GameTables.GameEngine.AnimationDetail == 2)
@@ -378,12 +382,12 @@ public partial class TitleScene : DataModule
             }
         }
 
-        if (ShowCredits)
+        if (_showCredits)
         {
             DrawCredits(ref surface);
         }
 
-        if (ShowIntro)
+        if (_showIntro)
         {
             DrawIntro(ref surface);
         }
@@ -398,31 +402,31 @@ public partial class TitleScene : DataModule
     // AoWTitleScene.pas:266
     public void ResetScene()
     {
-        HoverButton = -1;
-        Frame = 0;
-        TotalFrame = 0;
-        ShowCredits = false;
+        _hoverButton = -1;
+        _frame = 0;
+        _totalFrame = 0;
+        _showCredits = false;
         // { Original repeats the total-frame reset. }
-        TotalFrame = 0;
-        ShowIntro = false;
+        _totalFrame = 0;
+        _showIntro = false;
     }
 
     // AoWTitleScene.pas:276
     public void AdvanceFrame()
     {
-        Frame += 1;
-        TotalFrame += 1;
-        if (!ShowCredits && TotalFrame == 750)
+        _frame += 1;
+        _totalFrame += 1;
+        if (!_showCredits && _totalFrame == 750)
         {
-            CreditPage = 0;
-            CreditFrame = 0;
-            ShowCredits = true;
+            _creditPage = 0;
+            _creditFrame = 0;
+            _showCredits = true;
         }
 
-        if (!ShowIntro && TotalFrame == 300)
+        if (!_showIntro && _totalFrame == 300)
         {
-            IntroFrame = 0;
-            ShowIntro = true;
+            _introFrame = 0;
+            _showIntro = true;
         }
     }
 
@@ -433,16 +437,16 @@ public partial class TitleScene : DataModule
         bool found;
         int X;
         int spacing;
-        if (SceneRectangle.Bottom - 125 < MouseY && MouseY < SceneRectangle.Bottom)
+        if (_sceneRectangle.Bottom - 125 < _mouseY && _mouseY < _sceneRectangle.Bottom)
         {
             spacing = 120;
-            X = (TitleSceneIL[10].Width + (SceneRectangle.Left + SceneRectangle.Right)) / 2 - 320;
+            X = (TitleSceneIL[10].Width + (_sceneRectangle.Left + _sceneRectangle.Right)) / 2 - 320;
             result = 5;
             found = false;
             while (result != 0 && !found)
             {
                 result -= 1;
-                found = spacing * result + X < MouseX && TitleSceneIL[10].Width + X + spacing * result > MouseX;
+                found = spacing * result + X < _mouseX && TitleSceneIL[10].Width + X + spacing * result > _mouseX;
             }
 
             if (!found)
@@ -467,7 +471,7 @@ public partial class TitleScene : DataModule
             if (Succeeded(surface.Lock(ref lockedSurface)))
             {
                 DrawScene(ref lockedSurface);
-                if (GameTables.GameEngine.RegisteredVersion() && !ShowCredits)
+                if (GameTables.GameEngine.RegisteredVersion() && !_showCredits)
                 {
                     LegalNotice.Draw(lockedSurface);
                     StrLbl.Draw(lockedSurface);
@@ -496,48 +500,48 @@ public partial class TitleScene : DataModule
         var versionString = GameTables.GameEngine.GetVersionString();
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_versionFormat), [versionString]);
         Version.Text = format;
-        Credits = new List<StringList>();
+        _credits = new List<StringList>();
         lines = new StringList();
         lines.Add(AbilityRules.TranslateResourceString(s_designerAndDirectorText));
         lines.Add("Lennart Sas");
         lines.Add("");
         lines.Add(AbilityRules.TranslateResourceString(s_additionalDesignText));
         lines.Add("Arno van Wingerden");
-        Credits.Add(lines);
+        _credits.Add(lines);
         lines = new StringList();
         lines.Add(AbilityRules.TranslateResourceString(s_leadProgrammerText));
         lines.Add("Arno van Wingerden");
         lines.Add("");
         lines.Add(AbilityRules.TranslateResourceString(s_programmerText));
         lines.Add("Josh Farley");
-        Credits.Add(lines);
+        _credits.Add(lines);
         lines = new StringList();
         lines.Add(AbilityRules.TranslateResourceString(s_artistsText));
         lines.Add("Lennart Sas");
         lines.Add("Thomas Cardin");
         lines.Add("Roy Postma");
-        Credits.Add(lines);
+        _credits.Add(lines);
         lines = new StringList();
         lines.Add(AbilityRules.TranslateResourceString(s_leadScenarioDesignerText));
         lines.Add("Menno Sas");
-        Credits.Add(lines);
+        _credits.Add(lines);
         lines = new StringList();
         lines.Add(AbilityRules.TranslateResourceString(s_scenarioDesignersText));
         lines.Add("Doug Gibson");
         lines.Add("Arnout Sas");
         lines.Add("Hugo van Wingerden");
-        Credits.Add(lines);
+        _credits.Add(lines);
         lines = new StringList();
         lines.Add(AbilityRules.TranslateResourceString(s_writerText));
         lines.Add("Raymond Bingham");
-        Credits.Add(lines);
+        _credits.Add(lines);
         lines = new StringList();
         lines.Add(AbilityRules.TranslateResourceString(s_musicText));
         lines.Add("Michiel van den Bos");
         lines.Add("");
         lines.Add(AbilityRules.TranslateResourceString(s_soundEffectText));
         lines.Add("Nando Eweg");
-        Credits.Add(lines);
+        _credits.Add(lines);
         lines.Add("");
         lines.Add(AbilityRules.TranslateResourceString(s_introVoiceText));
         lines.Add("John McGinn (English)");
@@ -545,18 +549,18 @@ public partial class TitleScene : DataModule
         lines = new StringList();
         lines.Add(AbilityRules.TranslateResourceString(s_galaxySoundSystemText));
         lines.Add("Carlo Vogelsang");
-        Credits.Add(lines);
+        _credits.Add(lines);
         lines = new StringList();
         lines.Add(AbilityRules.TranslateResourceString(s_internetMailSuiteText));
         lines.Add("Argo Software Design");
-        Credits.Add(lines);
+        _credits.Add(lines);
         lines = new StringList();
         lines.Add(AbilityRules.TranslateResourceString(s_qaCoreText));
         lines.Add("Cliff Benjamin");
         lines.Add("Ian Calderon");
         lines.Add("Ted Stephenson");
         lines.Add("Hugo van Wingerden");
-        Credits.Add(lines);
+        _credits.Add(lines);
         lines = new StringList();
         lines.Add(AbilityRules.TranslateResourceString("Take 2 Europe"));
         lines.Add("");
@@ -565,7 +569,7 @@ public partial class TitleScene : DataModule
         lines.Add("");
         lines.Add("Manuals + Translations");
         lines.Add("Frazer Nash");
-        Credits.Add(lines);
+        _credits.Add(lines);
         lines = new StringList();
         lines.Add("Tarantula Studios testing suite");
         lines.Add("");
@@ -574,7 +578,7 @@ public partial class TitleScene : DataModule
         lines.Add("");
         lines.Add("Lead Tester");
         lines.Add("Paul Byers");
-        Credits.Add(lines);
+        _credits.Add(lines);
         lines = new StringList();
         lines.Add("Testers");
         lines.Add("");
@@ -583,12 +587,12 @@ public partial class TitleScene : DataModule
         lines.Add("Julian Turner");
         lines.Add("Jim Cree");
         lines.Add("Lee Johnson");
-        Credits.Add(lines);
+        _credits.Add(lines);
         lines = new StringList();
         lines.Add(AbilityRules.TranslateResourceString(s_bizzText));
         lines.Add("Jay Wilbur");
         lines.Add("Mark Rein");
-        Credits.Add(lines);
+        _credits.Add(lines);
         lines = new StringList();
         lines.Add(AbilityRules.TranslateResourceString(s_specialThanksText));
         lines.Add("Eelco van der Snoek");
@@ -596,18 +600,18 @@ public partial class TitleScene : DataModule
         lines.Add("Dietmer Tan");
         lines.Add("Arjan Brussee");
         lines.Add("Daniel Cook");
-        Credits.Add(lines);
+        _credits.Add(lines);
     }
 
     // AoWTitleScene.pas:448
     public void TitleSceneDestroy()
     {
-        for (int I = Credits.Count - 1; I >= 0; I--)
+        for (int I = _credits.Count - 1; I >= 0; I--)
         {
-            (Credits[I] as IDisposable)?.Dispose();
+            (_credits[I] as IDisposable)?.Dispose();
         }
 
-        Credits?.Clear();
+        _credits?.Clear();
     }
 
     // AoWTitleScene.pas:456
@@ -623,23 +627,23 @@ public partial class TitleScene : DataModule
     // AoWTitleScene.pas:462
     public void WindowMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        MouseX = X;
-        MouseY = Y;
+        _mouseX = X;
+        _mouseY = Y;
         MouseButton = button;
-        PressedButton = HitTest();
+        _pressedButton = HitTest();
     }
 
     // AoWTitleScene.pas:470
     public void WindowMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        MouseX = X;
-        MouseY = Y;
-        if (HoverButton != -1)
+        _mouseX = X;
+        _mouseY = Y;
+        if (_hoverButton != -1)
         {
-            RedrawBackground = true;
+            _redrawBackground = true;
         }
 
-        HoverButton = HitTest();
+        _hoverButton = HitTest();
     }
 
     private static readonly string s_additionalDesignText = "Additional Design";
@@ -691,7 +695,7 @@ public partial class TitleScene : DataModule
         DialogHosts.TitleWindow.TitleWin.Visible = true;
         DialogHosts.FactionSelectionWindow.FactionPnl.Visible = true;
         dialog.TopLbl.Visible = true;
-        var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.s_chooseFactionText);
+        var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.ChooseFactionText);
         dialog.TopLbl.Text = chooseFaction;
         dialog.LName.Visible = false;
         dialog.LText.Visible = false;
@@ -857,21 +861,21 @@ public partial class TitleScene : DataModule
             var turnButton = DialogHosts.TaskBar.TurnButton;
             if (AoWHSMap.Current.SeatedPlayer == -1)
             {
-                turnButton._currentPlayer = 12;
-                turnButton._lastPlayer = 12;
-                turnButton.AnimationFrame = turnButton._currentPlayer * 7;
+                turnButton.CurrentPlayer = 12;
+                turnButton.LastPlayer = 12;
+                turnButton.AnimationFrame = turnButton.CurrentPlayer * 7;
                 DialogHosts.TaskBar.AutoBtn.Visible = false;
             }
             else
             {
-                turnButton._lastPlayer = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).PlayerRace;
-                if (turnButton._lastPlayer == -1)
+                turnButton.LastPlayer = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).PlayerRace;
+                if (turnButton.LastPlayer == -1)
                 {
-                    turnButton._lastPlayer = 12;
+                    turnButton.LastPlayer = 12;
                 }
 
-                turnButton._currentPlayer = turnButton._lastPlayer;
-                turnButton.AnimationFrame = turnButton._lastPlayer * 7;
+                turnButton.CurrentPlayer = turnButton.LastPlayer;
+                turnButton.AnimationFrame = turnButton.LastPlayer * 7;
                 DialogHosts.TaskBar.AutoBtn.Visible = AoWHSMap.Current.PlayMode == PlayMode.Simultaneous;
             }
         }
@@ -936,11 +940,11 @@ public partial class TitleScene : DataModule
         DialogHosts.VideoDialog.ApplyMode();
         GameHost.MainForm.Display.FrameRate = 30;
         GameHost.MainForm.DisplayController.UseVerticalBlank = true;
-        scene.RedrawBackground = true;
-        scene.PressedButton = -1;
-        scene.HoverButton = -1;
-        scene.Font = DialogHosts.UIFonts.Font15WhiteGrey;
-        scene.CreditsFont = DialogHosts.UIFonts.Font15WhiteGrey;
+        scene._redrawBackground = true;
+        scene._pressedButton = -1;
+        scene._hoverButton = -1;
+        scene._font = DialogHosts.UIFonts.Font15WhiteGrey;
+        scene._creditsFont = DialogHosts.UIFonts.Font15WhiteGrey;
         scene.Window.WindowManager.SetImageLibraryIndex(4);
         scene.Window.Visible = true;
     }

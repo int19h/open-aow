@@ -271,7 +271,7 @@ public partial class TacticalBattleUnitHexSprite
                     }
                     else
                     {
-                        AoWHSSet.Current.FlagControl.Flags[MoveIndicator + 69].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
+                        AoWHSSet.Current.FlagControl.Flags[_moveIndicator + 69].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                     }
                 }
                 else
@@ -282,7 +282,7 @@ public partial class TacticalBattleUnitHexSprite
                     }
                     else
                     {
-                        AoWHSSet.Current.RaceResources.GetRaceResource(race).ImageLibrary[MoveIndicator + 69].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
+                        AoWHSSet.Current.RaceResources.GetRaceResource(race).ImageLibrary[_moveIndicator + 69].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                     }
                 }
 
@@ -357,23 +357,23 @@ public partial class TacticalBattleUnitHexSprite
             SetAction(SpriteAction.Move);
         }
 
-        if (MoveIndicator == 0)
+        if (_moveIndicator == 0)
         {
-            MoveIndicator = (short)(Random(5) + 1);
-            IndicatorStep = 1;
+            _moveIndicator = (short)(Random(5) + 1);
+            _indicatorStep = 1;
         }
         else
         {
-            MoveIndicator = (short)(MoveIndicator + IndicatorStep);
-            if (MoveIndicator == 1)
+            _moveIndicator = (short)(_moveIndicator + _indicatorStep);
+            if (_moveIndicator == 1)
             {
-                IndicatorStep = 1;
+                _indicatorStep = 1;
             }
             else
             {
-                if (MoveIndicator == 6)
+                if (_moveIndicator == 6)
                 {
-                    IndicatorStep = -1;
+                    _indicatorStep = -1;
                 }
             }
         }

@@ -106,12 +106,12 @@ public sealed class GameSwitchTests
         File.WriteAllBytes(file, bytes);
         GameEngine engine = EngineFixture.Engine;
         var live = EngineFixture.Configure(new AoWHSMap(null!), value => { value.Day = 7; value.MapName = "live"; });
-        var previous = engine._hexSpriteMap;
-        engine._hexSpriteMap = live;
+        var previous = engine.HexSpriteMap;
+        engine.SetHexSpriteMapWithoutCurrentMap(live);
         try
         {
             engine.LoadHsm(file, false, null!, GameProfile.WorldMap);
-            Assert.Same(live, engine._hexSpriteMap);
+            Assert.Same(live, engine.HexSpriteMap);
             Assert.Equal(7, live.Day);
             Assert.Equal("live", live.MapName);
             Assert.Equal(bytes, File.ReadAllBytes(file));
@@ -124,7 +124,7 @@ public sealed class GameSwitchTests
         }
         finally
         {
-            engine._hexSpriteMap = previous;
+            engine.SetHexSpriteMapWithoutCurrentMap(previous);
             File.Delete(file);
         }
     }

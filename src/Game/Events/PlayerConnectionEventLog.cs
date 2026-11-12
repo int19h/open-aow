@@ -18,8 +18,8 @@ public partial class PlayerConnectionEventLog : MessageEventLog
     public PlayerConnectionEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public byte Reason;
-    public sbyte DisconnectedPlayer;
+    private byte _reason;
+    private sbyte _disconnectedPlayer;
 
     // PlayerC.PAS:1714
     public override bool Yes()
@@ -43,9 +43,9 @@ public partial class PlayerConnectionEventLog : MessageEventLog
     // PlayerC.PAS:1671
     public void Setup(sbyte player, byte reason)
     {
-        Reason = reason;
-        DisconnectedPlayer = player;
-        switch (Reason)
+        _reason = reason;
+        _disconnectedPlayer = player;
+        switch (_reason)
         {
             case 3:
                 Buttons = MessageEventLogButtons.YesNo;
@@ -56,7 +56,7 @@ public partial class PlayerConnectionEventLog : MessageEventLog
                 break;
             case 1:
                 Buttons = MessageEventLogButtons.YesNo;
-                var name = AoWHSMap.Current.Players.GetPlayers(DisconnectedPlayer).GetName();
+                var name = AoWHSMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_connectionTimeOutFormat), [name]);
                 Message.Text = format;
                 Message.Add("");
@@ -65,9 +65,9 @@ public partial class PlayerConnectionEventLog : MessageEventLog
                 break;
             case 2:
                 Buttons = MessageEventLogButtons.YesNo;
-                if (DisconnectedPlayer != -1)
+                if (_disconnectedPlayer != -1)
                 {
-                    var name2 = AoWHSMap.Current.Players.GetPlayers(DisconnectedPlayer).GetName();
+                    var name2 = AoWHSMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
                     var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_connectionLostFormat), [name2]);
                     Message.Text = formattedText;
                 }

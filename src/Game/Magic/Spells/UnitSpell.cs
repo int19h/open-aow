@@ -31,10 +31,10 @@ public partial class UnitSpell : Spell
         TargetRange = 0;
     }
 
-    public bool AllowMultipleTargets;
-    public int TargetRange;
-    public byte UnitDispelResistance;
-    public int AIValue;
+    public bool AllowMultipleTargets { get; protected set; }
+    public int TargetRange { get; protected set; }
+    public byte UnitDispelResistance { get; protected set; }
+    public int AIValue { get; protected set; }
 
     // Spells.PAS:1444
     public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
@@ -135,7 +135,7 @@ public partial class UnitSpell : Spell
                     SetupUnitSelectionControl(caster, source, source.UnitListOwner);
                 }
 
-                AoWHSMap.Current._cosmeticSurgeryEventsStore.Raise(caster);
+                AoWHSMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
                 caster.Release();
             }
             else
@@ -282,7 +282,7 @@ public partial class UnitSpell : Spell
         UnitSpellCaster caster;
         caster = new UnitSpellCaster(null);
         SetupUnitSelectionControl(caster, source, party.Army);
-        AoWHSMap.Current._cosmeticSurgeryEventsStore.Raise(caster);
+        AoWHSMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
         caster.Release();
     }
 
@@ -457,7 +457,7 @@ public partial class UnitSpell : Spell
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_selectTargetPartyFormat), [SpellName]);
         control.Text.Text = format;
         control.Title = SpellName;
-        control.CancelText = AbilityRules.TranslateResourceString(GameText.s_cancelText);
+        control.CancelText = AbilityRules.TranslateResourceString(GameText.CancelText);
         control.SourceUnitId = source.UnitId;
         control.SourceImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(20).GetPreviewImage();
         control.ValidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(21).GetPreviewImage();

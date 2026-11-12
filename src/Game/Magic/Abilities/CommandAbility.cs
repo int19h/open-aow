@@ -25,7 +25,7 @@ public partial class CommandAbility : TouchAbility
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
     }
 
-    public int CommandedAbilityId;
+    public int CommandedAbilityId { get; protected set; }
 
     // AoWAb.PAS:5190
     public override AbilityType GetAbilityType() => AbilityType.Combat;
@@ -302,8 +302,8 @@ public partial class CommandAbility : TouchAbility
     }
 
     // AoWAb.PAS:5093
-    public override EngineClass AbilityDataClass() => s_commandDataClass;
+    public override EngineClass AbilityDataClass() => CommandDataClass;
 
-    internal static EngineClass s_commandDataClass = EngineClass.Of<CommandAbilityData>();
+    internal static EngineClass CommandDataClass { get; } = EngineClass.Of<CommandAbilityData>();
 
 }

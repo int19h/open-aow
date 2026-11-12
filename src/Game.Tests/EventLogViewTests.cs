@@ -168,23 +168,23 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     // A hero whose wish to join the seated player the test sets.
     private sealed class JoiningHero : Hero
     {
-        internal bool Joins;
+        private bool _joins;
 
         internal JoiningHero(bool joins) : base(null!)
         {
-            Joins = joins;
+            _joins = joins;
             HeroResource = new HeroResource(null!) { HeroType = HeroType.Hero };
         }
 
-        public override bool CanJoin(sbyte player) => Joins;
-        public override bool OfferToJoin(sbyte player) => Joins;
+        public override bool CanJoin(sbyte player) => _joins;
+        public override bool OfferToJoin(sbyte player) => _joins;
         public override bool GetTransporter() => false;
     }
 
     // Records the player each AI answer comes for.
     private sealed class RecordingAction() : DiplomaticAction(null!)
     {
-        internal readonly List<sbyte> Players = [];
+        internal List<sbyte> Players { get; } = [];
 
         public override void ExecuteAI(sbyte player) => Players.Add(player);
     }
@@ -192,7 +192,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     // Counts the unit lookups. An empty dictionary returns a miss without hashing, so the table holds one seed.
     private sealed class CountingInt32Comparer : IEqualityComparer<int>
     {
-        internal int Finds;
+        internal int Finds { get; private set; }
 
         public bool Equals(int left, int right) => left == right;
 
@@ -252,25 +252,27 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     {
         private readonly AoWHSMap _previousMap = AoWHSMap.Current;
         private readonly List<EngineObject> _created = [];
-        internal readonly AoWHSMap Map;
-        internal readonly MapField Field;
-        internal readonly CountingInt32Comparer UnitFinds = new();
-        internal readonly Dictionary<int, Troop> Units;
+        private readonly AoWHSMap _map;
+        private readonly MapField _field;
+
+        internal CountingInt32Comparer UnitFinds { get; } = new();
+
+        private readonly Dictionary<int, Troop> _units;
 
         internal Scene()
         {
-            Map = new AoWHSMap(null!);
-            Map.SeatedPlayer = Seated;
-            Map.UnitControl = new UnitControl(null!);
-            Units = new Dictionary<int, Troop>(UnitFinds);
-            Units.Add(key: -1, value: new Unit(null!));
-            Map.UnitControl.UnitTable = Units;
+            _map = new AoWHSMap(null!);
+            _map.SeatedPlayer = Seated;
+            _map.UnitControl = new UnitControl(null!);
+            _units = new Dictionary<int, Troop>(UnitFinds);
+            _units.Add(key: -1, value: new Unit(null!));
+            _map.UnitControl.UnitTable = _units;
             var container = new MapContainer(null!);
             var level = new MapLevel(container);
             level.CreateMapFieldList(1, 1);
-            Map._mapContainer = container;
-            Field = container.GetField(0, 0, 0);
-            AoWHSMap.Current = Map;
+            _map.MapContainer = container;
+            _field = container.GetField(0, 0, 0);
+            AoWHSMap.Current = _map;
         }
 
         internal EventLog Create(Type type)
@@ -290,15 +292,15 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             request.X = 0;
             request.Y = 0;
             request.MapLevel = 0;
-            while (Field.FindOwnedChild(ArmyHexSprite.ClassId) is HexSprite standing)
+            while (_field.FindOwnedChild(ArmyHexSprite.ClassId) is HexSprite standing)
             {
-                Field.RemoveHexSprite(standing);
+                _field.RemoveHexSprite(standing);
             }
             if (joins is bool joinsLocal)
             {
-                var army = new ArmyHexSprite(Field);
+                var army = new ArmyHexSprite(_field);
                 army.Army._children.Add(new JoiningHero(joinsLocal));
-                Assert.Same(army, Field.FindOwnedChild(ArmyHexSprite.ClassId));
+                Assert.Same(army, _field.FindOwnedChild(ArmyHexSprite.ClassId));
             }
         }
 
@@ -315,8 +317,8 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         internal void Prisoner(EventLog log, Troop? troop)
         {
-            Units.Remove(PrisonerId);
-            if (troop != null) Units.Add(key: PrisonerId, value: troop);
+            _units.Remove(PrisonerId);
+            if (troop != null) _units.Add(key: PrisonerId, value: troop);
             ((PrisonersJoinEventLog)log).FirstUnitId = PrisonerId;
         }
 
@@ -447,8 +449,9 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     {
         Assert.Equal(35, MapEvents.EventRenderers.All.Count);
         Assert.False(MapEvents.EventRenderers.TryGet(EventView.None, out _));
-        var keys = typeof(EventView).GetFields(BindingFlags.Public | BindingFlags.Static)
-            .Select(f => (EventView)f.GetValue(null)!).ToArray();
+        var keys = typeof(EventView).GetProperties(BindingFlags.Public | BindingFlags.Static)
+            .Where(property => property.PropertyType == typeof(EventView))
+            .Select(property => (EventView)property.GetValue(null)!).ToArray();
         Assert.Equal(36, keys.Length);
         Assert.Equal(keys.Length, keys.Select(k => k.Name).Distinct().Count());
         foreach (var key in keys.Where(k => k != EventView.None))

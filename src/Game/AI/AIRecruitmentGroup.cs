@@ -11,15 +11,16 @@ public partial class AIRecruitmentGroup : EngineObject
     // AIGroup.pas:750
     public AIRecruitmentGroup(ECustomNode owner) : base(owner)
     {
-        RefCount = 1;
+        _refCount = 1;
     }
 
-    public int RefCount;
-    public MapCoordinate Location;
-    public AIGroup Group;
-    public int MovePoints;
-    public int TransporterId;
-    public int PathStrength;
+    private int _refCount;
+
+    public MapCoordinate Location { get; set; }
+    public AIGroup Group { get; private set; }
+    public int MovePoints { get; set; }
+    public int TransporterId { get; set; }
+    public int PathStrength { get; set; }
 
     // AIGroup.pas:756
     public override void Dispose()
@@ -31,16 +32,16 @@ public partial class AIRecruitmentGroup : EngineObject
     // AIGroup.pas:762
     public override int AddRef()
     {
-        RefCount += 1;
-        return RefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // AIGroup.pas:768
     public override int Release()
     {
-        RefCount -= 1;
-        int result = RefCount;
-        if (RefCount == 0)
+        _refCount -= 1;
+        int result = _refCount;
+        if (_refCount == 0)
         {
             Dispose();
         }

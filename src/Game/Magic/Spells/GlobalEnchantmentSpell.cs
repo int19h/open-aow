@@ -12,7 +12,7 @@ namespace Aow.Game.Magic.Spells;
 // AIBasePriority
 public partial class GlobalEnchantmentSpell : Spell
 {
-    public int AIBasePriority;
+    public int AIBasePriority { get; protected set; }
 
     // GlobalEnchantmentSpells.pas:413
     public GlobalEnchantmentSpell(ECustomNode owner) : base(owner)
@@ -106,7 +106,7 @@ public partial class GlobalEnchantmentSpell : Spell
             else
             {
                 result = false;
-                messageText = AbilityRules.TranslateResourceString(GameText.s_cannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
+                messageText = AbilityRules.TranslateResourceString(GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
             }
         }
 

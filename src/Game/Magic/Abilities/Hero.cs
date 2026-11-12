@@ -39,39 +39,48 @@ public partial class Hero : Troop
     public new const int ClassId = 131632;
 
     public int FaceIndex;
-    public HeroResource HeroResource;
+
+    public HeroResource HeroResource { get; set; }
+
     public int HeroResourceIndex;
     public int Experience;
     public byte Level;
-    public int _usedSkillPoints;
+    private int _usedSkillPoints;
     public bool UpgradePending;
     public Set<HeroStatusElement> HeroStatus;
-    public int DeathDay;
-    public sbyte DeathPlayer;
-    public Set<HeroModeElement> Mode;
+    private int _deathDay;
+    private sbyte _deathPlayer;
+
+    public Set<HeroModeElement> Mode { get; set; }
+
     public string HeroName = "";
     public string Nickname = "";
     public sbyte Race;
-    public UnitGender Gender;
+    private UnitGender _gender;
     public sbyte UnitAttack;
     public sbyte UnitDefense;
     public sbyte UnitDamage;
     public sbyte UnitHits;
     public sbyte UnitMoves;
     public sbyte UnitResistance;
-    public HeroItems HeroItems;
-    public HeroInventory Inventory;
-    public bool CastSpellInstantly;
-    public sbyte MovePoints;
+
+    public HeroItems HeroItems { get; }
+    public HeroInventory Inventory { get; }
+
+    private bool _castSpellInstantly;
+    private sbyte _movePoints;
     public sbyte HitPoints;
-    public HeroPowerSource PowerSource;
+
+    public HeroPowerSource PowerSource { get; }
+
     public sbyte CastingPoints;
     public int CastingSpellId;
     public int CastingManaValue;
     public int CastingProgress;
     public int LibraryId;
     public string LibraryName = "";
-    public bool Registered;
+
+    public bool Registered { get; set; }
 
     // Hero.PAS:631
     public override void Dispose()
@@ -141,7 +150,7 @@ public partial class Hero : Troop
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Race), 12);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref CastingPoints), 13);
         stream.rwInteger(ref CastingSpellId, 14);
-        stream.rwData(Bytes.Of(ref Gender, 1), 1, 15);
+        stream.rwData(Bytes.Of(ref _gender, 1), 1, 15);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitAttack), 16);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitDefense), 17);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitDamage), 18);
@@ -152,17 +161,17 @@ public partial class Hero : Troop
         stream.rwBool(ref UpgradePending, 23);
         stream.rwInteger(ref Experience, 24);
         RwSet(ref HeroStatus, 1, 25, stream.rwData, 0);
-        stream.rwInteger(ref DeathDay, 26);
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DeathPlayer), 27);
+        stream.rwInteger(ref _deathDay, 26);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _deathPlayer), 27);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read) && Experience == 0)
         {
             Experience = LevelToExperience((int)(((uint)oldExperience) >> 5) + 1);
         }
 
-        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MovePoints), 29);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref _movePoints), 29);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HitPoints), 30);
         stream.rwInteger(ref CastingManaValue, 31);
-        stream.rwBool(ref CastSpellInstantly, 33);
+        stream.rwBool(ref _castSpellInstantly, 33);
         stream.rwInteger(ref CastingProgress, 34);
         stream.rwIntegerEx(ref LibraryId, -1, 35);
         if (!Mode.Contains(HeroModeElement.UpdatingFromLibrary))
@@ -410,7 +419,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:842
-    public override sbyte GetMovePoints() => MovePoints;
+    public override sbyte GetMovePoints() => _movePoints;
 
     // Hero.PAS:845
     public override void SetMovePoints(sbyte value)
@@ -420,7 +429,7 @@ public partial class Hero : Troop
             value = GetMoves();
         }
 
-        MovePoints = value;
+        _movePoints = value;
     }
 
     // Hero.PAS:851
@@ -536,7 +545,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:732
-    public override UnitGender GetGender() => Gender;
+    public override UnitGender GetGender() => _gender;
 
     // Hero.PAS:735
     public override UnitType GetUnitType() => UnitType.Humanoid;
@@ -896,11 +905,11 @@ public partial class Hero : Troop
                 bool condition = Group == null || Group.GroupClass.Behavior != GroupBehavior.Refuge;
                 if (condition)
                 {
-                    bool test = !GetAbilityEnabled(128) || player != DeathPlayer;
+                    bool test = !GetAbilityEnabled(128) || player != _deathPlayer;
                     if (!test)
                     {
                         var players = AoWHSMap.Current.Players.GetPlayers(player);
-                        test = DeathDay + 2 < players.Day;
+                        test = _deathDay + 2 < players.Day;
                     }
 
                     condition = test;
@@ -932,7 +941,7 @@ public partial class Hero : Troop
             playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
             if (EmergedToPlayer() == -1)
             {
-                if ((!GetAbilityEnabled(128) || player != DeathPlayer) && (Group == null || Group.GroupClass.Behavior != GroupBehavior.Refuge))
+                if ((!GetAbilityEnabled(128) || player != _deathPlayer) && (Group == null || Group.GroupClass.Behavior != GroupBehavior.Refuge))
                 {
                     chance = playerLocal.GetHeroJoinChance(GetLevel());
                     seed = RandSeed;
@@ -993,8 +1002,8 @@ public partial class Hero : Troop
             }
         }
 
-        DeathDay = AoWHSMap.Current.Players.GetPlayers(Player).Day;
-        DeathPlayer = Player;
+        _deathDay = AoWHSMap.Current.Players.GetPlayers(Player).Day;
+        _deathPlayer = Player;
         base.Killed();
         HeroStatus = HeroStatus + Set<HeroStatusElement>.Of(HeroStatusElement.Died);
         SetPlayer(-1);
@@ -1085,7 +1094,7 @@ public partial class Hero : Troop
         string result = LibraryName;
         if (IsEmpty(result))
         {
-            result = AbilityRules.TranslateResourceString(GameText.s_systemText);
+            result = AbilityRules.TranslateResourceString(GameText.SystemText);
         }
 
         return result;
@@ -1806,7 +1815,7 @@ public partial class Hero : Troop
     // Hero.PAS:1570
     public void UpdateSettings()
     {
-        MovePoints = GetMoves();
+        _movePoints = GetMoves();
         HitPoints = GetHits();
         CastingPoints = GetCastingPointsMax();
         Level = (byte)ExperienceToLevel(Experience);
@@ -2336,7 +2345,7 @@ public partial class Hero : Troop
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughChannelingPointsText);
+                reason = AbilityRules.TranslateResourceString(GameText.NotEnoughChannelingPointsText);
             }
         }
         else
@@ -2364,7 +2373,7 @@ public partial class Hero : Troop
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughManaText);
+                reason = AbilityRules.TranslateResourceString(GameText.NotEnoughManaText);
             }
         }
         else
@@ -2413,7 +2422,7 @@ public partial class Hero : Troop
                         else
                         {
                             result = false;
-                            reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughManaText);
+                            reason = AbilityRules.TranslateResourceString(GameText.NotEnoughManaText);
                         }
                     }
                     else
@@ -2462,7 +2471,7 @@ public partial class Hero : Troop
                 else
                 {
                     result = false;
-                    reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughManaText);
+                    reason = AbilityRules.TranslateResourceString(GameText.NotEnoughManaText);
                 }
             }
             else

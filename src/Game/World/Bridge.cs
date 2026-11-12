@@ -21,7 +21,7 @@ public partial class Bridge : AbstractRoad
     // Bridge.pas:48
     public new const int ClassId = 131444;
 
-    internal ushort _transitions;
+    private ushort _transitions;
 
     // Bridge.pas:43
 
@@ -51,7 +51,7 @@ public partial class Bridge : AbstractRoad
 
         oldOwner = (MapField)Owner;
         Owner = mapField;
-        _status = _status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
+        Status = Status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
         // { The original refreshes the overlay of the previous field's owner, a map level read as a map field, which is undefined, so skipped. }
         if (oldOwner?.Owner is MapField oldOwnerField)
         {
@@ -265,84 +265,84 @@ public partial class Bridge : AbstractRoad
             int baseValue;
             transitions = bridge._transitions;
             baseValue = 1;
-            _imageLibrary[baseValue + 18].Show(pixelX, pixelY, lockedSurface);
+            ImageLibrary[baseValue + 18].Show(pixelX, pixelY, lockedSurface);
             if ((transitions & 3) != 0)
             {
                 if ((transitions & 3) == 1)
                 {
-                    _imageLibrary[baseValue + 6].Show(pixelX, pixelY, lockedSurface);
+                    ImageLibrary[baseValue + 6].Show(pixelX, pixelY, lockedSurface);
                 }
 
-                _imageLibrary[baseValue + 12].Show(pixelX, pixelY, lockedSurface);
+                ImageLibrary[baseValue + 12].Show(pixelX, pixelY, lockedSurface);
             }
 
             if ((transitions & 12) != 0)
             {
                 if ((transitions & 12) == 4)
                 {
-                    _imageLibrary[baseValue + 7].Show(pixelX, pixelY, lockedSurface);
+                    ImageLibrary[baseValue + 7].Show(pixelX, pixelY, lockedSurface);
                 }
 
-                _imageLibrary[baseValue + 13].Show(pixelX, pixelY, lockedSurface);
+                ImageLibrary[baseValue + 13].Show(pixelX, pixelY, lockedSurface);
             }
 
             if ((transitions & 48) != 0)
             {
                 if ((transitions & 48) == 16)
                 {
-                    _imageLibrary[baseValue + 8].Show(pixelX, pixelY, lockedSurface);
+                    ImageLibrary[baseValue + 8].Show(pixelX, pixelY, lockedSurface);
                 }
                 else
                 {
-                    _imageLibrary[baseValue + 2].Show(pixelX, pixelY, lockedSurface);
+                    ImageLibrary[baseValue + 2].Show(pixelX, pixelY, lockedSurface);
                 }
 
-                _imageLibrary[baseValue + 14].Show(pixelX, pixelY, lockedSurface);
+                ImageLibrary[baseValue + 14].Show(pixelX, pixelY, lockedSurface);
             }
 
             if ((transitions & 192) != 0)
             {
                 if ((transitions & 192) == 64)
                 {
-                    _imageLibrary[baseValue + 9].Show(pixelX, pixelY, lockedSurface);
+                    ImageLibrary[baseValue + 9].Show(pixelX, pixelY, lockedSurface);
                 }
                 else
                 {
-                    _imageLibrary[baseValue + 3].Show(pixelX, pixelY, lockedSurface);
+                    ImageLibrary[baseValue + 3].Show(pixelX, pixelY, lockedSurface);
                 }
 
-                _imageLibrary[baseValue + 15].Show(pixelX, pixelY, lockedSurface);
+                ImageLibrary[baseValue + 15].Show(pixelX, pixelY, lockedSurface);
             }
 
             if ((transitions & 768) != 0)
             {
                 if ((transitions & 768) == 256)
                 {
-                    _imageLibrary[baseValue + 10].Show(pixelX, pixelY, lockedSurface);
+                    ImageLibrary[baseValue + 10].Show(pixelX, pixelY, lockedSurface);
                 }
                 else
                 {
-                    _imageLibrary[baseValue + 4].Show(pixelX, pixelY, lockedSurface);
+                    ImageLibrary[baseValue + 4].Show(pixelX, pixelY, lockedSurface);
                 }
 
-                _imageLibrary[baseValue + 16].Show(pixelX, pixelY, lockedSurface);
+                ImageLibrary[baseValue + 16].Show(pixelX, pixelY, lockedSurface);
             }
 
             if ((transitions & 3072) != 0)
             {
                 if ((transitions & 3072) == 1024)
                 {
-                    _imageLibrary[baseValue + 11].Show(pixelX, pixelY, lockedSurface);
+                    ImageLibrary[baseValue + 11].Show(pixelX, pixelY, lockedSurface);
                 }
 
-                _imageLibrary[baseValue + 17].Show(pixelX, pixelY, lockedSurface);
+                ImageLibrary[baseValue + 17].Show(pixelX, pixelY, lockedSurface);
             }
         }
 
         // Bridge.pas:253
         public override EditorClass Editor()
         {
-            EditorClass result = _engine.Editors.FindEditor(131445);
+            EditorClass result = Engine.Editors.FindEditor(131445);
             if (result == null)
             {
                 result = base.Editor();
@@ -363,7 +363,7 @@ public partial class Bridge : AbstractRoad
         // Bridge.pas:28
 
         // Bridge.pas:200
-        public override string ResourceEditName() => HexText.s_bridgeText;
+        public override string ResourceEditName() => HexText.BridgeText;
 
     }
 

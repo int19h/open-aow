@@ -10,14 +10,15 @@ namespace Aow.Game.Draw.Images;
 // FHashTable (the objects by name), FOwner
 public partial class ImageLibraryManagerList : StringList
 {
-    internal Dictionary<string, ImageLibraryManagerObject> _hashTable;
-    internal ImageLibraryManager _owner;
+    internal Dictionary<string, ImageLibraryManagerObject> HashTable { get; }
+
+    private ImageLibraryManager _owner;
 
     // ImageLib.pas:8093
     public ImageLibraryManagerList(ImageLibraryManager owner)
     {
         _owner = owner;
-        _hashTable = new Dictionary<string, ImageLibraryManagerObject>(AnsiCompareComparer.Instance);
+        HashTable = new Dictionary<string, ImageLibraryManagerObject>(AnsiCompareComparer.Instance);
     }
 
     // ImageLib.pas:8102
@@ -29,7 +30,7 @@ public partial class ImageLibraryManagerList : StringList
     }
 
     // ImageLib.pas:8108
-    public CustomImageLibrary GetImageLibrary(int index) => ((ImageLibraryManagerObject)Objects[index])._imageLibrary;
+    public CustomImageLibrary GetImageLibrary(int index) => ((ImageLibraryManagerObject)Objects[index]).ImageLibrary;
 
     // ImageLib.pas:8113
     public void UnloadImageLibrary()
@@ -38,9 +39,9 @@ public partial class ImageLibraryManagerList : StringList
         for (int I = Count - 1; I >= 0; I--)
         {
             objectValue = (ImageLibraryManagerObject)Objects[I];
-            if (objectValue != null && objectValue._imageLibrary != null)
+            if (objectValue != null && objectValue.ImageLibrary != null)
             {
-                objectValue._imageLibrary.ReleaseDiscardableImageData();
+                objectValue.ImageLibrary.ReleaseDiscardableImageData();
             }
         }
     }
@@ -52,7 +53,7 @@ public partial class ImageLibraryManagerList : StringList
         objectValue = new ImageLibraryManagerObject();
         fileName = UpperCase(fileName);
         AddObject(fileName, objectValue);
-        HashTables.Add(_hashTable, key: fileName, value: objectValue);
+        HashTables.Add(HashTable, key: fileName, value: objectValue);
         return objectValue;
     }
 
@@ -65,9 +66,9 @@ public partial class ImageLibraryManagerList : StringList
         ImageLibraryManagerObject objectValue;
         S = UpperCase(name);
         objectValue = new ImageLibraryManagerObject();
-        objectValue._imageLibrary = imageLibrary;
+        objectValue.ImageLibrary = imageLibrary;
         AddObject(S, objectValue);
-        _hashTable.Remove(S);
+        HashTable.Remove(S);
         return objectValue;
     }
 
@@ -78,11 +79,11 @@ public partial class ImageLibraryManagerList : StringList
         objectValue = (ImageLibraryManagerObject)Objects[index];
         if (objectValue != null)
         {
-            objectValue._imageLibrary?.Dispose();
+            objectValue.ImageLibrary?.Dispose();
         }
 
         var item = Strings[index];
-        _hashTable.Remove(item);
+        HashTable.Remove(item);
         base.Delete(index);
     }
 
@@ -90,13 +91,13 @@ public partial class ImageLibraryManagerList : StringList
     public override void Clear()
     {
         ImageLibraryManagerObject objectValue;
-        _hashTable.Clear();
+        HashTable.Clear();
         for (int I = Count - 1; I >= 0; I--)
         {
             objectValue = (ImageLibraryManagerObject)Objects[I];
             if (objectValue != null)
             {
-                objectValue._imageLibrary?.Dispose();
+                objectValue.ImageLibrary?.Dispose();
             }
         }
 
@@ -111,25 +112,25 @@ public partial class ImageLibraryManagerList : StringList
         CustomImageLibrary result;
         ImageLibraryManagerObject objectValue;
         fileName = UpperCase(fileName);
-        _hashTable.TryGetValue(fileName, out objectValue);
+        HashTable.TryGetValue(fileName, out objectValue);
         if (objectValue != null)
         {
-            objectValue._refCount += 1;
-            if (objectValue._imageLibrary == null)
+            objectValue.RefCount += 1;
+            if (objectValue.ImageLibrary == null)
             {
-                objectValue._imageLibrary = new ImageLibrary(null);
-                objectValue._imageLibrary.LoadOnDemand = true;
+                objectValue.ImageLibrary = new ImageLibrary(null);
+                objectValue.ImageLibrary.LoadOnDemand = true;
                 try
                 {
-                    objectValue._imageLibrary.LoadFromFile(_owner._searchPath + fileName);
+                    objectValue.ImageLibrary.LoadFromFile(_owner.SearchPath + fileName);
                 }
                 catch
                 {
-                    throw new IOException("Error loading: " + _owner._searchPath + fileName);
+                    throw new IOException("Error loading: " + _owner.SearchPath + fileName);
                 }
             }
 
-            result = objectValue._imageLibrary;
+            result = objectValue.ImageLibrary;
         }
         else
         {
@@ -145,13 +146,13 @@ public partial class ImageLibraryManagerList : StringList
         bool result;
         ImageLibraryManagerObject objectValue;
         fileName = UpperCase(fileName);
-        _hashTable.TryGetValue(fileName, out objectValue);
+        HashTable.TryGetValue(fileName, out objectValue);
         if (objectValue != null)
         {
-            objectValue._refCount -= 1;
-            if (objectValue._refCount == 0)
+            objectValue.RefCount -= 1;
+            if (objectValue.RefCount == 0)
             {
-                objectValue._imageLibrary.ReleaseDiscardableImageData();
+                objectValue.ImageLibrary.ReleaseDiscardableImageData();
             }
 
             result = true;
@@ -191,7 +192,7 @@ public partial class ImageLibraryManagerList : StringList
         for (; I <= last; I += 1)
         {
             LibraryDrawing.WriteStringToStream(Strings[I], stream);
-            ((ImageLibraryManagerObject)Objects[I])._imageLibrary.SaveToStream(stream);
+            ((ImageLibraryManagerObject)Objects[I]).ImageLibrary.SaveToStream(stream);
         }
     }
 

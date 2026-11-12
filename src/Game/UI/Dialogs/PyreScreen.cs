@@ -28,19 +28,21 @@ public partial class PyreScreen : DataModule
     public Image PyreTop;
     public Image LeaderFaceFr;
     public UserDrawBox PyreAnimation;
-    public object Animation;
-    public SongStatus SavedSongStatus;
-    public ExecuteDoneEvent Done;
-    public GameOverEventLog GameOverEvent;
-    public int AnimationFrame;
+    private object _animation;
+
+    public SongStatus SavedSongStatus { get; set; }
+    public ExecuteDoneEvent Done { get; set; }
+    public GameOverEventLog GameOverEvent { get; set; }
+
+    private int _animationFrame;
 
     // AOWPyreScrn.pas:114
     public void ClearFire()
     {
-        if (Animation != null)
+        if (_animation != null)
         {
-            (Animation as IDisposable)?.Dispose();
-            Animation = null;
+            (_animation as IDisposable)?.Dispose();
+            _animation = null;
         }
     }
 
@@ -56,7 +58,7 @@ public partial class PyreScreen : DataModule
     // AOWPyreScrn.pas:127
     public void ShowGameOver(GameOverEventLog eventValue, ExecuteDoneEvent done)
     {
-        AnimationFrame = 0;
+        _animationFrame = 0;
         GameOverEvent = eventValue;
         GameOverEvent.AddRef();
         Done = done;
@@ -66,7 +68,7 @@ public partial class PyreScreen : DataModule
         switch (AoWHSMap.Current.Players.GetPlayers(eventValue._player).GameOverStatus)
         {
             case GameOverStatus.Lost:
-                Animation = AudioPlayback.PlaySample("Sfx\\Attack\\Fireloop.wav", 64, true, 0, SamplePanning.Center, null);
+                _animation = AudioPlayback.PlaySample("Sfx\\Attack\\Fireloop.wav", 64, true, 0, SamplePanning.Center, null);
                 AoWHSMap.Current.TutorialControl.ShowMessage(68, true, true);
                 break;
             case GameOverStatus.Won:
@@ -114,15 +116,15 @@ public partial class PyreScreen : DataModule
     {
         PyreAnimation.Drawn = false;
         DeadPnl.Drawn = false;
-        AnimationFrame += 1;
-        if (AnimationFrame > 450)
+        _animationFrame += 1;
+        if (_animationFrame > 450)
         {
             FinishScreen();
         }
 
-        if (AnimationFrame > 16777215)
+        if (_animationFrame > 16777215)
         {
-            AnimationFrame = 0;
+            _animationFrame = 0;
         }
     }
 
@@ -134,7 +136,7 @@ public partial class PyreScreen : DataModule
         int frame;
         string text;
         X = PyreAnimation.WinWidth / 2;
-        Y = PyreAnimation.WinHeight + 20 - AnimationFrame / 2;
+        Y = PyreAnimation.WinHeight + 20 - _animationFrame / 2;
         if (Y < 400)
         {
             Y = 400;
@@ -145,7 +147,7 @@ public partial class PyreScreen : DataModule
         switch (AoWHSMap.Current.Players.GetPlayers(GameOverEvent._player).GameOverStatus)
         {
             case GameOverStatus.Lost:
-                frame = AnimationFrame / 3 % 9;
+                frame = _animationFrame / 3 % 9;
                 if (GameTables.GameEngine.Demo)
                 {
                     frame = 0;
@@ -230,10 +232,10 @@ public partial class PyreScreen : DataModule
 
     internal static void ClearPyre(PyreScreen dialog)
     {
-        if (dialog.Animation != null)
+        if (dialog._animation != null)
         {
-            (dialog.Animation as IDisposable)?.Dispose();
-            dialog.Animation = null;
+            (dialog._animation as IDisposable)?.Dispose();
+            dialog._animation = null;
         }
     }
 

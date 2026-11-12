@@ -17,7 +17,7 @@ public partial class MultiWindow
             songs.Play(0);
         }
         DialogHosts.VideoDialog.SetSceneSize(640, 480);
-        PendingMap = mapName;
+        _pendingMap = mapName;
         var directPlay = DialogHosts.SetupEvents.DPlay;
         if (directPlay.Connected) directPlay.DisConnect();
         DialogHosts.TitleWindow.TitleWin.Visible = true;
@@ -38,11 +38,11 @@ public partial class MultiWindow
 
     public void MultiWinUpdate()
     {
-        if (MultiPnl.Visible && MenuHeight < GamePanel.WinHeight)
+        if (MultiPnl.Visible && _menuHeight < GamePanel.WinHeight)
         {
-            MenuHeight = Math.Min(MenuHeight + 10, GamePanel.WinHeight);
-            GamePanel.WinTop = MenuHeight - GamePanel.WinHeight;
-            BottomPnl.WinTop = 480 - MenuHeight + GamePanel.WinHeight - BottomPnl.WinHeight;
+            _menuHeight = Math.Min(_menuHeight + 10, GamePanel.WinHeight);
+            GamePanel.WinTop = _menuHeight - GamePanel.WinHeight;
+            BottomPnl.WinTop = 480 - _menuHeight + GamePanel.WinHeight - BottomPnl.WinHeight;
             GamePanel.SurfaceValid = BottomPnl.SurfaceValid = false;
         }
     }

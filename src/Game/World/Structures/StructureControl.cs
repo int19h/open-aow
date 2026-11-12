@@ -12,18 +12,18 @@ public partial class StructureControl : EngineObject
     // (structures, next ID, city count)
     public StructureControl(ECustomNode owner) : base(owner)
     {
-        Structures = new ENode(null);
-        NextId = 0;
+        _structures = new ENode(null);
+        _nextId = 0;
     }
 
-    public ENode Structures;
-    public int NextId;
+    private ENode _structures;
+    private int _nextId;
     public int CityCount;
 
     // Structur.PAS:3227
     public override void Dispose()
     {
-        Structures?.Dispose();
+        _structures?.Dispose();
         base.Dispose();
     }
 
@@ -31,7 +31,7 @@ public partial class StructureControl : EngineObject
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref NextId, 20);
+        stream.rwInteger(ref _nextId, 20);
         stream.rwInteger(ref CityCount, 21);
     }
 
@@ -41,7 +41,7 @@ public partial class StructureControl : EngineObject
         Structure result;
         if (index >= 0 && index < GetCount())
         {
-            result = (Structure)Structures._children.List[index];
+            result = (Structure)_structures._children.List[index];
         }
         else
         {
@@ -52,24 +52,24 @@ public partial class StructureControl : EngineObject
     }
 
     // Structur.PAS:3240
-    public int GetCount() => Structures.GetCount();
+    public int GetCount() => _structures.GetCount();
 
     // Structur.PAS:3252
     public int CreateUniqueId()
     {
         while (true)
         {
-            NextId += 1;
-            if (NextId > 268435455)
+            _nextId += 1;
+            if (_nextId > 268435455)
             {
-                NextId = 0;
+                _nextId = 0;
             }
 
-            if (IndexOfId(NextId) == -1)
+            if (IndexOfId(_nextId) == -1)
                 break;
         }
 
-        return NextId;
+        return _nextId;
     }
 
     // Structur.PAS:3261
@@ -81,7 +81,7 @@ public partial class StructureControl : EngineObject
             do
             {
                 result -= 1;
-                if (id == ((Structure)Structures._children.List[result]).StructureId)
+                if (id == ((Structure)_structures._children.List[result]).StructureId)
                 {
                     return result;
                 }
@@ -100,7 +100,7 @@ public partial class StructureControl : EngineObject
         index = IndexOfId(id);
         if (index != -1)
         {
-            result = (Structure)Structures._children.List[index];
+            result = (Structure)_structures._children.List[index];
         }
         else
         {
@@ -113,13 +113,13 @@ public partial class StructureControl : EngineObject
     // Structur.PAS:3281
     public void Register(Structure structure)
     {
-        Assert(Structures._children.IndexOf(structure) == -1, "", "Structur.PAS", 3299);
+        Assert(_structures._children.IndexOf(structure) == -1, "", "Structur.PAS", 3299);
         if (structure.StructureId == 0 || IndexOfId(structure.StructureId) != -1)
         {
             structure.StructureId = CreateUniqueId();
         }
 
-        Structures.AddChild(structure);
+        _structures.AddChild(structure);
         if (structure.EngineClass.ClassId == 131336)
         {
             CityCount += 1;
@@ -129,7 +129,7 @@ public partial class StructureControl : EngineObject
     // Structur.PAS:3306
     public void Unregister(Structure structure)
     {
-        Structures._children.Remove(structure);
+        _structures._children.Remove(structure);
         if (structure.EngineClass.ClassId == 131336)
         {
             CityCount -= 1;

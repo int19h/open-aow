@@ -7,7 +7,7 @@ namespace Aow.Game.Net;
 // FList, the memory streams of the packages that wait to be received
 public partial class PackageDataList : IDisposable
 {
-    internal List<MemoryStream> _list;
+    private List<MemoryStream> _list;
 
     // NetworkE.pas:870
     public PackageDataList()

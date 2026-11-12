@@ -42,20 +42,20 @@ public partial class DisjunctionDialog : DataModule
     public IvTranslator Translator;
     public Panel MapViewPnl;
     public UserDrawBox MapView;
-    public DisjunctionSpellCaster Caster;
-    public int SortOrder;
-    public sbyte MapX;
-    public sbyte MapY;
-    public sbyte MapL;
+    private DisjunctionSpellCaster _caster;
+    private int _sortOrder;
+    private sbyte _mapX;
+    private sbyte _mapY;
+    private sbyte _mapL;
 
     // AoWDisjunctionDlg.pas:179
     public void ClearCaster()
     {
         DialogHosts.General.Manager.OverlayPriority = 0;
-        if (Caster != null)
+        if (_caster != null)
         {
-            Caster.Release();
-            Caster = null;
+            _caster.Release();
+            _caster = null;
         }
     }
 
@@ -94,7 +94,7 @@ public partial class DisjunctionDialog : DataModule
     // AoWDisjunctionDlg.pas:212
     public void SortEnchantments()
     {
-        switch (SortOrder)
+        switch (_sortOrder)
         {
             case 0:
                 StringSorting.SortStringsAscending(EnchantmentList.Items, [OwnerList.Items]);
@@ -114,7 +114,7 @@ public partial class DisjunctionDialog : DataModule
     // AoWDisjunctionDlg.pas:222
     public void UpdateChance()
     {
-        if (Caster.GetEnoughMana())
+        if (_caster.GetEnoughMana())
         {
             DisjunctionMana.TextColor = 12632256;
         }
@@ -124,14 +124,14 @@ public partial class DisjunctionDialog : DataModule
         }
 
         var spell = AoWHSSet.Current.SpellControl.GetSpell(51);
-        var mana = Caster.GetMana();
+        var mana = _caster.GetMana();
         var fSpellControlSpell = AoWHSSet.Current.SpellControl.GetSpell(51);
-        var fCasterMana = Caster.GetMana();
+        var fCasterMana = _caster.GetMana();
         DisjunctionMana.Text = IntToStr(spell.BaseManaCost) + "+" + IntToStr(mana) + "=" + IntToStr(fSpellControlSpell.BaseManaCost + fCasterMana);
-        DisjunctionChance.Text = IntToStr(Caster.DispelChance) + "%";
-        var dispelChanceMax = Caster.GetDispelChanceMax();
+        DisjunctionChance.Text = IntToStr(_caster.DispelChance) + "%";
+        var dispelChanceMax = _caster.GetDispelChanceMax();
         ChanceSlider.Max = dispelChanceMax;
-        ChanceSlider.Position = Caster.DispelChance;
+        ChanceSlider.Position = _caster.DispelChance;
     }
 
     // AoWDisjunctionDlg.pas:233
@@ -144,23 +144,23 @@ public partial class DisjunctionDialog : DataModule
             EnchantmentList.Selected = index;
             OwnerList.Selected = index;
             var objectValue = EnchantmentList.Items.Objects[index];
-            Caster.SetEnchantmentId(ObjectToInt(objectValue));
-            enchantment = Caster.SelectedEnchantment();
+            _caster.SetEnchantmentId(ObjectToInt(objectValue));
+            enchantment = _caster.SelectedEnchantment();
             if (enchantment != null)
             {
                 location = enchantment.GetLocation();
-                MapX = location.X;
-                MapY = location.Y;
-                MapL = location.MapLevel;
+                _mapX = location.X;
+                _mapY = location.Y;
+                _mapL = location.MapLevel;
             }
             else
             {
-                MapX = -1;
+                _mapX = -1;
             }
 
-            if (MapX == -1)
+            if (_mapX == -1)
             {
-                Caster.GetSource().GetLocation(ref MapX, ref MapY, ref MapL);
+                _caster.GetSource().GetLocation(ref _mapX, ref _mapY, ref _mapL);
             }
 
             UpdateChance();
@@ -175,13 +175,13 @@ public partial class DisjunctionDialog : DataModule
     // AoWDisjunctionDlg.pas:262
     public void Execute(DisjunctionSpellCaster caster)
     {
-        if (Caster != null)
+        if (_caster != null)
         {
-            Caster.Release();
+            _caster.Release();
         }
 
-        Caster = caster;
-        Caster.AddRef();
+        _caster = caster;
+        _caster.AddRef();
         UpdateEnchantments();
         SelectEnchantment(0);
         DialogHosts.General.Manager.OverlayPriority = 49;
@@ -198,9 +198,9 @@ public partial class DisjunctionDialog : DataModule
     public void CastBtnClick()
     {
         string reason = "";
-        if (Caster.CanCast(ref reason))
+        if (_caster.CanCast(ref reason))
         {
-            if (Caster.Cast())
+            if (_caster.Cast())
             {
                 Dlg.Visible = false;
             }
@@ -226,7 +226,7 @@ public partial class DisjunctionDialog : DataModule
     // AoWDisjunctionDlg.pas:106
     public void ChanceSliderChange()
     {
-        Caster.SetDispelChance(ChanceSlider.Position);
+        _caster.SetDispelChance(ChanceSlider.Position);
         UpdateChance();
     }
 
@@ -241,13 +241,13 @@ public partial class DisjunctionDialog : DataModule
     public void SortEnchantmentClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (SortOrder == 0)
+        if (_sortOrder == 0)
         {
-            SortOrder = 1;
+            _sortOrder = 1;
         }
         else
         {
-            SortOrder = 0;
+            _sortOrder = 0;
         }
 
         SortEnchantments();
@@ -257,13 +257,13 @@ public partial class DisjunctionDialog : DataModule
     public void SortClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (SortOrder == 2)
+        if (_sortOrder == 2)
         {
-            SortOrder = 3;
+            _sortOrder = 3;
         }
         else
         {
-            SortOrder = 2;
+            _sortOrder = 2;
         }
 
         SortEnchantments();
@@ -296,7 +296,7 @@ public partial class DisjunctionDialog : DataModule
         R = new Rect(Dlg.WinLeft + sender.WinLeft + 1, Dlg.WinTop + sender.WinTop + 1, Dlg.WinLeft + sender.WinLeft + sender.WinWidth - 2, Dlg.WinTop + sender.WinTop + sender.WinHeight - 2);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
-        HexGeometry.HexToPixel(MapX, MapY, ref X, ref Y);
+        HexGeometry.HexToPixel(_mapX, _mapY, ref X, ref Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -310,7 +310,7 @@ public partial class DisjunctionDialog : DataModule
         }
 
         LockedSurface.CreateFrom(lockedSurface, R, ref mapSurfaceDescription);
-        AoWHSMap.Current.SetViewPort(X, Y, MapL, R.Right - R.Left, R.Bottom - R.Top);
+        AoWHSMap.Current.SetViewPort(X, Y, _mapL, R.Right - R.Left, R.Bottom - R.Top);
         AoWHSMap.Current.UpdateStaticScene();
         AoWHSMap.Current.UpdateDynamicScene();
         AoWHSMap.Current.DrawStaticScene(ref mapSurfaceDescription);

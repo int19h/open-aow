@@ -20,7 +20,7 @@ public partial class ItemList : EChangeNotifyNode
 
     }
 
-    public NotifyEvent<object> OnChanged;
+    public NotifyEvent<object> OnChanged { get; set; }
 
     // Army.PAS:4537
     // code, data

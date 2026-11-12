@@ -77,7 +77,7 @@ public partial class PaletteManager : IDisposable
     public LibraryImagePalette LinkToPalette(int index)
     {
         LibraryImagePalette result = _palettes[index];
-        result._refCount += 1;
+        result.RefCount += 1;
         return result;
     }
 
@@ -93,22 +93,22 @@ public partial class PaletteManager : IDisposable
         while (I != 0 && !found)
         {
             I -= 1;
-            found = palette.Compare((_palettes[I])._palette);
+            found = palette.Compare((_palettes[I]).Palette);
         }
 
         if (!found)
         {
             P = new LibraryImagePalette();
-            P._palette.Assign(palette);
+            P.Palette.Assign(palette);
             P._index = _palettes.Count;
-            P._refCount = 1;
+            P.RefCount = 1;
             _palettes.Add(P);
             result = P;
         }
         else
         {
             var libraryImagePalette = _palettes[I];
-            ((LibraryImagePalette)libraryImagePalette)._refCount += 1;
+            ((LibraryImagePalette)libraryImagePalette).RefCount += 1;
             result = _palettes[I];
         }
 
@@ -120,8 +120,8 @@ public partial class PaletteManager : IDisposable
     {
         LibraryImagePalette P;
         P = _palettes[index];
-        P._refCount -= 1;
-        if (P._refCount <= 0)
+        P.RefCount -= 1;
+        if (P.RefCount <= 0)
         {
             _palettes.RemoveAt(index);
             UpdateIndices();

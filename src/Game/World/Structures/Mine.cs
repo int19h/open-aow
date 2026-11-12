@@ -19,21 +19,21 @@ public partial class Mine : PlayerStructure
 {
     public Mine(ECustomNode owner) : base(owner)
     {
-        IncomeSource = new PlayerStructureIncomeSource(null);
-        IncomeSource.Setup(this);
+        _incomeSource = new PlayerStructureIncomeSource(null);
+        _incomeSource.Setup(this);
     }
 
     // Mine.pas:82
     public new const int ClassId = 131962;
 
     public byte State;
-    public PlayerStructureIncomeSource IncomeSource;
+    private PlayerStructureIncomeSource _incomeSource;
 
     // Mine.pas:76
     public override void Dispose()
     {
         base.Dispose();
-        IncomeSource?.Dispose();
+        _incomeSource?.Dispose();
     }
 
     // Mine.pas:172
@@ -51,7 +51,7 @@ public partial class Mine : PlayerStructure
         base.Activate();
         if (Player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).RegisterIncomeSource(IncomeSource);
+            AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).RegisterIncomeSource(_incomeSource);
         }
     }
 
@@ -60,7 +60,7 @@ public partial class Mine : PlayerStructure
     {
         if (Player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).UnregisterIncomeSource(IncomeSource);
+            AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).UnregisterIncomeSource(_incomeSource);
         }
 
         base.Deactivate();
@@ -79,14 +79,14 @@ public partial class Mine : PlayerStructure
             State = (byte)(Set<byte>.FromMask(State) - Set<byte>.WithBounds(0, 7).With(0)).Image;
         }
 
-        this._imageIndex = GetTerrainTypeImage(TerrainType);
+        this.ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // Mine.pas:93
     public override string GetCurrentActivityText()
     {
         var income = GetIncome();
-        return RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_producingIncomeFormat), [IntToStr(income)]);
+        return RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.ProducingIncomeFormat), [IntToStr(income)]);
     }
 
     // Mine.pas:99
@@ -146,17 +146,17 @@ public partial class Mine : PlayerStructure
     {
         if (player != Player)
         {
-            if (_status.Contains(MapObjectStatusElement.Activated))
+            if (Status.Contains(MapObjectStatusElement.Activated))
             {
                 if (Player != -1)
                 {
-                    AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).UnregisterIncomeSource(IncomeSource);
+                    AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).UnregisterIncomeSource(_incomeSource);
                 }
 
                 base.SetPlayer(player);
                 if (Player != -1)
                 {
-                    AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).RegisterIncomeSource(IncomeSource);
+                    AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).RegisterIncomeSource(_incomeSource);
                 }
             }
             else

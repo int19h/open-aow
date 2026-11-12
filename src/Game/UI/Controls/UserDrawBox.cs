@@ -26,7 +26,7 @@ public partial class UserDrawBox : Control
     {
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
                 if (_onPreDraw != null)
                 {
@@ -50,12 +50,12 @@ public partial class UserDrawBox : Control
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
-            Handled = _captureInput;
+            Handled = CaptureInput;
             if (_onMouseDown != null)
             {
-                _onMouseDown(this, button, shift, X - _window._winLeft - _winLeft, Y - _window._winTop - _winTop);
+                _onMouseDown(this, button, shift, X - Window.WinLeft - WinLeft, Y - Window.WinTop - WinTop);
             }
         }
     }
@@ -64,9 +64,9 @@ public partial class UserDrawBox : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
-            Handled = _captureInput;
+            Handled = CaptureInput;
             if (_onMouseUp != null)
             {
                 _onMouseUp(this, button, shift, X, Y);
@@ -79,12 +79,12 @@ public partial class UserDrawBox : Control
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
-            Handled = _captureInput;
+            Handled = CaptureInput;
             if (_onMouseMove != null)
             {
-                _onMouseMove(this, shift, X - _window._winLeft - _winLeft, Y - _window._winTop - _winTop);
+                _onMouseMove(this, shift, X - Window.WinLeft - WinLeft, Y - Window.WinTop - WinTop);
             }
         }
     }

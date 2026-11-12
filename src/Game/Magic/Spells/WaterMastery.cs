@@ -15,7 +15,7 @@ public partial class WaterMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:806
     public WaterMastery(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_waterMasteryText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.WaterMasteryText);
         SpellId = 45;
         SpellType = SpellType.Global;
         BaseManaCost = 1;

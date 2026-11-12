@@ -15,18 +15,20 @@ public partial class MoveSettings : EngineObject
     public MoveSettings(ECustomNode owner) : base(owner)
     {
         Path = new MovePath();
-        Priority = 1;
+        _priority = 1;
     }
 
-    public MovePath Path;
-    public int PathMovePoints;
-    public object MoveObject;
-    public int MovePoints;
-    public int Moves;
-    public int Priority;
-    public int Selection;
-    public int MovePosition;
-    public bool Valid;
+    public MovePath Path { get; }
+    public int PathMovePoints { get; set; }
+    public object MoveObject { get; set; }
+    public int MovePoints { get; set; }
+    public int Moves { get; set; }
+
+    private int _priority;
+
+    public int Selection { get; set; }
+    public int MovePosition { get; set; }
+    public bool Valid { get; set; }
 
     // Structur.PAS:4018
     public override void Dispose()
@@ -53,7 +55,7 @@ public partial class MoveSettings : EngineObject
     }
 
     // Structur.PAS:4034
-    public int GetMovePrio() => (Path.Count - MovePosition) * Priority;
+    public int GetMovePrio() => (Path.Count - MovePosition) * _priority;
 
     // intf_P1_04.inc:197
 

@@ -11,10 +11,10 @@ namespace Aow.Engine.Collections;
 
 public partial class SByteList : Persistent
 {
-    internal sbyte[] _list = [];
-    internal int _count;
-    internal int _capacity;
-    internal sbyte _default;
+    private sbyte[] _list = [];
+    private int _count;
+    private int _capacity;
+    private sbyte _default;
 
     // Engine.pas:4025
     internal sbyte Get(int index)

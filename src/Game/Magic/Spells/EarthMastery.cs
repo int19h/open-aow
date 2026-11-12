@@ -18,7 +18,7 @@ public partial class EarthMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1877
     public EarthMastery(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_earthMasteryText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.EarthMasteryText);
         SpellId = 64;
         SpellType = SpellType.Global;
         BaseManaCost = 1;

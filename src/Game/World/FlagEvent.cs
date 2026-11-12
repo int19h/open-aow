@@ -16,13 +16,13 @@ public partial class FlagEvent : MapObject
     { }
 
     public FlagEventTriggerMode TriggerMode;
-    public int TriggerPlayers;
+    private int _triggerPlayers;
 
     // FlagEvents.pas:98
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref TriggerPlayers, 30);
+        stream.rwInteger(ref _triggerPlayers, 30);
         stream.rwData(Bytes.Of(ref TriggerMode, 1), 1, 31);
     }
 
@@ -65,7 +65,7 @@ public partial class FlagEvent : MapObject
     public virtual bool Trigger(sbyte player) => true;
 
     // FlagEvents.pas:115
-    public bool GetTriggerPlayer(sbyte player) => player > 0 && (TriggerPlayers & (1 << (player - 1))) != 0;
+    public bool GetTriggerPlayer(sbyte player) => player > 0 && (_triggerPlayers & (1 << (player - 1))) != 0;
 
     // FlagEvents.pas:120
     public void SetTriggerPlayer(sbyte player, bool value)
@@ -74,11 +74,11 @@ public partial class FlagEvent : MapObject
         {
             if (!value)
             {
-                TriggerPlayers = TriggerPlayers & ~(1 << (player - 1));
+                _triggerPlayers = _triggerPlayers & ~(1 << (player - 1));
             }
             else
             {
-                TriggerPlayers = TriggerPlayers | (1 << (player - 1));
+                _triggerPlayers = _triggerPlayers | (1 << (player - 1));
             }
         }
     }

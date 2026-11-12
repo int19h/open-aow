@@ -6,5 +6,5 @@ namespace Aow.Game.Net;
 // from ims.dpl.
 public partial class MailHeader
 {
-    public string From = "";
+    public string From { get; set; } = "";
 }

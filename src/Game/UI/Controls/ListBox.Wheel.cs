@@ -7,8 +7,8 @@ public partial class ListBox
 {
     public override bool ContainsPoint(int X, int Y)
     {
-        if (_window == null) return false;
-        return PointInside(X, Y, _window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth - ScrollWidth, _winHeight);
+        if (Window == null) return false;
+        return PointInside(X, Y, Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth - _scrollWidth, WinHeight);
     }
 
     // A linked bar with room to move scrolls even when it is hidden, so shared columns stay together.

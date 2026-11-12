@@ -390,9 +390,9 @@ public partial class EReadStorageStream : EStorageStream
                 try
                 {
                     Obj = FEngine.CreateEngineObject(AClassID, null);
-                    Obj._owner = AOwner;
+                    Obj.SetOwnerWithoutNotify(AOwner);
                     Obj.MainReadWrite(this);
-                    Obj._owner = null;
+                    Obj.SetOwnerWithoutNotify(null);
                     Obj.SetOwner(AOwner);
                     FPropertyTable.RestoreSettings();
                     FDataBase = SavedBase;

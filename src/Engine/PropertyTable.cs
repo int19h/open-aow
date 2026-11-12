@@ -7,15 +7,15 @@ namespace Aow.Engine;
 
 public partial class PropertyTable : IDisposable
 {
-    internal Item[] _items = [];
-    internal int _capacity;
-    internal int _count;
-    internal int _nextIndex;
-    internal int _maxId;
-    internal Settings[] _stack = [];
-    internal int _stackCount;
-    internal int _stackCapacity;
-    internal int _first;
+    private Item[] _items = [];
+    private int _capacity;
+    private int _count;
+    private int _nextIndex;
+    private int _maxId;
+    private Settings[] _stack = [];
+    private int _stackCount;
+    private int _stackCapacity;
+    private int _first;
 
     // Engine.pas:2260
     internal void SetCapacity(int newCapacity)

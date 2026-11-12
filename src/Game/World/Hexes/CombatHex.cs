@@ -18,8 +18,8 @@ public partial class CombatHex : AbstractHexagon
 
     public new const int ClassId = 2229504;
 
-    public byte ImageVariant;
-    public ByteArray3 Transitions;
+    private byte _imageVariant;
+    private ByteArray3 _transitions;
 
     // CombatHex.pas:174
     public override void TerrainChanged(in HexSpriteTerrainInfo message)
@@ -75,13 +75,13 @@ public partial class CombatHex : AbstractHexagon
             pixelX = pixelX - pixelXSurface - 8;
             pixelY = pixelY - pixelYSurface;
             images = _resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
-            images[ImageVariant].Show(pixelX, pixelY, lockedSurface);
+            images[_imageVariant].Show(pixelX, pixelY, lockedSurface);
             images = ((Resource)_resource).TransitionLibrary;
             for (int side = 1; side <= 3; side++)
             {
-                if (Transitions[side - 1] != 255)
+                if (_transitions[side - 1] != 255)
                 {
-                    images[Transitions[side - 1]].Show(pixelX - 8, pixelY - 16, lockedSurface);
+                    images[_transitions[side - 1]].Show(pixelX - 8, pixelY - 16, lockedSurface);
                 }
             }
         }
@@ -91,7 +91,7 @@ public partial class CombatHex : AbstractHexagon
     public override void Activate()
     {
         base.Activate();
-        ImageVariant = (byte)Random(12);
+        _imageVariant = (byte)Random(12);
     }
 
     // CombatHex.pas:73
@@ -229,16 +229,16 @@ public partial class CombatHex : AbstractHexagon
                 imageIndex = Random(2) * 3 + imageIndex * 6 + (side - 1);
                 if (((Resource)_resource).TransitionLibrary.GetSafe(imageIndex) != null)
                 {
-                    Transitions[side - 1] = (byte)imageIndex;
+                    _transitions[side - 1] = (byte)imageIndex;
                 }
                 else
                 {
-                    Transitions[side - 1] = 255;
+                    _transitions[side - 1] = 255;
                 }
             }
             else
             {
-                Transitions[side - 1] = 255;
+                _transitions[side - 1] = 255;
             }
         }
     }
@@ -252,7 +252,7 @@ public partial class CombatHex : AbstractHexagon
 
         public new const int ClassId = 2229505;
 
-        public CustomImageLibrary TransitionLibrary;
+        public CustomImageLibrary TransitionLibrary { get; private set; }
 
         // CombatHex.pas:194
         public override void MessageProc(ref EngineMessage message, EngineObject sender)

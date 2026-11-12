@@ -93,8 +93,9 @@ internal static class FrameVerification
         public bool Fullscreen { get; set; }
         public bool HasFocus { get; set; } = true;
 
-        public bool SystemCursor;
-        public int Presents, Pumps;
+        public bool SystemCursor { get; private set; }
+        public int Presents { get; private set; }
+        public int Pumps { get; private set; }
 
         public void Present(in LockedSurface surface) => Presents++;
         public (int X, int Y, bool Inside) PointerPosition() => (639, 479, true);

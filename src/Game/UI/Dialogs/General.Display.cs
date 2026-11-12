@@ -26,7 +26,7 @@ public partial class General
             info.WinTop = info.MenuTop;
             info.Visible = true;
         }
-        DialogHosts.MapWindow.MainWindow.DoubleBuffered = Manager._overlayPriority > DialogHosts.MapWindow.MainWindow.Priority;
+        DialogHosts.MapWindow.MainWindow.DoubleBuffered = Manager.OverlayPriority > DialogHosts.MapWindow.MainWindow.Priority;
         if (GameHost.MainForm is { FCursorChanged: true } form)
         {
             var rectangle = form.FLastCursorRectangle;

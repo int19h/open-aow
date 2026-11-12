@@ -110,7 +110,7 @@ public partial class Picture16
                     yPosition = 0;
                 }
 
-                if (!_dataLoaded)
+                if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
                     for (int I = 0; I <= H - 1; I++)
@@ -125,7 +125,7 @@ public partial class Picture16
                         yPosition += yStep;
                     }
 
-                    if (lockedSurface.PixelFormatId == _pixelFormatId)
+                    if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         BlitStretched16(View, rowTable, columnTable, destination, W, H);
                     }
@@ -158,7 +158,7 @@ public partial class Picture16
                         yPosition += yStep;
                     }
 
-                    if (lockedSurface.PixelFormatId == _pixelFormatId)
+                    if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         BlitStretched16(View, rowTable, columnTable, destination, W, H);
                     }
@@ -280,7 +280,7 @@ public partial class Picture16
                     yPosition = 0;
                 }
 
-                if (!_dataLoaded)
+                if (!DataLoaded)
                 {
                     LoadDiscardableImageData();
                     for (int I = 0; I <= H - 1; I++)
@@ -295,7 +295,7 @@ public partial class Picture16
                         yPosition += yStep;
                     }
 
-                    if (lockedSurface.PixelFormatId == _pixelFormatId)
+                    if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         switch (lockedSurface.PixelFormatId)
                         {
@@ -344,7 +344,7 @@ public partial class Picture16
                         yPosition += yStep;
                     }
 
-                    if (lockedSurface.PixelFormatId == _pixelFormatId)
+                    if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
                         switch (lockedSurface.PixelFormatId)
                         {

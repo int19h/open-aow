@@ -19,11 +19,11 @@ public partial class ImageSequenceAnimation : Animation
         PixelYOffset = 0;
     }
 
-    public ImageSequence ImageSequence;
-    public int PixelXOffset;
-    public int PixelYOffset;
-    public int FrameCount;
-    public bool Looped;
+    public ImageSequence ImageSequence { get; private set; }
+    public int PixelXOffset { get; private set; }
+    public int PixelYOffset { get; private set; }
+    public int FrameCount { get; set; }
+    public bool Looped { get; set; }
 
     // Animation.pas:424
 

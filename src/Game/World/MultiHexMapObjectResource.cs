@@ -18,8 +18,8 @@ public partial class MultiHexMapObjectResource : MapObjectResource
 
     protected internal int _imageOffsetX;
     protected internal int _imageOffsetY;
-    protected internal int _mainPointOffsetX;
-    protected internal int _mainPointOffsetY;
+    private int _mainPointOffsetX;
+    private int _mainPointOffsetY;
 
     // MAPOBJ.PAS:1256
     public override void ReadWrite(EStorageStream stream)

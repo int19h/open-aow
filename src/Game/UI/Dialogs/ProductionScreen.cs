@@ -126,35 +126,35 @@ public partial class ProductionScreen : DataModule
     public Button PNext;
     public Button PPrev;
     public IvTranslator Translator;
-    public int ViewX;
-    public int ViewY;
-    public ProductionPlace Place;
-    public int ProductionIndex;
-    public int QueueIndex;
-    public byte Mode;
-    public CombatMap Preview;
-    public Int32List Images;
+    private int _viewX;
+    private int _viewY;
+    private ProductionPlace _place;
+    private int _productionIndex;
+    private int _queueIndex;
+    private byte _mode;
+    private CombatMap _preview;
+    private Int32List _images;
 
     // AoWProdScreen.pas:590
     public void FreePreview()
     {
-        if (Preview != null)
+        if (_preview != null)
         {
-            Preview?.Dispose();
-            Preview = null;
+            _preview?.Dispose();
+            _preview = null;
         }
     }
 
     // AoWProdScreen.pas:599
     public void ReleaseImages()
     {
-        for (int I = Images.Count - 1; I >= 0; I--)
+        for (int I = _images.Count - 1; I >= 0; I--)
         {
-            var image = Images[I];
+            var image = _images[I];
             AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).Release();
         }
 
-        Images.Clear();
+        _images.Clear();
     }
 
     // AoWProdScreen.pas:608
@@ -163,7 +163,7 @@ public partial class ProductionScreen : DataModule
         int graphics;
         graphics = AoWHSSet.Current.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
         AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
-        Images.Add(graphics);
+        _images.Add(graphics);
     }
 
     // AoWProdScreen.pas:617
@@ -181,7 +181,7 @@ public partial class ProductionScreen : DataModule
     public void Reset()
     {
         ReleaseImages();
-        Mode = 0;
+        _mode = 0;
         InfoPnl.Visible = true;
         InfoPnl2.Visible = true;
         ActivityPnl.Visible = false;
@@ -189,7 +189,7 @@ public partial class ProductionScreen : DataModule
         UnitPnl.Visible = false;
         UpgradePnl.Visible = false;
         MainBtn1.Visible = true;
-        var options = AbilityRules.TranslateResourceString(GameText.s_optionsText);
+        var options = AbilityRules.TranslateResourceString(GameText.OptionsText);
         MainBtn1.Text = options;
         MainBtn2.Visible = false;
         PPrev.Visible = !MainBtn2.Visible;
@@ -197,11 +197,11 @@ public partial class ProductionScreen : DataModule
         ShadowL.Visible = GameTables.GameEngine.AnimationDetail != 0;
         ShadowR.Visible = GameTables.GameEngine.AnimationDetail != 0;
         Oval.Visible = GameTables.GameEngine.AnimationDetail != 0;
-        QueueIndex = -1;
+        _queueIndex = -1;
         QueueLB.Selected = -1;
-        var queue = AbilityRules.TranslateResourceString(GameText.s_queueText);
+        var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
         QueueLbl.Text = queue;
-        var repeat = AbilityRules.TranslateResourceString(GameText.s_repeatText);
+        var repeat = AbilityRules.TranslateResourceString(GameText.RepeatText);
         RepeatLbl.Text = repeat;
         FreePreview();
     }
@@ -210,27 +210,27 @@ public partial class ProductionScreen : DataModule
     public void ClosePlace()
     {
         Reset();
-        Place = null;
+        _place = null;
         DialogHosts.General.Manager.OverlayPriority = 0;
     }
 
     // AoWProdScreen.pas:659
     public void SetMode(byte mode)
     {
-        Mode = mode;
-        switch (Mode)
+        _mode = mode;
+        switch (_mode)
         {
             case 0:
                 InfoPnl.Visible = true;
                 InfoPnl2.Visible = true;
                 ActivityPnl.Visible = false;
                 ActivityPnl2.Visible = false;
-                var change = AbilityRules.TranslateResourceString(GameText.s_changeText);
+                var change = AbilityRules.TranslateResourceString(GameText.ChangeText);
                 MainBtn1.Text = change;
                 MainBtn2.Visible = false;
                 PPrev.Visible = !MainBtn2.Visible;
                 PNext.Visible = !MainBtn2.Visible;
-                var exit = AbilityRules.TranslateResourceString(GameText.s_exitText);
+                var exit = AbilityRules.TranslateResourceString(GameText.ExitText);
                 MainBtn3.Text = exit;
                 QueueLB.Selected = -1;
                 break;
@@ -241,9 +241,9 @@ public partial class ProductionScreen : DataModule
                 InfoPnl2.Visible = false;
                 ActivityPnl.Visible = true;
                 ActivityPnl2.Visible = true;
-                var info = AbilityRules.TranslateResourceString(GameText.s_infoText);
+                var info = AbilityRules.TranslateResourceString(GameText.InfoText);
                 MainBtn1.Text = info;
-                var done = AbilityRules.TranslateResourceString(GameText.s_doneText);
+                var done = AbilityRules.TranslateResourceString(GameText.DoneText);
                 MainBtn3.Text = done;
                 break;
             case 2:
@@ -253,9 +253,9 @@ public partial class ProductionScreen : DataModule
                 InfoPnl2.Visible = false;
                 ActivityPnl.Visible = true;
                 ActivityPnl2.Visible = true;
-                var infoText = AbilityRules.TranslateResourceString(GameText.s_infoText);
+                var infoText = AbilityRules.TranslateResourceString(GameText.InfoText);
                 MainBtn1.Text = infoText;
-                var doneText = AbilityRules.TranslateResourceString(GameText.s_doneText);
+                var doneText = AbilityRules.TranslateResourceString(GameText.DoneText);
                 MainBtn3.Text = doneText;
                 break;
         }
@@ -280,9 +280,9 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:712
     public void PlaceChanged(object sender)
     {
-        if (Dlg.Visible && sender == Place)
+        if (Dlg.Visible && sender == _place)
         {
-            if (Place.Player == AoWHSMap.Current.SeatedPlayer)
+            if (_place.Player == AoWHSMap.Current.SeatedPlayer)
             {
                 UpdateInfo();
             }
@@ -297,14 +297,14 @@ public partial class ProductionScreen : DataModule
     public void SelectProduction(int index)
     {
         Unit U;
-        if (Mode != 1)
+        if (_mode != 1)
         {
             SetMode(1);
         }
 
         UpgradePnl.Visible = false;
         UnitPnl.Visible = false;
-        ProductionIndex = index;
+        _productionIndex = index;
         UpgradePic.CurrentImage = 21;
         UpgradeCost.Text = "-";
         UpgradeTurns.Text = "-";
@@ -312,10 +312,10 @@ public partial class ProductionScreen : DataModule
         MainBtn2.Visible = false;
         PPrev.Visible = !MainBtn2.Visible;
         PNext.Visible = !MainBtn2.Visible;
-        switch (ProductionIndex)
+        switch (_productionIndex)
         {
             case >= 0 and <= 3:
-                U = Place.ProductionControl.CreateUnitProduction(ProductionIndex);
+                U = _place.ProductionControl.CreateUnitProduction(_productionIndex);
                 if (U != null)
                 {
                     UnitPnl.Visible = true;
@@ -335,48 +335,48 @@ public partial class ProductionScreen : DataModule
                     var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(moveTypes);
                     UMovesIcon.CurrentImage = moveTypesToInt32;
                     var alignment = U.GetAlignment();
-                    var alignmentText = AbilityRules.TranslateResourceString(GameText.s_alignmentTexts[(int)alignment]);
-                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_alignmentFormat), [alignmentText]);
+                    var alignmentText = AbilityRules.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
+                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.AlignmentFormat), [alignmentText]);
                     UAlignment.Text = format;
                     var unitLevel = U.GetUnitLevel();
-                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_levelFormat), [IntToStr(unitLevel)]);
+                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.LevelFormat), [IntToStr(unitLevel)]);
                     var upkeep = U.GetUpkeep();
-                    var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_upkeepFormat), [(int)upkeep]);
+                    var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.UpkeepFormat), [(int)upkeep]);
                     ULevel.Text = formattedText + " / " + format2;
                     UAbilitiesLB.Items.Clear();
                     U.ListAbilities(UAbilitiesLB.Items);
-                    if (Place.ProductionControl.UnitProductions.GetItem(ProductionIndex).Researched)
+                    if (_place.ProductionControl.UnitProductions.GetItem(_productionIndex).Researched)
                     {
                         MainBtn1.Visible = true;
-                        var produce = AbilityRules.TranslateResourceString(GameText.s_produceText);
+                        var produce = AbilityRules.TranslateResourceString(GameText.ProduceText);
                         MainBtn1.Text = produce;
-                        var queueLocked = Place.ProductionControl.GetQueueLocked();
+                        var queueLocked = _place.ProductionControl.GetQueueLocked();
                         MainBtn2.Visible = !queueLocked;
-                        var queue = AbilityRules.TranslateResourceString(GameText.s_queueText);
+                        var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
                         MainBtn2.Text = queue;
                         var name = U.GetName();
-                        var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_produceFormat), [name]);
+                        var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.ProduceFormat), [name]);
                         UnitLbl.Text = format3;
-                        var unitProductionGold = Place.ProductionControl.UnitProductionGold(ProductionIndex);
+                        var unitProductionGold = _place.ProductionControl.UnitProductionGold(_productionIndex);
                         UCost.Text = IntToStr(unitProductionGold);
-                        var unitProductionTime = Place.ProductionControl.UnitProductionTime(ProductionIndex);
+                        var unitProductionTime = _place.ProductionControl.UnitProductionTime(_productionIndex);
                         UTurns.Text = IntToStr(unitProductionTime);
                     }
                     else
                     {
                         MainBtn1.Visible = true;
-                        var install = AbilityRules.TranslateResourceString(GameText.s_installText);
+                        var install = AbilityRules.TranslateResourceString(GameText.InstallText);
                         MainBtn1.Text = install;
-                        var queueLocked = Place.ProductionControl.GetQueueLocked();
+                        var queueLocked = _place.ProductionControl.GetQueueLocked();
                         MainBtn2.Visible = !queueLocked;
-                        var queue = AbilityRules.TranslateResourceString(GameText.s_queueText);
+                        var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
                         MainBtn2.Text = queue;
                         var name = U.GetName();
-                        var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_installFormat), [name]);
+                        var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.InstallFormat), [name]);
                         UnitLbl.Text = format3;
-                        var unitResearchGold = Place.ProductionControl.UnitResearchGold(ProductionIndex);
+                        var unitResearchGold = _place.ProductionControl.UnitResearchGold(_productionIndex);
                         UCost.Text = IntToStr(unitResearchGold);
-                        var unitResearchTime = Place.ProductionControl.UnitResearchTime(ProductionIndex);
+                        var unitResearchTime = _place.ProductionControl.UnitResearchTime(_productionIndex);
                         UTurns.Text = IntToStr(unitResearchTime);
                     }
 
@@ -392,15 +392,15 @@ public partial class ProductionScreen : DataModule
                 break;
             case 4:
                 MainBtn1.Visible = true;
-                var productionName = new Trade(0).Name(Place.ProductionControl);
+                var productionName = new Trade(0).Name(_place.ProductionControl);
                 MainBtn1.Text = productionName;
-                var fProductionControlQueueLocked = Place.ProductionControl.GetQueueLocked();
+                var fProductionControlQueueLocked = _place.ProductionControl.GetQueueLocked();
                 MainBtn2.Visible = !fProductionControlQueueLocked;
-                var queueText = AbilityRules.TranslateResourceString(GameText.s_queueText);
+                var queueText = AbilityRules.TranslateResourceString(GameText.QueueText);
                 MainBtn2.Text = queueText;
                 PPrev.Visible = !MainBtn2.Visible;
                 PNext.Visible = !MainBtn2.Visible;
-                if (Place.GetMagicSphere() == MagicSphere.None)
+                if (_place.GetMagicSphere() == MagicSphere.None)
                 {
                     var produceMerchandiseText = AbilityRules.TranslateResourceString(s_produceMerchandiseText);
                     UpgradeMemo.Items.Text = produceMerchandiseText;
@@ -412,7 +412,7 @@ public partial class ProductionScreen : DataModule
                 }
 
                 UpgradePnl.Visible = true;
-                if (Place.GetMagicSphere() != MagicSphere.None)
+                if (_place.GetMagicSphere() != MagicSphere.None)
                 {
                     UpgradePic.CurrentImage = 28;
                 }
@@ -425,16 +425,16 @@ public partial class ProductionScreen : DataModule
                 break;
             case 5:
                 MainBtn1.Visible = true;
-                var raze = AbilityRules.TranslateResourceString(GameText.s_razeText);
+                var raze = AbilityRules.TranslateResourceString(GameText.RazeText);
                 MainBtn1.Text = raze + "...";
                 PPrev.Visible = false;
                 PNext.Visible = false;
-                var fPlaceName = Place.GetName();
+                var fPlaceName = _place.GetName();
                 var format4 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_productionPlaceRazeFormat), [fPlaceName]);
                 UpgradeMemo.Items.Text = format4;
                 UpgradePnl.Visible = true;
                 UpgradePic.CurrentImage = 26;
-                var razeText = AbilityRules.TranslateResourceString(GameText.s_razeText);
+                var razeText = AbilityRules.TranslateResourceString(GameText.RazeText);
                 UpgradeLbl.Text = razeText;
                 break;
         }
@@ -445,37 +445,37 @@ public partial class ProductionScreen : DataModule
     {
         string reason;
         IncomeHdr.Items.Clear();
-        var name = Place.GetName();
+        var name = _place.GetName();
         StructName.Text = name;
-        var income = AbilityRules.TranslateResourceString(GameText.s_incomeText);
+        var income = AbilityRules.TranslateResourceString(GameText.IncomeText);
         IncomeHdr.Items.Add(income);
-        if (Place.GetMagicSphere() != MagicSphere.None)
+        if (_place.GetMagicSphere() != MagicSphere.None)
         {
-            var power = Place.GetPower();
+            var power = _place.GetPower();
             var xPower = AbilityRules.TranslateResourceString(s_powerFormat);
             var format = AbilityRules.Format(" " + xPower, [IntToStr(power)]);
             IncomeHdr.Items.Add(format);
         }
 
-        if (Place.GetIncome() != 0)
+        if (_place.GetIncome() != 0)
         {
-            var fPlaceIncome = Place.GetIncome();
-            var xGold = AbilityRules.TranslateResourceString(GameText.s_goldFormat);
+            var fPlaceIncome = _place.GetIncome();
+            var xGold = AbilityRules.TranslateResourceString(GameText.GoldFormat);
             var format = AbilityRules.Format(" " + xGold, [IntToStr(fPlaceIncome)]);
             IncomeHdr.Items.Add(format);
         }
 
-        if (Place.GetMagicSphere() != MagicSphere.None)
+        if (_place.GetMagicSphere() != MagicSphere.None)
         {
             IncomePicture.ImageLibraryIndexTexture = 64;
             IPPicFr.ImageLibraryTexture = null;
-            var sphereImage = SphereImage(Place.GetMagicSphere());
+            var sphereImage = SphereImage(_place.GetMagicSphere());
             Sphere.SetImageLibraryUIndex(sphereImage);
             Sphere.Visible = true;
         }
         else
         {
-            if (Place is Shipyard)
+            if (_place is Shipyard)
             {
                 IncomeHdr.Items.Clear();
                 IncomePicture.ImageLibraryIndexTexture = 68;
@@ -486,7 +486,7 @@ public partial class ProductionScreen : DataModule
             }
 
             IPPicFr.ImageLibraryTexture = DialogHosts.UIGraphics.CityWin;
-            if (Place is Shipyard)
+            if (_place is Shipyard)
             {
                 IPPicFr.ImageLibraryIndexTexture = 67;
             }
@@ -500,42 +500,42 @@ public partial class ProductionScreen : DataModule
 
         IncomeMemo.Items.Clear();
         IncomeValuesMemo.Items.Clear();
-        Place.ListIncomeInfo(IncomeMemo.Items, IncomeValuesMemo.Items);
+        _place.ListIncomeInfo(IncomeMemo.Items, IncomeValuesMemo.Items);
         QueueLB.Items.Clear();
-        for (int I = 0, last = Place.ProductionControl.Queue.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = _place.ProductionControl.Queue.GetCount() - 1; I <= last; I++)
         {
-            var name2 = Place.ProductionControl.Queue.GetItem(I).GetName();
+            var name2 = _place.ProductionControl.Queue.GetItem(I).GetName();
             QueueLB.Items.Add(IntToStr(I + 1) + ". " + name2);
         }
 
-        for (int I = Place.ProductionControl.Queue.GetCount(); I <= 4; I++)
+        for (int I = _place.ProductionControl.Queue.GetCount(); I <= 4; I++)
         {
-            var emptyQueue = AbilityRules.TranslateResourceString(GameText.s_emptyQueueText);
+            var emptyQueue = AbilityRules.TranslateResourceString(GameText.EmptyQueueText);
             QueueLB.Items.Add(IntToStr(I + 1) + ". " + emptyQueue);
         }
 
-        var count = Place.ProductionControl.Queue.GetCount();
+        var count = _place.ProductionControl.Queue.GetCount();
         if (QueueLB.Selected >= count)
         {
-            var fQueueCount = Place.ProductionControl.Queue.GetCount();
+            var fQueueCount = _place.ProductionControl.Queue.GetCount();
             QueueLB.Selected = fQueueCount - 1;
-            QueueIndex = QueueLB.Selected;
+            _queueIndex = QueueLB.Selected;
         }
 
-        LoopQueueBox.Checked = Place.ProductionControl.LoopQueue;
-        if (Place.ProductionControl.Status == ProductionControlStatus.Producing)
+        LoopQueueBox.Checked = _place.ProductionControl.LoopQueue;
+        if (_place.ProductionControl.Status == ProductionControlStatus.Producing)
         {
-            var nameProgressive = Place.ProductionControl.Queue.GetItem(0).GetNameProgressive();
+            var nameProgressive = _place.ProductionControl.Queue.GetItem(0).GetNameProgressive();
             ActiveAction.Text = nameProgressive;
-            if (Place.ProductionControl.Settings.TurnsLeft != -1)
+            if (_place.ProductionControl.Settings.TurnsLeft != -1)
             {
-                var formatTurnsLeftString = DurationText.FormatTurnsLeftString(Place.ProductionControl.Settings.TurnsLeft);
+                var formatTurnsLeftString = DurationText.FormatTurnsLeftString(_place.ProductionControl.Settings.TurnsLeft);
                 ActiveActionTurns.Text = formatTurnsLeftString;
                 ActiveActionTurns.Visible = true;
                 ActiveActionTurns.TextColor = 6783862;
                 this.ActiveActionTurnsBar.Min = 0;
-                this.ActiveActionTurnsBar.Max = Place.ProductionControl.Settings.TurnsTotal;
-                this.ActiveActionTurnsBar.Position = Place.ProductionControl.Settings.TurnsTotal - Place.ProductionControl.Settings.TurnsLeft;
+                this.ActiveActionTurnsBar.Max = _place.ProductionControl.Settings.TurnsTotal;
+                this.ActiveActionTurnsBar.Position = _place.ProductionControl.Settings.TurnsTotal - _place.ProductionControl.Settings.TurnsLeft;
 
                 ActiveActionTurnsBar.Visible = true;
             }
@@ -545,23 +545,23 @@ public partial class ProductionScreen : DataModule
                 ActiveActionTurnsBar.Visible = false;
             }
 
-            var activityImage = Place.ProductionControl.Queue.GetItem(0).Order.ActivityImage(Place);
+            var activityImage = _place.ProductionControl.Queue.GetItem(0).Order.ActivityImage(_place);
             CurrentActionImage.CurrentImage = activityImage;
         }
         else
         {
-            if (Place.ProductionControl.Status == ProductionControlStatus.Idle)
+            if (_place.ProductionControl.Status == ProductionControlStatus.Idle)
             {
-                var currentActivityText = Place.GetCurrentActivityText();
+                var currentActivityText = _place.GetCurrentActivityText();
                 ActiveAction.Text = currentActivityText;
-                var defaultText = AbilityRules.TranslateResourceString(GameText.s_defaultText);
+                var defaultText = AbilityRules.TranslateResourceString(GameText.DefaultText);
                 ActiveActionTurns.Text = "(" + LowerCase(defaultText) + ")";
                 ActiveActionTurns.TextColor = 6783862;
-                var none = AbilityRules.TranslateResourceString(GameTables.s_noneText);
+                var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
                 if (CompareText(ActiveAction.Text, none) != 0)
                 {
                     ActiveActionTurns.Visible = true;
-                    var activityImage = new Trade(0).ActivityImage(Place);
+                    var activityImage = new Trade(0).ActivityImage(_place);
                     CurrentActionImage.CurrentImage = activityImage;
                 }
                 else
@@ -574,29 +574,29 @@ public partial class ProductionScreen : DataModule
             }
             else
             {
-                if (Place.ProductionControl.Status == ProductionControlStatus.Waiting)
+                if (_place.ProductionControl.Status == ProductionControlStatus.Waiting)
                 {
                     reason = "";
-                    var nameProgressive = Place.ProductionControl.Queue.GetItem(0).GetNameProgressive();
+                    var nameProgressive = _place.ProductionControl.Queue.GetItem(0).GetNameProgressive();
                     ActiveAction.Text = nameProgressive;
-                    var queue = Place.ProductionControl.Queue.GetItem(0);
-                    Place.ProductionControl.CanExecuteProduction(queue, ref reason);
+                    var queue = _place.ProductionControl.Queue.GetItem(0);
+                    _place.ProductionControl.CanExecuteProduction(queue, ref reason);
                     ActiveActionTurns.Text = reason;
                     ActiveActionTurns.TextColor = 255;
                     ActiveActionTurns.Visible = true;
                     ActiveActionTurnsBar.Visible = false;
-                    var activityImage = Place.ProductionControl.Queue.GetItem(0).Order.ActivityImage(Place);
+                    var activityImage = _place.ProductionControl.Queue.GetItem(0).Order.ActivityImage(_place);
                     CurrentActionImage.CurrentImage = activityImage;
                 }
             }
         }
 
-        switch (Mode)
+        switch (_mode)
         {
             case 1:
-                if (ProductionIndex != -1)
+                if (_productionIndex != -1)
                 {
-                    SelectProduction(ProductionIndex);
+                    SelectProduction(_productionIndex);
                 }
 
                 break;
@@ -615,46 +615,46 @@ public partial class ProductionScreen : DataModule
         RandomBattleMapGenerator generator;
         HexSprite center;
         Reset();
-        Place = place;
+        _place = place;
         UpdateInfo();
         SetMode(0);
         var text = place.GetDescription().Text;
         PlaceInfoMemo.Items.Text = text;
-        for (int I = 0, last = Place.ProductionControl.UnitProductions.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = _place.ProductionControl.UnitProductions.GetCount() - 1; I <= last; I++)
         {
-            LoadUnitImages(Place.ProductionControl.UnitProductions.GetItem(I).UnitIndex);
+            LoadUnitImages(_place.ProductionControl.UnitProductions.GetItem(I).UnitIndex);
         }
 
         FreePreview();
         generator = new RandomBattleMapGenerator();
-        var hexLevel = Place.GetHexLevel();
-        var hexY = Place.GetHexY();
-        Preview = generator.RandomMap(null, Place.GetHexX(), hexY, hexLevel);
+        var hexLevel = _place.GetHexLevel();
+        var hexY = _place.GetHexY();
+        _preview = generator.RandomMap(null, _place.GetHexX(), hexY, hexLevel);
         generator?.Dispose();
-        army = ((AoWMapField)Place.Owner).GetArmyHexSprite();
+        army = ((AoWMapField)_place.Owner).GetArmyHexSprite();
         if (army != null)
         {
             for (int I = 0, last = army.Army.GetCount() - 1; I <= last; I++)
             {
                 var troop = army.Army.GetUnit(I);
-                CombatMap.PlaceOverviewUnit(Preview, troop, 0, I);
+                CombatMap.PlaceOverviewUnit(_preview, troop, 0, I);
             }
         }
 
-        var baseIncome = Place.GetBaseIncome();
+        var baseIncome = _place.GetBaseIncome();
         B5CB.CaptureInput = baseIncome != 0;
-        center = Preview.CenterViewLocation;
+        center = _preview.CenterViewLocation;
         if (center != null)
         {
-            var fCenterViewLocationHexY = Preview.CenterViewLocation.GetHexY();
-            HexGeometry.HexToPixel(center.GetHexX(), fCenterViewLocationHexY, ref ViewX, ref ViewY);
-            ViewX = ViewX + 16 - MapView.WinWidth / 2;
-            ViewY = ViewY + 16 - MapView.WinHeight / 2;
+            var fCenterViewLocationHexY = _preview.CenterViewLocation.GetHexY();
+            HexGeometry.HexToPixel(center.GetHexX(), fCenterViewLocationHexY, ref _viewX, ref _viewY);
+            _viewX = _viewX + 16 - MapView.WinWidth / 2;
+            _viewY = _viewY + 16 - MapView.WinHeight / 2;
         }
         else
         {
-            ViewX = 800;
-            ViewY = 800;
+            _viewX = 800;
+            _viewY = 800;
         }
 
         DialogHosts.General.Manager.OverlayPriority = 49;
@@ -664,13 +664,13 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:221
     public void ProductionScreenCreate()
     {
-        Images = new Int32List();
+        _images = new Int32List();
     }
 
     // AoWProdScreen.pas:226
     public void ProductionScreenDestroy()
     {
-        Images?.Dispose();
+        _images?.Dispose();
     }
 
     // AoWProdScreen.pas:231
@@ -704,7 +704,7 @@ public partial class ProductionScreen : DataModule
         switch (slot)
         {
             case >= 0 and <= 3:
-                U = Place.ProductionControl.CreateUnitProduction(slot);
+                U = _place.ProductionControl.CreateUnitProduction(slot);
                 if (U != null)
                 {
                     info.Direction = 3;
@@ -712,7 +712,7 @@ public partial class ProductionScreen : DataModule
                     info.Animation = 0;
                     info.Frame = 0;
                     info.Looped = false;
-                    if (!Place.ProductionControl.UnitProductions.GetItem(slot).Researched)
+                    if (!_place.ProductionControl.UnitProductions.GetItem(slot).Researched)
                     {
                         DialogHosts.UIGraphics.CityWin[5].Show(R.Left + 2, R.Top + 2, lockedSurface);
                         info.Direction = 5;
@@ -742,9 +742,9 @@ public partial class ProductionScreen : DataModule
 
                 break;
             case 4:
-                if (Place.GetBaseIncome() != 0)
+                if (_place.GetBaseIncome() != 0)
                 {
-                    var activityImage = new Trade(0).ActivityImage(Place);
+                    var activityImage = new Trade(0).ActivityImage(_place);
                     DialogHosts.UIGraphics.CityWin[activityImage].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 }
                 else
@@ -763,21 +763,21 @@ public partial class ProductionScreen : DataModule
     public void MainBtn1Click()
     {
         string reason = "";
-        switch (Mode)
+        switch (_mode)
         {
             case 0:
                 SetMode(1);
                 SelectDefaultAction();
                 break;
             case 1:
-                switch (ProductionIndex)
+                switch (_productionIndex)
                 {
                     case >= 0 and <= 3:
-                        if (Place.ProductionControl.UnitProductions.GetItem(ProductionIndex).Researched)
+                        if (_place.ProductionControl.UnitProductions.GetItem(_productionIndex).Researched)
                         {
-                            if (Place.CanProduce(ProductionIndex, false, ref reason))
+                            if (_place.CanProduce(_productionIndex, false, ref reason))
                             {
-                                Place.Produce(ProductionIndex, false);
+                                _place.Produce(_productionIndex, false);
                                 SetMode(0);
                             }
                             else
@@ -787,9 +787,9 @@ public partial class ProductionScreen : DataModule
                         }
                         else
                         {
-                            if (Place.CanResearch(ProductionIndex, false, ref reason))
+                            if (_place.CanResearch(_productionIndex, false, ref reason))
                             {
-                                Place.Research(ProductionIndex, false);
+                                _place.Research(_productionIndex, false);
                                 SetMode(0);
                             }
                             else
@@ -800,9 +800,9 @@ public partial class ProductionScreen : DataModule
 
                         break;
                     case 4:
-                        if (Place.CanTrade(false, ref reason))
+                        if (_place.CanTrade(false, ref reason))
                         {
-                            Place.Trade(false);
+                            _place.Trade(false);
                             SetMode(0);
                         }
                         else
@@ -812,9 +812,9 @@ public partial class ProductionScreen : DataModule
 
                         break;
                     case 5:
-                        if (Place.CanRaze(AoWHSMap.Current.SeatedPlayer, ref reason))
+                        if (_place.CanRaze(AoWHSMap.Current.SeatedPlayer, ref reason))
                         {
-                            Place.Raze(AoWHSMap.Current.SeatedPlayer);
+                            _place.Raze(AoWHSMap.Current.SeatedPlayer);
                             Dlg.Visible = false;
                         }
                         else
@@ -829,7 +829,7 @@ public partial class ProductionScreen : DataModule
             case 2:
                 if (QueueLB.Selected != -1)
                 {
-                    Place.ProductionControl.DeleteProduction(QueueLB.Selected);
+                    _place.ProductionControl.DeleteProduction(QueueLB.Selected);
                 }
 
                 break;
@@ -840,17 +840,17 @@ public partial class ProductionScreen : DataModule
     public void MainBtn2Click()
     {
         string reason = "";
-        switch (Mode)
+        switch (_mode)
         {
             case 1:
-                switch (ProductionIndex)
+                switch (_productionIndex)
                 {
                     case >= 0 and <= 3:
-                        if (Place.ProductionControl.UnitProductions.GetItem(ProductionIndex).Researched)
+                        if (_place.ProductionControl.UnitProductions.GetItem(_productionIndex).Researched)
                         {
-                            if (Place.CanProduce(ProductionIndex, true, ref reason))
+                            if (_place.CanProduce(_productionIndex, true, ref reason))
                             {
-                                Place.Produce(ProductionIndex, true);
+                                _place.Produce(_productionIndex, true);
                             }
                             else
                             {
@@ -859,9 +859,9 @@ public partial class ProductionScreen : DataModule
                         }
                         else
                         {
-                            if (Place.CanResearch(ProductionIndex, true, ref reason))
+                            if (_place.CanResearch(_productionIndex, true, ref reason))
                             {
-                                Place.Research(ProductionIndex, true);
+                                _place.Research(_productionIndex, true);
                             }
                             else
                             {
@@ -871,9 +871,9 @@ public partial class ProductionScreen : DataModule
 
                         break;
                     case 4:
-                        if (Place.CanTrade(true, ref reason))
+                        if (_place.CanTrade(true, ref reason))
                         {
-                            Place.Trade(true);
+                            _place.Trade(true);
                         }
                         else
                         {
@@ -885,9 +885,9 @@ public partial class ProductionScreen : DataModule
 
                 break;
             case 2:
-                if (QueueIndex == 0)
+                if (_queueIndex == 0)
                 {
-                    if (Place.ProductionControl.RetryProductionExecution(ref reason))
+                    if (_place.ProductionControl.RetryProductionExecution(ref reason))
                     {
                         SetMode(0);
                     }
@@ -905,7 +905,7 @@ public partial class ProductionScreen : DataModule
     public void MainBtn3Click()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (Mode == 0)
+        if (_mode == 0)
         {
             Dlg.Visible = false;
         }
@@ -920,7 +920,7 @@ public partial class ProductionScreen : DataModule
     {
         Unit U;
         Rect R;
-        U = Place.ProductionControl.CreateUnitProduction(ProductionIndex);
+        U = _place.ProductionControl.CreateUnitProduction(_productionIndex);
         if (U != null)
         {
             R = new Rect(UPictureFramePnl.WinLeft + sender.WinLeft + 2, UPictureFramePnl.WinTop + sender.WinTop + 2, UPictureFramePnl.WinLeft + sender.WinLeft + sender.WinWidth - 4, UPictureFramePnl.WinTop + sender.WinTop + sender.WinHeight - 2);
@@ -932,13 +932,13 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:406
     public void QueueLBChange()
     {
-        var count = Place.ProductionControl.Queue.GetCount();
-        if (QueueLB.Selected < count && Mode != 0)
+        var count = _place.ProductionControl.Queue.GetCount();
+        if (QueueLB.Selected < count && _mode != 0)
         {
             if (QueueLB.Selected != -1)
             {
-                QueueIndex = QueueLB.Selected;
-                if (Place.ProductionControl.Queue.GetItem(QueueIndex).Order is ProduceUnit produce)
+                _queueIndex = QueueLB.Selected;
+                if (_place.ProductionControl.Queue.GetItem(_queueIndex).Order is ProduceUnit produce)
                 {
                     SelectProduction(produce.Index);
                 }
@@ -948,14 +948,14 @@ public partial class ProductionScreen : DataModule
                 }
 
                 SetMode(2);
-                QueueLB.Selected = QueueIndex;
+                QueueLB.Selected = _queueIndex;
                 MainBtn1.Visible = true;
-                var delete = AbilityRules.TranslateResourceString(GameText.s_deleteText);
+                var delete = AbilityRules.TranslateResourceString(GameText.DeleteText);
                 MainBtn1.Text = delete;
-                if (QueueIndex == 0 && Place.ProductionControl.Status == ProductionControlStatus.Waiting)
+                if (_queueIndex == 0 && _place.ProductionControl.Status == ProductionControlStatus.Waiting)
                 {
                     MainBtn2.Visible = true;
-                    var execute = AbilityRules.TranslateResourceString(GameText.s_executeText);
+                    var execute = AbilityRules.TranslateResourceString(GameText.ExecuteText);
                     MainBtn2.Text = execute;
                 }
                 else
@@ -974,9 +974,9 @@ public partial class ProductionScreen : DataModule
         }
         else
         {
-            if (Mode == 2)
+            if (_mode == 2)
             {
-                QueueLB.Selected = QueueIndex;
+                QueueLB.Selected = _queueIndex;
             }
             else
             {
@@ -990,7 +990,7 @@ public partial class ProductionScreen : DataModule
     {
         if (slot <= 3)
         {
-            var unitProduction = Place.ProductionControl.UnitProductions.GetItem(slot);
+            var unitProduction = _place.ProductionControl.UnitProductions.GetItem(slot);
             sender.CaptureInput = unitProduction != null;
         }
     }
@@ -998,7 +998,7 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:445
     public void LoopQueueBoxChange()
     {
-        Place.ProductionControl.SetLoopQueueTo(LoopQueueBox.Checked);
+        _place.ProductionControl.SetLoopQueueTo(LoopQueueBox.Checked);
     }
 
     // AoWProdScreen.pas:450
@@ -1007,15 +1007,15 @@ public partial class ProductionScreen : DataModule
         UnitShowInfo info = default;
         Rect R;
         Unit U;
-        if (Place.ProductionControl.Queue.GetCount() != 0)
+        if (_place.ProductionControl.Queue.GetCount() != 0)
         {
-            if (Place.ProductionControl.Queue.GetItem(0).Order.UnitProductionIndex != null)
+            if (_place.ProductionControl.Queue.GetItem(0).Order.UnitProductionIndex != null)
             {
                 R = new Rect(ActiveActionPnl.WinLeft + sender.WinLeft, ActiveActionPnl.WinTop + sender.WinTop, ActiveActionPnl.WinLeft + sender.WinLeft + sender.WinWidth, ActiveActionPnl.WinTop + sender.WinTop + sender.WinHeight);
-                var productionPlaceControl = Place.ProductionControl;
+                var productionPlaceControl = _place.ProductionControl;
                 if (productionPlaceControl.UnitProductions.GetItem(productionPlaceControl.Settings.UnitProductionIndex) != null)
                 {
-                    U = Place.ProductionControl.CreateUnitProduction(Place.ProductionControl.Settings.UnitProductionIndex);
+                    U = _place.ProductionControl.CreateUnitProduction(_place.ProductionControl.Settings.UnitProductionIndex);
                     if (U != null)
                     {
                         info.Direction = 3;
@@ -1039,42 +1039,42 @@ public partial class ProductionScreen : DataModule
         int W;
         int H;
         int width;
-        if (Preview != null)
+        if (_preview != null)
         {
             R = new Rect(Dlg.WinLeft + sender.WinLeft, Dlg.WinTop + sender.WinTop, Dlg.WinLeft + sender.WinLeft + sender.WinWidth, Dlg.WinTop + sender.WinTop + sender.WinHeight);
             width = R.Right - R.Left;
             W = width;
             H = R.Bottom - R.Top;
-            var maxPixelX = Preview.GetMaxPixelX();
-            if (ViewX + W + 16 > maxPixelX)
+            var maxPixelX = _preview.GetMaxPixelX();
+            if (_viewX + W + 16 > maxPixelX)
             {
-                ViewX = Preview.GetMaxPixelX() - W - 16;
+                _viewX = _preview.GetMaxPixelX() - W - 16;
             }
 
-            var maxPixelY = Preview.GetMaxPixelY();
-            if (ViewY + H + 16 > maxPixelY)
+            var maxPixelY = _preview.GetMaxPixelY();
+            if (_viewY + H + 16 > maxPixelY)
             {
-                ViewY = Preview.GetMaxPixelY() - H - 16;
+                _viewY = _preview.GetMaxPixelY() - H - 16;
             }
 
-            if (ViewX < 16)
+            if (_viewX < 16)
             {
-                ViewX = 16;
+                _viewX = 16;
             }
 
-            if (ViewY < 16)
+            if (_viewY < 16)
             {
-                ViewY = 16;
+                _viewY = 16;
             }
 
             LockedSurface.CreateFrom(lockedSurface, R, ref viewSurfaceDescription);
-            Preview.SetExplorationEnabled(false);
-            Preview.SetFogEnabled(false);
-            Preview.SetViewPort(ViewX, ViewY, 0, width, R.Bottom - R.Top);
-            Preview.UpdateStaticScene();
-            Preview.UpdateDynamicScene();
-            Preview.DrawStaticScene(ref viewSurfaceDescription);
-            Preview.DrawDynamicScene(ref viewSurfaceDescription);
+            _preview.SetExplorationEnabled(false);
+            _preview.SetFogEnabled(false);
+            _preview.SetViewPort(_viewX, _viewY, 0, width, R.Bottom - R.Top);
+            _preview.UpdateStaticScene();
+            _preview.UpdateDynamicScene();
+            _preview.DrawStaticScene(ref viewSurfaceDescription);
+            _preview.DrawDynamicScene(ref viewSurfaceDescription);
         }
     }
 
@@ -1084,19 +1084,19 @@ public partial class ProductionScreen : DataModule
         switch (key)
         {
             case 37:
-                ViewX -= 16;
+                _viewX -= 16;
                 MapView.Drawn = false;
                 break;
             case 39:
-                ViewX += 16;
+                _viewX += 16;
                 MapView.Drawn = false;
                 break;
             case 38:
-                ViewY -= 16;
+                _viewY -= 16;
                 MapView.Drawn = false;
                 break;
             case 40:
-                ViewY += 16;
+                _viewY += 16;
                 MapView.Drawn = false;
                 break;
             case 27:
@@ -1109,7 +1109,7 @@ public partial class ProductionScreen : DataModule
     public void MapViewUpdate()
     {
         CombatMap preview;
-        preview = Preview;
+        preview = _preview;
         if (preview != null)
         {
             preview.NewFrame();
@@ -1146,7 +1146,7 @@ public partial class ProductionScreen : DataModule
         int start;
         int index;
         PlayerStructure S;
-        start = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.FindChildIndex(Place);
+        start = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.FindChildIndex(_place);
         index = start;
         index -= 1;
         if (index < 0)
@@ -1177,7 +1177,7 @@ public partial class ProductionScreen : DataModule
         int start;
         int index;
         PlayerStructure S;
-        start = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.FindChildIndex(Place);
+        start = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.FindChildIndex(_place);
         index = start + 1;
         if (index >= AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount())
         {

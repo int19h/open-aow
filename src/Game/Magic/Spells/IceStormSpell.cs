@@ -12,7 +12,7 @@ public partial class IceStormSpell : StormSpell
     // Storms.pas:984
     public IceStormSpell(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameTables.s_iceStormText);
+        SpellName = AbilityRules.TranslateResourceString(GameTables.IceStormText);
         SpellId = 4;
         BaseManaCost = 5;
         SpellLevel = 4;

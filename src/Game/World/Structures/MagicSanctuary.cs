@@ -13,20 +13,20 @@ public partial class MagicSanctuary : Structure
 {
     public MagicSanctuary(ECustomNode owner) : base(owner)
     {
-        OverlayHexSprite = new MagicSanctuaryOverlayHexSprite(null);
-        OverlayHexSprite.Structure = this;
+        _overlayHexSprite = new MagicSanctuaryOverlayHexSprite(null);
+        _overlayHexSprite.Structure = this;
     }
 
     // MagicSanctuary.pas:124
     public new const int ClassId = 133274;
 
-    public MagicSanctuaryOverlayHexSprite OverlayHexSprite;
+    private MagicSanctuaryOverlayHexSprite _overlayHexSprite;
 
     // MagicSanctuary.pas:117
     public override void Dispose()
     {
-        AoWHSMap.Current.DynamicVisibleHexSprite.RemoveChild(OverlayHexSprite);
-        OverlayHexSprite?.Dispose();
+        AoWHSMap.Current.DynamicVisibleHexSprite.RemoveChild(_overlayHexSprite);
+        _overlayHexSprite?.Dispose();
         base.Dispose();
     }
 
@@ -48,10 +48,10 @@ public partial class MagicSanctuary : Structure
     // MagicSanctuary.pas:127
     public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!_status.Contains(MapObjectStatusElement.Visible))
+        if (!Status.Contains(MapObjectStatusElement.Visible))
         {
             base.MakeVisible(visibilityList);
-            OverlayHexSprite.MakeVisible(visibilityList);
+            _overlayHexSprite.MakeVisible(visibilityList);
         }
     }
 
@@ -59,7 +59,7 @@ public partial class MagicSanctuary : Structure
     public override void ArmyPlaced(ArmyHexSprite placedArmy)
     {
         base.ArmyPlaced(placedArmy);
-        OverlayHexSprite.FadeUp();
+        _overlayHexSprite.FadeUp();
     }
 
     public new partial class Resource : StructureResource

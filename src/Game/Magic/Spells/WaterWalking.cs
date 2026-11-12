@@ -15,7 +15,7 @@ public partial class WaterWalking : UnitSpell
     // UnitSpells.pas:662
     public WaterWalking(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_waterWalkingText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.WaterWalkingText);
         SpellId = 42;
         BaseManaCost = 5;
         SpellLevel = 2;

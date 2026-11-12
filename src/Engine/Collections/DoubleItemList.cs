@@ -12,10 +12,10 @@ namespace Aow.Engine.Collections;
 
 public partial class DoubleItemList : Persistent
 {
-    internal DoubleItem[] _list = [];
-    internal int _count;
-    internal int _capacity;
-    internal DoubleItem _default;
+    private DoubleItem[] _list = [];
+    private int _count;
+    private int _capacity;
+    private DoubleItem _default;
 
     // Engine.pas:5140
     internal DoubleItem Get(int index)

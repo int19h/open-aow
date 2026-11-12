@@ -19,7 +19,8 @@ public partial class CombatParty : EngineObject
         Army = new Army(null);
     }
 
-    public Army Army;
+    public Army Army { get; }
+
     public int X;
     public int Y;
     public int MapLevel;

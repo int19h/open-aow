@@ -90,7 +90,7 @@ public partial class SynchronizeDialog : DataModule
                 PlayerName.Text = settings.Leader.HeroName;
             }
 
-            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[settings.Race]);
+            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[settings.Race]);
             PlayerRace.Text = raceNamesPlural;
             Day = AoWHSMap.Current.Day;
             if (Day == 0)
@@ -98,7 +98,7 @@ public partial class SynchronizeDialog : DataModule
                 Day = 1;
             }
 
-            var day = AbilityRules.TranslateResourceString(GameText.s_dayText);
+            var day = AbilityRules.TranslateResourceString(GameText.DayText);
             Turn.Text = day + " " + IntToStr(Day);
             LShield.CurrentImage = settings.Race + 26;
             RShield.CurrentImage = settings.Race + 26;

@@ -17,7 +17,7 @@ public partial class Entangle : CombatSpell
     // CombatSpells.pas:1352
     public Entangle(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_entangleText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.EntangleText);
         SpellId = 111;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 7;

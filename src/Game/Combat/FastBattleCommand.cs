@@ -13,12 +13,12 @@ public partial class FastBattleCommand
         AbilityId = abilityId;
     }
 
-    public int AbilityId;
-    public int SourceDamageValue;
-    public int TargetDamageValue;
-    public int ExpectedDamageValue;
-    public int MoveCost;
-    public CombatObject Target;
+    public int AbilityId { get; }
+    public int SourceDamageValue { get; set; }
+    public int TargetDamageValue { get; set; }
+    public int ExpectedDamageValue { get; set; }
+    public int MoveCost { get; set; }
+    public CombatObject Target { get; set; }
 
     // AIGroup.pas:6710
     public virtual string GetName()

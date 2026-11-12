@@ -18,7 +18,7 @@ public sealed class CombatMapConstructionTests
 {
     private sealed class MapPublicationOwner(bool reject) : EngineFixture.Owner
     {
-        internal readonly List<bool> PublishedAtInsertion = [];
+        internal List<bool> PublishedAtInsertion { get; } = [];
 
         public override int AddChild(EngineObject child)
         {
@@ -46,8 +46,8 @@ public sealed class CombatMapConstructionTests
                     for (int route = 0; route < 4; route++)
                     {
                         using var fixture = new OrderingRecording.Fixture(typeof(CombatMap));
-                        var entry = fixture.Manager._diskList.AddImageLibraryFile("TargHex.ILB");
-                        entry._imageLibrary = new ImageLibrary(null!);
+                        var entry = fixture.Manager.DiskList.AddImageLibraryFile("TargHex.ILB");
+                        entry.ImageLibrary = new ImageLibrary(null!);
                         var set = AoWHSSet.Current;
                         if (failure == 2) AoWHSSet.Current = null!;
                         CombatMap.Current = null!;

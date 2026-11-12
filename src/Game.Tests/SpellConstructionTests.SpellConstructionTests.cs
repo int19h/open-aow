@@ -21,8 +21,8 @@ public sealed partial class SpellConstructionTests
     private sealed class SpellOwner : EngineFixture.Owner
     {
 
-        internal readonly List<EngineObject> Removed = [];
-        internal readonly List<string> Observations = [];
+        internal List<EngineObject> Removed { get; } = [];
+        internal List<string> Observations { get; } = [];
 
         public override int AddChild(EngineObject child)
         {
@@ -45,7 +45,8 @@ public sealed partial class SpellConstructionTests
     {
         private readonly AoWHSSet _previousSet = AoWHSSet.Current;
         private readonly GameEngine _previousEngine = GameTables.GameEngine;
-        internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
+
+        internal ImageLibraryManager Manager { get; } = new ImageLibraryManager(null!);
 
         internal Fixture()
         {
@@ -78,7 +79,7 @@ public sealed partial class SpellConstructionTests
             {
                 if (field.Name is "_engineClass" or "_actionClass" or "_groupClass") continue; // the descriptor caches are not constructor state
                 object? fieldValue = field.GetValue(value);
-                fields[current.Name + "." + field.Name] = field.Name == "_owner"
+                fields[current.Name + "." + MemberNames.Of(field)] = field.Name == "_owner"
                     ? fieldValue is null ? null : "$owner"
                     : State(fieldValue, depth + 1);
             }
@@ -167,13 +168,13 @@ public sealed partial class SpellConstructionTests
                     if (owned) ConstructionSnapshot.Check("SpellConstruction", name, owner.Observations[^1], "Observation");
                     if (value is Spell spell)
                     {
-                        Assert.Same(fixture.Manager, spell.CastImages._imageLibraryManager);
+                        Assert.Same(fixture.Manager, spell.CastImages.ImageLibraryManager);
                         Assert.Equal(0, spell.SpellText.Count);
                         Assert.Equal(0, spell.CastSounds.Count);
                     }
                     if (value is Ability ability)
                     {
-                        Assert.Same(fixture.Manager, ability.ImageSequences._imageLibraryManager);
+                        Assert.Same(fixture.Manager, ability.ImageSequences.ImageLibraryManager);
                         Assert.Equal(0, ability.Description.Count);
                         Assert.Equal(0, ability.SfxLibrary.Count);
                     }
@@ -199,8 +200,8 @@ public sealed partial class SpellConstructionTests
             Assert.Same(owner, value.Owner);
             Assert.Same(value, Assert.Single(owner.Members));
             Assert.Empty(owner.Removed);
-            if (value is Spell spell) Assert.Same(fixture.Manager, spell.CastImages._imageLibraryManager);
-            if (value is Ability ability) Assert.Same(fixture.Manager, ability.ImageSequences._imageLibraryManager);
+            if (value is Spell spell) Assert.Same(fixture.Manager, spell.CastImages.ImageLibraryManager);
+            if (value is Ability ability) Assert.Same(fixture.Manager, ability.ImageSequences.ImageLibraryManager);
             value.Dispose();
             Assert.Empty(owner.Members);
             Assert.Same(value, Assert.Single(owner.Removed));

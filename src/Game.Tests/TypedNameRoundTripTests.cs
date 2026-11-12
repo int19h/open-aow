@@ -17,7 +17,9 @@ public sealed class TypedNameRoundTripTests
     public void TypedLeaderNameKeepsItsBytesThroughSaveAndLoad()
     {
         var font = new ImageLibraryFont(null!);
-        var edit = new Edit(null!) { _font = font, Valid = true, Redraw = true, _visible = true, _winWidth = 10000, FirstChar = 1 };
+        var edit = new Edit(null!) { _font = font, Valid = true, Redraw = true, FirstChar = 1 };
+        edit.SetVisibleWithoutUpdate(true);
+        edit.SetWinWidthWithoutInvalidate(10000);
         Leader source = null!, loaded = null!;
         try
         {

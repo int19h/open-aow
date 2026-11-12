@@ -19,7 +19,7 @@ public partial class DeathMastery : GlobalEnchantmentSpell
     public DeathMastery(ECustomNode owner) : base(owner)
     {
         SpellType = SpellType.Global;
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_deathMasteryText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.DeathMasteryText);
         SpellId = 62;
         BaseManaCost = 1;
         SpellLevel = 4;

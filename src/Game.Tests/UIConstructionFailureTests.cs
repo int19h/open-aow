@@ -19,10 +19,10 @@ public sealed class UIConstructionFailureTests
     public void PlainComponentsPublishCompletedState(int family)
     {
         GameEngine engine = EngineFixture.Engine;
-        var previousLoaded = engine._onHsmLoadedStore;
-        var previousClose = engine._onHsmCloseStore;
-        engine._onHsmLoadedStore = new EventStore<HSMap>();
-        engine._onHsmCloseStore = new EventStore<HSMap>();
+        var previousLoaded = engine.OnHsmLoadedStore;
+        var previousClose = engine.OnHsmCloseStore;
+        engine.OnHsmLoadedStore = new EventStore<HSMap>();
+        engine.OnHsmCloseStore = new EventStore<HSMap>();
         GameTables.GameEngine = engine;
         AoWHSMap.Current = null!;
         CombatMap.Current = null!;
@@ -44,8 +44,8 @@ public sealed class UIConstructionFailureTests
         finally
         {
             owner.Dispose();
-            engine._onHsmLoadedStore = previousLoaded;
-            engine._onHsmCloseStore = previousClose;
+            engine.OnHsmLoadedStore = previousLoaded;
+            engine.OnHsmCloseStore = previousClose;
         }
     }
 }

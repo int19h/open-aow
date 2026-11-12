@@ -10,23 +10,23 @@ public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
     public int IndexOfItemA(TA A)
     {
         int result = 0;
-        while (result < _count && !ReferenceEquals(_list[result].First, A))
+        while (result < Count && !ReferenceEquals(_list[result].First, A))
         {
             result += 1;
         }
 
-        return result == _count ? -1 : result;
+        return result == Count ? -1 : result;
     }
 
     public int IndexOfItemB(int B)
     {
         int result = 0;
-        while (result < _count && _list[result].Second != B)
+        while (result < Count && _list[result].Second != B)
         {
             result += 1;
         }
 
-        return result == _count ? -1 : result;
+        return result == Count ? -1 : result;
     }
 
     public void SortAscendingItemB() => Sort(static (in item1, in item2) => item1.Second - item2.Second);
@@ -40,10 +40,10 @@ public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
         int total;
         int chance;
         int R;
-        if (_count != 0)
+        if (Count != 0)
         {
             total = 0;
-            for (int I = _count - 1; I >= 0; I--)
+            for (int I = Count - 1; I >= 0; I--)
             {
                 chance = _list[I].Second + bonus;
                 if (chance > 0)

@@ -5,850 +5,850 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class GameText
 {
-    internal static string TAbstractUnit_UpdateOffensiveStrength__AssertFile = "D:\\AoWDev\\AoWE\\inc\\Unit.PAS";
+    internal static string TAbstractUnit_UpdateOffensiveStrength__AssertFile { get; } = "D:\\AoWDev\\AoWE\\inc\\Unit.PAS";
 
-    internal static string TArmyHS_Show__AssertFile = "D:\\AoWDev\\AoWE\\inc\\Army.PAS";
+    internal static string TArmyHS_Show__AssertFile { get; } = "D:\\AoWDev\\AoWE\\inc\\Army.PAS";
 
-    internal static string TArmyHS_Show__AssertMessage = "Invalid Unit Index";
+    internal static string TArmyHS_Show__AssertMessage { get; } = "Invalid Unit Index";
 
-    internal static readonly string s_obstacleText = "Obstacle";
+    internal static string ObstacleText { get; } = "Obstacle";
 
-    internal static readonly string s_cannotCastGlobalEnchantmentWhenSpellWardIsActiveText = "Spell Ward locks all global enchantments";
+    internal static string CannotCastGlobalEnchantmentWhenSpellWardIsActiveText { get; } = "Spell Ward locks all global enchantments";
 
-    internal static readonly string s_isAlreadyActiveFormat = "%s is already active";
+    internal static string IsAlreadyActiveFormat { get; } = "%s is already active";
 
-    internal static readonly string s_systemText = "System";
+    internal static string SystemText { get; } = "System";
 
-    internal static readonly string s_hillText = "Hill";
+    internal static string HillText { get; } = "Hill";
 
-    internal static readonly string s_mountainText = "Mountain";
+    internal static string MountainText { get; } = "Mountain";
 
-    internal static readonly string s_dispelMagicFailedText = "Dispel Magic failed";
+    internal static string DispelMagicFailedText { get; } = "Dispel Magic failed";
 
-    internal static readonly string s_dispelMagicText = "Dispel Magic";
+    internal static string DispelMagicText { get; } = "Dispel Magic";
 
-    internal static readonly string s_spellsSuccessfullyDispelledFormat = "%s spell(s) dispelled";
+    internal static string SpellsSuccessfullyDispelledFormat { get; } = "%s spell(s) dispelled";
 
-    internal static readonly string s_notEnoughChannelingPointsText = "Not enough channeling points";
+    internal static string NotEnoughChannelingPointsText { get; } = "Not enough channeling points";
 
-    internal static readonly string s_noUnitSelectedText = "No unit selected";
+    internal static string NoUnitSelectedText { get; } = "No unit selected";
 
-    internal static readonly string s_notEnoughGoldText = "Not enough gold.";
+    internal static string NotEnoughGoldText { get; } = "Not enough gold.";
 
-    internal static readonly string s_notEnoughManaText = "Not enough mana.";
+    internal static string NotEnoughManaText { get; } = "Not enough mana.";
 
-    internal static readonly string s_structureCapturedFormat = "%s captured";
+    internal static string StructureCapturedFormat { get; } = "%s captured";
 
-    internal static readonly string s_noWarDeclaredFormat = "Not at war with the %s";
+    internal static string NoWarDeclaredFormat { get; } = "Not at war with the %s";
 
-    internal static readonly string s_acceptAllianceText = "Accept alliance";
+    internal static string AcceptAllianceText { get; } = "Accept alliance";
 
-    internal static readonly string s_acceptText = "Accept";
+    internal static string AcceptText { get; } = "Accept";
 
-    internal static readonly string s_accumulateGoldText = "Accumulate gold";
+    internal static string AccumulateGoldText { get; } = "Accumulate gold";
 
-    internal static readonly string s_accumulateManaText = "Accumulate mana";
+    internal static string AccumulateManaText { get; } = "Accumulate mana";
 
-    internal static readonly string s_ageOfWondersText = "Age of Wonders";
+    internal static string AgeOfWondersText { get; } = "Age of Wonders";
 
-    internal static readonly string s_aggressiveText = "Aggressive";
+    internal static string AggressiveText { get; } = "Aggressive";
 
-    internal static readonly string s_airMasteryText = "Air Mastery";
+    internal static string AirMasteryText { get; } = "Air Mastery";
 
-    internal static readonly string s_alignmentFormat = "Alignment: %s";
+    internal static string AlignmentFormat { get; } = "Alignment: %s";
 
-    internal static readonly string s_allSlotsAreInUseText = "All slots are in use...";
+    internal static string AllSlotsAreInUseText { get; } = "All slots are in use...";
 
-    internal static readonly string s_allianceAcceptedText = "Alliance accepted";
+    internal static string AllianceAcceptedText { get; } = "Alliance accepted";
 
-    internal static readonly string s_alwaysFastCombatText = "Always fast combat";
+    internal static string AlwaysFastCombatText { get; } = "Always fast combat";
 
-    internal static readonly string s_alwaysText = "Always";
+    internal static string AlwaysText { get; } = "Always";
 
-    internal static readonly string s_alwaysTacticalCombatText = "Always tactical combat";
+    internal static string AlwaysTacticalCombatText { get; } = "Always tactical combat";
 
-    internal static readonly string s_andText = "And";
+    internal static string AndText { get; } = "And";
 
-    internal static readonly string s_antiMagicShellText = "Anti Magic Shell";
+    internal static string AntiMagicShellText { get; } = "Anti Magic Shell";
 
-    internal static readonly string s_alreadyRunningText = "Age Of Wonders is already running";
+    internal static string AlreadyRunningText { get; } = "Age Of Wonders is already running";
 
-    internal static readonly string s_editorNameText = "AoWEd";
+    internal static string EditorNameText { get; } = "AoWEd";
 
-    internal static readonly string s_armageddonText = "Armageddon";
+    internal static string ArmageddonText { get; } = "Armageddon";
 
-    internal static readonly string s_armiesText = "Armies";
+    internal static string ArmiesText { get; } = "Armies";
 
-    internal static readonly string s_attackItemText = "Attack item";
+    internal static string AttackItemText { get; } = "Attack item";
 
-    internal static readonly string s_attackText = "Attack";
+    internal static string AttackText { get; } = "Attack";
 
-    internal static readonly string s_autoText = "Auto";
+    internal static string AutoText { get; } = "Auto";
 
-    internal static readonly string s_bardsSkillsText = "Bard's Skills";
+    internal static string BardsSkillsText { get; } = "Bard's Skills";
 
-    internal static readonly string s_baseIncomeText = "Base Income";
+    internal static string BaseIncomeText { get; } = "Base Income";
 
-    internal static readonly string s_basePowerText = "Base Power";
+    internal static string BasePowerText { get; } = "Base Power";
 
-    internal static readonly string s_berserkText = "Fury";
+    internal static string BerserkText { get; } = "Fury";
 
-    internal static readonly string s_betweenHumansText = "Between Humans";
+    internal static string BetweenHumansText { get; } = "Between Humans";
 
-    internal static readonly string s_blackCurseText = "Black Curse";
+    internal static string BlackCurseText { get; } = "Black Curse";
 
-    internal static readonly string s_bribeText = "Bribe";
+    internal static string BribeText { get; } = "Bribe";
 
-    internal static readonly string s_buildFormat = "Build %s";
+    internal static string BuildFormat { get; } = "Build %s";
 
-    internal static readonly string s_buildingWallsText = "Building";
+    internal static string BuildingWallsText { get; } = "Building";
 
-    internal static readonly string s_callLightningText = "Call Lightning";
+    internal static string CallLightningText { get; } = "Call Lightning";
 
-    internal static readonly string s_campaignMapText = "Campaign map";
+    internal static string CampaignMapText { get; } = "Campaign map";
 
-    internal static readonly string s_castFormat = "%s cast";
+    internal static string CastFormat { get; } = "%s cast";
 
-    internal static readonly string s_cancelText = "Cancel";
+    internal static string CancelText { get; } = "Cancel";
 
-    internal static readonly string s_cannotCastSpellInUndergroundText = "Cannot cast spell underground";
+    internal static string CannotCastSpellInUndergroundText { get; } = "Cannot cast spell underground";
 
-    internal static readonly string s_cannotInflictDamageTitleText = "Cannot Inflict Damage";
+    internal static string CannotInflictDamageTitleText { get; } = "Cannot Inflict Damage";
 
-    internal static readonly string s_casterMustBeInsideCityText = "Can only cast from inside city";
+    internal static string CasterMustBeInsideCityText { get; } = "Can only cast from inside city";
 
-    internal static readonly string s_castingCostText = "Casting Cost";
+    internal static string CastingCostText { get; } = "Casting Cost";
 
-    internal static readonly string s_castingPointsText = "Channeling Points";
+    internal static string CastingPointsText { get; } = "Channeling Points";
 
-    internal static readonly string s_castingText = "Casting";
+    internal static string CastingText { get; } = "Casting";
 
-    internal static readonly string s_causeFearText = "Cause Fear";
+    internal static string CauseFearText { get; } = "Cause Fear";
 
-    internal static readonly string s_caveCrawlingText = "Cave Crawling";
+    internal static string CaveCrawlingText { get; } = "Cave Crawling";
 
-    internal static readonly string s_changePasswordText = "Change Password";
+    internal static string ChangePasswordText { get; } = "Change Password";
 
-    internal static readonly string s_changeText = "Change";
+    internal static string ChangeText { get; } = "Change";
 
-    internal static readonly string s_cheerfulText = "Cheerful";
+    internal static string CheerfulText { get; } = "Cheerful";
 
-    internal static readonly string s_chooseText = "Choose";
+    internal static string ChooseText { get; } = "Choose";
 
-    internal static readonly string s_cityFormat = "city of %s";
+    internal static string CityFormat { get; } = "city of %s";
 
-    internal static readonly string s_closeText = "Close";
+    internal static string CloseText { get; } = "Close";
 
-    internal static readonly string s_coldImmunityText = "Cold Immunity";
+    internal static string ColdImmunityText { get; } = "Cold Immunity";
 
-    internal static readonly string s_coldProtectionText = "Cold Protection";
+    internal static string ColdProtectionText { get; } = "Cold Protection";
 
-    internal static readonly string s_commonText = "Common";
+    internal static string CommonText { get; } = "Common";
 
-    internal static readonly string s_concealmentText = "Concealment";
+    internal static string ConcealmentText { get; } = "Concealment";
 
-    internal static readonly string s_confirmPasswordText = "Confirm Password";
+    internal static string ConfirmPasswordText { get; } = "Confirm Password";
 
-    internal static readonly string s_conquerLocationsText = "Conquer locations";
+    internal static string ConquerLocationsText { get; } = "Conquer locations";
 
-    internal static readonly string s_contentText = "Content";
+    internal static string ContentText { get; } = "Content";
 
-    internal static readonly string s_cosmeticSurgeryFormat = "Cosmagic Surgery on %s";
+    internal static string CosmeticSurgeryFormat { get; } = "Cosmagic Surgery on %s";
 
-    internal static readonly string s_createNewLibraryText = "Create New Library";
+    internal static string CreateNewLibraryText { get; } = "Create New Library";
 
-    internal static readonly string s_creatureText = "Creature";
+    internal static string CreatureText { get; } = "Creature";
 
-    internal static readonly string s_creaturesText = "Creatures";
+    internal static string CreaturesText { get; } = "Creatures";
 
-    internal static readonly string s_curseText = "Curse";
+    internal static string CurseText { get; } = "Curse";
 
-    internal static readonly string s_customMapText = "Custom map";
+    internal static string CustomMapText { get; } = "Custom map";
 
-    internal static readonly string s_customizeLeaderText = "Customize Leader";
+    internal static string CustomizeLeaderText { get; } = "Customize Leader";
 
-    internal static readonly string s_darkGiftText = "Dark Gift";
+    internal static string DarkGiftText { get; } = "Dark Gift";
 
-    internal static readonly string s_dayText = "Day";
+    internal static string DayText { get; } = "Day";
 
-    internal static readonly string s_daysText = "Days";
+    internal static string DaysText { get; } = "Days";
 
-    internal static readonly string s_deadOakText = "Dead Oak";
+    internal static string DeadOakText { get; } = "Dead Oak";
 
-    internal static readonly string s_deadPineText = "Dead Pine";
+    internal static string DeadPineText { get; } = "Dead Pine";
 
-    internal static readonly string s_deadTrunkText = "Dead Trunk";
+    internal static string DeadTrunkText { get; } = "Dead Trunk";
 
-    internal static readonly string s_deathImmunityText = "Death Immunity";
+    internal static string DeathImmunityText { get; } = "Death Immunity";
 
-    internal static readonly string s_deathMasteryText = "Death Mastery";
+    internal static string DeathMasteryText { get; } = "Death Mastery";
 
-    internal static readonly string s_deathProtectionText = "Death Protection";
+    internal static string DeathProtectionText { get; } = "Death Protection";
 
-    internal static readonly string s_debugSaveDisabledText = "Debug save disabled";
+    internal static string DebugSaveDisabledText { get; } = "Debug save disabled";
 
-    internal static readonly string s_debugSaveEnabledText = "Debug save enabled";
+    internal static string DebugSaveEnabledText { get; } = "Debug save enabled";
 
-    internal static readonly string s_declineText = "Decline";
+    internal static string DeclineText { get; } = "Decline";
 
-    internal static readonly string s_defaultText = "Default";
+    internal static string DefaultText { get; } = "Default";
 
-    internal static readonly string s_defeatText = "Defeat";
+    internal static string DefeatText { get; } = "Defeat";
 
-    internal static readonly string s_defendText = "Defend";
+    internal static string DefendText { get; } = "Defend";
 
-    internal static readonly string s_defenseItemText = "Defense item";
+    internal static string DefenseItemText { get; } = "Defense item";
 
-    internal static readonly string s_defensiveText = "Defensive";
+    internal static string DefensiveText { get; } = "Defensive";
 
-    internal static readonly string s_deleteText = "Delete";
+    internal static string DeleteText { get; } = "Delete";
 
-    internal static readonly string s_demoVersionMessageText = "Sorry, this function isn't available in the demo.";
+    internal static string DemoVersionMessageText { get; } = "Sorry, this function isn't available in the demo.";
 
-    internal static readonly string s_desertConcealmentText = "Desert Concealment";
+    internal static string DesertConcealmentText { get; } = "Desert Concealment";
 
-    internal static readonly string s_destroyAllEnemiesText = "Destroy all enemies";
+    internal static string DestroyAllEnemiesText { get; } = "Destroy all enemies";
 
-    internal static readonly string s_developedByText = "Developed by";
+    internal static string DevelopedByText { get; } = "Developed by";
 
-    internal static readonly string s_diplomacyText = "Diplomacy";
+    internal static string DiplomacyText { get; } = "Diplomacy";
 
-    internal static readonly string s_divineDraftText = "Divine Draft";
+    internal static string DivineDraftText { get; } = "Divine Draft";
 
-    internal static readonly string s_doneText = "Done";
+    internal static string DoneText { get; } = "Done";
 
-    internal static readonly string s_dragonText = "Dragon";
+    internal static string DragonText { get; } = "Dragon";
 
-    internal static readonly string s_drinkText = "Drink";
+    internal static string DrinkText { get; } = "Drink";
 
-    internal static readonly string s_dungeonExploredText = "Dungeon Explored";
+    internal static string DungeonExploredText { get; } = "Dungeon Explored";
 
-    internal static readonly string s_dungeonPrisonersJoinHeaderText = "A rescued prisoner steps forward:";
+    internal static string DungeonPrisonersJoinHeaderText { get; } = "A rescued prisoner steps forward:";
 
-    internal static readonly string s_earthMasteryText = "Earth Mastery";
+    internal static string EarthMasteryText { get; } = "Earth Mastery";
 
-    internal static readonly string s_easyText = "Easy";
+    internal static string EasyText { get; } = "Easy";
 
-    internal static readonly string s_editorText = "Editor";
+    internal static string EditorText { get; } = "Editor";
 
-    internal static readonly string s_emptyQueueText = "<empty>";
+    internal static string EmptyQueueText { get; } = "<empty>";
 
-    internal static readonly string s_enchantedRoadsText = "Enchanted Roads";
+    internal static string EnchantedRoadsText { get; } = "Enchanted Roads";
 
-    internal static readonly string s_entangleText = "Entangle";
+    internal static string EntangleText { get; } = "Entangle";
 
-    internal static readonly string s_enterLibraryNameText = "Enter library name";
+    internal static string EnterLibraryNameText { get; } = "Enter library name";
 
-    internal static readonly string s_enterText = "Enter";
+    internal static string EnterText { get; } = "Enter";
 
-    internal static readonly string s_exceptionalText = "Exceptional";
+    internal static string ExceptionalText { get; } = "Exceptional";
 
-    internal static readonly string s_executeText = "Execute";
+    internal static string ExecuteText { get; } = "Execute";
 
-    internal static readonly string s_exitText = "Exit";
+    internal static string ExitText { get; } = "Exit";
 
-    internal static readonly string s_expandText = "Expand";
+    internal static string ExpandText { get; } = "Expand";
 
-    internal static readonly string s_exploredText = "Explored";
+    internal static string ExploredText { get; } = "Explored";
 
-    internal static readonly string s_farmBattleWonText = "Farm captured";
+    internal static string FarmBattleWonText { get; } = "Farm captured";
 
-    internal static readonly string s_fearlessText = "Fearless";
+    internal static string FearlessText { get; } = "Fearless";
 
-    internal static readonly string s_fileNameFormat = "File name: %s";
+    internal static string FileNameFormat { get; } = "File name: %s";
 
-    internal static readonly string s_fireAuraText = "Fire Halo";
+    internal static string FireAuraText { get; } = "Fire Halo";
 
-    internal static readonly string s_fireImmunityText = "Fire Immunity";
+    internal static string FireImmunityText { get; } = "Fire Immunity";
 
-    internal static readonly string s_fireMasteryText = "Fire Mastery";
+    internal static string FireMasteryText { get; } = "Fire Mastery";
 
-    internal static readonly string s_fixedText = "Fixed";
+    internal static string FixedText { get; } = "Fixed";
 
-    internal static readonly string s_floatingText = "Floating";
+    internal static string FloatingText { get; } = "Floating";
 
-    internal static readonly string s_floodText = "Flood";
+    internal static string FloodText { get; } = "Flood";
 
-    internal static readonly string s_flowerText = "Flower";
+    internal static string FlowerText { get; } = "Flower";
 
-    internal static readonly string s_flyingText = "Flying";
+    internal static string FlyingText { get; } = "Flying";
 
-    internal static readonly string s_forGoldFormat = "For %s gold";
+    internal static string ForGoldFormat { get; } = "For %s gold";
 
-    internal static readonly string s_forcedText = "(forced)";
+    internal static string ForcedText { get; } = "(forced)";
 
-    internal static readonly string s_forestryText = "Forestry";
+    internal static string ForestryText { get; } = "Forestry";
 
-    internal static readonly string s_fortifyText = "Fortify";
+    internal static string FortifyText { get; } = "Fortify";
 
-    internal static readonly string s_fountainOfLifeText = "Fountain Of Life";
+    internal static string FountainOfLifeText { get; } = "Fountain Of Life";
 
-    internal static readonly string s_freeMovementText = "Free Movement";
+    internal static string FreeMovementText { get; } = "Free Movement";
 
-    internal static readonly string s_freezeText = "Freeze";
+    internal static string FreezeText { get; } = "Freeze";
 
-    internal static readonly string s_frequentText = "Frequent";
+    internal static string FrequentText { get; } = "Frequent";
 
-    internal static readonly string s_fromFormat = "From the %s";
+    internal static string FromFormat { get; } = "From the %s";
 
-    internal static readonly string s_furyText = "Fury";
+    internal static string FuryText { get; } = "Fury";
 
-    internal static readonly string s_gameTerminatedText = "Game terminated";
+    internal static string GameTerminatedText { get; } = "Game terminated";
 
-    internal static readonly string s_generatingExtraPowerText = "Generating Extra Power";
+    internal static string GeneratingExtraPowerText { get; } = "Generating Extra Power";
 
-    internal static readonly string s_goDownText = "Go Down";
+    internal static string GoDownText { get; } = "Go Down";
 
-    internal static readonly string s_goUpText = "Go Up";
+    internal static string GoUpText { get; } = "Go Up";
 
-    internal static readonly string s_goldRushText = "Gold Rush";
+    internal static string GoldRushText { get; } = "Gold Rush";
 
-    internal static readonly string s_grassConcealmentText = "Grass Concealment";
+    internal static string GrassConcealmentText { get; } = "Grass Concealment";
 
-    internal static readonly string s_guardAreaText = "Guard Area";
+    internal static string GuardAreaText { get; } = "Guard Area";
 
-    internal static readonly string s_guardText = "Guard";
+    internal static string GuardText { get; } = "Guard";
 
-    internal static readonly string s_hardText = "Hard";
+    internal static string HardText { get; } = "Hard";
 
-    internal static readonly string s_harmonyText = "Tranquility";
+    internal static string HarmonyText { get; } = "Tranquility";
 
-    internal static readonly string s_hasteText = "Haste";
+    internal static string HasteText { get; } = "Haste";
 
-    internal static readonly string s_hatredText = "Hatred";
+    internal static string HatredText { get; } = "Hatred";
 
-    internal static readonly string s_headItemText = "Head item";
+    internal static string HeadItemText { get; } = "Head item";
 
-    internal static readonly string s_heatWaveText = "Heat Wave";
+    internal static string HeatWaveText { get; } = "Heat Wave";
 
-    internal static readonly string s_heroText = "Hero";
+    internal static string HeroText { get; } = "Hero";
 
-    internal static readonly string s_heroUpgradeText = "Hero upgrade";
+    internal static string HeroUpgradeText { get; } = "Hero upgrade";
 
-    internal static readonly string s_highText = "High";
+    internal static string HighText { get; } = "High";
 
-    internal static readonly string s_holyChampionText = "Holy Champion";
+    internal static string HolyChampionText { get; } = "Holy Champion";
 
-    internal static readonly string s_holyImmunityText = "Holy Immunity";
+    internal static string HolyImmunityText { get; } = "Holy Immunity";
 
-    internal static readonly string s_holyProtectionText = "Holy Protection";
+    internal static string HolyProtectionText { get; } = "Holy Protection";
 
-    internal static readonly string s_humanoidText = "Humanoid";
+    internal static string HumanoidText { get; } = "Humanoid";
 
-    internal static readonly string s_humanoidsText = "Humanoids";
+    internal static string HumanoidsText { get; } = "Humanoids";
 
-    internal static readonly string s_huntText = "Hunt";
+    internal static string HuntText { get; } = "Hunt";
 
-    internal static readonly string s_hurlFireSkullText = "Hurl Fire Skull";
+    internal static string HurlFireSkullText { get; } = "Hurl Fire Skull";
 
-    internal static readonly string s_ipxText = "IPX";
+    internal static string IpxText { get; } = "IPX";
 
-    internal static readonly string s_idleText = "Idle";
+    internal static string IdleText { get; } = "Idle";
 
-    internal static readonly string s_ignitionText = "Ignition";
+    internal static string IgnitionText { get; } = "Ignition";
 
-    internal static readonly string s_incomeText = "Income";
+    internal static string IncomeText { get; } = "Income";
 
-    internal static readonly string s_incomeFormat = "Income: %s";
+    internal static string IncomeFormat { get; } = "Income: %s";
 
-    internal static readonly string s_incompatibleVersionText = "Incompatible Version";
+    internal static string IncompatibleVersionText { get; } = "Incompatible Version";
 
-    internal static readonly string s_installText = "Install";
+    internal static string InstallText { get; } = "Install";
 
-    internal static readonly string s_internetLanText = "Internet/Lan";
+    internal static string InternetLanText { get; } = "Internet/Lan";
 
-    internal static readonly string s_invalidPasswordText = "Invalid password";
+    internal static string InvalidPasswordText { get; } = "Invalid password";
 
-    internal static readonly string s_invisibilityText = "Invisibility";
+    internal static string InvisibilityText { get; } = "Invisibility";
 
-    internal static readonly string s_itemsText = "Items";
+    internal static string ItemsText { get; } = "Items";
 
-    internal static readonly string s_killLeadersText = "Kill enemy leaders";
+    internal static string KillLeadersText { get; } = "Kill enemy leaders";
 
     internal const byte LargeMapLetter = 76;
 
-    internal static readonly string s_leaderFormat = "Leader of the %s";
+    internal static string LeaderFormat { get; } = "Leader of the %s";
 
-    internal static readonly string s_leaderText = "Leader";
+    internal static string LeaderText { get; } = "Leader";
 
-    internal static readonly string s_levelText = "Level";
+    internal static string LevelText { get; } = "Level";
 
-    internal static readonly string s_levelFormat = "Level %s";
+    internal static string LevelFormat { get; } = "Level %s";
 
-    internal static readonly string s_lifeDrainText = "Life Drain";
+    internal static string LifeDrainText { get; } = "Life Drain";
 
-    internal static readonly string s_lifeMasteryText = "Life Mastery";
+    internal static string LifeMasteryText { get; } = "Life Mastery";
 
-    internal static readonly string s_lightningImmunityText = "Lightning Immunity";
+    internal static string LightningImmunityText { get; } = "Lightning Immunity";
 
-    internal static readonly string s_lightningProtectionText = "Lightning Protection";
+    internal static string LightningProtectionText { get; } = "Lightning Protection";
 
-    internal static readonly string s_liquidFormText = "Liquid Form";
+    internal static string LiquidFormText { get; } = "Liquid Form";
 
-    internal static readonly string s_loadGameText = "Load Game";
+    internal static string LoadGameText { get; } = "Load Game";
 
-    internal static readonly string s_loadingMapDataText = "Loading Map";
+    internal static string LoadingMapDataText { get; } = "Loading Map";
 
-    internal static readonly string s_localText = "Single Computer";
+    internal static string LocalText { get; } = "Single Computer";
 
-    internal static readonly string s_longRangeText = "Long Range";
+    internal static string LongRangeText { get; } = "Long Range";
 
-    internal static readonly string s_lootText = "Loot";
+    internal static string LootText { get; } = "Loot";
 
-    internal static readonly string s_lowSystemResourcesText = "Low System Resources! Age of Wonders requires at least 50MB of free virtual memory.  Please close down other programs, free up disk space, and/or reboot before trying to play the game again.";
+    internal static string LowSystemResourcesText { get; } = "Low System Resources! Age of Wonders requires at least 50MB of free virtual memory.  Please close down other programs, free up disk space, and/or reboot before trying to play the game again.";
 
-    internal static readonly string s_machineText = "Machine";
+    internal static string MachineText { get; } = "Machine";
 
-    internal static readonly string s_machinesText = "Machines";
+    internal static string MachinesText { get; } = "Machines";
 
-    internal static readonly string s_magicImmunityText = "Magic Immunity";
+    internal static string MagicImmunityText { get; } = "Magic Immunity";
 
-    internal static readonly string s_magicProtectionText = "Magic Protection";
+    internal static string MagicProtectionText { get; } = "Magic Protection";
 
-    internal static readonly string s_manaText = "Mana";
+    internal static string ManaText { get; } = "Mana";
 
-    internal static readonly string s_mapText = "Map";
+    internal static string MapText { get; } = "Map";
 
     internal const byte MediumMapLetter = 77;
 
-    internal static readonly string s_mediumRangeText = "Medium Range";
+    internal static string MediumRangeText { get; } = "Medium Range";
 
-    internal static readonly string s_meleeText = "Melee";
+    internal static string MeleeText { get; } = "Melee";
 
-    internal static readonly string s_messageFormat = "Message from %s";
+    internal static string MessageFormat { get; } = "Message from %s";
 
-    internal static readonly string s_messageReceivedText = "Message Received";
+    internal static string MessageReceivedText { get; } = "Message Received";
 
-    internal static readonly string s_migratingText = "Migrating";
+    internal static string MigratingText { get; } = "Migrating";
 
-    internal static readonly string s_missingPlayerFormat = "Missing player %d";
+    internal static string MissingPlayerFormat { get; } = "Missing player %d";
 
-    internal static readonly string s_modemText = "Modem";
+    internal static string ModemText { get; } = "Modem";
 
-    internal static readonly string s_moraleText = "Morale";
+    internal static string MoraleText { get; } = "Morale";
 
-    internal static readonly string s_mountaineeringText = "Mountaineering";
+    internal static string MountaineeringText { get; } = "Mountaineering";
 
-    internal static readonly string s_nameText = "Name";
+    internal static string NameText { get; } = "Name";
 
-    internal static readonly string s_neverText = "Never";
+    internal static string NeverText { get; } = "Never";
 
-    internal static readonly string s_nightVisionText = "Night Vision";
+    internal static string NightVisionText { get; } = "Night Vision";
 
-    internal static readonly string s_noHeroAnswersYourCallText = "Nobody answers your call...";
+    internal static string NoHeroAnswersYourCallText { get; } = "Nobody answers your call...";
 
-    internal static readonly string s_notImplementedText = "Not implemented";
+    internal static string NotImplementedText { get; } = "Not implemented";
 
-    internal static readonly string s_notImplementedYetText = "Not implemented yet...";
+    internal static string NotImplementedYetText { get; } = "Not implemented yet...";
 
-    internal static readonly string s_okText = "OK";
+    internal static string OkText { get; } = "OK";
 
-    internal static readonly string s_oakText = "Oak";
+    internal static string OakText { get; } = "Oak";
 
-    internal static readonly string s_objectiveValidationFailedFormat = "Objective (%s) failed with message: %s";
+    internal static string ObjectiveValidationFailedFormat { get; } = "Objective (%s) failed with message: %s";
 
-    internal static readonly string s_okayText = "Okay";
+    internal static string OkayText { get; } = "Okay";
 
-    internal static readonly string s_oneMomentPleaseText = "One moment please...";
+    internal static string OneMomentPleaseText { get; } = "One moment please...";
 
-    internal static readonly string s_oppressedText = "Oppressed";
+    internal static string OppressedText { get; } = "Oppressed";
 
-    internal static readonly string s_optionsText = "Options";
+    internal static string OptionsText { get; } = "Options";
 
-    internal static readonly string s_passiveText = "Passive";
+    internal static string PassiveText { get; } = "Passive";
 
-    internal static readonly string s_pathOfDecayText = "Path Of Decay";
+    internal static string PathOfDecayText { get; } = "Path Of Decay";
 
-    internal static readonly string s_pathOfFrostText = "Path Of Frost";
+    internal static string PathOfFrostText { get; } = "Path Of Frost";
 
-    internal static readonly string s_pathOfLifeText = "Path Of Life";
+    internal static string PathOfLifeText { get; } = "Path Of Life";
 
-    internal static readonly string s_patrolText = "Patrol";
+    internal static string PatrolText { get; } = "Patrol";
 
-    internal static readonly string s_phaseText = "Phase";
+    internal static string PhaseText { get; } = "Phase";
 
-    internal static readonly string s_physicalImmunityText = "Physical Immunity";
+    internal static string PhysicalImmunityText { get; } = "Physical Immunity";
 
-    internal static readonly string s_physicalProtectionText = "Physical Protection";
+    internal static string PhysicalProtectionText { get; } = "Physical Protection";
 
-    internal static readonly string s_pineText = "Pine";
+    internal static string PineText { get; } = "Pine";
 
-    internal static readonly string s_playByEmailText = "Play by email";
+    internal static string PlayByEmailText { get; } = "Play by email";
 
-    internal static readonly string s_playerNameFormat = "Player name: %s";
+    internal static string PlayerNameFormat { get; } = "Player name: %s";
 
-    internal static readonly string s_pleaseInsertCDText = "Please insert the Age of Wonders CD.";
+    internal static string PleaseInsertCDText { get; } = "Please insert the Age of Wonders CD.";
 
-    internal static readonly string s_pleaseInsertCDRetryText = "Couldn't find the Age of Wonders CD, do you want to retry?";
+    internal static string PleaseInsertCDRetryText { get; } = "Couldn't find the Age of Wonders CD, do you want to retry?";
 
-    internal static readonly string s_poisonCloudDamageText = "Poison Cloud Damage";
+    internal static string PoisonCloudDamageText { get; } = "Poison Cloud Damage";
 
-    internal static readonly string s_poisonImmunityText = "Poison Immunity";
+    internal static string PoisonImmunityText { get; } = "Poison Immunity";
 
-    internal static readonly string s_poisonProtectionText = "Poison Protection";
+    internal static string PoisonProtectionText { get; } = "Poison Protection";
 
-    internal static readonly string s_poorText = "Poor";
+    internal static string PoorText { get; } = "Poor";
 
-    internal static readonly string s_powerLeakText = "Power Leak";
+    internal static string PowerLeakText { get; } = "Power Leak";
 
-    internal static readonly string s_powerText = "Power";
+    internal static string PowerText { get; } = "Power";
 
-    internal static readonly string s_powerFormat = "Power: %s";
+    internal static string PowerFormat { get; } = "Power: %s";
 
-    internal static readonly string s_produceMerchandiseText = "Produce Merchandise";
+    internal static string ProduceMerchandiseText { get; } = "Produce Merchandise";
 
-    internal static readonly string s_produceText = "Produce";
+    internal static string ProduceText { get; } = "Produce";
 
-    internal static readonly string s_produceFormat = "Produce %s";
+    internal static string ProduceFormat { get; } = "Produce %s";
 
-    internal static readonly string s_installFormat = "Install %s";
+    internal static string InstallFormat { get; } = "Install %s";
 
-    internal static readonly string s_producingMerchandiseText = "Producing Merchandise";
+    internal static string ProducingMerchandiseText { get; } = "Producing Merchandise";
 
-    internal static readonly string s_producingText = "Producing";
+    internal static string ProducingText { get; } = "Producing";
 
-    internal static readonly string s_producingIncomeFormat = "Producing %s income";
+    internal static string ProducingIncomeFormat { get; } = "Producing %s income";
 
-    internal static readonly string s_propertiesText = "Properties";
+    internal static string PropertiesText { get; } = "Properties";
 
-    internal static readonly string s_publishedByText = "Published by";
+    internal static string PublishedByText { get; } = "Published by";
 
-    internal static readonly string s_pureEvilText = "Pure Evil";
+    internal static string PureEvilText { get; } = "Pure Evil";
 
-    internal static readonly string s_pureGoodText = "Pure Good";
+    internal static string PureGoodText { get; } = "Pure Good";
 
-    internal static readonly string s_pureNeutralText = "Pure Neutral";
+    internal static string PureNeutralText { get; } = "Pure Neutral";
 
-    internal static readonly string s_queueText = "Queue";
+    internal static string QueueText { get; } = "Queue";
 
-    internal static readonly string s_raceHaveNoValidCaptureLocationFormat = "%s have no valid capture locations";
+    internal static string RaceHaveNoValidCaptureLocationFormat { get; } = "%s have no valid capture locations";
 
-    internal static readonly string s_raceFormat = "Race: %s";
+    internal static string RaceFormat { get; } = "Race: %s";
 
-    internal static readonly string s_raceReachedGoldAmountFormat = "%s reached the gold amount for victory";
+    internal static string RaceReachedGoldAmountFormat { get; } = "%s reached the gold amount for victory";
 
-    internal static readonly string s_raidText = "Raid";
+    internal static string RaidText { get; } = "Raid";
 
-    internal static readonly string s_rareText = "Rare";
+    internal static string RareText { get; } = "Rare";
 
-    internal static readonly string s_razeText = "Raze";
+    internal static string RazeText { get; } = "Raze";
 
-    internal static readonly string s_razedText = "Razed";
+    internal static string RazedText { get; } = "Razed";
 
-    internal static readonly string s_recipientFormat = "Recipient: %s";
+    internal static string RecipientFormat { get; } = "Recipient: %s";
 
-    internal static readonly string s_redDragonText = "Red Dragon";
+    internal static string RedDragonText { get; } = "Red Dragon";
 
-    internal static readonly string s_reenterPasswordText = "Confirm password:";
+    internal static string ReenterPasswordText { get; } = "Confirm password:";
 
-    internal static readonly string s_refugeText = "Refuge";
+    internal static string RefugeText { get; } = "Refuge";
 
-    internal static readonly string s_regenerationText = "Regeneration";
+    internal static string RegenerationText { get; } = "Regeneration";
 
-    internal static readonly string s_rejectText = "Reject";
+    internal static string RejectText { get; } = "Reject";
 
-    internal static readonly string s_repeatText = "Repeat";
+    internal static string RepeatText { get; } = "Repeat";
 
-    internal static readonly string s_resurrectedText = "Resurrected";
+    internal static string ResurrectedText { get; } = "Resurrected";
 
-    internal static readonly string s_ringItemText = "Ring item";
+    internal static string RingItemText { get; } = "Ring item";
 
-    internal static readonly string s_ruinText = "Ruin";
+    internal static string RuinText { get; } = "Ruin";
 
-    internal static readonly string s_sailingText = "Sailing";
+    internal static string SailingText { get; } = "Sailing";
 
-    internal static readonly string s_saveText = "Save";
+    internal static string SaveText { get; } = "Save";
 
-    internal static readonly string s_scenarioText = "Scenario";
+    internal static string ScenarioText { get; } = "Scenario";
 
-    internal static readonly string s_scenarioFormat = "Scenario: %s";
+    internal static string ScenarioFormat { get; } = "Scenario: %s";
 
-    internal static readonly string s_scorchText = "Scorch";
+    internal static string ScorchText { get; } = "Scorch";
 
-    internal static readonly string s_scoutText = "Scout";
+    internal static string ScoutText { get; } = "Scout";
 
-    internal static readonly string s_searchText = "Search";
+    internal static string SearchText { get; } = "Search";
 
-    internal static readonly string s_selectTargetLocationForOnMapFormat = "Select target location for %s on map.";
+    internal static string SelectTargetLocationForOnMapFormat { get; } = "Select target location for %s on map.";
 
-    internal static readonly string s_selectTargetText = "Select Target";
+    internal static string SelectTargetText { get; } = "Select Target";
 
-    internal static readonly string s_selectUnitForDispelMagicText = "Select unit for \"Dispel Magic\"";
+    internal static string SelectUnitForDispelMagicText { get; } = "Select unit for \"Dispel Magic\"";
 
-    internal static readonly string s_serialText = "Serial";
+    internal static string SerialText { get; } = "Serial";
 
-    internal static readonly string s_shipyardText = "Shipyard";
+    internal static string ShipyardText { get; } = "Shipyard";
 
-    internal static readonly string s_shortRangeText = "Short Range";
+    internal static string ShortRangeText { get; } = "Short Range";
 
-    internal static readonly string s_skirmishText = "Skirmish";
+    internal static string SkirmishText { get; } = "Skirmish";
 
-    internal static readonly string s_slaveryText = "Enslaved";
+    internal static string SlaveryText { get; } = "Enslaved";
 
-    internal static readonly string s_slowText = "Slow";
+    internal static string SlowText { get; } = "Slow";
 
-    internal static readonly string s_slugSlimeText = "Slug Slime";
+    internal static string SlugSlimeText { get; } = "Slug Slime";
 
     internal const byte SmallMapLetter = 83;
 
-    internal static readonly string s_smokeCloudText = "Cloud of Ashes";
+    internal static string SmokeCloudText { get; } = "Cloud of Ashes";
 
-    internal static readonly string s_snowConcealmentText = "Snow Concealment";
+    internal static string SnowConcealmentText { get; } = "Snow Concealment";
 
-    internal static readonly string s_solarBlastText = "Solar Blast";
+    internal static string SolarBlastText { get; } = "Solar Blast";
 
-    internal static readonly string s_sourceLibraryFormat = "Source Library: %s";
+    internal static string SourceLibraryFormat { get; } = "Source Library: %s";
 
-    internal static readonly string s_structureText = "Structure";
+    internal static string StructureText { get; } = "Structure";
 
-    internal static readonly string s_spellText = "Spell";
+    internal static string SpellText { get; } = "Spell";
 
-    internal static readonly string s_spellWardText = "Spell Ward";
+    internal static string SpellWardText { get; } = "Spell Ward";
 
-    internal static readonly string s_stableText = "Stable";
+    internal static string StableText { get; } = "Stable";
 
-    internal static readonly string s_statusWarModeText = "Status: Warmode";
+    internal static string StatusWarModeText { get; } = "Status: Warmode";
 
-    internal static readonly string s_statusFormat = "Status: %s";
+    internal static string StatusFormat { get; } = "Status: %s";
 
-    internal static readonly string s_steppeConcealmentText = "Steppe Concealment";
+    internal static string SteppeConcealmentText { get; } = "Steppe Concealment";
 
-    internal static readonly string s_stoneSkinText = "Stone Skin";
+    internal static string StoneSkinText { get; } = "Stone Skin";
 
-    internal static readonly string s_stormText = "Storm";
+    internal static string StormText { get; } = "Storm";
 
-    internal static readonly string s_storyAndEditingText = "Story and Editing";
+    internal static string StoryAndEditingText { get; } = "Story and Editing";
 
-    internal static readonly string s_suggestSplitFormat = "Suggest split with %s";
+    internal static string SuggestSplitFormat { get; } = "Suggest split with %s";
 
-    internal static readonly string s_suicidalText = "Suicidal";
+    internal static string SuicidalText { get; } = "Suicidal";
 
-    internal static readonly string s_suicidedText = "Commited Suicide";
+    internal static string SuicidedText { get; } = "Commited Suicide";
 
-    internal static readonly string s_swimmingText = "Swimming";
+    internal static string SwimmingText { get; } = "Swimming";
 
-    internal static readonly string s_tcpIpLabel = "TCP/IP";
+    internal static string TcpIpLabel { get; } = "TCP/IP";
 
-    internal static readonly string s_takenText = "(taken)";
+    internal static string TakenText { get; } = "(taken)";
 
-    internal static readonly string s_targetText = "Target";
+    internal static string TargetText { get; } = "Target";
 
-    internal static readonly string s_terribleText = "Terrible";
+    internal static string TerribleText { get; } = "Terrible";
 
-    internal static readonly string s_leaderStepsForwardText = "The leader of the party steps forward:";
+    internal static string LeaderStepsForwardText { get; } = "The leader of the party steps forward:";
 
-    internal static readonly string s_liesInRuinsFormat = "The %s lies in ruins.";
+    internal static string LiesInRuinsFormat { get; } = "The %s lies in ruins.";
 
-    internal static readonly string s_titleText = "Title";
+    internal static string TitleText { get; } = "Title";
 
-    internal static readonly string s_toadText = "Toad";
+    internal static string ToadText { get; } = "Toad";
 
-    internal static readonly string s_tornadoText = "Tornado";
+    internal static string TornadoText { get; } = "Tornado";
 
-    internal static readonly string s_torsoItemText = "Torso item";
+    internal static string TorsoItemText { get; } = "Torso item";
 
-    internal static readonly string s_touchText = "Touch";
+    internal static string TouchText { get; } = "Touch";
 
-    internal static readonly string s_towerText = "Tower";
+    internal static string TowerText { get; } = "Tower";
 
-    internal static readonly string s_trailOfDarknessText = "Trail Of Darkness";
+    internal static string TrailOfDarknessText { get; } = "Trail Of Darkness";
 
-    internal static readonly string s_trainingCompletedText = "Training completed";
+    internal static string TrainingCompletedText { get; } = "Training completed";
 
-    internal static readonly string s_transparentText = "Transparent";
+    internal static string TransparentText { get; } = "Transparent";
 
-    internal static readonly string s_transportText = "Transport";
+    internal static string TransportText { get; } = "Transport";
 
-    internal static readonly string s_trueVisionText = "True Seeing";
+    internal static string TrueVisionText { get; } = "True Seeing";
 
-    internal static readonly string s_tunnelingText = "Tunneling";
+    internal static string TunnelingText { get; } = "Tunneling";
 
-    internal static readonly string s_turnUndeadText = "Turn Undead";
+    internal static string TurnUndeadText { get; } = "Turn Undead";
 
-    internal static readonly string s_turnsText = "Turns";
+    internal static string TurnsText { get; } = "Turns";
 
-    internal static readonly string s_tutorialText = "Tutorial";
+    internal static string TutorialText { get; } = "Tutorial";
 
-    internal static readonly string s_unavailableText = "Unavailable";
+    internal static string UnavailableText { get; } = "Unavailable";
 
-    internal static readonly string s_uncommonText = "Uncommon";
+    internal static string UncommonText { get; } = "Uncommon";
 
-    internal static readonly string s_undergroundConcealmentText = "Underground Concealment";
+    internal static string UndergroundConcealmentText { get; } = "Underground Concealment";
 
-    internal static readonly string s_unexploredText = "Unexplored";
+    internal static string UnexploredText { get; } = "Unexplored";
 
-    internal static readonly string s_unholyChampionText = "Unholy Champion";
+    internal static string UnholyChampionText { get; } = "Unholy Champion";
 
-    internal static readonly string s_uniqueText = "Unique";
+    internal static string UniqueText { get; } = "Unique";
 
-    internal static readonly string s_unrestText = "Unrest";
+    internal static string UnrestText { get; } = "Unrest";
 
-    internal static readonly string s_unrulyText = "Unruly";
+    internal static string UnrulyText { get; } = "Unruly";
 
-    internal static readonly string s_upgradeText = "Upgrade";
+    internal static string UpgradeText { get; } = "Upgrade";
 
-    internal static readonly string s_upkeepFormat = "Upkeep: %d";
+    internal static string UpkeepFormat { get; } = "Upkeep: %d";
 
-    internal static readonly string s_useItemText = "Use item";
+    internal static string UseItemText { get; } = "Use item";
 
-    internal static readonly string s_userText = "user";
+    internal static string UserText { get; } = "user";
 
-    internal static readonly string s_usedText = "Used";
+    internal static string UsedText { get; } = "Used";
 
-    internal static readonly string s_versionRequiredFormat = "(Version %0:s.%1:s required)";
+    internal static string VersionRequiredFormat { get; } = "(Version %0:s.%1:s required)";
 
-    internal static readonly string s_versusText = "vs.";
+    internal static string VersusText { get; } = "vs.";
 
-    internal static readonly string s_veryRareText = "Very Rare";
+    internal static string VeryRareText { get; } = "Very Rare";
 
-    internal static readonly string s_victoryText = "Victory";
+    internal static string VictoryText { get; } = "Victory";
 
-    internal static readonly string s_viewAllTacticalBattleText = "View all TC";
+    internal static string ViewAllTacticalBattleText { get; } = "View all TC";
 
-    internal static readonly string s_vortexText = "Vortex";
+    internal static string VortexText { get; } = "Vortex";
 
-    internal static readonly string s_walkingText = "Walking";
+    internal static string WalkingText { get; } = "Walking";
 
-    internal static readonly string s_wallBreachText = "Wall Breach";
+    internal static string WallBreachText { get; } = "Wall Breach";
 
-    internal static readonly string s_warModeText = "Warmode";
+    internal static string WarModeText { get; } = "Warmode";
 
-    internal static readonly string s_warmongerText = "Warmonger";
+    internal static string WarmongerText { get; } = "Warmonger";
 
-    internal static readonly string s_wastelandConcealmentText = "Wasteland Concealment";
+    internal static string WastelandConcealmentText { get; } = "Wasteland Concealment";
 
-    internal static readonly string s_waterConcealmentText = "Water Concealment";
+    internal static string WaterConcealmentText { get; } = "Water Concealment";
 
-    internal static readonly string s_waterMasteryText = "Water Mastery";
+    internal static string WaterMasteryText { get; } = "Water Mastery";
 
-    internal static readonly string s_waterWalkingText = "Water Walking";
+    internal static string WaterWalkingText { get; } = "Water Walking";
 
-    internal static readonly string s_willowText = "Willow";
+    internal static string WillowText { get; } = "Willow";
 
-    internal static readonly string s_windWalkingText = "Wind Walking";
+    internal static string WindWalkingText { get; } = "Wind Walking";
 
-    internal static readonly string s_wraithsDelightText = "Wraith's delight";
+    internal static string WraithsDelightText { get; } = "Wraith's delight";
 
-    internal static readonly string s_alreadyActiveFormat = "%s already active";
+    internal static string AlreadyActiveFormat { get; } = "%s already active";
 
-    internal static readonly string s_alreadyExistsFormat = "%s already exists";
+    internal static string AlreadyExistsFormat { get; } = "%s already exists";
 
-    internal static readonly string s_goldFormat = "%s gold";
+    internal static string GoldFormat { get; } = "%s gold";
 
-    internal static readonly string s_hostFormat = "%0:s Host: %1:s";
+    internal static string HostFormat { get; } = "%0:s Host: %1:s";
 
-    internal static readonly string s_installedFormat = "%0:s installed at %1:s";
+    internal static string InstalledFormat { get; } = "%0:s installed at %1:s";
 
-    internal static readonly string s_producedFormat = "%0:s produced at %1:s";
+    internal static string ProducedFormat { get; } = "%0:s produced at %1:s";
 
-    internal static readonly string s_razedFormat = "%s razed";
+    internal static string RazedFormat { get; } = "%s razed";
 
-    internal static readonly string s_selectedFormat = "%s selected";
+    internal static string SelectedFormat { get; } = "%s selected";
 
-    internal static readonly string s_spellsFormat = "%s Spells";
+    internal static string SpellsFormat { get; } = "%s Spells";
 
-    internal static readonly string s_spText = "sp";
+    internal static string SpText { get; } = "sp";
 
-    internal static StringArray10 s_abilitySelectionTypeTexts = StringArray10.From([]);
+    internal static StringArray10 AbilitySelectionTypeTexts { get; } = StringArray10.From([]);
 
     internal static StringArray3 s_playModeTexts = StringArray3.From(["None", "Classic", "Simultaneous"]);
 
-    internal static string[] s_alignmentTexts = ["Pure Good", "Good", "Pure Neutral", "Neutral", "Evil", "Pure Evil", "None"];
+    internal static string[] AlignmentTexts { get; } = ["Pure Good", "Good", "Pure Neutral", "Neutral", "Evil", "Pure Evil", "None"];
 
-    internal static string[] s_itemAvailabilityTexts = ["Exceptional", "Rare", "Common", "Frequent"];
+    internal static string[] ItemAvailabilityTexts { get; } = ["Exceptional", "Rare", "Common", "Frequent"];
 
-    internal static readonly string s_couldNotSaveFormat = "Could not save %s";
+    internal static string CouldNotSaveFormat { get; } = "Could not save %s";
 
-    internal static readonly string s_infoText = "Info";
+    internal static string InfoText { get; } = "Info";
 
-    internal static readonly string s_turnsFormat = "%s turns";
+    internal static string TurnsFormat { get; } = "%s turns";
 
-    internal static readonly string s_turnLeftFormat = "%s turn left";
+    internal static string TurnLeftFormat { get; } = "%s turn left";
 
-    internal static readonly string s_turnsLeftFormat = "%s turns left";
+    internal static string TurnsLeftFormat { get; } = "%s turns left";
 
-    internal static readonly string s_dayFormat = "%s day";
+    internal static string DayFormat { get; } = "%s day";
 
-    internal static readonly string s_daysFormat = "%s days";
+    internal static string DaysFormat { get; } = "%s days";
 
-    internal static readonly string s_dayLeftFormat = "%s day left";
+    internal static string DayLeftFormat { get; } = "%s day left";
 
-    internal static readonly string s_daysLeftFormat = "%s days left";
+    internal static string DaysLeftFormat { get; } = "%s days left";
 
-    internal static readonly string s_warningText = "Warning";
+    internal static string WarningText { get; } = "Warning";
 
-    internal static readonly string s_messageText = "Message";
+    internal static string MessageText { get; } = "Message";
 
-    internal static readonly string s_cannotBreachWallText = "Cannot breach wall";
+    internal static string CannotBreachWallText { get; } = "Cannot breach wall";
 
-    internal static readonly string s_cannotInflictDamageText = "Cannot inflict damage";
+    internal static string CannotInflictDamageText { get; } = "Cannot inflict damage";
 
-    internal static readonly string s_summonFormat = "Summon %s";
+    internal static string SummonFormat { get; } = "Summon %s";
 
-    internal static readonly string s_producingFormat = "Producing %s";
+    internal static string ProducingFormat { get; } = "Producing %s";
 
-    internal static readonly string s_summoningFormat = "Summoning %s";
+    internal static string SummoningFormat { get; } = "Summoning %s";
 
-    internal static readonly string s_ageOfWondersEmailGameText = "Age of Wonders email game";
+    internal static string AgeOfWondersEmailGameText { get; } = "Age of Wonders email game";
 
-    internal static readonly string s_emailGameFormat = "AoW email game (%s)";
+    internal static string EmailGameFormat { get; } = "AoW email game (%s)";
 
-    internal static readonly string s_gameSavedFormat = "%s saved";
+    internal static string GameSavedFormat { get; } = "%s saved";
 
-    internal static readonly string s_mapFormat = "Map: %s";
+    internal static string MapFormat { get; } = "Map: %s";
 
-    internal static readonly string s_nameFormat = "Name: %s";
+    internal static string NameFormat { get; } = "Name: %s";
 
-    internal static readonly string s_playersText = "Players";
+    internal static string PlayersText { get; } = "Players";
 
-    internal static readonly string s_turnFormat = "Turn: %s";
+    internal static string TurnFormat { get; } = "Turn: %s";
 
-    internal static readonly string s_atPlaceFormat = "%0:s at %1:s";
+    internal static string AtPlaceFormat { get; } = "%0:s at %1:s";
 
-    internal static readonly string s_yourTurnContinuesText = "Your turn continues";
+    internal static string YourTurnContinuesText { get; } = "Your turn continues";
 
-    internal static readonly string s_fileNotFoundText = "File not found";
+    internal static string FileNotFoundText { get; } = "File not found";
 
-    internal static readonly string s_inherentText = "Inherent";
+    internal static string InherentText { get; } = "Inherent";
 
-    internal static readonly string s_refugeJoinText = "This one begs to join your cause.";
+    internal static string RefugeJoinText { get; } = "This one begs to join your cause.";
 
-    internal static readonly string s_refugeesJoinText = "This group wishes to join your forces.";
+    internal static string RefugeesJoinText { get; } = "This group wishes to join your forces.";
 
-    internal static readonly string s_bribeUnitJoinFormat = "For %s gold pieces, this one offers to join you.";
+    internal static string BribeUnitJoinFormat { get; } = "For %s gold pieces, this one offers to join you.";
 
-    internal static readonly string s_bribeUnitsJoinFormat = "For %s gold pieces, they offer to join you.";
+    internal static string BribeUnitsJoinFormat { get; } = "For %s gold pieces, they offer to join you.";
 
-    internal static readonly string s_woodenWallText = "Wooden Wall";
+    internal static string WoodenWallText { get; } = "Wooden Wall";
 
-    internal static readonly string s_stoneWallText = "Stone Wall";
+    internal static string StoneWallText { get; } = "Stone Wall";
 
-    internal static readonly string s_undefinedWallText = "Undefined";
+    internal static string UndefinedWallText { get; } = "Undefined";
 
-    internal static readonly string s_removedFormat = "%s removed";
+    internal static string RemovedFormat { get; } = "%s removed";
 
-    internal static readonly string s_selectUnitFormat = "Select unit for %s";
+    internal static string SelectUnitFormat { get; } = "Select unit for %s";
 
-    internal static readonly string s_notEnoughCastingPointsText = "Not enough channeling points";
+    internal static string NotEnoughCastingPointsText { get; } = "Not enough channeling points";
 
-    internal static readonly string s_spellWardBlocksCastText = "Spell Ward locks all global enchantments";
+    internal static string SpellWardBlocksCastText { get; } = "Spell Ward locks all global enchantments";
 
-    internal static readonly string s_cosmeticSurgeryText = "Cosmagic Surgery";
+    internal static string CosmeticSurgeryText { get; } = "Cosmagic Surgery";
 
-    internal static readonly string s_isOutOfSightFormat = "%s is out of sight";
+    internal static string IsOutOfSightFormat { get; } = "%s is out of sight";
 
-    internal static readonly string s_durationDaysFormat = "(%s/%s days)";
+    internal static string DurationDaysFormat { get; } = "(%s/%s days)";
 
-    internal static readonly string s_durationCombatTurnFormat = "(%s/%s turns)";
+    internal static string DurationCombatTurnFormat { get; } = "(%s/%s turns)";
 
-    internal static readonly string s_durationEntireCombatText = "(combat only)";
+    internal static string DurationEntireCombatText { get; } = "(combat only)";
 
-    internal static readonly string s_tributeNotEnoughGoldText = "Not enough gold.";
+    internal static string TributeNotEnoughGoldText { get; } = "Not enough gold.";
 
-    internal static readonly string s_declareWarText = "Declare war";
+    internal static string DeclareWarText { get; } = "Declare war";
 
-    internal static readonly string s_breakAllianceText = "Break alliance";
+    internal static string BreakAllianceText { get; } = "Break alliance";
 
-    internal static readonly string s_diplomaticMessageText = "Message";
+    internal static string DiplomaticMessageText { get; } = "Message";
 
 }

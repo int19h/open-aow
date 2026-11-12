@@ -43,7 +43,7 @@ public partial class Shipyard : ProductionPlace
         // Shipyard.pas:29
 
         // Shipyard.pas:69
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameText.s_shipyardText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameText.ShipyardText);
 
     }
 

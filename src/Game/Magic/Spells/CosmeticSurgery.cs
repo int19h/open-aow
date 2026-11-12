@@ -63,7 +63,7 @@ public partial class CosmeticSurgery : UnitSpell
                 caster.FaceIndex = 0;
             }
 
-            AoWHSMap.Current._cosmeticSurgeryEventsStore.Raise(caster);
+            AoWHSMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
             caster.Release();
             result = true;
         }

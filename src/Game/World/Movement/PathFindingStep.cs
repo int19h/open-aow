@@ -20,7 +20,8 @@ public partial class PathFindingStep : EngineObject
 
     public MapCoordinate Location;
     public MapCoordinate Origin;
-    public DoubleItemList MovePointLines;
+
+    public DoubleItemList MovePointLines { get; }
 
     // MoveT.PAS:28
     public override void Dispose()

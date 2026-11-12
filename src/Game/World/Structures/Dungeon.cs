@@ -24,15 +24,16 @@ public partial class Dungeon : ExplorationSite
 {
     public Dungeon(ECustomNode owner) : base(owner)
     {
-        PrisonersMode = DungeonPrisonersMode.Normal;
+        _prisonersMode = DungeonPrisonersMode.Normal;
         Prisoners = new PrisonersArmy(null);
     }
 
     // Dungeon.pas:108
     public new const int ClassId = 131882;
 
-    public PrisonersArmy Prisoners;
-    public DungeonPrisonersMode PrisonersMode;
+    public PrisonersArmy Prisoners { get; }
+
+    private DungeonPrisonersMode _prisonersMode;
 
     // Dungeon.pas:102
     public override void Dispose()
@@ -46,7 +47,7 @@ public partial class Dungeon : ExplorationSite
     {
         base.ReadWrite(stream);
         stream.rwEObject(Prisoners, 8);
-        stream.rwData(Bytes.Of(ref PrisonersMode, 1), 1, 9);
+        stream.rwData(Bytes.Of(ref _prisonersMode, 1), 1, 9);
     }
 
     // Dungeon.pas:95
@@ -151,9 +152,9 @@ public partial class Dungeon : ExplorationSite
         UnitIndexList list;
         UnitIndexListCollection collections;
         RandSeed = AoWHSMap.Current.DefendersSeed;
-        if (PrisonersMode == DungeonPrisonersMode.Random)
+        if (_prisonersMode == DungeonPrisonersMode.Random)
         {
-            PrisonersMode = (DungeonPrisonersMode)(Random(3) + 1);
+            _prisonersMode = (DungeonPrisonersMode)(Random(3) + 1);
         }
 
         collection = ((Resource)_resource).PrisonerCollections.GetRandomCollection();
@@ -166,7 +167,7 @@ public partial class Dungeon : ExplorationSite
                 list.Add(collections.GetU(collection, I));
             }
 
-            Int32List.FillWithRandomUnits(list, Prisoners, 4, (int)PrisonersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+            Int32List.FillWithRandomUnits(list, Prisoners, 4, (int)_prisonersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             list?.Dispose();
         }
     }
@@ -199,7 +200,7 @@ public partial class Dungeon : ExplorationSite
         armyLog.ArmyView.MapLevel = hexLevel3;
         armyLog.Selection = 255;
         armyLog._player = GetPlayer();
-        armyLog.Title = AbilityRules.TranslateResourceString(s_prisonerLiberationText);
+        armyLog.Title = AbilityRules.TranslateResourceString(PrisonerLiberationText);
         armyLog.Description = "";
         hero = Prisoners.Hero(255, Set<HeroType>.Of(HeroType.Hero));
         if (hero == null)
@@ -250,7 +251,9 @@ public partial class Dungeon : ExplorationSite
     private static readonly string s_liberatePrisonerMessageText = "In gratitude for rescue, the captive offers to join you. Do you accept?";
     private static readonly string s_liberatePrisonersMessageText = "Grateful to be rescued, the captives offer to join you. Do you accept?";
     private static readonly string s_onePrisonerLiberatedText = "1 prisoner liberated";
-    internal static readonly string s_prisonerLiberationText = "Prisoner Liberation";
+
+    internal static string PrisonerLiberationText { get; } = "Prisoner Liberation";
+
     private static readonly string s_exploredFormat = "%s explored";
     private static readonly string s_liberatedFormat = "%s liberated";
     private static readonly string s_prisonersLiberatedFormat = "%s prisoners liberated";
@@ -266,7 +269,7 @@ public partial class Dungeon : ExplorationSite
         // Dungeon.pas:280
         public new const int ClassId = 131883;
 
-        public UnitIndexListCollection PrisonerCollections;
+        public UnitIndexListCollection PrisonerCollections { get; }
 
         // Dungeon.pas:271
         public override void Dispose()

@@ -10,7 +10,7 @@ namespace Aow.Game.Combat;
 // Positions: packed MapCoordinate entries, eight per army position
 public partial class UnitPositionControl : EngineObject
 {
-    public MapCoordinateList Positions;
+    public MapCoordinateList Positions { get; private set; }
 
     // AoWTC.pas:4943
     public override void Dispose()

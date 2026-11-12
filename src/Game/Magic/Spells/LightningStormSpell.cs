@@ -12,7 +12,7 @@ public partial class LightningStormSpell : StormSpell
     // Storms.pas:1014
     public LightningStormSpell(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameTables.s_lightningStormText);
+        SpellName = AbilityRules.TranslateResourceString(GameTables.LightningStormText);
         SpellId = 7;
         BaseManaCost = 5;
         SpellLevel = 3;

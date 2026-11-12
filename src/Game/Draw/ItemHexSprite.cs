@@ -22,8 +22,9 @@ public partial class ItemHexSprite : SingleHexSprite
 
     public new const int ClassId = 131697;
 
-    public ItemHSList Items;
-    public ItemHexSpriteGenerateMode GenerateMode;
+    public ItemHSList Items { get; private set; }
+
+    private ItemHexSpriteGenerateMode _generateMode;
 
     // Army.PAS:5221
     public override void Dispose()
@@ -39,7 +40,7 @@ public partial class ItemHexSprite : SingleHexSprite
         Items.BeginUpdate();
         base.ReadWrite(stream);
         stream.rwEObject(Items, 4);
-        stream.rwData(Bytes.Of(ref GenerateMode, 1), 1, 5);
+        stream.rwData(Bytes.Of(ref _generateMode, 1), 1, 5);
         Items.EndUpdate();
     }
 
@@ -126,7 +127,7 @@ public partial class ItemHexSprite : SingleHexSprite
     // Army.PAS:5228
     public void ItemsChanged(object sender)
     {
-        if (Items.Count == 0 && (GenerateMode == ItemHexSpriteGenerateMode.UserDefined || AoWHSMap.Current.Day > 0))
+        if (Items.Count == 0 && (_generateMode == ItemHexSpriteGenerateMode.UserDefined || AoWHSMap.Current.Day > 0))
         {
             Dispose();
         }
@@ -141,17 +142,17 @@ public partial class ItemHexSprite : SingleHexSprite
     {
         byte I = default;
         Item item = default;
-        if (GenerateMode != ItemHexSpriteGenerateMode.UserDefined)
+        if (_generateMode != ItemHexSpriteGenerateMode.UserDefined)
         {
             RandSeed = AoWHSMap.Current.Random(16777215);
             Items.OnChanged = null;
-            if (GenerateMode == ItemHexSpriteGenerateMode.Random)
+            if (_generateMode == ItemHexSpriteGenerateMode.Random)
             {
-                GenerateMode = (ItemHexSpriteGenerateMode)(AoWHSMap.Current.Random(3) + 1);
+                _generateMode = (ItemHexSpriteGenerateMode)(AoWHSMap.Current.Random(3) + 1);
             }
 
             Items.Clear();
-            for (int iOrdinal = 1, last = (int)GenerateMode; iOrdinal <= last; iOrdinal++)
+            for (int iOrdinal = 1, last = (int)_generateMode; iOrdinal <= last; iOrdinal++)
             {
                 I = (byte)iOrdinal;
                 item = AoWHSMap.Current.ItemControl.GenerateItem(Set<ItemType>.Of(ItemType.Head, ItemType.Torso, ItemType.Attack, ItemType.Defense, ItemType.Ring, ItemType.Use), 0, 65535);

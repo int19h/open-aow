@@ -16,14 +16,14 @@ public partial class ItemLibrary : ItemList
     { }
 
     public string Name = "";
-    public int LastId;
+    private int _lastId;
 
     // Army.PAS:4933
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
         stream.rwString(ref Name, 20);
-        stream.rwInteger(ref LastId, 21);
+        stream.rwInteger(ref _lastId, 21);
     }
 
     // Army.PAS:4909
@@ -58,19 +58,19 @@ public partial class ItemLibrary : ItemList
         do
         {
             I = 0;
-            LastId += 1;
-            if (LastId > 268435455)
+            _lastId += 1;
+            if (_lastId > 268435455)
             {
-                LastId = 0;
+                _lastId = 0;
             }
 
-            while (I != _children.Count && ((Item)_children.List[I]).LibraryId != LastId)
+            while (I != _children.Count && ((Item)_children.List[I]).LibraryId != _lastId)
             {
                 I += 1;
             }
         }
         while (!(I == _children.Count));
-        return LastId;
+        return _lastId;
     }
 
     // Army.PAS:4917

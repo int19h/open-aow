@@ -15,7 +15,7 @@ public partial class FreeMovement : UnitSpell
     // UnitSpells.pas:386
     public FreeMovement(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_freeMovementText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.FreeMovementText);
         SpellId = 32;
         BaseManaCost = 5;
         SpellLevel = 2;

@@ -11,15 +11,18 @@ public partial class MoveTarget : EngineObject
     // AIGroup.pas:4215
     public MoveTarget(ECustomNode owner) : base(owner)
     {
-        RefCount = 1;
+        _refCount = 1;
     }
 
-    public int RefCount;
-    public AITargetData Data;
+    private int _refCount;
+
+    public AITargetData Data { get; set; }
+
     public MapCoordinate Location;
-    public int MovePoints;
-    public int TransporterId;
-    public MovePath MovePath;
+
+    public int MovePoints { get; set; }
+    public int TransporterId { get; set; }
+    public MovePath MovePath { get; set; }
 
     // AIGroup.pas:4221
     public override void Dispose()
@@ -35,15 +38,15 @@ public partial class MoveTarget : EngineObject
     // AIGroup.pas:4227
     public override int AddRef()
     {
-        RefCount += 1;
-        return RefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // AIGroup.pas:4233
     public override int Release()
     {
-        RefCount -= 1;
-        int result = RefCount;
+        _refCount -= 1;
+        int result = _refCount;
         if (result == 0)
         {
             Dispose();

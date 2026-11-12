@@ -22,25 +22,27 @@ public partial class AIBudgetManager : EngineObject
     public AIBudgetManager(ECustomNode owner) : base(owner)
     {
         Budgets = new AIBudgetList(null);
-        GoldIncomeFactor = (float)0.75;
-        ManaIncomeFactor = (float)0.75;
-        GoldReserveFactor = (float)0.5;
-        ManaReserveFactor = (float)0.5;
+        _goldIncomeFactor = (float)0.75;
+        _manaIncomeFactor = (float)0.75;
+        _goldReserveFactor = (float)0.5;
+        _manaReserveFactor = (float)0.5;
     }
 
-    public Player Player;
-    public AIBudgetList Budgets;
-    public float GoldIncomeFactor;
-    public float ManaIncomeFactor;
-    public float GoldReserveFactor;
-    public float ManaReserveFactor;
+    public Player Player { get; set; }
+    public AIBudgetList Budgets { get; }
+
+    private float _goldIncomeFactor;
+    private float _manaIncomeFactor;
+    private float _goldReserveFactor;
+    private float _manaReserveFactor;
     public int ProductionGoldUpkeep;
     public int ProductionManaUpkeep;
     public int GoldUpkeep;
     public int ManaUpkeep;
     public int Gold;
     public int Mana;
-    public AIBudget DefaultBudget;
+
+    public AIBudget DefaultBudget { get; private set; }
 
     // AI.pas:1722
     public override void Dispose()
@@ -359,7 +361,7 @@ public partial class AIBudgetManager : EngineObject
 
         if (gold > 0 || mana > 0)
         {
-            GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_temporaryDebugChannel, "RETURNING FROM BUDGETS (GOLD:" + IntToStr(gold) + "/MANA:" + IntToStr(mana) + ")");
+            GameTables.GameEngine.OutputDebugMessage(AbilityRules.TemporaryDebugChannel, "RETURNING FROM BUDGETS (GOLD:" + IntToStr(gold) + "/MANA:" + IntToStr(mana) + ")");
             ReturnFromBudgets(gold, mana);
         }
     }
@@ -374,9 +376,9 @@ public partial class AIBudgetManager : EngineObject
 
         var groupsGoldBudget = GetGroupsGoldBudget();
         var groupsManaBudget = GetGroupsManaBudget();
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_temporaryDebugChannel, "GROUPS BUDGET (GOLD:" + IntToStr(groupsGoldBudget) + "/MANA:" + IntToStr(groupsManaBudget) + ")");
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_temporaryDebugChannel, "POOL (GOLD:" + IntToStr(Gold) + "/MANA:" + IntToStr(Mana) + ")");
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_temporaryDebugChannel, "REAL (GOLD:" + IntToStr(Player.Gems) + "/MANA:" + IntToStr(Player.MagicControl.Mana) + ")");
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.TemporaryDebugChannel, "GROUPS BUDGET (GOLD:" + IntToStr(groupsGoldBudget) + "/MANA:" + IntToStr(groupsManaBudget) + ")");
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.TemporaryDebugChannel, "POOL (GOLD:" + IntToStr(Gold) + "/MANA:" + IntToStr(Mana) + ")");
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.TemporaryDebugChannel, "REAL (GOLD:" + IntToStr(Player.Gems) + "/MANA:" + IntToStr(Player.MagicControl.Mana) + ")");
     }
 
     // AI.pas:1954
@@ -414,8 +416,8 @@ public partial class AIBudgetManager : EngineObject
         var manaUpkeep = Player.MagicControl.GetManaUpkeep();
         var budgetManaUpkeep = GetBudgetManaUpkeep();
         ManaUpkeep = manaUpkeep + ProductionManaUpkeep + budgetManaUpkeep;
-        GoldUpkeep = Round((double)Player.Income * GoldIncomeFactor) - goldUpkeep;
-        this.ManaUpkeep = Round((double)Player.MagicControl.GetManaIncome() * ManaIncomeFactor) - ManaUpkeep;
+        GoldUpkeep = Round((double)Player.Income * _goldIncomeFactor) - goldUpkeep;
+        this.ManaUpkeep = Round((double)Player.MagicControl.GetManaIncome() * _manaIncomeFactor) - ManaUpkeep;
         if (this.ManaUpkeep < 0)
         {
             ValidateManaUpkeep();
@@ -423,8 +425,8 @@ public partial class AIBudgetManager : EngineObject
 
         requiredGold = GetRequiredBudgetDayGold();
         requiredMana = GetRequiredBudgetDayMana();
-        reserveGold = Round((double)gold * GoldReserveFactor);
-        reserveMana = Round((double)mana * ManaReserveFactor);
+        reserveGold = Round((double)gold * _goldReserveFactor);
+        reserveMana = Round((double)mana * _manaReserveFactor);
         if (reserveGold > requiredGold)
         {
             reserveGold = requiredGold;

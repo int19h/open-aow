@@ -28,7 +28,7 @@ public partial class ProductionTokenEvent : TokenEvent
     public ProductionItem Item;
     public bool Queue;
     public int Index;
-    public int Reserved;
+    private int _reserved;
 
     // Structur.PAS:155
     // { Original leaves the upkeep fields unchanged. }
@@ -54,7 +54,7 @@ public partial class ProductionTokenEvent : TokenEvent
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 24);
         stream.rwCreateEObject(ref Item, null, 25);
         stream.rwInteger(ref Index, 26);
-        stream.rwInteger(ref Reserved, 27);
+        stream.rwInteger(ref _reserved, 27);
         stream.rwBool(ref Queue, 28);
     }
 

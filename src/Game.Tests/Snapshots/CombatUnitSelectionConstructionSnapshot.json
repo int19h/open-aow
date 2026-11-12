@@ -4,15 +4,15 @@
       "State": {
         "$jsonText": {
           "$type": "Aow.Game.Combat.CombatUnitSelectionControl",
-          "CombatUnitSelectionControl.CursorFrame": 0,
-          "CombatUnitSelectionControl.CursorImage": 0,
+          "CombatUnitSelectionControl._cursorFrame": 0,
+          "CombatUnitSelectionControl._cursorImage": 0,
           "CombatUnitSelectionControl.MouseOverTarget": null,
           "CombatUnitSelectionControl.Obstacles": {
             "$type": "Aow.Rtl.DelphiList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
-          "CombatUnitSelectionControl.PathInvalid": {
+          "CombatUnitSelectionControl._pathInvalid": {
             "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set`1.a": 0,
             "Set`1.b": 0,
@@ -30,14 +30,14 @@
             "$type": "Aow.Game.Draw.RangedPathHexSprite",
             "EngineObject._owner": null,
             "FixedVisibleHexSprite._status": 0,
-            "RangedPathHexSprite.Frame": 0,
-            "RangedPathHexSprite.FrameCount": 0,
-            "RangedPathHexSprite.MiscellaneousImages": null,
+            "RangedPathHexSprite._frame": 0,
+            "RangedPathHexSprite._frameCount": 0,
+            "RangedPathHexSprite._miscellaneousImages": null,
             "RangedPathHexSprite.Range": 0,
             "RangedPathHexSprite.Selection": null,
-            "RangedPathHexSprite.TargetImages": {
+            "RangedPathHexSprite._targetImages": {
               "$type": "Aow.Game.Draw.Images.ImageLibrary",
-              "Component.<ComponentState>k__BackingField": {
+              "Component.ComponentState": {
                 "$type": "Aow.Rtl.Set`1[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set`1.a": 0,
                 "Set`1.b": 0,
@@ -47,17 +47,17 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "Component.<Owner>k__BackingField": null,
-              "Component.<Tag>k__BackingField": 0,
+              "Component.Owner": null,
+              "Component.Tag": 0,
               "Component.children": [],
               "Component.freeNotifies": null,
               "Component.name": "",
-              "CustomImageLibrary._capacity": 0,
+              "CustomImageLibrary.Capacity": 0,
               "CustomImageLibrary._changeLock": 0,
               "CustomImageLibrary._count": 0,
               "CustomImageLibrary._dataOffset": 0,
               "CustomImageLibrary._fileName": "",
-              "CustomImageLibrary._images": null,
+              "CustomImageLibrary.Images": null,
               "CustomImageLibrary._loadOnDemand": true,
               "CustomImageLibrary._loadedFileName": "",
               "CustomImageLibrary._onChange": null,
@@ -78,9 +78,9 @@
               }
             }
           },
-          "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite.TargetImages",
-          "CombatUnitSelectionControl.TargetX": 0,
-          "CombatUnitSelectionControl.TargetY": 0,
+          "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
+          "CombatUnitSelectionControl._targetX": 0,
+          "CombatUnitSelectionControl._targetY": 0,
           "MoveSelector.CurrentMove": -1,
           "MoveSelector.Map": null,
           "MoveSelector.MoveControlSettings": {
@@ -104,9 +104,9 @@
               "$type": "Aow.Engine.Buffers.Int32Array8",
               "Int32Array8._element0": 0
             },
-            "MoveControlSettings.Height": 0,
-            "MoveControlSettings.LevelCount": 0,
-            "MoveControlSettings.LevelData": [],
+            "MoveControlSettings._height": 0,
+            "MoveControlSettings._levelCount": 0,
+            "MoveControlSettings._levelData": [],
             "MoveControlSettings.Mode": {
               "$type": "Aow.Rtl.Set`1[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set`1.a": 0,
@@ -124,7 +124,7 @@
                 "SByteArray16._element0": -1
               }
             },
-            "MoveControlSettings.MovePointsClear": false,
+            "MoveControlSettings._movePointsClear": false,
             "MoveControlSettings.MovePointsLimit": 0,
             "MoveControlSettings.MovePointsMax": 4095,
             "MoveControlSettings.OddOffsets": {
@@ -152,8 +152,8 @@
               "DelphiList.count": 0,
               "DelphiList.items": "$ref:$.CombatUnitSelectionControl.Obstacles.DelphiList.items"
             },
-            "MoveControlSettings.RefCount": 1,
-            "MoveControlSettings.RowOffsets": [],
+            "MoveControlSettings._refCount": 1,
+            "MoveControlSettings._rowOffsets": [],
             "MoveControlSettings.Selection": 0,
             "MoveControlSettings.SourceL": -1,
             "MoveControlSettings.SourceX": -1,
@@ -180,7 +180,7 @@
               "EChangeNotifyNode._updateCount": 0,
               "EngineObject._owner": null
             },
-            "MoveControlSettings.Width": 0
+            "MoveControlSettings._width": 0
           },
           "MoveSelector.MoveSettingsList": {
             "$type": "Aow.Game.World.Movement.MoveSettingsList",

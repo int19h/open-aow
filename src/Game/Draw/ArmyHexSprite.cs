@@ -36,10 +36,12 @@ public partial class ArmyHexSprite : UnitHexSprite
 
     public new const int ClassId = 131607;
 
-    public Army Army;
-    public byte UnitIndex;
-    public sbyte UnitYOffset;
-    public sbyte MoveSteps;
+    public Army Army { get; private set; }
+
+    private byte _unitIndex;
+    private sbyte _unitYOffset;
+
+    public sbyte MoveSteps { get; private set; }
 
     // Army.PAS:2654
     public override void Dispose()
@@ -788,15 +790,15 @@ public partial class ArmyHexSprite : UnitHexSprite
             I = 0;
         }
 
-        UnitIndex = (byte)I;
+        _unitIndex = (byte)I;
         SetUnitGraphicsResourceIndex(Army.GetUnit(I).GetUnitGraphicsResourceIndex());
         if (Army.GetUnit(I).GetMoveTypes().Contains(MoveType.Flying))
         {
-            UnitYOffset = -8;
+            _unitYOffset = -8;
         }
         else
         {
-            UnitYOffset = 0;
+            _unitYOffset = 0;
         }
 
         Assert(UnitGraphicsResource != null, "", "Army.PAS", 3027);
@@ -818,13 +820,13 @@ public partial class ArmyHexSprite : UnitHexSprite
     public void ShowEnchantments(int X, int Y, in LockedSurface lockedSurface)
     {
         UnitShowInfo info = default;
-        if (Army.Count > UnitIndex)
+        if (Army.Count > _unitIndex)
         {
             info.Overlays = Set<UnitOverlayModesElement>.Of();
             info.Animation = UnitAnimation.None;
             info.Frame = AoWHSMap.Current.Frame + (int)(((uint)(X + Y + Y)) >> 4);
             info.Looped = true;
-            Army.GetUnit(UnitIndex).Show(X - 16, Y - 20, lockedSurface, info);
+            Army.GetUnit(_unitIndex).Show(X - 16, Y - 20, lockedSurface, info);
         }
     }
 

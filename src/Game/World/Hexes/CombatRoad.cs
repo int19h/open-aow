@@ -17,7 +17,7 @@ public partial class CombatRoad : AbstractRoad
     // CombatRoad.pas:51
     public new const int ClassId = 2229506;
 
-    public ByteArray7 Images;
+    private ByteArray7 _images;
 
     // main image, neighbour images
     // CombatRoad.pas:108
@@ -39,12 +39,12 @@ public partial class CombatRoad : AbstractRoad
         X = X - pixelXSurface - 8;
         Y = Y - pixelYSurface;
         images = _resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
-        images.Get(Images[0]).Show(X, Y, lockedSurface);
+        images.Get(_images[0]).Show(X, Y, lockedSurface);
         for (int I = 1; I <= 6; I++)
         {
-            if (Images[I] != 255)
+            if (_images[I] != 255)
             {
-                images.Get(Images[I]).Show(X - 8, Y - 16, lockedSurface);
+                images.Get(_images[I]).Show(X - 8, Y - 16, lockedSurface);
             }
         }
     }
@@ -54,7 +54,7 @@ public partial class CombatRoad : AbstractRoad
     {
         base.Activate();
         var random = Random(12);
-        Images[0] = (byte)(random + 10);
+        _images[0] = (byte)(random + 10);
     }
 
     // CombatRoad.pas:54
@@ -118,30 +118,30 @@ public partial class CombatRoad : AbstractRoad
                 {
                     case 1:
                         var random = Random(2);
-                        Images[hexNumber] = (byte)(random * 3 + 1);
+                        _images[hexNumber] = (byte)(random * 3 + 1);
                         break;
                     case 2:
                         var random2 = Random(2);
-                        Images[hexNumber] = (byte)(random2 * 3 + 2);
+                        _images[hexNumber] = (byte)(random2 * 3 + 2);
                         break;
                     case 3:
-                        Images[hexNumber] = 6;
+                        _images[hexNumber] = 6;
                         break;
                     case 4:
-                        Images[hexNumber] = 7;
+                        _images[hexNumber] = 7;
                         break;
                     case 5:
-                        Images[hexNumber] = 8;
+                        _images[hexNumber] = 8;
                         break;
                     case 6:
                         var random3 = Random(2);
-                        Images[hexNumber] = (byte)(random3 * 3);
+                        _images[hexNumber] = (byte)(random3 * 3);
                         break;
                 }
             }
             else
             {
-                Images[hexNumber] = 255;
+                _images[hexNumber] = 255;
             }
         }
     }

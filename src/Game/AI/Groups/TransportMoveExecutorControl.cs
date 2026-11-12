@@ -18,7 +18,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
     public TransportMoveExecutorControl(ECustomNode owner) : base(owner)
     { }
 
-    public MapCoordinate MeetingPoint;
+    private MapCoordinate _meetingPoint;
 
     // AIGroup.pas:5741
     public override void CalculateMoves()
@@ -604,7 +604,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 found = Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Boarding, AIMoveExecutorTransportStatus.Transporting).Contains(armies.TransportStatus);
                 if (found)
                 {
-                    MeetingPoint = Armies.GetArmies(I).ArrivalPoint;
+                    _meetingPoint = Armies.GetArmies(I).ArrivalPoint;
                 }
             }
 
@@ -620,7 +620,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 found = Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Arriving, AIMoveExecutorTransportStatus.Done).Contains(armies.TransportStatus);
                 if (found)
                 {
-                    MeetingPoint = Armies.GetArmies(I).Location;
+                    _meetingPoint = Armies.GetArmies(I).Location;
                 }
             }
 
@@ -629,12 +629,12 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 settings = new MoveControlSettings(null);
                 Armies.GetArmies(I).RetrieveArmy(255, ref armyHexSprite, ref selection);
                 settings.SetupArmy(armyHexSprite, selection);
-                settings.SetSourcePosition(MeetingPoint.X, MeetingPoint.Y, MeetingPoint.MapLevel);
+                settings.SetSourcePosition(_meetingPoint.X, _meetingPoint.Y, _meetingPoint.MapLevel);
                 settings.SetDestinationPosition(Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel);
                 AoWHSMap.Current.MoveControl.ProcessMove(settings);
                 if (settings.Path.Count > 4)
                 {
-                    MeetingPoint = settings.Path[settings.Path.Count - 2];
+                    _meetingPoint = settings.Path[settings.Path.Count - 2];
                 }
 
                 I = 0;
@@ -646,7 +646,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     {
                         for (int J = 0, last = Armies.GetArmies(I).Count - 1; J <= last; J++)
                         {
-                            Armies.GetArmies(I).GetUnits(J).ArrivalPoint = MeetingPoint;
+                            Armies.GetArmies(I).GetUnits(J).ArrivalPoint = _meetingPoint;
                         }
                     }
                 }
@@ -659,9 +659,9 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
 
         if (!found)
         {
-            MeetingPoint.X = -1;
-            MeetingPoint.Y = -1;
-            MeetingPoint.MapLevel = -1;
+            _meetingPoint.X = -1;
+            _meetingPoint.Y = -1;
+            _meetingPoint.MapLevel = -1;
         }
     }
 

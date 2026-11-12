@@ -9,10 +9,11 @@ public sealed class AudioMixer : IDisposable
     {
         public WaveData Wave { get; } = wave;
 
-        public double Position;
-        public float Volume = 1;
-        public float Pan;
-        public bool Loop, Playing = true;
+        public double Position { get; set; }
+        public float Volume { get; set; } = 1;
+        public float Pan { get; set; }
+        public bool Loop { get; set; }
+        public bool Playing { get; set; } = true;
     }
 
     public sealed class Ramp

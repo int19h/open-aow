@@ -29,28 +29,28 @@ public partial class WaterHex
         // { Original uses the shared engine settings and the Flood enchantment. }
         if (GameTables.GameEngine.AnimationDetail != 0 && (((((AoWMapField)Owner).FieldFlags >> 16) & 255) != 0 || !((GameMap)((MapLevel)Owner.Owner).Map).FogEnabled))
         {
-            AnimationFrame = (sbyte)(AnimationFrame + 1);
-            if (AnimationFrame >= 0)
+            _animationFrame = (sbyte)(_animationFrame + 1);
+            if (_animationFrame >= 0)
             {
                 showing = false;
-                if (AnimationFrame == 0)
+                if (_animationFrame == 0)
                 {
                     // { Original tests the Flood enchantment. }
                     if (AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.Flood))
                     {
                         if (OpenSides == 0 && Random(300) == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                         {
-                            AnimationIndex = (byte)(Random(10) + 30);
+                            _animationIndex = (byte)(Random(10) + 30);
                         }
                         else
                         {
                             if (Random(10) < 3)
                             {
-                                AnimationIndex = (byte)(Random(9) + 50);
+                                _animationIndex = (byte)(Random(9) + 50);
                             }
                             else
                             {
-                                AnimationIndex = (byte)(Random(10) + 20);
+                                _animationIndex = (byte)(Random(10) + 20);
                             }
                         }
                     }
@@ -58,21 +58,21 @@ public partial class WaterHex
                     {
                         if (OpenSides == 0 && Random(700) == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                         {
-                            AnimationIndex = (byte)(Random(10) + 30);
+                            _animationIndex = (byte)(Random(10) + 30);
                         }
                         else
                         {
-                            AnimationIndex = (byte)(Random(10) + 20);
+                            _animationIndex = (byte)(Random(10) + 20);
                         }
                     }
                 }
 
-                if (AnimationIndex < _resource.ImageSequenceList.Count)
+                if (_animationIndex < _resource.ImageSequenceList.Count)
                 {
-                    sequence = (ImageSequence)_resource.ImageSequenceList.List[AnimationIndex];
+                    sequence = (ImageSequence)_resource.ImageSequenceList.List[_animationIndex];
                     while (sequence != null)
                     {
-                        image = sequence.GetUnloopedFrameIndex(AnimationFrame);
+                        image = sequence.GetUnloopedFrameIndex(_animationFrame);
                         if (image != -1)
                         {
                             showing = true;
@@ -90,11 +90,11 @@ public partial class WaterHex
                 {
                     if (GameTables.GameEngine.AnimationDetail == 1)
                     {
-                        AnimationFrame = (sbyte)(-20 - Random(25));
+                        _animationFrame = (sbyte)(-20 - Random(25));
                     }
                     else
                     {
-                        AnimationFrame = (sbyte)(-10 - Random(25));
+                        _animationFrame = (sbyte)(-10 - Random(25));
                     }
                 }
             }

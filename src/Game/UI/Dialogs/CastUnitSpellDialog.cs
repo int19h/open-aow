@@ -58,7 +58,8 @@ public partial class CastUnitSpellDialog : DataModule
     public Panel SelectionInfoPnl;
     public Label SelectionInfoLbl;
     public IvTranslator Translator;
-    public UnitSpellCaster Caster;
+
+    public UnitSpellCaster Caster { get; set; }
 
     // AoWCastUnitSpellDlg.pas:79
     public void ClearCaster()

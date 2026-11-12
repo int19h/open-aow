@@ -19,71 +19,71 @@ public partial class Memo
             Lines.Add("");
             ColorList.Add(new ColorChange());
         }
-        if (x > _window._winLeft + _winLeft - 1 && x < _window._winLeft + _winLeft + _winWidth &&
-            y > _window._winTop + _winTop - 1 && y < _window._winTop + _winTop + _winHeight)
+        if (x > Window.WinLeft + WinLeft - 1 && x < Window.WinLeft + WinLeft + WinWidth &&
+            y > Window.WinTop + WinTop - 1 && y < Window.WinTop + WinTop + WinHeight)
         {
             int left, top, bottom;
             if (!NoFrame)
             {
-                left = _window._winLeft + _winLeft + _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width - 1;
-                top = _window._winTop + _winTop + _borderHeight + _imageLibraryFrame[_imageLibraryIndexFrame + 1].Height - 1;
-                bottom = _window._winTop + _winTop + _winHeight - _imageLibraryFrame[_imageLibraryIndexFrame + 6].Height;
+                left = Window.WinLeft + WinLeft + _imageLibraryFrame[_imageLibraryIndexFrame + 3].Width - 1;
+                top = Window.WinTop + WinTop + _borderHeight + _imageLibraryFrame[_imageLibraryIndexFrame + 1].Height - 1;
+                bottom = Window.WinTop + WinTop + WinHeight - _imageLibraryFrame[_imageLibraryIndexFrame + 6].Height;
             }
             else
             {
-                left = _window._winLeft + _winLeft - 1;
-                top = _window._winTop + _winTop + _borderHeight - 1;
-                bottom = _window._winTop + _winTop + _winHeight;
+                left = Window.WinLeft + WinLeft - 1;
+                top = Window.WinTop + WinTop + _borderHeight - 1;
+                bottom = Window.WinTop + WinTop + WinHeight;
             }
-            if (_editable && x > left && x < _window._winLeft + _winLeft + _winWidth - ScrollWidth && y > top && y < bottom && button == MouseButton.Left)
+            if (_editable && x > left && x < Window.WinLeft + WinLeft + WinWidth - _scrollWidth && y > top && y < bottom && button == MouseButton.Left)
             {
                 if (Unsafe.As<bool, byte>(ref _editable) == 1)
                 {
                     Redraw = true;
-                    Blink = true;
-                    BlinkCount = 0;
+                    _blink = true;
+                    _blinkCount = 0;
                     Handled = true;
                     Drawn = false;
-                    if (NoFrame && _window != null) _window.Drawn = false;
+                    if (NoFrame && Window != null) Window.Drawn = false;
                 }
-                if ((Lines.Count - TopItem) * _itemHeight + top < y)
+                if ((Lines.Count - _topItem) * _itemHeight + top < y)
                 {
-                    CurrentLine = Lines.Count - 1;
-                    CurrentColumn = Lines[Lines.Count - 1].Length;
-                    RealLine = _items.Count - 1;
-                    RealColumn = _items[_items.Count - 1].Length;
+                    _currentLine = Lines.Count - 1;
+                    _currentColumn = Lines[Lines.Count - 1].Length;
+                    _realLine = _items.Count - 1;
+                    _realColumn = _items[_items.Count - 1].Length;
                 }
                 else
                 {
                     int length = _items[0].Length;
-                    RealColumn = RealLine = CurrentColumn = CurrentLine = 0;
-                    while (CurrentLine < TopItem)
+                    _realColumn = _realLine = _currentColumn = _currentLine = 0;
+                    while (_currentLine < _topItem)
                     {
-                        RealColumn += Lines[CurrentLine].Length;
-                        if (RealColumn >= length)
+                        _realColumn += Lines[_currentLine].Length;
+                        if (_realColumn >= length)
                         {
-                            RealColumn = 0;
-                            RealLine++;
-                            length = _items[RealLine].Length;
+                            _realColumn = 0;
+                            _realLine++;
+                            length = _items[_realLine].Length;
                         }
-                        CurrentLine++;
+                        _currentLine++;
                     }
-                    while (Lines.Count > CurrentLine && (CurrentLine - TopItem + 1) * _itemHeight + top < y)
+                    while (Lines.Count > _currentLine && (_currentLine - _topItem + 1) * _itemHeight + top < y)
                     {
-                        RealColumn += Lines[CurrentLine].Length;
-                        if (RealColumn >= length)
+                        _realColumn += Lines[_currentLine].Length;
+                        if (_realColumn >= length)
                         {
-                            RealColumn = 0;
-                            RealLine++;
-                            length = _items[RealLine].Length;
+                            _realColumn = 0;
+                            _realLine++;
+                            length = _items[_realLine].Length;
                         }
-                        CurrentLine++;
+                        _currentLine++;
                     }
-                    if (Lines.Count == CurrentLine) CurrentLine--;
-                    while (Lines[CurrentLine].Length > CurrentColumn && _font.GetTextWidth(RtlUnit.Copy(Lines[CurrentLine], 1, CurrentColumn + 1)) + left < x)
+                    if (Lines.Count == _currentLine) _currentLine--;
+                    while (Lines[_currentLine].Length > _currentColumn && _font.GetTextWidth(RtlUnit.Copy(Lines[_currentLine], 1, _currentColumn + 1)) + left < x)
                     {
-                        CurrentColumn++;
-                        RealColumn++;
+                        _currentColumn++;
+                        _realColumn++;
                     }
                 }
             }

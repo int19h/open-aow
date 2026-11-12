@@ -29,7 +29,8 @@ public partial class GroupDefenseSelector : IDisposable
         Defenders = new UnitUserList(null);
     }
 
-    public UnitList Defenders;
+    public UnitList Defenders { get; }
+
     public MapCoordinate DefenseLocation;
 
     // AIGroup.pas:1646

@@ -450,9 +450,9 @@ public partial class UnitList : EChangeNotifyNode
             {
                 troop = (Troop)units._children.List[I];
                 Alignment = troop.GetAlignment();
-                evil = evil && AlignmentTables.s_evilAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.Evil, Game.Units.Alignment.PureEvil).Contains(Alignment));
-                good = good && AlignmentTables.s_goodAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.PureGood, Game.Units.Alignment.Good).Contains(Alignment));
-                neutral = neutral && AlignmentTables.s_neutralAlignments.Contains(Alignment);
+                evil = evil && AlignmentTables.EvilAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.Evil, Game.Units.Alignment.PureEvil).Contains(Alignment));
+                good = good && AlignmentTables.GoodAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.PureGood, Game.Units.Alignment.Good).Contains(Alignment));
+                neutral = neutral && AlignmentTables.NeutralAlignments.Contains(Alignment);
             }
 
             if (good && !evil)

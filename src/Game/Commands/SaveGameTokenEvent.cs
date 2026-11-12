@@ -47,7 +47,7 @@ public partial class SaveGameTokenEvent : TokenEvent
             else
             {
                 var fileName = ExtractFileName(FileName);
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_gameSavedFormat), [fileName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.GameSavedFormat), [fileName]);
                 AoWHSMap.Current.ShowMessage(format);
                 try
                 {

@@ -10,8 +10,8 @@ public partial class VideoDialog
     {
         if (!ModeChanged || GameHost.MainForm is not { } form) return;
         bool full = form.Display.Host.Fullscreen;
-        if (FullScreen == ScreenMode.Windowed || !full) ChangeResolution(0, 0);
-        else if (FullScreen == ScreenMode.Title && GameTables.GameEngine.Registry.GetAllowResolutionSwitches()) ChangeResolution(SceneWidth, SceneHeight);
+        if (_fullScreen == ScreenMode.Windowed || !full) ChangeResolution(0, 0);
+        else if (_fullScreen == ScreenMode.Title && GameTables.GameEngine.Registry.GetAllowResolutionSwitches()) ChangeResolution(_sceneWidth, _sceneHeight);
         else ChangeResolution(DisplayWidth, DisplayHeight);
         ModeChanged = false;
     }
@@ -27,8 +27,8 @@ public partial class VideoDialog
     public int CurrentMode()
     {
         if (GameHost.MainForm is not { } form || !form.Display.Host.Fullscreen) return 0;
-        for (int i = 0; i < DisplayModes.Count; i++)
-            if (DisplayModes.Items[i].Width == form.Display.BackSurfaceWidth && DisplayModes.Items[i].Height == form.Display.BackSurfaceHeight) return i + 1;
+        for (int i = 0; i < _displayModes.Count; i++)
+            if (_displayModes.Items[i].Width == form.Display.BackSurfaceWidth && _displayModes.Items[i].Height == form.Display.BackSurfaceHeight) return i + 1;
         return 0;
     }
 }

@@ -26,18 +26,22 @@ public partial class JoinEventLog : EventLog
     {
         UnitIds = new Int32List();
         JoinMessage = new StringList();
-        Location.X = -1;
-        Location.Y = -1;
-        Location.MapLevel = -1;
+        _location.X = -1;
+        _location.Y = -1;
+        _location.MapLevel = -1;
         JoinIndex = -1;
     }
 
     public int FirstUnitId;
-    public Int32List UnitIds;
-    public MapCoordinate Location;
+
+    public Int32List UnitIds { get; }
+
+    private MapCoordinate _location;
     public byte Selection;
     public int JoinIndex;
-    public StringList JoinMessage;
+
+    public StringList JoinMessage { get; }
+
     public int Gold;
     public JoinMode JoinMode;
     public string Text = "";
@@ -59,7 +63,7 @@ public partial class JoinEventLog : EventLog
         stream.rwByte(ref Selection, 23);
         stream.rwStrings(JoinMessage, 24);
         stream.rwInteger(ref Gold, 25);
-        stream.rwInteger(ref Unsafe.As<MapCoordinate, int>(ref Location), 26);
+        stream.rwInteger(ref Unsafe.As<MapCoordinate, int>(ref _location), 26);
         stream.rwData(Bytes.Of(ref JoinMode, 1), 1, 27);
         stream.rwString(ref Text, 28);
         stream.rwIntegerEx(ref JoinIndex, -1, 29);
@@ -82,7 +86,7 @@ public partial class JoinEventLog : EventLog
             if (troop != null && troop.Player == 0)
             {
                 troop.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
-                result = Location.X == location.X && Location.Y == location.Y && Location.MapLevel == location.MapLevel;
+                result = _location.X == location.X && _location.Y == location.Y && _location.MapLevel == location.MapLevel;
             }
         }
 
@@ -114,7 +118,7 @@ public partial class JoinEventLog : EventLog
         else
         {
             result = false;
-            errorText = AbilityRules.TranslateResourceString(GameText.s_tributeNotEnoughGoldText);
+            errorText = AbilityRules.TranslateResourceString(GameText.TributeNotEnoughGoldText);
         }
 
         return result;
@@ -148,7 +152,7 @@ public partial class JoinEventLog : EventLog
             UnitIds.Add(troop.UnitId);
         }
 
-        Location = HexGeometry.PackMapCoordinate(army.X, army.Y, army.MapLevel);
+        _location = HexGeometry.PackMapCoordinate(army.X, army.Y, army.MapLevel);
     }
 
 }

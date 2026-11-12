@@ -17,7 +17,7 @@ public partial class WaterHex : LowerIsometricHex
 {
     public WaterHex(ECustomNode owner) : base(owner)
     {
-        AnimationFrame = (sbyte)(-1 - Random(20));
+        _animationFrame = (sbyte)(-1 - Random(20));
         var random = Random(4);
         this.Sides = (byte)(this.Sides | (random << 6));
     }
@@ -25,8 +25,8 @@ public partial class WaterHex : LowerIsometricHex
     // AoWHex.pas:275
     public new const int ClassId = 132925;
 
-    public sbyte AnimationFrame;
-    public byte AnimationIndex;
+    private sbyte _animationFrame;
+    private byte _animationIndex;
     public ByteArray6 ShoreTerrain;
 
     // AoWHex.pas:268

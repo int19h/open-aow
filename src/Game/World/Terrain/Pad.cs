@@ -16,7 +16,7 @@ public partial class Pad : FixedImageLibraryTerrainMapObject
     // Pad.pas:52
     public new const int ClassId = 131334;
 
-    public bool PadActive;
+    public bool PadActive { get; }
 
     // Pad.pas:46
 
@@ -50,14 +50,14 @@ public partial class Pad : FixedImageLibraryTerrainMapObject
         // Pad.pas:76
         public new const int ClassId = 131335;
 
-        public byte PadSize;
+        private byte _padSize;
 
         // Pad.pas:69
         public override void Dispose()
         {
             if (Engine != null && !Engine.HexSpriteSet.Status.Contains(HexSpriteSetStatusElement.Destroying))
             {
-                ((AoWHSSet)Engine.HexSpriteSet).PadControl.UnregisterPadResource(this, PadSize);
+                ((AoWHSSet)Engine.HexSpriteSet).PadControl.UnregisterPadResource(this, _padSize);
             }
 
             base.Dispose();
@@ -93,16 +93,16 @@ public partial class Pad : FixedImageLibraryTerrainMapObject
         // Pad.pas:85
         public void ActivateMessage()
         {
-            PadSize = 0;
+            _padSize = 0;
             for (int I = 0, last = TerrainList.Count - 1; I <= last; I++)
             {
                 if (TerrainList.GetTerrain(I) >= -1)
                 {
-                    PadSize = (byte)(PadSize + 1);
+                    _padSize = (byte)(_padSize + 1);
                 }
             }
 
-            ((AoWHSSet)Engine.HexSpriteSet).PadControl.RegisterPadResource(this, PadSize);
+            ((AoWHSSet)Engine.HexSpriteSet).PadControl.RegisterPadResource(this, _padSize);
         }
 
         // Pad.pas:32

@@ -16,12 +16,12 @@ public sealed partial record Trade(int TurnsTotal) : ProductionOrder
     public override CityAction CityAction => CityAction.Trade;
 
     public override string Name(ProductionControl control) => control.MagicSphere() != MagicSphere.None
-        ? AbilityRules.TranslateResourceString(s_generateExtraPowerText)
-        : AbilityRules.TranslateResourceString(GameText.s_produceMerchandiseText);
+        ? AbilityRules.TranslateResourceString(GenerateExtraPowerText)
+        : AbilityRules.TranslateResourceString(GameText.ProduceMerchandiseText);
 
     public override string NameProgressive(ProductionControl control) => control.MagicSphere() != MagicSphere.None
-        ? AbilityRules.TranslateResourceString(GameText.s_generatingExtraPowerText)
-        : AbilityRules.TranslateResourceString(GameText.s_producingMerchandiseText);
+        ? AbilityRules.TranslateResourceString(GameText.GeneratingExtraPowerText)
+        : AbilityRules.TranslateResourceString(GameText.ProducingMerchandiseText);
 
     public override bool CanExecute(ProductionControl control, ref string reason) => true;
 
@@ -40,5 +40,5 @@ public sealed partial record Trade(int TurnsTotal) : ProductionOrder
 
     public override int ActivityImage(ProductionPlace place) => place.GetMagicSphere() != MagicSphere.None ? 48 : 47;
 
-    internal static readonly string s_generateExtraPowerText = "Generate Extra Power";
+    internal static string GenerateExtraPowerText { get; } = "Generate Extra Power";
 }

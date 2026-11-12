@@ -17,7 +17,7 @@ public partial class CombatAction : EngineObject
         RefCount = 1;
     }
 
-    public int RefCount;
+    public int RefCount { get; private set; }
 
     // Combat2.pas:701
     public override int AddRef()

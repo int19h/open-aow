@@ -64,7 +64,7 @@ public partial class UnitWindow
                 DialogHosts.UnitWindow.RelationIcn.CurrentImage = (int)playerRelation + 11;
                 var race2 = U.GetRace();
                 var playerRelation2 = AoWHSMap.Current.Races.GetRace(race2).GetPlayerRelation(AoWHSMap.Current.SeatedPlayer);
-                var status = AbilityRules.TranslateResourceString(GameTables.s_statusTexts[(int)playerRelation2]);
+                var status = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation2]);
                 DialogHosts.UnitWindow.RelationV.Text = status;
             }
             else
@@ -251,7 +251,7 @@ public partial class UnitWindow
                 }
 
                 DialogHosts.UnitWindow.ItemUseBtn.Visible = false;
-                DialogHosts.UnitWindow.GroundOffset = 0;
+                DialogHosts.UnitWindow._groundOffset = 0;
                 var level = AbilityRules.TranslateResourceString(s_levelText);
                 var hLevel = H.GetLevel();
                 DialogHosts.UnitWindow.Level.Text = level + " " + IntToStr(hLevel);
@@ -500,7 +500,7 @@ public partial class UnitWindow
                 }
 
                 var uAlignment = U.GetAlignment();
-                var alignmentText = AbilityRules.TranslateResourceString(GameText.s_alignmentTexts[(int)uAlignment]);
+                var alignmentText = AbilityRules.TranslateResourceString(GameText.AlignmentTexts[(int)uAlignment]);
                 AAlignmentLbl.Text = alignmentText;
                 DialogHosts.UnitWindow.T1AbilityLB.Items.Clear();
                 DialogHosts.UnitWindow.T1TypeLB.Items.Clear();

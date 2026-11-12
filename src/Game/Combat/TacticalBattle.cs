@@ -23,7 +23,7 @@ public partial class TacticalBattle : Battle
     public TacticalBattle(ECustomNode owner) : base(owner)
     { }
 
-    public sbyte HostPlayer;
+    public sbyte HostPlayer { get; private set; }
 
     // AoWTC.pas:5086
     public override CombatUnit CreateCombatUnit() => new TacticalBattleUnit(null);
@@ -141,7 +141,7 @@ public partial class TacticalBattle : Battle
         if (!ValidateWallCombat())
         {
             SetLogCombatActions(1);
-            SetLogbookHeader(AbilityRules.TranslateResourceString(GameText.s_cannotBreachWallText));
+            SetLogbookHeader(AbilityRules.TranslateResourceString(GameText.CannotBreachWallText));
             CombatResult = CombatResult.CannotBreachWall;
             result = CombatResult;
         }
@@ -150,7 +150,7 @@ public partial class TacticalBattle : Battle
             if (Sides[(int)CombatSideIndex.Defender].GetCount() == Sides[(int)CombatSideIndex.Defender].ConquerCount)
             {
                 SetLogCombatActions(1);
-                SetLogbookHeader(AbilityRules.TranslateResourceString(GameText.s_cannotInflictDamageText));
+                SetLogbookHeader(AbilityRules.TranslateResourceString(GameText.CannotInflictDamageText));
                 CombatResult = CombatResult.CannotInflictDamage;
                 result = CombatResult;
             }
@@ -184,7 +184,7 @@ public partial class TacticalBattle : Battle
                         }
                     }
 
-                    CombatMap.Current._deselectEventsStore.Raise(this);
+                    CombatMap.Current.DeselectEventsStore.Raise(this);
                     seated = -1;
                     for (int I = 0, last = CombatData.Players.GetCount() - 1; I <= last; I++)
                     {

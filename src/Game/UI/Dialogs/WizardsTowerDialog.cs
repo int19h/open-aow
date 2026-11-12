@@ -38,8 +38,8 @@ public partial class WizardsTowerDialog : DataModule
     public Label OfferText;
     public Panel PicPnl;
     public IvTranslator Translator;
-    public ExecuteDoneEvent OnClose;
-    public EnterWizardsTowerEventLog Event;
+    private ExecuteDoneEvent _onClose;
+    private EnterWizardsTowerEventLog _event;
 
     // AoWWizardsTowerDlg.pas:54
     public void ClearEvent()
@@ -47,10 +47,10 @@ public partial class WizardsTowerDialog : DataModule
         EnterWizardsTowerEventLog eventValue;
         ExecuteDoneEvent notify;
         Dlg.Visible = false;
-        notify = OnClose;
-        eventValue = Event;
-        OnClose = null;
-        Event = null;
+        notify = _onClose;
+        eventValue = _event;
+        _onClose = null;
+        _event = null;
         if (notify != null)
         {
             notify(eventValue);
@@ -76,7 +76,7 @@ public partial class WizardsTowerDialog : DataModule
     {
         string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (!Event.Tower.Buy(AoWHSMap.Current.SeatedPlayer, ref reason))
+        if (!_event.Tower.Buy(AoWHSMap.Current.SeatedPlayer, ref reason))
         {
             AoWHSMap.Current.ShowWarning(reason);
         }
@@ -98,7 +98,7 @@ public partial class WizardsTowerDialog : DataModule
         Spell S;
         int X;
         int Y;
-        var wizardsTower = Event.Tower;
+        var wizardsTower = _event.Tower;
         if (wizardsTower.SpellId != 0)
         {
             S = AoWHSSet.Current.SpellControl.GetSpell(wizardsTower.SpellId);
@@ -127,22 +127,22 @@ public partial class WizardsTowerDialog : DataModule
     {
         WizardsTower tower;
         Spell spell;
-        dialog.OnClose = done;
-        dialog.Event = eventValue;
-        dialog.Event.AddRef();
-        tower = dialog.Event.Tower;
+        dialog._onClose = done;
+        dialog._event = eventValue;
+        dialog._event.AddRef();
+        tower = dialog._event.Tower;
         if (tower.SpellId != 0)
         {
-            var buyCost = dialog.Event.Tower.BuyCost();
-            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_forGoldFormat), [IntToStr(buyCost)]);
+            var buyCost = dialog._event.Tower.BuyCost();
+            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.ForGoldFormat), [IntToStr(buyCost)]);
             dialog.PriceLbl.Text = format + ".";
             spell = AoWHSSet.Current.SpellControl.GetSpell(tower.SpellId);
             dialog.SpellName.Text = spell.SpellName;
             var magicSphere = AbilityRules.TranslateResourceString(GameTables.s_magicSphereTexts[(int)spell.MagicSphere]);
-            var level = AbilityRules.TranslateResourceString(GameText.s_levelText);
+            var level = AbilityRules.TranslateResourceString(GameText.LevelText);
             dialog.SpellClass.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
-            var castingCost = AbilityRules.TranslateResourceString(GameText.s_castingCostText);
-            var mana = AbilityRules.TranslateResourceString(GameText.s_manaText);
+            var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
+            var mana = AbilityRules.TranslateResourceString(GameText.ManaText);
             dialog.SpellCost.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
             var text = spell.SpellText.Text;
             dialog.ResearchMemo.Items.Text = text;
@@ -150,7 +150,7 @@ public partial class WizardsTowerDialog : DataModule
         else
         {
             dialog.PriceLbl.Text = "";
-            var none = AbilityRules.TranslateResourceString(GameTables.s_noneText);
+            var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
             dialog.SpellName.Text = none;
             dialog.SpellClass.Text = "";
             dialog.SpellCost.Text = "";

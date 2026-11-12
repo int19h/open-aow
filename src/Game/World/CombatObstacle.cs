@@ -18,8 +18,8 @@ public partial class CombatObstacle : MultiHexMapObject
     // CombatObstacle.pas:94
     public new const int ClassId = 2229546;
 
-    public CombatObstacleShadow Shadow;
-    public CombatObstacleOverlay _overlay;
+    private CombatObstacleShadow _shadow;
+    private CombatObstacleOverlay _overlay;
 
     // CombatObstacle.pas:97
     public override void Dispose()
@@ -94,13 +94,13 @@ public partial class CombatObstacle : MultiHexMapObject
     // CombatObstacle.pas:193
     public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!_status.Contains(MapObjectStatusElement.Visible))
+        if (!Status.Contains(MapObjectStatusElement.Visible))
         {
             base.MakeVisible(visibilityList);
-            if (Shadow != null)
+            if (_shadow != null)
             {
-                var showPriority = Shadow.GetShowPriority();
-                visibilityList.AddSortChild(Shadow, showPriority);
+                var showPriority = _shadow.GetShowPriority();
+                visibilityList.AddSortChild(_shadow, showPriority);
             }
 
             if (_overlay != null)
@@ -125,15 +125,15 @@ public partial class CombatObstacle : MultiHexMapObject
     {
         if (_resource.ImageSequenceList.GetImageSequence(40) != null)
         {
-            if (Shadow != null)
+            if (_shadow != null)
             {
                 DestroyShadow();
             }
 
             if (AoWHSMap.Current == null || AoWHSMap.Current.ShowUnitShadows)
             {
-                Shadow = new CombatObstacleShadow(null);
-                Shadow.Obstacle = this;
+                _shadow = new CombatObstacleShadow(null);
+                _shadow.Obstacle = this;
             }
         }
     }
@@ -141,15 +141,15 @@ public partial class CombatObstacle : MultiHexMapObject
     // CombatObstacle.pas:138
     public void DestroyShadow()
     {
-        if (Shadow != null)
+        if (_shadow != null)
         {
             if (GetVisible())
             {
-                CombatMap.Current.DynamicVisibleHexSprite.RemoveChild(Shadow);
+                CombatMap.Current.DynamicVisibleHexSprite.RemoveChild(_shadow);
             }
 
-            Shadow?.Dispose();
-            Shadow = null;
+            _shadow?.Dispose();
+            _shadow = null;
         }
     }
 
@@ -220,7 +220,7 @@ public partial class CombatObstacle : MultiHexMapObject
         public override int ResourceUserClassId() => 2229546;
 
         // CombatObstacle.pas:242
-        public override string ResourceEditName() => "Combat " + AbilityRules.TranslateResourceString(GameText.s_obstacleText);
+        public override string ResourceEditName() => "Combat " + AbilityRules.TranslateResourceString(GameText.ObstacleText);
 
     }
 

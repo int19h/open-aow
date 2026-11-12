@@ -12,12 +12,13 @@ public partial class AIGroupManager : AIGroupList
     // AIGroup.pas:564
     public AIGroupManager(ECustomNode owner) : base(owner)
     {
-        NextId = 1;
+        _nextId = 1;
         RegisteredClasses = new List<AIGroupClass>();
     }
 
-    public int NextId;
-    public List<AIGroupClass> RegisteredClasses;
+    private int _nextId;
+
+    public List<AIGroupClass> RegisteredClasses { get; }
 
     // AIGroup.pas:571
     public override void Dispose()
@@ -30,7 +31,7 @@ public partial class AIGroupManager : AIGroupList
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwIntegerEx(ref NextId, 1, 30);
+        stream.rwIntegerEx(ref _nextId, 1, 30);
     }
 
     // AIGroup.pas:583
@@ -88,7 +89,7 @@ public partial class AIGroupManager : AIGroupList
     // AIGroup.pas:624
     public int CreateUniqueId()
     {
-        int result = NextId;
+        int result = _nextId;
         while (IndexOfId(result) != -1)
         {
             result += 1;
@@ -98,7 +99,7 @@ public partial class AIGroupManager : AIGroupList
             }
         }
 
-        NextId = result + 1;
+        _nextId = result + 1;
         return result;
     }
 

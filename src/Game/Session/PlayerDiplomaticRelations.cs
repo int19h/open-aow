@@ -13,19 +13,20 @@ public partial class PlayerDiplomaticRelations : EngineObject
     // Player.PAS:78
     public PlayerDiplomaticRelations(ECustomNode owner) : base(owner)
     {
-        Relations = new ByteList();
-        History = new ENode(null);
+        _relations = new ByteList();
+        _history = new ENode(null);
     }
 
-    public Player Player;
-    public ByteList Relations;
-    public ENode History;
+    public Player Player { get; set; }
+
+    private ByteList _relations;
+    private ENode _history;
 
     // Player.PAS:85
     public override void Dispose()
     {
-        Relations?.Dispose();
-        History?.Dispose();
+        _relations?.Dispose();
+        _history?.Dispose();
         base.Dispose();
     }
 
@@ -33,11 +34,11 @@ public partial class PlayerDiplomaticRelations : EngineObject
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwStreamProc(20, Relations.LoadFromStream, Relations.SaveToStream);
-        stream.rwEObject(History, 21);
+        stream.rwStreamProc(20, _relations.LoadFromStream, _relations.SaveToStream);
+        stream.rwEObject(_history, 21);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
-            Relations.Default = (int)DiplomaticRelation.Unknown;
+            _relations.Default = (int)DiplomaticRelation.Unknown;
         }
     }
 
@@ -50,7 +51,7 @@ public partial class PlayerDiplomaticRelations : EngineObject
             ValidateHistory();
             if (Player.LegacyNewRelations.Count != 0)
             {
-                Relations.Assign(Player.LegacyNewRelations);
+                _relations.Assign(Player.LegacyNewRelations);
                 Player.LegacyNewRelations.Clear();
             }
 
@@ -83,9 +84,9 @@ public partial class PlayerDiplomaticRelations : EngineObject
     public DiplomaticRelation GetDiplomaticRelation(sbyte player)
     {
         DiplomaticRelation result;
-        if (player < Relations.Count)
+        if (player < _relations.Count)
         {
-            result = (DiplomaticRelation)Relations.List[player];
+            result = (DiplomaticRelation)_relations.List[player];
         }
         else
         {
@@ -98,7 +99,7 @@ public partial class PlayerDiplomaticRelations : EngineObject
     // Player.PAS:107
     public void SetDiplomaticRelation(sbyte player, DiplomaticRelation value)
     {
-        Relations[player] = (byte)value;
+        _relations[player] = (byte)value;
         if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && AoWHSMap.Current.Day > 0)
         {
             GetHistory(player).Add(value, AoWHSMap.Current.Day);
@@ -106,20 +107,20 @@ public partial class PlayerDiplomaticRelations : EngineObject
     }
 
     // Player.PAS:114
-    public DiplomaticRelationHistoryList GetHistory(sbyte player) => (DiplomaticRelationHistoryList)History._children.List[player - 1];
+    public DiplomaticRelationHistoryList GetHistory(sbyte player) => (DiplomaticRelationHistoryList)_history._children.List[player - 1];
 
     // Player.PAS:119
     public void ValidateHistory()
     {
-        while (History.Count + 1 < AoWHSMap.Current.Players.Count)
+        while (_history.Count + 1 < AoWHSMap.Current.Players.Count)
         {
-            new DiplomaticRelationHistoryList(null).Owner = History;
+            new DiplomaticRelationHistoryList(null).Owner = _history;
         }
 
-        while (History.Count + 1 > AoWHSMap.Current.Players.Count)
+        while (_history.Count + 1 > AoWHSMap.Current.Players.Count)
         {
-            var count = History.Count;
-            History.Children[count - 1]?.Dispose();
+            var count = _history.Count;
+            _history.Children[count - 1]?.Dispose();
         }
     }
 

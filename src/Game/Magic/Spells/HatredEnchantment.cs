@@ -33,7 +33,7 @@ public partial class HatredEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:833
     public HatredEnchantment(ECustomNode owner) : base(owner)
     {
-        Name = AbilityRules.TranslateResourceString(GameText.s_hatredText);
+        Name = AbilityRules.TranslateResourceString(GameText.HatredText);
         EnchantmentType = GlobalEnchantmentType.Hatred;
         DispelMana = 50;
     }

@@ -14,18 +14,19 @@ public partial class SpellCaster : EngineObject
     // Spells.PAS:748
     public SpellCaster(ECustomNode owner) : base(owner)
     {
-        CasterRefCount = 1;
+        _casterRefCount = 1;
     }
 
-    public int CasterSpellId;
-    public int CasterSourceId;
-    public int CasterRefCount;
+    public int CasterSpellId { get; set; }
+    public int CasterSourceId { get; set; }
+
+    private int _casterRefCount;
 
     // Spells.PAS:753
     public override int AddRef()
     {
-        CasterRefCount += 1;
-        return CasterRefCount;
+        _casterRefCount += 1;
+        return _casterRefCount;
     }
 
     // Spells.PAS:758
@@ -33,8 +34,8 @@ public partial class SpellCaster : EngineObject
     {
         int count;
         int releasedCount;
-        CasterRefCount -= 1;
-        count = CasterRefCount;
+        _casterRefCount -= 1;
+        count = _casterRefCount;
         releasedCount = count;
         if (count == 0)
         {

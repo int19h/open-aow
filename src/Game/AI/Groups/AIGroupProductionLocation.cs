@@ -13,29 +13,30 @@ public partial class AIGroupProductionLocation : EngineObject
     // AIGroup.pas:887
     public AIGroupProductionLocation(ECustomNode owner) : base(owner)
     {
-        RefCount = 1;
+        _refCount = 1;
     }
 
-    public int RefCount;
-    public ProductionControl ProductionControl;
-    public MapCoordinate Location;
-    public int MovePoints;
-    public int TransporterId;
-    public int PathStrength;
+    private int _refCount;
+
+    public ProductionControl ProductionControl { get; set; }
+    public MapCoordinate Location { get; set; }
+    public int MovePoints { get; set; }
+    public int TransporterId { get; set; }
+    public int PathStrength { get; set; }
 
     // AIGroup.pas:892
     public override int AddRef()
     {
-        RefCount += 1;
-        return RefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // AIGroup.pas:897
     public override int Release()
     {
-        RefCount -= 1;
-        int result = RefCount;
-        if (RefCount == 0)
+        _refCount -= 1;
+        int result = _refCount;
+        if (_refCount == 0)
         {
             Dispose();
         }

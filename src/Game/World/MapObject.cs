@@ -20,7 +20,7 @@ public partial class MapObject : HexSprite
     public new const int ClassId = 65878;
 
     protected internal MapObjectResource _resource;
-    protected internal Set<MapObjectStatusElement> _status;
+    private Set<MapObjectStatusElement> _status;
 
     // MAPOBJ.PAS:88
     protected internal bool GetResourceLinked() => _status.Contains(MapObjectStatusElement.ResourceLinked);
@@ -41,7 +41,7 @@ public partial class MapObject : HexSprite
     // MAPOBJ.PAS:138
     public override sbyte GetTerrain(int index)
     {
-        sbyte result = _resource._terrainList.GetTerrain(index);
+        sbyte result = _resource.TerrainList.GetTerrain(index);
         if (_status.Contains(MapObjectStatusElement.EditMode) && result >= 0)
         {
             result = -1;
@@ -53,16 +53,16 @@ public partial class MapObject : HexSprite
     // MAPOBJ.PAS:145
     public override void SetTerrain(int index, sbyte value)
     {
-        _resource._terrainList.SetTerrain(index, value);
+        _resource.TerrainList.SetTerrain(index, value);
     }
 
     // MAPOBJ.PAS:150
-    public override int GetTerrainCount() => _resource._terrainList._count;
+    public override int GetTerrainCount() => _resource.TerrainList._count;
 
     // MAPOBJ.PAS:155
     public override sbyte GetOverlay(int index)
     {
-        sbyte result = _resource._terrainList.GetOverlay(index);
+        sbyte result = _resource.TerrainList.GetOverlay(index);
         if (_status.Contains(MapObjectStatusElement.EditMode) && result >= 0)
         {
             result = -1;
@@ -74,11 +74,11 @@ public partial class MapObject : HexSprite
     // MAPOBJ.PAS:162
     public override void SetOverlay(int index, sbyte value)
     {
-        _resource._terrainList.SetOverlay(index, value);
+        _resource.TerrainList.SetOverlay(index, value);
     }
 
     // MAPOBJ.PAS:167
-    public override int GetOverlayCount() => _resource._terrainList._count;
+    public override int GetOverlayCount() => _resource.TerrainList._count;
 
     // MAPOBJ.PAS:16
     public override byte GetLevel() => _resource._level;
@@ -109,21 +109,21 @@ public partial class MapObject : HexSprite
     public override sbyte GetHexX()
     {
         Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 47);
-        return ((MapField)Owner)._hexX;
+        return ((MapField)Owner).HexX;
     }
 
     // MAPOBJ.PAS:51
     public override sbyte GetHexY()
     {
         Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 53);
-        return ((MapField)Owner)._hexY;
+        return ((MapField)Owner).HexY;
     }
 
     // MAPOBJ.PAS:57
     public override sbyte GetHexLevel()
     {
         Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 59);
-        return ((MapField)Owner)._hexLevel;
+        return ((MapField)Owner).HexLevel;
     }
 
     // MAPOBJ.PAS:40
@@ -141,7 +141,7 @@ public partial class MapObject : HexSprite
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(((MapField)Owner)._hexX, ((MapField)Owner)._hexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
         return _resource._showPriorityOffset + (pixelY << 13) + pixelX;
     }
 
@@ -163,14 +163,14 @@ public partial class MapObject : HexSprite
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(((MapField)Owner)._hexX, ((MapField)Owner)._hexY, ref pixelX, ref pixelY);
-        if (_resource._imageSequenceList == null)
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        if (_resource.ImageSequenceList == null)
         {
-            _resource._imageLibrary.Get(0).Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface);
+            _resource.ImageLibrary.Get(0).Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface);
         }
         else
         {
-            _resource.ShowComplexImage(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, 0, (uint)(((MapField)Owner)._hexX + ((MapField)Owner)._hexY * 16));
+            _resource.ShowComplexImage(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, 0, (uint)(((MapField)Owner).HexX + ((MapField)Owner).HexY * 16));
         }
     }
 
@@ -178,7 +178,7 @@ public partial class MapObject : HexSprite
     public override bool PlaceOnMap()
     {
         Connect();
-        if (_resource._terrainList.GetTerrain(0) >= 0 || _resource._terrainList.GetOverlay(0) >= 0)
+        if (_resource.TerrainList.GetTerrain(0) >= 0 || _resource.TerrainList.GetOverlay(0) >= 0)
         {
             ((MapField)Owner).UpdateTerrain();
         }
@@ -186,13 +186,13 @@ public partial class MapObject : HexSprite
         if (GetLevel() <= 15)
         {
             var mapField = (MapField)Owner;
-            ((MapLevel)mapField.Owner)._map.InvalidateStaticScene(mapField._hexX, mapField._hexY, mapField._hexLevel);
+            ((MapLevel)mapField.Owner).Map.InvalidateStaticScene(mapField.HexX, mapField.HexY, mapField.HexLevel);
         }
 
         if (!GetEditMode())
         {
             var mapField = (MapField)Owner;
-            ((MapLevel)mapField.Owner)._map.TerrainChangedRadius(mapField._hexX, mapField._hexY, mapField._hexLevel, 0);
+            ((MapLevel)mapField.Owner).Map.TerrainChangedRadius(mapField.HexX, mapField.HexY, mapField.HexLevel, 0);
         }
 
         return true;
@@ -208,7 +208,7 @@ public partial class MapObject : HexSprite
             {
                 mapField = (MapField)Owner;
                 Disconnect();
-                if (!((MapLevel)mapField.Owner)._map._status.Contains(HexSpriteMapStatusElement.Destroying))
+                if (!((MapLevel)mapField.Owner).Map.Status.Contains(HexSpriteMapStatusElement.Destroying))
                 {
                     if (GetTerrain(0) >= 0 || GetOverlay(0) >= 0)
                     {
@@ -217,13 +217,13 @@ public partial class MapObject : HexSprite
 
                     if (GetLevel() <= 15 && GetVisible())
                     {
-                        ((MapLevel)mapField.Owner)._map._staticSceneInvalid = true;
+                        ((MapLevel)mapField.Owner).Map.StaticSceneInvalid = true;
                     }
                 }
 
                 if (!GetEditMode())
                 {
-                    ((MapLevel)mapField.Owner)._map.TerrainChangedRadius(mapField._hexX, mapField._hexY, mapField._hexLevel, 0);
+                    ((MapLevel)mapField.Owner).Map.TerrainChangedRadius(mapField.HexX, mapField.HexY, mapField.HexLevel, 0);
                 }
             }
 
@@ -303,11 +303,11 @@ public partial class MapObject : HexSprite
         {
             if (GetLevel() <= 15)
             {
-                ((MapLevel)mapField.Owner)._mapContainer._map._staticVisibleHexSprite.RemoveChild(this);
+                ((MapLevel)mapField.Owner).MapContainer.Map.StaticVisibleHexSprite.RemoveChild(this);
             }
             else
             {
-                ((MapLevel)mapField.Owner)._mapContainer._map._dynamicVisibleHexSprite.RemoveChild(this);
+                ((MapLevel)mapField.Owner).MapContainer.Map.DynamicVisibleHexSprite.RemoveChild(this);
             }
 
             SetVisible(false);
@@ -358,7 +358,7 @@ public partial class MapObject : HexSprite
     }
 
     // MAPOBJ.PAS:126
-    public override bool CanSelect(int pixelX, int pixelY) => _resource._engine._hexSpriteMap._status.Contains(HexSpriteMapStatusElement.Editting) && _resource._terrainList._count != 0 && (_resource._terrainList.GetTerrain(0) >= 0 || _resource._terrainList.GetOverlay(0) >= 0);
+    public override bool CanSelect(int pixelX, int pixelY) => _resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting) && _resource.TerrainList._count != 0 && (_resource.TerrainList.GetTerrain(0) >= 0 || _resource.TerrainList.GetOverlay(0) >= 0);
 
     // MAPOBJ.PAS:172
     public override void Select()
@@ -390,7 +390,7 @@ public partial class MapObject : HexSprite
     }
 
     // MAPOBJ.PAS:63
-    public virtual MapObjectResourceList GetResourceList(GameEngine engine) => engine._hexSpriteSet._mapObjectResourceList;
+    public virtual MapObjectResourceList GetResourceList(GameEngine engine) => engine.HexSpriteSet.MapObjectResourceList;
 
     // MAPOBJ.PAS:68
     public virtual void SetResource(MapObjectResource value)
@@ -404,7 +404,7 @@ public partial class MapObject : HexSprite
         bool result;
         HexSprite hexSprite;
         MapField mapField;
-        if (hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer._width && hexY < mapContainer._height && hexLevel < mapContainer._levelCount)
+        if (hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount)
         {
             mapField = mapContainer.GetField(hexX, hexY, hexLevel);
             hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
@@ -435,6 +435,6 @@ public partial class MapObject : HexSprite
     public MapObjectResource Resource { get => _resource; set => SetResource(value); }
     public int ResourceId { get => GetResourceId(); set => SetResourceId(value); }
     public bool ResourceLinked { get => GetResourceLinked(); set => SetResourceLinked(value); }
-    public Set<MapObjectStatusElement> Status { get => _status; }
+    public Set<MapObjectStatusElement> Status { get => _status; protected set => _status = value; }
 
 }

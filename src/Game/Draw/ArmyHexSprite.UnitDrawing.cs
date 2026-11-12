@@ -88,13 +88,13 @@ public partial class ArmyHexSprite
                         frame = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (frame != -1)
                         {
-                            sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + UnitYOffset, lockedSurface);
+                            sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + _unitYOffset, lockedSurface);
                         }
 
                         sequence = sequence.Next;
                     }
 
-                    ShowEnchantments(pixelXSurface, pixelYSurface + UnitYOffset, lockedSurface);
+                    ShowEnchantments(pixelXSurface, pixelYSurface + _unitYOffset, lockedSurface);
                     if (!Army.Status.Contains(ArmyStatusElement.Selected) || (AoWHSMap.Current.Frame & 6) != 6)
                     {
                         if (FlagId == 32)
@@ -120,13 +120,13 @@ public partial class ArmyHexSprite
                         frame = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (frame != -1)
                         {
-                            sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + UnitYOffset, lockedSurface);
+                            sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + _unitYOffset, lockedSurface);
                         }
 
                         sequence = sequence.Next;
                     }
 
-                    ShowEnchantments(pixelXSurface, pixelYSurface + UnitYOffset, lockedSurface);
+                    ShowEnchantments(pixelXSurface, pixelYSurface + _unitYOffset, lockedSurface);
                     if (Army.Status.Contains(ArmyStatusElement.Selected))
                     {
                         if ((AoWHSMap.Current.Frame & 6) != 6)
@@ -175,7 +175,7 @@ public partial class ArmyHexSprite
                         frame = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (frame != -1)
                         {
-                            sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + UnitYOffset, lockedSurface);
+                            sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + _unitYOffset, lockedSurface);
                         }
 
                         sequence = sequence.Next;

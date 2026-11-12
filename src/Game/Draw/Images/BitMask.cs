@@ -20,8 +20,10 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     public BitMask(CustomImageLibrary owner) : base(owner)
     { }
 
-    internal int _pitch;
-    internal byte[] _maskData;
+    private int _pitch;
+
+    internal byte[] MaskData { get; private set; }
+
     internal int _maskLeft;
     internal int _maskTop;
     internal int _maskWidth;
@@ -100,8 +102,8 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     // ImageLib.pas:4721
     public override void ReleaseDiscardableImageData()
     {
-        _maskData = null;
-        _dataLoaded = false;
+        MaskData = null;
+        DataLoaded = false;
     }
 
     // ImageLib.pas:4727
@@ -109,14 +111,14 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     {
         base.ReadDiscardableImageData(stream);
         AllocateMaskData(_maskWidth, _maskHeight);
-        stream.ReadExactly(_maskData.AsSpan(0, _dataSize));
+        stream.ReadExactly(MaskData.AsSpan(0, _dataSize));
     }
 
     // ImageLib.pas:4734
     public override void WriteDiscardableImageData(Stream stream)
     {
         base.WriteDiscardableImageData(stream);
-        stream.Write(_maskData.AsSpan(0, _dataSize));
+        stream.Write(MaskData.AsSpan(0, _dataSize));
     }
 
     // ImageLib.pas:4740
@@ -152,7 +154,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
             bitCount += 1;
             if (bitCount == 32)
             {
-                BinaryPrimitives.WriteInt32LittleEndian(_maskData.AsSpan(offset, 4), bits);
+                BinaryPrimitives.WriteInt32LittleEndian(MaskData.AsSpan(offset, 4), bits);
 
                 offset += 4;
                 bitCount = 0;
@@ -163,7 +165,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         void FlushBits()
         {
             bits = bits << (32 - bitCount);
-            BinaryPrimitives.WriteInt32LittleEndian(_maskData.AsSpan(offset, 4), bits);
+            BinaryPrimitives.WriteInt32LittleEndian(MaskData.AsSpan(offset, 4), bits);
 
             offset += 4;
             bitCount = 0;
@@ -172,7 +174,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
 
         Clear();
         bool result = true;
-        _dataLoaded = true;
+        DataLoaded = true;
         bits = 0;
         offset = 0;
         bitCount = 0;
@@ -228,12 +230,12 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     // ImageLib.pas:4861
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
     {
-        if (!_dataLoaded)
+        if (!DataLoaded)
         {
             LoadDiscardableImageData();
         }
 
-        ShowBitMask16(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, _maskData, _maskWidth, _maskHeight);
+        ShowBitMask16(X + _xshift + _maskLeft, Y + _yshift + _maskTop, lockedSurface, MaskData, _maskWidth, _maskHeight);
     }
 
     public void AllocateMaskData(int width, int height)
@@ -241,7 +243,7 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
         _pitch = checked(((width + 31) >> 5) * 4);
         _dataSize = checked(_pitch * _maskHeight);
         // GrabImage flushes one extra zero dword after a full final word.
-        _maskData = MemorySurfaces.Reallocate(_maskData, checked(_dataSize + 4));
+        MaskData = MemorySurfaces.Reallocate(MaskData, checked(_dataSize + 4));
     }
 
     internal static int GetPixelInfo(in LockedSurface lockedSurface, int X, int Y)

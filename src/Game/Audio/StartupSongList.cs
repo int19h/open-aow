@@ -27,7 +27,7 @@ public partial class StartupSongList : SongList
             }
             catch
             {
-                name = AbilityRules.TranslateResourceString(GameText.s_fileNotFoundText);
+                name = AbilityRules.TranslateResourceString(GameText.FileNotFoundText);
             }
 
             SongNames.Insert(0, name);

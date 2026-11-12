@@ -34,7 +34,8 @@ public sealed class PreInheritedTests
     private sealed class Leaf : Middle
     {
         private readonly int _initialized = InitializeField();
-        internal int State;
+
+        internal int State { get; private set; }
 
         internal Leaf(ConstructionContext? context, ECustomNode? owner) : base(context, owner) => s_events.Add("leaf body");
 

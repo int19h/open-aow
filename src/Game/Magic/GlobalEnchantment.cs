@@ -25,14 +25,16 @@ public partial class GlobalEnchantment : EngineObject
     // Spells.PAS:2471
     public GlobalEnchantment(ECustomNode owner) : base(owner)
     {
-        RefCount = 1;
+        _refCount = 1;
         EnchantmentMode = Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
     }
 
     public int _enchantmentId;
-    public int RefCount;
-    public Set<GlobalEnchantmentStatusElement> EnchantmentStatus;
-    public Set<GlobalEnchantmentModeElement> EnchantmentMode;
+    private int _refCount;
+
+    public Set<GlobalEnchantmentStatusElement> EnchantmentStatus { get; private set; }
+    public Set<GlobalEnchantmentModeElement> EnchantmentMode { get; protected set; }
+
     public int DispelMana;
     public GlobalEnchantmentType EnchantmentType;
     public sbyte PlayerIndex;
@@ -65,16 +67,16 @@ public partial class GlobalEnchantment : EngineObject
     // Spells.PAS:2477
     public override int AddRef()
     {
-        RefCount += 1;
-        return RefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // Spells.PAS:2482
     public override int Release()
     {
         int count;
-        RefCount -= 1;
-        count = RefCount;
+        _refCount -= 1;
+        count = _refCount;
         int result = count;
         if (count == 0)
         {
@@ -133,7 +135,7 @@ public partial class GlobalEnchantment : EngineObject
         bool result;
         if (EnchantmentType != GlobalEnchantmentType.None && AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(EnchantmentType))
         {
-            reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_isAlreadyActiveFormat), [Name]);
+            reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.IsAlreadyActiveFormat), [Name]);
             result = false;
         }
         else
@@ -187,7 +189,7 @@ public partial class GlobalEnchantment : EngineObject
                 log = new GlobalEnchantmentEventLog(null);
                 log.EnchantmentPlayer = player;
                 log._player = player;
-                log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_castFormat), [Name]);
+                log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.CastFormat), [Name]);
                 EventLog.DistributeEventLog(log, false);
                 log.Release();
             }
@@ -276,7 +278,7 @@ public partial class GlobalEnchantment : EngineObject
                     log.EnchantmentPlayer = PlayerIndex;
                     log.SetLocation(location.X, location.Y, location.MapLevel);
                     var name = GetName();
-                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_removedFormat), [name]);
+                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.RemovedFormat), [name]);
                     AoWHSMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
                     log.Release();
                 }

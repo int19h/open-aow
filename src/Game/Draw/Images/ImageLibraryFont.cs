@@ -11,11 +11,11 @@ namespace Aow.Game.Draw.Images;
 public partial class ImageLibraryFont : CustomImageLibrary
 {
 
-    internal int _characterDistance;
-    internal int _height;
-    internal EditCharCase _charCase;
-    internal int _color;
-    internal int _fontColorPaletteIndex;
+    private int _characterDistance;
+    private int _height;
+    private EditCharCase _charCase;
+    private int _color;
+    private int _fontColorPaletteIndex;
 
     // ImageLib.pas:6266
     internal void SetFontColorPaletteIndex(int value)
@@ -48,7 +48,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
         base.LoadFromStream(stream);
         _height = 0;
         I = 0;
-        while (I < _count)
+        while (I < Count)
         {
             if (this[I] != null)
             {
@@ -108,7 +108,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
         for (int I = 1; I <= S.Length; I++)
         {
             C = Cp1252.Byte(S[I - 1]);
-            if (C < _count && this[C] != null && this[C].Height > H)
+            if (C < Count && this[C] != null && this[C].Height > H)
             {
                 H = this[C].Height;
             }
@@ -183,7 +183,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
         for (int I = 1; I <= S.Length; I++)
         {
             C = Cp1252.Byte(S[I - 1]);
-            if (C < _count && this[C] != null)
+            if (C < Count && this[C] != null)
             {
                 this[C].Show(X, Y, lockedSurface, showInfo);
                 X += this[C].Width + _characterDistance;

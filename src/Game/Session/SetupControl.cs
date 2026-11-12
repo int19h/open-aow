@@ -18,25 +18,30 @@ namespace Aow.Game.Session;
 
 public partial class SetupControl : Component
 {
-    public Set<SetupStatusElement> Status;
-    public SetupPhase Phase;
-    public SetupSettings Settings;
-    public MemoryStream Stream;
-    public int UpdateCount;
-    public RemotePlayer RemotePlayer;
-    public Event _onSettingChanged;
-    public LoadMapEvent _onLoadMap;
-    public Event _onSetupMap;
-    public Event _onStart;
-    public Event _onAbort;
-    public CustomizeLeaderEvent _onCustomizeLeader;
-    public Event _onSynchronize;
-    public Event _onPlayerSetupDone;
-    public EjectPlayerEvent _onEjectPlayer;
-    public IncompatibleVersionEvent _onIncompatibleVersion;
-    public SendDataEvent _onSendData;
-    public SendMapEvent _onSendMap;
-    public Event _onSendingMaps;
+    public Set<SetupStatusElement> Status { get; set; }
+
+    private SetupPhase _phase;
+
+    public SetupSettings Settings { get; }
+    public MemoryStream Stream { get; }
+
+    private int _updateCount;
+
+    public RemotePlayer RemotePlayer { get; }
+
+    private Event _onSettingChanged;
+    private LoadMapEvent _onLoadMap;
+    private Event _onSetupMap;
+    private Event _onStart;
+    private Event _onAbort;
+    private CustomizeLeaderEvent _onCustomizeLeader;
+    private Event _onSynchronize;
+    private Event _onPlayerSetupDone;
+    private EjectPlayerEvent _onEjectPlayer;
+    private IncompatibleVersionEvent _onIncompatibleVersion;
+    private SendDataEvent _onSendData;
+    private SendMapEvent _onSendMap;
+    private Event _onSendingMaps;
 
     // AoWSetup.pas:448
     public override void Dispose()
@@ -77,7 +82,7 @@ public partial class SetupControl : Component
             var size = (int)stream.Length;
             SendData(stream.GetBuffer(), size, recipient);
             var streamSize = (int)stream.Length;
-            GameTables.GameEngine.OutputDebugMessage(NetworkSession.s_networkEngineDebugChannel, "SetupPackage Send (ID:" + IntToStr(package.MessageId) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(recipient));
+            GameTables.GameEngine.OutputDebugMessage(NetworkSession.NetworkEngineDebugChannel, "SetupPackage Send (ID:" + IntToStr(package.MessageId) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(recipient));
         }
         finally
         {
@@ -148,7 +153,7 @@ public partial class SetupControl : Component
             if (objectValue is SetupPackage)
             {
                 var sizeLocal = (int)stream.Length;
-                GameTables.GameEngine.OutputDebugMessage(NetworkSession.s_networkEngineDebugChannel, "SetupPackage Received (ID:" + IntToStr(((SetupPackage)objectValue).MessageId) + "/Size:" + IntToStr(sizeLocal) + ") from " + IntToStr(senderId));
+                GameTables.GameEngine.OutputDebugMessage(NetworkSession.NetworkEngineDebugChannel, "SetupPackage Received (ID:" + IntToStr(((SetupPackage)objectValue).MessageId) + "/Size:" + IntToStr(sizeLocal) + ") from " + IntToStr(senderId));
                 PackageReceived((SetupPackage)objectValue, senderId);
             }
 
@@ -175,7 +180,7 @@ public partial class SetupControl : Component
     // AoWSetup.pas:537
     public void ConnectPlayer(RemotePlayer player)
     {
-        if (Phase == SetupPhase.SetupPlayers && (ValidateCompatibleVersion(player.Version) || RemotePlayer.RemoteId == player.RemoteId))
+        if (_phase == SetupPhase.SetupPlayers && (ValidateCompatibleVersion(player.Version) || RemotePlayer.RemoteId == player.RemoteId))
         {
             if (Settings.RemotePlayers.IndexOfRemoteId(player.RemoteId) == -1)
             {
@@ -357,7 +362,7 @@ public partial class SetupControl : Component
 
                 break;
             case 4:
-                if (!GetHost() && Phase == SetupPhase.SetupPlayers)
+                if (!GetHost() && _phase == SetupPhase.SetupPlayers)
                 {
                     Settings.Assign(package.Data, GameTables.GameEngine);
                     I = Settings.RemotePlayers.IndexOfRemoteId(RemotePlayer.RemoteId);
@@ -435,7 +440,7 @@ public partial class SetupControl : Component
             case 10:
                 if (!GetHost())
                 {
-                    Phase = SetupPhase.SendMap;
+                    _phase = SetupPhase.SendMap;
                     if (_onSendingMaps != null)
                     {
                         _onSendingMaps(this);
@@ -467,7 +472,7 @@ public partial class SetupControl : Component
     // AoWSetup.pas:683
     public void LoadMap()
     {
-        Phase = SetupPhase.LoadMap;
+        _phase = SetupPhase.LoadMap;
         if (_onLoadMap != null)
         {
             _onLoadMap(this, GameTables.GameEngine.StartupDirectory + Settings.MapName);
@@ -523,7 +528,7 @@ public partial class SetupControl : Component
     // AoWSetup.pas:715
     public void SendMap()
     {
-        Phase = SetupPhase.SendMap;
+        _phase = SetupPhase.SendMap;
         if (_onSendingMaps != null)
         {
             _onSendingMaps(this);
@@ -569,7 +574,7 @@ public partial class SetupControl : Component
         int I = default;
         if (Settings.MapDay != 0 || !Settings.CustomizeLeaders)
         {
-            Phase = SetupPhase.Synchronize;
+            _phase = SetupPhase.Synchronize;
             if (_onSynchronize != null)
             {
                 _onSynchronize(this);
@@ -634,7 +639,7 @@ public partial class SetupControl : Component
         bool found;
         int I;
         CustomizeLeaderControl cLC = default;
-        Phase = SetupPhase.CustomizeLeaders;
+        _phase = SetupPhase.CustomizeLeaders;
         bool result = false;
         found = false;
         I = 0;
@@ -679,7 +684,7 @@ public partial class SetupControl : Component
         }
         else
         {
-            Phase = SetupPhase.Synchronize;
+            _phase = SetupPhase.Synchronize;
             if (_onSynchronize != null)
             {
                 _onSynchronize(this);
@@ -731,7 +736,7 @@ public partial class SetupControl : Component
                     break;
             }
 
-            GameTables.GameEngine.OutputDebugMessage(NetworkSession.s_networkEngineDebugChannel, S);
+            GameTables.GameEngine.OutputDebugMessage(NetworkSession.NetworkEngineDebugChannel, S);
         }
     }
 
@@ -767,7 +772,7 @@ public partial class SetupControl : Component
         Player Player = default;
         RemotePlayerCommunicationControl remotePlayerCommunicationControl = default;
         LocalPlayerCommunicationControl localPlayerCommunicationControl = default;
-        Phase = SetupPhase.SetupMap;
+        _phase = SetupPhase.SetupMap;
         for (int I = 0, last = Settings.GetCount() - 1; I <= last; I++)
         {
             var settingPlayerId = Settings.GetSettings(I);
@@ -946,9 +951,9 @@ public partial class SetupControl : Component
     // AoWSetup.pas:879
     public void UpdateSettings()
     {
-        if (UpdateCount == 0 && GetHost())
+        if (_updateCount == 0 && GetHost())
         {
-            UpdateCount += 1;
+            _updateCount += 1;
             if (GetRemote())
             {
                 SendMessage(4, Settings, 0, 0, 0);
@@ -959,21 +964,21 @@ public partial class SetupControl : Component
                 _onSettingChanged(this);
             }
 
-            UpdateCount -= 1;
+            _updateCount -= 1;
         }
     }
 
     // AoWSetup.pas:889
     public void BeginUpdate()
     {
-        UpdateCount += 1;
+        _updateCount += 1;
     }
 
     // AoWSetup.pas:893
     public void EndUpdate()
     {
-        UpdateCount -= 1;
-        if (UpdateCount == 0)
+        _updateCount -= 1;
+        if (_updateCount == 0)
         {
             UpdateSettings();
         }
@@ -988,7 +993,7 @@ public partial class SetupControl : Component
     // AoWSetup.pas:906
     public void Reset()
     {
-        Phase = SetupPhase.Idle;
+        _phase = SetupPhase.Idle;
         Status = Set<SetupStatusElement>.Of();
         RemotePlayer.Name = "";
         RemotePlayer.MapValidation = MapValidationInfo.Unknown;
@@ -1657,7 +1662,7 @@ public partial class SetupControl : Component
     public bool SetupHost(string name, byte mode, int remoteId)
     {
         Reset();
-        Phase = SetupPhase.SetupPlayers;
+        _phase = SetupPhase.SetupPlayers;
         this.Settings.HostRemoteId = remoteId;
         this.Settings.ConnectionType = mode;
         switch (mode)
@@ -1696,7 +1701,7 @@ public partial class SetupControl : Component
         RemotePlayer.Version = GameTables.GameEngine.Version;
         Status = Status + Set<SetupStatusElement>.Of(SetupStatusElement.Busy, SetupStatusElement.Remote);
         SendHostMessage(1, RemotePlayer, 0, 0);
-        Phase = SetupPhase.SetupPlayers;
+        _phase = SetupPhase.SetupPlayers;
         return true;
     }
 

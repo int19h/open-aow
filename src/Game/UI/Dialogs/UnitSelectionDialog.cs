@@ -43,8 +43,10 @@ public partial class UnitSelectionDialog : DataModule
     public Label SelectionInfoLbl;
     public Label SelectionLbl;
     public IvTranslator Translator;
-    public UnitSelector Event;
-    public UnitSelectionActivation EventLog;
+
+    public UnitSelector Event { get; set; }
+
+    private UnitSelectionActivation _eventLog;
 
     // AoWUnitSelDlg.pas:66
     public void DrawUnit(int index, int X, int Y, ref LockedSurface lockedSurface)
@@ -89,10 +91,10 @@ public partial class UnitSelectionDialog : DataModule
             Event = null;
         }
 
-        if (EventLog != null)
+        if (_eventLog != null)
         {
-            EventLog.Release();
-            EventLog = null;
+            _eventLog.Release();
+            _eventLog = null;
         }
 
         U1.Checked = false;
@@ -111,8 +113,8 @@ public partial class UnitSelectionDialog : DataModule
     {
         Troop U;
         ResetSelection();
-        EventLog = request;
-        EventLog.AddRef();
+        _eventLog = request;
+        _eventLog.AddRef();
         Event = request.UnitSelector;
         Event.AddRef();
         U = AoWHSMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
@@ -140,10 +142,10 @@ public partial class UnitSelectionDialog : DataModule
             Event = null;
         }
 
-        if (EventLog != null)
+        if (_eventLog != null)
         {
-            EventLog.Release();
-            EventLog = null;
+            _eventLog.Release();
+            _eventLog = null;
         }
     }
 

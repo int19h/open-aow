@@ -9,7 +9,7 @@ public partial class FastBattleCommandList : IDisposable
     // AIGroup.pas:6716
     public FastBattleCommandList(CombatObject source, FastBattle combat, CombatSide side)
     {
-        Commands = new DelphiList<FastBattleCommand>();
+        _commands = new DelphiList<FastBattleCommand>();
         Source = source;
         Combat = combat;
         SourceSide = side;
@@ -23,53 +23,54 @@ public partial class FastBattleCommandList : IDisposable
         }
     }
 
-    public CombatObject Source;
-    public CombatSide SourceSide;
-    public CombatSide TargetSide;
-    public FastBattle Combat;
-    public DelphiList<FastBattleCommand> Commands;
+    public CombatObject Source { get; }
+    public CombatSide SourceSide { get; }
+    public CombatSide TargetSide { get; }
+    public FastBattle Combat { get; }
+
+    private DelphiList<FastBattleCommand> _commands;
 
     // AIGroup.pas:6727
     public virtual void Dispose()
     {
         Clear();
-        Commands?.Dispose();
+        _commands?.Dispose();
     }
 
     // AIGroup.pas:6734
     public void Clear()
     {
-        for (int I = Commands.Count - 1; I >= 0; I--)
+        for (int I = _commands.Count - 1; I >= 0; I--)
         {
-            (Commands.List[I] as IDisposable)?.Dispose();
+            (_commands.List[I] as IDisposable)?.Dispose();
         }
 
-        Commands.Clear();
+        _commands.Clear();
     }
 
     // AIGroup.pas:6742
-    public FastBattleCommand GetCommands(int index) => Commands.List[index];
+    public FastBattleCommand GetCommands(int index) => _commands.List[index];
 
     // AIGroup.pas:6747
-    public int GetCount() => Commands.Count;
+    public int GetCount() => _commands.Count;
 
     // AIGroup.pas:6752
     public void Add(FastBattleCommand command)
     {
-        Commands.Add(command);
+        _commands.Add(command);
     }
 
     // AIGroup.pas:6757
     public void Delete(int index)
     {
-        (Commands.List[index] as IDisposable)?.Dispose();
-        Commands.Delete(index);
+        (_commands.List[index] as IDisposable)?.Dispose();
+        _commands.Delete(index);
     }
 
     // AIGroup.pas:6768
     public void Sort()
     {
-        Commands.Sort(CompareFastBattleCommands);
+        _commands.Sort(CompareFastBattleCommands);
     }
 
     private static int CompareFastBattleCommands(FastBattleCommand item1, FastBattleCommand item2)

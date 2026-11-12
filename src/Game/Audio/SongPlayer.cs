@@ -7,14 +7,14 @@ namespace Aow.Game.Audio;
 // FPauseCount. Plays the songs in turn (Update starts the next one)
 public partial class SongPlayer : IDisposable
 {
-    internal string _currentSong = "";
-    internal Set<StatusElement> _status;
-    internal StringList _songs;
-    internal StringList _songNames;
-    internal int _currentIndex;
-    internal NotifyEvent<SongPlayer> _onSongChange;
-    internal SongStatus _backup;
-    internal int _pauseCount;
+    private string _currentSong = "";
+    private Set<StatusElement> _status;
+    private StringList _songs;
+    private StringList _songNames;
+    private int _currentIndex;
+    private NotifyEvent<SongPlayer> _onSongChange;
+    private SongStatus _backup;
+    private int _pauseCount;
 
     // Sound.pas:870
     internal void SetSongs(StringList value)
@@ -233,7 +233,7 @@ public partial class SongPlayer : IDisposable
         {
             if (_backup != null)
             {
-                _currentIndex = _songs.IndexOf(_backup._fileName);
+                _currentIndex = _songs.IndexOf(_backup.FileName);
                 if (_currentIndex == -1)
                 {
                     Play(0);

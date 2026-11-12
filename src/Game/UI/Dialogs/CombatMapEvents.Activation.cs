@@ -87,12 +87,12 @@ public partial class CombatMapEvents
         DialogHosts.CombatUnitInfo.TCUnitWin.Visible = false;
         if (!CombatMap.Current.PlaySounds)
         {
-            ChatHeight = DialogHosts.ChatWindow.ChatWin.WinHeight;
+            _chatHeight = DialogHosts.ChatWindow.ChatWin.WinHeight;
             DialogHosts.ChatWindow.ChatWin.Alignment.AlignHeight = AlignHeight.Both;
         }
         else
         {
-            ChatHeight = 0;
+            _chatHeight = 0;
         }
 
         if (DialogHosts.General.ChatVisible || !CombatMap.Current.PlaySounds)

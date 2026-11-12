@@ -16,11 +16,12 @@ public partial class TokenEvent : EngineObject
 
     public TokenEvent(ECustomNode owner) : base(owner)
     {
-        _refCount = 1;
+        RefCount = 1;
         _tokenCounter = -1;
     }
 
-    internal int _refCount;
+    internal int RefCount { get; private set; }
+
     internal int _tokenCounter;
 
     // NetworkE.pas:969
@@ -41,15 +42,15 @@ public partial class TokenEvent : EngineObject
     // NetworkE.pas:955
     public override int AddRef()
     {
-        _refCount += 1;
-        return _refCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // NetworkE.pas:961
     public override int Release()
     {
-        _refCount -= 1;
-        int result = _refCount;
+        RefCount -= 1;
+        int result = RefCount;
         if (result == 0)
         {
             Dispose();

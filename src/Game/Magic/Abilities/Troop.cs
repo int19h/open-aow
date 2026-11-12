@@ -33,18 +33,26 @@ namespace Aow.Game.Magic.Abilities;
 public partial class Troop : AbilityOwner
 {
     // SetOwner observes this count before the base body, as in Unit.PAS:95.
-    public int RefCount = 1;
+    public int RefCount { get; private set; } = 1;
+
     public int UnitId;
     public int GroupId;
-    public AIGroup Group;
+
+    public AIGroup Group { get; set; }
+
     // group
     public sbyte Player;
-    public Set<UnitStatusElement> UnitStatus;
+
+    public Set<UnitStatusElement> UnitStatus { get; set; }
+
     public sbyte MoraleValue;
-    public ByteArray10 OffensiveStrength;
-    public byte MaxOffensiveStrength;
-    public int DefensiveStrength;
-    public byte LegacyGroupBehavior;
+    private ByteArray10 _offensiveStrength;
+
+    public byte MaxOffensiveStrength { get; private set; }
+
+    private int _defensiveStrength;
+
+    public byte LegacyGroupBehavior { get; private set; }
 
     // Unit.PAS:108
     public override void Dispose()
@@ -65,20 +73,20 @@ public partial class Troop : AbilityOwner
     // Unit.PAS:518
     public override void SetOwner(ECustomNode owner)
     {
-        if (owner != _owner)
+        if (owner != Owner)
         {
             AddRef();
-            if (_owner != null)
+            if (Owner != null)
             {
-                _owner.RemoveChild(this);
+                Owner.RemoveChild(this);
             }
 
-            _owner = owner;
-            if (_owner != null)
+            SetOwnerWithoutNotify(owner);
+            if (Owner != null)
             {
-                if (_owner.AddChild(this) == -1)
+                if (Owner.AddChild(this) == -1)
                 {
-                    _owner = null;
+                    SetOwnerWithoutNotify(null);
                 }
             }
 
@@ -190,10 +198,10 @@ public partial class Troop : AbilityOwner
     }
 
     // Unit.PAS:590
-    public override string GetOwnerName() => AbilityRules.TranslateResourceString(GameText.s_inherentText);
+    public override string GetOwnerName() => AbilityRules.TranslateResourceString(GameText.InherentText);
 
     // Unit.PAS:171
-    public override Set<AbilitySelectionType> GetAbilitySelectionTypes() => TroopConstants.s_defaultAbilitySelectionTypes;
+    public override Set<AbilitySelectionType> GetAbilitySelectionTypes() => TroopConstants.DefaultAbilitySelectionTypes;
 
     // Unit.PAS:1411
     public override void Changed()
@@ -870,22 +878,22 @@ public partial class Troop : AbilityOwner
                 {
                     if (count == 0)
                     {
-                        messages.Text = AbilityRules.TranslateResourceString(GameText.s_refugeJoinText);
+                        messages.Text = AbilityRules.TranslateResourceString(GameText.RefugeJoinText);
                     }
                     else
                     {
-                        messages.Text = AbilityRules.TranslateResourceString(GameText.s_refugeesJoinText);
+                        messages.Text = AbilityRules.TranslateResourceString(GameText.RefugeesJoinText);
                     }
                 }
                 else
                 {
                     if (count == 0)
                     {
-                        messages.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_bribeUnitJoinFormat), [IntToStr(amount)]);
+                        messages.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.BribeUnitJoinFormat), [IntToStr(amount)]);
                     }
                     else
                     {
-                        messages.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_bribeUnitsJoinFormat), [IntToStr(amount)]);
+                        messages.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.BribeUnitsJoinFormat), [IntToStr(amount)]);
                     }
                 }
 
@@ -1261,10 +1269,10 @@ public partial class Troop : AbilityOwner
     // Unit.PAS:620
     public void UpdateDefensiveStrength()
     {
-        DefensiveStrength = (GetDefense() + 10 + GetResistance()) * (GetHitPoints() + 10);
-        if (DefensiveStrength < 0)
+        _defensiveStrength = (GetDefense() + 10 + GetResistance()) * (GetHitPoints() + 10);
+        if (_defensiveStrength < 0)
         {
-            DefensiveStrength = 1;
+            _defensiveStrength = 1;
         }
     }
 
@@ -1277,10 +1285,10 @@ public partial class Troop : AbilityOwner
             UpdateOffensiveStrength();
         }
 
-        int result = OffensiveStrength[(int)damageType];
+        int result = _offensiveStrength[(int)damageType];
         if (result != 0)
         {
-            result = (result + 10) * DefensiveStrength;
+            result = (result + 10) * _defensiveStrength;
         }
 
         return result;
@@ -1297,7 +1305,7 @@ public partial class Troop : AbilityOwner
             UpdateOffensiveStrength();
         }
 
-        if (damageTypes != TroopConstants.s_allDamageTypes)
+        if (damageTypes != TroopConstants.AllDamageTypes)
         {
             result = 0;
             for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
@@ -1305,23 +1313,23 @@ public partial class Troop : AbilityOwner
                 damageType = (DamageType)damageTypeOrdinal;
                 if (damageTypes.Contains(damageType))
                 {
-                    if (result < OffensiveStrength[(int)damageType])
+                    if (result < _offensiveStrength[(int)damageType])
                     {
-                        result = OffensiveStrength[(int)damageType];
+                        result = _offensiveStrength[(int)damageType];
                     }
                 }
             }
 
             if (result != 0)
             {
-                result = (result + 10) * DefensiveStrength;
+                result = (result + 10) * _defensiveStrength;
             }
         }
         else
         {
             if (MaxOffensiveStrength != 0)
             {
-                result = (MaxOffensiveStrength + 10) * DefensiveStrength;
+                result = (MaxOffensiveStrength + 10) * _defensiveStrength;
             }
             else
             {
@@ -2462,7 +2470,7 @@ public partial class Troop : AbilityOwner
     {
         var abilities = AoWHSSet.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
         MaxOffensiveStrength = 0;
-        OffensiveStrength = default;
+        _offensiveStrength = default;
         for (int i = abilities.Count - 1; i >= 0; i--)
         {
             var ability = abilities.GetAbility(i);
@@ -2476,8 +2484,8 @@ public partial class Troop : AbilityOwner
             if (types == default) continue;
             if (MaxOffensiveStrength < strength) MaxOffensiveStrength = (byte)strength;
             for (int kind = (int)DamageType.Fire; kind <= (int)DamageType.None; kind++)
-                if (types.Contains((DamageType)kind) && OffensiveStrength[kind] < strength)
-                    OffensiveStrength[kind] = (byte)strength;
+                if (types.Contains((DamageType)kind) && _offensiveStrength[kind] < strength)
+                    _offensiveStrength[kind] = (byte)strength;
         }
     }
 

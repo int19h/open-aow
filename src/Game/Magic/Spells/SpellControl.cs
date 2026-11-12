@@ -21,7 +21,7 @@ public partial class SpellControl : EngineObject
         RegisteredSpells = new List<Spell>();
     }
 
-    public List<Spell> RegisteredSpells;
+    public List<Spell> RegisteredSpells { get; init; }
 
     // Spells.PAS:582
     public override void Dispose()

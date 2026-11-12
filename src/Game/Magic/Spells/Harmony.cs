@@ -15,7 +15,7 @@ public partial class Harmony : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:969
     public Harmony(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_harmonyText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.HarmonyText);
         SpellId = 47;
         SpellType = SpellType.Global;
         BaseManaCost = 15;

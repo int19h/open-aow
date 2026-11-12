@@ -112,7 +112,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         var window = new RelationWindow(owner);
         window.SBGoldSlid = new HorizontalScrollBar(owner);
         window.SBGoldV = new Label(owner);
-        window.SBGoldSlid._position = 17;
+        window.SBGoldSlid.SetPositionUnclamped(17);
 
         window.SBGoldSlidChange();
 
@@ -254,7 +254,8 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         private UIGraphics _graphics = null!;
         private UIFonts _font = null!;
         private General _general = null!;
-        internal EmailGameSettingsDialog Dialog = null!;
+
+        internal EmailGameSettingsDialog Dialog { get; } = null!;
 
         public Host()
         {

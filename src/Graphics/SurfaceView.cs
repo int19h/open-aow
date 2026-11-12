@@ -11,9 +11,10 @@ namespace Aow.Graphics;
 public readonly ref struct SurfaceView
 {
     public readonly Span<byte> Memory;
-    public readonly int Start;
-    public readonly int Pitch;
-    public readonly Rect Clip;
+
+    public int Start { get; }
+    public int Pitch { get; }
+    public Rect Clip { get; }
 
     public SurfaceView(Span<byte> memory, int start, int pitch, Rect clip = default)
     {

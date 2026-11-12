@@ -18,41 +18,41 @@ public partial class HorizontalScrollBar : ScrollBar
     // { SetSize: as TAOWVScrollBar.SetSize across; the track length is not kept above zero here }
     public override void SetSize()
     {
-        PositionCount = _max - _min + 1;
-        if (PositionCount < _numberVisible)
+        PositionCount = Max - Min + 1;
+        if (PositionCount < NumberVisible)
         {
-            _numberVisible = PositionCount;
+            SetNumberVisibleUnclamped(PositionCount);
         }
 
         switch (ScrollType)
         {
             case Style.Scroll:
-                _winHeight = _imageLibraryTileBack[_imageLibraryIndexBack].Height;
-                var imageLibraryImageDecrementWidth = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                var imageLibraryImageIncrementWidth = _imageLibraryImageIncrement[_imageLibraryIndexIncrementUp];
-                if (imageLibraryImageDecrementWidth.Width + imageLibraryImageIncrementWidth.Width > _winWidth)
+                SetWinHeightWithoutInvalidate(ImageLibraryTileBack[ImageLibraryIndexBack].Height);
+                var imageLibraryImageDecrementWidth = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                var imageLibraryImageIncrementWidth = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
+                if (imageLibraryImageDecrementWidth.Width + imageLibraryImageIncrementWidth.Width > WinWidth)
                 {
-                    var imageLibraryImageDecrement = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                    var imageLibraryImageIncrement = _imageLibraryImageIncrement[_imageLibraryIndexIncrementUp];
-                    _winWidth = imageLibraryImageDecrement.Width + imageLibraryImageIncrement.Width;
+                    var imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                    var imageLibraryImageIncrement = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
+                    SetWinWidthWithoutInvalidate(imageLibraryImageDecrement.Width + imageLibraryImageIncrement.Width);
                 }
 
-                var imageLibraryImageDecrement2 = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                var imageLibraryImageIncrement2 = _imageLibraryImageIncrement[_imageLibraryIndexIncrementUp];
-                TrackLength = _winWidth - imageLibraryImageDecrement2.Width - imageLibraryImageIncrement2.Width;
-                ThumbLength = TrackLength * _numberVisible / PositionCount;
+                var imageLibraryImageDecrement2 = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                var imageLibraryImageIncrement2 = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
+                TrackLength = WinWidth - imageLibraryImageDecrement2.Width - imageLibraryImageIncrement2.Width;
+                ThumbLength = TrackLength * NumberVisible / PositionCount;
                 switch (ThumbStyle)
                 {
                     case ScrollBarThumbStyle.Icon:
-                        ThumbLength = _thumbImage[_thumbImageIndex].Width;
+                        ThumbLength = ThumbImage[ThumbImageIndex].Width;
                         break;
                     case ScrollBarThumbStyle.Bar:
-                        var thumbStripWidth = _thumbStrip[_thumbImageIndex];
-                        var thumbStrip = _thumbStrip[_thumbImageIndex + 2];
+                        var thumbStripWidth = ThumbStrip[ThumbImageIndex];
+                        var thumbStrip = ThumbStrip[ThumbImageIndex + 2];
                         if (ThumbLength < thumbStripWidth.Width + thumbStrip.Width)
                         {
-                            var imageLibraryLineTab2 = _thumbStrip[_thumbImageIndex];
-                            var imageLibraryLineTab3 = _thumbStrip[_thumbImageIndex + 2];
+                            var imageLibraryLineTab2 = ThumbStrip[ThumbImageIndex];
+                            var imageLibraryLineTab3 = ThumbStrip[ThumbImageIndex + 2];
                             ThumbLength = imageLibraryLineTab2.Width + imageLibraryLineTab3.Width;
                         }
 
@@ -61,21 +61,21 @@ public partial class HorizontalScrollBar : ScrollBar
 
                 break;
             case Style.Slider:
-                _winHeight = _imageLibraryLineBack[_imageLibraryIndexBack].Height;
-                TrackLength = _winWidth;
-                ThumbLength = TrackLength * _numberVisible / PositionCount;
+                SetWinHeightWithoutInvalidate(ImageLibraryLineBack[ImageLibraryIndexBack].Height);
+                TrackLength = WinWidth;
+                ThumbLength = TrackLength * NumberVisible / PositionCount;
                 switch (ThumbStyle)
                 {
                     case ScrollBarThumbStyle.Icon:
-                        ThumbLength = _thumbImage[_thumbImageIndex].Width;
+                        ThumbLength = ThumbImage[ThumbImageIndex].Width;
                         break;
                     case ScrollBarThumbStyle.Bar:
-                        var thumbStripWidth = _thumbStrip[_thumbImageIndex];
-                        var thumbStrip = _thumbStrip[_thumbImageIndex + 2];
+                        var thumbStripWidth = ThumbStrip[ThumbImageIndex];
+                        var thumbStrip = ThumbStrip[ThumbImageIndex + 2];
                         if (ThumbLength < thumbStripWidth.Width + thumbStrip.Width)
                         {
-                            var imageLibraryLineTab2 = _thumbStrip[_thumbImageIndex];
-                            var imageLibraryLineTab3 = _thumbStrip[_thumbImageIndex + 2];
+                            var imageLibraryLineTab2 = ThumbStrip[ThumbImageIndex];
+                            var imageLibraryLineTab3 = ThumbStrip[ThumbImageIndex + 2];
                             ThumbLength = imageLibraryLineTab2.Width + imageLibraryLineTab3.Width;
                         }
 
@@ -84,16 +84,16 @@ public partial class HorizontalScrollBar : ScrollBar
 
                 break;
             case Style.IncrementDecrement:
-                _winHeight = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp].Height;
-                var imageLibraryImageDecrement3 = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                var imageLibraryImageIncrement3 = _imageLibraryImageIncrement[_imageLibraryIndexIncrementUp];
-                _winWidth = imageLibraryImageDecrement3.Width + imageLibraryImageIncrement3.Width;
+                SetWinHeightWithoutInvalidate(ImageLibraryIDecrement[ImageLibraryIndexDecrementUp].Height);
+                var imageLibraryImageDecrement3 = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                var imageLibraryImageIncrement3 = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
+                SetWinWidthWithoutInvalidate(imageLibraryImageDecrement3.Width + imageLibraryImageIncrement3.Width);
                 break;
         }
 
-        if (_position + _numberVisible > PositionCount)
+        if (Position + NumberVisible > PositionCount)
         {
-            _position = PositionCount - _numberVisible;
+            SetPositionUnclamped(PositionCount - NumberVisible);
         }
 
         base.SetSize();
@@ -108,7 +108,7 @@ public partial class HorizontalScrollBar : ScrollBar
         int thumbPosition = default;
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
                 if (_onPreDraw != null)
                 {
@@ -120,37 +120,37 @@ public partial class HorizontalScrollBar : ScrollBar
                     case Style.Scroll:
                         if (HeldPart == 4 && HeldUpdateCount > 0)
                         {
-                            var imageLibraryImageIncrementWidth = _imageLibraryImageIncrement[_imageLibraryIndexIncrementDown];
-                            var imageLibraryImageIncrement = _imageLibraryImageIncrement[_imageLibraryIndexIncrementDown];
-                            var rectangle = new Rect(_window._winLeft + _winLeft + _winWidth - imageLibraryImageIncrement.Width, _window._winTop + _winTop, imageLibraryImageIncrementWidth.Width, _winHeight);
-                            _imageLibraryImageIncrement.DrawTiled(_imageLibraryIndexIncrementDown, rectangle, ref lockedSurface);
+                            var imageLibraryImageIncrementWidth = ImageLibraryImageIncrement[ImageLibraryIndexIncrementDown];
+                            var imageLibraryImageIncrement = ImageLibraryImageIncrement[ImageLibraryIndexIncrementDown];
+                            var rectangle = new Rect(Window.WinLeft + WinLeft + WinWidth - imageLibraryImageIncrement.Width, Window.WinTop + WinTop, imageLibraryImageIncrementWidth.Width, WinHeight);
+                            ImageLibraryImageIncrement.DrawTiled(ImageLibraryIndexIncrementDown, rectangle, ref lockedSurface);
                         }
                         else
                         {
-                            var imageLibraryImageIncrement = _imageLibraryImageIncrement[_imageLibraryIndexIncrementUp];
-                            var imageLibraryImageIncrementWidth = _imageLibraryImageIncrement[_imageLibraryIndexIncrementDown];
-                            var rectangle = new Rect(_window._winLeft + _winLeft + _winWidth - imageLibraryImageIncrementWidth.Width, _window._winTop + _winTop, imageLibraryImageIncrement.Width, _winHeight);
-                            _imageLibraryImageIncrement.DrawTiled(_imageLibraryIndexIncrementUp, rectangle, ref lockedSurface);
+                            var imageLibraryImageIncrement = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
+                            var imageLibraryImageIncrementWidth = ImageLibraryImageIncrement[ImageLibraryIndexIncrementDown];
+                            var rectangle = new Rect(Window.WinLeft + WinLeft + WinWidth - imageLibraryImageIncrementWidth.Width, Window.WinTop + WinTop, imageLibraryImageIncrement.Width, WinHeight);
+                            ImageLibraryImageIncrement.DrawTiled(ImageLibraryIndexIncrementUp, rectangle, ref lockedSurface);
                         }
 
                         if (HeldPart == 1 && HeldUpdateCount > 0)
                         {
-                            var imageLibraryImageDecrement = _imageLibraryIDecrement[_imageLibraryIndexDecrementDown];
-                            var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, imageLibraryImageDecrement.Width, _winHeight);
-                            _imageLibraryIDecrement.DrawTiled(_imageLibraryIndexDecrementDown, rectangle, ref lockedSurface);
+                            var imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementDown];
+                            var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, imageLibraryImageDecrement.Width, WinHeight);
+                            ImageLibraryIDecrement.DrawTiled(ImageLibraryIndexDecrementDown, rectangle, ref lockedSurface);
                         }
                         else
                         {
-                            var imageLibraryImageDecrement = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                            var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, imageLibraryImageDecrement.Width, _winHeight);
-                            _imageLibraryIDecrement.DrawTiled(_imageLibraryIndexDecrementUp, rectangle, ref lockedSurface);
+                            var imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                            var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, imageLibraryImageDecrement.Width, WinHeight);
+                            ImageLibraryIDecrement.DrawTiled(ImageLibraryIndexDecrementUp, rectangle, ref lockedSurface);
                         }
 
-                        var imageLibraryTileBack = _imageLibraryTileBack[_imageLibraryIndexBack];
-                        var imageLibraryImageDecrementWidth = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                        var rectangle2 = new Rect(_window._winLeft + _winLeft + imageLibraryImageDecrementWidth.Width, _window._winTop + _winTop, TrackLength, imageLibraryTileBack.Height);
-                        _imageLibraryTileBack.DrawTiled(_imageLibraryIndexBack, rectangle2, ref lockedSurface);
-                        thumbPosition = TrackLength * _position / PositionCount;
+                        var imageLibraryTileBack = ImageLibraryTileBack[ImageLibraryIndexBack];
+                        var imageLibraryImageDecrementWidth = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                        var rectangle2 = new Rect(Window.WinLeft + WinLeft + imageLibraryImageDecrementWidth.Width, Window.WinTop + WinTop, TrackLength, imageLibraryTileBack.Height);
+                        ImageLibraryTileBack.DrawTiled(ImageLibraryIndexBack, rectangle2, ref lockedSurface);
+                        thumbPosition = TrackLength * Position / PositionCount;
                         if (ThumbLength + thumbPosition > TrackLength)
                         {
                             thumbPosition = TrackLength - ThumbLength;
@@ -159,22 +159,22 @@ public partial class HorizontalScrollBar : ScrollBar
                         switch (ThumbStyle)
                         {
                             case ScrollBarThumbStyle.Icon:
-                                var imageLibraryImageDecrement = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                                var rectangle = new Rect(_window._winLeft + _winLeft + imageLibraryImageDecrement.Width + thumbPosition, _window._winTop + _winTop, ThumbLength, _winHeight);
-                                _thumbImage.DrawTiled(_thumbImageIndex, rectangle, ref lockedSurface);
+                                var imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                                var rectangle = new Rect(Window.WinLeft + WinLeft + imageLibraryImageDecrement.Width + thumbPosition, Window.WinTop + WinTop, ThumbLength, WinHeight);
+                                ThumbImage.DrawTiled(ThumbImageIndex, rectangle, ref lockedSurface);
                                 break;
                             case ScrollBarThumbStyle.Bar:
-                                var imageLibraryImageDecrement2 = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                                var rectangle3 = new Rect(_window._winLeft + _winLeft + imageLibraryImageDecrement2.Width + thumbPosition, _window._winTop + _winTop, ThumbLength, _winHeight);
-                                _thumbStrip.DrawHorizontalStrip(_thumbImageIndex, rectangle3, ref lockedSurface);
+                                var imageLibraryImageDecrement2 = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                                var rectangle3 = new Rect(Window.WinLeft + WinLeft + imageLibraryImageDecrement2.Width + thumbPosition, Window.WinTop + WinTop, ThumbLength, WinHeight);
+                                ThumbStrip.DrawHorizontalStrip(ThumbImageIndex, rectangle3, ref lockedSurface);
                                 break;
                         }
 
                         break;
                     case Style.Slider:
-                        var rectangle4 = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
-                        _imageLibraryLineBack.DrawHorizontalStrip(_imageLibraryIndexBack, rectangle4, ref lockedSurface);
-                        thumbPosition = TrackLength * _position / PositionCount;
+                        var rectangle4 = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        ImageLibraryLineBack.DrawHorizontalStrip(ImageLibraryIndexBack, rectangle4, ref lockedSurface);
+                        thumbPosition = TrackLength * Position / PositionCount;
                         if (ThumbLength + thumbPosition > TrackLength)
                         {
                             thumbPosition = TrackLength - ThumbLength;
@@ -183,12 +183,12 @@ public partial class HorizontalScrollBar : ScrollBar
                         switch (ThumbStyle)
                         {
                             case ScrollBarThumbStyle.Icon:
-                                var rectangle = new Rect(_window._winLeft + _winLeft + thumbPosition, _window._winTop + _winTop, ThumbLength, _winHeight);
-                                _thumbImage.DrawTiled(_thumbImageIndex, rectangle, ref lockedSurface);
+                                var rectangle = new Rect(Window.WinLeft + WinLeft + thumbPosition, Window.WinTop + WinTop, ThumbLength, WinHeight);
+                                ThumbImage.DrawTiled(ThumbImageIndex, rectangle, ref lockedSurface);
                                 break;
                             case ScrollBarThumbStyle.Bar:
-                                var rectangle3 = new Rect(_window._winLeft + _winLeft + thumbPosition, _window._winTop + _winTop, ThumbLength, _winHeight);
-                                _thumbStrip.DrawHorizontalStrip(_thumbImageIndex, rectangle3, ref lockedSurface);
+                                var rectangle3 = new Rect(Window.WinLeft + WinLeft + thumbPosition, Window.WinTop + WinTop, ThumbLength, WinHeight);
+                                ThumbStrip.DrawHorizontalStrip(ThumbImageIndex, rectangle3, ref lockedSurface);
                                 break;
                         }
 
@@ -196,30 +196,30 @@ public partial class HorizontalScrollBar : ScrollBar
                     case Style.IncrementDecrement:
                         if (HeldPart == 4 && HeldUpdateCount > 0)
                         {
-                            var imageLibraryImageIncrementWidth = _imageLibraryImageIncrement[_imageLibraryIndexIncrementDown];
-                            var imageLibraryImageIncrement = _imageLibraryImageIncrement[_imageLibraryIndexIncrementDown];
-                            var rectangle = new Rect(_window._winLeft + _winLeft - imageLibraryImageIncrement.Width, _window._winTop + _winTop + _winHeight, imageLibraryImageIncrementWidth.Width, _winHeight);
-                            _imageLibraryImageIncrement.DrawTiled(_imageLibraryIndexIncrementDown, rectangle, ref lockedSurface);
+                            var imageLibraryImageIncrementWidth = ImageLibraryImageIncrement[ImageLibraryIndexIncrementDown];
+                            var imageLibraryImageIncrement = ImageLibraryImageIncrement[ImageLibraryIndexIncrementDown];
+                            var rectangle = new Rect(Window.WinLeft + WinLeft - imageLibraryImageIncrement.Width, Window.WinTop + WinTop + WinHeight, imageLibraryImageIncrementWidth.Width, WinHeight);
+                            ImageLibraryImageIncrement.DrawTiled(ImageLibraryIndexIncrementDown, rectangle, ref lockedSurface);
                         }
                         else
                         {
-                            var imageLibraryImageIncrementWidth = _imageLibraryImageIncrement[_imageLibraryIndexIncrementUp];
-                            var imageLibraryImageIncrement = _imageLibraryImageIncrement[_imageLibraryIndexIncrementUp];
-                            var rectangle = new Rect(_window._winLeft + _winLeft - imageLibraryImageIncrement.Width, _window._winTop + _winTop + _winHeight, imageLibraryImageIncrementWidth.Width, _winHeight);
-                            _imageLibraryImageIncrement.DrawTiled(_imageLibraryIndexIncrementUp, rectangle, ref lockedSurface);
+                            var imageLibraryImageIncrementWidth = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
+                            var imageLibraryImageIncrement = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
+                            var rectangle = new Rect(Window.WinLeft + WinLeft - imageLibraryImageIncrement.Width, Window.WinTop + WinTop + WinHeight, imageLibraryImageIncrementWidth.Width, WinHeight);
+                            ImageLibraryImageIncrement.DrawTiled(ImageLibraryIndexIncrementUp, rectangle, ref lockedSurface);
                         }
 
                         if (HeldPart == 1 && HeldUpdateCount > 0)
                         {
-                            var imageLibraryImageDecrement = _imageLibraryIDecrement[_imageLibraryIndexDecrementDown];
-                            var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, imageLibraryImageDecrement.Height);
-                            _imageLibraryIDecrement.DrawTiled(_imageLibraryIndexDecrementDown, rectangle, ref lockedSurface);
+                            var imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementDown];
+                            var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, imageLibraryImageDecrement.Height);
+                            ImageLibraryIDecrement.DrawTiled(ImageLibraryIndexDecrementDown, rectangle, ref lockedSurface);
                         }
                         else
                         {
-                            var imageLibraryImageDecrement = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                            var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, imageLibraryImageDecrement.Height);
-                            _imageLibraryIDecrement.DrawTiled(_imageLibraryIndexDecrementUp, rectangle, ref lockedSurface);
+                            var imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                            var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, imageLibraryImageDecrement.Height);
+                            ImageLibraryIDecrement.DrawTiled(ImageLibraryIndexDecrementUp, rectangle, ref lockedSurface);
                         }
 
                         break;
@@ -247,15 +247,15 @@ public partial class HorizontalScrollBar : ScrollBar
         int oldPosition;
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (_visible == true && X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (Visible == true && X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
-            oldPosition = _position;
+            oldPosition = Position;
             Handled = true;
             if (button == MouseButton.Left)
             {
                 HeldUpdateCount = 1;
                 HeldPart = 5;
-                thumbPosition = TrackLength * _position / PositionCount;
+                thumbPosition = TrackLength * Position / PositionCount;
                 if (thumbPosition + ThumbLength > TrackLength)
                 {
                     thumbPosition = TrackLength - ThumbLength;
@@ -263,25 +263,25 @@ public partial class HorizontalScrollBar : ScrollBar
 
                 if (ScrollType != Style.Slider)
                 {
-                    var imageLibraryImageDecrement = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                    if (X < _window._winLeft + _winLeft + imageLibraryImageDecrement.Width - 1)
+                    var imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                    if (X < Window.WinLeft + WinLeft + imageLibraryImageDecrement.Width - 1)
                     {
                         HeldPart = 1;
-                        _position = _position - _smallChange;
-                        if (_min > _position)
+                        SetPositionUnclamped(Position - SmallChange);
+                        if (Min > Position)
                         {
-                            _position = _min;
+                            SetPositionUnclamped(Min);
                         }
                     }
 
-                    var imageLibraryImageIncrement = _imageLibraryImageIncrement[_imageLibraryIndexIncrementUp];
-                    if (X > _window._winLeft + _winLeft + _winWidth - imageLibraryImageIncrement.Width)
+                    var imageLibraryImageIncrement = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
+                    if (X > Window.WinLeft + WinLeft + WinWidth - imageLibraryImageIncrement.Width)
                     {
                         HeldPart = 4;
-                        _position = _position + _smallChange;
-                        if (_max + 1 - _numberVisible < _position)
+                        SetPositionUnclamped(Position + SmallChange);
+                        if (Max + 1 - NumberVisible < Position)
                         {
-                            _position = _max + 1 - _numberVisible;
+                            SetPositionUnclamped(Max + 1 - NumberVisible);
                         }
                     }
                 }
@@ -291,43 +291,43 @@ public partial class HorizontalScrollBar : ScrollBar
                     switch (ScrollType)
                     {
                         case Style.Scroll:
-                            var imageLibraryImageDecrementWidth = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                            bool condition = X > _window._winLeft + _winLeft + imageLibraryImageDecrementWidth.Width;
+                            var imageLibraryImageDecrementWidth = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                            bool condition = X > Window.WinLeft + WinLeft + imageLibraryImageDecrementWidth.Width;
                             if (condition)
                             {
-                                var imageLibraryImageIncrement = _imageLibraryImageIncrement[_imageLibraryIndexIncrementUp];
-                                condition = X < _window._winLeft + _winLeft + thumbPosition + imageLibraryImageIncrement.Width;
+                                var imageLibraryImageIncrement = ImageLibraryImageIncrement[ImageLibraryIndexIncrementUp];
+                                condition = X < Window.WinLeft + WinLeft + thumbPosition + imageLibraryImageIncrement.Width;
                             }
 
                             if (condition)
                             {
-                                var imageLibraryImageDecrement = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                                TrackClickTarget = (X - _window._winLeft - _winLeft - imageLibraryImageDecrement.Width) * PositionCount / TrackLength + _min;
+                                var imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                                TrackClickTarget = (X - Window.WinLeft - WinLeft - imageLibraryImageDecrement.Width) * PositionCount / TrackLength + Min;
                                 HeldPart = 2;
-                                _position = _position - _largeChange;
-                                if (_min > _position)
+                                SetPositionUnclamped(Position - LargeChange);
+                                if (Min > Position)
                                 {
-                                    _position = _min;
+                                    SetPositionUnclamped(Min);
                                 }
                             }
 
-                            var imageLibraryImageDecrement2 = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                            bool test = X > _window._winLeft + _winLeft + imageLibraryImageDecrement2.Width + thumbPosition + ThumbLength;
+                            var imageLibraryImageDecrement2 = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                            bool test = X > Window.WinLeft + WinLeft + imageLibraryImageDecrement2.Width + thumbPosition + ThumbLength;
                             if (test)
                             {
-                                var imageLibraryImageDecrement = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                                test = X < _window._winLeft + _winLeft + _winWidth - imageLibraryImageDecrement.Width;
+                                var imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                                test = X < Window.WinLeft + WinLeft + WinWidth - imageLibraryImageDecrement.Width;
                             }
 
                             if (test)
                             {
-                                var imageLibraryImageDecrement = _imageLibraryIDecrement[_imageLibraryIndexDecrementUp];
-                                TrackClickTarget = (X - _window._winLeft - _winLeft - imageLibraryImageDecrement.Width) * PositionCount / TrackLength + _min;
+                                var imageLibraryImageDecrement = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
+                                TrackClickTarget = (X - Window.WinLeft - WinLeft - imageLibraryImageDecrement.Width) * PositionCount / TrackLength + Min;
                                 HeldPart = 3;
-                                _position = _position + _largeChange;
-                                if (_max + 1 - _numberVisible < _position)
+                                SetPositionUnclamped(Position + LargeChange);
+                                if (Max + 1 - NumberVisible < Position)
                                 {
-                                    _position = _max + 1 - _numberVisible;
+                                    SetPositionUnclamped(Max + 1 - NumberVisible);
                                 }
                             }
 
@@ -338,25 +338,25 @@ public partial class HorizontalScrollBar : ScrollBar
 
                             break;
                         case Style.Slider:
-                            if (X > _window._winLeft + _winLeft && X < _window._winLeft + _winLeft + thumbPosition)
+                            if (X > Window.WinLeft + WinLeft && X < Window.WinLeft + WinLeft + thumbPosition)
                             {
-                                TrackClickTarget = (X - _window._winLeft - _winLeft) * PositionCount / TrackLength + _min;
+                                TrackClickTarget = (X - Window.WinLeft - WinLeft) * PositionCount / TrackLength + Min;
                                 HeldPart = 2;
-                                _position = _position - _largeChange;
-                                if (_min > _position)
+                                SetPositionUnclamped(Position - LargeChange);
+                                if (Min > Position)
                                 {
-                                    _position = _min;
+                                    SetPositionUnclamped(Min);
                                 }
                             }
 
-                            if (X > _window._winLeft + _winLeft + thumbPosition + ThumbLength && X < _window._winLeft + _winLeft + _winWidth)
+                            if (X > Window.WinLeft + WinLeft + thumbPosition + ThumbLength && X < Window.WinLeft + WinLeft + WinWidth)
                             {
-                                TrackClickTarget = (X - _window._winLeft - _winLeft) * PositionCount / TrackLength + _min;
+                                TrackClickTarget = (X - Window.WinLeft - WinLeft) * PositionCount / TrackLength + Min;
                                 HeldPart = 3;
-                                _position = _position + _largeChange;
-                                if (_max + 1 - _numberVisible < _position)
+                                SetPositionUnclamped(Position + LargeChange);
+                                if (Max + 1 - NumberVisible < Position)
                                 {
-                                    _position = _max + 1 - _numberVisible;
+                                    SetPositionUnclamped(Max + 1 - NumberVisible);
                                 }
                             }
 
@@ -370,7 +370,7 @@ public partial class HorizontalScrollBar : ScrollBar
                 }
             }
 
-            if (oldPosition != _position)
+            if (oldPosition != Position)
             {
                 Drawn = false;
                 if (_onChange != null)
@@ -397,7 +397,7 @@ public partial class HorizontalScrollBar : ScrollBar
 
         HeldUpdateCount = 0;
         HeldPart = 0;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (_onMouseUp != null)
@@ -414,15 +414,15 @@ public partial class HorizontalScrollBar : ScrollBar
         Handled = false;
         if (HeldPart == 5 && HeldUpdateCount > 0)
         {
-            _position = (X - TrackClickTarget) * PositionCount / TrackLength + _min;
-            if (_position < _min)
+            SetPositionUnclamped((X - TrackClickTarget) * PositionCount / TrackLength + Min);
+            if (Position < Min)
             {
-                _position = _min;
+                SetPositionUnclamped(Min);
             }
 
-            if (_max + 1 - _numberVisible < _position)
+            if (Max + 1 - NumberVisible < Position)
             {
-                _position = _max + 1 - _numberVisible;
+                SetPositionUnclamped(Max + 1 - NumberVisible);
             }
 
             Drawn = false;
@@ -432,7 +432,7 @@ public partial class HorizontalScrollBar : ScrollBar
             }
         }
 
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (_onMouseMove != null)

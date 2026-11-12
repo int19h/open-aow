@@ -9,29 +9,29 @@ public partial class UnitIndexListCollection : IDisposable
     // Unit.PAS:2413
     public UnitIndexListCollection()
     {
-        Units = new UnitIndexList();
-        CollectionSize = 8;
+        _units = new UnitIndexList();
+        _collectionSize = 8;
     }
 
-    public int CollectionSize;
-    public UnitIndexList Units;
+    private int _collectionSize;
+    private UnitIndexList _units;
 
     // Unit.PAS:2419
     public virtual void Dispose()
     {
-        Units?.Dispose();
+        _units?.Dispose();
     }
 
     // Unit.PAS:2424
     public void LoadFromStream(Stream stream)
     {
-        Units.LoadFromStream(stream);
+        _units.LoadFromStream(stream);
     }
 
     // Unit.PAS:2428
     public void SaveToStream(Stream stream)
     {
-        Units.SaveToStream(stream);
+        _units.SaveToStream(stream);
     }
 
     // Unit.PAS:2432
@@ -40,14 +40,14 @@ public partial class UnitIndexListCollection : IDisposable
         int I;
         int last;
         int result = 0;
-        I = index * CollectionSize;
-        last = CollectionSize + I;
-        if (last > Units.Count)
+        I = index * _collectionSize;
+        last = _collectionSize + I;
+        if (last > _units.Count)
         {
-            last = Units.Count;
+            last = _units.Count;
         }
 
-        while (I < last && Units[I] != -1)
+        while (I < last && _units[I] != -1)
         {
             I += 1;
             result += 1;
@@ -57,10 +57,10 @@ public partial class UnitIndexListCollection : IDisposable
     }
 
     // Unit.PAS:2446
-    public int GetCount() => (Units.Count + (CollectionSize - 1)) / CollectionSize;
+    public int GetCount() => (_units.Count + (_collectionSize - 1)) / _collectionSize;
 
     // Unit.PAS:2450
-    public int GetU(int collection, int index) => Units[index + collection * CollectionSize];
+    public int GetU(int collection, int index) => _units[index + collection * _collectionSize];
 
     // Unit.PAS:2454
     public bool AddUnit(int collection, int unitIndex)
@@ -68,9 +68,9 @@ public partial class UnitIndexListCollection : IDisposable
         bool result;
         int N;
         N = GetCollectionCount(collection);
-        if (N < CollectionSize)
+        if (N < _collectionSize)
         {
-            Units[N + collection * CollectionSize] = unitIndex;
+            _units[N + collection * _collectionSize] = unitIndex;
             result = true;
         }
         else
@@ -90,10 +90,10 @@ public partial class UnitIndexListCollection : IDisposable
         N = GetCollectionCount(collection);
         if (index < N)
         {
-            offset = collection * CollectionSize;
+            offset = collection * _collectionSize;
             unitIndex = offset + index;
-            Units.Delete(unitIndex);
-            Units.Insert(offset + N - 1, -1);
+            _units.Delete(unitIndex);
+            _units.Insert(offset + N - 1, -1);
         }
     }
 

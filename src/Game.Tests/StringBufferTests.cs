@@ -74,7 +74,7 @@ public sealed class StringBufferTests
 
     private sealed class FailingBodyStream : MemoryStream
     {
-        internal int BodyPosition;
+        internal int BodyPosition { get; init; }
 
         public override int Read(Span<byte> buffer)
         {
@@ -133,13 +133,13 @@ public sealed class StringBufferTests
         var memo = new Memo(null!)
         {
             NoFrame = true,
-            _winWidth = 28,
-            _winHeight = 30,
             _font = font,
-            _colorChangeChar = (byte)'#'
+            ColorChangeChar = (byte)'#'
         };
-        memo._items.Add("#80FF00A B\0ignored");
-        memo._items.Add("\u20AC \u00FF\u00FF\u00FF");
+        memo.SetWinWidthWithoutInvalidate(28);
+        memo.SetWinHeightWithoutInvalidate(30);
+        memo.Items.Add("#80FF00A B\0ignored");
+        memo.Items.Add("\u20AC \u00FF\u00FF\u00FF");
         memo.SetSize();
         Assert.Equal(3, memo.Lines.Count);
         Assert.Equal("A B", memo.Lines[0]);
@@ -153,8 +153,10 @@ public sealed class StringBufferTests
     [Fact]
     public void HtmlWalkKeepsTagOffsetsAndNulTermination()
     {
-        var memo = new HtmlMemo(null!) { _winWidth = 100, _winHeight = 30 };
-        memo._items.Add("<INT><COLOR=80FF00><SPACING=3><ALIGN=RIGHT>\0<COLOR=FFFFFF>");
+        var memo = new HtmlMemo(null!);
+        memo.SetWinWidthWithoutInvalidate(100);
+        memo.SetWinHeightWithoutInvalidate(30);
+        memo.Items.Add("<INT><COLOR=80FF00><SPACING=3><ALIGN=RIGHT>\0<COLOR=FFFFFF>");
         memo.SetSize();
         Assert.Equal(4, memo.Changes.Count);
         var color = Assert.IsType<HtmlMemo.ChangeInfo>(memo.Changes[1]);
@@ -171,11 +173,11 @@ public sealed class StringBufferTests
     {
         var memo = new HtmlMemo(null!)
         {
-            _winWidth = 100,
-            _winHeight = 30,
             _font = new ImageLibraryFont(null!)
         };
-        memo._items.Add("<INT>text");
+        memo.SetWinWidthWithoutInvalidate(100);
+        memo.SetWinHeightWithoutInvalidate(30);
+        memo.Items.Add("<INT>text");
         Assert.Throws<IndexOutOfRangeException>(() => memo.SetSize());
     }
 }

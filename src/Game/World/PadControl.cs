@@ -14,8 +14,8 @@ namespace Aow.Game.World;
 // pad resources, terrain types
 public partial class PadControl : ControlStyleObject
 {
-    public List<MapObjectResource> PadResources;
-    public BitList TerrainTypes;
+    public List<MapObjectResource> PadResources { get; }
+    public BitList TerrainTypes { get; }
 
     // MoveT.PAS:3622
     public override void Dispose()

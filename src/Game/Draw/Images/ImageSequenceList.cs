@@ -9,10 +9,10 @@ namespace Aow.Game.Draw.Images;
 // sequences without a library name)
 public partial class ImageSequenceList : DelphiList
 {
-    internal bool _linked;
+    private bool _linked;
     // { HSEngine's TMapObjectResource.MsgProc writes FILManager directly }
-    public ImageLibraryManager _imageLibraryManager;
-    internal CustomImageLibrary _imageLibrary;
+    private ImageLibraryManager _imageLibraryManager;
+    private CustomImageLibrary _imageLibrary;
 
     // ImageLib.pas:8903
     public ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrary imageLibrary)
@@ -78,7 +78,7 @@ public partial class ImageSequenceList : DelphiList
 
         while (result != null && layer != result._layer)
         {
-            result = result._next;
+            result = result.Next;
         }
 
         return result;
@@ -207,7 +207,7 @@ public partial class ImageSequenceList : DelphiList
 
         while (sequence != null)
         {
-            sequence = sequence._next;
+            sequence = sequence.Next;
             result += 1;
         }
 
@@ -231,7 +231,7 @@ public partial class ImageSequenceList : DelphiList
 
         while (S != sequence)
         {
-            S = S._next;
+            S = S.Next;
             result += 1;
         }
 
@@ -260,7 +260,7 @@ public partial class ImageSequenceList : DelphiList
 
         while (result != null && I != subIndex)
         {
-            result = result._next;
+            result = result.Next;
             I += 1;
         }
 
@@ -289,7 +289,7 @@ public partial class ImageSequenceList : DelphiList
             while (S != null && S._layer < sequence._layer)
             {
                 previous = S;
-                S = S._next;
+                S = S.Next;
             }
 
             if (previous != null)
@@ -299,13 +299,13 @@ public partial class ImageSequenceList : DelphiList
                     throw new InvalidOperationException("Layer does already exist");
                 }
 
-                previous._next = sequence;
-                sequence._next = S;
+                previous.Next = sequence;
+                sequence.Next = S;
             }
             else
             {
                 List[index] = sequence;
-                sequence._next = S;
+                sequence.Next = S;
             }
         }
         else
@@ -327,21 +327,21 @@ public partial class ImageSequenceList : DelphiList
             while (S != null && S != sequence)
             {
                 previous = S;
-                S = S._next;
+                S = S.Next;
             }
 
             if (S != null && S == sequence)
             {
                 if (previous != null)
                 {
-                    previous._next = S._next;
+                    previous.Next = S.Next;
                 }
                 else
                 {
-                    List[index] = S._next;
+                    List[index] = S.Next;
                 }
 
-                S._next = null;
+                S.Next = null;
             }
         }
     }
@@ -359,7 +359,7 @@ public partial class ImageSequenceList : DelphiList
                 while (sequence != null)
                 {
                     sequence.LinkToImageLibrary();
-                    sequence = sequence._next;
+                    sequence = sequence.Next;
                 }
             }
         }
@@ -378,7 +378,7 @@ public partial class ImageSequenceList : DelphiList
                 while (sequence != null)
                 {
                     sequence.ReleaseImageLibrary();
-                    sequence = sequence._next;
+                    sequence = sequence.Next;
                 }
             }
         }
@@ -397,7 +397,7 @@ public partial class ImageSequenceList : DelphiList
             while (sequence != null && !result)
             {
                 result = sequence._sequenceMode != SequenceMode.None;
-                sequence = sequence._next;
+                sequence = sequence.Next;
             }
 
             I += 1;
@@ -419,7 +419,7 @@ public partial class ImageSequenceList : DelphiList
             while (sequence != null && result == null)
             {
                 result = sequence.GetPreviewImage();
-                sequence = sequence._next;
+                sequence = sequence.Next;
             }
 
             I += 1;
@@ -444,7 +444,7 @@ public partial class ImageSequenceList : DelphiList
             {
                 sequence.GetDimensions(ref sr);
                 UnionRect(ref R, R, sr);
-                sequence = sequence._next;
+                sequence = sequence.Next;
             }
         }
     }
@@ -466,13 +466,13 @@ public partial class ImageSequenceList : DelphiList
                 if (I != -1)
                 {
                     result = true;
-                    if (sequence._imageLibrary.ImageExist(I))
+                    if (sequence.ImageLibrary.ImageExist(I))
                     {
-                        sequence._imageLibrary[I].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
+                        sequence.ImageLibrary[I].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
                     }
                 }
 
-                sequence = sequence._next;
+                sequence = sequence.Next;
             }
         }
 
@@ -496,7 +496,7 @@ public partial class ImageSequenceList : DelphiList
                     result = N;
                 }
 
-                sequence = sequence._next;
+                sequence = sequence.Next;
             }
         }
 
@@ -516,13 +516,13 @@ public partial class ImageSequenceList : DelphiList
                 I = sequence.GetFrameIndex(frame, 0);
                 if (I != -1)
                 {
-                    if (sequence._imageLibrary.ImageExist(I))
+                    if (sequence.ImageLibrary.ImageExist(I))
                     {
-                        sequence._imageLibrary[I].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
+                        sequence.ImageLibrary[I].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
                     }
                 }
 
-                sequence = sequence._next;
+                sequence = sequence.Next;
             }
         }
     }
@@ -540,13 +540,13 @@ public partial class ImageSequenceList : DelphiList
                 I = sequence.GetFrameIndex(frame, offset);
                 if (I != -1)
                 {
-                    if (sequence._imageLibrary.ImageExist(I))
+                    if (sequence.ImageLibrary.ImageExist(I))
                     {
-                        sequence._imageLibrary[I].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
+                        sequence.ImageLibrary[I].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
                     }
                 }
 
-                sequence = sequence._next;
+                sequence = sequence.Next;
             }
         }
     }
@@ -568,7 +568,7 @@ public partial class ImageSequenceList : DelphiList
 
     public ImageSequencesAccessor ImageSequences => new ImageSequencesAccessor(this);
     public bool Linked { get => _linked; }
-    public ImageLibraryManager ImageLibraryManager { get => _imageLibraryManager; }
+    public ImageLibraryManager ImageLibraryManager { get => _imageLibraryManager; internal set => _imageLibraryManager = value; }
     public CustomImageLibrary ImageLibrary { get => _imageLibrary; }
 
 }

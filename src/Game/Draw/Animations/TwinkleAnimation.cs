@@ -19,12 +19,12 @@ public partial class TwinkleAnimation : Animation
         AnimationLevel = 28;
     }
 
-    public ImageSequence ImageSequence;
-    public int Count;
-    public int Radius;
-    public int Duration;
-    public int StartDelay;
-    public Set<TwinkleModeElement> Mode;
+    private ImageSequence _imageSequence;
+    private int _count;
+    private int _radius;
+    private int _duration;
+    private int _startDelay;
+    private Set<TwinkleModeElement> _mode;
 
     // Animation.pas:532
 
@@ -48,35 +48,35 @@ public partial class TwinkleAnimation : Animation
         var hexX = GetHexX();
         var hexY = GetHexY();
         RandSeed = hexX + AoWHSMap.Current.InitialRandomSeed + hexY * 3;
-        for (int I = 0, last = Count - 1; I <= last; I++)
+        for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            radius = Random(Radius);
+            radius = Random(_radius);
             angle = Random(360);
-            delay = Random(StartDelay);
+            delay = Random(_startDelay);
             if (FrameCounter - delay >= 0)
             {
-                if (Mode.Contains(TwinkleModeElement.Expand))
+                if (_mode.Contains(TwinkleModeElement.Expand))
                 {
-                    radius = Round((double)(radius * FrameCounter) / Duration) + radius / 2;
+                    radius = Round((double)(radius * FrameCounter) / _duration) + radius / 2;
                 }
 
-                if (Mode.Contains(TwinkleModeElement.Explode))
+                if (_mode.Contains(TwinkleModeElement.Explode))
                 {
                     radius += Round((FrameCounter - delay) * (FrameCounter - delay));
                 }
 
-                if (Mode.Contains(TwinkleModeElement.Implode))
+                if (_mode.Contains(TwinkleModeElement.Implode))
                 {
-                    radius += Round(Duration - (FrameCounter - delay));
+                    radius += Round(_duration - (FrameCounter - delay));
                 }
 
-                if (Mode.Contains(TwinkleModeElement.Rotate))
+                if (_mode.Contains(TwinkleModeElement.Rotate))
                 {
                     angle += FrameCounter * 4;
                 }
 
                 AbilityRules.PolarToCartesian(angle, radius, ref deltaX, ref deltaY);
-                sequence = ImageSequence;
+                sequence = _imageSequence;
                 while (sequence != null)
                 {
                     index = sequence.GetUnloopedFrameIndex(FrameCounter - delay);
@@ -91,7 +91,7 @@ public partial class TwinkleAnimation : Animation
         }
 
         RandSeed = oldSeed;
-        if (FrameCounter >= Duration)
+        if (FrameCounter >= _duration)
         {
             Dispose();
         }
@@ -100,12 +100,12 @@ public partial class TwinkleAnimation : Animation
     // Animation.pas:575
     public void Setup(ImageSequence sequence, Set<TwinkleModeElement> mode, int count, int radius, int duration, int startDelay)
     {
-        ImageSequence = sequence;
-        Count = count;
-        Radius = radius;
-        Mode = mode;
-        StartDelay = startDelay;
-        Duration = duration;
+        _imageSequence = sequence;
+        _count = count;
+        _radius = radius;
+        _mode = mode;
+        _startDelay = startDelay;
+        _duration = duration;
     }
 
     // Animation.pas:117

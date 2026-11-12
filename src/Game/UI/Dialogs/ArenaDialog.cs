@@ -45,8 +45,8 @@ public partial class ArenaDialog : DataModule
     public UserDrawBox MapView;
     public Image InfoSep;
     public IvTranslator Translator;
-    public EnterArenaEventLog Event;
-    public ExecuteDoneEvent OnClose;
+    private EnterArenaEventLog _event;
+    private ExecuteDoneEvent _onClose;
 
     // AoWArenaDlg.pas:104
     public void DrawUnit(int index, int X, int Y, ref LockedSurface lockedSurface)
@@ -56,9 +56,9 @@ public partial class ArenaDialog : DataModule
         LibraryImage image;
         Troop U;
         Units.Alignment alignment;
-        if (index < Event.GetCount())
+        if (index < _event.GetCount())
         {
-            U = Event.GetUnit(index);
+            U = _event.GetUnit(index);
             saveRectangle = lockedSurface.ClipRectangle;
             var rectangle = new Rect(X + 5, Y + 4, X + 46, Y + 56);
             lockedSurface.ClipRectangle = rectangle;
@@ -73,17 +73,17 @@ public partial class ArenaDialog : DataModule
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
             U.Show(X - 8, Y - 5, lockedSurface, info);
-            if ((((int)(((uint)Event.Trainable) >> index)) & 1) == 0)
+            if ((((int)(((uint)_event.Trainable) >> index)) & 1) == 0)
             {
                 image = DialogHosts.UIGraphics.UnitBGs[7];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
             }
 
             lockedSurface.ClipRectangle = saveRectangle;
-            if ((((int)(((uint)Event.Trainable) >> index)) & 1) != 0)
+            if ((((int)(((uint)_event.Trainable) >> index)) & 1) != 0)
             {
                 DialogHosts.UIFonts.Age8.Color = 0;
-                var unitTrainCost = Event.Arena.UnitTrainCost(U);
+                var unitTrainCost = _event.Arena.UnitTrainCost(U);
                 DialogHosts.UIFonts.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), lockedSurface);
             }
         }
@@ -95,10 +95,10 @@ public partial class ArenaDialog : DataModule
         EnterArenaEventLog eventValue;
         ExecuteDoneEvent notify;
         DialogHosts.General.Manager.OverlayPriority = 0;
-        notify = OnClose;
-        eventValue = Event;
-        OnClose = null;
-        Event = null;
+        notify = _onClose;
+        eventValue = _event;
+        _onClose = null;
+        _event = null;
         if (notify != null)
         {
             notify(eventValue);
@@ -122,7 +122,7 @@ public partial class ArenaDialog : DataModule
     {
         string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (Event.Train(ref reason))
+        if (_event.Train(ref reason))
         {
             Dlg.Visible = false;
         }
@@ -138,22 +138,22 @@ public partial class ArenaDialog : DataModule
         string reason = "";
         if (sender.Checked)
         {
-            Event.SetSelection((byte)(Event.Selection | (1 << slot)));
+            _event.SetSelection((byte)(_event.Selection | (1 << slot)));
         }
         else
         {
-            Event.SetSelection((byte)(Event.Selection & ~(1 << slot)));
+            _event.SetSelection((byte)(_event.Selection & ~(1 << slot)));
         }
 
-        U1.Checked = (Event.Selection & 1) != 0;
-        U2.Checked = (Event.Selection & 2) != 0;
-        U3.Checked = (Event.Selection & 4) != 0;
-        U4.Checked = (Event.Selection & 8) != 0;
-        U5.Checked = (Event.Selection & 16) != 0;
-        U6.Checked = (Event.Selection & 32) != 0;
-        U7.Checked = (Event.Selection & 64) != 0;
-        U8.Checked = (Event.Selection & 128) != 0;
-        if ((Event.Trainable & (1 << slot)) != 0)
+        U1.Checked = (_event.Selection & 1) != 0;
+        U2.Checked = (_event.Selection & 2) != 0;
+        U3.Checked = (_event.Selection & 4) != 0;
+        U4.Checked = (_event.Selection & 8) != 0;
+        U5.Checked = (_event.Selection & 16) != 0;
+        U6.Checked = (_event.Selection & 32) != 0;
+        U7.Checked = (_event.Selection & 64) != 0;
+        U8.Checked = (_event.Selection & 128) != 0;
+        if ((_event.Trainable & (1 << slot)) != 0)
         {
             if (sender.Checked)
             {
@@ -165,9 +165,9 @@ public partial class ArenaDialog : DataModule
             }
         }
 
-        if (Event.Selection != 0)
+        if (_event.Selection != 0)
         {
-            if (Event.CanTrain(ref reason))
+            if (_event.CanTrain(ref reason))
             {
                 SelectionInfoLbl.TextColor = 0;
             }
@@ -176,7 +176,7 @@ public partial class ArenaDialog : DataModule
                 SelectionInfoLbl.TextColor = 149;
             }
 
-            var selectionInfo = Event.GetSelectionInfo();
+            var selectionInfo = _event.GetSelectionInfo();
             SelectionInfoLbl.Text = selectionInfo;
         }
         else
@@ -209,8 +209,8 @@ public partial class ArenaDialog : DataModule
         R = new Rect(Dlg.WinLeft + sender.WinLeft, Dlg.WinTop + sender.WinTop, Dlg.WinLeft + sender.WinLeft + sender.WinWidth, Dlg.WinTop + sender.WinTop + sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
-        var hexY = Event.Arena.GetHexY();
-        HexGeometry.HexToPixel(Event.Arena.GetHexX(), hexY, ref X, ref Y);
+        var hexY = _event.Arena.GetHexY();
+        HexGeometry.HexToPixel(_event.Arena.GetHexX(), hexY, ref X, ref Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -224,7 +224,7 @@ public partial class ArenaDialog : DataModule
         }
 
         LockedSurface.CreateFrom(lockedSurface, R, ref mapSurfaceDescription);
-        var hexLevel = Event.Arena.GetHexLevel();
+        var hexLevel = _event.Arena.GetHexLevel();
         AoWHSMap.Current.SetViewPort(X, Y, hexLevel, R.Right - R.Left, R.Bottom - R.Top);
         AoWHSMap.Current.UpdateStaticScene();
         AoWHSMap.Current.UpdateDynamicScene();
@@ -254,11 +254,11 @@ public partial class ArenaDialog : DataModule
 
     internal static void ShowArena(ArenaDialog dialog, EnterArenaEventLog eventValue, ExecuteDoneEvent done)
     {
-        Assert(dialog.Event == null, "", "AoWArenaDlg.pas", 94);
+        Assert(dialog._event == null, "", "AoWArenaDlg.pas", 94);
         ResetArena(dialog);
-        dialog.OnClose = done;
-        dialog.Event = eventValue;
-        dialog.Event.AddRef();
+        dialog._onClose = done;
+        dialog._event = eventValue;
+        dialog._event.AddRef();
         DialogHosts.General.Manager.OverlayPriority = 49;
         dialog.Dlg.Visible = true;
     }

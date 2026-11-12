@@ -23,7 +23,8 @@ public partial class UpdateSignTokenEvent : TokenEvent
     // Sign.pas:202
     public new const int ClassId = 131343;
 
-    public StringList Text;
+    public StringList Text { get; }
+
     public sbyte HexX;
     public sbyte HexY;
     public sbyte HexLevel;

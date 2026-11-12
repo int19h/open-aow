@@ -21,10 +21,10 @@ public partial class CombatFire : SingleHexSprite
     // CombatFire.pas:80
     public new const int ClassId = 2229578;
 
-    public int XShift;
-    public int YShift;
-    public int Player;
-    public bool FirstTurn;
+    private int _xShift;
+    private int _yShift;
+    private int _player;
+    private bool _firstTurn;
 
     // CombatFire.pas:60
 
@@ -90,10 +90,10 @@ public partial class CombatFire : SingleHexSprite
     public override void Activate()
     {
         base.Activate();
-        XShift = Random(10) + 11;
-        YShift = Random(10) + 11;
-        Player = CombatMap.Current.CurrentCombatPlayer;
-        FirstTurn = true;
+        _xShift = Random(10) + 11;
+        _yShift = Random(10) + 11;
+        _player = CombatMap.Current.CurrentCombatPlayer;
+        _firstTurn = true;
     }
 
     // CombatFire.pas:55
@@ -114,13 +114,13 @@ public partial class CombatFire : SingleHexSprite
         int hexX = default;
         int hexY = default;
         MapFieldMessage message = default;
-        if (FirstTurn)
+        if (_firstTurn)
         {
-            FirstTurn = false;
+            _firstTurn = false;
         }
         else
         {
-            if (CombatMap.Current.CurrentCombatPlayer == Player)
+            if (CombatMap.Current.CurrentCombatPlayer == _player)
             {
                 message.MessageId = 200711;
                 message.Param[0] = this;
@@ -161,7 +161,7 @@ public partial class CombatFire : SingleHexSprite
                 imageIndex = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (imageIndex != -1)
                 {
-                    sequence.ImageLibrary.Get(imageIndex).Show(pixelXSurface + sequence.OffsetX + XShift, pixelYSurface + sequence.OffsetY + YShift, lockedSurface);
+                    sequence.ImageLibrary.Get(imageIndex).Show(pixelXSurface + sequence.OffsetX + _xShift, pixelYSurface + sequence.OffsetY + _yShift, lockedSurface);
                 }
 
                 sequence = sequence.Next;

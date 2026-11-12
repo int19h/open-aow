@@ -40,7 +40,9 @@ public partial class HeroResource : TroopResource
     public sbyte Hits;
     public sbyte Moves;
     public sbyte Resistance;
-    public AbilityOwner Abilities;
+
+    public AbilityOwner Abilities { get; }
+
     public int FaceIndex;
 
     // Hero.PAS:2320

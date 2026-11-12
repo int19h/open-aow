@@ -46,10 +46,10 @@ public partial class UnitResource : TroopResource
         BloodType = BloodType.Red;
     }
 
-    public string Name = "";
+    private string _name = "";
     public sbyte Race;
     public bool Champion;
-    public string Nickname = "";
+    private string _nickname = "";
     public Alignment Alignment;
     public sbyte Attack;
     public sbyte Defense;
@@ -61,8 +61,10 @@ public partial class UnitResource : TroopResource
     public UnitType UnitType;
     public UnitGender Gender;
     public AbilityOwnerArray3 Abilities;
-    public byte TransportCapacity;
-    public StringList Description;
+    private byte _transportCapacity;
+
+    public StringList Description { get; }
+
     public int ObtainValue;
     public UnitSize UnitSize;
     public BloodType BloodType;
@@ -86,8 +88,8 @@ public partial class UnitResource : TroopResource
     {
         Unit.Rank rank;
         base.ReadWrite(stream);
-        stream.rwString(ref Name, 10);
-        stream.rwString(ref Nickname, 11);
+        stream.rwString(ref _name, 10);
+        stream.rwString(ref _nickname, 11);
         stream.rwData(Bytes.Of(ref Alignment, 1), 1, 12);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Race), 13);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Attack), 14);
@@ -100,7 +102,7 @@ public partial class UnitResource : TroopResource
         stream.rwData(Bytes.Of(ref UnitType, 1), 1, 21);
         stream.rwData(Bytes.Of(ref Champion, 1), 1, 22);
         stream.rwData(Bytes.Of(ref Gender, 1), 1, 23);
-        stream.rwByte(ref TransportCapacity, 24);
+        stream.rwByte(ref _transportCapacity, 24);
         stream.rwEObject(Abilities[(int)Unit.Rank.None], 25);
         stream.rwStrings(Description, 26);
         stream.rwInteger(ref ObtainValue, 27);
@@ -168,9 +170,9 @@ public partial class UnitResource : TroopResource
     public byte GetTransportCapacity()
     {
         byte result = (byte)AoWHSSet.Current.AbilityControl.GetAbility(50).GetLevel(Abilities[(int)Unit.Rank.None]);
-        if (result < TransportCapacity)
+        if (result < _transportCapacity)
         {
-            result = TransportCapacity;
+            result = _transportCapacity;
         }
 
         return result;
@@ -191,10 +193,10 @@ public partial class UnitResource : TroopResource
     // UnitRes.PAS:149
     public string GetUnitName()
     {
-        string result = Name;
-        if (!IsEmpty(Nickname))
+        string result = _name;
+        if (!IsEmpty(_nickname))
         {
-            result = result + " " + Nickname;
+            result = result + " " + _nickname;
         }
 
         return result;

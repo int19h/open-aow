@@ -8,5 +8,6 @@ namespace Aow.Game.UI.Controls;
 public partial class DirtyRectangle
 {
     public Rect Rectangle;
-    public UIComponent Owner;
+
+    public UIComponent Owner { get; set; }
 }

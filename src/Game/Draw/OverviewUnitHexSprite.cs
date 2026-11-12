@@ -11,7 +11,7 @@ public partial class OverviewUnitHexSprite : UnitHexSprite
     public OverviewUnitHexSprite(ECustomNode owner) : base(owner)
     { }
 
-    public Troop Troop;
+    private Troop _troop;
 
     // OverviewUnit.pas:31
     public override void Dispose()
@@ -35,16 +35,16 @@ public partial class OverviewUnitHexSprite : UnitHexSprite
     // OverviewUnit.pas:37
     public void SetU(Troop U)
     {
-        if (Troop != null)
+        if (_troop != null)
         {
-            Troop.Release();
+            _troop.Release();
         }
 
-        Troop = U;
-        if (Troop != null)
+        _troop = U;
+        if (_troop != null)
         {
-            Troop.AddRef();
-            SetUnitGraphicsResourceIndex(Troop.GetUnitGraphicsResourceIndex());
+            _troop.AddRef();
+            SetUnitGraphicsResourceIndex(_troop.GetUnitGraphicsResourceIndex());
         }
     }
 

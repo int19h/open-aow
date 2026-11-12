@@ -68,7 +68,9 @@ public partial class SoundDialog : DataModule
     public Panel FolderPnl;
     public Panel PlayPnl;
     public IvTranslator Translator;
-    public int SoundQuality;
+
+    public int SoundQuality { get; set; }
+
     public SoundSettings Settings;
 
     // AoWSoundDlg.pas:108
@@ -443,7 +445,7 @@ public partial class SoundDialog : DataModule
     {
         if (AudioHost.SoundSystem != null)
         {
-            return AudioHost.SoundSystem._status;
+            return AudioHost.SoundSystem.Status;
         }
         return Set<SoundSystemStatusElement>.Of(Array.Empty<SoundSystemStatusElement>());
     }

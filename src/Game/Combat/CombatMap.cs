@@ -31,21 +31,21 @@ public partial class CombatMap : CustomCombatMap
     // AoWTC.pas:2183
     public new const int ClassId = 2228480;
 
-    public TacticalBattlePlayerList Players;
-    public TacticalBattle Combat;
-    public UnitPositionControl UnitPositions;
-    public sbyte SeatedCombatPlayer;
-    public sbyte CurrentCombatPlayer;
+    public TacticalBattlePlayerList Players { get; }
+    public TacticalBattle Combat { get; private set; }
+    public UnitPositionControl UnitPositions { get; }
+    public sbyte SeatedCombatPlayer { get; private set; }
+    public sbyte CurrentCombatPlayer { get; private set; }
 
-    internal EventStore<sbyte> _changeTurnEventsStore;
+    internal EventStore<sbyte> ChangeTurnEventsStore { get; }
 
     public event NotifyEvent<sbyte> FChangeTurnEvents
     {
-        add => _changeTurnEventsStore.Add(value);
-        remove => _changeTurnEventsStore.Remove(value);
+        add => ChangeTurnEventsStore.Add(value);
+        remove => ChangeTurnEventsStore.Remove(value);
     }
 
-    internal EventStore<CombatMap> _playerChangedEventsStore;
+    private EventStore<CombatMap> _playerChangedEventsStore;
 
     public event NotifyEvent<CombatMap> FPlayerChangedEvents
     {
@@ -53,7 +53,7 @@ public partial class CombatMap : CustomCombatMap
         remove => _playerChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<sbyte> _seatedPlayerChangedEventsStore;
+    private EventStore<sbyte> _seatedPlayerChangedEventsStore;
 
     public event NotifyEvent<sbyte> FSeatedPlayerChangedEvents
     {
@@ -61,54 +61,56 @@ public partial class CombatMap : CustomCombatMap
         remove => _seatedPlayerChangedEventsStore.Remove(value);
     }
 
-    public CombatMoveControl MoveControl;
-    public CombatUnitSelectionControl UnitSelection;
+    public CombatMoveControl MoveControl { get; }
+    public CombatUnitSelectionControl UnitSelection { get; }
 
-    internal EventStore<TacticalBattle> _selectEventsStore;
+    internal EventStore<TacticalBattle> SelectEventsStore { get; }
 
     public event NotifyEvent<TacticalBattle> FSelectEvents
     {
-        add => _selectEventsStore.Add(value);
-        remove => _selectEventsStore.Remove(value);
+        add => SelectEventsStore.Add(value);
+        remove => SelectEventsStore.Remove(value);
     }
 
-    internal EventStore<TacticalBattle> _deselectEventsStore;
+    internal EventStore<TacticalBattle> DeselectEventsStore { get; }
 
     public event NotifyEvent<TacticalBattle> FDeselectEvents
     {
-        add => _deselectEventsStore.Add(value);
-        remove => _deselectEventsStore.Remove(value);
+        add => DeselectEventsStore.Add(value);
+        remove => DeselectEventsStore.Remove(value);
     }
 
-    public MapObject CenterViewLocation;
+    public MapObject CenterViewLocation { get; set; }
 
-    internal EventStore<HexSprite> _mouseOverTargetEventsStore;
+    internal EventStore<HexSprite> MouseOverTargetEventsStore { get; }
 
     public event NotifyEvent<HexSprite> FMouseOverTargetEvents
     {
-        add => _mouseOverTargetEventsStore.Add(value);
-        remove => _mouseOverTargetEventsStore.Remove(value);
+        add => MouseOverTargetEventsStore.Add(value);
+        remove => MouseOverTargetEventsStore.Remove(value);
     }
 
     // CMapCtrl
 
-    internal EventStore<TacticalBattleUnitHexSprite> _unitChangedEventsStore;
+    internal EventStore<TacticalBattleUnitHexSprite> UnitChangedEventsStore { get; }
 
     public event NotifyEvent<TacticalBattleUnitHexSprite> FUnitChangedEvents
     {
-        add => _unitChangedEventsStore.Add(value);
-        remove => _unitChangedEventsStore.Remove(value);
+        add => UnitChangedEventsStore.Add(value);
+        remove => UnitChangedEventsStore.Remove(value);
     }
 
     // CMapCtrl
-    public BattleAI AI;
-    public List<BattleEffectSprite> Effects;
-    public List<World.Terrain.CityWall> Walls;
-    public List<FleeLocation> FleeLocations;
-    public bool EndTurnPending;
-    public bool PlaySounds;
+    public BattleAI AI { get; }
+    public List<BattleEffectSprite> Effects { get; }
+    public List<World.Terrain.CityWall> Walls { get; }
+    public List<FleeLocation> FleeLocations { get; }
+    public bool EndTurnPending { get; set; }
+    public bool PlaySounds { get; set; }
+
     public ByteArray8 PositionStatus;
-    public int Round;
+
+    public int Round { get; private set; }
 
     // AoWTC.pas:2213
     public override void Dispose()
@@ -126,13 +128,13 @@ public partial class CombatMap : CustomCombatMap
         base.Dispose();
         Current = null;
         UnitPositions?.Dispose();
-        _changeTurnEventsStore.Clear();
+        ChangeTurnEventsStore.Clear();
         _playerChangedEventsStore.Clear();
         _seatedPlayerChangedEventsStore.Clear();
-        _selectEventsStore.Clear();
-        _deselectEventsStore.Clear();
-        _mouseOverTargetEventsStore.Clear();
-        _unitChangedEventsStore.Clear();
+        SelectEventsStore.Clear();
+        DeselectEventsStore.Clear();
+        MouseOverTargetEventsStore.Clear();
+        UnitChangedEventsStore.Clear();
         MoveControl?.Dispose();
         UnitSelection?.Dispose();
         Effects?.Clear();
@@ -148,14 +150,14 @@ public partial class CombatMap : CustomCombatMap
     public CombatMap(ECustomNode owner) : base(owner)
     {
         UnitPositions = new UnitPositionControl(null);
-        _changeTurnEventsStore = new();
+        ChangeTurnEventsStore = new();
         _playerChangedEventsStore = new();
         _seatedPlayerChangedEventsStore = new();
         MoveControl = new CombatMoveControl(this);
-        _selectEventsStore = new();
-        _deselectEventsStore = new();
-        _mouseOverTargetEventsStore = new();
-        _unitChangedEventsStore = new();
+        SelectEventsStore = new();
+        DeselectEventsStore = new();
+        MouseOverTargetEventsStore = new();
+        UnitChangedEventsStore = new();
         Players = new TacticalBattlePlayerList();
         UnitSelection = new CombatUnitSelectionControl();
         ((GameMapMouse)Mouse).FRectangleSelectEvents += UnitSelection.RectangleSelectEvent;
@@ -431,7 +433,7 @@ public partial class CombatMap : CustomCombatMap
         {
             var playerLocal = Players.GetPlayers(CurrentCombatPlayer);
             var playerPlayerRace = AoWHSMap.Current.Players.GetPlayers(playerLocal.Player);
-            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[playerPlayerRace.PlayerRace]);
+            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
             var beginRound = AbilityRules.TranslateResourceString(s_beginRoundText);
             ShowMessage(raceNamesPlural + " " + beginRound);
         }
@@ -483,7 +485,7 @@ public partial class CombatMap : CustomCombatMap
         }
 
         UnitSelection.Unselect();
-        _changeTurnEventsStore.Raise(CurrentCombatPlayer);
+        ChangeTurnEventsStore.Raise(CurrentCombatPlayer);
     }
 
     // AoWTC.pas:2348
@@ -788,7 +790,7 @@ public partial class CombatMap : CustomCombatMap
         }
     }
 
-    internal static CombatMap Current;
+    internal static CombatMap Current { get; set; }
 
     // AoWTC.pas:484
 

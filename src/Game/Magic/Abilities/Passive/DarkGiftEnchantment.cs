@@ -9,7 +9,7 @@ public partial class DarkGiftEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1249
     public DarkGiftEnchantment(ECustomNode owner) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_darkGiftText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.DarkGiftText);
         AbilityId = 169;
     }
 

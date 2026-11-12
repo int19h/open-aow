@@ -47,38 +47,49 @@ public partial class AoWHSMap : GameMap
 
     public new const int ClassId = 131089;
 
-    public SelectedArmy SelectedArmy;
-    public bool IgnoreStreamErrors;
-    public TargetSelectionControl TargetSelection;
+    public SelectedArmy SelectedArmy { get; }
+    public bool IgnoreStreamErrors { get; private set; }
+    public TargetSelectionControl TargetSelection { get; }
+
     public string MapName = "";
-    public string Author = "";
+    private string _author = "";
     public int SphereCount;
-    public StringList Description;
-    public ItemControl ItemControl;
-    public HeroControl HeroControl;
-    public UnitControl UnitControl;
-    public StructureControl StructureControl;
-    public AoWHSMapIndependentAIMode IndependentAIMode;
-    public StringList Objectives;
+
+    public StringList Description { get; }
+    public ItemControl ItemControl { get; private set; }
+    public HeroControl HeroControl { get; set; }
+    public UnitControl UnitControl { get; set; }
+    public StructureControl StructureControl { get; private set; }
+
+    private AoWHSMapIndependentAIMode _independentAIMode;
+    private StringList _objectives;
     public sbyte HeroCountMax;
-    public StartupSongList StartupSongs;
-    public SongList GameSongs;
+
+    public StartupSongList StartupSongs { get; }
+    public SongList GameSongs { get; }
+
     public AoWHSMapGameStatus GameStatus;
     public AoWHSMapGameResult GameResult;
     public GameType GameType;
-    public CustomCombatMap CombatMap;
-    public Battle Combat;
-    public TutorialControl TutorialControl;
-    public AIExecutor AIExecutor;
-    public AIPlayerActionManager AIPlayerActionManager;
-    public AIGroupManager AIGroupManager;
-    public HexSpriteMapKeyboard Keyboard;
+
+    public CustomCombatMap CombatMap { get; set; }
+    public Battle Combat { get; private set; }
+    public TutorialControl TutorialControl { get; }
+    public AIExecutor AIExecutor { get; set; }
+    public AIPlayerActionManager AIPlayerActionManager { get; }
+    public AIGroupManager AIGroupManager { get; private set; }
+    public HexSpriteMapKeyboard Keyboard { get; }
+
     public bool UnlimitedMoves;
-    public bool RequestCombatType;
+
+    public bool RequestCombatType { get; set; }
+
     public PlayerConnectionType ConnectionType;
-    public TextControl TextControl;
-    public PlayerList Players;
-    public RaceList Races;
+
+    public TextControl TextControl { get; }
+    public PlayerList Players { get; set; }
+    public RaceList Races { get; set; }
+
     public bool FixedLeaders;
     public bool LeadersFixed;
     public bool StartingGame;
@@ -89,31 +100,34 @@ public partial class AoWHSMap : GameMap
     public int VictoryGold;
     public int DayLimit;
     public int TurnTime;
-    public int TurnTimeElapsed;
-    public int TurnTimeBeep;
-    public int TurnTimerStart;
+    private int _turnTimeElapsed;
+    private int _turnTimeBeep;
+    private int _turnTimerStart;
     public AoWHSMapTurnOrderMode TurnOrderMode;
-    public ByteList TurnOrder;
-    public int Day;
-    public string SessionName = "";
 
-    internal EventStore<Leader> _onLeaderChangedStore;
+    public ByteList TurnOrder { get; }
+
+    public int Day;
+    private string _sessionName = "";
+
+    internal EventStore<Leader> OnLeaderChangedStore { get; }
 
     public event NotifyEvent<Leader> FOnLeaderChanged
     {
-        add => _onLeaderChangedStore.Add(value);
-        remove => _onLeaderChangedStore.Remove(value);
+        add => OnLeaderChangedStore.Add(value);
+        remove => OnLeaderChangedStore.Remove(value);
     }
 
-    public bool ShowIndependentMoves;
-    public MoveControl MoveControl;
-    public GlobalMagicControl GlobalMagicControl;
-    public MapCampaignSettings CampaignSettings;
-    public sbyte EditorPlayer;
-    public bool ShowAllPlayers;
-    public int RelationsChangedLockCount;
+    public bool ShowIndependentMoves { get; set; }
+    public MoveControl MoveControl { get; }
+    public GlobalMagicControl GlobalMagicControl { get; set; }
+    public MapCampaignSettings CampaignSettings { get; }
+    public sbyte EditorPlayer { get; }
 
-    internal EventStore<AoWHSMap> _playerChangedEventsStore;
+    public bool ShowAllPlayers;
+    private int _relationsChangedLockCount;
+
+    private EventStore<AoWHSMap> _playerChangedEventsStore;
 
     public event NotifyEvent<AoWHSMap> FPlayerChangedEvents
     {
@@ -121,23 +135,23 @@ public partial class AoWHSMap : GameMap
         remove => _playerChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<PlayerControl> _newDayEventsStore;
+    internal EventStore<PlayerControl> NewDayEventsStore { get; }
 
     public event NotifyEvent<PlayerControl> FNewDayEvents
     {
-        add => _newDayEventsStore.Add(value);
-        remove => _newDayEventsStore.Remove(value);
+        add => NewDayEventsStore.Add(value);
+        remove => NewDayEventsStore.Remove(value);
     }
 
-    internal EventStore<sbyte> _newTurnEventsStore;
+    internal EventStore<sbyte> NewTurnEventsStore { get; }
 
     public event NotifyEvent<sbyte> FNewTurnEvents
     {
-        add => _newTurnEventsStore.Add(value);
-        remove => _newTurnEventsStore.Remove(value);
+        add => NewTurnEventsStore.Add(value);
+        remove => NewTurnEventsStore.Remove(value);
     }
 
-    internal EventStore<sbyte> _endTurnEventsStore;
+    private EventStore<sbyte> _endTurnEventsStore;
 
     public event NotifyEvent<sbyte> FEndTurnEvents
     {
@@ -145,7 +159,7 @@ public partial class AoWHSMap : GameMap
         remove => _endTurnEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> _currentPlayerChangedEventsStore;
+    private EventStore<AoWHSMap> _currentPlayerChangedEventsStore;
 
     public event NotifyEvent<AoWHSMap> FCurrentPlayerChangedEvents
     {
@@ -153,7 +167,7 @@ public partial class AoWHSMap : GameMap
         remove => _currentPlayerChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> _seatedPlayerChangedEventsStore;
+    private EventStore<AoWHSMap> _seatedPlayerChangedEventsStore;
 
     public event NotifyEvent<AoWHSMap> FSeatedPlayerChangedEvents
     {
@@ -161,7 +175,7 @@ public partial class AoWHSMap : GameMap
         remove => _seatedPlayerChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Battle> _combatEventsStore;
+    private EventStore<Battle> _combatEventsStore;
 
     public event NotifyEvent<Battle> FCombatEvents
     {
@@ -169,7 +183,7 @@ public partial class AoWHSMap : GameMap
         remove => _combatEventsStore.Remove(value);
     }
 
-    internal EventStore<sbyte> _playerTerminatedEventsStore;
+    private EventStore<sbyte> _playerTerminatedEventsStore;
 
     public event NotifyEvent<sbyte> FPlayerTerminatedEvents
     {
@@ -177,7 +191,7 @@ public partial class AoWHSMap : GameMap
         remove => _playerTerminatedEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> _gameOverEventsStore;
+    private EventStore<AoWHSMap> _gameOverEventsStore;
 
     public event NotifyEvent<AoWHSMap> FGameOverEvents
     {
@@ -185,7 +199,7 @@ public partial class AoWHSMap : GameMap
         remove => _gameOverEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> _gameTerminatedEventsStore;
+    private EventStore<AoWHSMap> _gameTerminatedEventsStore;
 
     public event NotifyEvent<AoWHSMap> FGameTerminatedEvents
     {
@@ -193,9 +207,9 @@ public partial class AoWHSMap : GameMap
         remove => _gameTerminatedEventsStore.Remove(value);
     }
 
-    public bool ExitPending;
+    public bool ExitPending { get; private set; }
 
-    internal EventStore<AoWHSMap> _exitEventsStore;
+    private EventStore<AoWHSMap> _exitEventsStore;
 
     public event NotifyEvent<AoWHSMap> FExitEvents
     {
@@ -203,10 +217,10 @@ public partial class AoWHSMap : GameMap
         remove => _exitEventsStore.Remove(value);
     }
 
-    public int GameOverLockCount;
-    public EventLogList ExecuteEventLogBuffer;
+    private int _gameOverLockCount;
+    private EventLogList _executeEventLogBuffer;
 
-    internal EventStore<ExecuteEventLogNotification> _executeEventLogEventsStore;
+    private EventStore<ExecuteEventLogNotification> _executeEventLogEventsStore;
 
     public event NotifyEvent<ExecuteEventLogNotification> FExecuteEventLogEvents
     {
@@ -214,35 +228,37 @@ public partial class AoWHSMap : GameMap
         remove => _executeEventLogEventsStore.Remove(value);
     }
 
-    public ExecuteEventLogCallbackList ExecuteEventLogCallBacks;
-    public int AILockCount;
-    public int ExecuteEventLogDelay;
+    private ExecuteEventLogCallbackList _executeEventLogCallBacks;
 
-    internal EventStore<SpellCaster> _cosmeticSurgeryEventsStore;
+    public int AILockCount { get; private set; }
+
+    private int _executeEventLogDelay;
+
+    internal EventStore<SpellCaster> CosmeticSurgeryEventsStore { get; }
 
     public event NotifyEvent<SpellCaster> FCosmeticSurgeryEvents
     {
-        add => _cosmeticSurgeryEventsStore.Add(value);
-        remove => _cosmeticSurgeryEventsStore.Remove(value);
+        add => CosmeticSurgeryEventsStore.Add(value);
+        remove => CosmeticSurgeryEventsStore.Remove(value);
     }
 
-    internal EventStore<AbilityActivation> _onActivateAbilityStore;
+    internal EventStore<AbilityActivation> OnActivateAbilityStore { get; }
 
     public event NotifyEvent<AbilityActivation> FOnActivateAbility
     {
-        add => _onActivateAbilityStore.Add(value);
-        remove => _onActivateAbilityStore.Remove(value);
+        add => OnActivateAbilityStore.Add(value);
+        remove => OnActivateAbilityStore.Remove(value);
     }
 
-    internal EventStore<EngineObject> _diplomaticRelationsChangedEventsStore;
+    internal EventStore<EngineObject> DiplomaticRelationsChangedEventsStore { get; }
 
     public event NotifyEvent<EngineObject> FDiplomaticRelationsChangedEvents
     {
-        add => _diplomaticRelationsChangedEventsStore.Add(value);
-        remove => _diplomaticRelationsChangedEventsStore.Remove(value);
+        add => DiplomaticRelationsChangedEventsStore.Add(value);
+        remove => DiplomaticRelationsChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> _updateVisibilityEventsStore;
+    private EventStore<AoWHSMap> _updateVisibilityEventsStore;
 
     public event NotifyEvent<AoWHSMap> FUpdateVisibilityEvents
     {
@@ -250,14 +266,15 @@ public partial class AoWHSMap : GameMap
         remove => _updateVisibilityEventsStore.Remove(value);
     }
 
-    public List<WorldEffectHexSprite> Effects;
-    public int UpdateVisibilityLockCount;
-    public bool VisibilityChanged;
-    public int ArmyUpdateCount;
-    public int StructureUpdateCount;
-    public int UnitUpdateCount;
+    public List<WorldEffectHexSprite> Effects { get; }
 
-    internal EventStore<Troop> _unitChangedEventsStore;
+    private int _updateVisibilityLockCount;
+    private bool _visibilityChanged;
+    private int _armyUpdateCount;
+    private int _structureUpdateCount;
+    private int _unitUpdateCount;
+
+    private EventStore<Troop> _unitChangedEventsStore;
 
     public event NotifyEvent<Troop> FUnitChangedEvents
     {
@@ -265,7 +282,7 @@ public partial class AoWHSMap : GameMap
         remove => _unitChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Army> _armyChangedEventsStore;
+    private EventStore<Army> _armyChangedEventsStore;
 
     public event NotifyEvent<Army> FArmyChangedEvents
     {
@@ -273,7 +290,7 @@ public partial class AoWHSMap : GameMap
         remove => _armyChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Structure> _structureChangedEventsStore;
+    private EventStore<Structure> _structureChangedEventsStore;
 
     public event NotifyEvent<Structure> FStructureChangedEvents
     {
@@ -281,7 +298,7 @@ public partial class AoWHSMap : GameMap
         remove => _structureChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<Troop> _unitDestroyedEventsStore;
+    private EventStore<Troop> _unitDestroyedEventsStore;
 
     public event NotifyEvent<Troop> FUnitDestroyedEvents
     {
@@ -289,7 +306,7 @@ public partial class AoWHSMap : GameMap
         remove => _unitDestroyedEventsStore.Remove(value);
     }
 
-    internal EventStore<Army> _armyDestroyedEventsStore;
+    private EventStore<Army> _armyDestroyedEventsStore;
 
     public event NotifyEvent<Army> FArmyDestroyedEvents
     {
@@ -297,7 +314,7 @@ public partial class AoWHSMap : GameMap
         remove => _armyDestroyedEventsStore.Remove(value);
     }
 
-    internal EventStore<Structure> _structureDestroyedEventsStore;
+    private EventStore<Structure> _structureDestroyedEventsStore;
 
     public event NotifyEvent<Structure> FStructureDestroyedEvents
     {
@@ -305,7 +322,7 @@ public partial class AoWHSMap : GameMap
         remove => _structureDestroyedEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> _tokenControlActivatedEventsStore;
+    private EventStore<AoWHSMap> _tokenControlActivatedEventsStore;
 
     public event NotifyEvent<AoWHSMap> FTokenControlActivatedEvents
     {
@@ -313,34 +330,37 @@ public partial class AoWHSMap : GameMap
         remove => _tokenControlActivatedEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> _combatMapCreatedEventsStore;
+    internal EventStore<AoWHSMap> CombatMapCreatedEventsStore { get; }
 
     public event NotifyEvent<AoWHSMap> FCombatMapCreatedEvents
     {
-        add => _combatMapCreatedEventsStore.Add(value);
-        remove => _combatMapCreatedEventsStore.Remove(value);
+        add => CombatMapCreatedEventsStore.Add(value);
+        remove => CombatMapCreatedEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> _combatMapDestroyedEventsStore;
+    internal EventStore<AoWHSMap> CombatMapDestroyedEventsStore { get; }
 
     public event NotifyEvent<AoWHSMap> FCombatMapDestroyedEvents
     {
-        add => _combatMapDestroyedEventsStore.Add(value);
-        remove => _combatMapDestroyedEventsStore.Remove(value);
+        add => CombatMapDestroyedEventsStore.Add(value);
+        remove => CombatMapDestroyedEventsStore.Remove(value);
     }
 
     public int InitialRandomSeed;
     public int DefendersSeed;
-    public int SynchronizeCount;
-    public bool DebugSave;
+    private int _synchronizeCount;
+
+    public bool DebugSave { get; private set; }
+
     public PlayMode PlayMode;
-    public TokenManager TokenManager;
-    public PlayerCommunicator PlayerCommunicator;
-    public PlayerControl PlayerControl;
-    public bool UseTurnTimer;
-    public bool ShowUnitShadows;
-    public Text TokenEventLog;
-    public bool TokenEventLogging;
+
+    public TokenManager TokenManager { get; set; }
+    public PlayerCommunicator PlayerCommunicator { get; }
+    public PlayerControl PlayerControl { get; private set; }
+    public bool UseTurnTimer { get; }
+    public bool ShowUnitShadows { get; }
+    public Text TokenEventLog { get; }
+    public bool TokenEventLogging { get; private set; }
 
     // AoWHSMap.PAS:1336
     public override void Dispose()
@@ -370,20 +390,20 @@ public partial class AoWHSMap : GameMap
         _unitChangedEventsStore.Clear();
         _seatedPlayerChangedEventsStore.Clear();
         _currentPlayerChangedEventsStore.Clear();
-        _newTurnEventsStore.Clear();
-        _newDayEventsStore.Clear();
-        _onLeaderChangedStore.Clear();
+        NewTurnEventsStore.Clear();
+        NewDayEventsStore.Clear();
+        OnLeaderChangedStore.Clear();
         Description.Clear();
-        Objectives.Clear();
+        _objectives.Clear();
         TurnOrder.Clear();
         _structureDestroyedEventsStore.Clear();
         _unitDestroyedEventsStore.Clear();
-        _combatMapCreatedEventsStore.Clear();
-        _combatMapDestroyedEventsStore.Clear();
+        CombatMapCreatedEventsStore.Clear();
+        CombatMapDestroyedEventsStore.Clear();
         _updateVisibilityEventsStore.Clear();
-        _diplomaticRelationsChangedEventsStore.Clear();
-        _cosmeticSurgeryEventsStore.Clear();
-        _onActivateAbilityStore.Clear();
+        DiplomaticRelationsChangedEventsStore.Clear();
+        CosmeticSurgeryEventsStore.Clear();
+        OnActivateAbilityStore.Clear();
         _tokenControlActivatedEventsStore.Clear();
         _playerChangedEventsStore.Clear();
         _exitEventsStore.Clear();
@@ -410,29 +430,29 @@ public partial class AoWHSMap : GameMap
         AIExecutor?.Dispose();
         SelectedArmy?.Dispose();
         _seatedPlayerChangedEventsStore.Clear();
-        ExecuteEventLogBuffer?.Dispose();
-        _newTurnEventsStore.Clear();
+        _executeEventLogBuffer?.Dispose();
+        NewTurnEventsStore.Clear();
         _endTurnEventsStore.Clear();
         _currentPlayerChangedEventsStore.Clear();
-        _newDayEventsStore.Clear();
+        NewDayEventsStore.Clear();
         _armyChangedEventsStore.Clear();
         _structureChangedEventsStore.Clear();
         _unitChangedEventsStore.Clear();
         _armyDestroyedEventsStore.Clear();
         _structureDestroyedEventsStore.Clear();
         _unitDestroyedEventsStore.Clear();
-        _onLeaderChangedStore.Clear();
+        OnLeaderChangedStore.Clear();
         Description?.Dispose();
-        Objectives?.Dispose();
+        _objectives?.Dispose();
         TurnOrder?.Dispose();
         PlayerControl?.Dispose();
         TextControl?.Dispose();
         _combatEventsStore.Clear();
         _playerChangedEventsStore.Clear();
         _executeEventLogEventsStore.Clear();
-        ExecuteEventLogCallBacks?.Dispose();
-        _cosmeticSurgeryEventsStore.Clear();
-        _onActivateAbilityStore.Clear();
+        _executeEventLogCallBacks?.Dispose();
+        CosmeticSurgeryEventsStore.Clear();
+        OnActivateAbilityStore.Clear();
         GameSongs?.Dispose();
         StartupSongs?.Dispose();
         _exitEventsStore.Clear();
@@ -453,9 +473,9 @@ public partial class AoWHSMap : GameMap
         _gameOverEventsStore.Clear();
         _gameTerminatedEventsStore.Clear();
         TargetSelection?.Dispose();
-        _combatMapCreatedEventsStore.Clear();
-        _combatMapDestroyedEventsStore.Clear();
-        _diplomaticRelationsChangedEventsStore.Clear();
+        CombatMapCreatedEventsStore.Clear();
+        CombatMapDestroyedEventsStore.Clear();
+        DiplomaticRelationsChangedEventsStore.Clear();
         Keyboard?.Dispose();
         _updateVisibilityEventsStore.Clear();
         _tokenControlActivatedEventsStore.Clear();
@@ -509,15 +529,15 @@ public partial class AoWHSMap : GameMap
             _viewL = L;
         }
 
-        stream.rwString(ref Author, 7);
+        stream.rwString(ref _author, 7);
         stream.rwStrings(Description, 11);
-        stream.rwStrings(Objectives, 12);
-        stream.rwData(Bytes.Of(ref IndependentAIMode, 1), 1, 13);
+        stream.rwStrings(_objectives, 12);
+        stream.rwData(Bytes.Of(ref _independentAIMode, 1), 1, 13);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref CurrentPlayer), 16);
         stream.rwData(Bytes.Of(ref TurnOrderMode, 1), 1, 17);
         stream.rwStreamProc(18, TurnOrder.LoadFromStream, TurnOrder.SaveToStream);
         stream.rwInteger(ref Day, 19);
-        stream.rwString(ref SessionName, 20);
+        stream.rwString(ref _sessionName, 20);
         stream.rwEObject(Players, 21);
         stream.rwEObject(Races, 22);
         stream.rwBool(ref ExplorationEnabled, 23);
@@ -560,13 +580,13 @@ public partial class AoWHSMap : GameMap
         stream.rwEObject(StructureControl, 54);
         if (stream.StorageMode().Contains(StorageModeElement.Read) || ConnectionType != PlayerConnectionType.Network)
         {
-            stream.rwInteger(ref TurnTimeElapsed, 55);
+            stream.rwInteger(ref _turnTimeElapsed, 55);
         }
 
         stream.rwEObject(TutorialControl, 56);
         if (stream.StorageMode().Contains(StorageModeElement.Read) || ConnectionType != PlayerConnectionType.Network)
         {
-            stream.rwInteger(ref TurnTimeBeep, 58);
+            stream.rwInteger(ref _turnTimeBeep, 58);
         }
 
         stream.rwBool(ref LeadersFixed, 59);
@@ -632,14 +652,14 @@ public partial class AoWHSMap : GameMap
         MoveControl = new MoveControl(this);
         GlobalMagicControl = new GlobalMagicControl(null);
         MapName = "noname";
-        Author = "";
-        TurnTimerStart = -1;
+        _author = "";
+        _turnTimerStart = -1;
         SphereCount = 5;
         VictoryGold = 5000;
         VictoryMana = 5000;
         Description = new StringList();
-        Objectives = new StringList();
-        IndependentAIMode = AoWHSMapIndependentAIMode.Normal;
+        _objectives = new StringList();
+        _independentAIMode = AoWHSMapIndependentAIMode.Normal;
         Players = new PlayerList(null);
         Races = new RaceList(null);
         _playerChangedEventsStore = new();
@@ -647,7 +667,7 @@ public partial class AoWHSMap : GameMap
         AlliedVictory = false;
         CurrentPlayer = 0;
         UseTurnTimer = true;
-        ExecuteEventLogBuffer = new EventLogList(null);
+        _executeEventLogBuffer = new EventLogList(null);
         DebugSave = false;
         TutorialControl = new TutorialControl(null);
         TurnOrderMode = AoWHSMapTurnOrderMode.Fixed;
@@ -655,16 +675,16 @@ public partial class AoWHSMap : GameMap
         Day = 0;
         GameStatus = AoWHSMapGameStatus.Idle;
         GameResult = AoWHSMapGameResult.None;
-        SessionName = "";
+        _sessionName = "";
         var detailLevel = GameTables.GameEngine.Registry.GetDetailLevel();
         ShowUnitShadows = Set<DetailLevel>.Of(DetailLevel.Normal, DetailLevel.High).Contains(detailLevel);
         HeroControl = new HeroControl(null);
         UnitControl = new UnitControl(null);
         StructureControl = new StructureControl(null);
-        _onLeaderChangedStore = new();
+        OnLeaderChangedStore = new();
         TextControl = new TextControl(null);
-        _newDayEventsStore = new();
-        _newTurnEventsStore = new();
+        NewDayEventsStore = new();
+        NewTurnEventsStore = new();
         _endTurnEventsStore = new();
         _currentPlayerChangedEventsStore = new();
         _seatedPlayerChangedEventsStore = new();
@@ -679,18 +699,18 @@ public partial class AoWHSMap : GameMap
         _executeEventLogEventsStore = new();
         FUnitChangedEvents += TargetSelection.UnitChanged;
         FArmyDestroyedEvents += SelectedArmy.OnDestroyArmy;
-        ExecuteEventLogCallBacks = new ExecuteEventLogCallbackList();
-        _cosmeticSurgeryEventsStore = new();
-        _onActivateAbilityStore = new();
+        _executeEventLogCallBacks = new ExecuteEventLogCallbackList();
+        CosmeticSurgeryEventsStore = new();
+        OnActivateAbilityStore = new();
         StartupSongs = new StartupSongList(null);
         GameSongs = new SongList(null);
         _playerTerminatedEventsStore = new();
         _gameOverEventsStore = new();
         _gameTerminatedEventsStore = new();
-        _diplomaticRelationsChangedEventsStore = new();
+        DiplomaticRelationsChangedEventsStore = new();
         _updateVisibilityEventsStore = new();
-        _combatMapCreatedEventsStore = new();
-        _combatMapDestroyedEventsStore = new();
+        CombatMapCreatedEventsStore = new();
+        CombatMapDestroyedEventsStore = new();
         _exitEventsStore = new();
         CampaignSettings = new MapCampaignSettings(null);
         Mouse.OnMove += MouseMoved;
@@ -892,7 +912,7 @@ public partial class AoWHSMap : GameMap
             GameSongs.Songs.Clear();
             for (int I = 0, last = Current.StartupSongs.Songs.Count - 1; I <= last; I++)
             {
-                var fileNotFound = AbilityRules.TranslateResourceString(GameText.s_fileNotFoundText);
+                var fileNotFound = AbilityRules.TranslateResourceString(GameText.FileNotFoundText);
                 if (CompareText(Current.StartupSongs.SongNames[I], fileNotFound) != 0)
                 {
                     var item = Current.StartupSongs.Songs[I];
@@ -1101,7 +1121,7 @@ public partial class AoWHSMap : GameMap
         if (!immediate)
         {
             log.AddRef();
-            ExecuteEventLogCallBacks.Add(info);
+            _executeEventLogCallBacks.Add(info);
             if (AILockCount == 0)
             {
                 ExecuteNextEventLog();
@@ -1116,20 +1136,20 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1476
     public void SynchronizeBegin()
     {
-        SynchronizeCount += 1;
+        _synchronizeCount += 1;
     }
 
     // AoWHSMap.PAS:1481
     public void SynchronizeEnd()
     {
-        SynchronizeCount -= 1;
+        _synchronizeCount -= 1;
     }
 
     // AoWHSMap.PAS:1486
     public bool GetSynchronized()
     {
         bool result;
-        if (SynchronizeCount == 0 && !TokenManager.TokenExecutor.Executing && !Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (_synchronizeCount == 0 && !TokenManager.TokenExecutor.Executing && !Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             result = false;
         }
@@ -1156,7 +1176,7 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1525
     public AoWHSMapIndependentAIMode GetIndependentAIMode()
     {
-        AoWHSMapIndependentAIMode result = IndependentAIMode;
+        AoWHSMapIndependentAIMode result = _independentAIMode;
         if (!Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery))
         {
             if (result == AoWHSMapIndependentAIMode.Off)
@@ -1511,14 +1531,14 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1822
     public void BeginUnitUpdate()
     {
-        UnitUpdateCount += 1;
+        _unitUpdateCount += 1;
     }
 
     // AoWHSMap.PAS:1827
     public void EndUnitUpdate()
     {
-        UnitUpdateCount -= 1;
-        if (UnitUpdateCount == 0)
+        _unitUpdateCount -= 1;
+        if (_unitUpdateCount == 0)
         {
             UnitChanged(null);
         }
@@ -1527,7 +1547,7 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1833
     public void UnitChanged(Troop troop)
     {
-        if (UnitUpdateCount == 0)
+        if (_unitUpdateCount == 0)
         {
             _unitChangedEventsStore.Raise(troop);
         }
@@ -1545,14 +1565,14 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1844
     public void BeginArmyUpdate()
     {
-        ArmyUpdateCount += 1;
+        _armyUpdateCount += 1;
     }
 
     // AoWHSMap.PAS:1849
     public void EndArmyUpdate()
     {
-        ArmyUpdateCount -= 1;
-        if (ArmyUpdateCount == 0)
+        _armyUpdateCount -= 1;
+        if (_armyUpdateCount == 0)
         {
             ArmyChanged(null);
         }
@@ -1561,7 +1581,7 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1855
     public void ArmyChanged(Army army)
     {
-        if (ArmyUpdateCount == 0)
+        if (_armyUpdateCount == 0)
         {
             _armyChangedEventsStore.Raise(army);
         }
@@ -1578,14 +1598,14 @@ public partial class AoWHSMap : GameMap
     // TArmy.Destroy passes TArmy
     public void BeginStructureUpdate()
     {
-        StructureUpdateCount += 1;
+        _structureUpdateCount += 1;
     }
 
     // AoWHSMap.PAS:1871
     public void EndStructureUpdate()
     {
-        StructureUpdateCount -= 1;
-        if (StructureUpdateCount == 0)
+        _structureUpdateCount -= 1;
+        if (_structureUpdateCount == 0)
         {
             StructureChanged(null);
         }
@@ -1594,7 +1614,7 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1877
     public void StructureChanged(Structure structure)
     {
-        if (StructureUpdateCount == 0)
+        if (_structureUpdateCount == 0)
         {
             _structureChangedEventsStore.Raise(structure);
         }
@@ -1651,16 +1671,16 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1926
     public void ClearExecuteEventLogBuffer()
     {
-        while (ExecuteEventLogCallBacks.GetCount() > 0)
+        while (_executeEventLogCallBacks.GetCount() > 0)
         {
-            if (ExecuteEventLogCallBacks.GetItem(0).Done != null)
+            if (_executeEventLogCallBacks.GetItem(0).Done != null)
             {
-                var item = ExecuteEventLogCallBacks.GetItem(1);
-                ExecuteEventLogCallBacks.GetItem(0).Done(item.Log);
+                var item = _executeEventLogCallBacks.GetItem(1);
+                _executeEventLogCallBacks.GetItem(0).Done(item.Log);
             }
 
             // { Original passes the second record's log to the first callback, even for a one-item list. }
-            ExecuteEventLogCallBacks.Delete(0);
+            _executeEventLogCallBacks.Delete(0);
         }
     }
 
@@ -1669,10 +1689,10 @@ public partial class AoWHSMap : GameMap
     {
         var notification = new ExecuteEventLogNotification();
         ref var info = ref notification.Info;
-        if (ExecuteEventLogCallBacks.GetCount() != 0)
+        if (_executeEventLogCallBacks.GetCount() != 0)
         {
             AILockCount += 1;
-            info = ExecuteEventLogCallBacks.GetItem(0);
+            info = _executeEventLogCallBacks.GetItem(0);
             info.Done = ExecuteEventLogDone;
             _executeEventLogEventsStore.Raise(notification);
         }
@@ -1681,16 +1701,16 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1950
     public void SetExecuteEventLogDelay(int value)
     {
-        if (ExecuteEventLogDelay == 0)
+        if (_executeEventLogDelay == 0)
         {
-            ExecuteEventLogDelay = value;
+            _executeEventLogDelay = value;
             LockExecuteEventLog();
         }
         else
         {
-            if (value > ExecuteEventLogDelay)
+            if (value > _executeEventLogDelay)
             {
-                ExecuteEventLogDelay = value;
+                _executeEventLogDelay = value;
             }
         }
     }
@@ -1698,10 +1718,10 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1960
     public void UpdateExecuteEventLogDelay()
     {
-        if (ExecuteEventLogDelay != 0)
+        if (_executeEventLogDelay != 0)
         {
-            ExecuteEventLogDelay -= 1;
-            if (ExecuteEventLogDelay == 0)
+            _executeEventLogDelay -= 1;
+            if (_executeEventLogDelay == 0)
             {
                 UnlockExecuteEventLog();
             }
@@ -1712,10 +1732,10 @@ public partial class AoWHSMap : GameMap
     public void ExecuteEventLogDone(EventLog log)
     {
         ExecuteEventLogInfo info;
-        if (ExecuteEventLogCallBacks.GetCount() > 0 && log == ExecuteEventLogCallBacks.GetItem(0).Log)
+        if (_executeEventLogCallBacks.GetCount() > 0 && log == _executeEventLogCallBacks.GetItem(0).Log)
         {
-            info = ExecuteEventLogCallBacks.GetItem(0);
-            ExecuteEventLogCallBacks.Delete(0);
+            info = _executeEventLogCallBacks.GetItem(0);
+            _executeEventLogCallBacks.Delete(0);
             if (info.Done != null)
             {
                 info.Done(info.Log);
@@ -1761,7 +1781,7 @@ public partial class AoWHSMap : GameMap
             if (I == eventValue._player || player.GameOverStatus == GameOverStatus.None)
             {
                 log = (GameOverEventLog)eventValue.Copy(GameTables.GameEngine);
-                if (GameOverLockCount == 0)
+                if (_gameOverLockCount == 0)
                 {
                     player.EventLogbook.AddEvent(log);
                     if (I == Current.SeatedPlayer)
@@ -1772,7 +1792,7 @@ public partial class AoWHSMap : GameMap
                 else
                 {
                     log.TargetPlayer = (sbyte)I;
-                    ExecuteEventLogBuffer.AddEvent(log);
+                    _executeEventLogBuffer.AddEvent(log);
                 }
 
                 log.Release();
@@ -1785,13 +1805,13 @@ public partial class AoWHSMap : GameMap
     {
         sbyte player;
         EventLog log;
-        GameOverLockCount -= 1;
-        if (GameOverLockCount == 0)
+        _gameOverLockCount -= 1;
+        if (_gameOverLockCount == 0)
         {
-            while (ExecuteEventLogBuffer.Count != 0)
+            while (_executeEventLogBuffer.Count != 0)
             {
-                player = ((GameOverEventLog)ExecuteEventLogBuffer.GetEvents(0)).TargetPlayer;
-                log = (EventLog)ExecuteEventLogBuffer.GetEvents(0).Copy(GameTables.GameEngine);
+                player = ((GameOverEventLog)_executeEventLogBuffer.GetEvents(0)).TargetPlayer;
+                log = (EventLog)_executeEventLogBuffer.GetEvents(0).Copy(GameTables.GameEngine);
                 Current.Players.GetPlayers(player).EventLogbook.AddEvent(log);
                 if (player == Current.SeatedPlayer)
                 {
@@ -1799,8 +1819,8 @@ public partial class AoWHSMap : GameMap
                 }
 
                 log.Release();
-                var events = ExecuteEventLogBuffer.GetEvents(0);
-                ExecuteEventLogBuffer.RemoveEvent(events);
+                var events = _executeEventLogBuffer.GetEvents(0);
+                _executeEventLogBuffer.RemoveEvent(events);
             }
         }
     }
@@ -1808,7 +1828,7 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:2071
     public void LockGameOverEvent()
     {
-        GameOverLockCount += 1;
+        _gameOverLockCount += 1;
     }
 
     // AoWHSMap.PAS:2077
@@ -2315,7 +2335,7 @@ public partial class AoWHSMap : GameMap
         bool result;
         if (SeatedPlayer != -1)
         {
-            if (!RequestCombatType || ExecuteEventLogCallBacks.GetCount() == 0)
+            if (!RequestCombatType || _executeEventLogCallBacks.GetCount() == 0)
             {
                 result = TryEndPlayerTurn(SeatedPlayer);
             }
@@ -2351,14 +2371,14 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:2784
     public void LockUpdateVisibility()
     {
-        UpdateVisibilityLockCount += 1;
+        _updateVisibilityLockCount += 1;
     }
 
     // AoWHSMap.PAS:2790
     public void UnLockUpdateVisibility()
     {
-        UpdateVisibilityLockCount -= 1;
-        if (UpdateVisibilityLockCount == 0 && VisibilityChanged)
+        _updateVisibilityLockCount -= 1;
+        if (_updateVisibilityLockCount == 0 && _visibilityChanged)
         {
             UpdateVisibility();
         }
@@ -2368,7 +2388,7 @@ public partial class AoWHSMap : GameMap
     public void UpdateVisibility()
     {
         EngineMessage message = default;
-        if (UpdateVisibilityLockCount == 0)
+        if (_updateVisibilityLockCount == 0)
         {
             if (!Status.Contains(HexSpriteMapStatusElement.Destroying))
             {
@@ -2379,11 +2399,11 @@ public partial class AoWHSMap : GameMap
                 Current.InvalidateMap();
             }
 
-            VisibilityChanged = false;
+            _visibilityChanged = false;
         }
         else
         {
-            VisibilityChanged = true;
+            _visibilityChanged = true;
         }
     }
 
@@ -2423,7 +2443,7 @@ public partial class AoWHSMap : GameMap
             }
 
             CombatMap = (CustomCombatMap)GameTables.GameEngine.LoadHsmMap(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
-            _combatMapCreatedEventsStore.Raise(this);
+            CombatMapCreatedEventsStore.Raise(this);
         }
     }
 
@@ -2432,7 +2452,7 @@ public partial class AoWHSMap : GameMap
     {
         if (CombatMap != null)
         {
-            _combatMapDestroyedEventsStore.Raise(this);
+            CombatMapDestroyedEventsStore.Raise(this);
             CombatMap?.Dispose();
             CombatMap = null;
             ResetSeatedPlayerView();
@@ -2523,7 +2543,7 @@ public partial class AoWHSMap : GameMap
                 log.TurnPlayer = CurrentPlayer;
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                log.Text = AbilityRules.TranslateResourceString(GameText.s_yourTurnContinuesText);
+                log.Text = AbilityRules.TranslateResourceString(GameText.YourTurnContinuesText);
                 TriggerExecuteEventLog(log, false, ShowSeatedPlayerCallback);
                 log.Release();
                 UnlockGameOverEvent();
@@ -2548,7 +2568,7 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:3026
     public void TriggerRelationsChanged()
     {
-        if (Status.Contains(HexSpriteMapStatusElement.Activated) && RelationsChangedLockCount == 0)
+        if (Status.Contains(HexSpriteMapStatusElement.Activated) && _relationsChangedLockCount == 0)
         {
             BeginUnitUpdate();
             UnitControl.TriggerUnitsChanged();
@@ -2560,14 +2580,14 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:3038
     public void LockRelationsChanged()
     {
-        RelationsChangedLockCount += 1;
+        _relationsChangedLockCount += 1;
     }
 
     // AoWHSMap.PAS:3044
     public void UnlockRelationsChanged()
     {
-        Assert(RelationsChangedLockCount != 0, "Invalid MapChanged Lock usage", "AoWHSMap.PAS", 3056);
-        RelationsChangedLockCount -= 1;
+        Assert(_relationsChangedLockCount != 0, "Invalid MapChanged Lock usage", "AoWHSMap.PAS", 3056);
+        _relationsChangedLockCount -= 1;
     }
 
     // AoWHSMap.PAS:3061
@@ -2577,10 +2597,10 @@ public partial class AoWHSMap : GameMap
         if (GetTurnTimerEnabled())
         {
             seconds = GetTurnTimeLeft() / 1000;
-            if (TurnTimeBeep != 0 && seconds < TurnTimeBeep && CombatMap == null)
+            if (_turnTimeBeep != 0 && seconds < _turnTimeBeep && CombatMap == null)
             {
-                TurnTimeBeep = seconds;
-                if (TurnTimeBeep == 0)
+                _turnTimeBeep = seconds;
+                if (_turnTimeBeep == 0)
                 {
                     AudioPlayback.PlaySample("SFX\\EVENTS\\CLOCK.WAV");
                 }
@@ -2595,9 +2615,9 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:3078
     public void ResetTurnTimer()
     {
-        TurnTimeElapsed = TurnTime * 1000 * 60;
-        TurnTimeBeep = 11;
-        TurnTimerStart = -1;
+        _turnTimeElapsed = TurnTime * 1000 * 60;
+        _turnTimeBeep = 11;
+        _turnTimerStart = -1;
     }
 
     // AoWHSMap.PAS:3086
@@ -2605,13 +2625,13 @@ public partial class AoWHSMap : GameMap
     {
         int time;
         int left;
-        left = TurnTimeElapsed;
-        if (TurnTimerStart != -1)
+        left = _turnTimeElapsed;
+        if (_turnTimerStart != -1)
         {
             time = PixelFormats.GetElapsedMilliseconds();
-            if (time >= TurnTimerStart)
+            if (time >= _turnTimerStart)
             {
-                left = left - (time - TurnTimerStart);
+                left = left - (time - _turnTimerStart);
             }
             else
             {
@@ -2628,14 +2648,14 @@ public partial class AoWHSMap : GameMap
     }
 
     // AoWHSMap.PAS:3102
-    public bool GetTurnTimerEnabled() => TurnTime > 0 && TurnTimerStart != -1;
+    public bool GetTurnTimerEnabled() => TurnTime > 0 && _turnTimerStart != -1;
 
     // AoWHSMap.PAS:3108
     public void EnableTurnTimer()
     {
-        if (TurnTimerStart == -1 && TurnTime > 0)
+        if (_turnTimerStart == -1 && TurnTime > 0)
         {
-            TurnTimerStart = PixelFormats.GetElapsedMilliseconds();
+            _turnTimerStart = PixelFormats.GetElapsedMilliseconds();
         }
     }
 
@@ -2643,19 +2663,19 @@ public partial class AoWHSMap : GameMap
     public void DisableTurnTimer()
     {
         int time;
-        time = PixelFormats.GetElapsedMilliseconds() - TurnTimerStart;
+        time = PixelFormats.GetElapsedMilliseconds() - _turnTimerStart;
         if (time > 0)
         {
-            TurnTimeElapsed -= time;
+            _turnTimeElapsed -= time;
         }
 
-        TurnTimerStart = -1;
+        _turnTimerStart = -1;
     }
 
     // AoWHSMap.PAS:3124
     public void ZeroTurnTimer()
     {
-        TurnTimeElapsed = 0;
+        _turnTimeElapsed = 0;
     }
 
     // AoWHSMap.PAS:3144
@@ -2841,7 +2861,7 @@ public partial class AoWHSMap : GameMap
 
     private static readonly string s_oneMomentPleaseText = "One moment please...";
 
-    public static AoWHSMap Current;
+    public static AoWHSMap Current { get; set; }
 
     // { Interface declaration run owned by P5. }
     // allied victory. . points. gold. mana. next scenario

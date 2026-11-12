@@ -6,8 +6,8 @@ public sealed class ConstructionContextTests
 {
     private sealed class ConstructionTrace
     {
-        internal readonly List<string> Facts = [];
-        internal readonly List<ConstructionContext> Contexts = [];
+        internal List<string> Facts { get; } = [];
+        internal List<ConstructionContext> Contexts { get; } = [];
 
         internal void Fact(string label, string value) => Facts.Add($"{label} {value}");
         internal void Number(string label, int value) => Fact(label, value.ToString(System.Globalization.CultureInfo.InvariantCulture));
@@ -19,7 +19,7 @@ public sealed class ConstructionContextTests
 
     private class Captured
     {
-        protected readonly ConstructionTrace ConstructionTrace;
+        protected ConstructionTrace ConstructionTrace { get; }
 
         protected Captured(ConstructionContext context, ConstructionTrace trace)
         {
@@ -168,7 +168,7 @@ public sealed class ConstructionContextTests
     private class PlainBase : Captured
 , IDisposable
     {
-        internal int Value;
+        internal int Value { get; private set; }
 
         protected PlainBase(ConstructionContext context, ConstructionTrace trace, bool fail) : base(context, trace) => Initialize(fail);
 

@@ -26,9 +26,9 @@ public partial class AIMoveExecutorControl : EngineObject
         MoveControl = new AIMoveControl(null);
     }
 
-    public AIMoveControl MoveControl;
-    public AIMoveExecutor Executor;
-    public int State;
+    public AIMoveControl MoveControl { get; }
+    public AIMoveExecutor Executor { get; private set; }
+    public int State { get; protected set; }
 
     // AIGroup.pas:4732
     public override void Dispose()

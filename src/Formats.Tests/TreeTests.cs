@@ -433,11 +433,14 @@ public sealed class TreeTests : FormatsTest
         public string Title = "";
         public string Note = "";
         public int Player;
-        public byte[] Blob = new byte[4];
+
+        public byte[] Blob { get; init; } = new byte[4];
+
         public int PairA;
         public int PairB = 4;
-        public bool SkipNote;
-        public bool HadNote;
+
+        public bool SkipNote { get; init; }
+        public bool HadNote { get; private set; }
 
         public Inner Fixed { get; } = new();
 
@@ -508,7 +511,7 @@ public sealed class TreeTests : FormatsTest
 
     private sealed class BytesProbe : IPersistable
     {
-        public byte[] Data = [];
+        public byte[] Data { get; init; } = [];
 
         public void Persist(IPersister persister) => persister.Bytes("Blob", Data);
     }

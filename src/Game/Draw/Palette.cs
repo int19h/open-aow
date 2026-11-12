@@ -9,7 +9,8 @@ namespace Aow.Game.Draw;
 public partial class Palette
 {
     public int PixelFormatId;
-    public Entry[] Entries = new Entry[256];
+
+    public Entry[] Entries { get; } = new Entry[256];
 
     // GFXE.pas:11050
     public void LoadFromStream(Stream stream)

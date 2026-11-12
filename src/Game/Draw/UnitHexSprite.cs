@@ -25,15 +25,20 @@ public partial class UnitHexSprite : HexSprite
 
     public new const int ClassId = 131604;
 
-    public byte Status;
+    public byte Status { get; private set; }
+
     // visible, edit, selected, paused, instant move
-    public int _showPriority;
-    public UnitGraphicsResource UnitGraphicsResource;
+    private int _showPriority;
+
+    public UnitGraphicsResource UnitGraphicsResource { get; set; }
+
     public byte Direction;
-    public sbyte MoveStep;
+
+    public sbyte MoveStep { get; set; }
     // -1 when idle
-    public byte FlagId;
-    public UnitShadowHexSprite Shadow;
+    public byte FlagId { get; protected set; }
+
+    private UnitShadowHexSprite _shadow;
 
     // UnitHS.PAS:168
     public override void Dispose()
@@ -46,17 +51,17 @@ public partial class UnitHexSprite : HexSprite
     // UnitHS.PAS:219
     public override void SetOwner(ECustomNode owner)
     {
-        if (owner != _owner)
+        if (owner != Owner)
         {
-            if (_owner != null)
+            if (Owner != null)
             {
-                _owner.RemoveChild(this);
+                Owner.RemoveChild(this);
             }
 
-            _owner = owner;
-            if (_owner != null)
+            SetOwnerWithoutNotify(owner);
+            if (Owner != null)
             {
-                _owner.AddChild(this);
+                Owner.AddChild(this);
             }
         }
     }
@@ -288,10 +293,10 @@ public partial class UnitHexSprite : HexSprite
             Status = (byte)(Status | 1);
             visibilityList.AddSortChild(this, _showPriority);
             // { Read Shadow directly. }
-            if (Shadow != null)
+            if (_shadow != null)
             {
-                var showPriority = Shadow.GetShowPriority();
-                visibilityList.AddSortChild(Shadow, showPriority);
+                var showPriority = _shadow.GetShowPriority();
+                visibilityList.AddSortChild(_shadow, showPriority);
             }
         }
     }
@@ -373,11 +378,11 @@ public partial class UnitHexSprite : HexSprite
             RemoveFromMap();
         }
 
-        _owner = field;
+        SetOwnerWithoutNotify(field);
         CalculateShowPriority();
         PlaceOnMap();
         field.RemoveChild(this);
-        _owner = null;
+        SetOwnerWithoutNotify(null);
         SetOwner(field);
         return true;
     }
@@ -388,11 +393,11 @@ public partial class UnitHexSprite : HexSprite
         MapField field;
         bool success;
         field = map.GetField(hexX, hexY, hexLevel);
-        _owner = field;
+        SetOwnerWithoutNotify(field);
         CalculateShowPriority();
         success = PlaceOnMap();
         field.RemoveChild(this);
-        _owner = null;
+        SetOwnerWithoutNotify(null);
         SetOwner(field);
         return success;
     }
@@ -448,30 +453,30 @@ public partial class UnitHexSprite : HexSprite
     // UnitHS.PAS:176
     public void CreateShadow()
     {
-        if (Shadow != null)
+        if (_shadow != null)
         {
             DestroyShadow();
         }
 
         if (AoWHSMap.Current.ShowUnitShadows)
         {
-            Shadow = new UnitShadowHexSprite(null);
-            Shadow.UnitHexSprite = this;
+            _shadow = new UnitShadowHexSprite(null);
+            _shadow.UnitHexSprite = this;
         }
     }
 
     // UnitHS.PAS:185
     public void DestroyShadow()
     {
-        if (Shadow != null)
+        if (_shadow != null)
         {
             if (GetVisible())
             {
-                ((MapLevel)Owner.Owner).Map.DynamicVisibleHexSprite.RemoveChild(Shadow);
+                ((MapLevel)Owner.Owner).Map.DynamicVisibleHexSprite.RemoveChild(_shadow);
             }
 
-            Shadow?.Dispose();
-            Shadow = null;
+            _shadow?.Dispose();
+            _shadow = null;
         }
     }
 

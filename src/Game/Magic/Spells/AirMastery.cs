@@ -18,7 +18,7 @@ public partial class AirMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:688
     public AirMastery(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_airMasteryText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.AirMasteryText);
         SpellId = 60;
         SpellType = SpellType.Global;
         BaseManaCost = 1;

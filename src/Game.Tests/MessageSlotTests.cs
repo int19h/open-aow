@@ -20,7 +20,7 @@ public sealed class MessageSlotTests
     // A sprite that runs one message handler and counts its calls.
     private sealed class Handler(Proc proc) : HexSprite(null!)
     {
-        internal int Calls;
+        internal int Calls { get; private set; }
 
         public override void MapFieldMessageProc(ref MapFieldMessage message)
         {
@@ -52,8 +52,8 @@ public sealed class MessageSlotTests
         MapFieldMessage fieldMessage = default;
         Assert.Equal(EngineMessageParameters.Arity, ((Span<MsgArg>)engineMessage.Param).Length);
         Assert.Equal(MapFieldMessageParameters.Arity, ((Span<MsgArg>)fieldMessage.Param).Length);
-        Assert.Equal(typeof(MsgArg), typeof(EngineMessage).GetField(nameof(EngineMessage.Payload))!.FieldType);
-        Assert.Equal(typeof(MsgArg), typeof(MapFieldMessage).GetField(nameof(MapFieldMessage.Result))!.FieldType);
+        Assert.Equal(typeof(MsgArg), typeof(EngineMessage).GetProperty(nameof(EngineMessage.Payload))!.PropertyType);
+        Assert.Equal(typeof(MsgArg), typeof(MapFieldMessage).GetProperty(nameof(MapFieldMessage.Result))!.PropertyType);
     }
 
     [Fact]

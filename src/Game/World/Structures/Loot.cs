@@ -20,7 +20,7 @@ public sealed partial record Loot : ProductionOrder
     public override CityAction CityAction => CityAction.Loot;
 
     public override string Name(ProductionControl control) =>
-        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(GameText.s_lootText) : base.Name(control);
+        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(GameText.LootText) : base.Name(control);
 
     public override string NameProgressive(ProductionControl control) =>
         control.ProductionCity() != null ? AbilityRules.TranslateResourceString(s_lootingText) : base.NameProgressive(control);

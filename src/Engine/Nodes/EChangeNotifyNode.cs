@@ -23,7 +23,7 @@ public partial class EChangeNotifyNode : ECustomNode
     }
 
     public EngineObjectList _children;
-    internal int _updateCount;
+    private int _updateCount;
 
     // Engine.pas:7212
     public override void Dispose()

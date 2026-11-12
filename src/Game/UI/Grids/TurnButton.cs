@@ -12,21 +12,22 @@ namespace Aow.Game.UI.Grids;
 // change event, checked, animation frame
 public partial class TurnButton : Controls.Control
 {
-    public ImageLibrary _imageLibrary;
-    public int _currentPlayer;
-    public int _lastPlayer;
-    public bool _animating;
-    public int AnimationPhase;
-    public int FrameOffset;
-    public NotifyEvent<TurnButton> _onAnimationDone;
-    public NotifyEvent<TurnButton> OnPlayerChange;
-    public bool ButtonChecked;
-    public int AnimationFrame;
+    private ImageLibrary _imageLibrary;
+    private int _currentPlayer;
+    private int _lastPlayer;
+    private bool _animating;
+    private int _animationPhase;
+    private int _frameOffset;
+    private NotifyEvent<TurnButton> _onAnimationDone;
+    private NotifyEvent<TurnButton> _onPlayerChange;
+
+    public bool ButtonChecked { get; set; }
+    public int AnimationFrame { get; set; }
 
     // TurnButton.pas:54
     public TurnButton(Component owner) : base(owner)
     {
-        FrameOffset = 11;
+        _frameOffset = 11;
     }
 
     // TurnButton.pas:60
@@ -43,8 +44,8 @@ public partial class TurnButton : Controls.Control
     // TurnButton.pas:66
     public override void SetSize()
     {
-        _winWidth = _imageLibrary[0].Width;
-        _winHeight = _imageLibrary[0].Height;
+        SetWinWidthWithoutInvalidate(_imageLibrary[0].Width);
+        SetWinHeightWithoutInvalidate(_imageLibrary[0].Height);
         base.SetSize();
     }
 
@@ -52,16 +53,16 @@ public partial class TurnButton : Controls.Control
     public override void Update()
     {
         base.Update();
-        if (_visible)
+        if (Visible)
         {
-            switch (AnimationPhase)
+            switch (_animationPhase)
             {
                 case 0:
                     if (_lastPlayer != _currentPlayer)
                     {
                         AnimationFrame = _lastPlayer * 7;
-                        FrameOffset = 11;
-                        AnimationPhase = 1;
+                        _frameOffset = 11;
+                        _animationPhase = 1;
                         _animating = true;
                         Drawn = false;
                     }
@@ -73,8 +74,8 @@ public partial class TurnButton : Controls.Control
                     if (_lastPlayer * 7 + 5 < AnimationFrame)
                     {
                         AnimationFrame = 0;
-                        AnimationPhase = 2;
-                        FrameOffset = 0;
+                        _animationPhase = 2;
+                        _frameOffset = 0;
                     }
 
                     break;
@@ -83,9 +84,9 @@ public partial class TurnButton : Controls.Control
                     Drawn = false;
                     if (AnimationFrame > 10)
                     {
-                        AnimationPhase = 3;
+                        _animationPhase = 3;
                         AnimationFrame = _currentPlayer * 7 + 5;
-                        FrameOffset = 11;
+                        _frameOffset = 11;
                     }
 
                     break;
@@ -95,8 +96,8 @@ public partial class TurnButton : Controls.Control
                     if (_currentPlayer * 7 > AnimationFrame)
                     {
                         AnimationFrame = _currentPlayer * 7;
-                        AnimationPhase = 0;
-                        FrameOffset = 11;
+                        _animationPhase = 0;
+                        _frameOffset = 11;
                         _lastPlayer = _currentPlayer;
                         _animating = false;
                         if (_onAnimationDone != null)
@@ -115,7 +116,7 @@ public partial class TurnButton : Controls.Control
     {
         try
         {
-            if (_visible == true && Valid == true)
+            if (Visible == true && Valid == true)
             {
                 if (_onPreDraw != null)
                 {
@@ -124,11 +125,11 @@ public partial class TurnButton : Controls.Control
 
                 if (!_animating && ButtonChecked == true)
                 {
-                    _imageLibrary[FrameOffset + _currentPlayer * 7 + 6].ShowClipped(_window._winLeft + _winLeft, _window._winTop + _winTop, lockedSurface);
+                    _imageLibrary[_frameOffset + _currentPlayer * 7 + 6].ShowClipped(Window.WinLeft + WinLeft, Window.WinTop + WinTop, lockedSurface);
                 }
                 else
                 {
-                    _imageLibrary[FrameOffset + AnimationFrame].ShowClipped(_window._winLeft + _winLeft, _window._winTop + _winTop, lockedSurface);
+                    _imageLibrary[_frameOffset + AnimationFrame].ShowClipped(Window.WinLeft + WinLeft, Window.WinTop + WinTop, lockedSurface);
                 }
 
                 if (_onDraw != null)
@@ -148,7 +149,7 @@ public partial class TurnButton : Controls.Control
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (button == MouseButton.Left && Press())
@@ -165,7 +166,7 @@ public partial class TurnButton : Controls.Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (_onMouseUp != null)
@@ -180,7 +181,7 @@ public partial class TurnButton : Controls.Control
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
-        if (X >= _window._winLeft + _winLeft && X <= _window._winLeft + _winLeft + _winWidth - 1 && Y >= _window._winTop + _winTop && Y <= _window._winTop + _winTop + _winHeight - 1)
+        if (X >= Window.WinLeft + WinLeft && X <= Window.WinLeft + WinLeft + WinWidth - 1 && Y >= Window.WinTop + WinTop && Y <= Window.WinTop + WinTop + WinHeight - 1)
         {
             Handled = true;
             if (_onMouseMove != null)
@@ -219,7 +220,7 @@ public partial class TurnButton : Controls.Control
     public NotifyEvent<TurnButton> OnAnimationDone { get => _onAnimationDone; set => _onAnimationDone = value; }
 
     [Published]
-    public new NotifyEvent<TurnButton> OnChange { get => OnPlayerChange; set => OnPlayerChange = value; }
+    public new NotifyEvent<TurnButton> OnChange { get => _onPlayerChange; set => _onPlayerChange = value; }
 
     [Published]
     public bool Checked { get => ButtonChecked; set => ButtonChecked = value; }

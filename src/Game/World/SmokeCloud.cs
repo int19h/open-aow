@@ -23,7 +23,7 @@ public partial class SmokeCloud : MultiHexMapObject
     {
         Enchantment = new SmokeCloudEnchantment(null);
         Enchantment.Cloud = this;
-        VisibleForSeatedPlayer = false;
+        _visibleForSeatedPlayer = false;
         Drifting = false;
     }
 
@@ -33,10 +33,11 @@ public partial class SmokeCloud : MultiHexMapObject
     public sbyte Player;
     public int TurnsRemaining;
     public bool Drifting;
-    public byte Direction;
-    public bool Updated;
-    public bool VisibleForSeatedPlayer;
-    public SmokeCloudEnchantment Enchantment;
+    private byte _direction;
+    private bool _updated;
+    private bool _visibleForSeatedPlayer;
+
+    public SmokeCloudEnchantment Enchantment { get; }
 
     // SmokeCloud.pas:181
     public override void Dispose()
@@ -52,7 +53,7 @@ public partial class SmokeCloud : MultiHexMapObject
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 15);
         stream.rwInteger(ref TurnsRemaining, 16);
         stream.rwBool(ref Drifting, 17);
-        stream.rwByte(ref Direction, 18);
+        stream.rwByte(ref _direction, 18);
         stream.rwEObject(Enchantment, 19);
     }
 
@@ -62,7 +63,7 @@ public partial class SmokeCloud : MultiHexMapObject
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
         base.MessageProc(ref message, sender);
-        if (message.MessageId == 537001986 && message.Payload.Int == Player && !Updated)
+        if (message.MessageId == 537001986 && message.Payload.Int == Player && !_updated)
         {
             UpdateCloud();
             return;
@@ -70,7 +71,7 @@ public partial class SmokeCloud : MultiHexMapObject
 
         if (message.MessageId == 537001987 && message.Payload.Int == Player)
         {
-            Updated = false;
+            _updated = false;
         }
         else
         {
@@ -87,7 +88,7 @@ public partial class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:300
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (VisibleForSeatedPlayer || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (_visibleForSeatedPlayer || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -124,7 +125,7 @@ public partial class SmokeCloud : MultiHexMapObject
 
         if (_resource.TerrainList.Terrain[message.HexNumber] >= -1)
         {
-            if (message.MessageId == 4392 && _status.Contains(MapObjectStatusElement.Activated))
+            if (message.MessageId == 4392 && Status.Contains(MapObjectStatusElement.Activated))
             {
                 message.Param[0] = 1;
             }
@@ -142,9 +143,9 @@ public partial class SmokeCloud : MultiHexMapObject
     public override void Activate()
     {
         base.Activate();
-        if (Direction == 0)
+        if (_direction == 0)
         {
-            Direction = (byte)(AoWHSMap.Current.Random(6) + 1);
+            _direction = (byte)(AoWHSMap.Current.Random(6) + 1);
         }
 
         var smokeCloudEnchantment = Enchantment;
@@ -235,9 +236,9 @@ public partial class SmokeCloud : MultiHexMapObject
         var hexY = GetHexY();
         var hexX = GetHexX();
         visible = AoWHSMap.Current.Visible(hexX, hexY, hexLevel, 3) || Enchantment.PlayerIndex == AoWHSMap.Current.SeatedPlayer;
-        if (VisibleForSeatedPlayer ^ visible)
+        if (_visibleForSeatedPlayer ^ visible)
         {
-            VisibleForSeatedPlayer = visible;
+            _visibleForSeatedPlayer = visible;
             AoWHSMap.Current.GlobalMagicControl.TriggerChangedEvent();
         }
     }
@@ -267,7 +268,7 @@ public partial class SmokeCloud : MultiHexMapObject
         int hexLevel;
         if (TurnsRemaining != 1)
         {
-            Updated = true;
+            _updated = true;
             if (TurnsRemaining != 0)
             {
                 TurnsRemaining -= 1;
@@ -278,19 +279,19 @@ public partial class SmokeCloud : MultiHexMapObject
                 direction = 0;
                 directions = new ByteList();
                 valid = false;
-                directions.Add(Direction);
-                if (Direction != 1)
+                directions.Add(_direction);
+                if (_direction != 1)
                 {
-                    directions.Add((byte)(Direction - 1));
+                    directions.Add((byte)(_direction - 1));
                 }
                 else
                 {
                     directions.Add(6);
                 }
 
-                if (Direction != 6)
+                if (_direction != 6)
                 {
-                    directions.Add((byte)(Direction + 1));
+                    directions.Add((byte)(_direction + 1));
                 }
                 else
                 {
@@ -321,7 +322,7 @@ public partial class SmokeCloud : MultiHexMapObject
 
                 if (valid)
                 {
-                    Direction = (byte)direction;
+                    _direction = (byte)direction;
                     hexLevel = GetHexLevel();
                     var yhx = GetHexY();
                     HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
@@ -354,7 +355,7 @@ public partial class SmokeCloud : MultiHexMapObject
         public override int ResourceUserClassId() => 135746;
 
         // SmokeCloud.pas:388
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameText.s_smokeCloudText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameText.SmokeCloudText);
 
     }
 

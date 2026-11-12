@@ -16,7 +16,8 @@ namespace Aow.Game.Magic.Spells;
 public partial class CombatSpell : Spell
 {
     public SpellCombatInfo CombatInfo;
-    public byte DamageMode;
+
+    public byte DamageMode { get; protected set; }
 
     // CombatSpells.pas:632
     public CombatSpell(ECustomNode owner) : base(owner)

@@ -78,7 +78,7 @@ public partial class GamePlayDialog : DataModule
     public Panel Panel1;
     public Image CeltLineL;
     public IvTranslator Translator;
-    public string NewPassword = "";
+    private string _newPassword = "";
 
     // AoWGamePlayDlg.pas:200
     public void PasswordEntered(EventLog log)
@@ -88,7 +88,7 @@ public partial class GamePlayDialog : DataModule
         {
             if (!IsEmpty(((PasswordEventLog)log).Password))
             {
-                NewPassword = ((PasswordEventLog)log).Password;
+                _newPassword = ((PasswordEventLog)log).Password;
                 password = new PasswordEventLog(null);
                 password.Title = AbilityRules.TranslateResourceString(s_passwordConfirmationText);
                 password.Prompt = AbilityRules.TranslateResourceString(s_reenterNewPasswordText);
@@ -105,9 +105,9 @@ public partial class GamePlayDialog : DataModule
     // AoWGamePlayDlg.pas:217
     public void PasswordConfirmed(EventLog log)
     {
-        if (((PasswordEventLog)log).Password == NewPassword)
+        if (((PasswordEventLog)log).Password == _newPassword)
         {
-            var encode = AbilityRules.Encode(NewPassword, 0);
+            var encode = AbilityRules.Encode(_newPassword, 0);
             PasswordEdit.Text = encode;
         }
         else

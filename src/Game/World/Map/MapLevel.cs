@@ -18,16 +18,20 @@ public partial class MapLevel : ECustomNode
         _mapFieldClassId = 65793;
     }
 
-    protected internal int _hexLevel;
-    protected internal int _width;
-    protected internal int _height;
-    protected internal int _count;
-    protected internal MapContainer _mapContainer;
-    protected internal HSMap _map;
-    protected internal GameEngine Engine;
-    protected internal int _mapFieldClassId;
-    protected internal int _fieldSize;
-    protected internal int FieldsSize;
+    private int _hexLevel;
+    private int _width;
+    private int _height;
+    private int _count;
+    private MapContainer _mapContainer;
+    private HSMap _map;
+
+    protected internal GameEngine Engine { get; private set; }
+
+    private int _mapFieldClassId;
+    private int _fieldSize;
+
+    protected internal int FieldsSize { get; private set; }
+
     public Int32Array8By2 HexNumberOffsets;
 
     // HSEngine.pas:2925
@@ -40,7 +44,7 @@ public partial class MapLevel : ECustomNode
         {
             Engine = message.Payload.As<GameEngine>();
             _mapContainer = (MapContainer)Owner;
-            _map = _mapContainer._map;
+            _map = _mapContainer.Map;
         }
         else
         {

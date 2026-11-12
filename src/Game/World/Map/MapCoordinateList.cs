@@ -14,9 +14,9 @@ namespace Aow.Game.World.Map;
 // out-of-range items and a run-length encoded stream form) for map locations
 public partial class MapCoordinateList : Persistent
 {
-    internal MapCoordinate[] _list = [];
-    internal int _count;
-    internal int _capacity;
+    private MapCoordinate[] _list = [];
+    private int _count;
+    private int _capacity;
     internal MapCoordinate _default;
 
     // HSEngine.pas:1673

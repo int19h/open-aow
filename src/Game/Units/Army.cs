@@ -51,23 +51,29 @@ public partial class Army : UnitList
         IndependentRelation = -1;
     }
 
-    public Set<ArmyStatusElement> Status;
+    public Set<ArmyStatusElement> Status { get; set; }
+
     public Set<ArmyModeElement> Mode;
     public sbyte Player;
     public sbyte X;
     public sbyte Y;
     public sbyte MapLevel;
-    public sbyte IndependentRelation;
-    public byte UnfogRange;
-    public byte Upkeep;
-    public NotifyEvent<object> OnUpdate;
+
+    public sbyte IndependentRelation { get; private set; }
+
+    private byte _unfogRange;
+    private byte _upkeep;
+
+    public NotifyEvent<object> OnUpdate { get; set; }
+
     public GroupBehavior OldAIBehavior;
     public sbyte DestinationX;
     public sbyte DestinationY;
     public sbyte DestinationL;
     public Set<ArmyUserModeElement> UserMode;
-    public byte VisibilityRanges;
-    public byte ConcealedUnits;
+    private byte _visibilityRanges;
+
+    public byte ConcealedUnits { get; private set; }
 
     // Army.PAS:336
     public override void Dispose()
@@ -949,7 +955,7 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:666
-    public byte GetUpkeep() => Upkeep;
+    public byte GetUpkeep() => _upkeep;
 
     // Army.PAS:669
     public void ResetDestinationPosition()
@@ -1020,7 +1026,7 @@ public partial class Army : UnitList
             upkeep = (byte)(upkeep + ((Troop)_children.List[I]).GetUpkeep());
         }
 
-        previous = Upkeep;
+        previous = _upkeep;
         if (previous != upkeep && Status.Contains(ArmyStatusElement.Activated))
         {
             delta = upkeep - previous;
@@ -1028,7 +1034,7 @@ public partial class Army : UnitList
             AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + delta);
         }
 
-        Upkeep = upkeep;
+        _upkeep = upkeep;
     }
 
     // Army.PAS:719
@@ -1251,7 +1257,7 @@ public partial class Army : UnitList
         }
 
         Status = Status + Set<ArmyStatusElement>.Of(ArmyStatusElement.Activated);
-        Upkeep = 0;
+        _upkeep = 0;
         if (Player != -1)
         {
             AoWHSMap.Current.Players.GetPlayers(Player).Armies.AddChild(this);
@@ -1274,10 +1280,10 @@ public partial class Army : UnitList
         Troop troop;
         if (Status.Contains(ArmyStatusElement.Activated))
         {
-            if (UnfogRange != 0)
+            if (_unfogRange != 0)
             {
-                AoWHSMap.Current.FogArea(X, Y, MapLevel, UnfogRange);
-                UnfogRange = 0;
+                AoWHSMap.Current.FogArea(X, Y, MapLevel, _unfogRange);
+                _unfogRange = 0;
             }
 
             for (int I = _children.Count - 1; I >= 0; I--)
@@ -1293,7 +1299,7 @@ public partial class Army : UnitList
             {
                 AoWHSMap.Current.Players.GetPlayers(Player).Armies.RemoveChild(this);
                 var players = AoWHSMap.Current.Players.GetPlayers(Player);
-                AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - Upkeep);
+                AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - _upkeep);
             }
 
             Status = Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.Activated);
@@ -1387,7 +1393,7 @@ public partial class Army : UnitList
                 if (Player != -1)
                 {
                     var players = AoWHSMap.Current.Players.GetPlayers(Player);
-                    AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - Upkeep);
+                    AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - _upkeep);
                     AoWHSMap.Current.Players.GetPlayers(Player).Armies.RemoveChild(this);
                 }
 
@@ -1395,7 +1401,7 @@ public partial class Army : UnitList
                 if (Player != -1)
                 {
                     var players = AoWHSMap.Current.Players.GetPlayers(Player);
-                    AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + Upkeep);
+                    AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + _upkeep);
                     AoWHSMap.Current.Players.GetPlayers(Player).Armies.AddChild(this);
                 }
 
@@ -1971,14 +1977,14 @@ public partial class Army : UnitList
             }
         }
 
-        VisibilityRanges = (byte)((trueVision << 4) + vision);
+        _visibilityRanges = (byte)((trueVision << 4) + vision);
     }
 
     // Army.PAS:1667
-    public byte VisibilityRange() => (byte)(VisibilityRanges & 15);
+    public byte VisibilityRange() => (byte)(_visibilityRanges & 15);
 
     // Army.PAS:1670
-    public byte TrueVisionRange() => (byte)(int)(((uint)VisibilityRanges) >> 4);
+    public byte TrueVisionRange() => (byte)(int)(((uint)_visibilityRanges) >> 4);
 
     // Army.PAS:1673
     public void TurnUnFogOff()
@@ -1986,11 +1992,11 @@ public partial class Army : UnitList
         byte range;
         if (Status.Contains(ArmyStatusElement.Activated))
         {
-            range = UnfogRange;
+            range = _unfogRange;
             if (range != 0)
             {
                 AoWHSMap.Current.FogArea(X, Y, MapLevel, range);
-                UnfogRange = 0;
+                _unfogRange = 0;
             }
         }
     }
@@ -2026,24 +2032,24 @@ public partial class Army : UnitList
                 range = 0;
             }
 
-            if (range != UnfogRange)
+            if (range != _unfogRange)
             {
-                if (UnfogRange != 0)
+                if (_unfogRange != 0)
                 {
-                    AoWHSMap.Current.FogArea(X, Y, MapLevel, UnfogRange);
+                    AoWHSMap.Current.FogArea(X, Y, MapLevel, _unfogRange);
                 }
 
-                UnfogRange = (byte)range;
+                _unfogRange = (byte)range;
                 if (X != -1)
                 {
-                    if (UnfogRange != 0)
+                    if (_unfogRange != 0)
                     {
-                        AoWHSMap.Current.UnFogArea(X, Y, MapLevel, UnfogRange);
+                        AoWHSMap.Current.UnFogArea(X, Y, MapLevel, _unfogRange);
                     }
                 }
                 else
                 {
-                    UnfogRange = 0;
+                    _unfogRange = 0;
                 }
             }
         }
@@ -2411,7 +2417,7 @@ public partial class Army : UnitList
             }
             else
             {
-                if (AlignmentTables.s_goodAlignments.Contains(alignment) && (!AlignmentTables.s_evilAlignments.Contains(alignment) || (goodArmy != null && evilArmy == null) || (goodArmy == null && evilArmy == null) || goodArmy != null && evilArmy != null && goodArmy.GetCount() >= evilArmy.GetCount()))
+                if (AlignmentTables.GoodAlignments.Contains(alignment) && (!AlignmentTables.EvilAlignments.Contains(alignment) || (goodArmy != null && evilArmy == null) || (goodArmy == null && evilArmy == null) || goodArmy != null && evilArmy != null && goodArmy.GetCount() >= evilArmy.GetCount()))
                 {
                     if (goodArmy == null)
                     {
@@ -2577,9 +2583,9 @@ public partial class Army : UnitList
                 {
                     troop = (Troop)_children.List[I];
                     Alignment = troop.GetAlignment();
-                    evil = evil && AlignmentTables.s_evilAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Units.Alignment.Evil, Units.Alignment.PureEvil).Contains(Alignment));
-                    good = good && AlignmentTables.s_goodAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Units.Alignment.PureGood, Units.Alignment.Good).Contains(Alignment));
-                    neutral = neutral && AlignmentTables.s_neutralAlignments.Contains(Alignment);
+                    evil = evil && AlignmentTables.EvilAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Units.Alignment.Evil, Units.Alignment.PureEvil).Contains(Alignment));
+                    good = good && AlignmentTables.GoodAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Units.Alignment.PureGood, Units.Alignment.Good).Contains(Alignment));
+                    neutral = neutral && AlignmentTables.NeutralAlignments.Contains(Alignment);
                 }
 
                 if (good && !evil)

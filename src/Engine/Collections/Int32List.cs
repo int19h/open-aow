@@ -15,10 +15,10 @@ namespace Aow.Engine.Collections;
 
 public partial class Int32List : Persistent
 {
-    internal int[] _list = [];
-    internal int _count;
-    internal int _capacity;
-    internal int _default;
+    private int[] _list = [];
+    private int _count;
+    private int _capacity;
+    private int _default;
 
     // Engine.pas:3343
     public int Get(int index)

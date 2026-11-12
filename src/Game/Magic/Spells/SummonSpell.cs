@@ -17,8 +17,8 @@ namespace Aow.Game.Magic.Spells;
 public partial class SummonSpell : Spell
 {
 
-    public int AIBasePriority;
-    public UnitIndexList UnitIndices;
+    public int AIBasePriority { get; protected set; }
+    public UnitIndexList UnitIndices { get; }
 
     // SummonSpells.pas:249
     public override void Dispose()

@@ -14,7 +14,7 @@ public partial class SlowEnchantmentAbility : UnitEnchantmentAbility
     // PassiveAb.pas:601
     public SlowEnchantmentAbility(ECustomNode owner) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_slowText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.SlowText);
         AbilityId = 132;
         SelectionTypes = Set<AbilitySelectionType>.Of();
     }

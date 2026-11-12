@@ -7,9 +7,10 @@ namespace Aow.Game.Draw;
 // size 0 gives nil.
 public partial class Matrix : IDisposable
 {
-    internal byte[] _data;
-    internal byte _width;
-    internal byte _height;
+    internal byte[] Data { get; private set; }
+
+    private byte _width;
+    private byte _height;
 
     // DisplayC.pas:3145
     // { TMatrix (DCTypes in the original) }
@@ -17,13 +18,13 @@ public partial class Matrix : IDisposable
     {
         _width = width;
         _height = height;
-        _data = _width * _height == 0 ? null : new byte[_width * _height];
+        Data = _width * _height == 0 ? null : new byte[_width * _height];
     }
 
     // DisplayC.pas:3155
     public virtual void Dispose()
     {
-        _data = null;
+        Data = null;
     }
 
     // DisplayC.pas:3166
@@ -33,7 +34,7 @@ public partial class Matrix : IDisposable
         int result;
         if (X < _width && Y < _height)
         {
-            result = _data[X + Y * _width];
+            result = Data[X + Y * _width];
             if (result > 2)
             {
                 result = 2;
@@ -52,7 +53,7 @@ public partial class Matrix : IDisposable
     {
         if (X < _width && Y < _height)
         {
-            _data[X + Y * _width] = value;
+            Data[X + Y * _width] = value;
         }
     }
 

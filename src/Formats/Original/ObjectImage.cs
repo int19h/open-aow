@@ -386,8 +386,7 @@ internal static class ObjectImage
 /// <summary>The reserved members and their total order (own-formats.md 2.4).</summary>
 public static class Reserved
 {
-    public static readonly string[] Order =
-        ["$format", "$version", "$kind", "$container", "$mods", "$class", "$case", "$slot", "$ext", "$residue", "$padding", "$bits", "$text", "$layout"];
+    public static string[] Order { get; } = ["$format", "$version", "$kind", "$container", "$mods", "$class", "$case", "$slot", "$ext", "$residue", "$padding", "$bits", "$text", "$layout"];
 
     public static bool IsKnown(string name) => Array.IndexOf(Order, name) >= 0;
 }

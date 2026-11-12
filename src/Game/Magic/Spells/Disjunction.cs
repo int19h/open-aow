@@ -60,7 +60,7 @@ public partial class Disjunction : Spell
             caster = new DisjunctionSpellCaster(null);
             caster.CasterSpellId = SpellId;
             caster.CasterSourceId = source.UnitId;
-            AoWHSMap.Current._cosmeticSurgeryEventsStore.Raise(caster);
+            AoWHSMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
             caster.Release();
             result = true;
         }

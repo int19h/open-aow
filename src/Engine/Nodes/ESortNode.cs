@@ -13,9 +13,11 @@ public partial class ESortNode : ECustomNode
         Items = [];
     }
 
-    protected internal bool _sorted;
+    private bool _sorted;
     protected internal int _count;
-    protected internal int Capacity;
+
+    protected internal int Capacity { get; private set; }
+
     protected internal SortItem[] Items = [];
 
     // Engine.pas:1513
@@ -154,7 +156,7 @@ public partial class ESortNode : ECustomNode
     }
 
     public SortValueAccessor SortValue => new SortValueAccessor(this);
-    public bool Sorted { get => _sorted; }
+    public bool Sorted { get => _sorted; protected internal set => _sorted = value; }
 
     private static void SortItems(Span<SortItem> sortList, int L, int R)
     {
@@ -199,8 +201,8 @@ public partial class ESortNode : ECustomNode
 
     public struct SortItem
     {
-        public int SortValue;
-        public EngineObject Child;
+        public int SortValue { get; set; }
+        public EngineObject Child { get; set; }
     }
 
     // Engine.pas:922

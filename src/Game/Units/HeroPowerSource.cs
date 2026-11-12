@@ -17,7 +17,7 @@ public partial class HeroPowerSource : PowerSource
     public HeroPowerSource(ECustomNode owner) : base(owner)
     { }
 
-    public Hero Hero;
+    public Hero Hero { get; set; }
 
     // Hero.PAS:587
     public override string Name() => Hero.HeroName;

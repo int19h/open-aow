@@ -11,7 +11,7 @@ public partial class MoveControl
 {
     public void CalculatePath(MovePath path, sbyte x, sbyte y, sbyte level)
     {
-        RtlUnit.Assert(Status.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7e4f);
+        RtlUnit.Assert(_status.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7e4f);
         path.Clear();
         if (level >= Map.MapContainer.LevelCount) return;
         SetMapL(Map.MapContainer.GetMapLevel(level));
@@ -19,7 +19,7 @@ public partial class MoveControl
         int points = Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
         bool failed = points == 0xffffff;
         AoWMapField neighbor = null;
-        while (field != null && (field.HexX != SourceX || field.HexY != SourceY || field.HexLevel != SourceL) && !failed)
+        while (field != null && (field.HexX != _sourceX || field.HexY != _sourceY || field.HexLevel != _sourceL) && !failed)
         {
             path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
             int cost = OnMovePoint(field, 1);
@@ -28,7 +28,7 @@ public partial class MoveControl
             {
                 neighbor = NeighborField(field, direction);
                 if (Settings.GetMovePoints(neighbor.HexX, neighbor.HexY, neighbor.HexLevel) != points - cost) continue;
-                bool source = neighbor.HexX == SourceX && neighbor.HexY == SourceY && neighbor.HexLevel == SourceL;
+                bool source = neighbor.HexX == _sourceX && neighbor.HexY == _sourceY && neighbor.HexLevel == _sourceL;
                 int over = source || (neighbor.FieldFlags & 0x2000) == 0 ? 1 : neighbor.CanMoveOver(this);
                 found = over != 0 && ((field.FieldFlags & 0x4000) == 0 || field.CanMoveOn(this, cost, over) != -1);
             }
@@ -78,7 +78,7 @@ public partial class MoveControl
             points += cost;
             int old = Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
             if (old <= points || points > MovePointsLimit) break;
-            if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && old == 0xffffff) ProcessedMapFields.Add(field);
+            if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && old == 0xffffff) _processedMapFields.Add(field);
             if (field.HexX == DestinationX && field.HexY == DestinationY && field.HexLevel == DestinationL) MovePointsLimit = points;
             Settings.SetMovePoints(field.HexX, field.HexY, field.HexLevel, points);
             if ((field.FieldFlags & 0x2000) == 0) moveOverCode = 1;
@@ -92,7 +92,7 @@ public partial class MoveControl
 
     public void ProcessHex(AoWMapField field, int direction, int count)
     {
-        ProcessedCount++;
+        _processedCount++;
         int over = (field.FieldFlags & 0x2000) == 0 ? 1 : field.CanMoveOver(this);
         int left = s_sideDirections[direction][0], right = s_sideDirections[direction][1];
         int leftCount = CalculateMovePointLine(field, left, over);

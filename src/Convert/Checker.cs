@@ -18,7 +18,12 @@ public sealed class Checker(TextWriter output, TextWriter errors)
 {
     private sealed class ProfileTally
     {
-        public int Files, OriginalRoundTrips, DocumentRoundTrips, StableNormalizations, Residue, Parts;
+        public int Files { get; set; }
+        public int OriginalRoundTrips { get; set; }
+        public int DocumentRoundTrips { get; set; }
+        public int StableNormalizations { get; set; }
+        public int Residue { get; set; }
+        public int Parts { get; set; }
     }
 
     private readonly SortedDictionary<string, ProfileTally> _tallies = new(StringComparer.Ordinal);

@@ -11,16 +11,16 @@ namespace Aow.Game.UI.Controls;
 // _imageLibraryIndexFrame, _imageLibraryIndexTNormal, _imageLibraryIndexTSelected
 public partial class Gauge : Control
 {
-    public int _min;
-    public int _max;
-    public int _position;
-    public InterfaceImageLibrary _imageLibraryFrame;
-    public InterfaceImageLibrary _imageLibraryTextureNormal;
-    public InterfaceImageLibrary _imageLibraryTextureSelected;
-    public GaugeType Style;
-    public int _imageLibraryIndexFrame;
-    public int _imageLibraryIndexTNormal;
-    public int _imageLibraryIndexTSelected;
+    private int _min;
+    private int _max;
+    private int _position;
+    private InterfaceImageLibrary _imageLibraryFrame;
+    private InterfaceImageLibrary _imageLibraryTextureNormal;
+    private InterfaceImageLibrary _imageLibraryTextureSelected;
+    private GaugeType _style;
+    private int _imageLibraryIndexFrame;
+    private int _imageLibraryIndexTNormal;
+    private int _imageLibraryIndexTSelected;
 
     // AOWGauge.pas:69
     public Gauge(Component owner) : base(owner)
@@ -50,11 +50,11 @@ public partial class Gauge : Control
 
             if (_imageLibraryFrame != null)
             {
-                Style = GaugeType.Normal;
+                _style = GaugeType.Normal;
             }
             else
             {
-                Style = GaugeType.Borderless;
+                _style = GaugeType.Borderless;
             }
 
             Valid = true;
@@ -66,25 +66,25 @@ public partial class Gauge : Control
     // AOWGauge.pas:94
     public override void SetSize()
     {
-        switch (Style)
+        switch (_style)
         {
             case GaugeType.Normal:
                 var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
                 var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
-                if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > _winHeight)
+                if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > WinHeight)
                 {
                     var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
                     var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
-                    _winHeight = imageLibraryFrame2.Height + imageLibraryFrame3.Height;
+                    SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                 }
 
                 var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame];
                 var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
-                if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > _winWidth)
+                if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > WinWidth)
                 {
                     var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
                     var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
-                    _winWidth = imageLibraryFrame2.Width + imageLibraryFrame3.Width;
+                    SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
                 }
 
                 break;
@@ -117,7 +117,7 @@ public partial class Gauge : Control
         int P = default;
         try
         {
-            if (Valid && _visible)
+            if (Valid && Visible)
             {
                 if (_onPreDraw != null)
                 {
@@ -125,19 +125,19 @@ public partial class Gauge : Control
                 }
 
                 oldClip = lockedSurface.ClipRectangle;
-                switch (Style)
+                switch (_style)
                 {
                     case GaugeType.Normal:
                         var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
-                        P = (_winWidth - imageLibraryFrameWidth.Width - imageLibraryFrame.Width) * _position / (_max - _min);
-                        var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                        P = (WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame.Width) * _position / (_max - _min);
+                        var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
                         var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        if (_window._winLeft + P + _winLeft + imageLibraryFrame2.Width > lockedSurface.ClipRectangle.Left)
+                        if (Window.WinLeft + P + WinLeft + imageLibraryFrame2.Width > lockedSurface.ClipRectangle.Left)
                         {
                             var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                            lockedSurface.ClipRectangle.Left = _window._winLeft + P + _winLeft + imageLibraryFrame3.Width;
+                            lockedSurface.ClipRectangle.Left = Window.WinLeft + P + WinLeft + imageLibraryFrame3.Width;
                         }
 
                         var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
@@ -146,27 +146,27 @@ public partial class Gauge : Control
                         var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                         var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        var rectangle2 = new Rect(_window._winLeft + _winLeft + imageLibraryFrame8.Width, _window._winTop + _winTop + imageLibraryFrame7.Height, _winWidth - imageLibraryFrame5.Width - imageLibraryFrame6.Width, _winHeight - imageLibraryFrameHeight.Height - imageLibraryFrame4.Height);
+                        var rectangle2 = new Rect(Window.WinLeft + WinLeft + imageLibraryFrame8.Width, Window.WinTop + WinTop + imageLibraryFrame7.Height, WinWidth - imageLibraryFrame5.Width - imageLibraryFrame6.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame4.Height);
                         _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle2, ref lockedSurface);
                         lockedSurface.ClipRectangle = oldClip;
                         var imageLibraryFrame9 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var libraryImage = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                         var filFrameItem = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrameWidth2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        var rectangle3 = new Rect(_window._winLeft + _winLeft + imageLibraryFrameWidth2.Width, _window._winTop + _winTop + filFrameItem.Height, P, _winHeight - imageLibraryFrame9.Height - libraryImage.Height);
+                        var rectangle3 = new Rect(Window.WinLeft + WinLeft + imageLibraryFrameWidth2.Width, Window.WinTop + WinTop + filFrameItem.Height, P, WinHeight - imageLibraryFrame9.Height - libraryImage.Height);
                         _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle3, ref lockedSurface);
                         break;
                     case GaugeType.Borderless:
-                        P = _position * _winWidth / (_max - _min);
-                        if (_window._winLeft + P + _winLeft > lockedSurface.ClipRectangle.Left)
+                        P = _position * WinWidth / (_max - _min);
+                        if (Window.WinLeft + P + WinLeft > lockedSurface.ClipRectangle.Left)
                         {
-                            lockedSurface.ClipRectangle.Left = _window._winLeft + P + _winLeft;
+                            lockedSurface.ClipRectangle.Left = Window.WinLeft + P + WinLeft;
                         }
 
-                        var rectangle4 = new Rect(_window._winLeft + P + _winLeft, _window._winTop + _winTop, _winWidth - P, _winHeight);
+                        var rectangle4 = new Rect(Window.WinLeft + P + WinLeft, Window.WinTop + WinTop, WinWidth - P, WinHeight);
                         _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle4, ref lockedSurface);
                         lockedSurface.ClipRectangle = oldClip;
-                        var rectangle5 = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, P, _winHeight);
+                        var rectangle5 = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, P, WinHeight);
                         _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle5, ref lockedSurface);
                         break;
                 }
@@ -188,7 +188,7 @@ public partial class Gauge : Control
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (_onMouseDown != null)
@@ -202,7 +202,7 @@ public partial class Gauge : Control
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (_onMouseUp != null)
@@ -216,7 +216,7 @@ public partial class Gauge : Control
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
         Handled = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
             if (_onMouseMove != null)

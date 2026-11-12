@@ -22,7 +22,7 @@ public partial class Resource : PlayerCropStructureResource
     // City.pas:2628
     public new const int ClassId = 131337;
 
-    public byte Size;
+    public byte Size { get; private set; }
 
     // City.pas:2622
 
@@ -78,9 +78,9 @@ public partial class Resource : PlayerCropStructureResource
     public new void ActivateMessage()
     {
         Size = 0;
-        for (int I = 0, last = _terrainList.Count - 1; I <= last; I++)
+        for (int I = 0, last = TerrainList.Count - 1; I <= last; I++)
         {
-            if (_terrainList.Terrain[I] >= 0)
+            if (TerrainList.Terrain[I] >= 0)
             {
                 Size = (byte)(Size + 1);
             }

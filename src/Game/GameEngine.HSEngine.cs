@@ -22,29 +22,29 @@ namespace Aow.Game;
 // compressed). the event lists are told when a map or a set is loaded or closed
 public partial class GameEngine : ENode
 {
-    internal Set<HexSpriteEngineStatusElement> _status;
-    protected internal HSSet _hexSpriteSet;
-    protected internal HSMap _hexSpriteMap;
-    internal string _hexSpriteSetSearchPath = "";
-    internal string _hssFileName = "";
+    private Set<HexSpriteEngineStatusElement> _status;
+    private HSSet _hexSpriteSet;
+    private HSMap _hexSpriteMap;
+    private string _hexSpriteSetSearchPath = "";
+    private string _hssFileName = "";
 
-    internal EventStore<HSMap> _onHsmLoadedStore;
+    internal EventStore<HSMap> OnHsmLoadedStore { get; set; }
 
     internal event NotifyEvent<HSMap> FOnHsmLoaded
     {
-        add => _onHsmLoadedStore.Add(value);
-        remove => _onHsmLoadedStore.Remove(value);
+        add => OnHsmLoadedStore.Add(value);
+        remove => OnHsmLoadedStore.Remove(value);
     }
 
-    internal EventStore<HSMap> _onHsmCloseStore;
+    internal EventStore<HSMap> OnHsmCloseStore { get; set; }
 
     internal event NotifyEvent<HSMap> FOnHsmClose
     {
-        add => _onHsmCloseStore.Add(value);
-        remove => _onHsmCloseStore.Remove(value);
+        add => OnHsmCloseStore.Add(value);
+        remove => OnHsmCloseStore.Remove(value);
     }
 
-    internal EventStore<GameEngine> _onHssLoadedStore;
+    private EventStore<GameEngine> _onHssLoadedStore;
 
     internal event NotifyEvent<GameEngine> FOnHssLoaded
     {
@@ -52,7 +52,7 @@ public partial class GameEngine : ENode
         remove => _onHssLoadedStore.Remove(value);
     }
 
-    internal EventStore<GameEngine> _onHssCloseStore;
+    private EventStore<GameEngine> _onHssCloseStore;
 
     internal event NotifyEvent<GameEngine> FOnHssClose
     {
@@ -91,20 +91,20 @@ public partial class GameEngine : ENode
                 {
                     SetHexSpriteMap((HSMap)CreateEngineObject(header.ClassId, this));
                     var expandFileName = ExpandFileName(fileName);
-                    _hexSpriteMap._fileName = expandFileName;
+                    _hexSpriteMap.FileName = expandFileName;
                     _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
                     if (edit)
                     {
-                        _hexSpriteMap._status = _hexSpriteMap._status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
+                        _hexSpriteMap.Status = _hexSpriteMap.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
                     }
 
                     try
                     {
-                        _hexSpriteMap._onProgress = progress;
+                        _hexSpriteMap.OnProgress = progress;
                         ReadEngineObject(stream, _hexSpriteMap, progress);
                         ActivateEngineObject(_hexSpriteMap);
-                        _hexSpriteMap._onProgress = null;
-                        _onHsmLoadedStore.Raise(_hexSpriteMap);
+                        _hexSpriteMap.OnProgress = null;
+                        OnHsmLoadedStore.Raise(_hexSpriteMap);
                     }
                     catch
                     {
@@ -151,7 +151,7 @@ public partial class GameEngine : ENode
                 if (ArrayEquals<ByteArray4, byte>(header.Id, s_hsmId))
                 {
                     result = (HSMap)CreateEngineObject(header.ClassId, this);
-                    result._fileName = ExpandFileName(fileName);
+                    result.FileName = ExpandFileName(fileName);
                     _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
                     try
                     {
@@ -377,9 +377,9 @@ public partial class GameEngine : ENode
                 if (ArrayEquals<ByteArray4, byte>(header.Id, s_hsmId))
                 {
                     SetHexSpriteMap((HSMap)CreateEngineObject(header.ClassId, this));
-                    _hexSpriteMap._status = _hexSpriteMap._status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
+                    _hexSpriteMap.Status = _hexSpriteMap.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
                     var expandFileName = ExpandFileName(fileName);
-                    _hexSpriteMap._fileName = expandFileName;
+                    _hexSpriteMap.FileName = expandFileName;
                     _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
                     try
                     {
@@ -430,20 +430,20 @@ public partial class GameEngine : ENode
                 if (ArrayEquals<ByteArray4, byte>(header.Id, s_hsmId))
                 {
                     result = (HSMap)CreateEngineObject(header.ClassId, null);
-                    result._fileName = fullName;
+                    result.FileName = fullName;
                     _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
                     if (edit)
                     {
-                        result._status = result._status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
+                        result.Status = result.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
                     }
 
                     try
                     {
-                        result._onProgress = progress;
+                        result.OnProgress = progress;
                         ReadEngineObject(stream, result, progress);
                         ActivateEngineObject(result);
-                        result._onProgress = null;
-                        _onHsmLoadedStore.Raise(result);
+                        result.OnProgress = null;
+                        OnHsmLoadedStore.Raise(result);
                     }
                     catch
                     {
@@ -491,16 +491,16 @@ public partial class GameEngine : ENode
                     _status = _status + Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm);
                     if (edit)
                     {
-                        _hexSpriteMap._status = _hexSpriteMap._status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
+                        _hexSpriteMap.Status = _hexSpriteMap.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
                     }
 
                     try
                     {
-                        _hexSpriteMap._onProgress = progress;
+                        _hexSpriteMap.OnProgress = progress;
                         ReadEngineObject(cStream, _hexSpriteMap, progress);
                         ActivateEngineObject(_hexSpriteMap);
-                        _hexSpriteMap._onProgress = null;
-                        _onHsmLoadedStore.Raise(_hexSpriteMap);
+                        _hexSpriteMap.OnProgress = null;
+                        OnHsmLoadedStore.Raise(_hexSpriteMap);
                     }
                     catch
                     {
@@ -578,28 +578,31 @@ public partial class GameEngine : ENode
         }
 
         SetHexSpriteMap((HSMap)CreateEngineObject(classId, this));
-        _hexSpriteMap._status = _hexSpriteMap._status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
+        _hexSpriteMap.Status = _hexSpriteMap.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
         ActivateEngineObject(_hexSpriteMap);
-        _onHsmLoadedStore.Raise(_hexSpriteMap);
+        OnHsmLoadedStore.Raise(_hexSpriteMap);
         return _hexSpriteMap;
     }
 
     public Set<HexSpriteEngineStatusElement> Status { get => _status; }
     public HSSet HexSpriteSet { get => _hexSpriteSet; }
     public HSMap HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }
+
+    internal void SetHexSpriteMapWithoutCurrentMap(HSMap value) => _hexSpriteMap = value;
+
     public string HexSpriteSetSearchPath { get => _hexSpriteSetSearchPath; set => _hexSpriteSetSearchPath = value; }
     public string HssFileName { get => _hssFileName; }
 
     public event NotifyEvent<HSMap> OnHsmLoaded
     {
-        add => _onHsmLoadedStore.Add(value);
-        remove => _onHsmLoadedStore.Remove(value);
+        add => OnHsmLoadedStore.Add(value);
+        remove => OnHsmLoadedStore.Remove(value);
     }
 
     public event NotifyEvent<HSMap> OnHsmClose
     {
-        add => _onHsmCloseStore.Add(value);
-        remove => _onHsmCloseStore.Remove(value);
+        add => OnHsmCloseStore.Add(value);
+        remove => OnHsmCloseStore.Remove(value);
     }
 
     public event NotifyEvent<GameEngine> OnHssLoaded
@@ -615,6 +618,7 @@ public partial class GameEngine : ENode
     }
 
     private static ByteArray4 s_hsmId = ByteArray4.From("HSM\0"u8);
-    internal static int s_hexSpriteEngineDebugChannel;
+
+    internal static int HexSpriteEngineDebugChannel { get; set; }
 
 }

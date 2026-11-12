@@ -13,7 +13,7 @@ public sealed class MapNetSoundFailureTests
     private sealed class SoundOwner : EngineFixture.Owner
     {
 
-        internal readonly List<string> Events = [];
+        internal List<string> Events { get; } = [];
 
         public override int AddChild(EngineObject child)
         {
@@ -46,30 +46,30 @@ public sealed class MapNetSoundFailureTests
 
     private sealed class Container(HSMap map) : MapContainer(map)
     {
-        internal readonly List<string> Events = [];
+        private readonly List<string> _events = [];
 
         public override int AddChild(EngineObject child)
         {
-            Events.Add("insert");
+            _events.Add("insert");
             return base.AddChild(child);
         }
 
         public override int RemoveChild(EngineObject child)
         {
-            Events.Add("remove");
+            _events.Add("remove");
             return base.RemoveChild(child);
         }
 
         public override void Clear()
         {
-            Events.Add("clear:" + Count);
+            _events.Add("clear:" + Count);
             base.Clear();
         }
     }
 
     private sealed class ObservingFiles(IFileSystem inner, string name) : IFileSystem
     {
-        internal SampleData? Published;
+        internal SampleData? Published { get; private set; }
 
         public Stream Open(string path, int mode)
         {

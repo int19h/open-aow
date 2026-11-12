@@ -25,16 +25,16 @@ public partial class CombatWall : CombatObject
         ControlMode = Set<CombatObjectControlModeElement>.Of();
     }
 
-    public byte WallType;
-    public byte HitPoints;
-    public bool Locked;
+    private byte _wallType;
+    private byte _hitPoints;
+    private bool _locked;
 
     // Combat.pas:1724
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwData(Bytes.Of(ref WallType, 1), 1, 20);
-        stream.rwByte(ref HitPoints, 21);
+        stream.rwData(Bytes.Of(ref _wallType, 1), 1, 20);
+        stream.rwByte(ref _hitPoints, 21);
     }
 
     // Combat.pas:1673
@@ -71,7 +71,7 @@ public partial class CombatWall : CombatObject
     public override int GetTargetStrength()
     {
         int result;
-        if (!Locked)
+        if (!_locked)
         {
             if (!Combat.CombatData.WallBreached)
             {
@@ -91,7 +91,7 @@ public partial class CombatWall : CombatObject
     }
 
     // Combat.pas:1752
-    public override bool GetLocked() => Locked;
+    public override bool GetLocked() => _locked;
 
     // Combat.pas:1731
     public override sbyte GetDefense() => 0;
@@ -110,7 +110,7 @@ public partial class CombatWall : CombatObject
     public override sbyte GetHits()
     {
         sbyte result;
-        if (WallType == 2)
+        if (_wallType == 2)
         {
             result = 10;
         }
@@ -123,12 +123,12 @@ public partial class CombatWall : CombatObject
     }
 
     // Combat.pas:1743
-    public override sbyte GetHitPoints() => (sbyte)HitPoints;
+    public override sbyte GetHitPoints() => (sbyte)_hitPoints;
 
     // Combat.pas:1755
     public override void SetHitPoints(byte value)
     {
-        HitPoints = value;
+        _hitPoints = value;
     }
 
     // Combat.pas:1712
@@ -151,7 +151,7 @@ public partial class CombatWall : CombatObject
     // Combat.pas:1764
     public override void Show(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        switch (WallType)
+        switch (_wallType)
         {
             case 1:
                 AoWHSSet.Current.CombatImages[21].Show(X + 15, Y + 5, surface);
@@ -162,7 +162,7 @@ public partial class CombatWall : CombatObject
         }
 
         var hits = GetHits();
-        var hitPointsToHitPercent = HitChance.HitPointsToHitPercent((sbyte)HitPoints, hits);
+        var hitPointsToHitPercent = HitChance.HitPointsToHitPercent((sbyte)_hitPoints, hits);
         HitChance.ShowHitPercent(X, Y - 10, surface, hitPointsToHitPercent);
     }
 
@@ -194,8 +194,8 @@ public partial class CombatWall : CombatObject
     public void Setup(byte id, byte wallType, byte combatPlayer)
     {
         Id = id;
-        WallType = wallType;
-        HitPoints = (byte)GetHits();
+        _wallType = wallType;
+        _hitPoints = (byte)GetHits();
         SetCombatPlayer(combatPlayer);
     }
 

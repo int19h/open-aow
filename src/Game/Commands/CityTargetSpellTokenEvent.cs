@@ -22,14 +22,14 @@ public partial class CityTargetSpellTokenEvent : SpellTokenEvent
     // CitySpells.pas:170
     public new const int ClassId = 135949;
 
-    public MapCoordinate TargetLocation;
+    private MapCoordinate _targetLocation;
     public sbyte TargetPlayer;
 
     // CitySpells.pas:175
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwInteger(ref TargetLocation.Packed, 20);
+        stream.rwInteger(ref _targetLocation.Packed, 20);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TargetPlayer), 21);
     }
 
@@ -57,13 +57,13 @@ public partial class CityTargetSpellTokenEvent : SpellTokenEvent
     // CitySpells.pas:182
     public void SetLocation(sbyte X, sbyte Y, sbyte L)
     {
-        TargetLocation.X = X;
-        TargetLocation.Y = Y;
-        TargetLocation.MapLevel = L;
+        _targetLocation.X = X;
+        _targetLocation.Y = Y;
+        _targetLocation.MapLevel = L;
     }
 
     // CitySpells.pas:204
-    public City GetSelectedCity() => (City)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(TargetLocation.Packed).FindNoneTransparentHexSprite(typeof(City));
+    public City GetSelectedCity() => (City)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(_targetLocation.Packed).FindNoneTransparentHexSprite(typeof(City));
 
     // NetworkE.pas:230
 

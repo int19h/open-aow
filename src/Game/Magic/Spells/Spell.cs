@@ -35,20 +35,22 @@ public partial class Spell : EngineObject
         SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
     }
 
-    public string SpellName = "";
-    public Set<SpellControlTypeElement> SpellControlTypes;
-    public int SpellId;
+    public string SpellName { get; protected set; } = "";
+    public Set<SpellControlTypeElement> SpellControlTypes { get; protected set; }
+    public int SpellId { get; protected set; }
+
     public int BaseManaCost;
     public int ResearchCost;
     public int ManaUpkeep;
     public MagicSphere MagicSphere;
     public byte SpellLevel;
-    public SpellType SpellType;
+
+    public SpellType SpellType { get; protected set; }
     // stGlobal guard
-    public StringList SpellText;
-    public SfxLibrary CastSounds;
-    public ImageSequenceList CastImages;
-    public int CastDuration;
+    public StringList SpellText { get; }
+    public SfxLibrary CastSounds { get; }
+    public ImageSequenceList CastImages { get; set; }
+    public int CastDuration { get; protected set; }
 
     // Spells.PAS:20
     public override void Dispose()
@@ -116,7 +118,7 @@ public partial class Spell : EngineObject
         {
             if (AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
-                messageText = AbilityRules.TranslateResourceString(GameText.s_cannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
+                messageText = AbilityRules.TranslateResourceString(GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
                 result = false;
             }
             else
@@ -139,7 +141,7 @@ public partial class Spell : EngineObject
         {
             if (AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
-                messageText = AbilityRules.TranslateResourceString(GameText.s_cannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
+                messageText = AbilityRules.TranslateResourceString(GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
                 result = false;
             }
             else
@@ -203,7 +205,7 @@ public partial class Spell : EngineObject
             caster = new CombatSpellCaster(null);
             caster.CombatCasterSpellId = SpellId;
             caster.CombatCasterSourceId = source.UnitId;
-            AoWHSMap.Current.CombatMap._combatStartedEventsStore.Raise(caster);
+            AoWHSMap.Current.CombatMap.CombatStartedEventsStore.Raise(caster);
             caster.Release();
             result = true;
         }

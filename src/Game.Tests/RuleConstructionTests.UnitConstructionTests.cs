@@ -17,7 +17,7 @@ public sealed partial class RuleConstructionTests
 
     private sealed class UnitOwner(bool reject) : EngineFixture.Owner
     {
-        internal readonly List<string> Events = [];
+        internal List<string> Events { get; } = [];
 
         public override int AddChild(EngineObject child)
         {

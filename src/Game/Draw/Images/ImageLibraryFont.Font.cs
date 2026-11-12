@@ -32,14 +32,14 @@ public partial class ImageLibraryFont
 
     internal void SetColor(int value)
     {
-        if (_fontColorPaletteIndex >= 0 && _paletteManager._palettes.Count != 0)
+        if (_fontColorPaletteIndex >= 0 && PaletteManager._palettes.Count != 0)
         {
-            var palette = _paletteManager._palettes[0];
-            palette._palette.Entries[_fontColorPaletteIndex].Value =
-                PixelFormats.Color2PixelInfo(value, palette._palette.PixelFormatId, null);
-            if (palette._remapPaletteValue != null)
-                palette._remapPaletteValue.Entries[_fontColorPaletteIndex].Value =
-                    PixelFormats.Color2PixelInfo(value, palette._remapPaletteValue.PixelFormatId, null);
+            var palette = PaletteManager._palettes[0];
+            palette.Palette.Entries[_fontColorPaletteIndex].Value =
+                PixelFormats.Color2PixelInfo(value, palette.Palette.PixelFormatId, null);
+            if (palette.RemapPaletteValue != null)
+                palette.RemapPaletteValue.Entries[_fontColorPaletteIndex].Value =
+                    PixelFormats.Color2PixelInfo(value, palette.RemapPaletteValue.PixelFormatId, null);
         }
         _color = value;
     }

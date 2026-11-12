@@ -13,7 +13,7 @@ public partial class GoldRush : CityEnchantmentSpell
     // CitySpells.pas:710
     public GoldRush(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_goldRushText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.GoldRushText);
         SpellId = 53;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
         BaseManaCost = 1;

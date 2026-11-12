@@ -27,19 +27,19 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
     // CombatTE.pas:917
     public new const int ClassId = 2236419;
 
-    public TacticalBattleUnit Unit;
+    private TacticalBattleUnit _unit;
     public int AbilityId;
     public int SpellId;
     public ushort SourceX;
     public ushort SourceY;
     public ushort TargetX;
     public ushort TargetY;
-    public BattleEffectType EffectType;
-    public int StrikeCount;
-    public object Sound;
-    public int Delay;
-    public int StrikeIndex;
-    public int State;
+    private BattleEffectType _effectType;
+    private int _strikeCount;
+    private object _sound;
+    private int _delay;
+    private int _strikeIndex;
+    private int _state;
 
     // CombatTE.pas:920
     public override void ReadWrite(EStorageStream stream)
@@ -73,7 +73,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
         ExecuteResult result = ExecuteResult.Retry;
         try
         {
-            switch (State)
+            switch (_state)
             {
                 case 0:
                     try
@@ -85,58 +85,58 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         }
                         else
                         {
-                            Unit = hexSprite.Unit;
-                            Unit.UnitHexSprite.Unselect();
-                            Unit.UnitHexSprite.SelectedAbility = AbilityId;
-                            Unit.UnitHexSprite.SelectedSpell = SpellId;
+                            _unit = hexSprite.Unit;
+                            _unit.UnitHexSprite.Unselect();
+                            _unit.UnitHexSprite.SelectedAbility = AbilityId;
+                            _unit.UnitHexSprite.SelectedSpell = SpellId;
                             if (AbilityId == 52)
                             {
-                                EffectType = TacticalTables.SpellTypes[SpellId];
+                                _effectType = TacticalTables.SpellTypes[SpellId];
                             }
                             else
                             {
-                                EffectType = TacticalTables.s_abilityTypes[AbilityId];
+                                _effectType = TacticalTables.s_abilityTypes[AbilityId];
                             }
 
                             if (AbilityId == 52)
                             {
-                                AoWHSSet.Current.SpellControl.GetSpell(SpellId).CombatSpellCast(Unit);
+                                AoWHSSet.Current.SpellControl.GetSpell(SpellId).CombatSpellCast(_unit);
                             }
 
                             bool notExplorationEnabled = !CombatMap.Current.ExplorationEnabled;
                             if (!notExplorationEnabled)
                             {
-                                var hexY = Unit.UnitHexSprite.HexY;
-                                var hexX = Unit.UnitHexSprite.HexX;
+                                var hexY = _unit.UnitHexSprite.HexY;
+                                var hexX = _unit.UnitHexSprite.HexX;
                                 notExplorationEnabled = ((AoWMapField)CombatMap.Current.MapContainer.GetField(hexX, hexY, 0)).GetExplored(CombatMap.Current.SeatedPlayer);
                             }
 
                             if (notExplorationEnabled)
                             {
-                                var hexY = Unit.UnitHexSprite.HexY;
-                                var hexX = Unit.UnitHexSprite.HexX;
+                                var hexY = _unit.UnitHexSprite.HexY;
+                                var hexX = _unit.UnitHexSprite.HexX;
                                 CombatMap.Current.MakeVisible(hexX, hexY, 0, 2);
                             }
 
-                            switch (EffectType)
+                            switch (_effectType)
                             {
                                 case BattleEffectType.Breath:
-                                    StrikeCount = 20;
+                                    _strikeCount = 20;
                                     break;
                                 case BattleEffectType.ScreenNESW:
-                                    StrikeCount = 10;
+                                    _strikeCount = 10;
                                     break;
                                 case BattleEffectType.ScreenNS:
                                     switch (SpellId)
                                     {
                                         case 116:
-                                            StrikeCount = 21;
+                                            _strikeCount = 21;
                                             break;
                                         case 124:
-                                            StrikeCount = 19;
+                                            _strikeCount = 19;
                                             break;
                                         default:
-                                            StrikeCount = 35;
+                                            _strikeCount = 35;
                                             break;
                                     }
 
@@ -144,40 +144,40 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                 case BattleEffectType.ShockWave:
                                     TargetX = SourceX;
                                     TargetY = SourceY;
-                                    StrikeCount = 1;
+                                    _strikeCount = 1;
                                     break;
                                 case BattleEffectType.Touch:
-                                    StrikeCount = 1;
+                                    _strikeCount = 1;
                                     break;
                                 case BattleEffectType.Swarm:
                                 case BattleEffectType.ScreenSwarm:
-                                    StrikeCount = 30;
+                                    _strikeCount = 30;
                                     break;
                                 default:
                                     if (AbilityId == 52)
                                     {
-                                        AoWHSSet.Current.SpellControl.GetSpell(SpellId).GetCombatInfo(Unit.Troop, ref info);
-                                        StrikeCount = info.RepeatCount;
+                                        AoWHSSet.Current.SpellControl.GetSpell(SpellId).GetCombatInfo(_unit.Troop, ref info);
+                                        _strikeCount = info.RepeatCount;
                                     }
                                     else
                                     {
-                                        StrikeCount = ((RangedAttackAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).GetAttackRepeatRangedAttack(Unit.Troop);
+                                        _strikeCount = ((RangedAttackAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).GetAttackRepeatRangedAttack(_unit.Troop);
                                     }
 
                                     break;
                             }
 
-                            switch (EffectType)
+                            switch (_effectType)
                             {
                                 case BattleEffectType.Tremors:
-                                    Sound = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0, 64, true, 0, SamplePanning.Center, null);
+                                    _sound = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0, 64, true, 0, SamplePanning.Center, null);
                                     NextStrike();
                                     break;
                                 case BattleEffectType.ScreenSwarm:
-                                    Sound = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(2, 64, true, 0, SamplePanning.Center, null);
+                                    _sound = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(2, 64, true, 0, SamplePanning.Center, null);
                                     {
                                         I = 0;
-                                        int last = StrikeCount - 1;
+                                        int last = _strikeCount - 1;
                                         for (; I <= last; I += 1)
                                         {
                                             NextStrike();
@@ -190,8 +190,8 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                     break;
                             }
 
-                            Unit.MovePoints = 0;
-                            State += 1;
+                            _unit.MovePoints = 0;
+                            _state += 1;
                         }
                     }
                     catch
@@ -229,7 +229,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                     {
                                         case 5:
                                             message.MessageId = 200707;
-                                            message.Param[0] = Unit;
+                                            message.Param[0] = _unit;
                                             message.Result = -1;
                                             var path = effect.Path[0];
                                             HexGeometry.PixelToHex(effect.Path[0].X, path.Y, ref endX, ref endY);
@@ -259,7 +259,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                         if (hexSprite != null)
                                         {
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            effect.CombatAction = AoWHSSet.Current.SpellControl.GetSpell(effect.SpellIndex).CreateCombatAction(Unit, hexSprite.Unit, false);
+                                            effect.CombatAction = AoWHSSet.Current.SpellControl.GetSpell(effect.SpellIndex).CreateCombatAction(_unit, hexSprite.Unit, false);
                                             var hexY = hexSprite.HexY;
                                             HexGeometry.HexToPixel(hexSprite.HexX, hexY, ref I, ref X);
                                             if (((DamageCombatAction)effect.CombatAction).DamageTypes.Value - ((DamageCombatAction)effect.CombatAction).Effects.Value != Set<DamageType>.Of())
@@ -286,7 +286,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                         {
                                             case 89:
                                                 message.MessageId = 200708;
-                                                message.Param[0] = Unit;
+                                                message.Param[0] = _unit;
                                                 message.Param[1] = 0;
                                                 message.Result = -1;
                                                 {
@@ -312,7 +312,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                             {
                                                 case 0:
                                                     message.MessageId = 200712;
-                                                    message.Param[0] = Unit;
+                                                    message.Param[0] = _unit;
                                                     message.Param[1] = SpellId;
                                                     message.Result = -1;
                                                     {
@@ -327,7 +327,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                     break;
                                                 case 99:
                                                     message.MessageId = 200713;
-                                                    message.Param[0] = Unit;
+                                                    message.Param[0] = _unit;
                                                     message.Param[1] = SpellId;
                                                     message.Result = -1;
                                                     {
@@ -350,7 +350,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                 {
                                                     case 199:
                                                         message.MessageId = 200709;
-                                                        message.Param[0] = Unit;
+                                                        message.Param[0] = _unit;
                                                         message.Result = -1;
                                                         {
                                                             I = 0;
@@ -372,7 +372,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                     {
                                                         case 175:
                                                             message.MessageId = 200717;
-                                                            message.Param[0] = Unit;
+                                                            message.Param[0] = _unit;
                                                             message.Result = -1;
                                                             {
                                                                 I = 1;
@@ -386,7 +386,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                             break;
                                                         case 200:
                                                             message.MessageId = 200717;
-                                                            message.Param[0] = Unit;
+                                                            message.Param[0] = _unit;
                                                             message.Result = -1;
                                                             {
                                                                 I = 7;
@@ -400,7 +400,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                             break;
                                                         case 225:
                                                             message.MessageId = 200717;
-                                                            message.Param[0] = Unit;
+                                                            message.Param[0] = _unit;
                                                             message.Result = -1;
                                                             {
                                                                 I = 19;
@@ -421,18 +421,18 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                         switch (effect.Frame)
                                                         {
                                                             case 100:
-                                                                var hexY = Unit.UnitHexSprite.HexY;
-                                                                EffectPaths.CreateFire(false, 50, Unit.UnitHexSprite.HexX, hexY);
+                                                                var hexY = _unit.UnitHexSprite.HexY;
+                                                                EffectPaths.CreateFire(false, 50, _unit.UnitHexSprite.HexX, hexY);
                                                                 message.MessageId = 200718;
-                                                                message.Param[0] = Unit;
+                                                                message.Param[0] = _unit;
                                                                 message.Result = -1;
-                                                                var fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
-                                                                var hexX = Unit.UnitHexSprite.HexX;
+                                                                var fUnitHexSpriteHexY = _unit.UnitHexSprite.HexY;
+                                                                var hexX = _unit.UnitHexSprite.HexX;
                                                                 CombatMap.Current.MapContainer.MapLevels[0].GetField(hexX, fUnitHexSpriteHexY).SendMapFieldMessage(ref message);
                                                                 break;
                                                             case 175:
                                                                 message.MessageId = 200718;
-                                                                message.Param[0] = Unit;
+                                                                message.Param[0] = _unit;
                                                                 message.Result = -1;
                                                                 {
                                                                     I = 0;
@@ -455,11 +455,11 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                             int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
                                                             for (; I <= last; I += 1)
                                                             {
-                                                                if (CombatMap.Current.Combat.CombatData.GetObjects(I) != null && CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(I).GetSide() != Unit.GetSide() && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled() && ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite != null)
+                                                                if (CombatMap.Current.Combat.CombatData.GetObjects(I) != null && CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(I).GetSide() != _unit.GetSide() && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled() && ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite != null)
                                                                 {
                                                                     RandSeed = AoWHSMap.Current.Random(16777215);
                                                                     var combatObject = CombatMap.Current.Combat.CombatData.GetObjects(I);
-                                                                    action = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(Unit, combatObject, false);
+                                                                    action = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(_unit, combatObject, false);
                                                                     if (((ExclusiveCombatSpellCombatAction)action).Succeeded)
                                                                     {
                                                                         ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
@@ -480,7 +480,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                 {
                                                                     case 2999:
                                                                         message.MessageId = 200716;
-                                                                        message.Param[0] = Unit;
+                                                                        message.Param[0] = _unit;
                                                                         message.Result = -1;
                                                                         {
                                                                             I = 0;
@@ -531,23 +531,23 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                         RandSeed = AoWHSMap.Current.Random(16777215);
                                                                         if (AbilityId == 52)
                                                                         {
-                                                                            effect.CombatAction = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(Unit, effect.Target, false);
+                                                                            effect.CombatAction = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(_unit, effect.Target, false);
                                                                         }
                                                                         else
                                                                         {
                                                                             if (AbilityId == 47)
                                                                             {
-                                                                                effect.CombatAction = ((HealingAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateHealingCombatAction(Unit, effect.Target);
+                                                                                effect.CombatAction = ((HealingAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateHealingCombatAction(_unit, effect.Target);
                                                                             }
                                                                             else
                                                                             {
                                                                                 if (AbilityId == 60)
                                                                                 {
-                                                                                    effect.CombatAction = ((DispelMagicAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(Unit, effect.Target);
+                                                                                    effect.CombatAction = ((DispelMagicAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(_unit, effect.Target);
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    effect.CombatAction = ((RangedAttackAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateRangedAttackCombatAction(Unit, effect.Target, 0);
+                                                                                    effect.CombatAction = ((RangedAttackAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateRangedAttackCombatAction(_unit, effect.Target, 0);
                                                                                 }
                                                                             }
                                                                         }
@@ -631,7 +631,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                         if (effect.TargetX > 0)
                                                                                         {
                                                                                             message.MessageId = 200722;
-                                                                                            message.Param[0] = Unit;
+                                                                                            message.Param[0] = _unit;
                                                                                             message.Param[1] = effect.AbilityIndex;
                                                                                             message.Result = -1;
                                                                                             CombatMap.Current.MapContainer.MapLevels[0].GetField(effect.TargetX, effect.TargetY).SendMapFieldMessage(ref message);
@@ -640,19 +640,19 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                         break;
                                                                                     case 24:
                                                                                         message.MessageId = 200705;
-                                                                                        message.Param[0] = Unit;
+                                                                                        message.Param[0] = _unit;
                                                                                         message.Result = -1;
                                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
                                                                                         break;
                                                                                     case 44:
                                                                                         message.MessageId = 200706;
-                                                                                        message.Param[0] = Unit;
+                                                                                        message.Param[0] = _unit;
                                                                                         message.Result = -1;
                                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
                                                                                         break;
                                                                                     case 31:
                                                                                         message.MessageId = 200714;
-                                                                                        message.Param[0] = Unit;
+                                                                                        message.Param[0] = _unit;
                                                                                         message.Result = -1;
                                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
                                                                                         EffectPaths.CreateFire(false, 100, endX, endY);
@@ -664,7 +664,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                                 if (effect.TargetX > 0)
                                                                                                 {
                                                                                                     message.MessageId = 200723;
-                                                                                                    message.Param[0] = Unit;
+                                                                                                    message.Param[0] = _unit;
                                                                                                     message.Param[1] = effect.SpellIndex;
                                                                                                     message.Result = -1;
                                                                                                     CombatMap.Current.MapContainer.MapLevels[0].GetField(effect.TargetX, effect.TargetY).SendMapFieldMessage(ref message);
@@ -676,7 +676,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                                 {
                                                                                                     case 116:
                                                                                                         message.MessageId = 200710;
-                                                                                                        message.Param[0] = Unit;
+                                                                                                        message.Param[0] = _unit;
                                                                                                         message.Result = -1;
                                                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
                                                                                                         break;
@@ -696,7 +696,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                                 {
                                                                                                     case 113:
                                                                                                         message.MessageId = 200715;
-                                                                                                        message.Param[0] = Unit;
+                                                                                                        message.Param[0] = _unit;
                                                                                                         message.Result = -1;
                                                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
                                                                                                         EffectPaths.CreateFire(false, 100, endX, endY);
@@ -725,31 +725,31 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                             effectIndex += 1;
                         }
 
-                        if (CombatMap.Current.Effects.Count == 0 && (StrikeIndex >= StrikeCount || !Unit.GetEnabled()))
+                        if (CombatMap.Current.Effects.Count == 0 && (_strikeIndex >= _strikeCount || !_unit.GetEnabled()))
                         {
-                            if (Unit.GetEnabled())
+                            if (_unit.GetEnabled())
                             {
-                                Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Move);
+                                _unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Move);
                             }
 
                             result = ExecuteResult.Done;
                         }
 
-                        if (Unit.GetEnabled())
+                        if (_unit.GetEnabled())
                         {
-                            if (EffectType == BattleEffectType.Breath)
+                            if (_effectType == BattleEffectType.Breath)
                             {
                                 NextStrike();
                             }
                             else
                             {
-                                if (Unit.UnitHexSprite.ActionDone || (AbilityId == 52 && Delay <= 0))
+                                if (_unit.UnitHexSprite.ActionDone || (AbilityId == 52 && _delay <= 0))
                                 {
-                                    Delay = AoWHSMap.Current.Random(3) + 4;
+                                    _delay = AoWHSMap.Current.Random(3) + 4;
                                 }
 
-                                Delay -= 1;
-                                if (Delay == 0)
+                                _delay -= 1;
+                                if (_delay == 0)
                                 {
                                     NextStrike();
                                 }
@@ -766,21 +766,21 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
 
             if (result == ExecuteResult.Done)
             {
-                if (Sound != null)
+                if (_sound != null)
                 {
-                    (Sound as IDisposable)?.Dispose();
+                    (_sound as IDisposable)?.Dispose();
                 }
 
-                if (Unit != null && Unit.GetEnabled())
+                if (_unit != null && _unit.GetEnabled())
                 {
-                    Unit.UnitHexSprite.SelectedAbility = -1;
-                    Unit.UnitHexSprite.SelectedSpell = -1;
-                    Unit.UnitHexSprite.Unselect();
-                    if (Unit.CombatPlayer == CombatMap.Current.CurrentCombatPlayer)
+                    _unit.UnitHexSprite.SelectedAbility = -1;
+                    _unit.UnitHexSprite.SelectedSpell = -1;
+                    _unit.UnitHexSprite.Unselect();
+                    if (_unit.CombatPlayer == CombatMap.Current.CurrentCombatPlayer)
                     {
-                        var hexX = Unit.UnitHexSprite.HexX;
+                        var hexX = _unit.UnitHexSprite.HexX;
                         CombatMap.Current.Players.GetPlayers(CombatMap.Current.CurrentCombatPlayer).LastX = hexX;
-                        var hexY = Unit.UnitHexSprite.HexY;
+                        var hexY = _unit.UnitHexSprite.HexY;
                         CombatMap.Current.Players.GetPlayers(CombatMap.Current.CurrentCombatPlayer).LastY = hexY;
                     }
                 }
@@ -830,7 +830,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             bestDistance = 6;
             for (int I = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; I <= last; I++)
             {
-                if (CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(I).GetSide() != Unit.GetSide())
+                if (CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(I).GetSide() != _unit.GetSide())
                 {
                     available = true;
                     for (int J = 0, lastJ = used.Count - 1; J <= lastJ; J++)
@@ -910,24 +910,24 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             weights?.Dispose();
         }
 
-        if (StrikeIndex >= StrikeCount)
+        if (_strikeIndex >= _strikeCount)
         {
             return;
         }
 
         effect = CombatMap.Current.AddEffect(BattleEffectType.None);
         obstacles = new DelphiList();
-        switch (EffectType)
+        switch (_effectType)
         {
             case BattleEffectType.Breath:
-                var hexY = Unit.UnitHexSprite.HexY;
-                var deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(Unit.UnitHexSprite.HexX, hexY, TargetX, TargetY);
-                var fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
-                HexGeometry.CenterHexNumberToHex(Unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, TacticalTables.s_breathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber2 - 1] * 12 - 3], ref J, ref K);
-                var hexY2 = Unit.UnitHexSprite.HexY;
-                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY2, ref x1, ref y1);
+                var hexY = _unit.UnitHexSprite.HexY;
+                var deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(_unit.UnitHexSprite.HexX, hexY, TargetX, TargetY);
+                var fUnitHexSpriteHexY = _unit.UnitHexSprite.HexY;
+                HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, TacticalTables.s_breathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber2 - 1] * 12 - 3], ref J, ref K);
+                var hexY2 = _unit.UnitHexSprite.HexY;
+                HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY2, ref x1, ref y1);
                 HexGeometry.HexToPixel(J, K, ref x2, ref y2);
-                sweep = StrikeIndex;
+                sweep = _strikeIndex;
                 if ((double)sweep > 9)
                 {
                     sweep = (float)((double)19 - sweep);
@@ -979,15 +979,15 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     deltaY = y1 - y2 - Round((double)Math.Cos(angle) * radius);
                 }
 
-                var hexX = Unit.UnitHexSprite.HexX;
-                var hexY3 = Unit.UnitHexSprite.HexY;
-                TacticalTables.MakeRangedPath(Unit.GetSide(), 50, 20, 50, hexX, hexY3, (short)J, (short)K, (short)deltaX, (short)deltaY, false, ref effect.Path, ref obstacles);
-                if (StrikeIndex < 12)
+                var hexX = _unit.UnitHexSprite.HexX;
+                var hexY3 = _unit.UnitHexSprite.HexY;
+                TacticalTables.MakeRangedPath(_unit.GetSide(), 50, 20, 50, hexX, hexY3, (short)J, (short)K, (short)deltaX, (short)deltaY, false, ref effect.Path, ref obstacles);
+                if (_strikeIndex < 12)
                 {
-                    var hexY4 = Unit.UnitHexSprite.HexY;
-                    var deltaHexToHexNumber3 = HexGeometry.DeltaHexToHexNumber(Unit.UnitHexSprite.HexX, hexY4, TargetX, TargetY);
-                    var hexY5 = Unit.UnitHexSprite.HexY;
-                    HexGeometry.CenterHexNumberToHex(Unit.UnitHexSprite.HexX, hexY5, TacticalTables.s_breathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber3 - 1] * 12 + s_breathHit[StrikeIndex] - 12], ref effect.TargetX, ref effect.TargetY);
+                    var hexY4 = _unit.UnitHexSprite.HexY;
+                    var deltaHexToHexNumber3 = HexGeometry.DeltaHexToHexNumber(_unit.UnitHexSprite.HexX, hexY4, TargetX, TargetY);
+                    var hexY5 = _unit.UnitHexSprite.HexY;
+                    HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, hexY5, TacticalTables.s_breathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber3 - 1] * 12 + s_breathHit[_strikeIndex] - 12], ref effect.TargetX, ref effect.TargetY);
                 }
 
                 break;
@@ -999,14 +999,14 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             case BattleEffectType.MindDecay:
             case BattleEffectType.ShockWave:
             case BattleEffectType.SacFlame:
-                if (EffectType == BattleEffectType.SacredWrath)
+                if (_effectType == BattleEffectType.SacredWrath)
                 {
                     TargetX = 32;
                     TargetY = 29;
                 }
 
                 HexGeometry.HexToPixel(TargetX, TargetY, ref x2, ref y2);
-                switch (EffectType)
+                switch (_effectType)
                 {
                     case BattleEffectType.Geyser:
                         CombatMap.Current.CenterViewTo(TargetX, TargetY - 5, 0);
@@ -1017,13 +1017,13 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         CombatMap.Current.CenterViewTo(TargetX + 1, TargetY - 4, 0);
                         break;
                     case BattleEffectType.ShockWave:
-                        var hexY4 = Unit.UnitHexSprite.HexY;
-                        var fUnitHexSpriteHexX = Unit.UnitHexSprite.HexX;
+                        var hexY4 = _unit.UnitHexSprite.HexY;
+                        var fUnitHexSpriteHexX = _unit.UnitHexSprite.HexX;
                         CombatMap.Current.CenterViewTo(fUnitHexSpriteHexX, hexY4, 0);
                         break;
                     case BattleEffectType.SacFlame:
-                        var hexY5 = Unit.UnitHexSprite.HexY;
-                        var hexX2 = Unit.UnitHexSprite.HexX;
+                        var hexY5 = _unit.UnitHexSprite.HexY;
+                        var hexX2 = _unit.UnitHexSprite.HexX;
                         CombatMap.Current.CenterViewTo(hexX2, hexY5 - 3, 0);
                         break;
                     default:
@@ -1171,9 +1171,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 }
 
                 effect.Path.Add(point);
-                if (StrikeIndex == 9)
+                if (_strikeIndex == 9)
                 {
-                    effect.Target = Unit;
+                    effect.Target = _unit;
                 }
 
                 break;
@@ -1188,7 +1188,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         break;
                 }
 
-                HexGeometry.CenterHexNumberToHex(TargetX, TargetY, s_randomHex[StrikeIndex % I], ref deltaX, ref deltaY);
+                HexGeometry.CenterHexNumberToHex(TargetX, TargetY, s_randomHex[_strikeIndex % I], ref deltaX, ref deltaY);
                 HexGeometry.HexToPixel(deltaX, deltaY, ref x2, ref y2);
                 CombatMap.Current.MakeVisible(deltaX, deltaY, 0, 5);
                 x1 = Random(20) + 6;
@@ -1213,15 +1213,15 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
 
                 break;
             case BattleEffectType.Chain:
-                var hexY6 = Unit.UnitHexSprite.HexY;
-                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY6, ref x1, ref y1);
+                var hexY6 = _unit.UnitHexSprite.HexY;
+                HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY6, ref x1, ref y1);
                 HexGeometry.HexToPixel(TargetX, TargetY, ref x2, ref y2);
                 EffectPaths.MakeLightningPath(x1 + 16, y1, x2 + 16, y2, ref effect.Path);
                 var count20 = effect.Path.Count;
                 effect.Path[count20 - 1].Z = 16;
                 I = 3;
                 used = new DelphiList();
-                used.Add(Unit);
+                used.Add(_unit);
                 hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild(2228484);
                 if (hexSprite != null)
                 {
@@ -1245,8 +1245,8 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 used?.Dispose();
                 break;
             case BattleEffectType.Swarm:
-                var hexY7 = Unit.UnitHexSprite.HexY;
-                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY7, ref x1, ref y1);
+                var hexY7 = _unit.UnitHexSprite.HexY;
+                HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY7, ref x1, ref y1);
                 var random3 = Random(360);
                 var random4 = Random(20);
                 var random5 = Random(20);
@@ -1345,7 +1345,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
 
                 effect.Target = target;
                 HexGeometry.HexToPixel(deltaX, deltaY, ref x2, ref y2);
-                if (StrikeIndex == 0)
+                if (_strikeIndex == 0)
                 {
                     CombatMap.Current.CenterViewTo(TargetX, TargetY, 0);
                 }
@@ -1396,21 +1396,21 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 break;
             case BattleEffectType.Ray:
                 CombatMap.Current.MakeVisible(TargetX - 3, TargetY - 3, 0, 3);
-                var hexX3 = Unit.UnitHexSprite.HexX;
-                var hexY8 = Unit.UnitHexSprite.HexY;
-                TacticalTables.MakeRangedPath(Unit.GetSide(), 10, 0, 50, hexX3, hexY8, (short)TargetX, (short)TargetY, 0, 0, true, ref effect.Path, ref obstacles);
+                var hexX3 = _unit.UnitHexSprite.HexX;
+                var hexY8 = _unit.UnitHexSprite.HexY;
+                TacticalTables.MakeRangedPath(_unit.GetSide(), 10, 0, 50, hexX3, hexY8, (short)TargetX, (short)TargetY, 0, 0, true, ref effect.Path, ref obstacles);
                 break;
             default:
-                var hexX4 = Unit.UnitHexSprite.HexX;
-                var hexY9 = Unit.UnitHexSprite.HexY;
-                TacticalTables.MakeAbilityPath(Unit.GetSide(), (short)AbilityId, (short)SpellId, hexX4, hexY9, (short)TargetX, (short)TargetY, ref effect.Path, ref obstacles);
+                var hexX4 = _unit.UnitHexSprite.HexX;
+                var hexY9 = _unit.UnitHexSprite.HexY;
+                TacticalTables.MakeAbilityPath(_unit.GetSide(), (short)AbilityId, (short)SpellId, hexX4, hexY9, (short)TargetX, (short)TargetY, ref effect.Path, ref obstacles);
                 break;
         }
 
         effect.AbilityIndex = AbilityId;
         effect.SpellIndex = SpellId;
-        effect.EffectType = EffectType;
-        switch (EffectType)
+        effect.EffectType = _effectType;
+        switch (_effectType)
         {
             case BattleEffectType.Arrow:
             case BattleEffectType.Rock:
@@ -1491,7 +1491,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 break;
         }
 
-        if (EffectType == BattleEffectType.Breath)
+        if (_effectType == BattleEffectType.Breath)
         {
             effect.Target = null;
         }
@@ -1519,7 +1519,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         case 106:
                         case 120:
                         case 128:
-                            effect.Target = Unit;
+                            effect.Target = _unit;
                             break;
                         case 115:
                             if (AoWHSMap.Current.Random(100) < 75)
@@ -1530,8 +1530,8 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                             break;
                         case 100:
                             extraEffect = CombatMap.Current.AddEffect(BattleEffectType.SFOverlay);
-                            var hexY = Unit.UnitHexSprite.HexY;
-                            HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, ref x1, ref y1);
+                            var hexY = _unit.UnitHexSprite.HexY;
+                            HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY, ref x1, ref y1);
                             while (extraEffect.Path.Count < effect.Path.Count)
                             {
                                 point = new Point3D();
@@ -1549,12 +1549,12 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             }
         }
 
-        var hexY10 = Unit.UnitHexSprite.HexY;
-        var hexX5 = Unit.UnitHexSprite.HexX;
+        var hexY10 = _unit.UnitHexSprite.HexY;
+        var hexX5 = _unit.UnitHexSprite.HexX;
         effect.Variant = GetRangedDirectionIndex(TargetX - hexX5, TargetY - hexY10);
-        if (StrikeIndex == 0)
+        if (_strikeIndex == 0)
         {
-            switch (EffectType)
+            switch (_effectType)
             {
                 case BattleEffectType.Arrow:
                 case BattleEffectType.Rock:
@@ -1576,22 +1576,22 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         case 0:
                         case 1:
                         case 23:
-                            Unit.UnitHexSprite.SetDirection(1);
+                            _unit.UnitHexSprite.SetDirection(1);
                             break;
                         case >= 2 and <= 6:
-                            Unit.UnitHexSprite.SetDirection(2);
+                            _unit.UnitHexSprite.SetDirection(2);
                             break;
                         case >= 7 and <= 10:
-                            Unit.UnitHexSprite.SetDirection(3);
+                            _unit.UnitHexSprite.SetDirection(3);
                             break;
                         case >= 11 and <= 13:
-                            Unit.UnitHexSprite.SetDirection(4);
+                            _unit.UnitHexSprite.SetDirection(4);
                             break;
                         case >= 14 and <= 17:
-                            Unit.UnitHexSprite.SetDirection(5);
+                            _unit.UnitHexSprite.SetDirection(5);
                             break;
                         case >= 18 and <= 22:
-                            Unit.UnitHexSprite.SetDirection(6);
+                            _unit.UnitHexSprite.SetDirection(6);
                             break;
                     }
 
@@ -1599,20 +1599,20 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             }
         }
 
-        if (Set<BattleEffectType>.Of(BattleEffectType.Rock, BattleEffectType.Comet, BattleEffectType.Breath, BattleEffectType.CometBall, BattleEffectType.ScreenNS).Contains(EffectType))
+        if (Set<BattleEffectType>.Of(BattleEffectType.Rock, BattleEffectType.Comet, BattleEffectType.Breath, BattleEffectType.CometBall, BattleEffectType.ScreenNS).Contains(_effectType))
         {
             effect.Variant = 0;
         }
 
-        if (EffectType == BattleEffectType.Breath && StrikeIndex == 0)
+        if (_effectType == BattleEffectType.Breath && _strikeIndex == 0)
         {
-            Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.BreathAttack);
+            _unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.BreathAttack);
         }
         else
         {
-            if ((AbilityId != 52 && TacticalTables.s_abilityTypes[AbilityId] != BattleEffectType.Breath) || StrikeIndex == 0)
+            if ((AbilityId != 52 && TacticalTables.s_abilityTypes[AbilityId] != BattleEffectType.Breath) || _strikeIndex == 0)
             {
-                Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Ability);
+                _unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Ability);
             }
         }
 
@@ -1624,7 +1624,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
         }
 
         obstacles?.Dispose();
-        StrikeIndex += 1;
+        _strikeIndex += 1;
     }
 
     private static Int32Array19 s_randomHex = Int32Array19.From([6, 0, 1, 3, 4, 5, 2, 18, 12, 7, 11, 10, 17, 15, 9, 16, 13, 8, 14]);

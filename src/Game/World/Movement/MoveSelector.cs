@@ -23,11 +23,11 @@ public partial class MoveSelector : IDisposable
         Map = null;
     }
 
-    public MoveControlSettings MoveControlSettings;
-    public MoveSettingsList MoveSettingsList;
-    public int CurrentMove;
-    public GameMap Map;
-    public Set<MoveSelectorStatusElement> Status;
+    public MoveControlSettings MoveControlSettings { get; }
+    public MoveSettingsList MoveSettingsList { get; }
+    public int CurrentMove { get; protected set; }
+    public GameMap Map { get; private set; }
+    public Set<MoveSelectorStatusElement> Status { get; private set; }
 
     // Structur.PAS:4118
     public virtual void Dispose()

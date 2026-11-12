@@ -31,17 +31,19 @@ public partial class DiplomaticAction : EngineObject
     // Diplomacy.pas:482
     public DiplomaticAction(ECustomNode owner) : base(owner)
     {
-        RefCount = 1;
+        _refCount = 1;
     }
 
-    public int RefCount;
+    private int _refCount;
     public int Day;
     public sbyte Source;
     public sbyte Target;
     // The census finds it written for every kind, 255 for the kinds that name no other player.
     public sbyte OtherPlayer;
     public DiplomaticActionReaction Reaction;
-    public DiplomaticProposal Proposal = new DeclareWar();
+
+    public DiplomaticProposal Proposal { get; set; } = new DeclareWar();
+
     public int EscrowGold;
     public int EscrowMana;
     public int EventLogId;
@@ -80,16 +82,16 @@ public partial class DiplomaticAction : EngineObject
     // Diplomacy.pas:586
     public override int AddRef()
     {
-        RefCount += 1;
-        return RefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // Diplomacy.pas:589
     public override int Release()
     {
-        RefCount -= 1;
-        int result = RefCount;
-        if (RefCount == 0)
+        _refCount -= 1;
+        int result = _refCount;
+        if (_refCount == 0)
         {
             Dispose();
         }
@@ -227,7 +229,7 @@ public partial class DiplomaticAction : EngineObject
         else
         {
             result = false;
-            errorText = AbilityRules.TranslateResourceString(GameText.s_tributeNotEnoughGoldText);
+            errorText = AbilityRules.TranslateResourceString(GameText.TributeNotEnoughGoldText);
         }
 
         return result;
@@ -344,14 +346,14 @@ public partial class DiplomaticAction : EngineObject
         TextControl fTextControl = AoWHSSet.Current.TextControl;
         DiplomaticRelation diplomaticRelation = AoWHSMap.Current.Players.GetDiplomaticRelation(source, target);
         Player players = AoWHSMap.Current.Players.GetPlayers(source);
-        string sourceRace = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[players.PlayerRace]);
+        string sourceRace = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players.PlayerRace]);
         Player players2 = AoWHSMap.Current.Players.GetPlayers(target);
-        string targetRace = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[players2.PlayerRace]);
+        string targetRace = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players2.PlayerRace]);
         string otherRace;
         if (other > 0)
         {
             Player players3 = AoWHSMap.Current.Players.GetPlayers(other);
-            otherRace = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[players3.PlayerRace]);
+            otherRace = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players3.PlayerRace]);
         }
         else
         {

@@ -6,17 +6,17 @@ namespace Aow.Game.Audio;
 
 public static class AudioHost
 {
-    internal static string BaseSoundEnginePath = "";
+    internal static string BaseSoundEnginePath { get; set; } = "";
 
-    public static SongPlayer SongPlayer;
+    public static SongPlayer SongPlayer { get; set; }
 
-    public static SoundSystem SoundSystem = default;
+    public static SoundSystem SoundSystem { get; set; } = default;
 
-    internal static SoundSystemList SoundSystems = default;
+    internal static SoundSystemList SoundSystems { get; set; } = default;
 
-    internal static SampleDataList SampleDataList = default;
+    internal static SampleDataList SampleDataList { get; set; } = default;
 
-    internal static SampleList SampleList = default;
+    internal static SampleList SampleList { get; set; } = default;
 
     internal static void Initialize()
     {

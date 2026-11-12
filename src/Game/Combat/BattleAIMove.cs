@@ -6,13 +6,13 @@ namespace Aow.Game.Combat;
 // MoveType. Ability. Spell. Value. GroupValue. UnitHexSprite. Target. X. Y
 public partial class BattleAIMove
 {
-    public BattleAIMoveType MoveType;
-    public short Ability;
-    public short Spell;
-    public int Value;
-    public int GroupValue;
-    public TacticalBattleUnitHexSprite UnitHexSprite;
-    public CombatObject Target;
-    public ushort X;
-    public ushort Y;
+    public BattleAIMoveType MoveType { get; set; }
+    public short Ability { get; set; }
+    public short Spell { get; set; }
+    public int Value { get; set; }
+    public int GroupValue { get; set; }
+    public TacticalBattleUnitHexSprite UnitHexSprite { get; set; }
+    public CombatObject Target { get; set; }
+    public ushort X { get; set; }
+    public ushort Y { get; set; }
 }

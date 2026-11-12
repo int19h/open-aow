@@ -22,7 +22,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
     // GlobalTargetSpells.pas:2138
     public new const int ClassId = 135975;
 
-    public Animation Animation;
+    private Animation _animation;
 
     // GlobalTargetSpells.pas:2190
     public override bool Process(Troop source, int value)
@@ -46,7 +46,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
             }
 
             animation = (ImageSequenceAnimation)new Animation(null);
-            Animation = animation;
+            _animation = animation;
             animation.AnimationLevel = 27;
             animation.OnShow = ShowAnimation;
             animation.AnimationMap = AoWHSMap.Current;
@@ -135,7 +135,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
 
         if (value == 80)
         {
-            Animation?.Dispose();
+            _animation?.Dispose();
             result = false;
         }
         else

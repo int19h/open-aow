@@ -3,120 +3,120 @@ namespace Aow.Game.UI.Dialogs;
 
 public static class DialogHosts
 {
-    public static SoundDialog SoundDialog;
+    public static SoundDialog SoundDialog { get; set; }
 
-    public static MultiWindow MultiWindow;
+    public static MultiWindow MultiWindow { get; set; }
 
-    public static MagicWindow MagicWindow;
+    public static MagicWindow MagicWindow { get; set; }
 
-    public static TaskBar TaskBar;
+    public static TaskBar TaskBar { get; set; }
 
-    public static ChatWindow ChatWindow;
+    public static ChatWindow ChatWindow { get; set; }
 
-    public static ConstructDialog ConstructDialog;
+    public static ConstructDialog ConstructDialog { get; set; }
 
-    public static DisjunctionDialog DisjunctionDialog;
+    public static DisjunctionDialog DisjunctionDialog { get; set; }
 
-    public static GamePlayDialog GamePlayDialog;
+    public static GamePlayDialog GamePlayDialog { get; set; }
 
-    public static TitleScene TitleScene;
+    public static TitleScene TitleScene { get; set; }
 
-    public static CampaignJoinDialog CampaignJoinDialog;
+    public static CampaignJoinDialog CampaignJoinDialog { get; set; }
 
-    public static TitleWindow TitleWindow;
+    public static TitleWindow TitleWindow { get; set; }
 
-    public static CampaignTransferDialog CampaignTransferDialog;
+    public static CampaignTransferDialog CampaignTransferDialog { get; set; }
 
-    public static PowerDialog PowerDialog;
+    public static PowerDialog PowerDialog { get; set; }
 
-    public static SynchronizeDialog SynchronizeDialog;
+    public static SynchronizeDialog SynchronizeDialog { get; set; }
 
-    public static ConfirmationDialog ConfirmationDialog;
+    public static ConfirmationDialog ConfirmationDialog { get; set; }
 
-    public static CampaignSettingsDialog CampaignSettingsDialog;
+    public static CampaignSettingsDialog CampaignSettingsDialog { get; set; }
 
-    public static ProgressDialog ProgressDialog;
+    public static ProgressDialog ProgressDialog { get; set; }
 
-    public static UnitSelectionDialog UnitSelectionDialog;
+    public static UnitSelectionDialog UnitSelectionDialog { get; set; }
 
-    public static EmailSettingsDialog EmailSettingsDialog;
+    public static EmailSettingsDialog EmailSettingsDialog { get; set; }
 
-    public static EmailGameSettingsDialog EmailGameSettingsDialog;
+    public static EmailGameSettingsDialog EmailGameSettingsDialog { get; set; }
 
-    public static Pop3Dialog Pop3Dialog;
+    public static Pop3Dialog Pop3Dialog { get; set; }
 
-    public static CastUnitSpellDialog CastUnitSpellDialog;
+    public static CastUnitSpellDialog CastUnitSpellDialog { get; set; }
 
-    public static DeformFaceDialog DeformFaceDialog;
+    public static DeformFaceDialog DeformFaceDialog { get; set; }
 
-    public static SmtpDialog SmtpDialog;
+    public static SmtpDialog SmtpDialog { get; set; }
 
-    public static TargetSelectionDialog TargetSelectionDialog;
+    public static TargetSelectionDialog TargetSelectionDialog { get; set; }
 
-    public static WorldMap WorldMap;
+    public static WorldMap WorldMap { get; set; }
 
-    public static ControlWindow ControlWindow;
+    public static ControlWindow ControlWindow { get; set; }
 
-    public static MapWindow MapWindow;
+    public static MapWindow MapWindow { get; set; }
 
-    public static PyreScreen PyreScreen;
+    public static PyreScreen PyreScreen { get; set; }
 
-    public static CityScreen CityScreen;
+    public static CityScreen CityScreen { get; set; }
 
-    public static ScenarioSetup ScenarioSetup;
+    public static ScenarioSetup ScenarioSetup { get; set; }
 
-    public static SpellBook SpellBook;
+    public static SpellBook SpellBook { get; set; }
 
-    public static UIFonts UIFonts;
+    public static UIFonts UIFonts { get; set; }
 
-    public static CombatScanner CombatScanner;
+    public static CombatScanner CombatScanner { get; set; }
 
-    public static FileDialogWindow FileDialogWindow;
+    public static FileDialogWindow FileDialogWindow { get; set; }
 
-    public static InfoBanner InfoBanner;
+    public static InfoBanner InfoBanner { get; set; }
 
-    public static InfoWindow InfoWindow;
+    public static InfoWindow InfoWindow { get; set; }
 
-    public static ItemBanner ItemBanner;
+    public static ItemBanner ItemBanner { get; set; }
 
-    public static LeaderSetupWindow LeaderSetupWindow;
+    public static LeaderSetupWindow LeaderSetupWindow { get; set; }
 
-    public static MessageDialog MessageDialog;
+    public static MessageDialog MessageDialog { get; set; }
 
-    public static PlayerInfoWindow PlayerInfoWindow;
+    public static PlayerInfoWindow PlayerInfoWindow { get; set; }
 
-    public static ProductionScreen ProductionScreen;
+    public static ProductionScreen ProductionScreen { get; set; }
 
-    public static RealmWindow RealmWindow;
+    public static RealmWindow RealmWindow { get; set; }
 
-    public static ResultsWindow ResultsWindow;
+    public static ResultsWindow ResultsWindow { get; set; }
 
-    public static ScannerWindow ScannerWindow;
+    public static ScannerWindow ScannerWindow { get; set; }
 
-    public static FactionSelectionWindow FactionSelectionWindow;
+    public static FactionSelectionWindow FactionSelectionWindow { get; set; }
 
-    public static CombatUnitInfo CombatUnitInfo;
+    public static CombatUnitInfo CombatUnitInfo { get; set; }
 
-    public static UnitBanner UnitBanner;
+    public static UnitBanner UnitBanner { get; set; }
 
-    public static UnitWindow UnitWindow;
+    public static UnitWindow UnitWindow { get; set; }
 
-    public static VideoDialog VideoDialog;
+    public static VideoDialog VideoDialog { get; set; }
 
-    public static General General;
+    public static General General { get; set; }
 
-    public static RelationWindow RelationWindow;
+    public static RelationWindow RelationWindow { get; set; }
 
-    public static PopupWindows PopupWindows;
+    public static PopupWindows PopupWindows { get; set; }
 
-    public static IntroScene IntroScene;
+    public static IntroScene IntroScene { get; set; }
 
-    public static HelpWindow HelpWindow;
+    public static HelpWindow HelpWindow { get; set; }
 
-    public static UIGraphics UIGraphics;
+    public static UIGraphics UIGraphics { get; set; }
 
-    public static MapEvents MapEvents;
+    public static MapEvents MapEvents { get; set; }
 
-    public static SetupEvents SetupEvents;
+    public static SetupEvents SetupEvents { get; set; }
 
 }

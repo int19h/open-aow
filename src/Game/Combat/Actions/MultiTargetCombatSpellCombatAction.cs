@@ -15,9 +15,11 @@ namespace Aow.Game.Combat.Actions;
 public partial class MultiTargetCombatSpellCombatAction : CombatAction
 {
     public byte SourceId;
-    public ByteList TargetIds;
+
+    public ByteList TargetIds { get; }
+
     public int ManaCost;
-    public bool Succeeded;
+    private bool _succeeded;
     public int SpellId;
 
     // CombatSpells.pas:563
@@ -34,7 +36,7 @@ public partial class MultiTargetCombatSpellCombatAction : CombatAction
         stream.rwByte(ref SourceId, 20);
         stream.rwStreamProc(21, TargetIds.LoadFromStream, TargetIds.SaveToStream);
         stream.rwInteger(ref ManaCost, 22);
-        stream.rwBool(ref Succeeded, 23);
+        stream.rwBool(ref _succeeded, 23);
         stream.rwInteger(ref SpellId, 24);
     }
 

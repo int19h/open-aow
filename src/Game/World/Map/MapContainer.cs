@@ -14,11 +14,11 @@ public partial class MapContainer : ENode
     // HSEngine.pas:3208
     public new const int ClassId = 65795;
 
-    internal int _width;
-    internal int _height;
-    internal int _levelCount;
-    internal HSMap _map;
-    internal GameEngine _engine;
+    private int _width;
+    private int _height;
+    private int _levelCount;
+    private HSMap _map;
+    private GameEngine _engine;
 
     // HSEngine.pas:3167
     public override void SetOwner(ECustomNode owner)
@@ -41,7 +41,7 @@ public partial class MapContainer : ENode
         {
             _map = (HSMap)Owner;
             _engine = stream.Engine;
-            _map._mapContainer = this;
+            _map.MapContainer = this;
         }
 
         W = (byte)_width;
@@ -58,7 +58,7 @@ public partial class MapContainer : ENode
     // HSEngine.pas:3197
     public override void MainReadWrite(EStorageStream stream)
     {
-        if (!((HSMap)Owner)._status.Contains(HexSpriteMapStatusElement.PreviewMode))
+        if (!((HSMap)Owner).Status.Contains(HexSpriteMapStatusElement.PreviewMode))
         {
             base.MainReadWrite(stream);
         }
@@ -119,7 +119,7 @@ public partial class MapContainer : ENode
         if (levelClass != null)
         {
             level = (MapLevel)levelClass.CreateInstance(this);
-            level._hexLevel = _levelCount;
+            level.HexLevel = _levelCount;
             _engine.ActivateEngineObject(level);
             level.CreateMapFieldList(_width, _height);
             _levelCount += 1;
@@ -145,7 +145,7 @@ public partial class MapContainer : ENode
             for (int I = 0, last = settings.Levels - 1; I <= last; I++)
             {
                 level = (MapLevel)levelClass.CreateInstance(this);
-                level._hexLevel = I;
+                level.HexLevel = I;
                 _engine.ActivateEngineObject(level);
                 level.New(settings);
             }
@@ -191,10 +191,10 @@ public partial class MapContainer : ENode
         }
     }
 
-    public int Width { get => _width; }
-    public int Height { get => _height; }
-    public int LevelCount { get => _levelCount; }
-    public HSMap Map { get => _map; }
+    public int Width { get => _width; internal set => _width = value; }
+    public int Height { get => _height; internal set => _height = value; }
+    public int LevelCount { get => _levelCount; internal set => _levelCount = value; }
+    public HSMap Map { get => _map; internal set => _map = value; }
 
     public sealed class MapLevelsAccessor(MapContainer target)
     {

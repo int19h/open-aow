@@ -5,10 +5,10 @@ namespace Aow.Engine.Collections;
 
 public struct SortStringsContext
 {
-    public StringCollection Strings;
-    public StringsSortCompare Compare;
-    public ExchangeProc ExchangeProc;
-    public DelphiList ExchangeData;
+    public StringCollection Strings { get; set; }
+    public StringsSortCompare Compare { get; set; }
+    public ExchangeProc ExchangeProc { get; set; }
+    public DelphiList ExchangeData { get; set; }
 
     internal static void QuickSortStrings(ref SortStringsContext context, int L, int R)
     {

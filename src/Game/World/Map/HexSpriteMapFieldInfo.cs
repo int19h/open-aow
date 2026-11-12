@@ -6,6 +6,6 @@ namespace Aow.Game.World.Map;
 // { THexagonSprite.UpdateMapField (8 bytes) }
 public struct HexSpriteMapFieldInfo
 {
-    public MapField MapField;
-    public sbyte HexNumber;
+    public MapField MapField { get; init; }
+    public sbyte HexNumber { get; set; }
 }

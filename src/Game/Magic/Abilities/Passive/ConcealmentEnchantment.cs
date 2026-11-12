@@ -9,7 +9,7 @@ public partial class ConcealmentEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1287
     public ConcealmentEnchantment(ECustomNode owner) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.s_concealmentText);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.ConcealmentText);
         AbilityId = 162;
     }
 }

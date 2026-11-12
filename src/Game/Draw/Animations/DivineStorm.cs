@@ -34,6 +34,6 @@ public partial class DivineStorm : BlastStorm
     // Animation.pas:43
 
     // Storms.pas:613
-    public override string Name() => AbilityRules.TranslateResourceString(GameTables.s_divineStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GameTables.DivineStormText);
 
 }

@@ -40,7 +40,7 @@ public partial class TerrainMapObject
             if (resource._terrainType != terrainType || resource == _resource ||
                 !resource.TerrainList.CompareTerrain(_resource.TerrainList, default)) continue;
             bool compatible = true;
-            int j = resource._terrainList.Count;
+            int j = resource.TerrainList.Count;
             while (compatible && j != 0)
             {
                 j--;

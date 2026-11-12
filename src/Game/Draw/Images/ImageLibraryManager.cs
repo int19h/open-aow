@@ -9,9 +9,9 @@ namespace Aow.Game.Draw.Images;
 public partial class ImageLibraryManager : Component
 {
 
-    internal string _searchPath = "";
-    internal ImageLibraryManagerList _diskList;
-    internal ImageLibraryManagerList _ownedList;
+    private string _searchPath = "";
+    private ImageLibraryManagerList _diskList;
+    private ImageLibraryManagerList _ownedList;
 
     // ImageLib.pas:8260
     public ImageLibraryManager(Component owner) : base(owner)

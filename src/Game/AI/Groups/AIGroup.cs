@@ -30,7 +30,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     // AIGroup.pas:57
     public AIGroup(ECustomNode owner) : base(owner)
     {
-        RefCount = 1;
+        _refCount = 1;
         Status = Set<AIGroupStatusElement>.Of();
         Productions = new AIGroupProductionList(null);
         GroupId = -1;
@@ -42,11 +42,14 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         RecruitmentPriority = 10;
     }
 
-    public Set<AIGroupStatusElement> Status;
-    public int RefCount;
-    public Troop Leader;
-    public Troop Transporter;
-    public AIGroupProductionList Productions;
+    public Set<AIGroupStatusElement> Status { get; set; }
+
+    private int _refCount;
+
+    public Troop Leader { get; private set; }
+    public Troop Transporter { get; private set; }
+    public AIGroupProductionList Productions { get; }
+
     public int GroupId;
     public sbyte Player;
     public int LeaderId;
@@ -128,16 +131,16 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     // AIGroup.pas:88
     public override int AddRef()
     {
-        RefCount += 1;
-        return RefCount;
+        _refCount += 1;
+        return _refCount;
     }
 
     // AIGroup.pas:94
     public override int Release()
     {
-        RefCount -= 1;
-        int result = RefCount;
-        if (RefCount == 0)
+        _refCount -= 1;
+        int result = _refCount;
+        if (_refCount == 0)
         {
             Dispose();
         }

@@ -27,8 +27,8 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
     // GlobalTargetSpells.pas:1559
     public new const int ClassId = 135972;
 
-    public int Angle;
-    public Animation Animation;
+    private int _angle;
+    private Animation _animation;
     public ArmyId ArmyId;
 
     // GlobalTargetSpells.pas:1553
@@ -70,7 +70,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
         AIGroup group = default;
         if (value == 0)
         {
-            Angle = 0;
+            _angle = 0;
             var spell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
             AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
             AoWHSMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
@@ -80,7 +80,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
             }
 
             animation = (ImageSequenceAnimation)new Animation(null);
-            Animation = animation;
+            _animation = animation;
             animation.AnimationLevel = 27;
             animation.OnShow = ShowAnimation;
             animation.AnimationMap = AoWHSMap.Current;
@@ -147,9 +147,9 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                 {
                     log = new ArmyEventLog(null);
                     log._player = source.Player;
-                    var tornado = AbilityRules.TranslateResourceString(GameText.s_tornadoText);
-                    log.ArmyText = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_castFormat), [tornado]);
-                    var tornadoText = AbilityRules.TranslateResourceString(GameText.s_tornadoText);
+                    var tornado = AbilityRules.TranslateResourceString(GameText.TornadoText);
+                    log.ArmyText = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.CastFormat), [tornado]);
+                    var tornadoText = AbilityRules.TranslateResourceString(GameText.TornadoText);
                     log.ArmyMessages.Add(tornadoText);
                     log.ArmyIcon = 2;
                     log.ArmyView.Setup(army.Army, selection);
@@ -224,7 +224,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                 }
             }
 
-            Animation?.Dispose();
+            _animation?.Dispose();
             result = false;
         }
         else
@@ -253,7 +253,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
             HexGeometry.HexToPixel(Location.X, Location.Y, ref pixelX, ref pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
-            Angle = this.Angle + 20 + Animation.FrameCounter / 5;
+            _angle = this._angle + 20 + _animation.FrameCounter / 5;
             RandSeed = AoWHSMap.Current.InitialRandomSeed;
             for (int I = 0; I <= 200; I++)
             {
@@ -262,9 +262,9 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                 {
                     radius = Round((double)((double)2.997 - Math.Log((double)((double)(I * 19) * 0.005) + 1)) * 35) + 7;
                     height = 200 - I - 16;
-                    xShift = Round((double)((double)Math.Sin((double)((double)Animation.FrameCounter * 0.1) + (double)I * 0.02) * (200 - I)) * 0.25) + 16;
+                    xShift = Round((double)((double)Math.Sin((double)((double)_animation.FrameCounter * 0.1) + (double)I * 0.02) * (200 - I)) * 0.25) + 16;
                     var pi = Math.PI;
-                    angle = (float)((double)((double)(direction + Angle) * pi) / 180);
+                    angle = (float)((double)((double)(direction + _angle) * pi) / 180);
                     if (GameTables.GameEngine.AnimationDetail == 0)
                     {
                         last = 1;

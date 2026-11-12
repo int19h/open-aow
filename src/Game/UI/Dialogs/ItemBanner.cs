@@ -34,7 +34,7 @@ public partial class ItemBanner : DataModule
         Item item;
         int X;
         int Y;
-        item = AoWHSMap.Current.ItemControl.FindItem(s_itemId);
+        item = AoWHSMap.Current.ItemControl.FindItem(ItemId);
         if (item != null)
         {
             ItemNameLbl.Text = item.OwnerName;
@@ -155,13 +155,13 @@ public partial class ItemBanner : DataModule
     public void DrawBoxPreDraw(LockedSurface lockedSurface)
     {
         Item item;
-        item = AoWHSMap.Current.ItemControl.FindItem(s_itemId);
+        item = AoWHSMap.Current.ItemControl.FindItem(ItemId);
         if (item != null)
         {
             item.Show(DrawBox.WinLeft, DrawBox.WinTop, lockedSurface);
         }
     }
 
-    internal static int s_itemId;
+    internal static int ItemId { get; set; }
 
 }

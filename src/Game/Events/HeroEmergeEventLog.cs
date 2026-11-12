@@ -23,9 +23,9 @@ public partial class HeroEmergeEventLog : EventLog
     public new const int ClassId = 131832;
 
     public int UnitId;
-    public new int _day;
-    public string Text = "";
-    public HeroJoinMode Mode;
+    private new int _day;
+    private string _text = "";
+    private HeroJoinMode _mode;
     public string LocationName = "";
 
     // Hero.PAS:188
@@ -34,13 +34,13 @@ public partial class HeroEmergeEventLog : EventLog
         base.ReadWrite(stream);
         stream.rwInteger(ref UnitId, 39);
         stream.rwInteger(ref _day, 40);
-        stream.rwString(ref Text, 41);
+        stream.rwString(ref _text, 41);
         stream.rwString(ref LocationName, 42);
-        stream.rwData(Bytes.Of(ref Mode, 1), 1, 43);
+        stream.rwData(Bytes.Of(ref _mode, 1), 1, 43);
     }
 
     // Hero.PAS:198
-    public override string GetText() => Text;
+    public override string GetText() => _text;
 
     // Hero.PAS:254
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
@@ -102,7 +102,7 @@ public partial class HeroEmergeEventLog : EventLog
         _player = player;
         UnitId = hero.UnitId;
         _day = AoWHSMap.Current.Day;
-        Mode = mode;
+        _mode = mode;
         name = hero.HeroName;
         if (!IsEmpty(hero.GetNickname()))
         {
@@ -110,7 +110,7 @@ public partial class HeroEmergeEventLog : EventLog
         }
 
         // { Original builds Name but formats the message from FHeroName instead. }
-        Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_offersToJoinFormat), [hero.HeroName]);
+        _text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_offersToJoinFormat), [hero.HeroName]);
     }
 
     // Hero.PAS:214
@@ -123,7 +123,7 @@ public partial class HeroEmergeEventLog : EventLog
         {
             result = new HeroJoinEventLog(null);
             result.JoinIndex = Id;
-            switch (Mode)
+            switch (_mode)
             {
                 case HeroJoinMode.Emerged:
                     result.SetupJoinArmy(hero.ArmyOwner, _player, result.JoinMode);

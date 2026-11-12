@@ -13,7 +13,7 @@ public partial class CheckBox : BaseButton
     public CheckBox(Component owner) : base(owner)
     { }
 
-    public NotifyEvent<CheckBox> _onDoubleClick;
+    private NotifyEvent<CheckBox> _onDoubleClick;
 
     // AoWCheckBox.pas:51
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
@@ -21,7 +21,7 @@ public partial class CheckBox : BaseButton
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
         Lit = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight && Valid == true && _visible == true)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid == true && Visible == true)
         {
             Handled = true;
             if (_onMouseDown != null)
@@ -67,25 +67,25 @@ public partial class CheckBox : BaseButton
             }
             else
             {
-                if (button == MouseButton.Right && _popupMenu != null)
+                if (button == MouseButton.Right && PopupMenu != null)
                 {
-                    _popupMenu.WinLeft = X;
-                    _popupMenu.WinTop = Y;
-                    _popupMenu.SetPopupOwner(this);
-                    if (_popupMenu._windowManager != null)
+                    PopupMenu.WinLeft = X;
+                    PopupMenu.WinTop = Y;
+                    PopupMenu.SetPopupOwner(this);
+                    if (PopupMenu._windowManager != null)
                     {
-                        if (_popupMenu._winLeft + _popupMenu._winWidth > _popupMenu._windowManager._winWidth)
+                        if (PopupMenu.WinLeft + PopupMenu.WinWidth > PopupMenu._windowManager.WinWidth)
                         {
-                            _popupMenu._winLeft = X - _popupMenu._winWidth;
+                            PopupMenu.SetWinLeftWithoutInvalidate(X - PopupMenu.WinWidth);
                         }
 
-                        if (_popupMenu._winTop + _popupMenu._winHeight > _popupMenu._windowManager._winHeight)
+                        if (PopupMenu.WinTop + PopupMenu.WinHeight > PopupMenu._windowManager.WinHeight)
                         {
-                            _popupMenu._winTop = Y - _popupMenu._winHeight;
+                            PopupMenu.SetWinTopWithoutInvalidate(Y - PopupMenu.WinHeight);
                         }
                     }
 
-                    _popupMenu.Visible = true;
+                    PopupMenu.Visible = true;
                 }
             }
         }
@@ -96,7 +96,7 @@ public partial class CheckBox : BaseButton
     {
         Handled = false;
         Lit = false;
-        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight && Valid == true && _visible == true)
+        if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid == true && Visible == true)
         {
             Handled = true;
             if (_onMouseUp != null)
@@ -113,14 +113,14 @@ public partial class CheckBox : BaseButton
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
         oldLit = Lit;
-        if (X < _window._winLeft + _winLeft || X > _window._winLeft + _winLeft + _winWidth - 1 || Y < _window._winTop + _winTop || Y > _window._winTop + _winTop + _winHeight - 1)
+        if (X < Window.WinLeft + WinLeft || X > Window.WinLeft + WinLeft + WinWidth - 1 || Y < Window.WinTop + WinTop || Y > Window.WinTop + WinTop + WinHeight - 1)
         {
             Lit = false;
         }
         else
         {
             Handled = true;
-            Lit = !_checked && !_ownerComponent.Handled;
+            Lit = !_checked && !OwnerComponent.Handled;
             if (_onMouseMove != null)
             {
                 _onMouseMove(this, shift, X, Y);
@@ -143,11 +143,11 @@ public partial class CheckBox : BaseButton
             Drawn = false;
             if (_radioIndex > 0)
             {
-                if (_window != null)
+                if (Window != null)
                 {
                     if (_checked)
                     {
-                        _window.RadioChange(this);
+                        Window.RadioChange(this);
                     }
                 }
             }

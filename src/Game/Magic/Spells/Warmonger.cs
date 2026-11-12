@@ -13,7 +13,7 @@ public partial class Warmonger : CityEnchantmentSpell
     // CitySpells.pas:751
     public Warmonger(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_warmongerText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.WarmongerText);
         SpellId = 58;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
         EnchantmentId = CityEnchantmentId.Warmonger;

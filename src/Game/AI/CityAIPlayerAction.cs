@@ -19,10 +19,11 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     public CityAIPlayerAction(ECustomNode owner) : base(owner)
     { }
 
-    public int CityCount;
-    public Int32Array4 ProductionLevelCounts;
-    public int MaxProductionLevel;
-    public float ProductionRatio;
+    private int _cityCount;
+    private Int32Array4 _productionLevelCounts;
+    private int _maxProductionLevel;
+
+    public float ProductionRatio { get; private set; }
 
     // City.pas:3130
     public override bool Process()
@@ -270,7 +271,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         int level;
         level = city.Production.GetProduceUnitLevelMax();
         bool Result = city.CanUpgrade(false, ref reason);
-        Result = Result && city.GetSize() > city.UpgradeLevel && !(level == MaxProductionLevel && ProductionLevelCounts[level - 1] == 1) && level == city.UpgradeLevel;
+        Result = Result && city.GetSize() > city.UpgradeLevel && !(level == _maxProductionLevel && _productionLevelCounts[level - 1] == 1) && level == city.UpgradeLevel;
         bool result = Result;
         if (result)
         {
@@ -552,16 +553,16 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
         int available;
         int busy;
         City city;
-        CityCount = 0;
-        MaxProductionLevel = 0;
+        _cityCount = 0;
+        _maxProductionLevel = 0;
         available = 0;
         busy = 0;
-        ProductionLevelCounts = default;
+        _productionLevelCounts = default;
         for (int I = Control.Player.Structures.Count - 1; I >= 0; I--)
         {
             if (Control.Player.Structures.GetStructure(I) is City)
             {
-                CityCount += 1;
+                _cityCount += 1;
                 city = (City)Control.Player.Structures.GetStructure(I);
                 if (Set<CityAction>.Of(CityAction.None, CityAction.Trade, CityAction.Produce).Contains(city.GetActiveAction()))
                 {
@@ -569,12 +570,12 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                     level = city.Production.GetProduceUnitLevelMax();
                     if (level > 0)
                     {
-                        ProductionLevelCounts[level - 1] += 1;
+                        _productionLevelCounts[level - 1] += 1;
                     }
 
-                    if (level > MaxProductionLevel)
+                    if (level > _maxProductionLevel)
                     {
-                        MaxProductionLevel = level;
+                        _maxProductionLevel = level;
                     }
                 }
                 else
@@ -584,7 +585,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
             }
         }
 
-        if (CityCount != 0)
+        if (_cityCount != 0)
         {
             // { Original rounds the fraction before storing it. }
             ProductionRatio = Round((double)available / (available + busy));

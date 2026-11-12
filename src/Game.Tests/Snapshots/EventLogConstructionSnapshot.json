@@ -7,9 +7,9 @@
           "ArmyEventLog.ArmyIcon": 0,
           "ArmyEventLog.ArmyMessages": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -47,8 +47,8 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.UnfogRange": 0,
-            "Army.Upkeep": 0,
+            "Army._unfogRange": 0,
+            "Army._upkeep": 0,
             "Army.UserMode": {
               "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set`1.a": 0,
@@ -59,7 +59,7 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.VisibilityRanges": 0,
+            "Army._visibilityRanges": 0,
             "Army.X": -1,
             "Army.Y": -1,
             "ArmyView.ConcealedForPlayers": 0,
@@ -93,7 +93,7 @@
             "ByteList._default": 0,
             "ByteList._list": "$ref:$.ArmyEventLog.DamageTypes.ByteList._list"
           },
-          "ArmyEventLog.GameOver": false,
+          "ArmyEventLog._gameOver": false,
           "EngineObject._owner": null,
           "EventLog._day": 0,
           "EventLog.Id": 0,
@@ -125,9 +125,9 @@
           "ArmyEventLog.ArmyIcon": 0,
           "ArmyEventLog.ArmyMessages": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -165,8 +165,8 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.UnfogRange": 0,
-            "Army.Upkeep": 0,
+            "Army._unfogRange": 0,
+            "Army._upkeep": 0,
             "Army.UserMode": {
               "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set`1.a": 0,
@@ -177,7 +177,7 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.VisibilityRanges": 0,
+            "Army._visibilityRanges": 0,
             "Army.X": -1,
             "Army.Y": -1,
             "ArmyView.ConcealedForPlayers": 0,
@@ -211,7 +211,7 @@
             "ByteList._default": 0,
             "ByteList._list": "$ref:$.ArmyEventLog.DamageTypes.ByteList._list"
           },
-          "ArmyEventLog.GameOver": false,
+          "ArmyEventLog._gameOver": false,
           "EngineObject._owner": "$owner",
           "EventLog._day": 0,
           "EventLog.Id": 0,
@@ -234,7 +234,7 @@
                 "ArmyEventLog.ArmyView": null,
                 "ArmyEventLog.DamageTypes": null,
                 "ArmyEventLog.DamageValues": null,
-                "ArmyEventLog.GameOver": false,
+                "ArmyEventLog._gameOver": false,
                 "EngineObject._owner": "$owner",
                 "EventLog._day": 0,
                 "EventLog.Id": 0,
@@ -272,9 +272,9 @@
           "ArmyEventLog.ArmyIcon": 0,
           "ArmyEventLog.ArmyMessages": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -312,8 +312,8 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.UnfogRange": 0,
-            "Army.Upkeep": 0,
+            "Army._unfogRange": 0,
+            "Army._upkeep": 0,
             "Army.UserMode": {
               "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set`1.a": 0,
@@ -324,7 +324,7 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.VisibilityRanges": 0,
+            "Army._visibilityRanges": 0,
             "Army.X": -1,
             "Army.Y": -1,
             "ArmyView.ConcealedForPlayers": 0,
@@ -358,7 +358,7 @@
             "ByteList._default": 0,
             "ByteList._list": "$ref:$.ArmyEventLog.DamageTypes.ByteList._list"
           },
-          "ArmyEventLog.GameOver": false,
+          "ArmyEventLog._gameOver": false,
           "EngineObject._owner": null,
           "EventLog._day": 7,
           "EventLog.Id": 0,
@@ -390,9 +390,9 @@
           "ArmyEventLog.ArmyIcon": 0,
           "ArmyEventLog.ArmyMessages": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -430,8 +430,8 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.UnfogRange": 0,
-            "Army.Upkeep": 0,
+            "Army._unfogRange": 0,
+            "Army._upkeep": 0,
             "Army.UserMode": {
               "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set`1.a": 0,
@@ -442,7 +442,7 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.VisibilityRanges": 0,
+            "Army._visibilityRanges": 0,
             "Army.X": -1,
             "Army.Y": -1,
             "ArmyView.ConcealedForPlayers": 0,
@@ -476,7 +476,7 @@
             "ByteList._default": 0,
             "ByteList._list": "$ref:$.ArmyEventLog.DamageTypes.ByteList._list"
           },
-          "ArmyEventLog.GameOver": false,
+          "ArmyEventLog._gameOver": false,
           "EngineObject._owner": "$owner",
           "EventLog._day": 7,
           "EventLog.Id": 0,
@@ -499,7 +499,7 @@
                 "ArmyEventLog.ArmyView": null,
                 "ArmyEventLog.DamageTypes": null,
                 "ArmyEventLog.DamageValues": null,
-                "ArmyEventLog.GameOver": false,
+                "ArmyEventLog._gameOver": false,
                 "EngineObject._owner": "$owner",
                 "EventLog._day": 7,
                 "EventLog.Id": 0,
@@ -565,8 +565,8 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.UnfogRange": 0,
-            "Army.Upkeep": 0,
+            "Army._unfogRange": 0,
+            "Army._upkeep": 0,
             "Army.UserMode": {
               "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set`1.a": 0,
@@ -577,7 +577,7 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.VisibilityRanges": 0,
+            "Army._visibilityRanges": 0,
             "Army.X": -1,
             "Army.Y": -1,
             "ArmyView.ConcealedForPlayers": 0,
@@ -600,9 +600,9 @@
           "ArmyInfoEventLog.Description": "",
           "ArmyInfoEventLog.Messages": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -680,8 +680,8 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.UnfogRange": 0,
-            "Army.Upkeep": 0,
+            "Army._unfogRange": 0,
+            "Army._upkeep": 0,
             "Army.UserMode": {
               "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set`1.a": 0,
@@ -692,7 +692,7 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.VisibilityRanges": 0,
+            "Army._visibilityRanges": 0,
             "Army.X": -1,
             "Army.Y": -1,
             "ArmyView.ConcealedForPlayers": 0,
@@ -715,9 +715,9 @@
           "ArmyInfoEventLog.Description": "",
           "ArmyInfoEventLog.Messages": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -833,8 +833,8 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.UnfogRange": 0,
-            "Army.Upkeep": 0,
+            "Army._unfogRange": 0,
+            "Army._upkeep": 0,
             "Army.UserMode": {
               "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set`1.a": 0,
@@ -845,7 +845,7 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.VisibilityRanges": 0,
+            "Army._visibilityRanges": 0,
             "Army.X": -1,
             "Army.Y": -1,
             "ArmyView.ConcealedForPlayers": 0,
@@ -868,9 +868,9 @@
           "ArmyInfoEventLog.Description": "",
           "ArmyInfoEventLog.Messages": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -948,8 +948,8 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.UnfogRange": 0,
-            "Army.Upkeep": 0,
+            "Army._unfogRange": 0,
+            "Army._upkeep": 0,
             "Army.UserMode": {
               "$type": "Aow.Rtl.Set`1[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set`1.a": 0,
@@ -960,7 +960,7 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "Army.VisibilityRanges": 0,
+            "Army._visibilityRanges": 0,
             "Army.X": -1,
             "Army.Y": -1,
             "ArmyView.ConcealedForPlayers": 0,
@@ -983,9 +983,9 @@
           "ArmyInfoEventLog.Description": "",
           "ArmyInfoEventLog.Messages": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -1237,8 +1237,8 @@
           "CombatTypeRequestEventLog.CreateNewMove": false,
           "CombatTypeRequestEventLog.DefenderPlayer": 0,
           "CombatTypeRequestEventLog.MapLevel": 0,
-          "CombatTypeRequestEventLog._player": 0,
-          "CombatTypeRequestEventLog.TokenEvent": null,
+          "CombatTypeRequestEventLog.Player": 0,
+          "CombatTypeRequestEventLog._tokenEvent": null,
           "CombatTypeRequestEventLog.X": 0,
           "CombatTypeRequestEventLog.Y": 0,
           "EngineObject._owner": null,
@@ -1274,8 +1274,8 @@
           "CombatTypeRequestEventLog.CreateNewMove": false,
           "CombatTypeRequestEventLog.DefenderPlayer": 0,
           "CombatTypeRequestEventLog.MapLevel": 0,
-          "CombatTypeRequestEventLog._player": 0,
-          "CombatTypeRequestEventLog.TokenEvent": null,
+          "CombatTypeRequestEventLog.Player": 0,
+          "CombatTypeRequestEventLog._tokenEvent": null,
           "CombatTypeRequestEventLog.X": 0,
           "CombatTypeRequestEventLog.Y": 0,
           "EngineObject._owner": "$owner",
@@ -1299,8 +1299,8 @@
                 "CombatTypeRequestEventLog.CreateNewMove": false,
                 "CombatTypeRequestEventLog.DefenderPlayer": 0,
                 "CombatTypeRequestEventLog.MapLevel": 0,
-                "CombatTypeRequestEventLog._player": 0,
-                "CombatTypeRequestEventLog.TokenEvent": null,
+                "CombatTypeRequestEventLog.Player": 0,
+                "CombatTypeRequestEventLog._tokenEvent": null,
                 "CombatTypeRequestEventLog.X": 0,
                 "CombatTypeRequestEventLog.Y": 0,
                 "EngineObject._owner": "$owner",
@@ -1342,8 +1342,8 @@
           "CombatTypeRequestEventLog.CreateNewMove": false,
           "CombatTypeRequestEventLog.DefenderPlayer": 0,
           "CombatTypeRequestEventLog.MapLevel": 0,
-          "CombatTypeRequestEventLog._player": 0,
-          "CombatTypeRequestEventLog.TokenEvent": null,
+          "CombatTypeRequestEventLog.Player": 0,
+          "CombatTypeRequestEventLog._tokenEvent": null,
           "CombatTypeRequestEventLog.X": 0,
           "CombatTypeRequestEventLog.Y": 0,
           "EngineObject._owner": null,
@@ -1379,8 +1379,8 @@
           "CombatTypeRequestEventLog.CreateNewMove": false,
           "CombatTypeRequestEventLog.DefenderPlayer": 0,
           "CombatTypeRequestEventLog.MapLevel": 0,
-          "CombatTypeRequestEventLog._player": 0,
-          "CombatTypeRequestEventLog.TokenEvent": null,
+          "CombatTypeRequestEventLog.Player": 0,
+          "CombatTypeRequestEventLog._tokenEvent": null,
           "CombatTypeRequestEventLog.X": 0,
           "CombatTypeRequestEventLog.Y": 0,
           "EngineObject._owner": "$owner",
@@ -1404,8 +1404,8 @@
                 "CombatTypeRequestEventLog.CreateNewMove": false,
                 "CombatTypeRequestEventLog.DefenderPlayer": 0,
                 "CombatTypeRequestEventLog.MapLevel": 0,
-                "CombatTypeRequestEventLog._player": 0,
-                "CombatTypeRequestEventLog.TokenEvent": null,
+                "CombatTypeRequestEventLog.Player": 0,
+                "CombatTypeRequestEventLog._tokenEvent": null,
                 "CombatTypeRequestEventLog.X": 0,
                 "CombatTypeRequestEventLog.Y": 0,
                 "EngineObject._owner": "$owner",
@@ -1797,8 +1797,8 @@
           "EventLog.RefCount": 1,
           "HeroEmergeEventLog._day": 0,
           "HeroEmergeEventLog.LocationName": "",
-          "HeroEmergeEventLog.Mode": 0,
-          "HeroEmergeEventLog.Text": "",
+          "HeroEmergeEventLog._mode": 0,
+          "HeroEmergeEventLog._text": "",
           "HeroEmergeEventLog.UnitId": 0
         }
       },
@@ -1830,8 +1830,8 @@
           "EventLog.RefCount": 1,
           "HeroEmergeEventLog._day": 0,
           "HeroEmergeEventLog.LocationName": "",
-          "HeroEmergeEventLog.Mode": 0,
-          "HeroEmergeEventLog.Text": "",
+          "HeroEmergeEventLog._mode": 0,
+          "HeroEmergeEventLog._text": "",
           "HeroEmergeEventLog.UnitId": 0
         }
       },
@@ -1851,8 +1851,8 @@
                 "EventLog.RefCount": 1,
                 "HeroEmergeEventLog._day": 0,
                 "HeroEmergeEventLog.LocationName": "",
-                "HeroEmergeEventLog.Mode": 0,
-                "HeroEmergeEventLog.Text": "",
+                "HeroEmergeEventLog._mode": 0,
+                "HeroEmergeEventLog._text": "",
                 "HeroEmergeEventLog.UnitId": 0
               }
             },
@@ -1890,8 +1890,8 @@
           "EventLog.RefCount": 1,
           "HeroEmergeEventLog._day": 0,
           "HeroEmergeEventLog.LocationName": "",
-          "HeroEmergeEventLog.Mode": 0,
-          "HeroEmergeEventLog.Text": "",
+          "HeroEmergeEventLog._mode": 0,
+          "HeroEmergeEventLog._text": "",
           "HeroEmergeEventLog.UnitId": 0
         }
       },
@@ -1923,8 +1923,8 @@
           "EventLog.RefCount": 1,
           "HeroEmergeEventLog._day": 0,
           "HeroEmergeEventLog.LocationName": "",
-          "HeroEmergeEventLog.Mode": 0,
-          "HeroEmergeEventLog.Text": "",
+          "HeroEmergeEventLog._mode": 0,
+          "HeroEmergeEventLog._text": "",
           "HeroEmergeEventLog.UnitId": 0
         }
       },
@@ -1944,8 +1944,8 @@
                 "EventLog.RefCount": 1,
                 "HeroEmergeEventLog._day": 0,
                 "HeroEmergeEventLog.LocationName": "",
-                "HeroEmergeEventLog.Mode": 0,
-                "HeroEmergeEventLog.Text": "",
+                "HeroEmergeEventLog._mode": 0,
+                "HeroEmergeEventLog._text": "",
                 "HeroEmergeEventLog.UnitId": 0
               }
             },
@@ -1986,16 +1986,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -2046,16 +2046,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -2094,7 +2094,7 @@
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog.Location": {
+                "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
@@ -2145,16 +2145,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -2205,16 +2205,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -2253,7 +2253,7 @@
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog.Location": {
+                "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
@@ -2484,16 +2484,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -2544,16 +2544,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -2592,7 +2592,7 @@
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog.Location": {
+                "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
@@ -2643,16 +2643,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -2703,16 +2703,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -2751,7 +2751,7 @@
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog.Location": {
+                "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
@@ -2802,16 +2802,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -2830,8 +2830,8 @@
             "Int32List._list": []
           },
           "NegotiateRequestEventLog.ArmyId": null,
-          "NegotiateRequestEventLog.Data1": 0,
-          "NegotiateRequestEventLog.Data2": 0,
+          "NegotiateRequestEventLog._data1": 0,
+          "NegotiateRequestEventLog._data2": 0,
           "NegotiateRequestEventLog.MapLevel": 0,
           "NegotiateRequestEventLog.MovePoints": 0,
           "NegotiateRequestEventLog.Object": 0,
@@ -2870,16 +2870,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -2898,8 +2898,8 @@
             "Int32List._list": []
           },
           "NegotiateRequestEventLog.ArmyId": null,
-          "NegotiateRequestEventLog.Data1": 0,
-          "NegotiateRequestEventLog.Data2": 0,
+          "NegotiateRequestEventLog._data1": 0,
+          "NegotiateRequestEventLog._data2": 0,
           "NegotiateRequestEventLog.MapLevel": 0,
           "NegotiateRequestEventLog.MovePoints": 0,
           "NegotiateRequestEventLog.Object": 0,
@@ -2926,7 +2926,7 @@
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog.Location": {
+                "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
@@ -2939,8 +2939,8 @@
                 "JoinEventLog.Text": "",
                 "JoinEventLog.UnitIds": null,
                 "NegotiateRequestEventLog.ArmyId": null,
-                "NegotiateRequestEventLog.Data1": 0,
-                "NegotiateRequestEventLog.Data2": 0,
+                "NegotiateRequestEventLog._data1": 0,
+                "NegotiateRequestEventLog._data2": 0,
                 "NegotiateRequestEventLog.MapLevel": 0,
                 "NegotiateRequestEventLog.MovePoints": 0,
                 "NegotiateRequestEventLog.Object": 0,
@@ -2985,16 +2985,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -3013,8 +3013,8 @@
             "Int32List._list": []
           },
           "NegotiateRequestEventLog.ArmyId": null,
-          "NegotiateRequestEventLog.Data1": 0,
-          "NegotiateRequestEventLog.Data2": 0,
+          "NegotiateRequestEventLog._data1": 0,
+          "NegotiateRequestEventLog._data2": 0,
           "NegotiateRequestEventLog.MapLevel": 0,
           "NegotiateRequestEventLog.MovePoints": 0,
           "NegotiateRequestEventLog.Object": 0,
@@ -3053,16 +3053,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -3081,8 +3081,8 @@
             "Int32List._list": []
           },
           "NegotiateRequestEventLog.ArmyId": null,
-          "NegotiateRequestEventLog.Data1": 0,
-          "NegotiateRequestEventLog.Data2": 0,
+          "NegotiateRequestEventLog._data1": 0,
+          "NegotiateRequestEventLog._data2": 0,
           "NegotiateRequestEventLog.MapLevel": 0,
           "NegotiateRequestEventLog.MovePoints": 0,
           "NegotiateRequestEventLog.Object": 0,
@@ -3109,7 +3109,7 @@
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog.Location": {
+                "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
@@ -3122,8 +3122,8 @@
                 "JoinEventLog.Text": "",
                 "JoinEventLog.UnitIds": null,
                 "NegotiateRequestEventLog.ArmyId": null,
-                "NegotiateRequestEventLog.Data1": 0,
-                "NegotiateRequestEventLog.Data2": 0,
+                "NegotiateRequestEventLog._data1": 0,
+                "NegotiateRequestEventLog._data2": 0,
                 "NegotiateRequestEventLog.MapLevel": 0,
                 "NegotiateRequestEventLog.MovePoints": 0,
                 "NegotiateRequestEventLog.Object": 0,
@@ -3402,9 +3402,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -3412,8 +3412,8 @@
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
-          "PlayerConnectionEventLog.DisconnectedPlayer": 0,
-          "PlayerConnectionEventLog.Reason": 0
+          "PlayerConnectionEventLog._disconnectedPlayer": 0,
+          "PlayerConnectionEventLog._reason": 0
         }
       },
       "Observations": null,
@@ -3447,9 +3447,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -3457,8 +3457,8 @@
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
-          "PlayerConnectionEventLog.DisconnectedPlayer": 0,
-          "PlayerConnectionEventLog.Reason": 0
+          "PlayerConnectionEventLog._disconnectedPlayer": 0,
+          "PlayerConnectionEventLog._reason": 0
         }
       },
       "Observations": [
@@ -3481,8 +3481,8 @@
                 "MessageEventLog.Message": null,
                 "MessageEventLog.PressedButton": 0,
                 "MessageEventLog.Title": "",
-                "PlayerConnectionEventLog.DisconnectedPlayer": 0,
-                "PlayerConnectionEventLog.Reason": 0
+                "PlayerConnectionEventLog._disconnectedPlayer": 0,
+                "PlayerConnectionEventLog._reason": 0
               }
             },
             "_day": 0,
@@ -3522,9 +3522,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -3532,8 +3532,8 @@
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
-          "PlayerConnectionEventLog.DisconnectedPlayer": 0,
-          "PlayerConnectionEventLog.Reason": 0
+          "PlayerConnectionEventLog._disconnectedPlayer": 0,
+          "PlayerConnectionEventLog._reason": 0
         }
       },
       "Observations": null,
@@ -3567,9 +3567,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -3577,8 +3577,8 @@
           },
           "MessageEventLog.PressedButton": 0,
           "MessageEventLog.Title": "Message",
-          "PlayerConnectionEventLog.DisconnectedPlayer": 0,
-          "PlayerConnectionEventLog.Reason": 0
+          "PlayerConnectionEventLog._disconnectedPlayer": 0,
+          "PlayerConnectionEventLog._reason": 0
         }
       },
       "Observations": [
@@ -3601,8 +3601,8 @@
                 "MessageEventLog.Message": null,
                 "MessageEventLog.PressedButton": 0,
                 "MessageEventLog.Title": "",
-                "PlayerConnectionEventLog.DisconnectedPlayer": 0,
-                "PlayerConnectionEventLog.Reason": 0
+                "PlayerConnectionEventLog._disconnectedPlayer": 0,
+                "PlayerConnectionEventLog._reason": 0
               }
             },
             "_day": 7,
@@ -3649,7 +3649,7 @@
           },
           "PlayerMagicEventLog.Mode": 0,
           "PlayerMagicEventLog.SpellId": 0,
-          "PlayerMagicEventLog.Value": 0
+          "PlayerMagicEventLog._value": 0
         }
       },
       "Observations": null,
@@ -3690,7 +3690,7 @@
           },
           "PlayerMagicEventLog.Mode": 0,
           "PlayerMagicEventLog.SpellId": 0,
-          "PlayerMagicEventLog.Value": 0
+          "PlayerMagicEventLog._value": 0
         }
       },
       "Observations": [
@@ -3719,7 +3719,7 @@
                 },
                 "PlayerMagicEventLog.Mode": 0,
                 "PlayerMagicEventLog.SpellId": 0,
-                "PlayerMagicEventLog.Value": 0
+                "PlayerMagicEventLog._value": 0
               }
             },
             "_day": 0,
@@ -3766,7 +3766,7 @@
           },
           "PlayerMagicEventLog.Mode": 0,
           "PlayerMagicEventLog.SpellId": 0,
-          "PlayerMagicEventLog.Value": 0
+          "PlayerMagicEventLog._value": 0
         }
       },
       "Observations": null,
@@ -3807,7 +3807,7 @@
           },
           "PlayerMagicEventLog.Mode": 0,
           "PlayerMagicEventLog.SpellId": 0,
-          "PlayerMagicEventLog.Value": 0
+          "PlayerMagicEventLog._value": 0
         }
       },
       "Observations": [
@@ -3836,7 +3836,7 @@
                 },
                 "PlayerMagicEventLog.Mode": 0,
                 "PlayerMagicEventLog.SpellId": 0,
-                "PlayerMagicEventLog.Value": 0
+                "PlayerMagicEventLog._value": 0
               }
             },
             "_day": 7,
@@ -4056,9 +4056,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -4100,9 +4100,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -4173,9 +4173,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -4217,9 +4217,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -4290,9 +4290,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -4333,9 +4333,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -4404,9 +4404,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -4447,9 +4447,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -4518,9 +4518,9 @@
           "SmtpEventLog.FromAddress": "",
           "SmtpEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -4562,9 +4562,9 @@
           "SmtpEventLog.FromAddress": "",
           "SmtpEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -4635,9 +4635,9 @@
           "SmtpEventLog.FromAddress": "",
           "SmtpEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -4679,9 +4679,9 @@
           "SmtpEventLog.FromAddress": "",
           "SmtpEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -5293,9 +5293,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -5337,9 +5337,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -5410,9 +5410,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -5454,9 +5454,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -5886,16 +5886,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -5949,16 +5949,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -6000,7 +6000,7 @@
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog.Location": {
+                "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
@@ -6054,16 +6054,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -6117,16 +6117,16 @@
           "JoinEventLog.JoinIndex": -1,
           "JoinEventLog.JoinMessage": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
             "StringCollection.UpdateCount": 0
           },
           "JoinEventLog.JoinMode": 0,
-          "JoinEventLog.Location": {
+          "JoinEventLog._location": {
             "$type": "Aow.Game.World.Map.MapCoordinate",
             "MapCoordinate.Tag": 0,
             "MapCoordinate.MapLevel": -1,
@@ -6168,7 +6168,7 @@
                 "JoinEventLog.JoinIndex": 0,
                 "JoinEventLog.JoinMessage": null,
                 "JoinEventLog.JoinMode": 0,
-                "JoinEventLog.Location": {
+                "JoinEventLog._location": {
                   "$type": "Aow.Game.World.Map.MapCoordinate",
                   "MapCoordinate.Tag": 0,
                   "MapCoordinate.MapLevel": 0,
@@ -6531,9 +6531,9 @@
           "EventLog.RefCount": 1,
           "GameOverEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -6570,9 +6570,9 @@
           "EventLog.RefCount": 1,
           "GameOverEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -6633,9 +6633,9 @@
           "EventLog.RefCount": 1,
           "GameOverEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -6672,9 +6672,9 @@
           "EventLog.RefCount": 1,
           "GameOverEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -6736,9 +6736,9 @@
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -6776,9 +6776,9 @@
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -6841,9 +6841,9 @@
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -6881,9 +6881,9 @@
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -7128,9 +7128,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -7171,9 +7171,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -7242,9 +7242,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -7285,9 +7285,9 @@
           "MessageEventLog.Layout": 0,
           "MessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -8254,9 +8254,9 @@
           "HelpMessageEventLog.HelpFileName": "Tutorial",
           "HelpMessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -8294,9 +8294,9 @@
           "HelpMessageEventLog.HelpFileName": "Tutorial",
           "HelpMessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -8359,9 +8359,9 @@
           "HelpMessageEventLog.HelpFileName": "Tutorial",
           "HelpMessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -8399,9 +8399,9 @@
           "HelpMessageEventLog.HelpFileName": "Tutorial",
           "HelpMessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -8626,9 +8626,9 @@
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -8666,9 +8666,9 @@
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -8731,9 +8731,9 @@
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -8771,9 +8771,9 @@
           "HelpMessageEventLog.HelpFileName": "Help",
           "HelpMessageEventLog.Message": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -8851,9 +8851,9 @@
           },
           "ItemExplorationSiteEventLog.Messages": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -8906,9 +8906,9 @@
           },
           "ItemExplorationSiteEventLog.Messages": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -8995,9 +8995,9 @@
           },
           "ItemExplorationSiteEventLog.Messages": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,
@@ -9050,9 +9050,9 @@
           },
           "ItemExplorationSiteEventLog.Messages": {
             "$type": "Aow.Rtl.StringList",
-            "StringList.<Duplicates>k__BackingField": 0,
-            "StringList.<OnChange>k__BackingField": null,
-            "StringList.<OnChanging>k__BackingField": null,
+            "StringList.Duplicates": 0,
+            "StringList.OnChange": null,
+            "StringList.OnChanging": null,
             "StringList.count": 0,
             "StringList.items": [],
             "StringList.sorted": false,

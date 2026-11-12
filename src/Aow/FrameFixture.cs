@@ -393,9 +393,9 @@ internal sealed class FrameFixture
                         c.WinTop,
                         c.WinWidth,
                         c.WinHeight,
-                        FVisible = c._visible,
-                        owner = c._ownerComponent?.Name,
-                        window = c._window?.Name
+                        FVisible = c.Visible,
+                        owner = c.OwnerComponent?.Name,
+                        window = c.Window?.Name
                     }),
                 new JsonSerializerOptions { WriteIndented = true }) + "\n");
             File.WriteAllText(Path.Combine(output, "fixture.json"), JsonSerializer.Serialize(new

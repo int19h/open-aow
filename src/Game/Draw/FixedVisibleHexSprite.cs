@@ -13,7 +13,7 @@ public partial class FixedVisibleHexSprite : HexSprite
     public FixedVisibleHexSprite(ECustomNode owner) : base(owner)
     { }
 
-    internal byte _status;
+    private byte _status;
 
     // HXSPRITE.PAS:770
     public override void SetVisible(bool value)

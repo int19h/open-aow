@@ -15,9 +15,10 @@ public partial class WallCombatant : Troop
     public WallCombatant(ECustomNode owner) : base(owner)
     { }
 
-    public WallType WallType;
-    public sbyte HitPoints;
-    public sbyte Hits;
+    private WallType _wallType;
+
+    public sbyte HitPoints { get; set; }
+    public sbyte Hits { get; set; }
 
     // Unit.PAS:2510
     public override sbyte GetDefense() => 0;
@@ -29,22 +30,22 @@ public partial class WallCombatant : Troop
     public override sbyte GetHitPoints() => HitPoints;
 
     // Unit.PAS:2503
-    public override Set<DamageType> GetImmunityTypes() => AbilityRules.s_allDamageTypesForWallImmunity - AbilityRules.s_wallDamageTypes;
+    public override Set<DamageType> GetImmunityTypes() => AbilityRules.AllDamageTypesForWallImmunity - AbilityRules.WallDamageTypes;
 
     // Unit.PAS:2522
     public override string GetName()
     {
         string result = "";
-        switch (WallType)
+        switch (_wallType)
         {
             case WallType.Wood:
-                result = AbilityRules.TranslateResourceString(GameText.s_woodenWallText);
+                result = AbilityRules.TranslateResourceString(GameText.WoodenWallText);
                 break;
             case WallType.Stone:
-                result = AbilityRules.TranslateResourceString(GameText.s_stoneWallText);
+                result = AbilityRules.TranslateResourceString(GameText.StoneWallText);
                 break;
             case WallType.None:
-                result = AbilityRules.TranslateResourceString(GameText.s_undefinedWallText);
+                result = AbilityRules.TranslateResourceString(GameText.UndefinedWallText);
                 break;
         }
 
@@ -57,8 +58,8 @@ public partial class WallCombatant : Troop
     // Unit.PAS:2494
     public void SetWallType(WallType value)
     {
-        WallType = value;
-        if (WallType == WallType.Stone)
+        _wallType = value;
+        if (_wallType == WallType.Stone)
         {
             Hits = 10;
         }

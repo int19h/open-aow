@@ -14,77 +14,77 @@ public partial class HexSpriteMapMouse : IDisposable
 
     public HexSpriteMapMouse()
     {
-        _onUpStore = new();
-        _onDownStore = new();
-        _onMoveStore = new();
-        _onDoubleClickStore = new();
-        _onCaptureChangedStore = new();
+        OnUpStore = new();
+        OnDownStore = new();
+        OnMoveStore = new();
+        OnDoubleClickStore = new();
+        OnCaptureChangedStore = new();
         Reset();
     }
 
-    internal HSMap _hexSpriteMap;
-    internal int _x;
-    internal int _y;
-    internal MouseButton _button;
+    private HSMap _hexSpriteMap;
+    private int _x;
+    private int _y;
+    private MouseButton _button;
 
-    internal EventStore<HexSpriteMapMouse> _onUpStore;
+    internal EventStore<HexSpriteMapMouse> OnUpStore { get; }
 
     internal event NotifyEvent<HexSpriteMapMouse> FOnUp
     {
-        add => _onUpStore.Add(value);
-        remove => _onUpStore.Remove(value);
+        add => OnUpStore.Add(value);
+        remove => OnUpStore.Remove(value);
     }
 
-    internal EventStore<HexSpriteMapMouse> _onDownStore;
+    internal EventStore<HexSpriteMapMouse> OnDownStore { get; }
 
     internal event NotifyEvent<HexSpriteMapMouse> FOnDown
     {
-        add => _onDownStore.Add(value);
-        remove => _onDownStore.Remove(value);
+        add => OnDownStore.Add(value);
+        remove => OnDownStore.Remove(value);
     }
 
-    internal EventStore<HexSpriteMapMouse> _onMoveStore;
+    internal EventStore<HexSpriteMapMouse> OnMoveStore { get; }
 
     internal event NotifyEvent<HexSpriteMapMouse> FOnMove
     {
-        add => _onMoveStore.Add(value);
-        remove => _onMoveStore.Remove(value);
+        add => OnMoveStore.Add(value);
+        remove => OnMoveStore.Remove(value);
     }
 
-    internal EventStore<HexSpriteMapMouse> _onDoubleClickStore;
+    internal EventStore<HexSpriteMapMouse> OnDoubleClickStore { get; }
 
     internal event NotifyEvent<HexSpriteMapMouse> FOnDoubleClick
     {
-        add => _onDoubleClickStore.Add(value);
-        remove => _onDoubleClickStore.Remove(value);
+        add => OnDoubleClickStore.Add(value);
+        remove => OnDoubleClickStore.Remove(value);
     }
 
-    internal EventStore<HexSpriteMapMouse> _onCaptureChangedStore;
+    internal EventStore<HexSpriteMapMouse> OnCaptureChangedStore { get; }
 
     internal event NotifyEvent<HexSpriteMapMouse> FOnCaptureChanged
     {
-        add => _onCaptureChangedStore.Add(value);
-        remove => _onCaptureChangedStore.Remove(value);
+        add => OnCaptureChangedStore.Add(value);
+        remove => OnCaptureChangedStore.Remove(value);
     }
 
-    internal object _capture;
-    internal Set<StatusElement> _status;
-    internal int _cursor;
-    internal int _cursorMode;
-    internal bool _ignoreDown;
-    internal Set<ShiftState> _shift;
-    internal bool _cursorVisible;
+    private object _capture;
+    private Set<StatusElement> _status;
+    private int _cursor;
+    private int _cursorMode;
+    private bool _ignoreDown;
+    private Set<ShiftState> _shift;
+    private bool _cursorVisible;
 
     // HSEngine.pas:3475
 
     // HSEngine.pas:3486
     public virtual void Dispose()
     {
-        _onUpStore.Clear();
-        _onDownStore.Clear();
-        _onMoveStore.Clear();
-        _onDoubleClickStore.Clear();
-        _onCaptureChangedStore.Clear();
+        OnUpStore.Clear();
+        OnDownStore.Clear();
+        OnMoveStore.Clear();
+        OnDoubleClickStore.Clear();
+        OnCaptureChangedStore.Clear();
     }
 
     // HSEngine.pas:3505
@@ -106,14 +106,14 @@ public partial class HexSpriteMapMouse : IDisposable
             {
                 var pixelY = GetPixelY();
                 var pixelX = GetPixelX();
-                _hexSpriteMap._selection.SelectLocation(pixelX, pixelY, _hexSpriteMap._viewL);
+                _hexSpriteMap.Selection.SelectLocation(pixelX, pixelY, _hexSpriteMap._viewL);
                 result = false;
             }
             else
             {
-                if (_button == MouseButton.Right && !_hexSpriteMap._status.Contains(HexSpriteMapStatusElement.Editting))
+                if (_button == MouseButton.Right && !_hexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
                 {
-                    _hexSpriteMap._selection.UnselectLocation();
+                    _hexSpriteMap.Selection.UnselectLocation();
                     result = false;
                 }
             }
@@ -152,7 +152,7 @@ public partial class HexSpriteMapMouse : IDisposable
             _shift = shift;
             if (MouseDown())
             {
-                _onDownStore.Raise(this);
+                OnDownStore.Raise(this);
             }
         }
         else
@@ -179,7 +179,7 @@ public partial class HexSpriteMapMouse : IDisposable
         _shift = shift;
         if (MouseUp())
         {
-            _onUpStore.Raise(this);
+            OnUpStore.Raise(this);
         }
     }
 
@@ -188,7 +188,7 @@ public partial class HexSpriteMapMouse : IDisposable
     {
         // Port extension: a view wider or taller than the map takes scene points past MaxXhp or MaxYhp.
         // GetXhp and GetYhp still test the map coordinates.
-        if (X >= 0 && Y >= 0 && X <= Math.Max(_hexSpriteMap.GetMaxPixelX(), _hexSpriteMap._viewWidth) && Y <= Math.Max(_hexSpriteMap.GetMaxPixelY(), _hexSpriteMap._viewHeight))
+        if (X >= 0 && Y >= 0 && X <= Math.Max(_hexSpriteMap.GetMaxPixelX(), _hexSpriteMap.ViewWidth) && Y <= Math.Max(_hexSpriteMap.GetMaxPixelY(), _hexSpriteMap.ViewHeight))
         {
             _x = X;
             _y = Y;
@@ -201,7 +201,7 @@ public partial class HexSpriteMapMouse : IDisposable
 
         if (MouseMove())
         {
-            _onMoveStore.Raise(this);
+            OnMoveStore.Raise(this);
         }
     }
 
@@ -212,7 +212,7 @@ public partial class HexSpriteMapMouse : IDisposable
         {
             if (MouseDoubleClick())
             {
-                _onDoubleClickStore.Raise(this);
+                OnDoubleClickStore.Raise(this);
             }
         }
     }
@@ -276,7 +276,7 @@ public partial class HexSpriteMapMouse : IDisposable
         if (_x != -2147483648)
         {
             HexGeometry.PixelToHex(_hexSpriteMap._viewPixelX + _x, 0, ref result, ref Y);
-            if (result < 0 || _hexSpriteMap._mapContainer._width <= result || _hexSpriteMap._mapContainer._height <= result)
+            if (result < 0 || _hexSpriteMap.MapContainer.Width <= result || _hexSpriteMap.MapContainer.Height <= result)
             {
                 result = -1;
             }
@@ -297,7 +297,7 @@ public partial class HexSpriteMapMouse : IDisposable
         if (_y != -2147483648)
         {
             HexGeometry.PixelToHex(_hexSpriteMap._viewPixelX + _x, _hexSpriteMap._viewPixelY + _y, ref X, ref result);
-            if (result < 0 || _hexSpriteMap._mapContainer._width <= result || _hexSpriteMap._mapContainer._height <= result)
+            if (result < 0 || _hexSpriteMap.MapContainer.Width <= result || _hexSpriteMap.MapContainer.Height <= result)
             {
                 result = -1;
             }
@@ -322,12 +322,12 @@ public partial class HexSpriteMapMouse : IDisposable
                 _cursor = 0;
             }
 
-            _onCaptureChangedStore.Raise(this);
+            OnCaptureChangedStore.Raise(this);
             _status = _status - Set<StatusElement>.Of(StatusElement.ChangingCapture);
         }
     }
 
-    public HSMap HexSpriteMap { get => _hexSpriteMap; }
+    public HSMap HexSpriteMap { get => _hexSpriteMap; internal set => _hexSpriteMap = value; }
     public int X { get => _x; }
     public int Y { get => _y; }
     public int PixelX { get => GetPixelX(); }
@@ -339,32 +339,32 @@ public partial class HexSpriteMapMouse : IDisposable
 
     public event NotifyEvent<HexSpriteMapMouse> OnUp
     {
-        add => _onUpStore.Add(value);
-        remove => _onUpStore.Remove(value);
+        add => OnUpStore.Add(value);
+        remove => OnUpStore.Remove(value);
     }
 
     public event NotifyEvent<HexSpriteMapMouse> OnDown
     {
-        add => _onDownStore.Add(value);
-        remove => _onDownStore.Remove(value);
+        add => OnDownStore.Add(value);
+        remove => OnDownStore.Remove(value);
     }
 
     public event NotifyEvent<HexSpriteMapMouse> OnMove
     {
-        add => _onMoveStore.Add(value);
-        remove => _onMoveStore.Remove(value);
+        add => OnMoveStore.Add(value);
+        remove => OnMoveStore.Remove(value);
     }
 
     public event NotifyEvent<HexSpriteMapMouse> OnDoubleClick
     {
-        add => _onDoubleClickStore.Add(value);
-        remove => _onDoubleClickStore.Remove(value);
+        add => OnDoubleClickStore.Add(value);
+        remove => OnDoubleClickStore.Remove(value);
     }
 
     public event NotifyEvent<HexSpriteMapMouse> OnCaptureChanged
     {
-        add => _onCaptureChangedStore.Add(value);
-        remove => _onCaptureChangedStore.Remove(value);
+        add => OnCaptureChangedStore.Add(value);
+        remove => OnCaptureChangedStore.Remove(value);
     }
 
     public object Capture { get => _capture; set => SetCapture(value); }

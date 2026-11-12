@@ -29,30 +29,35 @@ public partial class General : DataModule
 
     public WindowManager Manager;
     public ToolTip ToolTip;
-    public bool WindowsHidden;
-    public bool InfoVisible;
-    public bool RealmVisible;
-    public bool MagicVisible;
-    public bool UnitVisible;
-    public bool ScannerVisible;
-    public bool ControlVisible;
-    public bool ChatVisible;
-    public bool MapVisible;
-    public bool TargetVisible;
+
+    public bool WindowsHidden { get; set; }
+    public bool InfoVisible { get; set; }
+    public bool RealmVisible { get; set; }
+    public bool MagicVisible { get; set; }
+    public bool UnitVisible { get; set; }
+    public bool ScannerVisible { get; set; }
+    public bool ControlVisible { get; set; }
+    public bool ChatVisible { get; set; }
+    public bool MapVisible { get; set; }
+    public bool TargetVisible { get; set; }
+
     public UnitShowInfo UnitShowInfo;
+
     // are part of UnitShowInfo
-    public List<CombatAbilityRef> Abilities;
-    public int ActiveAbilityCount;
+    public List<CombatAbilityRef> Abilities { get; private set; }
+    public int ActiveAbilityCount { get; private set; }
+
     public Int32Array8 SelectedUnits;
-    public Army UnitList;
-    public Structure Structure;
-    public Structure PreviousStructure;
-    public City City;
-    public ProductionPlace ProductionPlace;
-    public ProductionControl ProductionControl;
-    public Sign Sign;
-    public Troop SelectedUnit;
-    public TacticalBattleUnitHexSprite CombatUnit;
+
+    public Army UnitList { get; set; }
+    public Structure Structure { get; set; }
+    public Structure PreviousStructure { get; set; }
+    public City City { get; set; }
+    public ProductionPlace ProductionPlace { get; set; }
+    public ProductionControl ProductionControl { get; set; }
+    public Sign Sign { get; set; }
+    public Troop SelectedUnit { get; set; }
+    public TacticalBattleUnitHexSprite CombatUnit { get; set; }
 
     // AoWWinMan.pas:503
     public void ReturnToTitle()
@@ -887,7 +892,7 @@ public partial class General : DataModule
             GameTables.GameEngine.CloseHsm(null);
         }
 
-        var loading = AbilityRules.TranslateResourceString(LayerText.s_loadingText);
+        var loading = AbilityRules.TranslateResourceString(LayerText.LoadingText);
         var fileName = ExtractFileName(name);
         DialogHosts.ProgressDialog.Title.Text = loading + " " + fileName + "...";
         DialogHosts.ProgressDialog.StatusLbl.Text = "";
@@ -920,7 +925,7 @@ public partial class General : DataModule
         else if (AoWHSMap.Current.StartupSongs.Songs.Count != 0)
         {
             for (int i = 0; i < AoWHSMap.Current.StartupSongs.Songs.Count; i++)
-                if (RtlUnit.CompareText(AoWHSMap.Current.StartupSongs.SongNames[i], AbilityRules.TranslateResourceString(LayerText.s_fileNotFoundText)) != 0)
+                if (RtlUnit.CompareText(AoWHSMap.Current.StartupSongs.SongNames[i], AbilityRules.TranslateResourceString(LayerText.FileNotFoundText)) != 0)
                     AudioHost.SongPlayer.Songs.Add(AoWHSMap.Current.StartupSongs.Songs[i]);
         }
         else AudioHost.SongPlayer.Songs.Add("Songs\\Heartwoo.it");
@@ -928,8 +933,8 @@ public partial class General : DataModule
         AudioPlayback.SetMusicVolume(DialogHosts.SoundDialog.MusicVolume.Position);
         var menu = DialogHosts.PopupWindows.OverViewsMenu.Items;
         menu.Clear();
-        menu.Add(AbilityRules.TranslateResourceString(LayerText.s_backgroundText));
-        if (GameTables.GameEngine.Campaign != null) menu.Add(AbilityRules.TranslateResourceString(LayerText.s_campaignText));
+        menu.Add(AbilityRules.TranslateResourceString(LayerText.BackgroundText));
+        if (GameTables.GameEngine.Campaign != null) menu.Add(AbilityRules.TranslateResourceString(LayerText.CampaignText));
         DialogHosts.TitleScene.Window.Visible = false;
         DialogHosts.TitleWindow.TitleWin.Visible = false;
         DialogHosts.TaskBar.TaskWindow.Visible = true;
@@ -947,9 +952,9 @@ public partial class General : DataModule
         scanner.Sized = false;
         var tabs = DialogHosts.ScannerWindow.ScannerTab;
         tabs.Items.Clear();
-        tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.s_surfaceText));
-        if (AoWHSMap.Current.MapContainer.LevelCount > 1) tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.s_cavernsText));
-        if (AoWHSMap.Current.MapContainer.LevelCount > 2) tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.s_depthsText));
+        tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.SurfaceText));
+        if (AoWHSMap.Current.MapContainer.LevelCount > 1) tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.CavernsText));
+        if (AoWHSMap.Current.MapContainer.LevelCount > 2) tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.DepthsText));
         tabs.Selected = 0;
         tabs.Sized = false;
         scanner.SetTWidth(0);
@@ -974,17 +979,17 @@ public partial class General : DataModule
             var turn = DialogHosts.TaskBar.TurnButton;
             if (AoWHSMap.Current.SeatedPlayer != -1)
             {
-                turn._lastPlayer = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).PlayerRace;
-                if (turn._lastPlayer == -1) turn._lastPlayer = 12;
-                turn._currentPlayer = turn._lastPlayer;
-                turn.AnimationFrame = turn._currentPlayer * 7;
+                turn.LastPlayer = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).PlayerRace;
+                if (turn.LastPlayer == -1) turn.LastPlayer = 12;
+                turn.CurrentPlayer = turn.LastPlayer;
+                turn.AnimationFrame = turn.CurrentPlayer * 7;
                 DialogHosts.TaskBar.CurP.Visible = AoWHSMap.Current.PlayMode == PlayMode.Turn;
             }
             else
             {
-                turn._currentPlayer = 12;
-                turn._lastPlayer = turn._currentPlayer;
-                turn.AnimationFrame = turn._currentPlayer * 7;
+                turn.CurrentPlayer = 12;
+                turn.LastPlayer = turn.CurrentPlayer;
+                turn.AnimationFrame = turn.CurrentPlayer * 7;
                 DialogHosts.TaskBar.CurP.Visible = false;
             }
         }

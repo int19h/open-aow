@@ -17,8 +17,9 @@ public partial class TitleWindow : DataModule
     public Panel TitlePnl;
     public Panel SplashPnl;
     public InterfaceImageLibrary DemoIL;
-    public int SplashTimer;
-    public int SplashStage;
+    private int _splashTimer;
+
+    public int SplashStage { get; private set; }
 
     // AOWTitleWindow.pas:66
     public void HideSplash()
@@ -39,7 +40,7 @@ public partial class TitleWindow : DataModule
         SplashPnl.ImageLibraryTexture = DemoIL;
         SplashPnl.ImageLibraryIndexTexture = 0;
         SplashPnl.Visible = true;
-        SplashTimer = 450;
+        _splashTimer = 450;
         SplashStage = 0;
     }
 
@@ -49,7 +50,7 @@ public partial class TitleWindow : DataModule
         InitializeSplash();
         SplashPnl.ImageLibraryIndexTexture = 2;
         SplashStage = 10;
-        SplashTimer = 300;
+        _splashTimer = 300;
     }
 
     // AOWTitleWindow.pas:105
@@ -67,7 +68,7 @@ public partial class TitleWindow : DataModule
         AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
         AudioHost.SongPlayer.Play(0);
         SplashPnl.ImageLibraryIndexTexture = 0;
-        SplashTimer = 450;
+        _splashTimer = 450;
     }
 
     // AOWTitleWindow.pas:42
@@ -99,8 +100,8 @@ public partial class TitleWindow : DataModule
     // AOWTitleWindow.pas:115
     public void SplashPnlUpdate()
     {
-        SplashTimer -= 1;
-        if (SplashTimer == 0)
+        _splashTimer -= 1;
+        if (_splashTimer == 0)
         {
             NextSplash();
         }
@@ -134,7 +135,7 @@ public partial class TitleWindow : DataModule
         ShowSplash(dialog);
         dialog.SplashPnl.ImageLibraryIndexTexture = 2;
         dialog.SplashStage = 10;
-        dialog.SplashTimer = 300;
+        dialog._splashTimer = 300;
     }
 
     internal static void ShowSplash(TitleWindow dialog)
@@ -147,7 +148,7 @@ public partial class TitleWindow : DataModule
         dialog.SplashPnl.ImageLibraryTexture = dialog.DemoIL;
         dialog.SplashPnl.ImageLibraryIndexTexture = 0;
         dialog.SplashPnl.Visible = true;
-        dialog.SplashTimer = 450;
+        dialog._splashTimer = 450;
         dialog.SplashStage = 0;
     }
 

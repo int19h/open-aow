@@ -15,7 +15,7 @@ public partial class Concealment : UnitSpell
     // UnitSpells.pas:577
     public Concealment(ECustomNode owner) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.s_concealmentText);
+        SpellName = AbilityRules.TranslateResourceString(GameText.ConcealmentText);
         SpellId = 39;
         BaseManaCost = 5;
         SpellLevel = 3;

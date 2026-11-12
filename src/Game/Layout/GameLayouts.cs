@@ -168,24 +168,24 @@ public static class GameLayouts
         session.Complete();
     }
 
-    public static IntroScene IntroScene;
-    public static TutorialWindow TutorialWindow;
-    public static SendEmailGameDialog SendEmailGameDialog;
-    public static PasswordDialog PasswordDialog;
-    public static ArmyEventDialog ArmyEventDialog;
-    public static CityRebelDialog CityRebelDialog;
-    public static CityJoinDialog CityJoinDialog;
-    public static PartyJoinDialog PartyJoinDialog;
-    public static HeroJoinDialog HeroJoinDialog;
-    public static MessageReceiveDialog MessageReceiveDialog;
-    public static HeroUpgradeDialog HeroUpgradeDialog;
-    public static HeroInfoDialog HeroInfoDialog;
-    public static WizardsTowerDialog WizardsTowerDialog;
-    public static ArenaDialog ArenaDialog;
-    public static ItemsFoundDialog ItemsFoundDialog;
-    public static FastBattleWindow FastBattleWindow;
-    public static NewTurnDialog NewTurnDialog;
-    public static CombatChoice TacticalBattleFastBattleDialog;
-    public static ArmyInfoDialog ArmyInfoDialog;
-    public static DisjunctionDialog DisjunctionDialog;
+    public static IntroScene IntroScene { get; private set; }
+    public static TutorialWindow TutorialWindow { get; private set; }
+    public static SendEmailGameDialog SendEmailGameDialog { get; private set; }
+    public static PasswordDialog PasswordDialog { get; private set; }
+    public static ArmyEventDialog ArmyEventDialog { get; private set; }
+    public static CityRebelDialog CityRebelDialog { get; private set; }
+    public static CityJoinDialog CityJoinDialog { get; private set; }
+    public static PartyJoinDialog PartyJoinDialog { get; private set; }
+    public static HeroJoinDialog HeroJoinDialog { get; private set; }
+    public static MessageReceiveDialog MessageReceiveDialog { get; private set; }
+    public static HeroUpgradeDialog HeroUpgradeDialog { get; private set; }
+    public static HeroInfoDialog HeroInfoDialog { get; private set; }
+    public static WizardsTowerDialog WizardsTowerDialog { get; private set; }
+    public static ArenaDialog ArenaDialog { get; private set; }
+    public static ItemsFoundDialog ItemsFoundDialog { get; private set; }
+    public static FastBattleWindow FastBattleWindow { get; private set; }
+    public static NewTurnDialog NewTurnDialog { get; private set; }
+    public static CombatChoice TacticalBattleFastBattleDialog { get; private set; }
+    public static ArmyInfoDialog ArmyInfoDialog { get; private set; }
+    public static DisjunctionDialog DisjunctionDialog { get; private set; }
 }

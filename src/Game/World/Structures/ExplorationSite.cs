@@ -23,29 +23,29 @@ public partial class ExplorationSite : Structure
 {
     public ExplorationSite(ECustomNode owner) : base(owner)
     {
-        DefendersMode = ExplorationSiteDefendersMode.Normal;
-        Defenders = new DefendersArmy(null);
+        _defendersMode = ExplorationSiteDefendersMode.Normal;
+        _defenders = new DefendersArmy(null);
     }
 
     // ExploreS.pas:90
     public new const int ClassId = 132033;
 
-    public ExplorationSiteDefendersMode DefendersMode;
-    public DefendersArmy Defenders;
+    private ExplorationSiteDefendersMode _defendersMode;
+    private DefendersArmy _defenders;
 
     // ExploreS.pas:84
     public override void Dispose()
     {
         base.Dispose();
-        Defenders?.Dispose();
+        _defenders?.Dispose();
     }
 
     // ExploreS.pas:293
     public override void ReadWrite(EStorageStream stream)
     {
         base.ReadWrite(stream);
-        stream.rwEObject(Defenders, 5);
-        stream.rwData(Bytes.Of(ref DefendersMode, 1), 1, 6);
+        stream.rwEObject(_defenders, 5);
+        stream.rwData(Bytes.Of(ref _defendersMode, 1), 1, 6);
     }
 
     // ExploreS.pas:77
@@ -54,20 +54,20 @@ public partial class ExplorationSite : Structure
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
         base.MessageProc(ref message, sender);
-        Defenders.MessageProc(ref message, sender);
+        _defenders.MessageProc(ref message, sender);
     }
 
     // ExploreS.pas:339
     public override void Activate()
     {
         base.Activate();
-        Defenders.Activate();
+        _defenders.Activate();
     }
 
     // ExploreS.pas:345
     public override void Deactivate()
     {
-        Defenders.Deactivate();
+        _defenders.Deactivate();
         base.Deactivate();
     }
 
@@ -145,7 +145,7 @@ public partial class ExplorationSite : Structure
     public override void NewDay()
     {
         base.NewDay();
-        if (AoWHSMap.Current.Day == 1 && DefendersMode != ExplorationSiteDefendersMode.UserDefined)
+        if (AoWHSMap.Current.Day == 1 && _defendersMode != ExplorationSiteDefendersMode.UserDefined)
         {
             GenerateDefenders();
         }
@@ -155,7 +155,7 @@ public partial class ExplorationSite : Structure
     public override void Update()
     {
         base.Update();
-        _imageIndex = GetTerrainTypeImage(_terrainType);
+        ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // ExploreS.pas:93
@@ -171,12 +171,12 @@ public partial class ExplorationSite : Structure
         var hexY2 = GetHexY();
         var hexLevel2 = GetHexLevel();
         var armyHexX = army.GetHexX();
-        combat.Setup((byte)army.Army.Player, (byte)army.Army.IndependentRelation, armyHexX, hexY, hexLevel, (byte)Defenders.Player, (byte)Defenders.IndependentRelation, hexX, hexY2, hexLevel2, true);
+        combat.Setup((byte)army.Army.Player, (byte)army.Army.IndependentRelation, armyHexX, hexY, hexLevel, (byte)_defenders.Player, (byte)_defenders.IndependentRelation, hexX, hexY2, hexLevel2, true);
         var hexY3 = GetHexY();
         var hexLevel3 = GetHexLevel();
         var hexX2 = GetHexX();
         combat.AddArmy(army.Army, CombatSideIndex.Attacker, hexX2, hexY3, hexLevel3);
-        combat.AddArmy(Defenders, CombatSideIndex.Defender, -1, -1, -1, 1);
+        combat.AddArmy(_defenders, CombatSideIndex.Defender, -1, -1, -1, 1);
         combat.ExplorationSite = 1;
     }
 
@@ -197,7 +197,7 @@ public partial class ExplorationSite : Structure
         if (armyHexSprite != null && CanSearch(armyHexSprite.Army.Player))
         {
             player = armyHexSprite.Army.Player;
-            if (Defenders.GetCount() == 0)
+            if (_defenders.GetCount() == 0)
             {
                 ExecuteSearchDone(CombatType.Fast, CombatResult.Victory);
             }
@@ -282,7 +282,7 @@ public partial class ExplorationSite : Structure
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 request.SetCenterLocation((byte)GetHexX(), (byte)hexY, hexLevel);
-                request._player = armyHexSprite.Army.Player;
+                request.Player = armyHexSprite.Army.Player;
                 request.DefenderPlayer = 0;
                 AoWHSMap.Current.TriggerExecuteEventLog(request, true, RequestCombatTypeCallback);
                 request.Release();
@@ -329,7 +329,7 @@ public partial class ExplorationSite : Structure
                 troop = ((CombatUnit)objectValue).Troop;
                 troop.AddRef();
                 ((CombatUnit)objectValue).SetUnit(null);
-                Defenders.AddUnit(troop);
+                _defenders.AddUnit(troop);
                 troop.Release();
             }
         }
@@ -392,9 +392,9 @@ public partial class ExplorationSite : Structure
         UnitIndexList list;
         UnitIndexListCollection collections;
         RandSeed = AoWHSMap.Current.DefendersSeed;
-        if (DefendersMode == ExplorationSiteDefendersMode.Random)
+        if (_defendersMode == ExplorationSiteDefendersMode.Random)
         {
-            DefendersMode = (ExplorationSiteDefendersMode)(Random(3) + 1);
+            _defendersMode = (ExplorationSiteDefendersMode)(Random(3) + 1);
         }
 
         collection = ((ExplorationSiteResource)_resource).DefenderCollections.GetRandomCollection();
@@ -409,7 +409,7 @@ public partial class ExplorationSite : Structure
 
             try
             {
-                Int32List.FillWithRandomUnits(list, Defenders, 4, (int)DefendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+                Int32List.FillWithRandomUnits(list, _defenders, 4, (int)_defendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             }
             catch
             {

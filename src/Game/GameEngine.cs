@@ -44,18 +44,20 @@ public partial class GameEngine : ENode
 {
     public new const int ClassId = 131073;
 
-    public int Version;
-    public GameSettings Registry;
-    public AoWHSMap GameMap;
-    public AoWHSSet GameSet;
-    public ImageLibraryFont CombatFont;
-    public bool Debug;
-    public byte AnimationDetail;
-    public bool Demo;
-    public Campaign Campaign;
-    public EmailGameControl EmailGames;
-    public AoWDictionary Dictionary;
-    public byte Language;
+    public int Version { get; private set; }
+    public GameSettings Registry { get; set; }
+
+    private AoWHSMap _gameMap;
+
+    public AoWHSSet GameSet { get; private set; }
+    public ImageLibraryFont CombatFont { get; set; }
+    public bool Debug { get; set; }
+    public byte AnimationDetail { get; private set; }
+    public bool Demo { get; private set; }
+    public Campaign Campaign { get; private set; }
+    public EmailGameControl EmailGames { get; private set; }
+    public AoWDictionary Dictionary { get; set; }
+    public byte Language { get; private set; }
 
     // Army.PAS:5767-5786. A bare constructor leaves the flag clear and skips this body.
     private protected sealed override void InitializeBeforeInherited()
@@ -115,7 +117,7 @@ public partial class GameEngine : ENode
         _hexSpriteMap = value;
         if (value is AoWHSMap)
         {
-            GameMap = (AoWHSMap)_hexSpriteMap;
+            _gameMap = (AoWHSMap)_hexSpriteMap;
             AoWHSMap.Current = (AoWHSMap)value;
         }
     }
@@ -127,13 +129,13 @@ public partial class GameEngine : ENode
         {
             if (_hexSpriteMap != null)
             {
-                _hexSpriteMap._onProgress = progress;
-                _onHsmCloseStore.Raise(_hexSpriteMap);
+                _hexSpriteMap.OnProgress = progress;
+                OnHsmCloseStore.Raise(_hexSpriteMap);
                 _hexSpriteMap?.Dispose();
                 SetHexSpriteMap(null);
             }
 
-            GameMap = null;
+            _gameMap = null;
             AoWHSMap.Current = null;
         }
         catch
@@ -489,7 +491,7 @@ public partial class GameEngine : ENode
         if (Campaign != null)
         {
             Campaign.Stream.Clear();
-            if (GameMap != null)
+            if (_gameMap != null)
             {
                 SaveHsmToStream(Campaign.Stream, null);
             }
@@ -527,7 +529,7 @@ public partial class GameEngine : ENode
 
     private static SByteArray16By16By8 s_movementTemplates = SByteArray16By16By8.From([SByteArray16By16.From([SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), SByteArray16By16.From([SByteArray16.From([4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, -1, -1, 4, 4, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), SByteArray16By16.From([SByteArray16.From([4, -1, -1, -1, 4, -1, 4, 4, 4, 4, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, 8, 4, 4, 4, 4, -1, 4, 4, 4, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, 4, 4, -1, 4, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, -1, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, 4, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, 4, -1, 4, 4, -1, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, -1, 4, -1, 4, 4, -1, 4, 4, -1, 4, -1, 4, 4, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, 4, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, -1, 4, 4, 4, -1, 4, -1, 4, 4, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), SByteArray16By16.From([SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 4, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 4, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), SByteArray16By16.From([SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, 6, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, 3, -1, 6, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([3, -1, 6, -1, 3, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), SByteArray16By16.From([SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, 8, 6, 4, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, 3, 3, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, 6, -1, 4, 3, -1, 4, 3, -1, 4, -1, 8, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, 8, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), SByteArray16By16.From([SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])]), SByteArray16By16.From([SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([10, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]), SByteArray16.From([-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1])])]);
 
-    internal static int s_magicDebugChannel;
+    internal static int MagicDebugChannel { get; set; }
 
     private static void UnregisterEnhancementAbilities(AbilityControl control)
     {
@@ -984,7 +986,7 @@ public partial class GameEngine : ENode
 
     private static void RegisterNetworkEngine(GameEngine engine)
     {
-        NetworkSession.s_networkEngineDebugChannel = engine.RegisterDebugId("Network Engine");
+        NetworkSession.NetworkEngineDebugChannel = engine.RegisterDebugId("Network Engine");
         engine.RegisterEngineClasses([EngineClass.Of<TokenPackage>(), EngineClass.Of<PassTokenTokenEvent>(), EngineClass.Of<SyncTokenEvent>()]);
     }
 

@@ -21,8 +21,8 @@ public sealed class LayoutSessionTests
     {
         public FailingModule() : base(null!) { }
 
-        public Tracked? First;
-        public Label? Second;
+        public Tracked? First { get; private set; }
+        public Label? Second { get; private set; }
 
         public void InitializeComponent(LayoutSession session)
         {
@@ -49,7 +49,7 @@ public sealed class LayoutSessionTests
     {
         public GoodModule() : base(null!) { }
 
-        public Tracked? Child;
+        public Tracked? Child { get; private set; }
 
         public void InitializeComponent(LayoutSession session)
         {

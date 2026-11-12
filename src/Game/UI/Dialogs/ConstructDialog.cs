@@ -36,18 +36,18 @@ public partial class ConstructDialog : DataModule
     public Button Button2;
     public VerticalScrollBar T4VSB;
     public IvTranslator Translator;
-    public AbilityActivation Request;
+    private AbilityActivation _request;
 
     // AoWConstructDlg.pas:117
     public void Execute(AbilityActivation request)
     {
-        if (Request != null)
+        if (_request != null)
         {
-            Request.Release();
+            _request.Release();
         }
 
-        Request = request;
-        Request.AddRef();
+        _request = request;
+        _request.AddRef();
         UpdateConstructions();
         Dlg.Visible = true;
     }
@@ -55,10 +55,10 @@ public partial class ConstructDialog : DataModule
     // AoWConstructDlg.pas:108
     public void Finish()
     {
-        if (Request != null)
+        if (_request != null)
         {
-            Request.Release();
-            Request = null;
+            _request.Release();
+            _request = null;
         }
     }
 
@@ -72,7 +72,7 @@ public partial class ConstructDialog : DataModule
         ConstructAbility ability;
         ConstructionControl control;
         Dlg.Drawn = false;
-        U = AoWHSMap.Current.UnitControl.FindUnit(Request.UnitId);
+        U = AoWHSMap.Current.UnitControl.FindUnit(_request.UnitId);
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();
         ConstructionTurnsList.Items.Clear();
@@ -160,7 +160,7 @@ public partial class ConstructDialog : DataModule
 
         if (condition)
         {
-            U = AoWHSMap.Current.UnitControl.FindUnit(Request.UnitId);
+            U = AoWHSMap.Current.UnitControl.FindUnit(_request.UnitId);
             control = (ConstructionControl)ConstructionList.Items.Objects[ConstructionList.Selected];
             if (control.CanConstruct(U, ref reason))
             {

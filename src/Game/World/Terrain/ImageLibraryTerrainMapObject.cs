@@ -24,8 +24,8 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
     // ILTer.pas:79
     public new const int ClassId = 131462;
 
-    protected internal int _imageIndex;
-    protected internal sbyte _terrainType;
+    private int _imageIndex;
+    private sbyte _terrainType;
 
     // ILTer.pas:164
     public override sbyte GetTerrain(int index)
@@ -264,7 +264,7 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
     }
 
     public int ImageIndex { get => _imageIndex; set => _imageIndex = value; }
-    public sbyte TerrainType { get => _terrainType; }
+    public sbyte TerrainType { get => _terrainType; protected set => _terrainType = value; }
 
     // ILTer.pas:20
 

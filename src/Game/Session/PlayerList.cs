@@ -19,16 +19,18 @@ public partial class PlayerList : EControlStyleNode
     {
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
         SetNumberOfPlayers(2);
-        LocalControlledPlayers = new ByteList();
+        _localControlledPlayers = new ByteList();
         LocalHumanPlayers = new ByteList();
         ActivePlayers = new ByteList();
         LocalPlayers = new ByteList();
     }
 
-    public ByteList ActivePlayers;
-    public ByteList LocalControlledPlayers;
-    public ByteList LocalPlayers;
-    public ByteList LocalHumanPlayers;
+    public ByteList ActivePlayers { get; }
+
+    private ByteList _localControlledPlayers;
+
+    public ByteList LocalPlayers { get; }
+    public ByteList LocalHumanPlayers { get; init; }
 
     // Player.PAS:1543
     public override void Assign(EngineObject source, GameEngine engine)
@@ -100,7 +102,7 @@ public partial class PlayerList : EControlStyleNode
                 ((Player)_children.List[otherPlayer]).AIValidAttackPlayers[player] = false;
             }
 
-            AoWHSMap.Current._diplomaticRelationsChangedEventsStore.Raise(this);
+            AoWHSMap.Current.DiplomaticRelationsChangedEventsStore.Raise(this);
             for (int J = Count - 1; J >= 1; J--)
             {
                 ((Player)_children.List[J]).MagicControl.UpdateEnemyEnchantments();
@@ -464,7 +466,7 @@ public partial class PlayerList : EControlStyleNode
     public void Update()
     {
         if (AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl is null) return;
-        LocalControlledPlayers.Clear();
+        _localControlledPlayers.Clear();
         LocalHumanPlayers.Clear();
         LocalPlayers.Clear();
         ActivePlayers.Clear();
@@ -475,7 +477,7 @@ public partial class PlayerList : EControlStyleNode
             if (player.GameOverStatus != GameOverStatus.Lost && i != 0) ActivePlayers.Add((byte)i);
             if (player.GetLocal())
             {
-                LocalControlledPlayers.Add((byte)i);
+                _localControlledPlayers.Add((byte)i);
                 if (player.PlayerType == PlayerType.Human) LocalHumanPlayers.Add((byte)i);
             }
             if (player.PlayerType == PlayerType.Human) LocalPlayers.Add((byte)i);

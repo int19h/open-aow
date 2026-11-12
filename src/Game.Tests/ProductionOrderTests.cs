@@ -20,7 +20,7 @@ namespace Aow.Game.Tests;
 [EngineState]
 public sealed class ProductionOrderTests
 {
-    public static readonly TheoryData<int, int, int, string, string> OldBytes = new()
+    public static TheoryData<int, int, int, string, string> OldBytes { get; } = new()
     {
         { 1, 0, 0, "0107009702020001140001000000", "01070098020200080A00150416051706180719081A131C17FFFFFFFF03040102970202000114000100000001000000" },
         { 1, 5, 0, "0107009702020002140015040100000005000000", "01070098020200080A00150416051706180719081A191C1DFFFFFFFF03040102970202000214001504010000000500000001000000" },
@@ -240,21 +240,21 @@ public sealed class ProductionOrderTests
     // reads no unit production.
     private static string OldName(int id, int parameter, bool city, MagicSphere sphere)
     {
-        string result = AbilityRules.TranslateResourceString(GameTables.s_unknownText);
+        string result = AbilityRules.TranslateResourceString(GameTables.UnknownText);
         if (city)
         {
             switch (OldCityAction(id))
             {
-                case CityAction.Trade: result = AbilityRules.TranslateResourceString(GameText.s_produceMerchandiseText); break;
-                case CityAction.Upgrade: result = AbilityRules.TranslateResourceString(GameText.s_upgradeText); break;
-                case CityAction.Migrate: result = Runtime.Format(AbilityRules.TranslateResourceString(Migrate.s_migrateFormat), [AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[parameter])]); break;
-                case CityAction.Loot: result = AbilityRules.TranslateResourceString(GameText.s_lootText); break;
-                case CityAction.Fortify: result = AbilityRules.TranslateResourceString(GameText.s_fortifyText); break;
+                case CityAction.Trade: result = AbilityRules.TranslateResourceString(GameText.ProduceMerchandiseText); break;
+                case CityAction.Upgrade: result = AbilityRules.TranslateResourceString(GameText.UpgradeText); break;
+                case CityAction.Migrate: result = Runtime.Format(AbilityRules.TranslateResourceString(Migrate.MigrateFormat), [AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[parameter])]); break;
+                case CityAction.Loot: result = AbilityRules.TranslateResourceString(GameText.LootText); break;
+                case CityAction.Fortify: result = AbilityRules.TranslateResourceString(GameText.FortifyText); break;
             }
         }
         else if (id == 10)
         {
-            result = AbilityRules.TranslateResourceString(sphere != MagicSphere.None ? Trade.s_generateExtraPowerText : GameText.s_produceMerchandiseText);
+            result = AbilityRules.TranslateResourceString(sphere != MagicSphere.None ? Trade.GenerateExtraPowerText : GameText.ProduceMerchandiseText);
         }
         return result;
     }

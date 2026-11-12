@@ -60,7 +60,7 @@ public sealed class PersistCorpusTests
     {
         var previous = AoWHSMap.Current;
         var map = new AoWHSMap(null!);
-        map._status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
+        map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
         s_reaper = map;
         s_blocked.Clear();
         s_proved.Clear();

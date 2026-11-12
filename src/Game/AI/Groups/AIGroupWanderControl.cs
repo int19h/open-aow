@@ -14,28 +14,29 @@ namespace Aow.Game.AI.Groups;
 // mode, move limit, move settings, control
 public partial class AIGroupWanderControl : AIGroupTask
 {
-    public Set<ModeElement> Mode;
-    public int MovePointsMax;
-    public MoveControlSettings MoveSettings;
-    public AIGroupControl Control;
+    public Set<ModeElement> Mode { get; private set; }
+    public int MovePointsMax { get; set; }
+
+    private MoveControlSettings _moveSettings;
+    private AIGroupControl _control;
 
     // AGCPlugins.pas:303
     public override void Dispose()
     {
-        MoveSettings.Release();
+        _moveSettings.Release();
         base.Dispose();
     }
 
     // AGCPlugins.pas:297
     public AIGroupWanderControl(ECustomNode owner) : base(owner)
     {
-        MoveSettings = new MoveControlSettings(null);
+        _moveSettings = new MoveControlSettings(null);
     }
 
     // AGCPlugins.pas:319
     public override bool Activate(AIGroupControl control)
     {
-        Control = control;
+        _control = control;
         State = 0;
         return true;
     }
@@ -54,28 +55,28 @@ public partial class AIGroupWanderControl : AIGroupTask
         switch (State)
         {
             case 0:
-                control = Control;
-                MoveSettings.Reset();
+                control = _control;
+                _moveSettings.Reset();
                 {
-                    this.MoveSettings.Player = control.Group.Player;
-                    this.MoveSettings.Mode = this.MoveSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
-                    this.MoveSettings.SetSourcePosition(control.Location.X, control.Location.Y, control.Location.MapLevel);
+                    this._moveSettings.Player = control.Group.Player;
+                    this._moveSettings.Mode = this._moveSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
+                    this._moveSettings.SetSourcePosition(control.Location.X, control.Location.Y, control.Location.MapLevel);
                 }
 
                 {
-                    var moveControlSettings = MoveSettings;
+                    var moveControlSettings = _moveSettings;
                     moveControlSettings.MovePointsMax = this.MovePointsMax;
                     moveControlSettings.ArmyHexSprite = control.ArmyHexSprite;
                     moveControlSettings.Selection = control.Selection;
                     moveControlSettings.MovePointTable = control.MovePointTable;
                     moveControlSettings.Mode = moveControlSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
-                    AoWHSMap.Current.MoveControl.ProcessMove(MoveSettings);
+                    AoWHSMap.Current.MoveControl.ProcessMove(_moveSettings);
                 }
 
                 {
                     var group = control.Group;
                     // { Original reloads the current control. }
-                    if (group.TargetMode == 1 && this.Control.Group.TargetMapCoordinate.X > 0 && MoveSettings.GetMovePoints(group.TargetMapCoordinate.X, group.TargetMapCoordinate.Y, group.TargetMapCoordinate.MapLevel) != 16777215 && Unsafe.As<MapCoordinate, int>(ref this.Control.Group.TargetMapCoordinate) != Unsafe.As<MapCoordinate, int>(ref control.Location))
+                    if (group.TargetMode == 1 && this._control.Group.TargetMapCoordinate.X > 0 && _moveSettings.GetMovePoints(group.TargetMapCoordinate.X, group.TargetMapCoordinate.Y, group.TargetMapCoordinate.MapLevel) != 16777215 && Unsafe.As<MapCoordinate, int>(ref this._control.Group.TargetMapCoordinate) != Unsafe.As<MapCoordinate, int>(ref control.Location))
                     {
                         State = 2;
                     }
@@ -88,7 +89,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                 result = false;
                 break;
             case 1:
-                settings = MoveSettings;
+                settings = _moveSettings;
                 fields = new DoubleItemList<AoWMapField>();
                 if (settings.ProcessedMapFields.Count > 40)
                 {
@@ -98,9 +99,9 @@ public partial class AIGroupWanderControl : AIGroupTask
                         if ((I & 3) == 3)
                         {
                             field = (AoWMapField)settings.ProcessedMapFields[I];
-                            if (MoveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) != 16777215)
+                            if (_moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) != 16777215)
                             {
-                                var movePoints = MoveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
+                                var movePoints = _moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
                                 fields.AddAbility(field, movePoints);
                             }
                         }
@@ -112,9 +113,9 @@ public partial class AIGroupWanderControl : AIGroupTask
                     for (; I >= 0; I -= 1)
                     {
                         field = (AoWMapField)settings.ProcessedMapFields[I];
-                        if (MoveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) != 16777215)
+                        if (_moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) != 16777215)
                         {
-                            var movePoints = MoveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
+                            var movePoints = _moveSettings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
                             fields.AddAbility(field, movePoints);
                         }
                     }
@@ -141,7 +142,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                         // { Original reads the list item before GetXYL. }
                         targetWeight = fields[I].Second;
                         location.Packed = field.GetMapCoordinate();
-                        Control.Group.SetupTarget(location, targetWeight, AIGroupTargetStatus.Execute, 1, -1, 0, 0);
+                        _control.Group.SetupTarget(location, targetWeight, AIGroupTargetStatus.Execute, 1, -1, 0, 0);
                         State += 1;
                     }
                     else
@@ -161,7 +162,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                 break;
             case 2:
                 {
-                    var aiGroupControl = Control;
+                    var aiGroupControl = _control;
                     aiGroupControl.SetupME();
                     aiGroupControl.ExecuteME(aiGroupControl.Group.TargetMapCoordinate.X, aiGroupControl.Group.TargetMapCoordinate.Y, aiGroupControl.Group.TargetMapCoordinate.MapLevel);
                 }
@@ -186,7 +187,7 @@ public partial class AIGroupWanderControl : AIGroupTask
     {
         Mode = Set<ModeElement>.Of();
         MovePointsMax = 75;
-        MoveSettings.Reset();
+        _moveSettings.Reset();
     }
 
     // AGCPlugins.pas:316

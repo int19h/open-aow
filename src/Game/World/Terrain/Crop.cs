@@ -21,7 +21,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
     // Crops.pas:119
     public new const int ClassId = 131946;
 
-    public PlayerCropStructure CropOwner;
+    public PlayerCropStructure CropOwner { get; private set; }
 
     // Crops.pas:109
 
@@ -44,12 +44,12 @@ public partial class Crop : ImageLibraryTerrainMapObject
             return;
         }
 
-        if (_status.Contains(MapObjectStatusElement.Activated))
+        if (Status.Contains(MapObjectStatusElement.Activated))
         {
             if (ValidTerrainType(info.TerrainType))
             {
-                _terrainType = info.TerrainType;
-                _imageIndex = GetTerrainTypeImage(info.TerrainType);
+                TerrainType = info.TerrainType;
+                ImageIndex = GetTerrainTypeImage(info.TerrainType);
                 hexSprite = info.MapField.GetMaxLevelNoneTransparentHexSprite();
                 if ((hexSprite != null && hexSprite.GetLevel() > GetLevel() && !(hexSprite is AbstractRoad)) || (info.OverlayType >= 0 && info.OverlayType != 4))
                 {
@@ -63,7 +63,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
         }
         else
         {
-            _terrainType = info.TerrainType;
+            TerrainType = info.TerrainType;
         }
     }
 
@@ -138,7 +138,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
     {
         int index;
         index = GetTerrainTypeImage(TerrainType);
-        this._imageIndex = index;
+        this.ImageIndex = index;
         if (!_resource.ImageLibrary.ImageExist(index))
         {
             Dispose();

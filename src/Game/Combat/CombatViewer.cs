@@ -15,17 +15,19 @@ public partial class CombatViewer : IDisposable
     {
         Combat = new Battle(null);
         Time = -1;
-        Speed = 5;
+        _speed = 5;
         Delay = 5;
     }
 
-    public Set<CombatViewerStatusElement> Status;
-    public Battle Combat;
-    public byte Delay;
-    public byte Speed;
-    public int Position;
-    public int Time;
-    public CombatLogbook Logbook;
+    public Set<CombatViewerStatusElement> Status { get; private set; }
+    public Battle Combat { get; }
+    public byte Delay { get; private set; }
+
+    private byte _speed;
+
+    public int Position { get; private set; }
+    public int Time { get; private set; }
+    public CombatLogbook Logbook { get; private set; }
 
     // Combat2.pas:555
     public virtual void Dispose()
@@ -53,7 +55,7 @@ public partial class CombatViewer : IDisposable
         Time = -1;
         Combat.CombatData.Assign(logbook.InitialData, GameTables.GameEngine);
         Combat.Activate();
-        Delay = Speed;
+        Delay = _speed;
     }
 
     // Combat2.pas:575
@@ -80,7 +82,7 @@ public partial class CombatViewer : IDisposable
             speed = 1;
         }
 
-        Speed = speed;
+        _speed = speed;
     }
 
     // Combat2.pas:593
@@ -178,7 +180,7 @@ public partial class CombatViewer : IDisposable
                 if (!playing)
                 {
                     Position += 1;
-                    Delay = Speed;
+                    Delay = _speed;
                     Time = -1;
                 }
             }

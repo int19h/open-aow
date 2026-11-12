@@ -35,10 +35,10 @@ public abstract partial record ProductionOrder
     public virtual int? UnitProductionIndex => null;
 
     // The queue line (Structur.PAS:840).
-    public virtual string Name(ProductionControl control) => AbilityRules.TranslateResourceString(GameTables.s_unknownText);
+    public virtual string Name(ProductionControl control) => AbilityRules.TranslateResourceString(GameTables.UnknownText);
 
     // The line of the running order (Structur.PAS:865).
-    public virtual string NameProgressive(ProductionControl control) => AbilityRules.TranslateResourceString(GameTables.s_unknownText);
+    public virtual string NameProgressive(ProductionControl control) => AbilityRules.TranslateResourceString(GameTables.UnknownText);
 
     // Whether Control can start the order now, with the reason when it cannot (Structur.PAS:361).
     public virtual bool CanExecute(ProductionControl control, ref string reason)

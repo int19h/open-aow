@@ -34,13 +34,15 @@ public partial class Pop3Dialog : DataModule
     public VerticalScrollBar EmailGamesSB;
     public Button Close;
     public IvTranslator Translator;
-    public bool Searching;
-    public int CheckDelay;
+
+    public bool Searching { get; private set; }
+
+    private int _checkDelay;
 
     // AoWPOP3Dlg.pas:64
     public void ResetSearch()
     {
-        CheckDelay = 30;
+        _checkDelay = 30;
         Searching = false;
         FoundEmailGames.Items.Clear();
         ExitPnl.Visible = true;
@@ -90,20 +92,20 @@ public partial class Pop3Dialog : DataModule
     // AoWPOP3Dlg.pas:135
     public void DlgUpdate()
     {
-        CheckDelay -= 1;
-        if (CheckDelay < 0)
+        _checkDelay -= 1;
+        if (_checkDelay < 0)
         {
-            CheckDelay = GameTables.GameEngine.Registry.GetCheckEmailFrequency() * 30 * 60;
-            if (CheckDelay < 30)
+            _checkDelay = GameTables.GameEngine.Registry.GetCheckEmailFrequency() * 30 * 60;
+            if (_checkDelay < 30)
             {
-                CheckDelay = 30;
+                _checkDelay = 30;
             }
 
             // { Original overrides the configured interval. }
-            CheckDelay = 150;
+            _checkDelay = 150;
         }
 
-        switch (CheckDelay)
+        switch (_checkDelay)
         {
             case 25:
                 CheckAttachments();

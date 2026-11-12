@@ -26,14 +26,15 @@ public partial class MapEvents : DataModule
     { }
 
     public MapControl TheMap;
+
     // Renderers of the DoubleClick keys of the structures (Structure.Views.cs). ClassRegistry adds
     // the original renderers.
-    public static readonly Catalog<StructureView, Action<MapEvents, Structure>> StructureScreens = new("map structure screen");
+    public static Catalog<StructureView, Action<MapEvents, Structure>> StructureScreens { get; } = new("map structure screen");
     // Renderers of the event log views (EventLog.Views.cs), called with the screen, the event, the
     // immediate mode and the done callback. The original renderers ignore the mode (the three that
     // take it name it Unused), it is there for a renderer that wants it. ClassRegistry adds the
     // original renderers.
-    public static readonly Catalog<EventView, Action<MapEvents, EventLog, bool, ExecuteDoneEvent>> EventRenderers = new("map event view");
+    public static Catalog<EventView, Action<MapEvents, EventLog, bool, ExecuteDoneEvent>> EventRenderers { get; } = new("map event view");
 
     // aowMapEvents.pas:93
     public void TheMapActivateAbility(AbilityActivation request)
@@ -168,7 +169,7 @@ public partial class MapEvents : DataModule
     {
         if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
-            DialogHosts.TaskBar.TurnButton._lastPlayer = -1;
+            DialogHosts.TaskBar.TurnButton.LastPlayer = -1;
         }
 
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_dayFormat), [day]);
@@ -473,31 +474,31 @@ public partial class MapEvents : DataModule
             DialogHosts.General.Manager.OverlayPriority = 0;
             DialogHosts.TaskBar.CurP.Visible = false;
             DialogHosts.TaskBar.WorldClockDelay = 0;
-            DialogHosts.TaskBar.TurnButton._currentPlayer = 12;
-            DialogHosts.TaskBar.TurnButton._lastPlayer = DialogHosts.TaskBar.TurnButton._currentPlayer;
-            DialogHosts.TaskBar.TurnButton.AnimationFrame = DialogHosts.TaskBar.TurnButton._currentPlayer * 7;
+            DialogHosts.TaskBar.TurnButton.CurrentPlayer = 12;
+            DialogHosts.TaskBar.TurnButton.LastPlayer = DialogHosts.TaskBar.TurnButton.CurrentPlayer;
+            DialogHosts.TaskBar.TurnButton.AnimationFrame = DialogHosts.TaskBar.TurnButton.CurrentPlayer * 7;
         }
         else
         {
             DialogHosts.General.ShowWindows();
             var turnButton = DialogHosts.TaskBar.TurnButton;
-            if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated) && !turnButton._animating)
+            if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated) && !turnButton.Animating)
             {
                 if (player > -1)
                 {
-                    turnButton._currentPlayer = AoWHSMap.Current.Players.GetPlayers(player).PlayerRace;
+                    turnButton.CurrentPlayer = AoWHSMap.Current.Players.GetPlayers(player).PlayerRace;
                 }
                 else
                 {
-                    turnButton._currentPlayer = -2;
+                    turnButton.CurrentPlayer = -2;
                 }
 
-                if (turnButton._currentPlayer == -1)
+                if (turnButton.CurrentPlayer == -1)
                 {
-                    turnButton._currentPlayer = 12;
+                    turnButton.CurrentPlayer = 12;
                 }
 
-                turnButton._lastPlayer = -1;
+                turnButton.LastPlayer = -1;
             }
 
             DialogHosts.TaskBar.CurP.Visible = AoWHSMap.Current.PlayMode == PlayMode.Turn;
@@ -695,7 +696,9 @@ public partial class MapEvents : DataModule
 
     private static readonly string s_dayFormat = "Day %d";
     private static readonly string s_pickupText = "Pickup";
-    internal static readonly string s_unlimitedText = "Unlimited";
+
+    internal static string UnlimitedText { get; } = "Unlimited";
+
     private static readonly string s_upkeepText = "Upkeep";
     private static readonly string s_itemBagText = "Item Bag";
 
@@ -806,7 +809,7 @@ public partial class MapEvents : DataModule
         ((StringCollection)dialog.SBmemo.Items).Clear();
         dialog.PopulationRaceLbl.Visible = false;
         dialog.PopulationLbl.Visible = false;
-        string text = AbilityRules.TranslateResourceString(GameText.s_structureText);
+        string text = AbilityRules.TranslateResourceString(GameText.StructureText);
         dialog.Title.Text = text;
     }
 
@@ -822,7 +825,7 @@ public partial class MapEvents : DataModule
                     dialog.Dlg.Visible = true;
                     if (!control.TargetMode.Contains(TargetSelectionModeElement.ValidateDistance))
                     {
-                        string text = AbilityRules.TranslateResourceString(s_unlimitedText);
+                        string text = AbilityRules.TranslateResourceString(UnlimitedText);
                         dialog.TargetLbl.Text = RtlUnit.LowerCase(text);
                     }
                     else
@@ -863,7 +866,7 @@ public partial class MapEvents : DataModule
             string name = hero.GetName();
             dialog.CasterNameLbl.Text = name;
             sbyte castingPoints = hero.GetCastingPoints();
-            string text = AbilityRules.TranslateResourceString(GameText.s_castingPointsText);
+            string text = AbilityRules.TranslateResourceString(GameText.CastingPointsText);
             sbyte castingPointsMax = hero.GetCastingPointsMax();
             dialog.CastingPointsLbl.Text = string.Concat(new string[5]
             {
@@ -877,8 +880,8 @@ public partial class MapEvents : DataModule
         Spell spell = AoWHSSet.Current.SpellControl.GetSpell(dialog.Caster.CasterSpellId);
         dialog.SpellNameLbl.Text = spell.SpellName;
         int number = hero.CastingMana(spell);
-        string text2 = AbilityRules.TranslateResourceString(GameText.s_castingCostText);
-        string text3 = AbilityRules.TranslateResourceString(GameText.s_manaText);
+        string text2 = AbilityRules.TranslateResourceString(GameText.CastingCostText);
+        string text3 = AbilityRules.TranslateResourceString(GameText.ManaText);
         dialog.SpellManaLbl.Text = string.Concat(new string[5]
         {
             text2,
@@ -888,7 +891,7 @@ public partial class MapEvents : DataModule
             text3
         });
         string text4 = AbilityRules.TranslateResourceString(s_upkeepText);
-        string text5 = AbilityRules.TranslateResourceString(GameText.s_manaText);
+        string text5 = AbilityRules.TranslateResourceString(GameText.ManaText);
         dialog.SpellUpkeepLbl.Text = string.Concat(new string[5]
         {
             text4,
@@ -898,7 +901,7 @@ public partial class MapEvents : DataModule
             text5
         });
         Player players = AoWHSMap.Current.Players.GetPlayers(hero.Player);
-        string text6 = AbilityRules.TranslateResourceString(GameText.s_manaText);
+        string text6 = AbilityRules.TranslateResourceString(GameText.ManaText);
         dialog.CastingManaLbl.Text = text6 + ": " + RtlUnit.IntToStr(players.MagicControl.Mana);
         dialog.U1.Checked = false;
         dialog.U2.Checked = false;

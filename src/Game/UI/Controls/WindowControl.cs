@@ -18,43 +18,59 @@ public partial class WindowControl : UIComponent
     public bool _modal;
     public AoWOnDrawSurface<WindowControl> _onDrawSurface;
     public AoWOnDrawSurface<WindowControl> _onPreDrawSurface;
-    public byte Dragging;
-    public int DragX;
-    public int DragY;
+
+    public byte Dragging { get; protected set; }
+    public int DragX { get; protected set; }
+    public int DragY { get; protected set; }
+
     public bool _draggable;
     public bool _resizable;
-    public byte ResizingX;
-    public byte ResizingY;
+
+    public byte ResizingX { get; protected set; }
+    public byte ResizingY { get; protected set; }
+
     public NotifyEvent<WindowControl> _onResize;
     public NotifyEvent<WindowControl> _onInternalResize;
     public int _dragHeight;
     public bool _overlapTopCorners;
-    public int OldCursor;
-    public int WindowCursor;
+
+    public int OldCursor { get; protected set; }
+    public int WindowCursor { get; protected set; }
+
     public NotifyEvent<WindowControl> _onChangeCursor;
     public int _minWidth;
     public int _minHeight;
     public int _maxWidth;
     public int _maxHeight;
-    public bool InResizeArea;
-    public Style WindowStyle;
+
+    public bool InResizeArea { get; protected set; }
+    public Style WindowStyle { get; private set; }
+
     public InterfaceImageLibrary _imageLibraryFrame;
     public InterfaceImageLibrary _imageLibraryTexture;
     public bool _useManagerBorders;
-    public int FrameLeft;
-    public int FrameTop;
-    public int FrameRight;
-    public int FrameBottom;
+
+    public int FrameLeft { get; protected set; }
+    public int FrameTop { get; protected set; }
+    public int FrameRight { get; protected set; }
+    public int FrameBottom { get; protected set; }
+
     public int _maskColor;
     public bool _useVideoMemory;
-    public Surface BackSurface;
-    public int UnusedBackValue;
+
+    public Surface BackSurface { get; protected set; }
+    public int UnusedBackValue { get; }
+
     public Rect BackRectangle;
-    public int UnusedBackValue2;
+
+    public int UnusedBackValue2 { get; }
+
     public AoWOnDrawBackEvent<WindowControl> _onDrawBack;
     public NotifyEvent<WindowControl> _onEnter;
     public NotifyEvent<WindowControl> _onExit;
-    public bool MouseInside;
+
+    public bool MouseInside { get; set; }
+
     public int _imageLibraryIndexFrame;
     public int _imageLibraryIndexTexture;
     public bool _dockable;
@@ -76,7 +92,7 @@ public partial class WindowControl : UIComponent
     // AoWWinControl.pas:120
     public override void Validate()
     {
-        if (_ownerComponent != null)
+        if (OwnerComponent != null)
         {
             if (_imageLibraryFrame != null)
             {
@@ -122,7 +138,7 @@ public partial class WindowControl : UIComponent
     {
         UIComponent C = default;
         Handled = false;
-        if (_visible)
+        if (Visible)
         {
             for (int I = Children.Count - 1; I >= 0; I--)
             {
@@ -151,7 +167,7 @@ public partial class WindowControl : UIComponent
     {
         UIComponent C = default;
         Handled = false;
-        if (_visible)
+        if (Visible)
         {
             for (int I = Children.Count - 1; I >= 0; I--)
             {
@@ -186,24 +202,24 @@ public partial class WindowControl : UIComponent
         Rect R = default;
         if (_onPreDrawSurface != null)
         {
-            _onPreDrawSurface(this, surface, _winLeft, _winTop);
+            _onPreDrawSurface(this, surface, WinLeft, WinTop);
         }
 
-        R = new Rect(0, 0, _winWidth, _winHeight);
-        if (!_masked)
+        R = new Rect(0, 0, WinWidth, WinHeight);
+        if (!Masked)
         {
-            BackSurface.BlitAreaClipped(surface, R, _winLeft, _winTop);
+            BackSurface.BlitAreaClipped(surface, R, WinLeft, WinTop);
         }
         else
         {
             var pixelFormatId = BackSurface.GetPixelFormatId();
             var color2PixelInfo = PixelFormats.Color2PixelInfo(_maskColor, pixelFormatId, null);
-            BackSurface.BlitAreaColorKeyClipped(surface, R, _winLeft, _winTop, color2PixelInfo);
+            BackSurface.BlitAreaColorKeyClipped(surface, R, WinLeft, WinTop, color2PixelInfo);
         }
 
         if (_onDrawSurface != null)
         {
-            _onDrawSurface(this, surface, _winLeft, _winTop);
+            _onDrawSurface(this, surface, WinLeft, WinTop);
         }
     }
 
@@ -270,15 +286,15 @@ public partial class WindowControl : UIComponent
                     dDS = new DirectDrawSurface();
                     BackSurface = dDS;
                     var pixelFormatId = surface.GetPixelFormatId();
-                    dDS.CreateSurface(_winWidth, _winHeight, pixelFormatId, flags);
+                    dDS.CreateSurface(WinWidth, WinHeight, pixelFormatId, flags);
                 }
                 else
                 {
                     var pixelFormatId = surface.GetPixelFormatId();
-                    BackSurface = new DataSurface(_winWidth, _winHeight, pixelFormatId, null);
+                    BackSurface = new DataSurface(WinWidth, WinHeight, pixelFormatId, null);
                 }
 
-                if (_masked)
+                if (Masked)
                 {
                     BackSurface.Clear(_maskColor);
                 }

@@ -10,11 +10,11 @@ internal static class DurationText
         string result;
         if (turns == 1)
         {
-            result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_turnLeftFormat), [(byte)49]);
+            result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.TurnLeftFormat), [(byte)49]);
         }
         else
         {
-            result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_turnsLeftFormat), [IntToStr(turns)]);
+            result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.TurnsLeftFormat), [IntToStr(turns)]);
         }
 
         return result;
@@ -25,11 +25,11 @@ internal static class DurationText
         string result;
         if (days == 1)
         {
-            result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_dayFormat), [(byte)49]);
+            result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.DayFormat), [(byte)49]);
         }
         else
         {
-            result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_daysFormat), [IntToStr(days)]);
+            result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.DaysFormat), [IntToStr(days)]);
         }
 
         return result;
@@ -40,11 +40,11 @@ internal static class DurationText
         string result;
         if (days == 1)
         {
-            result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_dayLeftFormat), [(byte)49]);
+            result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.DayLeftFormat), [(byte)49]);
         }
         else
         {
-            result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_daysLeftFormat), [IntToStr(days)]);
+            result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.DaysLeftFormat), [IntToStr(days)]);
         }
 
         return result;

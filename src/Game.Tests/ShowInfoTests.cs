@@ -101,7 +101,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     {
         static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new BlendRecorder(owner);
 
-        public readonly List<BlendTable> Drawn = [];
+        public List<BlendTable> Drawn { get; } = [];
 
         internal BlendRecorder(CustomImageLibrary owner) : base(owner) { }
 
@@ -241,8 +241,12 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
 
     private sealed class Tally
     {
-        public int Libraries, Images, WithoutShowInfo, User, Blended;
-        public readonly SortedDictionary<string, int> Modes = new(StringComparer.Ordinal);
+        public int Libraries { get; set; }
+        public int Images { get; set; }
+        public int WithoutShowInfo { get; set; }
+        public int User { get; set; }
+        public int Blended { get; set; }
+        public SortedDictionary<string, int> Modes { get; } = new(StringComparer.Ordinal);
     }
 
     // unions-and-kinds.md section 7 risk 5: every image of every installed library writes its
@@ -288,15 +292,15 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         library.LoadFromFile(file);
         tally.Libraries++;
         int from = 0;
-        for (int i = 0; i < library._count; i++)
-            if (library._images[i].Image is { } image) CheckImage(file, bytes, image, ref from, tally);
+        for (int i = 0; i < library.Count; i++)
+            if (library.Images[i].Image is { } image) CheckImage(file, bytes, image, ref from, tally);
     }
 
     private static void CheckImage(string file, byte[] bytes, LibraryImage image, ref int from, Tally tally)
     {
         if (image is ImageNode node)
         {
-            for (int i = 0; i < node._count; i++) CheckImage(file, bytes, node._images[i], ref from, tally);
+            for (int i = 0; i < node.Count; i++) CheckImage(file, bytes, node.Images[i], ref from, tally);
             return;
         }
 

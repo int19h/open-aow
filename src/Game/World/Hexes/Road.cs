@@ -19,7 +19,7 @@ public partial class Road : AbstractRoad
     // Road.pas:47
     public new const int ClassId = 131428;
 
-    protected internal byte Transitions;
+    protected internal byte Transitions { get; protected set; }
 
     // Road.pas:42
 
@@ -136,56 +136,56 @@ public partial class Road : AbstractRoad
                 {
                     if ((transitions & 16) != 0)
                     {
-                        _imageLibrary[baseValue + 4].Show(pixelX, pixelY, lockedSurface);
+                        ImageLibrary[baseValue + 4].Show(pixelX, pixelY, lockedSurface);
                     }
 
                     if ((transitions & 4) != 0)
                     {
-                        _imageLibrary[baseValue + 2].Show(pixelX, pixelY, lockedSurface);
+                        ImageLibrary[baseValue + 2].Show(pixelX, pixelY, lockedSurface);
                     }
                 }
                 else
                 {
-                    _imageLibrary[baseValue + 6].Show(pixelX, pixelY, lockedSurface);
+                    ImageLibrary[baseValue + 6].Show(pixelX, pixelY, lockedSurface);
                 }
 
                 if ((transitions & 128) == 0)
                 {
                     if ((transitions & 2) != 0)
                     {
-                        _imageLibrary[baseValue + 1].Show(pixelX, pixelY, lockedSurface);
+                        ImageLibrary[baseValue + 1].Show(pixelX, pixelY, lockedSurface);
                     }
 
                     if ((transitions & 32) != 0)
                     {
-                        _imageLibrary[baseValue + 5].Show(pixelX, pixelY, lockedSurface);
+                        ImageLibrary[baseValue + 5].Show(pixelX, pixelY, lockedSurface);
                     }
                 }
                 else
                 {
-                    _imageLibrary[baseValue + 7].Show(pixelX, pixelY, lockedSurface);
+                    ImageLibrary[baseValue + 7].Show(pixelX, pixelY, lockedSurface);
                 }
 
                 if ((transitions & 1) != 0)
                 {
-                    _imageLibrary[baseValue].Show(pixelX, pixelY, lockedSurface);
+                    ImageLibrary[baseValue].Show(pixelX, pixelY, lockedSurface);
                 }
 
                 if ((transitions & 8) != 0)
                 {
-                    _imageLibrary[baseValue + 3].Show(pixelX, pixelY, lockedSurface);
+                    ImageLibrary[baseValue + 3].Show(pixelX, pixelY, lockedSurface);
                 }
             }
             else
             {
-                _imageLibrary[baseValue + 6].Show(pixelX, pixelY, lockedSurface);
+                ImageLibrary[baseValue + 6].Show(pixelX, pixelY, lockedSurface);
             }
         }
 
         // Road.pas:171
         public override EditorClass Editor()
         {
-            EditorClass result = _engine.Editors.FindEditor(131429);
+            EditorClass result = Engine.Editors.FindEditor(131429);
             if (result == null)
             {
                 result = base.Editor();

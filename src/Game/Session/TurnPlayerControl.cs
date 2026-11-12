@@ -108,14 +108,14 @@ public partial class TurnPlayerControl : PlayerControl
             AoWHSMap.Current.AIExecutor.ActivatePlayer(player);
             if (player == 0)
             {
-                var independents = AbilityRules.TranslateResourceString(GameTables.s_independentsText);
+                var independents = AbilityRules.TranslateResourceString(GameTables.IndependentsText);
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_areMovingFormat), [independents]);
                 AoWHSMap.Current.ShowMessage(format);
             }
             else
             {
                 var players = AoWHSMap.Current.Players.GetPlayers(player);
-                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[players.PlayerRace]);
+                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players.PlayerRace]);
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_areMovingFormat), [raceNamesPlural]);
                 AoWHSMap.Current.ShowMessage(format);
             }
@@ -347,7 +347,7 @@ public partial class TurnPlayerControl : PlayerControl
                 log.TurnPlayer = AoWHSMap.Current.CurrentPlayer;
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                log.Text = AbilityRules.TranslateResourceString(GameText.s_yourTurnContinuesText);
+                log.Text = AbilityRules.TranslateResourceString(GameText.YourTurnContinuesText);
                 AoWHSMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
                 log.Release();
             }
@@ -382,7 +382,7 @@ public partial class TurnPlayerControl : PlayerControl
                 log.TurnPlayer = AoWHSMap.Current.SeatedPlayer;
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                log.Text = AbilityRules.TranslateResourceString(GameText.s_yourTurnContinuesText);
+                log.Text = AbilityRules.TranslateResourceString(GameText.YourTurnContinuesText);
                 AoWHSMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
                 log.Release();
             }

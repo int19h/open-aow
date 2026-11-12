@@ -5,7 +5,7 @@ namespace Aow.Game.Combat;
 // Players
 public partial class TacticalBattlePlayerList
 {
-    public CombatPlayerList Players;
+    public CombatPlayerList Players { get; set; }
 
     // AoWTC.pas:6426
     public int GetCount()
