@@ -1,6 +1,6 @@
 // Translated from Engine.pas.
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Rtl;
 
 namespace Aow.Engine.Nodes;
@@ -55,6 +55,22 @@ public partial class EReferenceNode : ENode
                 {
                     GetChild(I).Release();
                 }
+            }
+        }
+    }
+
+    // The stream write makes the list the owner of each child without one, stores the children
+    // it owns and clears those owners again. The tree stores the same children through
+    // ReferenceChildren and leaves the owners alone. The load releases the reference each loaded
+    // child took when it was created, as ReadWriteChildren does.
+    public override void PersistChildren(IPersister persister)
+    {
+        persister.Children("Children", children: new ReferenceChildren(this));
+        if (persister.Loading)
+        {
+            for (int index = 0, last = Count - 1; index <= last; index++)
+            {
+                GetChild(index).Release();
             }
         }
     }

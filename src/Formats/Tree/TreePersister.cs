@@ -29,13 +29,17 @@ sealed class LoadErrorPolicy
     }
 }
 
-/// <summary>Writes one object into a tree. The root carries no class name. Created objects and children do.</summary>
+/// <summary>
+/// Writes one object into a tree. The root carries no class name. Created objects and children do.
+/// A preview write sets <see cref="IPersister.Preview"/>, as the partial storage writer sets the
+/// preview mode.
+/// </summary>
 public static class TreeWriter
 {
-    public static ObjectNode Write(IPersistable objectValue, IPersistableFactory factory)
+    public static ObjectNode Write(IPersistable objectValue, IPersistableFactory factory, bool preview = false)
     {
         var node = new ObjectNode(null, null);
-        var persister = new MemberPersister(node, false, factory, DocumentNodePath.Root);
+        var persister = new MemberPersister(node, false, factory, DocumentNodePath.Root, preview: preview);
         objectValue.Persist(persister);
         return node;
     }
@@ -43,13 +47,14 @@ public static class TreeWriter
 
 /// <summary>
 /// Reads a tree into an object. After <see cref="IPersistable.Persist"/> returns, a member the
-/// serializer did not consume is an error. The path names that member.
+/// serializer did not consume is an error. The path names that member. A preview load sets
+/// <see cref="IPersister.Preview"/>, as the partial storage reader sets the preview mode.
 /// </summary>
 public static class TreeReader
 {
-    public static void Read(ObjectNode node, IPersistable objectValue, IPersistableFactory factory, LoadErrorHandler? onError = null)
+    public static void Read(ObjectNode node, IPersistable objectValue, IPersistableFactory factory, LoadErrorHandler? onError = null, bool preview = false)
     {
-        var persister = new MemberPersister(node, true, factory, DocumentNodePath.Root, new LoadErrorPolicy(onError));
+        var persister = new MemberPersister(node, true, factory, DocumentNodePath.Root, new LoadErrorPolicy(onError), preview: preview);
         objectValue.Persist(persister);
         persister.Finish();
     }
@@ -68,27 +73,29 @@ sealed class MemberPersister : IPersister
     // The keyed dynamic members this object has taken on load or started on save.
     private Dictionary<string, SlotListNode?>? _slotMembers;
 
-    public MemberPersister(ObjectNode node, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null)
-        : this(node.Members, loading ? null : node.Add, loading, factory, path, errors)
+    public MemberPersister(ObjectNode node, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null, bool preview = false)
+        : this(node.Members, loading ? null : node.Add, loading, factory, path, errors, preview)
     {
     }
 
-    public MemberPersister(RecordNode node, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null)
-        : this(node.Members, loading ? null : node.Add, loading, factory, path, errors)
+    public MemberPersister(RecordNode node, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null, bool preview = false)
+        : this(node.Members, loading ? null : node.Add, loading, factory, path, errors, preview)
     {
     }
 
-    private MemberPersister(IReadOnlyList<(string Name, TreeValue Value)> existing, Action<string, TreeValue>? add, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors)
+    private MemberPersister(IReadOnlyList<(string Name, TreeValue Value)> existing, Action<string, TreeValue>? add, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors, bool preview)
     {
         this._existing = existing;
         this._add = add;
         Loading = loading;
+        Preview = preview;
         Factory = factory;
         this._path = path;
         this._errors = errors;
     }
 
     public bool Loading { get; }
+    public bool Preview { get; }
     public IPersistableFactory Factory { get; }
 
     public bool Has(string name) => Loading && (Find(name) ?? FindOld(name).Value) is not null;
@@ -396,7 +403,7 @@ sealed class MemberPersister : IPersister
             if (found is null) nested = new ObjectNode(null, null);
             else if (found is ObjectNode node) nested = node;
             else throw Type(name, "an object");
-            var child = new MemberPersister(nested, true, Factory, _path.Member(name), _errors);
+            var child = new MemberPersister(nested, true, Factory, _path.Member(name), _errors, preview: Preview);
             // rwEObject wraps MainReadWrite and leaves the caller's instance in place.
             try
             {
@@ -410,7 +417,7 @@ sealed class MemberPersister : IPersister
             return;
         }
         var written = new ObjectNode(null, null);
-        objectValue.Persist(new MemberPersister(written, false, Factory, _path.Member(name), _errors));
+        objectValue.Persist(new MemberPersister(written, false, Factory, _path.Member(name), _errors, preview: Preview));
         Store(name, written);
     }
 
@@ -430,7 +437,7 @@ sealed class MemberPersister : IPersister
             return null;
         }
         var written = new ObjectNode(Factory.ClassName(objectValue), null);
-        objectValue.Persist(new MemberPersister(written, false, Factory, _path.Member(name), _errors));
+        objectValue.Persist(new MemberPersister(written, false, Factory, _path.Member(name), _errors, preview: Preview));
         Store(name, written);
         return objectValue;
     }
@@ -478,7 +485,7 @@ sealed class MemberPersister : IPersister
             return null;
         }
         var written = new ObjectNode(Factory.ClassName(objectValue), slot);
-        objectValue.Persist(new MemberPersister(written, loading: false, factory: Factory, path: at, errors: _errors));
+        objectValue.Persist(new MemberPersister(written, loading: false, factory: Factory, path: at, errors: _errors, preview: Preview));
         list.Add(slot, written);
         return objectValue;
     }
@@ -510,7 +517,7 @@ sealed class MemberPersister : IPersister
             if (value is null) return;
             if (value is not ObjectNode { ClassName: null } node)
                 throw TreeErrors.Fail(Codes.Type, "A slot of " + name + " is a fixed object.", at);
-            var reader = new MemberPersister(node, loading: true, factory: Factory, path: at, errors: _errors);
+            var reader = new MemberPersister(node, loading: true, factory: Factory, path: at, errors: _errors, preview: Preview);
             // rwEObject wraps MainReadWrite and leaves the caller's instance in place.
             try
             {
@@ -532,7 +539,7 @@ sealed class MemberPersister : IPersister
         if (list.Find(slot) is not null)
             throw TreeErrors.Fail(Codes.Slot, "Slot " + slot.ToString(System.Globalization.CultureInfo.InvariantCulture) + " of " + name + " is stored twice.", at);
         var written = new ObjectNode(null, slot);
-        objectValue.Persist(new MemberPersister(written, loading: false, factory: Factory, path: at, errors: _errors));
+        objectValue.Persist(new MemberPersister(written, loading: false, factory: Factory, path: at, errors: _errors, preview: Preview));
         list.Add(slot, written);
     }
 
@@ -595,7 +602,7 @@ sealed class MemberPersister : IPersister
                 {
                     created = Factory.Create(className);
                     children.Attach(created);
-                    var reader = new MemberPersister(child, true, Factory, _path.Member(name).Item(slot), _errors);
+                    var reader = new MemberPersister(child, true, Factory, _path.Member(name).Item(slot), _errors, preview: Preview);
                     created.Persist(reader);
                     reader.Finish();
                     children.Place(slot, created);
@@ -614,7 +621,7 @@ sealed class MemberPersister : IPersister
             if (!children.IsStored(i)) continue;
             var child = children.Get(i) ?? throw TreeErrors.Fail(Codes.Corrupt, "A stored child is missing.", _path.Member(name).Item(i));
             var node = new ObjectNode(Factory.ClassName(child), children.Slot(i));
-            child.Persist(new MemberPersister(node, false, Factory, _path.Member(name).Item(children.Slot(i)), _errors));
+            child.Persist(new MemberPersister(node, false, Factory, _path.Member(name).Item(children.Slot(i)), _errors, preview: Preview));
             written.Add(node);
         }
         Store(name, new ChildListNode(written));
@@ -637,7 +644,7 @@ sealed class MemberPersister : IPersister
             for (int i = 0; i < fields.Count; i++)
             {
                 // TEReadStorageStream.rwEObjectStream wraps MainReadWrite and leaves the field in place.
-                var reader = new MemberPersister(node.Fields[i], loading: true, factory: Factory, path: FieldPath(at, i, width), errors: _errors);
+                var reader = new MemberPersister(node.Fields[i], loading: true, factory: Factory, path: FieldPath(at, i, width), errors: _errors, preview: Preview);
                 try
                 {
                     fields[i].Persist(reader);
@@ -655,7 +662,7 @@ sealed class MemberPersister : IPersister
         for (int i = 0; i < fields.Count; i++)
         {
             var field = new ObjectNode(null, null);
-            fields[i].Persist(new MemberPersister(field, loading: false, factory: Factory, path: FieldPath(at, i, width), errors: _errors));
+            fields[i].Persist(new MemberPersister(field, loading: false, factory: Factory, path: FieldPath(at, i, width), errors: _errors, preview: Preview));
             written[i] = field;
             visited?.Invoke(i);
         }
@@ -688,7 +695,7 @@ sealed class MemberPersister : IPersister
                 {
                     created = Factory.Create(className);
                     items.Attach(created);
-                    var reader = new MemberPersister(item, loading: true, factory: Factory, path: at.Item(k), errors: _errors);
+                    var reader = new MemberPersister(item, loading: true, factory: Factory, path: at.Item(k), errors: _errors, preview: Preview);
                     created.Persist(reader);
                     reader.Finish();
                     items.Place(k, created);
@@ -708,7 +715,7 @@ sealed class MemberPersister : IPersister
             var item = items.Get(i) ?? throw TreeErrors.Fail(Codes.Corrupt, "A stored item is missing.", at.Item(i));
             written ??= [];
             var node = new ObjectNode(Factory.ClassName(item), null);
-            item.Persist(new MemberPersister(node, loading: false, factory: Factory, path: at.Item(written.Count), errors: _errors));
+            item.Persist(new MemberPersister(node, loading: false, factory: Factory, path: at.Item(written.Count), errors: _errors, preview: Preview));
             written.Add(node);
         }
         if (written is not null) Store(name, new SequenceNode(written));
@@ -755,13 +762,13 @@ sealed class MemberPersister : IPersister
             if (found is null) record = new RecordNode();
             else if (found is RecordNode node) record = node;
             else throw Type(name, "a record");
-            var child = new MemberPersister(record, true, Factory, _path.Member(name), _errors);
+            var child = new MemberPersister(record, true, Factory, _path.Member(name), _errors, preview: Preview);
             body(child);
             child.Finish();
             return;
         }
         var written = new RecordNode();
-        body(new MemberPersister(written, false, Factory, _path.Member(name), _errors));
+        body(new MemberPersister(written, false, Factory, _path.Member(name), _errors, preview: Preview));
         Store(name, written);
     }
 
@@ -775,7 +782,7 @@ sealed class MemberPersister : IPersister
             if (found is not ListNode list) throw Type(name, "a list");
             for (int i = 0; i < list.Items.Count; i++)
             {
-                var slot = new ItemSlot(list.Items[i], true, Factory, _path.Member(name).Item(i), _errors);
+                var slot = new ItemSlot(list.Items[i], true, Factory, _path.Member(name).Item(i), _errors, preview: Preview);
                 T value = transfer(slot, default!);
                 slot.Finish();
                 items.Add(value);
@@ -786,7 +793,7 @@ sealed class MemberPersister : IPersister
         var written = new ListNode();
         for (int i = 0; i < items.Count; i++)
         {
-            var slot = new ItemSlot(null, false, Factory, _path.Member(name).Item(i), _errors);
+            var slot = new ItemSlot(null, false, Factory, _path.Member(name).Item(i), _errors, preview: Preview);
             items[i] = transfer(slot, items[i]);
             written.Items.Add(slot.Finish());
         }
@@ -866,7 +873,7 @@ sealed class MemberPersister : IPersister
         try
         {
             created = Factory.Create(className);
-            var child = new MemberPersister(node, loading: true, factory: Factory, path: at, errors: _errors);
+            var child = new MemberPersister(node, loading: true, factory: Factory, path: at, errors: _errors, preview: Preview);
             created.Persist(child);
             child.Finish();
             return created;
@@ -903,16 +910,18 @@ sealed class ItemSlot : IItemSlot
     private readonly IPersistableFactory _factory;
     private readonly DocumentNodePath _path;
     private readonly LoadErrorPolicy? _errors;
+    private readonly bool _preview;
     private TreeValue? _stored;
     private bool _used;
 
-    public ItemSlot(TreeValue? loaded, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null)
+    public ItemSlot(TreeValue? loaded, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null, bool preview = false)
     {
         this._loaded = loaded;
         this._loading = loading;
         this._factory = factory;
         this._path = path;
         this._errors = errors;
+        this._preview = preview;
     }
 
     public TreeValue Finish()
@@ -964,13 +973,13 @@ sealed class ItemSlot : IItemSlot
         if (_loading)
         {
             if (_loaded is not RecordNode node) throw TreeErrors.Fail(Codes.Type, "A list item is a record.", _path);
-            var child = new MemberPersister(node, true, _factory, _path, _errors);
+            var child = new MemberPersister(node, true, _factory, _path, _errors, preview: _preview);
             body(child);
             child.Finish();
             return;
         }
         var written = new RecordNode();
-        body(new MemberPersister(written, false, _factory, _path, _errors));
+        body(new MemberPersister(written, false, _factory, _path, _errors, preview: _preview));
         _stored = written;
     }
 
@@ -986,7 +995,7 @@ sealed class ItemSlot : IItemSlot
             try
             {
                 created = _factory.Create(className);
-                var child = new MemberPersister(node, true, _factory, _path, _errors);
+                var child = new MemberPersister(node, true, _factory, _path, _errors, preview: _preview);
                 created.Persist(child);
                 child.Finish();
                 return created;
@@ -1004,7 +1013,7 @@ sealed class ItemSlot : IItemSlot
             return null;
         }
         var written = new ObjectNode(_factory.ClassName(value), null);
-        value.Persist(new MemberPersister(written, false, _factory, _path, _errors));
+        value.Persist(new MemberPersister(written, false, _factory, _path, _errors, preview: _preview));
         _stored = written;
         return value;
     }

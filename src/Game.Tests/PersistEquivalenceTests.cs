@@ -1288,6 +1288,160 @@ public sealed class PersistEquivalenceTests
         }
     }
 
+    [Fact]
+    public void EngineNodesMatchTheConverter()
+    {
+        Check("ECustomOwner", new ECustomOwner(null!));
+        var owner = new ECustomOwner(null!);
+        owner.SetControlStyle(Set<ControlStyleElement>.FromMask(0xA5));
+        Check("ECustomOwner", owner);
+        var resources = new EResourceList(null!);
+        resources.SetControlStyle(Set<ControlStyleElement>.FromMask(0));
+        Check("EResourceList", resources);
+        Check("EControlStyleNode", new EControlStyleNode(null!));
+        var styled = new EControlStyleNode(null!);
+        styled.SetControlStyle(Set<ControlStyleElement>.FromMask(0x81));
+        new AISavingsBudget(null!) { Priority = 7, Gold = -3 }.SetOwner(styled);
+        new AITransporterBudget(null!).SetOwner(styled);
+        Check("EControlStyleNode", styled);
+        var plugins = new PluginControl(null!);
+        plugins.UsedPlugins.Add("Abilities");
+        Check("PluginControl", plugins);
+        Check("PluginControl", new PluginControl(null!));
+    }
+
+    [Fact]
+    public void ASortNodeRefusesBothWritesAlike()
+    {
+        foreach (var node in new ESortNode[] { new(null!), new EInverseSortNode(null!), new EControlStyleInverseSortNode(null!) })
+        {
+            try
+            {
+                var stream = Assert.Throws<NotSupportedException>(() => Image(node));
+                var tree = Assert.Throws<NotSupportedException>(() => TreeWriter.Write(node, Factory));
+                Assert.Equal(stream.Message, tree.Message);
+            }
+            finally
+            {
+                node.Dispose();
+            }
+        }
+    }
+
+    // A reference list stores the children with no owner or with the list as owner. The stream
+    // write makes the list their owner while it writes and clears those owners after it, so the
+    // child the list owned before the write ends with no owner. The tree write leaves every owner.
+    [Fact]
+    public void AReferenceListStoresItsUnownedChildrenAndTakesOneReferenceEach()
+    {
+        var list = new CombatActionList(null!);
+        var other = new CombatActionList(null!);
+        try
+        {
+            var free = new DamageCombatAction(null!) { Damage = 9, SourceId = 3, TargetId = 4 };
+            list.AddChild(free);
+            var owned = new DamageCombatAction(null!) { Damage = 1 };
+            list.AddChild(owned);
+            owned.SetOwnerWithoutNotify(list);
+            var elsewhere = new DamageCombatAction(null!) { Damage = 2 };
+            list.AddChild(elsewhere);
+            elsewhere.SetOwnerWithoutNotify(other);
+            var classValue = s_schema.Get("CombatActionList");
+            var tree = TreeWriter.Write(list, Factory);
+            Assert.Null(free.Owner);
+            Assert.Same(list, owned.Owner);
+            Assert.Same(other, elsewhere.Owner);
+            var image = Image(list);
+            Assert.Null(owned.Owner);
+            Assert.Same(other, elsewhere.Owner);
+            var expected = PilotImage.Decode(image, "CombatActionList");
+            Assert.Equal(2, ((JsonArray)expected["Children"]!).Items.Count);
+            EqualJson(expected, DocumentBackend.Write(tree, classValue, s_schema, "game"), "reference list write");
+            EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, "game"), "reference list original");
+            var viaReadWrite = (CombatActionList)Blank("CombatActionList");
+            var fromDocument = (CombatActionList)Blank("CombatActionList");
+            var fromImage = (CombatActionList)Blank("CombatActionList");
+            try
+            {
+                Load(viaReadWrite, image);
+                TreeReader.Read(DocumentBackend.Read(expected, classValue, s_schema, "game"), fromDocument, Factory);
+                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), fromImage, Factory);
+                foreach (var loaded in new[] { viaReadWrite, fromDocument, fromImage })
+                {
+                    Assert.Equal(2, loaded.Count);
+                    for (int index = 0; index < loaded.Count; index++)
+                    {
+                        Assert.Null(loaded[index].Owner);
+                        Assert.Equal(1, loaded[index].RefCount);
+                    }
+                }
+                EqualBytes(Image(viaReadWrite), Image(fromDocument), "reference list document read");
+                EqualBytes(Image(viaReadWrite), Image(fromImage), "reference list original read");
+            }
+            finally
+            {
+                fromImage.Dispose();
+                fromDocument.Dispose();
+                viaReadWrite.Dispose();
+            }
+        }
+        finally
+        {
+            list.Dispose();
+            other.Dispose();
+        }
+    }
+
+    // A preview load keeps an ability bit whose ability is missing, as ReadWrite does with
+    // smPreview, and a full load clears it.
+    [Fact]
+    public void APreviewLoadSkipsTheAbilityCleanup()
+    {
+        var list = new CustomAbilityList(null!);
+        list.SetAbilityCount(8);
+        list.SetAbilitySet(5, 1);
+        var classValue = s_schema.Get("CustomAbilityList");
+        var image = Image(list);
+        var preview = (CustomAbilityList)Blank("CustomAbilityList");
+        var previewTree = (CustomAbilityList)Blank("CustomAbilityList");
+        var full = (CustomAbilityList)Blank("CustomAbilityList");
+        try
+        {
+            using (var memory = new MemoryStream(image))
+            using (var reader = new StorageReader(memory, EngineFixture.Engine, true))
+            {
+                preview.MainReadWrite(reader);
+            }
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), previewTree, Factory, preview: true);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), full, Factory);
+            Assert.True(preview.GetAbilitySetAt(5));
+            Assert.True(previewTree.GetAbilitySetAt(5));
+            Assert.False(full.GetAbilitySetAt(5));
+        }
+        finally
+        {
+            full.Dispose();
+            previewTree.Dispose();
+            preview.Dispose();
+            list.Dispose();
+        }
+    }
+
+    // A preview load and save of an item control moves no item, as ReadWrite does with smPreview.
+    // The preview load leaves the stored items unread.
+    [Fact]
+    public void APreviewMovesNoItem()
+    {
+        using var control = new ItemControl(null!);
+        control.RegisterItem(PlainItem(itemId: 4, name: "Ring"));
+        var tree = TreeWriter.Write(control, Factory);
+        Assert.NotNull(tree.Find("Items"));
+        Assert.Null(TreeWriter.Write(control, Factory, preview: true).Find("Items"));
+        using var loaded = (ItemControl)Blank("ItemControl");
+        TreeReader.Read(tree, loaded, Factory, preview: true);
+        Assert.Equal(0, loaded.GetCount());
+    }
+
     private static void Each<TEnum>(Action<TEnum> check) where TEnum : struct, Enum
     {
         foreach (var value in Enum.GetValues<TEnum>()) check(value);

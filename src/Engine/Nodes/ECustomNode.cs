@@ -44,7 +44,7 @@ public partial class ECustomNode : EngineObject, IOwner
         }
 
         PersistFields(persister);
-        persister.Children("Children", new NodeChildren(this));
+        PersistChildren(persister);
     }
 
     // Engine.pas:2626
@@ -122,6 +122,11 @@ public partial class ECustomNode : EngineObject, IOwner
     public virtual void ReadWriteChildren(StorageStream stream)
     {
         stream.Children(this, 1);
+    }
+
+    public virtual void PersistChildren(IPersister persister)
+    {
+        persister.Children("Children", children: new NodeChildren(this));
     }
 
     // Engine.pas:2715

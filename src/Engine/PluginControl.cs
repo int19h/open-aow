@@ -1,7 +1,7 @@
 // Translated from Engine.pas.
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Game;
 
 using Aow.Rtl;
@@ -77,6 +77,12 @@ public partial class PluginControl : EngineObject
         {
             stream.Lines(_usedPlugins, 1);
         }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.Lines(persister, name: "UsedPlugins", lines: _usedPlugins);
     }
 
     public GameEngine Engine { get => _engine; set => _engine = value; }
