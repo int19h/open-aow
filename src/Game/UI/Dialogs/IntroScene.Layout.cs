@@ -66,18 +66,17 @@ public partial class IntroScene : ILayoutModule
         Window.Dockable = false;
         Window.OnCustomDrawSurface = WindowDrawSurfaceEx;
         session.EndRead(Window);
-        LayoutVideoPlayer createdVideoPlayer = new LayoutVideoPlayer(this);
-        VideoPlayer = createdVideoPlayer;
-        session.BeginRead(createdVideoPlayer);
-        createdVideoPlayer.Name = "VideoPlayer";
-        createdVideoPlayer.OnStreamSound = VideoPlayerStreamSound;
-        createdVideoPlayer.LoopMode = LayoutVideoPlayer.VideoPlayerLoopMode.None;
-        createdVideoPlayer.Options = Set<VideoPlayerOptionsElement>.Of(VideoPlayerOptionsElement.SoundEnabled, VideoPlayerOptionsElement.VideoEnabled);
-        session.EndRead(createdVideoPlayer);
+        LayoutVideoPlayer videoPlayer = new LayoutVideoPlayer(this);
+        session.BeginRead(videoPlayer);
+        videoPlayer.Name = "VideoPlayer";
+        videoPlayer.OnStreamSound = VideoPlayerStreamSound;
+        videoPlayer.LoopMode = LayoutVideoPlayer.VideoPlayerLoopMode.None;
+        videoPlayer.Options = Set<VideoPlayerOptionsElement>.Of(VideoPlayerOptionsElement.SoundEnabled, VideoPlayerOptionsElement.VideoEnabled);
+        session.EndRead(videoPlayer);
         session.EndRead(this);
         Loaded();
         Window.Loaded();
-        VideoPlayer.Loaded();
+        videoPlayer.Loaded();
         session.Resolve(this);
         Window.WindowManager = DialogHosts.General.Manager;
     }

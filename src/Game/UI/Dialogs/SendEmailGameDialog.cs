@@ -17,28 +17,10 @@ public partial class SendEmailGameDialog : DataModule
     { }
 
     public Window Dlg;
-    public Label TitleLbl;
-    public Frame BCeltL;
-    public Frame TCeltL;
-    public Image TCeltLineL;
-    public Image Image1;
-    public Image Image2;
-    public Panel OKCancelPnl;
-    public Button OKBtn;
-    public Button ExitBtn;
     public Edit EmailAddressEdit;
-    public Label SeletModeInfoLbl;
     public CheckBox ManualChk;
     public CheckBox AutomatedChk;
-    public Label ManualLbl;
-    public Label AutomatedLbl;
     public Label RecipientNameLbl;
-    public Image TitleIcon;
-    public Panel ModePnl;
-    public Panel ModePnlin;
-    public Panel EditPnl;
-    public Button Close;
-    public IvTranslator Translator;
     private ExecuteDoneEvent _done;
     private SendEmailGameEventLog _sendEvent;
 

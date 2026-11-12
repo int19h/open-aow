@@ -20,23 +20,10 @@ public partial class CombatChoice : DataModule
     { }
 
     public Window Dlg;
-    public Label DTitle;
-    public Label DMessage;
     public Button FightBtn;
     public Button CancelBtn;
-    public Frame BCeltL;
-    public Frame TCeltL;
-    public Image TCeltLineL;
-    public Image Image1;
-    public Image Image2;
-    public Label Tactical;
-    public Label Automatic;
     public CheckBox TCchk;
-    public CheckBox FCchk;
-    public Panel MapViewPnl;
     public UserDrawBox MapView;
-    public Image InfoSep;
-    public IvTranslator Translator;
     private CombatTypeRequestEventLog _request;
     private NotifyEvent<object> _onDone;
 

@@ -20,13 +20,7 @@ public partial class ChatWindow : DataModule
     public Memo ChatMemo;
     public Edit ChatEdit;
     public ListBox PlayerList;
-    public Image SIcon;
-    public Label IWTitle;
-    public Button Min;
-    public Panel ChatPnl;
-    public VerticalScrollBar NSBar;
     public VerticalScrollBar ChatSB;
-    public IvTranslator Translator;
 
     public bool ScrollPending { get; set; }
 

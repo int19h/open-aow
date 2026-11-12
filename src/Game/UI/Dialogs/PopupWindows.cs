@@ -17,19 +17,7 @@ public partial class PopupWindows : DataModule
     public PopupWindows(Component owner) : base(owner)
     { }
 
-    public StartMenu StartMenu;
     public Menu OverViewsMenu;
-    public Menu SettingsMenu;
-    public Menu EndMenu;
-    public Menu DiskMenu;
-    public StartMenu TCStartMenu;
-    public IvTranslator Translator;
-    public Menu HelpMenu;
-    public Menu TCOVMenu;
-    public Menu TCDiskMenu;
-    public Menu TCHelpMenu;
-    public Menu TCSettingsMenu;
-    public Menu TCEndMenu;
 
     // AoWPWindows.pas:61
     public void SettingsMenuSelect(Menu sender)

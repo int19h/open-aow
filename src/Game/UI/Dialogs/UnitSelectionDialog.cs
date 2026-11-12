@@ -18,11 +18,6 @@ public partial class UnitSelectionDialog : DataModule
     public UnitSelectionDialog(Component owner) : base(owner)
     { }
 
-    public Button SelectBtn;
-    public Image TitleIcon;
-    public Button Close;
-    public Label Title;
-    public Button CancelBtn;
     public Window Dlg;
     public Panel UnitPnl;
     public Panel SourcePnl;
@@ -35,14 +30,9 @@ public partial class UnitSelectionDialog : DataModule
     public CheckBox U6;
     public CheckBox U7;
     public CheckBox U8;
-    public Image DecoL;
-    public Image DecoR;
     public Image SourceFace;
-    public Frame Frame1;
-    public Panel SelectionInfoPnl;
     public Label SelectionInfoLbl;
     public Label SelectionLbl;
-    public IvTranslator Translator;
 
     public UnitSelector Event { get; set; }
 

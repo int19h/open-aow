@@ -23,18 +23,9 @@ public partial class ArmyEventDialog : DataModule
     { }
 
     public Window ArmyEventWin;
-    public Frame BGoldSq;
     public Panel UnitPnl;
     public Label EventText;
     public Image DamagePic;
-    public Button CloseBut;
-    public Image TitleIcon;
-    public Button Close;
-    public Label Title;
-    public Frame BCeltL;
-    public Image DecoL;
-    public Image DecoR;
-    public IvTranslator Translator;
     private ExecuteDoneEvent _onClose;
     private ArmyEventLog _event;
     private int _frame;

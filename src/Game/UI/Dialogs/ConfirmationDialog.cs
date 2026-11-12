@@ -16,27 +16,12 @@ public partial class ConfirmationDialog : DataModule
     public Window Dialog;
     public Label DTitle;
     public Label DMessage;
-    public Button DButton;
     public Window DebugWin;
-    public Label DebugDTitle;
-    public Button DebugDOkBtn;
     public Label FrameLbl;
-    public Label DebugDfrTitle;
     public Memo DebugMemo;
     public VerticalScrollBar DMemoScroll;
     public Panel okPnl;
     public Panel yesPnl;
-    public Button yesBtn;
-    public Button noBtn;
-    public Frame BCeltL;
-    public Frame TCeltL;
-    public Image TCeltLineL;
-    public Image Image1;
-    public Image Image2;
-    public Frame Frame1;
-    public Frame SignBLine;
-    public Image SIcon;
-    public IvTranslator Translator;
     private byte _action;
 
     public bool SkipCombatChoice { get; }

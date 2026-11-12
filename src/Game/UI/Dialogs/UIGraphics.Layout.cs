@@ -58,11 +58,11 @@ public partial class UIGraphics : ILayoutModule
         ScanHighlights.LoadOnDemand = true;
         ScanHighlights.FileName = "Int\\ScanHiLi.ilb";
         session.EndRead(ScanHighlights);
-        PyreAnim = new InterfaceImageLibrary(this);
-        session.BeginRead(PyreAnim);
-        PyreAnim.Name = "PyreAnim";
-        PyreAnim.LoadOnDemand = true;
-        PyreAnim.LayoutData = new byte[]
+        InterfaceImageLibrary pyreAnim = new InterfaceImageLibrary(this);
+        session.BeginRead(pyreAnim);
+        pyreAnim.Name = "PyreAnim";
+        pyreAnim.LoadOnDemand = true;
+        pyreAnim.LayoutData = new byte[]
         {
             4,
             73,
@@ -97,7 +97,7 @@ public partial class UIGraphics : ILayoutModule
             255,
             255
         };
-        session.EndRead(PyreAnim);
+        session.EndRead(pyreAnim);
         UnitBGs = new InterfaceImageLibrary(this);
         session.BeginRead(UnitBGs);
         UnitBGs.Name = "UnitBGs";
@@ -280,12 +280,12 @@ public partial class UIGraphics : ILayoutModule
         ProdWin.LoadOnDemand = true;
         ProdWin.FileName = "Int\\ProdWin.ILB";
         session.EndRead(ProdWin);
-        FireLg = new InterfaceImageLibrary(this);
-        session.BeginRead(FireLg);
-        FireLg.Name = "FireLg";
-        FireLg.LoadOnDemand = true;
-        FireLg.FileName = "IMAGES\\Effects\\FireLg.ILB";
-        session.EndRead(FireLg);
+        InterfaceImageLibrary fireLg = new InterfaceImageLibrary(this);
+        session.BeginRead(fireLg);
+        fireLg.Name = "FireLg";
+        fireLg.LoadOnDemand = true;
+        fireLg.FileName = "IMAGES\\Effects\\FireLg.ILB";
+        session.EndRead(fireLg);
         MiscArt = new InterfaceImageLibrary(this);
         session.BeginRead(MiscArt);
         MiscArt.Name = "MiscArt";
@@ -403,7 +403,7 @@ public partial class UIGraphics : ILayoutModule
         ScanTiles.Loaded();
         ScanFog.Loaded();
         ScanHighlights.Loaded();
-        PyreAnim.Loaded();
+        pyreAnim.Loaded();
         UnitBGs.Loaded();
         FCWin.Loaded();
         Menus.Loaded();
@@ -423,7 +423,7 @@ public partial class UIGraphics : ILayoutModule
         TitleScreen.Loaded();
         Shields.Loaded();
         ProdWin.Loaded();
-        FireLg.Loaded();
+        fireLg.Loaded();
         MiscArt.Loaded();
         Units.Loaded();
         SoundWin.Loaded();

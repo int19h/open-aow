@@ -17,12 +17,9 @@ public partial class MessageReceiveDialog : DataModule
 
     public Window MsgReceiveWin;
     public Memo MessageMemo;
-    public Button Close;
-    public VerticalScrollBar MessageSB;
     public Image LShield;
     public Image RShield;
     public Memo HeaderMemo;
-    public IvTranslator Translator;
     private ExecuteDoneEvent _done;
     private EventLog _event;
 

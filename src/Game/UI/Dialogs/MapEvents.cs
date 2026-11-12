@@ -25,8 +25,6 @@ public partial class MapEvents : DataModule
     public MapEvents(Component owner) : base(owner)
     { }
 
-    public MapControl TheMap;
-
     // Renderers of the DoubleClick keys of the structures (Structure.Views.cs). ClassRegistry adds
     // the original renderers.
     public static Catalog<StructureView, Action<MapEvents, Structure>> StructureScreens { get; } = new("map structure screen");

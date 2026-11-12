@@ -13,12 +13,7 @@ public partial class CombatScanner : DataModule
     { }
 
     public Window TCScannerWin;
-    public Frame ScannerFr;
     public Scanner Scanner;
-    public Image STitleIcon;
-    public Label STitleLabel;
-    public Button SMinIcon;
-    public IvTranslator Translator;
 
     // AoWTCScanner.pas:38
     public void ScannerChangeTileBox()

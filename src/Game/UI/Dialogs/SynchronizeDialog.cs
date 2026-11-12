@@ -17,20 +17,11 @@ public partial class SynchronizeDialog : DataModule
     { }
 
     public Window Dlg;
-    public Frame TCeltB;
-    public Label BottomMsg;
     public Image LShield;
     public Label PlayerName;
-    public Label InfoMsg;
     public Label PlayerRace;
     public Label Turn;
     public Image RShield;
-    public Frame BlueFr;
-    public Image TCeltLineL;
-    public Image TCeltLineR;
-    public Panel NewTPnl;
-    public Image FaceFrame;
-    public IvTranslator Translator;
 
     // AoWSyncDlg.pas:45
     public PlayerSetupSettings GetPlayerSetup()

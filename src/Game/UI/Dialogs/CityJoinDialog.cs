@@ -20,19 +20,9 @@ public partial class CityJoinDialog : DataModule
 
     public Window Dlg;
     public Label ApproachLbl;
-    public Image TCeltLineL;
     public Frame CeltFrame;
-    public Frame BCeltL;
     public Memo Memo;
-    public Button CancelBtn;
-    public Button AttackBtn;
-    public Image TitleIcon;
-    public Label Title;
-    public Button AcceptBtn;
-    public Label WhatLbl;
     public ArnoLine CityPicLine;
-    public Button CloseBtn;
-    public IvTranslator Translator;
     private sbyte _race;
     private ExecuteDoneEvent _done;
     private NegotiateRequestEventLog _event;

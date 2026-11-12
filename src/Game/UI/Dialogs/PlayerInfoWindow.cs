@@ -18,28 +18,13 @@ public partial class PlayerInfoWindow : DataModule
     { }
 
     public Window PInfoWin;
-    public Button Min;
-    public Label IWTitle;
-    public Image SIcon;
     public ListBox EventList;
     public Label LeadL;
     public Label Turn;
     public Image RShield;
-    public Panel EventFr;
-    public VerticalScrollBar EventSB;
-    public Panel PInfoPnl;
-    public CheckBox LeaderCB;
     public Panel FaceFr;
-    public Label EventLbl;
-    public Panel ShieldFr;
-    public Panel TurnFr;
-    public Panel InfoFr;
     public Label Player;
     public Label Race;
-    public CheckBox RaceCB;
-    public Button Center;
-    public Button Help;
-    public IvTranslator Translator;
 
     // AoWPInfoWin.pas:173
     public void UpdatePlayer()

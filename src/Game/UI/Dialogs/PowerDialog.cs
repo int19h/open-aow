@@ -18,32 +18,14 @@ public partial class PowerDialog : DataModule
     public PowerDialog(Component owner) : base(owner)
     { }
 
-    public Image TitleIcon;
-    public Button Close;
-    public Label Title;
-    public Frame BCeltL;
-    public Button CancelBtn;
-    public Button SetBtn;
     public Window Dlg;
     public Label NetMana;
-    public Label NetMamaLbl;
-    public Panel UpkeePnl;
     public Label ResearchLeft;
     public Label SpellName;
-    public Panel ResearchPnl;
-    public Panel SliderPnl;
-    public Label PowerLbl;
     public Label Power;
     public Label Mana;
     public Label Research;
-    public Panel ManaPnl;
-    public Panel ResPnl;
-    public Label ManaLbl;
-    public Label ResearchLbl;
     public HorizontalScrollBar PowerSlider;
-    public Image PAMana;
-    public Image PARes;
-    public IvTranslator Translator;
 
     // AoWPowerDlg.pas:70
     public void Execute()

@@ -26,7 +26,6 @@ public partial class ItemBanner : DataModule
     public Label Resistance;
     public UserDrawBox DrawBox;
     public ListBox AbLB;
-    public VerticalScrollBar AbVSB;
 
     // AoWItemBanner.pas:46
     public void IBannerPopupShow()

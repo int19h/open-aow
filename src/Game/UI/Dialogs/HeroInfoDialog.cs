@@ -19,23 +19,11 @@ public partial class HeroInfoDialog : DataModule
     { }
 
     public Panel UnitPnl;
-    public Frame U1;
-    public Frame U2;
-    public Frame U4;
-    public Frame U5;
-    public Frame U3;
-    public Frame U6;
-    public Frame U7;
-    public Frame U8;
-    public Button CloseBtn;
-    public Frame BCeltL;
     public Window Dlg;
     public Label HeroName;
     public Label HeroLevel;
     public Image FaceFrame;
-    public Label DetailsLbl;
     public Memo Message;
-    public IvTranslator Translator;
     private ExecuteDoneEvent _done;
     private ArmyInfoEventLog _armyInfo;
     private bool _detailsOpen;

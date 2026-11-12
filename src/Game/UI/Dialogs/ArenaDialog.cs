@@ -20,14 +20,8 @@ public partial class ArenaDialog : DataModule
     public ArenaDialog(Component owner) : base(owner)
     { }
 
-    public Button SelectBtn;
-    public Image TitleIcon;
-    public Button Close;
-    public Label Title;
-    public Button CancelBtn;
     public Window Dlg;
     public Panel UnitPnl;
-    public Panel MapViewPnl;
     public CheckBox U1;
     public CheckBox U2;
     public CheckBox U3;
@@ -36,15 +30,8 @@ public partial class ArenaDialog : DataModule
     public CheckBox U6;
     public CheckBox U7;
     public CheckBox U8;
-    public Image DecoL;
-    public Image DecoR;
-    public Frame Frame1;
-    public Panel SelectionInfoPnl;
     public Label SelectionInfoLbl;
-    public Label SelectionLbl;
     public UserDrawBox MapView;
-    public Image InfoSep;
-    public IvTranslator Translator;
     private EnterArenaEventLog _event;
     private ExecuteDoneEvent _onClose;
 

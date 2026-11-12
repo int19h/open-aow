@@ -16,18 +16,7 @@ public partial class CityRebelDialog : DataModule
     { }
 
     public Window RebelWin;
-    public Label Title;
-    public Button Close;
-    public Image TitleIcon;
-    public Frame BCeltL;
-    public Button CenterBut;
-    public Button CloseBut;
-    public Image RebelBG;
     public Label CityNameLabel;
-    public Label Label2;
-    public Label Label3;
-    public Frame Frame1;
-    public IvTranslator Translator;
     private ExecuteDoneEvent _onClose;
     private CityRebellionEventLog _event;
 

@@ -18,23 +18,7 @@ public partial class DeformFaceDialog : DataModule
     { }
 
     public Window Dlg;
-    public Frame FaceFrame;
-    public Button CancelBtn;
-    public Image TitleIcon;
-    public Label Title;
-    public Button CastBtn;
-    public Label SelectNewFaceLbl;
-    public Button Close;
-    public Frame LeftFace;
-    public Frame RightFace;
-    public Frame Frame1;
-    public Image CeltM;
-    public Image CeltL;
-    public Image CeltR;
-    public Button PrevFaceBtn;
-    public Button NextFaceBtn;
     public Label UnitNameLbl;
-    public IvTranslator Translator;
     private CosmeticSurgerySpellCaster _caster;
 
     // AoWDeformFaceDlg.pas:127

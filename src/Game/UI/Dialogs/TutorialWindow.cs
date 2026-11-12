@@ -16,10 +16,8 @@ public partial class TutorialWindow : DataModule
 
     public Window Dlg;
     public Memo MessageMemo;
-    public Button Close;
     public Memo HeaderMemo;
     public VerticalScrollBar AbVSB;
-    public IvTranslator Translator;
     private ExecuteDoneEvent _done;
     private EventLog _event;
 

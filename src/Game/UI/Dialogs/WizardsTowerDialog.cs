@@ -21,23 +21,12 @@ public partial class WizardsTowerDialog : DataModule
     public WizardsTowerDialog(Component owner) : base(owner)
     { }
 
-    public Image TitleIcon;
-    public Button Close;
-    public Label Title;
-    public Frame BCeltL;
-    public Button CancelBtn;
-    public Button BuyBtn;
     public Window Dlg;
-    public Panel ResearchPnl;
     public Label SpellName;
-    public Image SpellIcn;
     public Label SpellClass;
     public Label SpellCost;
     public Memo ResearchMemo;
     public Label PriceLbl;
-    public Label OfferText;
-    public Panel PicPnl;
-    public IvTranslator Translator;
     private ExecuteDoneEvent _onClose;
     private EnterWizardsTowerEventLog _event;
 

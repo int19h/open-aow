@@ -20,8 +20,6 @@ public partial class ControlWindow : DataModule
     { }
 
     public Window MainWindow;
-    public Label CWTitle;
-    public Button CWMinIcon;
     public Frame Unit1Frame;
     public Frame Unit2Frame;
     public Frame Unit3Frame;
@@ -30,10 +28,8 @@ public partial class ControlWindow : DataModule
     public Frame Unit6Frame;
     public Frame Unit7Frame;
     public Frame Unit8Frame;
-    public Image CTitleIcon;
     public Label MovesLbl;
     public Label PartyStatusLbl;
-    public Button Close;
     public Image U1MIcon;
     public Image U2MIcon;
     public Image U3MIcon;
@@ -42,13 +38,8 @@ public partial class ControlWindow : DataModule
     public Image U6MIcon;
     public Image U7MIcon;
     public Image U8MIcon;
-    public Image MoraleMask;
     public Image MoveIcon;
-    public Panel PartyT1Pnl;
     public Panel PartyBPnl;
-    public Panel PartyT2Pnl;
-    public Panel PartyT3Pnl;
-    public Panel PartyT4Pnl;
     public Gauge Unit1Gge;
     public Gauge Unit2Gge;
     public Gauge Unit3Gge;
@@ -83,17 +74,8 @@ public partial class ControlWindow : DataModule
     public Frame Emp8Chk;
     public Panel PartyIPnl;
     public Label PartyILbl;
-    public Button Center;
-    public Button Help;
-    public Button PPrev;
-    public Button PMove;
-    public Button PNext;
     public Panel PControlPnl;
     public CheckBox PGuard;
-    public Frame Frame2;
-    public Panel PartyB2Pbl;
-    public Frame Frame1;
-    public IvTranslator Translator;
     public Label PartyActionLbl1;
     public Label PartyActionLbl2;
     private byte _selection;

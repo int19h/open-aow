@@ -19,27 +19,11 @@ public partial class ArmyInfoDialog : DataModule
     { }
 
     public Panel UnitPnl;
-    public Frame U1;
-    public Frame U2;
-    public Frame U4;
-    public Frame U5;
-    public Frame U3;
-    public Frame U6;
-    public Frame U7;
-    public Frame U8;
-    public Button CloseBtn;
-    public Image TitleIcon;
-    public Button Close;
     public Label Title;
-    public Frame BCeltL;
     public Window Dlg;
-    public Frame UnitLine1;
-    public Frame UnitLine2;
     public Memo Message;
     public Image FaceFrame;
-    public Label DetailsLbl;
     public Label HeaderLbl;
-    public IvTranslator Translator;
     private bool _unitInfoShown;
     private ExecuteDoneEvent _onClose;
     private ArmyInfoEventLog _event;

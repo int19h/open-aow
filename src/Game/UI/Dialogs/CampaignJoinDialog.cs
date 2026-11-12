@@ -18,13 +18,8 @@ public partial class CampaignJoinDialog : DataModule
 
     public Panel CharGenPnl;
     public Panel LeaderTypePnl;
-    public Button CustomBtn;
-    public Button DefaultBtn;
-    public Memo LeaderTypeMsg;
     public Panel DefaultFacePnl;
-    public Panel CustomFacePnl;
     public UserDrawBox ScrollTextDB;
-    public IvTranslator Translator;
 
     public byte Stage { get; set; }
     public int Faction { get; set; }
