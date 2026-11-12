@@ -12,9 +12,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // components
-public partial class CombatUnitInfo : DataModule
+public partial class CombatUnitInfo : UIModule
 {
-    public CombatUnitInfo(Component owner) : base(owner)
+    public CombatUnitInfo(UIContext ui) : base(ui)
     { }
 
     public Window MainWindow;
@@ -58,25 +58,25 @@ public partial class CombatUnitInfo : DataModule
     // AoWTCUnit.pas:116
     public void MinClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         MainWindow.Visible = false;
     }
 
     // AoWTCUnit.pas:123
     public void UAbilLBPreDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
-        if (DialogHosts.General.CombatUnit != null)
+        if (UI.General.CombatUnit != null)
         {
-            bool condition = DialogHosts.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && DialogHosts.General.CombatUnit.Unit.MovePoints > 0 && drawItem < DialogHosts.General.CombatUnit.CombatAbilityCount;
+            bool condition = UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints > 0 && drawItem < UI.General.CombatUnit.CombatAbilityCount;
             if (condition)
             {
-                var ability = DialogHosts.General.CombatUnit.Abilities[drawItem];
-                var combatMode = GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.CombatUnit.Unit.Troop);
-                bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (DialogHosts.General.CombatUnit.Abilities[drawItem]).Ability != 52;
+                var ability = UI.General.CombatUnit.Abilities[drawItem];
+                var combatMode = GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
+                bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (UI.General.CombatUnit.Abilities[drawItem]).Ability != 52;
                 if (!test)
                 {
-                    var moves = DialogHosts.General.CombatUnit.Unit.Troop.GetMoves();
-                    test = DialogHosts.General.CombatUnit.Unit.MovePoints == moves;
+                    var moves = UI.General.CombatUnit.Unit.Troop.GetMoves();
+                    test = UI.General.CombatUnit.Unit.MovePoints == moves;
                 }
 
                 condition = test;
@@ -96,9 +96,9 @@ public partial class CombatUnitInfo : DataModule
     // AoWTCUnit.pas:138
     public void TCUnitPnlDrawBack(LockedSurface lockedSurface)
     {
-        if (DialogHosts.General.CombatUnit != null)
+        if (UI.General.CombatUnit != null)
         {
-            DialogHosts.General.CombatUnit.Unit.Troop.Show(CombatUnitPanel.WinLeft - 10, CombatUnitPanel.WinTop - 2, lockedSurface, DialogHosts.General.UnitShowInfo);
+            UI.General.CombatUnit.Unit.Troop.Show(CombatUnitPanel.WinLeft - 10, CombatUnitPanel.WinTop - 2, lockedSurface, UI.General.UnitShowInfo);
         }
     }
 
@@ -120,19 +120,19 @@ public partial class CombatUnitInfo : DataModule
             if (button == MouseButton.Left)
             {
                 var objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
-                var selectAbility = DialogHosts.General.CombatUnit.SelectAbility(ObjectToInt(objectValue));
+                var selectAbility = UI.General.CombatUnit.SelectAbility(ObjectToInt(objectValue));
                 UnitAbilityList.Selected = selectAbility;
             }
             else
             {
-                if (button == MouseButton.Right && DialogHosts.General.CombatUnit != null)
+                if (button == MouseButton.Right && UI.General.CombatUnit != null)
                 {
                     var objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
                     ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
                     if (ability != null)
                     {
-                        var name = ability.GetName(DialogHosts.General.CombatUnit.Unit.Troop);
-                        InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, ability.Description);
+                        var name = ability.GetName(UI.General.CombatUnit.Unit.Troop);
+                        InfoBanner.SetInfoBanner(UI.InfoBanner, name, ability.Description);
                     }
                 }
             }
@@ -142,18 +142,18 @@ public partial class CombatUnitInfo : DataModule
     // AoWTCUnit.pas:168
     public void UAbilLBMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (DialogHosts.General.CombatUnit != null)
+        if (UI.General.CombatUnit != null)
         {
-            if (DialogHosts.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && DialogHosts.General.CombatUnit.Unit.MovePoints != 0 && UnitAbilityList.HoverItem < DialogHosts.General.CombatUnit.CombatAbilityCount)
+            if (UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints != 0 && UnitAbilityList.HoverItem < UI.General.CombatUnit.CombatAbilityCount)
             {
-                var ability = DialogHosts.General.CombatUnit.Abilities[UnitAbilityList.HoverItem];
-                var combatMode = GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.CombatUnit.Unit.Troop);
-                if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (DialogHosts.General.CombatUnit.Abilities[UnitAbilityList.HoverItem]).Ability != 52)
+                var ability = UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem];
+                var combatMode = GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
+                if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem]).Ability != 52)
                 {
                     return;
                 }
 
-                var tacticalBattleUnit = DialogHosts.General.CombatUnit.Unit;
+                var tacticalBattleUnit = UI.General.CombatUnit.Unit;
                 if (tacticalBattleUnit.Troop.GetMoves() <= tacticalBattleUnit.MovePoints)
                 {
                     return;
@@ -167,28 +167,28 @@ public partial class CombatUnitInfo : DataModule
     // AoWTCUnit.pas:187
     public void HeroSMapMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        DialogHosts.General.SelectedUnit = DialogHosts.General.CombatUnit.Unit.Troop;
-        DialogHosts.UnitWindow.ShowUnit();
+        UI.General.SelectedUnit = UI.General.CombatUnit.Unit.Troop;
+        UI.UnitWindow.ShowUnit();
     }
 
     // AoWTCUnit.pas:194
     public void CenterClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        var hexLevel = DialogHosts.General.CombatUnit.GetHexLevel();
-        var hexY = DialogHosts.General.CombatUnit.GetHexY();
-        var hexX = DialogHosts.General.CombatUnit.GetHexX();
+        UI.General.PlayButtonSound(0);
+        var hexLevel = UI.General.CombatUnit.GetHexLevel();
+        var hexY = UI.General.CombatUnit.GetHexY();
+        var hexX = UI.General.CombatUnit.GetHexX();
         CombatMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-        var fCombatUnitHexLevel = DialogHosts.General.CombatUnit.GetHexLevel();
-        var fCombatUnitHexY = DialogHosts.General.CombatUnit.GetHexY();
-        var fCombatUnitHexX = DialogHosts.General.CombatUnit.GetHexX();
+        var fCombatUnitHexLevel = UI.General.CombatUnit.GetHexLevel();
+        var fCombatUnitHexY = UI.General.CombatUnit.GetHexY();
+        var fCombatUnitHexX = UI.General.CombatUnit.GetHexX();
         CombatMap.Current.PlayCenterAnimation(fCombatUnitHexX, fCombatUnitHexY, fCombatUnitHexLevel);
     }
 
     // AoWTCUnit.pas:195
     public void CloseClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         MainWindow.Visible = false;
     }
 }

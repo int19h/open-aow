@@ -165,16 +165,16 @@ public partial class InfoBanner : ILayoutModule
         BannerMenu.Loaded();
         infoMemoSB.Loaded();
         session.Resolve(this);
-        HeaderLabel.Font = DialogHosts.UIFonts.Age10;
-        InfoMemo.Font = DialogHosts.UIFonts.Age8;
-        BannerMenu.WindowManager = DialogHosts.General.Manager;
-        BannerMenu.ImageLibraryFrame = DialogHosts.UIGraphics.Menus;
-        BannerMenu.ImageLibraryTextureNormal = DialogHosts.UIGraphics.Menus;
-        BannerMenu.ImageLibraryTextureSelected = DialogHosts.UIGraphics.Menus;
-        BannerMenu.Font = DialogHosts.UIFonts.Age8;
-        infoMemoSB.ImageLibraryImageIncrement = DialogHosts.UIGraphics.GenericScrollBars;
-        infoMemoSB.ImageLibraryIDecrement = DialogHosts.UIGraphics.GenericScrollBars;
-        infoMemoSB.ImageLibraryTileBack = DialogHosts.UIGraphics.GenericScrollBars;
-        infoMemoSB.ThumbStrip = DialogHosts.UIGraphics.GenericScrollBars;
+        HeaderLabel.Font = UI.Fonts.Age10;
+        InfoMemo.Font = UI.Fonts.Age8;
+        BannerMenu.WindowManager = UI.General.Manager;
+        BannerMenu.ImageLibraryFrame = UI.Graphics.Menus;
+        BannerMenu.ImageLibraryTextureNormal = UI.Graphics.Menus;
+        BannerMenu.ImageLibraryTextureSelected = UI.Graphics.Menus;
+        BannerMenu.Font = UI.Fonts.Age8;
+        infoMemoSB.ImageLibraryImageIncrement = UI.Graphics.GenericScrollBars;
+        infoMemoSB.ImageLibraryIDecrement = UI.Graphics.GenericScrollBars;
+        infoMemoSB.ImageLibraryTileBack = UI.Graphics.GenericScrollBars;
+        infoMemoSB.ThumbStrip = UI.Graphics.GenericScrollBars;
     }
 }

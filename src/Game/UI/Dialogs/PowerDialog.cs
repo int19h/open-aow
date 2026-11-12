@@ -13,9 +13,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // all fields are form components, power allocation slider
-public partial class PowerDialog : DataModule
+public partial class PowerDialog : UIModule
 {
-    public PowerDialog(Component owner) : base(owner)
+    public PowerDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -78,7 +78,7 @@ public partial class PowerDialog : DataModule
     // AoWPowerDlg.pas:61
     public void CancelBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -91,7 +91,7 @@ public partial class PowerDialog : DataModule
     // AoWPowerDlg.pas:108
     public void SetBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ChangePowerSettings(PowerSlider.Position))
         {
             Window.Visible = false;
@@ -107,7 +107,7 @@ public partial class PowerDialog : DataModule
         X = sender.Window.WinLeft;
         Y = sender.Window.WinTop;
         intensity = Round((double)((100 - PowerSlider.Position) * 50) / 100);
-        DialogHosts.UIGraphics.MiscArt[7].ShowBlended(sender.WinLeft + X, sender.WinTop + Y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
+        UI.Graphics.MiscArt[7].ShowBlended(sender.WinLeft + X, sender.WinTop + Y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
     }
 
     // AoWPowerDlg.pas:128
@@ -119,7 +119,7 @@ public partial class PowerDialog : DataModule
         X = sender.Window.WinLeft;
         Y = sender.Window.WinTop;
         intensity = Round((double)(PowerSlider.Position * 50) / 100);
-        DialogHosts.UIGraphics.MiscArt[8].ShowBlended(sender.WinLeft + X, sender.WinTop + Y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
+        UI.Graphics.MiscArt[8].ShowBlended(sender.WinLeft + X, sender.WinTop + Y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
     }
 
     // AoWPowerDlg.pas:141

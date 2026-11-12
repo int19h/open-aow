@@ -29,7 +29,7 @@ public sealed class RelationBandTests
 
     private sealed class RecordingRelWindow : RelationWindow
     {
-        public RecordingRelWindow() : base(null!)
+        public RecordingRelWindow(UIContext ui) : base(ui)
         {
         }
 
@@ -46,26 +46,25 @@ public sealed class RelationBandTests
 
     private sealed class DialogScope : IDisposable
     {
-        private readonly General previousGeneral = DialogHosts.General;
         private readonly SoundSystem previousSound = AudioHost.SoundSystem;
 
         public DialogScope()
         {
             AudioHost.SoundSystem = null;
-            DialogHosts.General = new General(null!);
-            DialogHosts.General.Manager = new WindowManager(null!);
+            UI.Add(new General(UI)).Manager = new WindowManager(null!);
         }
+
+        public UIContext UI { get; } = new();
 
         public void Dispose()
         {
-            DialogHosts.General = previousGeneral;
             AudioHost.SoundSystem = previousSound;
         }
     }
 
-    private static RecordingRelWindow CreateWindow()
+    private static RecordingRelWindow CreateWindow(UIContext ui)
     {
-        var window = new RecordingRelWindow();
+        var window = new RecordingRelWindow(ui);
         window.Player1Image = new Image(null!);
         window.Player2Image = new Image(null!);
         window.Player3Image = new Image(null!);
@@ -145,7 +144,7 @@ public sealed class RelationBandTests
     {
         using var scope = new MapScope();
         using var dialogs = new DialogScope();
-        var window = CreateWindow();
+        var window = CreateWindow(dialogs.UI);
         window.Race1CheckBox.Visible = false;
         window.FillPlayers();
         Assert.False(window.Player1CheckBox.Visible);
@@ -181,7 +180,7 @@ public sealed class RelationBandTests
     {
         using var scope = new MapScope();
         using var dialogs = new DialogScope();
-        var window = CreateWindow();
+        var window = CreateWindow(dialogs.UI);
         window.Player1Image._checked = true;
         window.Race12Image._checked = true;
 
@@ -233,7 +232,7 @@ public sealed class RelationBandTests
     public void ResetChecksClearsBothCheckBands()
     {
         using var dialogs = new DialogScope();
-        var window = CreateWindow();
+        var window = CreateWindow(dialogs.UI);
         MarkChecks(window);
         window.Player1Image.CurrentImage = 7;
         window.ResetChecks();
@@ -254,7 +253,7 @@ public sealed class RelationBandTests
     {
         using var scope = new MapScope();
         using var dialogs = new DialogScope();
-        var window = CreateWindow();
+        var window = CreateWindow(dialogs.UI);
         MarkChecks(window);
         window.HighlightPlayer(4);
         Assert.Equal(-1, window.SelectedIndex);
@@ -299,7 +298,7 @@ public sealed class RelationBandTests
     public void HighlightRaceOnAMissingRaceUsesP12CB()
     {
         using var dialogs = new DialogScope();
-        var window = CreateWindow();
+        var window = CreateWindow(dialogs.UI);
         MarkChecks(window);
         window.HighlightRace(7);
         Assert.Equal(7, window.SelectedRace);

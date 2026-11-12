@@ -13,9 +13,9 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // published menu components
-public partial class PopupWindows : DataModule
+public partial class PopupWindows : UIModule
 {
-    public PopupWindows(Component owner) : base(owner)
+    public PopupWindows(UIContext ui) : base(ui)
     { }
 
     public Menu OverviewsMenu;
@@ -26,22 +26,22 @@ public partial class PopupWindows : DataModule
         switch (sender.SelectedItem)
         {
             case 0:
-                DialogHosts.VideoDialog.ShowModes();
+                UI.VideoDialog.ShowModes();
                 break;
             case 1:
-                ShowSoundSettings(DialogHosts.SoundDialog);
+                ShowSoundSettings(UI.SoundDialog);
                 break;
             case 2:
-                DialogHosts.GamePlayDialog.Window.Visible = true;
+                UI.GamePlayDialog.Window.Visible = true;
                 break;
             case 3:
-                DialogHosts.General.ResetLayout();
+                UI.General.ResetLayout();
                 break;
             case 4:
-                EmailSettingsDialog.ShowEmailSettings(DialogHosts.EmailSettingsDialog);
+                EmailSettingsDialog.ShowEmailSettings(UI.EmailSettingsDialog);
                 break;
             case 5:
-                DialogHosts.DebugWindow.Show();
+                UI.DebugWindow.Show();
                 break;
         }
     }
@@ -52,12 +52,12 @@ public partial class PopupWindows : DataModule
         switch (sender.SelectedItem)
         {
             case 0:
-                DialogHosts.FileDialogWindow.Mode = 0;
-                DialogHosts.FileDialogWindow.Window.Visible = true;
+                UI.FileDialogWindow.Mode = 0;
+                UI.FileDialogWindow.Window.Visible = true;
                 break;
             case 1:
-                DialogHosts.FileDialogWindow.Mode = 1;
-                DialogHosts.FileDialogWindow.Window.Visible = true;
+                UI.FileDialogWindow.Mode = 1;
+                UI.FileDialogWindow.Window.Visible = true;
                 break;
         }
     }
@@ -69,12 +69,12 @@ public partial class PopupWindows : DataModule
         {
             case 0:
                 // { Original opens the information book. }
-                ShowInformationBook(DialogHosts.WorldMap, null, null);
+                ShowInformationBook(UI.WorldMap, null, null);
                 break;
             case 1:
                 if (GameTables.GameEngine.Campaign != null)
                 {
-                    DialogHosts.WorldMap.ShowCampaignHistory();
+                    UI.WorldMap.ShowCampaignHistory();
                 }
 
                 break;
@@ -89,7 +89,7 @@ public partial class PopupWindows : DataModule
             case 0:
                 var quitCombat = AbilityRules.TranslateResourceString(QuitCombatText);
                 var confirm = AbilityRules.TranslateResourceString(LobbyText.ConfirmText);
-                DialogHosts.ConfirmationDialog.Confirm(confirm, text: quitCombat, onConfirmed: SurrenderCombat);
+                UI.ConfirmationDialog.Confirm(confirm, text: quitCombat, onConfirmed: SurrenderCombat);
                 break;
         }
     }
@@ -115,10 +115,10 @@ public partial class PopupWindows : DataModule
         switch (sender.SelectedItem)
         {
             case 0:
-                HelpWindow.ShowHelp(507);
+                UI.HelpWindow.ShowHelp(507);
                 break;
             case 1:
-                HelpWindow.ShowHelp(500);
+                UI.HelpWindow.ShowHelp(500);
                 break;
             case 2:
                 // The original switches to windowed mode first. The port runs borderless
@@ -134,7 +134,7 @@ public partial class PopupWindows : DataModule
         switch (sender.SelectedItem)
         {
             case 0:
-                DialogHosts.ConfirmationDialog.Confirm(
+                UI.ConfirmationDialog.Confirm(
                     AbilityRules.TranslateResourceString(LobbyText.ConfirmText),
                     text: AbilityRules.TranslateResourceString(s_surrenderYourEmpireText),
                     onConfirmed: SurrenderEmpire);
@@ -143,7 +143,7 @@ public partial class PopupWindows : DataModule
                 StrategicMap.Current.ExitGame(ExitGameMode.Terminate, null);
                 break;
             case 2:
-                if (GameTables.GameEngine.Demo) DialogHosts.TitleWindow.ShowExitSplash();
+                if (GameTables.GameEngine.Demo) UI.TitleWindow.ShowExitSplash();
                 else GameHost.MainForm.CloseRequested();
                 break;
         }
@@ -277,6 +277,6 @@ public partial class PopupWindows : DataModule
         {
             dialog.Book.BackSurface.Clear(dialog.Book._maskColor);
         }
-        DialogHosts.General.Manager.OverlayPriority = 49;
+        dialog.UI.General.Manager.OverlayPriority = 49;
     }
 }

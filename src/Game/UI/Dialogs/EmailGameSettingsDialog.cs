@@ -13,9 +13,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // editable email address list. setup control
-public partial class EmailGameSettingsDialog : DataModule
+public partial class EmailGameSettingsDialog : UIModule
 {
-    public EmailGameSettingsDialog(Component owner) : base(owner)
+    public EmailGameSettingsDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -92,12 +92,12 @@ public partial class EmailGameSettingsDialog : DataModule
         }
         else
         {
-            MessageDialog.ResetMessageDialog(DialogHosts.MessageDialog);
-            DialogHosts.MessageDialog.MessageMemo.Items.Add("");
+            MessageDialog.ResetMessageDialog(UI.MessageDialog);
+            UI.MessageDialog.MessageMemo.Items.Add("");
             var pleaseFillInAllSettings = AbilityRules.TranslateResourceString(s_pleaseFillInAllSettingsText);
-            DialogHosts.MessageDialog.MessageMemo.Items.Add(pleaseFillInAllSettings);
-            DialogHosts.MessageDialog.OKPanel.Visible = true;
-            DialogHosts.MessageDialog.Window.Visible = true;
+            UI.MessageDialog.MessageMemo.Items.Add(pleaseFillInAllSettings);
+            UI.MessageDialog.OKPanel.Visible = true;
+            UI.MessageDialog.Window.Visible = true;
         }
     }
 
@@ -110,7 +110,7 @@ public partial class EmailGameSettingsDialog : DataModule
     // AoWEmailGameSettingsDlg.pas:141
     public void SettingsBtnClick()
     {
-        EmailSettingsDialog.ShowEmailSettings(DialogHosts.EmailSettingsDialog);
+        EmailSettingsDialog.ShowEmailSettings(UI.EmailSettingsDialog);
     }
 
     // AoWEmailGameSettingsDlg.pas:146
@@ -233,12 +233,12 @@ public partial class EmailGameSettingsDialog : DataModule
         }
         else
         {
-            MessageDialog.ResetMessageDialog(DialogHosts.MessageDialog);
-            DialogHosts.MessageDialog.MessageMemo.Items.Add("");
+            MessageDialog.ResetMessageDialog(UI.MessageDialog);
+            UI.MessageDialog.MessageMemo.Items.Add("");
             var youNeed2HumanPlayersToPlayAnEmailGame = AbilityRules.TranslateResourceString(s_youNeed2HumanPlayersToPlayEmailGameText);
-            DialogHosts.MessageDialog.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
-            DialogHosts.MessageDialog.OKPanel.Visible = true;
-            DialogHosts.MessageDialog.Window.Visible = true;
+            UI.MessageDialog.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
+            UI.MessageDialog.OKPanel.Visible = true;
+            UI.MessageDialog.Window.Visible = true;
         }
     }
 

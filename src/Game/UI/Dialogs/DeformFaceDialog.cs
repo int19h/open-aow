@@ -11,9 +11,9 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // cosmetic-surgery caster
-public partial class DeformFaceDialog : DataModule
+public partial class DeformFaceDialog : UIModule
 {
-    public DeformFaceDialog(Component owner) : base(owner)
+    public DeformFaceDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -49,7 +49,7 @@ public partial class DeformFaceDialog : DataModule
     // AoWDeformFaceDlg.pas:55
     public void CancelBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -57,7 +57,7 @@ public partial class DeformFaceDialog : DataModule
     public void CastBtnClick()
     {
         string reason = "";
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_caster.CanCast(ref reason))
         {
             _caster.Cast();
@@ -101,7 +101,7 @@ public partial class DeformFaceDialog : DataModule
     // AoWDeformFaceDlg.pas:104
     public void PrevFaceBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         var previousFace = GamePack.Current.FaceResources.PreviousFace(_caster.FaceIndex);
         _caster.FaceIndex = previousFace;
         Window.Drawn = false;
@@ -110,7 +110,7 @@ public partial class DeformFaceDialog : DataModule
     // AoWDeformFaceDlg.pas:111
     public void NextFaceBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         var nextFace = GamePack.Current.FaceResources.NextFace(_caster.FaceIndex);
         _caster.FaceIndex = nextFace;
         Window.Drawn = false;

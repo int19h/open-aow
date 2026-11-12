@@ -21,9 +21,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // enchantment sort, global sort, power sort
-public partial class MagicWindow : DataModule
+public partial class MagicWindow : UIModule
 {
-    public MagicWindow(Component owner) : base(owner)
+    public MagicWindow(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -213,7 +213,7 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:218
     public void DispelBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         bool condition = EnchantmentList.Selected >= 0;
         if (condition)
         {
@@ -249,7 +249,7 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:245
     public void GlobalDispelBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         bool condition = GlobalEnchantmentList.Selected >= 0;
         if (condition)
         {
@@ -297,15 +297,15 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:284
     public void ResearchBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.SpellBook.ShowResearch();
+        UI.General.PlayButtonSound(0);
+        UI.SpellBook.ShowResearch();
     }
 
     // AoWMagic.pas:290
     public void ChangePowerButClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.PowerDialog.Execute();
+        UI.General.PlayButtonSound(0);
+        UI.PowerDialog.Execute();
     }
 
     // AoWMagic.pas:296
@@ -389,7 +389,7 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:354
     public void EnchantmentSortBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_enchantmentSort == 0)
         {
             _enchantmentSort = 1;
@@ -405,7 +405,7 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:363
     public void BindingSortBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_enchantmentSort == 2)
         {
             _enchantmentSort = 3;
@@ -421,7 +421,7 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:372
     public void UpkeepSortBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_enchantmentSort == 4)
         {
             _enchantmentSort = 5;
@@ -437,7 +437,7 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:381
     public void GlobalEnchantmentSortBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_globalEnchantmentSort == 0)
         {
             _globalEnchantmentSort = 1;
@@ -453,7 +453,7 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:390
     public void GlobalNameSortBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         // { Original name/upkeep buttons also toggle the enchantment-name order. }
         if (_globalEnchantmentSort == 0)
         {
@@ -470,7 +470,7 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:400
     public void GlobalUpkeepSortBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         // { Original name/upkeep buttons also toggle the enchantment-name order. }
         if (_globalEnchantmentSort == 0)
         {
@@ -487,7 +487,7 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:410
     public void PowerSourceSortBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_powerSort == 0)
         {
             _powerSort = 1;
@@ -503,7 +503,7 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:419
     public void PowerValueSortBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_powerSort == 2)
         {
             _powerSort = 3;
@@ -519,7 +519,7 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:428
     public void HeaderTabChange()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWMagic.pas:434
@@ -534,25 +534,25 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:447
     public void DlgShow()
     {
-        DialogHosts.General.RegisterDialog(Window);
+        UI.General.RegisterDialog(Window);
     }
 
     // AoWMagic.pas:453
     public void DlgHide()
     {
-        DialogHosts.General.UnregisterDialog(Window);
+        UI.General.UnregisterDialog(Window);
     }
 
     // AoWMagic.pas:459
     public void HelpClick()
     {
-        HelpWindow.ShowHelp(506);
+        UI.HelpWindow.ShowHelp(506);
     }
 
     // AoWMagic.pas:470
     public void MinimizeClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         HideMagic(this);
     }
 

@@ -169,6 +169,16 @@ list; the transpiled `AoW.dpr` body is its source. The three shared resource mod
 because every other module references them, and `General` holds the window manager every window
 registers with.
 
+The port has no module globals (issue 196). The UI host (`MainForm`) creates a `UIContext` after
+the game root is known, and `GameLayouts.Initialize` loads the modules into it in this order. A
+module is published in the context before its layout runs, as `CreateForm` published the global,
+so a layout reads the modules before it through the context (`UI.Graphics`, `UI.Fonts`,
+`UI.General`). Every dialog module derives from `UIModule`, takes the context in its constructor
+and reads the other modules through it. The interface graphics (`UIGraphics`) and the fonts
+(`UIFonts`) take no context. The intro scene is published after its layout ran, as
+`E2Globals.IntroScene` was. The host disposes the context on shutdown, which disposes the fonts
+and then the interface graphics. A test builds its own context with the modules it needs.
+
 ### 4.2 Loading one module
 
 `DataModule.Create` calls `InitInheritedComponent`, which finds the form resource by class name

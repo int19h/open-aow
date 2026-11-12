@@ -11,9 +11,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // full screen, change flag, display size
-public partial class VideoDialog : DataModule
+public partial class VideoDialog : UIModule
 {
-    public VideoDialog(Component owner) : base(owner)
+    public VideoDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -92,7 +92,7 @@ public partial class VideoDialog : DataModule
     // AoWVideoDlg.pas:206
     public void CloseButClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -100,7 +100,7 @@ public partial class VideoDialog : DataModule
     public void ApplyBtnClick()
     {
         int I;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (DisplayModesList.Selected != -1)
         {
             I = ObjectToInt(DisplayModesList.Items.Objects[DisplayModesList.Selected]);
@@ -124,11 +124,11 @@ public partial class VideoDialog : DataModule
     {
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
 
         GameTables.GameEngine.Registry.SetAllowResolutionSwitches(ResolutionCheckBox.Checked);
@@ -137,7 +137,7 @@ public partial class VideoDialog : DataModule
     // AoWVideoDlg.pas:239
     public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        DialogHosts.General.Manager.Aligned = false;
+        UI.General.Manager.Aligned = false;
         if (key == 27)
         {
             Window.Visible = false;
@@ -148,7 +148,7 @@ public partial class VideoDialog : DataModule
     public void DlgShow()
     {
         var allowResolutionSwitches = GameTables.GameEngine.Registry.GetAllowResolutionSwitches();
-        DialogHosts.VideoDialog.ResolutionCheckBox.Checked = allowResolutionSwitches;
+        UI.VideoDialog.ResolutionCheckBox.Checked = allowResolutionSwitches;
     }
 
     private static readonly string s_currentText = "Current";

@@ -224,17 +224,17 @@ public partial class TutorialWindow : ILayoutModule
         AbilityScrollBar.Loaded();
         translator.Loaded();
         session.Resolve(this);
-        Window.WindowManager = DialogHosts.General.Manager;
-        Window.ImageLibraryTexture = DialogHosts.UIGraphics.MiscArt;
-        MessageMemo.Font = DialogHosts.UIFonts.Age10;
-        close.ToolTip = DialogHosts.General.ToolTip;
-        close.Font = DialogHosts.UIFonts.Age10Bold;
-        close.ImageLibraryButton = DialogHosts.UIGraphics.CampaignTransfer;
-        HeaderMemo.Font = DialogHosts.UIFonts.Age15BlackOnBrown;
-        HeaderMemo.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-        AbilityScrollBar.ImageLibraryImageIncrement = DialogHosts.UIGraphics.GenericScrollBars;
-        AbilityScrollBar.ImageLibraryIDecrement = DialogHosts.UIGraphics.GenericScrollBars;
-        AbilityScrollBar.ImageLibraryTileBack = DialogHosts.UIGraphics.GenericScrollBars;
-        AbilityScrollBar.ThumbStrip = DialogHosts.UIGraphics.GenericScrollBars;
+        Window.WindowManager = UI.General.Manager;
+        Window.ImageLibraryTexture = UI.Graphics.MiscArt;
+        MessageMemo.Font = UI.Fonts.Age10;
+        close.ToolTip = UI.General.ToolTip;
+        close.Font = UI.Fonts.Age10Bold;
+        close.ImageLibraryButton = UI.Graphics.CampaignTransfer;
+        HeaderMemo.Font = UI.Fonts.Age15BlackOnBrown;
+        HeaderMemo.ImageLibraryFrame = UI.Graphics.GenericFrames;
+        AbilityScrollBar.ImageLibraryImageIncrement = UI.Graphics.GenericScrollBars;
+        AbilityScrollBar.ImageLibraryIDecrement = UI.Graphics.GenericScrollBars;
+        AbilityScrollBar.ImageLibraryTileBack = UI.Graphics.GenericScrollBars;
+        AbilityScrollBar.ThumbStrip = UI.Graphics.GenericScrollBars;
     }
 }

@@ -17,9 +17,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // player indices, checkbox controls
-public partial class ResultsWindow : DataModule
+public partial class ResultsWindow : UIModule
 {
-    public ResultsWindow(Component owner) : base(owner)
+    public ResultsWindow(UIContext ui) : base(ui)
     { }
 
     public CheckBox Player1CheckBox;
@@ -234,7 +234,7 @@ public partial class ResultsWindow : DataModule
         }
 
         var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxGold, R, surface);
+        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxGold, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxGold);
     }
@@ -252,7 +252,7 @@ public partial class ResultsWindow : DataModule
         }
 
         var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxMana, R, surface);
+        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxMana, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxMana);
     }
@@ -270,7 +270,7 @@ public partial class ResultsWindow : DataModule
         }
 
         var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxHeroes, R, surface);
+        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxHeroes, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxHeroes);
     }
@@ -288,7 +288,7 @@ public partial class ResultsWindow : DataModule
         }
 
         var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxArmies, R, surface);
+        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxArmies, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxArmies);
     }
@@ -306,7 +306,7 @@ public partial class ResultsWindow : DataModule
         }
 
         var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxStructures, R, surface);
+        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxStructures, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxStructures);
     }
@@ -324,7 +324,7 @@ public partial class ResultsWindow : DataModule
         }
 
         var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxStrength, R, surface);
+        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxStrength, R, surface);
         values?.Dispose();
         // { Original strength graph labels the structures maximum. }
         KeyMaximumLabel.Text = IntToStr(_maxStructures);
@@ -359,26 +359,26 @@ public partial class ResultsWindow : DataModule
     // AoWResultsWin.pas:294
     public void ContinueBtnClick()
     {
-        FinishPyre(DialogHosts.PyreScreen);
-        DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.ResultsWindow.ResultsPanel.Visible = false;
-        AudioPlayback.FadeMusicVolume(DialogHosts.SoundDialog.MusicVolumeSlider.Position, 2);
+        FinishPyre(UI.PyreScreen);
+        UI.General.PlayButtonSound(0);
+        UI.ResultsWindow.ResultsPanel.Visible = false;
+        AudioPlayback.FadeMusicVolume(UI.SoundDialog.MusicVolumeSlider.Position, 2);
         if (StrategicMap.Current.GameStatus == StrategicMapGameStatus.Terminated)
         {
             if (GameTables.GameEngine.Campaign == null)
             {
-                DialogHosts.General.ReturnToTitle();
+                UI.General.ReturnToTitle();
             }
             else
             {
-                WorldMap.ShowCampaignMap(DialogHosts.WorldMap);
+                WorldMap.ShowCampaignMap(UI.WorldMap);
             }
         }
         else
         {
-            DialogHosts.TitleWindow.MainWindow.Visible = false;
-            VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Game);
-            DialogHosts.VideoDialog.ApplyMode();
+            UI.TitleWindow.MainWindow.Visible = false;
+            VideoDialog.SetVideoMode(UI.VideoDialog, VideoDialog.ScreenMode.Game);
+            UI.VideoDialog.ApplyMode();
         }
     }
 
@@ -386,13 +386,13 @@ public partial class ResultsWindow : DataModule
     public void ExitBtnClick()
     {
         ResultsPanel.Visible = false;
-        DialogHosts.General.ReturnToTitle();
+        UI.General.ReturnToTitle();
     }
 
     // AoWResultsWin.pas:319
     public void ResultsPnlUpdate()
     {
-        DialogHosts.PyreScreen.DeadPnlUpdate();
+        UI.PyreScreen.DeadPnlUpdate();
     }
 
     // AoWResultsWin.pas:324
@@ -430,7 +430,7 @@ public partial class ResultsWindow : DataModule
 
             var player3 = Players[slot];
             var playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player3);
-            DialogHosts.UIGraphics.RelationWindow[playerPlayerRace.PlayerRace + 16].ShowClipped(component.WinLeft + ResultsPanel.WinLeft, component.WinTop + ResultsPanel.WinTop, surface);
+            UI.Graphics.RelationWindow[playerPlayerRace.PlayerRace + 16].ShowClipped(component.WinLeft + ResultsPanel.WinLeft, component.WinTop + ResultsPanel.WinTop, surface);
         }
     }
 
@@ -460,7 +460,7 @@ public partial class ResultsWindow : DataModule
 
     private static void FinishPyre(PyreScreen dialog)
     {
-        AudioPlayback.SetSfxVolume(DialogHosts.SoundDialog.EffectsVolumeSlider.Position);
+        AudioPlayback.SetSfxVolume(dialog.UI.SoundDialog.EffectsVolumeSlider.Position);
         dialog.ClearFire();
         if (dialog.SavedSongStatus != null)
         {
@@ -468,7 +468,7 @@ public partial class ResultsWindow : DataModule
             dialog.SavedSongStatus = null;
         }
         dialog.GameOverEvent.Handled();
-        DialogHosts.General.Manager.OverlayPriority = 0;
+        dialog.UI.General.Manager.OverlayPriority = 0;
         ExecuteDoneEvent fDone = dialog.TakeDoneHandler();
         GameOverEventLog fGameOverEvent = dialog.GameOverEvent;
         dialog.GameOverEvent = null;

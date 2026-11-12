@@ -64,10 +64,7 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4794
     public virtual void VerifyStaticSurface(Surface surface)
     {
-        bool isDDraw;
-        Set<DirectDrawSurfaceCreationFlagsElement> flags;
-        isDDraw = _staticSurface is DirectDrawSurface;
-        if (_staticSurface != null && (_staticSurface.GetPixelFormatId() != surface.GetPixelFormatId() || (surface is DirectDrawSurface) ^ isDDraw))
+        if (_staticSurface != null && _staticSurface.GetPixelFormatId() != surface.GetPixelFormatId())
         {
             _staticSurface?.Dispose();
             _staticSurface = null;
@@ -77,40 +74,15 @@ public partial class HexSpriteMapViewer : Component
         {
             if (_staticSurface == null)
             {
-                if (surface is DirectDrawSurface)
-                {
-                    if (((DirectDrawSurface)surface).Status.Contains(DirectDrawSurfaceStatusElement.VideoMemory))
-                    {
-                        flags = Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.VideoMemory, DirectDrawSurfaceCreationFlagsElement.SystemMemory);
-                    }
-                    else
-                    {
-                        flags = Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.SystemMemory);
-                    }
-
-                    _staticSurface = new DirectDrawSurface();
-                    var pixelFormatId = surface.GetPixelFormatId();
-                    ((DirectDrawSurface)_staticSurface).CreateSurface(_sceneWidth, _sceneHeight, pixelFormatId, flags);
-                }
-                else
-                {
-                    var pixelFormatId = surface.GetPixelFormatId();
-                    _staticSurface = new DataSurface(_sceneWidth, _sceneHeight, pixelFormatId, null);
-                }
+                var pixelFormatId = surface.GetPixelFormatId();
+                _staticSurface = new DataSurface(_sceneWidth, _sceneHeight, pixelFormatId, null);
             }
             else
             {
                 _staticSurface.Resize(_sceneWidth, _sceneHeight);
             }
 
-            isDDraw = _staticSurface is DirectDrawSurface;
             _hexSpriteMap.StaticSceneInvalid = true;
-            _staticSurfaceValid = false;
-        }
-
-        if (isDDraw && ((DirectDrawSurface)_staticSurface).Lost())
-        {
-            ((DirectDrawSurface)_staticSurface).Restore();
             _staticSurfaceValid = false;
         }
     }

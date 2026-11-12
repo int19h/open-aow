@@ -10,7 +10,7 @@ namespace Aow.Game.Draw;
 // UpdateFrameThread, Status, _options (2 bytes), _updateFrameMode, _backSurfaceControlMode,
 // FBufferingScheme, FBackSurfaceWidth, FBackSurfaceHeight, FSurfaceIndex (the back surface to
 // show), _pauseCount, _mouseAboveSurface, _primaryDisplayController, _secondaryDisplayController, _activeDisplayController
-public partial class CustomDisplay : WinControl
+public partial class CustomDisplay : Component
 {
     protected internal event NotifyEvent<object> OnBlitSurface;
     protected internal event UpdateFrameEvent OnUpdateFrame;
@@ -120,14 +120,6 @@ public partial class CustomDisplay : WinControl
         }
     }
 
-    // DisplayC.pas:1390
-    protected internal override void KeyDown(ref ushort key, Set<ShiftState> shift)
-    {
-        /* TODO: Implement Controls.KeyDown in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:1327
     // (inc\TDisplay.PAS in the original) How the display works, as far as the code of this unit
     // tells: The display control has no surfaces of its own. It shows the surfaces of its
     // active display controller (_activeDisplayController), which is one of PrimaryDisplayController and SecondaryDisplayController. SwapDisplayController
@@ -226,42 +218,9 @@ public partial class CustomDisplay : WinControl
     // rate. Activate, Deactivate: start and stop working. - FlipSurface, BltSurface,
     // BltInvalidatedSurface: show a back surface. - ResizeBackSurfaces: gives the back surfaces
     // a new size. - GetMousePos: the mouse position in output coordinates (-1, -1 outside). -
-    // WaitForVerticalBlank: waits for the frame time or the vertical blank. This comment also
-    // keeps the Assert in CreateWnd on the line that the original reports (1350, counted
-    // through the include file)
-    protected internal override int GetPalette()
-    {
-        /* TODO: Implement Controls.GetPalette in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:1382
-    protected internal override void MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
-    {
-        /* TODO: Implement Windows.SetFocus in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:1341
-    protected internal override void CreateParams(ref CreateParams paramsValue)
-    {
-        /* TODO: Implement Controls.CreateParams in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:1348
-    protected internal override void CreateWindow()
-    {
-        /* TODO: Implement Controls.CreateWnd in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:1588
-    protected internal override void WindowProc(ref Message message)
-    {
-        /* TODO: Implement Controls.WndProc in the platform or editor service. */
-        throw new NotImplementedException();
-    }
+    // WaitForVerticalBlank: waits for the frame time or the vertical blank. The port keeps the
+    // display without the VCL window control: the window handle, the window messages, the
+    // palette and the focus belong to the platform host.
 
     // DisplayC.pas:1541
     public virtual DisplayController GetDisplayController(int index)
@@ -386,15 +345,8 @@ public partial class CustomDisplay : WinControl
         return result;
     }
 
-    // DisplayC.pas:1568
-    public bool GetMouseAboveSurface()
-    {
-        /* TODO: Implement Windows.GetWindowRect in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
     // DisplayC.pas:1653
-    public new void Hide()
+    public void Hide()
     {
         if (OnHide != null)
         {
@@ -408,7 +360,7 @@ public partial class CustomDisplay : WinControl
     }
 
     // DisplayC.pas:1661
-    public new void Show()
+    public void Show()
     {
         if (_activeDisplayController != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
         {
@@ -454,7 +406,7 @@ public partial class CustomDisplay : WinControl
         return 0;
     }
 
-    public new int Cursor { get => GetCursor(); set => SetCursor(value); }
+    public int Cursor { get => GetCursor(); set => SetCursor(value); }
     public DisplayController ActiveDisplayController { get => _activeDisplayController; }
     protected internal Set<OptionsElement> Options { get => _options; set => _options = value; }
     protected internal BufferingScheme BufferingScheme { get => _bufferingScheme; set => SetBufferingScheme(value); }

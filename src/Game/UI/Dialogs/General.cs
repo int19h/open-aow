@@ -21,9 +21,9 @@ namespace Aow.Game.UI.Dialogs;
 
 // preview settings. abilities. active ability count. selected indices. unit list. selected
 // unit. combat sprite
-public partial class General : DataModule
+public partial class General : UIModule
 {
-    public General(Component owner) : base(owner)
+    public General(UIContext ui) : base(ui)
     { }
 
     public WindowManager Manager;
@@ -63,16 +63,16 @@ public partial class General : DataModule
     {
         GameTables.GameEngine.CloseHsm(null);
         GameTables.GameEngine.CloseCampaign();
-        DialogHosts.ScannerWindow.Scanner.SetMap(null);
-        DialogHosts.CombatScanner.Scanner.SetMap(null);
+        UI.ScannerWindow.Scanner.SetMap(null);
+        UI.CombatScanner.Scanner.SetMap(null);
         AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
         SetCurrentDir(GameTables.GameEngine.StartupDirectory);
-        DialogHosts.General.HideWindows();
-        DialogHosts.TaskBar.TaskWindow.Visible = false;
-        DialogHosts.TitleWindow.MainWindow.Visible = false;
-        DialogHosts.TitleScene.ResetScene();
-        WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
+        UI.General.HideWindows();
+        UI.TaskBar.TaskWindow.Visible = false;
+        UI.TitleWindow.MainWindow.Visible = false;
+        UI.TitleScene.ResetScene();
+        WindowActions.ShowTitleScene(UI.TitleScene, true);
     }
 
     // AoWWinMan.pas:415
@@ -81,20 +81,20 @@ public partial class General : DataModule
         if (!WindowsHidden)
         {
             WindowsHidden = true;
-            InfoVisible = DialogHosts.PlayerInfoWindow.MainWindow.Visible;
-            RealmVisible = DialogHosts.ControlWindow.MainWindow.Visible;
-            MagicVisible = DialogHosts.UnitWindow.MainWindow.Visible;
-            UnitVisible = DialogHosts.RealmWindow.Window.Visible;
-            TargetVisible = DialogHosts.MagicWindow.Window.Visible;
-            ScannerVisible = DialogHosts.ScannerWindow.MainWindow.Visible;
-            ControlVisible = DialogHosts.InfoWindow.MainWindow.Visible;
-            ChatVisible = DialogHosts.ChatWindow.MainWindow.Visible;
-            MapVisible = DialogHosts.MapWindow.MainWindow.Visible;
-            for (int I = 0, last = DialogHosts.General.Manager.Children.Count - 1; I <= last; I++)
+            InfoVisible = UI.PlayerInfoWindow.MainWindow.Visible;
+            RealmVisible = UI.ControlWindow.MainWindow.Visible;
+            MagicVisible = UI.UnitWindow.MainWindow.Visible;
+            UnitVisible = UI.RealmWindow.Window.Visible;
+            TargetVisible = UI.MagicWindow.Window.Visible;
+            ScannerVisible = UI.ScannerWindow.MainWindow.Visible;
+            ControlVisible = UI.InfoWindow.MainWindow.Visible;
+            ChatVisible = UI.ChatWindow.MainWindow.Visible;
+            MapVisible = UI.MapWindow.MainWindow.Visible;
+            for (int I = 0, last = UI.General.Manager.Children.Count - 1; I <= last; I++)
             {
-                if (DialogHosts.General.Manager.Children[I] != DialogHosts.TaskBar.TaskWindow)
+                if (UI.General.Manager.Children[I] != UI.TaskBar.TaskWindow)
                 {
-                    DialogHosts.General.Manager.Children[I].Visible = false;
+                    UI.General.Manager.Children[I].Visible = false;
                 }
             }
         }
@@ -106,15 +106,15 @@ public partial class General : DataModule
         if (WindowsHidden)
         {
             WindowsHidden = false;
-            DialogHosts.PlayerInfoWindow.MainWindow.Visible = InfoVisible;
-            DialogHosts.ControlWindow.MainWindow.Visible = RealmVisible;
-            DialogHosts.UnitWindow.MainWindow.Visible = MagicVisible;
-            DialogHosts.ScannerWindow.MainWindow.Visible = ScannerVisible;
-            DialogHosts.InfoWindow.MainWindow.Visible = ControlVisible;
-            DialogHosts.MapWindow.MainWindow.Visible = MapVisible;
-            DialogHosts.RealmWindow.Window.Visible = UnitVisible;
-            DialogHosts.MagicWindow.Window.Visible = TargetVisible;
-            DialogHosts.ChatWindow.MainWindow.Visible = ChatVisible;
+            UI.PlayerInfoWindow.MainWindow.Visible = InfoVisible;
+            UI.ControlWindow.MainWindow.Visible = RealmVisible;
+            UI.UnitWindow.MainWindow.Visible = MagicVisible;
+            UI.ScannerWindow.MainWindow.Visible = ScannerVisible;
+            UI.InfoWindow.MainWindow.Visible = ControlVisible;
+            UI.MapWindow.MainWindow.Visible = MapVisible;
+            UI.RealmWindow.Window.Visible = UnitVisible;
+            UI.MagicWindow.Window.Visible = TargetVisible;
+            UI.ChatWindow.MainWindow.Visible = ChatVisible;
         }
     }
 
@@ -122,13 +122,13 @@ public partial class General : DataModule
     public void SaveLayout()
     {
         // { Read the saved rectangle through the window pointer cell. }
-        var rectangle = new Rect(DialogHosts.PlayerInfoWindow.MainWindow.Alignment.RightOffset, DialogHosts.PlayerInfoWindow.MainWindow.Alignment.BottomOffset, DialogHosts.PlayerInfoWindow.MainWindow.WinWidth, DialogHosts.PlayerInfoWindow.MainWindow.WinHeight);
+        var rectangle = new Rect(UI.PlayerInfoWindow.MainWindow.Alignment.RightOffset, UI.PlayerInfoWindow.MainWindow.Alignment.BottomOffset, UI.PlayerInfoWindow.MainWindow.WinWidth, UI.PlayerInfoWindow.MainWindow.WinHeight);
         GameTables.GameEngine.Registry.SetRectangle(0, rectangle);
-        var rectangle2 = new Rect(DialogHosts.ControlWindow.MainWindow.Alignment.RightOffset, DialogHosts.ControlWindow.MainWindow.Alignment.TopOffset, DialogHosts.ControlWindow.MainWindow.WinWidth, DialogHosts.ControlWindow.MainWindow.WinHeight);
+        var rectangle2 = new Rect(UI.ControlWindow.MainWindow.Alignment.RightOffset, UI.ControlWindow.MainWindow.Alignment.TopOffset, UI.ControlWindow.MainWindow.WinWidth, UI.ControlWindow.MainWindow.WinHeight);
         GameTables.GameEngine.Registry.SetRectangle(1, rectangle2);
-        if (DialogHosts.UnitWindow.MainWindow.Alignment.AlignWidth != AlignWidth.Center)
+        if (UI.UnitWindow.MainWindow.Alignment.AlignWidth != AlignWidth.Center)
         {
-            var rectangle3 = new Rect(DialogHosts.UnitWindow.MainWindow.Alignment.LeftOffset, DialogHosts.UnitWindow.MainWindow.Alignment.TopOffset, DialogHosts.UnitWindow.MainWindow.WinWidth, DialogHosts.UnitWindow.MainWindow.WinHeight);
+            var rectangle3 = new Rect(UI.UnitWindow.MainWindow.Alignment.LeftOffset, UI.UnitWindow.MainWindow.Alignment.TopOffset, UI.UnitWindow.MainWindow.WinWidth, UI.UnitWindow.MainWindow.WinHeight);
             GameTables.GameEngine.Registry.SetRectangle(2, rectangle3);
         }
         else
@@ -137,9 +137,9 @@ public partial class General : DataModule
             GameTables.GameEngine.Registry.SetRectangle(2, rectangle3);
         }
 
-        if (DialogHosts.RealmWindow.Window.Alignment.AlignWidth != AlignWidth.Both)
+        if (UI.RealmWindow.Window.Alignment.AlignWidth != AlignWidth.Both)
         {
-            var rectangle3 = new Rect(DialogHosts.RealmWindow.Window.Alignment.LeftOffset, DialogHosts.RealmWindow.Window.Alignment.TopOffset, DialogHosts.RealmWindow.Window.WinWidth, DialogHosts.RealmWindow.Window.WinHeight);
+            var rectangle3 = new Rect(UI.RealmWindow.Window.Alignment.LeftOffset, UI.RealmWindow.Window.Alignment.TopOffset, UI.RealmWindow.Window.WinWidth, UI.RealmWindow.Window.WinHeight);
             GameTables.GameEngine.Registry.SetRectangle(5, rectangle3);
         }
         else
@@ -148,9 +148,9 @@ public partial class General : DataModule
             GameTables.GameEngine.Registry.SetRectangle(5, rectangle3);
         }
 
-        if (DialogHosts.MagicWindow.Window.Alignment.AlignWidth != AlignWidth.Both)
+        if (UI.MagicWindow.Window.Alignment.AlignWidth != AlignWidth.Both)
         {
-            var rectangle3 = new Rect(DialogHosts.MagicWindow.Window.Alignment.LeftOffset, DialogHosts.MagicWindow.Window.Alignment.TopOffset, DialogHosts.MagicWindow.Window.WinWidth, DialogHosts.MagicWindow.Window.WinHeight);
+            var rectangle3 = new Rect(UI.MagicWindow.Window.Alignment.LeftOffset, UI.MagicWindow.Window.Alignment.TopOffset, UI.MagicWindow.Window.WinWidth, UI.MagicWindow.Window.WinHeight);
             GameTables.GameEngine.Registry.SetRectangle(13, rectangle3);
         }
         else
@@ -159,13 +159,13 @@ public partial class General : DataModule
             GameTables.GameEngine.Registry.SetRectangle(13, rectangle3);
         }
 
-        var rectangle4 = new Rect(DialogHosts.ScannerWindow.MainWindow.Alignment.RightOffset, DialogHosts.ScannerWindow.MainWindow.Alignment.TopOffset, DialogHosts.ScannerWindow.MainWindow.WinWidth, DialogHosts.ScannerWindow.MainWindow.WinHeight);
+        var rectangle4 = new Rect(UI.ScannerWindow.MainWindow.Alignment.RightOffset, UI.ScannerWindow.MainWindow.Alignment.TopOffset, UI.ScannerWindow.MainWindow.WinWidth, UI.ScannerWindow.MainWindow.WinHeight);
         GameTables.GameEngine.Registry.SetRectangle(6, rectangle4);
-        var rectangle5 = new Rect(DialogHosts.InfoWindow.MainWindow.Alignment.RightOffset, DialogHosts.InfoWindow.MainWindow.Alignment.TopOffset, DialogHosts.InfoWindow.MainWindow.WinWidth, DialogHosts.InfoWindow.MainWindow.WinHeight);
+        var rectangle5 = new Rect(UI.InfoWindow.MainWindow.Alignment.RightOffset, UI.InfoWindow.MainWindow.Alignment.TopOffset, UI.InfoWindow.MainWindow.WinWidth, UI.InfoWindow.MainWindow.WinHeight);
         GameTables.GameEngine.Registry.SetRectangle(7, rectangle5);
-        if (DialogHosts.ChatWindow.MainWindow.Alignment.AlignWidth != AlignWidth.Both)
+        if (UI.ChatWindow.MainWindow.Alignment.AlignWidth != AlignWidth.Both)
         {
-            var rectangle3 = new Rect(DialogHosts.ChatWindow.MainWindow.Alignment.LeftOffset, DialogHosts.ChatWindow.MainWindow.Alignment.BottomOffset, DialogHosts.ChatWindow.MainWindow.WinWidth, DialogHosts.ChatWindow.MainWindow.WinHeight);
+            var rectangle3 = new Rect(UI.ChatWindow.MainWindow.Alignment.LeftOffset, UI.ChatWindow.MainWindow.Alignment.BottomOffset, UI.ChatWindow.MainWindow.WinWidth, UI.ChatWindow.MainWindow.WinHeight);
             GameTables.GameEngine.Registry.SetRectangle(8, rectangle3);
         }
         else
@@ -174,9 +174,9 @@ public partial class General : DataModule
             GameTables.GameEngine.Registry.SetRectangle(8, rectangle3);
         }
 
-        if (DialogHosts.MapWindow.MainWindow.Alignment.AlignWidth != AlignWidth.Both)
+        if (UI.MapWindow.MainWindow.Alignment.AlignWidth != AlignWidth.Both)
         {
-            var rectangle3 = new Rect(DialogHosts.MapWindow.MainWindow.Alignment.LeftOffset, DialogHosts.MapWindow.MainWindow.Alignment.TopOffset, DialogHosts.MapWindow.MainWindow.WinWidth, DialogHosts.MapWindow.MainWindow.WinHeight);
+            var rectangle3 = new Rect(UI.MapWindow.MainWindow.Alignment.LeftOffset, UI.MapWindow.MainWindow.Alignment.TopOffset, UI.MapWindow.MainWindow.WinWidth, UI.MapWindow.MainWindow.WinHeight);
             GameTables.GameEngine.Registry.SetRectangle(9, rectangle3);
         }
         else
@@ -185,13 +185,13 @@ public partial class General : DataModule
             GameTables.GameEngine.Registry.SetRectangle(9, rectangle3);
         }
 
-        var rectangle6 = new Rect(DialogHosts.CombatScanner.CombatScannerWindow.Alignment.RightOffset, DialogHosts.CombatScanner.CombatScannerWindow.Alignment.TopOffset, DialogHosts.CombatScanner.CombatScannerWindow.WinWidth, DialogHosts.CombatScanner.CombatScannerWindow.WinHeight);
+        var rectangle6 = new Rect(UI.CombatScanner.CombatScannerWindow.Alignment.RightOffset, UI.CombatScanner.CombatScannerWindow.Alignment.TopOffset, UI.CombatScanner.CombatScannerWindow.WinWidth, UI.CombatScanner.CombatScannerWindow.WinHeight);
         GameTables.GameEngine.Registry.SetRectangle(12, rectangle6);
-        var rectangle7 = new Rect(DialogHosts.CombatUnitInfo.MainWindow.Alignment.RightOffset, DialogHosts.CombatUnitInfo.MainWindow.Alignment.BottomOffset, DialogHosts.CombatUnitInfo.MainWindow.WinWidth, DialogHosts.CombatUnitInfo.MainWindow.WinHeight);
+        var rectangle7 = new Rect(UI.CombatUnitInfo.MainWindow.Alignment.RightOffset, UI.CombatUnitInfo.MainWindow.Alignment.BottomOffset, UI.CombatUnitInfo.MainWindow.WinWidth, UI.CombatUnitInfo.MainWindow.WinHeight);
         GameTables.GameEngine.Registry.SetRectangle(10, rectangle7);
-        if (DialogHosts.MapWindow.MapAlignWidth != AlignWidth.Both)
+        if (UI.MapWindow.MapAlignWidth != AlignWidth.Both)
         {
-            var rectangle3 = new Rect(DialogHosts.MapWindow.MapRectangle.Left, DialogHosts.MapWindow.MapRectangle.Top, DialogHosts.MapWindow.MapRectangle.Right, DialogHosts.MapWindow.MapRectangle.Bottom);
+            var rectangle3 = new Rect(UI.MapWindow.MapRectangle.Left, UI.MapWindow.MapRectangle.Top, UI.MapWindow.MapRectangle.Right, UI.MapWindow.MapRectangle.Bottom);
             GameTables.GameEngine.Registry.SetRectangle(11, rectangle3);
         }
         else
@@ -314,10 +314,10 @@ public partial class General : DataModule
     // AoWWinMan.pas:152
     public void RegisterDialog(Window window)
     {
-        var map = DialogHosts.MapWindow.MainWindow;
+        var map = UI.MapWindow.MainWindow;
         if (map.Alignment.AlignWidth == AlignWidth.Both && window.Alignment.AlignWidth == AlignWidth.Both)
         {
-            map.Alignment.BottomOffset = DialogHosts.TaskBar.TaskWindow.WinHeight + window.WinHeight;
+            map.Alignment.BottomOffset = UI.TaskBar.TaskWindow.WinHeight + window.WinHeight;
             map.Aligned = false;
             if (map.Visible)
             {
@@ -335,10 +335,10 @@ public partial class General : DataModule
     // AoWWinMan.pas:168
     public void UnregisterDialog(Window window)
     {
-        var map = DialogHosts.MapWindow.MainWindow;
-        if (map.Alignment.AlignWidth == AlignWidth.Both && window.Alignment.AlignWidth == AlignWidth.Both && (window == DialogHosts.ChatWindow.MainWindow || !DialogHosts.ChatWindow.MainWindow.Visible || DialogHosts.ChatWindow.MainWindow.Alignment.AlignWidth != AlignWidth.Both) && (window == DialogHosts.MagicWindow.Window || !DialogHosts.MagicWindow.Window.Visible || DialogHosts.MagicWindow.Window.Alignment.AlignWidth != AlignWidth.Both) && (window == DialogHosts.RealmWindow.Window || !DialogHosts.RealmWindow.Window.Visible || DialogHosts.RealmWindow.Window.Alignment.AlignWidth != AlignWidth.Both))
+        var map = UI.MapWindow.MainWindow;
+        if (map.Alignment.AlignWidth == AlignWidth.Both && window.Alignment.AlignWidth == AlignWidth.Both && (window == UI.ChatWindow.MainWindow || !UI.ChatWindow.MainWindow.Visible || UI.ChatWindow.MainWindow.Alignment.AlignWidth != AlignWidth.Both) && (window == UI.MagicWindow.Window || !UI.MagicWindow.Window.Visible || UI.MagicWindow.Window.Alignment.AlignWidth != AlignWidth.Both) && (window == UI.RealmWindow.Window || !UI.RealmWindow.Window.Visible || UI.RealmWindow.Window.Alignment.AlignWidth != AlignWidth.Both))
         {
-            map.Alignment.BottomOffset = DialogHosts.TaskBar.TaskWindow.WinHeight;
+            map.Alignment.BottomOffset = UI.TaskBar.TaskWindow.WinHeight;
             map.Aligned = false;
             window.Alignment.RightOffset = map.Alignment.RightOffset;
 
@@ -384,7 +384,7 @@ public partial class General : DataModule
             {
                 A = new CombatAbilityRef();
                 A.Ability = I;
-                if (DialogHosts.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && (GamePack.Current.AbilityControl.GetAbility(I).GetControlType(DialogHosts.General.SelectedUnit) & Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action)) != Set<AbilityControlTypeElement>.Of())
+                if (UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && (GamePack.Current.AbilityControl.GetAbility(I).GetControlType(UI.General.SelectedUnit) & Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action)) != Set<AbilityControlTypeElement>.Of())
                 {
                     Abilities.Insert(ActiveAbilityCount, A);
                     ActiveAbilityCount += 1;
@@ -500,27 +500,27 @@ public partial class General : DataModule
     // AoWWinMan.pas:231
     public void ResetLayout()
     {
-        var scanner = DialogHosts.ScannerWindow.MainWindow;
+        var scanner = UI.ScannerWindow.MainWindow;
         var scannerAlignment = scanner.Alignment;
         scannerAlignment.TopOffset = 0;
         scannerAlignment.RightOffset = 0;
 
-        if (DialogHosts.General.Manager.WinHeight > 700)
+        if (UI.General.Manager.WinHeight > 700)
         {
-            scanner.WinHeight = (DialogHosts.General.Manager.WinHeight - DialogHosts.TaskBar.TaskWindow.WinHeight) / 3;
+            scanner.WinHeight = (UI.General.Manager.WinHeight - UI.TaskBar.TaskWindow.WinHeight) / 3;
         }
         else
         {
-            scanner.WinHeight = (DialogHosts.General.Manager.WinHeight - DialogHosts.TaskBar.TaskWindow.WinHeight) / 2;
+            scanner.WinHeight = (UI.General.Manager.WinHeight - UI.TaskBar.TaskWindow.WinHeight) / 2;
         }
 
         scanner.WinWidth = scanner.WinHeight * 200 / 216;
         if (StrategicMap.Current != null)
         {
-            scanner.Visible = StrategicMap.Current.CombatMap == null && DialogHosts.MapWindow.MainWindow.Visible;
+            scanner.Visible = StrategicMap.Current.CombatMap == null && UI.MapWindow.MainWindow.Visible;
         }
 
-        var playerInfo = DialogHosts.PlayerInfoWindow.MainWindow;
+        var playerInfo = UI.PlayerInfoWindow.MainWindow;
         var playerInfoAlignment = playerInfo.Alignment;
         playerInfoAlignment.BottomOffset = 0;
         playerInfoAlignment.RightOffset = 0;
@@ -529,10 +529,10 @@ public partial class General : DataModule
         playerInfo.WinHeight = scanner.WinHeight;
         if (StrategicMap.Current != null)
         {
-            playerInfo.Visible = StrategicMap.Current.CombatMap == null && DialogHosts.MapWindow.MainWindow.Visible;
+            playerInfo.Visible = StrategicMap.Current.CombatMap == null && UI.MapWindow.MainWindow.Visible;
         }
 
-        var controls = DialogHosts.ControlWindow.MainWindow;
+        var controls = UI.ControlWindow.MainWindow;
         var controlsAlignment = controls.Alignment;
         controlsAlignment.TopOffset = scanner.WinHeight;
         controlsAlignment.RightOffset = 0;
@@ -541,7 +541,7 @@ public partial class General : DataModule
         controls.WinHeight = scanner.WinHeight;
         controls.Visible = false;
 
-        var info = DialogHosts.InfoWindow.MainWindow;
+        var info = UI.InfoWindow.MainWindow;
         var infoAlignment = info.Alignment;
         infoAlignment.TopOffset = scanner.WinHeight;
         infoAlignment.RightOffset = 0;
@@ -550,7 +550,7 @@ public partial class General : DataModule
         info.WinHeight = scanner.WinHeight;
         info.Visible = false;
 
-        var targetSelection = DialogHosts.TargetSelectionDialog.Window;
+        var targetSelection = UI.TargetSelectionDialog.Window;
         var targetSelectionAlignment = targetSelection.Alignment;
         targetSelectionAlignment.TopOffset = scanner.WinHeight;
         targetSelectionAlignment.RightOffset = 0;
@@ -558,9 +558,9 @@ public partial class General : DataModule
         targetSelection.WinWidth = scanner.WinWidth;
         targetSelection.WinHeight = scanner.WinHeight;
 
-        var realm = DialogHosts.RealmWindow.Window;
+        var realm = UI.RealmWindow.Window;
         var realmAlignment = realm.Alignment;
-        realmAlignment.BottomOffset = DialogHosts.TaskBar.TaskWindow.WinHeight;
+        realmAlignment.BottomOffset = UI.TaskBar.TaskWindow.WinHeight;
         realmAlignment.LeftOffset = 0;
         realmAlignment.RightOffset = scanner.WinWidth;
         realmAlignment.AlignWidth = AlignWidth.Both;
@@ -570,9 +570,9 @@ public partial class General : DataModule
         realm.WinHeight = realm.MinHeight;
         realm.Visible = false;
 
-        var magic = DialogHosts.MagicWindow.Window;
+        var magic = UI.MagicWindow.Window;
         var magicAlignment = magic.Alignment;
-        magicAlignment.BottomOffset = DialogHosts.TaskBar.TaskWindow.WinHeight;
+        magicAlignment.BottomOffset = UI.TaskBar.TaskWindow.WinHeight;
         magicAlignment.LeftOffset = 0;
         magicAlignment.RightOffset = scanner.WinWidth;
         magicAlignment.AlignWidth = AlignWidth.Both;
@@ -582,7 +582,7 @@ public partial class General : DataModule
         magic.WinHeight = magic.MinHeight;
         magic.Visible = false;
 
-        var unitWindow = DialogHosts.UnitWindow.MainWindow;
+        var unitWindow = UI.UnitWindow.MainWindow;
         var unitWindowAlignment = unitWindow.Alignment;
         unitWindowAlignment.AlignWidth = AlignWidth.Center;
         unitWindowAlignment.AlignHeight = AlignHeight.Center;
@@ -591,9 +591,9 @@ public partial class General : DataModule
         unitWindow.WinHeight = unitWindow.MinHeight;
         unitWindow.Visible = false;
 
-        var chat = DialogHosts.ChatWindow.MainWindow;
+        var chat = UI.ChatWindow.MainWindow;
         var chatAlignment = chat.Alignment;
-        chatAlignment.BottomOffset = DialogHosts.TaskBar.TaskWindow.WinHeight;
+        chatAlignment.BottomOffset = UI.TaskBar.TaskWindow.WinHeight;
         chatAlignment.LeftOffset = 0;
         chatAlignment.RightOffset = scanner.WinWidth;
         chatAlignment.AlignWidth = AlignWidth.Both;
@@ -603,57 +603,57 @@ public partial class General : DataModule
         chat.WinHeight = chat.MinHeight;
         chat.Visible = false;
 
-        var tacticalBattleScanner = DialogHosts.CombatScanner.CombatScannerWindow;
+        var tacticalBattleScanner = UI.CombatScanner.CombatScannerWindow;
         var tacticalBattleScannerAlignment = tacticalBattleScanner.Alignment;
         tacticalBattleScannerAlignment.TopOffset = 0;
         tacticalBattleScannerAlignment.RightOffset = 0;
 
-        tacticalBattleScanner.WinHeight = (DialogHosts.General.Manager.WinHeight - DialogHosts.TaskBar.TaskWindow.WinHeight) * 170 / 432;
+        tacticalBattleScanner.WinHeight = (UI.General.Manager.WinHeight - UI.TaskBar.TaskWindow.WinHeight) * 170 / 432;
         tacticalBattleScanner.WinWidth = tacticalBattleScanner.WinHeight * 150 / 170;
         if (StrategicMap.Current != null)
         {
-            tacticalBattleScanner.Visible = StrategicMap.Current.CombatMap != null && DialogHosts.MapWindow.MainWindow.Visible;
+            tacticalBattleScanner.Visible = StrategicMap.Current.CombatMap != null && UI.MapWindow.MainWindow.Visible;
         }
 
-        var tacticalBattleUnit = DialogHosts.CombatUnitInfo.MainWindow;
+        var tacticalBattleUnit = UI.CombatUnitInfo.MainWindow;
         var tacticalBattleUnitAlignment = tacticalBattleUnit.Alignment;
         tacticalBattleUnitAlignment.BottomOffset = 0;
         tacticalBattleUnitAlignment.RightOffset = 0;
 
-        tacticalBattleUnit.WinHeight = DialogHosts.General.Manager.WinHeight - DialogHosts.TaskBar.TaskWindow.WinHeight - tacticalBattleScanner.WinHeight;
+        tacticalBattleUnit.WinHeight = UI.General.Manager.WinHeight - UI.TaskBar.TaskWindow.WinHeight - tacticalBattleScanner.WinHeight;
         tacticalBattleUnit.WinWidth = tacticalBattleScanner.WinWidth;
         tacticalBattleUnit.Visible = false;
 
-        var mapAlignment = DialogHosts.MapWindow.MainWindow.Alignment;
+        var mapAlignment = UI.MapWindow.MainWindow.Alignment;
         mapAlignment.AlignHeight = AlignHeight.Both;
         mapAlignment.AlignWidth = AlignWidth.Both;
         mapAlignment.TopOffset = 0;
         mapAlignment.LeftOffset = 0;
 
-        DialogHosts.MapWindow.WorldAlignHeight = AlignHeight.Both;
-        DialogHosts.MapWindow.WorldAlignWidth = AlignWidth.Both;
-        var rectangle = new Rect(0, 0, scanner.WinWidth, DialogHosts.TaskBar.TaskWindow.WinHeight);
-        DialogHosts.MapWindow.WorldRectangle = rectangle;
-        DialogHosts.MapWindow.MapAlignHeight = AlignHeight.Both;
-        DialogHosts.MapWindow.MapAlignWidth = AlignWidth.Both;
-        var rectangle2 = new Rect(0, 0, tacticalBattleScanner.WinWidth, DialogHosts.TaskBar.TaskWindow.WinHeight);
-        DialogHosts.MapWindow.MapRectangle = rectangle2;
+        UI.MapWindow.WorldAlignHeight = AlignHeight.Both;
+        UI.MapWindow.WorldAlignWidth = AlignWidth.Both;
+        var rectangle = new Rect(0, 0, scanner.WinWidth, UI.TaskBar.TaskWindow.WinHeight);
+        UI.MapWindow.WorldRectangle = rectangle;
+        UI.MapWindow.MapAlignHeight = AlignHeight.Both;
+        UI.MapWindow.MapAlignWidth = AlignWidth.Both;
+        var rectangle2 = new Rect(0, 0, tacticalBattleScanner.WinWidth, UI.TaskBar.TaskWindow.WinHeight);
+        UI.MapWindow.MapRectangle = rectangle2;
         if (StrategicMap.Current != null)
         {
             if (StrategicMap.Current.CombatMap == null)
             {
-                DialogHosts.MapWindow.MainWindow.Alignment.RightOffset = scanner.WinWidth;
+                UI.MapWindow.MainWindow.Alignment.RightOffset = scanner.WinWidth;
             }
             else
             {
-                DialogHosts.MapWindow.MainWindow.Alignment.RightOffset = tacticalBattleScanner.WinWidth;
+                UI.MapWindow.MainWindow.Alignment.RightOffset = tacticalBattleScanner.WinWidth;
             }
         }
 
-        DialogHosts.MapWindow.MainWindow.Alignment.BottomOffset = DialogHosts.TaskBar.TaskWindow.WinHeight;
-        if (DialogHosts.ChatWindow.MainWindow.Visible)
+        UI.MapWindow.MainWindow.Alignment.BottomOffset = UI.TaskBar.TaskWindow.WinHeight;
+        if (UI.ChatWindow.MainWindow.Visible)
         {
-            RegisterDialog(DialogHosts.ChatWindow.MainWindow);
+            RegisterDialog(UI.ChatWindow.MainWindow);
         }
 
         Manager.Aligned = false;
@@ -662,7 +662,7 @@ public partial class General : DataModule
     // AoWWinMan.pas:336
     public void ManagerDebugMessage(string text)
     {
-        DialogHosts.DebugWindow.AddMessage(text);
+        UI.DebugWindow.AddMessage(text);
     }
 
     // AoWWinMan.pas:351
@@ -716,7 +716,7 @@ public partial class General : DataModule
     {
         for (int i = 0; i < Manager.Children.Count; i++)
             if (Manager.Children[i] is WindowControl window &&
-                window != DialogHosts.MapWindow.MainWindow && window._modal && window.Visible)
+                window != UI.MapWindow.MainWindow && window._modal && window.Visible)
                 window.Visible = false;
     }
 
@@ -725,20 +725,20 @@ public partial class General : DataModule
         if (!controller.WindowsHidden)
         {
             controller.WindowsHidden = true;
-            controller.InfoVisible = DialogHosts.PlayerInfoWindow.MainWindow.Visible;
-            controller.RealmVisible = DialogHosts.RealmWindow.Window.Visible;
-            controller.MagicVisible = DialogHosts.MagicWindow.Window.Visible;
-            controller.UnitVisible = DialogHosts.UnitWindow.MainWindow.Visible;
-            controller.TargetVisible = DialogHosts.TargetSelectionDialog.Window.Visible;
-            controller.ScannerVisible = DialogHosts.ScannerWindow.MainWindow.Visible;
-            controller.ControlVisible = DialogHosts.ControlWindow.MainWindow.Visible;
-            controller.ChatVisible = DialogHosts.ChatWindow.MainWindow.Visible;
-            controller.MapVisible = DialogHosts.MapWindow.MainWindow.Visible;
-            for (int I = 0, last = DialogHosts.General.Manager.Children.Count - 1; I <= last; I++)
+            controller.InfoVisible = controller.UI.PlayerInfoWindow.MainWindow.Visible;
+            controller.RealmVisible = controller.UI.RealmWindow.Window.Visible;
+            controller.MagicVisible = controller.UI.MagicWindow.Window.Visible;
+            controller.UnitVisible = controller.UI.UnitWindow.MainWindow.Visible;
+            controller.TargetVisible = controller.UI.TargetSelectionDialog.Window.Visible;
+            controller.ScannerVisible = controller.UI.ScannerWindow.MainWindow.Visible;
+            controller.ControlVisible = controller.UI.ControlWindow.MainWindow.Visible;
+            controller.ChatVisible = controller.UI.ChatWindow.MainWindow.Visible;
+            controller.MapVisible = controller.UI.MapWindow.MainWindow.Visible;
+            for (int I = 0, last = controller.UI.General.Manager.Children.Count - 1; I <= last; I++)
             {
-                if (DialogHosts.General.Manager.Children[I] != DialogHosts.TaskBar.TaskWindow)
+                if (controller.UI.General.Manager.Children[I] != controller.UI.TaskBar.TaskWindow)
                 {
-                    DialogHosts.General.Manager.Children[I].Visible = false;
+                    controller.UI.General.Manager.Children[I].Visible = false;
                 }
             }
         }
@@ -749,15 +749,15 @@ public partial class General : DataModule
         if (controller.WindowsHidden)
         {
             controller.WindowsHidden = false;
-            DialogHosts.PlayerInfoWindow.MainWindow.Visible = controller.InfoVisible;
-            DialogHosts.RealmWindow.Window.Visible = controller.RealmVisible;
-            DialogHosts.MagicWindow.Window.Visible = controller.MagicVisible;
-            DialogHosts.ScannerWindow.MainWindow.Visible = controller.ScannerVisible;
-            DialogHosts.ControlWindow.MainWindow.Visible = controller.ControlVisible;
-            DialogHosts.MapWindow.MainWindow.Visible = controller.MapVisible;
-            DialogHosts.UnitWindow.MainWindow.Visible = controller.UnitVisible;
-            DialogHosts.TargetSelectionDialog.Window.Visible = controller.TargetVisible;
-            DialogHosts.ChatWindow.MainWindow.Visible = controller.ChatVisible;
+            controller.UI.PlayerInfoWindow.MainWindow.Visible = controller.InfoVisible;
+            controller.UI.RealmWindow.Window.Visible = controller.RealmVisible;
+            controller.UI.MagicWindow.Window.Visible = controller.MagicVisible;
+            controller.UI.ScannerWindow.MainWindow.Visible = controller.ScannerVisible;
+            controller.UI.ControlWindow.MainWindow.Visible = controller.ControlVisible;
+            controller.UI.MapWindow.MainWindow.Visible = controller.MapVisible;
+            controller.UI.UnitWindow.MainWindow.Visible = controller.UnitVisible;
+            controller.UI.TargetSelectionDialog.Window.Visible = controller.TargetVisible;
+            controller.UI.ChatWindow.MainWindow.Visible = controller.ChatVisible;
         }
     }
 
@@ -765,29 +765,29 @@ public partial class General : DataModule
     {
         GameTables.GameEngine.CloseHsm(null);
         GameTables.GameEngine.CloseCampaign();
-        DialogHosts.ScannerWindow.Scanner.SetMap(null);
-        DialogHosts.CombatScanner.Scanner.SetMap(null);
+        controller.UI.ScannerWindow.Scanner.SetMap(null);
+        controller.UI.CombatScanner.Scanner.SetMap(null);
         AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
         SetCurrentDir(GameTables.GameEngine.StartupDirectory);
-        HideGameWindows(DialogHosts.General);
-        DialogHosts.TaskBar.TaskWindow.Visible = false;
-        DialogHosts.TitleWindow.MainWindow.Visible = false;
-        DialogHosts.TitleScene.ResetScene();
-        DialogHosts.TitleScene.ShowScene(true);
+        HideGameWindows(controller.UI.General);
+        controller.UI.TaskBar.TaskWindow.Visible = false;
+        controller.UI.TitleWindow.MainWindow.Visible = false;
+        controller.UI.TitleScene.ResetScene();
+        controller.UI.TitleScene.ShowScene(true);
     }
 
     internal static void SaveWindowLayout(General controller)
     {
-        var playerInfo = DialogHosts.PlayerInfoWindow.MainWindow;
+        var playerInfo = controller.UI.PlayerInfoWindow.MainWindow;
         var rectangle = new Rect(playerInfo.Alignment.RightOffset, playerInfo.Alignment.BottomOffset, playerInfo.WinWidth, playerInfo.WinHeight);
         GameTables.GameEngine.Registry.SetRectangle(0, rectangle);
 
-        var controls = DialogHosts.ControlWindow.MainWindow;
+        var controls = controller.UI.ControlWindow.MainWindow;
         var rectangle2 = new Rect(controls.Alignment.RightOffset, controls.Alignment.TopOffset, controls.WinWidth, controls.WinHeight);
         GameTables.GameEngine.Registry.SetRectangle(1, rectangle2);
 
-        var unitWindow = DialogHosts.UnitWindow.MainWindow;
+        var unitWindow = controller.UI.UnitWindow.MainWindow;
         if (unitWindow.Alignment.AlignWidth != AlignWidth.Center)
         {
             var rectangle3 = new Rect(unitWindow.Alignment.LeftOffset, unitWindow.Alignment.TopOffset, unitWindow.WinWidth, unitWindow.WinHeight);
@@ -799,7 +799,7 @@ public partial class General : DataModule
             GameTables.GameEngine.Registry.SetRectangle(2, rectangle3);
         }
 
-        var realm = DialogHosts.RealmWindow.Window;
+        var realm = controller.UI.RealmWindow.Window;
         if (realm.Alignment.AlignWidth != AlignWidth.Both)
         {
             var rectangle3 = new Rect(realm.Alignment.LeftOffset, realm.Alignment.TopOffset, realm.WinWidth, realm.WinHeight);
@@ -811,7 +811,7 @@ public partial class General : DataModule
             GameTables.GameEngine.Registry.SetRectangle(5, rectangle3);
         }
 
-        var magic = DialogHosts.MagicWindow.Window;
+        var magic = controller.UI.MagicWindow.Window;
         if (magic.Alignment.AlignWidth != AlignWidth.Both)
         {
             var rectangle3 = new Rect(magic.Alignment.LeftOffset, magic.Alignment.TopOffset, magic.WinWidth, magic.WinHeight);
@@ -823,15 +823,15 @@ public partial class General : DataModule
             GameTables.GameEngine.Registry.SetRectangle(13, rectangle3);
         }
 
-        var scanner = DialogHosts.ScannerWindow.MainWindow;
+        var scanner = controller.UI.ScannerWindow.MainWindow;
         var rectangle4 = new Rect(scanner.Alignment.RightOffset, scanner.Alignment.TopOffset, scanner.WinWidth, scanner.WinHeight);
         GameTables.GameEngine.Registry.SetRectangle(6, rectangle4);
 
-        var info = DialogHosts.InfoWindow.MainWindow;
+        var info = controller.UI.InfoWindow.MainWindow;
         var rectangle5 = new Rect(info.Alignment.RightOffset, info.Alignment.TopOffset, info.WinWidth, info.WinHeight);
         GameTables.GameEngine.Registry.SetRectangle(7, rectangle5);
 
-        var chat = DialogHosts.ChatWindow.MainWindow;
+        var chat = controller.UI.ChatWindow.MainWindow;
         if (chat.Alignment.AlignWidth != AlignWidth.Both)
         {
             var rectangle3 = new Rect(chat.Alignment.LeftOffset, chat.Alignment.BottomOffset, chat.WinWidth, chat.WinHeight);
@@ -843,7 +843,7 @@ public partial class General : DataModule
             GameTables.GameEngine.Registry.SetRectangle(8, rectangle3);
         }
 
-        var map = DialogHosts.MapWindow.MainWindow;
+        var map = controller.UI.MapWindow.MainWindow;
         if (map.Alignment.AlignWidth != AlignWidth.Both)
         {
             var rectangle3 = new Rect(map.Alignment.LeftOffset, map.Alignment.TopOffset, map.WinWidth, map.WinHeight);
@@ -855,17 +855,17 @@ public partial class General : DataModule
             GameTables.GameEngine.Registry.SetRectangle(9, rectangle3);
         }
 
-        var tacticalBattleUnit = DialogHosts.CombatUnitInfo.MainWindow;
+        var tacticalBattleUnit = controller.UI.CombatUnitInfo.MainWindow;
         var rectangle6 = new Rect(tacticalBattleUnit.Alignment.RightOffset, tacticalBattleUnit.Alignment.TopOffset, tacticalBattleUnit.WinWidth, tacticalBattleUnit.WinHeight);
         GameTables.GameEngine.Registry.SetRectangle(12, rectangle6);
 
-        var tacticalBattleScanner = DialogHosts.CombatScanner.CombatScannerWindow;
+        var tacticalBattleScanner = controller.UI.CombatScanner.CombatScannerWindow;
         var rectangle7 = new Rect(tacticalBattleScanner.Alignment.RightOffset, tacticalBattleScanner.Alignment.BottomOffset, tacticalBattleScanner.WinWidth, tacticalBattleScanner.WinHeight);
         GameTables.GameEngine.Registry.SetRectangle(10, rectangle7);
 
-        if (DialogHosts.MapWindow.MapAlignWidth != AlignWidth.Both)
+        if (controller.UI.MapWindow.MapAlignWidth != AlignWidth.Both)
         {
-            var rectangle3 = new Rect(DialogHosts.MapWindow.MapRectangle.Left, DialogHosts.MapWindow.MapRectangle.Top, DialogHosts.MapWindow.MapRectangle.Right, DialogHosts.MapWindow.MapRectangle.Bottom);
+            var rectangle3 = new Rect(controller.UI.MapWindow.MapRectangle.Left, controller.UI.MapWindow.MapRectangle.Top, controller.UI.MapWindow.MapRectangle.Right, controller.UI.MapWindow.MapRectangle.Bottom);
             GameTables.GameEngine.Registry.SetRectangle(11, rectangle3);
         }
         else
@@ -879,7 +879,7 @@ public partial class General : DataModule
     {
         for (int i = controller.Manager.Children.Count - 1; i >= 0; i--)
             if (controller.Manager.Children[i] is WindowControl window &&
-                window != DialogHosts.MapWindow.MainWindow && window._modal && window.Visible)
+                window != controller.UI.MapWindow.MainWindow && window._modal && window.Visible)
                 return true;
         return false;
     }
@@ -893,14 +893,14 @@ public partial class General : DataModule
 
         var loading = AbilityRules.TranslateResourceString(LayerText.LoadingText);
         var fileName = ExtractFileName(name);
-        DialogHosts.ProgressDialog.TitleLabel.Text = loading + " " + fileName + "...";
-        DialogHosts.ProgressDialog.StatusLabel.Text = "";
-        DialogHosts.ProgressDialog.ProgressBar.Position = 0;
-        DialogHosts.ProgressDialog.ProgressBar.Max = 100;
-        DialogHosts.ProgressDialog.Window.Visible = true;
-        if (!DialogHosts.TitleScene.Window.Visible)
+        controller.UI.ProgressDialog.TitleLabel.Text = loading + " " + fileName + "...";
+        controller.UI.ProgressDialog.StatusLabel.Text = "";
+        controller.UI.ProgressDialog.ProgressBar.Position = 0;
+        controller.UI.ProgressDialog.ProgressBar.Max = 100;
+        controller.UI.ProgressDialog.Window.Visible = true;
+        if (!controller.UI.TitleScene.Window.Visible)
         {
-            DialogHosts.General.Manager.OverlayPriority = 5000;
+            controller.UI.General.Manager.OverlayPriority = 5000;
         }
 
         AudioHost.SongPlayer.Stop(false);
@@ -912,8 +912,8 @@ public partial class General : DataModule
             controller.ReturnToTitle();
         }
 
-        DialogHosts.General.Manager.OverlayPriority = 0;
-        DialogHosts.ProgressDialog.Window.Visible = false;
+        controller.UI.General.Manager.OverlayPriority = 0;
+        controller.UI.ProgressDialog.Window.Visible = false;
     }
 
     internal static void StartGame(General controller)
@@ -929,27 +929,27 @@ public partial class General : DataModule
         }
         else AudioHost.SongPlayer.Songs.Add("Songs\\Heartwoo.it");
         AudioHost.SongPlayer.Play(0);
-        AudioPlayback.SetMusicVolume(DialogHosts.SoundDialog.MusicVolumeSlider.Position);
-        var menu = DialogHosts.PopupWindows.OverviewsMenu.Items;
+        AudioPlayback.SetMusicVolume(controller.UI.SoundDialog.MusicVolumeSlider.Position);
+        var menu = controller.UI.PopupWindows.OverviewsMenu.Items;
         menu.Clear();
         menu.Add(AbilityRules.TranslateResourceString(LayerText.BackgroundText));
         if (GameTables.GameEngine.Campaign != null) menu.Add(AbilityRules.TranslateResourceString(LayerText.CampaignText));
-        DialogHosts.TitleScene.Window.Visible = false;
-        DialogHosts.TitleWindow.MainWindow.Visible = false;
-        DialogHosts.TaskBar.TaskWindow.Visible = true;
-        DialogHosts.MapWindow.MainWindow.Visible = true;
-        DialogHosts.ScannerWindow.MainWindow.Visible = true;
-        DialogHosts.MapWindow.MapViewer.HexSpriteMap = StrategicMap.Current;
-        var scanner = DialogHosts.ScannerWindow.Scanner;
+        controller.UI.TitleScene.Window.Visible = false;
+        controller.UI.TitleWindow.MainWindow.Visible = false;
+        controller.UI.TaskBar.TaskWindow.Visible = true;
+        controller.UI.MapWindow.MainWindow.Visible = true;
+        controller.UI.ScannerWindow.MainWindow.Visible = true;
+        controller.UI.MapWindow.MapViewer.HexSpriteMap = StrategicMap.Current;
+        var scanner = controller.UI.ScannerWindow.Scanner;
         scanner.SetMap(StrategicMap.Current);
         scanner.SetLevel(StrategicMap.Current.MapContainer.GetMapLevel(0));
-        DialogHosts.TaskBar.WorldTurnButton.ButtonChecked = false;
-        DialogHosts.TaskBar.ChatButton.Visible = DialogHosts.SetupEvents.DirectPlay.Connected;
-        DialogHosts.General.Manager.Aligned = false;
+        controller.UI.TaskBar.WorldTurnButton.ButtonChecked = false;
+        controller.UI.TaskBar.ChatButton.Visible = controller.UI.SetupEvents.DirectPlay.Connected;
+        controller.UI.General.Manager.Aligned = false;
         scanner.PreviousWidth = 0;
         scanner.Incremental = false;
         scanner.Sized = false;
-        var tabs = DialogHosts.ScannerWindow.ScannerTabs;
+        var tabs = controller.UI.ScannerWindow.ScannerTabs;
         tabs.Items.Clear();
         tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.SurfaceText));
         if (StrategicMap.Current.MapContainer.LevelCount > 1) tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.CavernsText));
@@ -963,39 +963,39 @@ public partial class General : DataModule
         scanner.UpdateStep = -1;
         scanner.SetMap(StrategicMap.Current);
         scanner.SetLevel(StrategicMap.Current.MapContainer.GetMapLevel(0));
-        DialogHosts.MapWindow.MapViewer.HexSpriteMap = StrategicMap.Current;
-        DialogHosts.MapWindow.MapViewer.SceneWidth = DialogHosts.MapWindow.MainWindow.WinWidth - 24;
-        DialogHosts.MapWindow.MapViewer.SceneHeight = DialogHosts.MapWindow.MainWindow.WinHeight - 24;
+        controller.UI.MapWindow.MapViewer.HexSpriteMap = StrategicMap.Current;
+        controller.UI.MapWindow.MapViewer.SceneWidth = controller.UI.MapWindow.MainWindow.WinWidth - 24;
+        controller.UI.MapWindow.MapViewer.SceneHeight = controller.UI.MapWindow.MainWindow.WinHeight - 24;
         StrategicMap.Current.Activate();
-        DialogHosts.RealmWindow.Window.Visible = false;
-        DialogHosts.MapEvents.TheMapArmyDeselected();
-        DialogHosts.MapEvents.TheMapStructureDeselected();
+        controller.UI.RealmWindow.Window.Visible = false;
+        controller.UI.MapEvents.TheMapArmyDeselected();
+        controller.UI.MapEvents.TheMapStructureDeselected();
         // The original call at targets the indicator sizing routine
-        DialogHosts.TaskBar.UpdatePlayerIndicator();
-        DialogHosts.PlayerInfoWindow.UpdatePlayer();
+        controller.UI.TaskBar.UpdatePlayerIndicator();
+        controller.UI.PlayerInfoWindow.UpdatePlayer();
         if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
-            var turn = DialogHosts.TaskBar.WorldTurnButton;
+            var turn = controller.UI.TaskBar.WorldTurnButton;
             if (StrategicMap.Current.SeatedPlayer != -1)
             {
                 turn.LastPlayer = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
                 if (turn.LastPlayer == -1) turn.LastPlayer = 12;
                 turn.CurrentPlayer = turn.LastPlayer;
                 turn.AnimationFrame = turn.CurrentPlayer * 7;
-                DialogHosts.TaskBar.CurrentPlayerImage.Visible = StrategicMap.Current.PlayMode == PlayMode.Turn;
+                controller.UI.TaskBar.CurrentPlayerImage.Visible = StrategicMap.Current.PlayMode == PlayMode.Turn;
             }
             else
             {
                 turn.CurrentPlayer = 12;
                 turn.LastPlayer = turn.CurrentPlayer;
                 turn.AnimationFrame = turn.CurrentPlayer * 7;
-                DialogHosts.TaskBar.CurrentPlayerImage.Visible = false;
+                controller.UI.TaskBar.CurrentPlayerImage.Visible = false;
             }
         }
-        DialogHosts.TaskBar.WorldClockDelay = 0;
-        DialogHosts.TaskBar.ChatButton.ImageLibraryIndexUp = 14;
-        DialogHosts.TaskBar.ChatFlash = 0;
-        DialogHosts.VideoDialog.SetSceneSize(DialogHosts.VideoDialog.DisplayWidth, DialogHosts.VideoDialog.DisplayHeight);
+        controller.UI.TaskBar.WorldClockDelay = 0;
+        controller.UI.TaskBar.ChatButton.ImageLibraryIndexUp = 14;
+        controller.UI.TaskBar.ChatFlash = 0;
+        controller.UI.VideoDialog.SetSceneSize(controller.UI.VideoDialog.DisplayWidth, controller.UI.VideoDialog.DisplayHeight);
     }
 
 }

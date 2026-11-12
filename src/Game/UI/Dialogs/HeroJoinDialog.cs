@@ -16,9 +16,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, join event, details flag, selection mask, unit list, face unit
-public partial class HeroJoinDialog : DataModule
+public partial class HeroJoinDialog : UIModule
 {
-    public HeroJoinDialog(Component owner) : base(owner)
+    public HeroJoinDialog(UIContext ui) : base(ui)
     { }
 
     public Panel UnitPanel;
@@ -58,8 +58,8 @@ public partial class HeroJoinDialog : DataModule
         if (_detailsOpen)
         {
             _detailsOpen = false;
-            DialogHosts.UnitWindow.MainWindow.Priority = DialogHosts.ControlWindow.MainWindow.Priority;
-            DialogHosts.UnitWindow.MainWindow.Visible = false;
+            UI.UnitWindow.MainWindow.Priority = UI.ControlWindow.MainWindow.Priority;
+            UI.UnitWindow.MainWindow.Visible = false;
         }
 
         done = Done;
@@ -92,9 +92,9 @@ public partial class HeroJoinDialog : DataModule
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
             alignment = _units.GetUnit(index).GetAlignment();
-            if ((int)alignment < DialogHosts.UIGraphics.UnitBackgrounds.Count)
+            if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
-                var image = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
+                var image = UI.Graphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
             }
 
@@ -104,7 +104,7 @@ public partial class HeroJoinDialog : DataModule
             _units.GetUnit(index).Show(X - 33, Y - 35, surface, info);
             if ((((int)(((uint)_selection) >> index)) & 1) == 0)
             {
-                var image = DialogHosts.UIGraphics.UnitBackgrounds[7];
+                var image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
             }
 
@@ -130,7 +130,7 @@ public partial class HeroJoinDialog : DataModule
         string reason = "";
         if (ValidateJoin())
         {
-            DialogHosts.General.PlayButtonSound(0);
+            UI.General.PlayButtonSound(0);
             if (!_joinEvent.Accept(ref reason))
             {
                 StrategicMap.Current.ShowWarning(reason);
@@ -148,7 +148,7 @@ public partial class HeroJoinDialog : DataModule
         string reason = "";
         if (ValidateJoin())
         {
-            DialogHosts.General.PlayButtonSound(0);
+            UI.General.PlayButtonSound(0);
             if (!_joinEvent.Reject(ref reason))
             {
                 StrategicMap.Current.ShowWarning(reason);
@@ -165,7 +165,7 @@ public partial class HeroJoinDialog : DataModule
     {
         if (ValidateJoin())
         {
-            DialogHosts.General.PlayButtonSound(0);
+            UI.General.PlayButtonSound(0);
             Window.Visible = false;
         }
     }
@@ -211,12 +211,12 @@ public partial class HeroJoinDialog : DataModule
             if (slot < count)
             {
                 var troop = _units.GetUnit(slot);
-                DialogHosts.General.SelectedUnit = troop;
+                UI.General.SelectedUnit = troop;
                 if (button == MouseButton.Left)
                 {
                     _detailsOpen = true;
-                    DialogHosts.UnitWindow.ShowUnit();
-                    DialogHosts.UnitWindow.MainWindow.Priority = Window.Priority + 1;
+                    UI.UnitWindow.ShowUnit();
+                    UI.UnitWindow.MainWindow.Priority = Window.Priority + 1;
                 }
             }
         }

@@ -28,7 +28,7 @@ public partial class ControlWindow
             frames[i].ImageLibraryIndexFrame = 12;
         }
         PartyActionLabel1.Visible = PartyActionLabel2.Visible = false;
-        var army = DialogHosts.General.UnitList;
+        var army = UI.General.UnitList;
         bool readOnly = army.Player != StrategicMap.Current.SeatedPlayer;
         if (army.Player == 0)
         {
@@ -64,18 +64,18 @@ public partial class ControlWindow
             PartyMovesPanel.Visible = true;
             PartyInfoPanel.Visible = false;
             MoveIcon.Visible = true;
-            MoveIcon.CurrentImage = DialogHosts.General.MoveTypesToInt32(army.GetPartyMoves(255));
+            MoveIcon.CurrentImage = UI.General.MoveTypesToInt32(army.GetPartyMoves(255));
             MovesLabel.Text = RtlUnit.IntToStr(army.MovePoints(255));
-            DialogHosts.ControlWindow.CheckEnd();
+            UI.ControlWindow.CheckEnd();
             PartyControlPanel.Visible = true;
             PartyGuardCheckBox.Checked = army.UserMode.Contains(ArmyUserModeElement.Guard);
         }
         for (int i = 0; i < 8; i++)
         {
-            int index = DialogHosts.General.SelectedUnits[i];
+            int index = UI.General.SelectedUnits[i];
             if (index == -1) continue;
             byte selection = (byte)(1 << index);
-            icons[i].CurrentImage = DialogHosts.General.MoveTypesToInt32(army.MoveTypes(selection));
+            icons[i].CurrentImage = UI.General.MoveTypesToInt32(army.MoveTypes(selection));
             var troop = army.GetUnit(index);
             gauges[i].Max = troop.GetHits();
             gauges[i].Position = troop.GetHitPoints();
@@ -84,7 +84,7 @@ public partial class ControlWindow
             checks[i].Visible = !readOnly;
             emptyChecks[i].Visible = readOnly;
         }
-        if (!DialogHosts.TaskBar.PartyButton.Visible) MainWindow.Visible = true;
-        DialogHosts.TaskBar.PartyButton.Visible = true;
+        if (!UI.TaskBar.PartyButton.Visible) MainWindow.Visible = true;
+        UI.TaskBar.PartyButton.Visible = true;
     }
 }

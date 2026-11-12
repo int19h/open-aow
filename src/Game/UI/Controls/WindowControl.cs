@@ -318,16 +318,16 @@ public partial class WindowControl : UIComponent
     // { VerifyBackSurface makes the back surface match Surface (a DirectDraw surface in video memory
     //   when Surface is one and UseVMem is set, else a surface in system memory or a data surface);
     //   True when the back surface was created or restored and has to be drawn again }
+    // The port draws on memory surfaces only, so the back surface is a data surface and is never
+    // lost.
     public bool VerifyBackSurface(Surface surface)
     {
-        Set<DirectDrawSurfaceCreationFlagsElement> flags;
-        DirectDrawSurface dDS;
         bool result = false;
         if (_doubleBuffered)
         {
             if (BackSurface != null)
             {
-                if (BackSurface.GetPixelFormatId() != surface.GetPixelFormatId() || (BackSurface is DirectDrawSurface) ^ (surface is DirectDrawSurface))
+                if (BackSurface.GetPixelFormatId() != surface.GetPixelFormatId())
                 {
                     BackSurface?.Dispose();
                     BackSurface = null;
@@ -336,41 +336,14 @@ public partial class WindowControl : UIComponent
 
             if (BackSurface == null)
             {
-                if (surface is DirectDrawSurface)
-                {
-                    if (((DirectDrawSurface)surface).Status.Contains(DirectDrawSurfaceStatusElement.VideoMemory) && _useVideoMemory)
-                    {
-                        flags = Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.VideoMemory, DirectDrawSurfaceCreationFlagsElement.SystemMemory);
-                    }
-                    else
-                    {
-                        flags = Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.SystemMemory);
-                    }
-
-                    dDS = new DirectDrawSurface();
-                    BackSurface = dDS;
-                    var pixelFormatId = surface.GetPixelFormatId();
-                    dDS.CreateSurface(WinWidth, WinHeight, pixelFormatId, flags);
-                }
-                else
-                {
-                    var pixelFormatId = surface.GetPixelFormatId();
-                    BackSurface = new DataSurface(WinWidth, WinHeight, pixelFormatId, null);
-                }
-
+                var pixelFormatId = surface.GetPixelFormatId();
+                BackSurface = new DataSurface(WinWidth, WinHeight, pixelFormatId, null);
                 if (Masked)
                 {
                     BackSurface.Clear(_maskColor);
                 }
 
                 result = true;
-            }
-            else
-            {
-                if (BackSurface is DirectDrawSurface && ((DirectDrawSurface)BackSurface).Lost())
-                {
-                    result = ((DirectDrawSurface)BackSurface).Restore() == PixelFormats.DD_OK;
-                }
             }
         }
 

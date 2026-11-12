@@ -9,9 +9,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // published labels, popup and ability-list controls
-public partial class UnitBanner : DataModule
+public partial class UnitBanner : UIModule
 {
-    public UnitBanner(Component owner) : base(owner)
+    public UnitBanner(UIContext ui) : base(ui)
     { }
 
     public Label UnitNameLabel;
@@ -29,34 +29,34 @@ public partial class UnitBanner : DataModule
     public void BannerPopupShow()
     {
         CombatAbilityRef A;
-        if (DialogHosts.General.SelectedUnit != null)
+        if (UI.General.SelectedUnit != null)
         {
-            var name = DialogHosts.General.SelectedUnit.GetName();
+            var name = UI.General.SelectedUnit.GetName();
             UnitNameLabel.Text = name;
             BannerMenu.Aligned = false;
-            var hitPoints = DialogHosts.General.SelectedUnit.GetHitPoints();
-            var hits = DialogHosts.General.SelectedUnit.GetHits();
+            var hitPoints = UI.General.SelectedUnit.GetHitPoints();
+            var hits = UI.General.SelectedUnit.GetHits();
             HitsLabel.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
-            var movePoints = DialogHosts.General.SelectedUnit.GetMovePoints();
-            var moves = DialogHosts.General.SelectedUnit.GetMoves();
+            var movePoints = UI.General.SelectedUnit.GetMovePoints();
+            var moves = UI.General.SelectedUnit.GetMoves();
             MovesLabel.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
-            var attack = DialogHosts.General.SelectedUnit.GetAttack();
+            var attack = UI.General.SelectedUnit.GetAttack();
             AttackLabel.Text = IntToStr(attack);
-            var damage = DialogHosts.General.SelectedUnit.GetDamage();
+            var damage = UI.General.SelectedUnit.GetDamage();
             DamageLabel.Text = IntToStr(damage);
-            var defense = DialogHosts.General.SelectedUnit.GetDefense();
+            var defense = UI.General.SelectedUnit.GetDefense();
             DefenseLabel.Text = IntToStr(defense);
-            var resistance = DialogHosts.General.SelectedUnit.GetResistance();
+            var resistance = UI.General.SelectedUnit.GetResistance();
             ResistanceLabel.Text = IntToStr(resistance);
-            var moveTypes = DialogHosts.General.SelectedUnit.GetMoveTypes();
-            var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(moveTypes);
+            var moveTypes = UI.General.SelectedUnit.GetMoveTypes();
+            var moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
             MovesIcon.CurrentImage = moveTypesToInt32;
             AbilityList.Items.Clear();
-            DialogHosts.General.BuildAbilities();
-            for (int I = 0, last = DialogHosts.General.Abilities.Count - 1; I <= last; I++)
+            UI.General.BuildAbilities();
+            for (int I = 0, last = UI.General.Abilities.Count - 1; I <= last; I++)
             {
-                A = DialogHosts.General.Abilities[I];
-                var name2 = GamePack.Current.AbilityControl.GetAbility(A.Ability).GetName(DialogHosts.General.SelectedUnit);
+                A = UI.General.Abilities[I];
+                var name2 = GamePack.Current.AbilityControl.GetAbility(A.Ability).GetName(UI.General.SelectedUnit);
                 AbilityList.Items.Add(name2);
             }
 
@@ -78,7 +78,7 @@ public partial class UnitBanner : DataModule
     // AoWUnitBanner.pas:85
     public void AbLBMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (DialogHosts.General.SelectedUnit != null && AbilityList.HoverItem >= DialogHosts.General.ActiveAbilityCount)
+        if (UI.General.SelectedUnit != null && AbilityList.HoverItem >= UI.General.ActiveAbilityCount)
         {
             AbilityList.HoverItem = -1;
         }
@@ -89,7 +89,7 @@ public partial class UnitBanner : DataModule
     {
         if (button == 1)
         {
-            DialogHosts.UnitBanner.BannerMenu.Visible = false;
+            UI.UnitBanner.BannerMenu.Visible = false;
         }
     }
 
@@ -97,12 +97,12 @@ public partial class UnitBanner : DataModule
     public void AbLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         string reason = "";
-        if (DialogHosts.General.SelectedUnit != null)
+        if (UI.General.SelectedUnit != null)
         {
-            if (AbilityList.Selected > -1 && AbilityList.Selected < DialogHosts.General.ActiveAbilityCount)
+            if (AbilityList.Selected > -1 && AbilityList.Selected < UI.General.ActiveAbilityCount)
             {
-                var ability = DialogHosts.General.Abilities[AbilityList.Selected];
-                GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).Activate(DialogHosts.General.SelectedUnit, ref reason);
+                var ability = UI.General.Abilities[AbilityList.Selected];
+                GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).Activate(UI.General.SelectedUnit, ref reason);
                 BannerMenu.Visible = false;
             }
             else

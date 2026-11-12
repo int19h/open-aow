@@ -110,7 +110,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public void DirectCallPassesNoSender()
     {
         using var owner = new Component(null!);
-        var window = new RelationWindow(owner);
+        using var window = new RelationWindow(new UIContext());
         window.BribeGoldSlider = new HorizontalScrollBar(owner);
         window.BribeGoldValueLabel = new Label(owner);
         window.BribeGoldSlider.SetPositionUnclamped(17);
@@ -137,7 +137,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         var previousDirectories = FileDialogWindow.Directories;
         try
         {
-            dialog = Load(new LayoutSession(), new FileDialogWindow(null!), static module => { _ = module; });
+            dialog = Load(new LayoutSession(), module: new FileDialogWindow(_host.UI), publish: static module => { _ = module; });
             Assert.NotNull(EventFields.Handler<NotifyEvent<Button>>(dialog.OpenButton, declaring: typeof(Button), name: nameof(Button.OnClick)));
             Assert.NotNull(EventFields.Handler<NotifyEvent<ListBox>>(dialog.FileList, declaring: typeof(ListBox), name: nameof(ListBox.OnDoubleClick)));
             FileDialogWindow.Directories = null!;
@@ -260,13 +260,8 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public sealed class Host : IDisposable
     {
         private readonly Action<string> _previousMessage = Runtime.MessageHandler;
-        private readonly UIGraphics? _previousGraphics = DialogHosts.UIGraphics;
-        private readonly UIFonts? _previousFont = DialogHosts.UIFonts;
-        private readonly General? _previousGeneral = DialogHosts.General;
-        private readonly UIGraphics _graphics = null!;
-        private readonly UIFonts _font = null!;
-        private readonly General _general = null!;
 
+        internal UIContext UI { get; } = new();
         internal EmailGameSettingsDialog Dialog { get; } = null!;
 
         public Host()
@@ -277,10 +272,10 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
             try
             {
                 var session = new LayoutSession();
-                _graphics = Load(session, new UIGraphics(null!), module => DialogHosts.UIGraphics = module);
-                _font = Load(session, new UIFonts(null!), module => DialogHosts.UIFonts = module);
-                _general = Load(session, new General(null!), module => DialogHosts.General = module);
-                Dialog = Load(session, new EmailGameSettingsDialog(null!), static module => { _ = module; });
+                UI.Load(session, module: new UIGraphics());
+                UI.Load(session, module: new UIFonts());
+                UI.Load(session, module: new General(UI));
+                Dialog = Load(session, module: new EmailGameSettingsDialog(UI), publish: static module => { _ = module; });
             }
             catch
             {
@@ -296,19 +291,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
 
         public void Dispose()
         {
-            try
-            {
-                Dialog?.Dispose();
-                _general?.Dispose();
-                _font?.Dispose();
-                _graphics?.Dispose();
-            }
-            finally
-            {
-                DialogHosts.UIGraphics = _previousGraphics;
-                DialogHosts.UIFonts = _previousFont;
-                DialogHosts.General = _previousGeneral;
-            }
+            Dialog?.Dispose();
+            UI.General?.Dispose();
+            UI.Dispose();
         }
     }
 }

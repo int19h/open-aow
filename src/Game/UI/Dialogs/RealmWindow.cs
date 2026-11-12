@@ -14,9 +14,9 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class RealmWindow : DataModule
+public partial class RealmWindow : UIModule
 {
-    public RealmWindow(Component owner) : base(owner)
+    public RealmWindow(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -324,16 +324,16 @@ public partial class RealmWindow : DataModule
             }
 
             U = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).GetUnit(column);
-            if ((int)U.GetAlignment() < DialogHosts.UIGraphics.UnitBackgrounds.Count)
+            if ((int)U.GetAlignment() < UI.Graphics.UnitBackgrounds.Count)
             {
                 var alignment = U.GetAlignment();
-                var unitBackground = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
+                var unitBackground = UI.Graphics.UnitBackgrounds[(int)alignment];
                 unitBackground.ShowClipped(drawRectangle.Left - (unitBackground.Width - (drawRectangle.Right - drawRectangle.Left)) / 2, drawRectangle.Top - (unitBackground.Height - (drawRectangle.Bottom - drawRectangle.Top - 10)) / 2, lockedSurface);
             }
 
             var previewImage = U.GetPreviewImage();
             var uPreviewImage = U.GetPreviewImage();
-            U.Show(drawRectangle.Left - (uPreviewImage.Width - (drawRectangle.Right - drawRectangle.Left)) / 2, drawRectangle.Top - (previewImage.Height - (Unit1List.ItemHeight - 10)) / 2, lockedSurface, DialogHosts.General.UnitShowInfo);
+            U.Show(drawRectangle.Left - (uPreviewImage.Width - (drawRectangle.Right - drawRectangle.Left)) / 2, drawRectangle.Top - (previewImage.Height - (Unit1List.ItemHeight - 10)) / 2, lockedSurface, UI.General.UnitShowInfo);
             var gauge = UnitGauge;
             gauge.Visible = true;
             gauge.Max = U.GetHits();
@@ -353,7 +353,7 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:382
     public void OWMinIconClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -364,12 +364,12 @@ public partial class RealmWindow : DataModule
         switch (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]))
         {
             case 49:
-                var listBoxIcon = DialogHosts.UIGraphics.ListIcons[7];
-                DialogHosts.UIGraphics.ListIcons[7].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
+                var listBoxIcon = UI.Graphics.ListIcons[7];
+                UI.Graphics.ListIcons[7].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
                 break;
             case 50:
-                var listBoxIconWidth = DialogHosts.UIGraphics.ListIcons[8];
-                DialogHosts.UIGraphics.ListIcons[8].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIconWidth.Width / 2, drawRectangle.Top, lockedSurface);
+                var listBoxIconWidth = UI.Graphics.ListIcons[8];
+                UI.Graphics.ListIcons[8].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIconWidth.Width / 2, drawRectangle.Top, lockedSurface);
                 break;
         }
     }
@@ -383,7 +383,7 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:403
     public void HeaderTabChange()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         UpdateOverview();
     }
 
@@ -405,9 +405,9 @@ public partial class RealmWindow : DataModule
     {
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).GetCount() > 0)
         {
-            listBox.PopupMenu = DialogHosts.UnitBanner.BannerMenu;
+            listBox.PopupMenu = UI.UnitBanner.BannerMenu;
             var troop = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).GetUnit(slot);
-            DialogHosts.General.SelectedUnit = troop;
+            UI.General.SelectedUnit = troop;
             var armyHexSprite = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).GetArmyHexSprite();
             StrategicMap.Current.Select(armyHexSprite, true);
             Window.Priority = Window.Priority;
@@ -434,8 +434,8 @@ public partial class RealmWindow : DataModule
         int icon;
         string text = CityMoraleList.Items[drawItem];
         icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
-        var listBoxIcon = DialogHosts.UIGraphics.ListIcons[icon + 9];
-        DialogHosts.UIGraphics.ListIcons[icon + 9].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
+        var listBoxIcon = UI.Graphics.ListIcons[icon + 9];
+        UI.Graphics.ListIcons[icon + 9].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
     }
 
     // AoWRealm.pas:457
@@ -478,7 +478,7 @@ public partial class RealmWindow : DataModule
         if (sender.Selected != -1)
         {
             var city = CityNameList.Items.Objects[sender.Selected];
-            DialogHosts.CityScreen.ShowCity(city);
+            UI.CityScreen.ShowCity(city);
         }
     }
 
@@ -490,7 +490,7 @@ public partial class RealmWindow : DataModule
             if (PlaceNameList.Items.Objects[sender.Selected] is ProductionPlace)
             {
                 var productionPlace = PlaceNameList.Items.Objects[sender.Selected];
-                DialogHosts.ProductionScreen.ShowPlace((ProductionPlace)productionPlace);
+                UI.ProductionScreen.ShowPlace((ProductionPlace)productionPlace);
             }
             else
             {
@@ -553,36 +553,36 @@ public partial class RealmWindow : DataModule
     public void HeroInfoClick()
     {
         int index;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         index = HeroNameList.Selected;
         if (index != -1)
         {
             // { evaluate the index before the receiver chain }
             var hero = HeroHealthList.Items.Objects[index << 0];
-            DialogHosts.General.SelectedUnit = hero;
-            DialogHosts.UnitWindow.ShowUnit();
+            UI.General.SelectedUnit = hero;
+            UI.UnitWindow.ShowUnit();
         }
     }
 
     // AoWRealm.pas:549
     public void T2LevelLBDoubleClick()
     {
-        DialogHosts.RealmWindow.UpdateOverview();
-        DialogHosts.RealmWindow.Window.Visible = true;
+        UI.RealmWindow.UpdateOverview();
+        UI.RealmWindow.Window.Visible = true;
     }
 
     // AoWRealm.pas:555
     public void T2WallLBDoubleClick()
     {
-        DialogHosts.RealmWindow.UpdateOverview();
-        DialogHosts.RealmWindow.Window.Visible = true;
+        UI.RealmWindow.UpdateOverview();
+        UI.RealmWindow.Window.Visible = true;
     }
 
     // AoWRealm.pas:561
     public void T2RaceLBDoubleClick()
     {
-        DialogHosts.RealmWindow.UpdateOverview();
-        DialogHosts.RealmWindow.Window.Visible = true;
+        UI.RealmWindow.UpdateOverview();
+        UI.RealmWindow.Window.Visible = true;
     }
 
     // AoWRealm.pas:567
@@ -593,16 +593,16 @@ public partial class RealmWindow : DataModule
         icon = IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]);
         if (icon != 45)
         {
-            var listBoxIcon = DialogHosts.UIGraphics.ListIcons[icon - 23];
-            DialogHosts.UIGraphics.ListIcons[icon - 23].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
+            var listBoxIcon = UI.Graphics.ListIcons[icon - 23];
+            UI.Graphics.ListIcons[icon - 23].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
         }
     }
 
     // AoWRealm.pas:577
     public void T2ActLBDoubleClick()
     {
-        DialogHosts.RealmWindow.UpdateOverview();
-        DialogHosts.RealmWindow.Window.Visible = true;
+        UI.RealmWindow.UpdateOverview();
+        UI.RealmWindow.Window.Visible = true;
     }
 
     // AoWRealm.pas:583
@@ -611,8 +611,8 @@ public partial class RealmWindow : DataModule
         int icon;
         string text = CityRelationList.Items[drawItem];
         icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
-        var listBoxIcon = DialogHosts.UIGraphics.ListIcons[icon + 14];
-        DialogHosts.UIGraphics.ListIcons[icon + 14].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
+        var listBoxIcon = UI.Graphics.ListIcons[icon + 14];
+        UI.Graphics.ListIcons[icon + 14].ShowClipped(drawRectangle.Left + (drawRectangle.Right - drawRectangle.Left) / 2 - listBoxIcon.Width / 2, drawRectangle.Top, lockedSurface);
     }
 
     // AoWRealm.pas:592
@@ -657,7 +657,7 @@ public partial class RealmWindow : DataModule
     public void T2SNameClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(CityNameList);
         lists.Add(CityRaceList);
@@ -669,14 +669,14 @@ public partial class RealmWindow : DataModule
         lists.Add(CityMoraleList);
         lists.Add(CityActionList);
         lists.Add(CityEnchantmentList);
-        DialogHosts.General.SortLists(ref lists, 0);
+        UI.General.SortLists(ref lists, 0);
     }
 
     // AoWRealm.pas:649
     public void T2SRaceClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(CityRaceList);
         lists.Add(CityNameList);
@@ -688,14 +688,14 @@ public partial class RealmWindow : DataModule
         lists.Add(CityMoraleList);
         lists.Add(CityActionList);
         lists.Add(CityEnchantmentList);
-        DialogHosts.General.SortLists(ref lists, 0);
+        UI.General.SortLists(ref lists, 0);
     }
 
     // AoWRealm.pas:668
     public void T2SInClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(CityIncomeList);
         lists.Add(CityNameList);
@@ -707,14 +707,14 @@ public partial class RealmWindow : DataModule
         lists.Add(CityMoraleList);
         lists.Add(CityActionList);
         lists.Add(CityEnchantmentList);
-        DialogHosts.General.SortLists(ref lists, 2);
+        UI.General.SortLists(ref lists, 2);
     }
 
     // AoWRealm.pas:687
     public void T2SLvlClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(CityLevelList);
         lists.Add(CityNameList);
@@ -726,14 +726,14 @@ public partial class RealmWindow : DataModule
         lists.Add(CityMoraleList);
         lists.Add(CityActionList);
         lists.Add(CityEnchantmentList);
-        DialogHosts.General.SortLists(ref lists, 1);
+        UI.General.SortLists(ref lists, 1);
     }
 
     // AoWRealm.pas:706
     public void T2SWallClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(CityWallList);
         lists.Add(CityNameList);
@@ -745,14 +745,14 @@ public partial class RealmWindow : DataModule
         lists.Add(CityMoraleList);
         lists.Add(CityActionList);
         lists.Add(CityEnchantmentList);
-        DialogHosts.General.SortLists(ref lists, 1);
+        UI.General.SortLists(ref lists, 1);
     }
 
     // AoWRealm.pas:725
     public void T2SSizeClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(CitySizeList);
         lists.Add(CityNameList);
@@ -764,14 +764,14 @@ public partial class RealmWindow : DataModule
         lists.Add(CityMoraleList);
         lists.Add(CityActionList);
         lists.Add(CityEnchantmentList);
-        DialogHosts.General.SortLists(ref lists, 1);
+        UI.General.SortLists(ref lists, 1);
     }
 
     // AoWRealm.pas:744
     public void T2SRelClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(CityRelationList);
         lists.Add(CityNameList);
@@ -783,14 +783,14 @@ public partial class RealmWindow : DataModule
         lists.Add(CityMoraleList);
         lists.Add(CityActionList);
         lists.Add(CityEnchantmentList);
-        DialogHosts.General.SortLists(ref lists, 1);
+        UI.General.SortLists(ref lists, 1);
     }
 
     // AoWRealm.pas:763
     public void T2SMorClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(CityMoraleList);
         lists.Add(CityNameList);
@@ -802,14 +802,14 @@ public partial class RealmWindow : DataModule
         lists.Add(CityRelationList);
         lists.Add(CityActionList);
         lists.Add(CityEnchantmentList);
-        DialogHosts.General.SortLists(ref lists, 1);
+        UI.General.SortLists(ref lists, 1);
     }
 
     // AoWRealm.pas:782
     public void T2SActClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(CityActionList);
         lists.Add(CityNameList);
@@ -821,14 +821,14 @@ public partial class RealmWindow : DataModule
         lists.Add(CityRelationList);
         lists.Add(CityMoraleList);
         lists.Add(CityEnchantmentList);
-        DialogHosts.General.SortLists(ref lists, 1);
+        UI.General.SortLists(ref lists, 1);
     }
 
     // AoWRealm.pas:801
     public void T2SEncClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(CityEnchantmentList);
         lists.Add(CityNameList);
@@ -840,18 +840,18 @@ public partial class RealmWindow : DataModule
         lists.Add(CityRelationList);
         lists.Add(CityMoraleList);
         lists.Add(CityActionList);
-        DialogHosts.General.SortLists(ref lists, 0);
+        UI.General.SortLists(ref lists, 0);
     }
 
     // AoWRealm.pas:820
     public void T3SNameClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(PlaceNameList);
         lists.Add(PlaceActionList);
-        DialogHosts.General.SortLists(ref lists, 0);
+        UI.General.SortLists(ref lists, 0);
     }
 
     // AoWRealm.pas:831
@@ -897,8 +897,8 @@ public partial class RealmWindow : DataModule
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(sender.Selected).GetCount() > 0)
         {
             var troop = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(sender.Selected).GetUnit(slot);
-            DialogHosts.General.SelectedUnit = troop;
-            DialogHosts.UnitWindow.ShowUnit();
+            UI.General.SelectedUnit = troop;
+            UI.UnitWindow.ShowUnit();
         }
     }
 
@@ -906,42 +906,42 @@ public partial class RealmWindow : DataModule
     public void T5SNameClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(HeroNameList);
         lists.Add(HeroHealthList);
         lists.Add(HeroLevelList);
-        DialogHosts.General.SortLists(ref lists, 0);
+        UI.General.SortLists(ref lists, 0);
     }
 
     // AoWRealm.pas:887
     public void T5SHealthClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(HeroHealthList);
         lists.Add(HeroNameList);
         lists.Add(HeroLevelList);
-        DialogHosts.General.SortLists(ref lists, 1);
+        UI.General.SortLists(ref lists, 1);
     }
 
     // AoWRealm.pas:899
     public void T5SLevelClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(HeroLevelList);
         lists.Add(HeroNameList);
         lists.Add(HeroHealthList);
-        DialogHosts.General.SortLists(ref lists, 2);
+        UI.General.SortLists(ref lists, 2);
     }
 
     // AoWRealm.pas:911
     public void GotoButClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWRealm.pas:916
@@ -998,11 +998,11 @@ public partial class RealmWindow : DataModule
     public void T3ActivityClick(int button)
     {
         DelphiList<ListBox> lists;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         lists = new DelphiList<ListBox>();
         lists.Add(PlaceActionList);
         lists.Add(PlaceNameList);
-        DialogHosts.General.SortLists(ref lists, 1);
+        UI.General.SortLists(ref lists, 1);
     }
 
     // AoWRealm.pas:962
@@ -1014,19 +1014,19 @@ public partial class RealmWindow : DataModule
     // AoWRealm.pas:967
     public void DlgShow()
     {
-        DialogHosts.General.RegisterDialog(Window);
+        UI.General.RegisterDialog(Window);
     }
 
     // AoWRealm.pas:972
     public void DlgHide()
     {
-        DialogHosts.General.UnregisterDialog(Window);
+        UI.General.UnregisterDialog(Window);
     }
 
     // AoWRealm.pas:977
     public void HelpClick()
     {
-        HelpWindow.ShowHelp(505);
+        UI.HelpWindow.ShowHelp(505);
     }
 
     private static readonly string s_buildersGuildsText = "Builder Guilds";

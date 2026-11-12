@@ -21,9 +21,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // city, preview, view, action, production, queue, mode, migrations, sort, images
-public partial class CityScreen : DataModule
+public partial class CityScreen : UIModule
 {
-    public CityScreen(Component owner) : base(owner)
+    public CityScreen(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -216,7 +216,7 @@ public partial class CityScreen : DataModule
     {
         Reset();
         _city = null;
-        DialogHosts.General.Manager.OverlayPriority = 0;
+        UI.General.Manager.OverlayPriority = 0;
     }
 
     // AoWCityScreen.pas:836
@@ -563,7 +563,7 @@ public partial class CityScreen : DataModule
                 var moves = U.GetMoves();
                 UnitMovesLabel.Text = IntToStr(moves);
                 var moveTypes = U.GetMoveTypes();
-                var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(moveTypes);
+                var moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                 UnitMovesIcon.CurrentImage = moveTypesToInt32;
                 var alignment = U.GetAlignment();
                 var alignmentText = AbilityRules.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
@@ -850,7 +850,7 @@ public partial class CityScreen : DataModule
         }
 
         StrategicMap.Current.TutorialControl.ShowMessage(56, true, true);
-        DialogHosts.General.Manager.OverlayPriority = 49;
+        UI.General.Manager.OverlayPriority = 49;
         Window.Visible = true;
     }
 
@@ -869,7 +869,7 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:302
     public void ActivityChange(CheckBox sender, int slot)
     {
-        DialogHosts.General.PlayButtonSound(1);
+        UI.General.PlayButtonSound(1);
         if (sender.Checked)
         {
             ResetChecks();
@@ -893,7 +893,7 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:324
     public void ProductionChange(CheckBox sender, int slot)
     {
-        DialogHosts.General.PlayButtonSound(1);
+        UI.General.PlayButtonSound(1);
         if (sender.Checked)
         {
             ResetChecks();
@@ -923,7 +923,7 @@ public partial class CityScreen : DataModule
     {
         int image;
         image = ActivityImage((CityAction)((byte)slot + 1));
-        DialogHosts.UIGraphics.CityWindow[image].Show(ActivityPanel2.WinLeft + sender.WinLeft + 2, ActivityPanel2.WinTop + sender.WinTop + 2, lockedSurface);
+        UI.Graphics.CityWindow[image].Show(ActivityPanel2.WinLeft + sender.WinLeft + 2, ActivityPanel2.WinTop + sender.WinTop + 2, lockedSurface);
     }
 
     // AoWCityScreen.pas:354
@@ -1136,7 +1136,7 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:465
     public void CityBtn3Click()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_mode == 0)
         {
             Window.Visible = false;
@@ -1169,7 +1169,7 @@ public partial class CityScreen : DataModule
             info.Looped = false;
             if (!P.Researched)
             {
-                DialogHosts.UIGraphics.CityWindow[5].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                UI.Graphics.CityWindow[5].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 info.Direction = 5;
                 if (U != null)
                 {
@@ -1177,11 +1177,11 @@ public partial class CityScreen : DataModule
                 }
 
                 var lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(45);
-                DialogHosts.UIGraphics.CityWindow[5].ShowBlended(R.Left + 2, R.Top + 2, lockedSurface, lookupTable);
+                UI.Graphics.CityWindow[5].ShowBlended(R.Left + 2, R.Top + 2, lockedSurface, lookupTable);
             }
             else
             {
-                DialogHosts.UIGraphics.CityWindow[4].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                UI.Graphics.CityWindow[4].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 if (U != null)
                 {
                     U.Show(R.Left - 4, R.Top, lockedSurface, info);
@@ -1195,7 +1195,7 @@ public partial class CityScreen : DataModule
         }
         else
         {
-            DialogHosts.UIGraphics.CityWindow[62].Show(R.Left + 2, R.Top + 2, lockedSurface);
+            UI.Graphics.CityWindow[62].Show(R.Left + 2, R.Top + 2, lockedSurface);
         }
     }
 
@@ -1491,7 +1491,7 @@ public partial class CityScreen : DataModule
             if (A != null)
             {
                 var name = A.GetName(null);
-                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, A.Description);
+                InfoBanner.SetInfoBanner(UI.InfoBanner, name, A.Description);
             }
         }
     }

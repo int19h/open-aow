@@ -137,9 +137,9 @@ public partial class TitleWindow : ILayoutModule
         SplashPanel.Loaded();
         DemoImages.Loaded();
         session.Resolve(this);
-        MainWindow.WindowManager = DialogHosts.General.Manager;
-        MainWindow.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
-        TitlePanel.ImageLibraryTexture = DialogHosts.UIGraphics.TitleScreen;
-        SplashPanel.ImageLibraryTexture = DialogHosts.UIGraphics.TitleScreen;
+        MainWindow.WindowManager = UI.General.Manager;
+        MainWindow.ImageLibraryTexture = UI.Graphics.GenericTextures;
+        TitlePanel.ImageLibraryTexture = UI.Graphics.TitleScreen;
+        SplashPanel.ImageLibraryTexture = UI.Graphics.TitleScreen;
     }
 }

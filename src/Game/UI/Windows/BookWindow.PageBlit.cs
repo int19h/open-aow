@@ -9,8 +9,7 @@ public partial class BookWindow
     public override void Blit(Surface surface)
     {
         if (_pageSurface is not null && (_pageSurface.PixelFormatId != BackSurface.PixelFormatId ||
-            _pageSurface.Width != BackSurface.Width || _pageSurface.Height != BackSurface.Height ||
-            _pageSurface is DirectDrawSurface != BackSurface is DirectDrawSurface))
+            _pageSurface.Width != BackSurface.Width || _pageSurface.Height != BackSurface.Height))
         {
             _pageSurface?.Dispose();
             _pageSurface = null;
@@ -18,16 +17,7 @@ public partial class BookWindow
         var area = new Rect(0, 0, WinWidth, WinHeight);
         if (_pageSurface is null)
         {
-            if (BackSurface is DirectDrawSurface direct)
-            {
-                var flags = direct.Status.Contains(DirectDrawSurfaceStatusElement.VideoMemory) && _useVideoMemory
-                    ? Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.VideoMemory, DirectDrawSurfaceCreationFlagsElement.SystemMemory)
-                    : Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.SystemMemory);
-                var page = new DirectDrawSurface();
-                page.CreateSurface(WinWidth, WinHeight, BackSurface.PixelFormatId, flags);
-                _pageSurface = page;
-            }
-            else _pageSurface = new DataSurface(WinWidth, WinHeight, BackSurface.PixelFormatId, null);
+            _pageSurface = new DataSurface(WinWidth, WinHeight, BackSurface.PixelFormatId, null);
             BackSurface.BlitAreaClipped(_pageSurface, area, 0, 0);
         }
         if (!Animating)

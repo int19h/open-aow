@@ -19,16 +19,16 @@ public partial class TitleScene
             player.Songs.Add("SONGS\\TITLE.IT");
             player.Play(0);
         }
-        DialogHosts.General.Manager.OverlayPriority = 0;
+        UI.General.Manager.OverlayPriority = 0;
         TitleSceneImages.LoadDiscardableImageData();
-        DialogHosts.VideoDialog.SetSceneSize(640, 480);
-        VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
-        DialogHosts.VideoDialog.ApplyMode();
+        UI.VideoDialog.SetSceneSize(640, 480);
+        VideoDialog.SetVideoMode(UI.VideoDialog, VideoDialog.ScreenMode.Title);
+        UI.VideoDialog.ApplyMode();
         GameHost.MainForm.Display.SetFrameRate(30);
         GameHost.MainForm.DisplayController.UseVerticalBlank = true;
         _redrawBackground = true;
         _pressedButton = _hoverButton = -1;
-        _font = _creditsFont = DialogHosts.UIFonts.Age15WhiteOnGrey;
+        _font = _creditsFont = UI.Fonts.Age15WhiteOnGrey;
         Window.WindowManager.ImageLibraryIndexTBack = 4;
         Window.Visible = true;
     }
@@ -53,36 +53,36 @@ public partial class TitleScene
             {
                 case 0:
                     Window.Visible = false;
-                    DialogHosts.General.PlayButtonSound(0);
-                    DialogHosts.MultiWindow.Execute("");
+                    UI.General.PlayButtonSound(0);
+                    UI.MultiWindow.Execute("");
                     break;
                 case 1:
                     if (!GameTables.GameEngine.Demo)
                     {
                         Window.Visible = false;
-                        DialogHosts.General.PlayButtonSound(0);
-                        ShowFactionSelection(DialogHosts.FactionSelectionWindow);
+                        UI.General.PlayButtonSound(0);
+                        ShowFactionSelection(UI.FactionSelectionWindow);
                     }
-                    else MessageDialog.ShowDemoMessage();
+                    else UI.MessageDialog.ShowDemoMessage();
                     break;
                 case 2:
-                    LoadGame(DialogHosts.General, FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
+                    LoadGame(UI.General, FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
                     if (StrategicMap.Current is { } map)
                     {
                         map.FixedLeaders = true;
-                        StartGame(DialogHosts.General);
+                        StartGame(UI.General);
                         Window.Visible = false;
                     }
                     break;
                 case 3:
-                    DialogHosts.General.PlayButtonSound(0);
-                    DialogHosts.FileDialogWindow.Mode = 0;
-                    DialogHosts.FileDialogWindow.Window.Visible = true;
+                    UI.General.PlayButtonSound(0);
+                    UI.FileDialogWindow.Mode = 0;
+                    UI.FileDialogWindow.Window.Visible = true;
                     break;
                 case 4:
                     Window.Visible = false;
-                    DialogHosts.General.PlayButtonSound(0);
-                    if (GameTables.GameEngine.Demo) DialogHosts.TitleWindow.ShowExitSplash();
+                    UI.General.PlayButtonSound(0);
+                    if (GameTables.GameEngine.Demo) UI.TitleWindow.ShowExitSplash();
                     else GameHost.MainForm.CloseRequested();
                     break;
             }

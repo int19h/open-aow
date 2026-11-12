@@ -10,11 +10,11 @@ namespace Aow.Game.UI.Dialogs;
 
 public static class WindowActions
 {
-    internal static void RestoreWindowLayout(object controller)
+    internal static void RestoreWindowLayout(General controller)
     {
         Rect R;
         R = GameTables.GameEngine.Registry.GetRectangle(6);
-        var scanner = DialogHosts.ScannerWindow.MainWindow;
+        var scanner = controller.UI.ScannerWindow.MainWindow;
         if (R.Right != 0)
         {
             scanner.Alignment.TopOffset = R.Top;
@@ -31,7 +31,7 @@ public static class WindowActions
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(0);
-        var playerInfo = DialogHosts.PlayerInfoWindow.MainWindow;
+        var playerInfo = controller.UI.PlayerInfoWindow.MainWindow;
         if (R.Right != 0)
         {
             playerInfo.Alignment.BottomOffset = R.Top;
@@ -48,7 +48,7 @@ public static class WindowActions
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(2);
-        var unitWindow = DialogHosts.UnitWindow.MainWindow;
+        var unitWindow = controller.UI.UnitWindow.MainWindow;
         if (R.Right != 0)
         {
             var alignment = unitWindow.Alignment;
@@ -73,7 +73,7 @@ public static class WindowActions
         GameTables.GameEngine.Registry.GetRectangle(3);
         GameTables.GameEngine.Registry.GetRectangle(4);
         R = GameTables.GameEngine.Registry.GetRectangle(5);
-        var realm = DialogHosts.RealmWindow.Window;
+        var realm = controller.UI.RealmWindow.Window;
         if (R.Right != 0)
         {
             var alignment = realm.Alignment;
@@ -88,7 +88,7 @@ public static class WindowActions
         else
         {
             var alignment = realm.Alignment;
-            alignment.BottomOffset = DialogHosts.TaskBar.TaskWindow.WinHeight;
+            alignment.BottomOffset = controller.UI.TaskBar.TaskWindow.WinHeight;
             alignment.LeftOffset = 0;
             alignment.RightOffset = scanner.WinWidth;
             alignment.AlignWidth = AlignWidth.Both;
@@ -99,7 +99,7 @@ public static class WindowActions
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(13);
-        var magic = DialogHosts.MagicWindow.Window;
+        var magic = controller.UI.MagicWindow.Window;
         if (R.Right != 0)
         {
             var alignment = magic.Alignment;
@@ -114,7 +114,7 @@ public static class WindowActions
         else
         {
             var alignment = magic.Alignment;
-            alignment.BottomOffset = DialogHosts.TaskBar.TaskWindow.WinHeight;
+            alignment.BottomOffset = controller.UI.TaskBar.TaskWindow.WinHeight;
             alignment.LeftOffset = 0;
             alignment.RightOffset = scanner.WinWidth;
             alignment.AlignWidth = AlignWidth.Both;
@@ -125,7 +125,7 @@ public static class WindowActions
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(1);
-        var controls = DialogHosts.ControlWindow.MainWindow;
+        var controls = controller.UI.ControlWindow.MainWindow;
         if (R.Right != 0)
         {
             controls.Alignment.TopOffset = R.Top;
@@ -142,7 +142,7 @@ public static class WindowActions
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(7);
-        var info = DialogHosts.InfoWindow.MainWindow;
+        var info = controller.UI.InfoWindow.MainWindow;
         if (R.Right != 0)
         {
             info.Alignment.TopOffset = R.Top;
@@ -159,7 +159,7 @@ public static class WindowActions
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(8);
-        var chat = DialogHosts.ChatWindow.MainWindow;
+        var chat = controller.UI.ChatWindow.MainWindow;
         if (R.Right != 0)
         {
             var alignment = chat.Alignment;
@@ -176,14 +176,14 @@ public static class WindowActions
             alignment.AlignWidth = AlignWidth.Both;
             alignment.LeftOffset = 0;
             alignment.RightOffset = scanner.MinWidth;
-            alignment.BottomOffset = DialogHosts.TaskBar.TaskWindow.WinHeight;
+            alignment.BottomOffset = controller.UI.TaskBar.TaskWindow.WinHeight;
 
             chat.WinWidth = chat.MinWidth;
             chat.WinHeight = chat.MinHeight;
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(12);
-        var tacticalBattleScanner = DialogHosts.CombatScanner.CombatScannerWindow;
+        var tacticalBattleScanner = controller.UI.CombatScanner.CombatScannerWindow;
         if (R.Right != 0)
         {
             tacticalBattleScanner.Alignment.TopOffset = R.Top;
@@ -200,7 +200,7 @@ public static class WindowActions
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(10);
-        var tacticalBattleUnit = DialogHosts.CombatUnitInfo.MainWindow;
+        var tacticalBattleUnit = controller.UI.CombatUnitInfo.MainWindow;
         if (R.Right != 0)
         {
             tacticalBattleUnit.Alignment.BottomOffset = R.Top;
@@ -219,20 +219,20 @@ public static class WindowActions
         R = GameTables.GameEngine.Registry.GetRectangle(11);
         if (R.Right != 0)
         {
-            DialogHosts.MapWindow.MapRectangle = R;
-            DialogHosts.MapWindow.MapAlignHeight = AlignHeight.Top;
-            DialogHosts.MapWindow.MapAlignWidth = AlignWidth.Left;
+            controller.UI.MapWindow.MapRectangle = R;
+            controller.UI.MapWindow.MapAlignHeight = AlignHeight.Top;
+            controller.UI.MapWindow.MapAlignWidth = AlignWidth.Left;
         }
         else
         {
-            DialogHosts.MapWindow.MapAlignHeight = AlignHeight.Both;
-            DialogHosts.MapWindow.MapAlignWidth = AlignWidth.Both;
-            var rectangle = new Rect(0, 0, tacticalBattleScanner.MinWidth, DialogHosts.TaskBar.TaskWindow.WinHeight);
-            DialogHosts.MapWindow.MapRectangle = rectangle;
+            controller.UI.MapWindow.MapAlignHeight = AlignHeight.Both;
+            controller.UI.MapWindow.MapAlignWidth = AlignWidth.Both;
+            var rectangle = new Rect(0, 0, tacticalBattleScanner.MinWidth, controller.UI.TaskBar.TaskWindow.WinHeight);
+            controller.UI.MapWindow.MapRectangle = rectangle;
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(9);
-        var map = DialogHosts.MapWindow.MainWindow;
+        var map = controller.UI.MapWindow.MainWindow;
         if (R.Right != 0)
         {
             var alignment = map.Alignment;
@@ -252,7 +252,7 @@ public static class WindowActions
             alignment.TopOffset = 0;
             alignment.LeftOffset = 0;
             alignment.RightOffset = scanner.MinWidth;
-            alignment.BottomOffset = DialogHosts.TaskBar.TaskWindow.WinHeight;
+            alignment.BottomOffset = controller.UI.TaskBar.TaskWindow.WinHeight;
         }
     }
 

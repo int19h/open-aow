@@ -437,21 +437,21 @@ public partial class SynchronizeDialog : ILayoutModule
         faceFrame.Loaded();
         translator.Loaded();
         session.Resolve(this);
-        Window.WindowManager = DialogHosts.General.Manager;
-        tCeltB.ImageLibraryLine = DialogHosts.UIGraphics.CelticDecorations;
-        bottomMsg.Font = DialogHosts.UIFonts.Age10Shadow;
-        LeftShield.ImageLibrary = DialogHosts.UIGraphics.Shields;
-        PlayerNameLabel.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
-        infoMsg.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
-        PlayerRaceLabel.Font = DialogHosts.UIFonts.Age10Shadow;
-        TurnLabel.Font = DialogHosts.UIFonts.Age10Shadow;
-        RightShield.ImageLibrary = DialogHosts.UIGraphics.Shields;
-        blueFr.ImageLibraryFrame = DialogHosts.UIGraphics.CelticDecorations;
-        blueFr.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
-        tCeltLineL.ImageLibrary = DialogHosts.UIGraphics.CelticDecorations;
-        tCeltLineR.ImageLibrary = DialogHosts.UIGraphics.CelticDecorations;
-        newTPnl.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-        newTPnl.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
-        faceFrame.ImageLibrary = DialogHosts.UIGraphics.GenericFrames;
+        Window.WindowManager = UI.General.Manager;
+        tCeltB.ImageLibraryLine = UI.Graphics.CelticDecorations;
+        bottomMsg.Font = UI.Fonts.Age10Shadow;
+        LeftShield.ImageLibrary = UI.Graphics.Shields;
+        PlayerNameLabel.Font = UI.Fonts.Age15WhiteOnGrey;
+        infoMsg.Font = UI.Fonts.Age15WhiteOnGrey;
+        PlayerRaceLabel.Font = UI.Fonts.Age10Shadow;
+        TurnLabel.Font = UI.Fonts.Age10Shadow;
+        RightShield.ImageLibrary = UI.Graphics.Shields;
+        blueFr.ImageLibraryFrame = UI.Graphics.CelticDecorations;
+        blueFr.ImageLibraryTexture = UI.Graphics.GenericTextures;
+        tCeltLineL.ImageLibrary = UI.Graphics.CelticDecorations;
+        tCeltLineR.ImageLibrary = UI.Graphics.CelticDecorations;
+        newTPnl.ImageLibraryFrame = UI.Graphics.GenericFrames;
+        newTPnl.ImageLibraryTexture = UI.Graphics.GenericTextures;
+        faceFrame.ImageLibrary = UI.Graphics.GenericFrames;
     }
 }

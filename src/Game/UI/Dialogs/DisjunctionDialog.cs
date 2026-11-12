@@ -13,9 +13,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // caster, sort order, map location
-public partial class DisjunctionDialog : DataModule
+public partial class DisjunctionDialog : UIModule
 {
-    public DisjunctionDialog(Component owner) : base(owner)
+    public DisjunctionDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -35,7 +35,7 @@ public partial class DisjunctionDialog : DataModule
     // AoWDisjunctionDlg.pas:179
     public void ClearCaster()
     {
-        DialogHosts.General.Manager.OverlayPriority = 0;
+        UI.General.Manager.OverlayPriority = 0;
         if (_caster != null)
         {
             _caster.Release();
@@ -168,7 +168,7 @@ public partial class DisjunctionDialog : DataModule
         _caster.AddRef();
         UpdateEnchantments();
         SelectEnchantment(0);
-        DialogHosts.General.Manager.OverlayPriority = 49;
+        UI.General.Manager.OverlayPriority = 49;
         Window.Visible = true;
     }
 
@@ -224,7 +224,7 @@ public partial class DisjunctionDialog : DataModule
     // AoWDisjunctionDlg.pas:120
     public void SortEnchantmentClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_sortOrder == 0)
         {
             _sortOrder = 1;
@@ -240,7 +240,7 @@ public partial class DisjunctionDialog : DataModule
     // AoWDisjunctionDlg.pas:128
     public void SortClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_sortOrder == 2)
         {
             _sortOrder = 3;
@@ -304,7 +304,7 @@ public partial class DisjunctionDialog : DataModule
     // AoWDisjunctionDlg.pas:170
     public void MapViewUpdate()
     {
-        DialogHosts.General.Manager.OverlayPriority = 49;
+        UI.General.Manager.OverlayPriority = 49;
         MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
     }
 }

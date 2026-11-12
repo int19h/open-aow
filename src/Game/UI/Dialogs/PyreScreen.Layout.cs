@@ -140,8 +140,8 @@ public partial class PyreScreen : ILayoutModule
         LeaderFaceFrame.Loaded();
         PyreAnimationView.Loaded();
         session.Resolve(this);
-        DeadPanel.Window = DialogHosts.TitleWindow.MainWindow;
-        pyreTop.ImageLibrary = DialogHosts.UIGraphics.PyreFrames;
-        LeaderFaceFrame.ImageLibrary = DialogHosts.UIGraphics.PyreFrames;
+        DeadPanel.Window = UI.TitleWindow.MainWindow;
+        pyreTop.ImageLibrary = UI.Graphics.PyreFrames;
+        LeaderFaceFrame.ImageLibrary = UI.Graphics.PyreFrames;
     }
 }

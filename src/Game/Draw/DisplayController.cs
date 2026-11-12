@@ -222,25 +222,6 @@ public partial class DisplayController : Component
     // DisplayC.pas:690
     public virtual int GetHPalette() => 0;
 
-    // DisplayC.pas:695
-    public virtual bool WindowProc(ref Message message)
-    {
-        bool result = true;
-        if (message.Msg == 133)
-        {
-            result = false;
-            message.Result = 0;
-        }
-
-        if (message.Msg == 20)
-        {
-            result = false;
-            message.Result = 1;
-        }
-
-        return result;
-    }
-
     // DisplayC.pas:710
     public virtual CustomDisplay GetDisplay() => _display;
 

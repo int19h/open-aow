@@ -4,21 +4,21 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class UIFonts : DataModule
+public sealed partial class UIFonts : DataModule
 {
-    public UIFonts(Component owner) : base(owner)
+    public UIFonts() : base(null)
     { }
 
-    public ImageLibraryFont Age8;
-    public ImageLibraryFont Age10;
-    public ImageLibraryFont Age16Shadow;
-    public ImageLibraryFont Age10Shadow;
-    public ImageLibraryFont Age8Shadow;
-    public ImageLibraryFont Age14Gold;
-    public ImageLibraryFont Age15WhiteOnGrey;
-    public ImageLibraryFont Age15BlackOnBrown;
-    public ImageLibraryFont Age10List;
-    public ImageLibraryFont Age10Bold;
-    public ImageLibraryFont Age10BoldShadow;
-    public ImageLibraryFont TaskbarDigits;
+    public ImageLibraryFont Age8 { get; private set; }
+    public ImageLibraryFont Age10 { get; private set; }
+    public ImageLibraryFont Age16Shadow { get; private set; }
+    public ImageLibraryFont Age10Shadow { get; private set; }
+    public ImageLibraryFont Age8Shadow { get; private set; }
+    public ImageLibraryFont Age14Gold { get; private set; }
+    public ImageLibraryFont Age15WhiteOnGrey { get; private set; }
+    public ImageLibraryFont Age15BlackOnBrown { get; private set; }
+    public ImageLibraryFont Age10List { get; private set; }
+    public ImageLibraryFont Age10Bold { get; private set; }
+    public ImageLibraryFont Age10BoldShadow { get; private set; }
+    public ImageLibraryFont TaskbarDigits { get; private set; }
 }

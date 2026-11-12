@@ -23,9 +23,9 @@ namespace Aow.Game.UI.Dialogs;
 
 // frame counters, mouse button, mouse position, selected/pressed/hover button, scene rectangle,
 // redraw/credits, credits, credit page/frame, intro flag/frame, font
-public partial class TitleScene : DataModule
+public partial class TitleScene : UIModule
 {
-    public TitleScene(Component owner) : base(owner)
+    public TitleScene(UIContext ui) : base(ui)
     { }
 
     public ImageLibrary TitleSceneImages;
@@ -612,7 +612,7 @@ public partial class TitleScene : DataModule
     public void WindowUpdate()
     {
         Window.SurfaceValid = false;
-        if (!DialogHosts.FileDialogWindow.Window.Visible && !DialogHosts.ProgressDialog.Window.Visible)
+        if (!UI.FileDialogWindow.Window.Visible && !UI.ProgressDialog.Window.Visible)
         {
             AdvanceFrame();
         }
@@ -685,8 +685,8 @@ public partial class TitleScene : DataModule
 
     private static void ShowFactionSelection(FactionSelectionWindow dialog)
     {
-        DialogHosts.TitleWindow.MainWindow.Visible = true;
-        DialogHosts.FactionSelectionWindow.FactionPanel.Visible = true;
+        dialog.UI.TitleWindow.MainWindow.Visible = true;
+        dialog.UI.FactionSelectionWindow.FactionPanel.Visible = true;
         dialog.TopLabel.Visible = true;
         var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.ChooseFactionText);
         dialog.TopLabel.Text = chooseFaction;
@@ -710,20 +710,20 @@ public partial class TitleScene : DataModule
         if (!controller.WindowsHidden)
         {
             controller.WindowsHidden = true;
-            controller.InfoVisible = DialogHosts.PlayerInfoWindow.MainWindow.Visible;
-            controller.RealmVisible = DialogHosts.RealmWindow.Window.Visible;
-            controller.MagicVisible = DialogHosts.MagicWindow.Window.Visible;
-            controller.UnitVisible = DialogHosts.ControlWindow.MainWindow.Visible;
-            controller.TargetVisible = DialogHosts.ChatWindow.MainWindow.Visible;
-            controller.ScannerVisible = DialogHosts.ScannerWindow.MainWindow.Visible;
-            controller.ControlVisible = DialogHosts.UnitWindow.MainWindow.Visible;
-            controller.ChatVisible = DialogHosts.InfoWindow.MainWindow.Visible;
-            controller.MapVisible = DialogHosts.MapWindow.MainWindow.Visible;
-            for (int I = 0, last = DialogHosts.General.Manager.Children.Count - 1; I <= last; I++)
+            controller.InfoVisible = controller.UI.PlayerInfoWindow.MainWindow.Visible;
+            controller.RealmVisible = controller.UI.RealmWindow.Window.Visible;
+            controller.MagicVisible = controller.UI.MagicWindow.Window.Visible;
+            controller.UnitVisible = controller.UI.ControlWindow.MainWindow.Visible;
+            controller.TargetVisible = controller.UI.ChatWindow.MainWindow.Visible;
+            controller.ScannerVisible = controller.UI.ScannerWindow.MainWindow.Visible;
+            controller.ControlVisible = controller.UI.UnitWindow.MainWindow.Visible;
+            controller.ChatVisible = controller.UI.InfoWindow.MainWindow.Visible;
+            controller.MapVisible = controller.UI.MapWindow.MainWindow.Visible;
+            for (int I = 0, last = controller.UI.General.Manager.Children.Count - 1; I <= last; I++)
             {
-                if (DialogHosts.General.Manager.Children[I] != DialogHosts.TaskBar.TaskWindow)
+                if (controller.UI.General.Manager.Children[I] != controller.UI.TaskBar.TaskWindow)
                 {
-                    DialogHosts.General.Manager.Children[I].Visible = false;
+                    controller.UI.General.Manager.Children[I].Visible = false;
                 }
             }
         }
@@ -738,12 +738,12 @@ public partial class TitleScene : DataModule
 
         var loading = AbilityRules.TranslateResourceString(s_loadingText);
         var fileNameLocal = ExtractFileName(fileName);
-        DialogHosts.ProgressDialog.TitleLabel.Text = loading + ": " + fileNameLocal + "...";
-        DialogHosts.ProgressDialog.StatusLabel.Text = "";
-        DialogHosts.ProgressDialog.ProgressBar.Position = 0;
-        DialogHosts.ProgressDialog.ProgressBar.Max = 100;
-        DialogHosts.ProgressDialog.Window.Visible = true;
-        if (!DialogHosts.TitleScene.Window.Visible)
+        controller.UI.ProgressDialog.TitleLabel.Text = loading + ": " + fileNameLocal + "...";
+        controller.UI.ProgressDialog.StatusLabel.Text = "";
+        controller.UI.ProgressDialog.ProgressBar.Position = 0;
+        controller.UI.ProgressDialog.ProgressBar.Max = 100;
+        controller.UI.ProgressDialog.Window.Visible = true;
+        if (!controller.UI.TitleScene.Window.Visible)
         {
             controller.Manager.OverlayPriority = 5000;
         }
@@ -758,7 +758,7 @@ public partial class TitleScene : DataModule
         }
 
         controller.Manager.OverlayPriority = 0;
-        DialogHosts.ProgressDialog.Window.Visible = false;
+        controller.UI.ProgressDialog.Window.Visible = false;
     }
 
     private static void StartGame(General controller)
@@ -790,74 +790,74 @@ public partial class TitleScene : DataModule
         }
 
         AudioHost.SongPlayer.Play(0);
-        AudioPlayback.SetMusicVolume(DialogHosts.SoundDialog.MusicVolumeSlider.Position);
-        DialogHosts.TaskBar.WorldStartMenuBar.Items.Clear();
+        AudioPlayback.SetMusicVolume(controller.UI.SoundDialog.MusicVolumeSlider.Position);
+        controller.UI.TaskBar.WorldStartMenuBar.Items.Clear();
         var background = AbilityRules.TranslateResourceString(s_backgroundText);
-        DialogHosts.TaskBar.WorldStartMenuBar.Items.Add(background);
+        controller.UI.TaskBar.WorldStartMenuBar.Items.Add(background);
         if (GameTables.GameEngine.Campaign != null)
         {
             var campaign = AbilityRules.TranslateResourceString(s_campaignText);
-            DialogHosts.TaskBar.WorldStartMenuBar.Items.Add(campaign);
+            controller.UI.TaskBar.WorldStartMenuBar.Items.Add(campaign);
         }
 
-        DialogHosts.TitleScene.Window.Visible = false;
-        DialogHosts.TitleWindow.MainWindow.Visible = false;
-        DialogHosts.TaskBar.TaskWindow.Visible = true;
-        DialogHosts.MapWindow.MainWindow.Visible = true;
-        DialogHosts.ScannerWindow.MainWindow.Visible = true;
-        DialogHosts.MapWindow.MapViewer.SetHexSpriteMap(StrategicMap.Current);
-        DialogHosts.ScannerWindow.Scanner.SetMap(StrategicMap.Current);
+        controller.UI.TitleScene.Window.Visible = false;
+        controller.UI.TitleWindow.MainWindow.Visible = false;
+        controller.UI.TaskBar.TaskWindow.Visible = true;
+        controller.UI.MapWindow.MainWindow.Visible = true;
+        controller.UI.ScannerWindow.MainWindow.Visible = true;
+        controller.UI.MapWindow.MapViewer.SetHexSpriteMap(StrategicMap.Current);
+        controller.UI.ScannerWindow.Scanner.SetMap(StrategicMap.Current);
         var mapLevel = StrategicMap.Current.MapContainer.MapLevels[0];
-        DialogHosts.ScannerWindow.Scanner.SetLevel(mapLevel);
-        DialogHosts.TaskBar.WorldTurnButton.ButtonChecked = false;
-        DialogHosts.TaskBar.ChatButton.Visible = DialogHosts.SetupEvents.DirectPlay.Connected;
+        controller.UI.ScannerWindow.Scanner.SetLevel(mapLevel);
+        controller.UI.TaskBar.WorldTurnButton.ButtonChecked = false;
+        controller.UI.TaskBar.ChatButton.Visible = controller.UI.SetupEvents.DirectPlay.Connected;
         controller.Manager.Aligned = false;
-        DialogHosts.ScannerWindow.Scanner.PreviousWidth = 0;
-        DialogHosts.ScannerWindow.Scanner.Incremental = false;
-        DialogHosts.ScannerWindow.Scanner.Sized = false;
-        DialogHosts.ScannerWindow.ScannerTabs.Items.Clear();
+        controller.UI.ScannerWindow.Scanner.PreviousWidth = 0;
+        controller.UI.ScannerWindow.Scanner.Incremental = false;
+        controller.UI.ScannerWindow.Scanner.Sized = false;
+        controller.UI.ScannerWindow.ScannerTabs.Items.Clear();
         var surface = AbilityRules.TranslateResourceString(s_surfaceText);
-        DialogHosts.ScannerWindow.ScannerTabs.Items.Add(surface);
+        controller.UI.ScannerWindow.ScannerTabs.Items.Add(surface);
         if (StrategicMap.Current.MapContainer.LevelCount > 1)
         {
             var caverns = AbilityRules.TranslateResourceString(s_cavernsText);
-            DialogHosts.ScannerWindow.ScannerTabs.Items.Add(caverns);
+            controller.UI.ScannerWindow.ScannerTabs.Items.Add(caverns);
         }
 
         if (StrategicMap.Current.MapContainer.LevelCount > 2)
         {
             var depths = AbilityRules.TranslateResourceString(s_depthsText);
-            DialogHosts.ScannerWindow.ScannerTabs.Items.Add(depths);
+            controller.UI.ScannerWindow.ScannerTabs.Items.Add(depths);
         }
 
-        DialogHosts.ScannerWindow.ScannerTabs.Selected = 0;
-        DialogHosts.ScannerWindow.ScannerTabs.Sized = false;
-        DialogHosts.ScannerWindow.Scanner.SetTWidth(0);
-        DialogHosts.ScannerWindow.Scanner.SetTHeight(0);
-        DialogHosts.ScannerWindow.Scanner.SetTLeft(-1);
-        DialogHosts.ScannerWindow.Scanner.SetTTop(-1);
-        DialogHosts.ScannerWindow.Scanner.UpdateStep = -1;
-        DialogHosts.ScannerWindow.Scanner.SetMap(StrategicMap.Current);
+        controller.UI.ScannerWindow.ScannerTabs.Selected = 0;
+        controller.UI.ScannerWindow.ScannerTabs.Sized = false;
+        controller.UI.ScannerWindow.Scanner.SetTWidth(0);
+        controller.UI.ScannerWindow.Scanner.SetTHeight(0);
+        controller.UI.ScannerWindow.Scanner.SetTLeft(-1);
+        controller.UI.ScannerWindow.Scanner.SetTTop(-1);
+        controller.UI.ScannerWindow.Scanner.UpdateStep = -1;
+        controller.UI.ScannerWindow.Scanner.SetMap(StrategicMap.Current);
         var mapLevel2 = StrategicMap.Current.MapContainer.MapLevels[0];
-        DialogHosts.ScannerWindow.Scanner.SetLevel(mapLevel2);
-        DialogHosts.MapWindow.MapViewer.SetHexSpriteMap(StrategicMap.Current);
-        DialogHosts.MapWindow.MapViewer.SceneWidth = DialogHosts.MapWindow.MainWindow.WinWidth - 24;
-        DialogHosts.MapWindow.MapViewer.SceneHeight = DialogHosts.MapWindow.MainWindow.WinHeight - 24;
+        controller.UI.ScannerWindow.Scanner.SetLevel(mapLevel2);
+        controller.UI.MapWindow.MapViewer.SetHexSpriteMap(StrategicMap.Current);
+        controller.UI.MapWindow.MapViewer.SceneWidth = controller.UI.MapWindow.MainWindow.WinWidth - 24;
+        controller.UI.MapWindow.MapViewer.SceneHeight = controller.UI.MapWindow.MainWindow.WinHeight - 24;
         StrategicMap.Current.Activate();
-        DialogHosts.ControlWindow.MainWindow.Visible = false;
-        DialogHosts.MapEvents.TheMapArmyDeselected();
-        DialogHosts.MapEvents.TheMapStructureDeselected();
-        DialogHosts.TaskBar.TBWorldUpdate();
-        DialogHosts.PlayerInfoWindow.UpdatePlayer();
+        controller.UI.ControlWindow.MainWindow.Visible = false;
+        controller.UI.MapEvents.TheMapArmyDeselected();
+        controller.UI.MapEvents.TheMapStructureDeselected();
+        controller.UI.TaskBar.TBWorldUpdate();
+        controller.UI.PlayerInfoWindow.UpdatePlayer();
         if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
-            var turnButton = DialogHosts.TaskBar.WorldTurnButton;
+            var turnButton = controller.UI.TaskBar.WorldTurnButton;
             if (StrategicMap.Current.SeatedPlayer == -1)
             {
                 turnButton.CurrentPlayer = 12;
                 turnButton.LastPlayer = 12;
                 turnButton.AnimationFrame = turnButton.CurrentPlayer * 7;
-                DialogHosts.TaskBar.AutoCombatCheckBox.Visible = false;
+                controller.UI.TaskBar.AutoCombatCheckBox.Visible = false;
             }
             else
             {
@@ -869,30 +869,30 @@ public partial class TitleScene : DataModule
 
                 turnButton.CurrentPlayer = turnButton.LastPlayer;
                 turnButton.AnimationFrame = turnButton.LastPlayer * 7;
-                DialogHosts.TaskBar.AutoCombatCheckBox.Visible = StrategicMap.Current.PlayMode == PlayMode.Simultaneous;
+                controller.UI.TaskBar.AutoCombatCheckBox.Visible = StrategicMap.Current.PlayMode == PlayMode.Simultaneous;
             }
         }
 
-        DialogHosts.TaskBar.WorldClockDelay = 0;
-        DialogHosts.TaskBar.ChatButton.TextColor = 14;
-        DialogHosts.TaskBar.ChatFlash = 0;
-        DialogHosts.VideoDialog.ChangeResolution(DialogHosts.VideoDialog.DisplayWidth, DialogHosts.VideoDialog.DisplayHeight);
+        controller.UI.TaskBar.WorldClockDelay = 0;
+        controller.UI.TaskBar.ChatButton.TextColor = 14;
+        controller.UI.TaskBar.ChatFlash = 0;
+        controller.UI.VideoDialog.ChangeResolution(controller.UI.VideoDialog.DisplayWidth, controller.UI.VideoDialog.DisplayHeight);
     }
 
     private static void CloseGame(General controller)
     {
         GameTables.GameEngine.CloseHsm(null);
         GameTables.GameEngine.CloseCampaign();
-        DialogHosts.ScannerWindow.Scanner.SetMap(null);
-        DialogHosts.CombatScanner.Scanner.SetMap(null);
+        controller.UI.ScannerWindow.Scanner.SetMap(null);
+        controller.UI.CombatScanner.Scanner.SetMap(null);
         AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
         SetCurrentDir(GameTables.GameEngine.StartupDirectory);
-        HideGameWindows(DialogHosts.General);
-        DialogHosts.TaskBar.TaskWindow.Visible = false;
-        DialogHosts.TitleWindow.MainWindow.Visible = false;
-        DialogHosts.TitleScene.ResetScene();
-        WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
+        HideGameWindows(controller.UI.General);
+        controller.UI.TaskBar.TaskWindow.Visible = false;
+        controller.UI.TitleWindow.MainWindow.Visible = false;
+        controller.UI.TitleScene.ResetScene();
+        WindowActions.ShowTitleScene(controller.UI.TitleScene, true);
     }
 
     private static readonly string s_loadingText = "Loading";
@@ -926,18 +926,18 @@ public partial class TitleScene : DataModule
             }
         }
 
-        DialogHosts.General.Manager.OverlayPriority = 0;
+        scene.UI.General.Manager.OverlayPriority = 0;
         scene.TitleSceneImages.LoadDiscardableImageData();
-        DialogHosts.VideoDialog.SetSceneSize(640, 480);
-        VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
-        DialogHosts.VideoDialog.ApplyMode();
+        scene.UI.VideoDialog.SetSceneSize(640, 480);
+        VideoDialog.SetVideoMode(scene.UI.VideoDialog, VideoDialog.ScreenMode.Title);
+        scene.UI.VideoDialog.ApplyMode();
         GameHost.MainForm.Display.FrameRate = 30;
         GameHost.MainForm.DisplayController.UseVerticalBlank = true;
         scene._redrawBackground = true;
         scene._pressedButton = -1;
         scene._hoverButton = -1;
-        scene._font = DialogHosts.UIFonts.Age15WhiteOnGrey;
-        scene._creditsFont = DialogHosts.UIFonts.Age15WhiteOnGrey;
+        scene._font = scene.UI.Fonts.Age15WhiteOnGrey;
+        scene._creditsFont = scene.UI.Fonts.Age15WhiteOnGrey;
         scene.Window.WindowManager.SetImageLibraryIndex(4);
         scene.Window.Visible = true;
     }

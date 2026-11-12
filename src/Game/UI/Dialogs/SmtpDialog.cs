@@ -11,9 +11,9 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class SmtpDialog : DataModule
+public partial class SmtpDialog : UIModule
 {
-    public SmtpDialog(Component owner) : base(owner)
+    public SmtpDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -129,7 +129,7 @@ public partial class SmtpDialog : DataModule
     // AoWSMTPDlg.pas:212
     public void SettingsBtnClick()
     {
-        EmailSettingsDialog.ShowEmailSettings(DialogHosts.EmailSettingsDialog);
+        EmailSettingsDialog.ShowEmailSettings(UI.EmailSettingsDialog);
     }
 
     private static readonly string s_gameSuccessfullySentText = "Game successfully sent";

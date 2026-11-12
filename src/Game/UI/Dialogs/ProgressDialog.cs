@@ -5,9 +5,9 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ProgressDialog : DataModule
+public partial class ProgressDialog : UIModule
 {
-    public ProgressDialog(Component owner) : base(owner)
+    public ProgressDialog(UIContext ui) : base(ui)
     { }
 
     public Label TitleLabel;

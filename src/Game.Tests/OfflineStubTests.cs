@@ -21,18 +21,11 @@ namespace Aow.Game.Tests;
 [EngineState]
 public sealed class OfflineStubTests
 {
-    // The game windows the bodies reach, saved and restored around each test.
+    // The globals the bodies reach, saved and restored around each test. Each test builds its own
+    // UI context with the game windows it needs.
     private static readonly FieldInfo[] s_globals =
     [
-        Field(typeof(DialogHosts), nameof(DialogHosts.SetupEvents)),
-        Field(typeof(DialogHosts), nameof(DialogHosts.General)),
-        Field(typeof(DialogHosts), nameof(DialogHosts.MultiWindow)),
-        Field(typeof(DialogHosts), nameof(DialogHosts.ScenarioSetup)),
-        Field(typeof(DialogHosts), nameof(DialogHosts.TitleWindow)),
-        Field(typeof(DialogHosts), nameof(DialogHosts.TitleScene)),
-        Field(typeof(DialogHosts), nameof(DialogHosts.VideoDialog)),
         Field(typeof(AudioHost), nameof(AudioHost.SongPlayer)),
-        Field(typeof(DialogHosts), nameof(DialogHosts.HelpWindow)),
     ];
 
     private static FieldInfo Field(Type type, string name) => MemberNames.Field(type, name, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)!;
@@ -65,23 +58,21 @@ public sealed class OfflineStubTests
         return module;
     }
 
-    private static SetupEvents OfflineSetupEvents()
+    private static SetupEvents OfflineSetupEvents(UIContext ui)
     {
-        var events = new SetupEvents(null!) { DirectPlay = new GDPlay { PlayerName = "No Name" } };
+        var events = ui.Add(new SetupEvents(ui) { DirectPlay = new GDPlay { PlayerName = "No Name" } });
         events.SetupControl = new SetupControl(events);
-        DialogHosts.SetupEvents = events;
         return events;
     }
 
-    private static MultiWindow NewGameWindow()
+    private static MultiWindow NewGameWindow(UIContext ui)
     {
-        var window = Populate(new MultiWindow(null!));
-        DialogHosts.MultiWindow = window;
-        DialogHosts.TitleWindow = Populate(new TitleWindow(null!));
-        DialogHosts.VideoDialog = new VideoDialog(null!);
+        var window = ui.Add(Populate(new MultiWindow(ui)));
+        ui.Add(Populate(new TitleWindow(ui)));
+        ui.Add(new VideoDialog(ui));
         var songs = new SongPlayer();
         AudioHost.SongPlayer = songs;
-        DialogHosts.General = new General(null!);
+        ui.Add(new General(ui));
         return window;
     }
 
@@ -111,11 +102,12 @@ public sealed class OfflineStubTests
     public void LeaderSetupFinishCommitsTheLeaderOffline()
     {
         using var saved = new SavedGlobals();
-        var events = OfflineSetupEvents();
+        var ui = new UIContext();
+        var events = OfflineSetupEvents(ui);
         var heroes = new HeroResourceList(null!);
         new HeroResource(heroes);
         GamePack.Current.HeroResources = heroes;
-        var window = Populate(new LeaderSetupWindow(null!));
+        var window = Populate(new LeaderSetupWindow(ui));
         var control = new LeaderSetupControl(null!) { OriginalLeader = new Leader(null!) };
         bool done = false;
         control.OnDone += sender => done = ReferenceEquals(sender, control);
@@ -146,8 +138,9 @@ public sealed class OfflineStubTests
     public void NewGameWindowShowsTcpAndHidesIpx()
     {
         using var saved = new SavedGlobals();
-        OfflineSetupEvents();
-        var window = NewGameWindow();
+        var ui = new UIContext();
+        OfflineSetupEvents(ui);
+        var window = NewGameWindow(ui);
         window.TcpButton.Visible = false;
         window.IpxButton.Visible = true;
 
@@ -157,7 +150,7 @@ public sealed class OfflineStubTests
         Assert.True(window.GamePanel.Visible);
         Assert.True(window.TcpButton.Visible);
         Assert.False(window.IpxButton.Visible);
-        Assert.True(DialogHosts.TitleWindow.MainWindow.Visible);
+        Assert.True(ui.TitleWindow.MainWindow.Visible);
     }
 
     // AOWMultiWin.pas:200 and 215: Find and Host connect the TCP/IP provider first. The offline
@@ -166,10 +159,10 @@ public sealed class OfflineStubTests
     public void TcpFindAndHostSayNetworkPlayIsNotAvailable()
     {
         using var saved = new SavedGlobals();
-        var events = OfflineSetupEvents();
-        var window = NewGameWindow();
-        var setup = Populate(new ScenarioSetup(null!));
-        DialogHosts.ScenarioSetup = setup;
+        var ui = new UIContext();
+        var events = OfflineSetupEvents(ui);
+        var window = NewGameWindow(ui);
+        var setup = ui.Add(Populate(new ScenarioSetup(ui)));
         setup.ScenarioSetupPanel.Visible = false;
         var messages = new List<string>();
         Runtime.MessageHandler = messages.Add;
@@ -195,10 +188,10 @@ public sealed class OfflineStubTests
     public void ScenarioSetupExitReturnsToTheNewGameWindow()
     {
         using var saved = new SavedGlobals();
-        OfflineSetupEvents();
-        var window = NewGameWindow();
-        var setup = Populate(new ScenarioSetup(null!));
-        DialogHosts.ScenarioSetup = setup;
+        var ui = new UIContext();
+        OfflineSetupEvents(ui);
+        var window = NewGameWindow(ui);
+        var setup = ui.Add(Populate(new ScenarioSetup(ui)));
         setup.SetupControl = new SetupControl(setup);
         setup.ScenarioSetupPanel.Visible = true;
         window.MultiPanel.Visible = false;
@@ -218,15 +211,16 @@ public sealed class OfflineStubTests
     public void BackToTitleHidesTheNewGameWindowAndShowsTheTitleScene()
     {
         using var saved = new SavedGlobals();
-        OfflineSetupEvents();
-        var window = NewGameWindow();
-        DialogHosts.TitleScene = new TitleScene(null!);
-        DialogHosts.TitleWindow.MainWindow.Visible = true;
+        var ui = new UIContext();
+        OfflineSetupEvents(ui);
+        var window = NewGameWindow(ui);
+        ui.Add(new TitleScene(ui));
+        ui.TitleWindow.MainWindow.Visible = true;
         window.MultiPanel.Visible = true;
 
         var error = Record.Exception(window.BackButtonClick);
 
-        Assert.False(DialogHosts.TitleWindow.MainWindow.Visible);
+        Assert.False(ui.TitleWindow.MainWindow.Visible);
         Assert.False(window.MultiPanel.Visible);
         Assert.IsNotType<NotImplementedException>(error);
         Assert.Contains(nameof(TitleScene.ShowScene), error?.StackTrace ?? "");
@@ -238,6 +232,7 @@ public sealed class OfflineStubTests
     public void HelpMenuShowsTheTwoHelpTopics()
     {
         using var saved = new SavedGlobals();
+        var ui = new UIContext();
         var text = new TextControl(null!);
         foreach (var (id, header) in new[] { (507, "Topic 507"), (500, "Topic 500") })
         {
@@ -246,9 +241,8 @@ public sealed class OfflineStubTests
             item.Text.Text = header + "\r\nBody " + id;
         }
         GamePack.Current.TextControl = text;
-        var help = Populate(new HelpWindow(null!));
-        DialogHosts.HelpWindow = help;
-        var popups = new PopupWindows(null!);
+        var help = ui.Add(Populate(new HelpWindow(ui)));
+        var popups = new PopupWindows(ui);
         var menu = new Menu(null!);
 
         menu.SelectedItem = 0;

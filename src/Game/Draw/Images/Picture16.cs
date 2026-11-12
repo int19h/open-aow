@@ -124,9 +124,6 @@ public partial class Picture16 : Image16, ILibraryImageClass
         }
     }
 
-    // ImageLib.pas:2247
-    public override Form CreateGrabForm(Component owner, in LockedSurface lockedSurface, ImagesGrabbedEvent onImagesGrabbed) => null;
-
     // ImageLib.pas:2253
     public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555 || pixelFormatId == PixelFormats.pfRGB24 || pixelFormatId == PixelFormats.pfPAL8;
 

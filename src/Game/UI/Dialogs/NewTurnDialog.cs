@@ -12,9 +12,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, new-turn event
-public partial class NewTurnDialog : DataModule
+public partial class NewTurnDialog : UIModule
 {
-    public NewTurnDialog(Component owner) : base(owner)
+    public NewTurnDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -33,13 +33,13 @@ public partial class NewTurnDialog : DataModule
     {
         ExecuteDoneEvent done;
         NewTurnEventLog eventValue;
-        DialogHosts.General.Manager.OverlayPriority = 0;
+        UI.General.Manager.OverlayPriority = 0;
         if (_newTurn == null)
         {
             StrategicMap.Current.SetSeatedPlayer(StrategicMap.Current.CurrentPlayer);
             if (StrategicMap.Current.SeatedPlayer > -1)
             {
-                DialogHosts.PlayerInfoWindow.UpdateEvents();
+                UI.PlayerInfoWindow.UpdateEvents();
             }
         }
 

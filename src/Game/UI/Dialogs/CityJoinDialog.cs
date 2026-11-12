@@ -12,9 +12,9 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // race, completion event, retained negotiation event
-public partial class CityJoinDialog : DataModule
+public partial class CityJoinDialog : UIModule
 {
-    public CityJoinDialog(Component owner) : base(owner)
+    public CityJoinDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -50,7 +50,7 @@ public partial class CityJoinDialog : DataModule
     public void AcceptBtnClick()
     {
         string reason = "";
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (!_event.Accept(ref reason))
         {
             StrategicMap.Current.ShowWarning(reason);
@@ -65,7 +65,7 @@ public partial class CityJoinDialog : DataModule
     public void AttackBtnClick()
     {
         string reason = "";
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (!_event.Reject(ref reason))
         {
             StrategicMap.Current.ShowWarning(reason);
@@ -79,7 +79,7 @@ public partial class CityJoinDialog : DataModule
     // AoWCityJoinDlg.pas:87
     public void CancelBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -103,7 +103,7 @@ public partial class CityJoinDialog : DataModule
     // AoWCityJoinDlg.pas:107
     public void CloseBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 

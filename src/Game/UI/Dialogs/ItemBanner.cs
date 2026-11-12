@@ -9,9 +9,9 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ItemBanner : DataModule
+public partial class ItemBanner : UIModule
 {
-    public ItemBanner(Component owner) : base(owner)
+    public ItemBanner(UIContext ui) : base(ui)
     { }
 
     public Label ItemNameLabel;
@@ -146,7 +146,7 @@ public partial class ItemBanner : DataModule
     {
         if (button == 1)
         {
-            DialogHosts.ItemBanner.BannerMenu.Visible = false;
+            UI.ItemBanner.BannerMenu.Visible = false;
         }
     }
 

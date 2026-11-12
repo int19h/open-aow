@@ -20,9 +20,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // map-validation delay. setup control. ping delay. chat scroll pending
-public partial class ScenarioSetup : DataModule
+public partial class ScenarioSetup : UIModule
 {
-    public ScenarioSetup(Component owner) : base(owner)
+    public ScenarioSetup(UIContext ui) : base(ui)
     { }
 
     public Memo ChatMemo;
@@ -142,7 +142,7 @@ public partial class ScenarioSetup : DataModule
     {
         byte availability;
         SetupControl = control;
-        DialogHosts.TitleWindow.MainWindow.Visible = true;
+        UI.TitleWindow.MainWindow.Visible = true;
         ScenarioSetupPanel.Visible = true;
         ChatMemo.Items.Clear();
         ChatEdit.Text = "";
@@ -221,8 +221,8 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:584
     public void PickMap()
     {
-        DialogHosts.FileDialogWindow.Mode = 2;
-        DialogHosts.FileDialogWindow.Window.Visible = true;
+        UI.FileDialogWindow.Mode = 2;
+        UI.FileDialogWindow.Window.Visible = true;
     }
 
     // AoWScenSetup.pas:257
@@ -232,7 +232,7 @@ public partial class ScenarioSetup : DataModule
         SetupSettings settings;
         try
         {
-            DialogHosts.General.PlayButtonSound(0);
+            UI.General.PlayButtonSound(0);
             if (SetupControl.GetRemote())
             {
                 if (SetupControl.GetHost())
@@ -250,21 +250,21 @@ public partial class ScenarioSetup : DataModule
                     }
                 }
 
-                if (DialogHosts.SetupEvents.DirectPlay.Connected)
+                if (UI.SetupEvents.DirectPlay.Connected)
                 {
-                    DialogHosts.SetupEvents.DirectPlay.CloseSession();
+                    UI.SetupEvents.DirectPlay.CloseSession();
                 }
             }
 
-            DialogHosts.SetupEvents.DirectPlay.DisConnect();
+            UI.SetupEvents.DirectPlay.DisConnect();
             CloseSetup();
-            if (DialogHosts.SetupEvents.LobbyGame)
+            if (UI.SetupEvents.LobbyGame)
             {
                 GameHost.MainForm.CloseRequested();
             }
             else
             {
-                DialogHosts.MultiWindow.Execute("");
+                UI.MultiWindow.Execute("");
             }
         }
         catch
@@ -291,15 +291,15 @@ public partial class ScenarioSetup : DataModule
             {
                 if (SetupControl.Settings.RemotePlayers.GetPlayers(I).MapValidation == MapValidationInfo.Invalid)
                 {
-                    DialogHosts.UIFonts.Age8Shadow.Color = 255;
-                    DialogHosts.UIFonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, "X", lockedSurface);
+                    UI.Fonts.Age8Shadow.Color = 255;
+                    UI.Fonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, "X", lockedSurface);
                 }
                 else
                 {
                     if (SetupControl.Settings.RemotePlayers.GetPlayers(I).MapValidation == MapValidationInfo.InvalidMap)
                     {
-                        DialogHosts.UIFonts.Age8Shadow.Color = 32768;
-                        DialogHosts.UIFonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, "X", lockedSurface);
+                        UI.Fonts.Age8Shadow.Color = 32768;
+                        UI.Fonts.Age8Shadow.SetText(drawRectangle.Right - 8, drawRectangle.Top + 4, "X", lockedSurface);
                     }
                 }
             }
@@ -309,7 +309,7 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:358
     public void PickScenarioBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         PickMap();
     }
 
@@ -326,10 +326,10 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:370
     public void StartBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (SetupControl.Settings.ConnectionType == 2)
         {
-            DialogHosts.EmailGameSettingsDialog.Execute(SetupControl);
+            UI.EmailGameSettingsDialog.Execute(SetupControl);
         }
         else
         {
@@ -340,7 +340,7 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:378
     public void EjectBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (PlayerList.Selected > -1)
         {
             var objectValue = PlayerList.Items.Objects[PlayerList.Selected];
@@ -351,7 +351,7 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:385
     public void MakeHostBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (PlayerList.Selected > -1)
         {
             var objectValue = PlayerList.Items.Objects[PlayerList.Selected];
@@ -386,11 +386,11 @@ public partial class ScenarioSetup : DataModule
         TurnsSlChange();
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -414,7 +414,7 @@ public partial class ScenarioSetup : DataModule
     {
         var objectValue = PlayModeComboBox.Items.Objects[PlayModeComboBox.Selected];
         SetupControl.SetPlayMode((byte)ObjectToInt(objectValue));
-        DialogHosts.TitleWindow.MainWindow.Drawn = false;
+        UI.TitleWindow.MainWindow.Drawn = false;
     }
 
     // AoWScenSetup.pas:428
@@ -430,7 +430,7 @@ public partial class ScenarioSetup : DataModule
             SetupControl.SetPlayerId(indexOfRace, behavior, true);
         }
 
-        DialogHosts.TitleWindow.MainWindow.Drawn = false;
+        UI.TitleWindow.MainWindow.Drawn = false;
     }
 
     // AoWScenSetup.pas:437
@@ -440,7 +440,7 @@ public partial class ScenarioSetup : DataModule
         control = sender;
         var indexOfRace = SetupControl.Settings.IndexOfRace((byte)slot);
         SetupControl.SetPlayerBehavior(indexOfRace, (byte)control.Selected);
-        DialogHosts.TitleWindow.MainWindow.Drawn = false;
+        UI.TitleWindow.MainWindow.Drawn = false;
     }
 
     // AoWScenSetup.pas:444
@@ -449,11 +449,11 @@ public partial class ScenarioSetup : DataModule
         SetupControl.SetLeadersOnMap(LeadersOnMapCheckBox.Checked);
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -463,11 +463,11 @@ public partial class ScenarioSetup : DataModule
         SetupControl.SetCustomizeLeaders(CustomizeLeadersCheckBox.Checked);
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -477,11 +477,11 @@ public partial class ScenarioSetup : DataModule
         SetupControl.SetAlliedVictory(AlliedVictoryCheckBox.Checked);
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -491,11 +491,11 @@ public partial class ScenarioSetup : DataModule
         SetupControl.SetExplorationEnabled(ExplorationCheckBox.Checked);
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -508,7 +508,7 @@ public partial class ScenarioSetup : DataModule
     // AoWScenSetup.pas:473
     public void SettingsClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWScenSetup.pas:483
@@ -604,7 +604,7 @@ public partial class ScenarioSetup : DataModule
     {
         byte B;
         setup.SetupControl = control;
-        DialogHosts.TitleWindow.MainWindow.Visible = true;
+        setup.UI.TitleWindow.MainWindow.Visible = true;
         setup.ScenarioSetupPanel.Visible = true;
         setup.ChatMemo.Items.Clear();
         setup.ChatEdit.Text = "";
@@ -789,7 +789,7 @@ public partial class ScenarioSetup : DataModule
             UpdateScenarioRow(setup, control.Settings.GetSettings(indexOfRace11), setup.Side12PlayerComboBox, setup.Side12BehaviorComboBox, setup.Side12PlayerIcon, setup.Side12PlayerLabel, setup.Side12InfoLabel, setup.Side12FogPanel);
             if (setup.SetupControl.GetRemote())
             {
-                switch (DialogHosts.SetupEvents.DirectPlay.ConnectionType)
+                switch (setup.UI.SetupEvents.DirectPlay.ConnectionType)
                 {
                     case ConnectionType.TCP:
                         connection = AbilityRules.TranslateResourceString(GameText.TcpIpLabel);
@@ -847,7 +847,7 @@ public partial class ScenarioSetup : DataModule
 
             var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.ScenarioFormat), [setup.SetupControl.Settings.FileName]);
             setup.ScenarioLabel.Text = format3;
-            DialogHosts.TitleWindow.MainWindow.Drawn = false;
+            setup.UI.TitleWindow.MainWindow.Drawn = false;
         }
     }
 

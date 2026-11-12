@@ -7,9 +7,9 @@ namespace Aow.Game.UI.Dialogs;
 // The DWin form (AOWDialogWin.pas): a Yes/No confirmation and the debug message window. The
 // confirmation runs the caller's callback on Yes and knows nothing of what it confirms. The debug
 // window is its own DebugWindow over the form's components.
-public partial class ConfirmationDialog : DataModule
+public partial class ConfirmationDialog : UIModule
 {
-    public ConfirmationDialog(Component owner) : base(owner)
+    public ConfirmationDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -38,7 +38,7 @@ public partial class ConfirmationDialog : DataModule
     // AOWDialogWin.pas:60
     public void DButtonClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -48,7 +48,7 @@ public partial class ConfirmationDialog : DataModule
     // AOWDialogWin.pas:73
     public void yesBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         _onConfirmed?.Invoke();
         Window.Visible = false;
     }

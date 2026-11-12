@@ -83,11 +83,11 @@ public partial class General : ILayoutModule
         Manager.Loaded();
         ToolTip.Loaded();
         session.Resolve(this);
-        Manager.BackgroundTexture = DialogHosts.UIGraphics.GenericTextures;
-        Manager.ForegroundTexture = DialogHosts.UIGraphics.GenericTextures;
-        ToolTip.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-        ToolTip.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
-        ToolTip.Font = DialogHosts.UIFonts.Age8;
+        Manager.BackgroundTexture = UI.Graphics.GenericTextures;
+        Manager.ForegroundTexture = UI.Graphics.GenericTextures;
+        ToolTip.ImageLibraryFrame = UI.Graphics.GenericFrames;
+        ToolTip.ImageLibraryTexture = UI.Graphics.GenericTextures;
+        ToolTip.Font = UI.Fonts.Age8;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
     }

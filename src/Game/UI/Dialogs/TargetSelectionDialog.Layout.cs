@@ -490,19 +490,19 @@ public partial class TargetSelectionDialog : ILayoutModule
         TargetLabel.Loaded();
         translator.Loaded();
         session.Resolve(this);
-        Window.WindowManager = DialogHosts.General.Manager;
-        Window.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-        Window.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
-        celtFrame.ImageLibraryFrame = DialogHosts.UIGraphics.CelticDecorations;
-        close.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
-        title.Font = DialogHosts.UIFonts.Age10;
-        sIcon.ImageLibrary = DialogHosts.UIGraphics.TitleIcons;
-        MainButton.Font = DialogHosts.UIFonts.Age10;
-        MainButton.ImageLibraryButton = DialogHosts.UIGraphics.GenericButtons;
-        DefaultMemo.Font = DialogHosts.UIFonts.Age10Shadow;
-        HeaderLabel.Font = DialogHosts.UIFonts.Age10Shadow;
-        spellMemo.Font = DialogHosts.UIFonts.Age10Shadow;
-        targetRangeLabel.Font = DialogHosts.UIFonts.Age10Shadow;
-        TargetLabel.Font = DialogHosts.UIFonts.Age10Shadow;
+        Window.WindowManager = UI.General.Manager;
+        Window.ImageLibraryFrame = UI.Graphics.GenericFrames;
+        Window.ImageLibraryTexture = UI.Graphics.GenericTextures;
+        celtFrame.ImageLibraryFrame = UI.Graphics.CelticDecorations;
+        close.ImageLibraryIcon = UI.Graphics.GenericIcons;
+        title.Font = UI.Fonts.Age10;
+        sIcon.ImageLibrary = UI.Graphics.TitleIcons;
+        MainButton.Font = UI.Fonts.Age10;
+        MainButton.ImageLibraryButton = UI.Graphics.GenericButtons;
+        DefaultMemo.Font = UI.Fonts.Age10Shadow;
+        HeaderLabel.Font = UI.Fonts.Age10Shadow;
+        spellMemo.Font = UI.Fonts.Age10Shadow;
+        targetRangeLabel.Font = UI.Fonts.Age10Shadow;
+        TargetLabel.Font = UI.Fonts.Age10Shadow;
     }
 }

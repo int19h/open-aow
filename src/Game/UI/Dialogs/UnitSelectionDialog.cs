@@ -12,9 +12,9 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // unit selector. retained event log
-public partial class UnitSelectionDialog : DataModule
+public partial class UnitSelectionDialog : UIModule
 {
-    public UnitSelectionDialog(Component owner) : base(owner)
+    public UnitSelectionDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -50,10 +50,10 @@ public partial class UnitSelectionDialog : DataModule
             var rectangle = new Rect(X + 5, Y + 4, X + 46, Y + 56);
             lockedSurface.ClipRectangle = rectangle;
             alignment = Event.Units.GetUnit(index).GetAlignment();
-            if ((int)alignment < DialogHosts.UIGraphics.UnitBackgrounds.Count)
+            if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
-                image = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
+                image = UI.Graphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
             }
 
@@ -63,7 +63,7 @@ public partial class UnitSelectionDialog : DataModule
             Event.Units.GetUnit(index).Show(X - 8, Y - 5, lockedSurface, info);
             if ((((int)(((uint)Event.Selectable) >> index)) & 1) == 0)
             {
-                image = DialogHosts.UIGraphics.UnitBackgrounds[7];
+                image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
             }
 
@@ -141,7 +141,7 @@ public partial class UnitSelectionDialog : DataModule
     // AoWUnitSelDlg.pas:101
     public void CloseClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -149,7 +149,7 @@ public partial class UnitSelectionDialog : DataModule
     public void SelectBtnClick()
     {
         string reason = "";
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (Event.CanSelect(ref reason))
         {
             Event.Select();
@@ -193,11 +193,11 @@ public partial class UnitSelectionDialog : DataModule
         {
             if (sender.Checked)
             {
-                DialogHosts.General.PlayButtonSound(1);
+                UI.General.PlayButtonSound(1);
             }
             else
             {
-                DialogHosts.General.PlayButtonSound(2);
+                UI.General.PlayButtonSound(2);
             }
         }
 

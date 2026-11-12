@@ -7,9 +7,9 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class EmailSettingsDialog : DataModule
+public partial class EmailSettingsDialog : UIModule
 {
-    public EmailSettingsDialog(Component owner) : base(owner)
+    public EmailSettingsDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;

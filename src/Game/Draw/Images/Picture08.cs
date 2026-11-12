@@ -124,9 +124,6 @@ public partial class Picture08 : Image08, ILibraryImageClass
         }
     }
 
-    // ImageLib.pas:7378
-    public override Form CreateGrabForm(Component owner, in LockedSurface lockedSurface, ImagesGrabbedEvent onImagesGrabbed) => null;
-
     // ImageLib.pas:7384
     public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfPAL8;
 

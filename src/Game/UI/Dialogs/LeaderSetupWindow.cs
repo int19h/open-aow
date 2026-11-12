@@ -14,9 +14,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // setup control, phase, fixed spheres, working leader, selected sort, available sort
-public partial class LeaderSetupWindow : DataModule
+public partial class LeaderSetupWindow : UIModule
 {
-    public LeaderSetupWindow(Component owner) : base(owner)
+    public LeaderSetupWindow(UIContext ui) : base(ui)
     { }
 
     public ListBox SelectedAbilitiesList;
@@ -113,7 +113,7 @@ public partial class LeaderSetupWindow : DataModule
         Setup.AddRef();
         _selectedSort = 0;
         _availableSort = 0;
-        LeaderPanel.ImageLibraryTexture = DialogHosts.UIGraphics.TitleScreen;
+        LeaderPanel.ImageLibraryTexture = UI.Graphics.TitleScreen;
         LeaderPanel.ImageLibraryIndexTexture = 4;
         RaceComboBox.Visible = Setup.Items.Count != 0 && Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
         RaceLabel.Visible = RaceComboBox.Visible;
@@ -170,7 +170,7 @@ public partial class LeaderSetupWindow : DataModule
         control.Status = LeaderSetupControl.LeaderSetupStatus.Done;
         Setup = null;
         LeaderPanel.Visible = false;
-        DialogHosts.SetupEvents.UpdatePlayerName(control.OriginalLeader.HeroName);
+        UI.SetupEvents.UpdatePlayerName(control.OriginalLeader.HeroName);
         control.Done();
         control.Release();
     }
@@ -627,7 +627,7 @@ public partial class LeaderSetupWindow : DataModule
     public void AddAbilityClick()
     {
         int abilityId;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (AvailableAbilitiesList.Selected != -1)
         {
             abilityId = ObjectToInt(AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected]);
@@ -644,7 +644,7 @@ public partial class LeaderSetupWindow : DataModule
     public void RemoveAbilityClick()
     {
         int abilityId;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (SelectedAbilitiesList.Selected != -1)
         {
             abilityId = ObjectToInt(SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected]);
@@ -695,25 +695,25 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:345
     public void FacePrevBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         var previousFace = GamePack.Current.FaceResources.PreviousFace(Leader.FaceIndex);
         Leader.SetFaceIndex(previousFace);
-        DialogHosts.TitleWindow.MainWindow.Drawn = false;
+        UI.TitleWindow.MainWindow.Drawn = false;
     }
 
     // AoWLeaderSetup.pas:352
     public void FaceNextBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         var nextFace = GamePack.Current.FaceResources.NextFace(Leader.FaceIndex);
         Leader.SetFaceIndex(nextFace);
-        DialogHosts.TitleWindow.MainWindow.Drawn = false;
+        UI.TitleWindow.MainWindow.Drawn = false;
     }
 
     // AoWLeaderSetup.pas:359
     public void PrevBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         switch (_phase)
         {
             case 1:
@@ -752,7 +752,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:376
     public void NextBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         switch (_phase)
         {
             case 1:
@@ -773,7 +773,7 @@ public partial class LeaderSetupWindow : DataModule
                     }
                 }
 
-                DialogHosts.TitleWindow.MainWindow.Drawn = false;
+                UI.TitleWindow.MainWindow.Drawn = false;
                 break;
             case 2:
                 SaveLeader();
@@ -786,7 +786,7 @@ public partial class LeaderSetupWindow : DataModule
                     Finish();
                 }
 
-                DialogHosts.TitleWindow.MainWindow.Drawn = false;
+                UI.TitleWindow.MainWindow.Drawn = false;
                 break;
             case 3:
                 if (Leader.GetSphereCount() == Leader.SpherePicksMax)
@@ -795,12 +795,12 @@ public partial class LeaderSetupWindow : DataModule
                 }
                 else
                 {
-                    MessageDialog.ResetMessageDialog(DialogHosts.MessageDialog);
-                    DialogHosts.MessageDialog.MessageMemo.Items.Add("");
+                    MessageDialog.ResetMessageDialog(UI.MessageDialog);
+                    UI.MessageDialog.MessageMemo.Items.Add("");
                     var pleaseAssignAllSpheres = AbilityRules.TranslateResourceString(s_pleaseAssignAllSpheresText);
-                    DialogHosts.MessageDialog.MessageMemo.Items.Add(pleaseAssignAllSpheres);
-                    DialogHosts.MessageDialog.OKPanel.Visible = true;
-                    DialogHosts.MessageDialog.Window.Visible = true;
+                    UI.MessageDialog.MessageMemo.Items.Add(pleaseAssignAllSpheres);
+                    UI.MessageDialog.OKPanel.Visible = true;
+                    UI.MessageDialog.Window.Visible = true;
                 }
 
                 break;
@@ -872,7 +872,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:459
     public void AttUpClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Leader.SetUnitAttack((sbyte)(Leader.UnitAttack + 1));
         UpdateStatistics();
     }
@@ -880,7 +880,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:466
     public void AttDnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Leader.SetUnitAttack((sbyte)(Leader.UnitAttack - 1));
         UpdateStatistics();
     }
@@ -888,7 +888,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:473
     public void DefUpClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Leader.SetUnitDefense((sbyte)(Leader.UnitDefense + 1));
         UpdateStatistics();
     }
@@ -896,7 +896,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:480
     public void DefDnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Leader.SetUnitDefense((sbyte)(Leader.UnitDefense - 1));
         UpdateStatistics();
     }
@@ -904,7 +904,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:487
     public void DamUpClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Leader.SetUnitDamage((sbyte)(Leader.UnitDamage + 1));
         UpdateStatistics();
     }
@@ -912,7 +912,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:494
     public void DamDnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Leader.SetUnitDamage((sbyte)(Leader.UnitDamage - 1));
         UpdateStatistics();
     }
@@ -920,7 +920,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:501
     public void ResUpClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Leader.SetUnitResistance((sbyte)(Leader.UnitResistance + 1));
         UpdateStatistics();
     }
@@ -928,7 +928,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:508
     public void ResDnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Leader.SetUnitResistance((sbyte)(Leader.UnitResistance - 1));
         UpdateStatistics();
     }
@@ -936,7 +936,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:515
     public void HitUpClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Leader.SetUnitHits((sbyte)(Leader.UnitHits + 1));
         UpdateStatistics();
     }
@@ -944,7 +944,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:522
     public void HitDnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Leader.SetUnitHits((sbyte)(Leader.UnitHits - 1));
         UpdateStatistics();
     }
@@ -952,7 +952,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:529
     public void MovUpClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Leader.SetUnitMoves((sbyte)(Leader.UnitMoves + 1));
         UpdateStatistics();
     }
@@ -960,7 +960,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:536
     public void MovDnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Leader.SetUnitMoves((sbyte)(Leader.UnitMoves - 1));
         UpdateStatistics();
     }
@@ -968,7 +968,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:543
     public void ClearBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         switch (_phase)
         {
             case 1:
@@ -1004,8 +1004,8 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:568
     public void DefaultBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.TitleWindow.MainWindow.Drawn = false;
+        UI.General.PlayButtonSound(0);
+        UI.TitleWindow.MainWindow.Drawn = false;
         switch (_phase)
         {
             case 1:
@@ -1052,7 +1052,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:604
     public void SelLifeClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (Leader.CanAddSphere(MagicSphere.Life))
         {
             Leader.AddSphere(MagicSphere.Life);
@@ -1063,7 +1063,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:614
     public void SelFireClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (Leader.CanAddSphere(MagicSphere.Fire))
         {
             Leader.AddSphere(MagicSphere.Fire);
@@ -1074,7 +1074,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:624
     public void SelDeathClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (Leader.CanAddSphere(MagicSphere.Death))
         {
             Leader.AddSphere(MagicSphere.Death);
@@ -1085,7 +1085,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:634
     public void SelWaterClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (Leader.CanAddSphere(MagicSphere.Water))
         {
             Leader.AddSphere(MagicSphere.Water);
@@ -1096,7 +1096,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:644
     public void SelAirClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (Leader.CanAddSphere(MagicSphere.Air))
         {
             Leader.AddSphere(MagicSphere.Air);
@@ -1107,7 +1107,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:654
     public void SelEarthClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (Leader.CanAddSphere(MagicSphere.Earth))
         {
             Leader.AddSphere(MagicSphere.Earth);
@@ -1118,7 +1118,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:664
     public void DeleteSphereClick(int slot)
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         var sphereCount = Leader.GetSphereCount();
         if (slot < sphereCount)
         {
@@ -1131,7 +1131,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:672
     public void RaceCBChange()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         var objectValue = RaceComboBox.Items.Objects[RaceComboBox.Selected];
         Leader.SetRace((sbyte)ObjectToInt(objectValue));
     }
@@ -1139,7 +1139,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:678
     public void SelectedAbilitiesSortClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_selectedSort == 0)
         {
             _selectedSort = 1;
@@ -1155,7 +1155,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:686
     public void SelectedAbilitiesCostSortClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_selectedSort == 2)
         {
             _selectedSort = 3;
@@ -1171,7 +1171,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:694
     public void AvailableAbilitiesSortClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_availableSort == 0)
         {
             _availableSort = 1;
@@ -1187,7 +1187,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:702
     public void AvailableAbilitiesCostSortClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_availableSort == 2)
         {
             _availableSort = 3;
@@ -1203,19 +1203,19 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:710
     public void SBaseClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWLeaderSetup.pas:715
     public void SExtraClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWLeaderSetup.pas:720
     public void SFinalClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWLeaderSetup.pas:725
@@ -1229,7 +1229,7 @@ public partial class LeaderSetupWindow : DataModule
             if (ability != null)
             {
                 var name = ability.GetName(null);
-                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, ability.Description);
+                InfoBanner.SetInfoBanner(UI.InfoBanner, name, ability.Description);
             }
         }
     }
@@ -1245,7 +1245,7 @@ public partial class LeaderSetupWindow : DataModule
             if (ability != null)
             {
                 var name = ability.GetName(null);
-                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, ability.Description);
+                InfoBanner.SetInfoBanner(UI.InfoBanner, name, ability.Description);
             }
         }
     }

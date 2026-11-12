@@ -75,7 +75,6 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
 
     public override int Show() { Status = Status.With(Visible); return 0; }
 
-    public override bool WindowProc(ref Message message) => false;
     public override int SupportDisplayMode(CustomDisplay display) => 0;
 
     public override void WindowRecreated() { }

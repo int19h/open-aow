@@ -13,9 +13,9 @@ using Aow.Rtl.Localize;
 namespace Aow.Game.UI.Dialogs;
 
 // unit-info window open. completion callback. army-info event
-public partial class ArmyInfoDialog : DataModule
+public partial class ArmyInfoDialog : UIModule
 {
-    public ArmyInfoDialog(Component owner) : base(owner)
+    public ArmyInfoDialog(UIContext ui) : base(ui)
     { }
 
     public Panel UnitPanel;
@@ -44,10 +44,10 @@ public partial class ArmyInfoDialog : DataModule
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
             alignment = _event.ArmyView.GetUnit(index).GetAlignment();
-            if ((int)alignment < DialogHosts.UIGraphics.UnitBackgrounds.Count)
+            if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
-                image = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
+                image = UI.Graphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, lockedSurface);
             }
 
@@ -57,7 +57,7 @@ public partial class ArmyInfoDialog : DataModule
             _event.ArmyView.GetUnit(index).Show(X - 33, Y - 35, lockedSurface, info);
             if ((((int)(((uint)_event.Selection) >> index)) & 1) == 0)
             {
-                image = DialogHosts.UIGraphics.UnitBackgrounds[7];
+                image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, lockedSurface);
             }
 
@@ -73,8 +73,8 @@ public partial class ArmyInfoDialog : DataModule
         if (_unitInfoShown)
         {
             _unitInfoShown = false;
-            DialogHosts.UnitWindow.MainWindow.Priority = DialogHosts.ControlWindow.MainWindow.Priority;
-            DialogHosts.UnitWindow.MainWindow.Visible = false;
+            UI.UnitWindow.MainWindow.Priority = UI.ControlWindow.MainWindow.Priority;
+            UI.UnitWindow.MainWindow.Visible = false;
         }
 
         notify = OnClose;
@@ -95,14 +95,14 @@ public partial class ArmyInfoDialog : DataModule
     // AoWArmyInfoDlg.pas:109
     public void CloseBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
     // AoWArmyInfoDlg.pas:115
     public void CloseClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -113,12 +113,12 @@ public partial class ArmyInfoDialog : DataModule
         if (slot < count)
         {
             var troop = _event.ArmyView.GetUnit(slot);
-            DialogHosts.General.SelectedUnit = troop;
+            UI.General.SelectedUnit = troop;
             if (button == MouseButton.Left)
             {
                 _unitInfoShown = true;
-                DialogHosts.UnitWindow.ShowUnit();
-                DialogHosts.UnitWindow.MainWindow.Priority = Window.Priority + 1;
+                UI.UnitWindow.ShowUnit();
+                UI.UnitWindow.MainWindow.Priority = Window.Priority + 1;
             }
         }
     }

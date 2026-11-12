@@ -67,7 +67,7 @@ public sealed class ObjectCastCrashTests
 
     private sealed class RecordingRelationWindow : RelationWindow
     {
-        public RecordingRelationWindow() : base(null!)
+        public RecordingRelationWindow(UIContext ui) : base(ui)
         {
         }
 
@@ -232,14 +232,13 @@ public sealed class ObjectCastCrashTests
     public void ShowRelationsSkipsAnImageAndChecksABox()
     {
         using var scope = new MapScope();
-        var previousGeneral = DialogHosts.General;
         var previousSound = AudioHost.SoundSystem;
         AudioHost.SoundSystem = null;
-        DialogHosts.General = new General(null!);
-        DialogHosts.General.Manager = new WindowManager(null!);
+        var ui = new UIContext();
+        ui.Add(new General(ui)).Manager = new WindowManager(null!);
         try
         {
-            var window = new RecordingRelationWindow();
+            var window = new RecordingRelationWindow(ui);
             window.Player1Image = new Image(null!);
             window.Player2Image = new Image(null!);
             window.Player3Image = new Image(null!);
@@ -327,7 +326,6 @@ public sealed class ObjectCastCrashTests
         }
         finally
         {
-            DialogHosts.General = previousGeneral;
             AudioHost.SoundSystem = previousSound;
         }
     }

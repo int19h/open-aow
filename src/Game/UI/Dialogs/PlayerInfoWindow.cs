@@ -12,9 +12,9 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class PlayerInfoWindow : DataModule
+public partial class PlayerInfoWindow : UIModule
 {
-    public PlayerInfoWindow(Component owner) : base(owner)
+    public PlayerInfoWindow(UIContext ui) : base(ui)
     { }
 
     public Window MainWindow;
@@ -33,24 +33,24 @@ public partial class PlayerInfoWindow : DataModule
         if (StrategicMap.Current.SeatedPlayer > -1)
         {
             var name = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetName();
-            DialogHosts.PlayerInfoWindow.PlayerLabel.Text = name;
+            UI.PlayerInfoWindow.PlayerLabel.Text = name;
             if (StrategicMap.Current.SeatedPlayer != 0)
             {
                 var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
-                DialogHosts.PlayerInfoWindow.RaceLabel.Text = raceNamesPlural;
+                UI.PlayerInfoWindow.RaceLabel.Text = raceNamesPlural;
             }
 
             var day = AbilityRules.TranslateResourceString(GameText.DayText);
-            DialogHosts.PlayerInfoWindow.TurnLabel.Text = day + " " + IntToStr(StrategicMap.Current.Day);
+            UI.PlayerInfoWindow.TurnLabel.Text = day + " " + IntToStr(StrategicMap.Current.Day);
             raceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
             if (raceIndex == -1)
             {
                 raceIndex = 12;
             }
 
-            DialogHosts.PlayerInfoWindow.RaceShield.CurrentImage = raceIndex + 13;
-            DialogHosts.PlayerInfoWindow.MainWindow.Visible = true;
+            UI.PlayerInfoWindow.RaceShield.CurrentImage = raceIndex + 13;
+            UI.PlayerInfoWindow.MainWindow.Visible = true;
         }
     }
 
@@ -70,7 +70,7 @@ public partial class PlayerInfoWindow : DataModule
     // AoWPInfoWin.pas:67
     public void MinClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         MainWindow.Visible = false;
     }
 
@@ -108,23 +108,23 @@ public partial class PlayerInfoWindow : DataModule
         {
             if (middleIcon == -1)
             {
-                var eventIcon = DialogHosts.UIGraphics.EventIcons[leftIcon];
-                DialogHosts.UIGraphics.EventIcons[leftIcon].ShowClipped(drawRectangle.Left + (36 - eventIcon.Width) / 2, drawRectangle.Top + 1, lockedSurface);
+                var eventIcon = UI.Graphics.EventIcons[leftIcon];
+                UI.Graphics.EventIcons[leftIcon].ShowClipped(drawRectangle.Left + (36 - eventIcon.Width) / 2, drawRectangle.Top + 1, lockedSurface);
             }
             else
             {
-                DialogHosts.UIGraphics.EventIcons[leftIcon].ShowClipped(drawRectangle.Left, drawRectangle.Top + 1, lockedSurface);
+                UI.Graphics.EventIcons[leftIcon].ShowClipped(drawRectangle.Left, drawRectangle.Top + 1, lockedSurface);
             }
         }
 
         if (middleIcon > -1)
         {
-            DialogHosts.UIGraphics.EventIcons[middleIcon].ShowClipped(drawRectangle.Left + 12, drawRectangle.Top + 1, lockedSurface);
+            UI.Graphics.EventIcons[middleIcon].ShowClipped(drawRectangle.Left + 12, drawRectangle.Top + 1, lockedSurface);
         }
 
         if (rightIcon > -1)
         {
-            DialogHosts.UIGraphics.EventIcons[rightIcon].ShowClipped(drawRectangle.Left + 24, drawRectangle.Top + 1, lockedSurface);
+            UI.Graphics.EventIcons[rightIcon].ShowClipped(drawRectangle.Left + 24, drawRectangle.Top + 1, lockedSurface);
         }
     }
 
@@ -132,7 +132,7 @@ public partial class PlayerInfoWindow : DataModule
     public void PInfoWinResize()
     {
         this.MainWindow.Alignment.RightOffset = this.MainWindow.WindowManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
-        this.MainWindow.Alignment.BottomOffset = DialogHosts.General.Manager.WinHeight - this.MainWindow.WinTop - this.MainWindow.WinHeight;
+        this.MainWindow.Alignment.BottomOffset = UI.General.Manager.WinHeight - this.MainWindow.WinTop - this.MainWindow.WinHeight;
     }
 
     // AoWPInfoWin.pas:109
@@ -151,7 +151,7 @@ public partial class PlayerInfoWindow : DataModule
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader != null)
         {
             StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out X, out Y, out L);
@@ -166,7 +166,7 @@ public partial class PlayerInfoWindow : DataModule
     // AoWPInfoWin.pas:132
     public void RaceButtonClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWPInfoWin.pas:137
@@ -195,11 +195,11 @@ public partial class PlayerInfoWindow : DataModule
             if (hexX > -1)
             {
                 var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
-                DialogHosts.General.SelectedUnit = player.Leader;
+                UI.General.SelectedUnit = player.Leader;
                 switch (button)
                 {
                     case MouseButton.Left:
-                        DialogHosts.UnitWindow.ShowUnit();
+                        UI.UnitWindow.ShowUnit();
                         break;
                     case MouseButton.Right:
                         CenterButtonClick();
@@ -212,6 +212,6 @@ public partial class PlayerInfoWindow : DataModule
     // AoWPInfoWin.pas:167
     public void HelpClick()
     {
-        HelpWindow.ShowHelp(502);
+        UI.HelpWindow.ShowHelp(502);
     }
 }

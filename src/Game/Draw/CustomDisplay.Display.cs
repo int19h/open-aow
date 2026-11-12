@@ -15,6 +15,9 @@ public partial class CustomDisplay
     public long PresentedFrames { get; private set; }
     public Action<long> FramePresented { get; set; }
 
+    // The color that clears new back surfaces. Create sets it to black (clBlack).
+    public int Color { get; init; }
+
     public void PresentInitialFrame()
     {
         // The initial paint presents the cleared surface before the first scene update.
@@ -26,7 +29,6 @@ public partial class CustomDisplay
 
     public CustomDisplay(Component owner) : base(owner)
     {
-        Width = Height = 100;
         _options = Set<OptionsElement>.Of(AutoResizeBackSurface, AutoSwapDisplayController,
             AutoStartUpdateFrameLoop, AutoActivatePrimaryDisplayController, RestoreSurfacesOnSwap, BlitOnPaint);
         _bufferingScheme = BufferingScheme.Double;
@@ -45,9 +47,11 @@ public partial class CustomDisplay
         base.Dispose();
     }
 
-    internal new void SetCursor(int value) { base.SetCursor(value); Host?.ShowSystemCursor(value != -1); }
+    private int _cursor;
 
-    internal int GetCursor() => base.Cursor;
+    internal void SetCursor(int value) { _cursor = value; Host?.ShowSystemCursor(value != -1); }
+
+    internal int GetCursor() => _cursor;
     public override void Loaded() => base.Loaded();
 
     public virtual void Resize()

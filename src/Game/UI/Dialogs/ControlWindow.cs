@@ -15,9 +15,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // published controls. inverted army selection mask
-public partial class ControlWindow : DataModule
+public partial class ControlWindow : UIModule
 {
-    public ControlWindow(Component owner) : base(owner)
+    public ControlWindow(UIContext ui) : base(ui)
     { }
 
     public Window MainWindow;
@@ -84,22 +84,22 @@ public partial class ControlWindow : DataModule
     // AOWControlWin.pas:294
     public void DrawUnit(int index, in Rect R, ref LockedSurface lockedSurface)
     {
-        if (DialogHosts.General.SelectedUnits[index] != -1)
+        if (UI.General.SelectedUnits[index] != -1)
         {
-            if (DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[index]).GetPreviewImage() != null)
+            if (UI.General.UnitList.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage() != null)
             {
                 lockedSurface.ClipRectangle = R;
                 // { Original tests the unsorted index when checking the background library. }
-                if ((int)DialogHosts.General.UnitList.GetUnit(index).GetAlignment() < DialogHosts.UIGraphics.UnitBackgrounds.Count)
+                if ((int)UI.General.UnitList.GetUnit(index).GetAlignment() < UI.Graphics.UnitBackgrounds.Count)
                 {
-                    var alignment = DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[index]).GetAlignment();
-                    var unitBackground = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
+                    var alignment = UI.General.UnitList.GetUnit(UI.General.SelectedUnits[index]).GetAlignment();
+                    var unitBackground = UI.Graphics.UnitBackgrounds[(int)alignment];
                     unitBackground.ShowClipped(R.Left + (R.Right - R.Left - unitBackground.Width) / 2, R.Top + (R.Bottom - R.Top - unitBackground.Height) / 2, lockedSurface);
                 }
 
-                var previewImage = DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[index]).GetPreviewImage();
-                var previewImage2 = DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[index]).GetPreviewImage();
-                DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[index]).Show(R.Left + (R.Right - R.Left - previewImage2.Width) / 2, R.Top + (R.Bottom - R.Top - previewImage.Height) / 2, lockedSurface, DialogHosts.General.UnitShowInfo);
+                var previewImage = UI.General.UnitList.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
+                var previewImage2 = UI.General.UnitList.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
+                UI.General.UnitList.GetUnit(UI.General.SelectedUnits[index]).Show(R.Left + (R.Right - R.Left - previewImage2.Width) / 2, R.Top + (R.Bottom - R.Top - previewImage.Height) / 2, lockedSurface, UI.General.UnitShowInfo);
             }
         }
     }
@@ -107,16 +107,16 @@ public partial class ControlWindow : DataModule
     // AOWControlWin.pas:312
     public void CWMinIconClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         MainWindow.Visible = false;
     }
 
     // AOWControlWin.pas:318
     public void CloseClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         MainWindow.Visible = false;
-        DialogHosts.TaskBar.PartyButton.Visible = false;
+        UI.TaskBar.PartyButton.Visible = false;
     }
 
     // AOWControlWin.pas:324
@@ -129,13 +129,13 @@ public partial class ControlWindow : DataModule
     // AOWControlWin.pas:333
     public void Unit1FrameMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
     {
-        if (DialogHosts.General.UnitList != null && DialogHosts.General.SelectedUnits[slot] > -1 && DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[slot]) != null)
+        if (UI.General.UnitList != null && UI.General.SelectedUnits[slot] > -1 && UI.General.UnitList.GetUnit(UI.General.SelectedUnits[slot]) != null)
         {
-            var troop = DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[slot]);
-            DialogHosts.General.SelectedUnit = troop;
+            var troop = UI.General.UnitList.GetUnit(UI.General.SelectedUnits[slot]);
+            UI.General.SelectedUnit = troop;
             if (button == MouseButton.Left)
             {
-                DialogHosts.UnitWindow.ShowUnit();
+                UI.UnitWindow.ShowUnit();
             }
         }
     }
@@ -148,11 +148,11 @@ public partial class ControlWindow : DataModule
         CheckEnd();
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -160,44 +160,44 @@ public partial class ControlWindow : DataModule
     public void CheckStart()
     {
         _selection = 0;
-        if (!Unit1CheckBox.Checked && DialogHosts.General.SelectedUnits[0] != -1)
+        if (!Unit1CheckBox.Checked && UI.General.SelectedUnits[0] != -1)
         {
-            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[0]));
+            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[0]));
         }
 
-        if (!Unit2CheckBox.Checked && DialogHosts.General.SelectedUnits[1] != -1)
+        if (!Unit2CheckBox.Checked && UI.General.SelectedUnits[1] != -1)
         {
-            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[1]));
+            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[1]));
         }
 
-        if (!Unit3CheckBox.Checked && DialogHosts.General.SelectedUnits[2] != -1)
+        if (!Unit3CheckBox.Checked && UI.General.SelectedUnits[2] != -1)
         {
-            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[2]));
+            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[2]));
         }
 
-        if (!Unit4CheckBox.Checked && DialogHosts.General.SelectedUnits[3] != -1)
+        if (!Unit4CheckBox.Checked && UI.General.SelectedUnits[3] != -1)
         {
-            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[3]));
+            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[3]));
         }
 
-        if (!Unit5CheckBox.Checked && DialogHosts.General.SelectedUnits[4] != -1)
+        if (!Unit5CheckBox.Checked && UI.General.SelectedUnits[4] != -1)
         {
-            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[4]));
+            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[4]));
         }
 
-        if (!Unit6CheckBox.Checked && DialogHosts.General.SelectedUnits[5] != -1)
+        if (!Unit6CheckBox.Checked && UI.General.SelectedUnits[5] != -1)
         {
-            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[5]));
+            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[5]));
         }
 
-        if (!Unit7CheckBox.Checked && DialogHosts.General.SelectedUnits[6] != -1)
+        if (!Unit7CheckBox.Checked && UI.General.SelectedUnits[6] != -1)
         {
-            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[6]));
+            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[6]));
         }
 
-        if (!Unit8CheckBox.Checked && DialogHosts.General.SelectedUnits[7] != -1)
+        if (!Unit8CheckBox.Checked && UI.General.SelectedUnits[7] != -1)
         {
-            _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[7]));
+            _selection = (byte)(_selection | (1 << UI.General.SelectedUnits[7]));
         }
     }
 
@@ -205,14 +205,14 @@ public partial class ControlWindow : DataModule
     public void CheckEnd()
     {
         _selection = StrategicMap.Current.SelectedArmy.GetSelection();
-        Unit1CheckBox.Checked = DialogHosts.General.SelectedUnits[0] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[0])) == 0;
-        Unit2CheckBox.Checked = DialogHosts.General.SelectedUnits[1] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[1])) == 0;
-        Unit3CheckBox.Checked = DialogHosts.General.SelectedUnits[2] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[2])) == 0;
-        Unit4CheckBox.Checked = DialogHosts.General.SelectedUnits[3] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[3])) == 0;
-        Unit5CheckBox.Checked = DialogHosts.General.SelectedUnits[4] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[4])) == 0;
-        Unit6CheckBox.Checked = DialogHosts.General.SelectedUnits[5] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[5])) == 0;
-        Unit7CheckBox.Checked = DialogHosts.General.SelectedUnits[6] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[6])) == 0;
-        Unit8CheckBox.Checked = DialogHosts.General.SelectedUnits[7] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[7])) == 0;
+        Unit1CheckBox.Checked = UI.General.SelectedUnits[0] != -1 && (_selection & (1 << UI.General.SelectedUnits[0])) == 0;
+        Unit2CheckBox.Checked = UI.General.SelectedUnits[1] != -1 && (_selection & (1 << UI.General.SelectedUnits[1])) == 0;
+        Unit3CheckBox.Checked = UI.General.SelectedUnits[2] != -1 && (_selection & (1 << UI.General.SelectedUnits[2])) == 0;
+        Unit4CheckBox.Checked = UI.General.SelectedUnits[3] != -1 && (_selection & (1 << UI.General.SelectedUnits[3])) == 0;
+        Unit5CheckBox.Checked = UI.General.SelectedUnits[4] != -1 && (_selection & (1 << UI.General.SelectedUnits[4])) == 0;
+        Unit6CheckBox.Checked = UI.General.SelectedUnits[5] != -1 && (_selection & (1 << UI.General.SelectedUnits[5])) == 0;
+        Unit7CheckBox.Checked = UI.General.SelectedUnits[6] != -1 && (_selection & (1 << UI.General.SelectedUnits[6])) == 0;
+        Unit8CheckBox.Checked = UI.General.SelectedUnits[7] != -1 && (_selection & (1 << UI.General.SelectedUnits[7])) == 0;
         if (Unit1CheckBox.Checked)
         {
             Unit1Frame.ImageLibraryIndexFrame = 26;
@@ -286,11 +286,11 @@ public partial class ControlWindow : DataModule
         }
 
         var selection = StrategicMap.Current.SelectedArmy.GetSelection();
-        var partyMove = DialogHosts.General.UnitList.GetPartyMoves(selection);
-        var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(partyMove);
+        var partyMove = UI.General.UnitList.GetPartyMoves(selection);
+        var moveTypesToInt32 = UI.General.MoveTypesToInt32(partyMove);
         MoveIcon.CurrentImage = moveTypesToInt32;
         var fSelectedArmySelection = StrategicMap.Current.SelectedArmy.GetSelection();
-        var movePoints = DialogHosts.General.UnitList.MovePoints(fSelectedArmySelection);
+        var movePoints = UI.General.UnitList.MovePoints(fSelectedArmySelection);
         MovesLabel.Text = IntToStr(movePoints);
         var selection2 = StrategicMap.Current.SelectedArmy.GetSelection();
         var partyStatus = StrategicMap.Current.SelectedArmy.GetArmyHexSprite().Army.GetPartyStatus(selection2);
@@ -312,11 +312,11 @@ public partial class ControlWindow : DataModule
     // AOWControlWin.pas:415
     public void CenterClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        var army = DialogHosts.General.UnitList;
+        UI.General.PlayButtonSound(0);
+        var army = UI.General.UnitList;
         StrategicMap.Current.CenterViewTo(army.X, army.Y, army.MapLevel);
 
-        var army2 = DialogHosts.General.UnitList;
+        var army2 = UI.General.UnitList;
         StrategicMap.Current.PlayCenterAnimation(army2.X, army2.Y, army2.MapLevel);
     }
 
@@ -325,7 +325,7 @@ public partial class ControlWindow : DataModule
     {
         Rect saveRectangle;
         UIComponent component;
-        if (DialogHosts.General.UnitList != null)
+        if (UI.General.UnitList != null)
         {
             component = sender;
             saveRectangle = lockedSurface.ClipRectangle;
@@ -338,7 +338,7 @@ public partial class ControlWindow : DataModule
     // AOWControlWin.pas:437
     public void HelpClick()
     {
-        HelpWindow.ShowHelp(503);
+        UI.HelpWindow.ShowHelp(503);
     }
 
     // AOWControlWin.pas:442
@@ -364,16 +364,16 @@ public partial class ControlWindow : DataModule
     {
         if (PartyGuardCheckBox.Checked)
         {
-            if (!DialogHosts.General.UnitList.UserMode.Contains(ArmyUserModeElement.Guard))
+            if (!UI.General.UnitList.UserMode.Contains(ArmyUserModeElement.Guard))
             {
-                DialogHosts.General.UnitList.UserMode = DialogHosts.General.UnitList.UserMode + Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
+                UI.General.UnitList.UserMode = UI.General.UnitList.UserMode + Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
             }
         }
         else
         {
-            if (DialogHosts.General.UnitList.UserMode.Contains(ArmyUserModeElement.Guard))
+            if (UI.General.UnitList.UserMode.Contains(ArmyUserModeElement.Guard))
             {
-                DialogHosts.General.UnitList.UserMode = DialogHosts.General.UnitList.UserMode - Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
+                UI.General.UnitList.UserMode = UI.General.UnitList.UserMode - Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
             }
         }
     }

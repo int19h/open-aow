@@ -33,71 +33,71 @@ public partial class CombatMapEvents
             }
         }
 
-        DialogHosts.MapWindow.MapViewer.HexSpriteMap = CombatMap.Current;
-        DialogHosts.CombatScanner.Scanner.SetMap(CombatMap.Current);
-        DialogHosts.CombatScanner.Scanner.PreviousWidth = 0;
-        DialogHosts.CombatScanner.Scanner.Incremental = false;
-        DialogHosts.CombatScanner.Scanner.Sized = false;
-        DialogHosts.CombatScanner.Scanner.UpdateStep = -1;
+        UI.MapWindow.MapViewer.HexSpriteMap = CombatMap.Current;
+        UI.CombatScanner.Scanner.SetMap(CombatMap.Current);
+        UI.CombatScanner.Scanner.PreviousWidth = 0;
+        UI.CombatScanner.Scanner.Incremental = false;
+        UI.CombatScanner.Scanner.Sized = false;
+        UI.CombatScanner.Scanner.UpdateStep = -1;
 
-        DialogHosts.MapWindow.MainWindow.Visible = true;
-        DialogHosts.General.HideWindows();
+        UI.MapWindow.MainWindow.Visible = true;
+        UI.General.HideWindows();
         CombatMap.Current = StrategicMap.Current.CombatMap;
-        DialogHosts.MapWindow.MainWindow.Visible = CombatMap.Current.PlaySounds;
-        DialogHosts.MapWindow.WorldAlignWidth = DialogHosts.MapWindow.MainWindow.Alignment.AlignWidth;
-        DialogHosts.MapWindow.WorldAlignHeight = DialogHosts.MapWindow.MainWindow.Alignment.AlignHeight;
-        DialogHosts.MapWindow.WorldRectangle.Left = DialogHosts.MapWindow.MainWindow.Alignment.LeftOffset;
-        DialogHosts.MapWindow.WorldRectangle.Top = DialogHosts.MapWindow.MainWindow.Alignment.TopOffset;
-        if (DialogHosts.MapWindow.WorldAlignWidth == AlignWidth.Both)
+        UI.MapWindow.MainWindow.Visible = CombatMap.Current.PlaySounds;
+        UI.MapWindow.WorldAlignWidth = UI.MapWindow.MainWindow.Alignment.AlignWidth;
+        UI.MapWindow.WorldAlignHeight = UI.MapWindow.MainWindow.Alignment.AlignHeight;
+        UI.MapWindow.WorldRectangle.Left = UI.MapWindow.MainWindow.Alignment.LeftOffset;
+        UI.MapWindow.WorldRectangle.Top = UI.MapWindow.MainWindow.Alignment.TopOffset;
+        if (UI.MapWindow.WorldAlignWidth == AlignWidth.Both)
         {
-            DialogHosts.MapWindow.WorldRectangle.Right = DialogHosts.MapWindow.MainWindow.Alignment.RightOffset;
+            UI.MapWindow.WorldRectangle.Right = UI.MapWindow.MainWindow.Alignment.RightOffset;
         }
         else
         {
-            DialogHosts.MapWindow.WorldRectangle.Right = DialogHosts.MapWindow.MainWindow.WinWidth;
+            UI.MapWindow.WorldRectangle.Right = UI.MapWindow.MainWindow.WinWidth;
         }
 
-        if (DialogHosts.MapWindow.WorldAlignHeight == AlignHeight.Both)
+        if (UI.MapWindow.WorldAlignHeight == AlignHeight.Both)
         {
-            DialogHosts.MapWindow.WorldRectangle.Bottom = DialogHosts.MapWindow.MainWindow.Alignment.BottomOffset;
+            UI.MapWindow.WorldRectangle.Bottom = UI.MapWindow.MainWindow.Alignment.BottomOffset;
         }
         else
         {
-            DialogHosts.MapWindow.WorldRectangle.Bottom = DialogHosts.MapWindow.MainWindow.WinHeight;
+            UI.MapWindow.WorldRectangle.Bottom = UI.MapWindow.MainWindow.WinHeight;
         }
 
-        DialogHosts.MapWindow.MainWindow.Alignment.LeftOffset = DialogHosts.MapWindow.MapRectangle.Left;
-        DialogHosts.MapWindow.MainWindow.Alignment.TopOffset = DialogHosts.MapWindow.MapRectangle.Top;
-        DialogHosts.MapWindow.MainWindow.Alignment.RightOffset = DialogHosts.MapWindow.MapRectangle.Right;
-        DialogHosts.MapWindow.MainWindow.Alignment.BottomOffset = DialogHosts.MapWindow.MapRectangle.Bottom;
-        DialogHosts.MapWindow.MainWindow.WinWidth = DialogHosts.MapWindow.MapRectangle.Right;
-        DialogHosts.MapWindow.MainWindow.WinHeight = DialogHosts.MapWindow.MapRectangle.Bottom;
-        DialogHosts.MapWindow.MainWindow.Alignment.AlignWidth = DialogHosts.MapWindow.MapAlignWidth;
-        DialogHosts.MapWindow.MainWindow.Alignment.AlignHeight = DialogHosts.MapWindow.MapAlignHeight;
-        DialogHosts.MapWindow.MainWindow.Aligned = false;
-        DialogHosts.TaskBar.WorldPanel.Visible = false;
-        DialogHosts.TaskBar.CombatPanel.Visible = true;
-        DialogHosts.TaskBar.UpdateCombatPlayerIndicator();
-        DialogHosts.TaskBar.AutoCombatCheckBox.Checked = false;
-        DialogHosts.TaskBar.CombatChatButton.Visible = DialogHosts.TaskBar.ChatButton.Visible;
-        DialogHosts.TaskBar.CombatUnitButton.Visible = false;
-        DialogHosts.TaskBar.TaskWindow.Drawn = false;
-        DialogHosts.CombatScanner.CombatScannerWindow.Visible = CombatMap.Current.PlaySounds;
-        DialogHosts.TaskBar.CombatScannerButton.Visible = CombatMap.Current.PlaySounds;
-        DialogHosts.CombatUnitInfo.MainWindow.Visible = false;
+        UI.MapWindow.MainWindow.Alignment.LeftOffset = UI.MapWindow.MapRectangle.Left;
+        UI.MapWindow.MainWindow.Alignment.TopOffset = UI.MapWindow.MapRectangle.Top;
+        UI.MapWindow.MainWindow.Alignment.RightOffset = UI.MapWindow.MapRectangle.Right;
+        UI.MapWindow.MainWindow.Alignment.BottomOffset = UI.MapWindow.MapRectangle.Bottom;
+        UI.MapWindow.MainWindow.WinWidth = UI.MapWindow.MapRectangle.Right;
+        UI.MapWindow.MainWindow.WinHeight = UI.MapWindow.MapRectangle.Bottom;
+        UI.MapWindow.MainWindow.Alignment.AlignWidth = UI.MapWindow.MapAlignWidth;
+        UI.MapWindow.MainWindow.Alignment.AlignHeight = UI.MapWindow.MapAlignHeight;
+        UI.MapWindow.MainWindow.Aligned = false;
+        UI.TaskBar.WorldPanel.Visible = false;
+        UI.TaskBar.CombatPanel.Visible = true;
+        UI.TaskBar.UpdateCombatPlayerIndicator();
+        UI.TaskBar.AutoCombatCheckBox.Checked = false;
+        UI.TaskBar.CombatChatButton.Visible = UI.TaskBar.ChatButton.Visible;
+        UI.TaskBar.CombatUnitButton.Visible = false;
+        UI.TaskBar.TaskWindow.Drawn = false;
+        UI.CombatScanner.CombatScannerWindow.Visible = CombatMap.Current.PlaySounds;
+        UI.TaskBar.CombatScannerButton.Visible = CombatMap.Current.PlaySounds;
+        UI.CombatUnitInfo.MainWindow.Visible = false;
         if (!CombatMap.Current.PlaySounds)
         {
-            _chatHeight = DialogHosts.ChatWindow.MainWindow.WinHeight;
-            DialogHosts.ChatWindow.MainWindow.Alignment.AlignHeight = AlignHeight.Both;
+            _chatHeight = UI.ChatWindow.MainWindow.WinHeight;
+            UI.ChatWindow.MainWindow.Alignment.AlignHeight = AlignHeight.Both;
         }
         else
         {
             _chatHeight = 0;
         }
 
-        if (DialogHosts.General.ChatVisible || !CombatMap.Current.PlaySounds)
+        if (UI.General.ChatVisible || !CombatMap.Current.PlaySounds)
         {
-            DialogHosts.ChatWindow.MainWindow.Visible = true;
+            UI.ChatWindow.MainWindow.Visible = true;
         }
     }
 }

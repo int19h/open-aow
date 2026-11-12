@@ -9,9 +9,9 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, retained event
-public partial class MessageReceiveDialog : DataModule
+public partial class MessageReceiveDialog : UIModule
 {
-    public MessageReceiveDialog(Component owner) : base(owner)
+    public MessageReceiveDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -45,7 +45,7 @@ public partial class MessageReceiveDialog : DataModule
     // AoWMsgReceiveDlg.pas:40
     public void CloseClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 

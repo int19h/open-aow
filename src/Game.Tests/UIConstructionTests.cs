@@ -10,6 +10,7 @@ using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
+using Aow.Game.UI.Dialogs;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Tests;
@@ -87,6 +88,7 @@ public sealed class UIConstructionTests
                     string key = current.Name + "." + MemberNames.Of(field);
                     object? child = field.GetValue(item);
                     if (field.Name is "_owner" or "<Owner>k__BackingField") { fields[key] = child is null ? null : "$owner"; continue; }
+                    if (child is UIContext) { fields[key] = child.GetType().FullName; continue; }
                     fields[key] = field.Name is "_engine" or "_hexSpriteEngine" or "FGameEngine" ? child?.GetType().FullName : State(child, path + "." + key);
                 }
             return fields;
@@ -218,10 +220,18 @@ public sealed class UIConstructionTests
 
     public static IEnumerable<object[]> Classes => s_names.Select(name => new object[] { name });
 
+    // A dialog module takes the UI context and the two resource modules take nothing (issue 196).
+    // A data module has no owner.
     private static Component Direct(Type type, Component? owner)
     {
         try
         {
+            if (typeof(DataModule).IsAssignableFrom(type))
+            {
+                if (owner is not null) throw new InvalidOperationException(type.FullName + " takes no owner.");
+                if (type.GetConstructor([typeof(UIContext)]) is { } module) return (Component)module.Invoke([new UIContext()]);
+                if (type.GetConstructor(Type.EmptyTypes) is { } resource) return (Component)resource.Invoke([]);
+            }
             var constructor = type.GetConstructor([typeof(Component)]);
             if (constructor is not null) return (Component)constructor.Invoke([owner]);
             var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(Component)]);

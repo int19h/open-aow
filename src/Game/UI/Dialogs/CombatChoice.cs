@@ -14,9 +14,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // combat request, completion event
-public partial class CombatChoice : DataModule
+public partial class CombatChoice : UIModule
 {
-    public CombatChoice(Component owner) : base(owner)
+    public CombatChoice(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -32,7 +32,7 @@ public partial class CombatChoice : DataModule
     {
         NotifyEvent<object> done;
         CombatTypeRequestEventLog request;
-        DialogHosts.General.Manager.OverlayPriority = 0;
+        UI.General.Manager.OverlayPriority = 0;
         done = OnDone;
         request = _request;
         OnDone = null;
@@ -51,7 +51,7 @@ public partial class CombatChoice : DataModule
     // TCFCDlg.pas:57
     public void CancelBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         _request.Select(0);
         Window.Visible = false;
     }
@@ -59,7 +59,7 @@ public partial class CombatChoice : DataModule
     // TCFCDlg.pas:64
     public void FightBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -74,11 +74,11 @@ public partial class CombatChoice : DataModule
 
         if (checkBox.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -93,11 +93,11 @@ public partial class CombatChoice : DataModule
 
         if (checkBox.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -170,7 +170,7 @@ public partial class CombatChoice : DataModule
 
     internal static void ShowCombatType(CombatChoice dialog, CombatTypeRequestEventLog eventValue, ExecuteDoneEvent done)
     {
-        if (DialogHosts.ConfirmationDialog.SkipCombatChoice)
+        if (dialog.UI.ConfirmationDialog.SkipCombatChoice)
         {
             if (dialog.TacticalCombatCheckBox.Checked)
             {
@@ -188,7 +188,7 @@ public partial class CombatChoice : DataModule
             dialog._request = eventValue;
             dialog._request.AddRef();
             dialog.OnDone = RebindDelegate<NotifyEvent<object>>(done);
-            DialogHosts.General.Manager.OverlayPriority = 49;
+            dialog.UI.General.Manager.OverlayPriority = 49;
             if (dialog.TacticalCombatCheckBox.Checked)
             {
                 eventValue.Select((CombatType)2);
