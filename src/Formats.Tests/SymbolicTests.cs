@@ -124,8 +124,8 @@ public sealed class SymbolicTests : FormatsTest
              "root":{"$class":"TDiplomaticRelationHistoryItem","Day":4,"Relation":"02"}}
             """);
         var root = (JsonObject)relation.Document["root"]!;
-        Assert.Equal([SymbolicMigration.Name, RecordMigration.Name], relation.Migrations);
-        Assert.Equal(3, ((JsonInteger)relation.Document["$version"]!).Value);
+        Assert.Equal([SymbolicMigration.Name, RecordMigration.Name, ListMigration.Name], relation.Migrations);
+        Assert.Equal(4, ((JsonInteger)relation.Document["$version"]!).Value);
         Assert.Equal("Alliance", ((JsonString)root["Relation"]!).Value);
         Assert.Equal(4, ((JsonInteger)root["Day"]!).Value);
 
@@ -260,8 +260,8 @@ public sealed class SymbolicTests : FormatsTest
         var golden = Golden("hero-list-v1.json");
         var read = GameFiles.Read(golden, "hero-list-v1.json");
         var original = (JsonObject)JsonReader.Parse(golden, "hero-list-v1.json");
-        Assert.Equal([SymbolicMigration.Name, RecordMigration.Name], read.Migrations);
-        Assert.Equal(3, ((JsonInteger)read.Document["$version"]!).Value);
+        Assert.Equal([SymbolicMigration.Name, RecordMigration.Name, ListMigration.Name], read.Migrations);
+        Assert.Equal(4, ((JsonInteger)read.Document["$version"]!).Value);
         Assert.Equal(JsonWriter.ToUtf8((JsonObject)original["root"]!), JsonWriter.ToUtf8((JsonObject)read.Document["root"]!));
     }
 

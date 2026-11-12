@@ -19,8 +19,8 @@ public sealed class RecordMigrationTests : FormatsTest
             .Add("$class", new JsonString("TAoWCampaign"))
             .Add("Map", Map());
         var read = Read(Envelope("campaign", root));
-        Assert.Equal([RecordMigration.Name], read.Migrations);
-        Assert.Equal(3, ((JsonInteger)read.Document["$version"]!).Value);
+        Assert.Equal([RecordMigration.Name, ListMigration.Name], read.Migrations);
+        Assert.Equal(4, ((JsonInteger)read.Document["$version"]!).Value);
         var map = (JsonObject)((JsonObject)read.Document["root"]!)["Map"]!;
         var campaignRoot = (JsonObject)map["root"]!;
         Assert.Equal(3, ((JsonInteger)campaignRoot["VictoryMode"]!).Value);

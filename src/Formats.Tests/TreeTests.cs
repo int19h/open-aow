@@ -294,7 +294,7 @@ public sealed class TreeTests : FormatsTest
         var upkeepError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(upkeep, enchantment, current, "game"));
         Assert.Equal(Codes.Type, upkeepError.Diagnostic.Code);
         Assert.Equal("root.Upkeep", upkeepError.Diagnostic.Path);
-        Assert.Equal("Version 3 stores a list only for a fixed integer array.", upkeepError.Diagnostic.Message);
+        Assert.Equal("Version 4 stores a list only for a fixed integer array.", upkeepError.Diagnostic.Message);
         var record = new ObjectNode(null, null);
         record.Add("Extra", new RecordNode());
         var recordError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(record, enchantment, current, "game"));
@@ -308,7 +308,7 @@ public sealed class TreeTests : FormatsTest
         var upkeepDocument = Assert.Throws<ConversionException>(() => DocumentBackend.Read(
             (JsonObject)JsonReader.Parse("""{"Upkeep":[1,2]}""", "upkeep.json"), enchantment, current, "game"));
         Assert.Equal("root.Upkeep", upkeepDocument.Diagnostic.Path);
-        Assert.Equal("Version 3 stores a list only for a fixed integer array.", upkeepDocument.Diagnostic.Message);
+        Assert.Equal("Version 4 stores a list only for a fixed integer array.", upkeepDocument.Diagnostic.Message);
 
         var schema = Version1;
         var classValue = schema.Get("TRefuse");
