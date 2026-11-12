@@ -79,7 +79,7 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
                     ((GuardAreaAIGroup)Group).GuardLocation = Location;
                 }
 
-                finder = new AIGroupTargetFinder(null);
+                finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                 finder.Setup(this);
                 {
                     finder.Selector.SourceLocation = ((GuardAreaAIGroup)Group).GuardLocation;
@@ -98,7 +98,7 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
                 {
                     if (Army.Moves(Selection) != Army.MovePoints(Selection) || ((GuardAreaAIGroup)Group).GuardLocation.Packed != Location.Packed)
                     {
-                        settings = new MoveControlSettings(null);
+                        settings = new MoveControlSettings(null) { Holder = CreationHolder() };
                         settings.Player = Army.Player;
                         settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
                         settings.SetSourcePosition(Army.X, Army.Y, Army.MapLevel);

@@ -16,12 +16,12 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
 
     public override int Icon => 8;
 
-    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(OfferPeaceText);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), OfferPeaceText);
 
     public override string LogText(DiplomaticAction action)
     {
-        var subject = AbilityRules.TranslateResourceString(PeaceOfferText);
-        var accepted = action.Source == StrategicMap.Current.SeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateResourceString(GameTables.PeaceText);
+        var subject = AbilityRules.TranslateResourceString(action.GetEngine(), PeaceOfferText);
+        var accepted = action.Source == StrategicMap.Current.SeatedPlayer ? AcceptedLine(subject, engine: action.GetEngine()) : AbilityRules.TranslateResourceString(action.GetEngine(), GameTables.PeaceText);
         return Outcome(action, subject, subject, accepted, "");
     }
 

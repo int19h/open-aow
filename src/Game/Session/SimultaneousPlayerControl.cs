@@ -35,7 +35,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
         }
 
         AudioPlayback.PlaySample("SFX\\EVENTS\\NEWTURN.WAV");
-        if (GameTables.GameEngine.Registry.GetAutoSave())
+        if (GetEngine().Registry.GetAutoSave())
         {
             AutoSave();
         }
@@ -54,7 +54,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
                 {
                     if (StrategicMap.Current.GameType == GameType.Custom)
                     {
-                        log = new ShowBookEventLog(null);
+                        log = new ShowBookEventLog(null) { Holder = CreationHolder() };
                         StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
                         log.Release();
                     }
@@ -65,7 +65,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
                         StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(ref spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
                         if (spells.GetCount() > 0)
                         {
-                            log = new PlayerMagicEventLog(null);
+                            log = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
                             ((PlayerMagicEventLog)log).Mode = PlayerMagicEventLog.EventMode.StartResearch;
                             StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
                             log.Release();
@@ -101,7 +101,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
             {
                 if (StrategicMap.Current.TokenManager.PlayerReady(StrategicMap.Current.SeatedPlayer))
                 {
-                    AbilityRules.EndPlayerTurn(StrategicMap.Current.SeatedPlayer);
+                    AbilityRules.EndPlayerTurn(StrategicMap.Current.SeatedPlayer, engine: GetEngine());
                 }
             }
         }
@@ -136,11 +136,11 @@ public partial class SimultaneousPlayerControl : PlayerControl
         Assert(StrategicMap.Current.SeatedPlayer != 0, "", "PlayerC.PAS", 1584);
         StrategicMap.Current.ResetSeatedPlayerView();
         StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
-        log = new NewTurnEventLog(null);
+        log = new NewTurnEventLog(null) { Holder = CreationHolder() };
         log.TurnPlayer = StrategicMap.Current.SeatedPlayer;
         log.Mode = NewTurnEventLogMode.Dialog;
         log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-        log.Text = AbilityRules.TranslateResourceString(s_letGameBeginText);
+        log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_letGameBeginText);
         StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
         log.Release();
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network)
@@ -237,7 +237,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
                         StrategicMap.Current.AIExecutor.DeactivatePlayer((sbyte)I);
                     }
 
-                    log = new EndTurnEventLog(null);
+                    log = new EndTurnEventLog(null) { Holder = CreationHolder() };
                     StrategicMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
                     log.Release();
                 }
@@ -291,11 +291,11 @@ public partial class SimultaneousPlayerControl : PlayerControl
         }
 
         StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
-        log = new NewTurnEventLog(null);
+        log = new NewTurnEventLog(null) { Holder = CreationHolder() };
         log.TurnPlayer = StrategicMap.Current.SeatedPlayer;
         log.Mode = NewTurnEventLogMode.Dialog;
         log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-        log.Text = AbilityRules.TranslateResourceString(s_gameContinuesText);
+        log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_gameContinuesText);
         StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
         log.Release();
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network)

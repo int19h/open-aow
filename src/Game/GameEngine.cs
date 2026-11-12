@@ -72,14 +72,13 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
     private protected sealed override void InitializeBeforeInherited()
     {
         if (!s_fullConstruction) return;
-        GameTables.GameEngine = this;
         SetVersion(1, 36, 53);
         Registry = new GameSettings();
         User = Set<EngineUserElement>.Of(EngineUserElement.Programmer, EngineUserElement.Designer, EngineUserElement.User);
         InitializeMovePoints();
         Debug = Registry.GetDebugMode();
         AnimationDetail = (byte)Registry.GetDetailLevel();
-        EmailGames = new EmailGameControl(null);
+        EmailGames = new EmailGameControl(null) { Holder = this };
         Dictionary = new IvBinaryDictionary();
         Dictionary.SetDictionaryName("ResourceStringDictionary");
         // { Original selects English for every explicit language here. }
@@ -115,7 +114,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
     // Army.PAS:5955
     public virtual void CreateHexSpriteSet()
     {
-        _hexSpriteSet = GamePack.Create(this);
+        _hexSpriteSet = GamePack.Create(this, holder: this);
         GameSet = _hexSpriteSet;
         GamePack.Current = GameSet;
     }
@@ -678,10 +677,10 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
 
     private static readonly string s_registerDoomGazeText = "Doom Gaze";
 
-    private static RangedAttackAbility CreateRangedAttack(int id, string name, sbyte attack, sbyte damage, sbyte repeats, RangedAttackAbility.CombatRange range, Set<DamageType> damageTypes, int enchantment)
+    private RangedAttackAbility CreateRangedAttack(int id, string name, sbyte attack, sbyte damage, sbyte repeats, RangedAttackAbility.CombatRange range, Set<DamageType> damageTypes, int enchantment)
     {
         RangedAttackAbility ability;
-        ability = new RangedAttackAbility(null);
+        ability = new RangedAttackAbility(null) { Holder = this };
         ability.AbilityId = id;
         ability.AbilityName = name;
         ability.RangeRangedAttack = range;
@@ -693,10 +692,10 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         return ability;
     }
 
-    private static BoltsAbility CreateBolts(int id, string name, int attack, sbyte damage, DamageType damageType, int enchantment)
+    private BoltsAbility CreateBolts(int id, string name, int attack, sbyte damage, DamageType damageType, int enchantment)
     {
         BoltsAbility ability;
-        ability = new BoltsAbility(null);
+        ability = new BoltsAbility(null) { Holder = this };
         ability.AbilityId = id;
         ability.AbilityName = name;
         ability.DamageTypesRangedAttack.Value = Set<DamageType>.Of(damageType);
@@ -706,10 +705,10 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         return ability;
     }
 
-    private static BreathAbility CreateBreath(int id, string name, DamageType damageType, int enchantment)
+    private BreathAbility CreateBreath(int id, string name, DamageType damageType, int enchantment)
     {
         BreathAbility ability;
-        ability = new BreathAbility(null);
+        ability = new BreathAbility(null) { Holder = this };
         ability.AbilityId = id;
         ability.AbilityName = name;
         ability.DamageTypesRangedAttack.Value = Set<DamageType>.Of(damageType);
@@ -717,10 +716,10 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         return ability;
     }
 
-    private static StrikeEnhancementAbility CreateStrikeEnhancement(int id, string name, Set<AbilitySelectionType> selection)
+    private StrikeEnhancementAbility CreateStrikeEnhancement(int id, string name, Set<AbilitySelectionType> selection)
     {
         StrikeEnhancementAbility ability;
-        ability = new StrikeEnhancementAbility(null);
+        ability = new StrikeEnhancementAbility(null) { Holder = this };
         ability.SelectionTypes = selection;
         ability.AbilityId = id;
         ability.AbilityName = name;
@@ -743,7 +742,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         control.RegisterAbility(CreateBreath(88, TranslateResourceString(s_registerBlackBreathText), DamageType.Death, -1));
         control.RegisterAbility(CreateBreath(89, TranslateResourceString(s_registerDivineBreathText), DamageType.Holy, -1));
         control.RegisterAbility(CreateBreath(90, TranslateResourceString(s_registerGasBreathText), DamageType.Poison, -1));
-        control.RegisterAbility(new FlameThrowingAbility(null));
+        control.RegisterAbility(new FlameThrowingAbility(null, holder: this));
         control.RegisterAbility(CreateRangedAttack(57, TranslateResourceString(s_registerShootJavelinText), 5, 5, 2, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical), 122));
         control.RegisterAbility(CreateRangedAttack(58, TranslateResourceString(s_registerShootBlackJavelinText), 5, 5, 2, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Death, DamageType.Physical), 123));
         control.RegisterAbility(CreateRangedAttack(25, TranslateResourceString(s_registerHurlStonesText), 3, 1, 4, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Physical), 111));
@@ -767,7 +766,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
 
     private void RegisterStrikeGroup1(AbilityControl control)
     {
-        control.RegisterAbility(new StrikeAbility(null));
+        control.RegisterAbility(new StrikeAbility(null, holder: this));
         control.RegisterAbility(CreateStrikeEnhancement(118, TranslateResourceString(s_registerLifeStealingText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
         control.RegisterAbility(CreateStrikeEnhancement(111, TranslateResourceString(s_registerChargeText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.Editor)));
         control.RegisterAbility(CreateStrikeEnhancement(112, TranslateResourceString(s_registerDragonSlayingText), Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.Editor)));
@@ -857,27 +856,27 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         RegisterEngineClasses([EngineClass.Of<UnitEnchantmentAbilityData>(), EngineClass.Of<UnitEnchantment>(), EngineClass.Of<DispelMagicAbilityTokenEvent>(), EngineClass.Of<PossessedAbilityData>()]);
         RegisterEngineClasses([EngineClass.Of<CommandCombatAction>(), EngineClass.Of<CommandedAbilityData>(), EngineClass.Of<CommandAbilityData>(), EngineClass.Of<HealingTokenEvent>(), EngineClass.Of<DispelMagicAbilityData>()]);
         RegisterEngineClasses([EngineClass.Of<PossessCombatAction>(), EngineClass.Of<WebCombatAction>(), EngineClass.Of<HealingCombatAction>(), EngineClass.Of<EntangleCombatAction>(), EngineClass.Of<HealingAbilityData>(), EngineClass.Of<TurnUndeadCombatAction>(), EngineClass.Of<InvokeDeathCombatAction>()]);
-        control.RegisterAbility(new LeadershipAbility(null));
-        control.RegisterAbility(new EntangleAbility(null));
-        control.RegisterAbility(new WebAbility(null));
-        control.RegisterAbility(new SelfDestructAbility(null));
-        control.RegisterAbility(new RoundAttackAbility(null));
-        control.RegisterAbility(new CharmAbility(null));
-        control.RegisterAbility(new CharmedAbility(null));
-        control.RegisterAbility(new DominateAbility(null));
-        control.RegisterAbility(new DominatedAbility(null));
-        control.RegisterAbility(new SeduceAbility(null));
-        control.RegisterAbility(new SeducedAbility(null));
-        control.RegisterAbility(new HealingAbility(null));
-        control.RegisterAbility(new SpellCastingAbility(null));
-        control.RegisterAbility(new TurnUndeadAbility(null));
-        control.RegisterAbility(new InvokeDeathAbility(null));
-        control.RegisterAbility(new ConstructAbility(null));
-        control.RegisterAbility(new DispelMagicAbility(null));
-        control.RegisterAbility(new WallCrushingAbility(null));
-        control.RegisterAbility(new TransportAbility(null));
-        control.RegisterAbility(new PossessAbility(null));
-        control.RegisterAbility(new PossessedAbility(null));
+        control.RegisterAbility(new LeadershipAbility(null) { Holder = this });
+        control.RegisterAbility(new EntangleAbility(null, holder: this));
+        control.RegisterAbility(new WebAbility(null, holder: this));
+        control.RegisterAbility(new SelfDestructAbility(null, holder: this));
+        control.RegisterAbility(new RoundAttackAbility(null, holder: this));
+        control.RegisterAbility(new CharmAbility(null, holder: this));
+        control.RegisterAbility(new CharmedAbility(null, holder: this));
+        control.RegisterAbility(new DominateAbility(null, holder: this));
+        control.RegisterAbility(new DominatedAbility(null, holder: this));
+        control.RegisterAbility(new SeduceAbility(null, holder: this));
+        control.RegisterAbility(new SeducedAbility(null, holder: this));
+        control.RegisterAbility(new HealingAbility(null, holder: this));
+        control.RegisterAbility(new SpellCastingAbility(null, holder: this));
+        control.RegisterAbility(new TurnUndeadAbility(null, holder: this));
+        control.RegisterAbility(new InvokeDeathAbility(null, holder: this));
+        control.RegisterAbility(new ConstructAbility(null, holder: this));
+        control.RegisterAbility(new DispelMagicAbility(null, holder: this));
+        control.RegisterAbility(new WallCrushingAbility(null, holder: this));
+        control.RegisterAbility(new TransportAbility(null) { Holder = this });
+        control.RegisterAbility(new PossessAbility(null, holder: this));
+        control.RegisterAbility(new PossessedAbility(null, holder: this));
         RegisterEnhancements(control);
         RegisterTouches(control);
     }

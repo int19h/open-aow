@@ -24,7 +24,7 @@ public sealed class OwnExtensionWriteTests
     {
         Directory.CreateDirectory(Path.Combine(EngineFixture.Root, "Save"));
         Game.GameEngine engine = EngineFixture.Engine;
-        var map = new StrategicMap(null!);
+        var map = new StrategicMap(null!, holder: EngineFixture.Engine);
         var previousMap = engine.HexSpriteMap;
         var previousLog = FileBoundary.Log;
         engine.SetHexSpriteMapWithoutCurrentMap(map);
@@ -46,7 +46,7 @@ public sealed class OwnExtensionWriteTests
     [Fact]
     public void TheAutosaveWritesTheOwnExtension() => Run((_, _) =>
     {
-        new PlayerControl(null!).AutoSave();
+        new PlayerControl(null!) { Holder = EngineFixture.Engine }.AutoSave();
         var write = Assert.Single(_log);
         Assert.Equal("write", write.Report.Operation);
         Assert.Equal(Save("autosave.oasg"), write.Path, ignoreCase: true);
@@ -61,7 +61,7 @@ public sealed class OwnExtensionWriteTests
         try
         {
             Assert.False(Runtime.WritesOwnExtensions);
-            new PlayerControl(null!).AutoSave();
+            new PlayerControl(null!) { Holder = EngineFixture.Engine }.AutoSave();
             Assert.Equal(Save("autosave.asg"), Assert.Single(_log).Path, ignoreCase: true);
             Assert.Equal(Save("Foo.asg"), FileBoundary.WriteName(Save("Foo.asg")));
             Assert.Equal(".acg", FileBoundary.WriteExtension(DocumentKind.CampaignSave));

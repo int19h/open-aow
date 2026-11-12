@@ -32,17 +32,18 @@ namespace Aow.Game.World.Structures;
 // DefendersMode
 public partial class City : PlayerCropStructure
 {
-    public City(ECustomNode owner) : base(owner)
+    public City(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        Production = new CityProductionControl(null);
+        Holder = holder;
+        Production = new CityProductionControl(null) { Holder = CreationHolder() };
         Production.City = this;
         _defendersMode = DefendersGenerateMode.Average;
         Race = -1;
-        Name = AbilityRules.TranslateResourceString(s_noNameText);
+        Name = AbilityRules.TranslateResourceString(GetEngine(), s_noNameText);
         UpgradeLevel = 1;
-        _overlay = new CityOverlayHexSprite(null);
+        _overlay = new CityOverlayHexSprite(null) { Holder = CreationHolder() };
         _overlay.City = this;
-        _enchantmentList = new GlobalEnchantmentList(null);
+        _enchantmentList = new GlobalEnchantmentList(null) { Holder = CreationHolder() };
         EnchantmentsVisible = false;
     }
 
@@ -660,9 +661,9 @@ public partial class City : PlayerCropStructure
             if (Race < -1 && StrategicMap.Current.GameType == GameType.Campaign)
             {
                 I = Math.Abs(Race) - 3;
-                if (I >= 0 && I < GameTables.GameEngine.Campaign.RaceHistory.Count)
+                if (I >= 0 && I < GetEngine().Campaign.RaceHistory.Count)
                 {
-                    SetRace((sbyte)GameTables.GameEngine.Campaign.RaceHistory[I]);
+                    SetRace((sbyte)GetEngine().Campaign.RaceHistory[I]);
                 }
                 else
                 {
@@ -769,7 +770,7 @@ public partial class City : PlayerCropStructure
         string result;
         if (Production.Queue.Count == 0)
         {
-            result = AbilityRules.TranslateResourceString(GameText.ProducingMerchandiseText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText);
         }
         else
         {
@@ -784,10 +785,10 @@ public partial class City : PlayerCropStructure
     public override bool ValidateMap(StringCollection messages)
     {
         bool result = base.ValidateMap(messages);
-        var noName = AbilityRules.TranslateResourceString(s_noNameText);
+        var noName = AbilityRules.TranslateResourceString(GetEngine(), s_noNameText);
         if (CompareText(Name, noName) == 0 || IsEmpty(Name))
         {
-            messages.Add(AbilityRules.TranslateResourceString(s_cityWarningText) + ": " + AbilityRules.TranslateResourceString(s_noNameSpecifiedText));
+            messages.Add(AbilityRules.TranslateResourceString(GetEngine(), s_cityWarningText) + ": " + AbilityRules.TranslateResourceString(GetEngine(), s_noNameSpecifiedText));
             result = false;
         }
 
@@ -998,7 +999,7 @@ public partial class City : PlayerCropStructure
         {
             if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
             {
-                var cityBattleWon = AbilityRules.TranslateResourceString(s_cityBattleWonFormat);
+                var cityBattleWon = AbilityRules.TranslateResourceString(GetEngine(), s_cityBattleWonFormat);
                 var name = GetName();
                 result = RtlUnit.Format(cityBattleWon, [name]);
             }
@@ -1006,7 +1007,7 @@ public partial class City : PlayerCropStructure
             {
                 if (combat.CombatResult == CombatResult.Defeat)
                 {
-                    var cityBattleLost = AbilityRules.TranslateResourceString(s_cityBattleLostFormat);
+                    var cityBattleLost = AbilityRules.TranslateResourceString(GetEngine(), s_cityBattleLostFormat);
                     var name = GetName();
                     result = RtlUnit.Format(cityBattleLost, [name]);
                 }
@@ -1014,7 +1015,7 @@ public partial class City : PlayerCropStructure
                 {
                     if (combat.CombatResult != CombatResult.CannotBreachWall)
                     {
-                        var cityBattleDrawn = AbilityRules.TranslateResourceString(s_cityBattleDrawnFormat);
+                        var cityBattleDrawn = AbilityRules.TranslateResourceString(GetEngine(), s_cityBattleDrawnFormat);
                         var name = GetName();
                         result = RtlUnit.Format(cityBattleDrawn, [name]);
                     }
@@ -1031,10 +1032,10 @@ public partial class City : PlayerCropStructure
         CityProductionEventLog log;
         if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)_resource).Claimed)
         {
-            log = new CityProductionEventLog(null);
+            log = new CityProductionEventLog(null) { Holder = CreationHolder() };
             log._player = newPlayer;
             var editName = EditName();
-            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.StructureCapturedFormat), [editName]);
+            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             log.HexX = GetHexX();
             log.HexY = GetHexY();
             log.HexLevel = GetHexLevel();
@@ -1358,35 +1359,35 @@ public partial class City : PlayerCropStructure
     // City.pas:955
     public void ListEnhancementsInfo(StringCollection list)
     {
-        list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(s_upgradeLevelFormat), [IntToStr(UpgradeLevel)]));
+        list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_upgradeLevelFormat), [IntToStr(UpgradeLevel)]));
         if (WallType == 1)
         {
-            list.Add(AbilityRules.TranslateResourceString(s_cityWoodenWallText));
+            list.Add(AbilityRules.TranslateResourceString(GetEngine(), s_cityWoodenWallText));
         }
 
         if (WallType == 2)
         {
-            list.Add(AbilityRules.TranslateResourceString(s_cityStoneWallText));
+            list.Add(AbilityRules.TranslateResourceString(GetEngine(), s_cityStoneWallText));
         }
 
         if (Enchantments.Contains(CityEnchantmentId.FountainOfLife))
         {
-            list.Add(AbilityRules.TranslateResourceString(GameText.FountainOfLifeText) + ": " + AbilityRules.TranslateResourceString(GameTables.EnchantmentText));
+            list.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.FountainOfLifeText) + ": " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.EnchantmentText));
         }
 
         if (Enchantments.Contains(CityEnchantmentId.GoldRush))
         {
-            list.Add(AbilityRules.TranslateResourceString(GameText.GoldRushText) + ": " + AbilityRules.TranslateResourceString(GameTables.EnchantmentText));
+            list.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.GoldRushText) + ": " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.EnchantmentText));
         }
 
         if (Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
         {
-            list.Add(AbilityRules.TranslateResourceString(GameText.AntiMagicShellText) + ": " + AbilityRules.TranslateResourceString(GameTables.EnchantmentText));
+            list.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.AntiMagicShellText) + ": " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.EnchantmentText));
         }
 
         if (Enchantments.Contains(CityEnchantmentId.Warmonger))
         {
-            list.Add(AbilityRules.TranslateResourceString(GameText.WarmongerText) + ": " + AbilityRules.TranslateResourceString(GameTables.EnchantmentText));
+            list.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.WarmongerText) + ": " + AbilityRules.TranslateResourceString(GetEngine(), GameTables.EnchantmentText));
         }
     }
 
@@ -1416,7 +1417,7 @@ public partial class City : PlayerCropStructure
         ArmyHSList armies;
         ImageSequenceAnimation animation;
         bool playSound;
-        armies = new ArmyHSList(null);
+        armies = new ArmyHSList(null) { Holder = CreationHolder() };
         ListArmies(armies);
         bool result = false;
         playSound = false;
@@ -1429,7 +1430,7 @@ public partial class City : PlayerCropStructure
                 var hexX = armies.GetArmyHexSprite(I).GetHexX();
                 if (StrategicMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, StrategicMap.Current.SeatedPlayer))
                 {
-                    animation = new ImageSequenceAnimation(null);
+                    animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.AbilityControl.GetAbility(47).ImageSequences.ImageSequences[0]);
                     animation.AnimationLevel = 27;
                     var hexLevel2 = armies.GetArmyHexSprite(I).GetHexLevel();
@@ -1531,7 +1532,7 @@ public partial class City : PlayerCropStructure
                     if (bestIndex != -1)
                     {
                         Production.ExecuteDeleteProductions();
-                        item = new ProductionItem(null);
+                        item = new ProductionItem(null) { Holder = CreationHolder() };
                         item.Order = new Migrate(selection.GetItems(bestIndex).Race);
                         Production.ExecuteAddProduction(item);
                         item?.Dispose();
@@ -1691,7 +1692,7 @@ public partial class City : PlayerCropStructure
         else
         {
             result = false;
-            reason = AbilityRules.TranslateResourceString(s_maxUpgradeLevelReachedText);
+            reason = AbilityRules.TranslateResourceString(GetEngine(), s_maxUpgradeLevelReachedText);
         }
 
         return result;
@@ -1705,7 +1706,7 @@ public partial class City : PlayerCropStructure
         string reason = "";
         if (CanUpgrade(queue, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            item = new ProductionItem(null);
+            item = new ProductionItem(null) { Holder = CreationHolder() };
             item.Order = new Upgrade();
             Production.Produce(item, queue);
             item?.Dispose();
@@ -1769,7 +1770,7 @@ public partial class City : PlayerCropStructure
         else
         {
             result = false;
-            reason = AbilityRules.TranslateResourceString(s_maxFortifyLevelReachedText);
+            reason = AbilityRules.TranslateResourceString(GetEngine(), s_maxFortifyLevelReachedText);
         }
 
         return result;
@@ -1783,7 +1784,7 @@ public partial class City : PlayerCropStructure
         string reason = "";
         if (CanFortify(queue, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            item = new ProductionItem(null);
+            item = new ProductionItem(null) { Holder = CreationHolder() };
             item.Order = new Fortify();
             Production.Produce(item, queue);
             item?.Dispose();
@@ -1832,7 +1833,7 @@ public partial class City : PlayerCropStructure
         string reason = "";
         if (CanTrade(queue, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            item = new ProductionItem(null);
+            item = new ProductionItem(null) { Holder = CreationHolder() };
             if (queue)
             {
                 item.Order = new Trade(1);
@@ -1868,7 +1869,7 @@ public partial class City : PlayerCropStructure
         string reason = "";
         if (CanLoot(ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            item = new ProductionItem(null);
+            item = new ProductionItem(null) { Holder = CreationHolder() };
             item.Order = new Loot();
             Production.Produce(item, false);
             item?.Dispose();
@@ -1967,7 +1968,7 @@ public partial class City : PlayerCropStructure
         string reason = "";
         if (CanMigrate(race, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            item = new ProductionItem(null);
+            item = new ProductionItem(null) { Holder = CreationHolder() };
             item.Order = new Migrate(race);
             Production.Produce(item, false);
             item?.Dispose();
@@ -1988,7 +1989,7 @@ public partial class City : PlayerCropStructure
         string reason = "";
         if (CanMigrate(race, ref reason))
         {
-            result = new MigrationItem(null);
+            result = new MigrationItem(null) { Holder = CreationHolder() };
             result.Race = race;
             result.Time = MigrationTime(race);
             result.Relation = StrategicMap.Current.Races.GetRace(race).GetPlayerRelation(Player);
@@ -2005,7 +2006,7 @@ public partial class City : PlayerCropStructure
     public MigrationList CreateMigrationSelection()
     {
         MigrationItem item;
-        MigrationList result = new MigrationList(null);
+        MigrationList result = new MigrationList(null) { Holder = CreationHolder() };
         for (int I = 0, last = StrategicMap.Current.Races.Count - 1; I <= last; I++)
         {
             if (StrategicMap.Current.Races.GetRace(I).Enabled)
@@ -2049,7 +2050,7 @@ public partial class City : PlayerCropStructure
                 if (chance >= StrategicMap.Current.Random(100))
                 {
                     MoveArmiesOutOfCity(Set<MoveOutOfCitySelectionElement>.Of());
-                    log = new CityRebellionEventLog(null);
+                    log = new CityRebellionEventLog(null) { Holder = CreationHolder() };
                     log._player = Player;
                     log.CityName = GetName();
                     log.HexX = GetHexX();
@@ -2061,7 +2062,7 @@ public partial class City : PlayerCropStructure
                     EventLog.DistributeLocationEventLog(log, Player, hexX, hexY, hexLevel, false);
                     log.Release();
                     SetPlayer(0);
-                    units = new UnitList(null);
+                    units = new UnitList(null) { Holder = CreationHolder() };
                     GenerateRebelUnits(units);
                     for (int I = units.Count - 1; I >= 0; I--)
                     {
@@ -2085,7 +2086,7 @@ public partial class City : PlayerCropStructure
         ArmyHSList armies;
         if (!GetRazed() && _defendersMode != DefendersGenerateMode.None && !Mode.Contains(ModeElement.WarMode) && Player == 0)
         {
-            armies = new ArmyHSList(null);
+            armies = new ArmyHSList(null) { Holder = CreationHolder() };
             ListArmies(armies);
             if (_defendersMode == DefendersGenerateMode.Random)
             {
@@ -2105,7 +2106,7 @@ public partial class City : PlayerCropStructure
                 var raceResource = GamePack.Current.RaceResources.GetRaceResource(Race);
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
-                AbilityRules.PlaceRandomUnits(GetHexX(), hexY, hexLevel, 0, raceResource.UnitIndexes, UpgradeLevel, value, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature));
+                AbilityRules.PlaceRandomUnits(GetHexX(), hexY, hexLevel, 0, raceResource.UnitIndexes, UpgradeLevel, value, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature), engine: GetEngine());
             }
 
             armies?.Dispose();
@@ -2117,22 +2118,22 @@ public partial class City : PlayerCropStructure
     {
         int income;
         income = GetSize() * 5;
-        names.Add(AbilityRules.TranslateResourceString(GameText.BaseIncomeText));
+        names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.BaseIncomeText));
         values.Add(IntToStr(income));
         income += GetCropCount() * 2;
         var cropCount = GetCropCount();
-        names.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(s_cropFieldsFormat), [IntToStr(cropCount)]));
+        names.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cropFieldsFormat), [IntToStr(cropCount)]));
         values.Add(IntToStr(GetCropCount() * 2));
         if (Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(GetActiveAction()))
         {
-            names.Add(AbilityRules.TranslateResourceString(GameText.ProducingMerchandiseText));
+            names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText));
             values.Add(IntToStr(Round((double)income * 0.25)));
             income += Round((double)income * 0.25);
         }
 
         if (Enchantments.Contains(CityEnchantmentId.GoldRush))
         {
-            names.Add(AbilityRules.TranslateResourceString(GameText.GoldRushText));
+            names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.GoldRushText));
             values.Add(IntToStr(income));
         }
     }
@@ -2157,24 +2158,24 @@ public partial class City : PlayerCropStructure
         if (Player != 0 && Race >= 0)
         {
             var playerRelation = StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(Player);
-            var status = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
-            list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(s_raceRelationFormat), [status]));
+            var status = AbilityRules.TranslateResourceString(GetEngine(), GameTables.StatusTexts[(int)playerRelation]);
+            list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_raceRelationFormat), [status]));
             if (RaceTerrain[Race].Penalty.Contains((byte)TerrainType))
             {
-                var terrainPenaltyX = AbilityRules.TranslateResourceString(s_terrainPenaltyFormat);
+                var terrainPenaltyX = AbilityRules.TranslateResourceString(GetEngine(), s_terrainPenaltyFormat);
                 var terrainType = GamePack.Current.TerrainTypes[TerrainType];
                 list.Add(RtlUnit.Format(terrainPenaltyX, [terrainType]));
             }
 
             if (RaceTerrain[Race].Bonus.Contains((byte)TerrainType))
             {
-                var terrainBonusX = AbilityRules.TranslateResourceString(s_terrainBonusFormat);
+                var terrainBonusX = AbilityRules.TranslateResourceString(GetEngine(), s_terrainBonusFormat);
                 var terrainType = GamePack.Current.TerrainTypes[TerrainType];
                 list.Add(RtlUnit.Format(terrainBonusX, [terrainType]));
             }
 
-            predictor = new CombatPredictor();
-            armies = new ArmyHSList(null);
+            predictor = new CombatPredictor(this);
+            armies = new ArmyHSList(null) { Holder = CreationHolder() };
             ListArmies(armies);
             for (int I = 0, last = armies.Count - 1; I <= last; I++)
             {
@@ -2192,7 +2193,7 @@ public partial class City : PlayerCropStructure
                 }
             }
 
-            units = new UnitList(null);
+            units = new UnitList(null) { Holder = CreationHolder() };
             GenerateRebelUnits(units);
             for (int J = 0, last = units.Count - 1; J <= last; J++)
             {
@@ -2203,19 +2204,19 @@ public partial class City : PlayerCropStructure
             {
                 if (predictor.GetSuperiority() / 4 >= 75)
                 {
-                    var strong = AbilityRules.TranslateResourceString(s_strongText);
-                    list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(s_occupationForcesFormat), [strong]));
+                    var strong = AbilityRules.TranslateResourceString(GetEngine(), s_strongText);
+                    list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_occupationForcesFormat), [strong]));
                 }
                 else
                 {
-                    var average = AbilityRules.TranslateResourceString(s_averageText);
-                    list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(s_occupationForcesFormat), [average]));
+                    var average = AbilityRules.TranslateResourceString(GetEngine(), s_averageText);
+                    list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_occupationForcesFormat), [average]));
                 }
             }
             else
             {
-                var weak = AbilityRules.TranslateResourceString(s_weakText);
-                list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(s_occupationForcesFormat), [weak]));
+                var weak = AbilityRules.TranslateResourceString(GetEngine(), s_weakText);
+                list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_occupationForcesFormat), [weak]));
             }
 
             predictor?.Dispose();
@@ -2282,9 +2283,9 @@ public partial class City : PlayerCropStructure
                     value += 10;
                 }
 
-                predictor = new CombatPredictor();
+                predictor = new CombatPredictor(this);
                 armyValue = 0;
-                armies = new ArmyHSList(null);
+                armies = new ArmyHSList(null) { Holder = CreationHolder() };
                 ListArmies(armies);
                 for (int I = 0, last = armies.Count - 1; I <= last; I++)
                 {
@@ -2311,7 +2312,7 @@ public partial class City : PlayerCropStructure
                 armies?.Dispose();
                 if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(relation))
                 {
-                    units = new UnitList(null);
+                    units = new UnitList(null) { Holder = CreationHolder() };
                     GenerateRebelUnits(units);
                     for (int I = 0, last = units.Count - 1; I <= last; I++)
                     {
@@ -2528,7 +2529,7 @@ public partial class City : PlayerCropStructure
         byte relation;
         byte selection;
         int result = 0;
-        armies = new ArmyHSList(null);
+        armies = new ArmyHSList(null) { Holder = CreationHolder() };
         ListArmies(armies);
         I = armies.Count;
         canJoin = true;
@@ -2586,16 +2587,16 @@ public partial class City : PlayerCropStructure
             {
                 request.Object = NegotiateObject.City;
                 var name = GetName();
-                request.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_cityJoinHeaderFormat), [name]);
+                request.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cityJoinHeaderFormat), [name]);
                 request.Gold = amount;
                 if (request.Gold == 0)
                 {
-                    var cityFreeJoin = AbilityRules.TranslateResourceString(s_cityFreeJoinText);
+                    var cityFreeJoin = AbilityRules.TranslateResourceString(GetEngine(), s_cityFreeJoinText);
                     request.JoinMessage.Text = cityFreeJoin;
                 }
                 else
                 {
-                    var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_cityTributeJoinFormat), [IntToStr(request.Gold)]);
+                    var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cityTributeJoinFormat), [IntToStr(request.Gold)]);
                     request.JoinMessage.Text = format;
                 }
 
@@ -2629,7 +2630,7 @@ public partial class City : PlayerCropStructure
                 if (StrategicMap.Current.Players.GetPlayers(offer.Player).Gems >= offer.Gold)
                 {
                     SetPlayer(offer.Player);
-                    armies = new ArmyHSList(null);
+                    armies = new ArmyHSList(null) { Holder = CreationHolder() };
                     ListArmies(armies);
                     for (int I = 0, last = armies.Count - 1; I <= last; I++)
                     {
@@ -2640,10 +2641,10 @@ public partial class City : PlayerCropStructure
                     }
 
                     armies?.Dispose();
-                    log = new LocationTextEventLog(null);
+                    log = new LocationTextEventLog(null) { Holder = CreationHolder() };
                     log._player = Player;
                     var name = GetName();
-                    log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_overthrownFormat), [name]);
+                    log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_overthrownFormat), [name]);
                     var hexLevel = GetHexLevel();
                     var hexY = GetHexY();
                     log.SetLocation(GetHexX(), hexY, hexLevel);
@@ -2656,7 +2657,7 @@ public partial class City : PlayerCropStructure
                 }
                 else
                 {
-                    var notEnoughGold = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
+                    var notEnoughGold = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughGoldText);
                     StrategicMap.Current.ShowMessage(notEnoughGold);
                 }
             }
@@ -2679,7 +2680,7 @@ public partial class City : PlayerCropStructure
     public sbyte GetEnemiesIndependentRelation(sbyte player)
     {
         UnitUserList units;
-        units = new UnitUserList(null);
+        units = new UnitUserList(null) { Holder = CreationHolder() };
         ListUnits(units);
         for (int I = units.Count - 1; I >= 0; I--)
         {
@@ -2699,7 +2700,7 @@ public partial class City : PlayerCropStructure
     public sbyte GetIndependentRelation()
     {
         UnitUserList units;
-        units = new UnitUserList(null);
+        units = new UnitUserList(null) { Holder = CreationHolder() };
         ListUnits(units);
         // { Original uses the race index as the default relation. }
         sbyte result = UnitList.UnitsToIndependentRelation(units, Race);

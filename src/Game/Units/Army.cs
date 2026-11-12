@@ -90,9 +90,6 @@ public partial class Army : UnitList
         base.Dispose();
     }
 
-    // Army.PAS:588
-    public override GameEngine GetEngine() => GameTables.GameEngine;
-
     // Army.PAS:1898
     public override void ReadWrite(StorageStream stream)
     {
@@ -774,7 +771,7 @@ public partial class Army : UnitList
     public ArmyId CreateId(byte selection)
     {
         ArmyId id;
-        id = new ArmyId(null);
+        id = new ArmyId(null) { Holder = CreationHolder() };
         id.X = X;
         id.Y = Y;
         id.MapLevel = MapLevel;
@@ -1073,12 +1070,12 @@ public partial class Army : UnitList
             if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && StrategicMap.Current.Day != 0)
             {
                 BeginUpdate();
-                log = new ArmyEventLog(null);
+                log = new ArmyEventLog(null) { Holder = CreationHolder() };
                 log._player = player;
                 if (Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)terrainType))
                 {
-                    log.ArmyText = AbilityRules.TranslateResourceString(s_unitsDrownText);
-                    var unitsDrown = AbilityRules.TranslateResourceString(s_unitsDrownText);
+                    log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_unitsDrownText);
+                    var unitsDrown = AbilityRules.TranslateResourceString(GetEngine(), s_unitsDrownText);
                     log.ArmyMessages.Add(unitsDrown);
                     log.ArmyIcon = 3;
                 }
@@ -1087,14 +1084,14 @@ public partial class Army : UnitList
                     switch (terrainType)
                     {
                         case 9:
-                            log.ArmyText = AbilityRules.TranslateResourceString(s_unitsBurnedText);
-                            var unitsBurned = AbilityRules.TranslateResourceString(s_unitsBurnedText);
+                            log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_unitsBurnedText);
+                            var unitsBurned = AbilityRules.TranslateResourceString(GetEngine(), s_unitsBurnedText);
                             log.ArmyMessages.Add(unitsBurned);
                             log.ArmyIcon = 0;
                             break;
                         default:
-                            log.ArmyText = AbilityRules.TranslateResourceString(s_unitsCrushedText);
-                            var translatedText = AbilityRules.TranslateResourceString(s_unitsCrushedText);
+                            log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_unitsCrushedText);
+                            var translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_unitsCrushedText);
                             log.ArmyMessages.Add(translatedText);
                             log.ArmyIcon = 2;
                             break;
@@ -1149,7 +1146,7 @@ public partial class Army : UnitList
             {
                 if (troop.GetAbilityEnabled(107))
                 {
-                    newUnit = new Unit(null);
+                    newUnit = new Unit(null) { Holder = CreationHolder() };
                     newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(152));
                     troop.Killed();
                     AddUnit(newUnit);
@@ -1185,7 +1182,7 @@ public partial class Army : UnitList
                 {
                     level = unitLevel;
                     sourceName = troop.GetAbilityOwner(46).GetOwnerName();
-                    if (sourceName == AbilityRules.TranslateResourceString(s_armyInherentText))
+                    if (sourceName == AbilityRules.TranslateResourceString(GetEngine(), s_armyInherentText))
                     {
                         sourceName = troop.GetName();
                     }
@@ -2258,7 +2255,7 @@ public partial class Army : UnitList
         if (result == AddUnitsResult.Ok)
         {
             units.BeginUpdate();
-            list = new UnitUserList(null);
+            list = new UnitUserList(null) { Holder = CreationHolder() };
             for (int I = units.GetCount() - 1; I >= 0; I--)
             {
                 if (((1 << I) & selection) != 0)
@@ -2332,7 +2329,7 @@ public partial class Army : UnitList
             {
                 if (army.GetCount() != 0)
                 {
-                    result = new ArmyHexSprite(null);
+                    result = new ArmyHexSprite(null) { Holder = CreationHolder() };
                     result.Army.BeginUpdate();
                     result.Army.AddUnits(army);
                     if (result.Place(X, Y, L, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))
@@ -2389,7 +2386,7 @@ public partial class Army : UnitList
                 var race = troop.GetRace();
                 if (races.List[race] == null)
                 {
-                    var army = new Army(null);
+                    var army = new Army(null) { Holder = CreationHolder() };
                     var aUnitRace = troop.GetRace();
                     races.List[aUnitRace] = army;
                 }
@@ -2428,7 +2425,7 @@ public partial class Army : UnitList
                 {
                     if (goodArmy == null)
                     {
-                        goodArmy = new Army(null);
+                        goodArmy = new Army(null) { Holder = CreationHolder() };
                     }
 
                     goodArmy.AddUnit(troop);
@@ -2438,7 +2435,7 @@ public partial class Army : UnitList
                 {
                     if (evilArmy == null)
                     {
-                        evilArmy = new Army(null);
+                        evilArmy = new Army(null) { Holder = CreationHolder() };
                     }
 
                     evilArmy.AddUnit(troop);
@@ -2635,13 +2632,13 @@ public partial class Army : UnitList
         StrategicMap.Current.LockGameOverEvent();
         units = new DelphiList<Troop>();
         count = SelectionCount(selection);
-        log = new ArmyInfoEventLog(null);
+        log = new ArmyInfoEventLog(null) { Holder = CreationHolder() };
         log.ArmyView.Setup(this, 255);
         log.Selection = selection;
         log._player = Player;
-        log.Title = AbilityRules.TranslateResourceString(s_desertionText);
+        log.Title = AbilityRules.TranslateResourceString(GetEngine(), s_desertionText);
         log.Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.User);
-        if (StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
+        if (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
         {
             log.Triggers = log.Triggers + Set<ExecuteTrigger>.Of(ExecuteTrigger.Event);
             if (StrategicMap.Current.RequestCombatType)
@@ -2650,31 +2647,31 @@ public partial class Army : UnitList
             }
         }
 
-        if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
+        if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
         {
             log.Triggers = log.Triggers + Set<ExecuteTrigger>.Of(ExecuteTrigger.Event, ExecuteTrigger.NewTurn);
         }
 
-        log.Description = AbilityRules.TranslateResourceString(s_leaderOfPartyStepsForwardText);
+        log.Description = AbilityRules.TranslateResourceString(GetEngine(), s_leaderOfPartyStepsForwardText);
         if (count == 1)
         {
-            log.Text = AbilityRules.TranslateResourceString(s_oneUnitDesertedText);
+            log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_oneUnitDesertedText);
         }
         else
         {
-            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_unitsDesertedFormat), [IntToStr(count)]);
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsDesertedFormat), [IntToStr(count)]);
         }
 
         if (StrategicMap.Current.Players.GetPlayers(Player).Gems == 0 && StrategicMap.Current.Players.GetPlayers(Player).GetUpkeep() > StrategicMap.Current.Players.GetPlayers(Player).Income)
         {
             if (count == 1)
             {
-                var desertUnitNoUpkeep = AbilityRules.TranslateResourceString(s_desertUnitNoUpkeepText);
+                var desertUnitNoUpkeep = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitNoUpkeepText);
                 log.Messages.Text = desertUnitNoUpkeep;
             }
             else
             {
-                var desertUnitsNoUpkeep = AbilityRules.TranslateResourceString(s_desertUnitsNoUpkeepText);
+                var desertUnitsNoUpkeep = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitsNoUpkeepText);
                 log.Messages.Text = desertUnitsNoUpkeep;
             }
         }
@@ -2684,12 +2681,12 @@ public partial class Army : UnitList
             {
                 if (count == 1)
                 {
-                    var desertUnitLowMorale = AbilityRules.TranslateResourceString(s_desertUnitLowMoraleText);
+                    var desertUnitLowMorale = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitLowMoraleText);
                     log.Messages.Text = desertUnitLowMorale;
                 }
                 else
                 {
-                    var desertUnitsLowMorale = AbilityRules.TranslateResourceString(s_desertUnitsLowMoraleText);
+                    var desertUnitsLowMorale = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitsLowMoraleText);
                     log.Messages.Text = desertUnitsLowMorale;
                 }
             }
@@ -2697,12 +2694,12 @@ public partial class Army : UnitList
             {
                 if (count == 1)
                 {
-                    var desertUnitLowMoraleSplit = AbilityRules.TranslateResourceString(s_desertUnitLowMoraleSplitText);
+                    var desertUnitLowMoraleSplit = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitLowMoraleSplitText);
                     log.Messages.Text = desertUnitLowMoraleSplit;
                 }
                 else
                 {
-                    var desertUnitsLowMoraleSplit = AbilityRules.TranslateResourceString(s_desertUnitsLowMoraleSplitText);
+                    var desertUnitsLowMoraleSplit = AbilityRules.TranslateResourceString(GetEngine(), s_desertUnitsLowMoraleSplitText);
                     log.Messages.Text = desertUnitsLowMoraleSplit;
                 }
             }
@@ -2720,7 +2717,7 @@ public partial class Army : UnitList
             }
         }
 
-        armies = new ArmyHSList(null);
+        armies = new ArmyHSList(null) { Holder = CreationHolder() };
         player = Player;
         MakeIndependent(selection, ref armies);
         while (units.Count != 0)
@@ -2761,7 +2758,7 @@ public partial class Army : UnitList
         Troop troop;
         morale = 100;
         count = 0;
-        predictor = new CombatPredictor();
+        predictor = new CombatPredictor(this);
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
             if ((selection & 1) != 0)
@@ -3075,7 +3072,7 @@ public partial class Army : UnitList
         {
             log.SetupJoinArmy(this, log._player, JoinMode.Default);
             log.Object = NegotiateObject.Army;
-            log.Text = AbilityRules.TranslateResourceString(s_partyJoinHeaderText);
+            log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_partyJoinHeaderText);
             result = log.Selection != 0;
         }
 
@@ -3108,36 +3105,36 @@ public partial class Army : UnitList
                 {
                     BeginUpdate();
                     offer.Mode = offer.Mode + Set<NegotiateModeElement>.Of(NegotiateModeElement.MoveOnAccept);
-                    log = new ArmyInfoEventLog(null);
+                    log = new ArmyInfoEventLog(null) { Holder = CreationHolder() };
                     log.ArmyView.Setup(this, selection);
                     log.Selection = 255;
                     log.Description = "";
-                    log.Title = AbilityRules.TranslateResourceString(s_partyJoinText);
+                    log.Title = AbilityRules.TranslateResourceString(GetEngine(), s_partyJoinText);
                     log.Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.User);
                     hero = Hero(selection, Set<HeroType>.Of(HeroType.Hero));
                     if (hero == null)
                     {
                         if (joinCount == 1)
                         {
-                            log.Text = AbilityRules.TranslateResourceString(s_oneUnitJoinedText);
+                            log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_oneUnitJoinedText);
                             var name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
-                            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_unitJoinedForcesFormat), [name]);
+                            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitJoinedForcesFormat), [name]);
                             log.Messages.Text = format;
                         }
                         else
                         {
-                            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_unitsJoinedFormat), [IntToStr(joinCount)]);
+                            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsJoinedFormat), [IntToStr(joinCount)]);
                             var selectionCount = SelectionCount(selection);
                             var name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
-                            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_unitsJoinedForcesFormat), [selectionCount, name]);
+                            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsJoinedForcesFormat), [selectionCount, name]);
                             log.Messages.Text = format;
                         }
                     }
                     else
                     {
-                        log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_joinedFormat), [hero.HeroName]);
+                        log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_joinedFormat), [hero.HeroName]);
                         var name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
-                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_joinedForcesFormat), [hero.HeroName, name]);
+                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_joinedForcesFormat), [hero.HeroName, name]);
                         log.Messages.Text = format;
                     }
 
@@ -3243,10 +3240,10 @@ public partial class Army : UnitList
         int damage;
         bool damaged;
         RandSeed = StrategicMap.Current.Random(16777215);
-        log = new ArmyEventLog(null);
-        log.ArmyText = AbilityRules.TranslateResourceString(s_fireDamageText);
+        log = new ArmyEventLog(null) { Holder = CreationHolder() };
+        log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_fireDamageText);
         log._player = GetArmyHexSprite().Army.Player;
-        var fireDamage = AbilityRules.TranslateResourceString(s_fireDamageText);
+        var fireDamage = AbilityRules.TranslateResourceString(GetEngine(), s_fireDamageText);
         log.ArmyMessages.Add(fireDamage);
         log.ArmyIcon = 0;
         var armyHexSprite = GetArmyHexSprite();
@@ -3365,11 +3362,11 @@ public partial class Army : UnitList
         bool damaged;
         int damage;
         RandSeed = StrategicMap.Current.Random(16777215);
-        log = new ArmyEventLog(null);
-        log.ArmyText = AbilityRules.TranslateResourceString(GameTables.StormTypeTexts[(int)storm]);
+        log = new ArmyEventLog(null) { Holder = CreationHolder() };
+        log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), GameTables.StormTypeTexts[(int)storm]);
         log._player = player;
         // { Original appends the storm message. }
-        var stormType = AbilityRules.TranslateResourceString(GameTables.StormTypeTexts[(int)storm]);
+        var stormType = AbilityRules.TranslateResourceString(GetEngine(), GameTables.StormTypeTexts[(int)storm]);
         log.ArmyMessages.Add(stormType);
         log.ArmyIcon = 2;
         log.ArmyView.Setup(this, 255);

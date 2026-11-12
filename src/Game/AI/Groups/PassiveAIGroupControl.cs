@@ -27,7 +27,7 @@ public partial class PassiveAIGroupControl : AIGroupControl
             case 0:
                 CombinePassiveGroups();
                 location.Packed = Group.GetLocation();
-                selector = new GroupDefenseSelector();
+                selector = new GroupDefenseSelector(this);
                 selector.Execute(Group, location.X, location.Y, location.MapLevel, null);
                 if (selector.Defenders.Count != Group.Count && Group.Player != 0)
                 {

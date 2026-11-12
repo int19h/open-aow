@@ -24,7 +24,7 @@ public partial class ExplorationSite : Structure
     public ExplorationSite(ECustomNode owner) : base(owner)
     {
         _defendersMode = ExplorationSiteDefendersMode.Normal;
-        _defenders = new DefendersArmy(null);
+        _defenders = new DefendersArmy(null) { Holder = CreationHolder() };
     }
 
     // ExploreS.pas:90
@@ -216,7 +216,7 @@ public partial class ExplorationSite : Structure
                     combat.Finalize();
                     var name = GetName();
                     combat.Logbook.FinalData.Header = name + " " + combat.Logbook.FinalData.Header;
-                    eventValue = new CombatEventLog(null);
+                    eventValue = new CombatEventLog(null) { Holder = CreationHolder() };
                     eventValue.SetCombatLogbook(combat.Logbook);
                     StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
                     if (StrategicMap.Current.SeatedPlayer == player && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
@@ -241,7 +241,7 @@ public partial class ExplorationSite : Structure
                         combat.Finalize();
                         var name = GetName();
                         combat.Logbook.FinalData.Header = name + " " + combat.Logbook.FinalData.Header;
-                        eventValue = new CombatEventLog(null);
+                        eventValue = new CombatEventLog(null) { Holder = CreationHolder() };
                         eventValue.SetCombatLogbook(combat.Logbook);
                         StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
                         if (StrategicMap.Current.SeatedPlayer == player && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
@@ -278,7 +278,7 @@ public partial class ExplorationSite : Structure
             var playerList = StrategicMap.Current.Players;
             if (playerList.LocalPlayers.Count == 1 || StrategicMap.Current.RequestCombatType)
             {
-                request = new CombatTypeRequestEventLog(null);
+                request = new CombatTypeRequestEventLog(null) { Holder = CreationHolder() };
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 request.SetCenterLocation((byte)GetHexX(), (byte)hexY, hexLevel);

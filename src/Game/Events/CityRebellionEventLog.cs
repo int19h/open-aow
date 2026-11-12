@@ -37,7 +37,7 @@ public partial class CityRebellionEventLog : EventLog
     }
 
     // City.pas:2689
-    public override string GetText() => RtlUnit.Format(AbilityRules.TranslateResourceString(s_cityRebellionFormat), [CityName]);
+    public override string GetText() => RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cityRebellionFormat), [CityName]);
 
     // City.pas:2699
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
@@ -45,8 +45,8 @@ public partial class CityRebellionEventLog : EventLog
         bool result = default;
         bool showEvent;
         showEvent = trigger == ExecuteTrigger.User;
-        showEvent = showEvent || StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion);
-        showEvent = showEvent || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion);
+        showEvent = showEvent || StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion);
+        showEvent = showEvent || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion);
         if (showEvent)
         {
             result = base.Execute(mode, trigger, done);

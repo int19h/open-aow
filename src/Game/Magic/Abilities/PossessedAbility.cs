@@ -16,10 +16,10 @@ namespace Aow.Game.Magic.Abilities;
 public partial class PossessedAbility : PossessAbility
 {
     // AoWAb.PAS:2562
-    public PossessedAbility(ECustomNode owner) : base(owner)
+    public PossessedAbility(ECustomNode owner, EngineObject holder) : base(owner, holder)
     {
         AbilityId = 107;
-        AbilityName = AbilityRules.TranslateResourceString(s_possessedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_possessedText);
         AbilityType = AbilityType.Enchantment;
         SelectionTypes = Set<AbilitySelectionType>.Of();
     }
@@ -32,7 +32,7 @@ public partial class PossessedAbility : PossessAbility
         data = (PossessedAbilityData)owner.GetAbilityData(AbilityId);
         if (data == null)
         {
-            data = new PossessedAbilityData(null);
+            data = new PossessedAbilityData(null) { Holder = CreationHolder() };
             SetAbility(owner, AbilityId, 1);
             owner.AddAbilityData(data);
             result = true;
@@ -67,7 +67,7 @@ public partial class PossessedAbility : PossessAbility
         PossessedAbilityData data;
         var combatUnit = (CombatUnit)combatObject;
         combatUnit.SetStatus(combatUnit.Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
-        newUnit = new Unit(null);
+        newUnit = new Unit(null) { Holder = CreationHolder() };
         newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(152));
         data = (PossessedAbilityData)combatUnit.Troop.GetAbilityData(107);
         if (data != null)

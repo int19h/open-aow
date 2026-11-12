@@ -40,26 +40,26 @@ public partial class SaveGameTokenEvent : TokenEvent
             if (tokenEvent.ExecuteCount == 0)
             {
                 var fileName = ExtractFileName(FileName);
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_savingGameFormat), [fileName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_savingGameFormat), [fileName]);
                 StrategicMap.Current.ShowMessage(format);
                 result = ExecuteResult.Retry;
             }
             else
             {
                 var fileName = ExtractFileName(FileName);
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.GameSavedFormat), [fileName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.GameSavedFormat), [fileName]);
                 StrategicMap.Current.ShowMessage(format);
                 try
                 {
                     StrategicMap.Current.DisableTurnTimer();
-                    if (GameTables.GameEngine.Campaign != null)
+                    if (GetEngine().Campaign != null)
                     {
-                        GameTables.GameEngine.SaveCampaign(FileName);
-                        GameTables.GameEngine.Campaign.FileName = FileName;
+                        GetEngine().SaveCampaign(FileName);
+                        GetEngine().Campaign.FileName = FileName;
                     }
                     else
                     {
-                        GameTables.GameEngine.SaveHsm(FileName, null, GameProfile.WorldMap);
+                        GetEngine().SaveHsm(FileName, null, GameProfile.WorldMap);
                         StrategicMap.Current.FileName = FileName;
                     }
 
@@ -68,7 +68,7 @@ public partial class SaveGameTokenEvent : TokenEvent
                 catch
                 {
                     // { Original leaves the turn timer disabled after a save failure. }
-                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_errorSavingFormat), [FileName]);
+                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_errorSavingFormat), [FileName]);
                     StrategicMap.Current.ShowMessage(formattedText);
                 }
 

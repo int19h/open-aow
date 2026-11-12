@@ -104,16 +104,16 @@ public sealed class OfflineStubTests
         using var saved = new SavedGlobals();
         var ui = new UIContext(EngineFixture.Engine);
         var events = OfflineSetupEvents(ui);
-        var heroes = new HeroResourceList(null!);
+        var heroes = new HeroResourceList(null!) { Holder = EngineFixture.Engine };
         new HeroResource(heroes);
         GamePack.Current.HeroResources = heroes;
         var window = Populate(new LeaderSetupWindow(ui));
-        var control = new LeaderSetupControl(null!) { OriginalLeader = new Leader(null!) };
+        var control = new LeaderSetupControl(null!) { Holder = EngineFixture.Engine, OriginalLeader = new Leader(null!) { Holder = EngineFixture.Engine } };
         bool done = false;
         control.OnDone += sender => done = ReferenceEquals(sender, control);
         control.AddRef();
         window.Setup = control;
-        window.Leader = new Leader(null!) { HeroName = "Gorbag" };
+        window.Leader = new Leader(null!) { Holder = EngineFixture.Engine, HeroName = "Gorbag" };
         window.Leader.SetHeroResourceIndex(0);
         window.LeaderPanel.Visible = true;
 
@@ -233,7 +233,7 @@ public sealed class OfflineStubTests
     {
         using var saved = new SavedGlobals();
         var ui = new UIContext(EngineFixture.Engine);
-        var text = new TextControl(null!);
+        var text = new TextControl(null!) { Holder = EngineFixture.Engine };
         foreach (var (id, header) in new[] { (507, "Topic 507"), (500, "Topic 500") })
         {
             var item = text.New();
@@ -276,17 +276,17 @@ public sealed class OfflineStubTests
         for (int i = 0; i < 128; i++) images[i] = new() { Image = recorder, Reference = -1 };
         SetField(library, "Images", images);
         SetField(library, "_count", 128);
-        var level = new MapLevel(null!);
+        var level = new MapLevel(null!) { Holder = EngineFixture.Engine };
         SetField(level, "_width", 2);
         int[] overlaid = [0, 4, 3];
         MapField[] fields = Enumerable.Range(0, 6).Select(i => new MapField(null!)
-        { HexX = (sbyte)(i % 2), HexY = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) }).ToArray();
+        { Holder = EngineFixture.Engine, HexX = (sbyte)(i % 2), HexY = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) }).ToArray();
         SetField(level, "_fields", fields);
-        var container = new MapContainer(null!);
+        var container = new MapContainer(null!) { Holder = EngineFixture.Engine };
         var levels = new EngineObjectList();
         levels.Add(level);
         SetField(container, "_children", levels);
-        var map = new StrategicMap(null!);
+        var map = new StrategicMap(null!, holder: EngineFixture.Engine);
         SetField(map, "_mapContainer", container);
         SetField(map, "_viewWidthHex", 2);
         SetField(map, "_viewHeightHex", 3);
@@ -296,7 +296,7 @@ public sealed class OfflineStubTests
         sequence.SequenceMode = SequenceMode.Up;
         var cast = new ImageSequenceList(null!, null!);
         cast.Add(sequence);
-        var spell = new EarthMastery(null!);
+        var spell = new EarthMastery(null!, holder: EngineFixture.Engine);
         spell.CastImages?.Dispose();
         spell.CastImages = cast;
         var animation = new FinishedAnimation { FrameCounter = 100 };

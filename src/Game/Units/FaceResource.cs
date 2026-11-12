@@ -4,8 +4,6 @@ using Aow.Engine.Storage;
 
 using Aow.Game.Draw.Images;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -27,9 +25,6 @@ public partial class FaceResource : EngineResource
     private CustomImageLibrary _imageLibrary;
     private int _references;
     public bool DeveloperOnly;
-
-    // Ability.PAS:445
-    public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // Ability.PAS:512
     public override void ReadWrite(StorageStream stream)

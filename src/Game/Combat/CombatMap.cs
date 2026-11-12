@@ -164,7 +164,7 @@ public partial class CombatMap : GameMap
         CombatStartedEventsStore = new();
         AbilityActivatedEventsStore = new();
 
-        UnitPositions = new UnitPositionControl(null);
+        UnitPositions = new UnitPositionControl(null) { Holder = CreationHolder() };
         ChangeTurnEventsStore = new();
         _playerChangedEventsStore = new();
         _seatedPlayerChangedEventsStore = new();
@@ -174,12 +174,12 @@ public partial class CombatMap : GameMap
         MouseOverTargetEventsStore = new();
         UnitChangedEventsStore = new();
         Players = new TacticalBattlePlayerList();
-        UnitSelection = new CombatUnitSelectionControl();
+        UnitSelection = new CombatUnitSelectionControl(this);
         ((GameMapMouse)Mouse).RectangleSelected += UnitSelection.RectangleSelectEvent;
         Effects = new List<BattleEffectSprite>();
         Walls = new List<World.Terrain.CityWall>();
         FleeLocations = new List<FleeLocation>();
-        AI = new BattleAI();
+        AI = new BattleAI(this);
         Mouse.SetCapture(this);
         Mouse.OnMove += MouseMoveEvent;
         Mouse.CursorMode = 256;
@@ -298,7 +298,7 @@ public partial class CombatMap : GameMap
                 switch (AI.Status)
                 {
                     case BattleAI.AIStatus.Idle:
-                        GameTables.GameEngine.OutputDebugString("AI for Player " + IntToStr(CurrentPlayer) + " turn begins.");
+                        GetEngine().OutputDebugString("AI for Player " + IntToStr(CurrentPlayer) + " turn begins.");
                         AI.BeginTurn();
                         break;
                     case BattleAI.AIStatus.Busy:
@@ -308,7 +308,7 @@ public partial class CombatMap : GameMap
                         if (EndTurn(true))
                         {
                             AI.Status = BattleAI.AIStatus.Idle;
-                            GameTables.GameEngine.OutputDebugString("AI for Player " + IntToStr(CurrentPlayer) + " turn ends.");
+                            GetEngine().OutputDebugString("AI for Player " + IntToStr(CurrentPlayer) + " turn ends.");
                         }
 
                         break;
@@ -345,7 +345,7 @@ public partial class CombatMap : GameMap
             hexSprite = (ItemHexSprite)MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
             if (hexSprite == null)
             {
-                hexSprite = new TacticalBattleItemHexSprite(null);
+                hexSprite = new TacticalBattleItemHexSprite(null) { Holder = CreationHolder() };
                 // { Original bug: a failed placement leaves the new item sprite allocated. }
                 if (Current.PlaceHex(hexSprite, X, Y, L))
                 {
@@ -440,16 +440,16 @@ public partial class CombatMap : GameMap
         StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(CurrentPlayer);
         if (Players.GetPlayers(CurrentCombatPlayer).Player == 0)
         {
-            var ind = AbilityRules.TranslateResourceString(s_independentsText);
-            var beginRound = AbilityRules.TranslateResourceString(s_beginRoundText);
+            var ind = AbilityRules.TranslateResourceString(GetEngine(), s_independentsText);
+            var beginRound = AbilityRules.TranslateResourceString(GetEngine(), s_beginRoundText);
             ShowMessage(ind + " " + beginRound);
         }
         else
         {
             var playerLocal = Players.GetPlayers(CurrentCombatPlayer);
             var playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal.Player);
-            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
-            var beginRound = AbilityRules.TranslateResourceString(s_beginRoundText);
+            var raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
+            var beginRound = AbilityRules.TranslateResourceString(GetEngine(), s_beginRoundText);
             ShowMessage(raceNamesPlural + " " + beginRound);
         }
 
@@ -640,7 +640,7 @@ public partial class CombatMap : GameMap
     // AoWTC.pas:2466
     public BattleEffectSprite AddEffect(BattleEffectType effectType)
     {
-        BattleEffectSprite result = new BattleEffectSprite(null);
+        BattleEffectSprite result = new BattleEffectSprite(null) { Holder = CreationHolder() };
         Effects.Add(result);
         result.Activate();
         result.EffectType = effectType;
@@ -681,7 +681,7 @@ public partial class CombatMap : GameMap
     public void EndCombat()
     {
         TerminateCombatTokenEvent tokenEvent;
-        tokenEvent = new TerminateCombatTokenEvent(null);
+        tokenEvent = new TerminateCombatTokenEvent(null) { Holder = CreationHolder() };
         StrategicMap.Current.TokenManager.TokenExecutor.AddSystemEvent(tokenEvent);
         tokenEvent.Release();
     }
@@ -757,14 +757,14 @@ public partial class CombatMap : GameMap
 
     private static readonly string s_beginRoundText = "begin their round.";
 
-    private static TacticalBattleEndCombatTokenEvent CreateTacticalBattleEndCombatTokenEvent() => new TacticalBattleEndCombatTokenEvent(null);
+    private TacticalBattleEndCombatTokenEvent CreateTacticalBattleEndCombatTokenEvent() => new TacticalBattleEndCombatTokenEvent(null) { Holder = CreationHolder() };
 
-    private static TacticalBattleEndTurnTokenEvent CreateTacticalBattleEndTurnTokenEvent(sbyte player)
+    private TacticalBattleEndTurnTokenEvent CreateTacticalBattleEndTurnTokenEvent(sbyte player)
     {
         TacticalBattleEndTurnTokenEvent result;
         if (player != -1 && StrategicMap.Current.TokenManager.PlayerReady(player))
         {
-            result = new TacticalBattleEndTurnTokenEvent(null);
+            result = new TacticalBattleEndTurnTokenEvent(null) { Holder = CreationHolder() };
         }
         else
         {
@@ -785,7 +785,7 @@ public partial class CombatMap : GameMap
         int Y = default;
         int I;
         MapCoordinate P;
-        hexSprite = new OverviewUnitHexSprite(null);
+        hexSprite = new OverviewUnitHexSprite(null) { Holder = map };
         hexSprite.SetU(U);
         P = map.UnitPositions.GetUnitPosition(position, index);
         x0 = P.X;

@@ -17,10 +17,10 @@ public sealed partial record Fortify : ProductionOrder
     public override CityAction CityAction => CityAction.Fortify;
 
     public override string Name(ProductionControl control) =>
-        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(GameText.FortifyText) : base.Name(control);
+        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(control.GetEngine(), GameText.FortifyText) : base.Name(control);
 
     public override string NameProgressive(ProductionControl control) =>
-        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(s_fortifyingText) : base.NameProgressive(control);
+        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(control.GetEngine(), s_fortifyingText) : base.NameProgressive(control);
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
@@ -35,7 +35,7 @@ public sealed partial record Fortify : ProductionOrder
             return true;
         }
 
-        reason = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
+        reason = AbilityRules.TranslateResourceString(control.GetEngine(), GameText.NotEnoughGoldText);
         return false;
     }
 
@@ -75,7 +75,7 @@ public sealed partial record Fortify : ProductionOrder
                 break;
         }
 
-        Log(control, city, RtlUnit.Format(AbilityRules.TranslateResourceString(s_cityFortifiedFormat), [city.GetName()]));
+        Log(control, city, RtlUnit.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityFortifiedFormat), [city.GetName()]));
         city.UpdateImages();
         ChangeRelation(control, city, 5);
         control.ProductionDone();

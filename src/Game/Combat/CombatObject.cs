@@ -601,7 +601,7 @@ public partial class CombatObject : EngineObject
     public virtual void TurnDone()
     {
         CombatObjectTurnDoneCombatAction A;
-        A = new CombatObjectTurnDoneCombatAction(null);
+        A = new CombatObjectTurnDoneCombatAction(null) { Holder = CreationHolder() };
         A.CombatObjectId = Id;
         Combat.ExecuteCombatAction(A);
         A.Release();
@@ -910,7 +910,7 @@ public partial class CombatObject : EngineObject
                 damage = (sbyte)(damage + 3);
             }
 
-            result = new StrikeCombatAction(null);
+            result = new StrikeCombatAction(null) { Holder = source };
             result.Generate(source, target, attack, damage, types);
             result.SetDefensive(defensive);
         }

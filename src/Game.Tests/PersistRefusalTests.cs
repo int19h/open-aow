@@ -618,7 +618,7 @@ public sealed class PersistRefusalTests
         Assert.Null(EngineObject.TreePersistenceRefusal(typeof(EChangeNotifyNode)));
         Assert.Null(EngineObject.TreePersistenceRefusal(typeof(UnitList)));
         Assert.Null(EngineObject.TreePersistenceRefusal(typeof(ArmyView)));
-        using var list = new EventLogList(null!);
+        using var list = new EventLogList(null!) { Holder = EngineFixture.Engine };
         var error = Assert.Throws<InvalidOperationException>(() => TreeWriter.Write(list, new EnginePersistableFactory(EngineFixture.Engine)));
         Assert.Equal("Class EventLogList overrides MainReadWrite and has no MainPersist.", error.Message);
     }

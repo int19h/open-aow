@@ -156,9 +156,9 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
         var player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
         player.MagicControl.SetMana(player.MagicControl.Mana + _amount);
 
-        log = new LocationTextEventLog(null);
+        log = new LocationTextEventLog(null) { Holder = CreationHolder() };
         log._player = (sbyte)(byte)armyHexSprite.Army.Player;
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_manaCrystalsFoundFormat), [IntToStr(_amount)]);
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_manaCrystalsFoundFormat), [IntToStr(_amount)]);
         var hexLevel2 = GetHexLevel();
         var hexY2 = GetHexY();
         log.SetLocation(GetHexX(), hexY2, hexLevel2);
@@ -190,7 +190,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
         public override int ResourceUserClassId() => 132030;
 
         // ManaCrystals.pas:165
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_manaCrystalsText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_manaCrystalsText);
 
         private static readonly string s_manaCrystalsText = "Mana Crystals";
 

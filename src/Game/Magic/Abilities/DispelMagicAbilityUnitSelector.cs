@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Commands;
 
 using Aow.Game.Units;
@@ -9,7 +10,7 @@ namespace Aow.Game.Magic.Abilities;
 
 public partial class DispelMagicAbilityUnitSelector : UnitSelector
 {
-    public DispelMagicAbilityUnitSelector() : base()
+    public DispelMagicAbilityUnitSelector(EngineObject creator) : base(creator)
     { }
 
     // AoWAb.PAS:4403
@@ -41,7 +42,7 @@ public partial class DispelMagicAbilityUnitSelector : UnitSelector
 
             if (target != null)
             {
-                eventValue = new DispelMagicAbilityTokenEvent(null);
+                eventValue = new DispelMagicAbilityTokenEvent(null) { Holder = Creator.CreationHolder() };
                 eventValue.SourceId = source.UnitId;
                 eventValue.SourcePlayer = (byte)source.Player;
                 eventValue.TargetId = target.UnitId;

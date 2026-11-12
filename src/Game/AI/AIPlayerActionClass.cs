@@ -25,7 +25,7 @@ public sealed class AIPlayerActionClass
     public int Priority => _priority();
     public Set<AIPlayerProcessPhase> SupportedPhases { get; }
 
-    public AIPlayerAction CreateInstance(ECustomNode owner) => (AIPlayerAction)Class.CreateInstance(owner);
+    public AIPlayerAction CreateInstance(ECustomNode owner, EngineObject holder) => (AIPlayerAction)Class.CreateInstance(owner, holder);
 
     public static AIPlayerActionClass Register<T>() where T : AIPlayerAction, IAIPlayerActionClass =>
         s_catalog.Add(typeof(T), new AIPlayerActionClass(EngineClass.Of<T>(), static () => T.Priority, T.SupportedPhases));

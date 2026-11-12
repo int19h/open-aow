@@ -74,8 +74,20 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
         }
     }
 
-    // Engine.pas:2558
-    public virtual GameEngine GetEngine() => _owner.GetEngine();
+    // The node through which a node without an owner reaches its engine: the engine for what it
+    // registers, creates, loads or copies, a node for the node its constructor keeps in a field.
+    // A node reaches its engine through its owner, and without an owner through its holder.
+    public EngineObject Holder { get; set; }
+
+    // The holder for a node this node creates without an owner: the engine once this node reaches
+    // it, else this node, through which the created node reaches the engine later. The engine
+    // itself keeps a holder walk short and stops it from looping through a node that comes to own
+    // its creator (a troop creates the army sprite that then holds it).
+    public EngineObject CreationHolder() => (EngineObject)GetEngine() ?? this;
+
+    // Engine.pas:2558. The original walks the owners only and reads the engine global where a node
+    // has no owner.
+    public virtual GameEngine GetEngine() => _owner is not null ? _owner.GetEngine() : Holder?.GetEngine();
 
     // Engine.pas:2502
     public virtual int GetLastMessage() => 2147483647;
@@ -282,7 +294,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
         {
             engine.WriteEngineObject(S, this, null);
             S.Position = 0;
-            result = EngineClass.CreateInstance(null);
+            result = EngineClass.CreateInstance(null, holder: engine);
             engine.ReadEngineObject(S, result, null);
         }
         finally

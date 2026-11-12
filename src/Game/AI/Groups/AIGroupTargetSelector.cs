@@ -31,11 +31,11 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3041
     public AIGroupTargetSelector(ECustomNode owner) : base(owner)
     {
-        _recruitment = new AIGroupRecruitControl(null);
-        _production = new AIGroupProductionControl(null);
-        _cooperation = new AIGroupCooperationControl(null);
+        _recruitment = new AIGroupRecruitControl(null) { Holder = CreationHolder() };
+        _production = new AIGroupProductionControl(null) { Holder = CreationHolder() };
+        _cooperation = new AIGroupCooperationControl(null) { Holder = CreationHolder() };
         Priorities = new PrioritySettings();
-        _spareUnits = new UnitUserList(null);
+        _spareUnits = new UnitUserList(null) { Holder = CreationHolder() };
     }
 
     public AIGroupTargetingStatus TargetStatus { get; private set; }
@@ -682,8 +682,8 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     if (I < GroupControl.Targets.Count)
                     {
-                        required = new UnitUserList(null);
-                        optional = new UnitUserList(null);
+                        required = new UnitUserList(null) { Holder = CreationHolder() };
+                        optional = new UnitUserList(null) { Holder = CreationHolder() };
                         _nextTarget = GroupControl.Targets.GetTargets(I);
                         if (ValidMultiTarget(_spareUnits, _nextTarget, required, optional))
                         {
@@ -1096,9 +1096,9 @@ public partial class AIGroupTargetSelector : AIGroupTask
         UnitUserList optionalUnits;
         int superiority;
         Troop troop;
-        predictor = new CombatPredictor();
-        requiredUnits = new UnitUserList(null);
-        optionalUnits = new UnitUserList(null);
+        predictor = new CombatPredictor(this);
+        requiredUnits = new UnitUserList(null) { Holder = CreationHolder() };
+        optionalUnits = new UnitUserList(null) { Holder = CreationHolder() };
         predictor.AddUnits(units);
         if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location)).GetMoveAction(GroupControl.Group.Player) != MoveAction.Negotiate)
         {
@@ -1188,7 +1188,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
     {
         string text = "";
         AIGroupControlTarget target;
-        GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, "Targets for Group (ID:" + IntToStr(GroupControl.Group.GroupId) + ")");
+        GetEngine().OutputDebugMessage(DebugChannel.AI, "Targets for Group (ID:" + IntToStr(GroupControl.Group.GroupId) + ")");
         for (int I = 0, last = GroupControl.Targets.Count - 1; I <= last; I++)
         {
             target = GroupControl.Targets.GetTargets(I);
@@ -1223,7 +1223,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                 text = text + "d";
             }
 
-            GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, text);
+            GetEngine().OutputDebugMessage(DebugChannel.AI, text);
         }
     }
 

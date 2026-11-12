@@ -23,10 +23,10 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6375
     public AIMoveTargetSelector(ECustomNode owner) : base(owner)
     {
-        _settings = new MoveControlSettings(null);
-        _targets = new MoveTargetList(null);
-        _bufferedTargets = new MoveTargetList(null);
-        Units = new UnitUserList(null);
+        _settings = new MoveControlSettings(null) { Holder = CreationHolder() };
+        _targets = new MoveTargetList(null) { Holder = CreationHolder() };
+        _bufferedTargets = new MoveTargetList(null) { Holder = CreationHolder() };
+        Units = new UnitUserList(null) { Holder = CreationHolder() };
     }
 
     private int _state;
@@ -290,7 +290,7 @@ public partial class AIMoveTargetSelector : EngineObject
                         var mapCoordinate = field.GetMapCoordinate();
                         if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, out data))
                         {
-                            target = new MoveTarget(null);
+                            target = new MoveTarget(null) { Holder = CreationHolder() };
                             var fieldMapCoordinate = field.GetMapCoordinate();
                             target.Location.Packed = fieldMapCoordinate;
                             target.MovePoints = settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
@@ -396,7 +396,7 @@ public partial class AIMoveTargetSelector : EngineObject
                         var mapCoordinate = field.GetMapCoordinate();
                         if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, out data) && MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] >= 0)
                         {
-                            target = new MoveTarget(null);
+                            target = new MoveTarget(null) { Holder = CreationHolder() };
                             var fieldMapCoordinate = field.GetMapCoordinate();
                             target.Location.Packed = fieldMapCoordinate;
                             target.MovePoints = settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);

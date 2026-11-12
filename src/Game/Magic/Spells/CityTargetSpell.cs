@@ -111,7 +111,7 @@ public partial class CityTargetSpell : Spell
                 if (condition)
                 {
                     // { Original passes the city layer before the radius. }
-                    A = new ImageSequenceAnimation(null);
+                    A = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     A.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
                     A.FrameCounter = Random(5);
                     A.AnimationLevel = 27;
@@ -148,10 +148,10 @@ public partial class CityTargetSpell : Spell
         sbyte L = default;
         targetSelection.Initialize(source);
         targetSelection.TargetMode = targetSelection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
-        var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_selectTargetCityForOnMapFormat), [SpellName]);
+        var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_selectTargetCityForOnMapFormat), [SpellName]);
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
-        targetSelection.CancelText = AbilityRules.TranslateResourceString(GameText.CancelText);
+        targetSelection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);
         targetSelection.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
         targetSelection.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
         targetSelection.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
@@ -218,7 +218,7 @@ public partial class CityTargetSpell : Spell
     }
 
     // CitySpells.pas:346
-    public virtual CityTargetSpellTokenEvent CreateTokenEvent() => new CityTargetSpellTokenEvent(null);
+    public virtual CityTargetSpellTokenEvent CreateTokenEvent() => new CityTargetSpellTokenEvent(null) { Holder = CreationHolder() };
 
     // CitySpells.pas:351
     public virtual bool SetupTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int X, int Y, int L)

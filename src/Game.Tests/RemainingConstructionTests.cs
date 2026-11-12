@@ -8,7 +8,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Draw.Images;
 
-using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.World;
 using Aow.Game.World.Map;
@@ -37,16 +36,14 @@ public sealed class RemainingConstructionTests
     private sealed class Fixture : IDisposable
     {
         private readonly GamePack _previousSet = GamePack.Current;
-        private readonly GameEngine _previousEngine = GameTables.GameEngine;
         private readonly StrategicMap _previousMap = StrategicMap.Current;
         private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
-        private readonly MapObjectResourceList _combatResources = new MapObjectResourceList(null!);
+        private readonly MapObjectResourceList _combatResources = new MapObjectResourceList(null!) { Holder = EngineFixture.Engine };
 
         internal Fixture()
         {
             var set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
             GamePack.Current = set;
-            GameTables.GameEngine = null!;
             StrategicMap.Current = null!;
             GamePack.Current.UnitGraphicsResources = null!;
             Runtime.RandSeed = 123456789;
@@ -55,7 +52,6 @@ public sealed class RemainingConstructionTests
         public void Dispose()
         {
             GamePack.Current = _previousSet;
-            GameTables.GameEngine = _previousEngine;
             StrategicMap.Current = _previousMap;
             _combatResources.Dispose();
             _manager.Dispose();
@@ -87,7 +83,7 @@ public sealed class RemainingConstructionTests
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name is "_engineClass" or "_actionClass" or "_groupClass") continue; // the descriptor caches are not constructor state
+                    if (field.Name is "_engineClass" or "_actionClass" or "_groupClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField") continue; // the descriptor caches and the link to the engine are not constructor state
                     string key = current.Name + "." + MemberNames.Of(field);
                     object? child = field.GetValue(item);
                     if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
@@ -208,7 +204,7 @@ public sealed class RemainingConstructionTests
 
     private static object Create(Type type, ECustomNode owner, int route)
     {
-        if (route == 1) return EngineClass.Of(type).CreateInstance(owner);
+        if (route == 1) return EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
         if (route == 2)
         {
             using GameEngine engine = new GameEngine(null!);
@@ -222,13 +218,14 @@ public sealed class RemainingConstructionTests
         if (route == 3)
         {
             var meta = EngineClass.Of(type);
-            return (object)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
+            return (object)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
-        Type[] signature = typeof(EngineObject).IsAssignableFrom(type) ? [typeof(global::Aow.Engine.Nodes.ECustomNode)] : [];
-        var constructor = type.GetConstructor(signature);
+        bool node = typeof(EngineObject).IsAssignableFrom(type);
+        // A helper that is no engine node takes the node that creates it (issue 224). The test has none.
+        var constructor = node ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructor([]) ?? type.GetConstructor([typeof(EngineObject)]);
         if (factory is not null) return (object)Invoke(() => factory.Invoke(null, factory.GetParameters().Length == 0 ? [] : [owner]))!;
-        if (constructor is not null) return (object)Invoke(() => constructor.Invoke(signature.Length == 0 ? [] : [owner]))!;
+        if (constructor is not null) return (object)Invoke(() => constructor.Invoke(node ? EngineClassCreation.OwnerArguments(constructor, owner) : new object?[constructor.GetParameters().Length]))!;
         throw new InvalidOperationException(type.FullName + " has no declared completed construction signature.");
     }
 

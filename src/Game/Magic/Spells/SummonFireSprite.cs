@@ -8,9 +8,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class SummonFireSprite : SummonSpell
 {
     // SummonSpells.pas:457
-    public SummonFireSprite(ECustomNode owner) : base(owner)
+    public SummonFireSprite(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_summonFireSpriteText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonFireSpriteText);
         SpellId = 21;
         BaseManaCost = 5;
         SpellLevel = 1;

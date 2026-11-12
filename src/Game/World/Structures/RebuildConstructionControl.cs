@@ -40,13 +40,13 @@ public partial class RebuildConstructionControl : ConstructionControl
         if (structure != null)
         {
             var editName = structure.EditName();
-            text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_rebuildFormat), [editName]);
+            text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_rebuildFormat), [editName]);
             structure.GetRebuildInfo(out gold, out days);
         }
         else
         {
-            var structureLocal = AbilityRules.TranslateResourceString(s_structureText);
-            text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_rebuildFormat), [structureLocal]);
+            var structureLocal = AbilityRules.TranslateResourceString(GetEngine(), s_structureText);
+            text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_rebuildFormat), [structureLocal]);
             gold = 0;
             days = 0;
         }
@@ -62,7 +62,7 @@ public partial class RebuildConstructionControl : ConstructionControl
         }
         else
         {
-            reason = AbilityRules.TranslateResourceString(s_noRazedStructuresText);
+            reason = AbilityRules.TranslateResourceString(GetEngine(), s_noRazedStructuresText);
             result = false;
         }
 

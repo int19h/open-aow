@@ -3,8 +3,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Draw.Images;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Units;
@@ -64,7 +62,7 @@ public partial class FaceResourceList : EResourceList, IChildList<FaceResource>
     {
         bool developer;
         int result = index;
-        developer = GameTables.GameEngine.Registry.GetDeveloper();
+        developer = GetEngine().Registry.GetDeveloper();
         // { Original assumes the list contains a selectable face. }
         do
         {
@@ -83,7 +81,7 @@ public partial class FaceResourceList : EResourceList, IChildList<FaceResource>
     {
         bool developer;
         int result = index;
-        developer = GameTables.GameEngine.Registry.GetDeveloper();
+        developer = GetEngine().Registry.GetDeveloper();
         // { Original assumes the list contains a selectable face. }
         do
         {

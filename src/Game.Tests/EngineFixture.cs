@@ -3,7 +3,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Draw.Images;
 
-using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Tests;
@@ -23,7 +22,6 @@ public sealed partial class EngineFixture : IDisposable
     internal static void RestoreEngine()
     {
         foreach (var pair in s_state) pair.Key.SetValue(Engine, pair.Value);
-        GameTables.GameEngine = Engine;
         GamePack.Current = GameSet;
         StrategicMap.Current = null!;
     }
@@ -48,14 +46,18 @@ public sealed partial class EngineFixture : IDisposable
 
     internal static GamePack CreateGameSet(ImageLibraryManager manager)
     {
-        var value = GamePack.Create(null!);
+        var value = GamePack.Create(null!, holder: Engine);
         typeof(GamePack).GetField("_imageLibraryManager", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(value, manager);
         return value;
     }
 
     // Observers override insertion around this one membership and removal implementation.
-    internal class Owner() : ECustomNode(null!)
+    internal class Owner : ECustomNode
     {
+        // A recording owner stands outside the engine's tree. Its members reach the fixture's
+        // engine through it, as the nodes of a real owner reach theirs.
+        internal Owner() : base(null!) => Holder = Engine;
+
         internal List<EngineObject> Members { get; } = [];
         internal int Removals { get; private set; }
 

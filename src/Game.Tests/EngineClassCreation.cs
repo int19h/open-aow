@@ -9,9 +9,9 @@ namespace Aow.Game.Tests;
 internal static class EngineClassCreation
 {
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "_create")]
-    private static extern ref Func<ECustomNode, EngineObject> CreateField(EngineClass engineClass);
+    private static extern ref Delegate CreateField(EngineClass engineClass);
 
-    internal static Func<ECustomNode, EngineObject> Substitute(EngineClass engineClass, Func<ECustomNode, EngineObject> next)
+    internal static Delegate Substitute(EngineClass engineClass, Delegate next)
     {
         ArgumentNullException.ThrowIfNull(next);
         ref var create = ref CreateField(engineClass);
@@ -19,4 +19,12 @@ internal static class EngineClassCreation
         create = next;
         return previous;
     }
+
+    // The public constructor that takes the owner, and with it the holder where the class's
+    // constructor reads the engine (issue 224). The holder is the fixture's engine.
+    internal static System.Reflection.ConstructorInfo? OwnerConstructor(Type type) =>
+        type.GetConstructor([typeof(ECustomNode)]) ?? type.GetConstructor([typeof(ECustomNode), typeof(EngineObject)]);
+
+    internal static object?[] OwnerArguments(System.Reflection.ConstructorInfo constructor, ECustomNode? owner) =>
+        constructor.GetParameters().Length == 1 ? [owner] : [owner, EngineFixture.Engine];
 }

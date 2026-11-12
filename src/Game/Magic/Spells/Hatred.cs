@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Hatred : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:889
-    public Hatred(ECustomNode owner) : base(owner)
+    public Hatred(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.HatredText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.HatredText);
         SpellId = 46;
         SpellType = SpellType.Global;
         BaseManaCost = 20;
@@ -39,5 +40,5 @@ public partial class Hatred : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:884
-    public override GlobalEnchantment CreateEnchantment() => new HatredEnchantment(null);
+    public override GlobalEnchantment CreateEnchantment() => new HatredEnchantment(null, holder: CreationHolder());
 }

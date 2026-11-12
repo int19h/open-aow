@@ -86,9 +86,9 @@ public sealed class EndTurnShortcutTests
 
         public Play()
         {
-            Map = new StrategicMap(null!);
+            Map = new StrategicMap(null!, holder: EngineFixture.Engine);
             StrategicMap.Current = Map;
-            var playerCommunicationControl = new LocalPlayerCommunicationControl();
+            var playerCommunicationControl = new LocalPlayerCommunicationControl(EngineFixture.Engine);
             playerCommunicationControl.Setup(Map.Players.Count);
             for (int i = 0; i < Map.Players.Count; i++)
             {
@@ -121,7 +121,7 @@ public sealed class EndTurnShortcutTests
 
         public void BeginCombat()
         {
-            _combat = new CombatMap(null!);
+            _combat = new CombatMap(null!) { Holder = EngineFixture.Engine };
         }
 
         public int QueuedCount() => Control().GetCount();

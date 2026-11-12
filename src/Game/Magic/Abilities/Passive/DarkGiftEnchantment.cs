@@ -7,9 +7,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class DarkGiftEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1249
-    public DarkGiftEnchantment(ECustomNode owner) : base(owner)
+    public DarkGiftEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.DarkGiftText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.DarkGiftText);
         AbilityId = 169;
     }
 

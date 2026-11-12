@@ -20,9 +20,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class CallHero : Spell
 {
     // GlobalSpells.pas:1184
-    public CallHero(ECustomNode owner) : base(owner)
+    public CallHero(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_callHeroText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_callHeroText);
         SpellId = 69;
         SpellType = SpellType.Global;
         BaseManaCost = 0;
@@ -67,7 +68,7 @@ public partial class CallHero : Spell
             {
                 if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) != null)
                 {
-                    animation = new ImageSequenceAnimation(null);
+                    animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
                     StrategicMap.Current.PlaceHex(animation, X, Y, layer);
                 }
@@ -77,7 +78,7 @@ public partial class CallHero : Spell
             {
                 if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) != null)
                 {
-                    animation = new ImageSequenceAnimation(null);
+                    animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
                     var hexLevel = army.GetHexLevel();
                     var hexY = army.GetHexY();
@@ -119,7 +120,7 @@ public partial class CallHero : Spell
         {
             if (StrategicMap.Current.SeatedPlayer == source.Player)
             {
-                var noHeroAnsweredYourCall = AbilityRules.TranslateResourceString(s_noHeroAnsweredYourCallText);
+                var noHeroAnsweredYourCall = AbilityRules.TranslateResourceString(GetEngine(), s_noHeroAnsweredYourCallText);
                 StrategicMap.Current.ShowMessage(noHeroAnsweredYourCall);
                 GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
             }
@@ -138,7 +139,7 @@ public partial class CallHero : Spell
         SpellTokenEvent eventValue;
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new SpellTokenEvent(null);
+            eventValue = new SpellTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             eventValue.Release();

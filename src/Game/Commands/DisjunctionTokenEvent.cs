@@ -69,7 +69,7 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
         enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
         source.GetLocation(out X, out Y, out layer);
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
-        twinkle = new TwinkleAnimation(null);
+        twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(51).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand, TwinkleModeElement.Explode), EventMana + 50, 192, 50, 30);
         StrategicMap.Current.PlaceHex(twinkle, X, Y, layer);
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
@@ -81,7 +81,7 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
             if (StrategicMap.Current.SeatedPlayer == source.Player)
             {
                 var name = enchantment.GetName();
-                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_successfullyDispelledFormat), [name]);
+                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_successfullyDispelledFormat), [name]);
                 StrategicMap.Current.ShowMessage(format);
             }
 
@@ -93,7 +93,7 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
             {
                 // { Original formats this message with an unused enchantment-name argument. }
                 var name = enchantment.GetName();
-                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.DispelMagicFailedText), [name]);
+                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicFailedText), [name]);
                 StrategicMap.Current.ShowMessage(format);
             }
         }

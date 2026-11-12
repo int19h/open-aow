@@ -1,6 +1,5 @@
 
 using Aow.Game.Layout;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Dialogs;
 using Aow.Game.UI.Windows;
@@ -242,8 +241,8 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             Directory.CreateDirectory(Path.Combine(user, "one", "alpha"));
             Runtime.Files = new LayeredFileSystem(root, user);
             Runtime.Settings = new JsonSettingsStore(settingsDirectory);
-            GameTables.GameEngine.Registry = new GameSettings();
-            GameTables.GameEngine.Registry.SetFileDialogSortByDate(true);
+            EngineFixture.Engine.Registry = new GameSettings();
+            EngineFixture.Engine.Registry.SetFileDialogSortByDate(true);
             dialog.Mode = 2;
             dialog.FileNameEdit.Text = "valley.map";
             dialog.SaveFileNameEdit.Text = "stale.asg";

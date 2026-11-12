@@ -15,9 +15,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Entangle : CombatSpell
 {
     // CombatSpells.pas:1352
-    public Entangle(ECustomNode owner) : base(owner)
+    public Entangle(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.EntangleText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.EntangleText);
         SpellId = 111;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 7;
@@ -31,7 +32,7 @@ public partial class Entangle : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         EntangleSpellCombatAction action;
-        action = new EntangleSpellCombatAction(null);
+        action = new EntangleSpellCombatAction(null) { Holder = CreationHolder() };
         action.SourceId = source.Id;
         action.TargetId = target.Id;
         action.SpellId = SpellId;

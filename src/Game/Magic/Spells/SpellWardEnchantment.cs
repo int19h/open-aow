@@ -11,9 +11,10 @@ public partial class SpellWardEnchantment : GlobalEnchantment
     public new const int ClassId = 135971;
 
     // GlobalEnchantmentSpells.pas:1935
-    public SpellWardEnchantment(ECustomNode owner) : base(owner)
+    public SpellWardEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        Name = AbilityRules.TranslateResourceString(GameText.SpellWardText);
+        Holder = holder;
+        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellWardText);
         EnchantmentType = GlobalEnchantmentType.SpellWard;
         DispelMana = 50;
     }

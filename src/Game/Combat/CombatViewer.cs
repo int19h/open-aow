@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
-
-using Aow.Game.Magic.Abilities;
 
 using Aow.Rtl;
 
@@ -11,13 +10,17 @@ namespace Aow.Game.Combat;
 public partial class CombatViewer : IDisposable
 {
     // Combat2.pas:546
-    public CombatViewer()
+    public CombatViewer(EngineObject creator)
     {
-        Combat = new Battle(null);
+        Creator = creator;
+        Combat = new Battle(null) { Holder = Creator.CreationHolder() };
         Time = -1;
         _speed = 5;
         Delay = 5;
     }
+
+    // The node that created this viewer. It and the nodes it creates reach the engine through it.
+    public EngineObject Creator { get; }
 
     public Set<CombatViewerStatusElement> Status { get; private set; }
     public Battle Combat { get; }
@@ -53,7 +56,7 @@ public partial class CombatViewer : IDisposable
         Logbook.AddRef();
         Position = 0;
         Time = -1;
-        Combat.CombatData.Assign(logbook.InitialData, GameTables.GameEngine);
+        Combat.CombatData.Assign(logbook.InitialData, Creator.GetEngine());
         Combat.Activate();
         Delay = _speed;
     }
@@ -99,7 +102,7 @@ public partial class CombatViewer : IDisposable
             if (position > 0 && position <= Logbook.Actions.Count)
             {
                 Combat.Deactivate();
-                Combat.CombatData.Assign(Logbook.InitialData, GameTables.GameEngine);
+                Combat.CombatData.Assign(Logbook.InitialData, Creator.GetEngine());
                 Combat.Activate();
                 Position = 0;
                 while (position > Position)
@@ -117,14 +120,14 @@ public partial class CombatViewer : IDisposable
                 {
                     Position = 0;
                     Combat.Deactivate();
-                    Combat.CombatData.Assign(Logbook.InitialData, GameTables.GameEngine);
+                    Combat.CombatData.Assign(Logbook.InitialData, Creator.GetEngine());
                     Combat.Activate();
                 }
                 else
                 {
                     Position = GetEndPosition();
                     Combat.Deactivate();
-                    Combat.CombatData.Assign(Logbook.FinalData, GameTables.GameEngine);
+                    Combat.CombatData.Assign(Logbook.FinalData, Creator.GetEngine());
                     Combat.Activate();
                 }
             }

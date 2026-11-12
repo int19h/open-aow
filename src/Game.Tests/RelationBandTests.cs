@@ -18,7 +18,7 @@ public sealed class RelationBandTests
 
         public MapScope()
         {
-            Map = new StrategicMap(null!);
+            Map = new StrategicMap(null!, holder: EngineFixture.Engine);
             StrategicMap.Current = Map;
         }
 

@@ -73,7 +73,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                         }
                         else
                         {
-                            _meleeRound = new MeleeRound();
+                            _meleeRound = new MeleeRound(this);
                             _meleeRound.Calculate(Unit, PreviousUnit);
                             if (_meleeRound.Count == 0)
                             {

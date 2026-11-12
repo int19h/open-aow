@@ -52,7 +52,7 @@ public partial class GamePlayDialog : UIModule
             if (!IsEmpty(((PasswordEventLog)log).Password))
             {
                 _newPassword = ((PasswordEventLog)log).Password;
-                password = new PasswordEventLog(null);
+                password = new PasswordEventLog(null, holder: UI.Engine);
                 password.Title = UI.Engine.TranslateResourceString(s_passwordConfirmationText);
                 password.Prompt = UI.Engine.TranslateResourceString(s_reenterNewPasswordText);
                 StrategicMap.Current.TriggerExecuteEventLog(password, true, PasswordConfirmed);
@@ -145,7 +145,7 @@ public partial class GamePlayDialog : UIModule
         PasswordEventLog log = default;
         if (StrategicMap.Current.PlayMode != PlayMode.Turn || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network || StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
         {
-            log = new PasswordEventLog(null);
+            log = new PasswordEventLog(null, holder: UI.Engine);
             log.Prompt = UI.Engine.TranslateResourceString(s_enterNewPasswordText);
             StrategicMap.Current.TriggerExecuteEventLog(log, true, PasswordEntered);
             log.Release();

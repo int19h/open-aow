@@ -13,6 +13,7 @@ using UnitSfxManager = Aow.Game.Audio.SfxManager;
 
 namespace Aow.Game.Tests;
 
+[Collection("Engine")]
 public sealed class MapNetSoundConstructionTests
 {
     private sealed class MapOwner : EngineFixture.Owner
@@ -46,14 +47,14 @@ public sealed class MapNetSoundConstructionTests
     {
         GameEngine engine = new GameEngine(null!);
         var owner = new MapOwner();
-        ECustomNode argument = owned ? type == typeof(MapContainer) ? new GameMap(null!) : EngineFixture.OwnerFor(type, owner) : null!;
+        ECustomNode argument = owned ? type == typeof(MapContainer) ? new GameMap(null!) { Holder = EngineFixture.Engine } : EngineFixture.OwnerFor(type, owner) : null!;
         var meta = EngineClass.Of(type);
         if (engine.ClassTable.TryGetValue(meta.ClassId, out EngineClass? previous) && previous is not null)
             engine.UnregisterEngineClasses([previous]);
         engine.RegisterEngineClasses([EngineClass.Of(type)]);
         var direct = type == typeof(MapLevel) ? new MapLevel(argument)
             : (EngineObject)Activator.CreateInstance(type, [argument])!;
-        EngineObject[] values = [direct, meta.CreateInstance(argument), engine.CreateEngineObject(meta.ClassId, argument)];
+        EngineObject[] values = [direct, meta.CreateInstance(argument, holder: EngineFixture.Engine), engine.CreateEngineObject(meta.ClassId, argument)];
         try
         {
             foreach (var value in values)
@@ -203,10 +204,10 @@ public sealed class MapNetSoundConstructionTests
             4 => new TokenControl(null!, 7),
             5 => new TokenExecutor(null!),
             6 => new TokenManager(null!),
-            7 => new PlayerCommunicationControl(),
+            7 => new PlayerCommunicationControl(EngineFixture.Engine),
             8 => new PackageDataList(),
-            9 => new RemotePlayerCommunicationControl(),
-            10 => new LocalPlayerCommunicationControl(),
+            9 => new RemotePlayerCommunicationControl(EngineFixture.Engine),
+            10 => new LocalPlayerCommunicationControl(EngineFixture.Engine),
             11 => new TokenPackageDistributor(null!),
             12 => new SoundSystem(),
             13 => new SfxList(),

@@ -73,7 +73,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                 GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
             }
 
-            animation = new Animation(null);
+            animation = new Animation(null) { Holder = CreationHolder() };
             _animation = animation;
             animation.AnimationLevel = 27;
             animation.OnShow += ShowAnimation;
@@ -86,10 +86,10 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
         {
             if (ArmyId != null && ArmyId.RetrieveArmy(ref army, ref selection))
             {
-                log = new ArmyEventLog(null);
-                log.ArmyText = AbilityRules.TranslateResourceString(s_vortexDamageText);
+                log = new ArmyEventLog(null) { Holder = CreationHolder() };
+                log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_vortexDamageText);
                 log._player = source.Player;
-                var vortex = AbilityRules.TranslateResourceString(GameText.VortexText);
+                var vortex = AbilityRules.TranslateResourceString(GetEngine(), GameText.VortexText);
                 log.ArmyMessages.Add(vortex);
                 log.ArmyIcon = 2;
                 log.ArmyView.Setup(army.Army, 255);
@@ -192,13 +192,13 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                     xShift = 16;
                     var pi = Math.PI;
                     angle = (float)((double)((double)-(direction + _angle) * pi) / 180);
-                    if (GameTables.GameEngine.AnimationDetail == 0)
+                    if (GetEngine().AnimationDetail == 0)
                     {
                         count = 1;
                     }
                     else
                     {
-                        if (GameTables.GameEngine.AnimationDetail == 1)
+                        if (GetEngine().AnimationDetail == 1)
                         {
                             count = (int)(((uint)(200 - I)) >> 5);
                         }

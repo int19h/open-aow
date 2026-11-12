@@ -6,8 +6,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Draw.Images;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -30,9 +28,6 @@ public partial class ItemGraphics : EngineResource
     private CustomImageLibrary _imageLibrary;
     private int _refCount;
     public bool Hidden;
-
-    // Army.PAS:5093
-    public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // Army.PAS:5167
     public override void ReadWrite(StorageStream stream)

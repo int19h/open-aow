@@ -13,7 +13,7 @@ public sealed class StableOrderTests
     [Fact]
     public void TextControlKeepsEqualItemsInInsertionOrder()
     {
-        using var control = new TextControl(null!);
+        using var control = new TextControl(null!) { Holder = EngineFixture.Engine };
         var high = Item(control, 2, "high");
         var low = Item(control, 1, "low");
         var tied = Item(control, 1, "tied");
@@ -26,7 +26,7 @@ public sealed class StableOrderTests
     [Fact]
     public void ItemNameKeepsEqualNamesInInsertionOrder()
     {
-        using var list = new ItemList(null!);
+        using var list = new ItemList(null!) { Holder = EngineFixture.Engine };
         var high = new Item(list) { OwnerName = "m" };
         var low = new Item(list) { OwnerName = "a" };
         var tied = new Item(list) { OwnerName = "a" };
@@ -39,7 +39,7 @@ public sealed class StableOrderTests
     [Fact]
     public void ItemTypeKeepsEqualTypesInInsertionOrder()
     {
-        using var list = new ItemList(null!);
+        using var list = new ItemList(null!) { Holder = EngineFixture.Engine };
         var high = new Item(list) { ItemType = ItemType.Scroll };
         var low = new Item(list) { ItemType = ItemType.Head };
         var tied = new Item(list) { ItemType = ItemType.Head };
@@ -52,10 +52,10 @@ public sealed class StableOrderTests
     [Fact]
     public void ReflectingPoolsKeepInsertionOrder()
     {
-        using var pools = new PlayerStructureList(null!);
-        var first = new ReflectingPool(null!);
-        var second = new ReflectingPool(null!);
-        var third = new ReflectingPool(null!);
+        using var pools = new PlayerStructureList(null!) { Holder = EngineFixture.Engine };
+        var first = new ReflectingPool(null!) { Holder = EngineFixture.Engine };
+        var second = new ReflectingPool(null!) { Holder = EngineFixture.Engine };
+        var third = new ReflectingPool(null!) { Holder = EngineFixture.Engine };
         pools.AddChild(first);
         pools.AddChild(second);
         pools.AddChild(third);

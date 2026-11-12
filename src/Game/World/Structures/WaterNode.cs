@@ -38,7 +38,7 @@ public partial class WaterNode : ProductionPlace
         // WaterNode.pas:27
 
         // WaterNode.pas:52
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_waterNodeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_waterNodeText);
 
         private static readonly string s_waterNodeText = "Water Node";
 

@@ -166,7 +166,7 @@ public abstract partial record DiplomaticProposal
         StrategicMap.Current.Players.GetPlayers(action.Target).PlayerSeen((sbyte)(byte)action.Source);
         if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
-            var messageSent = AbilityRules.TranslateResourceString(s_messageSentText);
+            var messageSent = AbilityRules.TranslateResourceString(action.GetEngine(), s_messageSentText);
             StrategicMap.Current.ShowMessage(messageSent);
         }
 
@@ -200,14 +200,14 @@ public abstract partial record DiplomaticProposal
     protected static string Outcome(DiplomaticAction action, string proposed, string subject, string accepted, string otherwise) => action.Reaction switch
     {
         DiplomaticActionReaction.None => proposed,
-        DiplomaticActionReaction.Reject => AbilityRules.Format(AbilityRules.TranslateResourceString(RejectedFormat), [subject]),
+        DiplomaticActionReaction.Reject => AbilityRules.Format(AbilityRules.TranslateResourceString(action.GetEngine(), RejectedFormat), [subject]),
         DiplomaticActionReaction.Accept => accepted,
-        DiplomaticActionReaction.Ignore => AbilityRules.Format(AbilityRules.TranslateResourceString(IgnoredFormat), [subject]),
+        DiplomaticActionReaction.Ignore => AbilityRules.Format(AbilityRules.TranslateResourceString(action.GetEngine(), IgnoredFormat), [subject]),
         _ => otherwise,
     };
 
     // The accepted line about Subject.
-    protected static string AcceptedLine(string subject) => AbilityRules.Format(AbilityRules.TranslateResourceString(AcceptedFormat), [subject]);
+    protected static string AcceptedLine(string subject, GameEngine engine) => AbilityRules.Format(AbilityRules.TranslateResourceString(engine, AcceptedFormat), [subject]);
 
     private static readonly string s_messageSentText = "Message sent";
 
@@ -223,7 +223,7 @@ public abstract partial record DiplomaticProposal
             Player players = StrategicMap.Current.Players.GetPlayers(i);
             if (players.Status == PlayerStatus.Playing && i != exclude && (i == log.Action.Source || i == log.Action.Target || (StrategicMap.Current.Players.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)log.Action.Source) != -1 && StrategicMap.Current.Players.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)log.Action.Target) != -1)))
             {
-                EventLog eventLog = (EventLog)log.Copy(GameTables.GameEngine);
+                EventLog eventLog = (EventLog)log.Copy(log.GetEngine());
                 players.EventLogbook.AddEvent(eventLog);
                 eventLog.Release();
             }

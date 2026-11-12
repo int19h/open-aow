@@ -51,7 +51,7 @@ public partial class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1203
     public WatcherHexSprite(ECustomNode owner) : base(owner)
     {
-        Enchantment = new WatcherEnchantment(null);
+        Enchantment = new WatcherEnchantment(null) { Holder = CreationHolder() };
         Enchantment.Watcher = this;
         _unexplored = new Int32List();
         _visibleForSeatedPlayer = false;
@@ -118,7 +118,7 @@ public partial class WatcherHexSprite : SingleHexSprite
                 _animationFrame += 1;
                 // The original reads the shared AoWEngine animation detail. The map engine is
                 // not the global read by this routine.
-                if (GameTables.GameEngine.AnimationDetail == 2 && StrategicMap.Current.ViewMapLevel == HexLevel)
+                if (GetEngine().AnimationDetail == 2 && StrategicMap.Current.ViewMapLevel == HexLevel)
                 {
                     intensity = 100 - _animationFrame;
                     var hexY2 = HexY;

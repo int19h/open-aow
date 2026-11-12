@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Fury : UnitSpell
 {
     // UnitSpells.pas:336
-    public Fury(ECustomNode owner) : base(owner)
+    public Fury(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.FuryText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FuryText);
         SpellId = 33;
         AIValue = 175;
         BaseManaCost = 5;

@@ -10,7 +10,6 @@ using Aow.Game.Commands;
 using Aow.Game.Events;
 
 using Aow.Game.Magic;
-using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Magic.Spells;
 
@@ -40,9 +39,9 @@ public partial class PlayerMagicControl : EngineObject
 
         Spells = new Int32List();
         _changedEventsStore = new();
-        Enchantments = new EnchantmentList(null);
-        PowerSources = new PowerSourceList(null);
-        source = new ExternalPowerSource(null);
+        Enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
+        PowerSources = new PowerSourceList(null) { Holder = CreationHolder() };
+        source = new ExternalPowerSource(null) { Holder = CreationHolder() };
         _externalPowerSource = source;
         source.ExternalPowerControl = this;
         PowerSources.AddChild(source);
@@ -282,7 +281,7 @@ public partial class PlayerMagicControl : EngineObject
             if (index != -1)
             {
                 mana -= Enchantments.GetEnchantments(index).Upkeep;
-                log = new PlayerMagicEventLog(null);
+                log = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
                 log._player = Player.PlayerIndex;
                 log.Mode = PlayerMagicEventLog.EventMode.OutOfMana;
                 Enchantments.GetEnchantments(index).GetLocation(out log.Location.X, out log.Location.Y, out log.Location.MapLevel);
@@ -393,7 +392,7 @@ public partial class PlayerMagicControl : EngineObject
                         Mana += Math.Abs(ResearchPointsLeft);
                     }
 
-                    log = new PlayerMagicEventLog(null);
+                    log = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
                     log._player = Player.PlayerIndex;
                     log.Mode = PlayerMagicEventLog.EventMode.SpellResearched;
                     log.SpellId = ResearchSpellId;
@@ -529,7 +528,7 @@ public partial class PlayerMagicControl : EngineObject
                 level += 1;
             }
 
-            if (GameTables.GameEngine.Demo)
+            if (GetEngine().Demo)
             {
                 level = 2;
             }
@@ -724,7 +723,7 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2306
     public ChangePlayerMagicTokenEvent CreateChangeMagicTokenEvent()
     {
-        ChangePlayerMagicTokenEvent result = new ChangePlayerMagicTokenEvent(null);
+        ChangePlayerMagicTokenEvent result = new ChangePlayerMagicTokenEvent(null) { Holder = CreationHolder() };
         result.PlayerIndex = (byte)Player.PlayerIndex;
         return result;
     }

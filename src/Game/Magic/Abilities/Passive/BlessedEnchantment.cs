@@ -7,9 +7,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class BlessedEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1211
-    public BlessedEnchantment(ECustomNode owner) : base(owner)
+    public BlessedEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(s_blessedText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_blessedText);
         AbilityId = 158;
     }
 
@@ -27,7 +28,7 @@ public partial class BlessedEnchantment : UnitEnchantmentAbility
         var unitEnchantmentAbilityData = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
         if (unitEnchantmentAbilityData.Enchantment.Source == -2)
         {
-            result = AbilityRules.TranslateResourceString(GameText.LifeMasteryText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.LifeMasteryText);
         }
         else
         {

@@ -78,7 +78,7 @@ public sealed class ClassFamilyTests
         // the base statics are abstract and the default
         Assert.Throws<AbstractErrorException>(() => AIPlayerAction.Priority);
         Assert.True(AIPlayerAction.SupportedPhases.Contains(AIPlayerProcessPhase.Main));
-        using var instance = new EndTurnAIPlayerAction(null!);
+        using var instance = new EndTurnAIPlayerAction(null!) { Holder = EngineFixture.Engine };
         Assert.Same(endTurn, instance.ActionClass);
         Assert.Same(instance.ActionClass, instance.ActionClass);
     }
@@ -118,7 +118,7 @@ public sealed class ClassFamilyTests
     [Fact]
     public void ActionManagerRegistersSortsAndUnregistersDescriptors()
     {
-        using var manager = new AIPlayerActionManager(null!);
+        using var manager = new AIPlayerActionManager(null!) { Holder = EngineFixture.Engine };
         AIPlayerActionClass[] classes = [AIPlayerActionClass.Of<EndTurnAIPlayerAction>(), AIPlayerActionClass.Of<InitializeAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlLoopAIPlayerAction>()];
         manager.RegisterClasses(classes);
         Assert.Equal(3, manager.GetCount());
@@ -141,7 +141,7 @@ public sealed class ClassFamilyTests
         Assert.Equal(GroupBehavior.Hunt, hunt.Behavior);
         Assert.Equal(GroupBehavior.None, AIGroup.Behavior);
         Assert.Equal(GroupBehavior.Defensive, AIGroupClass.Of<DefenderAIGroup>().Behavior);
-        using var manager = new AIGroupManager(null!);
+        using var manager = new AIGroupManager(null!) { Holder = EngineFixture.Engine };
         AIGroupClass[] classes = [hunt, AIGroupClass.Of<DefenderAIGroup>()];
         manager.RegisterAIGroupClasses(classes);
         manager.RegisterAIGroupClasses(classes);
@@ -168,7 +168,7 @@ public sealed class ClassFamilyTests
         Assert.Null(engine.Editors.FindEditor(EngineObject.ClassId));
 
         var mapObject = new MapObject(new EngineField(engine));
-        var node = EngineClass.Of<ENode>().CreateInstance(engine.ControlNode);
+        var node = EngineClass.Of<ENode>().CreateInstance(engine.ControlNode, holder: EngineFixture.Engine);
         try
         {
             Assert.Same(mapObjectEditor, mapObject.Editor());
@@ -189,12 +189,12 @@ public sealed class ClassFamilyTests
     [Fact]
     public void IsometricHexBuildsItsDynamicSpriteInOneConstructor()
     {
-        using var map = new GameMap(null!);
+        using var map = new GameMap(null!) { Holder = EngineFixture.Engine };
         using var container = new MapContainer(map);
         using var level = new MapLevel(container);
         level.CreateMapFieldList(3, 3);
         var field = level.GetField(1, 1);
-        using var resource = new LowerIsometricHex.Resource(null!);
+        using var resource = new LowerIsometricHex.Resource(null!) { Holder = EngineFixture.Engine };
         var hex = new LowerIsometricHex(field) { _resource = resource };
         try
         {
@@ -222,7 +222,7 @@ public sealed class ClassFamilyTests
     [Fact]
     public void WaterHexReadsTheShoreOfItsOpenSides()
     {
-        using var map = new GameMap(null!);
+        using var map = new GameMap(null!) { Holder = EngineFixture.Engine };
         using var container = new MapContainer(map);
         using var level = new MapLevel(container);
         level.CreateMapFieldList(3, 3);
@@ -230,7 +230,7 @@ public sealed class ClassFamilyTests
             for (int x = 0; x < 3; x++)
                 level.GetField(x, y).TerrainType = 3;
         var field = level.GetField(1, 1);
-        using var resource = new WaterHex.Resource(null!);
+        using var resource = new WaterHex.Resource(null!) { Holder = EngineFixture.Engine };
         using var water = new WaterHex(field) { _resource = resource };
         water.UpdateTransitions();
         Assert.NotNull(water.Dynamic);

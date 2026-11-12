@@ -9,9 +9,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class CursedAbility : DurationAbility
 {
     // PassiveAb.pas:981
-    public CursedAbility(ECustomNode owner) : base(owner)
+    public CursedAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(s_cursedText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_cursedText);
         AbilityId = 93;
         SelectionTypes = Set<AbilitySelectionType>.Of();
         DurationMode = DurationMode.Day;
@@ -31,7 +32,7 @@ public partial class CursedAbility : DurationAbility
         data = (DurationAbilityData)owner.GetAbilityData(AbilityId);
         if (data != null && data.Source == 1)
         {
-            result = AbilityRules.TranslateResourceString(GameText.DeathMasteryText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.DeathMasteryText);
         }
         else
         {

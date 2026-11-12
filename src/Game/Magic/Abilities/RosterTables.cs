@@ -12,7 +12,7 @@ namespace Aow.Game.Magic.Abilities;
 internal static class RosterTables
 {
 
-    internal static int GetUnitIndexAIPriority(int unitIndex, sbyte player, sbyte relation)
+    internal static int GetUnitIndexAIPriority(int unitIndex, sbyte player, sbyte relation, GameEngine engine)
     {
         int result;
         UnitResource resource;
@@ -43,9 +43,9 @@ internal static class RosterTables
 
             if (value >= 50)
             {
-                unit = new Unit(null);
+                unit = new Unit(null) { Holder = engine };
                 unit.SetUnitResource(resource);
-                defaultUnit = new HypotheticalUnit(null);
+                defaultUnit = new HypotheticalUnit(null) { Holder = engine };
                 defaultUnit.MakeDefaultLevelUnit(1);
                 if (unit.GetCombatValue(defaultUnit, 0) > 0)
                 {

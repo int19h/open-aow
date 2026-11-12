@@ -11,9 +11,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Warmonger : CityEnchantmentSpell
 {
     // CitySpells.pas:751
-    public Warmonger(ECustomNode owner) : base(owner)
+    public Warmonger(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.WarmongerText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarmongerText);
         SpellId = 58;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
         EnchantmentId = CityEnchantmentId.Warmonger;

@@ -5,6 +5,7 @@ using Aow.Game.Commands;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
+using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -248,7 +249,7 @@ public partial class TacticalBattleUnit : CombatUnit
         if (GetAbilityEnabled(43))
         {
             var hexY = UnitHexSprite.GetHexY();
-            EffectPaths.CreateFire(false, 50, UnitHexSprite.GetHexX(), hexY);
+            EffectPaths.CreateFire(false, 50, UnitHexSprite.GetHexX(), hexY, engine: GetEngine());
         }
 
         CombatMap.Current.UnitChangedEventsStore.Raise(UnitHexSprite);
@@ -290,7 +291,7 @@ public partial class TacticalBattleUnit : CombatUnit
 
     internal static CombatMoveTokenEvent CreateCombatMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path)
     {
-        CombatMoveTokenEvent result = new CombatMoveTokenEvent(null);
+        CombatMoveTokenEvent result = new CombatMoveTokenEvent(null) { Holder = unitObject };
         if (result != null)
         {
             result.Setup(unitObject, path);

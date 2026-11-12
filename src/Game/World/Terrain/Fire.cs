@@ -473,7 +473,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         public override int ResourceUserClassId() => 132990;
 
         // Structur.PAS:3692
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameTables.FireText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.FireText);
 
     }
 

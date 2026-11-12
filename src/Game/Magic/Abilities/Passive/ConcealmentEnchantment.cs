@@ -7,9 +7,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class ConcealmentEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1287
-    public ConcealmentEnchantment(ECustomNode owner) : base(owner)
+    public ConcealmentEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.ConcealmentText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.ConcealmentText);
         AbilityId = 162;
     }
 }

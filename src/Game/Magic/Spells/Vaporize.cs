@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Vaporize : CombatSpell
 {
     // CombatSpells.pas:1570
-    public Vaporize(ECustomNode owner) : base(owner)
+    public Vaporize(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_vaporizeText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_vaporizeText);
         SpellId = 121;
         DamageMode = 1;
         ref var spellCombatInfo = ref CombatInfo;

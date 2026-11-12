@@ -43,7 +43,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 {
                     if (Armies.GetArmies(I).TransportStatus == AIMoveExecutorTransportStatus.Idle)
                     {
-                        settings = new AIMoveControlSettings(null);
+                        settings = new AIMoveControlSettings(null) { Holder = CreationHolder() };
                         Armies.GetArmies(I).RetrieveArmy(255, out armyHexSprite, out selection);
                         settings.Setup(armyHexSprite, selection, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel);
                         settings.Transporter = Executor.Transporter.Troop;
@@ -365,7 +365,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
         ArmyHexSprite armyHexSprite;
         MoveControlSettings settings;
         move = null;
-        army = new AIMoveExecutorArmy(null);
+        army = new AIMoveExecutorArmy(null) { Holder = CreationHolder() };
         army.Setup(Executor.Transporter);
         for (int I = 0, last = Executor.Units.Count - 1; I <= last; I++)
         {
@@ -379,7 +379,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
         var aiMoveExecutorUnit = Executor.Transporter;
         armyHexSprite = StrategicMap.Current.MapContainer.GetField(aiMoveExecutorUnit.Location.X, aiMoveExecutorUnit.Location.Y, aiMoveExecutorUnit.Location.MapLevel).GetArmyHexSprite();
 
-        settings = new MoveControlSettings(null);
+        settings = new MoveControlSettings(null) { Holder = CreationHolder() };
         settings.SetupArmy(armyHexSprite, 255);
         settings.SetDestinationPosition(X, Y, L);
         StrategicMap.Current.MoveControl.ProcessMove(settings);
@@ -406,7 +406,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
 
                 if (position < settings.Path.Count - 1)
                 {
-                    move = new AIMoveExecutorMove(null);
+                    move = new AIMoveExecutorMove(null) { Holder = CreationHolder() };
                     move.AddUnits(army, 255);
                     for (int I = position, last = settings.Path.Count - 1; I <= last; I++)
                     {
@@ -489,7 +489,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
 
         if (transporting != 0)
         {
-            settings = new MoveControlSettings(null);
+            settings = new MoveControlSettings(null) { Holder = CreationHolder() };
             army.RetrieveArmy(transporting, out armyHexSprite, out selection);
             settings.SetupArmy(armyHexSprite, selection);
             settings.MovePointsMax = armyHexSprite.Army.Moves(selection);
@@ -536,7 +536,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
 
         if (transporting == 0 && others != 0)
         {
-            settings = new MoveControlSettings(null);
+            settings = new MoveControlSettings(null) { Holder = CreationHolder() };
             army.RetrieveArmy(others, out armyHexSprite, out selection);
             settings.SetupArmy(armyHexSprite, selection);
             settings.MovePointsMax = armyHexSprite.Army.Moves(selection);
@@ -626,7 +626,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
 
             if (found)
             {
-                settings = new MoveControlSettings(null);
+                settings = new MoveControlSettings(null) { Holder = CreationHolder() };
                 Armies.GetArmies(I).RetrieveArmy(255, out armyHexSprite, out selection);
                 settings.SetupArmy(armyHexSprite, selection);
                 settings.SetSourcePosition(_meetingPoint.X, _meetingPoint.Y, _meetingPoint.MapLevel);

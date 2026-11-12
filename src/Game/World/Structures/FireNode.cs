@@ -37,7 +37,7 @@ public partial class FireNode : ProductionPlace
         // FireNode.pas:26
 
         // FireNode.pas:50
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_fireNodeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_fireNodeText);
 
         private static readonly string s_fireNodeText = "Fire Node";
 

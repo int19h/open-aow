@@ -164,9 +164,9 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         Troop troop;
         damaged = 0;
         RandSeed = StrategicMap.Current.Random(16777215);
-        log = new ArmyEventLog(null);
-        log.ArmyText = AbilityRules.TranslateResourceString(s_holyGroundDamageText);
-        var holyGroundDamage = AbilityRules.TranslateResourceString(s_holyGroundDamageText);
+        log = new ArmyEventLog(null) { Holder = CreationHolder() };
+        log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText);
+        var holyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText);
         log.ArmyMessages.Add(holyGroundDamage);
         log.ArmyIcon = 2;
         log._player = army.Army.Player;
@@ -294,7 +294,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         var hexY = animation.GetHexY();
         var hexX = animation.GetHexX();
         field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-        if (this == field.FindOwnedChild(131987) && GameTables.GameEngine.AnimationDetail != 0 && animation.FrameCounter == 0)
+        if (this == field.FindOwnedChild(131987) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
@@ -339,7 +339,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         public override int ResourceUserClassId() => 131987;
 
         // HolyG.pas:273
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_holyGroundText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundText);
 
         private static readonly string s_holyGroundText = "Holy Ground";
 

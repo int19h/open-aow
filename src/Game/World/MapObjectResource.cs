@@ -49,8 +49,8 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:405
     public override int ClassVersion() => 1;
 
-    // MAPOBJ.PAS:400
-    public override GameEngine GetEngine() => _engine;
+    // MAPOBJ.PAS:400. Before the activation message the resource reaches the engine as any node does.
+    public override GameEngine GetEngine() => _engine ?? base.GetEngine();
 
     // MAPOBJ.PAS:470
     public override void ReadWrite(StorageStream stream)

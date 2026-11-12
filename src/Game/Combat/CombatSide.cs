@@ -3,8 +3,6 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Rtl;
 
 using static Aow.Rtl.RtlUnit;
@@ -93,11 +91,11 @@ public partial class CombatSide : ENode, IChildList<CombatObject>
         string S;
         if (SideIndex == 0)
         {
-            GameTables.GameEngine.OutputDebugMessage(DebugChannel.Combat, "--- Combat Side Attacker ---");
+            GetEngine().OutputDebugMessage(DebugChannel.Combat, "--- Combat Side Attacker ---");
         }
         else
         {
-            GameTables.GameEngine.OutputDebugMessage(DebugChannel.Combat, "--- Combat Side Defender ---");
+            GetEngine().OutputDebugMessage(DebugChannel.Combat, "--- Combat Side Defender ---");
         }
 
         for (int I = 0, last = Count - 1; I <= last; I++)
@@ -106,7 +104,7 @@ public partial class CombatSide : ENode, IChildList<CombatObject>
             var targetPriority = GetObjects(I).GetTargetPriority();
             var targetStrength = GetObjects(I).GetTargetStrength();
             S = "(" + IntToStr(I) + "):" + idString + " (Priority:" + IntToStr(targetPriority) + "/Strength:" + IntToStr(targetStrength) + ")";
-            GameTables.GameEngine.OutputDebugMessage(DebugChannel.Combat, S);
+            GetEngine().OutputDebugMessage(DebugChannel.Combat, S);
         }
     }
 

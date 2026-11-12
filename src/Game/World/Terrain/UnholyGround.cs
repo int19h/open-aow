@@ -164,9 +164,9 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         Troop troop;
         damaged = 0;
         RandSeed = StrategicMap.Current.Random(16777215);
-        log = new ArmyEventLog(null);
-        log.ArmyText = AbilityRules.TranslateResourceString(s_unholyGroundDamageText);
-        var unholyGroundDamage = AbilityRules.TranslateResourceString(s_unholyGroundDamageText);
+        log = new ArmyEventLog(null) { Holder = CreationHolder() };
+        log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundDamageText);
+        var unholyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundDamageText);
         log.ArmyMessages.Add(unholyGroundDamage);
         log.ArmyIcon = 2;
         var armyLocal = army.Army;
@@ -296,7 +296,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         var hexY = animation.GetHexY();
         var hexX = animation.GetHexX();
         field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-        if (this == field.FindOwnedChild(131985) && GameTables.GameEngine.AnimationDetail != 0 && animation.FrameCounter == 0)
+        if (this == field.FindOwnedChild(131985) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
@@ -341,7 +341,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         public override int ResourceUserClassId() => 131985;
 
         // UnHolyG.pas:273
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_unholyGroundText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_unholyGroundText);
 
         private static readonly string s_unholyGroundText = "Unholy Ground";
 

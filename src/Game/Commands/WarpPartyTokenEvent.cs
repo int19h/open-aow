@@ -79,14 +79,14 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
         showTarget = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(field.HexX, field.HexY, field.HexLevel, StrategicMap.Current.SeatedPlayer);
         if (showSource && GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
         {
-            animation = new ImageSequenceAnimation(null);
+            animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
             StrategicMap.Current.PlaceHex(animation, X, Y, layer);
         }
 
         if (showTarget && GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
         {
-            animation = new ImageSequenceAnimation(null);
+            animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
             StrategicMap.Current.PlaceHex(animation, field.HexX, field.HexY, field.HexLevel);
         }

@@ -56,7 +56,7 @@ public partial class RaidAIGroupControl : AIGroupControl
         switch (State)
         {
             case 0:
-                var finder = new AIGroupTargetFinder(null!);
+                var finder = new AIGroupTargetFinder(null!) { Holder = CreationHolder() };
                 finder.Setup(this);
                 finder.Selector.MovePointsMax = 100;
                 finder.Selector.TargetInfo.Mode = AITargetMode.Raid;
@@ -78,7 +78,7 @@ public partial class RaidAIGroupControl : AIGroupControl
                 else Done();
                 break;
             case 2:
-                var raze = new AIGroupRazeControl(null!);
+                var raze = new AIGroupRazeControl(null!) { Holder = CreationHolder() };
                 raze.Setup(this);
                 // loads the set byte 04 from in the original
                 raze.Mode = Set<AIGroupRazeControlModeElement>.Of(AIGroupRazeControlModeElement.Always);

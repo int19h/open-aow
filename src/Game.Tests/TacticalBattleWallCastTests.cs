@@ -25,11 +25,11 @@ public sealed class TacticalBattleWallCastTests
     [Fact]
     public void TerrainPathAcceptsTheCombatWallAsIgnore()
     {
-        var ai = new BattleAI();
-        var settings = new CombatMoveControlSettings(null!);
+        var ai = new BattleAI(EngineFixture.Engine);
+        var settings = new CombatMoveControlSettings(null!) { Holder = EngineFixture.Engine };
         MapCoordinateList path = new MovePath();
         int value = 7;
-        var combat = new TacticalBattle(null!);
+        var combat = new TacticalBattle(null!) { Holder = EngineFixture.Engine };
         var objects = combat.CombatData.CombatObjects;
         var unit = new TacticalBattleUnit(objects) { Combat = combat };
         var wall = new CombatWall(objects) { Combat = combat };
@@ -48,17 +48,17 @@ public sealed class TacticalBattleWallCastTests
     public void UnitLocationSkipsTheCombatWallAndFindsTheUnit()
     {
         var previous = CombatMap.Current;
-        var map = new CombatMap(null!);
+        var map = new CombatMap(null!) { Holder = EngineFixture.Engine };
         try
         {
-            var combat = new TacticalBattle(null!);
+            var combat = new TacticalBattle(null!) { Holder = EngineFixture.Engine };
             map.SetCombat(combat);
             var objects = combat.CombatData.CombatObjects;
-            var hero = new Troop(null!);
+            var hero = new Troop(null!) { Holder = EngineFixture.Engine };
             var wall = new CombatWall(objects) { Combat = combat };
             wall.Setup(1, 1, 0);
             var unit = new TacticalBattleUnit(objects) { Combat = combat, Id = 2, Position = 1, Troop = hero };
-            unit.UnitHexSprite = new PlacedUnitHexSprite(null!) { Unit = unit };
+            unit.UnitHexSprite = new PlacedUnitHexSprite(null!) { Holder = EngineFixture.Engine, Unit = unit };
             sbyte x = 0;
             sbyte y = 0;
             sbyte l = 0;
@@ -66,7 +66,7 @@ public sealed class TacticalBattleWallCastTests
             Assert.Equal((sbyte)4, x);
             Assert.Equal((sbyte)9, y);
             Assert.Equal((sbyte)0, l);
-            var other = new Troop(null!);
+            var other = new Troop(null!) { Holder = EngineFixture.Engine };
             map.GetUnitLocation(other, out x, ref y, ref l);
             Assert.Equal((sbyte)-1, x);
         }

@@ -89,7 +89,7 @@ public partial class Sign : Structure
         UpdateSignTokenEvent eventValue;
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && CanChangeText())
         {
-            eventValue = new UpdateSignTokenEvent(null);
+            eventValue = new UpdateSignTokenEvent(null) { Holder = CreationHolder() };
             eventValue.HexX = GetHexX();
             eventValue.HexY = GetHexY();
             eventValue.HexLevel = GetHexLevel();
@@ -175,7 +175,7 @@ public partial class Sign : Structure
         // Sign.pas:37
 
         // Sign.pas:162
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_signText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_signText);
 
         private static readonly string s_signText = "Sign";
 

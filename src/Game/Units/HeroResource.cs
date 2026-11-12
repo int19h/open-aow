@@ -20,7 +20,7 @@ public partial class HeroResource : TroopResource
     // Hero.PAS:2308
     public HeroResource(ECustomNode owner) : base(owner)
     {
-        Abilities = new HeroResourceAbilityOwner(null);
+        Abilities = new HeroResourceAbilityOwner(null) { Holder = CreationHolder() };
         Attack = 3;
         Defense = 3;
         Damage = 3;

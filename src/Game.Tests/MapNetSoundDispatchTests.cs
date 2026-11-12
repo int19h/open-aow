@@ -46,7 +46,7 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void MapConstructorKeepsVirtualMouseCreationBeforeChildren()
     {
-        using var converted = new ConvertedMap(null!);
+        using var converted = new ConvertedMap(null!) { Holder = EngineFixture.Engine };
         Assert.Equal(1, converted.MouseCalls);
         Assert.Same(converted, converted.Mouse.HexSpriteMap);
         Assert.NotNull(converted.Selection);
@@ -56,7 +56,7 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void DynamicFieldsKeepTheirExactTypeAndCoordinates()
     {
-        var level = new SpecializedLevel(null!);
+        var level = new SpecializedLevel(null!) { Holder = EngineFixture.Engine };
         level.HexLevel = 2;
         level.CreateMapFieldList(3, 2);
         Assert.Equal(6, level.Fields.Length);

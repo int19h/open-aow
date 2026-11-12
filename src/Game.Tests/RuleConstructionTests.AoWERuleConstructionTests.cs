@@ -45,7 +45,6 @@ public sealed partial class RuleConstructionTests
     private sealed class Fixture : IDisposable
     {
         private readonly GamePack _previousSet = GamePack.Current;
-        private readonly GameEngine _previousEngine = GameTables.GameEngine;
         private readonly StrategicMap _previousMap = StrategicMap.Current;
         private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
 
@@ -53,22 +52,19 @@ public sealed partial class RuleConstructionTests
 
         internal Fixture()
         {
-            GameTables.GameEngine = EngineFixture.Engine;
-            Map = new StrategicMap(null!);
+            Map = new StrategicMap(null!, holder: EngineFixture.Engine);
             var set = EngineFixture.CreateGameSet(_manager);
             GamePack.Current = set;
-            GameTables.GameEngine = null!;
             Map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
-            Map.Races = new RaceList(null!);
-            Map.UnitControl = new UnitControl(null!);
-            Map.HeroControl = new HeroControl(null!);
+            Map.Races = new RaceList(null!) { Holder = EngineFixture.Engine };
+            Map.UnitControl = new UnitControl(null!) { Holder = EngineFixture.Engine };
+            Map.HeroControl = new HeroControl(null!) { Holder = EngineFixture.Engine };
             StrategicMap.Current = Map;
         }
 
         public void Dispose()
         {
             GamePack.Current = _previousSet;
-            GameTables.GameEngine = _previousEngine;
             StrategicMap.Current = _previousMap;
             _manager.Dispose();
             Map.Races.Dispose();
@@ -102,7 +98,7 @@ public sealed partial class RuleConstructionTests
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name is "_engineClass" or "_actionClass" or "_groupClass") continue; // the descriptor caches are not constructor state
+                    if (field.Name is "_engineClass" or "_actionClass" or "_groupClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField") continue; // the descriptor caches and the link to the engine are not constructor state
                     // CF-2 stores priority as a delegate. Keep its value in the base recording's key.
                     if (item is AIPlayerActionClass actionClass && field.Name == "_priority")
                     {
@@ -144,7 +140,7 @@ public sealed partial class RuleConstructionTests
 
     private static object Create(Type type, ECustomNode owner, int route, Fixture fixture)
     {
-        if (route == 1) return EngineClass.Of(type).CreateInstance(owner);
+        if (route == 1) return EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
         if (route == 2)
         {
             using GameEngine engine = new GameEngine(null!);
@@ -158,17 +154,18 @@ public sealed partial class RuleConstructionTests
         if (route == 3)
         {
             var meta = EngineClass.Of(type);
-            return (object)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
+            return (object)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
-        var constructor = typeof(EngineObject).IsAssignableFrom(type) ? type.GetConstructor([typeof(ECustomNode)]) : type.GetConstructors().OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();
+        var constructor = typeof(EngineObject).IsAssignableFrom(type) ? EngineClassCreation.OwnerConstructor(type) : type.GetConstructors().OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();
         Assert.True(factory is not null || constructor is not null, type.Name + " needs its own completed creation signature.");
         ParameterInfo[] parameters = factory?.GetParameters() ?? constructor!.GetParameters();
         object?[] arguments = parameters.Select(p => p.ParameterType == typeof(ECustomNode) ? owner
             : p.ParameterType == typeof(int) ? (object)37
             : p.ParameterType == typeof(GameMap) ? fixture.Map
-            : p.ParameterType == typeof(FastBattle) ? new FastBattle(null!)
-            : p.ParameterType == typeof(CombatSide) ? new CombatSide(null!)
+            : p.ParameterType == typeof(EngineObject) ? EngineFixture.Engine
+            : p.ParameterType == typeof(FastBattle) ? new FastBattle(null!) { Holder = EngineFixture.Engine }
+            : p.ParameterType == typeof(CombatSide) ? new CombatSide(null!) { Holder = EngineFixture.Engine }
             : null).ToArray();
         try { return (object)Invoke(() => factory is not null ? factory.Invoke(null, arguments) : constructor!.Invoke(arguments))!; }
         finally { foreach (object? argument in arguments) if (argument is FastBattle or CombatSide) ((((object)argument) ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
@@ -266,6 +263,8 @@ public sealed partial class RuleConstructionTests
 
     private sealed class ObservedSelector : MoveSelector
     {
+        public ObservedSelector() : base(EngineFixture.Engine) { }
+
         internal bool SawPreAssignmentFields { get; private set; }
 
         public override MoveControlSettings CreateMoveControlSettings()
@@ -279,7 +278,7 @@ public sealed partial class RuleConstructionTests
     public void VirtualClearAndCreateMoveControlSettingsKeepTheirOriginalPositions()
     {
         using var fixture = new Fixture();
-        var settings = new ObservedAISettings(null!);
+        var settings = new ObservedAISettings(null!) { Holder = EngineFixture.Engine };
         Assert.True(settings.SawInitializedFields);
         Assert.Equal(175, settings.MovePointsMax);
         Assert.Equal(-1, settings.DestinationX);
@@ -295,7 +294,7 @@ public sealed partial class RuleConstructionTests
     public void TacticalSelectorConstructorKeepsVirtualSettingsOrder()
     {
         using var fixture = new Fixture();
-        var value = new CombatUnitSelectionControl();
+        var value = new CombatUnitSelectionControl(EngineFixture.Engine);
         try
         {
             Assert.IsType<CombatMoveControlSettings>(value.MoveControlSettings);

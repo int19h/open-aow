@@ -108,7 +108,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
                     result = ArmyHexSprite.Army.IndexOfId(fUnitIdsItem) != -1;
                 }
 
-                settings = new MoveControlSettings(null);
+                settings = new MoveControlSettings(null) { Holder = CreationHolder() };
                 settings.SetupArmy(ArmyHexSprite, Selection);
                 settings.Mode = settings.Mode.With(MoveModeElement.AI);
                 if (StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human && StrategicMap.Current.ExplorationEnabled)
@@ -156,7 +156,7 @@ public partial class MoveArmyTokenEvent : MoveTokenEvent
         var validateSelection = ArmyHexSprite.Army.ValidateSelection(255);
         if (Selection != validateSelection)
         {
-            armyHexSprite = new ArmyHexSprite(null);
+            armyHexSprite = new ArmyHexSprite(null) { Holder = CreationHolder() };
             armyHexSprite.Army.SetPlayer(ArmyHexSprite.Army.Player);
             armyHexSprite.Army.AddUnitSelection(ArmyHexSprite.Army, Selection);
             var item = Path[last];

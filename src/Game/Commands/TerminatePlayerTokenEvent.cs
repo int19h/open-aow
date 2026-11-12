@@ -52,11 +52,11 @@ public partial class TerminatePlayerTokenEvent : TokenEvent
         StrategicMap.Current.Players.Update();
         if (StrategicMap.Current.SeatedPlayer != Player)
         {
-            log = new MessageEventLog(null);
+            log = new MessageEventLog(null, holder: CreationHolder());
             log.Buttons = MessageEventLogButtons.Ok;
             log.Layout = MessageEventLogLayout.Normal;
             var name = StrategicMap.Current.Players.GetPlayers(Player).GetName();
-            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_leftGameFormat), [name]);
+            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_leftGameFormat), [name]);
             log.Message.Add(format);
             // { Append the departure message, as in the original. }
             StrategicMap.Current.TriggerExecuteEventLog(log, false, null);

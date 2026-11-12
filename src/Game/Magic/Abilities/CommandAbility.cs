@@ -218,7 +218,7 @@ public partial class CommandAbility : TouchAbility
         // { The returned class is consumed by its constructor. }
         Uncommand(target);
         // { Inline the returned class receiver. }
-        targetData = (CommandedAbilityData)GamePack.Current.AbilityControl.GetAbility(CommandedAbilityId).AbilityDataClass().CreateInstance(null);
+        targetData = (CommandedAbilityData)GamePack.Current.AbilityControl.GetAbility(CommandedAbilityId).AbilityDataClass().CreateInstance(null, holder: CreationHolder());
         targetData.AbilityId = CommandedAbilityId;
         targetData.CommandAbilityId = AbilityId;
         targetData.SourceId = source.Id;
@@ -229,7 +229,7 @@ public partial class CommandAbility : TouchAbility
         sourceData = (CommandAbilityData)source.Troop.GetAbilityData(AbilityId);
         if (sourceData == null)
         {
-            sourceData = new CommandAbilityData(null);
+            sourceData = new CommandAbilityData(null) { Holder = CreationHolder() };
             sourceData.AbilityId = AbilityId;
             source.Troop.AddAbilityData(sourceData);
         }
@@ -240,7 +240,7 @@ public partial class CommandAbility : TouchAbility
     // AoWAb.PAS:5259
     public virtual CommandCombatAction CreateCommandCombatAction(CombatUnit source, CombatUnit target)
     {
-        CommandCombatAction result = new CommandCombatAction(null);
+        CommandCombatAction result = new CommandCombatAction(null) { Holder = CreationHolder() };
         bool condition = !(target.Troop is Leader) && CombatTouchRole(source, target);
         result.Initialize(source.Id, target.Id, condition);
         result.AbilityId = AbilityId;

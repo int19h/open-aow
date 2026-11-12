@@ -5,8 +5,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Draw.Images;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -202,9 +200,9 @@ public partial class RangedPathHexSprite : FixedVisibleHexSprite
                     HexGeometry.PixelToHex(Selection.RangedPath[obstacle2.PathIndex].X, rangedPath.Y, out hexX, out hexY);
                     HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                     _miscellaneousImages[1].Show(pixelX + 5 - pixelXSurface, pixelY + 5 - pixelYSurface, lockedSurface);
-                    GameTables.GameEngine.CombatFont.Color = 0;
+                    GetEngine().CombatFont.Color = 0;
                     var obstacle3 = Selection.Obstacles[I];
-                    GameTables.GameEngine.CombatFont.SetTextCentered(pixelX + 16 - pixelXSurface, pixelY + 12 - pixelYSurface, IntToStr(obstacle3.Chance), lockedSurface);
+                    GetEngine().CombatFont.SetTextCentered(pixelX + 16 - pixelXSurface, pixelY + 12 - pixelYSurface, IntToStr(obstacle3.Chance), lockedSurface);
                 }
             }
         }

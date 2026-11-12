@@ -19,9 +19,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class WarpParty : Spell
 {
     // GlobalSpells.pas:632
-    public WarpParty(ECustomNode owner) : base(owner)
+    public WarpParty(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_warpPartyText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_warpPartyText);
         SpellId = 34;
         SpellType = SpellType.Global;
         BaseManaCost = 1;
@@ -43,7 +44,7 @@ public partial class WarpParty : Spell
                 return false;
             }
 
-            eventValue = new WarpPartyTokenEvent(null);
+            eventValue = new WarpPartyTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.ArmyId = source.ArmyOwner.CreateId(255);
             var warpLocation = CalculateWarpLocation(source.ArmyOwner.GetArmyHexSprite());

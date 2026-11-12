@@ -11,11 +11,12 @@ namespace Aow.Game.Magic.Abilities;
 public partial class SelfDestructAbility : TouchAbility
 {
     // AoWAb.PAS:2136
-    public SelfDestructAbility(ECustomNode owner) : base(owner)
+    public SelfDestructAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         AbilityId = 65;
         AbilityType = AbilityType.Combat;
-        AbilityName = AbilityRules.TranslateResourceString(s_selfDestructText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_selfDestructText);
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
     }
 
@@ -173,7 +174,7 @@ public partial class SelfDestructAbility : TouchAbility
     // AoWAb.PAS:2216
     public SelfDestructCombatAction CreateSelfDestructCombatAction(CombatObject source, CombatObject target)
     {
-        SelfDestructCombatAction result = new SelfDestructCombatAction(null);
+        SelfDestructCombatAction result = new SelfDestructCombatAction(null) { Holder = CreationHolder() };
         result.Generate(source, target, 8, 6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall));
         return result;
     }

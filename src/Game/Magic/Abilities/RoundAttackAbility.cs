@@ -15,11 +15,12 @@ namespace Aow.Game.Magic.Abilities;
 public partial class RoundAttackAbility : TouchAbility
 {
     // AoWAb.PAS:2262
-    public RoundAttackAbility(ECustomNode owner) : base(owner)
+    public RoundAttackAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         AbilityId = 114;
         AbilityType = AbilityType.Combat;
-        AbilityName = AbilityRules.TranslateResourceString(s_roundAttackText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_roundAttackText);
     }
 
     // AoWAb.PAS:2404
@@ -43,7 +44,7 @@ public partial class RoundAttackAbility : TouchAbility
             ((FastBattleUnit)source).RoundDistance = 0;
             if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
             {
-                moveAction = new MoveWallCombatAction(null);
+                moveAction = new MoveWallCombatAction(null) { Holder = CreationHolder() };
                 moveAction.CombatObjectId = source.Id;
                 moveAction.InsideWall = 0;
                 source.Combat.ExecuteCombatAction(moveAction);

@@ -32,8 +32,8 @@ public partial class HeroJoinEventLog : JoinEventLog
         if (hero != null && hero.Player == 0 && hero.OfferToJoin(_player))
         {
             executeNow = trigger == ExecuteTrigger.User;
-            executeNow = executeNow || StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
-            executeNow = executeNow || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
+            executeNow = executeNow || StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
+            executeNow = executeNow || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
             if (executeNow)
             {
                 result = base.Execute(mode, trigger, done);
@@ -62,7 +62,7 @@ public partial class HeroJoinEventLog : JoinEventLog
         {
             U = StrategicMap.Current.UnitControl.FindUnit(FirstUnitId);
             U.GetLocation(out location.X, out location.Y, out location.MapLevel);
-            tokenEvent = new NegotiateTokenEvent(null);
+            tokenEvent = new NegotiateTokenEvent(null) { Holder = CreationHolder() };
             tokenEvent.Player = _player;
             tokenEvent.Object = NegotiateObject.Army;
             tokenEvent.Gold = Gold;

@@ -106,7 +106,7 @@ public partial class GlobalEnchantmentSpell : Spell
             else
             {
                 result = false;
-                messageText = AbilityRules.TranslateResourceString(GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
+                messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
             }
         }
 
@@ -121,7 +121,7 @@ public partial class GlobalEnchantmentSpell : Spell
         string reason = "";
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new GlobalEnchantmentSpellTokenEvent(null);
+            eventValue = new GlobalEnchantmentSpellTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.Enchantment = CreateEnchantment();
             SetupEnchantment(source, eventValue.Enchantment);
@@ -159,7 +159,7 @@ public partial class GlobalEnchantmentSpell : Spell
     {
         GlobalEnchantment enchantment;
         // { Original creates the base enchantment here. }
-        enchantment = new GlobalEnchantment(null);
+        enchantment = new GlobalEnchantment(null) { Holder = CreationHolder() };
         int result = enchantment.GetAIUpkeepPriority();
         enchantment.Release();
         return result;

@@ -4,7 +4,6 @@ using System.Text.Json;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Events;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Xunit.Sdk;
 
@@ -114,7 +113,7 @@ public sealed class EventLogConstructionTests
                     {
                         Type type = typeof(EventLog).Assembly.GetType(name)!;
                         using var fixture = new OrderingRecording.Fixture(type);
-                        if (mapped == 1) StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!), value => { value.Day = 7; value.CurrentPlayer = unchecked((sbyte)200); });
+                        if (mapped == 1) StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Day = 7; value.CurrentPlayer = unchecked((sbyte)200); });
                         var owner = owned == 1 ? new EventListOwner() : null;
                         EventLog? value = null;
                         string state;
@@ -127,8 +126,8 @@ public sealed class EventLogConstructionTests
                         catch (Exception error) when (error is not XunitException) { state = error.GetType().FullName + ":" + error.Message; }
                         Assert.NotNull(value);
                         actual.Add(name + $".map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, RefCount = (value ?? owner?.Last)?.RefCount }));
-                        GameTables.GameEngine.Dictionary = fixture.Dictionary;
-                        StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
+                        EngineFixture.Engine.Dictionary = fixture.Dictionary;
+                        StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
                         if (owner is not null) value?.AddRef();
                         value?.Dispose();
                         owner?.Dispose();

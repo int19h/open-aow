@@ -7,9 +7,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class FireProtectionEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1054
-    public FireProtectionEnchantment(ECustomNode owner) : base(owner)
+    public FireProtectionEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(FireProtectionText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), FireProtectionText);
         AbilityId = 167;
     }
 
@@ -21,7 +22,7 @@ public partial class FireProtectionEnchantment : UnitEnchantmentAbility
         var unitEnchantmentAbilityData = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
         if (unitEnchantmentAbilityData.Enchantment.Source == -2)
         {
-            result = AbilityRules.TranslateResourceString(GameText.FireMasteryText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.FireMasteryText);
         }
         else
         {

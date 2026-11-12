@@ -38,7 +38,7 @@ public partial class AirNode : ProductionPlace
         // AirNode.pas:27
 
         // AirNode.pas:52
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_airNodeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_airNodeText);
 
         private static readonly string s_airNodeText = "Air Node";
 

@@ -10,9 +10,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class DivineStormSpell : StormSpell
 {
     // Storms.pas:954
-    public DivineStormSpell(ECustomNode owner) : base(owner)
+    public DivineStormSpell(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameTables.DivineStormText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameTables.DivineStormText);
         SpellId = 6;
         BaseManaCost = 5;
         SpellLevel = 4;
@@ -20,5 +21,5 @@ public partial class DivineStormSpell : StormSpell
     }
 
     // Storms.pas:964
-    public override Storm CreateStorm() => new DivineStorm(null);
+    public override Storm CreateStorm() => new DivineStorm(null) { Holder = CreationHolder() };
 }

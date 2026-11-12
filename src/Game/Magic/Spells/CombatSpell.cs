@@ -34,7 +34,7 @@ public partial class CombatSpell : Spell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         CombatSpellCombatAction action;
-        action = new CombatSpellCombatAction(null);
+        action = new CombatSpellCombatAction(null) { Holder = CreationHolder() };
         action.SpellId = SpellId;
         action.Generate(source, target, CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, DamageMode);
         if (chargeMana)
@@ -140,7 +140,7 @@ public partial class CombatSpell : Spell
                     FastBattleGetDamageValues(commands.Source, target, wallSituation, ref values);
                     if (values.SourceDamage != 0)
                     {
-                        command = new FastBattleSpellCommand(52);
+                        command = new FastBattleSpellCommand(52, creator: this);
                         command.Target = commands.TargetSide.GetObjects(I);
                         command.MoveCost = 1;
                         command.SpellId = SpellId;

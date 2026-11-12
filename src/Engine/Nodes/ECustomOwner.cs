@@ -28,8 +28,8 @@ public partial class ECustomOwner : ENode
     private GameEngine _engine;
     private Set<ControlStyleElement> _controlStyle;
 
-    // Engine.pas:8262
-    public override GameEngine GetEngine() => _engine;
+    // Engine.pas:8262. Before the activation message the node reaches the engine as any node does.
+    public override GameEngine GetEngine() => _engine ?? base.GetEngine();
 
     // Engine.pas:8267
     public void SetEngine(GameEngine engine)

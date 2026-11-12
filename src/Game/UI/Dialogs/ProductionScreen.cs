@@ -581,7 +581,7 @@ public partial class ProductionScreen : UIModule
         }
 
         FreePreview();
-        generator = new RandomBattleMapGenerator();
+        generator = new RandomBattleMapGenerator(UI.Engine);
         var hexLevel = _place.GetHexLevel();
         var hexY = _place.GetHexY();
         _preview = generator.RandomMap(null, _place.GetHexX(), hexY, hexLevel);

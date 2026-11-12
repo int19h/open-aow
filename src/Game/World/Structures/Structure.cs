@@ -629,7 +629,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1130
-    public virtual StructureTokenEvent CreateTokenEvent() => new StructureTokenEvent(null);
+    public virtual StructureTokenEvent CreateTokenEvent() => new StructureTokenEvent(null) { Holder = CreationHolder() };
 
     // Structur.PAS:1135
     public virtual void SetupTokenEvent(StructureTokenEvent tokenEvent)
@@ -746,7 +746,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
             DestroyShadow();
         }
 
-        _shadow = new StructureShadow(null);
+        _shadow = new StructureShadow(null) { Holder = CreationHolder() };
         _shadow.Structure = this;
         _shadow.Connect();
     }
@@ -779,17 +779,17 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     public virtual void BuildingDone()
     {
         LocationTextEventLog log;
-        log = new LocationTextEventLog(null);
+        log = new LocationTextEventLog(null) { Holder = CreationHolder() };
         log._player = BuildingPlayer;
         if (GetRazed())
         {
             var editName = EditName();
-            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_structureRebuiltFormat), [editName]);
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_structureRebuiltFormat), [editName]);
         }
         else
         {
             var editName = EditName();
-            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_structureBuiltFormat), [editName]);
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_structureBuiltFormat), [editName]);
         }
 
         var hexLevel = GetHexLevel();
@@ -879,9 +879,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         UnitList placed;
         UnitList attackers;
         Troop troop;
-        defenders = new UnitList(null);
-        placed = new UnitUserList(null);
-        attackers = new UnitUserList(null);
+        defenders = new UnitList(null) { Holder = CreationHolder() };
+        placed = new UnitUserList(null) { Holder = CreationHolder() };
+        attackers = new UnitUserList(null) { Holder = CreationHolder() };
         GenerateRazeDefenders(player, defenders);
         if (defenders.Count != 0)
         {
@@ -919,10 +919,10 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         if (CanRaze(player, ref reason))
         {
             BeginUpdate();
-            log = new LocationTextEventLog(null);
+            log = new LocationTextEventLog(null) { Holder = CreationHolder() };
             log._player = player;
             var editName = EditName();
-            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_structureRazedFormat), [editName]);
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_structureRazedFormat), [editName]);
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
             log.SetLocation(GetHexX(), hexY, hexLevel);
@@ -932,7 +932,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
             log.Release();
             if (_resource.ImageSequenceList.GetImageSequence(20) != null)
             {
-                animation = new ImageSequenceAnimation(null);
+                animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(_resource.ImageSequenceList.GetImageSequence(20));
                 animation.SetPixelXOffset(animation.PixelXOffset - 16);
                 animation.SetPixelYOffset(animation.PixelYOffset - 16);
@@ -945,7 +945,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
 
             if (_resource.ImageSequenceList.GetImageSequence(21) != null)
             {
-                animation = new ImageSequenceAnimation(null);
+                animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(_resource.ImageSequenceList.GetImageSequence(21));
                 animation.FrameCount = 300;
                 animation.SetPixelXOffset(animation.PixelXOffset - 16);
@@ -989,7 +989,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
             var hexX = GetHexX();
             var hexY = GetHexY();
             var hexLevel = GetHexLevel();
-            messages.Add(AbilityRules.Format(AbilityRules.TranslateResourceString(s_atLocationFormat), [editName, "(" + IntToStr(hexX) + ", " + IntToStr(hexY) + ", " + IntToStr(hexLevel) + ")"]));
+            messages.Add(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_atLocationFormat), [editName, "(" + IntToStr(hexX) + ", " + IntToStr(hexY) + ", " + IntToStr(hexLevel) + ")"]));
             for (int I = 0, last = errors.Count - 1; I <= last; I++)
             {
                 messages.Add("  " + errors[I]);
@@ -1130,7 +1130,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                 }
                 else
                 {
-                    reason = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
+                    reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughGoldText);
                     result = false;
                 }
             }
@@ -1181,13 +1181,13 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         {
             if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
-                log = new RazeStructureEventLog(null);
+                log = new RazeStructureEventLog(null, holder: CreationHolder());
                 log.Structure = this;
                 log.Buttons = MessageEventLogButtons.YesNo;
-                log.Title = AbilityRules.TranslateResourceString(GameText.WarningText);
-                var razeStructureWarning = AbilityRules.TranslateResourceString(s_razeStructureWarningText);
+                log.Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText);
+                var razeStructureWarning = AbilityRules.TranslateResourceString(GetEngine(), s_razeStructureWarningText);
                 log.Message.Add(razeStructureWarning);
-                var translatedText = AbilityRules.TranslateResourceString(s_doYouWishToContinueText);
+                var translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWishToContinueText);
                 log.Message.Add(translatedText);
                 log.Execute(true, ExecuteTrigger.User, null);
                 log.Release();
@@ -1215,9 +1215,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         UnitList units;
         if (!GetRazed() && GetRazeable())
         {
-            predictor = new CombatPredictor();
-            defenders = new UnitList(null);
-            units = new UnitUserList(null);
+            predictor = new CombatPredictor(this);
+            defenders = new UnitList(null) { Holder = CreationHolder() };
+            units = new UnitUserList(null) { Holder = CreationHolder() };
             ListUnits(units);
             for (int I = 0, last = units.Count - 1; I <= last; I++)
             {
@@ -1238,7 +1238,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
             result = Set<byte>.WithBounds(0, 255).With(3).With(4).With(6).Contains(predictor.Result) && predictor.GetSuperiority() > 50;
             if (!result)
             {
-                reason = AbilityRules.TranslateResourceString(s_notEnoughForcesText);
+                reason = AbilityRules.TranslateResourceString(GetEngine(), s_notEnoughForcesText);
             }
 
             defenders?.Dispose();
@@ -1435,7 +1435,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1795
     public void ShowRazeAnimation(Animation animation, int X, int Y, in LockedSurface lockedSurface)
     {
-        if (((ImageSequenceAnimation)animation).ImageSequence.GetUnloopedFrameIndex(animation.FrameCounter) == 0 && GameTables.GameEngine.AnimationDetail != (byte)DetailLevel.Low)
+        if (((ImageSequenceAnimation)animation).ImageSequence.GetUnloopedFrameIndex(animation.FrameCounter) == 0 && GetEngine().AnimationDetail != (byte)DetailLevel.Low)
         {
             var random = Random(2);
             AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);

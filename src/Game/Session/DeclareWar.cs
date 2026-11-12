@@ -17,9 +17,9 @@ public sealed partial record DeclareWar : DiplomaticProposal
 
     public override int Icon => 9;
 
-    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(GameText.DeclareWarText);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), GameText.DeclareWarText);
 
-    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(GameTables.WarText);
+    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), GameTables.WarText);
 
     public override int MiddleIcon(DiplomaticAction action) => 0x15;
 
@@ -33,7 +33,7 @@ public sealed partial record DeclareWar : DiplomaticProposal
         StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.War);
         if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
-            var warDeclared = AbilityRules.TranslateResourceString(s_warDeclaredText);
+            var warDeclared = AbilityRules.TranslateResourceString(action.GetEngine(), s_warDeclaredText);
             StrategicMap.Current.ShowMessage(warDeclared);
         }
 

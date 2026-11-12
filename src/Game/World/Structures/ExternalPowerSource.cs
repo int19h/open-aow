@@ -16,7 +16,7 @@ public partial class ExternalPowerSource : PowerSource
     public PlayerMagicControl ExternalPowerControl { get; set; }
 
     // Spells.PAS:1835
-    public override string Name() => AbilityRules.TranslateResourceString(s_externalPowerText);
+    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), s_externalPowerText);
 
     // Engine.pas:524
     public override int Power() => ExternalPowerControl.ExternalPower;

@@ -29,7 +29,7 @@ public partial class Spell : EngineObject
     public Spell(ECustomNode owner) : base(owner)
     {
         SpellText = new StringList();
-        CastSounds = new SfxLibrary(null);
+        CastSounds = new SfxLibrary(null) { Holder = CreationHolder() };
         CastImages = new ImageSequenceList(GamePack.Current.ImageLibraryManager, null);
         ResearchCost = 1;
         SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
@@ -84,7 +84,7 @@ public partial class Spell : EngineObject
             StrategicMap.Current.ValidateObservation(player, X, Y, layer, 0);
             if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) != null)
             {
-                animation = new ImageSequenceAnimation(null);
+                animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
                 StrategicMap.Current.PlaceHex(animation, X, Y, layer);
             }
@@ -118,7 +118,7 @@ public partial class Spell : EngineObject
         {
             if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
-                messageText = AbilityRules.TranslateResourceString(GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
+                messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
                 result = false;
             }
             else
@@ -141,7 +141,7 @@ public partial class Spell : EngineObject
         {
             if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
-                messageText = AbilityRules.TranslateResourceString(GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
+                messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
                 result = false;
             }
             else
@@ -202,7 +202,7 @@ public partial class Spell : EngineObject
         string reason = "";
         if (CanActivateCombat(source, ref reason))
         {
-            caster = new CombatSpellCaster(null);
+            caster = new CombatSpellCaster(null) { Holder = CreationHolder() };
             caster.CombatCasterSpellId = SpellId;
             caster.CombatCasterSourceId = source.UnitId;
             StrategicMap.Current.CombatMap.CombatStartedEventsStore.Raise(caster);
@@ -339,7 +339,7 @@ public partial class Spell : EngineObject
 
     public virtual AICastSpellAction CreateCastSpellAction()
     {
-        var action = new AICastSpellAction(null);
+        var action = new AICastSpellAction(null) { Holder = CreationHolder() };
         // TEObject.Create only calls SetOwner. It bypasses descendant constructor bodies.
         try { action.SetOwner(null); } catch { action.Dispose(); throw; }
         return action;

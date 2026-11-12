@@ -43,7 +43,7 @@ public partial class CosmeticSurgeryEnchantment : UnitEnchantment
         source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         // { Original supplies an argument to the unformatted 'Cosmagic Surgery' text. }
         var name = source.GetName();
-        return AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.CosmeticSurgeryText), [name]);
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CosmeticSurgeryText), [name]);
     }
 
     // intf_P4_02.inc:846

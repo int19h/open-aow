@@ -9,9 +9,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class MarksmanshipAbility : MultiLevelAbility
 {
     // PassiveAb.pas:1384
-    public MarksmanshipAbility(ECustomNode owner) : base(owner)
+    public MarksmanshipAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(s_marksmanshipText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText);
         AbilityType = AbilityType.Enhancement;
         AbilityId = 32;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
@@ -29,19 +30,19 @@ public partial class MarksmanshipAbility : MultiLevelAbility
         switch (level)
         {
             case 0:
-                result = AbilityRules.TranslateResourceString(s_marksmanshipText);
+                result = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText);
                 break;
             case 1:
-                result = AbilityRules.TranslateResourceString(s_marksmanshipText) + " I";
+                result = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText) + " I";
                 break;
             case 2:
-                result = AbilityRules.TranslateResourceString(s_marksmanshipText) + " II";
+                result = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText) + " II";
                 break;
             case 3:
-                result = AbilityRules.TranslateResourceString(s_marksmanshipText) + " III";
+                result = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText) + " III";
                 break;
             case 4:
-                result = AbilityRules.TranslateResourceString(s_marksmanshipText) + " IV";
+                result = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText) + " IV";
                 break;
         }
 

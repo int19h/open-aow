@@ -10,9 +10,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class FireStormSpell : StormSpell
 {
     // Storms.pas:939
-    public FireStormSpell(ECustomNode owner) : base(owner)
+    public FireStormSpell(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameTables.FireStormText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameTables.FireStormText);
         SpellId = 3;
         BaseManaCost = 5;
         SpellLevel = 4;
@@ -20,5 +21,5 @@ public partial class FireStormSpell : StormSpell
     }
 
     // Storms.pas:949
-    public override Storm CreateStorm() => new FireStorm(null);
+    public override Storm CreateStorm() => new FireStorm(null) { Holder = CreationHolder() };
 }

@@ -5,8 +5,6 @@ using Aow.Engine.Storage;
 
 using Aow.Game.Draw;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
@@ -88,7 +86,7 @@ public partial class MultiTargetCombatSpellCombatAction : CombatAction
         if (objectValue.Id == SourceId)
         {
             var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
-            GameTables.GameEngine.CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
+            GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
         }
         else
         {
@@ -107,7 +105,7 @@ public partial class MultiTargetCombatSpellCombatAction : CombatAction
         if (objectValue.Id == SourceId)
         {
             var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
-            GameTables.GameEngine.CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
+            GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
         }
         else
         {

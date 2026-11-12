@@ -9,9 +9,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class HolyFear : DurationAbility
 {
     // PassiveAb.pas:816
-    public HolyFear(ECustomNode owner) : base(owner)
+    public HolyFear(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(s_holyFearText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_holyFearText);
         AbilityId = 53;
         AbilityType = AbilityType.Handicap;
         SelectionTypes = Set<AbilitySelectionType>.Of();
@@ -26,7 +27,7 @@ public partial class HolyFear : DurationAbility
         var durationAbilityData = (DurationAbilityData)owner.GetAbilityData(AbilityId);
         if (durationAbilityData.Source == 1)
         {
-            result = AbilityRules.TranslateResourceString(GameText.LifeMasteryText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.LifeMasteryText);
         }
         else
         {

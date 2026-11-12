@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Concealment : UnitSpell
 {
     // UnitSpells.pas:577
-    public Concealment(ECustomNode owner) : base(owner)
+    public Concealment(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.ConcealmentText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.ConcealmentText);
         SpellId = 39;
         BaseManaCost = 5;
         SpellLevel = 3;

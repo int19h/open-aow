@@ -16,8 +16,8 @@ public partial class TowerConstructionControl : StructureConstructionControl
     // Tower.pas:139
     public override void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
-        var tower = AbilityRules.TranslateResourceString(GameText.TowerText);
-        text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.BuildFormat), [tower]);
+        var tower = AbilityRules.TranslateResourceString(GetEngine(), GameText.TowerText);
+        text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.BuildFormat), [tower]);
         gold = 50;
         days = 2;
     }
@@ -37,8 +37,8 @@ public partial class TowerConstructionControl : StructureConstructionControl
         else
         {
             result = false;
-            var tower = AbilityRules.TranslateResourceString(GameText.TowerText);
-            reason = RtlUnit.Format(AbilityRules.TranslateResourceString(s_cannotBuildInUndergroundFormat), [tower]);
+            var tower = AbilityRules.TranslateResourceString(GetEngine(), GameText.TowerText);
+            reason = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cannotBuildInUndergroundFormat), [tower]);
         }
 
         return result;

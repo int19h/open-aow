@@ -53,7 +53,7 @@ public partial class TokenPackageDistributor
     public virtual void SendTokenEvents(int player, int receiver, TokenEventList events)
     {
         TokenPackage tp;
-        tp = new TokenPackage(null);
+        tp = new TokenPackage(null) { Holder = Pc };
         tp.TokenEvents.Assign(events, null);
         Pc.SendDataPackage(tp, player, receiver);
         tp.Release();

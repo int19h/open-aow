@@ -149,7 +149,7 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
         public override int ResourceUserClassId() => 131434;
 
         // Mountain.pas:252
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_raisedMountainText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_raisedMountainText);
 
         private static readonly string s_raisedMountainText = "Raised Mountain";
 

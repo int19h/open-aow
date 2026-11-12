@@ -26,7 +26,7 @@ public partial class Arena : Structure
     public new const int ClassId = 133276;
 
     // Arena.pas:212
-    public override StructureTokenEvent CreateTokenEvent() => new ArenaTokenEvent(null);
+    public override StructureTokenEvent CreateTokenEvent() => new ArenaTokenEvent(null) { Holder = CreationHolder() };
 
     // Arena.pas:135
     public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
@@ -56,12 +56,12 @@ public partial class Arena : Structure
                     var arenaTokenEvent = (ArenaTokenEvent)tokenEvent;
                     if (arenaTokenEvent.UnitIds.Count == 1)
                     {
-                        var oneUnitTrained = AbilityRules.TranslateResourceString(s_oneUnitTrainedText);
+                        var oneUnitTrained = AbilityRules.TranslateResourceString(GetEngine(), s_oneUnitTrainedText);
                         StrategicMap.Current.ShowMessage(oneUnitTrained);
                     }
                     else
                     {
-                        var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_unitsTrainedFormat), [IntToStr(arenaTokenEvent.UnitIds.Count)]);
+                        var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_unitsTrainedFormat), [IntToStr(arenaTokenEvent.UnitIds.Count)]);
                         StrategicMap.Current.ShowMessage(format);
                     }
                 }
@@ -169,14 +169,14 @@ public partial class Arena : Structure
                 else
                 {
                     result = false;
-                    errorText = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
+                    errorText = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughGoldText);
                 }
             }
         }
         else
         {
             result = false;
-            errorText = AbilityRules.TranslateResourceString(GameText.NoUnitSelectedText);
+            errorText = AbilityRules.TranslateResourceString(GetEngine(), GameText.NoUnitSelectedText);
         }
 
         return result;
@@ -233,7 +233,7 @@ public partial class Arena : Structure
         ArmyHexSprite army;
         if (CanEnter(StrategicMap.Current.SeatedPlayer))
         {
-            log = new EnterArenaEventLog(null);
+            log = new EnterArenaEventLog(null) { Holder = CreationHolder() };
             log.Arena = this;
             army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
             for (int I = 0, last = army.Army.Count - 1; I <= last; I++)
@@ -279,7 +279,7 @@ public partial class Arena : Structure
         // Arena.pas:45
 
         // Arena.pas:250
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_arenaText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_arenaText);
 
         private static readonly string s_arenaText = "Arena";
 

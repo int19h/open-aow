@@ -37,7 +37,7 @@ public partial class EarthNode : ProductionPlace
         // EarthNode.pas:26
 
         // EarthNode.pas:50
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_earthNodeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_earthNodeText);
 
         private static readonly string s_earthNodeText = "Earth Node";
 

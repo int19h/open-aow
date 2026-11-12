@@ -27,8 +27,8 @@ public partial class AIGroupProductionControl : AIGroupTask
     // AIGroup.pas:2440
     public AIGroupProductionControl(ECustomNode owner) : base(owner)
     {
-        Productions = new AIGroupUnitProductionList(null);
-        _producibleUnits = new AIGroupUnitProductionList(null);
+        Productions = new AIGroupUnitProductionList(null) { Holder = CreationHolder() };
+        _producibleUnits = new AIGroupUnitProductionList(null) { Holder = CreationHolder() };
     }
 
     private AIGroupControl _control;
@@ -146,7 +146,7 @@ public partial class AIGroupProductionControl : AIGroupTask
                 {
                     for (int I = 0, last = _control.Group.Productions.Count - 1; I <= last; I++)
                     {
-                        production = new AIGroupUnitProduction(null);
+                        production = new AIGroupUnitProduction(null) { Holder = CreationHolder() };
                         production.SetU(_control.Group.Productions.GetProductions(I).Control.Settings.Unit);
                         if (production.Unit != null)
                         {
@@ -241,7 +241,7 @@ public partial class AIGroupProductionControl : AIGroupTask
 
         if (useful)
         {
-            result += RosterTables.GetUnitIndexAIPriority(unit.UnitResource.UnitResourceIndex(), _control.Group.Player, _control.Group.IndependentRelation);
+            result += RosterTables.GetUnitIndexAIPriority(unit.UnitResource.UnitResourceIndex(), _control.Group.Player, _control.Group.IndependentRelation, engine: GetEngine());
         }
         else
         {
@@ -437,7 +437,7 @@ public partial class AIGroupProductionControl : AIGroupTask
         bool result = false;
         if (location.ProductionControl.Status == ProductionControlStatus.Idle)
         {
-            testUnit = new Unit(null);
+            testUnit = new Unit(null) { Holder = CreationHolder() };
             for (int I = 0, last = location.ProductionControl.UnitProductions.Count - 1; I <= last; I++)
             {
                 if (location.ProductionControl.UnitProductions.GetItem(I).UnitIndex != -1)
@@ -455,10 +455,10 @@ public partial class AIGroupProductionControl : AIGroupTask
                             priority = UnitProductionPriority(testUnit);
                             if (priority != -1)
                             {
-                                newUnit = new Unit(null);
+                                newUnit = new Unit(null) { Holder = CreationHolder() };
                                 var fUnitProductionsItem = location.ProductionControl.UnitProductions.GetItem(I);
                                 newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(fUnitProductionsItem.UnitIndex));
-                                production = new AIGroupUnitProduction(null);
+                                production = new AIGroupUnitProduction(null) { Holder = CreationHolder() };
                                 production.SetU(newUnit);
                                 production.Gold = location.ProductionControl.UnitProductionGold(I);
                                 production.Mana = location.ProductionControl.UnitProductionMana(I);
@@ -488,10 +488,10 @@ public partial class AIGroupProductionControl : AIGroupTask
                                 priority = UnitProductionPriority(testUnit);
                                 if (priority != -1)
                                 {
-                                    newUnit = new Unit(null);
+                                    newUnit = new Unit(null) { Holder = CreationHolder() };
                                     var fUnitProductionsItem = location.ProductionControl.UnitProductions.GetItem(I);
                                     newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(fUnitProductionsItem.UnitIndex));
-                                    production = new AIGroupUnitProduction(null);
+                                    production = new AIGroupUnitProduction(null) { Holder = CreationHolder() };
                                     production.SetU(newUnit);
                                     production.Gold = location.ProductionControl.UnitResearchGold(I);
                                     production.Mana = location.ProductionControl.UnitResearchMana(I);

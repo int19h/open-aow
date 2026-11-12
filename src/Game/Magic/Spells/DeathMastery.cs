@@ -16,10 +16,11 @@ namespace Aow.Game.Magic.Spells;
 public partial class DeathMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1577
-    public DeathMastery(ECustomNode owner) : base(owner)
+    public DeathMastery(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         SpellType = SpellType.Global;
-        SpellName = AbilityRules.TranslateResourceString(GameText.DeathMasteryText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.DeathMasteryText);
         SpellId = 62;
         BaseManaCost = 1;
         SpellLevel = 4;
@@ -39,7 +40,7 @@ public partial class DeathMastery : GlobalEnchantmentSpell
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Death);
         source.GetLocation(out X, out Y, out L);
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
-        var animation = new Animation(null);
+        var animation = new Animation(null) { Holder = CreationHolder() };
         animation.AnimationLevel = 28;
         animation.OnShow += ShowAnimation;
         animation.AnimationMap = StrategicMap.Current;
@@ -52,7 +53,7 @@ public partial class DeathMastery : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:1590
-    public override GlobalEnchantment CreateEnchantment() => new DeathMasteryEnchantment(null);
+    public override GlobalEnchantment CreateEnchantment() => new DeathMasteryEnchantment(null, holder: CreationHolder());
 
     // GlobalEnchantmentSpells.pas:1593
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -64,7 +65,7 @@ public partial class DeathMastery : GlobalEnchantmentSpell
         int D;
         int image;
         RandSeed = StrategicMap.Current.Frame - animation.FrameCounter;
-        switch (GameTables.GameEngine.AnimationDetail)
+        switch (GetEngine().AnimationDetail)
         {
             case 0:
                 count = 5;

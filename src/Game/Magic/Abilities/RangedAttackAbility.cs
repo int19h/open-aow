@@ -312,7 +312,7 @@ public partial class RangedAttackAbility : AdjustableAbility
     public RangedAttackCombatAction CreateRangedAttackCombatAction(CombatObject source, CombatObject target, int attackPenalty)
     {
         RangedAttackCombatAction action;
-        action = new RangedAttackCombatAction(null);
+        action = new RangedAttackCombatAction(null) { Holder = CreationHolder() };
         var damageRangedAttack = GetDamageRangedAttack(source.GetAbilityOwner());
         var damageTypesRangedAttack = GetDamageTypesRangedAttack(source.GetAbilityOwner());
         action.Generate(source, target, (sbyte)(GetAttackRangedAttack(source.GetAbilityOwner()) - attackPenalty), damageRangedAttack, damageTypesRangedAttack);

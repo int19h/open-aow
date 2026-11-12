@@ -116,7 +116,7 @@ public partial class ArmyCombatMoveTokenEvent
                 DistributeCombatEvent(combat.Logbook, true);
                 if (StrategicMap.Current.RequestCombatType && StrategicMap.Current.SeatedPlayer == defender)
                 {
-                    log = new UserEventLog(null);
+                    log = new UserEventLog(null) { Holder = CreationHolder() };
                     log.Data = this;
                     StrategicMap.Current.TriggerExecuteEventLog(log, false, RestoreHotSeatModeCallback);
                     log.Release();
@@ -137,7 +137,7 @@ public partial class ArmyCombatMoveTokenEvent
 
             if (condition)
             {
-                animation = new ImageSequenceAnimation(null);
+                animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(GamePack.Current.ImageSequences.ImageSequences[22]);
                 var item3 = Path[0];
                 var item4 = Path[0];
@@ -158,7 +158,7 @@ public partial class ArmyCombatMoveTokenEvent
             {
                 ArmyHexSprite.CancelMove();
                 ArmyHexSprite.Army.BeginUpdate();
-                armyHexSprite = new ArmyHexSprite(null);
+                armyHexSprite = new ArmyHexSprite(null) { Holder = CreationHolder() };
                 armyHexSprite.Army.BeginUpdate();
                 armyHexSprite.Army.AssignSettings(ArmyHexSprite.Army);
                 armyHexSprite.Direction = ArmyHexSprite.Direction;

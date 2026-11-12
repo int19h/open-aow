@@ -16,9 +16,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class EarthMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1877
-    public EarthMastery(ECustomNode owner) : base(owner)
+    public EarthMastery(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.EarthMasteryText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.EarthMasteryText);
         SpellId = 64;
         SpellType = SpellType.Global;
         BaseManaCost = 1;
@@ -45,7 +46,7 @@ public partial class EarthMastery : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:1932
-    public override GlobalEnchantment CreateEnchantment() => new EarthMasteryEnchantment(null);
+    public override GlobalEnchantment CreateEnchantment() => new EarthMasteryEnchantment(null, holder: CreationHolder());
 
     // GlobalEnchantmentSpells.pas:1890
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

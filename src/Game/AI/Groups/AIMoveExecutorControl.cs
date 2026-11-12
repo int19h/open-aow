@@ -23,7 +23,7 @@ public partial class AIMoveExecutorControl : EngineObject
     // AIGroup.pas:4726
     public AIMoveExecutorControl(ECustomNode owner) : base(owner)
     {
-        MoveControl = new AIMoveControl(null);
+        MoveControl = new AIMoveControl(null) { Holder = CreationHolder() };
     }
 
     public AIMoveControl MoveControl { get; }
@@ -52,7 +52,7 @@ public partial class AIMoveExecutorControl : EngineObject
         HexNumberWalkData walk = default;
         move = null;
         army.RetrieveArmy(selection, out armyHexSprite, out armySelection);
-        settings = new MoveControlSettings(null);
+        settings = new MoveControlSettings(null) { Holder = CreationHolder() };
         if (mode.Contains(CreateMoveModeElement.SurroundNearest))
         {
             settings.MovePointsMax = army.MovePoints(255);
@@ -145,7 +145,7 @@ public partial class AIMoveExecutorControl : EngineObject
 
                 if (position < settings.Path.Count - 1)
                 {
-                    move = new AIMoveExecutorMove(null);
+                    move = new AIMoveExecutorMove(null) { Holder = CreationHolder() };
                     move.AddUnits(army, selection);
                     for (int I = position, last = settings.Path.Count - 1; I <= last; I++)
                     {

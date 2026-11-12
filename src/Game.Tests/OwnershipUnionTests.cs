@@ -44,7 +44,7 @@ public sealed class OwnershipUnionTests
     {
         var engine = new GameEngine(null!);
         var map = new GameMap(engine);
-        var set = new GamePack(null!);
+        var set = new GamePack(null!, holder: EngineFixture.Engine);
         try
         {
             IChildSink<GameEngineChild> sink = engine;
@@ -69,8 +69,8 @@ public sealed class OwnershipUnionTests
     public void EngineRefusesAnotherChildAtEveryWrite()
     {
         var engine = new GameEngine(null!);
-        var stranger = new ENode(null!);
-        var container = new MapContainer(null!);
+        var stranger = new ENode(null!) { Holder = EngineFixture.Engine };
+        var container = new MapContainer(null!) { Holder = EngineFixture.Engine };
         try
         {
             int count = engine.Count;
@@ -91,10 +91,10 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void SetChildrenAreResourceListsTerrainControlsAndControlObjects()
     {
-        var set = new GamePack(null!);
-        var units = new UnitResourceList(null!);
-        var stranger = new ENode(null!);
-        var tokenEvent = new TokenEvent(null!);
+        var set = new GamePack(null!, holder: EngineFixture.Engine);
+        var units = new UnitResourceList(null!) { Holder = EngineFixture.Engine };
+        var stranger = new ENode(null!) { Holder = EngineFixture.Engine };
+        var tokenEvent = new TokenEvent(null!) { Holder = EngineFixture.Engine };
         try
         {
             // The engine part of the constructor makes the hexagon and road controls, the map object
@@ -131,10 +131,10 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void MapPartsTakeTheirOwnTypeOfOwnerOnly()
     {
-        var map = new GameMap(null!);
+        var map = new GameMap(null!) { Holder = EngineFixture.Engine };
         var container = new MapContainer(map);
         var level = new MapLevel(container);
-        var stranger = new ENode(null!);
+        var stranger = new ENode(null!) { Holder = EngineFixture.Engine };
         try
         {
             Assert.Same(map, container.Owner);
@@ -168,10 +168,10 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void SortedListAndSelectionTakeSpritesOnly()
     {
-        var map = new GameMap(null!);
-        var stranger = new ENode(null!);
-        var first = new HexSprite(null!);
-        var second = new HexSprite(null!);
+        var map = new GameMap(null!) { Holder = EngineFixture.Engine };
+        var stranger = new ENode(null!) { Holder = EngineFixture.Engine };
+        var first = new HexSprite(null!) { Holder = EngineFixture.Engine };
+        var second = new HexSprite(null!) { Holder = EngineFixture.Engine };
         var list = map.DynamicFixedVisibleHexSprite;
         try
         {
@@ -201,14 +201,14 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void ResourceAndSoundListsTakeTheirOwnKindOnly()
     {
-        var units = new UnitResourceList(null!);
-        var resources = new EResourceList(null!);
-        var library = new SfxLibrary(null!);
-        var sequence = new SfxSequence(null!);
-        var pools = new PlayerStructureList(null!);
-        var face = new FaceResource(null!);
-        var sound = new Sfx(null!);
-        var stranger = new ENode(null!);
+        var units = new UnitResourceList(null!) { Holder = EngineFixture.Engine };
+        var resources = new EResourceList(null!) { Holder = EngineFixture.Engine };
+        var library = new SfxLibrary(null!) { Holder = EngineFixture.Engine };
+        var sequence = new SfxSequence(null!) { Holder = EngineFixture.Engine };
+        var pools = new PlayerStructureList(null!) { Holder = EngineFixture.Engine };
+        var face = new FaceResource(null!) { Holder = EngineFixture.Engine };
+        var sound = new Sfx(null!) { Holder = EngineFixture.Engine };
+        var stranger = new ENode(null!) { Holder = EngineFixture.Engine };
         try
         {
             var error = Assert.Throws<ArgumentException>(() => units.AddChild(face));
@@ -246,7 +246,7 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void RegisteredIncomeSourceCountsOnce()
     {
-        var player = new Player(null!);
+        var player = new Player(null!) { Holder = EngineFixture.Engine };
         var source = new FixedIncome();
         player.RegisterIncomeSource(source);
         player.RegisterIncomeSource(source);
@@ -259,17 +259,17 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void InsertedTokenEventKeepsItsPlaceAndTakesAReference()
     {
-        var events = new TokenEventList(null!);
-        var first = new TokenEvent(null!);
-        var second = new TokenEvent(null!);
-        var inserted = new TokenEvent(null!);
+        var events = new TokenEventList(null!) { Holder = EngineFixture.Engine };
+        var first = new TokenEvent(null!) { Holder = EngineFixture.Engine };
+        var second = new TokenEvent(null!) { Holder = EngineFixture.Engine };
+        var inserted = new TokenEvent(null!) { Holder = EngineFixture.Engine };
         events.Add(first);
         events.Add(second);
         events.Insert(1, inserted);
         Assert.Equal(new[] { first, inserted, second }, Enumerable.Range(0, events.Count).Select(index => events[index]));
         Assert.Equal(2, inserted.RefCount);
-        var budgets = new AIBudgetList(null!);
-        var stranger = new ENode(null!);
+        var budgets = new AIBudgetList(null!) { Holder = EngineFixture.Engine };
+        var stranger = new ENode(null!) { Holder = EngineFixture.Engine };
         Assert.Throws<ArgumentException>(() => budgets.InsertChild(0, stranger));
         Assert.Equal(0, budgets.Count);
         stranger.Dispose();

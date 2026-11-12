@@ -45,7 +45,7 @@ public partial class PassiveAIGroup : AIGroup, IAIGroupClass
         Troop troop;
         location.Packed = GetLocation();
         bool result = false;
-        selector = new GroupDefenseSelector();
+        selector = new GroupDefenseSelector(this);
         selector.Execute(this, location.X, location.Y, location.MapLevel, units);
         if (selector.Defenders.Count != 0)
         {

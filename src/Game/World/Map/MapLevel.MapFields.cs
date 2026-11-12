@@ -27,7 +27,7 @@ public partial class MapLevel
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
             {
-                var field = (MapField)type.CreateInstance(this);
+                var field = (MapField)type.CreateInstance(this, holder: CreationHolder());
                 field.HexX = (sbyte)x;
                 field.HexY = (sbyte)y;
                 field.HexLevel = (sbyte)_hexLevel;

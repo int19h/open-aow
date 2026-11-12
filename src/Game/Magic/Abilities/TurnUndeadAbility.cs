@@ -19,11 +19,12 @@ namespace Aow.Game.Magic.Abilities;
 public partial class TurnUndeadAbility : TouchAbility
 {
     // AoWAb.PAS:3121
-    public TurnUndeadAbility(ECustomNode owner) : base(owner)
+    public TurnUndeadAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         AbilityId = 38;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
-        AbilityName = AbilityRules.TranslateResourceString(GameText.TurnUndeadText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText);
         AbilityType = AbilityType.Combat;
     }
 
@@ -124,7 +125,7 @@ public partial class TurnUndeadAbility : TouchAbility
         data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
         if (data == null)
         {
-            data = new MultiLevelAbilityData(null);
+            data = new MultiLevelAbilityData(null) { Holder = CreationHolder() };
             data.LevelAbilityId = (ushort)AbilityId;
             data.Level = 1;
             SetAbility(owner, AbilityId, 1);
@@ -345,19 +346,19 @@ public partial class TurnUndeadAbility : TouchAbility
         switch (level)
         {
             case 0:
-                result = AbilityRules.TranslateResourceString(GameText.TurnUndeadText);
+                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText);
                 break;
             case 1:
-                result = AbilityRules.TranslateResourceString(GameText.TurnUndeadText) + " I";
+                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText) + " I";
                 break;
             case 2:
-                result = AbilityRules.TranslateResourceString(GameText.TurnUndeadText) + " II";
+                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText) + " II";
                 break;
             case 3:
-                result = AbilityRules.TranslateResourceString(GameText.TurnUndeadText) + " III";
+                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText) + " III";
                 break;
             case 4:
-                result = AbilityRules.TranslateResourceString(GameText.TurnUndeadText) + " IV";
+                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText) + " IV";
                 break;
         }
 
@@ -396,7 +397,7 @@ public partial class TurnUndeadAbility : TouchAbility
         TurnUndeadCombatAction action;
         int level;
         // { These eliminated copies preserve the original saved registers. }
-        action = new TurnUndeadCombatAction(null);
+        action = new TurnUndeadCombatAction(null) { Holder = CreationHolder() };
         if (HitChance.HitRole(source.GetAttack() - target.GetDefense()))
         {
             level = source.GetAbilityLevel(AbilityId);

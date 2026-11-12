@@ -58,7 +58,7 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static (WeakReference Attacker, WeakReference Target) Target()
     {
-        using var owner = new ENode(null!);
+        using var owner = new ENode(null!) { Holder = EngineFixture.Engine };
         var attacker = new CombatObject(owner);
         var target = new CombatObject(owner);
         attacker.AddTarget(target, 5, 0, 2);
@@ -90,7 +90,7 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static WeakReference ShowParticle()
     {
-        var particle = new WorldEffectHexSprite(null!) { EffectType = WorldEffectType.EMParticle, Frame = 0 };
+        var particle = new WorldEffectHexSprite(null!) { Holder = EngineFixture.Engine, EffectType = WorldEffectType.EMParticle, Frame = 0 };
         particle.Path.Add(new Point3D { X = 1, Y = 2, Z = 3 });
         Runtime.Dialogs = null;
         particle.Show(0, 0, default);
@@ -101,7 +101,7 @@ public sealed class ObjectLifetimeTests
     public void DrawnEffectsAreCollectibleOnceDropped()
     {
         var control = GamePack.Current.SpellControl;
-        var spell = new EarthMastery(null!);
+        var spell = new EarthMastery(null!, holder: EngineFixture.Engine);
         WeakReference particle;
         control.RegisterSpell(spell);
         try

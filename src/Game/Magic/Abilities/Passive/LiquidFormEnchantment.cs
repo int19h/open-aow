@@ -10,9 +10,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class LiquidFormEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1357
-    public LiquidFormEnchantment(ECustomNode owner) : base(owner)
+    public LiquidFormEnchantment(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.LiquidFormText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.LiquidFormText);
         AbilityId = 166;
     }
 

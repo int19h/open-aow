@@ -461,8 +461,8 @@ public partial class Cave : Structure
                 {
                     var player = field.GetPlayer();
                     var playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
-                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
-                    messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.NoWarDeclaredFormat), [raceNamesPlural]);
+                    var raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
+                    messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.NoWarDeclaredFormat), [raceNamesPlural]);
                     StrategicMap.Current.ShowMessage(messageText);
                 }
 
@@ -491,9 +491,9 @@ public partial class Cave : Structure
             armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
             if (CanEnterSelection(armyHexSprite.Army) != armyHexSprite.Army.ValidateSelection(255))
             {
-                log = new EnterCaveEventLog(null);
+                log = new EnterCaveEventLog(null, holder: CreationHolder());
                 log.Cave = this;
-                var splitOnEnterCaveWarning = AbilityRules.TranslateResourceString(s_splitOnEnterCaveWarningText);
+                var splitOnEnterCaveWarning = AbilityRules.TranslateResourceString(GetEngine(), s_splitOnEnterCaveWarningText);
                 log.Message.Text = splitOnEnterCaveWarning;
                 log.Buttons = MessageEventLogButtons.YesNo;
                 log.Execute(true, ExecuteTrigger.User, null);
@@ -534,7 +534,7 @@ public partial class Cave : Structure
         // Cave.pas:49
 
         // Cave.pas:433
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_caveText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_caveText);
 
         private static readonly string s_caveText = "Cave";
 

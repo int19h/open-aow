@@ -16,9 +16,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class AirMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:688
-    public AirMastery(ECustomNode owner) : base(owner)
+    public AirMastery(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.AirMasteryText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.AirMasteryText);
         SpellId = 60;
         SpellType = SpellType.Global;
         BaseManaCost = 1;
@@ -40,7 +41,7 @@ public partial class AirMastery : GlobalEnchantmentSpell
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Air);
         source.GetLocation(out X, out Y, out L);
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
-        animation = new Animation(null);
+        animation = new Animation(null) { Holder = CreationHolder() };
         animation.AnimationLevel = 28;
         animation.OnShow += ShowAnimation;
         animation.AnimationMap = StrategicMap.Current;
@@ -52,7 +53,7 @@ public partial class AirMastery : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:747
-    public override GlobalEnchantment CreateEnchantment() => new AirMasteryEnchantment(null);
+    public override GlobalEnchantment CreateEnchantment() => new AirMasteryEnchantment(null, holder: CreationHolder());
 
     // GlobalEnchantmentSpells.pas:701
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -65,7 +66,7 @@ public partial class AirMastery : GlobalEnchantmentSpell
         if (StrategicMap.Current.ViewMapLevel == 0)
         {
             RandSeed = StrategicMap.Current.Frame - animation.FrameCounter;
-            switch ((int)GameTables.GameEngine.AnimationDetail)
+            switch ((int)GetEngine().AnimationDetail)
             {
                 case 0:
                     count = 5;

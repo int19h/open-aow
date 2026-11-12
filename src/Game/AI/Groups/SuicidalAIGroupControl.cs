@@ -57,7 +57,7 @@ public partial class SuicidalAIGroupControl : AIGroupControl
         switch (State)
         {
             case 0:
-                finder = new AIGroupTargetFinder(null);
+                finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                 finder.Setup(this);
                 finder.Selector.MovePointsMax = 100;
                 ActivatePlugin(finder);

@@ -7,9 +7,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class StoneSkinAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1029
-    public StoneSkinAbility(ECustomNode owner) : base(owner)
+    public StoneSkinAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.StoneSkinText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.StoneSkinText);
         AbilityId = 153;
     }
 
@@ -24,7 +25,7 @@ public partial class StoneSkinAbility : UnitEnchantmentAbility
         var unitEnchantmentAbilityData = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
         if (unitEnchantmentAbilityData.Enchantment.Source == -2)
         {
-            result = AbilityRules.TranslateResourceString(GameText.EarthMasteryText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.EarthMasteryText);
         }
         else
         {

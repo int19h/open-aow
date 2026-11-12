@@ -14,7 +14,7 @@ public partial class AltarOfDeath : Altar
     public new const int ClassId = 131637;
 
     // AltDeath.pas:39
-    public override Storm CreateStorm() => new DeathStorm(null);
+    public override Storm CreateStorm() => new DeathStorm(null) { Holder = CreationHolder() };
 
     public new partial class Resource : AltarResource
     {
@@ -33,7 +33,7 @@ public partial class AltarOfDeath : Altar
         // AltDeath.pas:26
 
         // AltDeath.pas:49
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_altarOfDeathText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_altarOfDeathText);
 
         private static readonly string s_altarOfDeathText = "Altar of Death";
 

@@ -13,7 +13,7 @@ public partial class MagicSanctuary : Structure
 {
     public MagicSanctuary(ECustomNode owner) : base(owner)
     {
-        _overlayHexSprite = new MagicSanctuaryOverlayHexSprite(null);
+        _overlayHexSprite = new MagicSanctuaryOverlayHexSprite(null) { Holder = CreationHolder() };
         _overlayHexSprite.Structure = this;
     }
 
@@ -82,7 +82,7 @@ public partial class MagicSanctuary : Structure
         // MagicSanctuary.pas:43
 
         // MagicSanctuary.pas:157
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_magicSanctuaryText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_magicSanctuaryText);
 
         private static readonly string s_magicSanctuaryText = "Magic Sanctuary";
 

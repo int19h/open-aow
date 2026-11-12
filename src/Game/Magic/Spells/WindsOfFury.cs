@@ -14,9 +14,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class WindsOfFury : CombatSpell
 {
     // CombatSpells.pas:1889
-    public WindsOfFury(ECustomNode owner) : base(owner)
+    public WindsOfFury(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_windsOfFuryText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_windsOfFuryText);
         SpellId = 126;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 8;
@@ -30,7 +31,7 @@ public partial class WindsOfFury : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         CombatSpellCombatAction action;
-        action = new CombatSpellCombatAction(null);
+        action = new CombatSpellCombatAction(null) { Holder = CreationHolder() };
         action.SpellId = SpellId;
         if (target.GetAbilityEnabled(1) || target.GetAbilityEnabled(59))
         {

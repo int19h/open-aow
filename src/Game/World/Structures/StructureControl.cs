@@ -12,7 +12,7 @@ public partial class StructureControl : EngineObject
     // (structures, next ID, city count)
     public StructureControl(ECustomNode owner) : base(owner)
     {
-        _structures = new ENode(null);
+        _structures = new ENode(null) { Holder = CreationHolder() };
         _nextId = 0;
     }
 

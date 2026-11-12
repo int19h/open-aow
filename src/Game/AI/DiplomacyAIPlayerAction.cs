@@ -264,28 +264,28 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
         Control.ListIdealPeaceWarPlayers(idealPeace, idealWar);
         player = Control.Player.PlayerIndex;
         var players = StrategicMap.Current.Players.GetPlayers(player);
-        S = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players.PlayerRace]);
+        S = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[players.PlayerRace]);
         var name = StrategicMap.Current.Players.GetPlayers(player).GetName();
         S = S + "/" + name;
-        GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, "DIPLOMACY (" + S + ")");
-        GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, "IDEAL PEACE PLAYERS");
+        GetEngine().OutputDebugMessage(DebugChannel.AI, "DIPLOMACY (" + S + ")");
+        GetEngine().OutputDebugMessage(DebugChannel.AI, "IDEAL PEACE PLAYERS");
         for (int I = 0, last = idealPeace.Count - 1; I <= last; I++)
         {
             var item = idealPeace[I];
             var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(item);
-            S = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[fPlayersPlayers.PlayerRace]);
+            S = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[fPlayersPlayers.PlayerRace]);
             var idealPeaceItem = idealPeace[I];
             var name2 = StrategicMap.Current.Players.GetPlayers(idealPeaceItem).GetName();
             S = S + "/" + name2;
-            GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, S);
+            GetEngine().OutputDebugMessage(DebugChannel.AI, S);
         }
 
-        GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, "IDEAL WAR PLAYERS");
+        GetEngine().OutputDebugMessage(DebugChannel.AI, "IDEAL WAR PLAYERS");
         for (int I = 0, last = idealWar.Count - 1; I <= last; I++)
         {
             var item = idealWar[I];
             var name2 = StrategicMap.Current.Players.GetPlayers(item).GetName();
-            GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, name2);
+            GetEngine().OutputDebugMessage(DebugChannel.AI, name2);
         }
 
         idealPeace?.Dispose();

@@ -15,9 +15,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class FreezeWater : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:710
-    public FreezeWater(ECustomNode owner) : base(owner)
+    public FreezeWater(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        this.SpellName = AbilityRules.TranslateResourceString(s_freezeWaterText);
+        Holder = holder;
+        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_freezeWaterText);
         SpellId = 10;
         BaseManaCost = 5;
         SpellLevel = 3;
@@ -42,7 +43,7 @@ public partial class FreezeWater : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         FreezeWaterTokenEvent eventValue;
-        eventValue = new FreezeWaterTokenEvent(null);
+        eventValue = new FreezeWaterTokenEvent(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

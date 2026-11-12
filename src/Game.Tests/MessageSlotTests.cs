@@ -35,7 +35,7 @@ public sealed class MessageSlotTests
     // priority in front, so the handlers run in the order given.
     private static (MapField Field, Handler[] Handlers) Field(params Proc[] procs)
     {
-        var field = new MapField(null!);
+        var field = new MapField(null!) { Holder = EngineFixture.Engine };
         var handlers = procs.Select(p => new Handler(p)).ToArray();
         foreach (var handler in handlers) field.AddHexSprite(handler, 0);
         return (field, handlers);
@@ -125,7 +125,7 @@ public sealed class MessageSlotTests
     [Fact]
     public void TheFirstParameterCarriesAnArmyOrADistance()
     {
-        var army = new ArmyHexSprite(null!);
+        var army = new ArmyHexSprite(null!) { Holder = EngineFixture.Engine };
         ArmyHexSprite? placed = null;
         int distance = -1;
         var (field, _) = Field((ref m) =>
@@ -200,7 +200,7 @@ public sealed class MessageSlotTests
     [Fact]
     public void TheResultCarriesAControlOrAPlayer()
     {
-        var control = new ProductionControl(null!);
+        var control = new ProductionControl(null!) { Holder = EngineFixture.Engine };
         var (field, handlers) = Field((ref m) =>
         {
             if (m.MessageId == 0x1201) m.Result = control;

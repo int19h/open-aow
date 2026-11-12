@@ -18,19 +18,16 @@ public sealed class WallCrushingFastBattleTests
     private sealed class Fixture : IDisposable
     {
         private readonly GamePack _previousSet = GamePack.Current;
-        private readonly GameEngine _previousEngine = GameTables.GameEngine;
         private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
 
         internal Fixture()
         {
             GamePack.Current = EngineFixture.CreateGameSet(_manager);
-            GameTables.GameEngine = null!;
         }
 
         public void Dispose()
         {
             GamePack.Current = _previousSet;
-            GameTables.GameEngine = _previousEngine;
             _manager.Dispose();
         }
     }
@@ -50,7 +47,7 @@ public sealed class WallCrushingFastBattleTests
 
     private static (Battle Combat, Attacker Source, RecordingWall Wall) Build()
     {
-        var combat = new Battle(null!);
+        var combat = new Battle(null!) { Holder = EngineFixture.Engine };
         combat.Status = combat.Status + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
         var objects = combat.CombatData.CombatObjects;
         var source = new Attacker(objects) { Combat = combat, Id = 1 };
@@ -64,7 +61,7 @@ public sealed class WallCrushingFastBattleTests
     {
         using var fixture = new Fixture();
         var (combat, source, wall) = Build();
-        var ability = new WallCrushingAbility(null!);
+        var ability = new WallCrushingAbility(null!, holder: EngineFixture.Engine);
         var command = new FastBattleCommand(117) { Target = wall };
         Assert.Equal(10, wall.GetHitPoints());
         int seed = RtlUnit.RandSeed;
@@ -101,7 +98,7 @@ public sealed class WallCrushingFastBattleTests
         using var fixture = new Fixture();
         var (combat, source, wall) = Build();
         wall.Status = wall.Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
-        var ability = new WallCrushingAbility(null!);
+        var ability = new WallCrushingAbility(null!, holder: EngineFixture.Engine);
         var command = new FastBattleCommand(117) { Target = wall };
         Assert.True(ability.FastBattleExecuteCombatCommand(source, command));
         Assert.Empty(wall.Rolls);

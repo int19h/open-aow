@@ -11,9 +11,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Remedy : UnitSpell
 {
     // UnitSpells.pas:424
-    public Remedy(ECustomNode owner) : base(owner)
+    public Remedy(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_remedyText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_remedyText);
         SpellId = 35;
         BaseManaCost = 5;
         SpellLevel = 1;

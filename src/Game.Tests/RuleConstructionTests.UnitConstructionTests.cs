@@ -38,7 +38,7 @@ public sealed partial class RuleConstructionTests
     private static Troop CreateUnit(Type type, ECustomNode owner, int route)
     {
         var meta = EngineClass.Of(type);
-        if (route == 1) return (Troop)meta.CreateInstance(owner);
+        if (route == 1) return (Troop)meta.CreateInstance(owner, holder: EngineFixture.Engine);
         if (route == 2)
         {
             using GameEngine engine = new GameEngine(null!);
@@ -49,9 +49,9 @@ public sealed partial class RuleConstructionTests
             return (Troop)engine.CreateEngineObject(meta.ClassId, owner);
         }
         if (route == 3)
-            return (Troop)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
-        var constructor = type.GetConstructor([typeof(ECustomNode)])!;
-        return (Troop)Invoke(() => constructor.Invoke([owner]))!;
+            return (Troop)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(ECustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine]))!;
+        var constructor = EngineClassCreation.OwnerConstructor(type)!;
+        return (Troop)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)))!;
     }
 
     [Theory]
@@ -96,7 +96,7 @@ public sealed partial class RuleConstructionTests
         var previousMap = StrategicMap.Current;
         var previousSet = GamePack.Current;
         StrategicMap.Current = null!;
-        var set = EngineFixture.Configure(GamePack.Create(null!), value => { value.UnitResources = new UnitResourceList(null!); value.HeroResources = new HeroResourceList(null!); value.AbilityControl = new AbilityControl(null!); });
+        var set = EngineFixture.Configure(GamePack.Create(null!, holder: EngineFixture.Engine), value => { value.UnitResources = new UnitResourceList(null!) { Holder = EngineFixture.Engine }; value.HeroResources = new HeroResourceList(null!) { Holder = EngineFixture.Engine }; value.AbilityControl = new AbilityControl(null!) { Holder = EngineFixture.Engine }; });
         GamePack.Current = set;
         Type type = TypeNamed(name);
         var meta = EngineClass.Of(type);

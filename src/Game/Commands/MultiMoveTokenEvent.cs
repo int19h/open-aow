@@ -35,7 +35,7 @@ public partial class MultiMoveTokenEvent : TokenEvent
     // MoveT.PAS:3286
     public MultiMoveTokenEvent(ECustomNode owner) : base(owner)
     {
-        Events = new TokenEventList(null);
+        Events = new TokenEventList(null) { Holder = CreationHolder() };
         Simultaneous = true;
     }
 

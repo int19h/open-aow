@@ -19,8 +19,8 @@ public partial class ItemLibraryManager : EngineObject
     // Army.PAS:4967
     public ItemLibraryManager(ECustomNode owner) : base(owner)
     {
-        SystemLibrary = new ItemLibrary(null);
-        Libraries = new ENode(null);
+        SystemLibrary = new ItemLibrary(null) { Holder = CreationHolder() };
+        Libraries = new ENode(null) { Holder = CreationHolder() };
     }
 
     public ItemLibrary SystemLibrary { get; }
@@ -41,15 +41,15 @@ public partial class ItemLibraryManager : EngineObject
         base.ReadWrite(stream);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
         {
-            directory = ExtractFilePath(GameTables.GameEngine.HssFileName);
+            directory = ExtractFilePath(GetEngine().HssFileName);
             if (stream.StorageMode().Contains(StorageModeElement.Read))
             {
                 ReadUserLibraries();
-                GameTables.GameEngine.ReadFromFile(directory + "ITEMS.PFS", SystemLibrary, null);
+                GetEngine().ReadFromFile(directory + "ITEMS.PFS", SystemLibrary, null);
             }
             else
             {
-                GameTables.GameEngine.WriteToFile(directory + "ITEMS.PFS", SystemLibrary, null);
+                GetEngine().WriteToFile(directory + "ITEMS.PFS", SystemLibrary, null);
                 WriteUserLibraries();
             }
         }
@@ -73,12 +73,12 @@ public partial class ItemLibraryManager : EngineObject
         Libraries.AddChild(SystemLibrary);
         // Both extensions list, and a list present in both forms loads its own document once
         // (own-formats.md 4.2).
-        foreach (var listed in FileBoundary.FindDocuments(GameTables.GameEngine.StartupDirectory + "User\\", DocumentKind.ItemList))
+        foreach (var listed in FileBoundary.FindDocuments(GetEngine().StartupDirectory + "User\\", DocumentKind.ItemList))
         {
-            itemLibrary = new ItemLibrary(null);
+            itemLibrary = new ItemLibrary(null) { Holder = CreationHolder() };
             try
             {
-                itemLibrary.LoadFromFile(GameTables.GameEngine.StartupDirectory + "User\\" + listed);
+                itemLibrary.LoadFromFile(GetEngine().StartupDirectory + "User\\" + listed);
                 itemLibrary.SetOwner(Libraries);
             }
             catch
@@ -96,7 +96,7 @@ public partial class ItemLibraryManager : EngineObject
         {
             itemLibrary = GetLibrary(I);
             var name = itemLibrary.GetName();
-            itemLibrary.SaveToFile(GameTables.GameEngine.StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(DocumentKind.ItemList));
+            itemLibrary.SaveToFile(GetEngine().StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(DocumentKind.ItemList));
         }
     }
 
@@ -154,7 +154,7 @@ public partial class ItemLibraryManager : EngineObject
             result = new ItemLibrary(Libraries);
             result.Name = libraryName;
             // { Original creates in Release while reading and deleting from User. }
-            result.SaveToFile(GameTables.GameEngine.StartupDirectory + "Release\\" + libraryName + FileBoundary.WriteExtension(DocumentKind.ItemList));
+            result.SaveToFile(GetEngine().StartupDirectory + "Release\\" + libraryName + FileBoundary.WriteExtension(DocumentKind.ItemList));
         }
         else
         {
@@ -171,8 +171,8 @@ public partial class ItemLibraryManager : EngineObject
         {
             var name = GetLibrary(index).GetName();
             // The list goes in both forms, so an original of the same name does not return.
-            DeleteFile(GameTables.GameEngine.StartupDirectory + "User\\" + name + DocumentKind.ItemList.OriginalExtension);
-            DeleteFile(GameTables.GameEngine.StartupDirectory + "User\\" + name + DocumentKind.ItemList.OwnExtension);
+            DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.ItemList.OriginalExtension);
+            DeleteFile(GetEngine().StartupDirectory + "User\\" + name + DocumentKind.ItemList.OwnExtension);
             GetLibrary(index)?.Dispose();
         }
     }

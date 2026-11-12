@@ -1,6 +1,5 @@
 using System.Globalization;
 using Aow.Engine;
-using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game;
 using Aow.Rtl;
@@ -38,6 +37,6 @@ public sealed class EnginePersistableFactory : IEnginePersistableFactory
         }
         if (!_engine.ClassTable.TryGetValue(engineClass.ClassId, out EngineClass? registered) || registered is null || registered.StorageKey != engineClass.StorageKey)
             throw new KeyNotFoundException("Unregistered E-ClassID found (" + engineClass.ClassId.ToString(CultureInfo.InvariantCulture) + ")");
-        return registered.CreateInstance(null);
+        return registered.CreateInstance(null, holder: EngineFixture.Engine);
     }
 }

@@ -614,7 +614,7 @@ public partial class LeaderSetupWindow : UIModule
     // AoWLeaderSetup.pas:269
     public void LeaderSetupWinCreate()
     {
-        Leader = new Leader(null);
+        Leader = new Leader(null) { Holder = UI.Engine };
     }
 
     // AoWLeaderSetup.pas:274

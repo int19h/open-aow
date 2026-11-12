@@ -9,9 +9,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class WebbedAbility : DurationAbility
 {
     // PassiveAb.pas:736
-    public WebbedAbility(ECustomNode owner) : base(owner)
+    public WebbedAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(s_webbedText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_webbedText);
         AbilityId = 97;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.CombatTurn;

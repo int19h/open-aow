@@ -657,7 +657,7 @@ public partial class RelationWindow : UIModule
     // AoWRelations.pas:540
     public void RelationWindowCreate()
     {
-        _actions = new DiplomaticActionList(null);
+        _actions = new DiplomaticActionList(null) { Holder = UI.Engine };
         Races = new Int32List();
         Players = new Int32List();
         FImages =

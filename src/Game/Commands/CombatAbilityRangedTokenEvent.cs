@@ -238,7 +238,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                 {
                                                     HexGeometry.CenterHexNumberToHex(endX, endY, I, ref X, ref Y);
                                                     CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
-                                                    EffectPaths.CreateFire(false, 50, X, Y);
+                                                    EffectPaths.CreateFire(false, 50, X, Y, engine: GetEngine());
                                                 }
                                             }
 
@@ -421,7 +421,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                         {
                                                             case 100:
                                                                 var hexY = _unit.UnitHexSprite.HexY;
-                                                                EffectPaths.CreateFire(false, 50, _unit.UnitHexSprite.HexX, hexY);
+                                                                EffectPaths.CreateFire(false, 50, _unit.UnitHexSprite.HexX, hexY, engine: GetEngine());
                                                                 message.MessageId = 200718;
                                                                 message.Param[0] = _unit;
                                                                 message.Result = -1;
@@ -439,7 +439,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                     {
                                                                         HexGeometry.CenterHexNumberToHex(TargetX, TargetY, I, ref X, ref Y);
                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
-                                                                        EffectPaths.CreateFire(false, 50, X, Y);
+                                                                        EffectPaths.CreateFire(false, 50, X, Y, engine: GetEngine());
                                                                     }
                                                                 }
 
@@ -654,7 +654,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                         message.Param[0] = _unit;
                                                                                         message.Result = -1;
                                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
-                                                                                        EffectPaths.CreateFire(false, 100, endX, endY);
+                                                                                        EffectPaths.CreateFire(false, 100, endX, endY, engine: GetEngine());
                                                                                         break;
                                                                                     case 52:
                                                                                         switch (effect.EffectType)
@@ -682,7 +682,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                                     case 124:
                                                                                                         if (CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 0 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 10 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 2 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 11 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 8 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 9 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 15 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 7)
                                                                                                         {
-                                                                                                            ooze = new TacticalBattleOozeHexSprite(null);
+                                                                                                            ooze = new TacticalBattleOozeHexSprite(null) { Holder = CreationHolder() };
                                                                                                             CombatMap.Current.PlaceHex(ooze, endX, endY, 0);
                                                                                                         }
 
@@ -698,7 +698,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                                                         message.Param[0] = _unit;
                                                                                                         message.Result = -1;
                                                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
-                                                                                                        EffectPaths.CreateFire(false, 100, endX, endY);
+                                                                                                        EffectPaths.CreateFire(false, 100, endX, endY, engine: GetEngine());
                                                                                                         break;
                                                                                                 }
 

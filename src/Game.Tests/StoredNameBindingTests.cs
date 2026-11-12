@@ -106,7 +106,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
             EngineObject? objectValue = null;
             try
             {
-                objectValue = engineClass.CreateInstance(null!);
+                objectValue = engineClass.CreateInstance(null!, holder: EngineFixture.Engine);
                 var filled = Fill(objectValue, classValue);
                 if (filled.Count == 0) continue;
                 byte[] image = Image(objectValue);

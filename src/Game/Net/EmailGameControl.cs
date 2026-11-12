@@ -5,8 +5,6 @@ using Aow.Formats;
 
 using Aow.Game.Draw;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
 
 using Aow.Game.World.Map;
@@ -23,7 +21,7 @@ public partial class EmailGameControl : EngineObject
     // Diplomacy.pas:2489
     public EmailGameControl(ECustomNode owner) : base(owner)
     {
-        _games = new EmailGameList(null);
+        _games = new EmailGameList(null) { Holder = CreationHolder() };
     }
 
     private readonly EmailGameList _games;
@@ -52,12 +50,12 @@ public partial class EmailGameControl : EngineObject
     {
         string fileName;
         _games.Clear();
-        fileName = GameTables.GameEngine.StartupDirectory + "EmailIn\\" + "egames.pfs";
+        fileName = GetEngine().StartupDirectory + "EmailIn\\" + "egames.pfs";
         if (FileExists(fileName))
         {
-            if (GetFileCrc32(fileName) == GameTables.GameEngine.Registry.GetEmailGamesCrc())
+            if (GetFileCrc32(fileName) == GetEngine().Registry.GetEmailGamesCrc())
             {
-                GameTables.GameEngine.ReadFromFile(fileName, _games, null);
+                GetEngine().ReadFromFile(fileName, _games, null);
             }
         }
     }
@@ -68,10 +66,10 @@ public partial class EmailGameControl : EngineObject
         string fileName;
         try
         {
-            fileName = GameTables.GameEngine.StartupDirectory + "EmailIn\\" + "egames.pfs";
-            GameTables.GameEngine.WriteToFile(GameTables.GameEngine.StartupDirectory + "EmailIn\\" + "egames.pfs", _games, null);
+            fileName = GetEngine().StartupDirectory + "EmailIn\\" + "egames.pfs";
+            GetEngine().WriteToFile(GetEngine().StartupDirectory + "EmailIn\\" + "egames.pfs", _games, null);
             var fileCrc = GetFileCrc32(fileName);
-            GameTables.GameEngine.Registry.SetEmailGamesCrc(fileCrc);
+            GetEngine().Registry.SetEmailGamesCrc(fileCrc);
         }
         catch
         {
@@ -142,7 +140,7 @@ public partial class EmailGameControl : EngineObject
     // Diplomacy.pas:2564
     public EmailGame CreateEmailGame(string name, string emailAddress)
     {
-        EmailGame result = new EmailGame(null);
+        EmailGame result = new EmailGame(null) { Holder = CreationHolder() };
         result.EmailAddress = emailAddress;
         result.UniqueLocalId = CreateUniqueLocalId();
         result.UniqueId = Random(PixelFormats.GetElapsedMilliseconds() & 16777215) + 1;
@@ -167,7 +165,7 @@ public partial class EmailGameControl : EngineObject
         {
             destination = "";
             overwrite = false;
-            map = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(fileName, GameProfile.WorldMap);
+            map = (StrategicMap)GetEngine().CreatePreviewHsm(fileName, GameProfile.WorldMap);
             bool condition = map != null && map.ConnectionType == PlayerConnectionType.Email && map.CurrentPlayer > 0;
             if (condition)
             {
@@ -177,7 +175,7 @@ public partial class EmailGameControl : EngineObject
 
             if (condition && map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatusElement.NewTurn))
             {
-                var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
+                var localEmailAddress = GetEngine().Registry.GetLocalEmailAddress();
                 if (CompareText(map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.EmailAddress, localEmailAddress) == 0)
                 {
                     localGame = FindEmailGame(map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame);
@@ -186,9 +184,9 @@ public partial class EmailGameControl : EngineObject
                         if (map.Day > localGame.LastDay)
                         {
                             name = map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.Name;
-                            if (FileExists(GameTables.GameEngine.StartupDirectory + "EmailIn\\" + name + ".asg"))
+                            if (FileExists(GetEngine().StartupDirectory + "EmailIn\\" + name + ".asg"))
                             {
-                                previousMap = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(GameTables.GameEngine.StartupDirectory + "EmailIn\\" + name + ".asg", GameProfile.WorldMap);
+                                previousMap = (StrategicMap)GetEngine().CreatePreviewHsm(GetEngine().StartupDirectory + "EmailIn\\" + name + ".asg", GameProfile.WorldMap);
                                 if (previousMap != null)
                                 {
                                     // { Original bug: the previous map's player is checked against the new map's count. }
@@ -230,11 +228,11 @@ public partial class EmailGameControl : EngineObject
                     if (!IsEmpty(name))
                     {
                         I = 0;
-                        destination = GameTables.GameEngine.StartupDirectory + "EmailIn\\" + name + ".asg";
+                        destination = GetEngine().StartupDirectory + "EmailIn\\" + name + ".asg";
                         while (!overwrite && FileExists(destination))
                         {
                             I += 1;
-                            destination = GameTables.GameEngine.StartupDirectory + "EmailIn\\" + name + IntToStr(I) + ".asg";
+                            destination = GetEngine().StartupDirectory + "EmailIn\\" + name + IntToStr(I) + ".asg";
                         }
                     }
                 }

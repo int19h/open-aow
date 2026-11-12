@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
-
-using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
@@ -15,13 +14,17 @@ public partial class MoveSelector : IDisposable
 {
     // Structur.PAS:4109
     // control settings, moves, current move, map, status
-    public MoveSelector()
+    public MoveSelector(EngineObject creator)
     {
+        Creator = creator;
         MoveControlSettings = CreateMoveControlSettings();
-        MoveSettingsList = new MoveSettingsList(null);
+        MoveSettingsList = new MoveSettingsList(null) { Holder = Creator.CreationHolder() };
         CurrentMove = -1;
         Map = null;
     }
+
+    // The node that created this selector. It and the nodes it creates reach the engine through it.
+    public EngineObject Creator { get; }
 
     public MoveControlSettings MoveControlSettings { get; }
     public MoveSettingsList MoveSettingsList { get; }
@@ -76,7 +79,7 @@ public partial class MoveSelector : IDisposable
     }
 
     // Structur.PAS:4126
-    public virtual MoveControlSettings CreateMoveControlSettings() => new MoveControlSettings(null);
+    public virtual MoveControlSettings CreateMoveControlSettings() => new MoveControlSettings(null) { Holder = Creator.CreationHolder() };
 
     // Structur.PAS:4138
     public virtual void SetCurrentMove(int value)
@@ -299,10 +302,10 @@ public partial class MoveSelector : IDisposable
                             imageIndex = 48;
                             GamePack.Current.CursorImages[imageIndex].Show(pixelX, pixelY, surface);
                             // { Original sets the font color before checking the font for nil. }
-                            GameTables.GameEngine.CombatFont.Color = 0;
-                            if (GameTables.GameEngine.CombatFont != null)
+                            Creator.GetEngine().CombatFont.Color = 0;
+                            if (Creator.GetEngine().CombatFont != null)
                             {
-                                GameTables.GameEngine.CombatFont.SetTextCentered(pixelX + 25, pixelY + 9, IntToStr((settings.PathMovePoints - settings.MovePoints - 1) / settings.Moves + 1), surface);
+                                Creator.GetEngine().CombatFont.SetTextCentered(pixelX + 25, pixelY + 9, IntToStr((settings.PathMovePoints - settings.MovePoints - 1) / settings.Moves + 1), surface);
                             }
                         }
                         else
@@ -373,7 +376,7 @@ public partial class MoveSelector : IDisposable
     public int AddMoveObject(HexSprite objectValue)
     {
         MoveSettings settings;
-        settings = new MoveSettings(null);
+        settings = new MoveSettings(null) { Holder = Creator.CreationHolder() };
         settings.MoveObject = objectValue;
         settings.SetOwner(MoveSettingsList);
         return MoveSettingsList.Count - 1;

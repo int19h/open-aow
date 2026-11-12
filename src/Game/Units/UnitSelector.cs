@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Units;
@@ -6,12 +7,16 @@ namespace Aow.Game.Units;
 public partial class UnitSelector : IDisposable
 {
     // Ability.PAS:575
-    public UnitSelector()
+    public UnitSelector(EngineObject creator)
     {
-        Units = new UnitUserList(null);
+        Creator = creator;
+        Units = new UnitUserList(null) { Holder = Creator.CreationHolder() };
         _references = 1;
         Canceled = false;
     }
+
+    // The node that created this selector. It and the nodes it creates reach the engine through it.
+    public EngineObject Creator { get; }
 
     private int _references;
 
@@ -70,7 +75,7 @@ public partial class UnitSelector : IDisposable
         bool result;
         if (Selection == 0)
         {
-            error = AbilityRules.TranslateResourceString(GameText.NoUnitSelectedText);
+            error = AbilityRules.TranslateResourceString(Creator.GetEngine(), GameText.NoUnitSelectedText);
             result = false;
         }
         else

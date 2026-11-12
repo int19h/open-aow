@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class IceShards : CombatSpell
 {
     // CombatSpells.pas:1537
-    public IceShards(ECustomNode owner) : base(owner)
+    public IceShards(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_iceShardsText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_iceShardsText);
         SpellId = 119;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 6;

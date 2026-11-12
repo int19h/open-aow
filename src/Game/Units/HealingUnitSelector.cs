@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Commands;
 
 using Aow.Game.Magic.Abilities;
@@ -11,7 +12,7 @@ namespace Aow.Game.Units;
 
 public partial class HealingUnitSelector : UnitSelector
 {
-    public HealingUnitSelector() : base()
+    public HealingUnitSelector(EngineObject creator) : base(creator)
     { }
 
     // AoWAb.PAS:3894
@@ -52,7 +53,7 @@ public partial class HealingUnitSelector : UnitSelector
 
             if (target != null)
             {
-                eventValue = new HealingTokenEvent(null);
+                eventValue = new HealingTokenEvent(null) { Holder = Creator.CreationHolder() };
                 eventValue.SourceId = source.UnitId;
                 eventValue.SourcePlayer = (byte)source.Player;
                 eventValue.TargetId = target.UnitId;

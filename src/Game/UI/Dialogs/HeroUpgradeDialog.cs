@@ -558,7 +558,7 @@ public partial class HeroUpgradeDialog : UIModule
         {
             if (!StrategicMap.Current.Players.GetPlayers(_hero.Player).GetBusy())
             {
-                eventValue = new HeroUpgradeTokenEvent(null);
+                eventValue = new HeroUpgradeTokenEvent(null) { Holder = UI.Engine };
                 eventValue.Setup(_hero);
                 eventValue.Attack = (sbyte)(_editedHero.UnitAttack - _hero.UnitAttack);
                 eventValue.Defense = (sbyte)(_editedHero.UnitDefense - _hero.UnitDefense);

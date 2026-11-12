@@ -118,7 +118,7 @@ public partial class JoinEventLog : EventLog
         else
         {
             result = false;
-            errorText = AbilityRules.TranslateResourceString(GameText.TributeNotEnoughGoldText);
+            errorText = AbilityRules.TranslateResourceString(GetEngine(), GameText.TributeNotEnoughGoldText);
         }
 
         return result;

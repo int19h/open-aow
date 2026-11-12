@@ -47,7 +47,7 @@ public partial class FlagMessageEvent : FlagEvent
         FlagMessageEventLog log;
         if (StrategicMap.Current.SeatedPlayer == player)
         {
-            log = new FlagMessageEventLog(null);
+            log = new FlagMessageEventLog(null, holder: CreationHolder());
             log.HelpFileName = _helpFileName;
             var text = _message.Text;
             log.Message.Text = text;
@@ -70,7 +70,7 @@ public partial class FlagMessageEvent : FlagEvent
         public override int ResourceUserClassId() => 132461;
 
         // FlagEvents.pas:223
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_flagMessageEventText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_flagMessageEventText);
 
         private static readonly string s_flagMessageEventText = "Flag Message Event";
 

@@ -1,4 +1,3 @@
-using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;
 
@@ -9,5 +8,5 @@ public partial class PlayerStructure
     // The panel the owner sees, and every player in debug mode.
     protected virtual StructureView OwnerPanel() => StructureView.Generic;
 
-    protected bool ShownToOwner(sbyte viewer) => Player == viewer || GameTables.GameEngine.Debug;
+    protected bool ShownToOwner(sbyte viewer) => Player == viewer || GetEngine().Debug;
 }

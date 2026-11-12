@@ -59,7 +59,7 @@ public sealed class EngineLeafConstructionTests
             0 => new ETimerNode(argument),
             _ => new PluginControl(argument)
         };
-        EngineObject[] objects = [direct, meta.CreateInstance(argument), engine.CreateEngineObject(meta.ClassId, argument)];
+        EngineObject[] objects = [direct, meta.CreateInstance(argument, holder: EngineFixture.Engine), engine.CreateEngineObject(meta.ClassId, argument)];
         EngineObject? copy = null;
         try
         {

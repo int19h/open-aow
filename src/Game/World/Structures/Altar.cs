@@ -113,12 +113,12 @@ public partial class Altar : PlayerStructure
         string result;
         if (GetRechargeDays() != RechargeDays)
         {
-            var formatDaysLeftString = DurationText.FormatDaysLeftString(GameTables.GameEngine, days: GetRechargeDays() - RechargeDays);
-            result = AbilityRules.TranslateResourceString(s_chargingText) + " (" + formatDaysLeftString + ")";
+            var formatDaysLeftString = DurationText.FormatDaysLeftString(GetEngine(), days: GetRechargeDays() - RechargeDays);
+            result = AbilityRules.TranslateResourceString(GetEngine(), s_chargingText) + " (" + formatDaysLeftString + ")";
         }
         else
         {
-            result = AbilityRules.TranslateResourceString(s_readyText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), s_readyText);
         }
 
         return result;
@@ -234,7 +234,7 @@ public partial class Altar : PlayerStructure
         else
         {
             result = false;
-            reason = AbilityRules.TranslateResourceString(GameText.NotEnoughManaText);
+            reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughManaText);
         }
 
         return result;
@@ -259,10 +259,10 @@ public partial class Altar : PlayerStructure
             _storm = CreateStorm();
             _storm.UpdateTargetSelection(StrategicMap.Current.TargetSelection);
             var name = _storm.Name();
-            var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.SelectTargetLocationForOnMapFormat), [name]);
+            var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectTargetLocationForOnMapFormat), [name]);
             selection.Text.Text = format;
             selection.Title = EditName();
-            selection.CancelText = AbilityRules.TranslateResourceString(GameText.CancelText);
+            selection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);
             selection.SourceImage = GetTopBorderImage();
             selection.ValidTargetImage = GetMiddleBorderImage();
             selection.InvalidTargetImage = GetBottomBorderImage();

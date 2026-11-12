@@ -4,8 +4,6 @@ using Aow.Engine.Storage;
 
 using Aow.Game.Draw.Images;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
@@ -17,9 +15,6 @@ public partial class TroopResource : EngineResource
     { }
 
     public int UnitGraphicsResourceIndex;
-
-    // UnitRes.PAS:1
-    public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // UnitRes.PAS:37
     public override void ReadWrite(StorageStream stream)

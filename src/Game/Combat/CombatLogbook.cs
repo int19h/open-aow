@@ -2,8 +2,6 @@
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
-using Aow.Game.Magic.Abilities;
-
 namespace Aow.Game.Combat;
 
 // RefCount. InitialData. FinalData. Actions. result flag
@@ -16,9 +14,9 @@ public partial class CombatLogbook : EngineObject
     public CombatLogbook(ECustomNode owner) : base(owner)
     {
         _refCount = 1;
-        Actions = new CombatActionList(null);
-        FinalData = new CombatData(null);
-        InitialData = new CombatData(null);
+        Actions = new CombatActionList(null) { Holder = CreationHolder() };
+        FinalData = new CombatData(null) { Holder = CreationHolder() };
+        InitialData = new CombatData(null) { Holder = CreationHolder() };
         PlayerEliminated = false;
     }
 
@@ -84,13 +82,13 @@ public partial class CombatLogbook : EngineObject
     // Combat2.pas:368
     public void SetInitialData(CombatData data)
     {
-        InitialData.Assign(data, GameTables.GameEngine);
+        InitialData.Assign(data, GetEngine());
     }
 
     // Combat2.pas:371
     public void SetFinalData(CombatData data)
     {
-        FinalData.Assign(data, GameTables.GameEngine);
+        FinalData.Assign(data, GetEngine());
     }
 
     // intf_P3_02.inc:278

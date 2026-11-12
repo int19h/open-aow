@@ -79,7 +79,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                 GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
             }
 
-            animation = (ImageSequenceAnimation)new Animation(null);
+            animation = (ImageSequenceAnimation)new Animation(null) { Holder = CreationHolder() };
             _animation = animation;
             animation.AnimationLevel = 27;
             animation.SetShowHandler(ShowAnimation);
@@ -145,11 +145,11 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
 
                 if (selection != 0)
                 {
-                    log = new ArmyEventLog(null);
+                    log = new ArmyEventLog(null) { Holder = CreationHolder() };
                     log._player = source.Player;
-                    var tornado = AbilityRules.TranslateResourceString(GameText.TornadoText);
-                    log.ArmyText = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.CastFormat), [tornado]);
-                    var tornadoText = AbilityRules.TranslateResourceString(GameText.TornadoText);
+                    var tornado = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);
+                    log.ArmyText = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [tornado]);
+                    var tornadoText = AbilityRules.TranslateResourceString(GetEngine(), GameText.TornadoText);
                     log.ArmyMessages.Add(tornadoText);
                     log.ArmyIcon = 2;
                     log.ArmyView.Setup(army.Army, selection);
@@ -169,7 +169,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                         {
                             if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] != null)
                             {
-                                animation = new ImageSequenceAnimation(null);
+                                animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                                 animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1]);
                                 StrategicMap.Current.PlaceHex(animation, Location.X, Location.Y, Location.MapLevel);
                             }
@@ -179,13 +179,13 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                         {
                             if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] != null)
                             {
-                                animation = new ImageSequenceAnimation(null);
+                                animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                                 animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1]);
                                 StrategicMap.Current.PlaceHex(animation, location.X, location.Y, location.MapLevel);
                             }
                         }
 
-                        movedUnits = new UnitUserList(null);
+                        movedUnits = new UnitUserList(null) { Holder = CreationHolder() };
                         owner = (byte)army.Army.Player;
                         mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(location.Packed);
                         if (army.Army.ValidateSelection(255) != selection)
@@ -265,13 +265,13 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                     xShift = Round((double)((double)Math.Sin((double)((double)_animation.FrameCounter * 0.1) + (double)I * 0.02) * (200 - I)) * 0.25) + 16;
                     var pi = Math.PI;
                     angle = (float)((double)((double)(direction + _angle) * pi) / 180);
-                    if (GameTables.GameEngine.AnimationDetail == 0)
+                    if (GetEngine().AnimationDetail == 0)
                     {
                         last = 1;
                     }
                     else
                     {
-                        if (GameTables.GameEngine.AnimationDetail == 1)
+                        if (GetEngine().AnimationDetail == 1)
                         {
                             last = (int)(((uint)(200 - I)) >> 5);
                         }

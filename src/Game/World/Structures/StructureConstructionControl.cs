@@ -30,7 +30,7 @@ public partial class StructureConstructionControl : ConstructionControl
         string reason = "";
         if (CanConstruct(troop, ref reason) && !StrategicMap.Current.Players.GetPlayers(troop.Player).GetBusy())
         {
-            eventValue = new ConstructStructureTokenEvent(null);
+            eventValue = new ConstructStructureTokenEvent(null) { Holder = CreationHolder() };
             eventValue.UnitId = troop.UnitId;
             eventValue.Player = troop.Player;
             eventValue.ControlId = Id();
@@ -84,7 +84,7 @@ public partial class StructureConstructionControl : ConstructionControl
 
         if (!result)
         {
-            reason = AbilityRules.TranslateResourceString(s_cannotBuildOnCurrentLocationText);
+            reason = AbilityRules.TranslateResourceString(GetEngine(), s_cannotBuildOnCurrentLocationText);
         }
 
         return result;

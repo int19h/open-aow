@@ -16,7 +16,7 @@ public partial class CombatParty : EngineObject
     // Combat2.pas:37
     public CombatParty(ECustomNode owner) : base(owner)
     {
-        Army = new Army(null);
+        Army = new Army(null) { Holder = CreationHolder() };
     }
 
     public Army Army { get; }

@@ -153,6 +153,6 @@ public partial class FireStorm : Storm
     // Animation.pas:43
 
     // Storms.pas:522
-    public override string Name() => AbilityRules.TranslateResourceString(GameTables.FireStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.FireStormText);
 
 }

@@ -98,12 +98,12 @@ public sealed class ProductionOrderTests
             Assert.Equal(Expected(id, parameter, groupId), order);
             Assert.Equal((id, parameter, groupId), order.ToFields());
 
-            var item = new ProductionItem(null!) { Order = Expected(id, parameter, groupId) };
+            var item = new ProductionItem(null!) { Holder = EngineFixture.Engine, Order = Expected(id, parameter, groupId) };
             Assert.Equal(itemBytes, Write(engine, item));
             item.Dispose();
 
-            var tokenEvent = new ProductionTokenEvent(null!) { X = 3, Y = 4, MapLevel = 1, Player = 2, Queue = true, Index = 1 };
-            tokenEvent.Item = new ProductionItem(null!) { Order = Expected(id, parameter, groupId) };
+            var tokenEvent = new ProductionTokenEvent(null!) { Holder = EngineFixture.Engine, X = 3, Y = 4, MapLevel = 1, Player = 2, Queue = true, Index = 1 };
+            tokenEvent.Item = new ProductionItem(null!) { Holder = EngineFixture.Engine, Order = Expected(id, parameter, groupId) };
             Assert.Equal(eventBytes, Write(engine, tokenEvent));
             tokenEvent.Dispose();
 
@@ -132,7 +132,7 @@ public sealed class ProductionOrderTests
             Assert.Equal(new UnknownOrder(id, parameter, groupId), order);
             Assert.Equal((id, parameter, groupId), order.ToFields());
         }
-        Assert.Equal(new UnknownOrder(0, 0, 0), new ProductionItem(null!).Order);
+        Assert.Equal(new UnknownOrder(0, 0, 0), new ProductionItem(null!) { Holder = EngineFixture.Engine }.Order);
     }
 
     [Fact]
@@ -149,7 +149,7 @@ public sealed class ProductionOrderTests
     [Fact]
     public void QueueFindsAnEqualOrder()
     {
-        using var queue = new ProductionQueue(null!);
+        using var queue = new ProductionQueue(null!) { Holder = EngineFixture.Engine };
         foreach (var order in new ProductionOrder[] { new ProduceUnit(5, 12), new ResearchSpell(5), new Migrate(6), new Upgrade() })
             _ = new ProductionItem(queue) { Order = order };
         Assert.Equal(0, queue.IndexOf(new ProduceUnit(5, 12)));
@@ -239,21 +239,21 @@ public sealed class ProductionOrderTests
     // reads no unit production.
     private static string OldName(int id, int parameter, bool city, MagicSphere sphere)
     {
-        string result = AbilityRules.TranslateResourceString(GameTables.UnknownText);
+        string result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameTables.UnknownText);
         if (city)
         {
             switch (OldCityAction(id))
             {
-                case CityAction.Trade: result = AbilityRules.TranslateResourceString(GameText.ProduceMerchandiseText); break;
-                case CityAction.Upgrade: result = AbilityRules.TranslateResourceString(GameText.UpgradeText); break;
-                case CityAction.Migrate: result = Runtime.Format(AbilityRules.TranslateResourceString(Migrate.MigrateFormat), [AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[parameter])]); break;
-                case CityAction.Loot: result = AbilityRules.TranslateResourceString(GameText.LootText); break;
-                case CityAction.Fortify: result = AbilityRules.TranslateResourceString(GameText.FortifyText); break;
+                case CityAction.Trade: result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.ProduceMerchandiseText); break;
+                case CityAction.Upgrade: result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.UpgradeText); break;
+                case CityAction.Migrate: result = Runtime.Format(AbilityRules.TranslateResourceString(EngineFixture.Engine, Migrate.MigrateFormat), [AbilityRules.TranslateResourceString(EngineFixture.Engine, GameTables.RaceNamesPluralTexts[parameter])]); break;
+                case CityAction.Loot: result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.LootText); break;
+                case CityAction.Fortify: result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.FortifyText); break;
             }
         }
         else if (id == 10)
         {
-            result = AbilityRules.TranslateResourceString(sphere != MagicSphere.None ? Trade.GenerateExtraPowerText : GameText.ProduceMerchandiseText);
+            result = AbilityRules.TranslateResourceString(EngineFixture.Engine, sphere != MagicSphere.None ? Trade.GenerateExtraPowerText : GameText.ProduceMerchandiseText);
         }
         return result;
     }
@@ -267,12 +267,12 @@ public sealed class ProductionOrderTests
     public void OrdersAnswerAsTheOldSwitches()
     {
         var previousMap = StrategicMap.Current;
-        var map = new StrategicMap(null!);
+        var map = new StrategicMap(null!, holder: EngineFixture.Engine);
         StrategicMap.Current = map;
         var owner = new EngineFixture.FieldOwner(new EngineFixture.Owner());
-        var city = (City)EngineClass.Of<City>().CreateInstance(owner);
-        var guild = (BuildersGuild)EngineClass.Of<BuildersGuild>().CreateInstance(owner);
-        var node = (LifeNode)EngineClass.Of<LifeNode>().CreateInstance(owner);
+        var city = (City)EngineClass.Of<City>().CreateInstance(owner, holder: EngineFixture.Engine);
+        var guild = (BuildersGuild)EngineClass.Of<BuildersGuild>().CreateInstance(owner, holder: EngineFixture.Engine);
+        var node = (LifeNode)EngineClass.Of<LifeNode>().CreateInstance(owner, holder: EngineFixture.Engine);
         try
         {
             ProductionControl[] controls = [city.Production, guild.ProductionControl, node.ProductionControl];

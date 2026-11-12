@@ -32,16 +32,16 @@ public partial class Battle : EngineObject
     public Battle(ECustomNode owner) : base(owner)
     {
         _executedEventsStore = new();
-        var combatSide = new CombatSide(null);
+        var combatSide = new CombatSide(null) { Holder = CreationHolder() };
         Sides[(int)CombatSideIndex.Attacker] = combatSide;
-        var combatSide2 = new CombatSide(null);
+        var combatSide2 = new CombatSide(null) { Holder = CreationHolder() };
         Sides[(int)CombatSideIndex.Defender] = combatSide2;
         Sides[(int)CombatSideIndex.Attacker].SideIndex = 0;
         Sides[(int)CombatSideIndex.Defender].SideIndex = 1;
         Sides[(int)CombatSideIndex.Attacker].Opponent = Sides[(int)CombatSideIndex.Defender];
         Sides[(int)CombatSideIndex.Defender].Opponent = Sides[(int)CombatSideIndex.Attacker];
-        CombatData = new CombatData(null);
-        Logbook = new CombatLogbook(null);
+        CombatData = new CombatData(null) { Holder = CreationHolder() };
+        Logbook = new CombatLogbook(null) { Holder = CreationHolder() };
         Clear();
     }
 
@@ -200,13 +200,13 @@ public partial class Battle : EngineObject
     // Combat.pas:6163
     public virtual CombatUnit CreateCombatUnit()
     {
-        CombatUnit result = new FastBattleUnit(null);
+        CombatUnit result = new FastBattleUnit(null) { Holder = CreationHolder() };
         result.Id = CreateUniqueCombatObjectId();
         return result;
     }
 
     // Combat.pas:6289
-    public virtual CombatPlayer CreateCombatPlayer() => new CombatPlayer(null);
+    public virtual CombatPlayer CreateCombatPlayer() => new CombatPlayer(null) { Holder = CreationHolder() };
 
     // Combat.pas:6143
     public virtual bool Setup(byte attackerPlayer, byte attackerRelation, int attackerX, int attackerY, int attackerL, byte defenderPlayer, byte defenderRelation, int X, int Y, int L, bool logActions)
@@ -268,7 +268,7 @@ public partial class Battle : EngineObject
 
         if (wallType != 0)
         {
-            wall = new CombatWall(null);
+            wall = new CombatWall(null) { Holder = CreationHolder() };
             wall.Setup(CreateUniqueCombatObjectId(), wallType, (byte)CombatData.DefenderPlayer);
             CombatData.AddObject(wall);
         }
@@ -422,7 +422,7 @@ public partial class Battle : EngineObject
     public virtual void NewTurn(byte combatPlayer)
     {
         NewCombatTurnCombatAction A;
-        A = new NewCombatTurnCombatAction(null);
+        A = new NewCombatTurnCombatAction(null) { Holder = CreationHolder() };
         A.CombatPlayer = combatPlayer;
         ExecuteCombatAction(A);
         A.Release();
@@ -433,7 +433,7 @@ public partial class Battle : EngineObject
     public virtual void NewRound()
     {
         NewCombatRoundCombatAction A;
-        A = new NewCombatRoundCombatAction(null);
+        A = new NewCombatRoundCombatAction(null) { Holder = CreationHolder() };
         ExecuteCombatAction(A);
         A.Release();
     }
@@ -621,7 +621,7 @@ public partial class Battle : EngineObject
     public void SetLogbookHeader(string header)
     {
         UpdateHeaderCombatAction A;
-        A = new UpdateHeaderCombatAction(null);
+        A = new UpdateHeaderCombatAction(null) { Holder = CreationHolder() };
         A.Header = header;
         ExecuteCombatAction(A);
         A.Release();
@@ -894,29 +894,29 @@ public partial class Battle : EngineObject
         {
             if (CombatResult == CombatResult.Victory)
             {
-                result = AbilityRules.TranslateResourceString(s_battleWonText);
+                result = AbilityRules.TranslateResourceString(GetEngine(), s_battleWonText);
             }
             else
             {
                 if (CombatResult == CombatResult.Defeat)
                 {
-                    result = AbilityRules.TranslateResourceString(s_battleLostText);
+                    result = AbilityRules.TranslateResourceString(GetEngine(), s_battleLostText);
                 }
                 else
                 {
                     if (CombatResult == CombatResult.CannotBreachWall)
                     {
-                        result = AbilityRules.TranslateResourceString(GameText.CannotBreachWallText);
+                        result = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotBreachWallText);
                     }
                     else
                     {
                         if (CombatResult == CombatResult.CannotInflictDamage)
                         {
-                            result = AbilityRules.TranslateResourceString(GameText.CannotInflictDamageText);
+                            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotInflictDamageText);
                         }
                         else
                         {
-                            result = AbilityRules.TranslateResourceString(s_battleDrawnText);
+                            result = AbilityRules.TranslateResourceString(GetEngine(), s_battleDrawnText);
                         }
                     }
                 }

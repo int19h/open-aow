@@ -40,8 +40,8 @@ public partial class MapLevel : ECustomNode, IOwned<MapContainer>, IOwnedSink<Ma
     // stores byte offsets into its raw allocation, the managed array counts fields.
     public int[][] HexNumberOffsets { get; } = [new int[8], new int[8]];
 
-    // HSEngine.pas:2925
-    public override GameEngine GetEngine() => Engine;
+    // HSEngine.pas:2925. Before the activation message the level reaches the engine as any node does.
+    public override GameEngine GetEngine() => Engine ?? base.GetEngine();
 
     // HSEngine.pas:2913
     public override void MessageProc(ref EngineMessage message, EngineObject sender)

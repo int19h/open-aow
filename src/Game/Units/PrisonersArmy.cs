@@ -10,7 +10,7 @@ public partial class PrisonersArmy : Army
 {
     public PrisonersArmy(ECustomNode owner) : base(owner)
     {
-        Items = new ItemList(null);
+        Items = new ItemList(null) { Holder = CreationHolder() };
     }
 
     // The items left on the battlefield when a dungeon combat ends. The original hands them to

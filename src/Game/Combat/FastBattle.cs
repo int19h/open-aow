@@ -23,7 +23,7 @@ public partial class FastBattle : Battle
     public int WallSiegeObjectCount { get; set; }
 
     // AIGroup.pas:7175
-    public override CombatUnit CreateCombatUnit() => new FastBattleUnit(null);
+    public override CombatUnit CreateCombatUnit() => new FastBattleUnit(null) { Holder = CreationHolder() };
 
     // AIGroup.pas:7203
     public override bool Setup(byte attackerPlayer, byte attackerRelation, int attackerX, int attackerY, int attackerL, byte defenderPlayer, byte defenderRelation, int X, int Y, int L, bool logActions) => base.Setup(attackerPlayer, attackerRelation, attackerX, attackerY, attackerL, defenderPlayer, defenderRelation, X, Y, L, logActions);
@@ -63,7 +63,7 @@ public partial class FastBattle : Battle
                 else
                 {
                     CombatResult = CombatResult.CannotInflictDamage;
-                    header = AbilityRules.TranslateResourceString(GameText.CannotInflictDamageText);
+                    header = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotInflictDamageText);
                     SetLogbookHeader(header);
                 }
             }
@@ -74,7 +74,7 @@ public partial class FastBattle : Battle
         }
         else
         {
-            header = AbilityRules.TranslateResourceString(GameText.CannotBreachWallText);
+            header = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotBreachWallText);
             SetLogbookHeader(header);
             CombatResult = CombatResult.CannotBreachWall;
         }
@@ -208,7 +208,7 @@ public partial class FastBattle : Battle
         idle = true;
         objects = new CombatObjectList();
         var round = GetRound();
-        SetLogbookHeader(AbilityRules.Format(AbilityRules.TranslateResourceString(s_roundFormat), [IntToStr(round)]));
+        SetLogbookHeader(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_roundFormat), [IntToStr(round)]));
         for (int playerIndex = 0, last = CombatData.TurnOrder.Count - 1; playerIndex <= last; playerIndex++)
         {
             NewTurn(CombatData.TurnOrder[playerIndex]);

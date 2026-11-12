@@ -24,7 +24,7 @@ public partial class AggressorAIGroupControl : BehaviorAIGroupControl
         switch (State)
         {
             case 0:
-                defense = new AIGroupDefenseControl(null);
+                defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
                 defense.DefendMode = AIGroupDefenseControl.GroupDefendMode.Split;
                 ActivatePlugin(defense);
                 defense.Release();
@@ -32,7 +32,7 @@ public partial class AggressorAIGroupControl : BehaviorAIGroupControl
                 break;
             case 1:
                 Targets.Clear();
-                finder = new AIGroupTargetFinder(null);
+                finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                 finder.Setup(this);
                 if (Group.Transporter == null)
                 {
@@ -51,7 +51,7 @@ public partial class AggressorAIGroupControl : BehaviorAIGroupControl
             case 2:
                 if (Targets.Count != 0)
                 {
-                    recruitment = new AIRecruitmentGroupFinder(null);
+                    recruitment = new AIRecruitmentGroupFinder(null) { Holder = CreationHolder() };
                     recruitment.Setup(this);
                     ActivatePlugin(recruitment);
                     recruitment.Release();
@@ -67,7 +67,7 @@ public partial class AggressorAIGroupControl : BehaviorAIGroupControl
                 if (Targets.Count != 0)
                 {
                     ProductionLocations.Clear();
-                    production = new AIProductionLocationFinder(null);
+                    production = new AIProductionLocationFinder(null) { Holder = CreationHolder() };
                     production.Setup(this);
                     ActivatePlugin(production);
                     production.Release();
@@ -99,7 +99,7 @@ public partial class AggressorAIGroupControl : BehaviorAIGroupControl
             case 5:
                 if (TargetSelector.TargetStatus == AIGroupTargetingStatus.TargetConquered)
                 {
-                    raze = new AIGroupRazeControl(null);
+                    raze = new AIGroupRazeControl(null) { Holder = CreationHolder() };
                     raze.Setup(this);
                     ActivatePlugin(raze);
                     raze.Release();
@@ -131,7 +131,7 @@ public partial class AggressorAIGroupControl : BehaviorAIGroupControl
 
                 break;
             case 10:
-                wander = new AIGroupWanderControl(null);
+                wander = new AIGroupWanderControl(null) { Holder = CreationHolder() };
                 wander.Setup(this);
                 wander.MovePointsMax = 100;
                 ActivatePlugin(wander);

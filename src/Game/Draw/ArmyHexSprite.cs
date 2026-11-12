@@ -62,7 +62,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     // Army.PAS:2648
     public ArmyHexSprite(ECustomNode owner) : base(owner)
     {
-        Army = new Army(null);
+        Army = new Army(null) { Holder = CreationHolder() };
     }
 
     // Army.PAS:2684
@@ -532,7 +532,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     }
 
     // Army.PAS:2679
-    public override string EditName() => AbilityRules.TranslateResourceString(s_armyText);
+    public override string EditName() => AbilityRules.TranslateResourceString(GetEngine(), s_armyText);
 
     // Army.PAS:3140
     public override bool MoveTo(MapField field, int moveCost)
@@ -652,7 +652,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         int deltaY = default;
         ImageSequenceAnimation animation;
         result = base.MoveFirst(direction, instant);
-        switch (GameTables.GameEngine.Registry.GetMovementSpeed())
+        switch (GetEngine().Registry.GetMovementSpeed())
         {
             case GameSettings.MovementSpeed.Normal:
                 MoveSteps = (sbyte)base.GetMoveSteps();
@@ -705,7 +705,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                 {
                     if (GamePack.Current.AbilityControl.GetAbility(42).ImageSequences.GetImageSequence(0) != null)
                     {
-                        animation = new ImageSequenceAnimation(null);
+                        animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                         animation.SetImageSequence(GamePack.Current.AbilityControl.GetAbility(42).ImageSequences.GetImageSequence(0));
                         animation.AnimationLevel = 27;
                         HexGeometry.HexNumberToPixel(direction, ref deltaX, ref deltaY);
@@ -911,16 +911,16 @@ public partial class ArmyHexSprite : UnitHexSprite
         switch (action)
         {
             case MoveAction.Normal:
-                move = new ArmyDefaultMoveTokenEvent(null);
+                move = new ArmyDefaultMoveTokenEvent(null) { Holder = army };
                 break;
             case MoveAction.Combine:
-                move = new ArmyCombineMoveTokenEvent(null);
+                move = new ArmyCombineMoveTokenEvent(null) { Holder = army };
                 break;
             case MoveAction.Attack:
-                move = new ArmyCombatMoveTokenEvent(null);
+                move = new ArmyCombatMoveTokenEvent(null) { Holder = army };
                 break;
             case MoveAction.Negotiate:
-                move = new ArmyNegotiateMoveTokenEvent(null);
+                move = new ArmyNegotiateMoveTokenEvent(null) { Holder = army };
                 break;
             default:
                 move = null;
@@ -1000,7 +1000,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     {
         bool result;
         MoveControlSettings settings;
-        settings = new MoveControlSettings(null);
+        settings = new MoveControlSettings(null) { Holder = army };
         var hexLevel = army.GetHexLevel();
         var hexY = army.GetHexY();
         settings.SetSourcePosition(army.GetHexX(), hexY, hexLevel);

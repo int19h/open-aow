@@ -114,7 +114,7 @@ public sealed class MapNetSoundFailureTests
         {
             var owner = new SoundOwner();
             var container = new EngineFixture.ContainerOwner(owner);
-            var level = Assert.IsAssignableFrom<MapLevel>(descriptor.CreateInstance(container));
+            var level = Assert.IsAssignableFrom<MapLevel>(descriptor.CreateInstance(container, holder: EngineFixture.Engine));
             Assert.IsType(descriptor.Type, level);
             Assert.Same(level, Assert.Single(owner.Members));
             Assert.Same(container, level.Owner);

@@ -24,7 +24,7 @@ public partial class AIGroupCooperationControl : AIGroupTask
     // AIGroup.pas:2839
     public AIGroupCooperationControl(ECustomNode owner) : base(owner)
     {
-        Groups = new AIRecruitmentGroupList(null);
+        Groups = new AIRecruitmentGroupList(null) { Holder = CreationHolder() };
     }
 
     public bool Complete { get; private set; }

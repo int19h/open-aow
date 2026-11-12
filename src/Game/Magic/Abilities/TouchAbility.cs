@@ -185,7 +185,7 @@ public partial class TouchAbility : AdjustableAbility
         MoveWallCombatAction action;
         if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
         {
-            action = new MoveWallCombatAction(null);
+            action = new MoveWallCombatAction(null) { Holder = CreationHolder() };
             action.CombatObjectId = source.Id;
             action.InsideWall = 0;
             source.Combat.ExecuteCombatAction(action);

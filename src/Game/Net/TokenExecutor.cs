@@ -105,11 +105,12 @@ public partial class TokenExecutor : IDisposable
     public TokenExecutor(TokenManager manager)
     {
         TokenManager = manager;
-        Events = new TokenEventList(null);
+        // A construction test passes no manager.
+        Events = new TokenEventList(null) { Holder = manager?.Owner };
         TacticalBattleList = new List<TokenControl>();
         OnEventsExecutedStore = new();
         OnActivateTacticalBattleStore = new();
-        SystemEvents = new TokenEventList(null);
+        SystemEvents = new TokenEventList(null) { Holder = manager?.Owner };
     }
 
     // NetworkE.pas:1361

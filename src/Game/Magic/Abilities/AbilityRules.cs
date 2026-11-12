@@ -31,15 +31,9 @@ public static class AbilityRules
 
     internal static Set<DamageType> WallDamageTypes { get; } = Set<DamageType>.FromMask(256UL);
 
-    internal static string TranslateResourceString(string S)
-    {
-        if (GameTables.GameEngine != null)
-        {
-            return GameTables.GameEngine.TranslateResourceString(S);
-        }
-
-        return S;
-    }
+    // The original reads the engine global and returns the text unchanged while it is nil. A bare
+    // engine (no dictionary) returns it unchanged too, as GameEngine.TranslateText does.
+    internal static string TranslateResourceString(GameEngine engine, string S) => engine?.Dictionary is not null ? engine.TranslateResourceString(S) : S;
 
     internal static int ExpectedDamageCapped(int damage, int attackDefense, int maximum)
     {
@@ -382,7 +376,7 @@ public static class AbilityRules
         return result;
     }
 
-    internal static int PlaceRandomUnits(int X, int Y, int L, sbyte player, UnitIndexList units, int level, int value, Set<UnitType> types)
+    internal static int PlaceRandomUnits(int X, int Y, int L, sbyte player, UnitIndexList units, int level, int value, Set<UnitType> types, GameEngine engine)
     {
         int index;
         int tries;
@@ -425,7 +419,7 @@ public static class AbilityRules
 
                 if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType) && GamePack.Current.UnitResources.GetUnitResource(index).Level <= level)
                 {
-                    unit = new Unit(null);
+                    unit = new Unit(null) { Holder = engine };
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
                     if (unit.Place(X, Y, L, player, Set<UnitPlaceModeElement>.Of()) != null)
                     {
@@ -612,7 +606,7 @@ public static class AbilityRules
         return result;
     }
 
-    internal static int GetMovePathBattleFieldStrength(sbyte player, sbyte independentRelation, MovePath movePath, int targetRange, int range, int step)
+    internal static int GetMovePathBattleFieldStrength(sbyte player, sbyte independentRelation, MovePath movePath, int targetRange, int range, int step, GameEngine engine)
     {
         int result;
         UnitUserList units;
@@ -640,7 +634,7 @@ public static class AbilityRules
             info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents, BattleFieldInfoRequestsElement.EffectiveStrength);
             if (step > 0)
             {
-                units = new UnitUserList(null);
+                units = new UnitUserList(null) { Holder = engine };
                 var item = movePath[movePath.Count - 1];
                 level = StrategicMap.Current.MapContainer.MapLevels[item.MapLevel];
                 var movePathItem = movePath[movePath.Count - 1];
@@ -737,10 +731,10 @@ public static class AbilityRules
         return result;
     }
 
-    internal static EnhancementAbility CreateEnhancementAbility(int id, string name, Set<AbilitySelectionType> selectionTypes)
+    internal static EnhancementAbility CreateEnhancementAbility(int id, string name, Set<AbilitySelectionType> selectionTypes, GameEngine engine)
     {
         EnhancementAbility ability;
-        ability = new EnhancementAbility(null);
+        ability = new EnhancementAbility(null) { Holder = engine };
         ability.AbilityId = id;
         ability.AbilityName = name;
         ability.SelectionTypes = selectionTypes;
@@ -769,10 +763,10 @@ public static class AbilityRules
         return attack * defense * damage / 2;
     }
 
-    internal static bool EndPlayerTurn(sbyte player)
+    internal static bool EndPlayerTurn(sbyte player, GameEngine engine)
     {
         EndTurnTokenEvent eventValue;
-        eventValue = new EndTurnTokenEvent(null);
+        eventValue = new EndTurnTokenEvent(null) { Holder = engine };
         eventValue.Player = player;
         eventValue.Day = StrategicMap.Current.Day;
         eventValue.Mode = EndTurnTokenEventMode.EndTurn;

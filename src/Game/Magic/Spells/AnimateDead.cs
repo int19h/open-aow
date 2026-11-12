@@ -14,9 +14,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class AnimateDead : CombatSpell
 {
     // CombatSpells.pas:2046
-    public AnimateDead(ECustomNode owner) : base(owner)
+    public AnimateDead(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_animateDeadText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_animateDeadText);
         SpellId = 130;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 0;
@@ -30,7 +31,7 @@ public partial class AnimateDead : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         AnimateDeadCombatAction action;
-        action = new AnimateDeadCombatAction(null);
+        action = new AnimateDeadCombatAction(null) { Holder = CreationHolder() };
         action.SourceId = source.Id;
         action.TargetId = target.Id;
         action.Succeeded = target.Status.Contains(CombatObjectStatusElement.Destroyed);

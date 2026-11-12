@@ -24,7 +24,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
     // AIGroup.pas:2070
     public AIGroupRecruitControl(ECustomNode owner) : base(owner)
     {
-        Units = new UnitUserList(null);
+        Units = new UnitUserList(null) { Holder = CreationHolder() };
     }
 
     public AIGroupRecruitControlMode Mode { get; set; }
@@ -289,7 +289,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
         int I;
         Troop troop;
         bool result = false;
-        units = new UnitUserList(null);
+        units = new UnitUserList(null) { Holder = CreationHolder() };
         I = group.Group.Count - 1;
         for (; I >= 0; I -= 1)
         {
@@ -301,7 +301,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
 
         if (units.Count != 0)
         {
-            recruitable = new UnitUserList(null);
+            recruitable = new UnitUserList(null) { Holder = CreationHolder() };
             if (Mode != AIGroupRecruitControlMode.ForceRecruit)
             {
                 group.Group.GetRecruitableUnits(_control.Group, units, recruitable);

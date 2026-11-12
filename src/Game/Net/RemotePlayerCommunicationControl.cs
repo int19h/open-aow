@@ -1,4 +1,6 @@
 // Translated from NetworkE.pas.
+using Aow.Engine.Nodes;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Net;
@@ -102,7 +104,7 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
     }
 
     // NetworkE.pas:759
-    public RemotePlayerCommunicationControl() : base()
+    public RemotePlayerCommunicationControl(EngineObject creator) : base(creator)
     {
         PackageDataList = new PackageDataList();
     }

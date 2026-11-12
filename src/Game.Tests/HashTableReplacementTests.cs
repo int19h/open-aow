@@ -14,8 +14,8 @@ public sealed class HashTableReplacementTests
     [Fact]
     public void UnitTableHitsMissesAndKeepsTheFirstDuplicate()
     {
-        var control = new UnitControl(null!);
-        var unit = new Unit(null!) { UnitId = 7 };
+        var control = new UnitControl(null!) { Holder = EngineFixture.Engine };
+        var unit = new Unit(null!) { Holder = EngineFixture.Engine, UnitId = 7 };
         control.RegisterUnit(unit);
         Assert.Same(unit, control.FindUnit(7));
         Assert.Same(unit, control.FindUnit<Unit>(7));
@@ -24,7 +24,7 @@ public sealed class HashTableReplacementTests
         Assert.Null(control.FindUnit<Hero>(7));
 
         var duplicate = Assert.Throws<InvalidOperationException>(() =>
-            HashTables.Add(control.UnitTable, key: 7, value: new Unit(null!)));
+            HashTables.Add(control.UnitTable, key: 7, value: new Unit(null!) { Holder = EngineFixture.Engine }));
         Assert.Equal("ID already in HashTable", duplicate.Message);
         Assert.Same(unit, control.FindUnit(7));
     }
@@ -32,11 +32,12 @@ public sealed class HashTableReplacementTests
     [Fact]
     public void UnregisterRemovesOnlyTheStoredUnit()
     {
-        var control = new UnitControl(null!);
-        var first = new Unit(null!) { UnitId = 4 };
+        var control = new UnitControl(null!) { Holder = EngineFixture.Engine };
+        var first = new Unit(null!) { Holder = EngineFixture.Engine, UnitId = 4 };
         control.RegisterUnit(first);
         var other = new Unit(null!)
         {
+            Holder = EngineFixture.Engine,
             UnitId = 4,
             UnitStatus = Set<UnitStatusElement>.Of(UnitStatusElement.Registered)
         };

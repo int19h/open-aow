@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class FlamingArrow : CombatSpell
 {
     // CombatSpells.pas:1603
-    public FlamingArrow(ECustomNode owner) : base(owner)
+    public FlamingArrow(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_flamingArrowText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_flamingArrowText);
         SpellId = 123;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 8;

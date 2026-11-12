@@ -60,7 +60,7 @@ public partial class HealingTokenEvent : TokenEvent
                 StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, X, Y, L, 0);
                 if (StrategicMap.Current.Visible(X, Y, L, 0))
                 {
-                    animation = new ImageSequenceAnimation(null);
+                    animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(ability.ImageSequences.GetImageSequence(0));
                     StrategicMap.Current.PlaceHex(animation, X, Y, L);
                 }

@@ -62,7 +62,7 @@ public partial class UnholyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
                     if (StrategicMap.Current.PlaceHex(ground, walk.X, walk.Y, Location.MapLevel))
                     {
                         ground.Mode = Set<UnholySummoning>.Of(UnholySummoning.Summoning);
-                        animation = new ImageSequenceAnimation(null);
+                        animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                         animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(14).CastImages.ImageSequences[0]);
                         animation.OnShow += ground.ShowSummonAnimation;
                         animation.OnNewFrame += ground.NewFrameSummonAnimation;

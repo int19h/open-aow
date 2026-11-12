@@ -218,7 +218,7 @@ public partial class ReflectingPool : PlayerStructure
             _centerFrame += 1;
             if (_centerFrame % 8 == 0)
             {
-                list = new PlayerStructureList(null);
+                list = new PlayerStructureList(null) { Holder = CreationHolder() };
                 ListReflectingPools(ref list);
                 list.RemoveChild(this);
                 list.SortStable(ComparePools);
@@ -339,7 +339,7 @@ public partial class ReflectingPool : PlayerStructure
         // ReflectingPool.pas:42
 
         // ReflectingPool.pas:263
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_reflectingPoolText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_reflectingPoolText);
 
         private static readonly string s_reflectingPoolText = "Reflecting Pool";
 

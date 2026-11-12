@@ -71,7 +71,7 @@ public partial class BloodShrine : Structure
         var hexX2 = GetHexX();
         if (StrategicMap.Current.Visible(hexX2, hexY2, hexLevel2, 0))
         {
-            animation = new BloodShrineAnimation(null);
+            animation = new BloodShrineAnimation(null) { Holder = CreationHolder() };
             R = new Rect(-16, -8, 32, 40);
             animation.SetDimensions(R);
             animation.AnimationLevel = 27;
@@ -102,7 +102,7 @@ public partial class BloodShrine : Structure
         // BloodShrine.pas:36
 
         // BloodShrine.pas:119
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_bloodShrineText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_bloodShrineText);
 
         private static readonly string s_bloodShrineText = "Blood Shrine";
 

@@ -8,12 +8,13 @@ namespace Aow.Game.Magic.Abilities;
 public partial class CosmeticSurgeryAbility : UnitEnchantmentAbility
 {
     // AoWAb.PAS:910
-    public CosmeticSurgeryAbility(ECustomNode owner) : base(owner)
+    public CosmeticSurgeryAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(GameText.CosmeticSurgeryText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.CosmeticSurgeryText);
         AbilityId = 126;
     }
 
     // AoWAb.PAS:917
-    public override UnitEnchantment CreateEnchantment() => new CosmeticSurgeryEnchantment(null);
+    public override UnitEnchantment CreateEnchantment() => new CosmeticSurgeryEnchantment(null) { Holder = CreationHolder() };
 }

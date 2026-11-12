@@ -16,9 +16,9 @@ public sealed partial record BreakAlliance : DiplomaticProposal
 
     public override int Icon => 8;
 
-    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(GameText.BreakAllianceText);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), GameText.BreakAllianceText);
 
-    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(AllianceBrokenText);
+    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), AllianceBrokenText);
 
     public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
         text.Proposing(109);
@@ -29,7 +29,7 @@ public sealed partial record BreakAlliance : DiplomaticProposal
         StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.Peace);
         if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
-            var allianceBroken = AbilityRules.TranslateResourceString(AllianceBrokenText);
+            var allianceBroken = AbilityRules.TranslateResourceString(action.GetEngine(), AllianceBrokenText);
             StrategicMap.Current.ShowMessage(allianceBroken);
         }
 

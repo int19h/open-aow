@@ -153,7 +153,7 @@ public partial class MoveControl : IDisposable
         {
             if (Activate(settings))
             {
-                Assert(GameTables.GameEngine.Demo || settings.Status != MoveControlSettingsStatus.Processed, "", "MoveT.PAS", 1541);
+                Assert(settings.GetEngine().Demo || settings.Status != MoveControlSettingsStatus.Processed, "", "MoveT.PAS", 1541);
                 do
                 {
                 }
@@ -304,7 +304,7 @@ public partial class MoveControl : IDisposable
                 }
                 else
                 {
-                    pathFindingStep = new PathFindingStep(null);
+                    pathFindingStep = new PathFindingStep(null) { Holder = Map };
                     var targetMapCoordinate = target.GetMapCoordinate();
                     pathFindingStep.Location.Packed = targetMapCoordinate;
                     var sourceMapCoordinate = source.GetMapCoordinate();
@@ -323,7 +323,7 @@ public partial class MoveControl : IDisposable
         int direction;
         int count;
         int hexDirection;
-        pathFindingStep = new PathFindingStep(null);
+        pathFindingStep = new PathFindingStep(null) { Holder = Map };
         var mapCoordinate = mapField.GetMapCoordinate();
         pathFindingStep.Location.Packed = mapCoordinate;
         if (origin != null)

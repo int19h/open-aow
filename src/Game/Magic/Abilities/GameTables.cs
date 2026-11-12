@@ -140,11 +140,6 @@ public static class GameTables
 
     private static readonly string s_waryText = "Wary";
 
-    // The engine global of AoWE. The hosts own the engine and the interface reaches it through its
-    // context (issue 224). It stays for the engine nodes whose owner walk does not reach the engine,
-    // such as the rules a registry creates without an owner, until the nodes carry their engine.
-    public static GameEngine GameEngine { get; set; }
-
     internal static string[] AbilityTypeTexts { get; } = ["", "", "", "", ""];
 
     internal static string[] PlayerTypeTexts { get; } = ["", "", "", "", "", "", "", ""];

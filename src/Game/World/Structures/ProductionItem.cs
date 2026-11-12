@@ -47,7 +47,7 @@ public partial class ProductionItem : EngineObject, IOwned<ProductionQueue>, IOw
         }
         else
         {
-            result = AbilityRules.TranslateResourceString(GameTables.UnknownText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
         }
 
         return result;
@@ -63,7 +63,7 @@ public partial class ProductionItem : EngineObject, IOwned<ProductionQueue>, IOw
         }
         else
         {
-            result = AbilityRules.TranslateResourceString(GameTables.UnknownText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
         }
 
         return result;

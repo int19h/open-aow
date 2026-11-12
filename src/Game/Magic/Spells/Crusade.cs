@@ -19,9 +19,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Crusade : Spell
 {
     // GlobalSpells.pas:1302
-    public Crusade(ECustomNode owner) : base(owner)
+    public Crusade(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_crusadeText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_crusadeText);
         SpellId = 75;
         SpellType = SpellType.Global;
         BaseManaCost = 0;
@@ -53,13 +54,13 @@ public partial class Crusade : Spell
 
             if (StrategicMap.Current.Random(100) < 20)
             {
-                party = new ArmyHexSprite(null);
+                party = new ArmyHexSprite(null) { Holder = CreationHolder() };
                 party.Army.SetPlayer(0);
                 count = 1;
                 unitIndex = StrategicMap.Current.Random(1);
                 for (int J = 0; J <= count - 1; J++)
                 {
-                    newUnit = new Unit(null);
+                    newUnit = new Unit(null) { Holder = CreationHolder() };
                     newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(LargeUnitResourceIds[unitIndex]));
                     newUnit.ExpandAbility(101);
                     party.Army.AddUnit(newUnit);
@@ -75,12 +76,12 @@ public partial class Crusade : Spell
             {
                 for (int I = 0; I <= 1; I++)
                 {
-                    party = new ArmyHexSprite(null);
+                    party = new ArmyHexSprite(null) { Holder = CreationHolder() };
                     party.Army.SetPlayer(0);
                     count = StrategicMap.Current.Random(3) + 4;
                     for (int J = 0; J <= count - 1; J++)
                     {
-                        newUnit = new Unit(null);
+                        newUnit = new Unit(null) { Holder = CreationHolder() };
                         unitIndex = StrategicMap.Current.Random(2);
                         newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(FootUnitResourceIds[unitIndex]));
                         newUnit.ExpandAbility(101);
@@ -94,7 +95,7 @@ public partial class Crusade : Spell
                     }
                 }
 
-                party = new ArmyHexSprite(null);
+                party = new ArmyHexSprite(null) { Holder = CreationHolder() };
                 party.Army.SetPlayer(0);
                 unitIndex = StrategicMap.Current.Random(3);
                 count = 2;
@@ -105,7 +106,7 @@ public partial class Crusade : Spell
 
                 for (int J = 0; J <= count - 1; J++)
                 {
-                    newUnit = new Unit(null);
+                    newUnit = new Unit(null) { Holder = CreationHolder() };
                     newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(MountedUnitResourceIds[unitIndex]));
                     newUnit.ExpandAbility(101);
                     party.Army.AddUnit(newUnit);
@@ -134,7 +135,7 @@ public partial class Crusade : Spell
         base.Activate(source);
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new SpellTokenEvent(null);
+            eventValue = new SpellTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             eventValue.Release();
@@ -174,7 +175,7 @@ public partial class Crusade : Spell
                 if (GamePack.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0) != null)
                 {
                     // { Original uses Warp Party's images for Crusade parties. }
-                    animation = new ImageSequenceAnimation(null);
+                    animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0));
                     animation.AnimationLevel = 28;
                     var partyHexLevel = party.GetHexLevel();

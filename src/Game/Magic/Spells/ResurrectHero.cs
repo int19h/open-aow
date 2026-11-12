@@ -20,9 +20,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class ResurrectHero : Spell
 {
     // GlobalSpells.pas:980
-    public ResurrectHero(ECustomNode owner) : base(owner)
+    public ResurrectHero(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_resurrectHeroText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_resurrectHeroText);
         SpellId = 66;
         SpellType = SpellType.Global;
         BaseManaCost = 0;
@@ -48,7 +49,7 @@ public partial class ResurrectHero : Spell
         {
             source.GetLocation(out X, out Y, out layer);
             StrategicMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
-            animation = new TwinkleAnimation(null);
+            animation = new TwinkleAnimation(null) { Holder = CreationHolder() };
             animation.Setup(CastImages.GetImageSequence(0), Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
             StrategicMap.Current.PlaceHex(animation, X, Y, layer);
             if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, layer, 0))
@@ -59,7 +60,7 @@ public partial class ResurrectHero : Spell
 
         if (executeCount == 20)
         {
-            heroes = new HeroList(null);
+            heroes = new HeroList(null) { Holder = CreationHolder() };
             StrategicMap.Current.HeroControl.ListDeadHeroes(heroes);
             for (int I = heroes.Count - 1; I >= 0; I--)
             {
@@ -76,9 +77,9 @@ public partial class ResurrectHero : Spell
                 hero = heroes.GetHero(StrategicMap.Current.Random(count));
                 hero.Resurrect();
                 army = hero.Place(X, Y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
-                log = new LocationTextEventLog(null);
+                log = new LocationTextEventLog(null) { Holder = CreationHolder() };
                 log._player = source.Player;
-                log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_resurrectedFormat), [hero.HeroName]);
+                log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), s_resurrectedFormat), [hero.HeroName]);
                 var hexLevel = army.GetHexLevel();
                 var hexY = army.GetHexY();
                 log.SetLocation(army.GetHexX(), hexY, hexLevel);
@@ -89,19 +90,19 @@ public partial class ResurrectHero : Spell
                 log.Release();
                 if (hero.OfferToJoin(source.Player))
                 {
-                    emergeLog = new HeroEmergeEventLog(null);
+                    emergeLog = new HeroEmergeEventLog(null) { Holder = CreationHolder() };
                     emergeLog.Setup(hero, source.Player, HeroEmergeEventLog.HeroJoinMode.Resurrected);
                     emergeLog.Execute(true, ExecuteTrigger.Event, null);
                     emergeLog.Release();
                 }
                 else
                 {
-                    infoLog = new ArmyInfoEventLog(null);
+                    infoLog = new ArmyInfoEventLog(null) { Holder = CreationHolder() };
                     var indexOf = army.Army.IndexOf(hero);
                     infoLog.ArmyView.Setup(army.Army, (byte)(1 << indexOf));
                     infoLog.Selection = 255;
                     infoLog._player = source.Player;
-                    var noJoinResurrection = AbilityRules.TranslateResourceString(s_noJoinResurrectionText);
+                    var noJoinResurrection = AbilityRules.TranslateResourceString(GetEngine(), s_noJoinResurrectionText);
                     infoLog.Messages.Text = noJoinResurrection;
                     infoLog.Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.Event);
                     infoLog.Execute(true, ExecuteTrigger.Event, null);
@@ -110,7 +111,7 @@ public partial class ResurrectHero : Spell
             }
             else
             {
-                var noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GameText.NoHeroAnswersYourCallText);
+                var noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GetEngine(), GameText.NoHeroAnswersYourCallText);
                 StrategicMap.Current.ShowMessage(noHeroAnswersYourCall);
             }
 
@@ -135,7 +136,7 @@ public partial class ResurrectHero : Spell
         base.Activate(source);
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new SpellTokenEvent(null);
+            eventValue = new SpellTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             eventValue.Release();

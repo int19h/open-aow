@@ -10,9 +10,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class WallClimbingAbility : AdjustableAbility
 {
     // PassiveAb.pas:922
-    public WallClimbingAbility(ECustomNode owner) : base(owner)
+    public WallClimbingAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(s_wallClimbingText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_wallClimbingText);
         AbilityId = 36;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
     }

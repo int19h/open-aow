@@ -630,7 +630,7 @@ public partial class PlayerStructure : Structure
             if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
             {
                 var editName = EditName();
-                result = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.StructureCapturedFormat), [editName]);
+                result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             }
             else
             {
@@ -647,10 +647,10 @@ public partial class PlayerStructure : Structure
         LocationTextEventLog log;
         if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)_resource).Claimed)
         {
-            log = new LocationTextEventLog(null);
+            log = new LocationTextEventLog(null) { Holder = CreationHolder() };
             log._player = newPlayer;
             var editName = EditName();
-            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.StructureCapturedFormat), [editName]);
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             log.HexX = GetHexX();
             log.HexY = GetHexY();
             log.HexLevel = GetHexLevel();

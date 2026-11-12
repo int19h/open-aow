@@ -45,7 +45,7 @@ public partial class ItemLibrary : ItemList
         string result = Name;
         if (IsEmpty(result))
         {
-            result = AbilityRules.TranslateResourceString(s_systemItemLibraryText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), s_systemItemLibraryText);
         }
 
         return result;
@@ -94,7 +94,7 @@ public partial class ItemLibrary : ItemList
     public Item CreateItem()
     {
         Item item;
-        item = new Item(null);
+        item = new Item(null) { Holder = CreationHolder() };
         item.LibraryId = CreateUniqueLibraryId();
         item.LibraryName = Name;
         item.SetOwner(this);
@@ -105,13 +105,13 @@ public partial class ItemLibrary : ItemList
     // Army.PAS:4957
     public void LoadFromFile(string fileName)
     {
-        GameTables.GameEngine.ReadFromFile(fileName, this, null, GameProfile.ItemList);
+        GetEngine().ReadFromFile(fileName, this, null, GameProfile.ItemList);
     }
 
     // Army.PAS:4962
     public void SaveToFile(string fileName)
     {
-        GameTables.GameEngine.WriteToFile(fileName, this, null, GameProfile.ItemList);
+        GetEngine().WriteToFile(fileName, this, null, GameProfile.ItemList);
     }
 
     private static readonly string s_systemItemLibraryText = "System";

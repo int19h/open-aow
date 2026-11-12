@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 
 using Aow.Engine.Nodes;
 
+using Aow.Game;
 using Aow.Game.Units;
 
 using Aow.Game.World.Map;
@@ -558,7 +559,7 @@ public partial class Int32List : Persistent
             return condition && unit.GetUnitLevel() <= level && units.CanAddUnit(unit);
         }
 
-        testUnit = new Unit(null);
+        testUnit = new Unit(null) { Holder = units };
         int result = 0;
         tries = 50;
         units.BeginUpdate();
@@ -599,7 +600,7 @@ public partial class Int32List : Persistent
                         index = bestIndex;
                     }
 
-                    unit = new Unit(null);
+                    unit = new Unit(null) { Holder = units };
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
                     units.AddUnit(unit);
                     result += unit.GetObtainValue();
@@ -614,7 +615,7 @@ public partial class Int32List : Persistent
         return result;
     }
 
-    internal static int FillWithRandomUnitIndexes(Int32List indexes, Int32List units, int level, int value, Set<UnitType> types)
+    internal static int FillWithRandomUnitIndexes(Int32List indexes, Int32List units, int level, int value, Set<UnitType> types, GameEngine engine)
     {
         Unit testUnit;
         int index;
@@ -635,7 +636,7 @@ public partial class Int32List : Persistent
             return condition && unit.GetUnitLevel() <= level;
         }
 
-        testUnit = new Unit(null);
+        testUnit = new Unit(null) { Holder = engine };
         int result = 0;
         tries = 50;
         while (result < value && tries != 0)

@@ -2,8 +2,6 @@
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -46,7 +44,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
             var players = ((PlayerList)source).GetPlayers(I);
-            this[I].Assign(players, GameTables.GameEngine);
+            this[I].Assign(players, engine);
         }
     }
 
@@ -295,7 +293,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
 
         while (Count <= value)
         {
-            player = new Player(null);
+            player = new Player(null) { Holder = CreationHolder() };
             player.SetPlayerIndex((sbyte)Count);
             if (Count == 0)
             {

@@ -9,9 +9,10 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public partial class PoisonedAbility : DurationAbility
 {
     // PassiveAb.pas:571
-    public PoisonedAbility(ECustomNode owner) : base(owner)
+    public PoisonedAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        AbilityName = AbilityRules.TranslateResourceString(s_poisonedText);
+        Holder = holder;
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_poisonedText);
         AbilityId = 96;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.Day;

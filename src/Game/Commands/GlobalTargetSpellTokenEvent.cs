@@ -41,7 +41,7 @@ public partial class GlobalTargetSpellTokenEvent : SpellTokenEvent
         ImageSequenceAnimation animation;
         if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
         {
-            animation = new ImageSequenceAnimation(null);
+            animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
             StrategicMap.Current.PlaceHex(animation, X, Y, layer);
         }

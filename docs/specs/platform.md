@@ -46,7 +46,8 @@ startup units run, `Startup.CreateEngine` creates the engine, subscribes the map
 `City`, `BehaviorAG`, `MainAG` and `IndependentAG` and registers the game's classes, the order in
 which the Delphi units did it after `AoWE` created the engine. The context carries the engine, so
 the modules and the form reach it as `UI.Engine`. The headless host and the tools create the engine
-the same way and pass it on. Its handlers are transcribed, with the Windows parts replaced:
+the same way and pass it on. The engine objects reach it through their owners or their holder
+(`design.md` section 9), so no engine global remains. Its handlers are transcribed, with the Windows parts replaced:
 
 | handler | what it does | host replacement |
 |---|---|---|

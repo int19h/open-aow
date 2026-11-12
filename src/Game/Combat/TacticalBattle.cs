@@ -26,10 +26,10 @@ public partial class TacticalBattle : Battle
     public sbyte HostPlayer { get; private set; }
 
     // AoWTC.pas:5086
-    public override CombatUnit CreateCombatUnit() => new TacticalBattleUnit(null);
+    public override CombatUnit CreateCombatUnit() => new TacticalBattleUnit(null) { Holder = CreationHolder() };
 
     // AoWTC.pas:5157
-    public override CombatPlayer CreateCombatPlayer() => new TacticalBattlePlayer(null);
+    public override CombatPlayer CreateCombatPlayer() => new TacticalBattlePlayer(null) { Holder = CreationHolder() };
 
     // AoWTC.pas:5097
     public override void Initialize()
@@ -141,7 +141,7 @@ public partial class TacticalBattle : Battle
         if (!ValidateWallCombat())
         {
             SetLogCombatActions(1);
-            SetLogbookHeader(AbilityRules.TranslateResourceString(GameText.CannotBreachWallText));
+            SetLogbookHeader(AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotBreachWallText));
             CombatResult = CombatResult.CannotBreachWall;
             result = CombatResult;
         }
@@ -150,7 +150,7 @@ public partial class TacticalBattle : Battle
             if (Sides[(int)CombatSideIndex.Defender].GetCount() == Sides[(int)CombatSideIndex.Defender].ConquerCount)
             {
                 SetLogCombatActions(1);
-                SetLogbookHeader(AbilityRules.TranslateResourceString(GameText.CannotInflictDamageText));
+                SetLogbookHeader(AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotInflictDamageText));
                 CombatResult = CombatResult.CannotInflictDamage;
                 result = CombatResult;
             }
@@ -163,7 +163,7 @@ public partial class TacticalBattle : Battle
                 else
                 {
                     StrategicMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
-                    generator = new RandomBattleMapGenerator();
+                    generator = new RandomBattleMapGenerator(this);
                     generator.RandomMap(this, CombatData.X, CombatData.Y, CombatData.MapLevel);
                     generator?.Dispose();
                     bool condition = StrategicMap.Current.StartingGame || StrategicMap.Current.VisibleForPlayer(CombatData.X, CombatData.Y, CombatData.MapLevel, StrategicMap.Current.SeatedPlayer);

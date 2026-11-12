@@ -20,10 +20,10 @@ public sealed partial record Loot : ProductionOrder
     public override CityAction CityAction => CityAction.Loot;
 
     public override string Name(ProductionControl control) =>
-        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(GameText.LootText) : base.Name(control);
+        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(control.GetEngine(), GameText.LootText) : base.Name(control);
 
     public override string NameProgressive(ProductionControl control) =>
-        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(s_lootingText) : base.NameProgressive(control);
+        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(control.GetEngine(), s_lootingText) : base.NameProgressive(control);
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
@@ -44,9 +44,9 @@ public sealed partial record Loot : ProductionOrder
         control.Settings.Player = control.GetPlayer();
         control.Settings.Gold = 0;
         ChangeRelation(control, city, -30);
-        var log = new LocationTextEventLog(null);
+        var log = new LocationTextEventLog(null) { Holder = control };
         log._player = control.GetPlayer();
-        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_cityLootingFormat), [city.GetName()]);
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootingFormat), [city.GetName()]);
         var hexLevel = city.GetHexLevel();
         var hexY = city.GetHexY();
         log.SetLocation(city.GetHexX(), hexY, hexLevel);
@@ -68,7 +68,7 @@ public sealed partial record Loot : ProductionOrder
         }
 
         control.BeginUpdate();
-        Log(control, city, RtlUnit.Format(AbilityRules.TranslateResourceString(s_cityLootedFormat), [city.GetName(), IntToStr(city.Income * 3)]));
+        Log(control, city, RtlUnit.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityLootedFormat), [city.GetName(), IntToStr(city.Income * 3)]));
         var playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
         StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems + city.Income * 3);
         city._overlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);

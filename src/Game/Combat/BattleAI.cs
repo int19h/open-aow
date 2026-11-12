@@ -1,4 +1,5 @@
 // Translated from AoWTC.pas.
+using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
@@ -50,14 +51,18 @@ public partial class BattleAI : IDisposable
     }
 
     // AoWTC.pas:752
-    public BattleAI()
+    public BattleAI(EngineObject creator)
     {
+        Creator = creator;
         _units = new List<CombatObject>();
         _allies = new List<CombatObject>();
         _enemies = new List<CombatObject>();
         _moves = new List<BattleAIMove>();
         _walls = new List<CityWall>();
     }
+
+    // The node that created this battle AI. It and the nodes it creates reach the engine through it.
+    public EngineObject Creator { get; }
 
     // AoWTC.pas:774
     public void Reset()
@@ -874,7 +879,7 @@ public partial class BattleAI : IDisposable
                 {
                     ability = 0;
                     spell = 0;
-                    round = new MeleeRound();
+                    round = new MeleeRound(Creator);
                     round.Calculate(U, target);
                     if (round.GetAttackerDamageValue() > 0)
                     {
@@ -2059,9 +2064,9 @@ public partial class BattleAI : IDisposable
                             }
                         }
 
-                        GameTables.GameEngine.OutputDebugString("AI found " + IntToStr(_units.Count) + " Own units.");
-                        GameTables.GameEngine.OutputDebugString("AI found " + IntToStr(_allies.Count) + " Ally units.");
-                        GameTables.GameEngine.OutputDebugString("AI found " + IntToStr(_enemies.Count) + " Enemy units.");
+                        Creator.GetEngine().OutputDebugString("AI found " + IntToStr(_units.Count) + " Own units.");
+                        Creator.GetEngine().OutputDebugString("AI found " + IntToStr(_allies.Count) + " Ally units.");
+                        Creator.GetEngine().OutputDebugString("AI found " + IntToStr(_enemies.Count) + " Enemy units.");
                         _ignoreWalls = _side == CombatSideIndex.Attacker;
                         _flee = _side == CombatSideIndex.Attacker && CombatMap.Current.Combat.CombatData.WallType != 0 && !CombatMap.Current.Combat.CombatData.WallBreached;
                         _minMoves = 100;
@@ -2268,7 +2273,7 @@ public partial class BattleAI : IDisposable
                                     MessageBox(0, "Error during Eval Enemies", NullTerminatedText("Error - TCAI " + U.Troop.GetName()), 0);
                                 }
 
-                                settings = new CombatMoveControlSettings(null);
+                                settings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
                                 if (U.MovePoints > 0)
                                 {
                                     var hexY = U.UnitHexSprite.GetHexY();
@@ -2439,8 +2444,8 @@ public partial class BattleAI : IDisposable
                                 }
 
                                 _unitIndex = 0;
-                                GameTables.GameEngine.OutputDebugString("AI calculated " + IntToStr(_units.Count * _enemies.Count) + " Attack paths.");
-                                GameTables.GameEngine.OutputDebugString("AI calculated " + IntToStr(_moves.Count) + " Moves.");
+                                Creator.GetEngine().OutputDebugString("AI calculated " + IntToStr(_units.Count * _enemies.Count) + " Attack paths.");
+                                Creator.GetEngine().OutputDebugString("AI calculated " + IntToStr(_moves.Count) + " Moves.");
                             }
                             catch
                             {
@@ -2526,7 +2531,7 @@ public partial class BattleAI : IDisposable
 
                                 if (abilities.Count > 0)
                                 {
-                                    settings = new CombatMoveControlSettings(null);
+                                    settings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
                                     if (U.MovePoints > 0)
                                     {
                                         var hexY = U.UnitHexSprite.GetHexY();
@@ -2602,8 +2607,8 @@ public partial class BattleAI : IDisposable
                             _currentMove += 1;
                             _walls.Clear();
                             _unitIndex = 0;
-                            GameTables.GameEngine.OutputDebugString("AI calculated " + IntToStr(_units.Count * _enemies.Count) + " Attack paths.");
-                            GameTables.GameEngine.OutputDebugString("AI calculated " + IntToStr(_moves.Count) + " Moves.");
+                            Creator.GetEngine().OutputDebugString("AI calculated " + IntToStr(_units.Count * _enemies.Count) + " Attack paths.");
+                            Creator.GetEngine().OutputDebugString("AI calculated " + IntToStr(_moves.Count) + " Moves.");
                         }
 
                         _unitLimit = 0;
@@ -2721,7 +2726,7 @@ public partial class BattleAI : IDisposable
 
                                 if (K > value)
                                 {
-                                    settings = new CombatMoveControlSettings(null);
+                                    settings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
                                     // { Original uses X for both coordinates. }
                                     var hexX = U.UnitHexSprite.GetHexX();
                                     settings.SetSourcePosition(U.UnitHexSprite.GetHexX(), hexX, 0);
@@ -2855,7 +2860,7 @@ public partial class BattleAI : IDisposable
                                             move.UnitHexSprite.Unit.MovePoints = _minMoves;
                                         }
 
-                                        settings = new CombatMoveControlSettings(null);
+                                        settings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
                                         var hexLevel = tacticalBattleUnitHexSprite.GetHexLevel();
                                         var hexY = tacticalBattleUnitHexSprite.GetHexY();
                                         settings.SetSourcePosition(tacticalBattleUnitHexSprite.GetHexX(), hexY, hexLevel);
@@ -2927,7 +2932,7 @@ public partial class BattleAI : IDisposable
                                                         }
 
                                                         // { Original repeats X. }
-                                                        GameTables.GameEngine.OutputDebugString("AI moves to X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
+                                                        Creator.GetEngine().OutputDebugString("AI moves to X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
                                                         moved = TacticalBattleUnit.MoveCombatUnit(move.UnitHexSprite.Unit, (MovePath)Path);
                                                         if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                         {
@@ -2949,7 +2954,7 @@ public partial class BattleAI : IDisposable
 
                                     break;
                                 case BattleAIMoveType.Melee:
-                                    settings = new CombatMoveControlSettings(null);
+                                    settings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
                                     var hexY2 = move.UnitHexSprite.GetHexY();
                                     settings.SetSourcePosition(move.UnitHexSprite.GetHexX(), hexY2, 0);
                                     settings.SetDestinationPosition(move.X, move.Y, 0);
@@ -2967,7 +2972,7 @@ public partial class BattleAI : IDisposable
                                             if (Path[Path.Count - 2].Tag <= move.UnitHexSprite.Unit.MovePoints)
                                             {
                                                 // { Original repeats X in the debug text. }
-                                                GameTables.GameEngine.OutputDebugString("AI touches at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
+                                                Creator.GetEngine().OutputDebugString("AI touches at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
                                                 moved = move.UnitHexSprite.MeleeMoveTacticalBattle((MovePath)Path);
                                                 if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                 {
@@ -2983,7 +2988,7 @@ public partial class BattleAI : IDisposable
                                     break;
                                 case BattleAIMoveType.Touch:
                                     GamePack.Current.AbilityControl.GetAbility(move.Ability).GetCombatInfo(move.UnitHexSprite.Unit.Troop, ref aiInfo);
-                                    settings = new CombatMoveControlSettings(null);
+                                    settings = new CombatMoveControlSettings(null) { Holder = Creator.CreationHolder() };
                                     var hexY3 = move.UnitHexSprite.GetHexY();
                                     settings.SetSourcePosition(move.UnitHexSprite.GetHexX(), hexY3, 0);
                                     settings.SetDestinationPosition(move.X, move.Y, 0);
@@ -3008,7 +3013,7 @@ public partial class BattleAI : IDisposable
                                             {
                                                 move.UnitHexSprite.SelectedAbility = move.Ability;
                                                 // { Original repeats X in the debug text. }
-                                                GameTables.GameEngine.OutputDebugString("AI melees at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
+                                                Creator.GetEngine().OutputDebugString("AI melees at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
                                                 moved = move.UnitHexSprite.AbilityTouchMoveTacticalBattle((MovePath)Path);
                                                 if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                 {
@@ -3026,7 +3031,7 @@ public partial class BattleAI : IDisposable
                                     move.UnitHexSprite.SelectedAbility = move.Ability;
                                     move.UnitHexSprite.SelectedSpell = move.Spell;
                                     // { Original repeats X in the debug text. }
-                                    GameTables.GameEngine.OutputDebugString("AI ranged at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
+                                    Creator.GetEngine().OutputDebugString("AI ranged at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
                                     moved = move.UnitHexSprite.AbilityRangedTacticalBattle(move.X, move.Y);
                                     if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                     {

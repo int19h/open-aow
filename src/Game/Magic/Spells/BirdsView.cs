@@ -14,9 +14,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class BirdsView : Spell
 {
     // GlobalSpells.pas:489
-    public BirdsView(ECustomNode owner) : base(owner)
+    public BirdsView(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_birdsViewText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_birdsViewText);
         SpellId = 2;
         SpellType = SpellType.Global;
         BaseManaCost = 5;
@@ -35,7 +36,7 @@ public partial class BirdsView : Spell
         source.GetLocation(out X, out Y, out layer);
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
-            var birdsViewHexSprite = new BirdsViewHexSprite(null);
+            var birdsViewHexSprite = new BirdsViewHexSprite(null) { Holder = CreationHolder() };
             birdsViewHexSprite.StartAnimation(X, Y, layer, 14);
         }
 
@@ -58,7 +59,7 @@ public partial class BirdsView : Spell
             source.GetLocation(out X, out Y, out layer);
             if (layer != 0)
             {
-                messageText = AbilityRules.TranslateResourceString(GameText.CannotCastSpellInUndergroundText);
+                messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastSpellInUndergroundText);
                 result = false;
             }
         }
@@ -75,7 +76,7 @@ public partial class BirdsView : Spell
         base.Activate(source);
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new SpellTokenEvent(null);
+            eventValue = new SpellTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             eventValue.Release();

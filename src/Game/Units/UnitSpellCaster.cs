@@ -15,7 +15,7 @@ public partial class UnitSpellCaster : SpellCaster
     // Spells.PAS:859
     public UnitSpellCaster(ECustomNode owner) : base(owner)
     {
-        TargetUnits = new UnitUserList(null);
+        TargetUnits = new UnitUserList(null) { Holder = CreationHolder() };
     }
 
     public UnitUserList TargetUnits { get; }
@@ -58,13 +58,13 @@ public partial class UnitSpellCaster : SpellCaster
                         else
                         {
                             result = false;
-                            reason = AbilityRules.TranslateResourceString(GameText.NotEnoughManaText);
+                            reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughManaText);
                         }
                     }
                     else
                     {
                         result = false;
-                        reason = AbilityRules.TranslateResourceString(GameText.NotEnoughChannelingPointsText);
+                        reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughChannelingPointsText);
                     }
                 }
                 else
@@ -75,7 +75,7 @@ public partial class UnitSpellCaster : SpellCaster
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(GameText.NoUnitSelectedText);
+                reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NoUnitSelectedText);
             }
         }
         else
@@ -98,7 +98,7 @@ public partial class UnitSpellCaster : SpellCaster
             source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
             if (source != null)
             {
-                targets = new UnitUserList(null);
+                targets = new UnitUserList(null) { Holder = CreationHolder() };
                 for (int I = 0, last = TargetUnits.Count - 1; I <= last; I++)
                 {
                     if (((1 << I) & SelectionMask) != 0)

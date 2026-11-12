@@ -23,9 +23,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class AnimateRuins : CityTargetSpell
 {
     // CitySpells.pas:915
-    public AnimateRuins(ECustomNode owner) : base(owner)
+    public AnimateRuins(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_animateRuinsText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_animateRuinsText);
         SpellId = 76;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy, CityTargetModeElement.Razed);
     }
@@ -42,10 +43,10 @@ public partial class AnimateRuins : CityTargetSpell
         if (executeCount == 0)
         {
             targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
-            log = new LocationTextEventLog(null);
+            log = new LocationTextEventLog(null) { Holder = CreationHolder() };
             log._player = source.Player;
-            var animateRuins = AbilityRules.TranslateResourceString(s_animateRuinsText);
-            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.CastFormat), [animateRuins]);
+            var animateRuins = AbilityRules.TranslateResourceString(GetEngine(), s_animateRuinsText);
+            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [animateRuins]);
             var hexLevel = targetCity.GetHexLevel();
             var hexY = targetCity.GetHexY();
             log.SetLocation(targetCity.GetHexX(), hexY, hexLevel);
@@ -58,7 +59,7 @@ public partial class AnimateRuins : CityTargetSpell
             targetCity.ValidateObservation(source.Player);
             if (targetCity.Resource.ImageSequenceList.ImageSequences[20] != null)
             {
-                A = new ImageSequenceAnimation(null);
+                A = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 A.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[20]);
                 A.SetPixelXOffset(A.PixelXOffset - 16);
                 A.SetPixelYOffset(A.PixelYOffset - 16);
@@ -82,7 +83,7 @@ public partial class AnimateRuins : CityTargetSpell
                 count = StrategicMap.Current.Random(size * 2) + 1;
                 for (int I = 0; I <= count; I++)
                 {
-                    unit = new Unit(null);
+                    unit = new Unit(null) { Holder = CreationHolder() };
                     var random = StrategicMap.Current.Random(2);
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(UndeadUnitResourceIds[random]));
                     var hexLevel = targetCity.GetHexLevel();
@@ -114,7 +115,7 @@ public partial class AnimateRuins : CityTargetSpell
     public void ShowAnimation(Animation animation, int X, int Y, in LockedSurface lockedSurface)
     {
         var imageSequenceAnimation = (ImageSequenceAnimation)animation;
-        if (imageSequenceAnimation.ImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FrameCounter) == 0 && GameTables.GameEngine.AnimationDetail != 0)
+        if (imageSequenceAnimation.ImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FrameCounter) == 0 && GetEngine().AnimationDetail != 0)
         {
             var random = Random(2);
             AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);

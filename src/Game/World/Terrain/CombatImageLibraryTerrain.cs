@@ -118,7 +118,7 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
 
             if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
             {
-                _shadow = new CombatImageLibraryTerrainShadow(null);
+                _shadow = new CombatImageLibraryTerrainShadow(null) { Holder = CreationHolder() };
                 _shadow._terrain = this;
             }
         }

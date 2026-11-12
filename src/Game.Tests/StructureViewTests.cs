@@ -6,7 +6,6 @@ using Aow.Game.Combat;
 using Aow.Game.Draw;
 
 using Aow.Game.Magic;
-using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Dialogs;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
@@ -62,7 +61,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     private static void Apply(Structure structure, State state)
     {
         if (structure is PlayerStructure player) player.Player = state.Owned ? Viewer : OtherPlayer;
-        GameTables.GameEngine.Debug = state.Debug;
+        EngineFixture.Engine.Debug = state.Debug;
         structure.BuildingPlayer = state.Building ? (sbyte)3 : (sbyte)-1;
         if (state.Razed) Raze(structure);
         if (structure is City city)
@@ -98,7 +97,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         if (structure.GetRazed()) return "Razed";
         if (structure is PlayerStructure)
         {
-            if (((PlayerStructure)structure).Player == seated || GameTables.GameEngine.Debug)
+            if (((PlayerStructure)structure).Player == seated || EngineFixture.Engine.Debug)
             {
                 if (structure is City) return ((City)structure).Mode.Contains(City.ModeElement.WarMode) ? "WarCity" : "City";
                 if (structure is ProductionPlace) return ((ProductionPlace)structure).GetMagicSphere() == MagicSphere.None ? "Production" : "ProductionIncome";
@@ -210,22 +209,22 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     private sealed class Scene : IDisposable
     {
         private readonly StrategicMap _previousMap = StrategicMap.Current;
-        private readonly bool _previousDebug = GameTables.GameEngine.Debug;
+        private readonly bool _previousDebug = EngineFixture.Engine.Debug;
         private readonly List<Structure> _created = [];
 
         internal StrategicMap Map { get; }
 
         internal Scene()
         {
-            Map = new StrategicMap(null!);
+            Map = new StrategicMap(null!, holder: EngineFixture.Engine);
             Map.SeatedPlayer = Viewer;
             StrategicMap.Current = Map;
         }
 
         internal (Structure Structure, ArmyOwner Owner) Create(Type type)
         {
-            var owner = new ArmyOwner();
-            var structure = (Structure)EngineClass.Of(type).CreateInstance(owner);
+            var owner = new ArmyOwner { Holder = EngineFixture.Engine };
+            var structure = (Structure)EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
             Assert.IsType(type, structure);
             _created.Add(structure);
             return (structure, owner);
@@ -234,7 +233,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         public void Dispose()
         {
             StrategicMap.Current = _previousMap;
-            GameTables.GameEngine.Debug = _previousDebug;
+            EngineFixture.Engine.Debug = _previousDebug;
             // Some kinds need a world to tear down (ClassRegistryTests lists them).
             foreach (var structure in _created) _ = Record.Exception(structure.Dispose);
         }

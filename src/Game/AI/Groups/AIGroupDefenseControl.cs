@@ -15,7 +15,7 @@ public partial class AIGroupDefenseControl : AIGroupTask
     // AIGroup.pas:1807
     public AIGroupDefenseControl(ECustomNode owner) : base(owner)
     {
-        _selector = new GroupDefenseSelector();
+        _selector = new GroupDefenseSelector(this);
         _mode = Set<ModeElement>.Of();
         DefendMode = GroupDefendMode.Wait;
         State = 0;
@@ -66,7 +66,7 @@ public partial class AIGroupDefenseControl : AIGroupTask
                     switch (DefendMode)
                     {
                         case GroupDefendMode.Split:
-                            units = new UnitUserList(null);
+                            units = new UnitUserList(null) { Holder = CreationHolder() };
                             {
                                 var aiGroupControl = GroupControl;
                                 _selector.GetDefenders(aiGroupControl.Group.Player, aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel, units);

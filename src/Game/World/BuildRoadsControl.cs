@@ -19,7 +19,7 @@ public partial class BuildRoadsControl : ConstructionControl
     // AoWAb.PAS:5458
     public override void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
-        text = AbilityRules.TranslateResourceString(s_buildRoadText);
+        text = AbilityRules.TranslateResourceString(GetEngine(), s_buildRoadText);
         gold = 0;
         days = 0;
     }
@@ -39,8 +39,8 @@ public partial class BuildRoadsControl : ConstructionControl
         else
         {
             result = false;
-            var roads = AbilityRules.TranslateResourceString(s_roadsText);
-            reason = AbilityRules.Format(AbilityRules.TranslateResourceString(s_cannotBuildUndergroundFormat), [roads]);
+            var roads = AbilityRules.TranslateResourceString(GetEngine(), s_roadsText);
+            reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cannotBuildUndergroundFormat), [roads]);
         }
 
         return result;

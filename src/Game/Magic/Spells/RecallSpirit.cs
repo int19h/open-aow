@@ -14,9 +14,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class RecallSpirit : CombatSpell
 {
     // CombatSpells.pas:1975
-    public RecallSpirit(ECustomNode owner) : base(owner)
+    public RecallSpirit(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_recallSpiritText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_recallSpiritText);
         SpellId = 129;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 0;
@@ -30,7 +31,7 @@ public partial class RecallSpirit : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         RecallSpiritCombatAction action;
-        action = new RecallSpiritCombatAction(null);
+        action = new RecallSpiritCombatAction(null) { Holder = CreationHolder() };
         action.SourceId = source.Id;
         action.TargetId = target.Id;
         action.Succeeded = target.Status.Contains(CombatObjectStatusElement.Destroyed);

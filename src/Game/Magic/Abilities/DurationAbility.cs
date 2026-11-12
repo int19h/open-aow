@@ -37,7 +37,7 @@ public partial class DurationAbility : AdjustableAbility
                     {
                         var duration = GetDuration(owner);
                         var totalDuration = GetTotalDuration();
-                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.DurationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
+                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
                         result = result + " " + format;
                     }
 
@@ -45,12 +45,12 @@ public partial class DurationAbility : AdjustableAbility
                 case DurationMode.CombatTurn:
                     var duration2 = GetDuration(owner);
                     var totalDuration2 = GetTotalDuration();
-                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.DurationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
+                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
                     result = base.GetName(owner) + " " + formattedText;
                     break;
                 case DurationMode.EntireCombat:
                     var name = base.GetName(owner);
-                    var durationEntireCombat = AbilityRules.TranslateResourceString(GameText.DurationEntireCombatText);
+                    var durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationEntireCombatText);
                     result = name + " " + durationEntireCombat;
                     break;
             }
@@ -106,7 +106,7 @@ public partial class DurationAbility : AdjustableAbility
         data = (DurationAbilityData)owner.GetAbilityData(AbilityId);
         if (data == null)
         {
-            data = new DurationAbilityData(null);
+            data = new DurationAbilityData(null) { Holder = CreationHolder() };
             data.AbilityId = (ushort)AbilityId;
             data.Duration = (byte)GetTotalDuration();
             SetAbility(owner, AbilityId, 1);

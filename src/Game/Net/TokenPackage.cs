@@ -22,7 +22,7 @@ public partial class TokenPackage : DataPackage
     // NetworkE.pas:1088
     public TokenPackage(ECustomNode owner) : base(owner)
     {
-        _tokenEvents = new TokenEventList(null);
+        _tokenEvents = new TokenEventList(null) { Holder = CreationHolder() };
     }
 
     // NetworkE.pas:1094

@@ -47,7 +47,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
                         else
                         {
                             result = false;
-                            reason = AbilityRules.TranslateResourceString(GameText.NotEnoughManaText);
+                            reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughManaText);
                         }
                     }
                 }
@@ -59,7 +59,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(CannotDispelWhenSpellWardIsActiveText);
+                reason = AbilityRules.TranslateResourceString(GetEngine(), CannotDispelWhenSpellWardIsActiveText);
             }
         }
         else
@@ -82,7 +82,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
             source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
             if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
             {
-                eventValue = new DisjunctionTokenEvent(null);
+                eventValue = new DisjunctionTokenEvent(null) { Holder = CreationHolder() };
                 var spell = GamePack.Current.SpellControl.GetSpell(51);
                 eventValue.Initialize(CasterSpellId, (byte)source.Player, source.UnitId, spell.BaseManaCost);
                 eventValue.EnchantmentId = EnchantmentId;

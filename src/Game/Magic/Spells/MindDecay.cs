@@ -16,9 +16,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class MindDecay : CombatSpell
 {
     // CombatSpells.pas:1190
-    public MindDecay(ECustomNode owner) : base(owner)
+    public MindDecay(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_mindDecayText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_mindDecayText);
         SpellId = 106;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 5;
@@ -33,7 +34,7 @@ public partial class MindDecay : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         MindDecayCombatAction action;
-        action = new MindDecayCombatAction(null);
+        action = new MindDecayCombatAction(null) { Holder = CreationHolder() };
         action.SourceId = source.Id;
         action.TargetId = target.Id;
         action.SpellId = SpellId;

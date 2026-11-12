@@ -374,7 +374,7 @@ public partial class PoisonCloud : MultiHexMapObject
         public override int ResourceUserClassId() => 135743;
 
         // PoisonC.pas:289
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_poisonCloudText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_poisonCloudText);
 
         private static readonly string s_poisonCloudText = "Poison Cloud";
 

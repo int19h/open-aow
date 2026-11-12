@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class HealingShowers : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:2277
-    public HealingShowers(ECustomNode owner) : base(owner)
+    public HealingShowers(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        this.SpellName = AbilityRules.TranslateResourceString(s_healingShowersText);
+        Holder = holder;
+        this.SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_healingShowersText);
         SpellId = 73;
         BaseManaCost = 5;
         SpellLevel = 3;
@@ -39,7 +40,7 @@ public partial class HealingShowers : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         HealingShowersTokenEvent eventValue;
-        eventValue = new HealingShowersTokenEvent(null);
+        eventValue = new HealingShowersTokenEvent(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

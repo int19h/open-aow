@@ -8,8 +8,6 @@ using Aow.Game.Draw;
 
 using Aow.Game.Draw.Images;
 
-using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -30,15 +28,15 @@ public partial class UnitGraphicsResource : EngineResource
     {
         Sequences = new ImageSequenceList(null, null);
         _refCount = 0;
-        var sfxLibrary = new SfxLibrary(null);
+        var sfxLibrary = new SfxLibrary(null) { Holder = CreationHolder() };
         SfxLibraries[0] = sfxLibrary;
-        var sfxLibrary2 = new SfxLibrary(null);
+        var sfxLibrary2 = new SfxLibrary(null) { Holder = CreationHolder() };
         SfxLibraries[1] = sfxLibrary2;
-        var sfxLibrary3 = new SfxLibrary(null);
+        var sfxLibrary3 = new SfxLibrary(null) { Holder = CreationHolder() };
         SfxLibraries[2] = sfxLibrary3;
-        var sfxLibrary4 = new SfxLibrary(null);
+        var sfxLibrary4 = new SfxLibrary(null) { Holder = CreationHolder() };
         SfxLibraries[3] = sfxLibrary4;
-        var sfxLibrary5 = new SfxLibrary(null);
+        var sfxLibrary5 = new SfxLibrary(null) { Holder = CreationHolder() };
         SfxLibraries[4] = sfxLibrary5;
     }
 
@@ -70,9 +68,6 @@ public partial class UnitGraphicsResource : EngineResource
         SfxLibraries[4]?.Dispose();
         base.Dispose();
     }
-
-    // UnitHS.PAS:27
-    public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // UnitHS.PAS:116
     public override void ReadWrite(StorageStream stream)

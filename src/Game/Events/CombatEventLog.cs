@@ -142,8 +142,8 @@ public partial class CombatEventLog : EventLog
                     data = Logbook.InitialData;
                     showCombat = data.Players.GetPlayers(data.AttackerPlayer).Player == StrategicMap.Current.SeatedPlayer;
                     showCombat = showCombat || StrategicMap.Current.RequestCombatType && StrategicMap.Current.ConnectionType == PlayerConnectionType.Email && Logbook.InitialData.Players.GetPlayers(Logbook.InitialData.DefenderPlayer).Player == StrategicMap.Current.SeatedPlayer;
-                    showCombat = showCombat || trigger == ExecuteTrigger.Event && StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Combat);
-                    showCombat = showCombat || trigger == ExecuteTrigger.Event && StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Combat);
+                    showCombat = showCombat || trigger == ExecuteTrigger.Event && StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Combat);
+                    showCombat = showCombat || trigger == ExecuteTrigger.Event && StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Combat);
                     showCombat = showCombat && Logbook.CombatResult != CombatResult.NoDefenders;
                 }
                 else

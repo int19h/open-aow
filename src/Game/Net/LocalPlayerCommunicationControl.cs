@@ -1,4 +1,6 @@
 // Translated from NetworkE.pas.
+using Aow.Engine.Nodes;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Net;
@@ -42,7 +44,7 @@ public partial class LocalPlayerCommunicationControl : PlayerCommunicationContro
     }
 
     // NetworkE.pas:697
-    public LocalPlayerCommunicationControl() : base()
+    public LocalPlayerCommunicationControl(EngineObject creator) : base(creator)
     {
         PackageDataList = new PackageDataList();
     }

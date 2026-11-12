@@ -1,5 +1,4 @@
 
-using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Dialogs;
 using Aow.Platform;
@@ -19,7 +18,7 @@ public sealed class FileDialogSortTests
     {
         WithDialog((dialog, settingsDirectory) =>
         {
-            Assert.False(GameTables.GameEngine.Registry.GetFileDialogSortByDate());
+            Assert.False(EngineFixture.Engine.Registry.GetFileDialogSortByDate());
             Assert.True(Runtime.SetCurrentDir("one"));
             dialog.FindFiles();
             Assert.Equal(["alpha", "beta", "aaa.asg", "zzz.asg"], Names(dialog.FileList));
@@ -27,7 +26,7 @@ public sealed class FileDialogSortTests
             Assert.DoesNotContain("note.txt", Names(dialog.FileList));
             Assert.Equal(-1, dialog.FileList.Selected);
 
-            GameTables.GameEngine.Registry.SetFileDialogSortByDate(true);
+            EngineFixture.Engine.Registry.SetFileDialogSortByDate(true);
             dialog.FileList.Selected = 0;
             dialog.FindFiles();
             Assert.Equal(["alpha", "beta", "zzz.asg", "aaa.asg"], Names(dialog.FileList));
@@ -41,8 +40,8 @@ public sealed class FileDialogSortTests
             Assert.Equal(["gamma", "yyy.asg", "bbb.asg"], Names(dialog.FileList));
 
             Runtime.Settings = new JsonSettingsStore(settingsDirectory);
-            GameTables.GameEngine.Registry = new GameSettings();
-            Assert.True(GameTables.GameEngine.Registry.GetFileDialogSortByDate());
+            EngineFixture.Engine.Registry = new GameSettings();
+            Assert.True(EngineFixture.Engine.Registry.GetFileDialogSortByDate());
             Assert.True(Runtime.SetCurrentDir("..\\one"));
             dialog.FindFiles();
             Assert.Equal(["alpha", "beta", "zzz.asg", "aaa.asg"], Names(dialog.FileList));
@@ -89,7 +88,7 @@ public sealed class FileDialogSortTests
     {
         WithDialog((dialog, _) =>
         {
-            GameTables.GameEngine.Registry.SetFileDialogSortByDate(true);
+            EngineFixture.Engine.Registry.SetFileDialogSortByDate(true);
             dialog.Mode = 2;
             dialog.FileNameEdit.Text = "valley.map";
             dialog.SaveFileNameEdit.Text = "stale.asg";
@@ -124,7 +123,7 @@ public sealed class FileDialogSortTests
             WriteTree(user);
             Runtime.Files = new LayeredFileSystem(root, user);
             Runtime.Settings = new JsonSettingsStore(settingsDirectory);
-            GameTables.GameEngine.Registry = new GameSettings();
+            EngineFixture.Engine.Registry = new GameSettings();
             FileDialogWindow.Directories = new StringList();
             FileDialogWindow.Files = new StringList<FileTime>();
             FileDialogWindow.Drives = new StringList();

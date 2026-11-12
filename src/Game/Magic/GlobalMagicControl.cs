@@ -24,7 +24,7 @@ public partial class GlobalMagicControl : EngineObject
     // Spells.PAS:2673
     public GlobalMagicControl(ECustomNode owner) : base(owner)
     {
-        Enchantments = new GlobalEnchantmentList(null);
+        Enchantments = new GlobalEnchantmentList(null) { Holder = CreationHolder() };
         _changedEventsStore = new();
         NextEnchantmentId = 1;
     }
@@ -120,7 +120,7 @@ public partial class GlobalMagicControl : EngineObject
             {
                 enchantment = Enchantments.GetEnchantments(index);
                 mana -= enchantment.GetUpkeep();
-                log = new PlayerMagicEventLog(null);
+                log = new PlayerMagicEventLog(null) { Holder = CreationHolder() };
                 log._player = player;
                 log.Mode = PlayerMagicEventLog.EventMode.OutOfMana;
                 log.EnchantmentName = Enchantments.GetEnchantments(index).GetName();
@@ -259,7 +259,7 @@ public partial class GlobalMagicControl : EngineObject
     }
 
     // Spells.PAS:2708
-    public ChangeGlobalMagicTokenEvent CreateChangeMagicTokenEvent() => new ChangeGlobalMagicTokenEvent(null);
+    public ChangeGlobalMagicTokenEvent CreateChangeMagicTokenEvent() => new ChangeGlobalMagicTokenEvent(null) { Holder = CreationHolder() };
 
     // Spells.PAS:2710
     public bool ExecuteDispelEnchantment(sbyte player, int enchantmentId)

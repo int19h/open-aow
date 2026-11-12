@@ -62,7 +62,7 @@ public partial class HolyGroundSpellTokenEvent : GlobalTargetSpellTokenEvent
                         if (StrategicMap.Current.PlaceHex(ground, walk.X, walk.Y, Location.MapLevel))
                         {
                             ground.Mode = Set<HolySummoning>.Of(HolySummoning.Summoning);
-                            animation = new ImageSequenceAnimation(null);
+                            animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(13).CastImages.ImageSequences[0]);
                             animation.OnShow += ground.ShowSummonAnimation;
                             animation.OnNewFrame += ground.NewFrameSummonAnimation;

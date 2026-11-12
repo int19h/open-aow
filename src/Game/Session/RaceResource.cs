@@ -62,9 +62,6 @@ public partial class RaceResource : EngineResource
         base.Dispose();
     }
 
-    // PlayerC.PAS:1749
-    public override GameEngine GetEngine() => GameTables.GameEngine;
-
     // PlayerC.PAS:1861
     public override void ReadWrite(StorageStream stream)
     {

@@ -33,9 +33,6 @@ public partial class Leader : Hero
         _spheres?.Dispose();
     }
 
-    // Hero.PAS:2898
-    public override GameEngine GetEngine() => GameTables.GameEngine;
-
     // Hero.PAS:2891
     public override void ReadWrite(StorageStream stream)
     {
@@ -327,7 +324,7 @@ public partial class Leader : Hero
             }
             else
             {
-                if (GameTables.GameEngine.Demo && GetSpherePicks(sphere) >= 2)
+                if (GetEngine().Demo && GetSpherePicks(sphere) >= 2)
                 {
                     result = false;
                 }

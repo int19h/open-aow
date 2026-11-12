@@ -72,7 +72,7 @@ public partial class WaterHex : LowerIsometricHex
         // AoWHex.pas:58
 
         // AoWHex.pas:455
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_waterHexText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_waterHexText);
 
         private static readonly string s_waterHexText = "Water/Ice Hexagon";
 

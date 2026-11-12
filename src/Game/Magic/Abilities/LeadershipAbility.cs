@@ -129,7 +129,7 @@ public partial class LeadershipAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:1097
-    public override string GetLevelName(int level) => AbilityRules.TranslateResourceString(s_leadershipText);
+    public override string GetLevelName(int level) => AbilityRules.TranslateResourceString(GetEngine(), s_leadershipText);
 
     // AoWAb.PAS:1024
     public void SetExternalSource(AbilityOwner owner, byte level, string sourceName)
@@ -139,7 +139,7 @@ public partial class LeadershipAbility : MultiLevelAbility
         if (data == null)
         {
             SetAbility(owner, AbilityId, 1);
-            data = new LeadershipAbilityData(null);
+            data = new LeadershipAbilityData(null) { Holder = CreationHolder() };
             data.LevelAbilityId = (ushort)AbilityId;
             data.Level = 0;
             owner.AddAbilityData(data);

@@ -1,7 +1,6 @@
 
 using Aow.Game.Draw;
 
-using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Dialogs;
 using Aow.Game.UI.Windows;
@@ -19,8 +18,6 @@ public sealed class UnitSelectionDrawTests
     [Fact]
     public void UnitSlotsDrawThroughTheirOwnComponentType()
     {
-        GameEngine previousEngine = GameTables.GameEngine;
-        GameTables.GameEngine = EngineFixture.Engine;
         var dialog = new UnitSelectionDialog(null!);
         try
         {
@@ -28,7 +25,7 @@ public sealed class UnitSelectionDrawTests
             dialog.UnitPanel = new Panel(dialog);
             dialog.Unit1CheckBox = new CheckBox(dialog);
             dialog.Unit1CheckBox.OnPreDraw += (sender, surface) => dialog.U1PreDraw(sender, surface, 0);
-            dialog.Event = new HealingUnitSelector();
+            dialog.Event = new HealingUnitSelector(EngineFixture.Engine);
             LockedSurface lockedSurface = default;
             // The check box raises the base event, as its PreDraw does.
             EventFields.Handler<AoWOnDrawEvent<UIComponent>>(dialog.Unit1CheckBox, declaring: typeof(UIComponent), name: nameof(UIComponent.OnPreDraw))!(dialog.Unit1CheckBox, lockedSurface);
@@ -37,7 +34,6 @@ public sealed class UnitSelectionDrawTests
         {
             dialog.Event = null!;
             dialog.Dispose();
-            GameTables.GameEngine = previousEngine;
         }
     }
 }

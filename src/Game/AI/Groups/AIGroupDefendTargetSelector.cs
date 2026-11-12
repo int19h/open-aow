@@ -38,8 +38,8 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     // AGCPlugins.pas:157
     public AIGroupDefendTargetSelector(ECustomNode owner) : base(owner)
     {
-        _selector = new AIMoveTargetSelector(null);
-        _targets = new AIGroupControlTargetList(null);
+        _selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
+        _targets = new AIGroupControlTargetList(null) { Holder = CreationHolder() };
     }
 
     // AGCPlugins.pas:245
@@ -174,7 +174,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     public void TargetFoundEvent(MoveTarget target, ref bool searchDone)
     {
         AIGroupControlTarget newTarget;
-        newTarget = new AIGroupControlTarget(null);
+        newTarget = new AIGroupControlTarget(null) { Holder = CreationHolder() };
         newTarget.Info = this._selector.TargetInfo;
 
         newTarget.Data = target.Data;

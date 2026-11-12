@@ -79,8 +79,8 @@ public sealed class PreInheritedTests
         try
         {
             var error = Assert.Throws<InvalidDataException>(() => guarded
-                ? ConstructionContext.Create(static context => new Leaf(context, null))
-                : new Leaf(null, null));
+                ? ConstructionContext.Create(static context => new Leaf(context, null) { Holder = EngineFixture.Engine })
+                : new Leaf(null, null) { Holder = EngineFixture.Engine });
             Assert.Equal("hook failure", error.Message);
             Assert.Equal(guarded ? 1 : 0, s_destroyed);
             Assert.Equal(guarded ? ["leaf field", "hook", "destroy"] : ["leaf field", "hook"], s_events);

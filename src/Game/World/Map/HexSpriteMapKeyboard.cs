@@ -52,7 +52,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
             {
                 case HexSpriteMapKeyboardMode.Default:
                     translatedKey = key;
-                    switch (GameTables.GameEngine.Language)
+                    switch (GetEngine().Language)
                     {
                         case 3:
                             switch (key)
@@ -118,12 +118,12 @@ public partial class HexSpriteMapKeyboard : EngineObject
                                 StrategicMap.Current.ShowIndependentMoves = !StrategicMap.Current.ShowIndependentMoves;
                                 if (StrategicMap.Current.ShowIndependentMoves)
                                 {
-                                    var observeEnabled = AbilityRules.TranslateResourceString(s_observeEnabledText);
+                                    var observeEnabled = AbilityRules.TranslateResourceString(GetEngine(), s_observeEnabledText);
                                     StrategicMap.Current.ShowMessage(observeEnabled);
                                 }
                                 else
                                 {
-                                    var observeDisabled = AbilityRules.TranslateResourceString(s_observeDisabledText);
+                                    var observeDisabled = AbilityRules.TranslateResourceString(GetEngine(), s_observeDisabledText);
                                     StrategicMap.Current.ShowMessage(observeDisabled);
                                 }
 
@@ -159,28 +159,28 @@ public partial class HexSpriteMapKeyboard : EngineObject
 
                                 break;
                             case 82:
-                                if (GameTables.GameEngine.Debug)
+                                if (GetEngine().Debug)
                                 {
-                                    GameTables.GameEngine.OutputDebugString("Random Seed: " + IntToStr(StrategicMap.Current.DefendersSeed));
+                                    GetEngine().OutputDebugString("Random Seed: " + IntToStr(StrategicMap.Current.DefendersSeed));
                                 }
 
                                 break;
                             case 83:
-                                if (!shift.Contains(ShiftState.Ctrl) && GameTables.GameEngine.Registry.GetDebugMode())
+                                if (!shift.Contains(ShiftState.Ctrl) && GetEngine().Registry.GetDebugMode())
                                 {
                                     RunDefaultTest();
                                 }
 
                                 break;
                             case 65:
-                                if (GameTables.GameEngine.Registry.GetDeveloper() && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerType != PlayerType.Human)
+                                if (GetEngine().Registry.GetDeveloper() && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerType != PlayerType.Human)
                                 {
                                     StrategicMap.Current.AIExecutor.ActivatePlayer(StrategicMap.Current.SeatedPlayer);
                                 }
 
                                 break;
                             case 73:
-                                if (GameTables.GameEngine.Debug)
+                                if (GetEngine().Debug)
                                 {
                                     var heapStatus = GetHeapStatus();
                                     StrategicMap.Current.ShowMessage("Allocated Memory: " + IntToStr(heapStatus.TotalAllocated));
@@ -209,7 +209,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
 
                     if (complete && StrategicMap.Current.SeatedPlayer != -1 && !StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetBusy())
                     {
-                        cheat = new CheatTokenEvent(null);
+                        cheat = new CheatTokenEvent(null) { Holder = CreationHolder() };
                         cheat.Player = StrategicMap.Current.SeatedPlayer;
                         cheat.CheatId = I;
                         StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(cheat);
@@ -230,7 +230,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
             }
         }
 
-        if (key == 67 && (Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) & shift) == Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) && CompareText(ParamStr(1), "beatrix") == 0 && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network && StrategicMap.Current.ConnectionType != PlayerConnectionType.Email && !GameTables.GameEngine.Demo)
+        if (key == 67 && (Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) & shift) == Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) && CompareText(ParamStr(1), "beatrix") == 0 && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network && StrategicMap.Current.ConnectionType != PlayerConnectionType.Email && !GetEngine().Demo)
         {
             AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB02.WAV");
             Mode = HexSpriteMapKeyboardMode.Cheat;
@@ -256,7 +256,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
         string fileName;
         fileName = "autosave" + FileBoundary.WriteExtension(DocumentKind.Save);
         // { Original saves the autosave file. }
-        GameTables.GameEngine.SaveHsm(GameTables.GameEngine.StartupDirectory + "Save\\" + fileName, null, GameProfile.WorldMap);
+        GetEngine().SaveHsm(GetEngine().StartupDirectory + "Save\\" + fileName, null, GameProfile.WorldMap);
     }
 
     private static readonly string s_observeEnabledText = "Observe enabled";

@@ -99,7 +99,7 @@ public partial class SummonSpell : Spell
         string reason = "";
         if (CanActivate(source, ref reason))
         {
-            eventValue = new SummonSpellTokenEvent(null);
+            eventValue = new SummonSpellTokenEvent(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             SetupSummonSpellTokenEvent(eventValue);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

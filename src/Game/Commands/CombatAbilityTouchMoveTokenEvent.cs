@@ -421,7 +421,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                                     var path = Path[1];
                                                     HexGeometry.CenterHexNumberToHex(Path[1].X, path.Y, I, ref X, ref Y);
                                                     CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
-                                                    EffectPaths.CreateFire(false, 50, X, Y);
+                                                    EffectPaths.CreateFire(false, 50, X, Y, engine: GetEngine());
                                                 }
 
                                                 Unit.DeathMethod = TacticalBattleUnitDeathMethod.Explode;

@@ -272,7 +272,7 @@ public partial class ItemControl : EngineObject
         if (!item.Status.Contains(ItemStatusElement.Registered))
         {
             existing = FindItem(item.ItemId);
-            if (existing != null && existing.Compare(item, GameTables.GameEngine) && existing.RefCount == 1)
+            if (existing != null && existing.Compare(item, GetEngine()) && existing.RefCount == 1)
             {
                 UnregisterItem(existing);
             }

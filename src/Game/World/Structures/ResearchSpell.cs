@@ -23,11 +23,11 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
         var production = control.UnitProductions.GetItem(Index);
         if (production == null)
         {
-            return AbilityRules.TranslateResourceString(GameTables.UnknownText);
+            return AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.UnknownText);
         }
 
         var unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
-        return AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.InstallFormat), [unitName]);
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(control.GetEngine(), GameText.InstallFormat), [unitName]);
     }
 
     public override string NameProgressive(ProductionControl control)
@@ -35,11 +35,11 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
         var production = control.UnitProductions.GetItem(Index);
         if (production == null)
         {
-            return AbilityRules.TranslateResourceString(GameTables.UnknownText);
+            return AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.UnknownText);
         }
 
         var unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
-        return AbilityRules.Format(AbilityRules.TranslateResourceString(s_installingFormat), [unitName]);
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_installingFormat), [unitName]);
     }
 
     public override bool CanExecute(ProductionControl control, ref string reason)
@@ -51,7 +51,7 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
             return true;
         }
 
-        reason = AbilityRules.TranslateResourceString(GameText.NotEnoughGoldText);
+        reason = AbilityRules.TranslateResourceString(control.GetEngine(), GameText.NotEnoughGoldText);
         return false;
     }
 
@@ -87,7 +87,7 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
     public override void ActivityLines(ProductionControl control, StringCollection lines)
     {
         var unit = control.CreateUnitProduction(Index);
-        lines.Add(AbilityRules.TranslateResourceString(s_installingText));
+        lines.Add(AbilityRules.TranslateResourceString(control.GetEngine(), s_installingText));
         lines.Add(unit.GetName());
         unit.Release();
     }

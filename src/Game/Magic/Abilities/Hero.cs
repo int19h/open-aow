@@ -114,9 +114,6 @@ public partial class Hero : Troop
         Release();
     }
 
-    // Hero.PAS:700
-    public override GameEngine GetEngine() => GameTables.GameEngine;
-
     // Hero.PAS:1625
     public override void ReadWrite(StorageStream stream)
     {
@@ -613,7 +610,7 @@ public partial class Hero : Troop
         base.NewDay();
         if (StrategicMap.Current.Day == 1)
         {
-            if ((GameTables.GameEngine.Campaign == null || StrategicMap.Current.Players.GetPlayers(Player) == null || StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human) && (!StrategicMap.Current.LeadersFixed || !(this is Leader)))
+            if ((GetEngine().Campaign == null || StrategicMap.Current.Players.GetPlayers(Player) == null || StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human) && (!StrategicMap.Current.LeadersFixed || !(this is Leader)))
             {
                 _usedSkillPoints = GetSkillPoints();
             }
@@ -644,7 +641,7 @@ public partial class Hero : Troop
 
                 if (CastingManaValue == CastingProgress)
                 {
-                    log = new SpellCastEventLog(null);
+                    log = new SpellCastEventLog(null) { Holder = CreationHolder() };
                     log._player = Player;
                     log.UnitId = UnitId;
                     log.SpellId = CastingSpellId;
@@ -973,9 +970,9 @@ public partial class Hero : Troop
         int result = base.Show(X, Y, lockedSurface, info);
         if (info.Overlays.Contains(UnitOverlayModesElement.Rank))
         {
-            GameTables.GameEngine.CombatFont.Color = 16777215;
+            GetEngine().CombatFont.Color = 16777215;
             var level = GetLevel();
-            GameTables.GameEngine.CombatFont.SetTextCentered(X + 43, Y + 12, IntToStr(level), lockedSurface);
+            GetEngine().CombatFont.SetTextCentered(X + 43, Y + 12, IntToStr(level), lockedSurface);
         }
 
         return result;
@@ -1094,7 +1091,7 @@ public partial class Hero : Troop
         string result = LibraryName;
         if (IsEmpty(result))
         {
-            result = AbilityRules.TranslateResourceString(GameText.SystemText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.SystemText);
         }
 
         return result;
@@ -1124,7 +1121,7 @@ public partial class Hero : Troop
             {
                 id = UnitId;
                 Mode = Mode + Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
-                Assign(hero, GameTables.GameEngine);
+                Assign(hero, GetEngine());
                 Mode = Mode - Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
                 UnitId = id;
                 Changed();
@@ -1203,7 +1200,7 @@ public partial class Hero : Troop
         otherGroupId = hero.GroupId;
         hero.GroupId = 0;
         GroupId = 0;
-        bool result = hero.Compare(this, GameTables.GameEngine);
+        bool result = hero.Compare(this, GetEngine());
         hero.GroupId = otherGroupId;
         GroupId = groupId;
         return result;
@@ -1691,7 +1688,7 @@ public partial class Hero : Troop
                 UpgradePending = true;
                 oldLevel = Level;
                 this.Level = (byte)level;
-                log = new HeroUpgradeEventLog(null);
+                log = new HeroUpgradeEventLog(null) { Holder = CreationHolder() };
                 log.OldLevel = (byte)oldLevel;
                 log.NewLevel = Level;
                 log.UpgradeDay = StrategicMap.Current.Players.GetPlayers(Player).Day;
@@ -1855,7 +1852,7 @@ public partial class Hero : Troop
     // Hero.PAS:1708
     public HeroUpdateTokenEvent CreateHeroUpdateTokenEvent()
     {
-        HeroUpdateTokenEvent result = new HeroUpdateTokenEvent(null);
+        HeroUpdateTokenEvent result = new HeroUpdateTokenEvent(null) { Holder = CreationHolder() };
         result.UnitId = UnitId;
         return result;
     }
@@ -2167,7 +2164,7 @@ public partial class Hero : Troop
             CastingPoints = 0;
             if (StrategicMap.Current.SeatedPlayer == Player)
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castingInProgressFormat), [spell.SpellName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_castingInProgressFormat), [spell.SpellName]);
                 StrategicMap.Current.ShowMessage(format);
             }
 
@@ -2345,7 +2342,7 @@ public partial class Hero : Troop
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(GameText.NotEnoughChannelingPointsText);
+                reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughChannelingPointsText);
             }
         }
         else
@@ -2373,7 +2370,7 @@ public partial class Hero : Troop
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(GameText.NotEnoughManaText);
+                reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughManaText);
             }
         }
         else
@@ -2381,7 +2378,7 @@ public partial class Hero : Troop
             result = spellId == CastingSpellId;
             if (result && GamePack.Current.SpellControl.GetSpell(spellId).SpellType == SpellType.Global && StrategicMap.Current.CombatMap != null)
             {
-                reason = AbilityRules.TranslateResourceString(s_cannotCastSpellInCombatText);
+                reason = AbilityRules.TranslateResourceString(GetEngine(), s_cannotCastSpellInCombatText);
                 result = false;
             }
         }
@@ -2422,7 +2419,7 @@ public partial class Hero : Troop
                         else
                         {
                             result = false;
-                            reason = AbilityRules.TranslateResourceString(GameText.NotEnoughManaText);
+                            reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughManaText);
                         }
                     }
                     else
@@ -2471,13 +2468,13 @@ public partial class Hero : Troop
                 else
                 {
                     result = false;
-                    reason = AbilityRules.TranslateResourceString(GameText.NotEnoughManaText);
+                    reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughManaText);
                 }
             }
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(s_notEnoughChannelingPointsText);
+                reason = AbilityRules.TranslateResourceString(GetEngine(), s_notEnoughChannelingPointsText);
             }
         }
         else

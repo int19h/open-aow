@@ -38,7 +38,7 @@ public partial class DeathNode : ProductionPlace
         // DeathNode.pas:27
 
         // DeathNode.pas:52
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_deathNodeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_deathNodeText);
 
         private static readonly string s_deathNodeText = "Death Node";
 

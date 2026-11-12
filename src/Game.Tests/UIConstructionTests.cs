@@ -7,7 +7,6 @@ using Aow.Engine;
 
 using Aow.Game.Combat;
 
-using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.UI.Dialogs;
 using Aow.Game.World.Map;
@@ -31,7 +30,6 @@ public sealed class UIConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly GameEngine _previousEngine = GameTables.GameEngine;
         private readonly StrategicMap _previousMap = StrategicMap.Current;
         private readonly CombatMap _previousCombat = CombatMap.Current;
         private readonly EventStore<GameMap> _loaded;
@@ -39,20 +37,18 @@ public sealed class UIConstructionTests
 
         internal Fixture()
         {
-            GameTables.GameEngine = EngineFixture.Engine;
-            _loaded = GameTables.GameEngine.OnHsmLoadedStore;
-            _closed = GameTables.GameEngine.OnHsmCloseStore;
-            GameTables.GameEngine.OnHsmLoadedStore = new EventStore<GameMap>();
-            GameTables.GameEngine.OnHsmCloseStore = new EventStore<GameMap>();
+            _loaded = EngineFixture.Engine.OnHsmLoadedStore;
+            _closed = EngineFixture.Engine.OnHsmCloseStore;
+            EngineFixture.Engine.OnHsmLoadedStore = new EventStore<GameMap>();
+            EngineFixture.Engine.OnHsmCloseStore = new EventStore<GameMap>();
             StrategicMap.Current = null!;
             CombatMap.Current = null!;
         }
 
         public void Dispose()
         {
-            GameTables.GameEngine.OnHsmLoadedStore = _loaded;
-            GameTables.GameEngine.OnHsmCloseStore = _closed;
-            GameTables.GameEngine = _previousEngine;
+            EngineFixture.Engine.OnHsmLoadedStore = _loaded;
+            EngineFixture.Engine.OnHsmCloseStore = _closed;
             StrategicMap.Current = _previousMap;
             CombatMap.Current = _previousCombat;
         }
@@ -82,7 +78,7 @@ public sealed class UIConstructionTests
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
                 {
-                    if (field.Name == "_engineClass") continue; // the descriptor cache is not constructor state
+                    if (field.Name is "_engineClass" or "<Holder>k__BackingField" or "<Creator>k__BackingField") continue; // the descriptor cache and the link to the engine are not constructor state
                     string key = current.Name + "." + MemberNames.Of(field);
                     object? child = field.GetValue(item);
                     if (field.Name is "_owner" or "<Owner>k__BackingField") { fields[key] = child is null ? null : "$owner"; continue; }
@@ -269,7 +265,7 @@ public sealed class UIConstructionTests
             }
             states.Add("owner:" + (owner?.ComponentCount ?? 0));
             if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
-            states.Add("subscriptions:" + GameTables.GameEngine.OnHsmLoadedStore.Count + ":" + GameTables.GameEngine.OnHsmCloseStore.Count);
+            states.Add("subscriptions:" + EngineFixture.Engine.OnHsmLoadedStore.Count + ":" + EngineFixture.Engine.OnHsmCloseStore.Count);
             string actual = string.Join("\n", states);
             string key = name + ".owner" + owned;
             ConstructionSnapshot.Check("UiConstruction", key, actual);

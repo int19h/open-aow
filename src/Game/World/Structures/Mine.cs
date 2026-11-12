@@ -19,7 +19,7 @@ public partial class Mine : PlayerStructure
 {
     public Mine(ECustomNode owner) : base(owner)
     {
-        _incomeSource = new PlayerStructureIncomeSource(null);
+        _incomeSource = new PlayerStructureIncomeSource(null) { Holder = CreationHolder() };
         _incomeSource.Setup(this);
     }
 
@@ -86,7 +86,7 @@ public partial class Mine : PlayerStructure
     public override string GetCurrentActivityText()
     {
         var income = GetIncome();
-        return RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.ProducingIncomeFormat), [IntToStr(income)]);
+        return RtlUnit.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingIncomeFormat), [IntToStr(income)]);
     }
 
     // Mine.pas:99
@@ -188,7 +188,7 @@ public partial class Mine : PlayerStructure
         string result;
         if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
         {
-            result = AbilityRules.TranslateResourceString(s_mineBattleWonText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), s_mineBattleWonText);
         }
         else
         {
@@ -226,7 +226,7 @@ public partial class Mine : PlayerStructure
         // Mine.pas:41
 
         // Mine.pas:197
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_mineText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_mineText);
 
         private static readonly string s_mineText = "Mine";
 

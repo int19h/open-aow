@@ -5,8 +5,6 @@ using Aow.Engine.Storage;
 
 using Aow.Formats.Tree;
 
-using Aow.Game.Magic.Abilities;
-
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.AI;
@@ -74,7 +72,7 @@ public partial class AIBudget : EngineObject
     // AI.pas:1678
     public virtual void OutputDebugInfo()
     {
-        GameTables.GameEngine.OutputDebugMessage(DebugChannel.Temporary, this.GetType().Name + " Gold:" + IntToStr(Gold) + "/" + IntToStr(RequiredGold) + " Mana:" + IntToStr(Mana) + "/" + IntToStr(RequiredMana));
+        GetEngine().OutputDebugMessage(DebugChannel.Temporary, this.GetType().Name + " Gold:" + IntToStr(Gold) + "/" + IntToStr(RequiredGold) + " Mana:" + IntToStr(Mana) + "/" + IntToStr(RequiredMana));
     }
 
     // AI.pas:1675

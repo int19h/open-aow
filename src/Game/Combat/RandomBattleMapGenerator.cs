@@ -1,10 +1,9 @@
 // Translated from AoWTC.pas.
 
+using Aow.Engine.Nodes;
 using Aow.Formats;
 
 using Aow.Game.Draw;
-
-using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Saves;
 
@@ -47,8 +46,9 @@ public partial class RandomBattleMapGenerator : IDisposable
     }
 
     // AoWTC.pas:4137
-    public RandomBattleMapGenerator()
+    public RandomBattleMapGenerator(EngineObject creator)
     {
+        Creator = creator;
         for (int I = 0; I <= 285; I++)
         {
             var list = new List<MapObjectResource>();
@@ -68,6 +68,9 @@ public partial class RandomBattleMapGenerator : IDisposable
 
         InitializeTables();
     }
+
+    // The node that created this generator. It and the nodes it creates reach the engine through it.
+    public EngineObject Creator { get; }
 
     // AoWTC.pas:4156
     public CombatMap RandomMap(TacticalBattle combat, int X, int Y, int L)
@@ -240,7 +243,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         fileName = fileName + ".HSM";
         if (combat == null)
         {
-            GameTables.GameEngine.LoadHsmMap(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
+            Creator.GetEngine().LoadHsmMap(FileBoundary.ReadName(Creator.GetEngine().StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
         }
         else
         {
@@ -997,7 +1000,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                 used[I] = true;
                 J = CombatMap.Current.UnitPositions.GetUnitPosition(2, I).X;
                 temporary = CombatMap.Current.UnitPositions.GetUnitPosition(2, I).Y;
-                itemHexSprite = new TacticalBattleItemHexSprite(null);
+                itemHexSprite = new TacticalBattleItemHexSprite(null) { Holder = Creator.CreationHolder() };
                 if (CombatMap.Current.PlaceHex(itemHexSprite, J, temporary, 0))
                 {
                     Items.GetItem(position).SetOwner(itemHexSprite.Items);
@@ -1022,7 +1025,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         int hexNumber;
         int hexX = default;
         int hexY = default;
-        unitHexSprite = new TacticalBattleUnitHexSprite(null);
+        unitHexSprite = new TacticalBattleUnitHexSprite(null) { Holder = Creator.CreationHolder() };
         unitHexSprite.Initialize((TacticalBattleUnit)CombatMap.Current.Combat.Sides[(int)side].GetObjects(index));
         if (unitHexSprite.Unit.PositionGroup == _homePosition)
         {

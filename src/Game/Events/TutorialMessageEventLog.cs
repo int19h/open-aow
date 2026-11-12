@@ -9,9 +9,9 @@ namespace Aow.Game.Events;
 public partial class TutorialMessageEventLog : HelpMessageEventLog
 {
     // EventLog.pas:871
-    public TutorialMessageEventLog(ECustomNode owner) : base(owner)
+    public TutorialMessageEventLog(ECustomNode owner, EngineObject holder) : base(owner, holder)
     {
-        HelpFileName = AbilityRules.TranslateResourceString(GameText.TutorialText);
+        HelpFileName = AbilityRules.TranslateResourceString(GetEngine(), GameText.TutorialText);
     }
 
 }

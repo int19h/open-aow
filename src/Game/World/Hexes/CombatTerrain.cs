@@ -266,7 +266,7 @@ public partial class CombatTerrain : TerrainMapObject
 
             if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
             {
-                _shadow = new CombatTerrainShadow(null);
+                _shadow = new CombatTerrainShadow(null) { Holder = CreationHolder() };
                 _shadow._terrain = this;
             }
         }

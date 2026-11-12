@@ -61,12 +61,12 @@ public partial class HeroEmergeEventLog : EventLog
             {
                 if (hero.Player == _player)
                 {
-                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_alreadyJoinedFormat), [hero.HeroName]);
+                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_alreadyJoinedFormat), [hero.HeroName]);
                     StrategicMap.Current.ShowWarning(format);
                 }
                 else
                 {
-                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_doesNotWantToJoinAnymoreFormat), [hero.HeroName]);
+                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_doesNotWantToJoinAnymoreFormat), [hero.HeroName]);
                     StrategicMap.Current.ShowWarning(format);
                 }
             }
@@ -110,7 +110,7 @@ public partial class HeroEmergeEventLog : EventLog
         }
 
         // { Original builds Name but formats the message from FHeroName instead. }
-        _text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_offersToJoinFormat), [hero.HeroName]);
+        _text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_offersToJoinFormat), [hero.HeroName]);
     }
 
     // Hero.PAS:214
@@ -121,20 +121,20 @@ public partial class HeroEmergeEventLog : EventLog
         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
         if (hero != null && hero.Player == 0 && hero.OfferToJoin(_player) && hero.Owner is not HeroList)
         {
-            result = new HeroJoinEventLog(null);
+            result = new HeroJoinEventLog(null) { Holder = CreationHolder() };
             result.JoinIndex = Id;
             switch (_mode)
             {
                 case HeroJoinMode.Emerged:
                     result.SetupJoinArmy(hero.ArmyOwner, _player, result.JoinMode);
                     result.FirstUnitId = hero.UnitId;
-                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_heroEmergedOfferFormat), [hero.HeroName, LocationName, result.Gold]);
+                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_heroEmergedOfferFormat), [hero.HeroName, LocationName, result.Gold]);
                     result.JoinMessage.Text = format;
                     break;
                 case HeroJoinMode.Resurrected:
                     result.SetupJoinArmy(hero.ArmyOwner, _player, result.JoinMode);
                     result.FirstUnitId = hero.UnitId;
-                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_heroResurrectedOfferFormat), [hero.HeroName, result.Gold]);
+                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_heroResurrectedOfferFormat), [hero.HeroName, result.Gold]);
                     result.JoinMessage.Text = formattedText;
                     break;
             }

@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class Shockwave : CombatSpell
 {
     // CombatSpells.pas:1919
-    public Shockwave(ECustomNode owner) : base(owner)
+    public Shockwave(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_shockwaveText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_shockwaveText);
         SpellId = 127;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 8;

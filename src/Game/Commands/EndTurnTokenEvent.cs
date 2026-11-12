@@ -50,8 +50,8 @@ public partial class EndTurnTokenEvent : TokenEvent
                 if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && StrategicMap.Current.Players.GetPlayers(Player).PlayerRace != -1)
                 {
                     var players = StrategicMap.Current.Players.GetPlayers(Player);
-                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players.PlayerRace]);
-                    var translatedText = AbilityRules.TranslateResourceString(s_finishedTheirTurnText);
+                    var raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[players.PlayerRace]);
+                    var translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_finishedTheirTurnText);
                     StrategicMap.Current.ShowMessage(raceNamesPlural + " " + translatedText);
                 }
             }

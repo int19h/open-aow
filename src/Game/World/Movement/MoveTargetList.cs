@@ -44,7 +44,7 @@ public partial class MoveTargetList : EReferenceNode, IChildList<MoveTarget>
     public void AddTarget(int location, int movePoints, int transporterId, in AITargetData data)
     {
         MoveTarget target;
-        target = new MoveTarget(null);
+        target = new MoveTarget(null) { Holder = CreationHolder() };
         Unsafe.As<MapCoordinate, int>(ref target.Location) = location;
         target.MovePoints = movePoints;
         target.TransporterId = transporterId;

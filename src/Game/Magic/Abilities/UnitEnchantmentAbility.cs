@@ -39,7 +39,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
                     {
                         var duration = GetDuration(owner);
                         var totalDuration = GetTotalDuration();
-                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.DurationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
+                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
                         result = result + " " + format;
                     }
 
@@ -47,12 +47,12 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
                 case DurationMode.CombatTurn:
                     var duration2 = GetDuration(owner);
                     var totalDuration2 = GetTotalDuration();
-                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.DurationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
+                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
                     result = base.GetName(owner) + " " + formattedText;
                     break;
                 case DurationMode.EntireCombat:
                     var name = base.GetName(owner);
-                    var durationEntireCombat = AbilityRules.TranslateResourceString(GameText.DurationEntireCombatText);
+                    var durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationEntireCombatText);
                     result = name + " " + durationEntireCombat;
                     break;
                 default:
@@ -81,13 +81,13 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
             // { Original also reports player zero as unknown. }
             if (data.Enchantment.Source <= 0)
             {
-                result = AbilityRules.TranslateResourceString(GameTables.UnknownText);
+                result = AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
             }
             else
             {
                 if (source != null && source.Player == data.Enchantment.Source)
                 {
-                    result = AbilityRules.TranslateResourceString(s_manaText);
+                    result = AbilityRules.TranslateResourceString(GetEngine(), s_manaText);
                 }
                 else
                 {
@@ -97,7 +97,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         }
         else
         {
-            result = AbilityRules.TranslateResourceString(GameTables.UnknownText);
+            result = AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
         }
 
         return result;
@@ -150,7 +150,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
                 Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46181);
             }
 
-            data = new UnitEnchantmentAbilityData(null);
+            data = new UnitEnchantmentAbilityData(null) { Holder = CreationHolder() };
             data.EnchantmentAbilityId = (ushort)AbilityId;
             data.EnchantmentDuration = GetTotalDuration();
             enchantment = CreateEnchantment();
@@ -259,7 +259,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     public virtual sbyte GetTotalDuration() => -1;
 
     // AoWAb.PAS:663
-    public virtual UnitEnchantment CreateEnchantment() => new UnitEnchantment(null);
+    public virtual UnitEnchantment CreateEnchantment() => new UnitEnchantment(null) { Holder = CreationHolder() };
 
     // AoWAb.PAS:658
     public override EngineClass AbilityDataClass() => EngineClass.Of<UnitEnchantmentAbilityData>();

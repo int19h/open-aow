@@ -80,7 +80,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
                     ((PatrolAIGroup)Group).PatrolStrength = StrengthMax;
                 }
 
-                defense = new AIGroupDefenseControl(null);
+                defense = new AIGroupDefenseControl(null) { Holder = CreationHolder() };
                 defense.DefendMode = AIGroupDefenseControl.GroupDefendMode.Wait;
                 ActivatePlugin(defense);
                 defense.Release();
@@ -98,7 +98,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
                 if (StrengthMax < ((PatrolAIGroup)Group).PatrolStrength)
                 {
                     State += 1;
-                    recruitment = new AIRecruitmentGroupFinder(null);
+                    recruitment = new AIRecruitmentGroupFinder(null) { Holder = CreationHolder() };
                     recruitment.Setup(this);
                     ActivatePlugin(recruitment);
                     recruitment.Release();
@@ -112,7 +112,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
             case 3:
                 if (RecruitmentGroups.Count != 0 && StrengthMax < ((PatrolAIGroup)Group).PatrolStrength)
                 {
-                    recruit = new AIGroupRecruitControl(null);
+                    recruit = new AIGroupRecruitControl(null) { Holder = CreationHolder() };
                     recruit.Reset();
                     recruit.RecruitStrength = ((PatrolAIGroup)Group).PatrolStrength - StrengthMax;
                     recruit.Mode = AIGroupRecruitControlMode.AutoRecruit;
@@ -123,7 +123,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
                 State += 1;
                 break;
             case 4:
-                finder = new AIGroupTargetFinder(null);
+                finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                 finder.Setup(this);
                 var moves = Army.Moves(Selection);
                 finder.Selector.MovePointsMax = moves;
@@ -161,7 +161,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
 
                 break;
             case 7:
-                settings = new MoveControlSettings(null);
+                settings = new MoveControlSettings(null) { Holder = CreationHolder() };
                 settings.Player = Group.Player;
                 settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
                 settings.SetSourcePosition(Location.X, Location.Y, Location.MapLevel);
@@ -208,7 +208,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
             group.PatrolFrom = Location;
         }
 
-        settings = new MoveControlSettings(null);
+        settings = new MoveControlSettings(null) { Holder = CreationHolder() };
         settings.Player = group.Player;
         settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.AI, MoveModeElement.IgnoreArmies);
         settings.SetSourcePosition(group.PatrolFrom.X, group.PatrolFrom.Y, group.PatrolFrom.MapLevel);

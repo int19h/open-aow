@@ -127,7 +127,7 @@ public partial class Tower : PlayerStructure
         // Tower.pas:35
 
         // Tower.pas:121
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameText.TowerText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), GameText.TowerText);
 
     }
 

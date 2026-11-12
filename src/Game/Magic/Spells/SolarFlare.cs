@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class SolarFlare : CombatSpell
 {
     // CombatSpells.pas:845
-    public SolarFlare(ECustomNode owner) : base(owner)
+    public SolarFlare(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_solarFlareText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_solarFlareText);
         SpellId = 100;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 8;

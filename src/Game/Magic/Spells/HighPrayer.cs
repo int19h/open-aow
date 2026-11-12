@@ -14,9 +14,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class HighPrayer : CombatSpell
 {
     // CombatSpells.pas:996
-    public HighPrayer(ECustomNode owner) : base(owner)
+    public HighPrayer(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(s_highPrayerText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_highPrayerText);
         SpellId = 102;
         ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 6;
@@ -31,7 +32,7 @@ public partial class HighPrayer : CombatSpell
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
         TacticalBattleHighPrayerCombatAction action;
-        action = new TacticalBattleHighPrayerCombatAction(null);
+        action = new TacticalBattleHighPrayerCombatAction(null) { Holder = CreationHolder() };
         action.Succeeded = true;
         action.SourceId = source.Id;
         action.TargetId = target.Id;
@@ -95,7 +96,7 @@ public partial class HighPrayer : CombatSpell
 
         if (value != 0)
         {
-            command = new FastBattleSpellCommand(52);
+            command = new FastBattleSpellCommand(52, creator: this);
             command.Target = null;
             command.MoveCost = 1;
             command.SpellId = SpellId;
@@ -108,7 +109,7 @@ public partial class HighPrayer : CombatSpell
     public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
     {
         FastBattleHighPrayerCombatAction action;
-        action = new FastBattleHighPrayerCombatAction(null);
+        action = new FastBattleHighPrayerCombatAction(null) { Holder = CreationHolder() };
         action.Generate(source);
         action.ManaCost = ((Hero)((CombatUnit)source).Troop).CastingMana(this);
         source.Combat.ExecuteCombatAction(action);

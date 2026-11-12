@@ -13,10 +13,11 @@ namespace Aow.Game.Magic.Spells;
 public partial class Haste : UnitSpell
 {
     // UnitSpells.pas:215
-    public Haste(ECustomNode owner) : base(owner)
+    public Haste(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
-        SpellName = AbilityRules.TranslateResourceString(GameText.HasteText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.HasteText);
         SpellId = 15;
         BaseManaCost = 5;
         ManaUpkeep = 2;

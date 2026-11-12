@@ -189,10 +189,10 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         int damage;
         count = 0;
         RandSeed = StrategicMap.Current.Random(16777215);
-        log = new ArmyEventLog(null);
-        log.ArmyText = AbilityRules.TranslateResourceString(s_poisonPlantDamageText);
+        log = new ArmyEventLog(null) { Holder = CreationHolder() };
+        log.ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantDamageText);
         log._player = armyHexSprite.Army.Player;
-        var poisonPlantDamage = AbilityRules.TranslateResourceString(s_poisonPlantDamageText);
+        var poisonPlantDamage = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantDamageText);
         log.ArmyMessages.Add(poisonPlantDamage);
         log.ArmyIcon = 1;
         log.ArmyView.Setup(armyHexSprite.Army, 255);
@@ -299,7 +299,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         var hexY = animation.GetHexY();
         var hexX = animation.GetHexX();
         mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-        if (this == mapField.FindOwnedChild(131998) && GameTables.GameEngine.AnimationDetail != 0 && animation.FrameCounter == 0)
+        if (this == mapField.FindOwnedChild(131998) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
@@ -344,7 +344,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         public override int ResourceUserClassId() => 131998;
 
         // PoisonP.pas:288
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_poisonPlantText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantText);
 
         private static readonly string s_poisonPlantText = "Poison Plant";
 

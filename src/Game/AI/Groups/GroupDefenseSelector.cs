@@ -22,10 +22,14 @@ namespace Aow.Game.AI.Groups;
 public partial class GroupDefenseSelector : IDisposable
 {
     // AIGroup.pas:1640
-    public GroupDefenseSelector()
+    public GroupDefenseSelector(EngineObject creator)
     {
-        Defenders = new UnitUserList(null);
+        Creator = creator;
+        Defenders = new UnitUserList(null) { Holder = Creator.CreationHolder() };
     }
+
+    // The node that created this selector. It and the nodes it creates reach the engine through it.
+    public EngineObject Creator { get; }
 
     public UnitList Defenders { get; }
 
@@ -123,7 +127,7 @@ public partial class GroupDefenseSelector : IDisposable
         Defenders.Clear();
         level = StrategicMap.Current.MapContainer.GetMapLevel(L);
         DefenseLocation.Packed = 16777215;
-        candidates = new UnitUserList(null);
+        candidates = new UnitUserList(null) { Holder = Creator.CreationHolder() };
         HexNumberWalkData.InitializeHexNumberWalk(out walk, X, Y, 0);
         while (walk.Radius <= 1 && Defenders.Count != group.Count)
         {

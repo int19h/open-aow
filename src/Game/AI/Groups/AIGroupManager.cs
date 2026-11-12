@@ -71,7 +71,7 @@ public partial class AIGroupManager : AIGroupList
 
         if (found)
         {
-            result = (RegisteredClasses[I]).CreateInstance(this);
+            result = (RegisteredClasses[I]).CreateInstance(this, holder: CreationHolder());
             result.GroupId = CreateUniqueId();
             result.Player = player;
             result.IndependentRelation = relation;

@@ -13,9 +13,10 @@ namespace Aow.Game.Magic.Spells;
 public partial class WaterMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:806
-    public WaterMastery(ECustomNode owner) : base(owner)
+    public WaterMastery(ECustomNode owner, EngineObject holder) : base(owner)
     {
-        SpellName = AbilityRules.TranslateResourceString(GameText.WaterMasteryText);
+        Holder = holder;
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.WaterMasteryText);
         SpellId = 45;
         SpellType = SpellType.Global;
         BaseManaCost = 1;
@@ -43,5 +44,5 @@ public partial class WaterMastery : GlobalEnchantmentSpell
     }
 
     // GlobalEnchantmentSpells.pas:801
-    public override GlobalEnchantment CreateEnchantment() => new WaterMasteryEnchantment(null);
+    public override GlobalEnchantment CreateEnchantment() => new WaterMasteryEnchantment(null, holder: CreationHolder());
 }

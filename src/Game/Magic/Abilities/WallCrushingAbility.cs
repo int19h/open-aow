@@ -11,11 +11,12 @@ namespace Aow.Game.Magic.Abilities;
 public partial class WallCrushingAbility : TouchAbility
 {
     // AoWAb.PAS:1991
-    public WallCrushingAbility(ECustomNode owner) : base(owner)
+    public WallCrushingAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         AbilityId = 117;
         AbilityType = AbilityType.Combat;
-        AbilityName = AbilityRules.TranslateResourceString(s_wallCrushingText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_wallCrushingText);
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.UseItem);
     }
 
@@ -152,7 +153,7 @@ public partial class WallCrushingAbility : TouchAbility
 
     private static DamageCombatAction CreateDamageCombatAction(CombatObject source, CombatObject target, int attack, int damage, Set<DamageType> damageTypes)
     {
-        DamageCombatAction damageCombatAction = new DamageCombatAction(null);
+        DamageCombatAction damageCombatAction = new DamageCombatAction(null) { Holder = source };
         damageCombatAction.Generate(source, target, (sbyte)attack, (sbyte)damage, damageTypes);
         return damageCombatAction;
     }

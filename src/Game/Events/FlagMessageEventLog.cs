@@ -5,7 +5,7 @@ namespace Aow.Game.Events;
 
 public partial class FlagMessageEventLog : HelpMessageEventLog
 {
-    public FlagMessageEventLog(ECustomNode owner) : base(owner)
+    public FlagMessageEventLog(ECustomNode owner, EngineObject holder) : base(owner, holder)
     { }
 
 }

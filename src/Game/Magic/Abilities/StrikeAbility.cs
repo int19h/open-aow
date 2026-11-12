@@ -15,13 +15,14 @@ public partial class StrikeAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:1210
-    public StrikeAbility(ECustomNode owner) : base(owner)
+    public StrikeAbility(ECustomNode owner, EngineObject holder) : base(owner)
     {
+        Holder = holder;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem);
         AbilityType = AbilityType.Combat;
         AbilityId = 21;
-        AbilityName = AbilityRules.TranslateResourceString(s_strikeText);
-        MeleeRound = new MeleeRound();
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_strikeText);
+        MeleeRound = new MeleeRound(this);
     }
 
     public MeleeRound MeleeRound { get; }
@@ -85,7 +86,7 @@ public partial class StrikeAbility : AdjustableAbility
         MoveWallCombatAction moveCombatAction;
         MeleeRound.Strike strike = default;
         target = command.Target;
-        round = new MeleeRound();
+        round = new MeleeRound(this);
         round.Calculate(source, target);
         stop = false;
         I = 0;
@@ -94,7 +95,7 @@ public partial class StrikeAbility : AdjustableAbility
             ((FastBattleUnit)source).State = ((FastBattleUnit)source).State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
             if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
             {
-                moveCombatAction = new MoveWallCombatAction(null);
+                moveCombatAction = new MoveWallCombatAction(null) { Holder = CreationHolder() };
                 moveCombatAction.CombatObjectId = source.Id;
 
                 moveCombatAction.InsideWall = 0;
