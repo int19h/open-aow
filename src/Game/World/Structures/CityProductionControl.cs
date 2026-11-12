@@ -46,7 +46,7 @@ public partial class CityProductionControl : ProductionControl
         city = City;
         valid = false;
         count = city.GetTerrainCount();
-        level = (MapLevel)city.Owner.Owner;
+        level = city.Owner.Owner;
         var hexY = city.GetHexY();
         var hexX = city.GetHexX();
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);

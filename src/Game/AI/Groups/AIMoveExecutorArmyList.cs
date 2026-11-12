@@ -10,13 +10,21 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI.Groups;
 
 // armies
-public partial class AIMoveExecutorArmyList : ENode
+public partial class AIMoveExecutorArmyList : ENode, IChildList<AIMoveExecutorArmy>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only an AIMoveExecutorArmy, so the cast never fails.
+    public AIMoveExecutorArmy this[int index] => (AIMoveExecutorArmy)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is AIMoveExecutorArmy;
+
+    int IChildSink<AIMoveExecutorArmy>.AddChild(AIMoveExecutorArmy child) => AddChild(child);
+
     public AIMoveExecutorArmyList(ECustomNode owner) : base(owner)
     { }
 
     // AIGroup.pas:4642
-    public AIMoveExecutorArmy GetArmies(int index) => (AIMoveExecutorArmy)_children.List[index];
+    public AIMoveExecutorArmy GetArmies(int index) => this[index];
 
     // AIGroup.pas:4647
     public int IndexOf(ArmyHexSprite army, byte selection)
@@ -30,7 +38,7 @@ public partial class AIMoveExecutorArmyList : ENode
         while (I != 0)
         {
             I -= 1;
-            entry = (AIMoveExecutorArmy)_children.List[I];
+            entry = this[I];
             if (army.GetHexX() == entry.Location.X && army.GetHexY() == entry.Location.Y && army.GetHexLevel() == entry.Location.MapLevel)
             {
                 entry.RetrieveArmy(255, ref foundArmy, ref foundSelection);
@@ -53,7 +61,7 @@ public partial class AIMoveExecutorArmyList : ENode
         while (I != 0)
         {
             I -= 1;
-            army = (AIMoveExecutorArmy)_children.List[I];
+            army = this[I];
             if (X == army.Location.X && army.Location.Y == Y && army.Location.MapLevel == L)
             {
                 return I;
@@ -70,7 +78,7 @@ public partial class AIMoveExecutorArmyList : ENode
         while (result != 0)
         {
             result -= 1;
-            if (Unsafe.As<MapCoordinate, int>(ref ((AIMoveExecutorArmy)_children.List[result]).Location) == Unsafe.As<MapCoordinate, int>(ref location))
+            if (Unsafe.As<MapCoordinate, int>(ref this[result].Location) == Unsafe.As<MapCoordinate, int>(ref location))
             {
                 return result;
             }
@@ -86,7 +94,7 @@ public partial class AIMoveExecutorArmyList : ENode
         while (result != 0)
         {
             result -= 1;
-            if (((AIMoveExecutorArmy)_children.List[result]).TransportStatus == status)
+            if (this[result].TransportStatus == status)
             {
                 return result;
             }

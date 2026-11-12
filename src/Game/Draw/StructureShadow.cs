@@ -58,7 +58,7 @@ public partial class StructureShadow : HexSprite
         {
             ShadowStatus = ShadowStatus + Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
             count = Structure.GetTerrainCount();
-            level = (MapLevel)Structure.Owner.Owner;
+            level = Structure.Owner.Owner;
             HexNumberWalkData.InitializeHexNumberWalk(ref walk, Structure._hexX, Structure._hexY, 0);
             while (walk.HexNumber < count)
             {
@@ -82,7 +82,7 @@ public partial class StructureShadow : HexSprite
         {
             count = Structure.GetTerrainCount();
             ShadowStatus = ShadowStatus - Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
-            level = (MapLevel)Structure.Owner.Owner;
+            level = Structure.Owner.Owner;
             HexNumberWalkData.InitializeHexNumberWalk(ref walk, Structure._hexX, Structure._hexY, 0);
             while (walk.HexNumber < count)
             {

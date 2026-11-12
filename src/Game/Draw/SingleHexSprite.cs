@@ -54,7 +54,7 @@ public partial class SingleHexSprite : HexSprite
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
         return (GetLevel() << 26) + ((pixelY + 32) << 13) + (pixelX + 16);
     }
 
@@ -84,18 +84,18 @@ public partial class SingleHexSprite : HexSprite
         MapField mapField;
         if (Owner != null)
         {
-            mapField = (MapField)Owner;
+            mapField = Owner;
             RemoveFromMap();
             if (GetVisible())
             {
                 if (GetLevel() <= 15)
                 {
-                    ((MapLevel)mapField.Owner).MapContainer.Map.StaticVisibleHexSprite.RemoveChild(this);
-                    ((MapLevel)mapField.Owner).MapContainer.Map.StaticSceneInvalid = true;
+                    mapField.Owner.MapContainer.Map.StaticVisibleHexSprite.RemoveChild(this);
+                    mapField.Owner.MapContainer.Map.StaticSceneInvalid = true;
                 }
                 else
                 {
-                    ((MapLevel)mapField.Owner).MapContainer.Map.DynamicVisibleHexSprite.RemoveChild(this);
+                    mapField.Owner.MapContainer.Map.DynamicVisibleHexSprite.RemoveChild(this);
                 }
             }
 

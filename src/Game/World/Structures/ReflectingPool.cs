@@ -146,7 +146,7 @@ public partial class ReflectingPool : PlayerStructure
                         if (_resource.TerrainList.GetTerrain(I) >= 0)
                         {
                             HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
-                            AoWHSMap.Current.FogArea(X, Y, ((MapField)Owner).HexLevel, UnfogRange);
+                            AoWHSMap.Current.FogArea(X, Y, Owner.HexLevel, UnfogRange);
                         }
                     }
                 }
@@ -159,7 +159,7 @@ public partial class ReflectingPool : PlayerStructure
                         if (_resource.TerrainList.GetTerrain(I) >= 0)
                         {
                             HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
-                            AoWHSMap.Current.UnFogArea(X, Y, ((MapField)Owner).HexLevel, UnfogRange);
+                            AoWHSMap.Current.UnFogArea(X, Y, Owner.HexLevel, UnfogRange);
                         }
                     }
                 }
@@ -184,7 +184,7 @@ public partial class ReflectingPool : PlayerStructure
                         {
                             HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
                             var visibilityRange = VisibilityRange();
-                            AoWHSMap.Current.ExploreArea(X, Y, ((MapField)Owner).HexLevel, (sbyte)P, visibilityRange);
+                            AoWHSMap.Current.ExploreArea(X, Y, Owner.HexLevel, (sbyte)P, visibilityRange);
                         }
                     }
                 }

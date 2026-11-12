@@ -10,10 +10,17 @@ namespace Aow.Game.Draw;
 
 // the base of everything placed on the map. Owner is the TMapField the sprite stands on (for
 // the multi-hex sprites the field of the base hexagon)
-public partial class HexSprite : EngineObject
+public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapField>
 {
     public HexSprite(ECustomNode owner) : base(owner)
     { }
+
+    // The field the sprite stands on. AcceptsOwner admits only a field, so the cast never fails.
+    public new MapField Owner { get => (MapField)base.Owner; set => SetOwner(value); }
+
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is MapField;
+
+    void IOwnedSink<MapField>.SetOwner(MapField owner) => SetOwner(owner);
 
     public new const int ClassId = 65872;
 
@@ -66,13 +73,13 @@ public partial class HexSprite : EngineObject
     public virtual bool GetSelected() => false;
 
     // HXSPRITE.PAS:87
-    public virtual sbyte GetHexX() => ((MapField)Owner).HexX;
+    public virtual sbyte GetHexX() => Owner.HexX;
 
     // HXSPRITE.PAS:92
-    public virtual sbyte GetHexY() => ((MapField)Owner).HexY;
+    public virtual sbyte GetHexY() => Owner.HexY;
 
     // HXSPRITE.PAS:97
-    public virtual sbyte GetHexLevel() => (sbyte)((MapLevel)Owner.Owner).HexLevel;
+    public virtual sbyte GetHexLevel() => (sbyte)Owner.Owner.HexLevel;
 
     // HXSPRITE.PAS:102
     public virtual int GetMapCoordinate() => GetHexX() + (GetHexY() << 8) + (GetHexLevel() << 16);
@@ -204,10 +211,10 @@ public partial class HexSprite : EngineObject
     public virtual void Changed()
     {
         MapField mapField;
-        mapField = (MapField)Owner;
+        mapField = Owner;
         if (mapField != null)
         {
-            ((GameEngine)((MapLevel)mapField.Owner).Engine).HexSpriteMap.HexSpriteChangedEventsStore.Raise(this);
+            ((GameEngine)mapField.Owner.Engine).HexSpriteMap.HexSpriteChangedEventsStore.Raise(this);
         }
     }
 
@@ -243,11 +250,11 @@ public partial class HexSprite : EngineObject
     // HXSPRITE.PAS:82
     public virtual void GetBaseHex(ref int mapCoordinate)
     {
-        mapCoordinate = ((MapField)Owner).HexX + (((MapField)Owner).HexY << 8) + (((MapLevel)Owner.Owner).HexLevel << 16);
+        mapCoordinate = Owner.HexX + (Owner.HexY << 8) + (Owner.Owner.HexLevel << 16);
     }
 
     // HXSPRITE.PAS:57
-    public virtual bool CanSelect(int pixelX, int pixelY) => Owner != null && ((GameEngine)((MapLevel)Owner.Owner).Engine).HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting);
+    public virtual bool CanSelect(int pixelX, int pixelY) => Owner != null && ((GameEngine)Owner.Owner.Engine).HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting);
 
     // HXSPRITE.PAS:107
     public virtual void Select()
@@ -257,7 +264,7 @@ public partial class HexSprite : EngineObject
     // HXSPRITE.PAS:111
     public virtual void Unselect()
     {
-        ((MapLevel)Owner.Owner).Map.Selection.Unselect(this);
+        Owner.Owner.Map.Selection.Unselect(this);
     }
 
     // HXSPRITE.PAS:17
@@ -384,7 +391,7 @@ public partial class HexSprite : EngineObject
                 }
             }
 
-            ((MapField)Owner).SetHexNumberOfHexSprite(this, 0);
+            Owner.SetHexNumberOfHexSprite(this, 0);
             result = true;
         }
         else
@@ -407,7 +414,7 @@ public partial class HexSprite : EngineObject
         int maxYOdd = default;
         int maxYEven;
         MapLevel mapL;
-        mapL = (MapLevel)Owner.Owner;
+        mapL = Owner.Owner;
         HexGeometry.PixelToHex(pixelX - 8, pixelY, ref minX, ref minYOdd);
         HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, ref X, ref Y);
         if (!((minX & 1) != 0))

@@ -27,7 +27,7 @@ public partial class IsometricCombatHex : UpperIsometricHex
         int pixelX = default;
         int pixelY = default;
         int variant;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY = pixelY - pixelYSurface;
         imageLibrary = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;

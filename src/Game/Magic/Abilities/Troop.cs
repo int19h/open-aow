@@ -1552,7 +1552,7 @@ public partial class Troop : AbilityOwner
         MapLevel level;
         HexNumberWalkData walk = default;
         AoWMapField field;
-        level = (MapLevel)mapField.Owner;
+        level = mapField.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, mapField.HexX, mapField.HexY, 0);
         while (walk.Radius <= 1)
         {

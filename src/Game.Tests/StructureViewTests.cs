@@ -29,8 +29,8 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         .Select(c => c.Type).OrderBy(t => t.Name, StringComparer.Ordinal).ToArray();
 
     // The original's army query on the structure's field tells that a kind action ran. No army
-    // stands on the field, so every action stops at that query.
-    private sealed class ArmyOwner : EngineFixture.Owner
+    // stands on the field, so every action stops at that query. A structure's owner is a field.
+    private sealed class ArmyOwner() : EngineFixture.RecordingField
     {
         internal int ArmyQueries { get; private set; }
 

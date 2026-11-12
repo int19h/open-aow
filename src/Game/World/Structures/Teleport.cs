@@ -88,7 +88,7 @@ public partial class Teleport : Structure
     public override void Activate()
     {
         base.Activate();
-        ((MapField)Owner).UpdateMapField();
+        Owner.UpdateMapField();
     }
 
     // Teleport.pas:178
@@ -96,7 +96,7 @@ public partial class Teleport : Structure
     {
         base.Deactivate();
         Status = Status - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
-        ((MapField)Owner).UpdateMapField();
+        Owner.UpdateMapField();
     }
 
     // Teleport.pas:131

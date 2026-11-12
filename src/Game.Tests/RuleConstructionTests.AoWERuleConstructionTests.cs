@@ -215,7 +215,7 @@ public sealed partial class RuleConstructionTests
             var states = new List<string>();
             try
             {
-                value = Create(type, owner, route, fixture);
+                value = Create(type, EngineFixture.OwnerFor(type, owner), route, fixture);
                 Assert.IsType(type, value);
                 AssertPrivateArrayChildren(value);
                 state = "success:" + Snapshot(value);
@@ -325,9 +325,10 @@ public sealed partial class RuleConstructionTests
         {
             using var fixture = new Fixture();
             var owner = new RuleOwner();
-            var value = Assert.IsAssignableFrom<EngineObject>(Create(type, owner, route, fixture));
+            var given = EngineFixture.OwnerFor(type, owner);
+            var value = Assert.IsAssignableFrom<EngineObject>(Create(type, given, route, fixture));
             Assert.IsType(type, value);
-            Assert.Same(owner, value.Owner);
+            Assert.Same(given, value.Owner);
             Assert.Same(value, Assert.Single(owner.Members));
             Assert.Equal(0, owner.Removals);
             if (value is ArmyHexSprite army) Assert.NotNull(army.Army);

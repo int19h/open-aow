@@ -147,7 +147,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
 
                 log.Release();
                 army.Army.Validate();
-                army.Army.ValidateTerrain(((MapField)army.Owner).TerrainType, ((MapField)army.Owner).OverlayType, source.Player);
+                army.Army.ValidateTerrain(army.Owner.TerrainType, army.Owner.OverlayType, source.Player);
                 army.Army.EndUpdate();
             }
 

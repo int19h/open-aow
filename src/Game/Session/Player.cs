@@ -857,7 +857,7 @@ public partial class Player : EngineObject
         Income = BaseIncome;
         for (int I = _incomeSources.Count - 1; I >= 0; I--)
         {
-            var income = ((IncomeSource)_incomeSources._children.List[I]).Income();
+            var income = _incomeSources[I].Income();
             Income += income;
         }
 

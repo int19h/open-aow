@@ -130,7 +130,7 @@ public partial class CityOverlayHexSprite : SingleHexSprite
 
             if (Mode == OverlayMode.Looting)
             {
-                City._resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 22, (uint)(((MapField)City.Owner).HexX + ((MapField)City.Owner).HexY * 16));
+                City._resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 22, (uint)(City.Owner.HexX + City.Owner.HexY * 16));
             }
         }
     }

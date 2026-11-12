@@ -3,14 +3,22 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic;
 
-public partial class EnchantmentList : ENode
+public partial class EnchantmentList : ENode, IChildList<Enchantment>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only an Enchantment, so the cast never fails.
+    public Enchantment this[int index] => (Enchantment)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is Enchantment;
+
+    int IChildSink<Enchantment>.AddChild(Enchantment child) => AddChild(child);
+
     public EnchantmentList(ECustomNode owner) : base(owner)
     { }
 
     // Spells.PAS:1762
     // inherited children
-    public Enchantment GetEnchantments(int index) => (Enchantment)_children.List[index];
+    public Enchantment GetEnchantments(int index) => this[index];
 
     // Spells.PAS:1764
     public int IndexOfId(int id)
@@ -19,7 +27,7 @@ public partial class EnchantmentList : ENode
         while (result != 0)
         {
             result -= 1;
-            if (((Enchantment)_children.List[result]).EnchantmentId == id)
+            if (this[result].EnchantmentId == id)
             {
                 return result;
             }
@@ -36,7 +44,7 @@ public partial class EnchantmentList : ENode
         index = IndexOfId(id);
         if (index != -1)
         {
-            result = (Enchantment)_children.List[index];
+            result = this[index];
         }
         else
         {

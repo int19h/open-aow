@@ -71,7 +71,7 @@ public partial class PoisonCloud : MultiHexMapObject
         {
             var hexY = GetHexY();
             var hexX = GetHexX();
-            UpdateMapFields((MapLevel)Owner.Owner, hexX, hexY);
+            UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 
         return result;
@@ -81,7 +81,7 @@ public partial class PoisonCloud : MultiHexMapObject
     public override void RemoveFromMap()
     {
         MapLevel level;
-        level = (MapLevel)Owner.Owner;
+        level = Owner.Owner;
         base.RemoveFromMap();
         UpdateMapFields(level, _hexX, _hexY);
     }
@@ -175,7 +175,7 @@ public partial class PoisonCloud : MultiHexMapObject
         if (_resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
-            hexNumber = HexGeometry.DeltaHexToHexNumber(((MapField)Owner).HexX, ((MapField)Owner).HexY, hexX, hexY);
+            hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
             result = hexNumber < _resource.TerrainList.Count && _resource.TerrainList.Terrain[hexNumber] >= -1;
         }
         else
@@ -236,7 +236,7 @@ public partial class PoisonCloud : MultiHexMapObject
         MapFieldMessage message = default;
         HexNumberWalkData Walk = default;
         MapLevel level;
-        level = (MapLevel)Owner.Owner;
+        level = Owner.Owner;
         var hexY = GetHexY();
         var hexX = GetHexX();
         HexNumberWalkData.InitializeHexNumberWalk(ref Walk, hexX, hexY, 0);
@@ -262,7 +262,7 @@ public partial class PoisonCloud : MultiHexMapObject
         int hexX = default;
         int hexY = default;
         MapLevel level;
-        level = (MapLevel)Owner.Owner;
+        level = Owner.Owner;
         var yhx = GetHexY();
         HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
         HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);

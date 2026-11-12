@@ -77,7 +77,7 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
     // Structur.PAS:4494
     public void MeltIce()
     {
-        if (((MapField)Owner).TerrainType == 6)
+        if (Owner.TerrainType == 6)
         {
             var hexY = HexY;
             var hexX = HexX;
@@ -85,7 +85,7 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
         }
         else
         {
-            if (((MapField)Owner).TerrainType == 13)
+            if (Owner.TerrainType == 13)
             {
                 var hexY = HexY;
                 var hexX = HexX;

@@ -378,16 +378,17 @@ public sealed class SweepConstructionTests
             {
                 using var fixture = new Fixture();
                 var owner = owned == 0 ? null : new SweepOwner();
+                var given = EngineFixture.OwnerFor(type, owner!);
                 EngineObject? value = null;
                 var states = new List<string>();
                 try
                 {
-                    value = route == 1 ? EngineClass.Of(type).CreateInstance(owner!)
-                        : route == 0 ? Direct(type, owner!)
-                        : route == 2 ? EngineClass.Of(type).CreateInstance(owner!)
-                        : Saved(type, owner!);
+                    value = route == 1 ? EngineClass.Of(type).CreateInstance(given)
+                        : route == 0 ? Direct(type, given)
+                        : route == 2 ? EngineClass.Of(type).CreateInstance(given)
+                        : Saved(type, given);
                     Assert.IsType(type, value);
-                    Assert.Same(owner, value.Owner);
+                    Assert.Same(given, value.Owner);
                     states.Add("success:" + Snapshot(value));
                 }
                 catch (Exception error) { states.Add("failure:" + error.GetType().FullName + ":" + error.Message); }

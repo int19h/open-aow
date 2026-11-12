@@ -11,8 +11,15 @@ using Aow.Rtl;
 namespace Aow.Game.Session;
 
 // active, local, human, local human lists
-public partial class PlayerList : EControlStyleNode
+public partial class PlayerList : EControlStyleNode, IChildList<Player>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a Player, so the cast never fails.
+    public Player this[int index] => (Player)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is Player;
+
+    int IChildSink<Player>.AddChild(Player child) => AddChild(child);
 
     // Player.PAS:1414
     public PlayerList(ECustomNode owner) : base(owner)
@@ -39,7 +46,7 @@ public partial class PlayerList : EControlStyleNode
         for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
             var players = ((PlayerList)source).GetPlayers(I);
-            ((EngineObject)_children.List[I]).Assign(players, GameTables.GameEngine);
+            this[I].Assign(players, GameTables.GameEngine);
         }
     }
 
@@ -65,12 +72,12 @@ public partial class PlayerList : EControlStyleNode
     }
 
     // Player.PAS:1445
-    public DiplomaticRelation GetDiplomaticRelation(sbyte player, sbyte otherPlayer) => ((Player)_children.List[player]).DiplomaticRelations.GetDiplomaticRelation(otherPlayer);
+    public DiplomaticRelation GetDiplomaticRelation(sbyte player, sbyte otherPlayer) => this[player].DiplomaticRelations.GetDiplomaticRelation(otherPlayer);
 
     // Player.PAS:1450
     public void SetDiplomaticRelation(sbyte player, sbyte otherPlayer, DiplomaticRelation relation)
     {
-        if (((Player)_children.List[player]).DiplomaticRelations.GetDiplomaticRelation(otherPlayer) != relation || ((Player)_children.List[otherPlayer]).DiplomaticRelations.GetDiplomaticRelation(player) != relation)
+        if (this[player].DiplomaticRelations.GetDiplomaticRelation(otherPlayer) != relation || this[otherPlayer].DiplomaticRelations.GetDiplomaticRelation(player) != relation)
         {
             if (relation == DiplomaticRelation.Alliance)
             {
@@ -88,24 +95,24 @@ public partial class PlayerList : EControlStyleNode
                 }
             }
 
-            ((Player)_children.List[player]).DiplomaticRelations.SetDiplomaticRelation(otherPlayer, relation);
-            ((Player)_children.List[otherPlayer]).DiplomaticRelations.SetDiplomaticRelation(player, relation);
+            this[player].DiplomaticRelations.SetDiplomaticRelation(otherPlayer, relation);
+            this[otherPlayer].DiplomaticRelations.SetDiplomaticRelation(player, relation);
             if (relation == DiplomaticRelation.War)
             {
-                ((Player)_children.List[player]).AIValidAttackPlayers[otherPlayer] = true;
-                ((Player)_children.List[otherPlayer]).AIValidAttackPlayers[player] = true;
+                this[player].AIValidAttackPlayers[otherPlayer] = true;
+                this[otherPlayer].AIValidAttackPlayers[player] = true;
             }
 
             if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(relation))
             {
-                ((Player)_children.List[player]).AIValidAttackPlayers[otherPlayer] = false;
-                ((Player)_children.List[otherPlayer]).AIValidAttackPlayers[player] = false;
+                this[player].AIValidAttackPlayers[otherPlayer] = false;
+                this[otherPlayer].AIValidAttackPlayers[player] = false;
             }
 
             AoWHSMap.Current.DiplomaticRelationsChangedEventsStore.Raise(this);
             for (int J = Count - 1; J >= 1; J--)
             {
-                ((Player)_children.List[J]).MagicControl.UpdateEnemyEnchantments();
+                this[J].MagicControl.UpdateEnemyEnchantments();
             }
 
             AoWHSMap.Current.UpdateVisibility();
@@ -121,7 +128,7 @@ public partial class PlayerList : EControlStyleNode
         // { Original tests the active count, not the index, and can run past the list. }
         while (result != _children.Count)
         {
-            if (((Player)_children.List[I]).GameOverStatus != GameOverStatus.Lost)
+            if (this[I].GameOverStatus != GameOverStatus.Lost)
             {
                 result += 1;
             }
@@ -137,7 +144,7 @@ public partial class PlayerList : EControlStyleNode
     {
         for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            ((Player)_children.List[I]).BeginUpdate();
+            this[I].BeginUpdate();
         }
     }
 
@@ -146,7 +153,7 @@ public partial class PlayerList : EControlStyleNode
     {
         for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            ((Player)_children.List[I]).EndUpdate();
+            this[I].EndUpdate();
         }
 
         Update();
@@ -158,7 +165,7 @@ public partial class PlayerList : EControlStyleNode
         Player result;
         if (index >= 0 && index < _children.Count)
         {
-            result = (Player)_children.List[index];
+            result = this[index];
         }
         else
         {
@@ -261,7 +268,7 @@ public partial class PlayerList : EControlStyleNode
         // { Original uses <> Count and assumes at least the independent player exists. }
         while (result == -1 && I != _children.Count)
         {
-            if (((Player)_children.List[I]).PlayerRace == race)
+            if (this[I].PlayerRace == race)
             {
                 result = I;
             }
@@ -331,7 +338,7 @@ public partial class PlayerList : EControlStyleNode
         int limit = _children.Count - 1;
         for (; I <= limit; I += 1)
         {
-            index = available.IndexOf(((Player)_children.List[I]).PlayerRace);
+            index = available.IndexOf(this[I].PlayerRace);
             if (index == -1)
             {
                 invalid.Add(I);
@@ -364,13 +371,13 @@ public partial class PlayerList : EControlStyleNode
             if (available.Count == 0)
             {
                 var item = invalid[I];
-                ((Player)_children.List[item]).SetRace((sbyte)defaultRace);
+                this[item].SetRace((sbyte)defaultRace);
             }
             else
             {
                 var item = available[0];
                 var invalidItem = invalid[I];
-                ((Player)_children.List[invalidItem]).SetRace((sbyte)item);
+                this[invalidItem].SetRace((sbyte)item);
                 available.Delete(0);
             }
         }
@@ -391,7 +398,7 @@ public partial class PlayerList : EControlStyleNode
         I = 1;
         while (valid && I < _children.Count)
         {
-            player = (Player)_children.List[I];
+            player = this[I];
             valid = player.PlayerRace != -1 && races.GetRace(player.PlayerRace).Enabled;
             if (valid)
             {
@@ -472,7 +479,7 @@ public partial class PlayerList : EControlStyleNode
         ActivePlayers.Clear();
         for (int i = 0; i < _children.Count; i++)
         {
-            var player = (Player)_children.List[i];
+            var player = this[i];
             if (player.Status != PlayerStatus.Playing) continue;
             if (player.GameOverStatus != GameOverStatus.Lost && i != 0) ActivePlayers.Add((byte)i);
             if (player.GetLocal())

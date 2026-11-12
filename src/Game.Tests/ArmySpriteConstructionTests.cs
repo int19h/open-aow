@@ -45,7 +45,7 @@ public sealed class ArmySpriteConstructionTests
                 int destroyEntries = 0;
                 try
                 {
-                    value = Assert.IsType<ArmyHexSprite>(OrderingRecording.Create(typeof(ArmyHexSprite), owner, route, fixture.Engine));
+                    value = Assert.IsType<ArmyHexSprite>(OrderingRecording.Create(typeof(ArmyHexSprite), EngineFixture.OwnerFor(typeof(ArmyHexSprite), owner!), route, fixture.Engine));
                     state = OrderingRecording.Snapshot(value);
                 }
                 catch (Exception error) when (error is not XunitException)

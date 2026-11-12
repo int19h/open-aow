@@ -37,7 +37,7 @@ public partial class CombatObstacle : MultiHexMapObject
         {
             var hexY = HexY;
             var hexX = HexX;
-            UpdateMapFields((MapLevel)Owner.Owner, hexX, hexY);
+            UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 
         return result;
@@ -47,7 +47,7 @@ public partial class CombatObstacle : MultiHexMapObject
     public override void RemoveFromMap()
     {
         MapLevel mapLevel;
-        mapLevel = (MapLevel)Owner.Owner;
+        mapLevel = Owner.Owner;
         base.RemoveFromMap();
         UpdateMapFields(mapLevel, _hexX, _hexY);
     }
@@ -194,7 +194,7 @@ public partial class CombatObstacle : MultiHexMapObject
         HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
         pixelXSurface = X - pixelXSurface;
         pixelYSurface = Y - pixelYSurface;
-        _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(((MapField)Owner).HexX + (((MapField)Owner).HexY << 4)));
+        _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
     // CombatObstacle.pas:182
@@ -205,7 +205,7 @@ public partial class CombatObstacle : MultiHexMapObject
         HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
         pixelXSurface = X - pixelXSurface;
         pixelYSurface = Y - pixelYSurface;
-        _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 41, (uint)(((MapField)Owner).HexX + (((MapField)Owner).HexY << 4)));
+        _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 41, (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
     public new partial class Resource : MultiHexMapObjectResource

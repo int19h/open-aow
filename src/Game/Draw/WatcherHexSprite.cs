@@ -160,7 +160,7 @@ public partial class WatcherHexSprite : SingleHexSprite
     public override bool PlaceOnMap()
     {
         bool result = base.PlaceOnMap();
-        ((MapField)Owner).UpdateMapField();
+        Owner.UpdateMapField();
         return result;
     }
 
@@ -168,7 +168,7 @@ public partial class WatcherHexSprite : SingleHexSprite
     public override void RemoveFromMap()
     {
         MapField mapField;
-        mapField = (MapField)Owner;
+        mapField = Owner;
         base.RemoveFromMap();
         mapField.UpdateMapField();
     }
@@ -216,7 +216,7 @@ public partial class WatcherHexSprite : SingleHexSprite
             if (VisibilityRange() >= mapFieldMessage.Param[0].Int)
             {
                 // { Param[0] is already available. }
-                AoWHSMap.Current.UpdatePlayerSeen(Enchantment.PlayerIndex, ((MapField)Owner).HexX, ((MapField)Owner).HexY, ((MapField)Owner).HexLevel, mapFieldMessage.Param[0].Int, mapFieldMessage.Param[0].Int);
+                AoWHSMap.Current.UpdatePlayerSeen(Enchantment.PlayerIndex, Owner.HexX, Owner.HexY, Owner.HexLevel, mapFieldMessage.Param[0].Int, mapFieldMessage.Param[0].Int);
             }
 
             UpdateVisibleForSeatedPlayer();
@@ -230,10 +230,10 @@ public partial class WatcherHexSprite : SingleHexSprite
         base.Activate();
         WatcherState = (byte)(Set<StateElement>.FromMask(WatcherState) + Set<StateElement>.Of(StateElement.Active)).Image;
         Enchantment.Activate(Enchantment.PlayerIndex);
-        var mapField = (MapField)Owner;
+        var mapField = Owner;
         AoWHSMap.Current.NotifyPlayerChanged(mapField.HexX, mapField.HexY, mapField.HexLevel);
 
-        mapFieldLocal = (MapField)Owner;
+        mapFieldLocal = Owner;
         var visibilityRange = VisibilityRange();
         var visibilityRange2 = VisibilityRange();
         AoWHSMap.Current.UpdatePlayerSeen(Enchantment.PlayerIndex, mapFieldLocal.HexX, mapFieldLocal.HexY, mapFieldLocal.HexLevel, visibilityRange, visibilityRange2);
@@ -251,7 +251,7 @@ public partial class WatcherHexSprite : SingleHexSprite
             Enchantment.Deactivate((byte)Enchantment.PlayerIndex);
         }
 
-        AoWHSMap.Current.NotifyPlayerChanged(((MapField)Owner).HexX, ((MapField)Owner).HexY, ((MapField)Owner).HexLevel);
+        AoWHSMap.Current.NotifyPlayerChanged(Owner.HexX, Owner.HexY, Owner.HexLevel);
         UpdateUnfog();
     }
 

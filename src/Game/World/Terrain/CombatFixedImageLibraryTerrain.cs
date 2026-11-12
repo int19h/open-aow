@@ -23,7 +23,7 @@ public partial class CombatFixedImageLibraryTerrain : CombatImageLibraryTerrain
             if (validTerrainType)
             {
                 var terrain = _resource.TerrainList.GetTerrain(info.HexNumber);
-                validTerrainType = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, _hexX, _hexY, terrain) == info.MapField.TerrainType;
+                validTerrainType = GetMostFrequentMapFieldTerrainType(Owner.Owner, _hexX, _hexY, terrain) == info.MapField.TerrainType;
             }
 
             result = validTerrainType;

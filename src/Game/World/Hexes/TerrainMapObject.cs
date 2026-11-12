@@ -28,7 +28,7 @@ public partial class TerrainMapObject : MultiHexMapObject
             if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
             {
                 var terrain = _resource.TerrainList.GetTerrain(info.HexNumber);
-                if (GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, _hexX, _hexY, terrain) == info.MapField.TerrainType)
+                if (GetMostFrequentMapFieldTerrainType(Owner.Owner, _hexX, _hexY, terrain) == info.MapField.TerrainType)
                 {
                     result = CanChangeOwnTerrain(info.HexNumber);
                 }
@@ -56,12 +56,12 @@ public partial class TerrainMapObject : MultiHexMapObject
         sbyte terrainType;
         sbyte newTerrainType;
         TerrainMapObjectResource R;
-        ECustomNode oldOwner;
+        MapField oldOwner;
         terrainType = _resource.TerrainList.GetTerrain(info.HexNumber);
         if (terrainType >= 0 && terrainType != info.TerrainType)
         {
             var terrain = _resource.TerrainList.GetTerrain(info.HexNumber);
-            newTerrainType = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, _hexX, _hexY, terrain);
+            newTerrainType = GetMostFrequentMapFieldTerrainType(Owner.Owner, _hexX, _hexY, terrain);
             if (newTerrainType != terrainType)
             {
                 R = FindTerrainResource((byte)newTerrainType);
@@ -165,7 +165,7 @@ public partial class TerrainMapObject : MultiHexMapObject
                 hexX = GetHexX();
                 hexY = GetHexY();
                 hexLevel = GetHexLevel();
-                map = ((MapLevel)Owner.Owner).Map;
+                map = Owner.Owner.Map;
                 terrainList = _resource.TerrainList;
                 Dispose();
                 I = 0;
@@ -232,7 +232,7 @@ public partial class TerrainMapObject : MultiHexMapObject
         int count;
         HexNumberWalkData walk = default;
         bool result = true;
-        level = (MapLevel)Owner.Owner;
+        level = Owner.Owner;
         count = GetTerrainCount();
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
         while (walk.HexNumber < count && result)

@@ -20,7 +20,7 @@ public sealed class MapNetSoundConstructionTests
 
         public override int AddChild(EngineObject child)
         {
-            Assert.Same(this, child.Owner);
+            Assert.True(EngineFixture.Forwards(child.Owner, this));
             base.AddChild(child);
             return Members.Count - 1;
         }
@@ -47,7 +47,7 @@ public sealed class MapNetSoundConstructionTests
         if (EngineHost.Engines is null) EngineHost.Initialize();
         GameEngine engine = new GameEngine(null!);
         var owner = new MapOwner();
-        ECustomNode argument = owned ? type == typeof(MapContainer) ? new HSMap(null!) : owner : null!;
+        ECustomNode argument = owned ? type == typeof(MapContainer) ? new HSMap(null!) : EngineFixture.OwnerFor(type, owner) : null!;
         var meta = EngineClass.Of(type);
         if (engine.ClassTable.TryGetValue(meta.ClassId, out EngineClass? previous) && previous is not null)
             engine.UnregisterEngineClasses([previous]);

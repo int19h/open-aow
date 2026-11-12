@@ -3451,8 +3451,7 @@
           }
         }
       },
-      "destroy:System.InvalidCastException:Unable to cast object of type 'SweepOwner' to type 'Aow.Game.World.Map.MapField'.",
-      "owner:1",
+      "owner:0",
       {
         "$jsonText": [
           {
@@ -3635,8 +3634,7 @@
           }
         }
       },
-      "destroy:System.InvalidCastException:Unable to cast object of type 'SweepOwner' to type 'Aow.Game.World.Map.MapField'.",
-      "owner:1",
+      "owner:0",
       {
         "$jsonText": [
           {
@@ -3687,8 +3685,7 @@
           }
         }
       },
-      "destroy:System.InvalidCastException:Unable to cast object of type 'SweepOwner' to type 'Aow.Game.World.Map.MapField'.",
-      "owner:1",
+      "owner:0",
       {
         "$jsonText": [
           {
@@ -3742,8 +3739,7 @@
           }
         }
       },
-      "destroy:System.InvalidCastException:Unable to cast object of type 'SweepOwner' to type 'Aow.Game.World.Map.MapField'.",
-      "owner:1",
+      "owner:0",
       {
         "$jsonText": [
           {
@@ -4020,8 +4016,7 @@
           }
         }
       },
-      "destroy:System.InvalidCastException:Unable to cast object of type 'SweepOwner' to type 'Aow.Game.World.Map.MapField'.",
-      "owner:1",
+      "owner:0",
       {
         "$jsonText": [
           {
@@ -4068,8 +4063,7 @@
           }
         }
       },
-      "destroy:System.InvalidCastException:Unable to cast object of type 'SweepOwner' to type 'Aow.Game.World.Map.MapField'.",
-      "owner:1",
+      "owner:0",
       {
         "$jsonText": [
           {
@@ -4114,8 +4108,7 @@
           }
         }
       },
-      "destroy:System.InvalidCastException:Unable to cast object of type 'SweepOwner' to type 'Aow.Game.World.Map.MapField'.",
-      "owner:1",
+      "owner:0",
       {
         "$jsonText": [
           {
@@ -4280,8 +4273,7 @@
           }
         }
       },
-      "destroy:System.InvalidCastException:Unable to cast object of type 'SweepOwner' to type 'Aow.Game.World.Map.MapField'.",
-      "owner:1",
+      "owner:0",
       {
         "$jsonText": [
           {
@@ -4578,8 +4570,7 @@
           }
         }
       },
-      "destroy:System.InvalidCastException:Unable to cast object of type 'SweepOwner' to type 'Aow.Game.World.Map.MapField'.",
-      "owner:1",
+      "owner:0",
       {
         "$jsonText": [
           {

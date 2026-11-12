@@ -23,7 +23,7 @@ public partial class FixedImageLibraryTerrainMapObject : ImageLibraryTerrainMapO
             if (validTerrainType)
             {
                 var terrain = _resource.TerrainList.GetTerrain(info.HexNumber);
-                validTerrainType = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, _hexX, _hexY, terrain) == info.MapField.TerrainType;
+                validTerrainType = GetMostFrequentMapFieldTerrainType(Owner.Owner, _hexX, _hexY, terrain) == info.MapField.TerrainType;
             }
 
             result = validTerrainType;
@@ -57,7 +57,7 @@ public partial class FixedImageLibraryTerrainMapObject : ImageLibraryTerrainMapO
             if (ValidTerrainType(info.TerrainType))
             {
                 TerrainType = info.TerrainType;
-                UpdateTerrain((MapLevel)Owner.Owner, _hexX, _hexY);
+                UpdateTerrain(Owner.Owner, _hexX, _hexY);
                 ImageIndex = GetTerrainTypeImage(info.TerrainType);
             }
             else

@@ -6,13 +6,21 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.AI.Groups;
 
 // children
-public partial class AIMoveExecutorUnitList : ENode
+public partial class AIMoveExecutorUnitList : ENode, IChildList<AIMoveExecutorUnit>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only an AIMoveExecutorUnit, so the cast never fails.
+    public AIMoveExecutorUnit this[int index] => (AIMoveExecutorUnit)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is AIMoveExecutorUnit;
+
+    int IChildSink<AIMoveExecutorUnit>.AddChild(AIMoveExecutorUnit child) => AddChild(child);
+
     public AIMoveExecutorUnitList(ECustomNode owner) : base(owner)
     { }
 
     // AIGroup.pas:4328
-    public AIMoveExecutorUnit GetUnits(int index) => (AIMoveExecutorUnit)_children.List[index];
+    public AIMoveExecutorUnit GetUnits(int index) => this[index];
 
     // AIGroup.pas:4333
     public int IndexOfUnitId(int id)
@@ -21,7 +29,7 @@ public partial class AIMoveExecutorUnitList : ENode
         while (result != 0)
         {
             result -= 1;
-            if (((AIMoveExecutorUnit)_children.List[result]).UnitId == id)
+            if (this[result].UnitId == id)
             {
                 return result;
             }
@@ -37,7 +45,7 @@ public partial class AIMoveExecutorUnitList : ENode
         while (result != 0)
         {
             result -= 1;
-            if (((AIMoveExecutorUnit)_children.List[result]).Troop == troop)
+            if (this[result].Troop == troop)
             {
                 return result;
             }
@@ -53,7 +61,7 @@ public partial class AIMoveExecutorUnitList : ENode
         while (result != 0)
         {
             result -= 1;
-            if (((AIMoveExecutorUnit)_children.List[result]).Status == status)
+            if (this[result].Status == status)
             {
                 return result;
             }
@@ -101,9 +109,9 @@ public partial class AIMoveExecutorUnitList : ENode
         {
             if ((selection & 1) != 0)
             {
-                if (((AIMoveExecutorUnit)_children.List[I]).Troop.GetTransporter())
+                if (this[I].Troop.GetTransporter())
                 {
-                    result = (AIMoveExecutorUnit)_children.List[I];
+                    result = this[I];
                     break;
                 }
             }
@@ -121,7 +129,7 @@ public partial class AIMoveExecutorUnitList : ENode
         {
             if ((selection & 1) != 0)
             {
-                ((AIMoveExecutorUnit)_children.List[I]).MoveResult = moveResult;
+                this[I].MoveResult = moveResult;
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
@@ -135,7 +143,7 @@ public partial class AIMoveExecutorUnitList : ENode
         {
             if ((selection & 1) != 0)
             {
-                ((AIMoveExecutorUnit)_children.List[I]).TransportStatus = status;
+                this[I].TransportStatus = status;
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
@@ -149,7 +157,7 @@ public partial class AIMoveExecutorUnitList : ENode
         {
             if ((selection & 1) != 0)
             {
-                ((AIMoveExecutorUnit)_children.List[I]).Status = status;
+                this[I].Status = status;
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);

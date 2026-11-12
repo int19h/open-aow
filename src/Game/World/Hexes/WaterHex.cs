@@ -35,7 +35,7 @@ public partial class WaterHex : LowerIsometricHex
     // AoWHex.pas:315. The base texture includes an owner-address phase.
     public override void Show(int xSurface, int ySurface, in LockedSurface surface)
     {
-        var field = (MapField)Owner;
+        var field = Owner;
         int x = 0, y = 0;
         HexGeometry.HexToPixel(field.HexX, field.HexY, ref x, ref y);
         x -= xSurface + 8;

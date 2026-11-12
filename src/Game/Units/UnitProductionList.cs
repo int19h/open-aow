@@ -5,8 +5,16 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
-public partial class UnitProductionList : ENode
+public partial class UnitProductionList : ENode, IChildList<UnitProduction>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only an UnitProduction, so the cast never fails.
+    public UnitProduction this[int index] => (UnitProduction)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is UnitProduction;
+
+    int IChildSink<UnitProduction>.AddChild(UnitProduction child) => AddChild(child);
+
     public UnitProductionList(ECustomNode owner) : base(owner)
     { }
 
@@ -16,7 +24,7 @@ public partial class UnitProductionList : ENode
         UnitProduction result;
         if (index >= 0 && index < Count)
         {
-            result = (UnitProduction)_children.List[index];
+            result = this[index];
         }
         else
         {

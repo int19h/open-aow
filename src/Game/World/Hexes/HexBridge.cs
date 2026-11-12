@@ -63,7 +63,7 @@ public partial class HexBridge : AbstractRoad
     {
         int pixelX;
         int pixelY;
-        var mapField = (MapField)Owner;
+        var mapField = Owner;
         pixelX = mapField.HexX * 32 + 8;
         pixelY = (mapField.HexX & 1) * 16 + mapField.HexY * 32;
 
@@ -75,8 +75,8 @@ public partial class HexBridge : AbstractRoad
     {
         HexNumberWalkData walk = default;
         MapLevel level;
-        level = (MapLevel)Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, ((MapField)Owner).HexX, ((MapField)Owner).HexY, 1);
+        level = Owner.Owner;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, Owner.HexX, Owner.HexY, 1);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -95,8 +95,8 @@ public partial class HexBridge : AbstractRoad
     {
         HexNumberWalkData walk = default;
         MapLevel level;
-        level = (MapLevel)Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(ref walk, ((MapField)Owner).HexX, ((MapField)Owner).HexY, 1);
+        level = Owner.Owner;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, Owner.HexX, Owner.HexY, 1);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -131,7 +131,7 @@ public partial class HexBridge : AbstractRoad
     {
         int pixelX = default;
         int pixelY = default;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
         _resource.ImageLibrary[Direction].Show(pixelX - pixelXSurface - 23, pixelY - pixelYSurface - 20, lockedSurface);
     }
 
@@ -148,8 +148,8 @@ public partial class HexBridge : AbstractRoad
                 for (int I = 0, last = _sideB.Count - 1; I <= last; I++)
                 {
                     var sideB = _sideB[I];
-                    HexGeometry.CenterHexNumberToHex(((MapField)Owner).HexX, ((MapField)Owner).HexY, sideB, ref hexX, ref hexY);
-                    mapField = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, ((MapField)Owner).HexLevel);
+                    HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, sideB, ref hexX, ref hexY);
+                    mapField = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
                     ((MoveControl)info.Sender).ExecuteExternalMove((AoWMapField)info.MapField, (AoWMapField)mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - -1]);
                 }
             }
@@ -160,8 +160,8 @@ public partial class HexBridge : AbstractRoad
                     for (int I = 0, last = _sideA.Count - 1; I <= last; I++)
                     {
                         var sideA = _sideA[I];
-                        HexGeometry.CenterHexNumberToHex(((MapField)Owner).HexX, ((MapField)Owner).HexY, sideA, ref hexX, ref hexY);
-                        mapField = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, ((MapField)Owner).HexLevel);
+                        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, sideA, ref hexX, ref hexY);
+                        mapField = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
                         ((MoveControl)info.Sender).ExecuteExternalMove((AoWMapField)info.MapField, (AoWMapField)mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - -1]);
                     }
                 }
@@ -233,21 +233,21 @@ public partial class HexBridge : AbstractRoad
     // HxBridge.pas:309
     public override void UpdateTransitions()
     {
-        if (Direction == -1 || !DirectionValid((MapField)Owner, Direction))
+        if (Direction == -1 || !DirectionValid(Owner, Direction))
         {
-            if (DirectionValid((MapField)Owner, 1))
+            if (DirectionValid(Owner, 1))
             {
                 Direction = 1;
             }
             else
             {
-                if (DirectionValid((MapField)Owner, 2))
+                if (DirectionValid(Owner, 2))
                 {
                     Direction = 2;
                 }
                 else
                 {
-                    if (DirectionValid((MapField)Owner, 0))
+                    if (DirectionValid(Owner, 0))
                     {
                         Direction = 0;
                     }
@@ -272,7 +272,7 @@ public partial class HexBridge : AbstractRoad
         int hexX = default;
         int hexY = default;
         bool result = false;
-        level = (MapLevel)mapField.Owner;
+        level = mapField.Owner;
         HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, direction + 1, ref hexX, ref hexY);
         if (hexX >= 0 && hexY >= 0 && hexX < level.Width && hexY < level.Height)
         {
@@ -301,9 +301,9 @@ public partial class HexBridge : AbstractRoad
         _sideA.Clear();
         if (Direction != -1)
         {
-            level = (MapLevel)Owner.Owner;
-            hexX = ((MapField)Owner).HexX;
-            hexY = ((MapField)Owner).HexY;
+            level = Owner.Owner;
+            hexX = Owner.HexX;
+            hexY = Owner.HexY;
             // { Original bug: the neighbour lookups here have no bounds checks. }
             switch (Direction)
             {

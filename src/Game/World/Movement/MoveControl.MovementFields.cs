@@ -44,7 +44,7 @@ public partial class MoveControl
                 if (previous != null && path.IndexOfMapCoordinate(previous.HexX, previous.HexY, previous.HexLevel) == -1)
                 {
                     points = Settings.GetMovePoints(previous.HexX, previous.HexY, previous.HexLevel);
-                    SetMapL((MapLevel)previous.Owner);
+                    SetMapL(previous.Owner);
                     found = true;
                 }
             }
@@ -61,7 +61,7 @@ public partial class MoveControl
     private AoWMapField NeighborField(AoWMapField field, int direction)
     {
         var delta = HexGeometry.s_hexNumberToXYTable[field.HexX & 1][direction];
-        return (AoWMapField)((MapLevel)field.Owner).GetField(field.HexX + delta.X, field.HexY + delta.Y);
+        return (AoWMapField)field.Owner.GetField(field.HexX + delta.X, field.HexY + delta.Y);
     }
 
     public int CalculateMovePointLine(AoWMapField origin, int direction, int moveOverCode)

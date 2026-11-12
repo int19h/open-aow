@@ -23,11 +23,11 @@ public partial class WaterHex
         ImageSequence sequence;
         int image;
         bool showing;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY = pixelY - pixelYSurface;
         // { Original uses the shared engine settings and the Flood enchantment. }
-        if (GameTables.GameEngine.AnimationDetail != 0 && (((((AoWMapField)Owner).FieldFlags >> 16) & 255) != 0 || !((GameMap)((MapLevel)Owner.Owner).Map).FogEnabled))
+        if (GameTables.GameEngine.AnimationDetail != 0 && (((((AoWMapField)Owner).FieldFlags >> 16) & 255) != 0 || !((GameMap)Owner.Owner.Map).FogEnabled))
         {
             _animationFrame = (sbyte)(_animationFrame + 1);
             if (_animationFrame >= 0)

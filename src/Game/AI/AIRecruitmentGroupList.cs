@@ -8,8 +8,16 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.AI;
 
 // children
-public partial class AIRecruitmentGroupList : EReferenceNode
+public partial class AIRecruitmentGroupList : EReferenceNode, IChildList<AIRecruitmentGroup>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only an AIRecruitmentGroup, so the cast never fails.
+    public AIRecruitmentGroup this[int index] => (AIRecruitmentGroup)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is AIRecruitmentGroup;
+
+    int IChildSink<AIRecruitmentGroup>.AddChild(AIRecruitmentGroup child) => AddChild(child);
+
     public AIRecruitmentGroupList(ECustomNode owner) : base(owner)
     { }
 
@@ -17,7 +25,7 @@ public partial class AIRecruitmentGroupList : EReferenceNode
     public AIRecruitmentGroup GetRecruitmentGroups(int index)
     {
         Assert(index >= 0 && index < _children.Count, "", "AIGroup.pas", 802);
-        return (AIRecruitmentGroup)_children.List[index];
+        return this[index];
     }
 
     // AIGroup.pas:811
@@ -61,7 +69,7 @@ public partial class AIRecruitmentGroupList : EReferenceNode
         bool result = true;
         for (int I = Count - 1; I >= 0; I--)
         {
-            group = (AIRecruitmentGroup)_children.List[I];
+            group = this[I];
             if (!group.Validate(control))
             {
                 RemoveChild(group);
@@ -81,7 +89,7 @@ public partial class AIRecruitmentGroupList : EReferenceNode
         while (!result && I != 0)
         {
             I -= 1;
-            result = ((AIRecruitmentGroup)_children.List[I]).Group.IndexOf(troop) != -1;
+            result = this[I].Group.IndexOf(troop) != -1;
         }
 
         return result;
@@ -96,9 +104,9 @@ public partial class AIRecruitmentGroupList : EReferenceNode
         while (result == null && I != 0)
         {
             I -= 1;
-            if (((AIRecruitmentGroup)_children.List[I]).Group.IndexOf(troop) != -1)
+            if (this[I].Group.IndexOf(troop) != -1)
             {
-                result = (AIRecruitmentGroup)_children.List[I];
+                result = this[I];
             }
         }
 

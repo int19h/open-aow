@@ -26,7 +26,7 @@ internal static class SweepFailureFixture
         public override int AddChild(EngineObject child)
         {
             _last = child;
-            Events.Add("insert:" + ReferenceEquals(this, child.Owner));
+            Events.Add("insert:" + EngineFixture.Forwards(child.Owner, this));
             base.AddChild(child);
             if (reject) throw new InvalidDataException("owner rejects after insertion");
             return Members.Count - 1;
@@ -46,9 +46,10 @@ internal static class SweepFailureFixture
         var type = typeof(Spell).Assembly.GetType(name)!;
         using var fixture = new OrderingRecording.Fixture(type);
         var owner = new FailureOwner(false);
-        var value = OrderingRecording.Create(type, owner, route, fixture.Engine);
+        var given = EngineFixture.OwnerFor(type, owner);
+        var value = OrderingRecording.Create(type, given, route, fixture.Engine);
         Assert.IsType(type, value);
-        Assert.Same(owner, value.Owner);
+        Assert.Same(given, value.Owner);
         Assert.Same(value, Assert.Single(owner.Members));
         Assert.Equal(["insert:True"], owner.Events);
         value.Dispose();

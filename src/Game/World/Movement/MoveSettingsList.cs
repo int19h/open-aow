@@ -8,14 +8,22 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Movement;
 
 // inherited FChildren
-public partial class MoveSettingsList : ENode
+public partial class MoveSettingsList : ENode, IChildList<MoveSettings>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a MoveSettings, so the cast never fails.
+    public MoveSettings this[int index] => (MoveSettings)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is MoveSettings;
+
+    int IChildSink<MoveSettings>.AddChild(MoveSettings child) => AddChild(child);
+
     public MoveSettingsList(ECustomNode owner) : base(owner)
     { }
 
     // Structur.PAS:4040
     // inherited FChildren
-    public MoveSettings GetMoveSettings(int index) => (MoveSettings)_children.List[index];
+    public MoveSettings GetMoveSettings(int index) => this[index];
 
     // Structur.PAS:4045
     public int GetNoneValidMove()
@@ -26,7 +34,7 @@ public partial class MoveSettingsList : ENode
         minPriority = 16777215;
         for (int I = GetCount() - 1; I >= 0; I--)
         {
-            var moveSettings = (MoveSettings)_children.List[I];
+            var moveSettings = this[I];
             if (!moveSettings.Valid)
             {
                 priority = moveSettings.GetMovePrio();
@@ -48,7 +56,7 @@ public partial class MoveSettingsList : ENode
         while (result != 0)
         {
             result -= 1;
-            if (moveObject == ((MoveSettings)_children.List[result]).MoveObject)
+            if (moveObject == this[result].MoveObject)
             {
                 return result;
             }

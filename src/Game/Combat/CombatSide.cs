@@ -11,8 +11,16 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Combat;
 
 // SideIndex. Opponent. Strength. ConquerCount
-public partial class CombatSide : ENode
+public partial class CombatSide : ENode, IChildList<CombatObject>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a CombatObject, so the cast never fails.
+    public CombatObject this[int index] => (CombatObject)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is CombatObject;
+
+    int IChildSink<CombatObject>.AddChild(CombatObject child) => AddChild(child);
+
     // Combat.pas:5999
     public CombatSide(ECustomNode owner) : base(owner)
     {
@@ -30,14 +38,14 @@ public partial class CombatSide : ENode
     }
 
     // Combat.pas:6008
-    public CombatObject GetObjects(int index) => (CombatObject)_children.List[index];
+    public CombatObject GetObjects(int index) => this[index];
 
     // Combat.pas:6011
     public int IndexOfId(int id)
     {
         for (int result = Count - 1; result >= 0; result--)
         {
-            if (((CombatObject)_children.List[result]).Id == id)
+            if (this[result].Id == id)
             {
                 return result;
             }
@@ -52,7 +60,7 @@ public partial class CombatSide : ENode
         int result = 0;
         for (int I = Count - 1; I >= 0; I--)
         {
-            if (((CombatObject)_children.List[I]).Status.Contains(CombatObjectStatusElement.Destroyed))
+            if (this[I].Status.Contains(CombatObjectStatusElement.Destroyed))
             {
                 result += 1;
             }
@@ -68,7 +76,7 @@ public partial class CombatSide : ENode
         int result = 0;
         for (int I = Count - 1; I >= 0; I--)
         {
-            objectValue = (CombatObject)_children.List[I];
+            objectValue = this[I];
             if ((Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & objectValue.Status) == Set<CombatObjectStatusElement>.Of() && objectValue.ControlMode.Contains(CombatObjectControlModeElement.ConquerObject))
             {
                 result += 1;
@@ -110,7 +118,7 @@ public partial class CombatSide : ENode
         ConquerCount = 0;
         for (int I = _children.Count - 1; I >= 0; I--)
         {
-            objectValue = (CombatObject)_children.List[I];
+            objectValue = this[I];
             N = objectValue.Targets.Count;
             if (N > 0)
             {

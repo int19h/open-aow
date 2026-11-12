@@ -75,6 +75,83 @@ public sealed partial class EngineFixture : IDisposable
         }
     }
 
+    // A field that records membership as Owner does, for a test that needs the field itself.
+    internal class RecordingField() : MapField(null!)
+    {
+        internal List<EngineObject> Members { get; } = [];
+
+        public override int AddChild(EngineObject child)
+        {
+            Members.Add(child);
+            return Members.Count - 1;
+        }
+
+        public override int RemoveChild(EngineObject child)
+        {
+            int index = Members.IndexOf(child);
+            Members.Remove(child);
+            return index;
+        }
+    }
+
+    // A class with a typed owner takes only that owner (issue 158): a sprite a map field, a field
+    // a map level, a race the race list and a production item the queue. These stand in for a
+    // recording owner there and pass each membership change on to it.
+    internal interface IForwarder
+    {
+        Owner Recorder { get; }
+    }
+
+    internal sealed class FieldOwner(Owner recorder) : MapField(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    internal sealed class LevelOwner(Owner recorder) : MapLevel(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    internal sealed class RaceListOwner(Owner recorder) : Session.RaceList(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    internal sealed class QueueOwner(Owner recorder) : World.Structures.ProductionQueue(null!), IForwarder
+    {
+        public Owner Recorder => recorder;
+
+        public override int AddChild(EngineObject child) => recorder.AddChild(child);
+
+        public override int RemoveChild(EngineObject child) => recorder.RemoveChild(child);
+    }
+
+    // The owner a construction test passes for the type: the recorder itself, or an owner of the
+    // type's owner type that forwards to it.
+    internal static ECustomNode OwnerFor(Type type, Owner recorder) =>
+        recorder is null ? null!
+        : typeof(Draw.HexSprite).IsAssignableFrom(type) ? new FieldOwner(recorder)
+        : typeof(MapField).IsAssignableFrom(type) ? new LevelOwner(recorder)
+        : typeof(Session.Race).IsAssignableFrom(type) ? new RaceListOwner(recorder)
+        : typeof(World.Structures.ProductionItem).IsAssignableFrom(type) ? new QueueOwner(recorder)
+        : recorder;
+
+    // Whether the owner is the recorder or an owner that forwards to it.
+    internal static bool Forwards(ECustomNode owner, Owner recorder) =>
+        ReferenceEquals(owner, recorder) || owner is IForwarder { Recorder: var forwarded } && forwarded == recorder;
+
     internal static T Configure<T>(T value, Action<T> configure)
     {
         configure(value);

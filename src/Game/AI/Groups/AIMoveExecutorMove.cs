@@ -75,7 +75,7 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((AIMoveExecutorUnit)_children.List[I]).Status = status;
+            this[I].Status = status;
         }
     }
 

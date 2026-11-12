@@ -8,13 +8,21 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // adjacent armies
-public partial class AdjacentArmyList : ENode
+public partial class AdjacentArmyList : ENode, IChildList<AdjacentArmy>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only an AdjacentArmy, so the cast never fails.
+    public AdjacentArmy this[int index] => (AdjacentArmy)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is AdjacentArmy;
+
+    int IChildSink<AdjacentArmy>.AddChild(AdjacentArmy child) => AddChild(child);
+
     public AdjacentArmyList(ECustomNode owner) : base(owner)
     { }
 
     // AIGroup.pas:5071
-    public AdjacentArmy GetAdjacentArmies(int index) => (AdjacentArmy)_children.List[index];
+    public AdjacentArmy GetAdjacentArmies(int index) => this[index];
 
     // AIGroup.pas:5076
     public int IndexOfLocation(MapCoordinate location)
@@ -24,7 +32,7 @@ public partial class AdjacentArmyList : ENode
         while (result != 0)
         {
             result -= 1;
-            if (Unsafe.As<MapCoordinate, int>(ref ((AdjacentArmy)_children.List[result]).Location) == Unsafe.As<MapCoordinate, int>(ref location))
+            if (Unsafe.As<MapCoordinate, int>(ref this[result].Location) == Unsafe.As<MapCoordinate, int>(ref location))
             {
                 return result;
             }

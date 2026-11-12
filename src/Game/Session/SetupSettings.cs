@@ -10,8 +10,16 @@ namespace Aow.Game.Session;
 
 // CRCs, day, play mode, victory, independent AI, seed, limits, players, connection, tactical
 // combat, email game name
-public partial class SetupSettings : ENode
+public partial class SetupSettings : ENode, IChildList<PlayerSetupSettings>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a PlayerSetupSettings, so the cast never fails.
+    public PlayerSetupSettings this[int index] => (PlayerSetupSettings)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is PlayerSetupSettings;
+
+    int IChildSink<PlayerSetupSettings>.AddChild(PlayerSetupSettings child) => AddChild(child);
+
     // AoWSetup.pas:356
     public new const int ClassId = 131680;
 
@@ -128,7 +136,7 @@ public partial class SetupSettings : ENode
         PlayerSetupSettings result;
         if (index >= 0 && index < _children.Count)
         {
-            result = (PlayerSetupSettings)_children.List[index];
+            result = this[index];
         }
         else
         {
@@ -146,7 +154,7 @@ public partial class SetupSettings : ENode
         I = 0;
         while (result == -1 && I != _children.Count)
         {
-            if (((PlayerSetupSettings)_children.List[I]).PlayerId == player)
+            if (this[I].PlayerId == player)
             {
                 result = I;
             }
@@ -165,7 +173,7 @@ public partial class SetupSettings : ENode
         I = 0;
         while (result == -1 && I != _children.Count)
         {
-            if (((PlayerSetupSettings)_children.List[I]).Behavior.Flags == remoteId)
+            if (this[I].Behavior.Flags == remoteId)
             {
                 result = I;
             }
@@ -184,7 +192,7 @@ public partial class SetupSettings : ENode
         I = 0;
         while (result == -1 && I != _children.Count)
         {
-            if (race == (byte)((PlayerSetupSettings)_children.List[I]).Race)
+            if (race == (byte)this[I].Race)
             {
                 result = I;
             }

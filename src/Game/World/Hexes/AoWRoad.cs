@@ -21,14 +21,14 @@ public partial class AoWRoad : Road
         MapField mapField;
         bool hasRoad;
         oldTransitions = Transitions;
-        level = (MapLevel)Owner.Owner;
+        level = Owner.Owner;
         Transitions = 0;
         message.MessageId = 4401;
         message.Param[0] = Owner;
         for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
         {
             HexGeometry.HexNumberToHex(hexNumber, ref hexX, ref hexY);
-            HexGeometry.TranslateHex(0, 0, ((MapField)Owner).HexX, ((MapField)Owner).HexY, hexX, hexY, ref hexX, ref hexY);
+            HexGeometry.TranslateHex(0, 0, Owner.HexX, Owner.HexY, hexX, hexY, ref hexX, ref hexY);
             if (hexX >= 0 && hexY >= 0 && level.Width > hexX && level.Height > hexY)
             {
                 mapField = level.GetField(hexX, hexY);
@@ -63,7 +63,7 @@ public partial class AoWRoad : Road
 
         if (oldTransitions != Transitions)
         {
-            AoWHSMap.Current.InvalidateStaticScene(((MapField)Owner).HexX, ((MapField)Owner).HexY, ((MapField)Owner).HexLevel);
+            AoWHSMap.Current.InvalidateStaticScene(Owner.HexX, Owner.HexY, Owner.HexLevel);
         }
     }
 }

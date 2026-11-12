@@ -34,10 +34,10 @@ public partial class TacticalBattleOozeHexSprite : SingleHexSprite
         int X = default;
         int Y = default;
         ImageSequence sequence;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
         pixelXSurface = X - pixelXSurface - 16;
         pixelYSurface = Y - 48 - pixelYSurface;
-        switch (((MapField)Owner).TerrainType)
+        switch (Owner.TerrainType)
         {
             case 3:
             case 6:
@@ -69,7 +69,7 @@ public partial class TacticalBattleOozeHexSprite : SingleHexSprite
     public override bool PlaceOnMap()
     {
         bool result = base.PlaceOnMap();
-        ((MapField)Owner).UpdateTerrain();
+        Owner.UpdateTerrain();
         return result;
     }
 

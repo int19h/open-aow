@@ -133,7 +133,7 @@ public partial class Sign : Structure
             if (ImageSequenceList != null)
             {
                 index = structure.ImageIndex;
-                offset = ((MapField)structure.Owner).HexX + ((MapField)structure.Owner).HexY * 16;
+                offset = structure.Owner.HexX + structure.Owner.HexY * 16;
                 animate = AoWHSMap.Current.SeatedPlayer < 0 || !((Sign)structure).GetTextSeen(AoWHSMap.Current.SeatedPlayer);
                 if (index < ImageSequenceList.Count)
                 {

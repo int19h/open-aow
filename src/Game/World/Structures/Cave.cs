@@ -46,7 +46,7 @@ public partial class Cave : Structure
             {
                 if (oldEntrance == CaveEntrance.Up)
                 {
-                    partner = (Cave)AoWHSMap.Current.MapContainer.GetField(_hexX, _hexY, ((MapField)Owner).HexLevel - 1).FindOwnedChild(131966);
+                    partner = (Cave)AoWHSMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel - 1).FindOwnedChild(131966);
                     if (partner != null && partner.Entrance == CaveEntrance.Down)
                     {
                         partner.Dispose();
@@ -54,7 +54,7 @@ public partial class Cave : Structure
                 }
                 else
                 {
-                    partner = (Cave)AoWHSMap.Current.MapContainer.GetField(_hexX, _hexY, ((MapField)Owner).HexLevel + 1).FindOwnedChild(131966);
+                    partner = (Cave)AoWHSMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel + 1).FindOwnedChild(131966);
                     if (partner != null && partner.Entrance == CaveEntrance.Up)
                     {
                         partner.Dispose();
@@ -96,10 +96,10 @@ public partial class Cave : Structure
             switch (Entrance)
             {
                 case CaveEntrance.Up:
-                    field = AoWHSMap.Current.MapContainer.GetField(_hexX, _hexY, ((MapField)Owner).HexLevel - 1);
+                    field = AoWHSMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel - 1);
                     break;
                 case CaveEntrance.Down:
-                    field = AoWHSMap.Current.MapContainer.GetField(_hexX, _hexY, ((MapField)Owner).HexLevel + 1);
+                    field = AoWHSMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel + 1);
                     break;
                 default:
                     field = null;
@@ -115,7 +115,7 @@ public partial class Cave : Structure
     public override void Activate()
     {
         base.Activate();
-        ((MapField)Owner).UpdateMapField();
+        Owner.UpdateMapField();
     }
 
     // Cave.pas:285
@@ -123,7 +123,7 @@ public partial class Cave : Structure
     {
         base.Deactivate();
         Status = Status - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
-        ((MapField)Owner).UpdateMapField();
+        Owner.UpdateMapField();
     }
 
     // Cave.pas:250

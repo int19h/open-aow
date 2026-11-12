@@ -3,13 +3,21 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Movement;
 
-public partial class SubMoveList : ENode
+public partial class SubMoveList : ENode, IChildList<PathFindingStep>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a PathFindingStep, so the cast never fails.
+    public PathFindingStep this[int index] => (PathFindingStep)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is PathFindingStep;
+
+    int IChildSink<PathFindingStep>.AddChild(PathFindingStep child) => AddChild(child);
+
     public SubMoveList(ECustomNode owner) : base(owner)
     { }
 
     // MoveT.PAS:39
-    public PathFindingStep GetSubMove(int index) => (PathFindingStep)_children.List[index];
+    public PathFindingStep GetSubMove(int index) => this[index];
 
     // MoveT.PAS:44
     public int DeleteMapCoordinate(int location)
@@ -17,9 +25,9 @@ public partial class SubMoveList : ENode
         int result = 0;
         for (int I = _children.Count - 1; I >= 0; I--)
         {
-            if (location == ((PathFindingStep)_children.List[I]).Location.Packed)
+            if (location == this[I].Location.Packed)
             {
-                ((PathFindingStep)_children.List[I])?.Dispose();
+                this[I]?.Dispose();
                 result += 1;
             }
         }
@@ -30,7 +38,7 @@ public partial class SubMoveList : ENode
     // MoveT.PAS:57
     public void Delete(int index)
     {
-        ((PathFindingStep)_children.List[index])?.Dispose();
+        this[index]?.Dispose();
     }
 
     // MoveT.PAS:62
@@ -40,7 +48,7 @@ public partial class SubMoveList : ENode
         while (result != 0)
         {
             result -= 1;
-            if (location == ((PathFindingStep)_children.List[result]).Location.Packed)
+            if (location == this[result].Location.Packed)
             {
                 return result;
             }

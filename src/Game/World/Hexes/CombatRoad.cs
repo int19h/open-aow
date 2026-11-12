@@ -35,7 +35,7 @@ public partial class CombatRoad : AbstractRoad
         CustomImageLibrary images;
         int X = default;
         int Y = default;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
         X = X - pixelXSurface - 8;
         Y = Y - pixelYSurface;
         images = _resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
@@ -107,8 +107,8 @@ public partial class CombatRoad : AbstractRoad
         sbyte overlay;
         int X = default;
         int Y = default;
-        mapLevel = (MapLevel)Owner.Owner;
-        HexGeometry.CenterHexNumberToHex(((MapField)Owner).HexX, ((MapField)Owner).HexY, hexNumber, ref X, ref Y);
+        mapLevel = Owner.Owner;
+        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber, ref X, ref Y);
         if (X >= 0 && Y >= 0 && X < mapLevel.Width && Y < mapLevel.Height)
         {
             overlay = mapLevel.GetField(X, Y).OverlayType;

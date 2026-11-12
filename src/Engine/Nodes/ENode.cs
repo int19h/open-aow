@@ -71,6 +71,7 @@ public partial class ENode : ECustomNode
     // Engine.pas:2871
     public override void SetChild(int index, EngineObject child)
     {
+        CheckChild(child);
         while (index >= Count)
         {
             _children.Add(null);
@@ -250,6 +251,7 @@ public partial class ENode : ECustomNode
     // Engine.pas:2992
     public override int AddChild(EngineObject child)
     {
+        CheckChild(child);
         _children.Add(child);
         return _children.Count - 1;
     }

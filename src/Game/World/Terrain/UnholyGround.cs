@@ -71,7 +71,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         {
             var hexY = GetHexY();
             var hexX = GetHexX();
-            UpdateMapFields((MapLevel)Owner.Owner, hexX, hexY);
+            UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 
         return result;
@@ -81,7 +81,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
     public override void RemoveFromMap()
     {
         MapLevel level;
-        level = (MapLevel)Owner.Owner;
+        level = Owner.Owner;
         base.RemoveFromMap();
         UpdateMapFields(level, _hexX, _hexY);
     }
@@ -235,7 +235,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
     {
         MapField field;
         sbyte overlay;
-        field = (MapField)Owner;
+        field = Owner;
         overlay = OriginalOverlay;
         Dispose();
         if (overlay > 0)

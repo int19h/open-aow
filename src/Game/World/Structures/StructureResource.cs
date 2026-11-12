@@ -92,7 +92,7 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
         if (structure.GetSelected() && (AoWHSMap.Current.Frame & 6) == 6)
         {
             index = structure.ImageIndex;
-            offset = ((MapField)structure.Owner).HexX + ((MapField)structure.Owner).HexY * 16;
+            offset = structure.Owner.HexX + structure.Owner.HexY * 16;
             if (ImageSequenceList != null)
             {
                 sequence = (ImageSequence)ImageSequenceList.List[index];
@@ -127,7 +127,7 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
             }
             else
             {
-                ShowComplexImage(X, Y, lockedSurface, structure.ImageIndex, (uint)(((MapField)structure.Owner).HexX + ((MapField)structure.Owner).HexY * 16));
+                ShowComplexImage(X, Y, lockedSurface, structure.ImageIndex, (uint)(structure.Owner.HexX + structure.Owner.HexY * 16));
             }
         }
     }

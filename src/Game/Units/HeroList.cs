@@ -5,8 +5,16 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Units;
 
-public partial class HeroList : EReferenceNode
+public partial class HeroList : EReferenceNode, IChildList<Hero>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a Hero, so the cast never fails.
+    public Hero this[int index] => (Hero)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is Hero;
+
+    int IChildSink<Hero>.AddChild(Hero child) => AddChild(child);
+
     public HeroList(ECustomNode owner) : base(owner)
     { }
 
@@ -18,9 +26,9 @@ public partial class HeroList : EReferenceNode
         Hero result = null;
         while (I != _children.Count && result == null)
         {
-            if (id == ((Troop)_children.List[I]).UnitId)
+            if (id == this[I].UnitId)
             {
-                result = (Hero)_children.List[I];
+                result = this[I];
             }
 
             I += 1;
@@ -35,7 +43,7 @@ public partial class HeroList : EReferenceNode
         Hero result;
         if (index >= 0 && index < _children.Count)
         {
-            result = (Hero)_children.List[index];
+            result = this[index];
         }
         else
         {

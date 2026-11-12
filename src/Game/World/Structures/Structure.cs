@@ -183,7 +183,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         bool result = base.PlaceOnMap();
         if (!GetEditMode())
         {
-            UpdateRoads((MapField)Owner);
+            UpdateRoads(Owner);
         }
 
         return result;
@@ -193,7 +193,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     public override void RemoveFromMap()
     {
         MapField mapField;
-        mapField = (MapField)Owner;
+        mapField = Owner;
         base.RemoveFromMap();
         if (mapField != null && !GetEditMode())
         {
@@ -328,7 +328,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         if (!AoWHSMap.Current.FogEnabled || !Fogged)
         {
             HexGeometry.PixelToHex(pixelX, pixelY, ref X, ref Y);
-            hexNumber = HexGeometry.DeltaHexToHexNumber(((MapField)Owner).HexX, ((MapField)Owner).HexY, X, Y);
+            hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, X, Y);
             if (hexNumber >= _resource.TerrainList.Count || _resource.TerrainList.Terrain[hexNumber] < 0 && _resource.TerrainList.Overlay[hexNumber] < 0)
             {
                 result = false;
@@ -1055,7 +1055,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         ArmyHexSprite army;
         int result = 0;
         count = GetTerrainCount();
-        level = (MapLevel)Owner.Owner;
+        level = Owner.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
         while (walk.HexNumber < count)
         {
@@ -1085,7 +1085,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         list.BeginUpdate();
         int result = 0;
         count = GetTerrainCount();
-        level = (MapLevel)Owner.Owner;
+        level = Owner.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
         while (walk.HexNumber < count)
         {
@@ -1276,7 +1276,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         int X = default;
         int Y = default;
         AbstractRoad road;
-        level = (MapLevel)mapField.Owner;
+        level = mapField.Owner;
         table = _resource.TerrainList.CreateSurroundingHexNumberTable();
         for (int I = 0, last = table.Count - 1; I <= last; I++)
         {
@@ -1308,7 +1308,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         if (Fogged)
         {
             count = GetTerrainCount();
-            level = (MapLevel)Owner.Owner;
+            level = Owner.Owner;
             HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
             while (walk.HexNumber < count && Fogged)
             {
@@ -1329,7 +1329,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         HexNumberWalkData walk = default;
         MapLevel level;
         bool result = false;
-        level = (MapLevel)Owner.Owner;
+        level = Owner.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
         while (true)
         {

@@ -4,8 +4,16 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.AI.Groups;
 
 // children
-public partial class AIGroupList : ENode
+public partial class AIGroupList : ENode, IChildList<AIGroup>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only an AIGroup, so the cast never fails.
+    public AIGroup this[int index] => (AIGroup)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroup;
+
+    int IChildSink<AIGroup>.AddChild(AIGroup child) => AddChild(child);
+
     public AIGroupList(ECustomNode owner) : base(owner)
     { }
 
@@ -15,7 +23,7 @@ public partial class AIGroupList : ENode
         AIGroup result;
         if (index >= 0 && index < Count)
         {
-            result = (AIGroup)_children.List[index];
+            result = this[index];
         }
         else
         {
@@ -32,7 +40,7 @@ public partial class AIGroupList : ENode
         while (result != 0)
         {
             result -= 1;
-            if (id == ((AIGroup)_children.List[result]).GroupId)
+            if (id == this[result].GroupId)
             {
                 return result;
             }
@@ -49,7 +57,7 @@ public partial class AIGroupList : ENode
         I = IndexOfId(id);
         if (I != -1)
         {
-            result = (AIGroup)_children.List[I];
+            result = this[I];
         }
         else
         {

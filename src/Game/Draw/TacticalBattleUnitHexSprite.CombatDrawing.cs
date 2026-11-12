@@ -37,7 +37,7 @@ public partial class TacticalBattleUnitHexSprite
                 OriginalUnitAssert("Invalid Unit Index", "D:\\AoWDev\\AoWTC\\inc\\TCUnitHS.pas", 4262);
             }
 
-            HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+            HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
             pixelXSurface = X - pixelXSurface + OffsetX;
             pixelYSurface = Y - pixelYSurface - 8 + OffsetY;
             if (Unit.GetPlayer() > 0)
@@ -316,7 +316,7 @@ public partial class TacticalBattleUnitHexSprite
         int index;
         int deltaX = default;
         int deltaY = default;
-        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
         X = pixelX - X + OffsetX;
         if (Busy)
         {

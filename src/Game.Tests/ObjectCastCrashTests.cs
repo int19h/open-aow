@@ -332,35 +332,19 @@ public sealed class ObjectCastCrashTests
         }
     }
 
+    // The original refreshes the overlay of the previous field's owner read as a field. A sprite's
+    // owner is always a field and a field's owner a level, so nothing is refreshed (issue 158).
     [Fact]
-    public void PlaceHexAcceptsANonSpriteOwner()
+    public void PlaceHexRefreshesNoFieldThroughThePreviousFieldsLevel()
     {
         using (var scope = new MapScope())
         {
-            var level = (MapLevel)scope.Field.Owner;
+            var level = scope.Field.Owner;
             var marker = new MapField(level);
             marker.HexX = 20;
             marker.HexY = 20;
             marker.OverlayType = 4;
-            var holder = new EngineFixture.Owner();
-            holder.SetOwnerWithoutNotify(marker);
-            var bridge = new HexBridge(holder);
-            bridge._resource = new MapObjectResource(null!);
-            Assert.False(bridge.PlaceHex(scope.Map.MapContainer, 0, 0, 0));
-            Assert.Same(scope.Field, bridge.Owner);
-            Assert.Equal(-1, marker.OverlayType);
-        }
-
-        using (var scope = new MapScope())
-        {
-            var level = (MapLevel)scope.Field.Owner;
-            var marker = new MapField(level);
-            marker.HexX = 20;
-            marker.HexY = 20;
-            marker.OverlayType = 4;
-            var holder = new EngineFixture.Owner();
-            holder.SetOwnerWithoutNotify(level);
-            var bridge = new HexBridge(holder);
+            var bridge = new HexBridge(marker);
             bridge._resource = new MapObjectResource(null!);
             Assert.False(bridge.PlaceHex(scope.Map.MapContainer, 0, 0, 0));
             Assert.Same(scope.Field, bridge.Owner);

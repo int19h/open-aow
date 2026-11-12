@@ -8,8 +8,16 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.AI.Groups;
 
 // children
-public partial class AIGroupProductionLocationList : EReferenceNode
+public partial class AIGroupProductionLocationList : EReferenceNode, IChildList<AIGroupProductionLocation>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only an AIGroupProductionLocation, so the cast never fails.
+    public AIGroupProductionLocation this[int index] => (AIGroupProductionLocation)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroupProductionLocation;
+
+    int IChildSink<AIGroupProductionLocation>.AddChild(AIGroupProductionLocation child) => AddChild(child);
+
     public AIGroupProductionLocationList(ECustomNode owner) : base(owner)
     { }
 
@@ -17,7 +25,7 @@ public partial class AIGroupProductionLocationList : EReferenceNode
     public AIGroupProductionLocation GetProductionLocation(int index)
     {
         Assert(index >= 0 && index < _children.Count, "", "AIGroup.pas", 909);
-        return (AIGroupProductionLocation)_children.List[index];
+        return this[index];
     }
 
     // AIGroup.pas:919
@@ -45,7 +53,7 @@ public partial class AIGroupProductionLocationList : EReferenceNode
         while (result != 0)
         {
             result -= 1;
-            if (((AIGroupProductionLocation)_children.List[result]).ProductionControl == control)
+            if (this[result].ProductionControl == control)
             {
                 return result;
             }
@@ -62,7 +70,7 @@ public partial class AIGroupProductionLocationList : EReferenceNode
         I = IndexOfPC(control);
         if (I != -1)
         {
-            result = (AIGroupProductionLocation)_children.List[I];
+            result = this[I];
         }
         else
         {
@@ -79,7 +87,7 @@ public partial class AIGroupProductionLocationList : EReferenceNode
         bool result = true;
         for (int I = Count - 1; I >= 0; I--)
         {
-            location = (AIGroupProductionLocation)_children.List[I];
+            location = this[I];
             if (!location.Validate(control))
             {
                 RemoveChild(location);

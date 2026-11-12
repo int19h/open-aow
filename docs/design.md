@@ -553,6 +553,20 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
     gives a mod's new city action its button.
   - `IntOrRef` remains only in `Ptr<T>.Unbox(IntOrRef)`. The hash lists (Delphi `THashList`
     and `TStringHashList`) became `Dictionary<TKey, TValue>` with typed keys in issue 150.
+- The engine objects form an ownership tree (issue 158). An object owns its children, disposes
+  them, routes messages to them and saves them as part of itself. `IOwned` and `IOwner` in
+  `src/Engine/Nodes` are the general view of that tree: the owner of an object and the children of
+  a node in their stored order. The engine's general walks (the object path, the owned-child
+  tests of message delivery, clearing and saving) need no more than that. A class whose owner has
+  one type declares it with `IOwned<TOwner>` and a typed `Owner`, as a sprite does with its map
+  field and a field with its map level. A node whose children have one type declares them with
+  `IChildList<TChild>` and a typed indexer, as the player list does with its players.
+  `IOwnedSink<TOwner>` and `IChildSink<TChild>` are the write sides. The generic owner and child
+  setters, which the loader uses, check the declared type once (`AcceptsOwner`, `AcceptsChild`),
+  so a wrong owner or child is refused where it enters and the typed reads need no check. The
+  owner and the children still live in the untyped storage of `EngineObject` and of the node
+  classes. Unions of owners or children, units and armies, and the move from list inheritance to
+  owner-exposed collections come in later parts of that issue.
 - Formats are free. Once the readers for the original formats exist as converting adapters, the
   port's own save and map formats can change, and the comparator (section 5) reads both. Nothing
   requires that the original loads a file the port wrote. Milestone 9.7 did this

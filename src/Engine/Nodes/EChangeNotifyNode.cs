@@ -88,6 +88,7 @@ public partial class EChangeNotifyNode : ECustomNode
     // Engine.pas:7256
     public override void SetChild(int index, EngineObject child)
     {
+        CheckChild(child);
         while (index >= Count)
         {
             _children.Add(null);
@@ -1008,6 +1009,7 @@ public partial class EChangeNotifyNode : ECustomNode
     // Engine.pas:8092
     public override int AddChild(EngineObject child)
     {
+        CheckChild(child);
         _children.Add(child);
         if (_updateCount == 0)
         {

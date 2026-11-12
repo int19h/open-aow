@@ -3,8 +3,16 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Session;
 
-public partial class AoWCampaignScenarioList : ENode
+public partial class AoWCampaignScenarioList : ENode, IChildList<CampaignScenario>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a CampaignScenario, so the cast never fails.
+    public CampaignScenario this[int index] => (CampaignScenario)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is CampaignScenario;
+
+    int IChildSink<CampaignScenario>.AddChild(CampaignScenario child) => AddChild(child);
+
     public AoWCampaignScenarioList(ECustomNode owner) : base(owner)
     { }
 
@@ -14,7 +22,7 @@ public partial class AoWCampaignScenarioList : ENode
         CampaignScenario result;
         if (index >= 0 && index < _children.Count)
         {
-            result = (CampaignScenario)_children.List[index];
+            result = this[index];
         }
         else
         {
@@ -43,7 +51,7 @@ public partial class AoWCampaignScenarioList : ENode
         while (result != 0)
         {
             result -= 1;
-            if (((CampaignScenario)_children.List[result]).Id == id)
+            if (this[result].Id == id)
             {
                 return result;
             }
@@ -60,7 +68,7 @@ public partial class AoWCampaignScenarioList : ENode
         index = IndexOfId(id);
         if (index != -1)
         {
-            result = (CampaignScenario)_children.List[index];
+            result = this[index];
         }
         else
         {

@@ -8,13 +8,21 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Movement;
 
 // reference children
-public partial class MoveTargetList : EReferenceNode
+public partial class MoveTargetList : EReferenceNode, IChildList<MoveTarget>
 {
+    // The child in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a MoveTarget, so the cast never fails.
+    public MoveTarget this[int index] => (MoveTarget)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is MoveTarget;
+
+    int IChildSink<MoveTarget>.AddChild(MoveTarget child) => AddChild(child);
+
     public MoveTargetList(ECustomNode owner) : base(owner)
     { }
 
     // AIGroup.pas:4240
-    public MoveTarget GetTarget(int index) => (MoveTarget)_children.List[index];
+    public MoveTarget GetTarget(int index) => this[index];
 
     // AIGroup.pas:4245
     public int IndexOfMapCoordinate(int location)
@@ -23,7 +31,7 @@ public partial class MoveTargetList : EReferenceNode
         while (result != 0)
         {
             result -= 1;
-            if (Unsafe.As<MapCoordinate, int>(ref ((MoveTarget)_children.List[result]).Location) == location)
+            if (Unsafe.As<MapCoordinate, int>(ref this[result].Location) == location)
             {
                 return result;
             }

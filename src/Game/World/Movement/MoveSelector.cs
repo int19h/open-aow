@@ -392,8 +392,7 @@ public partial class MoveSelector : IDisposable
             objectValue = null;
         }
 
-        (
-        ((object)MoveSettingsList._children.List[index]) as IDisposable)?.Dispose();
+        (MoveSettingsList[index] as IDisposable)?.Dispose();
         if (objectValue != null)
         {
             index = MoveSettingsList.IndexOfMoveObject(objectValue);
