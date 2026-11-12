@@ -32,49 +32,49 @@ public static class ImageLibraryMethods
         return result;
     }
 
-    public static void DrawTiled(this ImageLibrary library, int index, in Rect R, ref LockedSurface lockedSurface)
+    public static void DrawTiled(this ImageLibrary library, int index, in SizedRectangle area, ref LockedSurface lockedSurface)
     {
         int clipRight;
         int clipBottom;
         Rect oldClip;
         oldClip = lockedSurface.ClipRectangle;
-        if (R.Left + R.Right > lockedSurface.ClipRectangle.Right)
+        if (area.Left + area.Width > lockedSurface.ClipRectangle.Right)
         {
             clipRight = lockedSurface.ClipRectangle.Right;
         }
         else
         {
-            clipRight = R.Left + R.Right;
+            clipRight = area.Left + area.Width;
         }
 
-        if (R.Top + R.Bottom > lockedSurface.ClipRectangle.Bottom)
+        if (area.Top + area.Height > lockedSurface.ClipRectangle.Bottom)
         {
             clipBottom = lockedSurface.ClipRectangle.Bottom;
         }
         else
         {
-            clipBottom = R.Top + R.Bottom;
+            clipBottom = area.Top + area.Height;
         }
 
         var rectangle = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;
-        if (R.Left + R.Right < oldClip.Right)
+        if (area.Left + area.Width < oldClip.Right)
         {
-            lockedSurface.ClipRectangle.Right = R.Left + R.Right;
+            lockedSurface.ClipRectangle.Right = area.Left + area.Width;
         }
 
-        if (R.Top + R.Bottom < oldClip.Bottom)
+        if (area.Top + area.Height < oldClip.Bottom)
         {
-            lockedSurface.ClipRectangle.Bottom = R.Top + R.Bottom;
+            lockedSurface.ClipRectangle.Bottom = area.Top + area.Height;
         }
 
-        for (int J = 0, last = R.Bottom / library[index].Height; J <= last; J++)
+        for (int J = 0, last = area.Height / library[index].Height; J <= last; J++)
         {
-            for (int I = 0, lastI = R.Right / library[index].Width; I <= lastI; I++)
+            for (int I = 0, lastI = area.Width / library[index].Width; I <= lastI; I++)
             {
                 var item = library[index];
                 var item2 = library[index];
-                library[index].ShowClipped(R.Left + item2.Width * I, R.Top + item.Height * J, lockedSurface);
+                library[index].ShowClipped(area.Left + item2.Width * I, area.Top + item.Height * J, lockedSurface);
             }
         }
 

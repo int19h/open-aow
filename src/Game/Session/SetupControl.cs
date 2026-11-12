@@ -1,5 +1,6 @@
 // Translated from AoWSetup.pas.
 
+using Aow.Engine;
 using Aow.Engine.Nodes;
 
 using Aow.Formats;
@@ -98,7 +99,7 @@ public partial class SetupControl : Component
             var size = (int)stream.Length;
             SendData(stream.GetBuffer(), size, recipient);
             var streamSize = (int)stream.Length;
-            GameTables.GameEngine.OutputDebugMessage(NetworkSession.NetworkEngineDebugChannel, "SetupPackage Send (ID:" + IntToStr(package.MessageId) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(recipient));
+            GameTables.GameEngine.OutputDebugMessage(DebugChannel.NetworkEngine, "SetupPackage Send (ID:" + IntToStr(package.MessageId) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(recipient));
         }
         finally
         {
@@ -169,7 +170,7 @@ public partial class SetupControl : Component
             if (objectValue is SetupPackage)
             {
                 var sizeLocal = (int)stream.Length;
-                GameTables.GameEngine.OutputDebugMessage(NetworkSession.NetworkEngineDebugChannel, "SetupPackage Received (ID:" + IntToStr(((SetupPackage)objectValue).MessageId) + "/Size:" + IntToStr(sizeLocal) + ") from " + IntToStr(senderId));
+                GameTables.GameEngine.OutputDebugMessage(DebugChannel.NetworkEngine, "SetupPackage Received (ID:" + IntToStr(((SetupPackage)objectValue).MessageId) + "/Size:" + IntToStr(sizeLocal) + ") from " + IntToStr(senderId));
                 PackageReceived((SetupPackage)objectValue, senderId);
             }
 
@@ -752,7 +753,7 @@ public partial class SetupControl : Component
                     break;
             }
 
-            GameTables.GameEngine.OutputDebugMessage(NetworkSession.NetworkEngineDebugChannel, S);
+            GameTables.GameEngine.OutputDebugMessage(DebugChannel.NetworkEngine, S);
         }
     }
 

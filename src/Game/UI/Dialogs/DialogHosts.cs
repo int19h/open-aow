@@ -33,6 +33,9 @@ public static class DialogHosts
 
     public static ConfirmationDialog ConfirmationDialog { get; set; }
 
+    // The debug message window lives in the confirmation dialog's form.
+    public static DebugWindow DebugWindow => ConfirmationDialog.Debug;
+
     public static CampaignSettingsDialog CampaignSettingsDialog { get; set; }
 
     public static ProgressDialog ProgressDialog { get; set; }

@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Tests;
 
 // The class-id snapshot of brief 9.4-1: every engine class the product registers, with its saved
-// class id, instance size and parent, taken on the base commit 6409c5c through the metaclass
+// class id and parent, taken on the base commit 6409c5c through the metaclass
 // table. The table of EngineClass descriptors and every engine's registered set match it.
 public sealed class EngineClassTests
 {
@@ -27,10 +27,9 @@ public sealed class EngineClassTests
         {
             var engineClass = table[name];
             Assert.Equal(entry.GetProperty("id").GetInt32(), engineClass.ClassId);
-            Assert.Equal(entry.GetProperty("size").GetInt32(), engineClass.InstanceSize);
             var parent = entry.GetProperty("parent");
-            if (parent.ValueKind == JsonValueKind.Null) Assert.Null(engineClass.Parent);
-            else Assert.Equal(parent.GetString(), engineClass.Parent!.Type.FullName);
+            if (parent.ValueKind == JsonValueKind.Null) Assert.Equal(typeof(EngineObject), engineClass.Type);
+            else Assert.Equal(parent.GetString(), engineClass.Type.BaseType!.FullName);
             Assert.Same(engineClass, EngineClass.Of(engineClass.Type));
             Assert.Equal(NameTable.Stored(engineClass.Type), engineClass.StorageKey);
             Assert.Equal(engineClass.StorageKey, NameTable.ResolveStored(NameTable.Delphi(engineClass.Type)));
@@ -43,9 +42,9 @@ public sealed class EngineClassTests
         var seen = new HashSet<EngineClass>();
         foreach (var engineClass in EngineClass.All)
         {
-            Assert.True(engineClass.Parent is null || seen.Contains(engineClass.Parent), engineClass.StorageKey);
+            Assert.True(engineClass.Type == typeof(EngineObject) || seen.Contains(EngineClass.Of(engineClass.Type.BaseType!)), engineClass.StorageKey);
             Assert.True(seen.Add(engineClass));
-            Assert.True(engineClass.InheritsFrom(typeof(EngineObject)));
+            Assert.True(typeof(EngineObject).IsAssignableFrom(engineClass.Type));
         }
         Assert.Same(EngineClass.Of<StrategicMap>(), EngineClass.Of(typeof(StrategicMap)));
         Assert.Equal(131089, EngineClass.Of<StrategicMap>().ClassId);
@@ -90,19 +89,18 @@ public sealed class EngineClassTests
     }
 
     [Fact]
-    public void EveryDescriptorWalksToTokenEventObjectThroughParent()
+    public void EveryDescriptorWalksToTokenEventObjectThroughTheBaseTypes()
     {
         var root = EngineClass.Of<EngineObject>();
-        Assert.Null(root.Parent);
         foreach (var engineClass in EngineClass.All)
         {
             var c = engineClass;
             int steps = 0;
             while (c.Type != typeof(EngineObject))
             {
-                Assert.NotNull(c.Parent);
-                Assert.Equal(c.Type.BaseType, c.Parent!.Type);
-                c = c.Parent;
+                var parent = EngineClass.Of(c.Type.BaseType!);
+                Assert.Equal(c.Type.BaseType, parent.Type);
+                c = parent;
                 Assert.True(++steps < 64, engineClass.StorageKey);
             }
             Assert.Same(root, c);
@@ -133,7 +131,7 @@ public sealed class EngineClassTests
         try { Assert.IsType<EResourceList>(split); }
         finally { split?.Dispose(); }
         Assert.Throws<InvalidOperationException>(() => EngineClass.Of(typeof(Unregistered)));
-        Assert.Throws<InvalidOperationException>(() => EngineClass.Register(80, static owner => new EngineObject(null!), 8));
+        Assert.Throws<InvalidOperationException>(() => EngineClass.Register(80, static owner => new EngineObject(null!)));
     }
 
     [Fact]
@@ -157,16 +155,16 @@ public sealed class EngineClassTests
     public void GenericRegistrationUsesTheTypedFactoryAndPreservesTheEarlierSnapshot()
     {
         var previous = EngineClass.All;
-        var descriptor = EngineClass.Register(EngineObject.ClassId, static owner => new Registered(owner), 8);
+        var descriptor = EngineClass.Register(EngineObject.ClassId, static owner => new Registered(owner));
         Assert.Same(descriptor, EngineClass.Of<Registered>());
         Assert.Same(descriptor, EngineClass.Of(typeof(Registered)));
-        Assert.Same(EngineClass.Of<EngineObject>(), descriptor.Parent);
+        Assert.Same(EngineClass.Of<EngineObject>(), EngineClass.Of(descriptor.Type.BaseType!));
         Assert.Equal(previous.Count + 1, EngineClass.All.Count);
         Assert.Same(descriptor, EngineClass.All[^1]);
         Assert.DoesNotContain(descriptor, previous);
         var instance = descriptor.CreateInstance(null!);
         try { Assert.IsType<Registered>(instance); }
         finally { instance.Dispose(); }
-        Assert.Throws<InvalidOperationException>(() => EngineClass.Register(0, static owner => new Registered(owner), 8));
+        Assert.Throws<InvalidOperationException>(() => EngineClass.Register(0, static owner => new Registered(owner)));
     }
 }

@@ -622,7 +622,6 @@ type,TAoWCombatMapControl,Aow.Game.UI.Grids.CombatMapControl
 type,TAoWCombatMapLevel,Aow.Game.Combat.CombatMapLevel
 type,TAoWCombatMapMouse,Aow.Game.Combat.CombatMapMouse
 type,TAoWComponent,Aow.Game.UI.Controls.UIComponent
-type,TAoWDictionary,Aow.Game.AoWDictionary
 type,TAoWEngine,Aow.Game.GameEngine
 type,TAoWFrame,Aow.Game.UI.Controls.Frame
 type,TAoWGauge,Aow.Game.UI.Controls.Gauge
@@ -649,7 +648,6 @@ type,TAoWRoad,Aow.Game.World.Hexes.Road
 type,TAoWTerrain,Aow.Game.World.Hexes.Terrain
 type,TAoWTerrainResource,Aow.Game.World.Hexes.Terrain.Resource
 type,TAoWTerrainType,Aow.Game.World.Map.TerrainType
-type,TAoWTokenManager,Aow.Game.Net.AoWTokenManager
 type,TAoWUserWindow,Aow.Game.UI.Windows.UserWindow
 type,TAoWWaterHexagon,Aow.Game.World.Hexes.WaterHex
 type,TAoWWaterHexagonResource,Aow.Game.World.Hexes.WaterHex.Resource

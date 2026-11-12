@@ -84,8 +84,8 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Equal(-1, field.OverlayType);
                 Assert.Equal(3, field.Capacity);
                 Assert.Equal(0, field.Count);
-                // Issue 200: the field is the game field (TAoWMapField, 28 bytes).
-                Assert.Equal(28, field.EngineClass.InstanceSize);
+                // Issue 200: the field is the game field (TAoWMapField).
+                Assert.Same(EngineClass.Of<MapField>(), field.EngineClass);
                 break;
             case MapContainer container:
                 Assert.Equal(0, container.Count);
@@ -119,8 +119,8 @@ public sealed class MapNetSoundConstructionTests
             case MapLevel level:
                 Assert.Equal(65793, level.MapFieldClassId);
                 Assert.Equal(0, level.Fields.Length);
-                // Issue 200: the level is the game level (TAoWMapLevel, 128 bytes).
-                Assert.Equal(128, level.EngineClass.InstanceSize);
+                // Issue 200: the level is the game level (TAoWMapLevel).
+                Assert.Same(EngineClass.Of<MapLevel>(), level.EngineClass);
                 break;
             case HexSpriteSelection selection:
                 Assert.Empty(selection.LocationHexSprite);

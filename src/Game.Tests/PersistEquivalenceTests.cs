@@ -895,7 +895,7 @@ public sealed class PersistEquivalenceTests
             var hatred = new HatredEnchantment(null!) { DaysActive = 12 };
             hatred.SetOwner(control.Enchantments);
             var image = Image(control);
-            previous = descriptor.SubstituteCreate(static owner => new ThrowingHatred(owner));
+            previous = EngineClassCreation.Substitute(descriptor, next: static owner => new ThrowingHatred(owner));
             var classValue = s_schema.Get("GlobalMagicControl");
             var continued = (GlobalMagicControl)Blank("GlobalMagicControl");
             var continuedTree = (GlobalMagicControl)Blank("GlobalMagicControl");
@@ -932,7 +932,7 @@ public sealed class PersistEquivalenceTests
         }
         finally
         {
-            if (previous is not null) descriptor.SubstituteCreate(previous);
+            if (previous is not null) EngineClassCreation.Substitute(descriptor, next: previous);
             control.Dispose();
             if (added) EngineFixture.Engine.UnregisterEngineClasses([descriptor]);
         }

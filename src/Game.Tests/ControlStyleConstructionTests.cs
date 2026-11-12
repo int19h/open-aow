@@ -46,7 +46,6 @@ public sealed class ControlStyleConstructionTests
         try
         {
             Assert.Equal(kind == 1 ? 1026 : 81, meta.ClassId);
-            Assert.Equal(kind == 0 ? 12 : kind == 1 ? 16 : 20, meta.InstanceSize);
             Assert.Same(meta, EngineClass.Of(type));
             foreach (var value in objects)
             {

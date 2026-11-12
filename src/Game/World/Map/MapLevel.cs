@@ -35,8 +35,9 @@ public partial class MapLevel : ECustomNode, IOwned<MapContainer>, IOwnedSink<Ma
     protected internal GameEngine Engine { get; private set; }
 
     private int _mapFieldClassId;
-    private int _fieldSize;
 
+    // The index offset in the field array of each hex direction, per row parity. HSEngine.pas
+    // stores byte offsets into its raw allocation, the managed array counts fields.
     public int[][] HexNumberOffsets { get; } = [new int[8], new int[8]];
 
     // HSEngine.pas:2925
@@ -109,7 +110,6 @@ public partial class MapLevel : ECustomNode, IOwned<MapContainer>, IOwnedSink<Ma
     public MapContainer MapContainer { get => _mapContainer; }
     public GameMap Map { get => _map; }
     public int MapFieldClassId { get => _mapFieldClassId; set => _mapFieldClassId = value; }
-    public int FieldSize { get => _fieldSize; }
     public ReadOnlySpan<MapField> Fields => _fields;
 
     public sealed class FieldAccessor(MapLevel target)

@@ -39,8 +39,8 @@ public sealed class MapNetSoundDispatchTests
 
     static MapNetSoundDispatchTests()
     {
-        EngineClass.Register(MapField.ClassId, static owner => new SpecializedField(owner), 40);
-        EngineClass.Register(MapLevel.ClassId, static owner => new SpecializedLevel(owner), 124);
+        EngineClass.Register(MapField.ClassId, static owner => new SpecializedField(owner));
+        EngineClass.Register(MapLevel.ClassId, static owner => new SpecializedLevel(owner));
     }
 
     [Fact]
@@ -54,12 +54,11 @@ public sealed class MapNetSoundDispatchTests
     }
 
     [Fact]
-    public void DynamicFieldsKeepTheirExactTypeSizeAndCoordinates()
+    public void DynamicFieldsKeepTheirExactTypeAndCoordinates()
     {
         var level = new SpecializedLevel(null!);
         level.HexLevel = 2;
         level.CreateMapFieldList(3, 2);
-        Assert.Equal(40, level.FieldSize);
         Assert.Equal(6, level.Fields.Length);
         for (int y = 0; y < 2; y++)
             for (int x = 0; x < 3; x++)

@@ -414,29 +414,30 @@ outside the table. The implementation is the shim's own `FormatBuf` port in
 | `ExtractFileName`, `ExtractFilePath`, `ExtractFileExt`, `ChangeFileExt`, `ExtractFileDir` | split at the last `\` or `:`, as Delphi 3 does, never at `/` (probe `files`). The host's file service accepts both separators (section 7) |
 | `ExpandFileName` | absolute path with `.` and `..` removed, relative to the host's working directory |
 | `FileExists`, `DirectoryExists`, `DeleteFile`, `RenameFile`, `CreateDir`, `GetCurrentDir` | through the host file system |
-| `FindFirst`, `FindNext`, `FindClose` with `SearchRec` (Delphi `TSearchRec`) (`Name`, `Size`, `Attr`, `Time`) | section 3.5 |
+| `FindFirst`, `FindNext`, `FindClose` with `TSearchRec` | replaced by `IFileSystem.FindEntries`, a list of `RtlFileEntry` (`Name`, `Size`, `Attribute`, `Modified`, and `FileDate` for the DOS time of `Time`), section 3.5 |
 | `FileAge`, `FileDateToDateTime` | the file's modification time as `TDateTime` |
 
 Attributes: `faDirectory`, `faAnyFile`, `faReadOnly`, `faHidden`, `faArchive`. Delphi 3 filters
 on the hidden, system, volume and directory bits only: an entry is returned unless it has one of
 those bits and `Attr` does not, so read-only and archive files come back whatever the mask, and a
 plain file reports attribute 128. A search that includes directories also returns `.` and `..`.
-The end of an enumeration is code 18, and a pattern with no match returns code 2 (probe `files`,
-2026-10-26). `ExtractFileName` and `ExtractFilePath` of Delphi 3 do not split at `/`, and the shim keeps that.
+In Delphi the end of an enumeration is code 18, and a pattern with no match returns code 2 (probe
+`files`, 2026-10-26). The port's search returns the list and no code: an empty list stands for
+both. `ExtractFileName` and `ExtractFilePath` of Delphi 3 do not split at `/`, and the shim keeps that.
 
 Paths are `string` with the host's chars (`strings.md` 2.5). `ParamStr`, `GetCurrentDir`,
-`ExpandFileName` and the `FindFirst` names keep a char outside the table, and so does a settings value
+`ExpandFileName` and the names the directory search returns keep a char outside the table, and so does a settings value
 under a path key (`strings.md` 2.5). A path meets the table only at the font (`Cp1252.Byte`, glyph 63)
-and at a stream writer (`Cp1252.Encode`, byte 63). `SearchRec.Name` is a property that reads a
-null as `""`, because `SearchRec search = default` skips every initializer.
+and at a stream writer (`Cp1252.Encode`, byte 63).
 
 ### 3.5 Directory enumeration order
 
 `FindFirst` and `FindNext` on NTFS return entries in the order of the directory index, which is
 the ordinal order of the upper-cased file name. The game enumerates image libraries, sounds,
-plug-ins and user files with `FindFirst` (13 call sites), and the order can decide resource
-indices. The shim therefore sorts every enumeration by the upper-cased name in ordinal order of
-UTF-16 code units before returning it, on every platform. Probe `files` compares against a real
+scenario sets and user files with a directory search, and the order can decide resource indices.
+`IFileSystem.FindEntries` (`src/Rtl/Host/FileSearch.cs`, in place of `FindFirst` since issue 193)
+therefore sorts every enumeration by the upper-cased name in ordinal order of UTF-16 code units
+before returning it, on every platform. Probe `files` compares against a real
 NTFS listing of a prepared directory.
 
 ### 3.6 Time

@@ -1133,7 +1133,14 @@ public partial class WorldMap : DataModule
     {
         var quitCampaign = AbilityRules.TranslateResourceString(s_quitCampaignText);
         var confirm = AbilityRules.TranslateResourceString(LobbyText.ConfirmText);
-        DialogHosts.ConfirmationDialog.Confirm(confirm, quitCampaign, 5);
+        DialogHosts.ConfirmationDialog.Confirm(confirm, text: quitCampaign, onConfirmed: QuitCampaign);
+    }
+
+    // AOWDialogWin.pas:73, action 5.
+    private static void QuitCampaign()
+    {
+        DialogHosts.WorldMap.WorldPanel.Visible = false;
+        DialogHosts.General.ReturnToTitle();
     }
 
     // AoWWorldMap.pas:791

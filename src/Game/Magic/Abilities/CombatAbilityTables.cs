@@ -78,6 +78,4 @@ internal static class CombatAbilityTables
         return result;
     }
 
-    internal static int CombatDebugChannel { get; set; }
-
 }

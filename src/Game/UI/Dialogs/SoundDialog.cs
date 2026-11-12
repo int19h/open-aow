@@ -6,6 +6,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
+using Aow.Rtl.Host;
 using Aow.Rtl.Localize;
 using static Aow.Rtl.RtlUnit;
 
@@ -143,7 +144,6 @@ public partial class SoundDialog : DataModule
     public void FindFiles()
     {
         string directory;
-        SearchRec search = default;
         SongList.Items.Clear();
         s_songFiles.Clear();
         SetCurrentDir(GameTables.GameEngine.StartupDirectory + "\\Songs");
@@ -153,24 +153,19 @@ public partial class SoundDialog : DataModule
             directory = Copy(directory, 1, directory.Length - 1);
         }
 
-        if (FindFirst(directory + "\\*.*", 16, ref search) == 0)
+        foreach (var entry in Files.FindEntries(directory + "\\*.*", attributes: 16))
         {
-            do
+            if (entry.Name != "." && entry.Name != "..")
             {
-                if (search.Name != "." && search.Name != "..")
+                if (UpperCase(Copy(entry.Name, entry.Name.Length - 3, 4)) == ".S3M" || UpperCase(Copy(entry.Name, entry.Name.Length - 2, 3)) == ".IT")
                 {
-                    if (UpperCase(Copy(search.Name, search.Name.Length - 3, 4)) == ".S3M" || UpperCase(Copy(search.Name, search.Name.Length - 2, 3)) == ".IT")
-                    {
-                        s_songFiles.Add("Songs\\" + search.Name);
-                        var songName = AudioPlayback.GetSongName("Songs\\" + search.Name);
-                        SongList.Items.Add(songName);
-                    }
+                    s_songFiles.Add("Songs\\" + entry.Name);
+                    var songName = AudioPlayback.GetSongName("Songs\\" + entry.Name);
+                    SongList.Items.Add(songName);
                 }
             }
-            while (!(FindNext(ref search) != 0));
         }
 
-        FindClose(ref search);
         StringSorting.SortStringsAscending(SongList.Items, [s_songFiles]);
         SongList.Selected = -1;
         SongList.ListOffset = 0;

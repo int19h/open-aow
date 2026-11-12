@@ -12,6 +12,7 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
+using Aow.Rtl.Localize;
 
 namespace Aow.Game.Tests;
 
@@ -51,9 +52,9 @@ internal static class OrderingRecording
     {
         private readonly int _seed = Runtime.RandSeed;
 
-        internal AoWDictionary Dictionary => _dictionary;
+        internal IvBinaryDictionary Dictionary => _dictionary;
 
-        private readonly AoWDictionary _dictionary = EngineFixture.Engine.Dictionary;
+        private readonly IvBinaryDictionary _dictionary = EngineFixture.Engine.Dictionary;
         private readonly GamePack _set = GamePack.Current;
         private readonly GameEngine _engine = GameTables.GameEngine;
         private readonly StrategicMap _map = StrategicMap.Current;

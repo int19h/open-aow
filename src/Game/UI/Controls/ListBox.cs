@@ -265,14 +265,14 @@ public partial class ListBox : Control
                 switch (_textOnly)
                 {
                     case 0:
-                        var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
                         var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                         var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        var rectangle2 = new Rect(Window.WinLeft + WinLeft + imageLibraryFrame3.Width, Window.WinTop + WinTop + imageLibraryFrame2.Height, WinWidth - imageLibraryFrameWidth.Width - _scrollWidth, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        var rectangle2 = new SizedRectangle(Window.WinLeft + WinLeft + imageLibraryFrame3.Width, Window.WinTop + WinTop + imageLibraryFrame2.Height, WinWidth - imageLibraryFrameWidth.Width - _scrollWidth, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle2, ref lockedSurface);
                         var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         L = Window.WinLeft + WinLeft + imageLibraryFrame4.Width;
@@ -324,7 +324,7 @@ public partial class ListBox : Control
                             _font.Color = SelectedColor;
                             if (_textOnly == 0)
                             {
-                                var rectangle = new Rect(L, _itemHeight * I + T, W, _itemHeight);
+                                var rectangle = new SizedRectangle(L, _itemHeight * I + T, W, _itemHeight);
                                 _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle, ref lockedSurface);
                             }
                         }

@@ -66,7 +66,6 @@ public sealed partial class RuleConstructionTests
         "CampaignScenario",
         "AoWCampaignScenarioList",
         "CampaignTransferSettings",
-        "AoWDictionary",
         "HexSpriteMapKeyboard",
         "MapCampaignSettings",
         "MapObjectEditor",

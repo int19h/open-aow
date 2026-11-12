@@ -1,5 +1,6 @@
 // Translated from ImageLib.pas.
 using Aow.Rtl;
+using Aow.Rtl.Host;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw.Images;
@@ -58,29 +59,20 @@ public partial class ImageLibraryManager : Component
         void SearchDirectory(string subDirectory)
         {
             StringList list;
-            SearchRec sr = default;
-            bool found;
-            found = FindFirst(_searchPath + subDirectory + "*.ilb", 63 - 16, ref sr) == 0;
-            while (found)
+            foreach (var entry in Files.FindEntries(_searchPath + subDirectory + "*.ilb", attributes: 63 - 16))
             {
-                _diskList.AddImageLibraryFile(subDirectory + UpperCase(sr.Name));
-                found = FindNext(ref sr) == 0;
+                _diskList.AddImageLibraryFile(subDirectory + UpperCase(entry.Name));
             }
 
-            FindClose(ref sr);
             list = new StringList();
-            found = FindFirst(subDirectory + "*.*", 16, ref sr) == 0;
-            while (found)
+            foreach (var entry in Files.FindEntries(subDirectory + "*.*", attributes: 16))
             {
-                if ((sr.Attr & 16) != 0 && sr.Name != "." && sr.Name != "..")
+                if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
                 {
-                    list.Add(subDirectory + UpperCase(sr.Name) + "\\");
+                    list.Add(subDirectory + UpperCase(entry.Name) + "\\");
                 }
-
-                found = FindNext(ref sr) == 0;
             }
 
-            FindClose(ref sr);
             for (int I = 0, last = list.Count - 1; I <= last; I++)
             {
                 SearchDirectory(list[I]);

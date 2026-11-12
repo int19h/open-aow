@@ -45,128 +45,128 @@ public partial class InterfaceImageLibrary : ImageLibrary
     // { DrawILF draws a frame of 8 images: Index the top left corner, +1 the top edge, +2 the top right
     //   corner, +3 the left edge, +4 the right edge, +5 the bottom left corner, +6 the bottom edge, +7
     //   the bottom right corner }
-    public void DrawFrame(int index, in Rect R, ref LockedSurface lockedSurface)
+    public void DrawFrame(int index, in SizedRectangle area, ref LockedSurface lockedSurface)
     {
         int clipRight;
         int clipBottom;
         Rect oldClip;
         oldClip = lockedSurface.ClipRectangle;
-        if (R.Left + R.Right > lockedSurface.ClipRectangle.Right)
+        if (area.Left + area.Width > lockedSurface.ClipRectangle.Right)
         {
             clipRight = lockedSurface.ClipRectangle.Right;
         }
         else
         {
-            clipRight = R.Left + R.Right;
+            clipRight = area.Left + area.Width;
         }
 
-        if (R.Top + R.Bottom > lockedSurface.ClipRectangle.Bottom)
+        if (area.Top + area.Height > lockedSurface.ClipRectangle.Bottom)
         {
             clipBottom = lockedSurface.ClipRectangle.Bottom;
         }
         else
         {
-            clipBottom = R.Top + R.Bottom;
+            clipBottom = area.Top + area.Height;
         }
 
         var rectangle = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;
-        this[index].ShowClipped(R.Left, R.Top, lockedSurface);
+        this[index].ShowClipped(area.Left, area.Top, lockedSurface);
         var libraryImage = this[index + 5];
-        this[index + 5].ShowClipped(R.Left, R.Top + R.Bottom - libraryImage.Height, lockedSurface);
+        this[index + 5].ShowClipped(area.Left, area.Top + area.Height - libraryImage.Height, lockedSurface);
         var item = this[index + 4];
-        if (R.Left + R.Right - item.Width < oldClip.Right)
+        if (area.Left + area.Width - item.Width < oldClip.Right)
         {
             var item3 = this[index + 4];
-            lockedSurface.ClipRectangle.Right = R.Left + R.Right - item3.Width;
+            lockedSurface.ClipRectangle.Right = area.Left + area.Width - item3.Width;
         }
 
-        for (int I = 0, last = (R.Right - this[index].Width - this[index + 2].Width) / this[index + 1].Width; I <= last; I++)
+        for (int I = 0, last = (area.Width - this[index].Width - this[index + 2].Width) / this[index + 1].Width; I <= last; I++)
         {
             var item3 = this[index];
             var item4 = this[index + 1];
-            this[index + 1].ShowClipped(R.Left + item3.Width + item4.Width * I, R.Top, lockedSurface);
+            this[index + 1].ShowClipped(area.Left + item3.Width + item4.Width * I, area.Top, lockedSurface);
             var item5 = this[index + 5];
             var item6 = this[index + 6];
             var item7 = this[index + 6];
-            this[index + 6].ShowClipped(R.Left + item5.Width + item6.Width * I, R.Top + R.Bottom - item7.Height, lockedSurface);
+            this[index + 6].ShowClipped(area.Left + item5.Width + item6.Width * I, area.Top + area.Height - item7.Height, lockedSurface);
         }
 
         var rectangle2 = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle2;
         var item8 = this[index + 6];
-        if (R.Top + R.Bottom - item8.Height < oldClip.Bottom)
+        if (area.Top + area.Height - item8.Height < oldClip.Bottom)
         {
             var item3 = this[index + 6];
-            lockedSurface.ClipRectangle.Bottom = R.Top + R.Bottom - item3.Height;
+            lockedSurface.ClipRectangle.Bottom = area.Top + area.Height - item3.Height;
         }
 
-        for (int I = 0, last = (R.Bottom - this[index].Height - this[index + 5].Height) / this[index + 3].Height; I <= last; I++)
+        for (int I = 0, last = (area.Height - this[index].Height - this[index + 5].Height) / this[index + 3].Height; I <= last; I++)
         {
             var item3 = this[index];
             var item4 = this[index + 3];
-            this[index + 3].ShowClipped(R.Left, R.Top + item3.Height + item4.Height * I, lockedSurface);
+            this[index + 3].ShowClipped(area.Left, area.Top + item3.Height + item4.Height * I, lockedSurface);
             var item5 = this[index + 2];
             var item6 = this[index + 4];
             var item7 = this[index + 4];
-            this[index + 4].ShowClipped(R.Left + R.Right - item7.Width, R.Top + item5.Height + item6.Height * I, lockedSurface);
+            this[index + 4].ShowClipped(area.Left + area.Width - item7.Width, area.Top + item5.Height + item6.Height * I, lockedSurface);
         }
 
         var rectangle3 = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle3;
         var item9 = this[index + 2];
-        this[index + 2].ShowClipped(R.Left + R.Right - item9.Width, R.Top, lockedSurface);
+        this[index + 2].ShowClipped(area.Left + area.Width - item9.Width, area.Top, lockedSurface);
         var item10 = this[index + 7];
         var item11 = this[index + 7];
-        this[index + 7].ShowClipped(R.Left + R.Right - item11.Width, R.Top + R.Bottom - item10.Height, lockedSurface);
+        this[index + 7].ShowClipped(area.Left + area.Width - item11.Width, area.Top + area.Height - item10.Height, lockedSurface);
         lockedSurface.ClipRectangle = oldClip;
     }
 
     // AOWInterfaceImgLib.pas:105
     // { DrawILT tiles image Index over R }
-    public void DrawTiled(int index, in Rect R, ref LockedSurface lockedSurface)
+    public void DrawTiled(int index, in SizedRectangle area, ref LockedSurface lockedSurface)
     {
         int clipRight;
         int clipBottom;
         Rect oldClip;
         oldClip = lockedSurface.ClipRectangle;
-        if (R.Left + R.Right > lockedSurface.ClipRectangle.Right)
+        if (area.Left + area.Width > lockedSurface.ClipRectangle.Right)
         {
             clipRight = lockedSurface.ClipRectangle.Right;
         }
         else
         {
-            clipRight = R.Left + R.Right;
+            clipRight = area.Left + area.Width;
         }
 
-        if (R.Top + R.Bottom > lockedSurface.ClipRectangle.Bottom)
+        if (area.Top + area.Height > lockedSurface.ClipRectangle.Bottom)
         {
             clipBottom = lockedSurface.ClipRectangle.Bottom;
         }
         else
         {
-            clipBottom = R.Top + R.Bottom;
+            clipBottom = area.Top + area.Height;
         }
 
         var rectangle = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;
-        if (R.Left + R.Right < oldClip.Right)
+        if (area.Left + area.Width < oldClip.Right)
         {
-            lockedSurface.ClipRectangle.Right = R.Left + R.Right;
+            lockedSurface.ClipRectangle.Right = area.Left + area.Width;
         }
 
-        if (R.Top + R.Bottom < oldClip.Bottom)
+        if (area.Top + area.Height < oldClip.Bottom)
         {
-            lockedSurface.ClipRectangle.Bottom = R.Top + R.Bottom;
+            lockedSurface.ClipRectangle.Bottom = area.Top + area.Height;
         }
 
-        for (int J = 0, last = R.Bottom / this[index].Height; J <= last; J++)
+        for (int J = 0, last = area.Height / this[index].Height; J <= last; J++)
         {
-            for (int I = 0, lastI = R.Right / this[index].Width; I <= lastI; I++)
+            for (int I = 0, lastI = area.Width / this[index].Width; I <= lastI; I++)
             {
                 var libraryImage = this[index];
                 var item = this[index];
-                this[index].ShowClipped(R.Left + item.Width * I, R.Top + libraryImage.Height * J, lockedSurface);
+                this[index].ShowClipped(area.Left + item.Width * I, area.Top + libraryImage.Height * J, lockedSurface);
             }
         }
 
@@ -175,135 +175,135 @@ public partial class InterfaceImageLibrary : ImageLibrary
 
     // AOWInterfaceImgLib.pas:133
     // { DrawILI draws image Index at the top left corner of R, clipped to R }
-    public void DrawImage(int index, in Rect R, ref LockedSurface lockedSurface)
+    public void DrawImage(int index, in SizedRectangle area, ref LockedSurface lockedSurface)
     {
         int clipRight;
         int clipBottom;
         Rect oldClip;
         oldClip = lockedSurface.ClipRectangle;
-        if (R.Left + R.Right > lockedSurface.ClipRectangle.Right)
+        if (area.Left + area.Width > lockedSurface.ClipRectangle.Right)
         {
             clipRight = lockedSurface.ClipRectangle.Right;
         }
         else
         {
-            clipRight = R.Left + R.Right;
+            clipRight = area.Left + area.Width;
         }
 
-        if (R.Top + R.Bottom > lockedSurface.ClipRectangle.Bottom)
+        if (area.Top + area.Height > lockedSurface.ClipRectangle.Bottom)
         {
             clipBottom = lockedSurface.ClipRectangle.Bottom;
         }
         else
         {
-            clipBottom = R.Top + R.Bottom;
+            clipBottom = area.Top + area.Height;
         }
 
         var rectangle = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;
-        this[index].ShowClipped(R.Left, R.Top, lockedSurface);
+        this[index].ShowClipped(area.Left, area.Top, lockedSurface);
         lockedSurface.ClipRectangle = oldClip;
     }
 
     // AOWInterfaceImgLib.pas:154
     // { DrawILLh draws a horizontal line of 3 images: Index the left end, +1 the middle (repeated),
     //   +2 the right end }
-    public void DrawHorizontalStrip(int index, in Rect R, ref LockedSurface lockedSurface)
+    public void DrawHorizontalStrip(int index, in SizedRectangle area, ref LockedSurface lockedSurface)
     {
         int clipRight;
         int clipBottom;
         Rect oldClip;
         oldClip = lockedSurface.ClipRectangle;
-        if (R.Left + R.Right > lockedSurface.ClipRectangle.Right)
+        if (area.Left + area.Width > lockedSurface.ClipRectangle.Right)
         {
             clipRight = lockedSurface.ClipRectangle.Right;
         }
         else
         {
-            clipRight = R.Left + R.Right;
+            clipRight = area.Left + area.Width;
         }
 
-        if (R.Top + R.Bottom > lockedSurface.ClipRectangle.Bottom)
+        if (area.Top + area.Height > lockedSurface.ClipRectangle.Bottom)
         {
             clipBottom = lockedSurface.ClipRectangle.Bottom;
         }
         else
         {
-            clipBottom = R.Top + R.Bottom;
+            clipBottom = area.Top + area.Height;
         }
 
         var rectangle = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;
-        this[index].ShowClipped(R.Left, R.Top, lockedSurface);
+        this[index].ShowClipped(area.Left, area.Top, lockedSurface);
         var libraryImage = this[index + 2];
-        if (R.Left + R.Right - libraryImage.Width < oldClip.Right)
+        if (area.Left + area.Width - libraryImage.Width < oldClip.Right)
         {
             var item = this[index + 2];
-            lockedSurface.ClipRectangle.Right = R.Left + R.Right - item.Width;
+            lockedSurface.ClipRectangle.Right = area.Left + area.Width - item.Width;
         }
 
-        for (int I = 0, last = (R.Right - this[index].Width - this[index + 2].Width) / this[index + 1].Width; I <= last; I++)
+        for (int I = 0, last = (area.Width - this[index].Width - this[index + 2].Width) / this[index + 1].Width; I <= last; I++)
         {
             var item2 = this[index];
             var item3 = this[index + 1];
-            this[index + 1].ShowClipped(R.Left + item2.Width + item3.Width * I, R.Top, lockedSurface);
+            this[index + 1].ShowClipped(area.Left + item2.Width + item3.Width * I, area.Top, lockedSurface);
         }
 
         var rectangle2 = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle2;
         var item4 = this[index + 2];
-        this[index + 2].ShowClipped(R.Left + R.Right - item4.Width, R.Top, lockedSurface);
+        this[index + 2].ShowClipped(area.Left + area.Width - item4.Width, area.Top, lockedSurface);
         lockedSurface.ClipRectangle = oldClip;
     }
 
     // AOWInterfaceImgLib.pas:184
     // { DrawILLv draws a vertical line of 3 images: Index the top end, +1 the middle (repeated), +2
     //   the bottom end }
-    public void DrawVerticalStrip(int index, in Rect R, ref LockedSurface lockedSurface)
+    public void DrawVerticalStrip(int index, in SizedRectangle area, ref LockedSurface lockedSurface)
     {
         int clipRight;
         int clipBottom;
         Rect oldClip;
         oldClip = lockedSurface.ClipRectangle;
-        if (R.Left + R.Right > lockedSurface.ClipRectangle.Right)
+        if (area.Left + area.Width > lockedSurface.ClipRectangle.Right)
         {
             clipRight = lockedSurface.ClipRectangle.Right;
         }
         else
         {
-            clipRight = R.Left + R.Right;
+            clipRight = area.Left + area.Width;
         }
 
-        if (R.Top + R.Bottom > lockedSurface.ClipRectangle.Bottom)
+        if (area.Top + area.Height > lockedSurface.ClipRectangle.Bottom)
         {
             clipBottom = lockedSurface.ClipRectangle.Bottom;
         }
         else
         {
-            clipBottom = R.Top + R.Bottom;
+            clipBottom = area.Top + area.Height;
         }
 
         var rectangle = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;
-        this[index].ShowClipped(R.Left, R.Top, lockedSurface);
+        this[index].ShowClipped(area.Left, area.Top, lockedSurface);
         var libraryImage = this[index + 2];
-        if (R.Top + R.Bottom - libraryImage.Height < oldClip.Bottom)
+        if (area.Top + area.Height - libraryImage.Height < oldClip.Bottom)
         {
             var item = this[index + 2];
-            lockedSurface.ClipRectangle.Bottom = R.Top + R.Bottom - item.Height;
+            lockedSurface.ClipRectangle.Bottom = area.Top + area.Height - item.Height;
         }
 
-        for (int I = 0, last = (R.Bottom - this[index].Height - this[index + 2].Height) / this[index + 1].Height; I <= last; I++)
+        for (int I = 0, last = (area.Height - this[index].Height - this[index + 2].Height) / this[index + 1].Height; I <= last; I++)
         {
             var item2 = this[index];
             var item3 = this[index + 1];
-            this[index + 1].ShowClipped(R.Left, R.Top + item2.Height + item3.Height * I, lockedSurface);
+            this[index + 1].ShowClipped(area.Left, area.Top + item2.Height + item3.Height * I, lockedSurface);
         }
 
         var rectangle2 = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle2;
         var item4 = this[index + 2];
-        this[index + 2].ShowClipped(R.Left, R.Top + R.Bottom - item4.Height, lockedSurface);
+        this[index + 2].ShowClipped(area.Left, area.Top + area.Height - item4.Height, lockedSurface);
         lockedSurface.ClipRectangle = oldClip;
     }
 }

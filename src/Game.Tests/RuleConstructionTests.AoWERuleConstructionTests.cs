@@ -293,14 +293,6 @@ public sealed partial class RuleConstructionTests
     }
 
     [Fact]
-    public void DictionaryContinuesToIgnoreItsComponentOwner()
-    {
-        using var owner = new Component(null!);
-        using var dictionary = new AoWDictionary(owner);
-        Assert.Equal(0, owner.ComponentCount);
-    }
-
-    [Fact]
     public void TacticalSelectorConstructorKeepsVirtualSettingsOrder()
     {
         using var fixture = new Fixture();

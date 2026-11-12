@@ -228,7 +228,7 @@ public partial class Scanner : Controls.Control
                 _objectSurface.Unlock();
                 if (_mapWidth > 0 && _mapHeight > 0)
                 {
-                    var rectangle2 = new Rect(Window.WinLeft + WinLeft + TLeft * WinWidth / _mapWidth, Window.WinTop + WinTop + TTop * WinHeight / _mapHeight, _tWidth * WinWidth / _mapWidth, (_tHeight + 2) * WinHeight / _mapHeight);
+                    var rectangle2 = new SizedRectangle(Window.WinLeft + WinLeft + TLeft * WinWidth / _mapWidth, Window.WinTop + WinTop + TTop * WinHeight / _mapHeight, _tWidth * WinWidth / _mapWidth, (_tHeight + 2) * WinHeight / _mapHeight);
                     _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle2, ref surfaceDescription);
                 }
 

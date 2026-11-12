@@ -672,7 +672,27 @@ public partial class UnitWindow : DataModule
     {
         var disbandUnit = AbilityRules.TranslateResourceString(s_disbandUnitText);
         var confirm = AbilityRules.TranslateResourceString(LobbyText.ConfirmText);
-        DialogHosts.ConfirmationDialog.Confirm(confirm, disbandUnit, 7);
+        DialogHosts.ConfirmationDialog.Confirm(confirm, text: disbandUnit, onConfirmed: DisbandSelectedUnit);
+    }
+
+    // AOWDialogWin.pas:73, action 7.
+    private static void DisbandSelectedUnit()
+    {
+        string reason = "";
+        if (DialogHosts.General.SelectedUnit != null)
+        {
+            if (DialogHosts.General.SelectedUnit.CanDisband(ref reason))
+            {
+                if (DialogHosts.General.SelectedUnit.Disband())
+                {
+                    DialogHosts.UnitWindow.MainWindow.Visible = false;
+                }
+            }
+            else
+            {
+                StrategicMap.Current.ShowWarning(reason);
+            }
+        }
     }
 
     // AoWUnitWindow.pas:926

@@ -36,7 +36,7 @@ public partial class Image
         {
             if (!Valid || !Visible) return;
             RaisePreDraw(this, surface);
-            var rectangle = new Rect(Window.WinLeft + WinLeft,
+            var rectangle = new SizedRectangle(Window.WinLeft + WinLeft,
                 Window.WinTop + WinTop, WinWidth, WinHeight);
             _imageLibrary.DrawTiled(_currentImage, rectangle, ref surface);
             RaiseDraw(this, surface);

@@ -1,12 +1,12 @@
-using Aow.Game.Combat;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Game.World.Map;
-using Aow.Game.World.Structures;
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
+// The DWin form (AOWDialogWin.pas): a Yes/No confirmation and the debug message window. The
+// confirmation runs the caller's callback on Yes and knows nothing of what it confirms. The debug
+// window is its own DebugWindow over the form's components.
 public partial class ConfirmationDialog : DataModule
 {
     public ConfirmationDialog(Component owner) : base(owner)
@@ -15,38 +15,24 @@ public partial class ConfirmationDialog : DataModule
     public Window Window;
     public Label TitleLabel;
     public Label MessageLabel;
-    public Window DebugWindow;
-    public Label FrameRateLabel;
-    public Memo DebugMemo;
-    public VerticalScrollBar DebugMemoScrollBar;
     public Panel OKPanel;
     public Panel YesNoPanel;
-    private byte _action;
+    // The original stored an action code that yesBtnClick switched on.
+    private Action _onConfirmed;
 
     public bool SkipCombatChoice { get; }
 
+    public DebugWindow Debug { get; private set; }
+
     // AOWDialogWin.pas:121
-    public void Confirm(string title, string text, byte action)
+    public void Confirm(string title, string text, Action onConfirmed)
     {
-        _action = action;
+        _onConfirmed = onConfirmed;
         TitleLabel.Text = title;
         MessageLabel.Text = text;
         YesNoPanel.Visible = true;
         OKPanel.Visible = false;
         Window.Visible = true;
-    }
-
-    // AOWDialogWin.pas:113
-    public void AddDebugMessage(string text)
-    {
-        DebugMemo.Items.Add(text);
-        if (DebugMemo.Items.Count > 99)
-        {
-            DebugMemo.Items.Delete(0);
-        }
-
-        DebugMemo.Sized = false;
-        DebugMemoScrollBar.Position = DebugMemoScrollBar.Max;
     }
 
     // AOWDialogWin.pas:60
@@ -57,75 +43,13 @@ public partial class ConfirmationDialog : DataModule
     }
 
     // AOWDialogWin.pas:67
-    public void DebugDOkBtnClick()
-    {
-        DialogHosts.General.PlayButtonSound(0);
-        DebugWindow.Visible = false;
-    }
+    public void DebugDOkBtnClick() => Debug.Close();
 
     // AOWDialogWin.pas:73
     public void yesBtnClick()
     {
-        string reason = "";
-        Structure structure;
         DialogHosts.General.PlayButtonSound(0);
-        switch (_action)
-        {
-            case 0:
-            case 1:
-                break;
-            case 2:
-                DialogHosts.General.City.Loot();
-                break;
-            case 3:
-                if (DialogHosts.General.City.CanRaze(StrategicMap.Current.SeatedPlayer, ref reason))
-                {
-                    if (DialogHosts.General.City.Raze(StrategicMap.Current.SeatedPlayer))
-                    {
-                        structure = DialogHosts.General.Structure;
-                        DialogHosts.MapEvents.TheMapStructureDeselected();
-                        DialogHosts.MapEvents.TheMapStructureSelected(structure);
-                    }
-                }
-                else
-                {
-                    StrategicMap.Current.ShowWarning(reason);
-                }
-
-                break;
-            case 4:
-                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Surrender();
-                break;
-            case 5:
-                DialogHosts.WorldMap.WorldPanel.Visible = false;
-                DialogHosts.General.ReturnToTitle();
-                break;
-            case 6:
-                if (CombatMap.Current != null)
-                {
-                    CombatMap.Current.Surrender(CombatMap.Current.SeatedCombatPlayer);
-                }
-
-                break;
-            case 7:
-                if (DialogHosts.General.SelectedUnit != null)
-                {
-                    if (DialogHosts.General.SelectedUnit.CanDisband(ref reason))
-                    {
-                        if (DialogHosts.General.SelectedUnit.Disband())
-                        {
-                            DialogHosts.UnitWindow.MainWindow.Visible = false;
-                        }
-                    }
-                    else
-                    {
-                        StrategicMap.Current.ShowWarning(reason);
-                    }
-                }
-
-                break;
-        }
-
+        _onConfirmed?.Invoke();
         Window.Visible = false;
     }
 
@@ -150,15 +74,4 @@ public partial class ConfirmationDialog : DataModule
                 break;
         }
     }
-
-    internal static void ConfirmDialog(ConfirmationDialog dialog, string title, string message, byte kind)
-    {
-        dialog._action = kind;
-        dialog.TitleLabel.Text = title;
-        dialog.MessageLabel.Text = message;
-        dialog.YesNoPanel.Visible = true;
-        dialog.OKPanel.Visible = false;
-        dialog.Window.Visible = true;
-    }
-
 }

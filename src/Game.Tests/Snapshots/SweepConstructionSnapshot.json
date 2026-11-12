@@ -9,7 +9,6 @@
             "EngineObject._owner": null,
             "MapLevel._count": 0,
             "MapLevel.Engine": null,
-            "MapLevel._fieldSize": 0,
             "MapLevel.HexNumberOffsets": [
               [
                 0,
@@ -55,7 +54,6 @@
             "EngineObject._owner": "$owner",
             "MapLevel._count": 0,
             "MapLevel.Engine": null,
-            "MapLevel._fieldSize": 0,
             "MapLevel.HexNumberOffsets": [
               [
                 0,
@@ -97,7 +95,6 @@
               "EngineObject._owner": "$owner",
               "MapLevel._count": 0,
               "MapLevel.Engine": null,
-              "MapLevel._fieldSize": 0,
               "MapLevel.HexNumberOffsets": [
                 [
                   0,
@@ -13304,7 +13301,6 @@
             "EngineObject._owner": null,
             "MapLevel._count": 0,
             "MapLevel.Engine": null,
-            "MapLevel._fieldSize": 0,
             "MapLevel.HexNumberOffsets": [
               [
                 0,
@@ -13350,7 +13346,6 @@
             "EngineObject._owner": "$owner",
             "MapLevel._count": 0,
             "MapLevel.Engine": null,
-            "MapLevel._fieldSize": 0,
             "MapLevel.HexNumberOffsets": [
               [
                 0,
@@ -13392,7 +13387,6 @@
               "EngineObject._owner": "$owner",
               "MapLevel._count": 0,
               "MapLevel.Engine": null,
-              "MapLevel._fieldSize": 0,
               "MapLevel.HexNumberOffsets": [
                 [
                   0,

@@ -662,7 +662,7 @@ public partial class General : DataModule
     // AoWWinMan.pas:336
     public void ManagerDebugMessage(string text)
     {
-        DialogHosts.ConfirmationDialog.AddDebugMessage(text);
+        DialogHosts.DebugWindow.AddMessage(text);
     }
 
     // AoWWinMan.pas:351

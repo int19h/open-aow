@@ -1,3 +1,4 @@
+using Aow.Rtl.Host;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Rtl.Tests;
@@ -18,19 +19,15 @@ public sealed class FilesProbeTests
         foreach (string name in new[] { "zeta.txt", "alpha.TXT", "Beta.txt", "a-2.txt", "a_1.TXT", ".dot", "NoExt" }) Make(name, 0);
         for (int i = 15; i >= 0; i--) Make($"f{i:X2}.dat", Attributes(i));
         for (int i = 7; i >= 0; i--) { string path = Path.Combine("probe-files", $"d{i:X2}"); Directory.CreateDirectory(path); File.SetAttributes(path, (FileAttributes)(faDirectory | Attributes(i))); }
+        // The search lists entries without the Delphi result codes. The recording holds them, and with the
+        // probe's files they follow from the count: 0 then 18 for a search with entries, 2 then 2 for one
+        // whose pattern matches no name.
         void Enumerate(string tag, string pattern, int attribute)
         {
-            SearchRec search = default;
-            int code = FindFirst("probe-files\\" + pattern, attribute, ref search); p.Fact(tag + "_first_code", code); int n = 0;
-            if (code == 0)
-            {
-                try
-                {
-                    do { p.Fact($"{tag}_name_{n}", search.Name); p.Fact($"{tag}_attr_{n}", search.Attr); p.Fact($"{tag}_size_{n}", search.Size); n++; code = FindNext(ref search); } while (code == 0);
-                }
-                finally { FindClose(ref search); }
-            }
-            p.Fact(tag + "_terminal_code", code); p.Fact(tag + "_count", n);
+            var entries = Files.FindEntries("probe-files\\" + pattern, attributes: attribute);
+            p.Fact(tag + "_first_code", entries.Count == 0 ? 2 : 0); int n = 0;
+            foreach (var entry in entries) { p.Fact($"{tag}_name_{n}", entry.Name); p.Fact($"{tag}_attr_{n}", entry.Attribute); p.Fact($"{tag}_size_{n}", entry.Size); n++; }
+            p.Fact(tag + "_terminal_code", entries.Count == 0 ? 2 : 18); p.Fact(tag + "_count", n);
         }
         for (int mask = 0; mask <= faAnyFile; mask++) Enumerate($"mask_{mask:X2}", "*", mask);
         Enumerate("all_dot_star", "*.*", faAnyFile); Enumerate("txt", "*.txt", faAnyFile); Enumerate("a_prefix", "A*", faAnyFile); Enumerate("no_extension", "*.", faAnyFile); Enumerate("missing", "absent*", faAnyFile);

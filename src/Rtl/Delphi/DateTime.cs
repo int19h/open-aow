@@ -21,6 +21,9 @@ public static partial class RtlUnit
         return days < 0 ? days - fraction : days + fraction;
     }
 
+    // The DOS date and time of a file time, as SYSUTILS.PAS FileAge and TSearchRec.Time give it.
+    internal static int FileDate(DateTime time) => DateTimeToFileDate(ToDelphiDate(time));
+
     // SYSUTILS.PAS Now, Date and Time.
     public static double Now() => ToDelphiDate(Clock.Now);
     public static double Date() => (Clock.Now.Date - Epoch).TotalDays;

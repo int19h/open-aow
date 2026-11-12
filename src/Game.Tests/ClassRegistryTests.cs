@@ -37,7 +37,7 @@ public sealed class ClassRegistryTests
             var descriptor = EngineClass.Of(type);
             Assert.Equal(type, descriptor.Type);
             Assert.Equal((int)type.GetField("ClassId", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)!.GetRawConstantValue()!, descriptor.ClassId);
-            Assert.Equal(type == typeof(EngineObject) ? null : type.BaseType, descriptor.Parent?.Type);
+            if (type != typeof(EngineObject)) Assert.Equal(type.BaseType, EngineClass.Of(type.BaseType!).Type);
         }
         CheckFamily(typeof(IAIPlayerActionClass), types, AIPlayerActionClass.All.Select(c => c.Class.Type));
         CheckFamily(typeof(IAIGroupClass), types, AIGroupClass.All.Select(c => c.Class.Type));

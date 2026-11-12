@@ -65,7 +65,6 @@ public sealed class EngineLeafConstructionTests
         try
         {
             Assert.Equal(kind == 0 ? 264 : 80, meta.ClassId);
-            Assert.Equal(kind == 0 ? 56 : 16, meta.InstanceSize);
             foreach (var value in objects)
             {
                 Assert.IsType(type, value);

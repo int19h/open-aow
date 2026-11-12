@@ -8,7 +8,7 @@ public sealed class EngineDebugNotification
     // { TEngine.OutputDebugStr / OutputDebugMessage hand this to the debug events }
     public struct DebugInfo
     {
-        public int Id { get; set; }
+        public DebugChannel Channel { get; set; }
 
         private string _text;
 

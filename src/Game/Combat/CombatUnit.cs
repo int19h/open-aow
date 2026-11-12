@@ -26,7 +26,6 @@ public partial class CombatUnit : CombatObject
     public new const int ClassId = 131745;
 
     // Combat.pas:1071
-    // { CombatDID is declared with the shared engine globals. }
     public CombatUnit(ECustomNode owner) : base(owner)
     {
         ControlMode = Set<CombatObjectControlModeElement>.Of(CombatObjectControlModeElement.ConquerObject);

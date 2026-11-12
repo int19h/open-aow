@@ -11,12 +11,10 @@ namespace Aow.Game.UI.Windows;
 //   passes input on, it moves itself by the window's position and restores its own position
 //   afterwards. A panel can belong to a tab of a TAOWTabPanel (TabPanel and OwnerItem): it is then
 //   visible only while its tab is selected. }
-// Fields: FOrgLeft, FOrgTop (the panel's own position, saved while it is moved by the window's
-// position), _tabPanel, _window
+// Fields: _tabPanel, _window. The original saved the panel's own position in FOrgLeft and FOrgTop
+// while the panel was moved by its window's position. Each method keeps it in a local.
 public partial class Panel : BaseWindow
 {
-    private int _savedLeft;
-    private int _savedTop;
     private TabPanel _tabPanel;
     private BaseWindow _window;
 
@@ -185,8 +183,8 @@ public partial class Panel : BaseWindow
                     SetSize();
                 }
 
-                _savedLeft = WinLeft;
-                _savedTop = WinTop;
+                int savedLeft = WinLeft;
+                int savedTop = WinTop;
                 if (_window is Panel)
                 {
                     SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
@@ -198,8 +196,8 @@ public partial class Panel : BaseWindow
                     Children[I].Setup();
                 }
 
-                SetWinLeftWithoutInvalidate(_savedLeft);
-                SetWinTopWithoutInvalidate(_savedTop);
+                SetWinLeftWithoutInvalidate(savedLeft);
+                SetWinTopWithoutInvalidate(savedTop);
                 BlitCount = 0;
                 DrawCount = 0;
             }
@@ -218,8 +216,8 @@ public partial class Panel : BaseWindow
         Rect R = default;
         if (Visible)
         {
-            _savedLeft = WinLeft;
-            _savedTop = WinTop;
+            int savedLeft = WinLeft;
+            int savedTop = WinTop;
             if (_window is Panel)
             {
                 SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
@@ -233,8 +231,8 @@ public partial class Panel : BaseWindow
                 Children[I].Update();
             }
 
-            SetWinLeftWithoutInvalidate(_savedLeft);
-            SetWinTopWithoutInvalidate(_savedTop);
+            SetWinLeftWithoutInvalidate(savedLeft);
+            SetWinTopWithoutInvalidate(savedTop);
             if (OldRectangle.Right > 0 && OldRectangle.Bottom > 0 && (OldRectangle.Left != WinLeft || OldRectangle.Top != WinTop || OldRectangle.Right != WinWidth || OldRectangle.Bottom != WinHeight))
             {
                 if (OwnerComponent.OwnerComponent.OwnerComponent == null)
@@ -426,7 +424,7 @@ public partial class Panel : BaseWindow
                 switch (WindowStyle)
                 {
                     case Style.Normal:
-                        var rectangle = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
+                        var rectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
                         var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
@@ -434,15 +432,15 @@ public partial class Panel : BaseWindow
                         var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                         var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        var rectangle2 = new Rect(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        var rectangle2 = new SizedRectangle(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle2, ref lockedSurface);
                         break;
                     case Style.Hollow:
-                        var rectangle3 = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
+                        var rectangle3 = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle3, ref lockedSurface);
                         break;
                     case Style.Borderless:
-                        var rectangle4 = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
+                        var rectangle4 = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
                         _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle4, ref lockedSurface);
                         break;
                 }
@@ -456,8 +454,8 @@ public partial class Panel : BaseWindow
         {
             if (Valid && Visible)
             {
-                _savedLeft = WinLeft;
-                _savedTop = WinTop;
+                int savedLeft = WinLeft;
+                int savedTop = WinTop;
                 SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
                 SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
                 if (WinLeft < lockedSurface.ClipRectangle.Right && WinLeft > lockedSurface.ClipRectangle.Left)
@@ -490,8 +488,8 @@ public partial class Panel : BaseWindow
                         lockedSurface.ClipRectangle = rectangle;
                         DrawBack();
                         lockedSurface.ClipRectangle = oldClip;
-                        SetWinLeftWithoutInvalidate(_savedLeft);
-                        SetWinTopWithoutInvalidate(_savedTop);
+                        SetWinLeftWithoutInvalidate(savedLeft);
+                        SetWinTopWithoutInvalidate(savedTop);
                         InvalidateRectangle(0, ref D.Rectangle, D.Owner);
                         SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
                         SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
@@ -530,8 +528,8 @@ public partial class Panel : BaseWindow
                         {
                             blitRectangle = new Rect(WinLeft + C.WinLeft, WinTop + C.WinTop, WinLeft + C.WinLeft + C.WinWidth, WinTop + C.WinTop + C.WinHeight);
                             OwnerComponent.AddBlitRectangle(ref blitRectangle, this);
-                            SetWinLeftWithoutInvalidate(_savedLeft);
-                            SetWinTopWithoutInvalidate(_savedTop);
+                            SetWinLeftWithoutInvalidate(savedLeft);
+                            SetWinTopWithoutInvalidate(savedTop);
                             blitRectangle = new Rect(_window.WinLeft + WinLeft + C.WinLeft, _window.WinTop + WinTop + C.WinTop, _window.WinLeft + WinLeft + C.WinLeft + C.WinWidth - 1, _window.WinTop + WinTop + C.WinTop + C.WinHeight - 1);
                             InvalidateRectangle(I + 1, ref blitRectangle, C);
                             SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
@@ -544,8 +542,8 @@ public partial class Panel : BaseWindow
 
                 Drawn = SurfaceValid;
                 lockedSurface.ClipRectangle = oldClip;
-                SetWinLeftWithoutInvalidate(_savedLeft);
-                SetWinTopWithoutInvalidate(_savedTop);
+                SetWinLeftWithoutInvalidate(savedLeft);
+                SetWinTopWithoutInvalidate(savedTop);
                 SurfaceValid = true;
             }
         }
@@ -555,21 +553,38 @@ public partial class Panel : BaseWindow
         }
     }
 
+    // The panel's rectangle on the screen: its own position moved by its window's position.
+    private SizedRectangle AbsoluteArea()
+    {
+        int left = WinLeft;
+        int top = WinTop;
+        if (_window != null)
+        {
+            left += _window.WinLeft;
+            top += _window.WinTop;
+        }
+
+        return new SizedRectangle(left, top, WinWidth, WinHeight);
+    }
+
     // AoWPanel.pas:513
     // { CheckMouseDown: the controls first (from the top), with the panel moved by its window's
     //   position }
+    // The panel's own hit test reads the absolute rectangle from a local. Its controls read their
+    // window's position, so the panel still stands at the absolute position while they run.
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         UIComponent C = default;
         Handled = false;
         if (Visible == true)
         {
-            _savedLeft = WinLeft;
-            _savedTop = WinTop;
+            int ownLeft = WinLeft;
+            int ownTop = WinTop;
+            var absolute = AbsoluteArea();
             if (_window != null)
             {
-                SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
-                SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
+                SetWinLeftWithoutInvalidate(absolute.Left);
+                SetWinTopWithoutInvalidate(absolute.Top);
                 Handled = _window.Handled;
             }
 
@@ -593,18 +608,13 @@ public partial class Panel : BaseWindow
                 }
             }
 
-            if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
+            SetWinLeftWithoutInvalidate(ownLeft);
+            SetWinTopWithoutInvalidate(ownTop);
+            if (X > absolute.Left - 1 && X < absolute.Left + WinWidth && Y > absolute.Top - 1 && Y < absolute.Top + WinHeight)
             {
                 Handled = true;
                 Redraw = true;
-                SetWinLeftWithoutInvalidate(_savedLeft);
-                SetWinTopWithoutInvalidate(_savedTop);
                 RaiseMouseDown(this, button, shift, X, Y);
-            }
-            else
-            {
-                SetWinLeftWithoutInvalidate(_savedLeft);
-                SetWinTopWithoutInvalidate(_savedTop);
             }
         }
     }
@@ -616,8 +626,8 @@ public partial class Panel : BaseWindow
         Handled = false;
         if (Visible == true)
         {
-            _savedLeft = WinLeft;
-            _savedTop = WinTop;
+            int savedLeft = WinLeft;
+            int savedTop = WinTop;
             if (_window != null)
             {
                 SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
@@ -643,14 +653,14 @@ public partial class Panel : BaseWindow
             if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
                 Handled = true;
-                SetWinLeftWithoutInvalidate(_savedLeft);
-                SetWinTopWithoutInvalidate(_savedTop);
+                SetWinLeftWithoutInvalidate(savedLeft);
+                SetWinTopWithoutInvalidate(savedTop);
                 RaiseMouseUp(this, button, shift, X, Y);
             }
             else
             {
-                SetWinLeftWithoutInvalidate(_savedLeft);
-                SetWinTopWithoutInvalidate(_savedTop);
+                SetWinLeftWithoutInvalidate(savedLeft);
+                SetWinTopWithoutInvalidate(savedTop);
             }
         }
     }
@@ -662,8 +672,8 @@ public partial class Panel : BaseWindow
         Handled = false;
         if (Visible == true)
         {
-            _savedLeft = WinLeft;
-            _savedTop = WinTop;
+            int savedLeft = WinLeft;
+            int savedTop = WinTop;
             if (_window != null)
             {
                 SetWinLeftWithoutInvalidate(WinLeft + (_window.WinLeft));
@@ -689,14 +699,14 @@ public partial class Panel : BaseWindow
             if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
                 Handled = true;
-                SetWinLeftWithoutInvalidate(_savedLeft);
-                SetWinTopWithoutInvalidate(_savedTop);
+                SetWinLeftWithoutInvalidate(savedLeft);
+                SetWinTopWithoutInvalidate(savedTop);
                 RaiseMouseMove(this, shift, X, Y);
             }
             else
             {
-                SetWinLeftWithoutInvalidate(_savedLeft);
-                SetWinTopWithoutInvalidate(_savedTop);
+                SetWinLeftWithoutInvalidate(savedLeft);
+                SetWinTopWithoutInvalidate(savedTop);
             }
         }
     }

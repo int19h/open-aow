@@ -59,7 +59,6 @@ public sealed partial class EngineFixture
             GameTables.GameEngine = null!;
             GamePack.Current = null!;
             StrategicMap.Current = null!;
-            GameEngine.HexSpriteEngineDebugChannel = CombatAbilityTables.CombatDebugChannel = AbilityRules.AiDebugChannel = AbilityRules.TemporaryDebugChannel = GameEngine.MagicDebugChannel = 0;
             ImageLibraries.BaseImageLibraryPath = AudioHost.BaseSoundEnginePath = "";
             LocalizationRuntime.StartupDirectory = "";
         }
@@ -72,11 +71,6 @@ public sealed partial class EngineFixture
         {
             ["AoWEngine"] = GameTables.GameEngine is not null,
             ["AoWHSSet"] = GamePack.Current is not null,
-            ["HSEngineDID"] = GameEngine.HexSpriteEngineDebugChannel,
-            ["CombatDID"] = CombatAbilityTables.CombatDebugChannel,
-            ["AIDID"] = AbilityRules.AiDebugChannel,
-            ["TMPDID"] = AbilityRules.TemporaryDebugChannel,
-            ["MAGICDID"] = GameEngine.MagicDebugChannel,
             ["BaseImageLibraryPath"] = Relative(ImageLibraries.BaseImageLibraryPath),
             ["BaseSoundEnginePath"] = Relative(AudioHost.BaseSoundEnginePath),
             ["LocalizationStartupDirectory"] = Relative(LocalizationRuntime.StartupDirectory),

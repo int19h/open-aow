@@ -626,7 +626,7 @@ public partial class StrategicMap : GameMap
     public StrategicMap(ECustomNode owner) : base(owner)
     {
         ItemControl = new ItemControl(null);
-        TokenManager = new AoWTokenManager(GameTables.GameEngine);
+        TokenManager = new TokenManager(GameTables.GameEngine);
         TokenManager.TokenExecutor.OnActivateTacticalBattle += TokenControlActivatedEvent;
         TokenManager.TokenExecutor.SetExecuteTokenEventHandler(OnExecuteTokenEvent);
         TokenManager.OnMessage += OnTokenManagerMessage;

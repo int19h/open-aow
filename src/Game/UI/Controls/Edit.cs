@@ -127,7 +127,7 @@ public partial class Edit : Control
             {
                 RaisePreDraw(this, lockedSurface);
 
-                var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
+                var rectangle = new SizedRectangle(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                 _imageLibraryEdit.DrawHorizontalStrip(_imageLibraryIndex, rectangle, ref lockedSurface);
                 oldClip = lockedSurface.ClipRectangle;
                 var imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex + 2];

@@ -11,6 +11,7 @@ using Aow.Game.Saves;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
+using Aow.Rtl.Host;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game;
@@ -224,14 +225,11 @@ public partial class GameEngine : ENode
         {
             StringList directories;
             HssHeader header = default;
-            SearchRec sr = default;
-            bool found;
-            found = FindFirst(directory + mask, 63 & ~16, ref sr) == 0;
-            while (found)
+            foreach (var entry in Files.FindEntries(directory + mask, attributes: 63 & ~16))
             {
                 header = default;
                 // An own scenario set lists the header of its validated image (own-formats.md 4.1).
-                var head = FileBoundary.ListingHeader(directory + sr.Name, GameProfile.ScenarioSet, 52);
+                var head = FileBoundary.ListingHeader(directory + entry.Name, GameProfile.ScenarioSet, 52);
                 if (head.Length == 52)
                 {
                     header = MemoryMarshal.Read<HssHeader>(head);
@@ -239,26 +237,19 @@ public partial class GameEngine : ENode
 
                 if (header.Id == "HSS\0")
                 {
-                    files.Add(header.Name + "|" + directory + sr.Name);
+                    files.Add(header.Name + "|" + directory + entry.Name);
                 }
-
-                found = FindNext(ref sr) == 0;
             }
 
-            FindClose(ref sr);
             directories = new StringList();
-            found = FindFirst(directory + "*.*", 16, ref sr) == 0;
-            while (found)
+            foreach (var entry in Files.FindEntries(directory + "*.*", attributes: 16))
             {
-                if ((sr.Attr & 16) != 0 && sr.Name != "." && sr.Name != "..")
+                if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
                 {
-                    directories.Add(directory + sr.Name + "\\");
+                    directories.Add(directory + entry.Name + "\\");
                 }
-
-                found = FindNext(ref sr) == 0;
             }
 
-            FindClose(ref sr);
             for (int I = 0, last = directories.Count - 1; I <= last; I++)
             {
                 Search(directories[I]);
@@ -617,7 +608,5 @@ public partial class GameEngine : ENode
     }
 
     private static ReadOnlySpan<byte> HsmId => "HSM\0"u8;
-
-    internal static int HexSpriteEngineDebugChannel { get; set; }
 
 }

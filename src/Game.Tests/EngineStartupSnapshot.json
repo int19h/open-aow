@@ -5,11 +5,6 @@
     "StateAtCaller": {
       "AoWEngine": true,
       "AoWHSSet": true,
-      "HSEngineDID": 0,
-      "CombatDID": 2,
-      "AIDID": 3,
-      "TMPDID": 4,
-      "MAGICDID": 5,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "$root",
@@ -20,7 +15,7 @@
         "Type": "Aow.Game.GameEngine"
       },
       "Engine.Dictionary": {
-        "Type": "Aow.Game.AoWDictionary"
+        "Type": "Aow.Rtl.Localize.IvBinaryDictionary"
       },
       "Engine.EmailGames": {
         "Type": "Aow.Game.Net.EmailGameControl"
@@ -1126,9 +1121,6 @@
       "Engine._controlNode._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
-      "Engine._debugIds": {
-        "Type": "Aow.Rtl.StringList"
-      },
       "Engine._editors": {
         "Type": "Aow.Engine.Nodes.EngineObjectEditorList"
       },
@@ -1151,36 +1143,6 @@
       "DictionaryLanguage": 1,
       "Demo": false,
       "StartupDirectory": "$root/",
-      "DebugIDs": [
-        {
-          "Name": "User",
-          "Id": -1
-        },
-        {
-          "Name": "HS-Engine",
-          "Id": 0
-        },
-        {
-          "Name": "Network Engine",
-          "Id": 1
-        },
-        {
-          "Name": "Combat",
-          "Id": 2
-        },
-        {
-          "Name": "AI",
-          "Id": 3
-        },
-        {
-          "Name": "TMP",
-          "Id": 4
-        },
-        {
-          "Name": "MAGIC",
-          "Id": 5
-        }
-      ],
       "ClassIDs": [
         81,
         257,
@@ -1329,11 +1291,6 @@
       "Globals": {
         "AoWEngine": true,
         "AoWHSSet": true,
-        "HSEngineDID": 0,
-        "CombatDID": 2,
-        "AIDID": 3,
-        "TMPDID": 4,
-        "MAGICDID": 5,
         "BaseImageLibraryPath": "$root/",
         "BaseSoundEnginePath": "$root/",
         "LocalizationStartupDirectory": "$root",
@@ -75585,11 +75542,6 @@
     "StateAfterDestruction": {
       "AoWEngine": true,
       "AoWHSSet": true,
-      "HSEngineDID": 0,
-      "CombatDID": 2,
-      "AIDID": 3,
-      "TMPDID": 4,
-      "MAGICDID": 5,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "$root",
@@ -75868,11 +75820,6 @@
     "StateAtCaller": {
       "AoWEngine": true,
       "AoWHSSet": true,
-      "HSEngineDID": 0,
-      "CombatDID": 2,
-      "AIDID": 3,
-      "TMPDID": 4,
-      "MAGICDID": 5,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "$root",
@@ -75883,7 +75830,7 @@
         "Type": "Aow.Game.GameEngine"
       },
       "Engine.Dictionary": {
-        "Type": "Aow.Game.AoWDictionary"
+        "Type": "Aow.Rtl.Localize.IvBinaryDictionary"
       },
       "Engine.EmailGames": {
         "Type": "Aow.Game.Net.EmailGameControl"
@@ -76989,9 +76936,6 @@
       "Engine._controlNode._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
-      "Engine._debugIds": {
-        "Type": "Aow.Rtl.StringList"
-      },
       "Engine._editors": {
         "Type": "Aow.Engine.Nodes.EngineObjectEditorList"
       },
@@ -77006,11 +76950,6 @@
     "StateAfterDestruction": {
       "AoWEngine": true,
       "AoWHSSet": true,
-      "HSEngineDID": 0,
-      "CombatDID": 2,
-      "AIDID": 3,
-      "TMPDID": 4,
-      "MAGICDID": 5,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "$root",
@@ -77289,11 +77228,6 @@
     "StateAtCaller": {
       "AoWEngine": false,
       "AoWHSSet": false,
-      "HSEngineDID": 0,
-      "CombatDID": 0,
-      "AIDID": 0,
-      "TMPDID": 0,
-      "MAGICDID": 0,
       "BaseImageLibraryPath": "",
       "BaseSoundEnginePath": "",
       "LocalizationStartupDirectory": "",
@@ -77312,9 +77246,6 @@
       "Engine._controlNode._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
-      "Engine._debugIds": {
-        "Type": "Aow.Rtl.StringList"
-      },
       "Engine._editors": {
         "Type": "Aow.Engine.Nodes.EngineObjectEditorList"
       },
@@ -77329,11 +77260,6 @@
     "StateAfterDestruction": {
       "AoWEngine": false,
       "AoWHSSet": false,
-      "HSEngineDID": 0,
-      "CombatDID": 0,
-      "AIDID": 0,
-      "TMPDID": 0,
-      "MAGICDID": 0,
       "BaseImageLibraryPath": "",
       "BaseSoundEnginePath": "",
       "LocalizationStartupDirectory": "",
@@ -77364,11 +77290,6 @@
     "StateAtCaller": {
       "AoWEngine": true,
       "AoWHSSet": false,
-      "HSEngineDID": 0,
-      "CombatDID": 0,
-      "AIDID": 0,
-      "TMPDID": 0,
-      "MAGICDID": 0,
       "BaseImageLibraryPath": "",
       "BaseSoundEnginePath": "",
       "LocalizationStartupDirectory": "",
@@ -77389,11 +77310,6 @@
     "StateAfterDestruction": {
       "AoWEngine": true,
       "AoWHSSet": false,
-      "HSEngineDID": 0,
-      "CombatDID": 0,
-      "AIDID": 0,
-      "TMPDID": 0,
-      "MAGICDID": 0,
       "BaseImageLibraryPath": "",
       "BaseSoundEnginePath": "",
       "LocalizationStartupDirectory": "",
@@ -77432,11 +77348,6 @@
     "StateAtCaller": {
       "AoWEngine": true,
       "AoWHSSet": false,
-      "HSEngineDID": 0,
-      "CombatDID": 0,
-      "AIDID": 0,
-      "TMPDID": 0,
-      "MAGICDID": 0,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "",
@@ -77447,7 +77358,7 @@
         "Type": "Aow.Game.GameEngine"
       },
       "Engine.Dictionary": {
-        "Type": "Aow.Game.AoWDictionary"
+        "Type": "Aow.Rtl.Localize.IvBinaryDictionary"
       },
       "Engine.EmailGames": {
         "Type": "Aow.Game.Net.EmailGameControl"
@@ -77472,11 +77383,6 @@
     "StateAfterDestruction": {
       "AoWEngine": true,
       "AoWHSSet": false,
-      "HSEngineDID": 0,
-      "CombatDID": 0,
-      "AIDID": 0,
-      "TMPDID": 0,
-      "MAGICDID": 0,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "",
@@ -77571,11 +77477,6 @@
     "StateAtCaller": {
       "AoWEngine": true,
       "AoWHSSet": false,
-      "HSEngineDID": 0,
-      "CombatDID": 0,
-      "AIDID": 0,
-      "TMPDID": 0,
-      "MAGICDID": 0,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "$root",
@@ -77586,7 +77487,7 @@
         "Type": "Aow.Game.GameEngine"
       },
       "Engine.Dictionary": {
-        "Type": "Aow.Game.AoWDictionary"
+        "Type": "Aow.Rtl.Localize.IvBinaryDictionary"
       },
       "Engine.EmailGames": {
         "Type": "Aow.Game.Net.EmailGameControl"
@@ -77608,9 +77509,6 @@
       },
       "Engine._controlNode._children": {
         "Type": "Aow.Engine.Nodes.EngineObjectList"
-      },
-      "Engine._debugIds": {
-        "Type": "Aow.Rtl.StringList"
       },
       "Engine._editors": {
         "Type": "Aow.Engine.Nodes.EngineObjectEditorList"
@@ -77713,11 +77611,6 @@
     "StateAfterDestruction": {
       "AoWEngine": true,
       "AoWHSSet": false,
-      "HSEngineDID": 0,
-      "CombatDID": 0,
-      "AIDID": 0,
-      "TMPDID": 0,
-      "MAGICDID": 0,
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "$root",

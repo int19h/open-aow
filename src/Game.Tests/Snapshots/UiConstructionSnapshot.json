@@ -10775,17 +10775,14 @@
             "Component.children": [],
             "Component.freeNotifies": null,
             "Component.name": "",
-            "ConfirmationDialog.DebugMemo": null,
-            "ConfirmationDialog.DebugMemoScrollBar": null,
-            "ConfirmationDialog.DebugWindow": null,
-            "ConfirmationDialog.FrameRateLabel": null,
+            "ConfirmationDialog.Debug": null,
             "ConfirmationDialog.MessageLabel": null,
             "ConfirmationDialog.OKPanel": null,
             "ConfirmationDialog.SkipCombatChoice": false,
             "ConfirmationDialog.TitleLabel": null,
             "ConfirmationDialog.Window": null,
             "ConfirmationDialog.YesNoPanel": null,
-            "ConfirmationDialog._action": 0
+            "ConfirmationDialog._onConfirmed": null
           }
         }
       },
@@ -10815,17 +10812,14 @@
             "Component.children": [],
             "Component.freeNotifies": null,
             "Component.name": "",
-            "ConfirmationDialog.DebugMemo": null,
-            "ConfirmationDialog.DebugMemoScrollBar": null,
-            "ConfirmationDialog.DebugWindow": null,
-            "ConfirmationDialog.FrameRateLabel": null,
+            "ConfirmationDialog.Debug": null,
             "ConfirmationDialog.MessageLabel": null,
             "ConfirmationDialog.OKPanel": null,
             "ConfirmationDialog.SkipCombatChoice": false,
             "ConfirmationDialog.TitleLabel": null,
             "ConfirmationDialog.Window": null,
             "ConfirmationDialog.YesNoPanel": null,
-            "ConfirmationDialog._action": 0
+            "ConfirmationDialog._onConfirmed": null
           }
         }
       },
@@ -10850,17 +10844,14 @@
               "Component.children": [],
               "Component.freeNotifies": null,
               "Component.name": "",
-              "ConfirmationDialog.DebugMemo": null,
-              "ConfirmationDialog.DebugMemoScrollBar": null,
-              "ConfirmationDialog.DebugWindow": null,
-              "ConfirmationDialog.FrameRateLabel": null,
+              "ConfirmationDialog.Debug": null,
               "ConfirmationDialog.MessageLabel": null,
               "ConfirmationDialog.OKPanel": null,
               "ConfirmationDialog.SkipCombatChoice": false,
               "ConfirmationDialog.TitleLabel": null,
               "ConfirmationDialog.Window": null,
               "ConfirmationDialog.YesNoPanel": null,
-              "ConfirmationDialog._action": 0
+              "ConfirmationDialog._onConfirmed": null
             }
           }
         ]
@@ -25191,8 +25182,6 @@
             "Component.children": [],
             "Component.freeNotifies": null,
             "Component.name": "",
-            "Panel._savedLeft": 0,
-            "Panel._savedTop": 0,
             "Panel._tabPanel": null,
             "Panel._window": null,
             "UIComponent.Aligned": false,
@@ -25350,8 +25339,6 @@
             "Component.children": [],
             "Component.freeNotifies": null,
             "Component.name": "",
-            "Panel._savedLeft": 0,
-            "Panel._savedTop": 0,
             "Panel._tabPanel": null,
             "Panel._window": null,
             "UIComponent.Aligned": false,
@@ -25504,8 +25491,6 @@
               "Component.children": [],
               "Component.freeNotifies": null,
               "Component.name": "",
-              "Panel._savedLeft": 0,
-              "Panel._savedTop": 0,
               "Panel._tabPanel": null,
               "Panel._window": null,
               "UIComponent.Aligned": false,

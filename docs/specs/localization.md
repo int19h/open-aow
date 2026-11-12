@@ -16,8 +16,9 @@ of the port is written from that format document, not transpiled.
    lookup the original performs (an exact, case-sensitive binary search over the loaded column),
    and the component walk the translator performs after a form loads. These replace the four stub
    units under their original class names (`IvDictionary` (Delphi `TIvDictionary`), `IvBinaryDictionary` (Delphi `TIvBinaryDictionary`),
-   `IvCustomTranslator` (Delphi `TIvCustomTranslator`), `IvTranslator` (Delphi `TIvTranslator`)), so the transpiled callers (`AoWDictionary` (Delphi `TAoWDictionary`),
-   `AoWEngine` (Delphi `TAoWEngine`), the 62 translator components) compile unchanged.
+   `IvCustomTranslator` (Delphi `TIvCustomTranslator`), `IvTranslator` (Delphi `TIvTranslator`)), so the transpiled callers (`AoWEngine` (Delphi `TAoWEngine`), the 62
+   translator components) compile unchanged. Issue 193 removed the empty game subclass
+   `TAoWDictionary`, and the engine holds an `IvBinaryDictionary` directly.
 2. English is exact by construction. Across the 6,683 entries of the eight dictionaries exactly one
    English translation differs from its source, `Undead(plural)` to `Undead` in `ResStr.mld`, and
    `TranslateRStr` hard-codes the same substitution for language 0. The port loads `ResStr.mld` at
@@ -93,7 +94,7 @@ All three are transpiled code; the port only supplies the dictionary classes und
    stream whose `rwString` and `rwStrings` translate in place instead of reading;
    `TranslateTextStream` (Delphi `TTranslateTextStream`) (AoWEPACK) binds it to a dictionary, joining string lists with `<eol>`
    for the lookup and splitting the result on `<eol>` or line feeds. `TranslateEObjectFromFile(Obj,
-   File)` opens a `AoWDictionary` on the file, sets the language from `FRegistry.GetLanguage`
+   File)` opens an `IvBinaryDictionary` on the file (Delphi `TAoWDictionary`), sets the language from `FRegistry.GetLanguage`
    (`alEnglish` is 1, `alGerman` 2, `alFrench` 3, `alItalian` 4, `alSpanish` 5), translates, and
    closes. Maps call it at the end of a day-0 read, abilities at load, the campaign at load.
 3. Form texts. Each module's `IvTranslator` (`ui-layout.md` section 6) carries `DictionaryName`
@@ -129,8 +130,7 @@ maps it to English unless the system language is one of the four others.
 - `MldDictionary`: the reader (header, language records, entries, trailer) with the byte-exact
   validation `mld_dump.py check` performs; `Open`, `Close`, `SetLanguage`, `Translate(S)`,
   `TranslateContext(S, Form, Component)` with the sort and search of section 3.
-- `IvDictionary`, `IvBinaryDictionary`: the component shells the transpiled `AoWDictionary`
-  derives from, with `FileName`, `Language`, `SetDictionaryName`, `Open`, `Close`, `SetLanguage`,
+- `IvDictionary`, `IvBinaryDictionary`: the component shells the engine holds, with `FileName`, `Language`, `SetDictionaryName`, `Open`, `Close`, `SetLanguage`,
   `Translate`, backed by one `MldDictionary`. `SetDictionaryName('ResourceStringDictionary')` is the
   name the engine gives its dictionary before `UpdateStartupDirectory` sets the file.
 - `IvCustomTranslator`, `IvTranslator`: the component the forms create, with `DictionaryName`,

@@ -7,6 +7,4 @@ internal static class NetworkSession
 
     internal const short ClassIdPassTokenTokenEvent = 1364;
 
-    internal static int NetworkEngineDebugChannel { get; set; }
-
 }

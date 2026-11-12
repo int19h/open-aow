@@ -5,43 +5,28 @@ using Aow.Rtl;
 namespace Aow.Engine;
 
 // The engine's class descriptor: one per TEObject descendant, registered in inheritance order by
-// ClassRegistry from a module initializer. It carries the saved class id, the native instance size,
-// the parent descriptor and the creation delegate. Descriptors are not TObjects and registration
-// allocates no instance
+// ClassRegistry from a module initializer. It carries the saved class id and the creation
+// delegate. The base class and the inheritance tests come from Type. Descriptors are not TObjects
+// and registration allocates no instance
 public sealed class EngineClass
 {
     private static readonly Catalog<Type, EngineClass> s_catalog = new("engine class");
     private static readonly List<EngineClass> s_aliases = [];
-    private Func<ECustomNode, EngineObject> _create;
+    private readonly Func<ECustomNode, EngineObject> _create;
 
-    private EngineClass(Type type, int classId, EngineClass parent, Func<ECustomNode, EngineObject> create, int instanceSize)
+    private EngineClass(Type type, int classId, Func<ECustomNode, EngineObject> create)
     {
         Type = type;
         ClassId = classId;
-        Parent = parent;
-        InstanceSize = instanceSize;
-        this._create = create;
+        _create = create;
     }
 
     public Type Type { get; }
     public int ClassId { get; }
-    public int InstanceSize { get; }
-    // The base class's descriptor, null at TEObject.
-    public EngineClass Parent { get; }
     public string StorageKey => NameTable.Stored(Type);
 
     public EngineObject CreateInstance(ECustomNode owner) => _create(owner);
 
-    // A test swaps the delegate and restores the previous one. Create has no per-call check.
-    internal Func<ECustomNode, EngineObject> SubstituteCreate(Func<ECustomNode, EngineObject> next)
-    {
-        ArgumentNullException.ThrowIfNull(next);
-        var previous = _create;
-        _create = next;
-        return previous;
-    }
-
-    public bool InheritsFrom(Type type) => type.IsAssignableFrom(Type);
     public override string ToString() => StorageKey;
 
     // Every registered descriptor in registration order. Aliases are the folded engine ids.
@@ -54,26 +39,25 @@ public sealed class EngineClass
 
     public static EngineClass Of(Type type) => s_catalog[type];
 
-    public static EngineClass Register<T>(int classId, Func<ECustomNode, T> create, int instanceSize)
+    // The base class registers first, so a walk up Type.BaseType finds a descriptor at every step.
+    public static EngineClass Register<T>(int classId, Func<ECustomNode, T> create)
         where T : EngineObject
     {
         var type = typeof(T);
         ArgumentNullException.ThrowIfNull(create);
-        ArgumentOutOfRangeException.ThrowIfNegative(instanceSize);
-        var parent = type == typeof(EngineObject) ? null : Of(type.BaseType);
-        return s_catalog.Add(type, new EngineClass(type, classId, parent, create, instanceSize));
+        if (type != typeof(EngineObject)) Of(type.BaseType);
+        return s_catalog.Add(type, new EngineClass(type, classId, create));
     }
 
     // A second class id for a type that the catalog already names. The folded engine keeps
     // 131073 on the type and records 17 and 65537 here. Each alias still constructs that type.
-    internal static EngineClass Alias<T>(int classId, Func<ECustomNode, T> create, int instanceSize)
+    internal static EngineClass Alias<T>(int classId, Func<ECustomNode, T> create)
         where T : EngineObject
     {
         var type = typeof(T);
         ArgumentNullException.ThrowIfNull(create);
-        ArgumentOutOfRangeException.ThrowIfNegative(instanceSize);
-        var parent = type == typeof(EngineObject) ? null : Of(type.BaseType);
-        var alias = new EngineClass(type, classId, parent, create, instanceSize);
+        if (type != typeof(EngineObject)) Of(type.BaseType);
+        var alias = new EngineClass(type, classId, create);
         s_aliases.Add(alias);
         return alias;
     }
