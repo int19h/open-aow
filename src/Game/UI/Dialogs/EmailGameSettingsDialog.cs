@@ -18,22 +18,22 @@ public partial class EmailGameSettingsDialog : DataModule
     public EmailGameSettingsDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
+    public Window Window;
     public Edit LocalEmailAddressEdit;
     public Edit EmailAddressEdit1;
-    public Panel PlayerPnl;
-    public Label PlayerLbl1;
-    public VerticalScrollBar PlayerSB;
-    public Label PlayerLbl2;
-    public Label PlayerLbl3;
+    public Panel PlayerPanel;
+    public Label PlayerLabel1;
+    public VerticalScrollBar PlayerScrollBar;
+    public Label PlayerLabel2;
+    public Label PlayerLabel3;
     public Edit EmailAddressEdit2;
     public Edit EmailAddressEdit3;
-    public Label PlayerLbl4;
+    public Label PlayerLabel4;
     public Edit EmailAddressEdit4;
     public Edit EmailGameNameEdit;
-    public Label PlayerLbl5;
+    public Label PlayerLabel5;
     public Edit EmailAddressEdit5;
-    public Label PlayerLbl6;
+    public Label PlayerLabel6;
     public Edit EmailAddressEdit6;
 
     public StringList EmailAddresses { get; private set; }
@@ -41,13 +41,13 @@ public partial class EmailGameSettingsDialog : DataModule
     private SetupControl _setupControl;
 
     // AoWEmailGameSettingsDlg.pas:85
-    public void EmailGameSettingsDlgCreate()
+    public void EmailGameSettingsDialogCreate()
     {
         EmailAddresses = new StringList();
     }
 
     // AoWEmailGameSettingsDlg.pas:90
-    public void EmailGameSettingsDlgDestroy()
+    public void EmailGameSettingsDialogDestroy()
     {
         EmailAddresses?.Dispose();
     }
@@ -62,7 +62,7 @@ public partial class EmailGameSettingsDialog : DataModule
     public void EmailAddressEdit1Change(Edit sender, int slot)
     {
         int I;
-        I = slot + PlayerSB.Position;
+        I = slot + PlayerScrollBar.Position;
         if (I < EmailAddresses.Count)
         {
             EmailAddresses[I] = sender.Text;
@@ -87,7 +87,7 @@ public partial class EmailGameSettingsDialog : DataModule
 
                 _setupControl.Settings.EmailGameName = EmailGameNameEdit.Text;
                 GameHost.DeferredSetupAction = 1;
-                Dlg.Visible = false;
+                Window.Visible = false;
             }
         }
         else
@@ -96,15 +96,15 @@ public partial class EmailGameSettingsDialog : DataModule
             DialogHosts.MessageDialog.MessageMemo.Items.Add("");
             var pleaseFillInAllSettings = AbilityRules.TranslateResourceString(s_pleaseFillInAllSettingsText);
             DialogHosts.MessageDialog.MessageMemo.Items.Add(pleaseFillInAllSettings);
-            DialogHosts.MessageDialog.OKPnl.Visible = true;
-            DialogHosts.MessageDialog.Dlg.Visible = true;
+            DialogHosts.MessageDialog.OKPanel.Visible = true;
+            DialogHosts.MessageDialog.Window.Visible = true;
         }
     }
 
     // AoWEmailGameSettingsDlg.pas:136
     public void CancelButClick()
     {
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWEmailGameSettingsDlg.pas:141
@@ -129,7 +129,7 @@ public partial class EmailGameSettingsDialog : DataModule
         RaceResource R;
         int I;
         var panel = sender;
-        I = slot + PlayerSB.Position;
+        I = slot + PlayerScrollBar.Position;
         if (I < EmailAddresses.Count)
         {
             var objectValue = EmailAddresses.Objects[I];
@@ -145,7 +145,7 @@ public partial class EmailGameSettingsDialog : DataModule
     {
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -170,17 +170,17 @@ public partial class EmailGameSettingsDialog : DataModule
     // AoWEmailGameSettingsDlg.pas:187
     public void UpdatePlayers()
     {
-        PlayerSB.Min = 0;
+        PlayerScrollBar.Min = 0;
         var count = EmailAddresses.Count;
-        PlayerSB.Max = count - 1;
-        PlayerSB.NumberVisible = 6;
-        PlayerPnl.Drawn = false;
-        UpdatePlayer(PlayerSB.Position, PlayerLbl1, EmailAddressEdit1);
-        UpdatePlayer(PlayerSB.Position + 1, PlayerLbl2, EmailAddressEdit2);
-        UpdatePlayer(PlayerSB.Position + 2, PlayerLbl3, EmailAddressEdit3);
-        UpdatePlayer(PlayerSB.Position + 3, PlayerLbl4, EmailAddressEdit4);
-        UpdatePlayer(PlayerSB.Position + 4, PlayerLbl5, EmailAddressEdit5);
-        UpdatePlayer(PlayerSB.Position + 5, PlayerLbl6, EmailAddressEdit6);
+        PlayerScrollBar.Max = count - 1;
+        PlayerScrollBar.NumberVisible = 6;
+        PlayerPanel.Drawn = false;
+        UpdatePlayer(PlayerScrollBar.Position, PlayerLabel1, EmailAddressEdit1);
+        UpdatePlayer(PlayerScrollBar.Position + 1, PlayerLabel2, EmailAddressEdit2);
+        UpdatePlayer(PlayerScrollBar.Position + 2, PlayerLabel3, EmailAddressEdit3);
+        UpdatePlayer(PlayerScrollBar.Position + 3, PlayerLabel4, EmailAddressEdit4);
+        UpdatePlayer(PlayerScrollBar.Position + 4, PlayerLabel5, EmailAddressEdit5);
+        UpdatePlayer(PlayerScrollBar.Position + 5, PlayerLabel6, EmailAddressEdit6);
     }
 
     // AoWEmailGameSettingsDlg.pas:199
@@ -203,8 +203,8 @@ public partial class EmailGameSettingsDialog : DataModule
     {
         _setupControl = null;
         EmailAddresses.Clear();
-        PlayerSB.Visible = true;
-        PlayerSB.Position = 0;
+        PlayerScrollBar.Visible = true;
+        PlayerScrollBar.Position = 0;
         var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
         LocalEmailAddressEdit.Text = localEmailAddress;
     }
@@ -229,7 +229,7 @@ public partial class EmailGameSettingsDialog : DataModule
         if (EmailAddresses.Count > 1)
         {
             UpdatePlayers();
-            Dlg.Visible = true;
+            Window.Visible = true;
         }
         else
         {
@@ -237,8 +237,8 @@ public partial class EmailGameSettingsDialog : DataModule
             DialogHosts.MessageDialog.MessageMemo.Items.Add("");
             var youNeed2HumanPlayersToPlayAnEmailGame = AbilityRules.TranslateResourceString(s_youNeed2HumanPlayersToPlayEmailGameText);
             DialogHosts.MessageDialog.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
-            DialogHosts.MessageDialog.OKPnl.Visible = true;
-            DialogHosts.MessageDialog.Dlg.Visible = true;
+            DialogHosts.MessageDialog.OKPanel.Visible = true;
+            DialogHosts.MessageDialog.Window.Visible = true;
         }
     }
 

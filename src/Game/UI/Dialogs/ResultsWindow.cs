@@ -22,32 +22,32 @@ public partial class ResultsWindow : DataModule
     public ResultsWindow(Component owner) : base(owner)
     { }
 
-    public CheckBox P1CB;
-    public CheckBox P2CB;
-    public CheckBox P3CB;
-    public CheckBox P4CB;
-    public CheckBox P5CB;
-    public CheckBox P6CB;
-    public CheckBox P7CB;
-    public CheckBox P8CB;
-    public CheckBox P9CB;
-    public CheckBox P10CB;
-    public CheckBox P11CB;
-    public CheckBox P12CB;
-    public Label TurnLbl;
-    public Memo ResValues;
-    public Label SideLbl;
-    public Image Axis;
-    public Button ExitBtn;
-    public Button ContinueBtn;
-    public Panel ResultsPnl;
-    public CheckBox StrengthCB;
-    public CheckBox GoldCB;
-    public CheckBox ArmiesCB;
-    public CheckBox HeroesCB;
-    public CheckBox StructuresCB;
-    public Label KeyMax;
-    public CheckBox ManaCB;
+    public CheckBox Player1CheckBox;
+    public CheckBox Player2CheckBox;
+    public CheckBox Player3CheckBox;
+    public CheckBox Player4CheckBox;
+    public CheckBox Player5CheckBox;
+    public CheckBox Player6CheckBox;
+    public CheckBox Player7CheckBox;
+    public CheckBox Player8CheckBox;
+    public CheckBox Player9CheckBox;
+    public CheckBox Player10CheckBox;
+    public CheckBox Player11CheckBox;
+    public CheckBox Player12CheckBox;
+    public Label TurnLabel;
+    public Memo ResultValuesMemo;
+    public Label SideLabel;
+    public Image AxisImage;
+    public Button ExitButton;
+    public Button ContinueButton;
+    public Panel ResultsPanel;
+    public CheckBox StrengthCheckBox;
+    public CheckBox GoldCheckBox;
+    public CheckBox ArmiesCheckBox;
+    public CheckBox HeroesCheckBox;
+    public CheckBox StructuresCheckBox;
+    public Label KeyMaximumLabel;
+    public CheckBox ManaCheckBox;
     private int _maxTurns;
     private int _maxGold;
     private int _maxMana;
@@ -125,45 +125,45 @@ public partial class ResultsWindow : DataModule
         }
 
         var turn = AbilityRules.TranslateResourceString(s_turnText);
-        TurnLbl.Text = turn + " " + IntToStr(_maxTurns);
+        TurnLabel.Text = turn + " " + IntToStr(_maxTurns);
     }
 
     // AoWResultsWin.pas:250
     public void DrawGraphs(in LockedSurface surface)
     {
         Rect bounds = default;
-        bounds.Left = ResultsPnl.WinLeft + Axis.WinLeft + 5;
-        bounds.Top = ResultsPnl.WinTop + Axis.WinTop + 4;
-        bounds.Right = ResultsPnl.WinLeft + Axis.WinLeft + 338;
-        bounds.Bottom = ResultsPnl.WinTop + Axis.WinTop + 117;
+        bounds.Left = ResultsPanel.WinLeft + AxisImage.WinLeft + 5;
+        bounds.Top = ResultsPanel.WinTop + AxisImage.WinTop + 4;
+        bounds.Right = ResultsPanel.WinLeft + AxisImage.WinLeft + 338;
+        bounds.Bottom = ResultsPanel.WinTop + AxisImage.WinTop + 117;
         for (int I = 0, last = Players.Count - 1; I <= last; I++)
         {
-            if (GoldCB.Checked)
+            if (GoldCheckBox.Checked)
             {
                 DrawGold((sbyte)Players[I], bounds, surface);
             }
 
-            if (ManaCB.Checked)
+            if (ManaCheckBox.Checked)
             {
                 DrawMana((sbyte)Players[I], bounds, surface);
             }
 
-            if (HeroesCB.Checked)
+            if (HeroesCheckBox.Checked)
             {
                 DrawHeroes((sbyte)Players[I], bounds, surface);
             }
 
-            if (StructuresCB.Checked)
+            if (StructuresCheckBox.Checked)
             {
                 DrawStructures((sbyte)Players[I], bounds, surface);
             }
 
-            if (ArmiesCB.Checked)
+            if (ArmiesCheckBox.Checked)
             {
                 DrawArmies((sbyte)Players[I], bounds, surface);
             }
 
-            if (StrengthCB.Checked)
+            if (StrengthCheckBox.Checked)
             {
                 DrawStrength((sbyte)Players[I], bounds, surface);
             }
@@ -239,7 +239,7 @@ public partial class ResultsWindow : DataModule
         var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
         DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxGold, R, surface);
         values?.Dispose();
-        KeyMax.Text = IntToStr(_maxGold);
+        KeyMaximumLabel.Text = IntToStr(_maxGold);
     }
 
     // AoWResultsWin.pas:175
@@ -257,7 +257,7 @@ public partial class ResultsWindow : DataModule
         var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
         DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxMana, R, surface);
         values?.Dispose();
-        KeyMax.Text = IntToStr(_maxMana);
+        KeyMaximumLabel.Text = IntToStr(_maxMana);
     }
 
     // AoWResultsWin.pas:190
@@ -275,7 +275,7 @@ public partial class ResultsWindow : DataModule
         var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
         DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxHeroes, R, surface);
         values?.Dispose();
-        KeyMax.Text = IntToStr(_maxHeroes);
+        KeyMaximumLabel.Text = IntToStr(_maxHeroes);
     }
 
     // AoWResultsWin.pas:205
@@ -293,7 +293,7 @@ public partial class ResultsWindow : DataModule
         var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
         DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxArmies, R, surface);
         values?.Dispose();
-        KeyMax.Text = IntToStr(_maxArmies);
+        KeyMaximumLabel.Text = IntToStr(_maxArmies);
     }
 
     // AoWResultsWin.pas:220
@@ -311,7 +311,7 @@ public partial class ResultsWindow : DataModule
         var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
         DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxStructures, R, surface);
         values?.Dispose();
-        KeyMax.Text = IntToStr(_maxStructures);
+        KeyMaximumLabel.Text = IntToStr(_maxStructures);
     }
 
     // AoWResultsWin.pas:235
@@ -330,7 +330,7 @@ public partial class ResultsWindow : DataModule
         DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxStrength, R, surface);
         values?.Dispose();
         // { Original strength graph labels the structures maximum. }
-        KeyMax.Text = IntToStr(_maxStructures);
+        KeyMaximumLabel.Text = IntToStr(_maxStructures);
     }
 
     // AoWResultsWin.pas:270
@@ -338,18 +338,18 @@ public partial class ResultsWindow : DataModule
     {
         Players = new ByteList();
         Controls = new List<CheckBox>();
-        Controls.Add(P1CB);
-        Controls.Add(P2CB);
-        Controls.Add(P3CB);
-        Controls.Add(P4CB);
-        Controls.Add(P5CB);
-        Controls.Add(P6CB);
-        Controls.Add(P7CB);
-        Controls.Add(P8CB);
-        Controls.Add(P9CB);
-        Controls.Add(P10CB);
-        Controls.Add(P11CB);
-        Controls.Add(P12CB);
+        Controls.Add(Player1CheckBox);
+        Controls.Add(Player2CheckBox);
+        Controls.Add(Player3CheckBox);
+        Controls.Add(Player4CheckBox);
+        Controls.Add(Player5CheckBox);
+        Controls.Add(Player6CheckBox);
+        Controls.Add(Player7CheckBox);
+        Controls.Add(Player8CheckBox);
+        Controls.Add(Player9CheckBox);
+        Controls.Add(Player10CheckBox);
+        Controls.Add(Player11CheckBox);
+        Controls.Add(Player12CheckBox);
     }
 
     // AoWResultsWin.pas:288
@@ -364,8 +364,8 @@ public partial class ResultsWindow : DataModule
     {
         FinishPyre(DialogHosts.PyreScreen);
         DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.ResultsWindow.ResultsPnl.Visible = false;
-        AudioPlayback.FadeMusicVolume(DialogHosts.SoundDialog.MusicVolume.Position, 2);
+        DialogHosts.ResultsWindow.ResultsPanel.Visible = false;
+        AudioPlayback.FadeMusicVolume(DialogHosts.SoundDialog.MusicVolumeSlider.Position, 2);
         if (AoWHSMap.Current.GameStatus == AoWHSMapGameStatus.Terminated)
         {
             if (GameTables.GameEngine.Campaign == null)
@@ -379,7 +379,7 @@ public partial class ResultsWindow : DataModule
         }
         else
         {
-            DialogHosts.TitleWindow.TitleWin.Visible = false;
+            DialogHosts.TitleWindow.MainWindow.Visible = false;
             VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Game);
             DialogHosts.VideoDialog.ApplyMode();
         }
@@ -388,7 +388,7 @@ public partial class ResultsWindow : DataModule
     // AoWResultsWin.pas:313
     public void ExitBtnClick()
     {
-        ResultsPnl.Visible = false;
+        ResultsPanel.Visible = false;
         DialogHosts.General.ReturnToTitle();
     }
 
@@ -407,7 +407,7 @@ public partial class ResultsWindow : DataModule
     // AoWResultsWin.pas:329
     public void AgendaChange()
     {
-        ResultsPnl.Drawn = false;
+        ResultsPanel.Drawn = false;
     }
 
     // AoWResultsWin.pas:334
@@ -423,7 +423,7 @@ public partial class ResultsWindow : DataModule
         var component = sender;
         if (slot < Players.Count)
         {
-            R = new Rect(component.WinLeft + ResultsPnl.WinLeft + 1, component.WinTop + ResultsPnl.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPnl.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPnl.WinTop - 1);
+            R = new Rect(component.WinLeft + ResultsPanel.WinLeft + 1, component.WinTop + ResultsPanel.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPanel.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPanel.WinTop - 1);
             var player = Players[slot];
             if (AoWHSMap.Current.Players.GetPlayers(player).GetFace() != null)
             {
@@ -433,7 +433,7 @@ public partial class ResultsWindow : DataModule
 
             var player3 = Players[slot];
             var playerPlayerRace = AoWHSMap.Current.Players.GetPlayers(player3);
-            DialogHosts.UIGraphics.RelWin[playerPlayerRace.PlayerRace + 16].ShowClipped(component.WinLeft + ResultsPnl.WinLeft, component.WinTop + ResultsPnl.WinTop, surface);
+            DialogHosts.UIGraphics.RelationWindow[playerPlayerRace.PlayerRace + 16].ShowClipped(component.WinLeft + ResultsPanel.WinLeft, component.WinTop + ResultsPanel.WinTop, surface);
         }
     }
 
@@ -448,14 +448,14 @@ public partial class ResultsWindow : DataModule
             {
                 var player = Players[slot];
                 var nameEx = AoWHSMap.Current.Players.GetPlayers(player).GetNameWithRace();
-                SideLbl.Text = nameEx;
+                SideLabel.Text = nameEx;
             }
 
-            ResValues.Items.Clear();
-            ResValues.Items.Add("0%");
-            ResValues.Items.Add("0%");
-            ResValues.Items.Add("0%");
-            ResValues.Items.Add("0%");
+            ResultValuesMemo.Items.Clear();
+            ResultValuesMemo.Items.Add("0%");
+            ResultValuesMemo.Items.Add("0%");
+            ResultValuesMemo.Items.Add("0%");
+            ResultValuesMemo.Items.Add("0%");
         }
     }
 
@@ -463,7 +463,7 @@ public partial class ResultsWindow : DataModule
 
     private static void FinishPyre(PyreScreen dialog)
     {
-        AudioPlayback.SetSfxVolume(DialogHosts.SoundDialog.SFXVolume.Position);
+        AudioPlayback.SetSfxVolume(DialogHosts.SoundDialog.EffectsVolumeSlider.Position);
         dialog.ClearFire();
         if (dialog.SavedSongStatus != null)
         {

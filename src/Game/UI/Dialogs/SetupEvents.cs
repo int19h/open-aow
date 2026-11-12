@@ -21,7 +21,7 @@ public partial class SetupEvents : DataModule
     public SetupEvents(Component owner) : base(owner)
     { }
 
-    public GDPlay DPlay;
+    public GDPlay DirectPlay;
     public SetupControl SetupControl;
 
     public bool LobbyGame { get; }
@@ -57,19 +57,19 @@ public partial class SetupEvents : DataModule
     // aowSetupEvents.pas:84
     public void UpdatePlayerName(string name)
     {
-        if (SetupControl.GetRemote() && DPlay.Connected)
+        if (SetupControl.GetRemote() && DirectPlay.Connected)
         {
-            DPlay.PlayerName = name;
+            DirectPlay.PlayerName = name;
         }
     }
 
     // aowSetupEvents.pas:90
     public void SetupControlStart()
     {
-        DialogHosts.SynchronizeDialog.Dlg.Visible = false;
+        DialogHosts.SynchronizeDialog.Window.Visible = false;
         DialogHosts.ScenarioSetup.CloseSetup();
         General.StartGame(DialogHosts.General);
-        if (DPlay.Connected)
+        if (DirectPlay.Connected)
         {
             ClearChat();
             UpdateChatPlayers();
@@ -86,10 +86,10 @@ public partial class SetupEvents : DataModule
     // aowSetupEvents.pas:111
     public void DPlayFileStartMessage(int id, ref string name, int size, ref byte response)
     {
-        DialogHosts.ProgressDialog.StatusLbl.Text = "0k of " + IntToStr(size / 1000) + "k";
-        DialogHosts.ProgressDialog.Title.Text = "Receiving File";
-        DialogHosts.ProgressDialog.Bar.Max = size;
-        DialogHosts.ProgressDialog.Bar.Position = 0;
+        DialogHosts.ProgressDialog.StatusLabel.Text = "0k of " + IntToStr(size / 1000) + "k";
+        DialogHosts.ProgressDialog.TitleLabel.Text = "Receiving File";
+        DialogHosts.ProgressDialog.ProgressBar.Max = size;
+        DialogHosts.ProgressDialog.ProgressBar.Position = 0;
     }
 
     // aowSetupEvents.pas:119
@@ -102,17 +102,17 @@ public partial class SetupEvents : DataModule
     // aowSetupEvents.pas:125
     public void DPlayFileProgressMessage(int id, int position, int size)
     {
-        if (position > DialogHosts.ProgressDialog.Bar.Position)
+        if (position > DialogHosts.ProgressDialog.ProgressBar.Position)
         {
-            DialogHosts.ProgressDialog.StatusLbl.Text = IntToStr(position / 1000) + "k of " + IntToStr(size / 1000) + "k";
-            DialogHosts.ProgressDialog.Bar.Position = position;
+            DialogHosts.ProgressDialog.StatusLabel.Text = IntToStr(position / 1000) + "k of " + IntToStr(size / 1000) + "k";
+            DialogHosts.ProgressDialog.ProgressBar.Position = position;
         }
     }
 
     // aowSetupEvents.pas:134
     public void DPlayChatMessage(ref string message, ref int toId, ref int fromId)
     {
-        if (DialogHosts.ScenarioSetup.ScenSetupPnl.Visible)
+        if (DialogHosts.ScenarioSetup.ScenarioSetupPanel.Visible)
         {
             DialogHosts.ScenarioSetup.ChatMemo.Items.Add(message);
             DialogHosts.ScenarioSetup.ChatScrollPending = true;
@@ -136,24 +136,24 @@ public partial class SetupEvents : DataModule
     // aowSetupEvents.pas:170
     public void DPlayEjected()
     {
-        if (DialogHosts.ScenarioSetup.ScenSetupPnl.Visible)
+        if (DialogHosts.ScenarioSetup.ScenarioSetupPanel.Visible)
         {
             DialogHosts.ScenarioSetup.ExitGameClick();
             MessageDialog.ResetMessageDialog(DialogHosts.MessageDialog);
             var warning = AbilityRules.TranslateResourceString(s_warningText);
-            DialogHosts.MessageDialog.TitleLbl.Text = warning;
+            DialogHosts.MessageDialog.TitleLabel.Text = warning;
             DialogHosts.MessageDialog.MessageMemo.Items.Add("");
             var youWereEjectedByTheHost = AbilityRules.TranslateResourceString(s_youWereEjectedByHostText);
             DialogHosts.MessageDialog.MessageMemo.Items.Add(youWereEjectedByTheHost);
-            DialogHosts.MessageDialog.OKPnl.Visible = true;
-            DialogHosts.MessageDialog.Dlg.Visible = true;
+            DialogHosts.MessageDialog.OKPanel.Visible = true;
+            DialogHosts.MessageDialog.Window.Visible = true;
         }
     }
 
     // aowSetupEvents.pas:184
     public void DPlayPingMessage(int pingMilliseconds, int player)
     {
-        if (DialogHosts.ScenarioSetup.ScenSetupPnl.Visible)
+        if (DialogHosts.ScenarioSetup.ScenarioSetupPanel.Visible)
         {
             DialogHosts.ScenarioSetup.PingList.Drawn = false;
         }
@@ -162,7 +162,7 @@ public partial class SetupEvents : DataModule
     // aowSetupEvents.pas:189
     public void SetupControlCustomizeLeader(SetupControl control, CustomizeLeaderControl leader)
     {
-        DialogHosts.ScenarioSetup.ScenSetupPnl.Visible = false;
+        DialogHosts.ScenarioSetup.ScenarioSetupPanel.Visible = false;
         DialogHosts.LeaderSetupWindow.Execute(leader);
     }
 
@@ -171,11 +171,11 @@ public partial class SetupEvents : DataModule
     {
         var fileNameLocal = ExtractFileName(fileName);
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_loadingFormat), [fileNameLocal]);
-        DialogHosts.ProgressDialog.Title.Text = format;
-        DialogHosts.ProgressDialog.StatusLbl.Text = "";
-        DialogHosts.ProgressDialog.Bar.Position = 0;
-        DialogHosts.ProgressDialog.Bar.Max = 100;
-        DialogHosts.ProgressDialog.ProgDlg.Visible = true;
+        DialogHosts.ProgressDialog.TitleLabel.Text = format;
+        DialogHosts.ProgressDialog.StatusLabel.Text = "";
+        DialogHosts.ProgressDialog.ProgressBar.Position = 0;
+        DialogHosts.ProgressDialog.ProgressBar.Max = 100;
+        DialogHosts.ProgressDialog.Window.Visible = true;
         DialogHosts.General.Manager.OverlayPriority = 5000;
         if (!control.Settings.CustomizeLeaders)
         {
@@ -196,7 +196,7 @@ public partial class SetupEvents : DataModule
         }
 
         DialogHosts.General.Manager.OverlayPriority = 0;
-        DialogHosts.ProgressDialog.ProgDlg.Visible = false;
+        DialogHosts.ProgressDialog.Window.Visible = false;
         control.MapLoaded();
     }
 
@@ -241,10 +241,10 @@ public partial class SetupEvents : DataModule
     public void SetupControlSynchronize(SetupControl control)
     {
         DialogHosts.General.Manager.Aligned = false;
-        DialogHosts.ScenarioSetup.ScenSetupPnl.Visible = false;
+        DialogHosts.ScenarioSetup.ScenarioSetupPanel.Visible = false;
         if (control.GetRemote())
         {
-            DialogHosts.SynchronizeDialog.Dlg.Visible = true;
+            DialogHosts.SynchronizeDialog.Window.Visible = true;
         }
     }
 
@@ -266,10 +266,10 @@ public partial class SetupEvents : DataModule
     public void SetupControlSendingMaps()
     {
         DialogHosts.General.Manager.OverlayPriority = 5000;
-        DialogHosts.ProgressDialog.ProgDlg.Visible = true;
-        DialogHosts.ProgressDialog.Title.Text = "Transferring Files...";
-        DialogHosts.ProgressDialog.StatusLbl.Text = "Please Wait";
-        DialogHosts.ProgressDialog.Bar.Position = 0;
+        DialogHosts.ProgressDialog.Window.Visible = true;
+        DialogHosts.ProgressDialog.TitleLabel.Text = "Transferring Files...";
+        DialogHosts.ProgressDialog.StatusLabel.Text = "Please Wait";
+        DialogHosts.ProgressDialog.ProgressBar.Position = 0;
     }
 
     // aowSetupEvents.pas:291

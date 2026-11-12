@@ -16,9 +16,9 @@ public partial class VideoDialog : DataModule
     public VideoDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public ListBox DisplayModesLB;
-    public CheckBox ResCB;
+    public Window Window;
+    public ListBox DisplayModesList;
+    public CheckBox ResolutionCheckBox;
     private DisplayModeList _displayModes;
     private ScreenMode _fullScreen;
 
@@ -44,7 +44,7 @@ public partial class VideoDialog : DataModule
     // AoWVideoDlg.pas:416
     public void ShowModes()
     {
-        Dlg.Visible = true;
+        Window.Visible = true;
         UpdateModes();
     }
 
@@ -53,38 +53,38 @@ public partial class VideoDialog : DataModule
     {
         DisplayModeItem mode;
         string S;
-        DisplayModesLB.Items.Clear();
+        DisplayModesList.Items.Clear();
         var desktopWindow = AbilityRules.TranslateResourceString(s_desktopWindowText);
-        DisplayModesLB.Items.AddObject(desktopWindow, IntToObject(-1));
+        DisplayModesList.Items.AddObject(desktopWindow, IntToObject(-1));
         for (int I = 0, last = _displayModes.Count - 1; I <= last; I++)
         {
             mode = _displayModes.Items[I];
             if (mode.Width >= 640 && mode.Height >= 480)
             {
                 var fullScreen = AbilityRules.TranslateResourceString(s_fullScreenText);
-                DisplayModesLB.Items.AddObject(fullScreen + ":" + IntToStr(mode.Width) + "x" + IntToStr(mode.Height), IntToObject(I));
+                DisplayModesList.Items.AddObject(fullScreen + ":" + IntToStr(mode.Width) + "x" + IntToStr(mode.Height), IntToObject(I));
             }
         }
 
         var currentMode = CurrentMode();
-        DisplayModesLB.Selected = currentMode;
-        if (DisplayModesLB.Selected != -1)
+        DisplayModesList.Selected = currentMode;
+        if (DisplayModesList.Selected != -1)
         {
-            S = DisplayModesLB.Items[DisplayModesLB.Selected];
+            S = DisplayModesList.Items[DisplayModesList.Selected];
             S = S + " (" + LowerCase(AbilityRules.TranslateResourceString(s_currentText)) + ")";
-            DisplayModesLB.Items[DisplayModesLB.Selected] = S;
+            DisplayModesList.Items[DisplayModesList.Selected] = S;
         }
     }
 
     // AoWVideoDlg.pas:195
-    public void VideoDlgWindowCreate()
+    public void VideoDialogCreate()
     {
         _displayModes = new DisplayModeList();
         ListDisplayModes(_displayModes, 0, 0, 16);
     }
 
     // AoWVideoDlg.pas:201
-    public void VideoDlgWindowDestroy()
+    public void VideoDialogDestroy()
     {
         _displayModes?.Dispose();
     }
@@ -93,7 +93,7 @@ public partial class VideoDialog : DataModule
     public void CloseButClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWVideoDlg.pas:212
@@ -101,9 +101,9 @@ public partial class VideoDialog : DataModule
     {
         int I;
         DialogHosts.General.PlayButtonSound(0);
-        if (DisplayModesLB.Selected != -1)
+        if (DisplayModesList.Selected != -1)
         {
-            I = ObjectToInt(DisplayModesLB.Items.Objects[DisplayModesLB.Selected]);
+            I = ObjectToInt(DisplayModesList.Items.Objects[DisplayModesList.Selected]);
             if (I != -1)
             {
                 DisplayWidth = _displayModes.Items[I].Width;
@@ -131,7 +131,7 @@ public partial class VideoDialog : DataModule
             DialogHosts.General.PlayButtonSound(2);
         }
 
-        GameTables.GameEngine.Registry.SetAllowResolutionSwitches(ResCB.Checked);
+        GameTables.GameEngine.Registry.SetAllowResolutionSwitches(ResolutionCheckBox.Checked);
     }
 
     // AoWVideoDlg.pas:239
@@ -140,7 +140,7 @@ public partial class VideoDialog : DataModule
         DialogHosts.General.Manager.Aligned = false;
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -148,7 +148,7 @@ public partial class VideoDialog : DataModule
     public void DlgShow()
     {
         var allowResolutionSwitches = GameTables.GameEngine.Registry.GetAllowResolutionSwitches();
-        DialogHosts.VideoDialog.ResCB.Checked = allowResolutionSwitches;
+        DialogHosts.VideoDialog.ResolutionCheckBox.Checked = allowResolutionSwitches;
     }
 
     private static readonly string s_currentText = "Current";
@@ -197,7 +197,7 @@ public partial class VideoDialog : DataModule
 
     internal static void ShowVideoSettings(VideoDialog dialog)
     {
-        dialog.Dlg.Visible = true;
+        dialog.Window.Visible = true;
         dialog.UpdateModes();
     }
 

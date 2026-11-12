@@ -20,7 +20,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public void LayoutSlotReachesTheSharedHandler()
     {
         var dialog = _host.Dialog;
-        dialog.PlayerSB.Position = 0;
+        dialog.PlayerScrollBar.Position = 0;
         dialog.EmailAddresses.Clear();
         for (int i = 0; i < 6; i++) dialog.EmailAddresses.Add("");
 
@@ -110,13 +110,13 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     {
         using var owner = new Component(null!);
         var window = new RelationWindow(owner);
-        window.SBGoldSlid = new HorizontalScrollBar(owner);
-        window.SBGoldV = new Label(owner);
-        window.SBGoldSlid.SetPositionUnclamped(17);
+        window.BribeGoldSlider = new HorizontalScrollBar(owner);
+        window.BribeGoldValueLabel = new Label(owner);
+        window.BribeGoldSlider.SetPositionUnclamped(17);
 
         window.SBGoldSlidChange();
 
-        Assert.Equal("17", window.SBGoldV.Text);
+        Assert.Equal("17", window.BribeGoldValueLabel.Text);
     }
 
     [Fact]
@@ -137,11 +137,11 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         try
         {
             dialog = Load(new LayoutSession(), new FileDialogWindow(null!), static module => { _ = module; });
-            Assert.NotNull(dialog.Openbut.OnClick);
-            Assert.NotNull(dialog.FileLB.OnDoubleClick);
+            Assert.NotNull(dialog.OpenButton.OnClick);
+            Assert.NotNull(dialog.FileList.OnDoubleClick);
             FileDialogWindow.Directories = null!;
-            var click = Assert.Throws<NullReferenceException>(() => dialog.Openbut.OnClick(dialog.Openbut));
-            var doubleClick = Assert.Throws<NullReferenceException>(() => dialog.FileLB.OnDoubleClick(dialog.FileLB));
+            var click = Assert.Throws<NullReferenceException>(() => dialog.OpenButton.OnClick(dialog.OpenButton));
+            var doubleClick = Assert.Throws<NullReferenceException>(() => dialog.FileList.OnDoubleClick(dialog.FileList));
             Assert.Contains(nameof(FileDialogWindow.OpenbutClick), click.ToString(), StringComparison.Ordinal);
             Assert.Contains(nameof(FileDialogWindow.OpenbutClick), doubleClick.ToString(), StringComparison.Ordinal);
         }

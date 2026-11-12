@@ -25,89 +25,89 @@ public partial class CityScreen : DataModule
     public CityScreen(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Panel UnitPnl;
-    public ListBox UAbilitiesLB;
-    public Image UMovesIcon;
-    public Label UAttack;
-    public Label UDefense;
-    public Label UMoves;
-    public Label UDamage;
-    public Label UResistance;
-    public Label UHits;
-    public Label UAlignment;
-    public Label ULevel;
-    public Label StructName;
-    public Label UCost;
-    public Label UnitLbl;
-    public Label UTurns;
-    public CheckBox P1CB;
-    public CheckBox P2CB;
-    public CheckBox P3CB;
-    public CheckBox P4CB;
-    public CheckBox P5CB;
-    public CheckBox P6CB;
-    public CheckBox P7CB;
-    public CheckBox P8CB;
-    public CheckBox P9CB;
-    public CheckBox P10CB;
-    public CheckBox P11CB;
-    public CheckBox P12CB;
-    public CheckBox B4CB;
-    public CheckBox B5CB;
-    public CheckBox B6CB;
-    public CheckBox B1CB;
-    public CheckBox B2CB;
-    public CheckBox B3CB;
-    public Panel UpgradePnl;
-    public Label UpgradeLbl;
+    public Window Window;
+    public Panel UnitPanel;
+    public ListBox UnitAbilitiesList;
+    public Image UnitMovesIcon;
+    public Label UnitAttackLabel;
+    public Label UnitDefenseLabel;
+    public Label UnitMovesLabel;
+    public Label UnitDamageLabel;
+    public Label UnitResistanceLabel;
+    public Label UnitHitsLabel;
+    public Label UnitAlignmentLabel;
+    public Label UnitLevelLabel;
+    public Label StructureNameLabel;
+    public Label UnitCostLabel;
+    public Label UnitLabel;
+    public Label UnitTurnsLabel;
+    public CheckBox Production1CheckBox;
+    public CheckBox Production2CheckBox;
+    public CheckBox Production3CheckBox;
+    public CheckBox Production4CheckBox;
+    public CheckBox Production5CheckBox;
+    public CheckBox Production6CheckBox;
+    public CheckBox Production7CheckBox;
+    public CheckBox Production8CheckBox;
+    public CheckBox Production9CheckBox;
+    public CheckBox Production10CheckBox;
+    public CheckBox Production11CheckBox;
+    public CheckBox Production12CheckBox;
+    public CheckBox Action4CheckBox;
+    public CheckBox Action5CheckBox;
+    public CheckBox Action6CheckBox;
+    public CheckBox Action1CheckBox;
+    public CheckBox Action2CheckBox;
+    public CheckBox Action3CheckBox;
+    public Panel UpgradePanel;
+    public Label UpgradeLabel;
     public Memo UpgradeMemo;
     public Image Oval;
-    public Image ShadowL;
-    public Image ShadowR;
-    public Button CityBtn3;
-    public Button CityBtn1;
-    public ListBox QueueLB;
-    public Panel ActivityPnl;
-    public Panel InfoPnl2;
-    public Label ActiveAction;
-    public Label ActiveActionTurns;
-    public Panel ActivityPnl2;
+    public Image LeftShadow;
+    public Image RightShadow;
+    public Button CityButton3;
+    public Button CityButton1;
+    public ListBox QueueList;
+    public Panel ActivityPanel;
+    public Panel InfoPanel2;
+    public Label ActiveActionLabel;
+    public Label ActiveActionTurnsLabel;
+    public Panel ActivityPanel2;
     public Gauge ActiveActionTurnsBar;
-    public Button CityBtn2;
-    public Panel InfoPnl;
-    public Panel IPPnl;
+    public Button CityButton2;
+    public Panel InfoPanel;
+    public Panel PopulationPanel;
     public Memo PopulationMemo;
-    public Memo PopulationHdr;
+    public Memo PopulationHeader;
     public Memo IncomeMemo;
-    public Memo IncomeHdr;
+    public Memo IncomeHeader;
     public Memo EnhancementsMemo;
-    public Memo EnhancementsHdr;
-    public Frame RPillar;
-    public Frame LPillar;
-    public Label QueueLbl;
-    public CheckBox LoopQueueBox;
-    public Label RepeatLbl;
-    public Panel ActiveActionPnl;
+    public Memo EnhancementsHeader;
+    public Frame RightPillar;
+    public Frame LeftPillar;
+    public Label QueueLabel;
+    public CheckBox LoopQueueCheckBox;
+    public Label RepeatLabel;
+    public Panel ActiveActionPanel;
     public Image CurrentActionImage;
-    public Panel UPictureFramePnl;
-    public Image UpgradePic;
-    public Label UpgradeCost;
-    public Label UpgradeTurns;
-    public Panel MigratePnl;
-    public Label MigrateTurns;
-    public ListBox MigrationRaceLB;
-    public ListBox MigrationRelationLB;
-    public ListBox MigrationTurnsLB;
-    public VerticalScrollBar MigrationSB;
-    public Label CurrentRace;
-    public Label CurrentRelation;
-    public Label UpgradeInfo;
+    public Panel UnitPictureFramePanel;
+    public Image UpgradePicture;
+    public Label UpgradeCostLabel;
+    public Label UpgradeTurnsLabel;
+    public Panel MigratePanel;
+    public Label MigrateTurnsLabel;
+    public ListBox MigrationRaceList;
+    public ListBox MigrationRelationList;
+    public ListBox MigrationTurnsList;
+    public VerticalScrollBar MigrationScrollBar;
+    public Label CurrentRaceLabel;
+    public Label CurrentRelationLabel;
+    public Label UpgradeInfoLabel;
     public Memo IncomeGoldMemo;
-    public Label MigrateInfo;
+    public Label MigrateInfoLabel;
     public UserDrawBox MapView;
-    public Button PNext;
-    public Button PPrev;
+    public Button NextCityButton;
+    public Button PreviousCityButton;
     private City _city;
     private CombatMap _preview;
     private int _viewX;
@@ -154,24 +154,24 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:775
     public void ResetChecks()
     {
-        P1CB.Checked = false;
-        P2CB.Checked = false;
-        P3CB.Checked = false;
-        P4CB.Checked = false;
-        P5CB.Checked = false;
-        P6CB.Checked = false;
-        P7CB.Checked = false;
-        P8CB.Checked = false;
-        P9CB.Checked = false;
-        P10CB.Checked = false;
-        P11CB.Checked = false;
-        P12CB.Checked = false;
-        B1CB.Checked = false;
-        B2CB.Checked = false;
-        B3CB.Checked = false;
-        B4CB.Checked = false;
-        B5CB.Checked = false;
-        B6CB.Checked = false;
+        Production1CheckBox.Checked = false;
+        Production2CheckBox.Checked = false;
+        Production3CheckBox.Checked = false;
+        Production4CheckBox.Checked = false;
+        Production5CheckBox.Checked = false;
+        Production6CheckBox.Checked = false;
+        Production7CheckBox.Checked = false;
+        Production8CheckBox.Checked = false;
+        Production9CheckBox.Checked = false;
+        Production10CheckBox.Checked = false;
+        Production11CheckBox.Checked = false;
+        Production12CheckBox.Checked = false;
+        Action1CheckBox.Checked = false;
+        Action2CheckBox.Checked = false;
+        Action3CheckBox.Checked = false;
+        Action4CheckBox.Checked = false;
+        Action5CheckBox.Checked = false;
+        Action6CheckBox.Checked = false;
     }
 
     // AoWCityScreen.pas:797
@@ -179,30 +179,30 @@ public partial class CityScreen : DataModule
     {
         ReleaseImages();
         _mode = 0;
-        InfoPnl.Visible = true;
-        InfoPnl2.Visible = true;
-        ActivityPnl.Visible = false;
-        ActivityPnl2.Visible = false;
-        UnitPnl.Visible = false;
-        UpgradePnl.Visible = false;
-        MigratePnl.Visible = false;
-        CityBtn1.Visible = true;
+        InfoPanel.Visible = true;
+        InfoPanel2.Visible = true;
+        ActivityPanel.Visible = false;
+        ActivityPanel2.Visible = false;
+        UnitPanel.Visible = false;
+        UpgradePanel.Visible = false;
+        MigratePanel.Visible = false;
+        CityButton1.Visible = true;
         var options = AbilityRules.TranslateResourceString(GameText.OptionsText);
-        CityBtn1.Text = options;
-        CityBtn2.Visible = false;
-        PPrev.Visible = !CityBtn2.Visible;
-        PNext.Visible = !CityBtn2.Visible;
-        ShadowL.Visible = GameTables.GameEngine.AnimationDetail != 0;
-        ShadowR.Visible = GameTables.GameEngine.AnimationDetail != 0;
+        CityButton1.Text = options;
+        CityButton2.Visible = false;
+        PreviousCityButton.Visible = !CityButton2.Visible;
+        NextCityButton.Visible = !CityButton2.Visible;
+        LeftShadow.Visible = GameTables.GameEngine.AnimationDetail != 0;
+        RightShadow.Visible = GameTables.GameEngine.AnimationDetail != 0;
         Oval.Visible = GameTables.GameEngine.AnimationDetail != 0;
         _migrationSort = 0;
         _productionIndex = 0;
-        QueueLB.Selected = -1;
+        QueueList.Selected = -1;
         FreePreview();
         var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
-        QueueLbl.Text = queue;
+        QueueLabel.Text = queue;
         var repeat = AbilityRules.TranslateResourceString(GameText.RepeatText);
-        RepeatLbl.Text = repeat;
+        RepeatLabel.Text = repeat;
         if (_migrations != null)
         {
             _migrations?.Dispose();
@@ -225,59 +225,59 @@ public partial class CityScreen : DataModule
         switch (_mode)
         {
             case 0:
-                InfoPnl.Visible = true;
-                InfoPnl2.Visible = true;
-                ActivityPnl.Visible = false;
-                ActivityPnl2.Visible = false;
+                InfoPanel.Visible = true;
+                InfoPanel2.Visible = true;
+                ActivityPanel.Visible = false;
+                ActivityPanel2.Visible = false;
                 var change = AbilityRules.TranslateResourceString(GameText.ChangeText);
-                CityBtn1.Text = change;
-                CityBtn1.Visible = true;
-                CityBtn2.Visible = false;
-                PPrev.Visible = !CityBtn2.Visible;
-                PNext.Visible = !CityBtn2.Visible;
+                CityButton1.Text = change;
+                CityButton1.Visible = true;
+                CityButton2.Visible = false;
+                PreviousCityButton.Visible = !CityButton2.Visible;
+                NextCityButton.Visible = !CityButton2.Visible;
                 var exit = AbilityRules.TranslateResourceString(GameText.ExitText);
-                CityBtn3.Text = exit;
-                QueueLB.Selected = -1;
-                LPillar.Visible = true;
-                RPillar.Visible = true;
-                MapView.WinHeight = InfoPnl.WinTop - MapView.WinTop;
+                CityButton3.Text = exit;
+                QueueList.Selected = -1;
+                LeftPillar.Visible = true;
+                RightPillar.Visible = true;
+                MapView.WinHeight = InfoPanel.WinTop - MapView.WinTop;
                 break;
             case 1:
-                QueueLB.Selected = -1;
-                InfoPnl.Visible = false;
-                InfoPnl2.Visible = false;
-                ActivityPnl.Visible = true;
-                ActivityPnl2.Visible = true;
+                QueueList.Selected = -1;
+                InfoPanel.Visible = false;
+                InfoPanel2.Visible = false;
+                ActivityPanel.Visible = true;
+                ActivityPanel2.Visible = true;
                 var info = AbilityRules.TranslateResourceString(GameText.InfoText);
-                CityBtn1.Text = info;
+                CityButton1.Text = info;
                 var done = AbilityRules.TranslateResourceString(GameText.DoneText);
-                CityBtn3.Text = done;
-                LPillar.Visible = false;
-                RPillar.Visible = false;
-                MapView.WinHeight = ActivityPnl.WinTop - MapView.WinTop;
-                MigrationRaceLB.CaptureInput = true;
-                MigrationTurnsLB.CaptureInput = true;
-                MigrationRelationLB.CaptureInput = true;
+                CityButton3.Text = done;
+                LeftPillar.Visible = false;
+                RightPillar.Visible = false;
+                MapView.WinHeight = ActivityPanel.WinTop - MapView.WinTop;
+                MigrationRaceList.CaptureInput = true;
+                MigrationTurnsList.CaptureInput = true;
+                MigrationRelationList.CaptureInput = true;
                 break;
             case 2:
                 ResetChecks();
-                QueueLB.Selected = -1;
-                InfoPnl.Visible = false;
-                InfoPnl2.Visible = false;
-                ActivityPnl.Visible = true;
-                ActivityPnl2.Visible = true;
-                LPillar.Visible = false;
-                RPillar.Visible = false;
+                QueueList.Selected = -1;
+                InfoPanel.Visible = false;
+                InfoPanel2.Visible = false;
+                ActivityPanel.Visible = true;
+                ActivityPanel2.Visible = true;
+                LeftPillar.Visible = false;
+                RightPillar.Visible = false;
                 var infoText = AbilityRules.TranslateResourceString(GameText.InfoText);
-                CityBtn1.Text = infoText;
+                CityButton1.Text = infoText;
                 var doneText = AbilityRules.TranslateResourceString(GameText.DoneText);
-                CityBtn3.Text = doneText;
-                MigrationRaceLB.CaptureInput = false;
-                MigrationTurnsLB.CaptureInput = false;
-                MigrationRelationLB.CaptureInput = false;
-                MigrationRaceLB.Selected = -1;
-                MigrationTurnsLB.Selected = -1;
-                MigrationRelationLB.Selected = -1;
+                CityButton3.Text = doneText;
+                MigrationRaceList.CaptureInput = false;
+                MigrationTurnsList.CaptureInput = false;
+                MigrationRelationList.CaptureInput = false;
+                MigrationRaceList.Selected = -1;
+                MigrationTurnsList.Selected = -1;
+                MigrationRelationList.Selected = -1;
                 break;
         }
     }
@@ -288,22 +288,22 @@ public partial class CityScreen : DataModule
         switch (_migrationSort)
         {
             case 0:
-                StringSorting.SortStringsNumericalAscending(MigrationTurnsLB.Items, [MigrationRaceLB.Items, MigrationRelationLB.Items]);
+                StringSorting.SortStringsNumericalAscending(MigrationTurnsList.Items, [MigrationRaceList.Items, MigrationRelationList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsNumericalDescending(MigrationTurnsLB.Items, [MigrationRaceLB.Items, MigrationRelationLB.Items]);
+                StringSorting.SortStringsNumericalDescending(MigrationTurnsList.Items, [MigrationRaceList.Items, MigrationRelationList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsAscending(MigrationRaceLB.Items, [MigrationTurnsLB.Items, MigrationRelationLB.Items]);
+                StringSorting.SortStringsAscending(MigrationRaceList.Items, [MigrationTurnsList.Items, MigrationRelationList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsDescending(MigrationRaceLB.Items, [MigrationTurnsLB.Items, MigrationRelationLB.Items]);
+                StringSorting.SortStringsDescending(MigrationRaceList.Items, [MigrationTurnsList.Items, MigrationRelationList.Items]);
                 break;
             case 4:
-                StringSorting.SortStringsAscending(MigrationRelationLB.Items, [MigrationTurnsLB.Items, MigrationRaceLB.Items]);
+                StringSorting.SortStringsAscending(MigrationRelationList.Items, [MigrationTurnsList.Items, MigrationRaceList.Items]);
                 break;
             case 5:
-                StringSorting.SortStringsDescending(MigrationRelationLB.Items, [MigrationTurnsLB.Items, MigrationRaceLB.Items]);
+                StringSorting.SortStringsDescending(MigrationRelationList.Items, [MigrationTurnsList.Items, MigrationRaceList.Items]);
                 break;
         }
     }
@@ -358,7 +358,7 @@ public partial class CityScreen : DataModule
     public void SelectDefaultAction()
     {
         ResetChecks();
-        B1CB.Checked = true;
+        Action1CheckBox.Checked = true;
         SelectAction(CityAction.Trade);
     }
 
@@ -386,33 +386,33 @@ public partial class CityScreen : DataModule
     public void SelectMigration(int index)
     {
         MigrationItem item;
-        if (index >= 0 && index < MigrationRaceLB.Items.Count)
+        if (index >= 0 && index < MigrationRaceList.Items.Count)
         {
-            item = (MigrationItem)MigrationRaceLB.Items.Objects[index];
-            MigrationRaceLB.Selected = index;
-            MigrationTurnsLB.Selected = index;
-            MigrationRelationLB.Selected = index;
-            MigrateTurns.Text = IntToStr(item.Time);
+            item = (MigrationItem)MigrationRaceList.Items.Objects[index];
+            MigrationRaceList.Selected = index;
+            MigrationTurnsList.Selected = index;
+            MigrationRelationList.Selected = index;
+            MigrateTurnsLabel.Text = IntToStr(item.Time);
             var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[_city.Race]);
             var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationMinusFormat), [raceNames, -15]);
-            MigrateInfo.Text = format;
-            MigrateInfo.Text = MigrateInfo.Text + "   ";
+            MigrateInfoLabel.Text = format;
+            MigrateInfoLabel.Text = MigrateInfoLabel.Text + "   ";
             var raceNamesText = AbilityRules.TranslateResourceString(GameTables.s_raceNames[item.Race]);
             var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationPlusFormat), [raceNamesText, 10]);
-            MigrateInfo.Text = MigrateInfo.Text + formattedText;
-            CityBtn1.Visible = true;
+            MigrateInfoLabel.Text = MigrateInfoLabel.Text + formattedText;
+            CityButton1.Visible = true;
             var migrate = AbilityRules.TranslateResourceString(s_migrateText);
-            CityBtn1.Text = migrate;
+            CityButton1.Text = migrate;
         }
         else
         {
-            MigrationRaceLB.Selected = -1;
-            MigrationTurnsLB.Selected = -1;
-            MigrationRelationLB.Selected = -1;
-            MigrateInfo.Text = "";
-            MigrateTurns.Text = "-";
-            UpgradeInfo.Text = "";
-            CityBtn1.Visible = false;
+            MigrationRaceList.Selected = -1;
+            MigrationTurnsList.Selected = -1;
+            MigrationRelationList.Selected = -1;
+            MigrateInfoLabel.Text = "";
+            MigrateTurnsLabel.Text = "-";
+            UpgradeInfoLabel.Text = "";
+            CityButton1.Visible = false;
         }
     }
 
@@ -426,202 +426,202 @@ public partial class CityScreen : DataModule
         }
 
         _action = action;
-        UpgradePnl.Visible = false;
-        UnitPnl.Visible = false;
-        MigratePnl.Visible = false;
-        UpgradePic.CurrentImage = 21;
-        UpgradeCost.Text = "-";
-        UpgradeTurns.Text = "-";
-        UpgradeInfo.Text = "";
-        CityBtn1.Visible = false;
-        CityBtn2.Visible = false;
+        UpgradePanel.Visible = false;
+        UnitPanel.Visible = false;
+        MigratePanel.Visible = false;
+        UpgradePicture.CurrentImage = 21;
+        UpgradeCostLabel.Text = "-";
+        UpgradeTurnsLabel.Text = "-";
+        UpgradeInfoLabel.Text = "";
+        CityButton1.Visible = false;
+        CityButton2.Visible = false;
         switch (_action)
         {
             case CityAction.Trade:
-                CityBtn1.Visible = true;
+                CityButton1.Visible = true;
                 var produceMerchandise = AbilityRules.TranslateResourceString(GameText.ProduceMerchandiseText);
-                CityBtn1.Text = produceMerchandise;
+                CityButton1.Text = produceMerchandise;
                 var queueLocked = _city.Production.GetQueueLocked();
-                CityBtn2.Visible = !queueLocked;
+                CityButton2.Visible = !queueLocked;
                 var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
-                CityBtn2.Text = queue;
+                CityButton2.Text = queue;
                 var cityTrade = AbilityRules.TranslateResourceString(s_cityTradeText);
                 UpgradeMemo.Items.Text = cityTrade;
-                UpgradePnl.Visible = true;
-                UpgradePic.CurrentImage = 20;
+                UpgradePanel.Visible = true;
+                UpgradePicture.CurrentImage = 20;
                 var produceMerchandiseText = AbilityRules.TranslateResourceString(GameText.ProduceMerchandiseText);
-                UpgradeLbl.Text = produceMerchandiseText;
+                UpgradeLabel.Text = produceMerchandiseText;
                 break;
             case CityAction.Upgrade:
-                CityBtn1.Visible = true;
+                CityButton1.Visible = true;
                 var upgrade = AbilityRules.TranslateResourceString(GameText.UpgradeText);
-                CityBtn1.Text = upgrade;
+                CityButton1.Text = upgrade;
                 var fProductionQueueLocked = _city.Production.GetQueueLocked();
-                CityBtn2.Visible = !fProductionQueueLocked;
+                CityButton2.Visible = !fProductionQueueLocked;
                 var queueText = AbilityRules.TranslateResourceString(GameText.QueueText);
-                CityBtn2.Text = queueText;
+                CityButton2.Text = queueText;
                 var cityUpgrade = AbilityRules.TranslateResourceString(s_cityUpgradeText);
                 UpgradeMemo.Items.Text = cityUpgrade;
-                UpgradePnl.Visible = true;
-                UpgradePic.CurrentImage = 23;
+                UpgradePanel.Visible = true;
+                UpgradePicture.CurrentImage = 23;
                 var upgradeCost = _city.UpgradeCost();
-                UpgradeCost.Text = IntToStr(upgradeCost);
+                UpgradeCostLabel.Text = IntToStr(upgradeCost);
                 var upgradeTime = _city.UpgradeTime();
-                UpgradeTurns.Text = IntToStr(upgradeTime);
+                UpgradeTurnsLabel.Text = IntToStr(upgradeTime);
                 var upgradeText = AbilityRules.TranslateResourceString(GameText.UpgradeText);
-                UpgradeLbl.Text = upgradeText;
+                UpgradeLabel.Text = upgradeText;
                 var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationPlusFormat), [raceNamesPlural, 5]);
-                UpgradeInfo.Text = format;
+                UpgradeInfoLabel.Text = format;
                 break;
             case CityAction.Fortify:
-                CityBtn1.Visible = true;
+                CityButton1.Visible = true;
                 var fortify = AbilityRules.TranslateResourceString(GameText.FortifyText);
-                CityBtn1.Text = fortify;
+                CityButton1.Text = fortify;
                 var queueLocked2 = _city.Production.GetQueueLocked();
-                CityBtn2.Visible = !queueLocked2;
+                CityButton2.Visible = !queueLocked2;
                 var queue3 = AbilityRules.TranslateResourceString(GameText.QueueText);
-                CityBtn2.Text = queue3;
+                CityButton2.Text = queue3;
                 var cityFortify = AbilityRules.TranslateResourceString(s_cityFortifyText);
                 UpgradeMemo.Items.Text = cityFortify;
-                UpgradePnl.Visible = true;
+                UpgradePanel.Visible = true;
                 if (_city.WallType == 0)
                 {
-                    UpgradePic.CurrentImage = 21;
+                    UpgradePicture.CurrentImage = 21;
                 }
                 else
                 {
-                    UpgradePic.CurrentImage = 22;
+                    UpgradePicture.CurrentImage = 22;
                 }
 
                 if (_city.FortifyCost() > 0)
                 {
                     var fortifyCost = _city.FortifyCost();
-                    UpgradeCost.Text = IntToStr(fortifyCost);
+                    UpgradeCostLabel.Text = IntToStr(fortifyCost);
                     var fortifyTime = _city.FortifyTime();
-                    UpgradeTurns.Text = IntToStr(fortifyTime);
+                    UpgradeTurnsLabel.Text = IntToStr(fortifyTime);
                 }
                 else
                 {
-                    UpgradeCost.Text = "-";
-                    UpgradeTurns.Text = "-";
+                    UpgradeCostLabel.Text = "-";
+                    UpgradeTurnsLabel.Text = "-";
                 }
 
                 var fortifyText = AbilityRules.TranslateResourceString(GameText.FortifyText);
-                UpgradeLbl.Text = fortifyText;
+                UpgradeLabel.Text = fortifyText;
                 var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[_city.Race]);
                 var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationPlusFormat), [raceNames, 5]);
-                UpgradeInfo.Text = formattedText;
+                UpgradeInfoLabel.Text = formattedText;
                 break;
             case CityAction.Migrate:
-                MigratePnl.Visible = true;
+                MigratePanel.Visible = true;
                 SelectMigration(0);
                 break;
             case CityAction.Loot:
-                CityBtn1.Visible = true;
+                CityButton1.Visible = true;
                 var loot = AbilityRules.TranslateResourceString(GameText.LootText);
-                CityBtn1.Text = loot;
+                CityButton1.Text = loot;
                 var cityLoot = AbilityRules.TranslateResourceString(s_cityLootText);
                 UpgradeMemo.Items.Text = cityLoot;
-                UpgradePnl.Visible = true;
-                UpgradePic.CurrentImage = 25;
+                UpgradePanel.Visible = true;
+                UpgradePicture.CurrentImage = 25;
                 var lootText = AbilityRules.TranslateResourceString(GameText.LootText);
-                UpgradeLbl.Text = lootText;
+                UpgradeLabel.Text = lootText;
                 var raceNamesText = AbilityRules.TranslateResourceString(GameTables.s_raceNames[_city.Race]);
                 var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationMinusFormat), [raceNamesText, -30]);
-                UpgradeInfo.Text = format2;
+                UpgradeInfoLabel.Text = format2;
                 break;
             case CityAction.Raze:
-                CityBtn1.Visible = true;
+                CityButton1.Visible = true;
                 var raze = AbilityRules.TranslateResourceString(GameText.RazeText);
-                CityBtn1.Text = raze + "...";
+                CityButton1.Text = raze + "...";
                 var cityRaze = AbilityRules.TranslateResourceString(s_cityRazeText);
                 UpgradeMemo.Items.Text = cityRaze;
-                UpgradePnl.Visible = true;
-                UpgradePic.CurrentImage = 26;
+                UpgradePanel.Visible = true;
+                UpgradePicture.CurrentImage = 26;
                 var razeText = AbilityRules.TranslateResourceString(GameText.RazeText);
-                UpgradeLbl.Text = razeText;
+                UpgradeLabel.Text = razeText;
                 var raceNames3 = AbilityRules.TranslateResourceString(GameTables.s_raceNames[_city.Race]);
                 var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationMinusFormat), [raceNames3, -30]);
-                UpgradeInfo.Text = format3;
+                UpgradeInfoLabel.Text = format3;
                 break;
             case CityAction.Research:
             case CityAction.Produce:
                 U = _city.Production.CreateUnitProduction(_productionIndex);
-                UnitPnl.Visible = true;
+                UnitPanel.Visible = true;
                 var attack = U.GetAttack();
-                UAttack.Text = IntToStr(attack);
+                UnitAttackLabel.Text = IntToStr(attack);
                 var defense = U.GetDefense();
-                UDefense.Text = IntToStr(defense);
+                UnitDefenseLabel.Text = IntToStr(defense);
                 var resistance = U.GetResistance();
-                UResistance.Text = IntToStr(resistance);
+                UnitResistanceLabel.Text = IntToStr(resistance);
                 var damage = U.GetDamage();
-                UDamage.Text = IntToStr(damage);
+                UnitDamageLabel.Text = IntToStr(damage);
                 var hits = U.GetHits();
-                UHits.Text = IntToStr(hits);
+                UnitHitsLabel.Text = IntToStr(hits);
                 var moves = U.GetMoves();
-                UMoves.Text = IntToStr(moves);
+                UnitMovesLabel.Text = IntToStr(moves);
                 var moveTypes = U.GetMoveTypes();
                 var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(moveTypes);
-                UMovesIcon.CurrentImage = moveTypesToInt32;
+                UnitMovesIcon.CurrentImage = moveTypesToInt32;
                 var alignment = U.GetAlignment();
                 var alignmentText = AbilityRules.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
                 var format4 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.AlignmentFormat), [alignmentText]);
-                UAlignment.Text = format4;
+                UnitAlignmentLabel.Text = format4;
                 var unitLevel = U.GetUnitLevel();
                 var format5 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.LevelFormat), [IntToStr(unitLevel)]);
                 var upkeep = U.GetUpkeep();
                 var format6 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.UpkeepFormat), [(int)upkeep]);
-                ULevel.Text = format5 + " / " + format6;
+                UnitLevelLabel.Text = format5 + " / " + format6;
                 if (GameTables.GameEngine.Debug)
                 {
                     var unitIndexAIPriority = RosterTables.GetUnitIndexAIPriority(U.UnitResource.UnitResourceIndex(), _city.Player, 0);
                     AoWHSMap.Current.ShowMessage("AI Prio:" + IntToStr(unitIndexAIPriority));
                 }
 
-                UAbilitiesLB.Items.Clear();
-                U.ListAbilities(UAbilitiesLB.Items);
+                UnitAbilitiesList.Items.Clear();
+                U.ListAbilities(UnitAbilitiesList.Items);
                 if (_action == CityAction.Produce)
                 {
-                    CityBtn1.Visible = true;
+                    CityButton1.Visible = true;
                     var produce = AbilityRules.TranslateResourceString(GameText.ProduceText);
-                    CityBtn1.Text = produce;
+                    CityButton1.Text = produce;
                     var queueLocked3 = _city.Production.GetQueueLocked();
-                    CityBtn2.Visible = !queueLocked3;
+                    CityButton2.Visible = !queueLocked3;
                     var queue4 = AbilityRules.TranslateResourceString(GameText.QueueText);
-                    CityBtn2.Text = queue4;
+                    CityButton2.Text = queue4;
                     var name = U.GetName();
                     var format7 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.ProduceFormat), [name]);
-                    UnitLbl.Text = format7;
+                    UnitLabel.Text = format7;
                     var unitProductionGold = _city.Production.UnitProductionGold(_productionIndex);
-                    UCost.Text = IntToStr(unitProductionGold);
+                    UnitCostLabel.Text = IntToStr(unitProductionGold);
                     var unitProductionTime = _city.Production.UnitProductionTime(_productionIndex);
-                    UTurns.Text = IntToStr(unitProductionTime);
+                    UnitTurnsLabel.Text = IntToStr(unitProductionTime);
                 }
                 else
                 {
-                    CityBtn1.Visible = true;
+                    CityButton1.Visible = true;
                     var install = AbilityRules.TranslateResourceString(GameText.InstallText);
-                    CityBtn1.Text = install;
+                    CityButton1.Text = install;
                     var queueLocked3 = _city.Production.GetQueueLocked();
-                    CityBtn2.Visible = !queueLocked3;
+                    CityButton2.Visible = !queueLocked3;
                     var queue4 = AbilityRules.TranslateResourceString(GameText.QueueText);
-                    CityBtn2.Text = queue4;
+                    CityButton2.Text = queue4;
                     var name = U.GetName();
                     var format7 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.InstallFormat), [name]);
-                    UnitLbl.Text = format7;
+                    UnitLabel.Text = format7;
                     var unitResearchGold = _city.Production.UnitResearchGold(_productionIndex);
-                    UCost.Text = IntToStr(unitResearchGold);
+                    UnitCostLabel.Text = IntToStr(unitResearchGold);
                     var unitResearchTime = _city.Production.UnitResearchTime(_productionIndex);
-                    UTurns.Text = IntToStr(unitResearchTime);
+                    UnitTurnsLabel.Text = IntToStr(unitResearchTime);
                 }
 
                 U.Release();
                 break;
         }
 
-        PPrev.Visible = false;
-        PNext.Visible = false;
+        PreviousCityButton.Visible = false;
+        NextCityButton.Visible = false;
     }
 
     // AoWCityScreen.pas:1099
@@ -629,31 +629,31 @@ public partial class CityScreen : DataModule
     {
         string reason;
         var name = _city.GetName();
-        StructName.Text = name;
-        PopulationHdr.Items.Clear();
+        StructureNameLabel.Text = name;
+        PopulationHeader.Items.Clear();
         var population = AbilityRules.TranslateResourceString(s_populationText);
-        PopulationHdr.Items.Add(population + ":");
+        PopulationHeader.Items.Add(population + ":");
         var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
-        PopulationHdr.Items.Add(" " + raceNamesPlural);
+        PopulationHeader.Items.Add(" " + raceNamesPlural);
         var status = AbilityRules.TranslateResourceString(StatusText);
-        PopulationHdr.Items.Add(status + ":");
+        PopulationHeader.Items.Add(status + ":");
         var civilStatus = _city.GetCivilStatus();
         var civilStatusText = AbilityRules.TranslateResourceString(s_civilStatusTexts[(int)civilStatus]);
-        PopulationHdr.Items.Add(" " + civilStatusText);
+        PopulationHeader.Items.Add(" " + civilStatusText);
         PopulationMemo.Items.Clear();
         _city.ListCivilStatusInfo(PopulationMemo.Items);
-        IncomeHdr.Items.Clear();
+        IncomeHeader.Items.Clear();
         var income = AbilityRules.TranslateResourceString(GameText.IncomeText);
-        IncomeHdr.Items.Add(income);
+        IncomeHeader.Items.Add(income);
         var xGold = AbilityRules.TranslateResourceString(GameText.GoldFormat);
         var format = AbilityRules.Format(" " + xGold, [IntToStr(_city.Income)]);
-        IncomeHdr.Items.Add(format);
+        IncomeHeader.Items.Add(format);
         IncomeMemo.Items.Clear();
         IncomeGoldMemo.Items.Clear();
         _city.ListIncomeInfo(IncomeMemo.Items, IncomeGoldMemo.Items);
-        EnhancementsHdr.Items.Clear();
+        EnhancementsHeader.Items.Clear();
         var enhancements = AbilityRules.TranslateResourceString(s_enhancementsText);
-        EnhancementsHdr.Items.Add(enhancements);
+        EnhancementsHeader.Items.Add(enhancements);
         EnhancementsMemo.Items.Clear();
         _city.ListEnhancementsInfo(EnhancementsMemo.Items);
         if (_migrations != null)
@@ -664,13 +664,13 @@ public partial class CityScreen : DataModule
 
         _migrations = _city.CreateMigrationSelection();
         var raceNamesPluralText = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
-        CurrentRace.Text = raceNamesPluralText;
+        CurrentRaceLabel.Text = raceNamesPluralText;
         var playerRelation = AoWHSMap.Current.Races.GetRace(_city.Race).GetPlayerRelation(_city.Player);
         var statusText = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
-        CurrentRelation.Text = statusText;
-        MigrationRaceLB.Items.Clear();
-        MigrationTurnsLB.Items.Clear();
-        MigrationRelationLB.Items.Clear();
+        CurrentRelationLabel.Text = statusText;
+        MigrationRaceList.Items.Clear();
+        MigrationTurnsList.Items.Clear();
+        MigrationRelationList.Items.Clear();
         if (_migrations != null)
         {
             for (int I = 0, last = _migrations.GetCount() - 1; I <= last; I++)
@@ -678,48 +678,48 @@ public partial class CityScreen : DataModule
                 var itemRace = _migrations.GetItems(I);
                 var raceNamesPlural3 = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[itemRace.Race]);
                 var migrationItem = _migrations.GetItems(I);
-                MigrationRaceLB.Items.AddObject(raceNamesPlural3, migrationItem);
+                MigrationRaceList.Items.AddObject(raceNamesPlural3, migrationItem);
                 var itemTime = _migrations.GetItems(I);
-                MigrationTurnsLB.Items.Add(IntToStr(itemTime.Time));
+                MigrationTurnsList.Items.Add(IntToStr(itemTime.Time));
                 var itemRelation = _migrations.GetItems(I);
                 var status3 = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)itemRelation.Relation]);
-                MigrationRelationLB.Items.Add(status3);
+                MigrationRelationList.Items.Add(status3);
             }
         }
 
         SortMigration();
-        QueueLB.Items.Clear();
+        QueueList.Items.Clear();
         for (int I = 0, last = _city.Production.Queue.GetCount() - 1; I <= last; I++)
         {
             var name2 = _city.Production.Queue.GetItem(I).GetName();
-            QueueLB.Items.Add(IntToStr(I + 1) + ". " + name2);
+            QueueList.Items.Add(IntToStr(I + 1) + ". " + name2);
         }
 
         for (int I = _city.Production.Queue.GetCount(); I <= 4; I++)
         {
             var emptyQueue = AbilityRules.TranslateResourceString(GameText.EmptyQueueText);
-            QueueLB.Items.Add(IntToStr(I + 1) + ". " + emptyQueue);
+            QueueList.Items.Add(IntToStr(I + 1) + ". " + emptyQueue);
         }
 
         var count = _city.Production.Queue.GetCount();
-        if (QueueLB.Selected >= count)
+        if (QueueList.Selected >= count)
         {
             var fQueueCount = _city.Production.Queue.GetCount();
-            QueueLB.Selected = fQueueCount - 1;
-            _queueIndex = QueueLB.Selected;
+            QueueList.Selected = fQueueCount - 1;
+            _queueIndex = QueueList.Selected;
         }
 
-        LoopQueueBox.Checked = _city.Production.LoopQueue;
+        LoopQueueCheckBox.Checked = _city.Production.LoopQueue;
         if (_city.GetActiveAction() != CityAction.None)
         {
             var nameProgressive = _city.Production.Queue.GetItem(0).GetNameProgressive();
-            ActiveAction.Text = nameProgressive;
+            ActiveActionLabel.Text = nameProgressive;
             if (_city.Production.Settings.TurnsLeft != -1)
             {
                 var formatTurnsLeftString = DurationText.FormatTurnsLeftString(_city.Production.Settings.TurnsLeft);
-                ActiveActionTurns.Text = formatTurnsLeftString;
-                ActiveActionTurns.Visible = true;
-                ActiveActionTurns.TextColor = 6783862;
+                ActiveActionTurnsLabel.Text = formatTurnsLeftString;
+                ActiveActionTurnsLabel.Visible = true;
+                ActiveActionTurnsLabel.TextColor = 6783862;
                 this.ActiveActionTurnsBar.Min = 0;
                 this.ActiveActionTurnsBar.Max = _city.Production.Settings.TurnsTotal;
                 this.ActiveActionTurnsBar.Position = _city.Production.Settings.TurnsTotal - _city.Production.Settings.TurnsLeft;
@@ -728,7 +728,7 @@ public partial class CityScreen : DataModule
             }
             else
             {
-                ActiveActionTurns.Visible = false;
+                ActiveActionTurnsLabel.Visible = false;
                 ActiveActionTurnsBar.Visible = false;
             }
 
@@ -740,10 +740,10 @@ public partial class CityScreen : DataModule
             if (_city.Production.Queue.GetCount() == 0)
             {
                 var producingMerchandise = AbilityRules.TranslateResourceString(GameText.ProducingMerchandiseText);
-                ActiveAction.Text = producingMerchandise;
+                ActiveActionLabel.Text = producingMerchandise;
                 var defaultText = AbilityRules.TranslateResourceString(GameText.DefaultText);
-                ActiveActionTurns.Text = "(" + LowerCase(defaultText) + ")";
-                ActiveActionTurns.TextColor = 6783862;
+                ActiveActionTurnsLabel.Text = "(" + LowerCase(defaultText) + ")";
+                ActiveActionTurnsLabel.TextColor = 6783862;
                 ActiveActionTurnsBar.Visible = false;
                 var activityImage = ActivityImage(CityAction.None);
                 CurrentActionImage.CurrentImage = activityImage;
@@ -752,11 +752,11 @@ public partial class CityScreen : DataModule
             {
                 reason = "";
                 var nameProgressive = _city.Production.Queue.GetItem(0).GetNameProgressive();
-                ActiveAction.Text = nameProgressive;
+                ActiveActionLabel.Text = nameProgressive;
                 var queue = _city.Production.Queue.GetItem(0);
                 _city.Production.CanExecuteProduction(queue, ref reason);
-                ActiveActionTurns.Text = reason;
-                ActiveActionTurns.TextColor = 255;
+                ActiveActionTurnsLabel.Text = reason;
+                ActiveActionTurnsLabel.TextColor = 255;
                 ActiveActionTurnsBar.Visible = false;
                 var activityImage = _city.Production.Queue.GetItem(0).Order.ActivityImage(_city);
                 CurrentActionImage.CurrentImage = activityImage;
@@ -768,7 +768,7 @@ public partial class CityScreen : DataModule
             SelectAction(_action);
         }
 
-        Dlg.Drawn = false;
+        Window.Drawn = false;
     }
 
     // AoWCityScreen.pas:1200
@@ -782,7 +782,7 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:1207
     public void CityChanged(object sender)
     {
-        if (Dlg.Visible && sender == _city)
+        if (Window.Visible && sender == _city)
         {
             if (_city.Player == AoWHSMap.Current.SeatedPlayer)
             {
@@ -790,7 +790,7 @@ public partial class CityScreen : DataModule
             }
             else
             {
-                Dlg.Visible = false;
+                Window.Visible = false;
             }
         }
     }
@@ -850,7 +850,7 @@ public partial class CityScreen : DataModule
 
         AoWHSMap.Current.TutorialControl.ShowMessage(56, true, true);
         DialogHosts.General.Manager.OverlayPriority = 49;
-        Dlg.Visible = true;
+        Window.Visible = true;
     }
 
     // AoWCityScreen.pas:292
@@ -922,7 +922,7 @@ public partial class CityScreen : DataModule
     {
         int image;
         image = ActivityImage((CityAction)((byte)slot + 1));
-        DialogHosts.UIGraphics.CityWin[image].Show(ActivityPnl2.WinLeft + sender.WinLeft + 2, ActivityPnl2.WinTop + sender.WinTop + 2, lockedSurface);
+        DialogHosts.UIGraphics.CityWindow[image].Show(ActivityPanel2.WinLeft + sender.WinLeft + 2, ActivityPanel2.WinTop + sender.WinTop + 2, lockedSurface);
     }
 
     // AoWCityScreen.pas:354
@@ -968,7 +968,7 @@ public partial class CityScreen : DataModule
                         if (_city.CanRaze(AoWHSMap.Current.SeatedPlayer, ref reason))
                         {
                             _city.Raze(AoWHSMap.Current.SeatedPlayer);
-                            Dlg.Visible = false;
+                            Window.Visible = false;
                         }
                         else
                         {
@@ -1026,7 +1026,7 @@ public partial class CityScreen : DataModule
 
                         break;
                     case CityAction.Migrate:
-                        race = ((MigrationItem)MigrationRaceLB.Items.Objects[MigrationRaceLB.Selected]).Race;
+                        race = ((MigrationItem)MigrationRaceList.Items.Objects[MigrationRaceList.Selected]).Race;
                         if (_city.CanMigrate(race, ref reason))
                         {
                             AoWHSMap.Current.TutorialControl.ShowMessage(66, true, true);
@@ -1138,7 +1138,7 @@ public partial class CityScreen : DataModule
         DialogHosts.General.PlayButtonSound(0);
         if (_mode == 0)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
         else
         {
@@ -1155,7 +1155,7 @@ public partial class CityScreen : DataModule
         UnitShowInfo info = default;
         Unit U;
         UnitProduction P;
-        R = new Rect(ActivityPnl.WinLeft + sender.WinLeft, ActivityPnl.WinTop + sender.WinTop, ActivityPnl2.WinLeft + sender.WinLeft + sender.WinWidth, ActivityPnl.WinTop + sender.WinTop + sender.WinHeight);
+        R = new Rect(ActivityPanel.WinLeft + sender.WinLeft, ActivityPanel.WinTop + sender.WinTop, ActivityPanel2.WinLeft + sender.WinLeft + sender.WinWidth, ActivityPanel.WinTop + sender.WinTop + sender.WinHeight);
         // { Original uses two different panels. }
         P = _city.Production.UnitProductions.GetItem(slot);
         if (P != null)
@@ -1168,7 +1168,7 @@ public partial class CityScreen : DataModule
             info.Looped = false;
             if (!P.Researched)
             {
-                DialogHosts.UIGraphics.CityWin[5].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                DialogHosts.UIGraphics.CityWindow[5].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 info.Direction = 5;
                 if (U != null)
                 {
@@ -1176,11 +1176,11 @@ public partial class CityScreen : DataModule
                 }
 
                 var lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(45);
-                DialogHosts.UIGraphics.CityWin[5].ShowBlended(R.Left + 2, R.Top + 2, lockedSurface, lookupTable);
+                DialogHosts.UIGraphics.CityWindow[5].ShowBlended(R.Left + 2, R.Top + 2, lockedSurface, lookupTable);
             }
             else
             {
-                DialogHosts.UIGraphics.CityWin[4].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                DialogHosts.UIGraphics.CityWindow[4].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 if (U != null)
                 {
                     U.Show(R.Left - 4, R.Top, lockedSurface, info);
@@ -1194,7 +1194,7 @@ public partial class CityScreen : DataModule
         }
         else
         {
-            DialogHosts.UIGraphics.CityWin[62].Show(R.Left + 2, R.Top + 2, lockedSurface);
+            DialogHosts.UIGraphics.CityWindow[62].Show(R.Left + 2, R.Top + 2, lockedSurface);
         }
     }
 
@@ -1255,9 +1255,9 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:534
     public void MigrationSBChange(VerticalScrollBar sender)
     {
-        MigrationRaceLB.ListOffset = sender.Position;
-        MigrationTurnsLB.ListOffset = sender.Position;
-        MigrationRelationLB.ListOffset = sender.Position;
+        MigrationRaceList.ListOffset = sender.Position;
+        MigrationTurnsList.ListOffset = sender.Position;
+        MigrationRelationList.ListOffset = sender.Position;
     }
 
     // AoWCityScreen.pas:541
@@ -1268,7 +1268,7 @@ public partial class CityScreen : DataModule
         U = _city.Production.CreateUnitProduction(_productionIndex);
         if (U != null)
         {
-            R = new Rect(UPictureFramePnl.WinLeft + sender.WinLeft + 2, UPictureFramePnl.WinTop + sender.WinTop + 2, UPictureFramePnl.WinLeft + sender.WinLeft + sender.WinWidth - 4, UPictureFramePnl.WinTop + sender.WinTop + sender.WinHeight - 2);
+            R = new Rect(UnitPictureFramePanel.WinLeft + sender.WinLeft + 2, UnitPictureFramePanel.WinTop + sender.WinTop + 2, UnitPictureFramePanel.WinLeft + sender.WinLeft + sender.WinWidth - 4, UnitPictureFramePanel.WinTop + sender.WinTop + sender.WinHeight - 2);
             U.ShowFace(R, lockedSurface);
             U.Release();
         }
@@ -1279,11 +1279,11 @@ public partial class CityScreen : DataModule
     {
         CityAction action;
         var count = _city.Production.Queue.GetCount();
-        if (QueueLB.Selected < count && _mode != 0)
+        if (QueueList.Selected < count && _mode != 0)
         {
-            if (QueueLB.Selected != -1)
+            if (QueueList.Selected != -1)
             {
-                _queueIndex = QueueLB.Selected;
+                _queueIndex = QueueList.Selected;
                 var order = _city.Production.Queue.GetItem(_queueIndex).Order;
                 action = order.CityAction;
                 if (order is ProduceUnit produce)
@@ -1304,23 +1304,23 @@ public partial class CityScreen : DataModule
 
                 SelectAction(action);
                 SetMode(2);
-                QueueLB.Selected = _queueIndex;
-                CityBtn1.Visible = true;
+                QueueList.Selected = _queueIndex;
+                CityButton1.Visible = true;
                 var delete = AbilityRules.TranslateResourceString(GameText.DeleteText);
-                CityBtn1.Text = delete;
+                CityButton1.Text = delete;
                 if (_queueIndex == 0 && _city.Production.Status == ProductionControlStatus.Waiting)
                 {
-                    CityBtn2.Visible = true;
+                    CityButton2.Visible = true;
                     var execute = AbilityRules.TranslateResourceString(GameText.ExecuteText);
-                    CityBtn2.Text = execute;
+                    CityButton2.Text = execute;
                 }
                 else
                 {
-                    CityBtn2.Visible = false;
+                    CityButton2.Visible = false;
                 }
 
-                PPrev.Visible = false;
-                PNext.Visible = false;
+                PreviousCityButton.Visible = false;
+                NextCityButton.Visible = false;
             }
             else
             {
@@ -1351,7 +1351,7 @@ public partial class CityScreen : DataModule
         {
             if (_city.Production.Queue.GetItem(0).Order.UnitProductionIndex is int index)
             {
-                R = new Rect(ActiveActionPnl.WinLeft + sender.WinLeft, ActiveActionPnl.WinTop + sender.WinTop, ActiveActionPnl.WinLeft + sender.WinLeft + sender.WinWidth, ActiveActionPnl.WinTop + sender.WinTop + sender.WinHeight);
+                R = new Rect(ActiveActionPanel.WinLeft + sender.WinLeft, ActiveActionPanel.WinTop + sender.WinTop, ActiveActionPanel.WinLeft + sender.WinLeft + sender.WinWidth, ActiveActionPanel.WinTop + sender.WinTop + sender.WinHeight);
                 U = _city.Production.CreateUnitProduction(index);
                 if (U != null)
                 {
@@ -1375,14 +1375,14 @@ public partial class CityScreen : DataModule
     // AoWCityScreen.pas:626
     public void LoopQueueBoxChange()
     {
-        _city.Production.SetLoopQueueTo(LoopQueueBox.Checked);
+        _city.Production.SetLoopQueueTo(LoopQueueCheckBox.Checked);
     }
 
     // AoWCityScreen.pas:631
     public void RacePortraitDraw(Image sender, LockedSurface lockedSurface)
     {
         Rect R;
-        R = new Rect(IPPnl.WinLeft + sender.WinLeft, IPPnl.WinTop + sender.WinTop, IPPnl.WinLeft + sender.WinLeft + sender.WinWidth, IPPnl.WinTop + sender.WinTop + sender.WinHeight);
+        R = new Rect(PopulationPanel.WinLeft + sender.WinLeft, PopulationPanel.WinTop + sender.WinTop, PopulationPanel.WinLeft + sender.WinLeft + sender.WinWidth, PopulationPanel.WinTop + sender.WinTop + sender.WinHeight);
         AoWHSSet.Current.RaceResources.GetRaceResource(_city.Race).GetFace().ShowStretched(R, lockedSurface);
     }
 
@@ -1396,7 +1396,7 @@ public partial class CityScreen : DataModule
         int width;
         if (_preview != null)
         {
-            R = new Rect(Dlg.WinLeft + sender.WinLeft, Dlg.WinTop + sender.WinTop, Dlg.WinLeft + sender.WinLeft + sender.WinWidth, Dlg.WinTop + sender.WinTop + sender.WinHeight);
+            R = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
             width = R.Right - R.Left;
             W = width;
             H = R.Bottom - R.Top;
@@ -1455,7 +1455,7 @@ public partial class CityScreen : DataModule
                 MapView.Drawn = false;
                 break;
             case 27:
-                Dlg.Visible = false;
+                Window.Visible = false;
                 break;
         }
     }
@@ -1483,9 +1483,9 @@ public partial class CityScreen : DataModule
     public void UAbilitiesLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Ability A;
-        if (button == MouseButton.Right && UAbilitiesLB.Selected > -1)
+        if (button == MouseButton.Right && UnitAbilitiesList.Selected > -1)
         {
-            var objectValue = UAbilitiesLB.Items.Objects[UAbilitiesLB.Selected];
+            var objectValue = UnitAbilitiesList.Items.Objects[UnitAbilitiesList.Selected];
             A = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (A != null)
             {

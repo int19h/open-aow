@@ -18,11 +18,11 @@ public partial class CityJoinDialog : DataModule
     public CityJoinDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Label ApproachLbl;
-    public Frame CeltFrame;
+    public Window Window;
+    public Label ApproachLabel;
+    public Frame CelticFrame;
     public Memo Memo;
-    public ArnoLine CityPicLine;
+    public ArnoLine CityPictureLine;
     private sbyte _race;
     private ExecuteDoneEvent _done;
     private NegotiateRequestEventLog _event;
@@ -58,7 +58,7 @@ public partial class CityJoinDialog : DataModule
         }
         else
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -73,7 +73,7 @@ public partial class CityJoinDialog : DataModule
         }
         else
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -81,7 +81,7 @@ public partial class CityJoinDialog : DataModule
     public void CancelBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWCityJoinDlg.pas:93
@@ -91,7 +91,7 @@ public partial class CityJoinDialog : DataModule
         face = AoWHSSet.Current.RaceResources.GetRaceResource(_race).GetFace();
         if (face != null)
         {
-            face.ShowClipped(CeltFrame.WinLeft + 10, CeltFrame.WinTop + 28, surface);
+            face.ShowClipped(CelticFrame.WinLeft + 10, CelticFrame.WinTop + 28, surface);
         }
     }
 
@@ -105,7 +105,7 @@ public partial class CityJoinDialog : DataModule
     public void CloseBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWCityJoinDlg.pas:113
@@ -113,7 +113,7 @@ public partial class CityJoinDialog : DataModule
     {
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -127,16 +127,16 @@ public partial class CityJoinDialog : DataModule
         log = dialog._event;
         var text = log.JoinMessage.Text;
         dialog.Memo.Items.Text = text;
-        dialog.ApproachLbl.Text = log.Text;
+        dialog.ApproachLabel.Text = log.Text;
         town = (City)AoWHSMap.Current.MapContainer.GetField(log.X, log.Y, log.MapLevel).FindNoneTransparentHexSprite(typeof(City));
         dialog._race = town.Race;
         var topCityActionImage = town.GetTopCityActionImage(null);
-        dialog.CityPicLine.ImageTop = topCityActionImage;
+        dialog.CityPictureLine.ImageTop = topCityActionImage;
         var middleCityActionImage = town.GetMiddleCityActionImage(null);
-        dialog.CityPicLine.ImageMiddle = middleCityActionImage;
+        dialog.CityPictureLine.ImageMiddle = middleCityActionImage;
         var bottomCityActionImage = town.GetBottomCityActionImage(null);
-        dialog.CityPicLine.ImageBottom = bottomCityActionImage;
-        dialog.Dlg.Visible = true;
+        dialog.CityPictureLine.ImageBottom = bottomCityActionImage;
+        dialog.Window.Visible = true;
         AoWHSMap.Current.TutorialControl.ShowMessage(62, true, true);
     }
 

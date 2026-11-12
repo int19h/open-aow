@@ -5,10 +5,10 @@ public partial class SpellBook
     public override void Loaded()
     {
         base.Loaded();
-        if (Dlg != null)
+        if (Book != null)
         {
-            Dlg.PageBack = PrevBtn;
-            Dlg.PageForward = NextBtn;
+            Book.PageBack = PreviousButton;
+            Book.PageForward = NextButton;
         }
     }
 }

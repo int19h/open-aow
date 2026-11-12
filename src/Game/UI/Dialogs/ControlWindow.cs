@@ -28,56 +28,56 @@ public partial class ControlWindow : DataModule
     public Frame Unit6Frame;
     public Frame Unit7Frame;
     public Frame Unit8Frame;
-    public Label MovesLbl;
-    public Label PartyStatusLbl;
-    public Image U1MIcon;
-    public Image U2MIcon;
-    public Image U3MIcon;
-    public Image U4MIcon;
-    public Image U5MIcon;
-    public Image U6MIcon;
-    public Image U7MIcon;
-    public Image U8MIcon;
+    public Label MovesLabel;
+    public Label PartyStatusLabel;
+    public Image Unit1MovesIcon;
+    public Image Unit2MovesIcon;
+    public Image Unit3MovesIcon;
+    public Image Unit4MovesIcon;
+    public Image Unit5MovesIcon;
+    public Image Unit6MovesIcon;
+    public Image Unit7MovesIcon;
+    public Image Unit8MovesIcon;
     public Image MoveIcon;
-    public Panel PartyBPnl;
-    public Gauge Unit1Gge;
-    public Gauge Unit2Gge;
-    public Gauge Unit3Gge;
-    public Gauge Unit4Gge;
-    public Gauge Unit5Gge;
-    public Gauge Unit6Gge;
-    public Gauge Unit7Gge;
-    public Gauge Unit8Gge;
-    public CheckBox Unit1Chk;
-    public CheckBox Unit2Chk;
-    public CheckBox Unit3Chk;
-    public CheckBox Unit5Chk;
-    public CheckBox Unit6Chk;
-    public CheckBox Unit7Chk;
-    public CheckBox Unit4Chk;
-    public CheckBox Unit8Chk;
-    public Frame Emp1Fr;
-    public Frame Emp2Fr;
-    public Frame Emp3Fr;
-    public Frame Emp4Fr;
-    public Frame Emp5Fr;
-    public Frame Emp6Fr;
-    public Frame Emp7Fr;
-    public Frame Emp8Fr;
-    public Frame Emp1Chk;
-    public Frame Emp2Chk;
-    public Frame Emp3Chk;
-    public Frame Emp4Chk;
-    public Frame Emp5Chk;
-    public Frame Emp6Chk;
-    public Frame Emp7Chk;
-    public Frame Emp8Chk;
-    public Panel PartyIPnl;
-    public Label PartyILbl;
-    public Panel PControlPnl;
-    public CheckBox PGuard;
-    public Label PartyActionLbl1;
-    public Label PartyActionLbl2;
+    public Panel PartyMovesPanel;
+    public Gauge Unit1Gauge;
+    public Gauge Unit2Gauge;
+    public Gauge Unit3Gauge;
+    public Gauge Unit4Gauge;
+    public Gauge Unit5Gauge;
+    public Gauge Unit6Gauge;
+    public Gauge Unit7Gauge;
+    public Gauge Unit8Gauge;
+    public CheckBox Unit1CheckBox;
+    public CheckBox Unit2CheckBox;
+    public CheckBox Unit3CheckBox;
+    public CheckBox Unit5CheckBox;
+    public CheckBox Unit6CheckBox;
+    public CheckBox Unit7CheckBox;
+    public CheckBox Unit4CheckBox;
+    public CheckBox Unit8CheckBox;
+    public Frame EmptySlot1Frame;
+    public Frame EmptySlot2Frame;
+    public Frame EmptySlot3Frame;
+    public Frame EmptySlot4Frame;
+    public Frame EmptySlot5Frame;
+    public Frame EmptySlot6Frame;
+    public Frame EmptySlot7Frame;
+    public Frame EmptySlot8Frame;
+    public Frame EmptyCheck1Frame;
+    public Frame EmptyCheck2Frame;
+    public Frame EmptyCheck3Frame;
+    public Frame EmptyCheck4Frame;
+    public Frame EmptyCheck5Frame;
+    public Frame EmptyCheck6Frame;
+    public Frame EmptyCheck7Frame;
+    public Frame EmptyCheck8Frame;
+    public Panel PartyInfoPanel;
+    public Label PartyInfoLabel;
+    public Panel PartyControlPanel;
+    public CheckBox PartyGuardCheckBox;
+    public Label PartyActionLabel1;
+    public Label PartyActionLabel2;
     private byte _selection;
 
     // AOWControlWin.pas:294
@@ -89,10 +89,10 @@ public partial class ControlWindow : DataModule
             {
                 lockedSurface.ClipRectangle = R;
                 // { Original tests the unsorted index when checking the background library. }
-                if ((int)DialogHosts.General.UnitList.GetUnit(index).GetAlignment() < DialogHosts.UIGraphics.UnitBGs.Count)
+                if ((int)DialogHosts.General.UnitList.GetUnit(index).GetAlignment() < DialogHosts.UIGraphics.UnitBackgrounds.Count)
                 {
                     var alignment = DialogHosts.General.UnitList.GetUnit(DialogHosts.General.SelectedUnits[index]).GetAlignment();
-                    var unitBackground = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
+                    var unitBackground = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
                     unitBackground.ShowClipped(R.Left + (R.Right - R.Left - unitBackground.Width) / 2, R.Top + (R.Bottom - R.Top - unitBackground.Height) / 2, lockedSurface);
                 }
 
@@ -115,7 +115,7 @@ public partial class ControlWindow : DataModule
     {
         DialogHosts.General.PlayButtonSound(0);
         MainWindow.Visible = false;
-        DialogHosts.TaskBar.ConButton.Visible = false;
+        DialogHosts.TaskBar.PartyButton.Visible = false;
     }
 
     // AOWControlWin.pas:324
@@ -159,42 +159,42 @@ public partial class ControlWindow : DataModule
     public void CheckStart()
     {
         _selection = 0;
-        if (!Unit1Chk.Checked && DialogHosts.General.SelectedUnits[0] != -1)
+        if (!Unit1CheckBox.Checked && DialogHosts.General.SelectedUnits[0] != -1)
         {
             _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[0]));
         }
 
-        if (!Unit2Chk.Checked && DialogHosts.General.SelectedUnits[1] != -1)
+        if (!Unit2CheckBox.Checked && DialogHosts.General.SelectedUnits[1] != -1)
         {
             _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[1]));
         }
 
-        if (!Unit3Chk.Checked && DialogHosts.General.SelectedUnits[2] != -1)
+        if (!Unit3CheckBox.Checked && DialogHosts.General.SelectedUnits[2] != -1)
         {
             _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[2]));
         }
 
-        if (!Unit4Chk.Checked && DialogHosts.General.SelectedUnits[3] != -1)
+        if (!Unit4CheckBox.Checked && DialogHosts.General.SelectedUnits[3] != -1)
         {
             _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[3]));
         }
 
-        if (!Unit5Chk.Checked && DialogHosts.General.SelectedUnits[4] != -1)
+        if (!Unit5CheckBox.Checked && DialogHosts.General.SelectedUnits[4] != -1)
         {
             _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[4]));
         }
 
-        if (!Unit6Chk.Checked && DialogHosts.General.SelectedUnits[5] != -1)
+        if (!Unit6CheckBox.Checked && DialogHosts.General.SelectedUnits[5] != -1)
         {
             _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[5]));
         }
 
-        if (!Unit7Chk.Checked && DialogHosts.General.SelectedUnits[6] != -1)
+        if (!Unit7CheckBox.Checked && DialogHosts.General.SelectedUnits[6] != -1)
         {
             _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[6]));
         }
 
-        if (!Unit8Chk.Checked && DialogHosts.General.SelectedUnits[7] != -1)
+        if (!Unit8CheckBox.Checked && DialogHosts.General.SelectedUnits[7] != -1)
         {
             _selection = (byte)(_selection | (1 << DialogHosts.General.SelectedUnits[7]));
         }
@@ -204,15 +204,15 @@ public partial class ControlWindow : DataModule
     public void CheckEnd()
     {
         _selection = AoWHSMap.Current.SelectedArmy.GetSelection();
-        Unit1Chk.Checked = DialogHosts.General.SelectedUnits[0] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[0])) == 0;
-        Unit2Chk.Checked = DialogHosts.General.SelectedUnits[1] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[1])) == 0;
-        Unit3Chk.Checked = DialogHosts.General.SelectedUnits[2] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[2])) == 0;
-        Unit4Chk.Checked = DialogHosts.General.SelectedUnits[3] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[3])) == 0;
-        Unit5Chk.Checked = DialogHosts.General.SelectedUnits[4] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[4])) == 0;
-        Unit6Chk.Checked = DialogHosts.General.SelectedUnits[5] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[5])) == 0;
-        Unit7Chk.Checked = DialogHosts.General.SelectedUnits[6] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[6])) == 0;
-        Unit8Chk.Checked = DialogHosts.General.SelectedUnits[7] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[7])) == 0;
-        if (Unit1Chk.Checked)
+        Unit1CheckBox.Checked = DialogHosts.General.SelectedUnits[0] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[0])) == 0;
+        Unit2CheckBox.Checked = DialogHosts.General.SelectedUnits[1] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[1])) == 0;
+        Unit3CheckBox.Checked = DialogHosts.General.SelectedUnits[2] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[2])) == 0;
+        Unit4CheckBox.Checked = DialogHosts.General.SelectedUnits[3] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[3])) == 0;
+        Unit5CheckBox.Checked = DialogHosts.General.SelectedUnits[4] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[4])) == 0;
+        Unit6CheckBox.Checked = DialogHosts.General.SelectedUnits[5] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[5])) == 0;
+        Unit7CheckBox.Checked = DialogHosts.General.SelectedUnits[6] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[6])) == 0;
+        Unit8CheckBox.Checked = DialogHosts.General.SelectedUnits[7] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[7])) == 0;
+        if (Unit1CheckBox.Checked)
         {
             Unit1Frame.ImageLibraryIndexFrame = 26;
         }
@@ -221,7 +221,7 @@ public partial class ControlWindow : DataModule
             Unit1Frame.ImageLibraryIndexFrame = 12;
         }
 
-        if (Unit2Chk.Checked)
+        if (Unit2CheckBox.Checked)
         {
             Unit2Frame.ImageLibraryIndexFrame = 26;
         }
@@ -230,7 +230,7 @@ public partial class ControlWindow : DataModule
             Unit2Frame.ImageLibraryIndexFrame = 12;
         }
 
-        if (Unit3Chk.Checked)
+        if (Unit3CheckBox.Checked)
         {
             Unit3Frame.ImageLibraryIndexFrame = 26;
         }
@@ -239,7 +239,7 @@ public partial class ControlWindow : DataModule
             Unit3Frame.ImageLibraryIndexFrame = 12;
         }
 
-        if (Unit4Chk.Checked)
+        if (Unit4CheckBox.Checked)
         {
             Unit4Frame.ImageLibraryIndexFrame = 26;
         }
@@ -248,7 +248,7 @@ public partial class ControlWindow : DataModule
             Unit4Frame.ImageLibraryIndexFrame = 12;
         }
 
-        if (Unit5Chk.Checked)
+        if (Unit5CheckBox.Checked)
         {
             Unit5Frame.ImageLibraryIndexFrame = 26;
         }
@@ -257,7 +257,7 @@ public partial class ControlWindow : DataModule
             Unit5Frame.ImageLibraryIndexFrame = 12;
         }
 
-        if (Unit6Chk.Checked)
+        if (Unit6CheckBox.Checked)
         {
             Unit6Frame.ImageLibraryIndexFrame = 26;
         }
@@ -266,7 +266,7 @@ public partial class ControlWindow : DataModule
             Unit6Frame.ImageLibraryIndexFrame = 12;
         }
 
-        if (Unit7Chk.Checked)
+        if (Unit7CheckBox.Checked)
         {
             Unit7Frame.ImageLibraryIndexFrame = 26;
         }
@@ -275,7 +275,7 @@ public partial class ControlWindow : DataModule
             Unit7Frame.ImageLibraryIndexFrame = 12;
         }
 
-        if (Unit8Chk.Checked)
+        if (Unit8CheckBox.Checked)
         {
             Unit8Frame.ImageLibraryIndexFrame = 26;
         }
@@ -290,11 +290,11 @@ public partial class ControlWindow : DataModule
         MoveIcon.CurrentImage = moveTypesToInt32;
         var fSelectedArmySelection = AoWHSMap.Current.SelectedArmy.GetSelection();
         var movePoints = DialogHosts.General.UnitList.MovePoints(fSelectedArmySelection);
-        MovesLbl.Text = IntToStr(movePoints);
+        MovesLabel.Text = IntToStr(movePoints);
         var selection2 = AoWHSMap.Current.SelectedArmy.GetSelection();
         var partyStatus = AoWHSMap.Current.SelectedArmy.GetArmyHexSprite().Army.GetPartyStatus(selection2);
         var partyStatusText = AbilityRules.TranslateResourceString(s_partyStatusTexts[(int)partyStatus]);
-        PartyStatusLbl.Text = partyStatusText;
+        PartyStatusLabel.Text = partyStatusText;
     }
 
     // AOWControlWin.pas:407
@@ -361,7 +361,7 @@ public partial class ControlWindow : DataModule
     // AOWControlWin.pas:457
     public void PGuardChange()
     {
-        if (PGuard.Checked)
+        if (PartyGuardCheckBox.Checked)
         {
             if (!DialogHosts.General.UnitList.UserMode.Contains(ArmyUserModeElement.Guard))
             {

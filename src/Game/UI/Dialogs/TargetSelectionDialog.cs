@@ -11,12 +11,12 @@ public partial class TargetSelectionDialog : DataModule
     public TargetSelectionDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Button MainBtn;
+    public Window Window;
+    public Button MainButton;
     public Memo DefaultMemo;
-    public Label HeaderLbl;
-    public ArnoLine BorderImage;
-    public Label TargetLbl;
+    public Label HeaderLabel;
+    public ArnoLine BorderLine;
+    public Label TargetLabel;
 
     // AoWTargetSelection.pas:45
     public void CloseClick()

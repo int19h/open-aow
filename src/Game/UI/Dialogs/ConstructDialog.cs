@@ -16,7 +16,7 @@ public partial class ConstructDialog : DataModule
     public ConstructDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
+    public Window Window;
     public ListBox ConstructionList;
     public ListBox ConstructionCostList;
     public ListBox ConstructionTurnsList;
@@ -33,7 +33,7 @@ public partial class ConstructDialog : DataModule
         _request = request;
         _request.AddRef();
         UpdateConstructions();
-        Dlg.Visible = true;
+        Window.Visible = true;
     }
 
     // AoWConstructDlg.pas:108
@@ -55,7 +55,7 @@ public partial class ConstructDialog : DataModule
         string name = "";
         ConstructAbility ability;
         ConstructionControl control;
-        Dlg.Drawn = false;
+        Window.Drawn = false;
         U = AoWHSMap.Current.UnitControl.FindUnit(_request.UnitId);
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();
@@ -107,7 +107,7 @@ public partial class ConstructDialog : DataModule
     public void CancelBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWConstructDlg.pas:68
@@ -150,7 +150,7 @@ public partial class ConstructDialog : DataModule
             {
                 if (control.Construct(U))
                 {
-                    Dlg.Visible = false;
+                    Window.Visible = false;
                 }
             }
             else
@@ -189,7 +189,7 @@ public partial class ConstructDialog : DataModule
     {
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 }

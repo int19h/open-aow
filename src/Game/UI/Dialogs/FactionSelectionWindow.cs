@@ -17,20 +17,20 @@ public partial class FactionSelectionWindow : DataModule
     public FactionSelectionWindow(Component owner) : base(owner)
     { }
 
-    public Panel FactionPnl;
-    public Label TopLbl;
-    public Panel LightPnl;
-    public Memo LText;
-    public Button LStart;
-    public Button LBack;
-    public Image LSphere;
-    public Panel DarkPnl;
-    public Button DStart;
-    public Button DBack;
-    public Label LName;
-    public Memo DText;
-    public Label DName;
-    public Image DSphere;
+    public Panel FactionPanel;
+    public Label TopLabel;
+    public Panel LightPanel;
+    public Memo LightTextMemo;
+    public Button LightStartButton;
+    public Button LightBackButton;
+    public Image LightSphereImage;
+    public Panel DarkPanel;
+    public Button DarkStartButton;
+    public Button DarkBackButton;
+    public Label LightNameLabel;
+    public Memo DarkTextMemo;
+    public Label DarkNameLabel;
+    public Image DarkSphereImage;
 
     public int Fade { get; set; }
     public int FadeImage { get; private set; }
@@ -41,10 +41,10 @@ public partial class FactionSelectionWindow : DataModule
     // AoWSelFactionWin.pas:63
     public void CloseSelection()
     {
-        DialogHosts.UIGraphics.FactionWin.ReleaseDiscardableImageData();
-        DialogHosts.TitleWindow.TitleWin.Visible = false;
+        DialogHosts.UIGraphics.FactionWindow.ReleaseDiscardableImageData();
+        DialogHosts.TitleWindow.MainWindow.Visible = false;
         WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
-        FactionPnl.Visible = false;
+        FactionPanel.Visible = false;
         Fade = 0;
     }
 
@@ -52,8 +52,8 @@ public partial class FactionSelectionWindow : DataModule
     public void LStartClick(int side)
     {
         DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.UIGraphics.FactionWin.ReleaseDiscardableImageData();
-        FactionPnl.Visible = false;
+        DialogHosts.UIGraphics.FactionWindow.ReleaseDiscardableImageData();
+        FactionPanel.Visible = false;
         Fade = 0;
         StartCampaignJoin(DialogHosts.CampaignJoinDialog, side);
     }
@@ -61,17 +61,17 @@ public partial class FactionSelectionWindow : DataModule
     // AoWSelFactionWin.pas:82
     public void LightPnlMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (!DName.Visible && !LName.Visible)
+        if (!DarkNameLabel.Visible && !LightNameLabel.Visible)
         {
-            DName.Visible = true;
-            DText.Visible = true;
-            DBack.Visible = true;
-            DStart.Visible = true;
-            DBack.CaptureInput = true;
-            DStart.CaptureInput = true;
-            TopLbl.Visible = false;
+            DarkNameLabel.Visible = true;
+            DarkTextMemo.Visible = true;
+            DarkBackButton.Visible = true;
+            DarkStartButton.Visible = true;
+            DarkBackButton.CaptureInput = true;
+            DarkStartButton.CaptureInput = true;
+            TopLabel.Visible = false;
             Fade = 100;
-            FactionPnl.ImageLibraryIndexTexture = 2;
+            FactionPanel.ImageLibraryIndexTexture = 2;
             FadeImage = 0;
             FadeDirection = 1;
         }
@@ -80,17 +80,17 @@ public partial class FactionSelectionWindow : DataModule
     // AoWSelFactionWin.pas:100
     public void DarkPnlMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (!LName.Visible && !DName.Visible)
+        if (!LightNameLabel.Visible && !DarkNameLabel.Visible)
         {
-            LName.Visible = true;
-            LText.Visible = true;
-            LBack.Visible = true;
-            LStart.Visible = true;
-            LBack.CaptureInput = true;
-            LStart.CaptureInput = true;
-            TopLbl.Visible = false;
+            LightNameLabel.Visible = true;
+            LightTextMemo.Visible = true;
+            LightBackButton.Visible = true;
+            LightStartButton.Visible = true;
+            LightBackButton.CaptureInput = true;
+            LightStartButton.CaptureInput = true;
+            TopLabel.Visible = false;
             Fade = 100;
-            FactionPnl.ImageLibraryIndexTexture = 1;
+            FactionPanel.ImageLibraryIndexTexture = 1;
             FadeImage = 0;
             FadeDirection = 1;
         }
@@ -100,8 +100,8 @@ public partial class FactionSelectionWindow : DataModule
     public void LBackClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        LBack.CaptureInput = false;
-        LStart.CaptureInput = false;
+        LightBackButton.CaptureInput = false;
+        LightStartButton.CaptureInput = false;
         Fade = 100;
         FadeImage = 0;
         FadeDirection = 0;
@@ -111,8 +111,8 @@ public partial class FactionSelectionWindow : DataModule
     public void DBackClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        DBack.CaptureInput = false;
-        DStart.CaptureInput = false;
+        DarkBackButton.CaptureInput = false;
+        DarkStartButton.CaptureInput = false;
         Fade = 100;
         FadeImage = 0;
         FadeDirection = 0;
@@ -121,36 +121,36 @@ public partial class FactionSelectionWindow : DataModule
     // AoWSelFactionWin.pas:138
     public void FactionPnlMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (!LightPnl.Handled && !DName.Visible && !DarkPnl.Handled && !LName.Visible)
+        if (!LightPanel.Handled && !DarkNameLabel.Visible && !DarkPanel.Handled && !LightNameLabel.Visible)
         {
-            DSphere.Visible = false;
-            LSphere.Visible = false;
+            DarkSphereImage.Visible = false;
+            LightSphereImage.Visible = false;
             var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.ChooseFactionText);
-            TopLbl.Text = chooseFaction;
+            TopLabel.Text = chooseFaction;
         }
     }
 
     // AoWSelFactionWin.pas:148
     public void LightPnlMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (!LName.Visible && !DSphere.Visible)
+        if (!LightNameLabel.Visible && !DarkSphereImage.Visible)
         {
-            DSphere.Visible = true;
-            LSphere.Visible = false;
+            DarkSphereImage.Visible = true;
+            LightSphereImage.Visible = false;
             var cultOfStorms = AbilityRules.TranslateResourceString(LobbyText.CultOfStormsText);
-            TopLbl.Text = cultOfStorms;
+            TopLabel.Text = cultOfStorms;
         }
     }
 
     // AoWSelFactionWin.pas:158
     public void DarkPnlMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (!DName.Visible && !LSphere.Visible)
+        if (!DarkNameLabel.Visible && !LightSphereImage.Visible)
         {
-            DSphere.Visible = false;
-            LSphere.Visible = true;
+            DarkSphereImage.Visible = false;
+            LightSphereImage.Visible = true;
             var keepers = AbilityRules.TranslateResourceString(LobbyText.KeepersText);
-            TopLbl.Text = keepers;
+            TopLabel.Text = keepers;
         }
     }
 
@@ -170,38 +170,38 @@ public partial class FactionSelectionWindow : DataModule
             DialogHosts.FactionSelectionWindow.Fade -= 6;
             if (Fade < 6)
             {
-                if (LStart.Visible && !LStart.CaptureInput)
+                if (LightStartButton.Visible && !LightStartButton.CaptureInput)
                 {
-                    LName.Visible = false;
-                    LText.Visible = false;
-                    LBack.Visible = false;
-                    LStart.Visible = false;
-                    LSphere.Visible = false;
-                    TopLbl.Visible = true;
+                    LightNameLabel.Visible = false;
+                    LightTextMemo.Visible = false;
+                    LightBackButton.Visible = false;
+                    LightStartButton.Visible = false;
+                    LightSphereImage.Visible = false;
+                    TopLabel.Visible = true;
                     var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.ChooseFactionText);
-                    TopLbl.Text = chooseFaction;
-                    FactionPnl.ImageLibraryIndexTexture = 0;
+                    TopLabel.Text = chooseFaction;
+                    FactionPanel.ImageLibraryIndexTexture = 0;
                 }
                 else
                 {
-                    if (DStart.Visible && !DStart.CaptureInput)
+                    if (DarkStartButton.Visible && !DarkStartButton.CaptureInput)
                     {
-                        DName.Visible = false;
-                        DText.Visible = false;
-                        DBack.Visible = false;
-                        DStart.Visible = false;
-                        DSphere.Visible = false;
-                        TopLbl.Visible = true;
+                        DarkNameLabel.Visible = false;
+                        DarkTextMemo.Visible = false;
+                        DarkBackButton.Visible = false;
+                        DarkStartButton.Visible = false;
+                        DarkSphereImage.Visible = false;
+                        TopLabel.Visible = true;
                         var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.ChooseFactionText);
-                        TopLbl.Text = chooseFaction;
-                        FactionPnl.ImageLibraryIndexTexture = 0;
+                        TopLabel.Text = chooseFaction;
+                        FactionPanel.ImageLibraryIndexTexture = 0;
                     }
                 }
             }
 
-            R = new Rect(this.FactionPnl.WinLeft, this.FactionPnl.WinTop, this.FactionPnl.WinLeft + this.FactionPnl.WinWidth, FactionPnl.WinTop + this.FactionPnl.WinHeight);
+            R = new Rect(this.FactionPanel.WinLeft, this.FactionPanel.WinTop, this.FactionPanel.WinLeft + this.FactionPanel.WinWidth, FactionPanel.WinTop + this.FactionPanel.WinHeight);
 
-            DialogHosts.TitleWindow.TitleWin.AddBlitRectangle(ref R, null);
+            DialogHosts.TitleWindow.MainWindow.AddBlitRectangle(ref R, null);
         }
     }
 
@@ -226,16 +226,16 @@ public partial class FactionSelectionWindow : DataModule
         {
             case 0:
                 LoadWorldCampaign(DialogHosts.WorldMap, "Keepers.cam");
-                dialog.CharGenPnl.ImageLibraryIndexTexture = 10;
+                dialog.CharacterGenerationPanel.ImageLibraryIndexTexture = 10;
                 AoWHSSet.Current.TextControl.RetrieveText(10, (StringCollection)(object)value);
                 break;
             case 1:
                 LoadWorldCampaign(DialogHosts.WorldMap, "Storm.cam");
-                dialog.CharGenPnl.ImageLibraryIndexTexture = 11;
+                dialog.CharacterGenerationPanel.ImageLibraryIndexTexture = 11;
                 AoWHSSet.Current.TextControl.RetrieveText(11, (StringCollection)(object)value);
                 break;
         }
-        ParseFontText(((StringCollection)value).Text, (StringCollection)(object)dialog.ScrollText, DialogHosts.UIFonts.Font15WhiteGrey, 300);
+        ParseFontText(((StringCollection)value).Text, (StringCollection)(object)dialog.ScrollText, DialogHosts.UIFonts.Age15WhiteOnGrey, 300);
         WorldMapCampaign campaign = DialogHosts.WorldMap.GetCampaign();
         int id = WorldMapCampaign.GetCampaignScenario(campaign, 0).Paths[0];
         int index = campaign.Scenarios.IndexOfId(id);

@@ -10,7 +10,7 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class CombatMapEvents
 {
-    public void TCMapActivateMap()
+    public void CombatMapActivateMap()
     {
         AudioHost.SongPlayer.Pause(false);
         if (GameTables.GameEngine.Demo)
@@ -75,20 +75,20 @@ public partial class CombatMapEvents
         DialogHosts.MapWindow.MainWindow.Alignment.AlignWidth = DialogHosts.MapWindow.MapAlignWidth;
         DialogHosts.MapWindow.MainWindow.Alignment.AlignHeight = DialogHosts.MapWindow.MapAlignHeight;
         DialogHosts.MapWindow.MainWindow.Aligned = false;
-        DialogHosts.TaskBar.TBWorld.Visible = false;
-        DialogHosts.TaskBar.TBCombat.Visible = true;
+        DialogHosts.TaskBar.WorldPanel.Visible = false;
+        DialogHosts.TaskBar.CombatPanel.Visible = true;
         DialogHosts.TaskBar.UpdateCombatPlayerIndicator();
-        DialogHosts.TaskBar.AutoBtn.Checked = false;
-        DialogHosts.TaskBar.TCChatBtn.Visible = DialogHosts.TaskBar.ChatBtn.Visible;
-        DialogHosts.TaskBar.TCUnitBtn.Visible = false;
+        DialogHosts.TaskBar.AutoCombatCheckBox.Checked = false;
+        DialogHosts.TaskBar.CombatChatButton.Visible = DialogHosts.TaskBar.ChatButton.Visible;
+        DialogHosts.TaskBar.CombatUnitButton.Visible = false;
         DialogHosts.TaskBar.TaskWindow.Drawn = false;
-        DialogHosts.CombatScanner.TCScannerWin.Visible = CombatMap.Current.PlaySounds;
-        DialogHosts.TaskBar.TCScannerBtn.Visible = CombatMap.Current.PlaySounds;
-        DialogHosts.CombatUnitInfo.TCUnitWin.Visible = false;
+        DialogHosts.CombatScanner.CombatScannerWindow.Visible = CombatMap.Current.PlaySounds;
+        DialogHosts.TaskBar.CombatScannerButton.Visible = CombatMap.Current.PlaySounds;
+        DialogHosts.CombatUnitInfo.MainWindow.Visible = false;
         if (!CombatMap.Current.PlaySounds)
         {
-            _chatHeight = DialogHosts.ChatWindow.ChatWin.WinHeight;
-            DialogHosts.ChatWindow.ChatWin.Alignment.AlignHeight = AlignHeight.Both;
+            _chatHeight = DialogHosts.ChatWindow.MainWindow.WinHeight;
+            DialogHosts.ChatWindow.MainWindow.Alignment.AlignHeight = AlignHeight.Both;
         }
         else
         {
@@ -97,7 +97,7 @@ public partial class CombatMapEvents
 
         if (DialogHosts.General.ChatVisible || !CombatMap.Current.PlaySounds)
         {
-            DialogHosts.ChatWindow.ChatWin.Visible = true;
+            DialogHosts.ChatWindow.MainWindow.Visible = true;
         }
     }
 }

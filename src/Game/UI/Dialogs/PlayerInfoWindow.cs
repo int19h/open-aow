@@ -17,14 +17,14 @@ public partial class PlayerInfoWindow : DataModule
     public PlayerInfoWindow(Component owner) : base(owner)
     { }
 
-    public Window PInfoWin;
+    public Window MainWindow;
     public ListBox EventList;
-    public Label LeadL;
-    public Label Turn;
-    public Image RShield;
-    public Panel FaceFr;
-    public Label Player;
-    public Label Race;
+    public Label OfTheLabel;
+    public Label TurnLabel;
+    public Image RaceShield;
+    public Panel FaceFrame;
+    public Label PlayerLabel;
+    public Label RaceLabel;
 
     // AoWPInfoWin.pas:173
     public void UpdatePlayer()
@@ -33,24 +33,24 @@ public partial class PlayerInfoWindow : DataModule
         if (AoWHSMap.Current.SeatedPlayer > -1)
         {
             var name = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetName();
-            DialogHosts.PlayerInfoWindow.Player.Text = name;
+            DialogHosts.PlayerInfoWindow.PlayerLabel.Text = name;
             if (AoWHSMap.Current.SeatedPlayer != 0)
             {
                 var player = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
                 var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
-                DialogHosts.PlayerInfoWindow.Race.Text = raceNamesPlural;
+                DialogHosts.PlayerInfoWindow.RaceLabel.Text = raceNamesPlural;
             }
 
             var day = AbilityRules.TranslateResourceString(GameText.DayText);
-            DialogHosts.PlayerInfoWindow.Turn.Text = day + " " + IntToStr(AoWHSMap.Current.Day);
+            DialogHosts.PlayerInfoWindow.TurnLabel.Text = day + " " + IntToStr(AoWHSMap.Current.Day);
             raceIndex = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).PlayerRace;
             if (raceIndex == -1)
             {
                 raceIndex = 12;
             }
 
-            DialogHosts.PlayerInfoWindow.RShield.CurrentImage = raceIndex + 13;
-            DialogHosts.PlayerInfoWindow.PInfoWin.Visible = true;
+            DialogHosts.PlayerInfoWindow.RaceShield.CurrentImage = raceIndex + 13;
+            DialogHosts.PlayerInfoWindow.MainWindow.Visible = true;
         }
     }
 
@@ -71,7 +71,7 @@ public partial class PlayerInfoWindow : DataModule
     public void MinClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        PInfoWin.Visible = false;
+        MainWindow.Visible = false;
     }
 
     // AoWPInfoWin.pas:72
@@ -131,8 +131,8 @@ public partial class PlayerInfoWindow : DataModule
     // AoWPInfoWin.pas:100
     public void PInfoWinResize()
     {
-        this.PInfoWin.Alignment.RightOffset = this.PInfoWin.WindowManager.WinWidth - this.PInfoWin.WinLeft - this.PInfoWin.WinWidth;
-        this.PInfoWin.Alignment.BottomOffset = DialogHosts.General.Manager.WinHeight - this.PInfoWin.WinTop - this.PInfoWin.WinHeight;
+        this.MainWindow.Alignment.RightOffset = this.MainWindow.WindowManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
+        this.MainWindow.Alignment.BottomOffset = DialogHosts.General.Manager.WinHeight - this.MainWindow.WinTop - this.MainWindow.WinHeight;
     }
 
     // AoWPInfoWin.pas:109
@@ -146,7 +146,7 @@ public partial class PlayerInfoWindow : DataModule
     }
 
     // AoWPInfoWin.pas:116
-    public void LeaderBtnClick()
+    public void CenterButtonClick()
     {
         sbyte X = default;
         sbyte Y = default;
@@ -175,7 +175,7 @@ public partial class PlayerInfoWindow : DataModule
         Rect R;
         if (AoWHSMap.Current.SeatedPlayer > -1)
         {
-            R = new Rect(FaceFr.WinLeft + 3, FaceFr.WinTop + 3, FaceFr.WinLeft + FaceFr.WinWidth - 3, FaceFr.WinTop + FaceFr.WinHeight - 3);
+            R = new Rect(FaceFrame.WinLeft + 3, FaceFrame.WinTop + 3, FaceFrame.WinLeft + FaceFrame.WinWidth - 3, FaceFrame.WinTop + FaceFrame.WinHeight - 3);
             if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetFace() != null)
             {
                 AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetFace().ShowStretched(R, lockedSurface);
@@ -202,7 +202,7 @@ public partial class PlayerInfoWindow : DataModule
                         DialogHosts.UnitWindow.ShowUnit();
                         break;
                     case MouseButton.Right:
-                        LeaderBtnClick();
+                        CenterButtonClick();
                         break;
                 }
             }

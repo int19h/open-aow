@@ -5,25 +5,25 @@ public partial class RealmWindow
     public override void Loaded()
     {
         base.Loaded();
-        if (T2NameLB != null) T2NameLB.WheelScrollBar = CitySB;
-        if (T2RaceLB != null) T2RaceLB.WheelScrollBar = CitySB;
-        if (T2IncomeLB != null) T2IncomeLB.WheelScrollBar = CitySB;
-        if (T2LevelLB != null) T2LevelLB.WheelScrollBar = CitySB;
-        if (T2WallLB != null) T2WallLB.WheelScrollBar = CitySB;
-        if (T2SizeLB != null) T2SizeLB.WheelScrollBar = CitySB;
-        if (T2RelLB != null) T2RelLB.WheelScrollBar = CitySB;
-        if (T2MorLB != null) T2MorLB.WheelScrollBar = CitySB;
-        if (T2ActLB != null) T2ActLB.WheelScrollBar = CitySB;
-        if (Unit1LB != null) Unit1LB.WheelScrollBar = PartySb;
-        if (Unit2LB != null) Unit2LB.WheelScrollBar = PartySb;
-        if (Unit3LB != null) Unit3LB.WheelScrollBar = PartySb;
-        if (Unit4LB != null) Unit4LB.WheelScrollBar = PartySb;
-        if (Unit5LB != null) Unit5LB.WheelScrollBar = PartySb;
-        if (Unit6LB != null) Unit6LB.WheelScrollBar = PartySb;
-        if (Unit7LB != null) Unit7LB.WheelScrollBar = PartySb;
-        if (T3Name != null) T3Name.WheelScrollBar = PlaceSB;
-        if (T5Health != null) T5Health.WheelScrollBar = HeroSB;
-        if (IncomeValue != null) IncomeValue.WheelScrollBar = IncomeSB;
-        if (UpkeepValue != null) UpkeepValue.WheelScrollBar = UpkeepSB;
+        if (CityNameList != null) CityNameList.WheelScrollBar = CityScrollBar;
+        if (CityRaceList != null) CityRaceList.WheelScrollBar = CityScrollBar;
+        if (CityIncomeList != null) CityIncomeList.WheelScrollBar = CityScrollBar;
+        if (CityLevelList != null) CityLevelList.WheelScrollBar = CityScrollBar;
+        if (CityWallList != null) CityWallList.WheelScrollBar = CityScrollBar;
+        if (CitySizeList != null) CitySizeList.WheelScrollBar = CityScrollBar;
+        if (CityRelationList != null) CityRelationList.WheelScrollBar = CityScrollBar;
+        if (CityMoraleList != null) CityMoraleList.WheelScrollBar = CityScrollBar;
+        if (CityActionList != null) CityActionList.WheelScrollBar = CityScrollBar;
+        if (Unit1List != null) Unit1List.WheelScrollBar = PartyScrollBar;
+        if (Unit2List != null) Unit2List.WheelScrollBar = PartyScrollBar;
+        if (Unit3List != null) Unit3List.WheelScrollBar = PartyScrollBar;
+        if (Unit4List != null) Unit4List.WheelScrollBar = PartyScrollBar;
+        if (Unit5List != null) Unit5List.WheelScrollBar = PartyScrollBar;
+        if (Unit6List != null) Unit6List.WheelScrollBar = PartyScrollBar;
+        if (Unit7List != null) Unit7List.WheelScrollBar = PartyScrollBar;
+        if (PlaceNameList != null) PlaceNameList.WheelScrollBar = PlaceScrollBar;
+        if (HeroHealthList != null) HeroHealthList.WheelScrollBar = HeroScrollBar;
+        if (IncomeValueMemo != null) IncomeValueMemo.WheelScrollBar = IncomeScrollBar;
+        if (UpkeepValueMemo != null) UpkeepValueMemo.WheelScrollBar = UpkeepScrollBar;
     }
 }

@@ -15,30 +15,30 @@ public partial class ControlWindow
 
     public void UpdateArmy()
     {
-        var checks = new[] { Unit1Chk, Unit2Chk, Unit3Chk, Unit4Chk, Unit5Chk, Unit6Chk, Unit7Chk, Unit8Chk };
-        var emptyFrames = new[] { Emp1Fr, Emp2Fr, Emp3Fr, Emp4Fr, Emp5Fr, Emp6Fr, Emp7Fr, Emp8Fr };
-        var emptyChecks = new[] { Emp1Chk, Emp2Chk, Emp3Chk, Emp4Chk, Emp5Chk, Emp6Chk, Emp7Chk, Emp8Chk };
+        var checks = new[] { Unit1CheckBox, Unit2CheckBox, Unit3CheckBox, Unit4CheckBox, Unit5CheckBox, Unit6CheckBox, Unit7CheckBox, Unit8CheckBox };
+        var emptyFrames = new[] { EmptySlot1Frame, EmptySlot2Frame, EmptySlot3Frame, EmptySlot4Frame, EmptySlot5Frame, EmptySlot6Frame, EmptySlot7Frame, EmptySlot8Frame };
+        var emptyChecks = new[] { EmptyCheck1Frame, EmptyCheck2Frame, EmptyCheck3Frame, EmptyCheck4Frame, EmptyCheck5Frame, EmptyCheck6Frame, EmptyCheck7Frame, EmptyCheck8Frame };
         var frames = new[] { Unit1Frame, Unit2Frame, Unit3Frame, Unit4Frame, Unit5Frame, Unit6Frame, Unit7Frame, Unit8Frame };
-        var icons = new[] { U1MIcon, U2MIcon, U3MIcon, U4MIcon, U5MIcon, U6MIcon, U7MIcon, U8MIcon };
-        var gauges = new[] { Unit1Gge, Unit2Gge, Unit3Gge, Unit4Gge, Unit5Gge, Unit6Gge, Unit7Gge, Unit8Gge };
+        var icons = new[] { Unit1MovesIcon, Unit2MovesIcon, Unit3MovesIcon, Unit4MovesIcon, Unit5MovesIcon, Unit6MovesIcon, Unit7MovesIcon, Unit8MovesIcon };
+        var gauges = new[] { Unit1Gauge, Unit2Gauge, Unit3Gauge, Unit4Gauge, Unit5Gauge, Unit6Gauge, Unit7Gauge, Unit8Gauge };
         for (int i = 0; i < 8; i++)
         {
             checks[i].Checked = false;
             emptyFrames[i].Visible = emptyChecks[i].Visible = true;
             frames[i].ImageLibraryIndexFrame = 12;
         }
-        PartyActionLbl1.Visible = PartyActionLbl2.Visible = false;
+        PartyActionLabel1.Visible = PartyActionLabel2.Visible = false;
         var army = DialogHosts.General.UnitList;
         bool readOnly = army.Player != AoWHSMap.Current.SeatedPlayer;
         if (army.Player == 0)
         {
-            PartyBPnl.Visible = false;
-            PartyIPnl.Visible = true;
-            PartyILbl.Text = "";
+            PartyMovesPanel.Visible = false;
+            PartyInfoPanel.Visible = true;
+            PartyInfoLabel.Text = "";
             readOnly = true;
-            PartyActionLbl1.Visible = PartyActionLbl2.Visible = true;
-            PartyActionLbl1.Text = AbilityRules.TranslateResourceString(s_partyActionText);
-            PartyActionLbl2.Text = AbilityRules.TranslateResourceString(((int)army.GetBehavior(255) & 127) switch
+            PartyActionLabel1.Visible = PartyActionLabel2.Visible = true;
+            PartyActionLabel1.Text = AbilityRules.TranslateResourceString(s_partyActionText);
+            PartyActionLabel2.Text = AbilityRules.TranslateResourceString(((int)army.GetBehavior(255) & 127) switch
             {
                 1 => s_patrollingText,
                 2 or 3 => s_guardingText,
@@ -54,21 +54,21 @@ public partial class ControlWindow
         }
         else if (readOnly)
         {
-            PartyBPnl.Visible = false;
-            PartyIPnl.Visible = true;
-            PartyILbl.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_partyOwnerFormat), [AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[AoWHSMap.Current.Players.GetPlayers(army.Player).PlayerRace])]);
-            PControlPnl.Visible = false;
+            PartyMovesPanel.Visible = false;
+            PartyInfoPanel.Visible = true;
+            PartyInfoLabel.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_partyOwnerFormat), [AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[AoWHSMap.Current.Players.GetPlayers(army.Player).PlayerRace])]);
+            PartyControlPanel.Visible = false;
         }
         else
         {
-            PartyBPnl.Visible = true;
-            PartyIPnl.Visible = false;
+            PartyMovesPanel.Visible = true;
+            PartyInfoPanel.Visible = false;
             MoveIcon.Visible = true;
             MoveIcon.CurrentImage = DialogHosts.General.MoveTypesToInt32(army.GetPartyMoves(255));
-            MovesLbl.Text = RtlUnit.IntToStr(army.MovePoints(255));
+            MovesLabel.Text = RtlUnit.IntToStr(army.MovePoints(255));
             DialogHosts.ControlWindow.CheckEnd();
-            PControlPnl.Visible = true;
-            PGuard.Checked = army.UserMode.Contains(ArmyUserModeElement.Guard);
+            PartyControlPanel.Visible = true;
+            PartyGuardCheckBox.Checked = army.UserMode.Contains(ArmyUserModeElement.Guard);
         }
         for (int i = 0; i < 8; i++)
         {
@@ -84,7 +84,7 @@ public partial class ControlWindow
             checks[i].Visible = !readOnly;
             emptyChecks[i].Visible = readOnly;
         }
-        if (!DialogHosts.TaskBar.ConButton.Visible) MainWindow.Visible = true;
-        DialogHosts.TaskBar.ConButton.Visible = true;
+        if (!DialogHosts.TaskBar.PartyButton.Visible) MainWindow.Visible = true;
+        DialogHosts.TaskBar.PartyButton.Visible = true;
     }
 }

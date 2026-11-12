@@ -18,12 +18,12 @@ public partial class HeroInfoDialog : DataModule
     public HeroInfoDialog(Component owner) : base(owner)
     { }
 
-    public Panel UnitPnl;
-    public Window Dlg;
-    public Label HeroName;
-    public Label HeroLevel;
+    public Panel UnitPanel;
+    public Window Window;
+    public Label HeroNameLabel;
+    public Label HeroLevelLabel;
     public Image FaceFrame;
-    public Memo Message;
+    public Memo MessageMemo;
     private ExecuteDoneEvent _done;
     private ArmyInfoEventLog _armyInfo;
     private bool _detailsOpen;
@@ -36,8 +36,8 @@ public partial class HeroInfoDialog : DataModule
         if (_detailsOpen)
         {
             _detailsOpen = false;
-            DialogHosts.UnitWindow.UnitWin.Priority = DialogHosts.ControlWindow.MainWindow.Priority;
-            DialogHosts.UnitWindow.UnitWin.Visible = false;
+            DialogHosts.UnitWindow.MainWindow.Priority = DialogHosts.ControlWindow.MainWindow.Priority;
+            DialogHosts.UnitWindow.MainWindow.Visible = false;
         }
 
         done = _done;
@@ -70,9 +70,9 @@ public partial class HeroInfoDialog : DataModule
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
             alignment = _armyInfo.ArmyView.GetUnit(index).GetAlignment();
-            if ((int)alignment < DialogHosts.UIGraphics.UnitBGs.Count)
+            if ((int)alignment < DialogHosts.UIGraphics.UnitBackgrounds.Count)
             {
-                var image = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
+                var image = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
             }
 
@@ -82,7 +82,7 @@ public partial class HeroInfoDialog : DataModule
             _armyInfo.ArmyView.GetUnit(index).Show(X - 33, Y - 35, surface, info);
             if ((((int)(((uint)_armyInfo.Selection) >> index)) & 1) == 0)
             {
-                var image = DialogHosts.UIGraphics.UnitBGs[7];
+                var image = DialogHosts.UIGraphics.UnitBackgrounds[7];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
             }
 
@@ -94,7 +94,7 @@ public partial class HeroInfoDialog : DataModule
     public void CloseBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWHeroInfoDlg.pas:152
@@ -103,9 +103,9 @@ public partial class HeroInfoDialog : DataModule
         Rect R = default;
         Hero hero;
         int I;
-        R.Left = this.FaceFrame.WinLeft + Dlg.WinLeft;
+        R.Left = this.FaceFrame.WinLeft + Window.WinLeft;
         R.Right = this.FaceFrame.WinWidth + R.Left;
-        R.Top = this.FaceFrame.WinTop + Dlg.WinTop;
+        R.Top = this.FaceFrame.WinTop + Window.WinTop;
         R.Bottom = this.FaceFrame.WinHeight + R.Top;
 
         hero = _armyInfo.ArmyView.Hero(_armyInfo.Selection, RosterTables.AllHeroTypes);
@@ -132,9 +132,9 @@ public partial class HeroInfoDialog : DataModule
     public void U1PreDraw(Frame sender, LockedSurface surface, int slot)
     {
         Rect R = default;
-        R.Left = sender.WinLeft + UnitPnl.WinLeft + 1;
+        R.Left = sender.WinLeft + UnitPanel.WinLeft + 1;
         R.Right = sender.WinWidth + R.Left;
-        R.Top = sender.WinTop + UnitPnl.WinTop;
+        R.Top = sender.WinTop + UnitPanel.WinTop;
         R.Bottom = sender.WinHeight + R.Top;
 
         DrawUnit(slot, R, ref surface);
@@ -152,7 +152,7 @@ public partial class HeroInfoDialog : DataModule
             {
                 _detailsOpen = true;
                 DialogHosts.UnitWindow.ShowUnit();
-                DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
+                DialogHosts.UnitWindow.MainWindow.Priority = Window.Priority + 1;
             }
         }
     }
@@ -168,7 +168,7 @@ public partial class HeroInfoDialog : DataModule
     {
         if (key == 27 || key == 32)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -180,22 +180,22 @@ public partial class HeroInfoDialog : DataModule
         dialog._armyInfo = eventValue;
         dialog._armyInfo.AddRef();
         var text = eventValue.Messages.Text;
-        dialog.Message.Items.Text = text;
+        dialog.MessageMemo.Items.Text = text;
         hero = dialog._armyInfo.ArmyView.Hero(dialog._armyInfo.Selection, RosterTables.AllHeroTypes);
         if (hero != null)
         {
-            dialog.HeroName.Text = hero.HeroName;
+            dialog.HeroNameLabel.Text = hero.HeroName;
             var level = hero.GetLevel();
             var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.LevelFormat), [IntToStr(level)]);
-            dialog.HeroLevel.Text = format;
+            dialog.HeroLevelLabel.Text = format;
         }
         else
         {
-            dialog.HeroName.Text = "";
-            dialog.HeroLevel.Text = "";
+            dialog.HeroNameLabel.Text = "";
+            dialog.HeroLevelLabel.Text = "";
         }
 
-        dialog.Dlg.Visible = true;
+        dialog.Window.Visible = true;
         dialog._detailsOpen = false;
     }
 

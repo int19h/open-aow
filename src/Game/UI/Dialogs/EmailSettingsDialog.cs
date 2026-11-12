@@ -12,24 +12,24 @@ public partial class EmailSettingsDialog : DataModule
     public EmailSettingsDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
+    public Window Window;
     public Edit LocalEmailAddressEdit;
-    public Edit SMTPServerEdit;
+    public Edit SmtpServerEdit;
     public Edit AttachmentDirectoryEdit;
 
     // AoWEmailSettingsDlg.pas:49
     public void OKBtnClick()
     {
         GameTables.GameEngine.Registry.SetLocalEmailAddress(LocalEmailAddressEdit.Text);
-        GameTables.GameEngine.Registry.SetSmtpServer(SMTPServerEdit.Text);
+        GameTables.GameEngine.Registry.SetSmtpServer(SmtpServerEdit.Text);
         GameTables.GameEngine.Registry.SetAttachmentDirectory(AttachmentDirectoryEdit.Text);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWEmailSettingsDlg.pas:57
     public void CancelBtnClick()
     {
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWEmailSettingsDlg.pas:60
@@ -37,7 +37,7 @@ public partial class EmailSettingsDialog : DataModule
     {
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -46,10 +46,10 @@ public partial class EmailSettingsDialog : DataModule
         var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
         dialog.LocalEmailAddressEdit.Text = localEmailAddress;
         var smtpServer = GameTables.GameEngine.Registry.GetSmtpServer();
-        dialog.SMTPServerEdit.Text = smtpServer;
+        dialog.SmtpServerEdit.Text = smtpServer;
         var attachmentDirectory = GameTables.GameEngine.Registry.GetAttachmentDirectory();
         dialog.AttachmentDirectoryEdit.Text = attachmentDirectory;
-        dialog.Dlg.Visible = true;
+        dialog.Window.Visible = true;
     }
 
 }

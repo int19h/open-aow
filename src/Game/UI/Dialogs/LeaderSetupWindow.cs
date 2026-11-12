@@ -19,76 +19,76 @@ public partial class LeaderSetupWindow : DataModule
     public LeaderSetupWindow(Component owner) : base(owner)
     { }
 
-    public ListBox SelectedAbilities;
-    public Panel Phase2Pnl;
-    public Panel LMainPnl;
-    public Button NextBtn;
-    public Button DefaultBtn;
-    public Button ClearBtn;
-    public Button PrevBtn;
-    public ListBox AvailableAbilities;
-    public Label AttValue;
-    public Label DamValue;
-    public Label DefValue;
-    public Label ResValue;
-    public Label HitValue;
-    public Label MovValue;
-    public Label AttA;
-    public Label DamA;
-    public Label DefA;
-    public Label ResA;
-    public Label HitA;
-    public Label MovA;
-    public Label AttB;
-    public Label DamB;
-    public Label DefB;
-    public Label ResB;
-    public Label HitB;
-    public Label MovB;
-    public Label SkillPointsLbl;
-    public Label UAttack;
-    public Label UDefense;
-    public Label UMoves;
-    public Label UDamage;
-    public Label UResistance;
-    public Label UHits;
-    public Panel StatPnl;
-    public ListBox UAbilities;
-    public Panel AbilityPnl;
-    public Label LeaderName;
-    public Image ShieldL;
-    public Image ShieldR;
+    public ListBox SelectedAbilitiesList;
+    public Panel Phase2Panel;
+    public Panel LeaderMainPanel;
+    public Button NextButton;
+    public Button DefaultButton;
+    public Button ClearButton;
+    public Button PreviousButton;
+    public ListBox AvailableAbilitiesList;
+    public Label AttackValueLabel;
+    public Label DamageValueLabel;
+    public Label DefenseValueLabel;
+    public Label ResistanceValueLabel;
+    public Label HitsValueLabel;
+    public Label MovesValueLabel;
+    public Label AttackAddedLabel;
+    public Label DamageAddedLabel;
+    public Label DefenseAddedLabel;
+    public Label ResistanceAddedLabel;
+    public Label HitsAddedLabel;
+    public Label MovesAddedLabel;
+    public Label AttackBaseLabel;
+    public Label DamageBaseLabel;
+    public Label DefenseBaseLabel;
+    public Label ResistanceBaseLabel;
+    public Label HitsBaseLabel;
+    public Label MovesBaseLabel;
+    public Label SkillPointsLabel;
+    public Label UnitAttackLabel;
+    public Label UnitDefenseLabel;
+    public Label UnitMovesLabel;
+    public Label UnitDamageLabel;
+    public Label UnitResistanceLabel;
+    public Label UnitHitsLabel;
+    public Panel StatisticsPanel;
+    public ListBox UnitAbilitiesList;
+    public Panel AbilityPanel;
+    public Label LeaderNameLabel;
+    public Image LeftShield;
+    public Image RightShield;
     public Image MainFace;
-    public Panel Phase1Pnl;
+    public Panel Phase1Panel;
     public Edit NameEdit;
-    public Label RaceLbl;
+    public Label RaceLabel;
     public Label Phase1Header;
-    public VerticalScrollBar AvailableAbilitiesLB;
-    public VerticalScrollBar SelectedAbilitiesLB;
-    public Panel Phase3Pnl;
-    public Button SelDeath;
-    public Button SelLife;
-    public Button SelFire;
-    public Button SelEarth;
-    public Button SelAir;
-    public Button SelWater;
-    public Button Sel4;
-    public Button Sel3;
-    public Button Sel2;
-    public Button Sel1;
-    public Button Sel5;
-    public Button Sel6;
-    public Button Sel7;
-    public Label SelectedSpheresLbl;
-    public Label LeaderLbl;
-    public Label SideNameLbl;
-    public ListBox SelectedAbilitiesCost;
-    public ListBox AvailableAbilitiesCost;
-    public Frame MainFaceFr;
+    public VerticalScrollBar AvailableAbilitiesScrollBar;
+    public VerticalScrollBar SelectedAbilitiesScrollBar;
+    public Panel Phase3Panel;
+    public Button SelectDeathButton;
+    public Button SelectLifeButton;
+    public Button SelectFireButton;
+    public Button SelectEarthButton;
+    public Button SelectAirButton;
+    public Button SelectWaterButton;
+    public Button SelectedSphere4Button;
+    public Button SelectedSphere3Button;
+    public Button SelectedSphere2Button;
+    public Button SelectedSphere1Button;
+    public Button SelectedSphere5Button;
+    public Button SelectedSphere6Button;
+    public Button SelectedSphere7Button;
+    public Label SelectedSpheresLabel;
+    public Label LeaderLabel;
+    public Label SideNameLabel;
+    public ListBox SelectedAbilitiesCostList;
+    public ListBox AvailableAbilitiesCostList;
+    public Frame MainFaceFrame;
     public Label Phase2Header;
     public Label Phase3Header;
-    public Panel LeaderPnl;
-    public ComboBox RaceCB;
+    public Panel LeaderPanel;
+    public ComboBox RaceComboBox;
 
     public LeaderSetupControl Setup { get; set; }
 
@@ -113,30 +113,30 @@ public partial class LeaderSetupWindow : DataModule
         Setup.AddRef();
         _selectedSort = 0;
         _availableSort = 0;
-        LeaderPnl.ImageLibraryTexture = DialogHosts.UIGraphics.TitleScreen;
-        LeaderPnl.ImageLibraryIndexTexture = 4;
-        RaceCB.Visible = Setup.Items.Count != 0 && Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
-        RaceLbl.Visible = RaceCB.Visible;
-        if (RaceCB.Visible)
+        LeaderPanel.ImageLibraryTexture = DialogHosts.UIGraphics.TitleScreen;
+        LeaderPanel.ImageLibraryIndexTexture = 4;
+        RaceComboBox.Visible = Setup.Items.Count != 0 && Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
+        RaceLabel.Visible = RaceComboBox.Visible;
+        if (RaceComboBox.Visible)
         {
-            RaceCB.Items.Clear();
+            RaceComboBox.Items.Clear();
             for (int I = 0, last = Setup.Items.Count - 1; I <= last; I++)
             {
                 var item = Setup.Items[I];
                 var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[item]);
                 var item2 = Setup.Items[I];
-                RaceCB.Items.AddObject(raceNames, IntToObject(item2));
+                RaceComboBox.Items.AddObject(raceNames, IntToObject(item2));
             }
 
             var indexOf = Setup.Items.IndexOf(Setup.OriginalLeader.Race);
-            RaceCB.Selected = indexOf;
+            RaceComboBox.Selected = indexOf;
         }
 
         var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[Setup.OriginalLeader.Race]);
-        SideNameLbl.Text = raceNamesPlural;
-        ShieldL.CurrentImage = Setup.OriginalLeader.Race + 13;
-        ShieldR.CurrentImage = Setup.OriginalLeader.Race + 13;
-        ShieldR.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
+        SideNameLabel.Text = raceNamesPlural;
+        LeftShield.CurrentImage = Setup.OriginalLeader.Race + 13;
+        RightShield.CurrentImage = Setup.OriginalLeader.Race + 13;
+        RightShield.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
         LoadLeader();
         SaveLeader();
         if (Setup.Mode.Contains(LeaderSetupModeElement.Look))
@@ -158,7 +158,7 @@ public partial class LeaderSetupWindow : DataModule
             }
         }
 
-        LeaderPnl.Visible = true;
+        LeaderPanel.Visible = true;
     }
 
     // AoWLeaderSetup.pas:1083
@@ -169,7 +169,7 @@ public partial class LeaderSetupWindow : DataModule
         control = Setup;
         control.Status = LeaderSetupControl.LeaderSetupStatus.Done;
         Setup = null;
-        LeaderPnl.Visible = false;
+        LeaderPanel.Visible = false;
         DialogHosts.SetupEvents.UpdatePlayerName(control.OriginalLeader.HeroName);
         control.Done();
         control.Release();
@@ -183,7 +183,7 @@ public partial class LeaderSetupWindow : DataModule
         control = Setup;
         control.Status = LeaderSetupControl.LeaderSetupStatus.Canceled;
         Setup = null;
-        LeaderPnl.Visible = false;
+        LeaderPanel.Visible = false;
         control.Done();
         control.Release();
     }
@@ -200,25 +200,25 @@ public partial class LeaderSetupWindow : DataModule
         Leader leader;
         Setup.OriginalLeader.Assign(Leader, GameTables.GameEngine);
         leader = Setup.OriginalLeader;
-        LeaderName.Text = leader.HeroName;
+        LeaderNameLabel.Text = leader.HeroName;
         var inherentAttack = leader.GetInherentAttack();
-        UAttack.Text = IntToStr(inherentAttack);
+        UnitAttackLabel.Text = IntToStr(inherentAttack);
         var inherentDefense = leader.GetInherentDefense();
-        UDefense.Text = IntToStr(inherentDefense);
+        UnitDefenseLabel.Text = IntToStr(inherentDefense);
         var inherentDamage = leader.GetInherentDamage();
-        UDamage.Text = IntToStr(inherentDamage);
+        UnitDamageLabel.Text = IntToStr(inherentDamage);
         var inherentResistance = leader.GetInherentResistance();
-        UResistance.Text = IntToStr(inherentResistance);
+        UnitResistanceLabel.Text = IntToStr(inherentResistance);
         var hits = leader.GetHits();
-        UHits.Text = IntToStr(hits);
+        UnitHitsLabel.Text = IntToStr(hits);
         var moves = leader.GetMoves();
-        UMoves.Text = IntToStr(moves);
-        UAbilities.Items.Clear();
-        leader.ListAbilities(UAbilities.Items);
+        UnitMovesLabel.Text = IntToStr(moves);
+        UnitAbilitiesList.Items.Clear();
+        leader.ListAbilities(UnitAbilitiesList.Items);
         var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[leader.Race]);
-        SideNameLbl.Text = raceNamesPlural;
-        ShieldL.CurrentImage = leader.Race + 13;
-        ShieldR.CurrentImage = leader.Race + 13;
+        SideNameLabel.Text = raceNamesPlural;
+        LeftShield.CurrentImage = leader.Race + 13;
+        RightShield.CurrentImage = leader.Race + 13;
     }
 
     // AoWLeaderSetup.pas:775
@@ -227,7 +227,7 @@ public partial class LeaderSetupWindow : DataModule
         var skillPoints = Leader.GetSkillPoints();
         var skillPointsText = AbilityRules.TranslateResourceString(s_skillPointsText);
         var skillPointsMax = Leader.GetSkillPointsMax();
-        SkillPointsLbl.Text = skillPointsText + " " + IntToStr(skillPoints) + "/" + IntToStr(skillPointsMax);
+        SkillPointsLabel.Text = skillPointsText + " " + IntToStr(skillPoints) + "/" + IntToStr(skillPointsMax);
     }
 
     // AoWLeaderSetup.pas:781
@@ -235,30 +235,30 @@ public partial class LeaderSetupWindow : DataModule
     {
         HeroResource resource;
         resource = Leader.HeroResource;
-        AttB.Text = IntToStr(resource.Attack);
-        DefB.Text = IntToStr(resource.Defense);
-        DamB.Text = IntToStr(resource.Damage);
-        ResB.Text = IntToStr(resource.Resistance);
-        HitB.Text = IntToStr(resource.Hits);
-        MovB.Text = IntToStr(resource.Moves);
-        AttA.Text = IntToStr(Leader.UnitAttack);
-        DefA.Text = IntToStr(Leader.UnitDefense);
-        DamA.Text = IntToStr(Leader.UnitDamage);
-        ResA.Text = IntToStr(Leader.UnitResistance);
-        HitA.Text = IntToStr(Leader.UnitHits);
-        MovA.Text = IntToStr(Leader.UnitMoves);
+        AttackBaseLabel.Text = IntToStr(resource.Attack);
+        DefenseBaseLabel.Text = IntToStr(resource.Defense);
+        DamageBaseLabel.Text = IntToStr(resource.Damage);
+        ResistanceBaseLabel.Text = IntToStr(resource.Resistance);
+        HitsBaseLabel.Text = IntToStr(resource.Hits);
+        MovesBaseLabel.Text = IntToStr(resource.Moves);
+        AttackAddedLabel.Text = IntToStr(Leader.UnitAttack);
+        DefenseAddedLabel.Text = IntToStr(Leader.UnitDefense);
+        DamageAddedLabel.Text = IntToStr(Leader.UnitDamage);
+        ResistanceAddedLabel.Text = IntToStr(Leader.UnitResistance);
+        HitsAddedLabel.Text = IntToStr(Leader.UnitHits);
+        MovesAddedLabel.Text = IntToStr(Leader.UnitMoves);
         var inherentAttack = Leader.GetInherentAttack();
-        AttValue.Text = IntToStr(inherentAttack);
+        AttackValueLabel.Text = IntToStr(inherentAttack);
         var inherentDefense = Leader.GetInherentDefense();
-        DefValue.Text = IntToStr(inherentDefense);
+        DefenseValueLabel.Text = IntToStr(inherentDefense);
         var inherentDamage = Leader.GetInherentDamage();
-        DamValue.Text = IntToStr(inherentDamage);
+        DamageValueLabel.Text = IntToStr(inherentDamage);
         var inherentResistance = Leader.GetInherentResistance();
-        ResValue.Text = IntToStr(inherentResistance);
+        ResistanceValueLabel.Text = IntToStr(inherentResistance);
         var hits = Leader.GetHits();
-        HitValue.Text = IntToStr(hits);
+        HitsValueLabel.Text = IntToStr(hits);
         var moves = Leader.GetMoves();
-        MovValue.Text = IntToStr(moves);
+        MovesValueLabel.Text = IntToStr(moves);
         UpdateSkillPoints();
     }
 
@@ -276,16 +276,16 @@ public partial class LeaderSetupWindow : DataModule
         switch (_selectedSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
+                StringSorting.SortStringsAscending(SelectedAbilitiesList.Items, [SelectedAbilitiesCostList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
+                StringSorting.SortStringsDescending(SelectedAbilitiesList.Items, [SelectedAbilitiesCostList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
+                StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCostList.Items, [SelectedAbilitiesList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
+                StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCostList.Items, [SelectedAbilitiesList.Items]);
                 break;
         }
     }
@@ -296,16 +296,16 @@ public partial class LeaderSetupWindow : DataModule
         switch (_availableSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
+                StringSorting.SortStringsAscending(AvailableAbilitiesList.Items, [AvailableAbilitiesCostList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
+                StringSorting.SortStringsDescending(AvailableAbilitiesList.Items, [AvailableAbilitiesCostList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
+                StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCostList.Items, [AvailableAbilitiesList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
+                StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCostList.Items, [AvailableAbilitiesList.Items]);
                 break;
         }
     }
@@ -316,8 +316,8 @@ public partial class LeaderSetupWindow : DataModule
         string name;
         string cost;
         Ability ability;
-        AvailableAbilities.Items.Clear();
-        AvailableAbilitiesCost.Items.Clear();
+        AvailableAbilitiesList.Items.Clear();
+        AvailableAbilitiesCostList.Items.Clear();
         for (int I = 0, last = AoWHSSet.Current.AbilityControl.GetCount() - 1; I <= last; I++)
         {
             if (AoWHSSet.Current.AbilityControl.GetAbility(I) != null && (AoWHSSet.Current.AbilityControl.GetAbility(I).SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of())
@@ -325,15 +325,15 @@ public partial class LeaderSetupWindow : DataModule
                 if (AoWHSSet.Current.AbilityControl.GetAbility(I).CanExpand(Leader))
                 {
                     var expandName = AoWHSSet.Current.AbilityControl.GetAbility(I).ExpandName(Leader);
-                    AvailableAbilities.Items.AddObject(expandName, IntToObject(I));
+                    AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(I));
                     var expandCost = AoWHSSet.Current.AbilityControl.GetAbility(I).ExpandCost(Leader);
-                    AvailableAbilitiesCost.Items.Add(IntToStr(expandCost));
+                    AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
                 }
             }
         }
 
-        SelectedAbilities.Items.Clear();
-        SelectedAbilitiesCost.Items.Clear();
+        SelectedAbilitiesList.Items.Clear();
+        SelectedAbilitiesCostList.Items.Clear();
         for (int I = 0, last = Leader.GetAbCount() - 1; I <= last; I++)
         {
             ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
@@ -350,15 +350,15 @@ public partial class LeaderSetupWindow : DataModule
                     cost = IntToStr(ability.GetSkillPoints(Leader) - ability.GetSkillPoints(Leader.HeroResource.Abilities));
                 }
 
-                SelectedAbilitiesCost.Items.Add(cost);
-                SelectedAbilities.Items.AddObject(name, IntToObject(I));
+                SelectedAbilitiesCostList.Items.Add(cost);
+                SelectedAbilitiesList.Items.AddObject(name, IntToObject(I));
             }
         }
 
-        var count = AvailableAbilities.Items.Count;
-        AvailableAbilitiesLB.Max = count - 1;
-        var itemsCount = SelectedAbilities.Items.Count;
-        SelectedAbilitiesLB.Max = itemsCount - 1;
+        var count = AvailableAbilitiesList.Items.Count;
+        AvailableAbilitiesScrollBar.Max = count - 1;
+        var itemsCount = SelectedAbilitiesList.Items.Count;
+        SelectedAbilitiesScrollBar.Max = itemsCount - 1;
         SortAvailableAbilities();
         SortSelectedAbilities();
     }
@@ -366,15 +366,15 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:840
     public void SelectAvailableAbility(int index)
     {
-        AvailableAbilities.Selected = index;
-        AvailableAbilitiesCost.Selected = index;
+        AvailableAbilitiesList.Selected = index;
+        AvailableAbilitiesCostList.Selected = index;
     }
 
     // AoWLeaderSetup.pas:824
     public void SelectSelectedAbility(int index)
     {
-        SelectedAbilities.Selected = index;
-        SelectedAbilitiesCost.Selected = index;
+        SelectedAbilitiesList.Selected = index;
+        SelectedAbilitiesCostList.Selected = index;
     }
 
     // AoWLeaderSetup.pas:846
@@ -384,30 +384,30 @@ public partial class LeaderSetupWindow : DataModule
     public void SetPhase(int value)
     {
         _phase = value;
-        Phase1Pnl.Visible = value == 1;
-        Phase2Pnl.Visible = value == 2;
-        Phase3Pnl.Visible = value == 3;
+        Phase1Panel.Visible = value == 1;
+        Phase2Panel.Visible = value == 2;
+        Phase3Panel.Visible = value == 3;
         Phase1Header.Visible = value == 1;
         Phase2Header.Visible = value == 2;
         Phase3Header.Visible = value == 3;
-        StatPnl.Visible = value > 2;
-        AbilityPnl.Visible = value > 2;
-        LeaderName.Visible = value > 1;
-        LeaderLbl.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
-        SideNameLbl.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
-        ShieldL.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign) || value > 1;
-        ShieldR.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign) || value > 1;
-        MainFaceFr.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign) || value > 1;
-        MainFace.Visible = MainFaceFr.Visible;
+        StatisticsPanel.Visible = value > 2;
+        AbilityPanel.Visible = value > 2;
+        LeaderNameLabel.Visible = value > 1;
+        LeaderLabel.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
+        SideNameLabel.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
+        LeftShield.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign) || value > 1;
+        RightShield.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign) || value > 1;
+        MainFaceFrame.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign) || value > 1;
+        MainFace.Visible = MainFaceFrame.Visible;
         if (value == 3 || (value == 2 && (Setup.Mode & Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Spheres)) == Set<LeaderSetupModeElement>.Of()) || (value == 1 && (Setup.Mode & Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Settings, LeaderSetupModeElement.Spheres)) == Set<LeaderSetupModeElement>.Of()))
         {
             var finish = AbilityRules.TranslateResourceString(s_finishText);
-            NextBtn.Text = finish;
+            NextButton.Text = finish;
         }
         else
         {
             var next = AbilityRules.TranslateResourceString(s_nextText);
-            NextBtn.Text = next;
+            NextButton.Text = next;
         }
 
         switch (value)
@@ -434,10 +434,10 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:901
     public void Reset()
     {
-        ClearBtn.Visible = true;
-        DefaultBtn.Visible = true;
-        PrevBtn.Visible = true;
-        NextBtn.Visible = true;
+        ClearButton.Visible = true;
+        DefaultButton.Visible = true;
+        PreviousButton.Visible = true;
+        NextButton.Visible = true;
         var step1CustomizeLeader = AbilityRules.TranslateResourceString(s_step1CustomizeLeaderText);
         Phase1Header.Text = step1CustomizeLeader;
         var step2AssignSkillPoints = AbilityRules.TranslateResourceString(s_step2AssignSkillPointsText);
@@ -456,25 +456,25 @@ public partial class LeaderSetupWindow : DataModule
             switch (I)
             {
                 case 0:
-                    button = Sel1;
+                    button = SelectedSphere1Button;
                     break;
                 case 1:
-                    button = Sel2;
+                    button = SelectedSphere2Button;
                     break;
                 case 2:
-                    button = Sel3;
+                    button = SelectedSphere3Button;
                     break;
                 case 3:
-                    button = Sel4;
+                    button = SelectedSphere4Button;
                     break;
                 case 4:
-                    button = Sel5;
+                    button = SelectedSphere5Button;
                     break;
                 case 5:
-                    button = Sel6;
+                    button = SelectedSphere6Button;
                     break;
                 case 6:
-                    button = Sel7;
+                    button = SelectedSphere7Button;
                     break;
                 default:
                     button = null;
@@ -536,79 +536,79 @@ public partial class LeaderSetupWindow : DataModule
 
         var sphereCount = Leader.GetSphereCount();
         var selectedSpheres = AbilityRules.TranslateResourceString(s_selectedSpheresText);
-        SelectedSpheresLbl.Text = selectedSpheres + " (" + IntToStr(sphereCount) + "/" + IntToStr(Leader.SpherePicksMax) + ")";
+        SelectedSpheresLabel.Text = selectedSpheres + " (" + IntToStr(sphereCount) + "/" + IntToStr(Leader.SpherePicksMax) + ")";
         if (Leader.CanAddSphere(MagicSphere.Life))
         {
-            SelLife.ImageLibraryIndexUp = 27;
-            SelLife.CaptureInput = true;
+            SelectLifeButton.ImageLibraryIndexUp = 27;
+            SelectLifeButton.CaptureInput = true;
         }
         else
         {
-            SelLife.ImageLibraryIndexUp = 28;
-            SelLife.CaptureInput = false;
+            SelectLifeButton.ImageLibraryIndexUp = 28;
+            SelectLifeButton.CaptureInput = false;
         }
 
         if (Leader.CanAddSphere(MagicSphere.Death))
         {
-            SelDeath.ImageLibraryIndexUp = 30;
-            SelDeath.CaptureInput = true;
+            SelectDeathButton.ImageLibraryIndexUp = 30;
+            SelectDeathButton.CaptureInput = true;
         }
         else
         {
-            SelDeath.ImageLibraryIndexUp = 31;
-            SelDeath.CaptureInput = false;
+            SelectDeathButton.ImageLibraryIndexUp = 31;
+            SelectDeathButton.CaptureInput = false;
         }
 
         if (Leader.CanAddSphere(MagicSphere.Fire))
         {
-            SelFire.ImageLibraryIndexUp = 42;
-            SelFire.CaptureInput = true;
+            SelectFireButton.ImageLibraryIndexUp = 42;
+            SelectFireButton.CaptureInput = true;
         }
         else
         {
-            SelFire.ImageLibraryIndexUp = 43;
-            SelFire.CaptureInput = false;
+            SelectFireButton.ImageLibraryIndexUp = 43;
+            SelectFireButton.CaptureInput = false;
         }
 
         if (Leader.CanAddSphere(MagicSphere.Water))
         {
-            SelWater.ImageLibraryIndexUp = 39;
-            SelWater.CaptureInput = true;
+            SelectWaterButton.ImageLibraryIndexUp = 39;
+            SelectWaterButton.CaptureInput = true;
         }
         else
         {
-            SelWater.ImageLibraryIndexUp = 40;
-            SelWater.CaptureInput = false;
+            SelectWaterButton.ImageLibraryIndexUp = 40;
+            SelectWaterButton.CaptureInput = false;
         }
 
         if (Leader.CanAddSphere(MagicSphere.Earth))
         {
-            SelEarth.ImageLibraryIndexUp = 33;
-            SelEarth.CaptureInput = true;
+            SelectEarthButton.ImageLibraryIndexUp = 33;
+            SelectEarthButton.CaptureInput = true;
         }
         else
         {
-            SelEarth.ImageLibraryIndexUp = 34;
-            SelEarth.CaptureInput = false;
+            SelectEarthButton.ImageLibraryIndexUp = 34;
+            SelectEarthButton.CaptureInput = false;
         }
 
         if (Leader.CanAddSphere(MagicSphere.Air))
         {
-            SelAir.ImageLibraryIndexUp = 36;
-            SelAir.CaptureInput = true;
+            SelectAirButton.ImageLibraryIndexUp = 36;
+            SelectAirButton.CaptureInput = true;
         }
         else
         {
-            SelAir.ImageLibraryIndexUp = 37;
-            SelAir.CaptureInput = false;
+            SelectAirButton.ImageLibraryIndexUp = 37;
+            SelectAirButton.CaptureInput = false;
         }
 
-        SelLife.Drawn = false;
-        SelDeath.Drawn = false;
-        SelFire.Drawn = false;
-        SelWater.Drawn = false;
-        SelEarth.Drawn = false;
-        SelAir.Drawn = false;
+        SelectLifeButton.Drawn = false;
+        SelectDeathButton.Drawn = false;
+        SelectFireButton.Drawn = false;
+        SelectWaterButton.Drawn = false;
+        SelectEarthButton.Drawn = false;
+        SelectAirButton.Drawn = false;
     }
 
     // AoWLeaderSetup.pas:269
@@ -628,9 +628,9 @@ public partial class LeaderSetupWindow : DataModule
     {
         int abilityId;
         DialogHosts.General.PlayButtonSound(0);
-        if (AvailableAbilities.Selected != -1)
+        if (AvailableAbilitiesList.Selected != -1)
         {
-            abilityId = ObjectToInt(AvailableAbilities.Items.Objects[AvailableAbilities.Selected]);
+            abilityId = ObjectToInt(AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected]);
             if (CanAddAbility(abilityId))
             {
                 Leader.ExpandAbility(abilityId);
@@ -645,9 +645,9 @@ public partial class LeaderSetupWindow : DataModule
     {
         int abilityId;
         DialogHosts.General.PlayButtonSound(0);
-        if (SelectedAbilities.Selected != -1)
+        if (SelectedAbilitiesList.Selected != -1)
         {
-            abilityId = ObjectToInt(SelectedAbilities.Items.Objects[SelectedAbilities.Selected]);
+            abilityId = ObjectToInt(SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected]);
             if (Leader.HeroResource.Abilities.GetAbilitySetAt(abilityId) && Leader.HeroResource.Abilities.GetAbLevel(abilityId) == Leader.GetAbilityLevel(abilityId))
             {
                 return;
@@ -681,7 +681,7 @@ public partial class LeaderSetupWindow : DataModule
         }
 
         var image = sender;
-        R = new Rect(Phase1Pnl.WinLeft + image.WinLeft + 2, Phase1Pnl.WinTop + image.WinTop, Phase1Pnl.WinLeft + image.WinLeft + image.WinWidth - 2, Phase1Pnl.WinTop + image.WinTop + image.WinHeight - 2);
+        R = new Rect(Phase1Panel.WinLeft + image.WinLeft + 2, Phase1Panel.WinTop + image.WinTop, Phase1Panel.WinLeft + image.WinLeft + image.WinWidth - 2, Phase1Panel.WinTop + image.WinTop + image.WinHeight - 2);
 
         if (setup.OriginalLeader.GetFace() != null)
         {
@@ -698,7 +698,7 @@ public partial class LeaderSetupWindow : DataModule
         DialogHosts.General.PlayButtonSound(0);
         var previousFace = AoWHSSet.Current.FaceResources.PreviousFace(Leader.FaceIndex);
         Leader.SetFaceIndex(previousFace);
-        DialogHosts.TitleWindow.TitleWin.Drawn = false;
+        DialogHosts.TitleWindow.MainWindow.Drawn = false;
     }
 
     // AoWLeaderSetup.pas:352
@@ -707,7 +707,7 @@ public partial class LeaderSetupWindow : DataModule
         DialogHosts.General.PlayButtonSound(0);
         var nextFace = AoWHSSet.Current.FaceResources.NextFace(Leader.FaceIndex);
         Leader.SetFaceIndex(nextFace);
-        DialogHosts.TitleWindow.TitleWin.Drawn = false;
+        DialogHosts.TitleWindow.MainWindow.Drawn = false;
     }
 
     // AoWLeaderSetup.pas:359
@@ -773,7 +773,7 @@ public partial class LeaderSetupWindow : DataModule
                     }
                 }
 
-                DialogHosts.TitleWindow.TitleWin.Drawn = false;
+                DialogHosts.TitleWindow.MainWindow.Drawn = false;
                 break;
             case 2:
                 SaveLeader();
@@ -786,7 +786,7 @@ public partial class LeaderSetupWindow : DataModule
                     Finish();
                 }
 
-                DialogHosts.TitleWindow.TitleWin.Drawn = false;
+                DialogHosts.TitleWindow.MainWindow.Drawn = false;
                 break;
             case 3:
                 if (Leader.GetSphereCount() == Leader.SpherePicksMax)
@@ -799,8 +799,8 @@ public partial class LeaderSetupWindow : DataModule
                     DialogHosts.MessageDialog.MessageMemo.Items.Add("");
                     var pleaseAssignAllSpheres = AbilityRules.TranslateResourceString(s_pleaseAssignAllSpheresText);
                     DialogHosts.MessageDialog.MessageMemo.Items.Add(pleaseAssignAllSpheres);
-                    DialogHosts.MessageDialog.OKPnl.Visible = true;
-                    DialogHosts.MessageDialog.Dlg.Visible = true;
+                    DialogHosts.MessageDialog.OKPanel.Visible = true;
+                    DialogHosts.MessageDialog.Window.Visible = true;
                 }
 
                 break;
@@ -816,7 +816,7 @@ public partial class LeaderSetupWindow : DataModule
         if (_phase > 1)
         {
             var frame = sender;
-            R = new Rect(LMainPnl.WinLeft + frame.WinLeft + 2, LMainPnl.WinTop + frame.WinTop, LMainPnl.WinLeft + frame.WinLeft + frame.WinWidth - 2, LMainPnl.WinTop + frame.WinTop + frame.WinHeight - 2);
+            R = new Rect(LeaderMainPanel.WinLeft + frame.WinLeft + 2, LeaderMainPanel.WinTop + frame.WinTop, LeaderMainPanel.WinLeft + frame.WinLeft + frame.WinWidth - 2, LeaderMainPanel.WinTop + frame.WinTop + frame.WinHeight - 2);
 
             if (setup.OriginalLeader.GetFace() != null)
             {
@@ -834,39 +834,39 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:427
     public void SelectedAbilitiesCostChange()
     {
-        SelectSelectedAbility(SelectedAbilitiesCost.Selected);
+        SelectSelectedAbility(SelectedAbilitiesCostList.Selected);
     }
 
     // AoWLeaderSetup.pas:432
     public void SelectedAbilitiesChange()
     {
-        SelectSelectedAbility(SelectedAbilities.Selected);
+        SelectSelectedAbility(SelectedAbilitiesList.Selected);
     }
 
     // AoWLeaderSetup.pas:437
     public void AvailableAbilitiesCostChange()
     {
-        SelectAvailableAbility(AvailableAbilitiesCost.Selected);
+        SelectAvailableAbility(AvailableAbilitiesCostList.Selected);
     }
 
     // AoWLeaderSetup.pas:442
     public void AvailableAbilitiesChange()
     {
-        SelectAvailableAbility(AvailableAbilities.Selected);
+        SelectAvailableAbility(AvailableAbilitiesList.Selected);
     }
 
     // AoWLeaderSetup.pas:447
     public void SelectedAbilitiesLBChange()
     {
-        SelectedAbilities.ListOffset = SelectedAbilitiesLB.Position;
-        SelectedAbilitiesCost.ListOffset = SelectedAbilitiesLB.Position;
+        SelectedAbilitiesList.ListOffset = SelectedAbilitiesScrollBar.Position;
+        SelectedAbilitiesCostList.ListOffset = SelectedAbilitiesScrollBar.Position;
     }
 
     // AoWLeaderSetup.pas:453
     public void AvailableAbilitiesLBChange()
     {
-        AvailableAbilities.ListOffset = AvailableAbilitiesLB.Position;
-        AvailableAbilitiesCost.ListOffset = AvailableAbilitiesLB.Position;
+        AvailableAbilitiesList.ListOffset = AvailableAbilitiesScrollBar.Position;
+        AvailableAbilitiesCostList.ListOffset = AvailableAbilitiesScrollBar.Position;
     }
 
     // AoWLeaderSetup.pas:459
@@ -1005,7 +1005,7 @@ public partial class LeaderSetupWindow : DataModule
     public void DefaultBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.TitleWindow.TitleWin.Drawn = false;
+        DialogHosts.TitleWindow.MainWindow.Drawn = false;
         switch (_phase)
         {
             case 1:
@@ -1132,7 +1132,7 @@ public partial class LeaderSetupWindow : DataModule
     public void RaceCBChange()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var objectValue = RaceCB.Items.Objects[RaceCB.Selected];
+        var objectValue = RaceComboBox.Items.Objects[RaceComboBox.Selected];
         Leader.SetRace((sbyte)ObjectToInt(objectValue));
     }
 
@@ -1222,9 +1222,9 @@ public partial class LeaderSetupWindow : DataModule
     public void SelectedAbilitiesCostMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Ability ability;
-        if (button == MouseButton.Right && SelectedAbilities.Selected != -1)
+        if (button == MouseButton.Right && SelectedAbilitiesList.Selected != -1)
         {
-            var objectValue = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
+            var objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
             ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {
@@ -1238,9 +1238,9 @@ public partial class LeaderSetupWindow : DataModule
     public void AvailableAbilitiesMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Ability ability;
-        if (button == MouseButton.Right && AvailableAbilities.Selected != -1)
+        if (button == MouseButton.Right && AvailableAbilitiesList.Selected != -1)
         {
-            var objectValue = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
+            var objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
             ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {

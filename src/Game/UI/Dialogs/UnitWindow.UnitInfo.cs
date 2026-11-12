@@ -37,89 +37,89 @@ public partial class UnitWindow
 
             if (CombatMap.Current == null && DialogHosts.General.UnitList != null && DialogHosts.General.IndexOfUnit(U) > -1 && DialogHosts.General.SelectedUnits[1] > -1)
             {
-                DialogHosts.UnitWindow.PPrev.Visible = true;
-                DialogHosts.UnitWindow.PNext.Visible = true;
+                DialogHosts.UnitWindow.PreviousUnitButton.Visible = true;
+                DialogHosts.UnitWindow.NextUnitButton.Visible = true;
             }
             else
             {
-                DialogHosts.UnitWindow.PPrev.Visible = false;
-                DialogHosts.UnitWindow.PNext.Visible = false;
+                DialogHosts.UnitWindow.PreviousUnitButton.Visible = false;
+                DialogHosts.UnitWindow.NextUnitButton.Visible = false;
             }
 
-            DialogHosts.UnitWindow.Mana.Visible = false;
+            DialogHosts.UnitWindow.ManaLabel.Visible = false;
             DialogHosts.UnitWindow.ManaIcon.Visible = false;
-            DialogHosts.UnitWindow.UnitTab.Items.Clear();
+            DialogHosts.UnitWindow.UnitTabs.Items.Clear();
             var abilities = AbilityRules.TranslateResourceString(s_abilitiesText);
-            DialogHosts.UnitWindow.UnitTab.Items.Add(abilities);
+            DialogHosts.UnitWindow.UnitTabs.Items.Add(abilities);
             var info = AbilityRules.TranslateResourceString(s_infoText);
-            DialogHosts.UnitWindow.UnitTab.Items.Add(info);
+            DialogHosts.UnitWindow.UnitTabs.Items.Add(info);
             if (U.GetRace() > -1)
             {
                 var race = U.GetRace();
                 var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[race]);
-                DialogHosts.UnitWindow.TypeV.Text = raceNames;
-                DialogHosts.UnitWindow.RelationIcn.Visible = true;
+                DialogHosts.UnitWindow.TypeValueLabel.Text = raceNames;
+                DialogHosts.UnitWindow.RelationIcon.Visible = true;
                 var uRace = U.GetRace();
                 var playerRelation = AoWHSMap.Current.Races.GetRace(uRace).GetPlayerRelation(AoWHSMap.Current.SeatedPlayer);
-                DialogHosts.UnitWindow.RelationIcn.CurrentImage = (int)playerRelation + 11;
+                DialogHosts.UnitWindow.RelationIcon.CurrentImage = (int)playerRelation + 11;
                 var race2 = U.GetRace();
                 var playerRelation2 = AoWHSMap.Current.Races.GetRace(race2).GetPlayerRelation(AoWHSMap.Current.SeatedPlayer);
                 var status = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation2]);
-                DialogHosts.UnitWindow.RelationV.Text = status;
+                DialogHosts.UnitWindow.RelationValueLabel.Text = status;
             }
             else
             {
-                DialogHosts.UnitWindow.TypeV.Text = "";
-                DialogHosts.UnitWindow.RelationIcn.Visible = false;
+                DialogHosts.UnitWindow.TypeValueLabel.Text = "";
+                DialogHosts.UnitWindow.RelationIcon.Visible = false;
                 var none = AbilityRules.TranslateResourceString(s_noneText);
-                DialogHosts.UnitWindow.RelationV.Text = none;
+                DialogHosts.UnitWindow.RelationValueLabel.Text = none;
             }
 
             if (AoWHSMap.Current.SeatedPlayer == U.Player && !(U is Leader) && AoWHSMap.Current.CombatMap == null)
             {
-                DialogHosts.UnitWindow.DisbandBtn.Visible = true;
-                DialogHosts.UnitWindow.BCloseBtn.Alignment.AlignWidth = AlignWidth.Left;
+                DialogHosts.UnitWindow.DisbandButton.Visible = true;
+                DialogHosts.UnitWindow.BottomCloseButton.Alignment.AlignWidth = AlignWidth.Left;
             }
             else
             {
-                DialogHosts.UnitWindow.DisbandBtn.Visible = false;
-                DialogHosts.UnitWindow.BCloseBtn.Alignment.AlignWidth = AlignWidth.Center;
+                DialogHosts.UnitWindow.DisbandButton.Visible = false;
+                DialogHosts.UnitWindow.BottomCloseButton.Alignment.AlignWidth = AlignWidth.Center;
             }
 
-            DialogHosts.UnitWindow.BCloseBtn.Aligned = false;
+            DialogHosts.UnitWindow.BottomCloseButton.Aligned = false;
             switch (U.GetUnitType())
             {
                 case UnitType.Creature:
                     var creature = AbilityRules.TranslateResourceString(s_creatureText);
-                    DialogHosts.UnitWindow.TypeV.Text = DialogHosts.UnitWindow.TypeV.Text + " " + creature;
-                    DialogHosts.UnitWindow.TypeIcn.CurrentImage = 21;
+                    DialogHosts.UnitWindow.TypeValueLabel.Text = DialogHosts.UnitWindow.TypeValueLabel.Text + " " + creature;
+                    DialogHosts.UnitWindow.TypeIcon.CurrentImage = 21;
                     break;
                 case UnitType.Machine:
                     var machine = AbilityRules.TranslateResourceString(s_machineText);
-                    DialogHosts.UnitWindow.TypeV.Text = DialogHosts.UnitWindow.TypeV.Text + " " + machine;
-                    DialogHosts.UnitWindow.TypeIcn.CurrentImage = 22;
+                    DialogHosts.UnitWindow.TypeValueLabel.Text = DialogHosts.UnitWindow.TypeValueLabel.Text + " " + machine;
+                    DialogHosts.UnitWindow.TypeIcon.CurrentImage = 22;
                     break;
                 default:
                     if (H == null)
                     {
                         var unit = AbilityRules.TranslateResourceString(s_unitText);
-                        DialogHosts.UnitWindow.TypeV.Text = DialogHosts.UnitWindow.TypeV.Text + " " + unit;
+                        DialogHosts.UnitWindow.TypeValueLabel.Text = DialogHosts.UnitWindow.TypeValueLabel.Text + " " + unit;
                     }
                     else
                     {
                         if (H is Leader)
                         {
                             var leader = AbilityRules.TranslateResourceString(s_leaderText);
-                            DialogHosts.UnitWindow.TypeV.Text = DialogHosts.UnitWindow.TypeV.Text + " " + leader;
+                            DialogHosts.UnitWindow.TypeValueLabel.Text = DialogHosts.UnitWindow.TypeValueLabel.Text + " " + leader;
                         }
                         else
                         {
                             var hero = AbilityRules.TranslateResourceString(s_heroText);
-                            DialogHosts.UnitWindow.TypeV.Text = DialogHosts.UnitWindow.TypeV.Text + " " + hero;
+                            DialogHosts.UnitWindow.TypeValueLabel.Text = DialogHosts.UnitWindow.TypeValueLabel.Text + " " + hero;
                         }
                     }
 
-                    DialogHosts.UnitWindow.TypeIcn.CurrentImage = 23;
+                    DialogHosts.UnitWindow.TypeIcon.CurrentImage = 23;
                     break;
             }
 
@@ -127,407 +127,407 @@ public partial class UnitWindow
             {
                 var level = AbilityRules.TranslateResourceString(s_levelText);
                 var unitLevel = U.GetUnitLevel();
-                DialogHosts.UnitWindow.Level.Text = level + " " + IntToStr(unitLevel);
-                DialogHosts.UnitWindow.T2Leader.Visible = false;
-                DialogHosts.UnitWindow.T2Text.Visible = true;
+                DialogHosts.UnitWindow.LevelLabel.Text = level + " " + IntToStr(unitLevel);
+                DialogHosts.UnitWindow.InfoLeaderPanel.Visible = false;
+                DialogHosts.UnitWindow.InfoTextPanel.Visible = true;
                 var description = U.GetDescription();
-                DialogHosts.UnitWindow.T2Memo.Items.Assign(description);
-                DialogHosts.UnitWindow.T2SBar.Position = 0;
+                DialogHosts.UnitWindow.InfoMemo.Items.Assign(description);
+                DialogHosts.UnitWindow.InfoScrollBar.Position = 0;
                 var name = U.GetName();
-                DialogHosts.UnitWindow.UnitName.Text = name;
+                DialogHosts.UnitWindow.UnitNameLabel.Text = name;
             }
             else
             {
                 if (H.Player == 0)
                 {
-                    DialogHosts.UnitWindow.SelPnl.Visible = false;
+                    DialogHosts.UnitWindow.SpherePanel.Visible = false;
                     var noLeader = AbilityRules.TranslateResourceString(s_noLeaderText);
-                    DialogHosts.UnitWindow.SphereLbl.Text = noLeader;
+                    DialogHosts.UnitWindow.SphereLabel.Text = noLeader;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.SelPnl.Visible = true;
+                    DialogHosts.UnitWindow.SpherePanel.Visible = true;
                     if (AoWHSMap.Current.Players.GetPlayers(H.Player).Leader.GetSphereCount() > 0)
                     {
-                        DialogHosts.UnitWindow.Sel1.Visible = true;
+                        DialogHosts.UnitWindow.Sphere1Button.Visible = true;
                         var sphere = AoWHSMap.Current.Players.GetPlayers(H.Player).Leader.GetSpheres(0);
                         var sphereToImage = DialogHosts.General.SphereToImage(sphere);
-                        DialogHosts.UnitWindow.Sel1.ImageLibraryIndexUp = sphereToImage;
+                        DialogHosts.UnitWindow.Sphere1Button.ImageLibraryIndexUp = sphereToImage;
                     }
                     else
                     {
-                        DialogHosts.UnitWindow.Sel1.Visible = false;
+                        DialogHosts.UnitWindow.Sphere1Button.Visible = false;
                     }
 
                     if (AoWHSMap.Current.Players.GetPlayers(H.Player).Leader.GetSphereCount() > 1)
                     {
-                        DialogHosts.UnitWindow.Sel2.Visible = true;
+                        DialogHosts.UnitWindow.Sphere2Button.Visible = true;
                         var sphere = AoWHSMap.Current.Players.GetPlayers(H.Player).Leader.GetSpheres(1);
                         var sphereToImage = DialogHosts.General.SphereToImage(sphere);
-                        DialogHosts.UnitWindow.Sel2.ImageLibraryIndexUp = sphereToImage;
+                        DialogHosts.UnitWindow.Sphere2Button.ImageLibraryIndexUp = sphereToImage;
                     }
                     else
                     {
-                        DialogHosts.UnitWindow.Sel2.Visible = false;
+                        DialogHosts.UnitWindow.Sphere2Button.Visible = false;
                     }
 
                     if (AoWHSMap.Current.Players.GetPlayers(H.Player).Leader.GetSphereCount() > 2)
                     {
-                        DialogHosts.UnitWindow.Sel3.Visible = true;
+                        DialogHosts.UnitWindow.Sphere3Button.Visible = true;
                         var sphere = AoWHSMap.Current.Players.GetPlayers(H.Player).Leader.GetSpheres(2);
                         var sphereToImage = DialogHosts.General.SphereToImage(sphere);
-                        DialogHosts.UnitWindow.Sel3.ImageLibraryIndexUp = sphereToImage;
+                        DialogHosts.UnitWindow.Sphere3Button.ImageLibraryIndexUp = sphereToImage;
                     }
                     else
                     {
-                        DialogHosts.UnitWindow.Sel3.Visible = false;
+                        DialogHosts.UnitWindow.Sphere3Button.Visible = false;
                     }
 
                     if (AoWHSMap.Current.Players.GetPlayers(H.Player).Leader.GetSphereCount() > 3)
                     {
-                        DialogHosts.UnitWindow.Sel4.Visible = true;
+                        DialogHosts.UnitWindow.Sphere4Button.Visible = true;
                         var sphere = AoWHSMap.Current.Players.GetPlayers(H.Player).Leader.GetSpheres(3);
                         var sphereToImage = DialogHosts.General.SphereToImage(sphere);
-                        DialogHosts.UnitWindow.Sel4.ImageLibraryIndexUp = sphereToImage;
+                        DialogHosts.UnitWindow.Sphere4Button.ImageLibraryIndexUp = sphereToImage;
                     }
                     else
                     {
-                        DialogHosts.UnitWindow.Sel4.Visible = false;
+                        DialogHosts.UnitWindow.Sphere4Button.Visible = false;
                     }
 
                     if (AoWHSMap.Current.Players.GetPlayers(H.Player).Leader.GetSphereCount() > 4)
                     {
-                        DialogHosts.UnitWindow.Sel5.Visible = true;
+                        DialogHosts.UnitWindow.Sphere5Button.Visible = true;
                         var sphere = AoWHSMap.Current.Players.GetPlayers(H.Player).Leader.GetSpheres(4);
                         var sphereToImage = DialogHosts.General.SphereToImage(sphere);
-                        DialogHosts.UnitWindow.Sel5.ImageLibraryIndexUp = sphereToImage;
+                        DialogHosts.UnitWindow.Sphere5Button.ImageLibraryIndexUp = sphereToImage;
                     }
                     else
                     {
-                        DialogHosts.UnitWindow.Sel5.Visible = false;
+                        DialogHosts.UnitWindow.Sphere5Button.Visible = false;
                     }
 
                     if (AoWHSMap.Current.Players.GetPlayers(H.Player).Leader.GetSphereCount() > 5)
                     {
-                        DialogHosts.UnitWindow.Sel6.Visible = true;
+                        DialogHosts.UnitWindow.Sphere6Button.Visible = true;
                         var sphere = AoWHSMap.Current.Players.GetPlayers(H.Player).Leader.GetSpheres(5);
                         var sphereToImage = DialogHosts.General.SphereToImage(sphere);
-                        DialogHosts.UnitWindow.Sel6.ImageLibraryIndexUp = sphereToImage;
+                        DialogHosts.UnitWindow.Sphere6Button.ImageLibraryIndexUp = sphereToImage;
                     }
                     else
                     {
-                        DialogHosts.UnitWindow.Sel6.Visible = false;
+                        DialogHosts.UnitWindow.Sphere6Button.Visible = false;
                     }
 
                     if (AoWHSMap.Current.Players.GetPlayers(H.Player).Leader.GetSphereCount() > 6)
                     {
-                        DialogHosts.UnitWindow.Sel7.Visible = true;
+                        DialogHosts.UnitWindow.Sphere7Button.Visible = true;
                         var sphere = AoWHSMap.Current.Players.GetPlayers(H.Player).Leader.GetSpheres(6);
                         var sphereToImage = DialogHosts.General.SphereToImage(sphere);
-                        DialogHosts.UnitWindow.Sel7.ImageLibraryIndexUp = sphereToImage;
+                        DialogHosts.UnitWindow.Sphere7Button.ImageLibraryIndexUp = sphereToImage;
                     }
                     else
                     {
-                        DialogHosts.UnitWindow.Sel7.Visible = false;
+                        DialogHosts.UnitWindow.Sphere7Button.Visible = false;
                     }
 
                     var leaderSpheres = AbilityRules.TranslateResourceString(s_leaderSpheresText);
-                    DialogHosts.UnitWindow.SphereLbl.Text = leaderSpheres;
+                    DialogHosts.UnitWindow.SphereLabel.Text = leaderSpheres;
                 }
 
                 if (AoWHSMap.Current.Combat == null && H.Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Combat != null && AoWHSMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)AoWHSMap.Current.Combat.CombatData.CurrentPlayer).Player == H.Player)
                 {
                     var items = AbilityRules.TranslateResourceString(s_itemsText);
-                    DialogHosts.UnitWindow.UnitTab.Items.Add(items);
+                    DialogHosts.UnitWindow.UnitTabs.Items.Add(items);
                 }
 
                 if (H.GetCastingPointsMax() > 0)
                 {
-                    DialogHosts.UnitWindow.Mana.Visible = true;
+                    DialogHosts.UnitWindow.ManaLabel.Visible = true;
                     var castingPoints = H.GetCastingPoints();
                     var castingPointsMax = H.GetCastingPointsMax();
-                    DialogHosts.UnitWindow.Mana.Text = IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
+                    DialogHosts.UnitWindow.ManaLabel.Text = IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
                     DialogHosts.UnitWindow.ManaIcon.Visible = true;
                 }
 
-                DialogHosts.UnitWindow.ItemUseBtn.Visible = false;
+                DialogHosts.UnitWindow.ItemUseButton.Visible = false;
                 DialogHosts.UnitWindow._groundOffset = 0;
                 var level = AbilityRules.TranslateResourceString(s_levelText);
                 var hLevel = H.GetLevel();
-                DialogHosts.UnitWindow.Level.Text = level + " " + IntToStr(hLevel);
-                DialogHosts.UnitWindow.T2Leader.Visible = true;
-                DialogHosts.UnitWindow.T2Text.Visible = false;
+                DialogHosts.UnitWindow.LevelLabel.Text = level + " " + IntToStr(hLevel);
+                DialogHosts.UnitWindow.InfoLeaderPanel.Visible = true;
+                DialogHosts.UnitWindow.InfoTextPanel.Visible = false;
                 var nickname = H.GetNickname();
-                DialogHosts.UnitWindow.UnitName.Text = H.HeroName + " " + nickname;
+                DialogHosts.UnitWindow.UnitNameLabel.Text = H.HeroName + " " + nickname;
             }
 
             var exp = AbilityRules.TranslateResourceString(s_experienceText);
             var experience = U.GetExperience();
             var nextLevelExperience = U.GetNextLevelExperience();
-            DialogHosts.UnitWindow.XP.Text = exp + " (" + IntToStr(experience) + "/" + IntToStr(nextLevelExperience) + ")";
-            DialogHosts.UnitWindow.UnitWin.Cursor = 0;
-            if (DialogHosts.UnitWindow.UnitTab.Items.Count <= DialogHosts.UnitWindow.UnitTab.Selected || DialogHosts.UnitWindow.UnitTab.Selected < 0)
+            DialogHosts.UnitWindow.ExperienceLabel.Text = exp + " (" + IntToStr(experience) + "/" + IntToStr(nextLevelExperience) + ")";
+            DialogHosts.UnitWindow.MainWindow.Cursor = 0;
+            if (DialogHosts.UnitWindow.UnitTabs.Items.Count <= DialogHosts.UnitWindow.UnitTabs.Selected || DialogHosts.UnitWindow.UnitTabs.Selected < 0)
             {
-                DialogHosts.UnitWindow.UnitTab.Selected = 0;
+                DialogHosts.UnitWindow.UnitTabs.Selected = 0;
             }
 
-            DialogHosts.UnitWindow.UnitWin.Visible = true;
+            DialogHosts.UnitWindow.MainWindow.Visible = true;
             if (H != null && (AoWHSMap.Current.Combat == null && H.Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Combat != null && AoWHSMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)AoWHSMap.Current.Combat.CombatData.CurrentPlayer).Player == H.Player))
             {
                 if (H.Inventory.GetItem(0) != null)
                 {
                     var inventory = H.Inventory.GetItem(0);
-                    DialogHosts.UnitWindow.BP1.Tag = inventory.ItemId;
+                    DialogHosts.UnitWindow.Backpack1CheckBox.Tag = inventory.ItemId;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.BP1.Tag = -1;
+                    DialogHosts.UnitWindow.Backpack1CheckBox.Tag = -1;
                 }
 
                 if (H.Inventory.GetItem(1) != null)
                 {
                     var inventory = H.Inventory.GetItem(1);
-                    DialogHosts.UnitWindow.BP2.Tag = inventory.ItemId;
+                    DialogHosts.UnitWindow.Backpack2CheckBox.Tag = inventory.ItemId;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.BP2.Tag = -1;
+                    DialogHosts.UnitWindow.Backpack2CheckBox.Tag = -1;
                 }
 
                 if (H.Inventory.GetItem(2) != null)
                 {
                     var inventory = H.Inventory.GetItem(2);
-                    DialogHosts.UnitWindow.BP3.Tag = inventory.ItemId;
+                    DialogHosts.UnitWindow.Backpack3CheckBox.Tag = inventory.ItemId;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.BP3.Tag = -1;
+                    DialogHosts.UnitWindow.Backpack3CheckBox.Tag = -1;
                 }
 
                 if (H.Inventory.GetItem(3) != null)
                 {
                     var inventory = H.Inventory.GetItem(3);
-                    DialogHosts.UnitWindow.BP4.Tag = inventory.ItemId;
+                    DialogHosts.UnitWindow.Backpack4CheckBox.Tag = inventory.ItemId;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.BP4.Tag = -1;
+                    DialogHosts.UnitWindow.Backpack4CheckBox.Tag = -1;
                 }
 
                 if (H.Inventory.GetItem(4) != null)
                 {
                     var inventory = H.Inventory.GetItem(4);
-                    DialogHosts.UnitWindow.BP5.Tag = inventory.ItemId;
+                    DialogHosts.UnitWindow.Backpack5CheckBox.Tag = inventory.ItemId;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.BP5.Tag = -1;
+                    DialogHosts.UnitWindow.Backpack5CheckBox.Tag = -1;
                 }
 
                 if (H.Inventory.GetItem(5) != null)
                 {
                     var inventory = H.Inventory.GetItem(5);
-                    DialogHosts.UnitWindow.BP6.Tag = inventory.ItemId;
+                    DialogHosts.UnitWindow.Backpack6CheckBox.Tag = inventory.ItemId;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.BP6.Tag = -1;
+                    DialogHosts.UnitWindow.Backpack6CheckBox.Tag = -1;
                 }
 
                 if (H.Inventory.GetItem(6) != null)
                 {
                     var inventory = H.Inventory.GetItem(6);
-                    DialogHosts.UnitWindow.BP7.Tag = inventory.ItemId;
+                    DialogHosts.UnitWindow.Backpack7CheckBox.Tag = inventory.ItemId;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.BP7.Tag = -1;
+                    DialogHosts.UnitWindow.Backpack7CheckBox.Tag = -1;
                 }
 
                 if (H.Inventory.GetItem(7) != null)
                 {
                     var inventory = H.Inventory.GetItem(7);
-                    DialogHosts.UnitWindow.BP8.Tag = inventory.ItemId;
+                    DialogHosts.UnitWindow.Backpack8CheckBox.Tag = inventory.ItemId;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.BP8.Tag = -1;
+                    DialogHosts.UnitWindow.Backpack8CheckBox.Tag = -1;
                 }
 
                 if (H.HeroItems.GetPositionItem(HeroItemPosition.AttackSlot) != null)
                 {
                     var positionItem = H.HeroItems.GetPositionItem(HeroItemPosition.AttackSlot);
-                    DialogHosts.UnitWindow.Attack.Tag = positionItem.ItemId;
+                    DialogHosts.UnitWindow.AttackSlotCheckBox.Tag = positionItem.ItemId;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.Attack.Tag = -1;
+                    DialogHosts.UnitWindow.AttackSlotCheckBox.Tag = -1;
                 }
 
                 if (H.HeroItems.GetPositionItem(HeroItemPosition.DefenseSlot) != null)
                 {
                     var positionItem = H.HeroItems.GetPositionItem(HeroItemPosition.DefenseSlot);
-                    DialogHosts.UnitWindow.Defend.Tag = positionItem.ItemId;
+                    DialogHosts.UnitWindow.DefendSlotCheckBox.Tag = positionItem.ItemId;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.Defend.Tag = -1;
+                    DialogHosts.UnitWindow.DefendSlotCheckBox.Tag = -1;
                 }
 
                 if (H.HeroItems.GetPositionItem(HeroItemPosition.HeadSlot) != null)
                 {
                     var positionItem = H.HeroItems.GetPositionItem(HeroItemPosition.HeadSlot);
-                    DialogHosts.UnitWindow.Head.Tag = positionItem.ItemId;
+                    DialogHosts.UnitWindow.HeadSlotCheckBox.Tag = positionItem.ItemId;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.Head.Tag = -1;
+                    DialogHosts.UnitWindow.HeadSlotCheckBox.Tag = -1;
                 }
 
                 if (H.HeroItems.GetPositionItem(HeroItemPosition.TorsoSlot) != null)
                 {
                     var positionItem = H.HeroItems.GetPositionItem(HeroItemPosition.TorsoSlot);
-                    DialogHosts.UnitWindow.Torso.Tag = positionItem.ItemId;
+                    DialogHosts.UnitWindow.TorsoSlotCheckBox.Tag = positionItem.ItemId;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.Torso.Tag = -1;
+                    DialogHosts.UnitWindow.TorsoSlotCheckBox.Tag = -1;
                 }
 
                 if (H.HeroItems.GetPositionItem(HeroItemPosition.LeftRingSlot) != null)
                 {
                     var positionItem = H.HeroItems.GetPositionItem(HeroItemPosition.LeftRingSlot);
-                    DialogHosts.UnitWindow.RingL.Tag = positionItem.ItemId;
+                    DialogHosts.UnitWindow.LeftRingCheckBox.Tag = positionItem.ItemId;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.RingL.Tag = -1;
+                    DialogHosts.UnitWindow.LeftRingCheckBox.Tag = -1;
                 }
 
                 if (H.HeroItems.GetPositionItem(HeroItemPosition.RightRingSlot) != null)
                 {
                     var positionItem = H.HeroItems.GetPositionItem(HeroItemPosition.RightRingSlot);
-                    DialogHosts.UnitWindow.RingR.Tag = positionItem.ItemId;
+                    DialogHosts.UnitWindow.RightRingCheckBox.Tag = positionItem.ItemId;
                 }
                 else
                 {
-                    DialogHosts.UnitWindow.RingR.Tag = -1;
+                    DialogHosts.UnitWindow.RightRingCheckBox.Tag = -1;
                 }
 
                 DialogHosts.UnitWindow.UpdateGround(0);
                 s_selectedItem = null;
-                DialogHosts.UnitWindow.BP1.Checked = false;
-                DialogHosts.UnitWindow.BP2.Checked = false;
-                DialogHosts.UnitWindow.BP3.Checked = false;
-                DialogHosts.UnitWindow.BP4.Checked = false;
-                DialogHosts.UnitWindow.BP5.Checked = false;
-                DialogHosts.UnitWindow.BP6.Checked = false;
-                DialogHosts.UnitWindow.BP7.Checked = false;
-                DialogHosts.UnitWindow.BP8.Checked = false;
-                DialogHosts.UnitWindow.Attack.Checked = false;
-                DialogHosts.UnitWindow.Defend.Checked = false;
-                DialogHosts.UnitWindow.Head.Checked = false;
-                DialogHosts.UnitWindow.Torso.Checked = false;
-                DialogHosts.UnitWindow.RingL.Checked = false;
-                DialogHosts.UnitWindow.RingR.Checked = false;
-                DialogHosts.UnitWindow.ItemUseBtn.Visible = false;
+                DialogHosts.UnitWindow.Backpack1CheckBox.Checked = false;
+                DialogHosts.UnitWindow.Backpack2CheckBox.Checked = false;
+                DialogHosts.UnitWindow.Backpack3CheckBox.Checked = false;
+                DialogHosts.UnitWindow.Backpack4CheckBox.Checked = false;
+                DialogHosts.UnitWindow.Backpack5CheckBox.Checked = false;
+                DialogHosts.UnitWindow.Backpack6CheckBox.Checked = false;
+                DialogHosts.UnitWindow.Backpack7CheckBox.Checked = false;
+                DialogHosts.UnitWindow.Backpack8CheckBox.Checked = false;
+                DialogHosts.UnitWindow.AttackSlotCheckBox.Checked = false;
+                DialogHosts.UnitWindow.DefendSlotCheckBox.Checked = false;
+                DialogHosts.UnitWindow.HeadSlotCheckBox.Checked = false;
+                DialogHosts.UnitWindow.TorsoSlotCheckBox.Checked = false;
+                DialogHosts.UnitWindow.LeftRingCheckBox.Checked = false;
+                DialogHosts.UnitWindow.RightRingCheckBox.Checked = false;
+                DialogHosts.UnitWindow.ItemUseButton.Visible = false;
             }
 
             if (U != null)
             {
                 var hitPoints = U.GetHitPoints();
                 var hits = U.GetHits();
-                DialogHosts.UnitWindow.UHits.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
+                DialogHosts.UnitWindow.UnitHitsLabel.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
                 if (AoWHSMap.Current.CombatMap == null)
                 {
                     var movePoints = U.GetMovePoints();
                     var moves = U.GetMoves();
-                    DialogHosts.UnitWindow.UMoves.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
+                    DialogHosts.UnitWindow.UnitMovesLabel.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
                 }
                 else
                 {
                     if (DialogHosts.General.CombatUnit != null)
                     {
                         var moves = DialogHosts.General.CombatUnit.Unit.GetMoves();
-                        DialogHosts.UnitWindow.UMoves.Text = IntToStr(DialogHosts.General.CombatUnit.Unit.MovePoints) + "/" + IntToStr(moves);
+                        DialogHosts.UnitWindow.UnitMovesLabel.Text = IntToStr(DialogHosts.General.CombatUnit.Unit.MovePoints) + "/" + IntToStr(moves);
                     }
                 }
 
                 var attack = U.GetAttack();
-                DialogHosts.UnitWindow.UAttack.Text = IntToStr(attack);
+                DialogHosts.UnitWindow.UnitAttackLabel.Text = IntToStr(attack);
                 var damage = U.GetDamage();
-                DialogHosts.UnitWindow.UDamage.Text = IntToStr(damage);
+                DialogHosts.UnitWindow.UnitDamageLabel.Text = IntToStr(damage);
                 var defense = U.GetDefense();
-                DialogHosts.UnitWindow.UDefense.Text = IntToStr(defense);
+                DialogHosts.UnitWindow.UnitDefenseLabel.Text = IntToStr(defense);
                 var resistance = U.GetResistance();
-                DialogHosts.UnitWindow.UResistance.Text = IntToStr(resistance);
+                DialogHosts.UnitWindow.UnitResistanceLabel.Text = IntToStr(resistance);
                 var moveTypes = U.GetMoveTypes();
                 var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(moveTypes);
-                DialogHosts.UnitWindow.UMovesIcon.CurrentImage = moveTypesToInt32;
+                DialogHosts.UnitWindow.UnitMovesIcon.CurrentImage = moveTypesToInt32;
                 if (U.GetManaUpkeep() > 0)
                 {
                     var manaUpkeep = U.GetManaUpkeep();
-                    DialogHosts.UnitWindow.UpKeep.Text = IntToStr(manaUpkeep);
+                    DialogHosts.UnitWindow.UpkeepLabel.Text = IntToStr(manaUpkeep);
                     UpkeepIcon.CurrentImage = 52;
                 }
                 else
                 {
                     var upkeep = U.GetUpkeep();
-                    DialogHosts.UnitWindow.UpKeep.Text = IntToStr(upkeep);
+                    DialogHosts.UnitWindow.UpkeepLabel.Text = IntToStr(upkeep);
                     UpkeepIcon.CurrentImage = 51;
                 }
 
                 var alignment = U.GetAlignment();
-                AAlignment.Visible = alignment != Units.Alignment.None;
+                AlignmentImage.Visible = alignment != Units.Alignment.None;
                 switch (U.GetAlignment())
                 {
                     case Units.Alignment.PureGood:
-                        AAlignment.CurrentImage = 31;
+                        AlignmentImage.CurrentImage = 31;
                         break;
                     case Units.Alignment.Good:
-                        AAlignment.CurrentImage = 32;
+                        AlignmentImage.CurrentImage = 32;
                         break;
                     case Units.Alignment.PureNeutral:
                     case Units.Alignment.Neutral:
-                        AAlignment.CurrentImage = 33;
+                        AlignmentImage.CurrentImage = 33;
                         break;
                     case Units.Alignment.Evil:
-                        AAlignment.CurrentImage = 34;
+                        AlignmentImage.CurrentImage = 34;
                         break;
                     case Units.Alignment.PureEvil:
-                        AAlignment.CurrentImage = 35;
+                        AlignmentImage.CurrentImage = 35;
                         break;
                 }
 
                 var uAlignment = U.GetAlignment();
                 var alignmentText = AbilityRules.TranslateResourceString(GameText.AlignmentTexts[(int)uAlignment]);
-                AAlignmentLbl.Text = alignmentText;
-                DialogHosts.UnitWindow.T1AbilityLB.Items.Clear();
-                DialogHosts.UnitWindow.T1TypeLB.Items.Clear();
-                DialogHosts.UnitWindow.T1SrcLB.Items.Clear();
+                AlignmentLabel.Text = alignmentText;
+                DialogHosts.UnitWindow.AbilityAbilityList.Items.Clear();
+                DialogHosts.UnitWindow.AbilityTypeList.Items.Clear();
+                DialogHosts.UnitWindow.AbilitySourceList.Items.Clear();
                 var morale = U.GetMorale();
                 var moraleText = AbilityRules.TranslateResourceString(s_moraleTexts[(int)morale]);
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_moraleFormat), [moraleText]);
-                MoraleLbl.Text = format;
+                MoraleLabel.Text = format;
                 var unitType = U.GetUnitType();
-                MoraleLbl.Visible = unitType != UnitType.Machine;
+                MoraleLabel.Visible = unitType != UnitType.Machine;
                 if (AoWHSMap.Current.CombatMap == null)
                 {
-                    U.ListAbilityInfo(T1AbilityLB.Items, T1TypeLB.Items, T1SrcLB.Items);
-                    StringSorting.SortStrings(T1AbilityLB.Items, CompareUnitAbilities, [T1TypeLB.Items, T1SrcLB.Items]);
+                    U.ListAbilityInfo(AbilityAbilityList.Items, AbilityTypeList.Items, AbilitySourceList.Items);
+                    StringSorting.SortStrings(AbilityAbilityList.Items, CompareUnitAbilities, [AbilityTypeList.Items, AbilitySourceList.Items]);
                 }
                 else
                 {
                     if (DialogHosts.General.CombatUnit != null && DialogHosts.General.CombatUnit.Unit != null && DialogHosts.General.CombatUnit.Unit.Troop != null)
                     {
-                        DialogHosts.General.CombatUnit.Unit.Troop.ListAbilityInfo(T1AbilityLB.Items, T1TypeLB.Items, T1SrcLB.Items);
-                        StringSorting.SortStrings(T1AbilityLB.Items, CompareUnitAbilities, [T1TypeLB.Items, T1SrcLB.Items]);
+                        DialogHosts.General.CombatUnit.Unit.Troop.ListAbilityInfo(AbilityAbilityList.Items, AbilityTypeList.Items, AbilitySourceList.Items);
+                        StringSorting.SortStrings(AbilityAbilityList.Items, CompareUnitAbilities, [AbilityTypeList.Items, AbilitySourceList.Items]);
                     }
                 }
 
-                DialogHosts.UnitWindow.T1AbilityLB.Selected = -1;
-                DialogHosts.UnitWindow.T1AbilityLBChange(T1AbilityLB);
-                UnitWin.Drawn = false;
+                DialogHosts.UnitWindow.AbilityAbilityList.Selected = -1;
+                DialogHosts.UnitWindow.T1AbilityLBChange(AbilityAbilityList);
+                MainWindow.Drawn = false;
             }
         }
     }

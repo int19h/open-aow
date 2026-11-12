@@ -12,9 +12,9 @@ public partial class PasswordDialog : DataModule
     public PasswordDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Label TitleLbl;
-    public Label PasswordLbl;
+    public Window Window;
+    public Label TitleLabel;
+    public Label PasswordLabel;
     public Edit PasswordEdit;
     private ExecuteDoneEvent _done;
     private PasswordEventLog _passwordEvent;
@@ -24,7 +24,7 @@ public partial class PasswordDialog : DataModule
     {
         ExecuteDoneEvent done;
         PasswordEventLog eventValue;
-        Dlg.Visible = false;
+        Window.Visible = false;
         done = _done;
         eventValue = _passwordEvent;
         _done = null;
@@ -56,7 +56,7 @@ public partial class PasswordDialog : DataModule
     {
         _passwordEvent.Password = PasswordEdit.Text;
         _passwordEvent.PressedButton = PressedEventLogButton.Ok;
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWPasswordDlg.pas:65
@@ -64,7 +64,7 @@ public partial class PasswordDialog : DataModule
     {
         _passwordEvent.Password = "";
         _passwordEvent.PressedButton = PressedEventLogButton.Cancel;
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWPasswordDlg.pas:72
@@ -84,11 +84,11 @@ public partial class PasswordDialog : DataModule
         dialog._passwordEvent = eventValue;
         dialog._passwordEvent.AddRef();
         log = dialog._passwordEvent;
-        dialog.TitleLbl.Text = log.Title;
-        dialog.PasswordLbl.Text = log.Prompt;
+        dialog.TitleLabel.Text = log.Title;
+        dialog.PasswordLabel.Text = log.Prompt;
         dialog.PasswordEdit.Text = log.Password;
         dialog.PasswordEdit.Redraw = true;
-        dialog.Dlg.Visible = true;
+        dialog.Window.Visible = true;
     }
 
 }

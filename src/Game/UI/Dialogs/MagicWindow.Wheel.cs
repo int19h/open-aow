@@ -5,10 +5,10 @@ public partial class MagicWindow
     public override void Loaded()
     {
         base.Loaded();
-        if (PowerSourceList != null) PowerSourceList.WheelScrollBar = PowerSB;
-        if (GlobalEnchantmentList != null) GlobalEnchantmentList.WheelScrollBar = GlobalEnchantmentSB;
-        if (GlobalNameList != null) GlobalNameList.WheelScrollBar = GlobalEnchantmentSB;
-        if (EnchantmentList != null) EnchantmentList.WheelScrollBar = EnchantmentSB;
-        if (BindingList != null) BindingList.WheelScrollBar = EnchantmentSB;
+        if (PowerSourceList != null) PowerSourceList.WheelScrollBar = PowerScrollBar;
+        if (GlobalEnchantmentList != null) GlobalEnchantmentList.WheelScrollBar = GlobalEnchantmentScrollBar;
+        if (GlobalNameList != null) GlobalNameList.WheelScrollBar = GlobalEnchantmentScrollBar;
+        if (EnchantmentList != null) EnchantmentList.WheelScrollBar = EnchantmentScrollBar;
+        if (BindingList != null) BindingList.WheelScrollBar = EnchantmentScrollBar;
     }
 }

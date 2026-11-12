@@ -15,17 +15,17 @@ public partial class MessageDialog : DataModule
     public MessageDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Label TitleLbl;
-    public Panel YesNoPnl;
-    public Panel OKPnl;
-    public Panel OKCancelPnl;
+    public Window Window;
+    public Label TitleLabel;
+    public Panel YesNoPanel;
+    public Panel OKPanel;
+    public Panel OKCancelPanel;
     public Memo MessageMemo;
-    public Panel YesNoCancelPnl;
-    public Panel MemoPnl;
-    public Panel HeaderMemoPnl;
+    public Panel YesNoCancelPanel;
+    public Panel MemoPanel;
+    public Panel HeaderMemoPanel;
     public Memo HeaderMemo;
-    public Label HeaderLbl;
+    public Label HeaderLabel;
     private ExecuteDoneEvent _done;
     private MessageEventLog _event;
 
@@ -34,7 +34,7 @@ public partial class MessageDialog : DataModule
     {
         ExecuteDoneEvent done;
         MessageEventLog log;
-        Dlg.Visible = false;
+        Window.Visible = false;
         done = _done;
         log = _event;
         _done = null;
@@ -61,7 +61,7 @@ public partial class MessageDialog : DataModule
     {
         if (_event.Yes())
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -70,7 +70,7 @@ public partial class MessageDialog : DataModule
     {
         if (_event.No())
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -85,7 +85,7 @@ public partial class MessageDialog : DataModule
             }
         }
 
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWMessageDlg.pas:105
@@ -93,7 +93,7 @@ public partial class MessageDialog : DataModule
     {
         if (_event.Ok())
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -102,7 +102,7 @@ public partial class MessageDialog : DataModule
     {
         if (_event.Cancel())
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -112,21 +112,21 @@ public partial class MessageDialog : DataModule
         DialogHosts.MessageDialog.MessageMemo.Items.Add("");
         var demoVersionMessage = AbilityRules.TranslateResourceString(GameText.DemoVersionMessageText);
         DialogHosts.MessageDialog.MessageMemo.Items.Add(demoVersionMessage);
-        DialogHosts.MessageDialog.OKPnl.Visible = true;
-        DialogHosts.MessageDialog.Dlg.Visible = true;
+        DialogHosts.MessageDialog.OKPanel.Visible = true;
+        DialogHosts.MessageDialog.Window.Visible = true;
     }
 
     internal static void ResetMessageDialog(MessageDialog dialog)
     {
-        dialog.YesNoPnl.Visible = false;
-        dialog.YesNoCancelPnl.Visible = false;
-        dialog.OKPnl.Visible = false;
-        dialog.OKCancelPnl.Visible = false;
+        dialog.YesNoPanel.Visible = false;
+        dialog.YesNoCancelPanel.Visible = false;
+        dialog.OKPanel.Visible = false;
+        dialog.OKCancelPanel.Visible = false;
         dialog.MessageMemo.Items.Clear();
-        dialog.MemoPnl.Visible = true;
-        dialog.HeaderMemoPnl.Visible = false;
+        dialog.MemoPanel.Visible = true;
+        dialog.HeaderMemoPanel.Visible = false;
         var message = AbilityRules.TranslateResourceString(GameText.MessageText);
-        dialog.TitleLbl.Text = message;
+        dialog.TitleLabel.Text = message;
     }
 
     internal static void ShowMessageEvent(MessageDialog dialog, MessageEventLog eventValue, ExecuteDoneEvent done)
@@ -137,7 +137,7 @@ public partial class MessageDialog : DataModule
         dialog._event = eventValue;
         dialog._event.AddRef();
         log = dialog._event;
-        dialog.TitleLbl.Text = log.Title;
+        dialog.TitleLabel.Text = log.Title;
         switch (log.Layout)
         {
             case MessageEventLogLayout.Normal:
@@ -150,9 +150,9 @@ public partial class MessageDialog : DataModule
 
                 break;
             case MessageEventLogLayout.Header:
-                dialog.MemoPnl.Visible = false;
-                dialog.HeaderMemoPnl.Visible = true;
-                dialog.HeaderLbl.Text = log.Header;
+                dialog.MemoPanel.Visible = false;
+                dialog.HeaderMemoPanel.Visible = true;
+                dialog.HeaderLabel.Text = log.Header;
                 var fMessageText = log.Message.Text;
                 dialog.HeaderMemo.Items.Text = fMessageText;
                 break;
@@ -161,20 +161,20 @@ public partial class MessageDialog : DataModule
         switch (log.Buttons)
         {
             case MessageEventLogButtons.Ok:
-                dialog.OKPnl.Visible = true;
+                dialog.OKPanel.Visible = true;
                 break;
             case MessageEventLogButtons.OkCancel:
-                dialog.OKCancelPnl.Visible = true;
+                dialog.OKCancelPanel.Visible = true;
                 break;
             case MessageEventLogButtons.YesNo:
-                dialog.YesNoPnl.Visible = true;
+                dialog.YesNoPanel.Visible = true;
                 break;
             case MessageEventLogButtons.YesNoCancel:
-                dialog.YesNoCancelPnl.Visible = true;
+                dialog.YesNoCancelPanel.Visible = true;
                 break;
         }
 
-        dialog.Dlg.Visible = true;
+        dialog.Window.Visible = true;
     }
 
 }

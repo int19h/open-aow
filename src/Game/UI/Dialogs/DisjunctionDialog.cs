@@ -18,9 +18,9 @@ public partial class DisjunctionDialog : DataModule
     public DisjunctionDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Label DisjunctionChance;
-    public Label DisjunctionMana;
+    public Window Window;
+    public Label DisjunctionChanceLabel;
+    public Label DisjunctionManaLabel;
     public ListBox OwnerList;
     public ListBox EnchantmentList;
     public VerticalScrollBar EnchantmentsScrollBar;
@@ -100,19 +100,19 @@ public partial class DisjunctionDialog : DataModule
     {
         if (_caster.GetEnoughMana())
         {
-            DisjunctionMana.TextColor = 12632256;
+            DisjunctionManaLabel.TextColor = 12632256;
         }
         else
         {
-            DisjunctionMana.TextColor = 255;
+            DisjunctionManaLabel.TextColor = 255;
         }
 
         var spell = AoWHSSet.Current.SpellControl.GetSpell(51);
         var mana = _caster.GetMana();
         var fSpellControlSpell = AoWHSSet.Current.SpellControl.GetSpell(51);
         var fCasterMana = _caster.GetMana();
-        DisjunctionMana.Text = IntToStr(spell.BaseManaCost) + "+" + IntToStr(mana) + "=" + IntToStr(fSpellControlSpell.BaseManaCost + fCasterMana);
-        DisjunctionChance.Text = IntToStr(_caster.DispelChance) + "%";
+        DisjunctionManaLabel.Text = IntToStr(spell.BaseManaCost) + "+" + IntToStr(mana) + "=" + IntToStr(fSpellControlSpell.BaseManaCost + fCasterMana);
+        DisjunctionChanceLabel.Text = IntToStr(_caster.DispelChance) + "%";
         var dispelChanceMax = _caster.GetDispelChanceMax();
         ChanceSlider.Max = dispelChanceMax;
         ChanceSlider.Position = _caster.DispelChance;
@@ -169,13 +169,13 @@ public partial class DisjunctionDialog : DataModule
         UpdateEnchantments();
         SelectEnchantment(0);
         DialogHosts.General.Manager.OverlayPriority = 49;
-        Dlg.Visible = true;
+        Window.Visible = true;
     }
 
     // AoWDisjunctionDlg.pas:76
     public void CancelBtnClick()
     {
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWDisjunctionDlg.pas:82
@@ -186,7 +186,7 @@ public partial class DisjunctionDialog : DataModule
         {
             if (_caster.Cast())
             {
-                Dlg.Visible = false;
+                Window.Visible = false;
             }
         }
         else
@@ -264,7 +264,7 @@ public partial class DisjunctionDialog : DataModule
     {
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -277,7 +277,7 @@ public partial class DisjunctionDialog : DataModule
         Rect R;
         int W;
         int H;
-        R = new Rect(Dlg.WinLeft + sender.WinLeft + 1, Dlg.WinTop + sender.WinTop + 1, Dlg.WinLeft + sender.WinLeft + sender.WinWidth - 2, Dlg.WinTop + sender.WinTop + sender.WinHeight - 2);
+        R = new Rect(Window.WinLeft + sender.WinLeft + 1, Window.WinTop + sender.WinTop + 1, Window.WinLeft + sender.WinLeft + sender.WinWidth - 2, Window.WinTop + sender.WinTop + sender.WinHeight - 2);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         HexGeometry.HexToPixel(_mapX, _mapY, ref X, ref Y);

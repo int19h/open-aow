@@ -84,14 +84,14 @@ internal static class FrameFixtureChecks
             AoWHSMap.Current.Players = players;
             TaskBar bar = new TaskBar(null)
             {
-                PInd = new(null) { Aligned = true },
-                TBMessEdit = new(null) { Aligned = true }
+                PlayerIndicatorFrame = new(null) { Aligned = true },
+                WorldMessageEdit = new(null) { Aligned = true }
             };
-            bar.TBMessEdit.Alignment.LeftOffset = 48;
+            bar.WorldMessageEdit.Alignment.LeftOffset = 48;
             bar.UpdatePlayerIndicator();
-            Check(bar.PInd.WinWidth == 14 && bar.TBMessEdit.Alignment.RightOffset == 292 &&
-                bar.TBMessEdit.Alignment.LeftOffset == 48, "indicator counts active players and reserves the right side");
-            Check(!bar.PInd.Aligned && !bar.TBMessEdit.Aligned, "indicator invalidates alignment");
+            Check(bar.PlayerIndicatorFrame.WinWidth == 14 && bar.WorldMessageEdit.Alignment.RightOffset == 292 &&
+                bar.WorldMessageEdit.Alignment.LeftOffset == 48, "indicator counts active players and reserves the right side");
+            Check(!bar.PlayerIndicatorFrame.Aligned && !bar.WorldMessageEdit.Aligned, "indicator invalidates alignment");
             Check(GameTables.s_magicSphereTexts[(int)MagicSphere.Life] == "Life" &&
                 GameTables.s_magicSphereTexts[(int)MagicSphere.Cosmos] == "Cosmos", "sphere names are initialized");
             Check(GameTables.s_playerBehaviorTexts[(int)PlayerBehavior.Normal] == "Normal" &&

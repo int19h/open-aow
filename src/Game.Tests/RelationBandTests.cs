@@ -66,68 +66,68 @@ public sealed class RelationBandTests
     private static RecordingRelWindow CreateWindow()
     {
         var window = new RecordingRelWindow();
-        window.P1I = new Image(null!);
-        window.P2I = new Image(null!);
-        window.P3I = new Image(null!);
-        window.P4I = new Image(null!);
-        window.P5I = new Image(null!);
-        window.P6I = new Image(null!);
-        window.P7I = new Image(null!);
-        window.P8I = new Image(null!);
-        window.P9I = new Image(null!);
-        window.P10I = new Image(null!);
-        window.P11I = new Image(null!);
-        window.P12I = new Image(null!);
-        window.R1I = new Image(null!);
-        window.R2I = new Image(null!);
-        window.R3I = new Image(null!);
-        window.R4I = new Image(null!);
-        window.R5I = new Image(null!);
-        window.R6I = new Image(null!);
-        window.R7I = new Image(null!);
-        window.R8I = new Image(null!);
-        window.R9I = new Image(null!);
-        window.R10I = new Image(null!);
-        window.R11I = new Image(null!);
-        window.R12I = new Image(null!);
-        window.P1CB = new CheckBox(null!);
-        window.P2CB = new CheckBox(null!);
-        window.P3CB = new CheckBox(null!);
-        window.P4CB = new CheckBox(null!);
-        window.P5CB = new CheckBox(null!);
-        window.P6CB = new CheckBox(null!);
-        window.P7CB = new CheckBox(null!);
-        window.P8CB = new CheckBox(null!);
-        window.P9CB = new CheckBox(null!);
-        window.P10CB = new CheckBox(null!);
-        window.P11CB = new CheckBox(null!);
-        window.P12CB = new CheckBox(null!);
-        window.R1CB = new CheckBox(null!);
-        window.R2CB = new CheckBox(null!);
-        window.R3CB = new CheckBox(null!);
-        window.R4CB = new CheckBox(null!);
-        window.R5CB = new CheckBox(null!);
-        window.R6CB = new CheckBox(null!);
-        window.R7CB = new CheckBox(null!);
-        window.R8CB = new CheckBox(null!);
-        window.R9CB = new CheckBox(null!);
-        window.R10CB = new CheckBox(null!);
-        window.R11CB = new CheckBox(null!);
-        window.R12CB = new CheckBox(null!);
-        window.RelWin = new Window(null!);
-        window.RelPnl = new Panel(null!);
-        window.PlyrGlow = new Image(null!);
-        window.RNewActionPnl = new Panel(null!);
-        window.RIncomingPnl = new Panel(null!);
-        window.RMsgEditPnl = new Panel(null!);
-        window.RSBribePnl = new Panel(null!);
-        window.RMsgRecPnl = new Panel(null!);
-        window.IncommingInfoPnl = new Panel(null!);
-        window.ActionsLB = new ListBox(null!);
-        window.SMemo = new Memo(null!);
-        window.MMemo = new Memo(null!);
-        window.ASelect = new Button(null!);
-        window.RelWindowCreate();
+        window.Player1Image = new Image(null!);
+        window.Player2Image = new Image(null!);
+        window.Player3Image = new Image(null!);
+        window.Player4Image = new Image(null!);
+        window.Player5Image = new Image(null!);
+        window.Player6Image = new Image(null!);
+        window.Player7Image = new Image(null!);
+        window.Player8Image = new Image(null!);
+        window.Player9Image = new Image(null!);
+        window.Player10Image = new Image(null!);
+        window.Player11Image = new Image(null!);
+        window.Player12Image = new Image(null!);
+        window.Race1Image = new Image(null!);
+        window.Race2Image = new Image(null!);
+        window.Race3Image = new Image(null!);
+        window.Race4Image = new Image(null!);
+        window.Race5Image = new Image(null!);
+        window.Race6Image = new Image(null!);
+        window.Race7Image = new Image(null!);
+        window.Race8Image = new Image(null!);
+        window.Race9Image = new Image(null!);
+        window.Race10Image = new Image(null!);
+        window.Race11Image = new Image(null!);
+        window.Race12Image = new Image(null!);
+        window.Player1CheckBox = new CheckBox(null!);
+        window.Player2CheckBox = new CheckBox(null!);
+        window.Player3CheckBox = new CheckBox(null!);
+        window.Player4CheckBox = new CheckBox(null!);
+        window.Player5CheckBox = new CheckBox(null!);
+        window.Player6CheckBox = new CheckBox(null!);
+        window.Player7CheckBox = new CheckBox(null!);
+        window.Player8CheckBox = new CheckBox(null!);
+        window.Player9CheckBox = new CheckBox(null!);
+        window.Player10CheckBox = new CheckBox(null!);
+        window.Player11CheckBox = new CheckBox(null!);
+        window.Player12CheckBox = new CheckBox(null!);
+        window.Race1CheckBox = new CheckBox(null!);
+        window.Race2CheckBox = new CheckBox(null!);
+        window.Race3CheckBox = new CheckBox(null!);
+        window.Race4CheckBox = new CheckBox(null!);
+        window.Race5CheckBox = new CheckBox(null!);
+        window.Race6CheckBox = new CheckBox(null!);
+        window.Race7CheckBox = new CheckBox(null!);
+        window.Race8CheckBox = new CheckBox(null!);
+        window.Race9CheckBox = new CheckBox(null!);
+        window.Race10CheckBox = new CheckBox(null!);
+        window.Race11CheckBox = new CheckBox(null!);
+        window.Race12CheckBox = new CheckBox(null!);
+        window.MainWindow = new Window(null!);
+        window.RelationPanel = new Panel(null!);
+        window.PlayerGlow = new Image(null!);
+        window.NewActionPanel = new Panel(null!);
+        window.IncomingPanel = new Panel(null!);
+        window.MessageEditPanel = new Panel(null!);
+        window.SendBribePanel = new Panel(null!);
+        window.ReceivedMessagePanel = new Panel(null!);
+        window.IncomingInfoPanel = new Panel(null!);
+        window.ActionsList = new ListBox(null!);
+        window.SendMessageMemo = new Memo(null!);
+        window.IncomingMemo = new Memo(null!);
+        window.SelectActionButton = new Button(null!);
+        window.RelationWindowCreate();
         return window;
     }
 
@@ -146,11 +146,11 @@ public sealed class RelationBandTests
         using var scope = new MapScope();
         using var dialogs = new DialogScope();
         var window = CreateWindow();
-        window.R1CB.Visible = false;
+        window.Race1CheckBox.Visible = false;
         window.FillPlayers();
-        Assert.False(window.P1CB.Visible);
-        Assert.False(window.P12CB.Visible);
-        Assert.False(window.R1CB.Visible);
+        Assert.False(window.Player1CheckBox.Visible);
+        Assert.False(window.Player12CheckBox.Visible);
+        Assert.False(window.Race1CheckBox.Visible);
 
         scope.Map.Players.SetNumberOfPlayers(12);
         scope.Map.SeatedPlayer = 1;
@@ -167,13 +167,13 @@ public sealed class RelationBandTests
         }
 
         window.FillPlayers();
-        Assert.True(window.P1CB.Visible);
-        Assert.True(window.P12CB.Visible);
-        Assert.False(window.R1CB.Visible);
-        Assert.Equal("P1", window.P1CB.ToolTipText[0]);
-        Assert.Equal("P12", window.P12CB.ToolTipText[0]);
-        Assert.Same(window.P1CB, window.FChecks[0]);
-        Assert.Same(window.P12CB, window.FChecks[11]);
+        Assert.True(window.Player1CheckBox.Visible);
+        Assert.True(window.Player12CheckBox.Visible);
+        Assert.False(window.Race1CheckBox.Visible);
+        Assert.Equal("P1", window.Player1CheckBox.ToolTipText[0]);
+        Assert.Equal("P12", window.Player12CheckBox.ToolTipText[0]);
+        Assert.Same(window.Player1CheckBox, window.FChecks[0]);
+        Assert.Same(window.Player12CheckBox, window.FChecks[11]);
     }
 
     [Fact]
@@ -182,30 +182,30 @@ public sealed class RelationBandTests
         using var scope = new MapScope();
         using var dialogs = new DialogScope();
         var window = CreateWindow();
-        window.P1I._checked = true;
-        window.R12I._checked = true;
+        window.Player1Image._checked = true;
+        window.Race12Image._checked = true;
 
         window.ShowRelations(0);
-        Assert.False(window.P1CB.Checked);
-        Assert.False(window.P12CB.Checked);
-        Assert.True(window.R12I._checked);
+        Assert.False(window.Player1CheckBox.Checked);
+        Assert.False(window.Player12CheckBox.Checked);
+        Assert.True(window.Race12Image._checked);
         Assert.Equal(0, window.ShowCount);
-        Assert.False(window.RelPnl.Aligned);
-        Assert.False(window.RelWin.Drawn);
+        Assert.False(window.RelationPanel.Aligned);
+        Assert.False(window.MainWindow.Drawn);
 
         window.ShowRelations(-23);
-        Assert.False(window.P1CB.Checked);
-        Assert.True(window.P1I._checked);
+        Assert.False(window.Player1CheckBox.Checked);
+        Assert.True(window.Player1Image._checked);
         Assert.Equal(0, window.ShowCount);
 
         window.ShowRelations(1);
-        Assert.True(window.P1CB.Checked);
-        Assert.False(window.P12CB.Checked);
+        Assert.True(window.Player1CheckBox.Checked);
+        Assert.False(window.Player12CheckBox.Checked);
         Assert.Equal(0, window.ShowCount);
 
         window.ShowRelations(12);
-        Assert.False(window.P1CB.Checked);
-        Assert.True(window.P12CB.Checked);
+        Assert.False(window.Player1CheckBox.Checked);
+        Assert.True(window.Player12CheckBox.Checked);
         Assert.Equal(0, window.ShowCount);
 
         scope.Map.Players.SetNumberOfPlayers(12);
@@ -223,8 +223,8 @@ public sealed class RelationBandTests
         }
 
         window.ShowRelations(1);
-        Assert.True(window.P1CB.Checked);
-        Assert.True(window.P12CB.Checked);
+        Assert.True(window.Player1CheckBox.Checked);
+        Assert.True(window.Player12CheckBox.Checked);
         Assert.Equal(1, window.ShowCount);
         Assert.Equal(12, window.ShownPlayer);
     }
@@ -235,18 +235,18 @@ public sealed class RelationBandTests
         using var dialogs = new DialogScope();
         var window = CreateWindow();
         MarkChecks(window);
-        window.P1I.CurrentImage = 7;
+        window.Player1Image.CurrentImage = 7;
         window.ResetChecks();
         Assert.Equal(-1, window.SelectedIndex);
-        Assert.False(window.P1CB.Checked);
-        Assert.False(window.P12CB.Checked);
-        Assert.False(window.R1CB.Checked);
-        Assert.False(window.R12CB.Checked);
-        Assert.Equal(10, window.P1CB.Alignment.TopOffset);
-        Assert.Equal(10, window.P12CB.Alignment.TopOffset);
-        Assert.Equal(185, window.R1CB.Alignment.TopOffset);
-        Assert.Equal(185, window.R12CB.Alignment.TopOffset);
-        Assert.Equal(7, window.P1I.CurrentImage);
+        Assert.False(window.Player1CheckBox.Checked);
+        Assert.False(window.Player12CheckBox.Checked);
+        Assert.False(window.Race1CheckBox.Checked);
+        Assert.False(window.Race12CheckBox.Checked);
+        Assert.Equal(10, window.Player1CheckBox.Alignment.TopOffset);
+        Assert.Equal(10, window.Player12CheckBox.Alignment.TopOffset);
+        Assert.Equal(185, window.Race1CheckBox.Alignment.TopOffset);
+        Assert.Equal(185, window.Race12CheckBox.Alignment.TopOffset);
+        Assert.Equal(7, window.Player1Image.CurrentImage);
     }
 
     [Fact]
@@ -258,23 +258,23 @@ public sealed class RelationBandTests
         MarkChecks(window);
         window.HighlightPlayer(4);
         Assert.Equal(-1, window.SelectedIndex);
-        Assert.False(window.P1CB.Checked);
-        Assert.False(window.P12CB.Checked);
-        Assert.Equal(10, window.P1CB.Alignment.TopOffset);
-        Assert.Equal(2, window.P1I.CurrentImage);
-        Assert.Equal(2, window.P12I.CurrentImage);
-        Assert.Equal(5, window.R1I.CurrentImage);
-        Assert.Equal(5, window.R12I.CurrentImage);
+        Assert.False(window.Player1CheckBox.Checked);
+        Assert.False(window.Player12CheckBox.Checked);
+        Assert.Equal(10, window.Player1CheckBox.Alignment.TopOffset);
+        Assert.Equal(2, window.Player1Image.CurrentImage);
+        Assert.Equal(2, window.Player12Image.CurrentImage);
+        Assert.Equal(5, window.Race1Image.CurrentImage);
+        Assert.Equal(5, window.Race12Image.CurrentImage);
 
         scope.Map.SeatedPlayer = 0;
         window.Players.Add(0);
         window.HighlightPlayer(0);
         Assert.Equal(0, window.SelectedIndex);
-        Assert.True(window.P1CB.Checked);
-        Assert.False(window.P12CB.Checked);
-        Assert.Equal(20, window.P1CB.Alignment.TopOffset);
-        Assert.Equal(20, window.PlyrGlow.Alignment.TopOffset);
-        Assert.Equal(2, window.P1I.CurrentImage);
+        Assert.True(window.Player1CheckBox.Checked);
+        Assert.False(window.Player12CheckBox.Checked);
+        Assert.Equal(20, window.Player1CheckBox.Alignment.TopOffset);
+        Assert.Equal(20, window.PlayerGlow.Alignment.TopOffset);
+        Assert.Equal(2, window.Player1Image.CurrentImage);
 
         window.Players.Clear();
         for (int i = 1; i <= 12; i++)
@@ -286,13 +286,13 @@ public sealed class RelationBandTests
         scope.Map.SeatedPlayer = 0;
         window.HighlightPlayer(12);
         Assert.Equal(11, window.SelectedIndex);
-        Assert.False(window.P1CB.Checked);
-        Assert.True(window.P12CB.Checked);
-        Assert.Equal(20, window.P12CB.Alignment.TopOffset);
-        Assert.Equal(10, window.PlyrGlow.Alignment.TopOffset);
-        Assert.Same(window.P12CB, window.FChecks[11]);
-        Assert.Same(window.P1I, window.FImages[0]);
-        Assert.Same(window.R12I, window.FImages[23]);
+        Assert.False(window.Player1CheckBox.Checked);
+        Assert.True(window.Player12CheckBox.Checked);
+        Assert.Equal(20, window.Player12CheckBox.Alignment.TopOffset);
+        Assert.Equal(10, window.PlayerGlow.Alignment.TopOffset);
+        Assert.Same(window.Player12CheckBox, window.FChecks[11]);
+        Assert.Same(window.Player1Image, window.FImages[0]);
+        Assert.Same(window.Race12Image, window.FImages[23]);
     }
 
     [Fact]
@@ -305,22 +305,22 @@ public sealed class RelationBandTests
         Assert.Equal(7, window.SelectedRace);
         Assert.Equal(-1, window.SelectedPlayer);
         Assert.Equal(19, window.SelectedIndex);
-        Assert.True(window.P12CB.Checked);
-        Assert.Equal(175, window.P12CB.Alignment.TopOffset);
-        Assert.False(window.R1CB.Checked);
-        Assert.False(window.R12CB.Checked);
-        Assert.Equal(185, window.R1CB.Alignment.TopOffset);
-        Assert.Equal(2, window.P1I.CurrentImage);
-        Assert.Equal(2, window.P12I.CurrentImage);
-        Assert.Equal(5, window.R1I.CurrentImage);
-        Assert.Equal(5, window.R12I.CurrentImage);
+        Assert.True(window.Player12CheckBox.Checked);
+        Assert.Equal(175, window.Player12CheckBox.Alignment.TopOffset);
+        Assert.False(window.Race1CheckBox.Checked);
+        Assert.False(window.Race12CheckBox.Checked);
+        Assert.Equal(185, window.Race1CheckBox.Alignment.TopOffset);
+        Assert.Equal(2, window.Player1Image.CurrentImage);
+        Assert.Equal(2, window.Player12Image.CurrentImage);
+        Assert.Equal(5, window.Race1Image.CurrentImage);
+        Assert.Equal(5, window.Race12Image.CurrentImage);
 
         window.Races.Add(7);
         window.HighlightRace(7);
         Assert.Equal(20, window.SelectedIndex);
-        Assert.True(window.R1CB.Checked);
-        Assert.False(window.P12CB.Checked);
-        Assert.Equal(175, window.R1CB.Alignment.TopOffset);
+        Assert.True(window.Race1CheckBox.Checked);
+        Assert.False(window.Player12CheckBox.Checked);
+        Assert.Equal(175, window.Race1CheckBox.Alignment.TopOffset);
 
         window.Races.Clear();
         for (int i = 0; i <= 11; i++)
@@ -330,9 +330,9 @@ public sealed class RelationBandTests
 
         window.HighlightRace(11);
         Assert.Equal(31, window.SelectedIndex);
-        Assert.True(window.R12CB.Checked);
-        Assert.False(window.P12CB.Checked);
-        Assert.Equal(175, window.R12CB.Alignment.TopOffset);
-        Assert.Same(window.R12CB, window.FChecks[23]);
+        Assert.True(window.Race12CheckBox.Checked);
+        Assert.False(window.Player12CheckBox.Checked);
+        Assert.Equal(175, window.Race12CheckBox.Alignment.TopOffset);
+        Assert.Same(window.Race12CheckBox, window.FChecks[23]);
     }
 }

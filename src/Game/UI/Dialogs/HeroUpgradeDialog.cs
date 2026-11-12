@@ -23,36 +23,36 @@ public partial class HeroUpgradeDialog : DataModule
     public HeroUpgradeDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Label HeaderLbl;
-    public ListBox AvailableAbilities;
-    public VerticalScrollBar AvailableAbilitiesSB;
-    public ListBox SelectedAbilities;
-    public VerticalScrollBar SelectedAbilitiesSB;
-    public ListBox AvailableAbilitiesCost;
-    public Edit UnitName;
-    public Panel TopPnl;
-    public Label AttValue;
-    public Label DamValue;
-    public Label DefValue;
-    public Label ResValue;
-    public Label HitValue;
-    public Label MovValue;
-    public Label AttA;
-    public Label DamA;
-    public Label DefA;
-    public Label ResA;
-    public Label HitA;
-    public Label MovA;
-    public Label AttB;
-    public Label DamB;
-    public Label DefB;
-    public Label ResB;
-    public Label HitB;
-    public Label MovB;
-    public ListBox SelectedAbilitiesCost;
-    public Label LevelLbl;
-    public Label SkillPoints;
+    public Window Window;
+    public Label HeaderLabel;
+    public ListBox AvailableAbilitiesList;
+    public VerticalScrollBar AvailableAbilitiesScrollBar;
+    public ListBox SelectedAbilitiesList;
+    public VerticalScrollBar SelectedAbilitiesScrollBar;
+    public ListBox AvailableAbilitiesCostList;
+    public Edit UnitNameEdit;
+    public Panel TopPanel;
+    public Label AttackValueLabel;
+    public Label DamageValueLabel;
+    public Label DefenseValueLabel;
+    public Label ResistanceValueLabel;
+    public Label HitsValueLabel;
+    public Label MovesValueLabel;
+    public Label AttackAddedLabel;
+    public Label DamageAddedLabel;
+    public Label DefenseAddedLabel;
+    public Label ResistanceAddedLabel;
+    public Label HitsAddedLabel;
+    public Label MovesAddedLabel;
+    public Label AttackBaseLabel;
+    public Label DamageBaseLabel;
+    public Label DefenseBaseLabel;
+    public Label ResistanceBaseLabel;
+    public Label HitsBaseLabel;
+    public Label MovesBaseLabel;
+    public ListBox SelectedAbilitiesCostList;
+    public Label LevelLabel;
+    public Label SkillPointsLabel;
     private ExecuteDoneEvent _onClose;
     private HeroUpgradeEventLog _referencedHero;
     private int _selectedSort;
@@ -90,7 +90,7 @@ public partial class HeroUpgradeDialog : DataModule
         bool result = _hero != null;
         if (!result)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
 
         return result;
@@ -100,38 +100,38 @@ public partial class HeroUpgradeDialog : DataModule
     public void UpdateStatistics()
     {
         var inherentAttack = _hero.GetInherentAttack();
-        AttB.Text = IntToStr(inherentAttack);
+        AttackBaseLabel.Text = IntToStr(inherentAttack);
         var inherentDefense = _hero.GetInherentDefense();
-        DefB.Text = IntToStr(inherentDefense);
+        DefenseBaseLabel.Text = IntToStr(inherentDefense);
         var inherentDamage = _hero.GetInherentDamage();
-        DamB.Text = IntToStr(inherentDamage);
+        DamageBaseLabel.Text = IntToStr(inherentDamage);
         var inherentResistance = _hero.GetInherentResistance();
-        ResB.Text = IntToStr(inherentResistance);
+        ResistanceBaseLabel.Text = IntToStr(inherentResistance);
         var hits = _hero.GetHits();
-        HitB.Text = IntToStr(hits);
+        HitsBaseLabel.Text = IntToStr(hits);
         var moves = _hero.GetMoves();
-        MovB.Text = IntToStr(moves);
-        AttA.Text = IntToStr(_editedHero.UnitAttack - _hero.UnitAttack);
-        DefA.Text = IntToStr(_editedHero.UnitDefense - _hero.UnitDefense);
-        DamA.Text = IntToStr(_editedHero.UnitDamage - _hero.UnitDamage);
-        ResA.Text = IntToStr(_editedHero.UnitResistance - _hero.UnitResistance);
-        HitA.Text = IntToStr(_editedHero.UnitHits - _hero.UnitHits);
-        MovA.Text = IntToStr(_editedHero.UnitMoves - _hero.UnitMoves);
+        MovesBaseLabel.Text = IntToStr(moves);
+        AttackAddedLabel.Text = IntToStr(_editedHero.UnitAttack - _hero.UnitAttack);
+        DefenseAddedLabel.Text = IntToStr(_editedHero.UnitDefense - _hero.UnitDefense);
+        DamageAddedLabel.Text = IntToStr(_editedHero.UnitDamage - _hero.UnitDamage);
+        ResistanceAddedLabel.Text = IntToStr(_editedHero.UnitResistance - _hero.UnitResistance);
+        HitsAddedLabel.Text = IntToStr(_editedHero.UnitHits - _hero.UnitHits);
+        MovesAddedLabel.Text = IntToStr(_editedHero.UnitMoves - _hero.UnitMoves);
         var fEditedHeroInherentAttack = _editedHero.GetInherentAttack();
-        AttValue.Text = IntToStr(fEditedHeroInherentAttack);
+        AttackValueLabel.Text = IntToStr(fEditedHeroInherentAttack);
         var fEditedHeroInherentDefense = _editedHero.GetInherentDefense();
-        DefValue.Text = IntToStr(fEditedHeroInherentDefense);
+        DefenseValueLabel.Text = IntToStr(fEditedHeroInherentDefense);
         var fEditedHeroInherentDamage = _editedHero.GetInherentDamage();
-        DamValue.Text = IntToStr(fEditedHeroInherentDamage);
+        DamageValueLabel.Text = IntToStr(fEditedHeroInherentDamage);
         var fEditedHeroInherentResistance = _editedHero.GetInherentResistance();
-        ResValue.Text = IntToStr(fEditedHeroInherentResistance);
+        ResistanceValueLabel.Text = IntToStr(fEditedHeroInherentResistance);
         var fEditedHeroHits = _editedHero.GetHits();
-        HitValue.Text = IntToStr(fEditedHeroHits);
+        HitsValueLabel.Text = IntToStr(fEditedHeroHits);
         var fEditedHeroMoves = _editedHero.GetMoves();
-        MovValue.Text = IntToStr(fEditedHeroMoves);
+        MovesValueLabel.Text = IntToStr(fEditedHeroMoves);
         var skillPoints = _editedHero.GetSkillPoints();
         var fHeroSkillPoints = _hero.GetSkillPoints();
-        SkillPoints.Text = IntToStr(skillPoints) + "/" + IntToStr(fHeroSkillPoints);
+        SkillPointsLabel.Text = IntToStr(skillPoints) + "/" + IntToStr(fHeroSkillPoints);
     }
 
     // AoWHeroUpgradeDlg.pas:252
@@ -146,16 +146,16 @@ public partial class HeroUpgradeDialog : DataModule
         switch (_selectedSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
+                StringSorting.SortStringsAscending(SelectedAbilitiesList.Items, [SelectedAbilitiesCostList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
+                StringSorting.SortStringsDescending(SelectedAbilitiesList.Items, [SelectedAbilitiesCostList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
+                StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCostList.Items, [SelectedAbilitiesList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCost.Items, [SelectedAbilities.Items]);
+                StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCostList.Items, [SelectedAbilitiesList.Items]);
                 break;
         }
     }
@@ -166,16 +166,16 @@ public partial class HeroUpgradeDialog : DataModule
         switch (_availableSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
+                StringSorting.SortStringsAscending(AvailableAbilitiesList.Items, [AvailableAbilitiesCostList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
+                StringSorting.SortStringsDescending(AvailableAbilitiesList.Items, [AvailableAbilitiesCostList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
+                StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCostList.Items, [AvailableAbilitiesList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCost.Items, [AvailableAbilities.Items]);
+                StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCostList.Items, [AvailableAbilitiesList.Items]);
                 break;
         }
     }
@@ -186,22 +186,22 @@ public partial class HeroUpgradeDialog : DataModule
         string name;
         string cost;
         Ability ability;
-        AvailableAbilities.Items.Clear();
-        AvailableAbilitiesCost.Items.Clear();
+        AvailableAbilitiesList.Items.Clear();
+        AvailableAbilitiesCostList.Items.Clear();
         for (int I = 1, last = AoWHSSet.Current.AbilityControl.GetCount() - 1; I <= last; I++)
         {
             ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
             if (ability != null && ability.CanExpand(_editedHero) && ability.SelectionTypes.Contains(AbilitySelectionType.HeroUpgrade))
             {
                 var expandName = ability.ExpandName(_editedHero);
-                AvailableAbilities.Items.AddObject(expandName, IntToObject(I));
+                AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(I));
                 var expandCost = ability.ExpandCost(_editedHero);
-                AvailableAbilitiesCost.Items.Add(IntToStr(expandCost));
+                AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
             }
         }
 
-        SelectedAbilities.Items.Clear();
-        SelectedAbilitiesCost.Items.Clear();
+        SelectedAbilitiesList.Items.Clear();
+        SelectedAbilitiesCostList.Items.Clear();
         for (int I = 1, last = _editedHero.GetAbCount() - 1; I <= last; I++)
         {
             if (_editedHero.GetInherentAbility(I))
@@ -218,15 +218,15 @@ public partial class HeroUpgradeDialog : DataModule
                     cost = IntToStr(ability.GetSkillPoints(_editedHero) - ability.GetSkillPoints(_hero));
                 }
 
-                SelectedAbilitiesCost.Items.Add(cost);
-                SelectedAbilities.Items.AddObject(name, IntToObject(I));
+                SelectedAbilitiesCostList.Items.Add(cost);
+                SelectedAbilitiesList.Items.AddObject(name, IntToObject(I));
             }
         }
 
-        var count = AvailableAbilities.Items.Count;
-        AvailableAbilitiesSB.Max = count - 1;
-        var itemsCount = SelectedAbilities.Items.Count;
-        SelectedAbilitiesSB.Max = itemsCount - 1;
+        var count = AvailableAbilitiesList.Items.Count;
+        AvailableAbilitiesScrollBar.Max = count - 1;
+        var itemsCount = SelectedAbilitiesList.Items.Count;
+        SelectedAbilitiesScrollBar.Max = itemsCount - 1;
         SortAvailable();
         SortSelected();
     }
@@ -234,15 +234,15 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:226
     public void SetAvailableIndex(int index)
     {
-        AvailableAbilities.Selected = index;
-        AvailableAbilitiesCost.Selected = index;
+        AvailableAbilitiesList.Selected = index;
+        AvailableAbilitiesCostList.Selected = index;
     }
 
     // AoWHeroUpgradeDlg.pas:220
     public void SetSelectedIndex(int index)
     {
-        SelectedAbilities.Selected = index;
-        SelectedAbilitiesCost.Selected = index;
+        SelectedAbilitiesList.Selected = index;
+        SelectedAbilitiesCostList.Selected = index;
     }
 
     // AoWHeroUpgradeDlg.pas:212
@@ -265,7 +265,7 @@ public partial class HeroUpgradeDialog : DataModule
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWHeroUpgradeDlg.pas:308
@@ -275,7 +275,7 @@ public partial class HeroUpgradeDialog : DataModule
         if (ValidateHero())
         {
             var image = sender;
-            R = new Rect(TopPnl.WinLeft + image.WinLeft + 2, TopPnl.WinTop + image.WinTop, TopPnl.WinLeft + image.WinLeft + image.WinWidth - 2, TopPnl.WinTop + image.WinTop + image.WinHeight - 2);
+            R = new Rect(TopPanel.WinLeft + image.WinLeft + 2, TopPanel.WinTop + image.WinTop, TopPanel.WinLeft + image.WinLeft + image.WinWidth - 2, TopPanel.WinTop + image.WinTop + image.WinHeight - 2);
 
             _hero.GetFace().ShowStretched(R, lockedSurface);
         }
@@ -404,39 +404,39 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:413
     public void SelectedAbilitiesChange()
     {
-        SetSelectedIndex(SelectedAbilities.Selected);
+        SetSelectedIndex(SelectedAbilitiesList.Selected);
     }
 
     // AoWHeroUpgradeDlg.pas:418
     public void SelectedAbilitiesCostChange()
     {
-        SetSelectedIndex(SelectedAbilitiesCost.Selected);
+        SetSelectedIndex(SelectedAbilitiesCostList.Selected);
     }
 
     // AoWHeroUpgradeDlg.pas:423
     public void SelectedAbilitiesSBChange()
     {
-        SelectedAbilities.ListOffset = SelectedAbilitiesSB.Position;
-        SelectedAbilitiesCost.ListOffset = SelectedAbilitiesSB.Position;
+        SelectedAbilitiesList.ListOffset = SelectedAbilitiesScrollBar.Position;
+        SelectedAbilitiesCostList.ListOffset = SelectedAbilitiesScrollBar.Position;
     }
 
     // AoWHeroUpgradeDlg.pas:429
     public void AvailableAbilitiesChange()
     {
-        SetAvailableIndex(AvailableAbilities.Selected);
+        SetAvailableIndex(AvailableAbilitiesList.Selected);
     }
 
     // AoWHeroUpgradeDlg.pas:434
     public void AvailableAbilitiesCostChange()
     {
-        SetAvailableIndex(AvailableAbilitiesCost.Selected);
+        SetAvailableIndex(AvailableAbilitiesCostList.Selected);
     }
 
     // AoWHeroUpgradeDlg.pas:439
     public void AvailableAbilitiesSBChange()
     {
-        AvailableAbilities.ListOffset = AvailableAbilitiesSB.Position;
-        AvailableAbilitiesCost.ListOffset = AvailableAbilitiesSB.Position;
+        AvailableAbilitiesList.ListOffset = AvailableAbilitiesScrollBar.Position;
+        AvailableAbilitiesCostList.ListOffset = AvailableAbilitiesScrollBar.Position;
     }
 
     // AoWHeroUpgradeDlg.pas:445
@@ -446,7 +446,7 @@ public partial class HeroUpgradeDialog : DataModule
         int index;
         int abilityId;
         DialogHosts.General.PlayButtonSound(0);
-        list = AvailableAbilities;
+        list = AvailableAbilitiesList;
         index = list.Selected;
         if (index != -1)
         {
@@ -467,7 +467,7 @@ public partial class HeroUpgradeDialog : DataModule
         int index;
         int abilityId;
         DialogHosts.General.PlayButtonSound(0);
-        list = SelectedAbilities;
+        list = SelectedAbilitiesList;
         index = list.Selected;
         if (index != -1)
         {
@@ -569,7 +569,7 @@ public partial class HeroUpgradeDialog : DataModule
                 eventValue.Abilities.AssignAbility(_editedHero);
                 AoWHSMap.Current.TokenManager.GetTokenControl(_hero.Player).AddEvent(eventValue);
                 eventValue.Release();
-                Dlg.Visible = false;
+                Window.Visible = false;
             }
         }
     }
@@ -584,9 +584,9 @@ public partial class HeroUpgradeDialog : DataModule
     public void AvailableAbilitiesMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Ability ability;
-        if (button == MouseButton.Right && AvailableAbilities.Selected != -1)
+        if (button == MouseButton.Right && AvailableAbilitiesList.Selected != -1)
         {
-            var objectValue = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
+            var objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
             ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {
@@ -600,9 +600,9 @@ public partial class HeroUpgradeDialog : DataModule
     public void SelectedAbilitiesMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Ability ability;
-        if (button == MouseButton.Right && SelectedAbilities.Selected != -1)
+        if (button == MouseButton.Right && SelectedAbilitiesList.Selected != -1)
         {
-            var objectValue = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
+            var objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
             ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {
@@ -617,7 +617,7 @@ public partial class HeroUpgradeDialog : DataModule
     {
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -631,22 +631,22 @@ public partial class HeroUpgradeDialog : DataModule
             dialog._editedHero = (Hero)dialog._hero.Copy(GameTables.GameEngine);
             dialog.UpdateStatistics();
             dialog.RefreshAbilities();
-            dialog.UnitName.Text = dialog._hero.HeroName;
+            dialog.UnitNameEdit.Text = dialog._hero.HeroName;
             var level = dialog._hero.GetLevel();
             var levelText = AbilityRules.TranslateResourceString(GameText.LevelText);
-            dialog.LevelLbl.Text = levelText + " " + IntToStr(level);
+            dialog.LevelLabel.Text = levelText + " " + IntToStr(level);
             if (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel > 1)
             {
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(ScenarioText.MadeLevelsFormat), [dialog._hero.HeroName, (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel)]);
-                dialog.HeaderLbl.Text = format + "!";
+                dialog.HeaderLabel.Text = format + "!";
             }
             else
             {
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(ScenarioText.MadeLevelFormat), [dialog._hero.HeroName]);
-                dialog.HeaderLbl.Text = format + "!";
+                dialog.HeaderLabel.Text = format + "!";
             }
 
-            dialog.Dlg.Visible = true;
+            dialog.Window.Visible = true;
         }
     }
 

@@ -9,14 +9,14 @@ public partial class InfoBanner : DataModule
     public InfoBanner(Component owner) : base(owner)
     { }
 
-    public Label HeaderLbl;
+    public Label HeaderLabel;
     public Memo InfoMemo;
-    public Menu BannerPopup;
+    public Menu BannerMenu;
 
     // AoWInfoBanner.pas:35
     public void ShowInfo(string header, StringCollection description)
     {
-        HeaderLbl.Text = header;
+        HeaderLabel.Text = header;
         var text = description.Text;
         InfoMemo.Items.Text = text;
     }
@@ -26,13 +26,13 @@ public partial class InfoBanner : DataModule
     {
         if (button == MouseButton.Right)
         {
-            BannerPopup.Visible = false;
+            BannerMenu.Visible = false;
         }
     }
 
     internal static void SetInfoBanner(InfoBanner banner, string caption, StringCollection description)
     {
-        banner.HeaderLbl.Text = caption;
+        banner.HeaderLabel.Text = caption;
         var text = description.Text;
         banner.InfoMemo.Items.Text = text;
     }

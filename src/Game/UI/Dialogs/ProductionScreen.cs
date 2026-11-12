@@ -23,64 +23,64 @@ public partial class ProductionScreen : DataModule
     public ProductionScreen(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Panel UnitPnl;
-    public ListBox UAbilitiesLB;
-    public Image UMovesIcon;
-    public Label UAttack;
-    public Label UDefense;
-    public Label UMoves;
-    public Label UDamage;
-    public Label UResistance;
-    public Label UHits;
-    public Label UAlignment;
-    public Label ULevel;
-    public Label StructName;
-    public Label UCost;
-    public Label UnitLbl;
-    public Label UTurns;
-    public CheckBox B4CB;
-    public CheckBox B5CB;
-    public CheckBox B6CB;
-    public CheckBox B1CB;
-    public CheckBox B2CB;
-    public CheckBox B3CB;
-    public Panel UpgradePnl;
-    public Label UpgradeLbl;
+    public Window Window;
+    public Panel UnitPanel;
+    public ListBox UnitAbilitiesList;
+    public Image UnitMovesIcon;
+    public Label UnitAttackLabel;
+    public Label UnitDefenseLabel;
+    public Label UnitMovesLabel;
+    public Label UnitDamageLabel;
+    public Label UnitResistanceLabel;
+    public Label UnitHitsLabel;
+    public Label UnitAlignmentLabel;
+    public Label UnitLevelLabel;
+    public Label StructureNameLabel;
+    public Label UnitCostLabel;
+    public Label UnitLabel;
+    public Label UnitTurnsLabel;
+    public CheckBox Action4CheckBox;
+    public CheckBox Action5CheckBox;
+    public CheckBox Action6CheckBox;
+    public CheckBox Action1CheckBox;
+    public CheckBox Action2CheckBox;
+    public CheckBox Action3CheckBox;
+    public Panel UpgradePanel;
+    public Label UpgradeLabel;
     public Memo UpgradeMemo;
     public Image Oval;
-    public Image ShadowL;
-    public Image ShadowR;
-    public Button MainBtn3;
-    public Button MainBtn1;
-    public ListBox QueueLB;
-    public Panel ActivityPnl;
-    public Panel InfoPnl2;
-    public Label ActiveAction;
-    public Label ActiveActionTurns;
-    public Panel ActivityPnl2;
+    public Image LeftShadow;
+    public Image RightShadow;
+    public Button MainButton3;
+    public Button MainButton1;
+    public ListBox QueueList;
+    public Panel ActivityPanel;
+    public Panel InfoPanel2;
+    public Label ActiveActionLabel;
+    public Label ActiveActionTurnsLabel;
+    public Panel ActivityPanel2;
     public Gauge ActiveActionTurnsBar;
-    public Button MainBtn2;
-    public Panel InfoPnl;
-    public Frame IPPicFr;
+    public Button MainButton2;
+    public Panel InfoPanel;
+    public Frame PlacePictureFrame;
     public Memo PlaceInfoMemo;
-    public Frame IncomePicture;
+    public Frame IncomePictureFrame;
     public Memo IncomeMemo;
-    public Memo IncomeHdr;
-    public Label QueueLbl;
-    public CheckBox LoopQueueBox;
-    public Label RepeatLbl;
-    public Panel ActiveActionPnl;
+    public Memo IncomeHeader;
+    public Label QueueLabel;
+    public CheckBox LoopQueueCheckBox;
+    public Label RepeatLabel;
+    public Panel ActiveActionPanel;
     public Image CurrentActionImage;
-    public Panel UPictureFramePnl;
-    public Image UpgradePic;
-    public Label UpgradeCost;
-    public Label UpgradeTurns;
+    public Panel UnitPictureFramePanel;
+    public Image UpgradePicture;
+    public Label UpgradeCostLabel;
+    public Label UpgradeTurnsLabel;
     public Memo IncomeValuesMemo;
-    public Button Sphere;
+    public Button SphereButton;
     public UserDrawBox MapView;
-    public Button PNext;
-    public Button PPrev;
+    public Button NextButton;
+    public Button PreviousButton;
     private int _viewX;
     private int _viewY;
     private ProductionPlace _place;
@@ -124,12 +124,12 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:617
     public void ResetChecks()
     {
-        B1CB.Checked = false;
-        B2CB.Checked = false;
-        B3CB.Checked = false;
-        B4CB.Checked = false;
-        B5CB.Checked = false;
-        B6CB.Checked = false;
+        Action1CheckBox.Checked = false;
+        Action2CheckBox.Checked = false;
+        Action3CheckBox.Checked = false;
+        Action4CheckBox.Checked = false;
+        Action5CheckBox.Checked = false;
+        Action6CheckBox.Checked = false;
     }
 
     // AoWProdScreen.pas:627
@@ -137,27 +137,27 @@ public partial class ProductionScreen : DataModule
     {
         ReleaseImages();
         _mode = 0;
-        InfoPnl.Visible = true;
-        InfoPnl2.Visible = true;
-        ActivityPnl.Visible = false;
-        ActivityPnl2.Visible = false;
-        UnitPnl.Visible = false;
-        UpgradePnl.Visible = false;
-        MainBtn1.Visible = true;
+        InfoPanel.Visible = true;
+        InfoPanel2.Visible = true;
+        ActivityPanel.Visible = false;
+        ActivityPanel2.Visible = false;
+        UnitPanel.Visible = false;
+        UpgradePanel.Visible = false;
+        MainButton1.Visible = true;
         var options = AbilityRules.TranslateResourceString(GameText.OptionsText);
-        MainBtn1.Text = options;
-        MainBtn2.Visible = false;
-        PPrev.Visible = !MainBtn2.Visible;
-        PNext.Visible = !MainBtn2.Visible;
-        ShadowL.Visible = GameTables.GameEngine.AnimationDetail != 0;
-        ShadowR.Visible = GameTables.GameEngine.AnimationDetail != 0;
+        MainButton1.Text = options;
+        MainButton2.Visible = false;
+        PreviousButton.Visible = !MainButton2.Visible;
+        NextButton.Visible = !MainButton2.Visible;
+        LeftShadow.Visible = GameTables.GameEngine.AnimationDetail != 0;
+        RightShadow.Visible = GameTables.GameEngine.AnimationDetail != 0;
         Oval.Visible = GameTables.GameEngine.AnimationDetail != 0;
         _queueIndex = -1;
-        QueueLB.Selected = -1;
+        QueueList.Selected = -1;
         var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
-        QueueLbl.Text = queue;
+        QueueLabel.Text = queue;
         var repeat = AbilityRules.TranslateResourceString(GameText.RepeatText);
-        RepeatLbl.Text = repeat;
+        RepeatLabel.Text = repeat;
         FreePreview();
     }
 
@@ -176,42 +176,42 @@ public partial class ProductionScreen : DataModule
         switch (_mode)
         {
             case 0:
-                InfoPnl.Visible = true;
-                InfoPnl2.Visible = true;
-                ActivityPnl.Visible = false;
-                ActivityPnl2.Visible = false;
+                InfoPanel.Visible = true;
+                InfoPanel2.Visible = true;
+                ActivityPanel.Visible = false;
+                ActivityPanel2.Visible = false;
                 var change = AbilityRules.TranslateResourceString(GameText.ChangeText);
-                MainBtn1.Text = change;
-                MainBtn2.Visible = false;
-                PPrev.Visible = !MainBtn2.Visible;
-                PNext.Visible = !MainBtn2.Visible;
+                MainButton1.Text = change;
+                MainButton2.Visible = false;
+                PreviousButton.Visible = !MainButton2.Visible;
+                NextButton.Visible = !MainButton2.Visible;
                 var exit = AbilityRules.TranslateResourceString(GameText.ExitText);
-                MainBtn3.Text = exit;
-                QueueLB.Selected = -1;
+                MainButton3.Text = exit;
+                QueueList.Selected = -1;
                 break;
             case 1:
                 ResetChecks();
-                QueueLB.Selected = -1;
-                InfoPnl.Visible = false;
-                InfoPnl2.Visible = false;
-                ActivityPnl.Visible = true;
-                ActivityPnl2.Visible = true;
+                QueueList.Selected = -1;
+                InfoPanel.Visible = false;
+                InfoPanel2.Visible = false;
+                ActivityPanel.Visible = true;
+                ActivityPanel2.Visible = true;
                 var info = AbilityRules.TranslateResourceString(GameText.InfoText);
-                MainBtn1.Text = info;
+                MainButton1.Text = info;
                 var done = AbilityRules.TranslateResourceString(GameText.DoneText);
-                MainBtn3.Text = done;
+                MainButton3.Text = done;
                 break;
             case 2:
                 ResetChecks();
-                QueueLB.Selected = -1;
-                InfoPnl.Visible = false;
-                InfoPnl2.Visible = false;
-                ActivityPnl.Visible = true;
-                ActivityPnl2.Visible = true;
+                QueueList.Selected = -1;
+                InfoPanel.Visible = false;
+                InfoPanel2.Visible = false;
+                ActivityPanel.Visible = true;
+                ActivityPanel2.Visible = true;
                 var infoText = AbilityRules.TranslateResourceString(GameText.InfoText);
-                MainBtn1.Text = infoText;
+                MainButton1.Text = infoText;
                 var doneText = AbilityRules.TranslateResourceString(GameText.DoneText);
-                MainBtn3.Text = doneText;
+                MainButton3.Text = doneText;
                 break;
         }
     }
@@ -220,7 +220,7 @@ public partial class ProductionScreen : DataModule
     public void SelectDefaultAction()
     {
         ResetChecks();
-        B1CB.Checked = true;
+        Action1CheckBox.Checked = true;
         SelectProduction(0);
     }
 
@@ -235,7 +235,7 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:712
     public void PlaceChanged(object sender)
     {
-        if (Dlg.Visible && sender == _place)
+        if (Window.Visible && sender == _place)
         {
             if (_place.Player == AoWHSMap.Current.SeatedPlayer)
             {
@@ -243,7 +243,7 @@ public partial class ProductionScreen : DataModule
             }
             else
             {
-                Dlg.Visible = false;
+                Window.Visible = false;
             }
         }
     }
@@ -257,104 +257,104 @@ public partial class ProductionScreen : DataModule
             SetMode(1);
         }
 
-        UpgradePnl.Visible = false;
-        UnitPnl.Visible = false;
+        UpgradePanel.Visible = false;
+        UnitPanel.Visible = false;
         _productionIndex = index;
-        UpgradePic.CurrentImage = 21;
-        UpgradeCost.Text = "-";
-        UpgradeTurns.Text = "-";
-        MainBtn1.Visible = false;
-        MainBtn2.Visible = false;
-        PPrev.Visible = !MainBtn2.Visible;
-        PNext.Visible = !MainBtn2.Visible;
+        UpgradePicture.CurrentImage = 21;
+        UpgradeCostLabel.Text = "-";
+        UpgradeTurnsLabel.Text = "-";
+        MainButton1.Visible = false;
+        MainButton2.Visible = false;
+        PreviousButton.Visible = !MainButton2.Visible;
+        NextButton.Visible = !MainButton2.Visible;
         switch (_productionIndex)
         {
             case >= 0 and <= 3:
                 U = _place.ProductionControl.CreateUnitProduction(_productionIndex);
                 if (U != null)
                 {
-                    UnitPnl.Visible = true;
+                    UnitPanel.Visible = true;
                     var attack = U.GetAttack();
-                    UAttack.Text = IntToStr(attack);
+                    UnitAttackLabel.Text = IntToStr(attack);
                     var defense = U.GetDefense();
-                    UDefense.Text = IntToStr(defense);
+                    UnitDefenseLabel.Text = IntToStr(defense);
                     var resistance = U.GetResistance();
-                    UResistance.Text = IntToStr(resistance);
+                    UnitResistanceLabel.Text = IntToStr(resistance);
                     var damage = U.GetDamage();
-                    UDamage.Text = IntToStr(damage);
+                    UnitDamageLabel.Text = IntToStr(damage);
                     var hits = U.GetHits();
-                    UHits.Text = IntToStr(hits);
+                    UnitHitsLabel.Text = IntToStr(hits);
                     var moves = U.GetMoves();
-                    UMoves.Text = IntToStr(moves);
+                    UnitMovesLabel.Text = IntToStr(moves);
                     var moveTypes = U.GetMoveTypes();
                     var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(moveTypes);
-                    UMovesIcon.CurrentImage = moveTypesToInt32;
+                    UnitMovesIcon.CurrentImage = moveTypesToInt32;
                     var alignment = U.GetAlignment();
                     var alignmentText = AbilityRules.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
                     var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.AlignmentFormat), [alignmentText]);
-                    UAlignment.Text = format;
+                    UnitAlignmentLabel.Text = format;
                     var unitLevel = U.GetUnitLevel();
                     var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.LevelFormat), [IntToStr(unitLevel)]);
                     var upkeep = U.GetUpkeep();
                     var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.UpkeepFormat), [(int)upkeep]);
-                    ULevel.Text = formattedText + " / " + format2;
-                    UAbilitiesLB.Items.Clear();
-                    U.ListAbilities(UAbilitiesLB.Items);
+                    UnitLevelLabel.Text = formattedText + " / " + format2;
+                    UnitAbilitiesList.Items.Clear();
+                    U.ListAbilities(UnitAbilitiesList.Items);
                     if (_place.ProductionControl.UnitProductions.GetItem(_productionIndex).Researched)
                     {
-                        MainBtn1.Visible = true;
+                        MainButton1.Visible = true;
                         var produce = AbilityRules.TranslateResourceString(GameText.ProduceText);
-                        MainBtn1.Text = produce;
+                        MainButton1.Text = produce;
                         var queueLocked = _place.ProductionControl.GetQueueLocked();
-                        MainBtn2.Visible = !queueLocked;
+                        MainButton2.Visible = !queueLocked;
                         var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
-                        MainBtn2.Text = queue;
+                        MainButton2.Text = queue;
                         var name = U.GetName();
                         var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.ProduceFormat), [name]);
-                        UnitLbl.Text = format3;
+                        UnitLabel.Text = format3;
                         var unitProductionGold = _place.ProductionControl.UnitProductionGold(_productionIndex);
-                        UCost.Text = IntToStr(unitProductionGold);
+                        UnitCostLabel.Text = IntToStr(unitProductionGold);
                         var unitProductionTime = _place.ProductionControl.UnitProductionTime(_productionIndex);
-                        UTurns.Text = IntToStr(unitProductionTime);
+                        UnitTurnsLabel.Text = IntToStr(unitProductionTime);
                     }
                     else
                     {
-                        MainBtn1.Visible = true;
+                        MainButton1.Visible = true;
                         var install = AbilityRules.TranslateResourceString(GameText.InstallText);
-                        MainBtn1.Text = install;
+                        MainButton1.Text = install;
                         var queueLocked = _place.ProductionControl.GetQueueLocked();
-                        MainBtn2.Visible = !queueLocked;
+                        MainButton2.Visible = !queueLocked;
                         var queue = AbilityRules.TranslateResourceString(GameText.QueueText);
-                        MainBtn2.Text = queue;
+                        MainButton2.Text = queue;
                         var name = U.GetName();
                         var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.InstallFormat), [name]);
-                        UnitLbl.Text = format3;
+                        UnitLabel.Text = format3;
                         var unitResearchGold = _place.ProductionControl.UnitResearchGold(_productionIndex);
-                        UCost.Text = IntToStr(unitResearchGold);
+                        UnitCostLabel.Text = IntToStr(unitResearchGold);
                         var unitResearchTime = _place.ProductionControl.UnitResearchTime(_productionIndex);
-                        UTurns.Text = IntToStr(unitResearchTime);
+                        UnitTurnsLabel.Text = IntToStr(unitResearchTime);
                     }
 
-                    PPrev.Visible = !MainBtn2.Visible;
-                    PNext.Visible = !MainBtn2.Visible;
+                    PreviousButton.Visible = !MainButton2.Visible;
+                    NextButton.Visible = !MainButton2.Visible;
                     U.Release();
                 }
                 else
                 {
-                    UnitPnl.Visible = false;
+                    UnitPanel.Visible = false;
                 }
 
                 break;
             case 4:
-                MainBtn1.Visible = true;
+                MainButton1.Visible = true;
                 var productionName = new Trade(0).Name(_place.ProductionControl);
-                MainBtn1.Text = productionName;
+                MainButton1.Text = productionName;
                 var fProductionControlQueueLocked = _place.ProductionControl.GetQueueLocked();
-                MainBtn2.Visible = !fProductionControlQueueLocked;
+                MainButton2.Visible = !fProductionControlQueueLocked;
                 var queueText = AbilityRules.TranslateResourceString(GameText.QueueText);
-                MainBtn2.Text = queueText;
-                PPrev.Visible = !MainBtn2.Visible;
-                PNext.Visible = !MainBtn2.Visible;
+                MainButton2.Text = queueText;
+                PreviousButton.Visible = !MainButton2.Visible;
+                NextButton.Visible = !MainButton2.Visible;
                 if (_place.GetMagicSphere() == MagicSphere.None)
                 {
                     var produceMerchandiseText = AbilityRules.TranslateResourceString(s_produceMerchandiseText);
@@ -366,31 +366,31 @@ public partial class ProductionScreen : DataModule
                     UpgradeMemo.Items.Text = generateExtraPowerText;
                 }
 
-                UpgradePnl.Visible = true;
+                UpgradePanel.Visible = true;
                 if (_place.GetMagicSphere() != MagicSphere.None)
                 {
-                    UpgradePic.CurrentImage = 28;
+                    UpgradePicture.CurrentImage = 28;
                 }
                 else
                 {
-                    UpgradePic.CurrentImage = 27;
+                    UpgradePicture.CurrentImage = 27;
                 }
 
-                UpgradeLbl.Text = MainBtn1.Text;
+                UpgradeLabel.Text = MainButton1.Text;
                 break;
             case 5:
-                MainBtn1.Visible = true;
+                MainButton1.Visible = true;
                 var raze = AbilityRules.TranslateResourceString(GameText.RazeText);
-                MainBtn1.Text = raze + "...";
-                PPrev.Visible = false;
-                PNext.Visible = false;
+                MainButton1.Text = raze + "...";
+                PreviousButton.Visible = false;
+                NextButton.Visible = false;
                 var fPlaceName = _place.GetName();
                 var format4 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_productionPlaceRazeFormat), [fPlaceName]);
                 UpgradeMemo.Items.Text = format4;
-                UpgradePnl.Visible = true;
-                UpgradePic.CurrentImage = 26;
+                UpgradePanel.Visible = true;
+                UpgradePicture.CurrentImage = 26;
                 var razeText = AbilityRules.TranslateResourceString(GameText.RazeText);
-                UpgradeLbl.Text = razeText;
+                UpgradeLabel.Text = razeText;
                 break;
         }
     }
@@ -399,17 +399,17 @@ public partial class ProductionScreen : DataModule
     public void UpdateInfo()
     {
         string reason;
-        IncomeHdr.Items.Clear();
+        IncomeHeader.Items.Clear();
         var name = _place.GetName();
-        StructName.Text = name;
+        StructureNameLabel.Text = name;
         var income = AbilityRules.TranslateResourceString(GameText.IncomeText);
-        IncomeHdr.Items.Add(income);
+        IncomeHeader.Items.Add(income);
         if (_place.GetMagicSphere() != MagicSphere.None)
         {
             var power = _place.GetPower();
             var xPower = AbilityRules.TranslateResourceString(s_powerFormat);
             var format = AbilityRules.Format(" " + xPower, [IntToStr(power)]);
-            IncomeHdr.Items.Add(format);
+            IncomeHeader.Items.Add(format);
         }
 
         if (_place.GetIncome() != 0)
@@ -417,77 +417,77 @@ public partial class ProductionScreen : DataModule
             var fPlaceIncome = _place.GetIncome();
             var xGold = AbilityRules.TranslateResourceString(GameText.GoldFormat);
             var format = AbilityRules.Format(" " + xGold, [IntToStr(fPlaceIncome)]);
-            IncomeHdr.Items.Add(format);
+            IncomeHeader.Items.Add(format);
         }
 
         if (_place.GetMagicSphere() != MagicSphere.None)
         {
-            IncomePicture.ImageLibraryIndexTexture = 64;
-            IPPicFr.ImageLibraryTexture = null;
+            IncomePictureFrame.ImageLibraryIndexTexture = 64;
+            PlacePictureFrame.ImageLibraryTexture = null;
             var sphereImage = SphereImage(_place.GetMagicSphere());
-            Sphere.SetImageLibraryUIndex(sphereImage);
-            Sphere.Visible = true;
+            SphereButton.SetImageLibraryUIndex(sphereImage);
+            SphereButton.Visible = true;
         }
         else
         {
             if (_place is Shipyard)
             {
-                IncomeHdr.Items.Clear();
-                IncomePicture.ImageLibraryIndexTexture = 68;
+                IncomeHeader.Items.Clear();
+                IncomePictureFrame.ImageLibraryIndexTexture = 68;
             }
             else
             {
-                IncomePicture.ImageLibraryIndexTexture = 65;
+                IncomePictureFrame.ImageLibraryIndexTexture = 65;
             }
 
-            IPPicFr.ImageLibraryTexture = DialogHosts.UIGraphics.CityWin;
+            PlacePictureFrame.ImageLibraryTexture = DialogHosts.UIGraphics.CityWindow;
             if (_place is Shipyard)
             {
-                IPPicFr.ImageLibraryIndexTexture = 67;
+                PlacePictureFrame.ImageLibraryIndexTexture = 67;
             }
             else
             {
-                IPPicFr.ImageLibraryIndexTexture = 66;
+                PlacePictureFrame.ImageLibraryIndexTexture = 66;
             }
 
-            Sphere.Visible = false;
+            SphereButton.Visible = false;
         }
 
         IncomeMemo.Items.Clear();
         IncomeValuesMemo.Items.Clear();
         _place.ListIncomeInfo(IncomeMemo.Items, IncomeValuesMemo.Items);
-        QueueLB.Items.Clear();
+        QueueList.Items.Clear();
         for (int I = 0, last = _place.ProductionControl.Queue.GetCount() - 1; I <= last; I++)
         {
             var name2 = _place.ProductionControl.Queue.GetItem(I).GetName();
-            QueueLB.Items.Add(IntToStr(I + 1) + ". " + name2);
+            QueueList.Items.Add(IntToStr(I + 1) + ". " + name2);
         }
 
         for (int I = _place.ProductionControl.Queue.GetCount(); I <= 4; I++)
         {
             var emptyQueue = AbilityRules.TranslateResourceString(GameText.EmptyQueueText);
-            QueueLB.Items.Add(IntToStr(I + 1) + ". " + emptyQueue);
+            QueueList.Items.Add(IntToStr(I + 1) + ". " + emptyQueue);
         }
 
         var count = _place.ProductionControl.Queue.GetCount();
-        if (QueueLB.Selected >= count)
+        if (QueueList.Selected >= count)
         {
             var fQueueCount = _place.ProductionControl.Queue.GetCount();
-            QueueLB.Selected = fQueueCount - 1;
-            _queueIndex = QueueLB.Selected;
+            QueueList.Selected = fQueueCount - 1;
+            _queueIndex = QueueList.Selected;
         }
 
-        LoopQueueBox.Checked = _place.ProductionControl.LoopQueue;
+        LoopQueueCheckBox.Checked = _place.ProductionControl.LoopQueue;
         if (_place.ProductionControl.Status == ProductionControlStatus.Producing)
         {
             var nameProgressive = _place.ProductionControl.Queue.GetItem(0).GetNameProgressive();
-            ActiveAction.Text = nameProgressive;
+            ActiveActionLabel.Text = nameProgressive;
             if (_place.ProductionControl.Settings.TurnsLeft != -1)
             {
                 var formatTurnsLeftString = DurationText.FormatTurnsLeftString(_place.ProductionControl.Settings.TurnsLeft);
-                ActiveActionTurns.Text = formatTurnsLeftString;
-                ActiveActionTurns.Visible = true;
-                ActiveActionTurns.TextColor = 6783862;
+                ActiveActionTurnsLabel.Text = formatTurnsLeftString;
+                ActiveActionTurnsLabel.Visible = true;
+                ActiveActionTurnsLabel.TextColor = 6783862;
                 this.ActiveActionTurnsBar.Min = 0;
                 this.ActiveActionTurnsBar.Max = _place.ProductionControl.Settings.TurnsTotal;
                 this.ActiveActionTurnsBar.Position = _place.ProductionControl.Settings.TurnsTotal - _place.ProductionControl.Settings.TurnsLeft;
@@ -496,7 +496,7 @@ public partial class ProductionScreen : DataModule
             }
             else
             {
-                ActiveActionTurns.Visible = false;
+                ActiveActionTurnsLabel.Visible = false;
                 ActiveActionTurnsBar.Visible = false;
             }
 
@@ -508,20 +508,20 @@ public partial class ProductionScreen : DataModule
             if (_place.ProductionControl.Status == ProductionControlStatus.Idle)
             {
                 var currentActivityText = _place.GetCurrentActivityText();
-                ActiveAction.Text = currentActivityText;
+                ActiveActionLabel.Text = currentActivityText;
                 var defaultText = AbilityRules.TranslateResourceString(GameText.DefaultText);
-                ActiveActionTurns.Text = "(" + LowerCase(defaultText) + ")";
-                ActiveActionTurns.TextColor = 6783862;
+                ActiveActionTurnsLabel.Text = "(" + LowerCase(defaultText) + ")";
+                ActiveActionTurnsLabel.TextColor = 6783862;
                 var none = AbilityRules.TranslateResourceString(GameTables.NoneText);
-                if (CompareText(ActiveAction.Text, none) != 0)
+                if (CompareText(ActiveActionLabel.Text, none) != 0)
                 {
-                    ActiveActionTurns.Visible = true;
+                    ActiveActionTurnsLabel.Visible = true;
                     var activityImage = new Trade(0).ActivityImage(_place);
                     CurrentActionImage.CurrentImage = activityImage;
                 }
                 else
                 {
-                    ActiveActionTurns.Visible = false;
+                    ActiveActionTurnsLabel.Visible = false;
                     CurrentActionImage.CurrentImage = 62;
                 }
 
@@ -533,12 +533,12 @@ public partial class ProductionScreen : DataModule
                 {
                     reason = "";
                     var nameProgressive = _place.ProductionControl.Queue.GetItem(0).GetNameProgressive();
-                    ActiveAction.Text = nameProgressive;
+                    ActiveActionLabel.Text = nameProgressive;
                     var queue = _place.ProductionControl.Queue.GetItem(0);
                     _place.ProductionControl.CanExecuteProduction(queue, ref reason);
-                    ActiveActionTurns.Text = reason;
-                    ActiveActionTurns.TextColor = 255;
-                    ActiveActionTurns.Visible = true;
+                    ActiveActionTurnsLabel.Text = reason;
+                    ActiveActionTurnsLabel.TextColor = 255;
+                    ActiveActionTurnsLabel.Visible = true;
                     ActiveActionTurnsBar.Visible = false;
                     var activityImage = _place.ProductionControl.Queue.GetItem(0).Order.ActivityImage(_place);
                     CurrentActionImage.CurrentImage = activityImage;
@@ -560,7 +560,7 @@ public partial class ProductionScreen : DataModule
                 break;
         }
 
-        Dlg.Drawn = false;
+        Window.Drawn = false;
     }
 
     // AoWProdScreen.pas:180
@@ -597,7 +597,7 @@ public partial class ProductionScreen : DataModule
         }
 
         var baseIncome = _place.GetBaseIncome();
-        B5CB.CaptureInput = baseIncome != 0;
+        Action5CheckBox.CaptureInput = baseIncome != 0;
         center = _preview.CenterViewLocation;
         if (center != null)
         {
@@ -613,7 +613,7 @@ public partial class ProductionScreen : DataModule
         }
 
         DialogHosts.General.Manager.OverlayPriority = 49;
-        Dlg.Visible = true;
+        Window.Visible = true;
     }
 
     // AoWProdScreen.pas:221
@@ -655,7 +655,7 @@ public partial class ProductionScreen : DataModule
         UnitShowInfo info = default;
         Rect R;
         Unit U;
-        R = new Rect(ActivityPnl2.WinLeft + sender.WinLeft, ActivityPnl2.WinTop + sender.WinTop, ActivityPnl2.WinLeft + sender.WinLeft + sender.WinWidth, ActivityPnl2.WinTop + sender.WinTop + sender.WinHeight);
+        R = new Rect(ActivityPanel2.WinLeft + sender.WinLeft, ActivityPanel2.WinTop + sender.WinTop, ActivityPanel2.WinLeft + sender.WinLeft + sender.WinWidth, ActivityPanel2.WinTop + sender.WinTop + sender.WinHeight);
         switch (slot)
         {
             case >= 0 and <= 3:
@@ -669,7 +669,7 @@ public partial class ProductionScreen : DataModule
                     info.Looped = false;
                     if (!_place.ProductionControl.UnitProductions.GetItem(slot).Researched)
                     {
-                        DialogHosts.UIGraphics.CityWin[5].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                        DialogHosts.UIGraphics.CityWindow[5].Show(R.Left + 2, R.Top + 2, lockedSurface);
                         info.Direction = 5;
                         if (U != null)
                         {
@@ -677,11 +677,11 @@ public partial class ProductionScreen : DataModule
                         }
 
                         var lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(45);
-                        DialogHosts.UIGraphics.CityWin[5].ShowBlended(R.Left + 2, R.Top + 2, lockedSurface, lookupTable);
+                        DialogHosts.UIGraphics.CityWindow[5].ShowBlended(R.Left + 2, R.Top + 2, lockedSurface, lookupTable);
                     }
                     else
                     {
-                        DialogHosts.UIGraphics.CityWin[4].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                        DialogHosts.UIGraphics.CityWindow[4].Show(R.Left + 2, R.Top + 2, lockedSurface);
                         if (U != null)
                         {
                             U.Show(R.Left - 4, R.Top, lockedSurface, info);
@@ -692,7 +692,7 @@ public partial class ProductionScreen : DataModule
                 }
                 else
                 {
-                    DialogHosts.UIGraphics.CityWin[62].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                    DialogHosts.UIGraphics.CityWindow[62].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 }
 
                 break;
@@ -700,16 +700,16 @@ public partial class ProductionScreen : DataModule
                 if (_place.GetBaseIncome() != 0)
                 {
                     var activityImage = new Trade(0).ActivityImage(_place);
-                    DialogHosts.UIGraphics.CityWin[activityImage].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                    DialogHosts.UIGraphics.CityWindow[activityImage].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 }
                 else
                 {
-                    DialogHosts.UIGraphics.CityWin[62].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                    DialogHosts.UIGraphics.CityWindow[62].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 }
 
                 break;
             case 5:
-                DialogHosts.UIGraphics.CityWin[46].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                DialogHosts.UIGraphics.CityWindow[46].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 break;
         }
     }
@@ -770,7 +770,7 @@ public partial class ProductionScreen : DataModule
                         if (_place.CanRaze(AoWHSMap.Current.SeatedPlayer, ref reason))
                         {
                             _place.Raze(AoWHSMap.Current.SeatedPlayer);
-                            Dlg.Visible = false;
+                            Window.Visible = false;
                         }
                         else
                         {
@@ -782,9 +782,9 @@ public partial class ProductionScreen : DataModule
 
                 break;
             case 2:
-                if (QueueLB.Selected != -1)
+                if (QueueList.Selected != -1)
                 {
-                    _place.ProductionControl.DeleteProduction(QueueLB.Selected);
+                    _place.ProductionControl.DeleteProduction(QueueList.Selected);
                 }
 
                 break;
@@ -862,7 +862,7 @@ public partial class ProductionScreen : DataModule
         DialogHosts.General.PlayButtonSound(0);
         if (_mode == 0)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
         else
         {
@@ -878,7 +878,7 @@ public partial class ProductionScreen : DataModule
         U = _place.ProductionControl.CreateUnitProduction(_productionIndex);
         if (U != null)
         {
-            R = new Rect(UPictureFramePnl.WinLeft + sender.WinLeft + 2, UPictureFramePnl.WinTop + sender.WinTop + 2, UPictureFramePnl.WinLeft + sender.WinLeft + sender.WinWidth - 4, UPictureFramePnl.WinTop + sender.WinTop + sender.WinHeight - 2);
+            R = new Rect(UnitPictureFramePanel.WinLeft + sender.WinLeft + 2, UnitPictureFramePanel.WinTop + sender.WinTop + 2, UnitPictureFramePanel.WinLeft + sender.WinLeft + sender.WinWidth - 4, UnitPictureFramePanel.WinTop + sender.WinTop + sender.WinHeight - 2);
             U.ShowFace(R, lockedSurface);
             U.Release();
         }
@@ -888,11 +888,11 @@ public partial class ProductionScreen : DataModule
     public void QueueLBChange()
     {
         var count = _place.ProductionControl.Queue.GetCount();
-        if (QueueLB.Selected < count && _mode != 0)
+        if (QueueList.Selected < count && _mode != 0)
         {
-            if (QueueLB.Selected != -1)
+            if (QueueList.Selected != -1)
             {
-                _queueIndex = QueueLB.Selected;
+                _queueIndex = QueueList.Selected;
                 if (_place.ProductionControl.Queue.GetItem(_queueIndex).Order is ProduceUnit produce)
                 {
                     SelectProduction(produce.Index);
@@ -903,23 +903,23 @@ public partial class ProductionScreen : DataModule
                 }
 
                 SetMode(2);
-                QueueLB.Selected = _queueIndex;
-                MainBtn1.Visible = true;
+                QueueList.Selected = _queueIndex;
+                MainButton1.Visible = true;
                 var delete = AbilityRules.TranslateResourceString(GameText.DeleteText);
-                MainBtn1.Text = delete;
+                MainButton1.Text = delete;
                 if (_queueIndex == 0 && _place.ProductionControl.Status == ProductionControlStatus.Waiting)
                 {
-                    MainBtn2.Visible = true;
+                    MainButton2.Visible = true;
                     var execute = AbilityRules.TranslateResourceString(GameText.ExecuteText);
-                    MainBtn2.Text = execute;
+                    MainButton2.Text = execute;
                 }
                 else
                 {
-                    MainBtn2.Visible = false;
+                    MainButton2.Visible = false;
                 }
 
-                PPrev.Visible = false;
-                PNext.Visible = false;
+                PreviousButton.Visible = false;
+                NextButton.Visible = false;
             }
             else
             {
@@ -931,11 +931,11 @@ public partial class ProductionScreen : DataModule
         {
             if (_mode == 2)
             {
-                QueueLB.Selected = _queueIndex;
+                QueueList.Selected = _queueIndex;
             }
             else
             {
-                QueueLB.Selected = -1;
+                QueueList.Selected = -1;
             }
         }
     }
@@ -953,7 +953,7 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:445
     public void LoopQueueBoxChange()
     {
-        _place.ProductionControl.SetLoopQueueTo(LoopQueueBox.Checked);
+        _place.ProductionControl.SetLoopQueueTo(LoopQueueCheckBox.Checked);
     }
 
     // AoWProdScreen.pas:450
@@ -966,7 +966,7 @@ public partial class ProductionScreen : DataModule
         {
             if (_place.ProductionControl.Queue.GetItem(0).Order.UnitProductionIndex != null)
             {
-                R = new Rect(ActiveActionPnl.WinLeft + sender.WinLeft, ActiveActionPnl.WinTop + sender.WinTop, ActiveActionPnl.WinLeft + sender.WinLeft + sender.WinWidth, ActiveActionPnl.WinTop + sender.WinTop + sender.WinHeight);
+                R = new Rect(ActiveActionPanel.WinLeft + sender.WinLeft, ActiveActionPanel.WinTop + sender.WinTop, ActiveActionPanel.WinLeft + sender.WinLeft + sender.WinWidth, ActiveActionPanel.WinTop + sender.WinTop + sender.WinHeight);
                 var productionPlaceControl = _place.ProductionControl;
                 if (productionPlaceControl.UnitProductions.GetItem(productionPlaceControl.Settings.UnitProductionIndex) != null)
                 {
@@ -996,7 +996,7 @@ public partial class ProductionScreen : DataModule
         int width;
         if (_preview != null)
         {
-            R = new Rect(Dlg.WinLeft + sender.WinLeft, Dlg.WinTop + sender.WinTop, Dlg.WinLeft + sender.WinLeft + sender.WinWidth, Dlg.WinTop + sender.WinTop + sender.WinHeight);
+            R = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
             width = R.Right - R.Left;
             W = width;
             H = R.Bottom - R.Top;
@@ -1055,7 +1055,7 @@ public partial class ProductionScreen : DataModule
                 MapView.Drawn = false;
                 break;
             case 27:
-                Dlg.Visible = false;
+                Window.Visible = false;
                 break;
         }
     }
@@ -1083,9 +1083,9 @@ public partial class ProductionScreen : DataModule
     public void UAbilitiesLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         Ability A;
-        if (button == MouseButton.Right && UAbilitiesLB.Selected > -1)
+        if (button == MouseButton.Right && UnitAbilitiesList.Selected > -1)
         {
-            var objectValue = UAbilitiesLB.Items.Objects[UAbilitiesLB.Selected];
+            var objectValue = UnitAbilitiesList.Items.Objects[UnitAbilitiesList.Selected];
             A = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (A != null)
             {

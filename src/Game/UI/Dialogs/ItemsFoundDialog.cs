@@ -23,13 +23,13 @@ public partial class ItemsFoundDialog : DataModule
     public ItemsFoundDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Label TitleLbl;
-    public Panel PickupPnl;
-    public Panel OKPnl;
+    public Window Window;
+    public Label TitleLabel;
+    public Panel PickupPanel;
+    public Panel OKPanel;
     public Memo MessageMemo;
-    public Button LeftBtn;
-    public Button RightBtn;
+    public Button LeftButton;
+    public Button RightButton;
     private int _itemOffset;
     private ExecuteDoneEvent _onDone;
     private ItemExplorationSiteEventLog _event;
@@ -56,7 +56,7 @@ public partial class ItemsFoundDialog : DataModule
     {
         ExecuteDoneEvent done;
         ItemExplorationSiteEventLog eventValue;
-        Dlg.Visible = false;
+        Window.Visible = false;
         done = _onDone;
         eventValue = _event;
         _onDone = null;
@@ -76,8 +76,8 @@ public partial class ItemsFoundDialog : DataModule
     public void Reset()
     {
         _itemOffset = 0;
-        PickupPnl.Visible = false;
-        OKPnl.Visible = false;
+        PickupPanel.Visible = false;
+        OKPanel.Visible = false;
     }
 
     // AoWItemsFoundDlg.pas:63
@@ -89,7 +89,7 @@ public partial class ItemsFoundDialog : DataModule
     // AoWItemsFoundDlg.pas:92
     public void CloseBtn2Click()
     {
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWItemsFoundDlg.pas:95
@@ -106,7 +106,7 @@ public partial class ItemsFoundDialog : DataModule
                 item = AoWHSMap.Current.ItemControl.FindItem(itemId);
                 if (item != null)
                 {
-                    item.Show(Dlg.WinLeft + sender.WinLeft, Dlg.WinTop + sender.WinTop, lockedSurface);
+                    item.Show(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, lockedSurface);
                 }
             }
         }
@@ -122,7 +122,7 @@ public partial class ItemsFoundDialog : DataModule
         {
             DialogHosts.General.SelectedUnit = hero;
             DialogHosts.UnitWindow.ShowUnit();
-            DialogHosts.UnitWindow.UnitTab.Selected = 2;
+            DialogHosts.UnitWindow.UnitTabs.Selected = 2;
             if (AoWHSMap.Current.GameType == GameType.Tutorial)
             {
                 eventValue = new TutorialMessageEventLog(null);
@@ -138,7 +138,7 @@ public partial class ItemsFoundDialog : DataModule
             }
         }
 
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWItemsFoundDlg.pas:136
@@ -156,7 +156,7 @@ public partial class ItemsFoundDialog : DataModule
                 item = AoWHSMap.Current.ItemControl.FindItem(itemId);
                 if (item != null)
                 {
-                    box.PopupMenu = DialogHosts.ItemBanner.IBannerPopup;
+                    box.PopupMenu = DialogHosts.ItemBanner.BannerMenu;
                     ItemBanner.ItemId = item.ItemId;
                 }
             }
@@ -169,7 +169,7 @@ public partial class ItemsFoundDialog : DataModule
         if (_itemOffset > 0)
         {
             _itemOffset -= 1;
-            Dlg.Drawn = false;
+            Window.Drawn = false;
         }
     }
 
@@ -179,7 +179,7 @@ public partial class ItemsFoundDialog : DataModule
         if (_itemOffset + 5 < _event.ItemIds.Count)
         {
             _itemOffset += 1;
-            Dlg.Drawn = false;
+            Window.Drawn = false;
         }
     }
 
@@ -188,7 +188,7 @@ public partial class ItemsFoundDialog : DataModule
     {
         if (key == 27)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -200,23 +200,23 @@ public partial class ItemsFoundDialog : DataModule
         dialog._event = eventValue;
         dialog._event.AddRef();
         log = dialog._event;
-        dialog.TitleLbl.Text = log.Title;
+        dialog.TitleLabel.Text = log.Title;
         var text = log.Messages.Text;
         dialog.MessageMemo.Items.Text = text;
-        dialog.LeftBtn.Visible = log.ItemIds.Count > 5;
-        dialog.RightBtn.Visible = log.ItemIds.Count > 5;
+        dialog.LeftButton.Visible = log.ItemIds.Count > 5;
+        dialog.RightButton.Visible = log.ItemIds.Count > 5;
         if (dialog.GetHero() == null)
         {
-            dialog.OKPnl.Visible = true;
+            dialog.OKPanel.Visible = true;
         }
         else
         {
-            dialog.PickupPnl.Visible = true;
+            dialog.PickupPanel.Visible = true;
         }
 
         AoWHSMap.Current.TutorialControl.ShowMessage(54, true, true);
-        dialog.Dlg.Drawn = false;
-        dialog.Dlg.Visible = true;
+        dialog.Window.Drawn = false;
+        dialog.Window.Visible = true;
     }
 
 }

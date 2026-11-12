@@ -15,47 +15,47 @@ public partial class CampaignSettingsDialog : DataModule
     public CampaignSettingsDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public ComboBox DifficultyLevelCB;
-    public ComboBox TurnModeCB;
+    public Window Window;
+    public ComboBox DifficultyLevelComboBox;
+    public ComboBox TurnModeComboBox;
 
     // AoWCampaignSettings.pas:45
     public void DlgShow()
     {
         CampaignDifficultyLevel level;
-        DifficultyLevelCB.Items.Clear();
+        DifficultyLevelComboBox.Items.Clear();
         for (int levelOrdinal = (int)(CampaignDifficultyLevel)0; levelOrdinal <= (int)(CampaignDifficultyLevel)2; levelOrdinal++)
         {
             level = (CampaignDifficultyLevel)levelOrdinal;
             var campaignDifficultyLevel = AbilityRules.TranslateResourceString(s_campaignDifficultyLevelTexts[(int)level]);
-            DifficultyLevelCB.Items.AddObject(campaignDifficultyLevel, IntToObject((int)level));
+            DifficultyLevelComboBox.Items.AddObject(campaignDifficultyLevel, IntToObject((int)level));
         }
 
-        var indexOfObject = DifficultyLevelCB.Items.IndexOfObject(IntToObject((int)GameTables.GameEngine.Campaign.DifficultyLevel));
-        DifficultyLevelCB.Selected = indexOfObject;
-        TurnModeCB.Items.Clear();
+        var indexOfObject = DifficultyLevelComboBox.Items.IndexOfObject(IntToObject((int)GameTables.GameEngine.Campaign.DifficultyLevel));
+        DifficultyLevelComboBox.Selected = indexOfObject;
+        TurnModeComboBox.Items.Clear();
         var playMode = AbilityRules.TranslateResourceString(GameText.s_playModeTexts[(int)PlayMode.Turn]);
-        TurnModeCB.Items.AddObject(playMode, IntToObject((int)PlayMode.Turn));
+        TurnModeComboBox.Items.AddObject(playMode, IntToObject((int)PlayMode.Turn));
         var playModeText = AbilityRules.TranslateResourceString(GameText.s_playModeTexts[(int)PlayMode.Simultaneous]);
-        TurnModeCB.Items.AddObject(playModeText, IntToObject((int)PlayMode.Simultaneous));
-        var itemsIndexOfObject = TurnModeCB.Items.IndexOfObject(IntToObject((int)GameTables.GameEngine.Campaign.PlayMode));
-        TurnModeCB.Selected = itemsIndexOfObject;
+        TurnModeComboBox.Items.AddObject(playModeText, IntToObject((int)PlayMode.Simultaneous));
+        var itemsIndexOfObject = TurnModeComboBox.Items.IndexOfObject(IntToObject((int)GameTables.GameEngine.Campaign.PlayMode));
+        TurnModeComboBox.Selected = itemsIndexOfObject;
     }
 
     // AoWCampaignSettings.pas:59
     public void OKBtnClick()
     {
-        var objectValue = DifficultyLevelCB.Items.Objects[DifficultyLevelCB.Selected];
+        var objectValue = DifficultyLevelComboBox.Items.Objects[DifficultyLevelComboBox.Selected];
         GameTables.GameEngine.Campaign.DifficultyLevel = (CampaignDifficultyLevel)ObjectToInt(objectValue);
-        var objectValue2 = TurnModeCB.Items.Objects[TurnModeCB.Selected];
+        var objectValue2 = TurnModeComboBox.Items.Objects[TurnModeComboBox.Selected];
         GameTables.GameEngine.Campaign.PlayMode = (PlayMode)ObjectToInt(objectValue2);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWCampaignSettings.pas:66
     public void CancelBtnClick()
     {
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     private static StringArray3 s_campaignDifficultyLevelTexts = StringArray3.From(["Easy", "Normal", "Hard"]);

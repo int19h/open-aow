@@ -16,11 +16,11 @@ public partial class ChatWindow : DataModule
     public ChatWindow(Component owner) : base(owner)
     { }
 
-    public Window ChatWin;
+    public Window MainWindow;
     public Memo ChatMemo;
     public Edit ChatEdit;
     public ListBox PlayerList;
-    public VerticalScrollBar ChatSB;
+    public VerticalScrollBar ChatScrollBar;
 
     public bool ScrollPending { get; set; }
 
@@ -28,7 +28,7 @@ public partial class ChatWindow : DataModule
     public void MinClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        ChatWin.Visible = false;
+        MainWindow.Visible = false;
     }
 
     // AOWChatWin.pas:53
@@ -41,9 +41,9 @@ public partial class ChatWindow : DataModule
     // AOWChatWin.pas:67
     public void ChatWinResize()
     {
-        var alignment = this.ChatWin.Alignment;
-        alignment.LeftOffset = this.ChatWin.WinLeft;
-        alignment.BottomOffset = this.ChatWin._windowManager.WinHeight - this.ChatWin.WinTop - this.ChatWin.WinHeight;
+        var alignment = this.MainWindow.Alignment;
+        alignment.LeftOffset = this.MainWindow.WinLeft;
+        alignment.BottomOffset = this.MainWindow._windowManager.WinHeight - this.MainWindow.WinTop - this.MainWindow.WinHeight;
         alignment.AlignWidth = AlignWidth.Left;
 
         ScrollPending = true;
@@ -52,14 +52,14 @@ public partial class ChatWindow : DataModule
     // AOWChatWin.pas:79
     public void ChatWinShow()
     {
-        DialogHosts.General.RegisterDialog(ChatWin);
+        DialogHosts.General.RegisterDialog(MainWindow);
         ScrollPending = true;
     }
 
     // AOWChatWin.pas:85
     public void ChatWinHide()
     {
-        DialogHosts.General.UnregisterDialog(ChatWin);
+        DialogHosts.General.UnregisterDialog(MainWindow);
     }
 
     // AOWChatWin.pas:88
@@ -67,7 +67,7 @@ public partial class ChatWindow : DataModule
     {
         if (ScrollPending)
         {
-            this.ChatSB.Position = this.ChatSB.Max + 1 - this.ChatSB.NumberVisible;
+            this.ChatScrollBar.Position = this.ChatScrollBar.Max + 1 - this.ChatScrollBar.NumberVisible;
 
             ScrollPending = false;
         }

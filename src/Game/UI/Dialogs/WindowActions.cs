@@ -31,7 +31,7 @@ public static class WindowActions
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(0);
-        var playerInfo = DialogHosts.PlayerInfoWindow.PInfoWin;
+        var playerInfo = DialogHosts.PlayerInfoWindow.MainWindow;
         if (R.Right != 0)
         {
             playerInfo.Alignment.BottomOffset = R.Top;
@@ -48,7 +48,7 @@ public static class WindowActions
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(2);
-        var unitWindow = DialogHosts.UnitWindow.UnitWin;
+        var unitWindow = DialogHosts.UnitWindow.MainWindow;
         if (R.Right != 0)
         {
             var alignment = unitWindow.Alignment;
@@ -73,7 +73,7 @@ public static class WindowActions
         GameTables.GameEngine.Registry.GetRectangle(3);
         GameTables.GameEngine.Registry.GetRectangle(4);
         R = GameTables.GameEngine.Registry.GetRectangle(5);
-        var realm = DialogHosts.RealmWindow.Dlg;
+        var realm = DialogHosts.RealmWindow.Window;
         if (R.Right != 0)
         {
             var alignment = realm.Alignment;
@@ -99,7 +99,7 @@ public static class WindowActions
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(13);
-        var magic = DialogHosts.MagicWindow.Dlg;
+        var magic = DialogHosts.MagicWindow.Window;
         if (R.Right != 0)
         {
             var alignment = magic.Alignment;
@@ -142,7 +142,7 @@ public static class WindowActions
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(7);
-        var info = DialogHosts.InfoWindow.InfoWin;
+        var info = DialogHosts.InfoWindow.MainWindow;
         if (R.Right != 0)
         {
             info.Alignment.TopOffset = R.Top;
@@ -159,7 +159,7 @@ public static class WindowActions
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(8);
-        var chat = DialogHosts.ChatWindow.ChatWin;
+        var chat = DialogHosts.ChatWindow.MainWindow;
         if (R.Right != 0)
         {
             var alignment = chat.Alignment;
@@ -183,7 +183,7 @@ public static class WindowActions
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(12);
-        var tacticalBattleScanner = DialogHosts.CombatScanner.TCScannerWin;
+        var tacticalBattleScanner = DialogHosts.CombatScanner.CombatScannerWindow;
         if (R.Right != 0)
         {
             tacticalBattleScanner.Alignment.TopOffset = R.Top;
@@ -200,7 +200,7 @@ public static class WindowActions
         }
 
         R = GameTables.GameEngine.Registry.GetRectangle(10);
-        var tacticalBattleUnit = DialogHosts.CombatUnitInfo.TCUnitWin;
+        var tacticalBattleUnit = DialogHosts.CombatUnitInfo.MainWindow;
         if (R.Right != 0)
         {
             tacticalBattleUnit.Alignment.BottomOffset = R.Top;

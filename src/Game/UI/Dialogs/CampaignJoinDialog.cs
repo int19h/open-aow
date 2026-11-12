@@ -16,10 +16,10 @@ public partial class CampaignJoinDialog : DataModule
     public CampaignJoinDialog(Component owner) : base(owner)
     { }
 
-    public Panel CharGenPnl;
-    public Panel LeaderTypePnl;
-    public Panel DefaultFacePnl;
-    public UserDrawBox ScrollTextDB;
+    public Panel CharacterGenerationPanel;
+    public Panel LeaderTypePanel;
+    public Panel DefaultFacePanel;
+    public UserDrawBox ScrollTextView;
 
     public byte Stage { get; set; }
     public int Faction { get; set; }
@@ -35,7 +35,7 @@ public partial class CampaignJoinDialog : DataModule
     {
         LeaderSetupControl control = default;
         Stage = 2;
-        CharGenPnl.Visible = false;
+        CharacterGenerationPanel.Visible = false;
         control = new LeaderSetupControl(null);
         control.Leader.Assign(Leader, GameTables.GameEngine);
         control.OriginalLeader.Assign(Leader, GameTables.GameEngine);
@@ -63,8 +63,8 @@ public partial class CampaignJoinDialog : DataModule
         DialogHosts.LeaderSetupWindow.Execute(control);
         control.OnDone = LeaderCustomized;
         control.Release();
-        DialogHosts.LeaderSetupWindow.LeaderPnl.ImageLibraryTexture = DialogHosts.UIGraphics.FactionWin;
-        DialogHosts.LeaderSetupWindow.LeaderPnl.ImageLibraryIndexTexture = Faction + 10;
+        DialogHosts.LeaderSetupWindow.LeaderPanel.ImageLibraryTexture = DialogHosts.UIGraphics.FactionWindow;
+        DialogHosts.LeaderSetupWindow.LeaderPanel.ImageLibraryIndexTexture = Faction + 10;
     }
 
     // AoWCampaignJoin.pas:145
@@ -88,10 +88,10 @@ public partial class CampaignJoinDialog : DataModule
     // AoWCampaignJoin.pas:189
     public void ResetCampaignJoin()
     {
-        CharGenPnl.Visible = true;
-        LeaderTypePnl.Visible = false;
-        DialogHosts.TitleWindow.TitleWin.Visible = true;
-        ScrollTextDB.Visible = true;
+        CharacterGenerationPanel.Visible = true;
+        LeaderTypePanel.Visible = false;
+        DialogHosts.TitleWindow.MainWindow.Visible = true;
+        ScrollTextView.Visible = true;
         _scrollDelay = 0;
         _scrollPosition = 0;
         ScrollText.Clear();
@@ -100,7 +100,7 @@ public partial class CampaignJoinDialog : DataModule
     // AoWCampaignJoin.pas:200
     public void FinishSelection()
     {
-        CharGenPnl.Visible = false;
+        CharacterGenerationPanel.Visible = false;
         WorldMap.ShowCampaignMap(DialogHosts.WorldMap);
     }
 
@@ -108,20 +108,20 @@ public partial class CampaignJoinDialog : DataModule
     public void ShowLeaderChoices()
     {
         Stage = 1;
-        LeaderTypePnl.Visible = true;
-        ScrollTextDB.Visible = false;
-        CharGenPnl.Visible = true;
+        LeaderTypePanel.Visible = true;
+        ScrollTextView.Visible = false;
+        CharacterGenerationPanel.Visible = true;
     }
 
     // AoWCampaignJoin.pas:57
-    public void CampaignJoinDlgCreate()
+    public void CampaignJoinDialogCreate()
     {
         Leader = new Leader(null);
         ScrollText = new StringList();
     }
 
     // AoWCampaignJoin.pas:64
-    public void CampaignJoinDlgDestroy()
+    public void CampaignJoinDialogDestroy()
     {
         Leader.Release();
         ScrollText?.Dispose();
@@ -140,7 +140,7 @@ public partial class CampaignJoinDialog : DataModule
     public void DefaultFacePnlDraw(LockedSurface lockedSurface)
     {
         Rect R;
-        R = new Rect(DefaultFacePnl.WinLeft + 1, DefaultFacePnl.WinTop + 1, DefaultFacePnl.WinLeft + DefaultFacePnl.WinWidth - 2, DefaultFacePnl.WinTop + DefaultFacePnl.WinHeight - 2);
+        R = new Rect(DefaultFacePanel.WinLeft + 1, DefaultFacePanel.WinTop + 1, DefaultFacePanel.WinLeft + DefaultFacePanel.WinWidth - 2, DefaultFacePanel.WinTop + DefaultFacePanel.WinHeight - 2);
         Leader.ShowFace(R, lockedSurface);
     }
 
@@ -163,13 +163,13 @@ public partial class CampaignJoinDialog : DataModule
         if (Stage == 0)
         {
             var count = ScrollText.Count;
-            if (_scrollPosition < count * 20 + ScrollTextDB.WinHeight)
+            if (_scrollPosition < count * 20 + ScrollTextView.WinHeight)
             {
                 _scrollDelay -= 1;
                 if (_scrollDelay <= 0)
                 {
                     _scrollPosition += 1;
-                    ScrollTextDB.Drawn = false;
+                    ScrollTextView.Drawn = false;
                     _scrollDelay = 3;
                 }
             }
@@ -185,16 +185,16 @@ public partial class CampaignJoinDialog : DataModule
     {
         int X;
         int Y;
-        lockedSurface.ClipRectangle.Left = CharGenPnl.WinLeft + ScrollTextDB.WinLeft;
-        lockedSurface.ClipRectangle.Right = lockedSurface.ClipRectangle.Left + ScrollTextDB.WinWidth;
-        lockedSurface.ClipRectangle.Top = CharGenPnl.WinTop + ScrollTextDB.WinTop;
-        lockedSurface.ClipRectangle.Bottom = lockedSurface.ClipRectangle.Top + ScrollTextDB.WinHeight;
-        X = CharGenPnl.WinLeft + ScrollTextDB.WinLeft + ScrollTextDB.WinWidth / 2;
-        Y = lockedSurface.ClipRectangle.Top + ScrollTextDB.WinHeight - _scrollPosition;
+        lockedSurface.ClipRectangle.Left = CharacterGenerationPanel.WinLeft + ScrollTextView.WinLeft;
+        lockedSurface.ClipRectangle.Right = lockedSurface.ClipRectangle.Left + ScrollTextView.WinWidth;
+        lockedSurface.ClipRectangle.Top = CharacterGenerationPanel.WinTop + ScrollTextView.WinTop;
+        lockedSurface.ClipRectangle.Bottom = lockedSurface.ClipRectangle.Top + ScrollTextView.WinHeight;
+        X = CharacterGenerationPanel.WinLeft + ScrollTextView.WinLeft + ScrollTextView.WinWidth / 2;
+        Y = lockedSurface.ClipRectangle.Top + ScrollTextView.WinHeight - _scrollPosition;
         for (int I = 0, last = ScrollText.Count - 1; I <= last; I++)
         {
             var scrollText = ScrollText[I];
-            DialogHosts.UIFonts.Font15WhiteGrey.SetTextCentered(X, Y, scrollText, lockedSurface);
+            DialogHosts.UIFonts.Age15WhiteOnGrey.SetTextCentered(X, Y, scrollText, lockedSurface);
             Y += 20;
         }
     }
@@ -206,10 +206,10 @@ public partial class CampaignJoinDialog : DataModule
 
     internal static void InitializeCampaignJoin(CampaignJoinDialog dialog)
     {
-        dialog.CharGenPnl.Visible = true;
-        dialog.LeaderTypePnl.Visible = false;
-        DialogHosts.TitleWindow.TitleWin.Visible = true;
-        dialog.ScrollTextDB.Visible = true;
+        dialog.CharacterGenerationPanel.Visible = true;
+        dialog.LeaderTypePanel.Visible = false;
+        DialogHosts.TitleWindow.MainWindow.Visible = true;
+        dialog.ScrollTextView.Visible = true;
         dialog._scrollDelay = 0;
         dialog._scrollPosition = 0;
         dialog.ScrollText.Clear();

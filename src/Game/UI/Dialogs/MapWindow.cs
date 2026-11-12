@@ -34,7 +34,7 @@ public partial class MapWindow : DataModule
     // AOWMWindow.pas:53
     public void MWindowCreate()
     {
-        MainWindow.ImageLibraryFrame = DialogHosts.UIGraphics.GenericF;
+        MainWindow.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
         MainWindow.WindowManager = DialogHosts.General.Manager;
         MapAlignWidth = AlignWidth.Both;
         MapAlignHeight = AlignHeight.Both;
@@ -121,7 +121,7 @@ public partial class MapWindow : DataModule
                 scanner.UpdateStep = -1;
                 scanner.SetLevel(AoWHSMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL));
 
-                DialogHosts.ScannerWindow.ScannerTab.SetIndex(MapViewer.SceneL);
+                DialogHosts.ScannerWindow.ScannerTabs.SetIndex(MapViewer.SceneL);
             }
         }
 
@@ -275,7 +275,7 @@ public partial class MapWindow : DataModule
                     if (CombatMap.Current == null && (K == 114 || shift.Contains(ShiftState.Ctrl)))
                     {
                         DialogHosts.FileDialogWindow.Mode = 0;
-                        DialogHosts.FileDialogWindow.FileDialog.Visible = true;
+                        DialogHosts.FileDialogWindow.Window.Visible = true;
                     }
 
                     break;
@@ -284,7 +284,7 @@ public partial class MapWindow : DataModule
                     if (CombatMap.Current == null && (K == 115 || shift.Contains(ShiftState.Ctrl)))
                     {
                         DialogHosts.FileDialogWindow.Mode = 1;
-                        DialogHosts.FileDialogWindow.FileDialog.Visible = true;
+                        DialogHosts.FileDialogWindow.Window.Visible = true;
                     }
 
                     break;

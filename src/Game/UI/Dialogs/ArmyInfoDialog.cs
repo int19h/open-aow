@@ -18,12 +18,12 @@ public partial class ArmyInfoDialog : DataModule
     public ArmyInfoDialog(Component owner) : base(owner)
     { }
 
-    public Panel UnitPnl;
-    public Label Title;
-    public Window Dlg;
-    public Memo Message;
+    public Panel UnitPanel;
+    public Label TitleLabel;
+    public Window Window;
+    public Memo MessageMemo;
     public Image FaceFrame;
-    public Label HeaderLbl;
+    public Label HeaderLabel;
     private bool _unitInfoShown;
     private ExecuteDoneEvent _onClose;
     private ArmyInfoEventLog _event;
@@ -44,10 +44,10 @@ public partial class ArmyInfoDialog : DataModule
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
             alignment = _event.ArmyView.GetUnit(index).GetAlignment();
-            if ((int)alignment < DialogHosts.UIGraphics.UnitBGs.Count)
+            if ((int)alignment < DialogHosts.UIGraphics.UnitBackgrounds.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
-                image = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
+                image = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, lockedSurface);
             }
 
@@ -57,7 +57,7 @@ public partial class ArmyInfoDialog : DataModule
             _event.ArmyView.GetUnit(index).Show(X - 33, Y - 35, lockedSurface, info);
             if ((((int)(((uint)_event.Selection) >> index)) & 1) == 0)
             {
-                image = DialogHosts.UIGraphics.UnitBGs[7];
+                image = DialogHosts.UIGraphics.UnitBackgrounds[7];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, lockedSurface);
             }
 
@@ -73,8 +73,8 @@ public partial class ArmyInfoDialog : DataModule
         if (_unitInfoShown)
         {
             _unitInfoShown = false;
-            DialogHosts.UnitWindow.UnitWin.Priority = DialogHosts.ControlWindow.MainWindow.Priority;
-            DialogHosts.UnitWindow.UnitWin.Visible = false;
+            DialogHosts.UnitWindow.MainWindow.Priority = DialogHosts.ControlWindow.MainWindow.Priority;
+            DialogHosts.UnitWindow.MainWindow.Visible = false;
         }
 
         notify = _onClose;
@@ -96,14 +96,14 @@ public partial class ArmyInfoDialog : DataModule
     public void CloseBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWArmyInfoDlg.pas:115
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWArmyInfoDlg.pas:121
@@ -118,7 +118,7 @@ public partial class ArmyInfoDialog : DataModule
             {
                 _unitInfoShown = true;
                 DialogHosts.UnitWindow.ShowUnit();
-                DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
+                DialogHosts.UnitWindow.MainWindow.Priority = Window.Priority + 1;
             }
         }
     }
@@ -127,9 +127,9 @@ public partial class ArmyInfoDialog : DataModule
     public void U1PreDraw(Frame sender, LockedSurface lockedSurface, int slot)
     {
         Rect R = default;
-        R.Left = sender.WinLeft + UnitPnl.WinLeft + 1;
+        R.Left = sender.WinLeft + UnitPanel.WinLeft + 1;
         R.Right = sender.WinWidth + R.Left;
-        R.Top = sender.WinTop + UnitPnl.WinTop;
+        R.Top = sender.WinTop + UnitPanel.WinTop;
         R.Bottom = sender.WinHeight + R.Top;
         DrawUnit(slot, R, ref lockedSurface);
     }
@@ -139,9 +139,9 @@ public partial class ArmyInfoDialog : DataModule
     {
         Rect R = default;
         int I;
-        R.Left = this.FaceFrame.WinLeft + Dlg.WinLeft;
+        R.Left = this.FaceFrame.WinLeft + Window.WinLeft;
         R.Right = this.FaceFrame.WinWidth + R.Left;
-        R.Top = this.FaceFrame.WinTop + Dlg.WinTop;
+        R.Top = this.FaceFrame.WinTop + Window.WinTop;
         R.Bottom = this.FaceFrame.WinHeight + R.Top;
 
         I = 0;
@@ -167,7 +167,7 @@ public partial class ArmyInfoDialog : DataModule
     {
         if (key == 27 || key == 32)
         {
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -177,10 +177,10 @@ public partial class ArmyInfoDialog : DataModule
         dialog._event = eventValue;
         dialog._event.AddRef();
         var text = eventValue.Messages.Text;
-        dialog.Message.Items.Text = text;
-        dialog.Title.Text = eventValue.Title;
-        dialog.HeaderLbl.Text = eventValue.Description;
-        dialog.Dlg.Visible = true;
+        dialog.MessageMemo.Items.Text = text;
+        dialog.TitleLabel.Text = eventValue.Title;
+        dialog.HeaderLabel.Text = eventValue.Description;
+        dialog.Window.Visible = true;
         dialog._unitInfoShown = false;
     }
 

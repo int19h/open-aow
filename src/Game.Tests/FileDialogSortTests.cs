@@ -22,30 +22,30 @@ public sealed class FileDialogSortTests
             Assert.False(GameTables.GameEngine.Registry.GetFileDialogSortByDate());
             Assert.True(Runtime.SetCurrentDir("one"));
             dialog.FindFiles();
-            Assert.Equal(["alpha", "beta", "aaa.asg", "zzz.asg"], Names(dialog.FileLB));
-            Assert.Equal(Names(dialog.FileLB), Names(dialog.SaveLB));
-            Assert.DoesNotContain("note.txt", Names(dialog.FileLB));
-            Assert.Equal(-1, dialog.FileLB.Selected);
+            Assert.Equal(["alpha", "beta", "aaa.asg", "zzz.asg"], Names(dialog.FileList));
+            Assert.Equal(Names(dialog.FileList), Names(dialog.SaveList));
+            Assert.DoesNotContain("note.txt", Names(dialog.FileList));
+            Assert.Equal(-1, dialog.FileList.Selected);
 
             GameTables.GameEngine.Registry.SetFileDialogSortByDate(true);
-            dialog.FileLB.Selected = 0;
+            dialog.FileList.Selected = 0;
             dialog.FindFiles();
-            Assert.Equal(["alpha", "beta", "zzz.asg", "aaa.asg"], Names(dialog.FileLB));
-            Assert.Equal("", dialog.DateLB.Items[0]);
-            Assert.Equal("", dialog.DateLB.Items[1]);
-            Assert.NotEqual("", dialog.DateLB.Items[2]);
-            Assert.Equal(-1, dialog.FileLB.Selected);
+            Assert.Equal(["alpha", "beta", "zzz.asg", "aaa.asg"], Names(dialog.FileList));
+            Assert.Equal("", dialog.DateList.Items[0]);
+            Assert.Equal("", dialog.DateList.Items[1]);
+            Assert.NotEqual("", dialog.DateList.Items[2]);
+            Assert.Equal(-1, dialog.FileList.Selected);
 
             Assert.True(Runtime.SetCurrentDir("..\\two"));
             dialog.FindFiles();
-            Assert.Equal(["gamma", "yyy.asg", "bbb.asg"], Names(dialog.FileLB));
+            Assert.Equal(["gamma", "yyy.asg", "bbb.asg"], Names(dialog.FileList));
 
             Runtime.Settings = new JsonSettingsStore(settingsDirectory);
             GameTables.GameEngine.Registry = new GameSettings();
             Assert.True(GameTables.GameEngine.Registry.GetFileDialogSortByDate());
             Assert.True(Runtime.SetCurrentDir("..\\one"));
             dialog.FindFiles();
-            Assert.Equal(["alpha", "beta", "zzz.asg", "aaa.asg"], Names(dialog.FileLB));
+            Assert.Equal(["alpha", "beta", "zzz.asg", "aaa.asg"], Names(dialog.FileList));
         });
     }
 
@@ -63,24 +63,24 @@ public sealed class FileDialogSortTests
         {
             Assert.True(Runtime.SetCurrentDir("one"));
             dialog.FindFiles();
-            dialog.FileLB.Selected = dialog.FileLB.Items.IndexOf("aaa.asg");
+            dialog.FileList.Selected = dialog.FileList.Items.IndexOf("aaa.asg");
             dialog.SortByDate();
-            Assert.Equal("aaa.asg", dialog.FileLB.Items[dialog.FileLB.Selected]);
-            Assert.Equal(3, dialog.FileLB.Selected);
-            Assert.Equal(dialog.FileLB.Selected, dialog.SaveLB.Selected);
-            Assert.Equal(dialog.FileLB.Selected, dialog.DateLB.Selected);
-            Assert.Equal(["alpha", "beta", "zzz.asg", "aaa.asg"], Names(dialog.FileLB));
+            Assert.Equal("aaa.asg", dialog.FileList.Items[dialog.FileList.Selected]);
+            Assert.Equal(3, dialog.FileList.Selected);
+            Assert.Equal(dialog.FileList.Selected, dialog.SaveList.Selected);
+            Assert.Equal(dialog.FileList.Selected, dialog.DateList.Selected);
+            Assert.Equal(["alpha", "beta", "zzz.asg", "aaa.asg"], Names(dialog.FileList));
 
             // Name order copies the file rows onto FileLB, then puts the directories back on SaveLB and DateLB only.
             // The selected name stays on FileLB. SaveLB, the list the open and save dialogs show, keeps the directories first.
             dialog.SortByName();
-            Assert.Equal("aaa.asg", dialog.FileLB.Items[dialog.FileLB.Selected]);
-            Assert.Equal(0, dialog.FileLB.Selected);
-            Assert.Equal(["aaa.asg", "zzz.asg"], Names(dialog.FileLB));
-            Assert.Equal(["alpha", "beta", "aaa.asg", "zzz.asg"], Names(dialog.SaveLB));
-            Assert.Equal("", dialog.DateLB.Items[0]);
-            Assert.Equal("", dialog.DateLB.Items[1]);
-            Assert.Equal(dialog.FileLB.Selected, dialog.SaveLB.Selected);
+            Assert.Equal("aaa.asg", dialog.FileList.Items[dialog.FileList.Selected]);
+            Assert.Equal(0, dialog.FileList.Selected);
+            Assert.Equal(["aaa.asg", "zzz.asg"], Names(dialog.FileList));
+            Assert.Equal(["alpha", "beta", "aaa.asg", "zzz.asg"], Names(dialog.SaveList));
+            Assert.Equal("", dialog.DateList.Items[0]);
+            Assert.Equal("", dialog.DateList.Items[1]);
+            Assert.Equal(dialog.FileList.Selected, dialog.SaveList.Selected);
         });
     }
 
@@ -91,12 +91,12 @@ public sealed class FileDialogSortTests
         {
             GameTables.GameEngine.Registry.SetFileDialogSortByDate(true);
             dialog.Mode = 2;
-            dialog.FileName.Text = "valley.map";
-            dialog.SFileName.Text = "stale.asg";
+            dialog.FileNameEdit.Text = "valley.map";
+            dialog.SaveFileNameEdit.Text = "stale.asg";
             Assert.True(Runtime.SetCurrentDir("one"));
             dialog.FindFiles();
-            Assert.Equal(["alpha", "beta", "aaa.asg", "zzz.asg"], Names(dialog.FileLB));
-            Assert.Equal("valley.map", dialog.FileName.Text);
+            Assert.Equal(["alpha", "beta", "aaa.asg", "zzz.asg"], Names(dialog.FileList));
+            Assert.Equal("valley.map", dialog.FileNameEdit.Text);
         });
     }
 
@@ -136,20 +136,20 @@ public sealed class FileDialogSortTests
         {
             if (dialog != null)
             {
-                dialog.FileDlgWindowDestroy();
-                dialog.FileLB.Dispose();
-                dialog.SaveLB.Dispose();
-                dialog.DateLB.Dispose();
+                dialog.FileDialogWindowDestroy();
+                dialog.FileList.Dispose();
+                dialog.SaveList.Dispose();
+                dialog.DateList.Dispose();
                 dialog.PathEdit.Dispose();
-                dialog.SFileName.Dispose();
-                dialog.FileName.Dispose();
-                dialog.SPlayers.Dispose();
-                dialog.SSize.Dispose();
-                dialog.STowns.Dispose();
-                dialog.LPlayers.Dispose();
-                dialog.LSize.Dispose();
-                dialog.LTowns.Dispose();
-                dialog.LTurns.Dispose();
+                dialog.SaveFileNameEdit.Dispose();
+                dialog.FileNameEdit.Dispose();
+                dialog.ScenarioPlayersLabel.Dispose();
+                dialog.ScenarioSizeLabel.Dispose();
+                dialog.ScenarioTownsLabel.Dispose();
+                dialog.SavedPlayersLabel.Dispose();
+                dialog.SavedSizeLabel.Dispose();
+                dialog.SavedTownsLabel.Dispose();
+                dialog.SavedTurnsLabel.Dispose();
                 dialog.Dispose();
             }
 
@@ -185,19 +185,19 @@ public sealed class FileDialogSortTests
     {
         var dialog = new FileDialogWindow(null);
         dialog.Mode = 0;
-        dialog.FileLB = new ListBox(null);
-        dialog.SaveLB = new ListBox(null);
-        dialog.DateLB = new ListBox(null);
+        dialog.FileList = new ListBox(null);
+        dialog.SaveList = new ListBox(null);
+        dialog.DateList = new ListBox(null);
         dialog.PathEdit = new Edit(null);
-        dialog.SFileName = new Edit(null);
-        dialog.FileName = new Edit(null);
-        dialog.SPlayers = new Label(null);
-        dialog.SSize = new Label(null);
-        dialog.STowns = new Label(null);
-        dialog.LPlayers = new Label(null);
-        dialog.LSize = new Label(null);
-        dialog.LTowns = new Label(null);
-        dialog.LTurns = new Label(null);
+        dialog.SaveFileNameEdit = new Edit(null);
+        dialog.FileNameEdit = new Edit(null);
+        dialog.ScenarioPlayersLabel = new Label(null);
+        dialog.ScenarioSizeLabel = new Label(null);
+        dialog.ScenarioTownsLabel = new Label(null);
+        dialog.SavedPlayersLabel = new Label(null);
+        dialog.SavedSizeLabel = new Label(null);
+        dialog.SavedTownsLabel = new Label(null);
+        dialog.SavedTurnsLabel = new Label(null);
         return dialog;
     }
 }

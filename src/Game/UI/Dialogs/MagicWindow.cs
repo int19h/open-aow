@@ -26,28 +26,28 @@ public partial class MagicWindow : DataModule
     public MagicWindow(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Label ResearchPoints;
+    public Window Window;
+    public Label ResearchPointsLabel;
     public ListBox EnchantmentList;
     public ListBox UpkeepList;
     public ListBox BindingList;
-    public Label NetMana;
+    public Label NetManaLabel;
     public ListBox GlobalEnchantmentList;
     public ListBox GlobalUpkeepList;
     public ListBox GlobalNameList;
-    public Label SpellName;
-    public Button GlobalDispelBtn;
-    public Button DispelBtn;
-    public Label ResearchTurnsLeft;
-    public Label SpellClass;
-    public Panel SpellPnl;
-    public Label SpellCost;
-    public Label Power;
+    public Label SpellNameLabel;
+    public Button GlobalDispelButton;
+    public Button DispelButton;
+    public Label ResearchTurnsLeftLabel;
+    public Label SpellClassLabel;
+    public Panel SpellPanel;
+    public Label SpellCostLabel;
+    public Label PowerLabel;
     public ListBox PowerValueList;
     public ListBox PowerSourceList;
-    public VerticalScrollBar EnchantmentSB;
-    public VerticalScrollBar GlobalEnchantmentSB;
-    public VerticalScrollBar PowerSB;
+    public VerticalScrollBar EnchantmentScrollBar;
+    public VerticalScrollBar GlobalEnchantmentScrollBar;
+    public VerticalScrollBar PowerScrollBar;
     private int _enchantmentSort;
     private int _globalEnchantmentSort;
     private int _powerSort;
@@ -63,7 +63,7 @@ public partial class MagicWindow : DataModule
         EnchantmentList.Selected = index;
         BindingList.Selected = index;
         UpkeepList.Selected = index;
-        DispelBtn.Visible = index != -1;
+        DispelButton.Visible = index != -1;
     }
 
     // AoWMagic.pas:142
@@ -83,11 +83,11 @@ public partial class MagicWindow : DataModule
         {
             enchantment = (GlobalEnchantment)GlobalEnchantmentList.Items.Objects[index];
             var canRemove = enchantment.CanRemove(AoWHSMap.Current.SeatedPlayer, ref reason);
-            GlobalDispelBtn.Visible = canRemove;
+            GlobalDispelButton.Visible = canRemove;
         }
         else
         {
-            GlobalDispelBtn.Visible = false;
+            GlobalDispelButton.Visible = false;
         }
     }
 
@@ -366,24 +366,24 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:331
     public void PowerSBChange()
     {
-        PowerSourceList.ListOffset = PowerSB.Position;
-        PowerValueList.ListOffset = PowerSB.Position;
+        PowerSourceList.ListOffset = PowerScrollBar.Position;
+        PowerValueList.ListOffset = PowerScrollBar.Position;
     }
 
     // AoWMagic.pas:338
     public void GlobalEnchantmentSBChange()
     {
-        GlobalEnchantmentList.ListOffset = GlobalEnchantmentSB.Position;
-        GlobalNameList.ListOffset = GlobalEnchantmentSB.Position;
-        GlobalUpkeepList.ListOffset = GlobalEnchantmentSB.Position;
+        GlobalEnchantmentList.ListOffset = GlobalEnchantmentScrollBar.Position;
+        GlobalNameList.ListOffset = GlobalEnchantmentScrollBar.Position;
+        GlobalUpkeepList.ListOffset = GlobalEnchantmentScrollBar.Position;
     }
 
     // AoWMagic.pas:346
     public void EnchantmentSBChange()
     {
-        EnchantmentList.ListOffset = EnchantmentSB.Position;
-        BindingList.ListOffset = EnchantmentSB.Position;
-        UpkeepList.ListOffset = EnchantmentSB.Position;
+        EnchantmentList.ListOffset = EnchantmentScrollBar.Position;
+        BindingList.ListOffset = EnchantmentScrollBar.Position;
+        UpkeepList.ListOffset = EnchantmentScrollBar.Position;
     }
 
     // AoWMagic.pas:354
@@ -525,22 +525,22 @@ public partial class MagicWindow : DataModule
     // AoWMagic.pas:434
     public void DlgResize()
     {
-        this.Dlg.Alignment.AlignWidth = AlignWidth.Left;
-        this.Dlg.Alignment.AlignHeight = AlignHeight.Top;
-        this.Dlg.Alignment.LeftOffset = this.Dlg.WinLeft;
-        this.Dlg.Alignment.TopOffset = this.Dlg.WinTop;
+        this.Window.Alignment.AlignWidth = AlignWidth.Left;
+        this.Window.Alignment.AlignHeight = AlignHeight.Top;
+        this.Window.Alignment.LeftOffset = this.Window.WinLeft;
+        this.Window.Alignment.TopOffset = this.Window.WinTop;
     }
 
     // AoWMagic.pas:447
     public void DlgShow()
     {
-        DialogHosts.General.RegisterDialog(Dlg);
+        DialogHosts.General.RegisterDialog(Window);
     }
 
     // AoWMagic.pas:453
     public void DlgHide()
     {
-        DialogHosts.General.UnregisterDialog(Dlg);
+        DialogHosts.General.UnregisterDialog(Window);
     }
 
     // AoWMagic.pas:459
@@ -577,20 +577,20 @@ public partial class MagicWindow : DataModule
 
     internal static void ShowMagic(MagicWindow window)
     {
-        if (!window.Dlg.Visible)
+        if (!window.Window.Visible)
         {
             RefreshMagicWindow(window);
             RefreshGlobalMagic(window);
         }
 
-        window.Dlg.Visible = true;
+        window.Window.Visible = true;
     }
 
     internal static void HideMagic(MagicWindow window)
     {
-        if (window.Dlg.Visible)
+        if (window.Window.Visible)
         {
-            window.Dlg.Visible = false;
+            window.Window.Visible = false;
         }
     }
 
@@ -631,48 +631,48 @@ public partial class MagicWindow : DataModule
             }
 
             var controlPower = control.GetPower();
-            window.Power.Text = IntToStr(controlPower);
+            window.PowerLabel.Text = IntToStr(controlPower);
             var manaIncome = control.GetManaIncome();
             var manaUpkeep = control.GetManaUpkeep();
             var controlManaIncome = control.GetManaIncome();
             var controlManaUpkeep = control.GetManaUpkeep();
-            window.NetMana.Text = IntToStr(manaIncome) + "-" + IntToStr(manaUpkeep) + "=" + IntToStr(controlManaIncome - controlManaUpkeep);
+            window.NetManaLabel.Text = IntToStr(manaIncome) + "-" + IntToStr(manaUpkeep) + "=" + IntToStr(controlManaIncome - controlManaUpkeep);
             var netPowerToResearch = control.GetNetPowerToResearch();
-            window.ResearchPoints.Text = IntToStr(netPowerToResearch);
+            window.ResearchPointsLabel.Text = IntToStr(netPowerToResearch);
             if (control.ResearchSpellId != 0)
             {
                 spell = AoWHSSet.Current.SpellControl.GetSpell(control.ResearchSpellId);
-                window.SpellName.Text = spell.SpellName;
+                window.SpellNameLabel.Text = spell.SpellName;
                 var magicSphere = AbilityRules.TranslateResourceString(GameTables.s_magicSphereTexts[(int)spell.MagicSphere]);
                 var level = AbilityRules.TranslateResourceString(GameText.LevelText);
-                window.SpellClass.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
+                window.SpellClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
                 var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
                 var mana = AbilityRules.TranslateResourceString(GameText.ManaText);
-                window.SpellCost.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
+                window.SpellCostLabel.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
                 turns = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.GetResearchTurnsLeft();
                 if (turns < 999)
                 {
                     var formatTurnsLeftString = DurationText.FormatTurnsLeftString(turns);
-                    window.ResearchTurnsLeft.Text = formatTurnsLeftString;
+                    window.ResearchTurnsLeftLabel.Text = formatTurnsLeftString;
                 }
                 else
                 {
                     var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.TurnsFormat), [(byte)63]);
-                    window.ResearchTurnsLeft.Text = format;
+                    window.ResearchTurnsLeftLabel.Text = format;
                 }
 
-                window.SpellPnl.Visible = true;
+                window.SpellPanel.Visible = true;
             }
             else
             {
-                window.SpellPnl.Visible = false;
+                window.SpellPanel.Visible = false;
             }
 
             window.SortEnchantments();
             window.SelectEnchantment(window.EnchantmentList.Selected);
         }
 
-        window.Dlg.Drawn = false;
+        window.Window.Drawn = false;
     }
 
     internal static void RefreshGlobalMagic(MagicWindow window)
@@ -699,7 +699,7 @@ public partial class MagicWindow : DataModule
 
         window.SortGlobalEnchantments();
         window.SelectGlobalEnchantment(window.GlobalEnchantmentList.Selected);
-        window.Dlg.Drawn = false;
+        window.Window.Drawn = false;
     }
 
     internal static void ShowMagicEvent(MagicWindow window, PlayerMagicEventLog eventValue, ExecuteDoneEvent done)

@@ -10,8 +10,8 @@ public partial class ProgressDialog : DataModule
     public ProgressDialog(Component owner) : base(owner)
     { }
 
-    public Label Title;
-    public Label StatusLbl;
-    public Window ProgDlg;
-    public Gauge Bar;
+    public Label TitleLabel;
+    public Label StatusLabel;
+    public Window Window;
+    public Gauge ProgressBar;
 }

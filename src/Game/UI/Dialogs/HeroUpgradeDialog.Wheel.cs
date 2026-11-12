@@ -5,7 +5,7 @@ public partial class HeroUpgradeDialog
     public override void Loaded()
     {
         base.Loaded();
-        if (SelectedAbilities != null) SelectedAbilities.WheelScrollBar = SelectedAbilitiesSB;
-        if (AvailableAbilities != null) AvailableAbilities.WheelScrollBar = AvailableAbilitiesSB;
+        if (SelectedAbilitiesList != null) SelectedAbilitiesList.WheelScrollBar = SelectedAbilitiesScrollBar;
+        if (AvailableAbilitiesList != null) AvailableAbilitiesList.WheelScrollBar = AvailableAbilitiesScrollBar;
     }
 }

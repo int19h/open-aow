@@ -13,15 +13,15 @@ public partial class ConfirmationDialog : DataModule
     public ConfirmationDialog(Component owner) : base(owner)
     { }
 
-    public Window Dialog;
-    public Label DTitle;
-    public Label DMessage;
-    public Window DebugWin;
-    public Label FrameLbl;
+    public Window Window;
+    public Label TitleLabel;
+    public Label MessageLabel;
+    public Window DebugWindow;
+    public Label FrameRateLabel;
     public Memo DebugMemo;
-    public VerticalScrollBar DMemoScroll;
-    public Panel okPnl;
-    public Panel yesPnl;
+    public VerticalScrollBar DebugMemoScrollBar;
+    public Panel OKPanel;
+    public Panel YesNoPanel;
     private byte _action;
 
     public bool SkipCombatChoice { get; }
@@ -30,11 +30,11 @@ public partial class ConfirmationDialog : DataModule
     public void Confirm(string title, string text, byte action)
     {
         _action = action;
-        DTitle.Text = title;
-        DMessage.Text = text;
-        yesPnl.Visible = true;
-        okPnl.Visible = false;
-        Dialog.Visible = true;
+        TitleLabel.Text = title;
+        MessageLabel.Text = text;
+        YesNoPanel.Visible = true;
+        OKPanel.Visible = false;
+        Window.Visible = true;
     }
 
     // AOWDialogWin.pas:113
@@ -47,21 +47,21 @@ public partial class ConfirmationDialog : DataModule
         }
 
         DebugMemo.Sized = false;
-        DMemoScroll.Position = DMemoScroll.Max;
+        DebugMemoScrollBar.Position = DebugMemoScrollBar.Max;
     }
 
     // AOWDialogWin.pas:60
     public void DButtonClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dialog.Visible = false;
+        Window.Visible = false;
     }
 
     // AOWDialogWin.pas:67
     public void DebugDOkBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        DebugWin.Visible = false;
+        DebugWindow.Visible = false;
     }
 
     // AOWDialogWin.pas:73
@@ -98,7 +98,7 @@ public partial class ConfirmationDialog : DataModule
                 AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Surrender();
                 break;
             case 5:
-                DialogHosts.WorldMap.WorldPnl.Visible = false;
+                DialogHosts.WorldMap.WorldPanel.Visible = false;
                 DialogHosts.General.ReturnToTitle();
                 break;
             case 6:
@@ -115,7 +115,7 @@ public partial class ConfirmationDialog : DataModule
                     {
                         if (DialogHosts.General.SelectedUnit.Disband())
                         {
-                            DialogHosts.UnitWindow.UnitWin.Visible = false;
+                            DialogHosts.UnitWindow.MainWindow.Visible = false;
                         }
                     }
                     else
@@ -127,7 +127,7 @@ public partial class ConfirmationDialog : DataModule
                 break;
         }
 
-        Dialog.Visible = false;
+        Window.Visible = false;
     }
 
     // AOWDialogWin.pas:104
@@ -139,7 +139,7 @@ public partial class ConfirmationDialog : DataModule
                 DButtonClick();
                 break;
             case 13:
-                if (yesPnl.Visible)
+                if (YesNoPanel.Visible)
                 {
                     yesBtnClick();
                 }
@@ -155,11 +155,11 @@ public partial class ConfirmationDialog : DataModule
     internal static void ConfirmDialog(ConfirmationDialog dialog, string title, string message, byte kind)
     {
         dialog._action = kind;
-        dialog.DTitle.Text = title;
-        dialog.DMessage.Text = message;
-        dialog.yesPnl.Visible = true;
-        dialog.okPnl.Visible = false;
-        dialog.Dialog.Visible = true;
+        dialog.TitleLabel.Text = title;
+        dialog.MessageLabel.Text = message;
+        dialog.YesNoPanel.Visible = true;
+        dialog.OKPanel.Visible = false;
+        dialog.Window.Visible = true;
     }
 
 }

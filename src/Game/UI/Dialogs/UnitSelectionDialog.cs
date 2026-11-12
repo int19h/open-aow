@@ -18,21 +18,21 @@ public partial class UnitSelectionDialog : DataModule
     public UnitSelectionDialog(Component owner) : base(owner)
     { }
 
-    public Window Dlg;
-    public Panel UnitPnl;
-    public Panel SourcePnl;
-    public Label SourceNameLbl;
-    public CheckBox U1;
-    public CheckBox U2;
-    public CheckBox U3;
-    public CheckBox U4;
-    public CheckBox U5;
-    public CheckBox U6;
-    public CheckBox U7;
-    public CheckBox U8;
+    public Window Window;
+    public Panel UnitPanel;
+    public Panel SourcePanel;
+    public Label SourceNameLabel;
+    public CheckBox Unit1CheckBox;
+    public CheckBox Unit2CheckBox;
+    public CheckBox Unit3CheckBox;
+    public CheckBox Unit4CheckBox;
+    public CheckBox Unit5CheckBox;
+    public CheckBox Unit6CheckBox;
+    public CheckBox Unit7CheckBox;
+    public CheckBox Unit8CheckBox;
     public Image SourceFace;
-    public Label SelectionInfoLbl;
-    public Label SelectionLbl;
+    public Label SelectionInfoLabel;
+    public Label SelectionLabel;
 
     public UnitSelector Event { get; set; }
 
@@ -51,10 +51,10 @@ public partial class UnitSelectionDialog : DataModule
             var rectangle = new Rect(X + 5, Y + 4, X + 46, Y + 56);
             lockedSurface.ClipRectangle = rectangle;
             alignment = Event.Units.GetUnit(index).GetAlignment();
-            if ((int)alignment < DialogHosts.UIGraphics.UnitBGs.Count)
+            if ((int)alignment < DialogHosts.UIGraphics.UnitBackgrounds.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
-                image = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
+                image = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
             }
 
@@ -64,7 +64,7 @@ public partial class UnitSelectionDialog : DataModule
             Event.Units.GetUnit(index).Show(X - 8, Y - 5, lockedSurface, info);
             if ((((int)(((uint)Event.Selectable) >> index)) & 1) == 0)
             {
-                image = DialogHosts.UIGraphics.UnitBGs[7];
+                image = DialogHosts.UIGraphics.UnitBackgrounds[7];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
             }
 
@@ -87,15 +87,15 @@ public partial class UnitSelectionDialog : DataModule
             _eventLog = null;
         }
 
-        U1.Checked = false;
-        U2.Checked = false;
-        U3.Checked = false;
-        U4.Checked = false;
-        U5.Checked = false;
-        U6.Checked = false;
-        U7.Checked = false;
-        U8.Checked = false;
-        SelectionInfoLbl.Text = "";
+        Unit1CheckBox.Checked = false;
+        Unit2CheckBox.Checked = false;
+        Unit3CheckBox.Checked = false;
+        Unit4CheckBox.Checked = false;
+        Unit5CheckBox.Checked = false;
+        Unit6CheckBox.Checked = false;
+        Unit7CheckBox.Checked = false;
+        Unit8CheckBox.Checked = false;
+        SelectionInfoLabel.Text = "";
     }
 
     // AoWUnitSelDlg.pas:186
@@ -110,17 +110,17 @@ public partial class UnitSelectionDialog : DataModule
         U = AoWHSMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
         if (U != null)
         {
-            SourcePnl.Visible = true;
+            SourcePanel.Visible = true;
             var name = U.GetName();
-            SourceNameLbl.Text = name;
+            SourceNameLabel.Text = name;
         }
         else
         {
-            SourcePnl.Visible = false;
+            SourcePanel.Visible = false;
         }
 
-        SelectionLbl.Text = Event.Caption;
-        Dlg.Visible = true;
+        SelectionLabel.Text = Event.Caption;
+        Window.Visible = true;
     }
 
     // AoWUnitSelDlg.pas:95
@@ -143,7 +143,7 @@ public partial class UnitSelectionDialog : DataModule
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        Dlg.Visible = false;
+        Window.Visible = false;
     }
 
     // AoWUnitSelDlg.pas:107
@@ -154,7 +154,7 @@ public partial class UnitSelectionDialog : DataModule
         if (Event.CanSelect(ref reason))
         {
             Event.Select();
-            Dlg.Visible = false;
+            Window.Visible = false;
         }
         else
         {
@@ -182,14 +182,14 @@ public partial class UnitSelectionDialog : DataModule
             Event.SetSelection((byte)(Event.Selection & ~(1 << slot)));
         }
 
-        U1.Checked = (Event.Selection & 1) != 0;
-        U2.Checked = (Event.Selection & 2) != 0;
-        U3.Checked = (Event.Selection & 4) != 0;
-        U4.Checked = (Event.Selection & 8) != 0;
-        U5.Checked = (Event.Selection & 16) != 0;
-        U6.Checked = (Event.Selection & 32) != 0;
-        U7.Checked = (Event.Selection & 64) != 0;
-        U8.Checked = (Event.Selection & 128) != 0;
+        Unit1CheckBox.Checked = (Event.Selection & 1) != 0;
+        Unit2CheckBox.Checked = (Event.Selection & 2) != 0;
+        Unit3CheckBox.Checked = (Event.Selection & 4) != 0;
+        Unit4CheckBox.Checked = (Event.Selection & 8) != 0;
+        Unit5CheckBox.Checked = (Event.Selection & 16) != 0;
+        Unit6CheckBox.Checked = (Event.Selection & 32) != 0;
+        Unit7CheckBox.Checked = (Event.Selection & 64) != 0;
+        Unit8CheckBox.Checked = (Event.Selection & 128) != 0;
         if ((Event.Selectable & (1 << slot)) != 0)
         {
             if (sender.Checked)
@@ -206,23 +206,23 @@ public partial class UnitSelectionDialog : DataModule
         {
             if (Event.CanSelect(ref reason))
             {
-                SelectionInfoLbl.TextColor = 0;
+                SelectionInfoLabel.TextColor = 0;
             }
             else
             {
-                SelectionInfoLbl.TextColor = 149;
+                SelectionInfoLabel.TextColor = 149;
             }
         }
         else
         {
-            SelectionInfoLbl.Text = "";
+            SelectionInfoLabel.Text = "";
         }
     }
 
     // AoWUnitSelDlg.pas:146
     public void U1PreDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        DrawUnit(slot, UnitPnl.WinLeft + sender.WinLeft, UnitPnl.WinTop + sender.WinTop, ref lockedSurface);
+        DrawUnit(slot, UnitPanel.WinLeft + sender.WinLeft, UnitPanel.WinTop + sender.WinTop, ref lockedSurface);
     }
 
     // AoWUnitSelDlg.pas:151
@@ -235,9 +235,9 @@ public partial class UnitSelectionDialog : DataModule
             U = AoWHSMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
             if (U != null)
             {
-                R.Left = this.SourceFace.WinLeft + SourcePnl.WinLeft;
+                R.Left = this.SourceFace.WinLeft + SourcePanel.WinLeft;
                 R.Right = this.SourceFace.WinWidth + R.Left;
-                R.Top = this.SourceFace.WinTop + SourcePnl.WinTop;
+                R.Top = this.SourceFace.WinTop + SourcePanel.WinTop;
                 R.Bottom = this.SourceFace.WinHeight + R.Top;
 
                 if (U.GetFace() != null)

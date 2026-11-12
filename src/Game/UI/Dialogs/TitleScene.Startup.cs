@@ -20,7 +20,7 @@ public partial class TitleScene
             player.Play(0);
         }
         DialogHosts.General.Manager.OverlayPriority = 0;
-        TitleSceneIL.LoadDiscardableImageData();
+        TitleSceneImages.LoadDiscardableImageData();
         DialogHosts.VideoDialog.SetSceneSize(640, 480);
         VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
         DialogHosts.VideoDialog.ApplyMode();
@@ -28,7 +28,7 @@ public partial class TitleScene
         GameHost.MainForm.DisplayController.UseVerticalBlank = true;
         _redrawBackground = true;
         _pressedButton = _hoverButton = -1;
-        _font = _creditsFont = DialogHosts.UIFonts.Font15WhiteGrey;
+        _font = _creditsFont = DialogHosts.UIFonts.Age15WhiteOnGrey;
         Window.WindowManager.ImageLibraryIndexTBack = 4;
         Window.Visible = true;
     }
@@ -39,7 +39,7 @@ public partial class TitleScene
         GameHost.MainForm?.Display.SetFrameRate(30);
         if (GameHost.MainForm is { } form) form.DisplayController.UseVerticalBlank = false;
         Window.Visible = false;
-        TitleSceneIL.ReleaseDiscardableImageData();
+        TitleSceneImages.ReleaseDiscardableImageData();
     }
 
     public void WindowMouseUp(MouseButton button, Set<ShiftState> shift, int x, int y)
@@ -78,7 +78,7 @@ public partial class TitleScene
                 case 3:
                     DialogHosts.General.PlayButtonSound(0);
                     DialogHosts.FileDialogWindow.Mode = 0;
-                    DialogHosts.FileDialogWindow.FileDialog.Visible = true;
+                    DialogHosts.FileDialogWindow.Window.Visible = true;
                     break;
                 case 4:
                     Window.Visible = false;

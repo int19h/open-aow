@@ -5,7 +5,7 @@ public partial class LeaderSetupWindow
     public override void Loaded()
     {
         base.Loaded();
-        if (SelectedAbilities != null) SelectedAbilities.WheelScrollBar = SelectedAbilitiesLB;
-        if (AvailableAbilities != null) AvailableAbilities.WheelScrollBar = AvailableAbilitiesLB;
+        if (SelectedAbilitiesList != null) SelectedAbilitiesList.WheelScrollBar = SelectedAbilitiesScrollBar;
+        if (AvailableAbilitiesList != null) AvailableAbilitiesList.WheelScrollBar = AvailableAbilitiesScrollBar;
     }
 }

@@ -17,14 +17,14 @@ public partial class NewTurnDialog : DataModule
     public NewTurnDialog(Component owner) : base(owner)
     { }
 
-    public Window NewTDlg;
-    public Label ClickMsg;
-    public Image LShield;
-    public Label PlayerName;
-    public Label TurnMsg;
-    public Label PlayerRace;
-    public Label Turn;
-    public Image RShield;
+    public Window Window;
+    public Label ClickMessageLabel;
+    public Image LeftShield;
+    public Label PlayerNameLabel;
+    public Label TurnMessageLabel;
+    public Label PlayerRaceLabel;
+    public Label TurnLabel;
+    public Image RightShield;
     private ExecuteDoneEvent _done;
     private NewTurnEventLog _newTurn;
 
@@ -75,18 +75,18 @@ public partial class NewTurnDialog : DataModule
                 _done = done;
                 _newTurn = eventValue;
                 _newTurn.AddRef();
-                TurnMsg.Text = eventValue.Text;
+                TurnMessageLabel.Text = eventValue.Text;
                 var name = AoWHSMap.Current.Players.GetPlayers(eventValue.TurnPlayer).GetName();
-                PlayerName.Text = name;
+                PlayerNameLabel.Text = name;
                 if (eventValue.TurnPlayer != 0)
                 {
                     var player = AoWHSMap.Current.Players.GetPlayers(eventValue.TurnPlayer);
                     var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
-                    PlayerRace.Text = raceNamesPlural;
+                    PlayerRaceLabel.Text = raceNamesPlural;
                 }
                 else
                 {
-                    PlayerRace.Text = "";
+                    PlayerRaceLabel.Text = "";
                 }
 
                 if (AoWHSMap.Current.Day > 0)
@@ -99,31 +99,31 @@ public partial class NewTurnDialog : DataModule
                 }
 
                 var day = AbilityRules.TranslateResourceString(GameText.DayText);
-                Turn.Text = day + " " + IntToStr(Day);
+                TurnLabel.Text = day + " " + IntToStr(Day);
                 race = AoWHSMap.Current.Players.GetPlayers(eventValue.TurnPlayer).PlayerRace;
                 if (race == -1)
                 {
                     race = 12;
                 }
 
-                LShield.CurrentImage = race + 26;
-                RShield.CurrentImage = race + 26;
-                NewTDlg.Drawn = false;
-                NewTDlg.Visible = true;
+                LeftShield.CurrentImage = race + 26;
+                RightShield.CurrentImage = race + 26;
+                Window.Drawn = false;
+                Window.Visible = true;
                 if (_newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
                 {
                     var clickToBegin = AbilityRules.TranslateResourceString(s_clickToBeginText);
-                    ClickMsg.Text = clickToBegin;
+                    ClickMessageLabel.Text = clickToBegin;
                 }
                 else
                 {
                     var hiddenMovementPleaseWait = AbilityRules.TranslateResourceString(s_hiddenMovementPleaseWaitText);
-                    ClickMsg.Text = hiddenMovementPleaseWait;
+                    ClickMessageLabel.Text = hiddenMovementPleaseWait;
                 }
 
                 break;
             case NewTurnEventLogMode.Close:
-                NewTDlg.Visible = false;
+                Window.Visible = false;
                 break;
         }
     }
@@ -133,7 +133,7 @@ public partial class NewTurnDialog : DataModule
     {
         if (CombatMap.Current == null && _newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
         {
-            NewTDlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -142,7 +142,7 @@ public partial class NewTurnDialog : DataModule
     {
         if (_newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable) && (key == 32 || key == 13 || key == 27))
         {
-            NewTDlg.Visible = false;
+            Window.Visible = false;
         }
     }
 
@@ -154,7 +154,7 @@ public partial class NewTurnDialog : DataModule
         {
             if (AoWHSMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader != null)
             {
-                R = new Rect(NewTDlg.WinLeft + 188, NewTDlg.WinTop + 40, NewTDlg.WinLeft + 188 + 103, NewTDlg.WinTop + 40 + 128);
+                R = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
                 AoWHSMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader.ShowFace(R, surface);
             }
         }
@@ -162,7 +162,7 @@ public partial class NewTurnDialog : DataModule
         {
             if (AoWHSMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader != null)
             {
-                R = new Rect(NewTDlg.WinLeft + 188, NewTDlg.WinTop + 40, NewTDlg.WinLeft + 188 + 103, NewTDlg.WinTop + 40 + 128);
+                R = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
                 AoWHSMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader.ShowFace(R, surface);
             }
         }
