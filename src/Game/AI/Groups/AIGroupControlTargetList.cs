@@ -12,7 +12,7 @@ public partial class AIGroupControlTargetList : EReferenceNode, IChildList<AIGro
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroupControlTarget, so the cast never fails.
-    public AIGroupControlTarget this[int index] => (AIGroupControlTarget)_children.List[index];
+    public AIGroupControlTarget this[int index] => (AIGroupControlTarget)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroupControlTarget;
 
@@ -26,20 +26,20 @@ public partial class AIGroupControlTargetList : EReferenceNode, IChildList<AIGro
     // AIGroup.pas:684
     public AIGroupControlTarget GetTargets(int index)
     {
-        Assert(index >= 0 && index < _children.Count, "", "AIGroup.pas", 687);
+        Assert(index >= 0 && index < Count, "", "AIGroup.pas", 687);
         return this[index];
     }
 
     // AIGroup.pas:696
     public void SortOnPriority()
     {
-        _children.Sort(CompareAIGroupTargetPriority);
+        SortChildren(CompareAIGroupTargetPriority);
     }
 
     // AIGroup.pas:706
     public void SortOnDataB()
     {
-        _children.Sort(CompareAIGroupTargetDataB);
+        SortChildren(CompareAIGroupTargetDataB);
     }
 
     // AIGroup.pas:711

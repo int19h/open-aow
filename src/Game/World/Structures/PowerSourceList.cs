@@ -7,7 +7,7 @@ public partial class PowerSourceList : ENode, IChildList<PowerSource>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a PowerSource, so the cast never fails.
-    public PowerSource this[int index] => (PowerSource)_children.List[index];
+    public PowerSource this[int index] => (PowerSource)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is PowerSource;
 

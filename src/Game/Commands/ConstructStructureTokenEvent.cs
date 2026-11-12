@@ -76,7 +76,7 @@ public partial class ConstructStructureTokenEvent : TokenEvent
                 }
 
                 bool locked = troop.Owner is not HeroList;
-                owner = locked ? (EChangeNotifyNode)troop.Owner : null;
+                owner = locked ? troop.UnitListOwner : null;
                 if (locked)
                 {
                     owner.BeginUpdate();

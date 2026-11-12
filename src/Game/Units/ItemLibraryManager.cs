@@ -60,7 +60,7 @@ public partial class ItemLibraryManager : EngineObject
     }
 
     // Army.PAS:5002
-    public ItemLibrary GetLibrary(int index) => (ItemLibrary)Libraries._children.EObjects[index];
+    public ItemLibrary GetLibrary(int index) => (ItemLibrary)Libraries.GetChildInRange(index);
 
     // Army.PAS:5007
     public int GetCount() => Libraries.Count;
@@ -107,7 +107,7 @@ public partial class ItemLibraryManager : EngineObject
         while (result != 0)
         {
             result -= 1;
-            if (CompareText(name, ((ItemLibrary)Libraries._children.List[result]).Name) == 0)
+            if (CompareText(name, ((ItemLibrary)Libraries.GetChild(result)).Name) == 0)
             {
                 return result;
             }
@@ -117,7 +117,7 @@ public partial class ItemLibraryManager : EngineObject
     }
 
     // Army.PAS:5054
-    public int IndexOfLibrary(ItemLibrary itemLibrary) => Libraries._children.IndexOf(itemLibrary);
+    public int IndexOfLibrary(ItemLibrary itemLibrary) => Libraries.IndexOfChild(itemLibrary);
 
     // Army.PAS:5059
     public Item FindItem(string libraryName, int libraryId)
@@ -127,7 +127,7 @@ public partial class ItemLibraryManager : EngineObject
         index = IndexOfLibraryName(libraryName);
         if (index != -1)
         {
-            result = ((ItemLibrary)Libraries._children.List[index]).FindLibraryId(libraryId);
+            result = ((ItemLibrary)Libraries.GetChild(index)).FindLibraryId(libraryId);
         }
         else
         {

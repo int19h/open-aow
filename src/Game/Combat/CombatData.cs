@@ -84,17 +84,17 @@ public partial class CombatData : EngineObject
     }
 
     // Combat2.pas:231
-    public int GetCount() => CombatObjects._children.Count;
+    public int GetCount() => CombatObjects.Count;
 
     // Combat2.pas:234
-    public CombatObject GetObjects(int index) => (CombatObject)CombatObjects._children.List[index];
+    public CombatObject GetObjects(int index) => (CombatObject)CombatObjects.GetChild(index);
 
     // Combat2.pas:246
     public int IndexOfId(int id)
     {
         for (int result = CombatObjects.Count - 1; result >= 0; result--)
         {
-            if (((CombatObject)CombatObjects._children.List[result]).Id == id)
+            if (((CombatObject)CombatObjects.GetChild(result)).Id == id)
             {
                 return result;
             }
@@ -107,13 +107,13 @@ public partial class CombatData : EngineObject
     public CombatObject FindId(int id)
     {
         int I;
-        I = CombatObjects._children.Count;
+        I = CombatObjects.Count;
         while (I != 0)
         {
             I -= 1;
-            if (((CombatObject)CombatObjects._children.List[I]).Id == id)
+            if (((CombatObject)CombatObjects.GetChild(I)).Id == id)
             {
-                return (CombatObject)CombatObjects._children.List[I];
+                return (CombatObject)CombatObjects.GetChild(I);
             }
         }
 
@@ -125,13 +125,13 @@ public partial class CombatData : EngineObject
     {
         int I;
         CombatObject result = null;
-        I = CombatObjects._children.Count;
+        I = CombatObjects.Count;
         while (I != 0 && result == null)
         {
             I -= 1;
-            if (position == ((CombatObject)CombatObjects._children.List[I]).Position)
+            if (position == ((CombatObject)CombatObjects.GetChild(I)).Position)
             {
-                result = (CombatObject)CombatObjects._children.List[I];
+                result = (CombatObject)CombatObjects.GetChild(I);
             }
         }
 

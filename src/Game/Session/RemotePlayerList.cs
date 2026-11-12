@@ -7,7 +7,7 @@ public partial class RemotePlayerList : ENode, IChildList<RemotePlayer>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a RemotePlayer, so the cast never fails.
-    public RemotePlayer this[int index] => (RemotePlayer)_children.List[index];
+    public RemotePlayer this[int index] => (RemotePlayer)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is RemotePlayer;
 
@@ -25,7 +25,7 @@ public partial class RemotePlayerList : ENode, IChildList<RemotePlayer>
         int I;
         int result = -1;
         I = 0;
-        while (result == -1 && I != _children.Count)
+        while (result == -1 && I != Count)
         {
             if (this[I].RemoteId == remoteId)
             {

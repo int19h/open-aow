@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 
 using Aow.Engine.Buffers;
+using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
 
@@ -140,7 +141,7 @@ public partial class GroupDefenseSelector : IDisposable
                     GetDefenders(group.Player, (sbyte)walk.X, (sbyte)walk.Y, L, candidates);
                     s_defenseSortGroupId = group.GroupId;
                     s_defenseSortUnits = units;
-                    candidates._children.Sort(CompareDefenseUnits);
+                    candidates.SortChildren(CompareDefenseUnits);
                     I = 0;
                     while (candidates.Count != I && candidates.GetUnit(I).GroupId != group.GroupId)
                     {
@@ -173,7 +174,7 @@ public partial class GroupDefenseSelector : IDisposable
                     while (!EnoughStrength(ref strengths.DamageStrengths) && candidates.Count > I && candidates.GetUnit(I).GroupId == group.GroupId)
                     {
                         troop = candidates.GetUnit(I);
-                        if (Defenders._children.IndexOf(troop) == -1 && UsefulUnit(troop, ref strengths.DamageStrengths))
+                        if (Defenders.IndexOfChild(troop) == -1 && UsefulUnit(troop, ref strengths.DamageStrengths))
                         {
                             Defenders.AddUnit(troop);
                             for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
@@ -219,7 +220,7 @@ public partial class GroupDefenseSelector : IDisposable
     private static int s_defenseSortGroupId;
     private static UnitList s_defenseSortUnits;
 
-    private static int CompareDefenseUnits(object item1, object item2)
+    private static int CompareDefenseUnits(EngineObject item1, EngineObject item2)
     {
         int number = ((Troop)item1).Group.RecruitmentPriority - ((Troop)item2).Group.RecruitmentPriority;
         if (number == 0)
@@ -229,8 +230,8 @@ public partial class GroupDefenseSelector : IDisposable
             {
                 if (s_defenseSortUnits != null)
                 {
-                    bool flag = ((DelphiList)s_defenseSortUnits._children).IndexOf(item1) != -1;
-                    bool flag2 = ((DelphiList)s_defenseSortUnits._children).IndexOf(item2) != -1;
+                    bool flag = s_defenseSortUnits.IndexOfChild(item1) != -1;
+                    bool flag2 = s_defenseSortUnits.IndexOfChild(item2) != -1;
                     if (flag && !flag2)
                     {
                         number = 1;

@@ -479,8 +479,8 @@
               "$type": "Aow.Game.Session.SetupSettings",
               "ENode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.SetupControl.Settings.SetupSettings.RemotePlayers.ENode._children.DelphiList.items"
+                "DelphiList`1.count": 0,
+                "DelphiList`1.items": "$ref:$.SetupControl.Settings.SetupSettings.RemotePlayers.ENode._children.DelphiList`1.items"
               },
               "EngineObject._owner": null,
               "SetupSettings.AlliedVictory": false,
@@ -503,8 +503,8 @@
                 "$type": "Aow.Game.Session.RemotePlayerList",
                 "ENode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
-                  "DelphiList.count": 0,
-                  "DelphiList.items": []
+                  "DelphiList`1.count": 0,
+                  "DelphiList`1.items": []
                 },
                 "EngineObject._owner": null
               },
@@ -597,8 +597,8 @@
               "$type": "Aow.Game.Session.SetupSettings",
               "ENode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.SetupControl.Settings.SetupSettings.RemotePlayers.ENode._children.DelphiList.items"
+                "DelphiList`1.count": 0,
+                "DelphiList`1.items": "$ref:$.SetupControl.Settings.SetupSettings.RemotePlayers.ENode._children.DelphiList`1.items"
               },
               "EngineObject._owner": null,
               "SetupSettings.AlliedVictory": false,
@@ -621,8 +621,8 @@
                 "$type": "Aow.Game.Session.RemotePlayerList",
                 "ENode._children": {
                   "$type": "Aow.Engine.Nodes.EngineObjectList",
-                  "DelphiList.count": 0,
-                  "DelphiList.items": []
+                  "DelphiList`1.count": 0,
+                  "DelphiList`1.items": []
                 },
                 "EngineObject._owner": null
               },

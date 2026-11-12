@@ -8,7 +8,7 @@ public partial class AIMoveExecutorMoveQueue : ENode, IChildList<AIMoveExecutorM
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIMoveExecutorMove, so the cast never fails.
-    public AIMoveExecutorMove this[int index] => (AIMoveExecutorMove)_children.List[index];
+    public AIMoveExecutorMove this[int index] => (AIMoveExecutorMove)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIMoveExecutorMove;
 
@@ -29,7 +29,7 @@ public partial class AIMoveExecutorMoveQueue : ENode, IChildList<AIMoveExecutorM
     // AIGroup.pas:4513
     public void Reset()
     {
-        for (int I = _children.Count - 1; I >= 0; I--)
+        for (int I = Count - 1; I >= 0; I--)
         {
             this[I].SetStatus(255, AIMoveExecutorUnitStatus.Ready);
         }

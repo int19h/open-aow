@@ -25,9 +25,17 @@ namespace Aow.Game.Magic.Abilities;
 
 // ID, owner name, status, references, library ID, library name, value, name, type, spell ID,
 // description, graphics index, hidden, availability, attack, defense, damage, resistance
-public partial class Item : AbilityOwner
+public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
 {
     public new const int ClassId = 131688;
+
+    // The item list the item lies in. AcceptsOwner admits only an item list, so the cast never
+    // fails.
+    public new ItemList Owner { get => (ItemList)base.Owner; set => SetOwner(value); }
+
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is ItemList;
+
+    void IOwnedSink<ItemList>.SetOwner(ItemList owner) => SetOwner(owner);
 
     // Army.PAS:4211
     public Item(ECustomNode owner) : base(owner)
@@ -346,9 +354,9 @@ public partial class Item : AbilityOwner
     // Army.PAS:4320
     public void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
-        if (Owner != null && Owner is ItemList)
+        if (Owner != null)
         {
-            ((ItemList)Owner).GetLocation(ref X, ref Y, ref L);
+            Owner.GetLocation(ref X, ref Y, ref L);
         }
         else
         {

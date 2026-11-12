@@ -7,7 +7,7 @@ public partial class EmailGameList : ENode, IChildList<EmailGame>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an EmailGame, so the cast never fails.
-    public EmailGame this[int index] => (EmailGame)_children.List[index];
+    public EmailGame this[int index] => (EmailGame)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is EmailGame;
 

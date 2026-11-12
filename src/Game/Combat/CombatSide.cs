@@ -15,7 +15,7 @@ public partial class CombatSide : ENode, IChildList<CombatObject>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatObject, so the cast never fails.
-    public CombatObject this[int index] => (CombatObject)_children.List[index];
+    public CombatObject this[int index] => (CombatObject)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is CombatObject;
 
@@ -99,7 +99,7 @@ public partial class CombatSide : ENode, IChildList<CombatObject>
             GameTables.GameEngine.OutputDebugMessage(CombatAbilityTables.CombatDebugChannel, "--- Combat Side Defender ---");
         }
 
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
             var idString = GetObjects(I).IdString();
             var targetPriority = GetObjects(I).GetTargetPriority();
@@ -116,7 +116,7 @@ public partial class CombatSide : ENode, IChildList<CombatObject>
         CombatObject objectValue;
         Strength = 0;
         ConquerCount = 0;
-        for (int I = _children.Count - 1; I >= 0; I--)
+        for (int I = Count - 1; I >= 0; I--)
         {
             objectValue = this[I];
             N = objectValue.Targets.Count;

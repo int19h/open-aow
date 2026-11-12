@@ -202,6 +202,9 @@ public sealed class EngineLeafConstructionTests
                 case EngineObjectEditorList editors:
                     Assert.Equal(0, editors.Count);
                     break;
+                case EngineObjectList children:
+                    Assert.Equal(0, children.Count); Assert.Equal(0, children.Capacity); Assert.Empty(children.List);
+                    break;
                 case DelphiList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity);
                     break;

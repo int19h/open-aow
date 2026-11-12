@@ -3,6 +3,7 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
 
+using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Draw;
@@ -17,11 +18,17 @@ public partial class TacticalBattleItemHexSprite : ItemHexSprite
     public override void Deactivate()
     {
         ItemHexSprite itemHexSprite;
-        ECustomNode items;
+        ItemList items;
         Items.OnChanged = null;
         if (CombatMap.Current.Combat.ExplorationSite == 1)
         {
-            items = (ECustomNode)CombatMap.Current.Combat.Items;
+            // An item site's combat returns the items to the site's list. A dungeon's combat holds
+            // its prisoners there, and the items go to the prisoners' own item list.
+            items = CombatMap.Current.Combat.Items switch
+            {
+                PrisonersArmy prisoners => prisoners.Items,
+                var other => (ItemList)other,
+            };
             for (int I = Items.GetCount() - 1; I >= 0; I--)
             {
                 Items.GetItem(I).SetOwner(items);

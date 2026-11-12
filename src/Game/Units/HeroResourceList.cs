@@ -15,7 +15,7 @@ public partial class HeroResourceList : EResourceList, IChildList<HeroResource>
 {
     // The hero resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a HeroResource, so the cast never fails.
-    public new HeroResource this[int index] => (HeroResource)_children.List[index];
+    public new HeroResource this[int index] => (HeroResource)GetChild(index);
 
     protected sealed override bool AcceptsResource(EngineResource resource) => resource is HeroResource;
 
@@ -31,7 +31,7 @@ public partial class HeroResourceList : EResourceList, IChildList<HeroResource>
     public HeroResource GetHeroResource(int index)
     {
         HeroResource result;
-        if (index >= 0 && index < _children.Count)
+        if (index >= 0 && index < Count)
         {
             result = this[index];
         }
@@ -49,7 +49,7 @@ public partial class HeroResourceList : EResourceList, IChildList<HeroResource>
         HeroResource resource;
         StringList list;
         list = new StringList();
-        for (int I = 0, last = _children.Count - 1; I <= last; I++)
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
             resource = this[I];
             if (resource != null && (GameTables.GameEngine.User.Contains(EngineUserElement.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType))
@@ -68,7 +68,7 @@ public partial class HeroResourceList : EResourceList, IChildList<HeroResource>
         HeroResource resource;
         I = 0;
         int result = -1;
-        while (I < _children.Count && result == -1)
+        while (I < Count && result == -1)
         {
             resource = this[I];
             if (resource != null && race == resource.Race && heroType == resource.HeroType)

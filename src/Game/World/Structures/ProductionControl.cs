@@ -829,7 +829,7 @@ public partial class ProductionControl : EngineObject
         if (LoopQueue && LoopableProduction(Queue.GetItem(0)))
         {
             var count = Queue.Count;
-            Queue._children.Move(0, count - 1);
+            Queue.MoveChild(0, count - 1);
         }
         else
         {

@@ -10,7 +10,7 @@ public partial class ItemGFXList : EResourceList, IChildList<ItemGraphics>
 {
     // The item graphics in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a ItemGraphics, so the cast never fails.
-    public new ItemGraphics this[int index] => (ItemGraphics)_children.List[index];
+    public new ItemGraphics this[int index] => (ItemGraphics)GetChild(index);
 
     protected sealed override bool AcceptsResource(EngineResource resource) => resource is ItemGraphics;
 
@@ -26,7 +26,7 @@ public partial class ItemGFXList : EResourceList, IChildList<ItemGraphics>
     public ItemGraphics GetItemGraphics(int index)
     {
         ItemGraphics result;
-        if (index >= 0 && index < _children.Count)
+        if (index >= 0 && index < Count)
         {
             result = this[index];
         }
@@ -44,9 +44,9 @@ public partial class ItemGFXList : EResourceList, IChildList<ItemGraphics>
         int I;
         int result = -1;
         I = 0;
-        while (result == -1 && I != _children.Count)
+        while (result == -1 && I != Count)
         {
-            if (_children.List[I] != null && this[I].ItemType == itemType)
+            if (GetChild(I) != null && this[I].ItemType == itemType)
             {
                 result = I;
             }

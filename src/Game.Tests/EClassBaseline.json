@@ -3729,6 +3729,11 @@
     "size": 12,
     "parent": "Aow.Engine.Nodes.EngineObject"
   },
+  "Aow.Game.Net.TokenEventReferenceList": {
+    "id": 256,
+    "size": 12,
+    "parent": "Aow.Engine.Nodes.EReferenceNode"
+  },
   "Aow.Game.Net.TokenPackage": {
     "id": 1360,
     "size": 24,

@@ -49,7 +49,7 @@ public sealed class CombatDataTests
         var child = new ObservedChild(node);
         defeated.Add(3);
         involved.Add(4);
-        Assert.Same(child, Assert.Single(node._children.List.Take(node.Count)));
+        Assert.Same(child, Assert.Single(((IOwner)node).Children.Cast<object>()));
         data.Dispose();
         Assert.Equal(1, child.DestroyCount);
         Assert.Null(child.Owner);

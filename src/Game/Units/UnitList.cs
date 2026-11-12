@@ -15,8 +15,19 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // inherited FChildren, UpdateCount
-public partial class UnitList : EChangeNotifyNode
+public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
 {
+    // The troop in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a troop, so the cast never fails.
+    public Troop this[int index] => (Troop)GetChild(index);
+
+    // A unit list takes troops only. A list of one kind of troop narrows that through
+    // AcceptsTroop, and cannot widen it.
+    protected sealed override bool AcceptsChild(EngineObject child) => child is Troop troop && AcceptsTroop(troop);
+
+    protected virtual bool AcceptsTroop(Troop troop) => true;
+
+    int IChildSink<Troop>.AddChild(Troop child) => AddChild(child);
 
     public UnitList(ECustomNode owner) : base(owner)
     { }
@@ -27,9 +38,9 @@ public partial class UnitList : EChangeNotifyNode
         base.MainReadWrite(stream);
         if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
-            for (int I = 0, last = _children.Count - 1; I <= last; I++)
+            for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                ((EngineObject)_children.List[I]).Release();
+                this[I].Release();
             }
         }
     }
@@ -39,9 +50,9 @@ public partial class UnitList : EChangeNotifyNode
         base.MainPersist(persister);
         if (persister.Loading)
         {
-            for (int I = 0, last = _children.Count - 1; I <= last; I++)
+            for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                ((EngineObject)_children.List[I]).Release();
+                this[I].Release();
             }
         }
     }
@@ -51,10 +62,10 @@ public partial class UnitList : EChangeNotifyNode
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((EngineObject)_children.List[I]).SetOwner(null);
+            this[I].SetOwner(null);
         }
 
-        _children.Clear();
+        ClearChildren();
     }
 
     // Unit.PAS:2184
@@ -79,6 +90,7 @@ public partial class UnitList : EChangeNotifyNode
     public override int AddChild(EngineObject child)
     {
         int result;
+        CheckChild(child);
         var unit = child;
         if (this.CanAddUnit((Troop)child))
         {
@@ -100,9 +112,9 @@ public partial class UnitList : EChangeNotifyNode
     public virtual int GetStrength(DamageType damageType)
     {
         int result = 0;
-        for (int I = _children.Count - 1; I >= 0; I--)
+        for (int I = Count - 1; I >= 0; I--)
         {
-            result += ((Troop)_children.List[I]).GetStrength(damageType);
+            result += this[I].GetStrength(damageType);
         }
 
         return result;
@@ -112,9 +124,9 @@ public partial class UnitList : EChangeNotifyNode
     public virtual int GetStrengthMax(Set<DamageType> damageTypes)
     {
         int result = 0;
-        for (int I = _children.Count - 1; I >= 0; I--)
+        for (int I = Count - 1; I >= 0; I--)
         {
-            result += ((Troop)_children.List[I]).GetStrengthMax(damageTypes);
+            result += this[I].GetStrengthMax(damageTypes);
         }
 
         return result;
@@ -132,8 +144,8 @@ public partial class UnitList : EChangeNotifyNode
     public virtual void SortUnits()
     {
         BeginUpdate();
-        _children.Pack();
-        _children.Sort(CompareUnits);
+        PackChildren();
+        SortChildren(CompareUnits);
         EndUpdate();
     }
 
@@ -141,8 +153,8 @@ public partial class UnitList : EChangeNotifyNode
     public virtual void SortOnMoves()
     {
         BeginUpdate();
-        _children.Pack();
-        _children.Sort(CompareUnitMoves);
+        PackChildren();
+        SortChildren(CompareUnitMoves);
         EndUpdate();
     }
 
@@ -188,7 +200,7 @@ public partial class UnitList : EChangeNotifyNode
     }
 
     // Unit.PAS:2217
-    public int IndexOf(Troop troop) => _children.IndexOf(troop);
+    public int IndexOf(Troop troop) => IndexOfChild(troop);
 
     // Unit.PAS:2221
     public int IndexOfId(int id)
@@ -197,7 +209,7 @@ public partial class UnitList : EChangeNotifyNode
         while (result != 0)
         {
             result -= 1;
-            if (((Troop)_children.List[result]).UnitId == id)
+            if (this[result].UnitId == id)
             {
                 return result;
             }
@@ -214,7 +226,7 @@ public partial class UnitList : EChangeNotifyNode
         while (result != 0)
         {
             result -= 1;
-            group = ((Troop)_children.List[result]).Group;
+            group = this[result].Group;
             if (group != null && group.GroupClass.Behavior == behavior)
             {
                 return result;
@@ -231,7 +243,7 @@ public partial class UnitList : EChangeNotifyNode
         while (result != 0)
         {
             result -= 1;
-            if (((Troop)_children.List[result]).Group == group)
+            if (this[result].Group == group)
             {
                 return result;
             }
@@ -248,7 +260,7 @@ public partial class UnitList : EChangeNotifyNode
         while (result != 0)
         {
             result -= 1;
-            group = ((Troop)_children.List[result]).Group;
+            group = this[result].Group;
             if (group != null && group.GroupId == id)
             {
                 return result;
@@ -267,7 +279,7 @@ public partial class UnitList : EChangeNotifyNode
         while (I != 0)
         {
             I -= 1;
-            result = (Troop)_children.List[I];
+            result = this[I];
             if (result.UnitId == id)
             {
                 return result;
@@ -283,7 +295,7 @@ public partial class UnitList : EChangeNotifyNode
         // { Original accepts negative indexes and reads the backing array directly. }
         if (index < Count)
         {
-            return (Troop)_children.List[index];
+            return this[index];
         }
 
         return null;
@@ -293,17 +305,18 @@ public partial class UnitList : EChangeNotifyNode
     public void SetUnit(int index, Troop troop)
     {
         CheckChild(troop);
-        while (index >= Count)
+        if (index >= Count)
         {
-            _children.Add(null);
+            // Pads the slots up to index with empty ones, as the original adds nil slots.
+            PlaceChild(index, child: null);
         }
 
-        if (_children.List[index] != null)
+        if (GetChild(index) != null)
         {
-            ((EngineObject)_children.List[index]).Release();
+            this[index].Release();
         }
 
-        _children.List[index] = troop;
+        PlaceChild(index, child: troop);
         if (UpdateCount == 0)
         {
             Changed();
@@ -398,11 +411,11 @@ public partial class UnitList : EChangeNotifyNode
         sbyte relation;
         relation = -1;
         sameRace = true;
-        I = units._children.Count;
+        I = units.Count;
         while (sameRace && I != 0)
         {
             I -= 1;
-            race = ((Troop)units._children.List[I]).GetRace();
+            race = units[I].GetRace();
             if (race != -1 && race != relation)
             {
                 if (relation == -1)
@@ -426,14 +439,14 @@ public partial class UnitList : EChangeNotifyNode
             sameRace = false;
         }
 
-        I = units._children.Count;
+        I = units.Count;
         while (sameRace && I != 0)
         {
             I -= 1;
-            bool condition = relation == ((Troop)units._children.List[I]).GetRace();
+            bool condition = relation == units[I].GetRace();
             if (!condition)
             {
-                var alignment = ((Troop)units._children.List[I]).GetAlignment();
+                var alignment = units[I].GetAlignment();
                 condition = AoWHSSet.Current.RaceResources.GetRaceResource(relation).Alignments.Contains(alignment);
             }
 
@@ -446,10 +459,10 @@ public partial class UnitList : EChangeNotifyNode
             good = true;
             neutral = true;
             I = 0;
-            int last = units._children.Count - 1;
+            int last = units.Count - 1;
             for (; I <= last; I += 1)
             {
-                troop = (Troop)units._children.List[I];
+                troop = units[I];
                 Alignment = troop.GetAlignment();
                 evil = evil && AlignmentTables.EvilAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.Evil, Game.Units.Alignment.PureEvil).Contains(Alignment));
                 good = good && AlignmentTables.GoodAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.PureGood, Game.Units.Alignment.Good).Contains(Alignment));

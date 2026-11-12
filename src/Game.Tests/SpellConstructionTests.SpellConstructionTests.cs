@@ -26,7 +26,7 @@ public sealed partial class SpellConstructionTests
 
         public override int AddChild(EngineObject child)
         {
-            Assert.Same(this, child.Owner);
+            Assert.True(EngineFixture.Forwards(child.Owner, this));
             Observations.Add(Snapshot(child));
             base.AddChild(child);
             return Members.Count - 1;
@@ -106,6 +106,9 @@ public sealed partial class SpellConstructionTests
 
     private static EngineObject Create(Type type, ECustomNode owner, int route, GameEngine? registered = null)
     {
+        // A combat action takes a combat action list as its owner (issue 158). The recording owner
+        // then stands behind a list that forwards to it.
+        if (owner is EngineFixture.Owner recorder) owner = EngineFixture.OwnerFor(type, recorder);
         var meta = EngineClass.Of(type);
         if (route == 0)
         {
@@ -162,7 +165,7 @@ public sealed partial class SpellConstructionTests
                     EngineObject value = Create(type, argument, route);
                     allocated.Add(value);
                     Assert.IsType(type, value);
-                    Assert.Same(argument, value.Owner);
+                    Assert.True(owned ? EngineFixture.Forwards(value.Owner, owner) : value.Owner is null);
                     Assert.Same(EngineClass.Of(type), value.EngineClass);
                     ConstructionSnapshot.Check("SpellConstruction", name, SuccessSnapshot(value), "State");
                     if (owned) ConstructionSnapshot.Check("SpellConstruction", name, owner.Observations[^1], "Observation");
@@ -197,7 +200,7 @@ public sealed partial class SpellConstructionTests
             var owner = new SpellOwner();
             var value = Create(type, owner, route);
             Assert.IsType(type, value);
-            Assert.Same(owner, value.Owner);
+            Assert.True(EngineFixture.Forwards(value.Owner, owner));
             Assert.Same(value, Assert.Single(owner.Members));
             Assert.Empty(owner.Removed);
             if (value is Spell spell) Assert.Same(fixture.Manager, spell.CastImages.ImageLibraryManager);
@@ -218,7 +221,7 @@ public sealed partial class SpellConstructionTests
             EngineObject value = Create(type, owner, route);
             Assert.IsType(type, value);
             Assert.Equal(1, ((CombatAction)value).RefCount);
-            Assert.Same(owner, value.Owner);
+            Assert.True(EngineFixture.Forwards(value.Owner, owner));
             value.Dispose();
         }
         Assert.Empty(owner.Members);

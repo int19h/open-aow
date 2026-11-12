@@ -229,7 +229,7 @@ public partial class ArmyHexSprite : UnitHexSprite
                                         }
                                         else
                                         {
-                                            if (Army.ConcealedUnits != AbilityRules.ArmySelectionMasks[Army._children.Count])
+                                            if (Army.ConcealedUnits != AbilityRules.ArmySelectionMasks[Army.Count])
                                             {
                                                 message.Result = Army.Player;
                                             }

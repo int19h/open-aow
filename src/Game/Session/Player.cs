@@ -38,8 +38,15 @@ namespace Aow.Game.Session;
 // players, seen days, PBEM, emerging hero, participating, initial gold, base income, hero join
 // days, upkeep. end turn, view, password, turn number, base hero level, emerging hero ID,
 // emerge day, highest hero level, settings/description
-public partial class Player : EngineObject
+public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<PlayerList>
 {
+    // The list that holds the player. AcceptsOwner admits only that list, so the cast never fails.
+    public new PlayerList Owner { get => (PlayerList)base.Owner; set => SetOwner(value); }
+
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is PlayerList;
+
+    void IOwnedSink<PlayerList>.SetOwner(PlayerList owner) => SetOwner(owner);
+
     public new const int ClassId = 131104;
 
     // Player.PAS:261
@@ -896,7 +903,7 @@ public partial class Player : EngineObject
     // Player.PAS:614
     public void RegisterIncomeSource(IncomeSource source)
     {
-        if (_incomeSources._children.IndexOf(source) == -1)
+        if (_incomeSources.IndexOfChild(source) == -1)
         {
             _incomeSources.AddChild(source);
             if (_updateCount == 0)
@@ -909,7 +916,7 @@ public partial class Player : EngineObject
     // Player.PAS:623
     public void UnregisterIncomeSource(IncomeSource source)
     {
-        if (_incomeSources._children.Remove(source) != -1 && _updateCount == 0)
+        if (_incomeSources.DropChild(source) != -1 && _updateCount == 0)
         {
             UpdateIncome();
         }

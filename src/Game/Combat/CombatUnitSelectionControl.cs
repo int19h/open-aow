@@ -1066,7 +1066,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                                 var hexY3 = CombatMap.Current.Mouse.HexY;
                                 if (deltaHexToRadius2 < HexGeometry.DeltaHexToRadius(CombatMap.Current.Mouse.HexX, hexY3, hexX2, hexY2))
                                 {
-                                    MoveSettingsList._children.Exchange(A, B);
+                                    MoveSettingsList.ExchangeChildren(A, B);
                                 }
                             }
                         }
@@ -1398,7 +1398,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                     MoveSettings moveSettings2 = moves.GetMoveSettings(i);
                     if (moveSettings.Path.Count > moveSettings2.Path.Count)
                     {
-                        ((DelphiList)moves._children).Exchange(i, j);
+                        moves.ExchangeChildren(i, j);
                     }
                 }
             }

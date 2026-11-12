@@ -10,7 +10,7 @@ public partial class AIMoveExecutorUnitList : ENode, IChildList<AIMoveExecutorUn
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIMoveExecutorUnit, so the cast never fails.
-    public AIMoveExecutorUnit this[int index] => (AIMoveExecutorUnit)_children.List[index];
+    public AIMoveExecutorUnit this[int index] => (AIMoveExecutorUnit)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIMoveExecutorUnit;
 
@@ -74,7 +74,7 @@ public partial class AIMoveExecutorUnitList : ENode, IChildList<AIMoveExecutorUn
     public byte ValidateSelection(byte selection)
     {
         int N;
-        N = _children.Count;
+        N = Count;
         if (N > 8)
         {
             N = 8;

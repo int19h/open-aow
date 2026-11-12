@@ -7,7 +7,7 @@ public partial class GlobalEnchantmentList : ENode, IChildList<GlobalEnchantment
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a GlobalEnchantment, so the cast never fails.
-    public GlobalEnchantment this[int index] => (GlobalEnchantment)_children.List[index];
+    public GlobalEnchantment this[int index] => (GlobalEnchantment)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is GlobalEnchantment;
 

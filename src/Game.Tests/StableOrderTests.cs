@@ -31,9 +31,9 @@ public sealed class StableOrderTests
         var low = new Item(list) { OwnerName = "a" };
         var tied = new Item(list) { OwnerName = "a" };
         list.SortOnName();
-        Assert.Same(low, list._children[0]);
-        Assert.Same(tied, list._children[1]);
-        Assert.Same(high, list._children[2]);
+        Assert.Same(low, list.GetChildInRange(0));
+        Assert.Same(tied, list.GetChildInRange(1));
+        Assert.Same(high, list.GetChildInRange(2));
     }
 
     [Fact]
@@ -44,9 +44,9 @@ public sealed class StableOrderTests
         var low = new Item(list) { ItemType = ItemType.Head };
         var tied = new Item(list) { ItemType = ItemType.Head };
         list.SortOnType();
-        Assert.Same(low, list._children[0]);
-        Assert.Same(tied, list._children[1]);
-        Assert.Same(high, list._children[2]);
+        Assert.Same(low, list.GetChildInRange(0));
+        Assert.Same(tied, list.GetChildInRange(1));
+        Assert.Same(high, list.GetChildInRange(2));
     }
 
     [Fact]
@@ -61,9 +61,9 @@ public sealed class StableOrderTests
         pools.AddChild(third);
         Assert.Equal(0, ReflectingPool.ComparePools(first, third));
         pools.SortStable(ReflectingPool.ComparePools);
-        Assert.Same(first, pools._children[0]);
-        Assert.Same(second, pools._children[1]);
-        Assert.Same(third, pools._children[2]);
+        Assert.Same(first, pools.GetChildInRange(0));
+        Assert.Same(second, pools.GetChildInRange(1));
+        Assert.Same(third, pools.GetChildInRange(2));
     }
 
     private static TextControlItem Item(TextControl control, int id, string name)

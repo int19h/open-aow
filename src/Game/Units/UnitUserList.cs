@@ -17,10 +17,10 @@ public partial class UnitUserList : UnitList
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((EngineObject)_children.List[I]).Release();
+            this[I].Release();
         }
 
-        _children.Clear();
+        ClearChildren();
     }
 
     // Unit.PAS:2386

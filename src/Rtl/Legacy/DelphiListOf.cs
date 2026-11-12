@@ -89,11 +89,22 @@ public class DelphiList<T> : IDisposable where T : class
         return this;
     }
 
-    // CLASSES.PAS TList.Sort. Equal keys retain the Delphi swap order.
-    public void Sort(ListSortCompare<T> compare) => DelphiListCore.Sort(items, count, compare);
+    // CLASSES.PAS TList.Sort. Equal keys retain the Delphi swap order. The trace sees each sort
+    // of a list of this element type before it runs.
+    public static Action<DelphiList<T>, ListSortCompare<T>>? TraceSort { get; set; }
+
+    public void Sort(ListSortCompare<T> compare)
+    {
+        TraceSort?.Invoke(this, compare);
+        DelphiListCore.Sort(items, count, compare);
+    }
 
     // Keeps the order of equal items. The address tie-breaks call this, and every other sort keeps the quicksort.
-    public void SortStable(ListSortCompare<T> compare) => DelphiListCore.SortStable(items, count, compare);
+    public void SortStable(ListSortCompare<T> compare)
+    {
+        TraceSort?.Invoke(this, compare);
+        DelphiListCore.SortStable(items, count, compare);
+    }
 
     // CLASSES.PAS TList.Destroy.
     public virtual void Dispose() { Clear(); }

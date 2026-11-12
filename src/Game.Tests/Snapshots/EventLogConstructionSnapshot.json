@@ -73,8 +73,8 @@
             },
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -191,8 +191,8 @@
             },
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -338,8 +338,8 @@
             },
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -456,8 +456,8 @@
             },
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -591,8 +591,8 @@
             },
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -706,8 +706,8 @@
             },
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -859,8 +859,8 @@
             },
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null
@@ -974,8 +974,8 @@
             },
             "EChangeNotifyNode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "DelphiList`1.count": 0,
+              "DelphiList`1.items": []
             },
             "EChangeNotifyNode._updateCount": 0,
             "EngineObject._owner": null

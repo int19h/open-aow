@@ -46,7 +46,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
 
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only the kinds of GameEngineChild, so the read never fails.
-    public GameEngineChild this[int index] => GameEngineChild.Of(_children.List[index]);
+    public GameEngineChild this[int index] => GameEngineChild.Of(GetChild(index));
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is EControlStyleNode or HSSet or HSMap;
 

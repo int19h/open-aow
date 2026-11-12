@@ -153,7 +153,7 @@ public partial class FloodControl : EngineObject
     // GlobalEnchantmentSpells.pas:1160
     public void Restore()
     {
-        EngineObjectList resources;
+        MapObjectResourceList resources;
         DelphiList candidates;
         int index;
         MapField mapField;
@@ -181,7 +181,7 @@ public partial class FloodControl : EngineObject
             }
         }
 
-        resources = AoWHSSet.Current.MapObjectResourceList._children;
+        resources = AoWHSSet.Current.MapObjectResourceList;
         candidates = new DelphiList();
         for (int Y = 1, last = mapLevel.Height - 1; Y <= last; Y++)
         {
@@ -201,7 +201,7 @@ public partial class FloodControl : EngineObject
                         candidates.Clear();
                         for (int I = 0, lastI = resources.Count - 1; I <= lastI; I++)
                         {
-                            resource = (MapObjectResource)resources.List[I];
+                            resource = resources[I];
                             if (resource.EngineClass.ClassId == 131431 && resource.TerrainList.UsedTerrain() == 1 && resource.TerrainList.Terrain[0] == mapField.TerrainType && overlay == resource.TerrainList.Overlay[0])
                             {
                                 candidates.Add(resource);

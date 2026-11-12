@@ -61,7 +61,7 @@ public partial class HeroLibraryManager : EngineObject
     }
 
     // Hero.PAS:2677
-    public HeroLibrary GetLibrary(int index) => (HeroLibrary)_libraries._children.EObjects[index];
+    public HeroLibrary GetLibrary(int index) => (HeroLibrary)_libraries.GetChildInRange(index);
 
     // Hero.PAS:2680
     public int GetCount() => _libraries.GetCount();
@@ -108,7 +108,7 @@ public partial class HeroLibraryManager : EngineObject
         while (result != 0)
         {
             result -= 1;
-            if (CompareText(name, ((HeroLibrary)_libraries._children.List[result]).LibraryName) == 0)
+            if (CompareText(name, ((HeroLibrary)_libraries.GetChild(result)).LibraryName) == 0)
             {
                 return result;
             }
@@ -118,7 +118,7 @@ public partial class HeroLibraryManager : EngineObject
     }
 
     // Hero.PAS:2724
-    public int IndexOfLibrary(HeroLibrary library) => _libraries._children.IndexOf(library);
+    public int IndexOfLibrary(HeroLibrary library) => _libraries.IndexOfChild(library);
 
     // Hero.PAS:2727
     public Hero FindHero(string libraryName, int libraryId)
@@ -128,7 +128,7 @@ public partial class HeroLibraryManager : EngineObject
         index = IndexOfLibraryName(libraryName);
         if (index != -1)
         {
-            result = ((HeroLibrary)_libraries._children.List[index]).FindLibraryId(libraryId);
+            result = ((HeroLibrary)_libraries.GetChild(index)).FindLibraryId(libraryId);
         }
         else
         {

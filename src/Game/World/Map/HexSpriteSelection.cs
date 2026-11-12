@@ -17,7 +17,7 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
 {
     // The sprite in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a sprite, so the cast never fails.
-    public HexSprite this[int index] => (HexSprite)_children.List[index];
+    public HexSprite this[int index] => (HexSprite)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is Draw.HexSprite;
 
@@ -70,7 +70,7 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
     // HSEngine.pas:3761
     public override void Clear()
     {
-        _children.Clear();
+        ClearChildren();
         _locationHexSprite.Clear();
     }
 
@@ -92,12 +92,12 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
     public void Unselect(HexSprite hexSprite)
     {
         int I;
-        I = _children.IndexOf(hexSprite);
+        I = IndexOfChild(hexSprite);
         _locationHexSprite.Remove(hexSprite);
         if (I != -1)
         {
-            _children.Remove(hexSprite);
-            if (_children.IndexOf(hexSprite) == -1)
+            DropChild(hexSprite);
+            if (IndexOfChild(hexSprite) == -1)
             {
                 if (hexSprite.GetSelected())
                 {
@@ -120,9 +120,9 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
     // HSEngine.pas:3734
     public void UnselectAll()
     {
-        while (_children.Count != 0)
+        while (Count != 0)
         {
-            Unselect(this[_children.Count - 1]);
+            Unselect(this[Count - 1]);
         }
     }
 

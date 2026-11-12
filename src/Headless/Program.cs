@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using Aow.Engine.Nodes;
 using Aow.Formats;
 using Aow.Game;
 using Aow.Game.Audio;
@@ -117,7 +118,7 @@ internal static class Program
                 Shim.RandomTrace = randomTrace.Record;
                 Shim.TraceRound = randomTrace.Rounding;
                 HeadlessHooks.BeforeMove = randomTrace.Path;
-                DelphiList.TraceSort = randomTrace.Sort;
+                DelphiList<EngineObject>.TraceSort = randomTrace.Sort;
                 HeadlessHooks.ProcessCost = randomTrace.Cost;
                 if (traceMovement) HeadlessHooks.MoveLine = randomTrace.Line;
             }
@@ -246,7 +247,7 @@ internal static class Program
             Shim.TraceRound = null;
             HeadlessHooks.BeforeMove = null;
             HeadlessHooks.BeforeAIPlayerProcess = null;
-            DelphiList.TraceSort = null;
+            DelphiList<EngineObject>.TraceSort = null;
             HeadlessHooks.ProcessCost = null;
             HeadlessHooks.MoveLine = null;
             randomTrace?.Dispose();

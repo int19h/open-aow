@@ -10,11 +10,11 @@ namespace Aow.Game.Tests;
 // and EngineObjectList.ClearList.
 public sealed class OwnershipTests
 {
-    private sealed class Disposable : IDisposable
+    private sealed class Disposable() : EngineObject(null!)
     {
         internal int Disposals { get; private set; }
 
-        public void Dispose() => Disposals++;
+        public override void Dispose() => Disposals++;
     }
 
     [Fact]

@@ -13,7 +13,7 @@ public partial class ArmyList : EChangeNotifyEventList
     public Player Player { get; set; }
 
     // Player.PAS:6
-    public Army GetArmy(int index) => (Army)_children.List[index];
+    public Army GetArmy(int index) => (Army)GetChild(index);
 
     // Engine.pas:708
 

@@ -8,7 +8,7 @@ public partial class SfxLibrary : ENode, IChildList<SfxSequence>
 {
     // The sequence in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a SfxSequence, so the cast never fails.
-    public SfxSequence this[int index] => (SfxSequence)this._children.List[index];
+    public SfxSequence this[int index] => (SfxSequence)this.GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is SfxSequence;
 
@@ -23,7 +23,7 @@ public partial class SfxLibrary : ENode, IChildList<SfxSequence>
     public SfxSequence GetSfxSequence(int index)
     {
         SfxSequence result;
-        if (index >= 0 && index < this._children.Count)
+        if (index >= 0 && index < this.Count)
         {
             result = this[index];
         }
@@ -77,7 +77,7 @@ public partial class SfxLibrary : ENode, IChildList<SfxSequence>
         int I;
         I = 0;
         SfxSequence result = null;
-        while (I != this._children.Count && result == null)
+        while (I != this.Count && result == null)
         {
             if (this[I]._id == id)
             {

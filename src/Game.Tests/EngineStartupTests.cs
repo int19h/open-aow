@@ -206,6 +206,11 @@ public sealed class EngineStartupTests
                 for (int index = 0; index < list.Count; index++)
                     if (list[index] is object element && LegacyRoots.Contains(element.GetType())) Visit(element, path + $"[{index}]");
             }
+            else if (value is EngineObjectList children)
+            {
+                for (int index = 0; index < children.Count; index++)
+                    if (children[index] is object element && LegacyRoots.Contains(element.GetType())) Visit(element, path + $"[{index}]");
+            }
             else if (IsGenericList(value) && value is System.Collections.IList items)
             {
                 for (int index = 0; index < items.Count; index++)

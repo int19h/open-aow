@@ -10,10 +10,10 @@ public partial class TerrainMapObject
     public virtual TerrainMapObjectResource FindTerrainResource(byte terrainType)
     {
         var candidates = new DelphiList();
-        var resources = GetResourceList(_resource.Engine)._children;
+        var resources = GetResourceList(_resource.Engine);
         for (int i = 0; i < resources.Count; i++)
         {
-            var child = (EngineObject)resources.List[i];
+            var child = resources[i];
             if (child.EngineClass.ClassId != _resource.EngineClass.ClassId) continue;
             var resource = (TerrainMapObjectResource)child;
             if (resource._decorationType == ((TerrainMapObjectResource)_resource)._decorationType &&
@@ -30,10 +30,10 @@ public partial class TerrainMapObject
     public TerrainMapObjectResource FindCompatibleResource(byte terrainType, sbyte overlayType, int decorationType)
     {
         var candidates = new DelphiList();
-        var resources = GetResourceList(_resource.Engine)._children;
+        var resources = GetResourceList(_resource.Engine);
         for (int i = 0; i < resources.Count; i++)
         {
-            var child = (EngineObject)resources.List[i];
+            var child = resources[i];
             if (child.EngineClass.ClassId != _resource.EngineClass.ClassId) continue;
             var resource = (TerrainMapObjectResource)child;
             if (decorationType != -1 && resource._decorationType != decorationType) continue;

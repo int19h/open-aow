@@ -37,13 +37,13 @@ public partial class HeroLibrary : HeroList
             hero.LibraryId = CreateUniqueLibraryId();
         }
 
-        _children.Add(child);
+        AppendChild(child);
         if (child.AddRef() == -1)
         {
             throw new NotSupportedException("EObject doesn't support ReferenceCounting");
         }
 
-        return _children.Count - 1;
+        return Count - 1;
     }
 
     // Hero.PAS:2580
@@ -59,12 +59,12 @@ public partial class HeroLibrary : HeroList
                 _nextLibraryId = 0;
             }
 
-            while (I != _children.Count && this[I].LibraryId != _nextLibraryId)
+            while (I != Count && this[I].LibraryId != _nextLibraryId)
             {
                 I += 1;
             }
         }
-        while (!(I == _children.Count));
+        while (!(I == Count));
         return _nextLibraryId;
     }
 
@@ -97,7 +97,7 @@ public partial class HeroLibrary : HeroList
     public Hero FindLibraryId(int id)
     {
         int I;
-        I = _children.Count;
+        I = Count;
         while (I != 0)
         {
             I -= 1;

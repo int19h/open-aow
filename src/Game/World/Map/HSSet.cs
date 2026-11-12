@@ -25,7 +25,7 @@ public partial class HSSet : ECustomOwner, IChildList<HSSetChild>
 
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only the kinds of HSSetChild, so the read never fails.
-    public HSSetChild this[int index] => HSSetChild.Of(_children.List[index]);
+    public HSSetChild this[int index] => HSSetChild.Of(GetChild(index));
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is EResourceList or MapObjectResourceTerrainControl or ControlStyleObject;
 

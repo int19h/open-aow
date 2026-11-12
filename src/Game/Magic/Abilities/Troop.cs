@@ -30,8 +30,16 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Magic.Abilities;
 
 // FRefCount. FUnitID. FGroupID. FGroup: TAIGroup. FUnitStatus
-public partial class Troop : AbilityOwner
+public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopOwner>
 {
+    // A troop stands in a unit list, or a hero stands in a hero list while no army holds it.
+    // TroopOwner reads that owner without a cast.
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is UnitList or HeroList;
+
+    TroopOwner IOwned<TroopOwner>.Owner => TroopOwner.Of(Owner);
+
+    void IOwnedSink<TroopOwner>.SetOwner(TroopOwner owner) => SetOwner(owner.Node);
+
     // SetOwner observes this count before the base body, as in Unit.PAS:95.
     public int RefCount { get; private set; } = 1;
 
@@ -973,10 +981,12 @@ public partial class Troop : AbilityOwner
         }
     }
 
-    // A hero list is not an army or a unit list. Callers treat that owner as absent.
+    // A hero list is not an army or a unit list. Callers treat that owner as absent. A unit list
+    // that is not an army fails the cast.
     internal Army ArmyOwner => Owner is HeroList ? null : (Army)Owner;
 
-    internal UnitList UnitListOwner => Owner is HeroList ? null : (UnitList)Owner;
+    // The owner is a unit list or a hero list (AcceptsOwner), so this reads the unit list or null.
+    internal UnitList UnitListOwner => Owner as UnitList;
 
     // Unit.PAS:189
     public void GetLocation(ref sbyte hexX, ref sbyte hexY, ref sbyte hexLevel)
@@ -1064,7 +1074,7 @@ public partial class Troop : AbilityOwner
 
             for (int I = Owner.Count - 1; I >= 0; I--)
             {
-                troop = (Troop)((EChangeNotifyNode)(object)Owner)._children.List[I];
+                troop = UnitListOwner[I];
                 if (troop.GetAbilityEnabled(37) && troop != this)
                 {
                     value += 30;

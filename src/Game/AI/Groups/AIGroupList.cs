@@ -8,7 +8,7 @@ public partial class AIGroupList : ENode, IChildList<AIGroup>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroup, so the cast never fails.
-    public AIGroup this[int index] => (AIGroup)_children.List[index];
+    public AIGroup this[int index] => (AIGroup)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is AIGroup;
 
@@ -36,7 +36,7 @@ public partial class AIGroupList : ENode, IChildList<AIGroup>
     // AIGroup.pas:533
     public int IndexOfId(int id)
     {
-        int result = _children.Count;
+        int result = Count;
         while (result != 0)
         {
             result -= 1;
@@ -70,7 +70,7 @@ public partial class AIGroupList : ENode, IChildList<AIGroup>
     // AIGroup.pas:559
     public void SortOnProcessPriority()
     {
-        _children.Sort(CompareAIGroupProcessPriority);
+        SortChildren(CompareAIGroupProcessPriority);
     }
 
     private static int CompareAIGroupProcessPriority(object item1, object item2)

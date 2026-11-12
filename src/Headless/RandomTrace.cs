@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Aow.Engine.Nodes;
 using Aow.Game.AI.Groups;
 using Aow.Game.Commands;
 using Aow.Rtl;
@@ -28,7 +29,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
         path = Enumerable.Range(0, move.Path.Count).Select(i => unchecked((uint)move.Path.List[i].Packed))
     }));
 
-    public void Sort(DelphiList list, ListSortCompare compare)
+    public void Sort(DelphiList<EngineObject> list, ListSortCompare<EngineObject> compare)
     {
         if (compare.Method.Name is not ("CompareAIGroupTargetPriority" or "CompareTargetSetupPriority")) return;
         _writer.WriteLine(JsonSerializer.Serialize(new

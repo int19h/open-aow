@@ -7,7 +7,7 @@ public partial class DiplomaticActionList : EReferenceNode, IChildList<Diplomati
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a DiplomaticAction, so the cast never fails.
-    public DiplomaticAction this[int index] => (DiplomaticAction)_children.List[index];
+    public DiplomaticAction this[int index] => (DiplomaticAction)GetChild(index);
 
     protected sealed override bool AcceptsChild(EngineObject child) => child is DiplomaticAction;
 

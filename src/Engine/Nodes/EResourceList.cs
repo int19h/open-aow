@@ -10,7 +10,7 @@ public partial class EResourceList : ECustomOwner, IChildList<EngineResource>
 
     // The resource in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a resource, so the cast never fails.
-    public EngineResource this[int index] => (EngineResource)_children.List[index];
+    public EngineResource this[int index] => (EngineResource)GetChild(index);
 
     // A resource list takes resources only. A list of one kind of resource narrows that through
     // AcceptsResource, and cannot widen it.
@@ -39,9 +39,9 @@ public partial class EResourceList : ECustomOwner, IChildList<EngineResource>
         bool found;
         found = false;
         I = 0;
-        while (!found && I != this._children.Count)
+        while (!found && I != this.Count)
         {
-            found = this._children.List[I] != null && id == this[I]._resourceId;
+            found = this.GetChild(I) != null && id == this[I]._resourceId;
             I += 1;
         }
 
@@ -64,7 +64,7 @@ public partial class EResourceList : ECustomOwner, IChildList<EngineResource>
         int newId;
         int tries;
         bool found;
-        if (index < _children.Count)
+        if (index < Count)
         {
             id = GetResource(index)._resourceId;
             var resource = GetResource(index);

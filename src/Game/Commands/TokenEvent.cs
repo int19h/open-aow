@@ -9,8 +9,16 @@ namespace Aow.Game.Commands;
 
 // FRefCount, FTokenCounter (stored with id 10. -1 until the executer numbers the event). The
 // base of the game's token events
-public partial class TokenEvent : EngineObject
+public partial class TokenEvent : EngineObject, IOwned<TokenEventReferenceList>, IOwnedSink<TokenEventReferenceList>
 {
+    // A reference list holds the token event and owns it only while the list saves or loads it, and
+    // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
+    public new TokenEventReferenceList Owner { get => (TokenEventReferenceList)base.Owner; set => SetOwner(value); }
+
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is TokenEventReferenceList;
+
+    void IOwnedSink<TokenEventReferenceList>.SetOwner(TokenEventReferenceList owner) => SetOwner(owner);
+
     // NetworkE.pas:950
     public new const int ClassId = ClassIdTokenEvent;
 

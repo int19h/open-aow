@@ -18,10 +18,10 @@ public partial class EReferenceNode : ENode
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((EngineObject)_children.List[I]).Release();
+            GetChild(I).Release();
         }
 
-        _children.Clear();
+        ClearChildren();
     }
 
     // Engine.pas:8157
@@ -29,20 +29,20 @@ public partial class EReferenceNode : ENode
     {
         if (stream.StorageMode().Contains(StorageModeElement.Write))
         {
-            for (int I = 0, last = _children.Count - 1; I <= last; I++)
+            for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                if (((EngineObject)_children.List[I]).Owner == null)
+                if (GetChild(I).Owner == null)
                 {
-                    ((EngineObject)_children.List[I]).SetOwnerWithoutNotify(this);
+                    GetChild(I).SetOwnerWithoutNotify(this);
                 }
             }
 
             base.ReadWriteChildren(stream);
-            for (int I = 0, last = _children.Count - 1; I <= last; I++)
+            for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                if (((EngineObject)_children.List[I]).Owner == this)
+                if (GetChild(I).Owner == this)
                 {
-                    ((EngineObject)_children.List[I]).SetOwnerWithoutNotify(null);
+                    GetChild(I).SetOwnerWithoutNotify(null);
                 }
             }
         }
@@ -51,9 +51,9 @@ public partial class EReferenceNode : ENode
             base.ReadWriteChildren(stream);
             if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
-                for (int I = 0, last = _children.Count - 1; I <= last; I++)
+                for (int I = 0, last = Count - 1; I <= last; I++)
                 {
-                    ((EngineObject)_children.List[I]).Release();
+                    GetChild(I).Release();
                 }
             }
         }
@@ -68,7 +68,7 @@ public partial class EReferenceNode : ENode
     // Engine.pas:8177
     public override int RemoveChild(EngineObject child)
     {
-        int result = _children.Remove(child);
+        int result = DropChild(child);
         if (result != -1)
         {
             child.Release();
@@ -86,13 +86,13 @@ public partial class EReferenceNode : ENode
             child.SetOwnerWithoutNotify(null);
         }
 
-        _children.Add(child);
+        AppendChild(child);
         if (child.AddRef() == -1)
         {
             throw new NotSupportedException("EObject doesn't support ReferenceCounting");
         }
 
-        return _children.Count - 1;
+        return Count - 1;
     }
 
     // Engine.pas:631

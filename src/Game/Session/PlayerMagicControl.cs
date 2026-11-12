@@ -668,7 +668,7 @@ public partial class PlayerMagicControl : EngineObject
     public bool RegisterEnchantment(Enchantment enchantment)
     {
         bool result;
-        if (Enchantments._children.IndexOf(enchantment) == -1)
+        if (Enchantments.IndexOfChild(enchantment) == -1)
         {
             Enchantments.AddChild(enchantment);
             ValidateEnchantmentId(enchantment);
@@ -686,7 +686,7 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2286
     public bool UnregisterEnchantment(Enchantment enchantment)
     {
-        bool result = Enchantments._children.Remove(enchantment) != -1;
+        bool result = Enchantments.DropChild(enchantment) != -1;
         if (result)
         {
             Update();
@@ -755,7 +755,7 @@ public partial class PlayerMagicControl : EngineObject
         bool result;
         int index;
         ChangePlayerMagicTokenEvent eventValue;
-        index = Enchantments._children.IndexOf(enchantment);
+        index = Enchantments.IndexOfChild(enchantment);
         if (!Player.GetBusy() && index != -1)
         {
             eventValue = CreateChangeMagicTokenEvent();
@@ -921,7 +921,7 @@ public partial class PlayerMagicControl : EngineObject
                 var item = list[0];
                 total += item.Upkeep;
                 if (item.Enchantment != null)
-                    ExecuteDispelEnchantment(Enchantments._children.IndexOf(item.Enchantment));
+                    ExecuteDispelEnchantment(Enchantments.IndexOfChild(item.Enchantment));
                 else
                 {
                     var enchantment = item.GlobalEnchantment;

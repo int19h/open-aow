@@ -63,7 +63,7 @@ public partial class EventLogbook : EngineObject
     // EventLog.pas:550
     public void ListEvents(StringCollection strings)
     {
-        for (int I = 0, last = _events._children.Count - 1; I <= last; I++)
+        for (int I = 0, last = _events.Count - 1; I <= last; I++)
         {
             if (_events[I].GetVisible())
             {
@@ -98,12 +98,12 @@ public partial class EventLogbook : EngineObject
     public int FindFirstLog(int player, int day)
     {
         int result = 0;
-        while (result != this._events._children.Count && (this._events[result]._player != player || this._events[result]._day != day))
+        while (result != this._events.Count && (this._events[result]._player != player || this._events[result]._day != day))
         {
             result += 1;
         }
 
-        if (result == this._events._children.Count)
+        if (result == this._events.Count)
         {
             result = -1;
         }
@@ -115,12 +115,12 @@ public partial class EventLogbook : EngineObject
     public int FindFirstLog(int classId, int player, int day)
     {
         int result = 0;
-        while (result != this._events._children.Count && (this._events[result]._player != player || this._events[result]._day != day || this._events[result].EngineClass.ClassId != classId))
+        while (result != this._events.Count && (this._events[result]._player != player || this._events[result]._day != day || this._events[result].EngineClass.ClassId != classId))
         {
             result += 1;
         }
 
-        if (result == this._events._children.Count)
+        if (result == this._events.Count)
         {
             result = -1;
         }
