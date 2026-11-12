@@ -79,7 +79,7 @@ public partial class DiplomaticActionEventLog : EventLog
                 race = 12;
             }
 
-            result = s_raceColors[race];
+            result = RaceColors[race];
         }
         else
         {
@@ -101,7 +101,7 @@ public partial class DiplomaticActionEventLog : EventLog
                     race = 12;
                 }
 
-                result = s_raceColors[race];
+                result = RaceColors[race];
             }
             else
             {
@@ -123,7 +123,7 @@ public partial class DiplomaticActionEventLog : EventLog
                         race = 12;
                     }
 
-                    result = s_raceColors[race];
+                    result = RaceColors[race];
                 }
                 else
                 {
@@ -143,7 +143,7 @@ public partial class DiplomaticActionEventLog : EventLog
                         race = 12;
                     }
 
-                    result = s_raceColors[race];
+                    result = RaceColors[race];
                 }
             }
         }
@@ -292,7 +292,7 @@ public partial class DiplomaticActionEventLog : EventLog
 
     public override int GetMiddleIcon() => Action.Proposal.MiddleIcon(Action);
 
-    private static Int32Array13 s_raceColors = Int32Array13.From([14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224]);
+    private static ReadOnlySpan<int> RaceColors => [14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224];
 
     internal static bool DiplomaticExecute(DiplomaticActionEventLog log, bool immediate, ExecuteTrigger trigger, object data, ExecuteDoneEvent done)
     {

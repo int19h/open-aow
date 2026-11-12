@@ -60,7 +60,7 @@ public partial class MoveControl
 
     private AoWMapField NeighborField(AoWMapField field, int direction)
     {
-        var delta = HexGeometry.s_hexNumberToXYTable[field.HexX & 1][direction];
+        var delta = HexGeometry.HexNumberToXYTable[field.HexX & 1][direction];
         return (AoWMapField)field.Owner.GetField(field.HexX + delta.X, field.HexY + delta.Y);
     }
 
@@ -102,7 +102,7 @@ public partial class MoveControl
         if (rightCount != 0) ProcessHex(NeighborField(field, right), right, over == 2 ? rightCount + 0xff : rightCount - 1);
         if ((count & 0x100) != 0)
         {
-            int opposite = s_oppositeDirections[direction];
+            int opposite = OppositeDirections[direction];
             left = s_sideDirections[opposite][0];
             right = s_sideDirections[opposite][1];
             leftCount = CalculateMovePointLine(field, left, over);

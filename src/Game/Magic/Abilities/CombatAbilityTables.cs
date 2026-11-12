@@ -10,9 +10,9 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class CombatAbilityTables
 {
-    internal static Int32Array3 s_commandingPriorityAbilityIds = Int32Array3.From([29, 28, 148]);
+    internal static ReadOnlySpan<int> CommandingPriorityAbilityIds => [29, 28, 148];
 
-    internal static Int32Array3 s_commandingStrengthAbilityIds = Int32Array3.From([29, 28, 148]);
+    internal static ReadOnlySpan<int> CommandingStrengthAbilityIds => [29, 28, 148];
 
     internal static CombatSideIndex GetCombatSide(sbyte attacker, sbyte attackerRelation, sbyte defender, sbyte defenderRelation, sbyte player, sbyte relation)
     {

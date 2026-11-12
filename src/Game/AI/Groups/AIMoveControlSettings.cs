@@ -35,7 +35,7 @@ public partial class AIMoveControlSettings : EngineObject
     public int DestinationY { get; private set; }
     public int DestinationL { get; private set; }
 
-    public SByteArray16By16 MovePointTable;
+    public MovePointTable MovePointTable;
 
     public NotifyEvent<object> OnDone { get; set; }
     public Troop Transporter { get; set; }

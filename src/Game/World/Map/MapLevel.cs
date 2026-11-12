@@ -38,7 +38,7 @@ public partial class MapLevel : ECustomNode, IOwned<MapContainer>, IOwnedSink<Ma
     private int _mapFieldClassId;
     private int _fieldSize;
 
-    public Int32Array8By2 HexNumberOffsets;
+    public int[][] HexNumberOffsets { get; } = [new int[8], new int[8]];
 
     // HSEngine.pas:2925
     public override GameEngine GetEngine() => Engine;

@@ -36,7 +36,7 @@ public partial class GlobalMagicControl : EngineObject
     public Set<GlobalEnchantmentType> ActiveEnchantments { get; set; }
     public GlobalEnchantmentList Enchantments { get; set; }
 
-    public Int32Array9 DoubleSphereManaCount;
+    public int[] DoubleSphereManaCount { get; } = new int[9];
 
     private EventStore<GlobalMagicControl> _changedEventsStore;
 

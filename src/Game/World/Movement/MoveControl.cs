@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using System.Collections.Immutable;
 using Aow.Engine.Buffers;
 
 using Aow.Game.Draw;
@@ -48,7 +49,7 @@ public partial class MoveControl : IDisposable
 
     public int MovePointsLimit { get; set; }
 
-    public SByteArray16By16 MovePointTable;
+    public MovePointTable MovePointTable;
     private DelphiList _processedMapFields;
 
     public ArmyHexSprite ArmyHexSprite { get; private set; }
@@ -56,8 +57,8 @@ public partial class MoveControl : IDisposable
     public ArmyHexSprite TransporterArmy { get; private set; }
     public MoveOnMovePointProc OnMovePoint { get; set; }
 
-    private Int32Array8[] _fieldOffsets = new Int32Array8[2];
-    private Int32Array8By2 _pointOffsets;
+    private readonly int[][] _fieldOffsets = [new int[8], new int[8]];
+    private readonly int[][] _pointOffsets = [new int[8], new int[8]];
 
     public MapCoordinateList GapStarts { get; init; }
     public MapCoordinateList GapEnds { get; init; }
@@ -198,7 +199,7 @@ public partial class MoveControl : IDisposable
         int overlay;
         int points;
         overlay = mapField.OverlayType;
-        points = MovePointTable[mapField.TerrainType][overlay - -1];
+        points = MovePointTable[mapField.TerrainType][overlay - MovementTables.FirstOverlay];
         if ((mapField.FieldFlags & 16384) != 0)
         {
             points = mapField.CanMoveOn(this, points, moveOverCode);
@@ -451,7 +452,7 @@ public partial class MoveControl : IDisposable
         int points;
         if ((mapField.FieldFlags & _exploredMask) != 0)
         {
-            points = MovePointTable[mapField.TerrainType][mapField.OverlayType - -1];
+            points = MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay];
             if ((mapField.FieldFlags & 16384) != 0)
             {
                 points = mapField.CanMoveOn(this, points, moveOverCode);
@@ -750,10 +751,11 @@ public partial class MoveControl : IDisposable
         return points;
     }
 
-    private static Int32Array7 s_oppositeDirections = Int32Array7.From([0, 4, 5, 6, 1, 2, 3]);
-    private static Int32Array2By7 s_sideDirections = Int32Array2By7.From([Int32Array2.From([-1, -1]), Int32Array2.From([6, 2]), Int32Array2.From([1, 3]), Int32Array2.From([2, 4]), Int32Array2.From([3, 5]), Int32Array2.From([4, 6]), Int32Array2.From([5, 1])]);
-    private static ByteArray3By6 s_oddDirections = ByteArray3By6.From([ByteArray3.From([1, 3, 5]), ByteArray3.From([3, 1, 5]), ByteArray3.From([3, 5, 1]), ByteArray3.From([5, 3, 1]), ByteArray3.From([5, 1, 3]), ByteArray3.From([1, 5, 3])]);
-    private static ByteArray3By6 s_evenDirections = ByteArray3By6.From([ByteArray3.From([2, 4, 6]), ByteArray3.From([4, 2, 6]), ByteArray3.From([4, 6, 2]), ByteArray3.From([6, 4, 2]), ByteArray3.From([6, 2, 4]), ByteArray3.From([2, 6, 4])]);
+    private static ReadOnlySpan<int> OppositeDirections => [0, 4, 5, 6, 1, 2, 3];
+
+    private static readonly ImmutableArray<ImmutableArray<int>> s_sideDirections = [[-1, -1], [6, 2], [1, 3], [2, 4], [3, 5], [4, 6], [5, 1]];
+    private static readonly ImmutableArray<ImmutableArray<byte>> s_oddDirections = [[1, 3, 5], [3, 1, 5], [3, 5, 1], [5, 3, 1], [5, 1, 3], [1, 5, 3]];
+    private static readonly ImmutableArray<ImmutableArray<byte>> s_evenDirections = [[2, 4, 6], [4, 2, 6], [4, 6, 2], [6, 4, 2], [6, 2, 4], [2, 6, 4]];
 
     public enum StatusElement : byte
     {

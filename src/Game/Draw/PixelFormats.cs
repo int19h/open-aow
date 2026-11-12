@@ -71,9 +71,9 @@ public static class PixelFormats
 
     internal static int MaskToPixelFormatId(int bitCount, int rMask, int gMask, int bMask, int mask)
     {
-        ByteArray4 order = default;
+        Span<byte> order = stackalloc byte[4];
         bool swapped;
-        Int32Array4 masks = default;
+        Span<int> masks = stackalloc int[4];
         int bits;
         int T;
         int result = bitCount;

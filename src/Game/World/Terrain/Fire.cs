@@ -220,7 +220,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         if (!Status.Contains(MapObjectStatusElement.Visible) && _explosionFrame != 0 && AoWHSMap.Current.Frame == _explosionFrame)
         {
             var hexX = GetHexX();
-            AudioPlayback.PlaySample(AbilityRules.s_explosionSfx[(hexX + AoWHSMap.Current.Frame) % 2]);
+            AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[(hexX + AoWHSMap.Current.Frame) % 2]);
         }
 
         base.MakeVisible(visibilityList);
@@ -250,7 +250,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     public override sbyte GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY, sbyte defaultValue)
     {
         TerrainList terrains;
-        ByteArray128 counts;
+        Span<byte> counts = stackalloc byte[128];
         HexNumberWalkData walk = default;
         sbyte terrainType;
         sbyte result = defaultValue;
@@ -260,7 +260,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
             result = 0;
         }
 
-        counts = default;
+        counts.Clear();
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
         while (walk.HexNumber < terrains.Count)
         {

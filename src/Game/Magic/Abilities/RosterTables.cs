@@ -35,13 +35,13 @@ internal static class RosterTables
                 {
                     var players = AoWHSMap.Current.Players.GetPlayers(player);
                     var alignment = AoWHSSet.Current.RaceResources.GetRaceResource(players.PlayerRace).GetAlignment();
-                    value = AlignmentTables.s_alignmentStatusValues[(int)resource.Alignment][(int)alignment];
+                    value = AlignmentTables.AlignmentStatusValues[(int)resource.Alignment][(int)alignment];
                 }
             }
             else
             {
                 var iRtoAlignment = AbilityRules.IndependentRelationToAlignment(relation);
-                value = AlignmentTables.s_alignmentStatusValues[(int)resource.Alignment][(int)iRtoAlignment];
+                value = AlignmentTables.AlignmentStatusValues[(int)resource.Alignment][(int)iRtoAlignment];
             }
 
             if (value >= 50)

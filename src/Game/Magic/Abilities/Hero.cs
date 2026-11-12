@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using System.Collections.Immutable;
 using System.Runtime.CompilerServices;
 
 using Aow.Engine.Buffers;
@@ -306,7 +307,7 @@ public partial class Hero : Troop
 
         var defense = HeroItems.GetDefense();
         var morale = GetMorale();
-        result = (sbyte)(defense + (UnitDefense + result + HeroResource.Defense) + s_moraleDefense[(int)morale]);
+        result = (sbyte)(defense + (UnitDefense + result + HeroResource.Defense) + MoraleDefense[(int)morale]);
         if (result < 1)
         {
             result = 1;
@@ -370,7 +371,7 @@ public partial class Hero : Troop
 
         var resistance = HeroItems.GetResistance();
         var morale = GetMorale();
-        result = (sbyte)(resistance + (UnitResistance + result + HeroResource.Resistance) + s_moraleResistance[(int)morale]);
+        result = (sbyte)(resistance + (UnitResistance + result + HeroResource.Resistance) + MoraleResistance[(int)morale]);
         if (result < 1)
         {
             result = 1;
@@ -2532,8 +2533,9 @@ public partial class Hero : Troop
     private static readonly string s_castingInProgressFormat = "Casting %s...";
     private static readonly string s_cannotCastSpellInCombatText = "Cannot cast spell in combat";
     private static readonly string s_notEnoughChannelingPointsText = "Not enough channeling points";
-    private static HeroLevelArray6 s_heroExperienceTable = HeroLevelArray6.From([new HeroLevel { DailyExperience = 1, Experience = 15 }, new HeroLevel { DailyExperience = 1, Experience = 15 }, new HeroLevel { DailyExperience = 1, Experience = 20 }, new HeroLevel { DailyExperience = 1, Experience = 20 }, new HeroLevel { DailyExperience = 1, Experience = 25 }, new HeroLevel { DailyExperience = 1, Experience = 25 }]);
-    internal static SByteArray5 s_moraleResistance = SByteArray5.From([-2, -1, 0, 0, 0]);
-    internal static SByteArray5 s_moraleDefense = SByteArray5.From([-2, -1, 0, 0, 0]);
+    private static readonly ImmutableArray<HeroLevel> s_heroExperienceTable = [new HeroLevel { DailyExperience = 1, Experience = 15 }, new HeroLevel { DailyExperience = 1, Experience = 15 }, new HeroLevel { DailyExperience = 1, Experience = 20 }, new HeroLevel { DailyExperience = 1, Experience = 20 }, new HeroLevel { DailyExperience = 1, Experience = 25 }, new HeroLevel { DailyExperience = 1, Experience = 25 }];
+
+    internal static ReadOnlySpan<sbyte> MoraleResistance => [-2, -1, 0, 0, 0];
+    internal static ReadOnlySpan<sbyte> MoraleDefense => [-2, -1, 0, 0, 0];
 
 }

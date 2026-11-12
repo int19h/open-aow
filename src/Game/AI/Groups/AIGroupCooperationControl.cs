@@ -37,14 +37,14 @@ public partial class AIGroupCooperationControl : AIGroupTask
     public CooperationMode Mode { get; set; }
 
     private int _remainingStrength;
-    private Int32Array10 _remainingStrengths;
+    private readonly int[] _remainingStrengths = new int[10];
     private float _pathStrengthFactor;
     private AIGroupControlTarget _target;
 
     public int CooperateStrength { get; set; }
 
     private Set<DamageType> _damageTypes;
-    private Int32Array10 _cooperateStrengths;
+    private readonly int[] _cooperateStrengths = new int[10];
 
     public int Superiority { get; set; }
 
@@ -179,7 +179,7 @@ public partial class AIGroupCooperationControl : AIGroupTask
         _target = null;
         CooperateStrength = 0;
         _damageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
-        _cooperateStrengths = default;
+        Array.Clear(_cooperateStrengths);
         Superiority = 120;
         _pathStrengthFactor = (float)0.8;
         State = 0;

@@ -65,7 +65,7 @@ public partial class GroupDefenseSelector : IDisposable
     }
 
     // AIGroup.pas:1676
-    public bool EnoughStrength(ref Int32Array10 strengths)
+    public bool EnoughStrength(ReadOnlySpan<int> strengths)
     {
         bool result = default;
         DamageType damageType;
@@ -83,7 +83,7 @@ public partial class GroupDefenseSelector : IDisposable
     }
 
     // AIGroup.pas:1687
-    public bool UsefulUnit(Troop troop, ref Int32Array10 strengths)
+    public bool UsefulUnit(Troop troop, ReadOnlySpan<int> strengths)
     {
         bool result = default;
         DamageType damageType;
@@ -135,7 +135,7 @@ public partial class GroupDefenseSelector : IDisposable
             {
                 candidates.Clear();
                 mapField.GetDefenseRequirements(group.Player, ref strengths);
-                if (!EnoughStrength(ref strengths.DamageStrengths))
+                if (!EnoughStrength(strengths.DamageStrengths))
                 {
                     UpdateDefenseLocation(mapField);
                     GetDefenders(group.Player, (sbyte)walk.X, (sbyte)walk.Y, L, candidates);
@@ -171,10 +171,10 @@ public partial class GroupDefenseSelector : IDisposable
                     }
 
                     I = start;
-                    while (!EnoughStrength(ref strengths.DamageStrengths) && candidates.Count > I && candidates.GetUnit(I).GroupId == group.GroupId)
+                    while (!EnoughStrength(strengths.DamageStrengths) && candidates.Count > I && candidates.GetUnit(I).GroupId == group.GroupId)
                     {
                         troop = candidates.GetUnit(I);
-                        if (Defenders.IndexOfChild(troop) == -1 && UsefulUnit(troop, ref strengths.DamageStrengths))
+                        if (Defenders.IndexOfChild(troop) == -1 && UsefulUnit(troop, strengths.DamageStrengths))
                         {
                             Defenders.AddUnit(troop);
                             for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)

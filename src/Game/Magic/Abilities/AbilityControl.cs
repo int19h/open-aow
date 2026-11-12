@@ -27,7 +27,7 @@ public partial class AbilityControl : EngineObject
 
     public List<Ability> Abilities { get; }
 
-    public AbilityTypeListArray5 AbilitiesByType;
+    public AbilityTypeList[] AbilitiesByType { get; } = new AbilityTypeList[5];
 
     // Ability.PAS:2044
     public override void Dispose()

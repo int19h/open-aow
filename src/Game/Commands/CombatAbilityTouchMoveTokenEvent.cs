@@ -64,7 +64,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                 case TokenStep.Start:
                     try
                     {
-                        _effectType = TacticalTables.s_abilityTypes[AbilityId];
+                        _effectType = TacticalTables.AbilityTypes[AbilityId];
                         Unit.UnitHexSprite.CancelMove();
                         Unit.UnitHexSprite.Unselect();
                         Unit.UnitHexSprite.SelectedAbility = AbilityId;
@@ -200,7 +200,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                         Step = TokenStep.End;
                                         RandSeed = AoWHSMap.Current.Random(16777215);
                                         var defense = _wall.GetDefense();
-                                        var executeDamageRole = AbilityRules.ExecuteDamageRole(TacticalTables.s_tacticalBattleDamage[0], TacticalTables.s_tacticalBattleAttack[0] - defense);
+                                        var executeDamageRole = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[0], TacticalTables.TacticalBattleAttack[0] - defense);
                                         _wall.SetHitPoints(_wall.HitPoints - executeDamageRole);
                                         Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.StepBack);
                                         break;
@@ -244,9 +244,9 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                         }
                                         else
                                         {
-                                            if (TacticalTables.s_rangedAttackDirection[Unit.UnitHexSprite.ActionFrame] > 0)
+                                            if (TacticalTables.RangedAttackDirection[Unit.UnitHexSprite.ActionFrame] > 0)
                                             {
-                                                I = (TacticalTables.s_rangedAttackDirection[Unit.UnitHexSprite.ActionFrame] + Unit.UnitHexSprite.Direction) % 6 + 1;
+                                                I = (TacticalTables.RangedAttackDirection[Unit.UnitHexSprite.ActionFrame] + Unit.UnitHexSprite.Direction) % 6 + 1;
                                                 var path = Path[1];
                                                 HexGeometry.CenterHexNumberToHex(Path[1].X, path.Y, I, ref X, ref Y);
                                                 hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).FindOwnedChild(2228484);

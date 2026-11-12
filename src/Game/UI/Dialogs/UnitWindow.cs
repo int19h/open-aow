@@ -1,4 +1,5 @@
 // Translated from AoWUnitWindow.pas.
+using System.Collections.Immutable;
 using Aow.Engine.Buffers;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -758,7 +759,7 @@ public partial class UnitWindow : DataModule
 
     private static readonly string s_moraleFormat = "Morale: %s";
     private static readonly string s_useFormat = "Use %s";
-    private static StringArray5 s_moraleTexts = StringArray5.From(["Terrible", "Poor", "Okay", "Good", "High"]);
+    private static readonly ImmutableArray<string> s_moraleTexts = ["Terrible", "Poor", "Okay", "Good", "High"];
     private static CheckBox s_selectedItem;
     private static readonly string s_abilitiesText = "Abilities";
     private static readonly string s_infoText = "Info";

@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 
 using Aow.Engine.Buffers;
 
@@ -21,9 +22,9 @@ public static class GameTables
         return GameEngine != null;
     }
 
-    internal static StringArray9 s_magicSphereTexts = StringArray9.From([]);
+    internal static string[] MagicSphereTexts { get; } = ["", "", "", "", "", "", "", "", ""];
 
-    internal static StringArray3 s_spellTypeTexts = StringArray3.From([]);
+    internal static string[] SpellTypeTexts { get; } = ["", "", ""];
 
     internal static string UnknownText { get; } = "Unknown";
 
@@ -151,19 +152,19 @@ public static class GameTables
 
     public static GameEngine GameEngine { get; set; }
 
-    internal static StringArray5 s_abilityTypeTexts = StringArray5.From([]);
+    internal static string[] AbilityTypeTexts { get; } = ["", "", "", "", ""];
 
-    internal static StringArray8 s_playerTypeTexts = StringArray8.From([]);
+    internal static string[] PlayerTypeTexts { get; } = ["", "", "", "", "", "", "", ""];
 
-    internal static StringArray6 s_playerBehaviorTexts = StringArray6.From([]);
+    internal static string[] PlayerBehaviorTexts { get; } = ["", "", "", "", "", ""];
 
-    internal static StringArray4 s_diplomaticRelationTexts = StringArray4.From([]);
+    internal static string[] DiplomaticRelationTexts { get; } = ["", "", "", ""];
 
     internal static string[] StatusTexts { get; } = Strings(5);
 
     internal static string[] RaceNamesPluralTexts { get; } = Strings(13);
 
-    internal static StringArray13 s_raceNames = StringArray13.From([]);
+    internal static string[] RaceNames { get; } = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
 
     private static readonly string s_undeadText = "Undead";
 
@@ -175,9 +176,9 @@ public static class GameTables
 
     internal static string EarthText { get; } = "Earth";
 
-    internal static StringArray7 s_stormTypeTexts = StringArray7.From([NoneText, FireStormText, DeathStormText, DivineStormText, IceStormText, LightningStormText, PestilenceStormText]);
+    internal static ImmutableArray<string> StormTypeTexts { get; } = [NoneText, FireStormText, DeathStormText, DivineStormText, IceStormText, LightningStormText, PestilenceStormText];
 
-    private static SingleArray20 s_hitProbabilities;
+    private static readonly float[] s_hitProbabilities = new float[20];
 
     internal static string WarText { get; } = "War";
 
@@ -195,33 +196,33 @@ public static class GameTables
 
     internal static void Initialize()
     {
-        s_abilityTypeTexts[(int)AbilityType.Enhancement] = s_enhancementText;
-        s_abilityTypeTexts[(int)AbilityType.Handicap] = s_handicapText;
-        s_abilityTypeTexts[(int)AbilityType.Movement] = s_movementText;
-        s_abilityTypeTexts[(int)AbilityType.Combat] = CombatText;
-        s_abilityTypeTexts[(int)AbilityType.Enchantment] = EnchantmentText;
-        s_playerTypeTexts[0] = HumanText;
-        s_playerTypeTexts[1] = s_cpuWarriorText;
-        s_playerTypeTexts[2] = s_cpuKnightText;
-        s_playerTypeTexts[3] = s_cpuLordText;
-        s_playerTypeTexts[4] = s_independentText;
-        s_playerTypeTexts[5] = s_freeText;
-        s_playerTypeTexts[6] = s_cpuKingText;
-        s_playerTypeTexts[7] = s_cpuEmperorText;
+        AbilityTypeTexts[(int)AbilityType.Enhancement] = s_enhancementText;
+        AbilityTypeTexts[(int)AbilityType.Handicap] = s_handicapText;
+        AbilityTypeTexts[(int)AbilityType.Movement] = s_movementText;
+        AbilityTypeTexts[(int)AbilityType.Combat] = CombatText;
+        AbilityTypeTexts[(int)AbilityType.Enchantment] = EnchantmentText;
+        PlayerTypeTexts[0] = HumanText;
+        PlayerTypeTexts[1] = s_cpuWarriorText;
+        PlayerTypeTexts[2] = s_cpuKnightText;
+        PlayerTypeTexts[3] = s_cpuLordText;
+        PlayerTypeTexts[4] = s_independentText;
+        PlayerTypeTexts[5] = s_freeText;
+        PlayerTypeTexts[6] = s_cpuKingText;
+        PlayerTypeTexts[7] = s_cpuEmperorText;
         // Original InitResStrings table: race-name entries
-        s_raceNames[0] = HumanText;
-        s_raceNames[1] = s_azracText;
-        s_raceNames[2] = s_lizardText;
-        s_raceNames[3] = s_frostlingText;
-        s_raceNames[4] = s_elfText;
-        s_raceNames[5] = s_halflingText;
-        s_raceNames[6] = s_dwarfText;
-        s_raceNames[7] = s_highmanText;
-        s_raceNames[8] = s_darkElfText;
-        s_raceNames[9] = s_orcText;
-        s_raceNames[10] = s_goblinText;
-        s_raceNames[11] = s_undeadText;
-        s_raceNames[12] = s_independentText;
+        RaceNames[0] = HumanText;
+        RaceNames[1] = s_azracText;
+        RaceNames[2] = s_lizardText;
+        RaceNames[3] = s_frostlingText;
+        RaceNames[4] = s_elfText;
+        RaceNames[5] = s_halflingText;
+        RaceNames[6] = s_dwarfText;
+        RaceNames[7] = s_highmanText;
+        RaceNames[8] = s_darkElfText;
+        RaceNames[9] = s_orcText;
+        RaceNames[10] = s_goblinText;
+        RaceNames[11] = s_undeadText;
+        RaceNames[12] = s_independentText;
         RaceNamesPluralTexts[0] = s_humanPluralText;
         RaceNamesPluralTexts[1] = s_azracPluralText;
         RaceNamesPluralTexts[2] = s_lizardPluralText;
@@ -250,37 +251,37 @@ public static class GameTables
 
     internal static void InitializeMorePathsRelations()
     {
-        s_diplomaticRelationTexts[(int)DiplomaticRelation.Alliance] = s_allianceText;
-        s_diplomaticRelationTexts[(int)DiplomaticRelation.Peace] = PeaceText;
-        s_diplomaticRelationTexts[(int)DiplomaticRelation.War] = WarText;
-        s_diplomaticRelationTexts[(int)DiplomaticRelation.Unknown] = UnknownText;
+        DiplomaticRelationTexts[(int)DiplomaticRelation.Alliance] = s_allianceText;
+        DiplomaticRelationTexts[(int)DiplomaticRelation.Peace] = PeaceText;
+        DiplomaticRelationTexts[(int)DiplomaticRelation.War] = WarText;
+        DiplomaticRelationTexts[(int)DiplomaticRelation.Unknown] = UnknownText;
     }
 
     static GameTables()
     {
-        s_magicSphereTexts[(int)MagicSphere.Cosmos] = s_cosmosText;
-        s_magicSphereTexts[(int)MagicSphere.Life] = s_lifeText;
-        s_magicSphereTexts[(int)MagicSphere.Death] = DeathText;
-        s_magicSphereTexts[(int)MagicSphere.Earth] = EarthText;
-        s_magicSphereTexts[(int)MagicSphere.Air] = s_airText;
-        s_magicSphereTexts[(int)MagicSphere.Fire] = FireText;
-        s_magicSphereTexts[(int)MagicSphere.Water] = WaterText;
-        s_magicSphereTexts[(int)MagicSphere.Secret] = s_secretText;
-        s_magicSphereTexts[(int)MagicSphere.None] = NoneText;
+        MagicSphereTexts[(int)MagicSphere.Cosmos] = s_cosmosText;
+        MagicSphereTexts[(int)MagicSphere.Life] = s_lifeText;
+        MagicSphereTexts[(int)MagicSphere.Death] = DeathText;
+        MagicSphereTexts[(int)MagicSphere.Earth] = EarthText;
+        MagicSphereTexts[(int)MagicSphere.Air] = s_airText;
+        MagicSphereTexts[(int)MagicSphere.Fire] = FireText;
+        MagicSphereTexts[(int)MagicSphere.Water] = WaterText;
+        MagicSphereTexts[(int)MagicSphere.Secret] = s_secretText;
+        MagicSphereTexts[(int)MagicSphere.None] = NoneText;
         StatusTexts[(int)Status.Hostile] = s_hostileText;
         StatusTexts[(int)Status.Wary] = s_waryText;
         StatusTexts[(int)Status.Neutral] = NeutralText;
         StatusTexts[(int)Status.Polite] = s_politeText;
         StatusTexts[(int)Status.Friendly] = s_friendlyText;
-        s_playerBehaviorTexts[(int)PlayerBehavior.Normal] = s_normalText;
-        s_playerBehaviorTexts[(int)PlayerBehavior.Aggressor] = s_aggressorText;
-        s_playerBehaviorTexts[(int)PlayerBehavior.Defender] = s_defenderText;
-        s_playerBehaviorTexts[(int)PlayerBehavior.Expander] = s_expanderText;
-        s_playerBehaviorTexts[(int)PlayerBehavior.Scorcher] = s_scorcherText;
-        s_playerBehaviorTexts[(int)PlayerBehavior.Random] = s_randomText;
-        s_spellTypeTexts[(int)SpellType.Combat] = CombatText;
-        s_spellTypeTexts[(int)SpellType.Unit] = s_unitText;
-        s_spellTypeTexts[(int)SpellType.Global] = GlobalText;
+        PlayerBehaviorTexts[(int)PlayerBehavior.Normal] = s_normalText;
+        PlayerBehaviorTexts[(int)PlayerBehavior.Aggressor] = s_aggressorText;
+        PlayerBehaviorTexts[(int)PlayerBehavior.Defender] = s_defenderText;
+        PlayerBehaviorTexts[(int)PlayerBehavior.Expander] = s_expanderText;
+        PlayerBehaviorTexts[(int)PlayerBehavior.Scorcher] = s_scorcherText;
+        PlayerBehaviorTexts[(int)PlayerBehavior.Random] = s_randomText;
+        SpellTypeTexts[(int)SpellType.Combat] = CombatText;
+        SpellTypeTexts[(int)SpellType.Unit] = s_unitText;
+        SpellTypeTexts[(int)SpellType.Global] = GlobalText;
         InitializeMorePathsRelations();
     }
 

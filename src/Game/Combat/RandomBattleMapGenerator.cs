@@ -29,12 +29,12 @@ public partial class RandomBattleMapGenerator : IDisposable
 
     // calls GetItem
     private bool _randomTerrain;
-    private Int32Array20 _neighborWeights;
-    private Int32Array305 _terrainWeights;
-    private Int32Array308 _tagWeights;
-    private SByteArray7 _terrain;
-    private SByteArray7 _tags;
-    private MapObjectResourceListArray286 _resources;
+    private readonly int[] _neighborWeights = new int[20];
+    private readonly int[] _terrainWeights = new int[305];
+    private readonly int[] _tagWeights = new int[308];
+    private readonly sbyte[] _terrain = new sbyte[7];
+    private readonly sbyte[] _tags = new sbyte[7];
+    private readonly List<MapObjectResource>[] _resources = new List<MapObjectResource>[286];
     // original allocates one extra list
     private int _homePosition;
 
@@ -88,7 +88,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         string fileName;
         Structure structure;
         HexBridge bridge;
-        Int32Array20 weights = default;
+        Span<int> weights = stackalloc int[20];
         bool Blocked(int X, int Y, int first, int last)
         {
             int kind;
@@ -97,7 +97,7 @@ public partial class RandomBattleMapGenerator : IDisposable
             bool result = false;
             for (int I = first; I <= last; I++)
             {
-                HexGeometry.CenterHexNumberToHex(X, Y, s_clusterCheckBox[I], ref hexX, ref hexY);
+                HexGeometry.CenterHexNumberToHex(X, Y, ClusterCheckBox[I], ref hexX, ref hexY);
                 kind = terrainBuffer[hexY * 65 + hexX];
                 result = result || kind == 1 || kind == 2 || kind == 3 || kind == 5 || kind == 6 || kind == 7 || kind == 11 || kind == 14 || kind == 15 || kind == 16 || kind == 17 || kind == 18 || kind == 252 || kind == 253 || kind == 254;
             }
@@ -265,7 +265,7 @@ public partial class RandomBattleMapGenerator : IDisposable
             {
                 for (int column = 6; column <= 58; column++)
                 {
-                    shape = s_mapShape[row * 65 + column];
+                    shape = MapShape[row * 65 + column];
                     switch (shape)
                     {
                         case 14:
@@ -460,7 +460,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                 {
                     for (int column = 6; column <= 58; column++)
                     {
-                        shape = s_mapRoads[row * 65 + column];
+                        shape = MapRoads[row * 65 + column];
                         switch (shape)
                         {
                             case 21:
@@ -573,7 +573,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                         I = 0;
                         for (; I <= 2; I += 1)
                         {
-                            HexGeometry.CenterHexNumberToHex(column * 2, row, s_clusterCheckBox[I], ref J, ref K);
+                            HexGeometry.CenterHexNumberToHex(column * 2, row, ClusterCheckBox[I], ref J, ref K);
                             tag = terrainBuffer[K * 65 + J];
                             if (tag <= 19)
                             {
@@ -695,7 +695,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                         I = 0;
                         for (; I <= 2; I += 1)
                         {
-                            HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, s_clusterCheckBox[I], ref J, ref K);
+                            HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, ClusterCheckBox[I], ref J, ref K);
                             tag = terrainBuffer[K * 65 + J];
                             if (tag <= 19)
                             {
@@ -844,7 +844,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         TacticalBattleUnit U;
         TacticalBattleUnit other;
         int direction;
-        BooleanArray8 used = default;
+        Span<bool> used = stackalloc bool[8];
         TacticalBattleItemHexSprite itemHexSprite;
         direction = 32;
         _homePosition = -1;
@@ -1041,8 +1041,8 @@ public partial class RandomBattleMapGenerator : IDisposable
                 case 0:
                     if (direction > 0)
                     {
-                        X = s_defensePositionX[(direction - 1) * 8 + slot];
-                        Y = s_defensePositionY[(direction - 1) * 8 + slot];
+                        X = DefensePositionX[(direction - 1) * 8 + slot];
+                        Y = DefensePositionY[(direction - 1) * 8 + slot];
                         unitHexSprite.SetDirection((byte)direction);
                     }
                     else
@@ -1333,11 +1333,10 @@ public partial class RandomBattleMapGenerator : IDisposable
         _tagWeights[181] = 600;
     }
 
-    private static Int32Array48 s_defensePositionX = Int32Array48.From([32, 30, 34, 32, 28, 36, 30, 34, 34, 36, 32, 38, 30, 36, 32, 34, 36, 34, 38, 32, 36, 30, 34, 32, 32, 34, 30, 32, 36, 28, 34, 30, 30, 28, 32, 26, 34, 28, 32, 30, 28, 30, 26, 32, 28, 34, 30, 32]);
-    private static Int32Array48 s_defensePositionY = Int32Array48.From([26, 27, 27, 28, 28, 28, 29, 29, 27, 28, 26, 29, 27, 30, 28, 29, 30, 31, 29, 32, 28, 31, 29, 30, 32, 31, 31, 30, 30, 30, 29, 29, 31, 30, 32, 29, 31, 28, 30, 29, 28, 27, 29, 26, 30, 27, 29, 28]);
+    private static ReadOnlySpan<int> DefensePositionX => [32, 30, 34, 32, 28, 36, 30, 34, 34, 36, 32, 38, 30, 36, 32, 34, 36, 34, 38, 32, 36, 30, 34, 32, 32, 34, 30, 32, 36, 28, 34, 30, 30, 28, 32, 26, 34, 28, 32, 30, 28, 30, 26, 32, 28, 34, 30, 32];
+    private static ReadOnlySpan<int> DefensePositionY => [26, 27, 27, 28, 28, 28, 29, 29, 27, 28, 26, 29, 27, 30, 28, 29, 30, 31, 29, 32, 28, 31, 29, 30, 32, 31, 31, 30, 30, 30, 29, 29, 31, 30, 32, 29, 31, 28, 30, 29, 28, 27, 29, 26, 30, 27, 29, 28];
 
-    private static ByteArray3770 s_mapShape = ByteArray3770.From((ReadOnlySpan<byte>)new byte[3770]
-    {
+    private static ReadOnlySpan<byte> MapShape => [
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -1715,10 +1714,9 @@ public partial class RandomBattleMapGenerator : IDisposable
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    });
+    ];
 
-    private static ByteArray3770 s_mapRoads = ByteArray3770.From((ReadOnlySpan<byte>)new byte[3770]
-    {
+    private static ReadOnlySpan<byte> MapRoads => [
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -2096,8 +2094,8 @@ public partial class RandomBattleMapGenerator : IDisposable
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    });
+    ];
 
-    private static Int32Array18 s_clusterCheckBox = Int32Array18.From([1, 2, 6, 16, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 33, 34, 35, 36]);
+    private static ReadOnlySpan<int> ClusterCheckBox => [1, 2, 6, 16, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 33, 34, 35, 36];
 
 }

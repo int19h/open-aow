@@ -45,13 +45,13 @@ public partial class AIGroupProductionControl : AIGroupTask
     public AIGroupUnitProductionList Productions { get; private set; }
 
     private AIGroupUnitProductionList _producibleUnits;
-    private Int32Array10 _remainingStrengths;
+    private readonly int[] _remainingStrengths = new int[10];
     private int _remainingStrength;
 
     public int ProduceStrength { get; set; }
 
     private Set<DamageType> _damageTypes;
-    private Int32Array10 _produceStrengths;
+    private readonly int[] _produceStrengths = new int[10];
     private int _priorityRange;
     private bool _multiple;
     private int _groupId;
@@ -416,7 +416,7 @@ public partial class AIGroupProductionControl : AIGroupTask
         _manaUpkeep = 0;
         ProduceStrength = 0;
         _damageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
-        _produceStrengths = default;
+        Array.Clear(_produceStrengths);
         _moveTypes = Set<MoveType>.Of(MoveType.Walking, MoveType.Flying);
         Complete = false;
         Mode = AIGroupProductionControlMode.AutoProduce;

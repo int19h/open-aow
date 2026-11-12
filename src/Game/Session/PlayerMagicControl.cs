@@ -507,12 +507,12 @@ public partial class PlayerMagicControl : EngineObject
     public bool ValidResearchSpell(Spell spell)
     {
         bool result;
-        Int32Array4 counts;
+        Span<int> counts = stackalloc int[4];
         int level;
         Spell known;
         if (Player.Leader.GetSpherePicks(spell.MagicSphere) >= spell.SpellLevel && Spells.IndexOf(spell.SpellId) == -1)
         {
-            counts = default;
+            counts.Clear();
             for (int I = Spells.Count - 1; I >= 0; I--)
             {
                 var item = Spells[I];

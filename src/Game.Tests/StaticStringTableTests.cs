@@ -1,15 +1,14 @@
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 using Aow.Game.Audio;
 
 namespace Aow.Game.Tests;
 
-// The static string tables are [InlineArray] structs whose element field skips every initializer.
-// After the unit initialization of a fresh process no element, no string array item and no static
-// string field of the units holds null (strings.md 2.2).
+// The static string tables are string arrays and immutable string arrays. After the unit
+// initialization of a fresh process no table item and no static string field of the units holds
+// null (strings.md 2.2).
 public sealed class StaticStringTableTests
 {
     [Fact]
@@ -47,24 +46,20 @@ public sealed class StaticStringTableTests
                 {
                     if (field.GetValue(null) is null) nulls.Add(name);
                 }
-                else if (field.FieldType == typeof(string[]))
-                {
-                    if (field.GetValue(null) is string[] items)
-                        for (int i = 0; i < items.Length; i++) if (items[i] is null) nulls.Add($"{name}[{i}]");
-                }
-                else if (field.FieldType.GetCustomAttribute<InlineArrayAttribute>() is { } inline
-                    && field.FieldType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Single().FieldType == typeof(string))
+                else if (field.FieldType == typeof(string[]) || field.FieldType == typeof(ImmutableArray<string>))
                 {
                     tables++;
-                    var items = (string[])typeof(StaticStringTableTests).GetMethod(nameof(Elements), BindingFlags.Static | BindingFlags.NonPublic)!
-                        .MakeGenericMethod(field.FieldType).Invoke(null, [field.GetValue(null), inline.Length])!;
-                    for (int i = 0; i < items.Length; i++) if (items[i] is null) nulls.Add($"{name}[{i}]");
+                    IReadOnlyList<string>? items = field.GetValue(null) switch
+                    {
+                        string[] array => array,
+                        ImmutableArray<string> { IsDefault: false } immutable => immutable,
+                        _ => null,
+                    };
+                    if (items is null) nulls.Add(name);
+                    else for (int i = 0; i < items.Count; i++) if (items[i] is null) nulls.Add($"{name}[{i}]");
                 }
             }
         Assert.True(tables >= 24, $"{tables} static string tables");
         Assert.Empty(nulls);
     }
-
-    private static string[] Elements<T>(T table, int length) where T : struct
-        => MemoryMarshal.CreateReadOnlySpan(ref Unsafe.As<T, string>(ref table), length).ToArray();
 }

@@ -35,8 +35,8 @@ public struct HexNumberWalkData
         walk.Step = walk.Step + 1;
         if (walk.Step < walk.Radius || side != 5)
         {
-            walk.X = walk.X + HexGeometry.s_hexNumberWalkTable[parity][side].X;
-            walk.Y = walk.Y + HexGeometry.s_hexNumberWalkTable[parity][side].Y;
+            walk.X = walk.X + HexGeometry.HexNumberWalkTable[parity][side].X;
+            walk.Y = walk.Y + HexGeometry.HexNumberWalkTable[parity][side].Y;
             if (walk.Step >= walk.Radius)
             {
                 walk.Side = side + 1;

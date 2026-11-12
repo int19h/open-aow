@@ -1277,9 +1277,9 @@ public partial class AIGroupTargetSelector : AIGroupTask
         for (int i = 0; i <= 9; i++)
         {
             DamageType damageType = (DamageType)i;
-            if (MemoryMarshal.Cast<byte, Int32Array10>(strengths)[0][(int)damageType] > number)
+            if (MemoryMarshal.Cast<byte, int>(strengths)[(int)damageType] > number)
             {
-                number = MemoryMarshal.Cast<byte, Int32Array10>(strengths)[0][(int)damageType];
+                number = MemoryMarshal.Cast<byte, int>(strengths)[(int)damageType];
             }
         }
         return number;

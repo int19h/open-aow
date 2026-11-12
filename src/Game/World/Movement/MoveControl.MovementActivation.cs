@@ -32,8 +32,8 @@ public partial class MoveControl
         }
         else if (Settings.Status is MoveControlSettingsStatus.Processing or MoveControlSettingsStatus.Processed)
             MovePointsLimit = Settings.MovePointsLimit;
-        _pointOffsets[0] = Settings.EvenOffsets;
-        _pointOffsets[1] = Settings.OddOffsets;
+        Settings.EvenOffsets.CopyTo(_pointOffsets[0]);
+        Settings.OddOffsets.CopyTo(_pointOffsets[1]);
         Player = Settings.Player;
         _sourceX = Settings.SourceX;
         _sourceY = Settings.SourceY;

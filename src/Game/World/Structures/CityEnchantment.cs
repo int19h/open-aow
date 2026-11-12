@@ -1,4 +1,5 @@
 // Translated from City.pas.
+using System.Collections.Immutable;
 using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
@@ -98,6 +99,6 @@ public partial class CityEnchantment : GlobalEnchantment
     // City.pas:2756
     public City GetCity() => (City)AoWHSMap.Current.MapContainer.GetField(EnchantmentLocation.X, EnchantmentLocation.Y, EnchantmentLocation.MapLevel).FindNoneTransparentHexSprite(typeof(City));
 
-    private static StringArray4 s_cityEnchantmentIdTexts = StringArray4.From(["Fountain Of Life", "Gold Rush", "Anti Magic Shell", "Warmonger"]);
+    private static readonly ImmutableArray<string> s_cityEnchantmentIdTexts = ["Fountain Of Life", "Gold Rush", "Anti Magic Shell", "Warmonger"];
 
 }

@@ -15,7 +15,7 @@ public struct EngineMessage
 
     public MsgArg Payload { get; set; }
 
-    public Int32Array4 Data;
+    public Array4<int> Data;
 
     public int Result { get; set; }
 

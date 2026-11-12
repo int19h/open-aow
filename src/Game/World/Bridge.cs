@@ -63,7 +63,7 @@ public partial class Bridge : AbstractRoad
     // Bridge.pas:82
     public override void UpdateTransitions()
     {
-        ByteArray6 sides = default;
+        Span<byte> sides = stackalloc byte[6];
         int transitions;
         int maxDistance;
         int maxSide;

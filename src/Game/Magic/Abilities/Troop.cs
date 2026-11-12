@@ -54,7 +54,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public Set<UnitStatusElement> UnitStatus { get; set; }
 
     public sbyte MoraleValue;
-    private ByteArray10 _offensiveStrength;
+    private readonly byte[] _offensiveStrength = new byte[10];
 
     public byte MaxOffensiveStrength { get; private set; }
 
@@ -1020,14 +1020,14 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 var players = AoWHSMap.Current.Players.GetPlayers(player);
                 var playerAlignment = AoWHSSet.Current.RaceResources.GetRaceResource(players.PlayerRace).GetAlignment();
                 var unitAlignment = GetAlignment();
-                result = AlignmentTables.s_alignmentToStatusValue[(int)unitAlignment][(int)playerAlignment];
+                result = AlignmentTables.AlignmentToStatusValue[(int)unitAlignment][(int)playerAlignment];
             }
         }
         else
         {
             var iRtoAlignment = AbilityRules.IndependentRelationToAlignment(independentRelation);
             var alignment = GetAlignment();
-            result = AlignmentTables.s_alignmentToStatusValue[(int)alignment][(int)iRtoAlignment];
+            result = AlignmentTables.AlignmentToStatusValue[(int)alignment][(int)iRtoAlignment];
         }
 
         return result;
@@ -1432,7 +1432,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:922
-    public void CreateMovePointTable(ref SByteArray16By16 table)
+    public void CreateMovePointTable(ref MovePointTable table)
     {
         Set<MoveType> moves;
         int points;
@@ -1453,9 +1453,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             {
                 for (int terrain = 0; terrain <= 15; terrain++)
                 {
-                    if (table[terrain][4 - -1] != -1)
+                    if (table[terrain][4 - MovementTables.FirstOverlay] != -1)
                     {
-                        table[terrain][4 - -1] = 2;
+                        table[terrain][4 - MovementTables.FirstOverlay] = 2;
                     }
                 }
             }
@@ -1470,10 +1470,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                     {
                         for (int terrain = 0; terrain <= 15; terrain++)
                         {
-                            value = table[terrain][overlay - -1];
+                            value = table[terrain][overlay - MovementTables.FirstOverlay];
                             if (value > 2)
                             {
-                                table[terrain][overlay - -1] = (sbyte)(int)(((uint)(value + 1)) >> 1);
+                                table[terrain][overlay - MovementTables.FirstOverlay] = (sbyte)(int)(((uint)(value + 1)) >> 1);
                             }
                         }
                     }
@@ -1486,9 +1486,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                         {
                             for (int terrain = 0; terrain <= 15; terrain++)
                             {
-                                if (table[terrain][overlay - -1] >= 1)
+                                if (table[terrain][overlay - MovementTables.FirstOverlay] >= 1)
                                 {
-                                    table[terrain][overlay - -1] = (sbyte)(table[terrain][overlay - -1] * 2);
+                                    table[terrain][overlay - MovementTables.FirstOverlay] = (sbyte)(table[terrain][overlay - MovementTables.FirstOverlay] * 2);
                                 }
                             }
                         }
@@ -1502,7 +1502,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 {
                     for (int terrain = 0; terrain <= 15; terrain++)
                     {
-                        points = table[terrain][overlay - -1];
+                        points = table[terrain][overlay - MovementTables.FirstOverlay];
                         if (points > 2)
                         {
                             points -= 1;
@@ -1513,7 +1513,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                             }
                         }
 
-                        table[terrain][overlay - -1] = (sbyte)points;
+                        table[terrain][overlay - MovementTables.FirstOverlay] = (sbyte)points;
                     }
                 }
             }
@@ -1524,10 +1524,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 {
                     for (int terrain = 0; terrain <= 15; terrain++)
                     {
-                        points = table[terrain][overlay - -1];
+                        points = table[terrain][overlay - MovementTables.FirstOverlay];
                         if (points > 0)
                         {
-                            table[terrain][overlay - -1] = (sbyte)(points + 2);
+                            table[terrain][overlay - MovementTables.FirstOverlay] = (sbyte)(points + 2);
                         }
                     }
                 }
@@ -1543,7 +1543,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         // { Original retrieves the movement set twice and retains the first dead store. }
         GetMoveTypes();
         var moveTypesToInt32 = MovementTables.MoveTypesToInt32(GetMoveTypes());
-        cost = MovementTables.MovePointTables[moveTypesToInt32][terrainType][overlayType - -1];
+        cost = MovementTables.MovePointTables[moveTypesToInt32][terrainType][overlayType - MovementTables.FirstOverlay];
         if (cost == -1 || cost > GetMoves())
         {
             result = false;
@@ -1754,7 +1754,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 overlay = field.OverlayType;
                 moves = moves - Set<MoveType>.Of(MoveType.Flying);
                 var moveTypesToInt32 = MovementTables.MoveTypesToInt32(moves);
-                doubleDamage = MovementTables.MovePointTables[moveTypesToInt32][terrain][overlay - -1] == 0;
+                doubleDamage = MovementTables.MovePointTables[moveTypesToInt32][terrain][overlay - MovementTables.FirstOverlay] == 0;
             }
         }
 
@@ -1822,9 +1822,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // { Result is the final damage. }
     public int MovePointCost(sbyte terrainType, sbyte overlayType)
     {
-        SByteArray16By16 table = default;
+        MovePointTable table = default;
         CreateMovePointTable(ref table);
-        return table[terrainType][overlayType - -1];
+        return table[terrainType][overlayType - MovementTables.FirstOverlay];
     }
 
     // Unit.PAS:1238
@@ -2437,7 +2437,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             var ability = AoWHSSet.Current.AbilityControl.GetAbility(i);
             var name = ability.GetName(owner);
             if (!IsEmpty(name)) names.AddObject(name, IntToObject(i));
-            types?.AddObject(AbilityRules.TranslateResourceString(GameTables.s_abilityTypeTexts[(int)ability.GetAbilityType()]), IntToObject(i));
+            types?.AddObject(AbilityRules.TranslateResourceString(GameTables.AbilityTypeTexts[(int)ability.GetAbilityType()]), IntToObject(i));
             var source = ability.GetSourceName(owner);
             sources?.AddObject(source, IntToObject(i));
         }
@@ -2480,7 +2480,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
         var abilities = AoWHSSet.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
         MaxOffensiveStrength = 0;
-        _offensiveStrength = default;
+        Array.Clear(_offensiveStrength);
         for (int i = abilities.Count - 1; i >= 0; i--)
         {
             var ability = abilities.GetAbility(i);

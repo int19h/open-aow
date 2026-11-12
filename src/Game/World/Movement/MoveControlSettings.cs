@@ -43,8 +43,10 @@ public partial class MoveControlSettings : EngineObject
 
     private int[] _rowOffsets = [];
     private int[][] _levelData = [];
-    public Int32Array8 EvenOffsets;
-    public Int32Array8 OddOffsets;
+
+    public int[] EvenOffsets { get; } = new int[8];
+    public int[] OddOffsets { get; } = new int[8];
+
     private bool _movePointsClear;
 
     public MoveControlSettingsStatus Status { get; set; }
@@ -69,7 +71,7 @@ public partial class MoveControlSettings : EngineObject
     public UnitUserList Units { get; }
 
     // AddUnitsEx
-    public SByteArray16By16 MovePointTable;
+    public MovePointTable MovePointTable;
 
     // MoveT.PAS:84
     public override void Dispose()
@@ -221,8 +223,8 @@ public partial class MoveControlSettings : EngineObject
             Array.Clear(_levelData);
             for (int I = 1; I <= 6; I++)
             {
-                EvenOffsets[I] = HexGeometry.s_hexNumberToXYTable[0][I].X * 4 + HexGeometry.s_hexNumberToXYTable[0][I].Y * (width * 4);
-                OddOffsets[I] = HexGeometry.s_hexNumberToXYTable[1][I].X * 4 + HexGeometry.s_hexNumberToXYTable[1][I].Y * (width * 4);
+                EvenOffsets[I] = HexGeometry.HexNumberToXYTable[0][I].X * 4 + HexGeometry.HexNumberToXYTable[0][I].Y * (width * 4);
+                OddOffsets[I] = HexGeometry.HexNumberToXYTable[1][I].X * 4 + HexGeometry.HexNumberToXYTable[1][I].Y * (width * 4);
             }
         }
         else

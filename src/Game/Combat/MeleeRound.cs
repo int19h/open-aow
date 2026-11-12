@@ -566,7 +566,7 @@ public partial class MeleeRound : IDisposable
         [FieldOffset(12)]
         public CombatSideIndex Side;
         [FieldOffset(13)]
-        public ByteArray7 Reserved0D;
+        public Array7<byte> Reserved0D;
     }
 
     // intf_P4_02.inc:123

@@ -72,6 +72,7 @@ public sealed partial class SpellConstructionTests
         if (type.IsPrimitive || value is string || value is decimal) return value;
         if (value is ImageLibraryManager) return "$image-manager";
         if (value is Array array) return array.Cast<object?>().Select(x => State(x, depth + 1)).ToArray();
+        if (InlineArrays.Elements(value) is { } elements) return elements.Select(x => State(x, depth + 1)).ToArray();
         if (depth > 8) throw new InvalidOperationException("Unexpected constructor-state cycle: " + type);
         var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
         for (Type? current = type; current is not null && current != typeof(object); current = current.BaseType)

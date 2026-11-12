@@ -47,7 +47,7 @@ public partial class General : DataModule
     public List<CombatAbilityRef> Abilities { get; private set; }
     public int ActiveAbilityCount { get; private set; }
 
-    public Int32Array8 SelectedUnits;
+    public int[] SelectedUnits { get; } = new int[8];
 
     public Army UnitList { get; set; }
     public Structure Structure { get; set; }
@@ -685,7 +685,7 @@ public partial class General : DataModule
                     player.PlayerType = (PlayerType)((int)player.PlayerType + 1);
                 }
 
-                var playerType = AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[(int)player.PlayerType]);
+                var playerType = AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player.PlayerType]);
                 S = "Player " + IntToStr(key - 48) + " set to: " + playerType;
                 AoWHSMap.Current.ShowMessage(S);
                 AoWHSMap.Current.Players.Update();

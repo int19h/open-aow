@@ -41,12 +41,12 @@ public partial class CommandCombatAction : SingleTargetCombatAction
             source.SetExperience(source.GetExperience() + target.GetLevel());
             for (int I = 0; I <= 2; I++)
             {
-                ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityRules.s_commandAbilityIds[I])).ResetCommandedUnits(target);
+                ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[I])).ResetCommandedUnits(target);
             }
 
             for (int I = 0; I <= 2; I++)
             {
-                ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityRules.s_commandAbilityIds[I])).Uncommand(target);
+                ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[I])).Uncommand(target);
             }
 
             if (source.GetSide() != target.GetSide())

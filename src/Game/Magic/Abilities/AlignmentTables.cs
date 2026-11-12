@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 
 using Aow.Engine.Buffers;
 
@@ -11,7 +12,7 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class AlignmentTables
 {
-    internal static Status AlignmentToStatus(Alignment A, Alignment B) => Race.StatusValueToStatus(s_alignmentStatusValues[(int)A][(int)B]);
+    internal static Status AlignmentToStatus(Alignment A, Alignment B) => Race.StatusValueToStatus(AlignmentStatusValues[(int)A][(int)B]);
 
     internal static sbyte AlignmentToIndependentRelation(Alignment alignment)
     {
@@ -38,9 +39,9 @@ internal static class AlignmentTables
         return result;
     }
 
-    internal static SByteArray7By7 s_alignmentStatusValues = SByteArray7By7.From([SByteArray7.From([100, 90, 30, 40, 10, 0, 50]), SByteArray7.From([90, 90, 40, 50, 10, 10, 50]), SByteArray7.From([30, 40, 70, 50, 40, 30, 50]), SByteArray7.From([40, 50, 50, 50, 50, 40, 50]), SByteArray7.From([10, 10, 40, 50, 90, 90, 50]), SByteArray7.From([0, 10, 30, 40, 90, 100, 50]), SByteArray7.From([50, 50, 50, 50, 50, 50, 50])]);
+    internal static ImmutableArray<ImmutableArray<sbyte>> AlignmentStatusValues { get; } = [[100, 90, 30, 40, 10, 0, 50], [90, 90, 40, 50, 10, 10, 50], [30, 40, 70, 50, 40, 30, 50], [40, 50, 50, 50, 50, 40, 50], [10, 10, 40, 50, 90, 90, 50], [0, 10, 30, 40, 90, 100, 50], [50, 50, 50, 50, 50, 50, 50]];
 
-    internal static SByteArray7By7 s_alignmentToStatusValue = SByteArray7By7.From([SByteArray7.From([100, 90, 30, 40, 10, 0, 50]), SByteArray7.From([90, 90, 40, 50, 10, 10, 50]), SByteArray7.From([30, 40, 70, 50, 40, 30, 50]), SByteArray7.From([40, 50, 50, 50, 50, 40, 50]), SByteArray7.From([10, 10, 40, 50, 90, 90, 50]), SByteArray7.From([0, 10, 30, 40, 90, 100, 50]), SByteArray7.From([50, 50, 50, 50, 50, 50, 50])]);
+    internal static ImmutableArray<ImmutableArray<sbyte>> AlignmentToStatusValue { get; } = [[100, 90, 30, 40, 10, 0, 50], [90, 90, 40, 50, 10, 10, 50], [30, 40, 70, 50, 40, 30, 50], [40, 50, 50, 50, 50, 40, 50], [10, 10, 40, 50, 90, 90, 50], [0, 10, 30, 40, 90, 100, 50], [50, 50, 50, 50, 50, 50, 50]];
 
     internal static DiplomaticRelation AlignmentToDiplomaticRelation(Alignment A, Alignment B)
     {

@@ -315,7 +315,6 @@ public partial class FastBattleUnit : CombatUnit
         FastBattle combat;
         FastBattleCommandList Commands;
         Troop troop;
-        AbilityArray1 Ability = default;
         FleeCombatAction action;
         bool executed;
         combat = (FastBattle)Combat;
@@ -327,8 +326,7 @@ public partial class FastBattleUnit : CombatUnit
             if (troop.GetAbilityEnabled(I))
             {
                 var ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
-                Ability[0] = ability;
-                Ability[0].FastBattlePrefetchCombatCommands(Commands);
+                ability.FastBattlePrefetchCombatCommands(Commands);
             }
         }
 
@@ -345,8 +343,7 @@ public partial class FastBattleUnit : CombatUnit
                         if (troop.GetAbilityEnabled(I))
                         {
                             var ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
-                            Ability[0] = ability;
-                            Ability[0].FastBattlePrefetchCombatCommands(Commands);
+                            ability.FastBattlePrefetchCombatCommands(Commands);
                         }
                     }
 

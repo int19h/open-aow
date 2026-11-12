@@ -1438,7 +1438,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         if (((ImageSequenceAnimation)animation).ImageSequence.GetUnloopedFrameIndex(animation.FrameCounter) == 0 && GameTables.GameEngine.AnimationDetail != (byte)DetailLevel.Low)
         {
             var random = Random(2);
-            AudioPlayback.PlaySample(AbilityRules.s_explosionSfx[random]);
+            AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[random]);
         }
     }
 

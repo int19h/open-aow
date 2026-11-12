@@ -320,7 +320,7 @@ public partial class BattleAI : IDisposable
                         var path5 = path[I];
                         var path6 = path[I];
                         var fieldItem = CombatMap.Current.MapContainer.MapLevels[0].Field[path6.X, path5.Y];
-                        path.List[I].Tag = moveControlSettings.MovePointTable[fieldItem.TerrainType][mapField.OverlayType - -1];
+                        path.List[I].Tag = moveControlSettings.MovePointTable[fieldItem.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay];
                         if (wall != null)
                         {
                             // { The wall lookup uses the current path point and the no-overlay column. }
@@ -329,7 +329,7 @@ public partial class BattleAI : IDisposable
                                 var pathY = path[I];
                                 var pathX = path[I];
                                 var item = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
-                                path.List[I].Tag = moveControlSettings.MovePointTable[item.TerrainType][-1 - -1];
+                                path.List[I].Tag = moveControlSettings.MovePointTable[item.TerrainType][-1 - MovementTables.FirstOverlay];
                             }
                             else
                             {
@@ -338,7 +338,7 @@ public partial class BattleAI : IDisposable
                                     var pathY = path[I];
                                     var pathX = path[I];
                                     var item2 = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
-                                    path.List[I].Tag = moveControlSettings.MovePointTable[item2.TerrainType][-1 - -1];
+                                    path.List[I].Tag = moveControlSettings.MovePointTable[item2.TerrainType][-1 - MovementTables.FirstOverlay];
                                 }
                                 else
                                 {
@@ -376,7 +376,7 @@ public partial class BattleAI : IDisposable
                             var pathY = path[I];
                             var pathX = path[I];
                             var item2 = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
-                            path.List[I].Tag = moveControlSettings.MovePointTable[item2.TerrainType][-1 - -1];
+                            path.List[I].Tag = moveControlSettings.MovePointTable[item2.TerrainType][-1 - MovementTables.FirstOverlay];
                         }
                     }
 
@@ -544,7 +544,7 @@ public partial class BattleAI : IDisposable
             }
             else
             {
-                if (TacticalTables.s_abilityTypes[ability] == BattleEffectType.Touch)
+                if (TacticalTables.AbilityTypes[ability] == BattleEffectType.Touch)
                 {
                     AoWHSSet.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, hexSprite.Unit, ref damageValue);
                 }
@@ -636,7 +636,7 @@ public partial class BattleAI : IDisposable
                 }
                 else
                 {
-                    if (TacticalTables.s_abilityTypes[ability] == BattleEffectType.Touch)
+                    if (TacticalTables.AbilityTypes[ability] == BattleEffectType.Touch)
                     {
                         AoWHSSet.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, CombatMap.Current.Combat.CombatData.Wall, ref damageValue);
                     }
@@ -655,12 +655,12 @@ public partial class BattleAI : IDisposable
                 {
                     if (U.GetSide() == CombatSideIndex.Attacker)
                     {
-                        var multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, CombatMap.Current.Combat.CombatData.Wall), TacticalTables.s_wallMaxHitPoints[wall.WallType - 1], wall.HitPoints);
+                        var multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, CombatMap.Current.Combat.CombatData.Wall), TacticalTables.WallMaxHitPoints[wall.WallType - 1], wall.HitPoints);
                         value = value + multDamageEvaluation;
                     }
                     else
                     {
-                        var multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, CombatMap.Current.Combat.CombatData.Wall), TacticalTables.s_wallMaxHitPoints[wall.WallType - 1], wall.HitPoints);
+                        var multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, CombatMap.Current.Combat.CombatData.Wall), TacticalTables.WallMaxHitPoints[wall.WallType - 1], wall.HitPoints);
                         value = value - multDamageEvaluation;
                     }
                 }
@@ -702,7 +702,7 @@ public partial class BattleAI : IDisposable
         }
         else
         {
-            effect = TacticalTables.s_abilityTypes[ability];
+            effect = TacticalTables.AbilityTypes[ability];
         }
 
         switch (effect)
@@ -793,7 +793,7 @@ public partial class BattleAI : IDisposable
         {
             V = 0;
             var deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(x1, y1, x2, y2);
-            HexGeometry.CenterHexNumberToHex(x1, y1, TacticalTables.s_breathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber2 - 1] * 12 + I - 12], ref X, ref Y);
+            HexGeometry.CenterHexNumberToHex(x1, y1, TacticalTables.BreathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber2 - 1] * 12 + I - 12], ref X, ref Y);
             EvalHex(ignore, ability, spell, X, Y, ref V, true, true, U, null);
             if (V != 0)
             {
@@ -1499,7 +1499,7 @@ public partial class BattleAI : IDisposable
 
                         break;
                     default:
-                        switch (TacticalTables.s_abilityTypes[ability])
+                        switch (TacticalTables.AbilityTypes[ability])
                         {
                             case BattleEffectType.Touch:
                                 if (target is CombatWall || target is CombatUnit && ((TouchAbility)AoWHSSet.Current.AbilityControl.GetAbility(ability)).CanTouch(U, target))
@@ -2135,7 +2135,7 @@ public partial class BattleAI : IDisposable
                                             }
                                             else
                                             {
-                                                if (TacticalTables.s_abilityTypes[L] != BattleEffectType.None && TacticalTables.s_abilityTypes[L] != BattleEffectType.Touch)
+                                                if (TacticalTables.AbilityTypes[L] != BattleEffectType.None && TacticalTables.AbilityTypes[L] != BattleEffectType.Touch)
                                                 {
                                                     AoWHSSet.Current.AbilityControl.GetAbility(L).GetCombatInfo(target.Troop, ref aiInfo);
                                                     if ((((byte)aiInfo.TargetTypes.Image) & 2) != 0)
@@ -2161,7 +2161,7 @@ public partial class BattleAI : IDisposable
                                                             value = AoWHSSet.Current.AbilityControl.GetAbility(L).TacticalBattleGetDamageValue(target, U);
                                                             if (value > 0)
                                                             {
-                                                                if (Set<BattleEffectType>.Of(BattleEffectType.Arrow, BattleEffectType.Rock, BattleEffectType.Comet, BattleEffectType.Breath, BattleEffectType.CometBall, BattleEffectType.Ray).Contains(TacticalTables.s_abilityTypes[L]))
+                                                                if (Set<BattleEffectType>.Of(BattleEffectType.Arrow, BattleEffectType.Rock, BattleEffectType.Comet, BattleEffectType.Breath, BattleEffectType.CometBall, BattleEffectType.Ray).Contains(TacticalTables.AbilityTypes[L]))
                                                                 {
                                                                     var fUnitHexSpriteHexX = target.UnitHexSprite.GetHexX();
                                                                     var hexY2 = target.UnitHexSprite.GetHexY();
@@ -2250,7 +2250,7 @@ public partial class BattleAI : IDisposable
                                             }
                                             else
                                             {
-                                                if (TacticalTables.s_abilityTypes[J] != BattleEffectType.None)
+                                                if (TacticalTables.AbilityTypes[J] != BattleEffectType.None)
                                                 {
                                                     AoWHSSet.Current.AbilityControl.GetAbility(J).GetCombatInfo(U.Troop, ref aiInfo);
                                                     if ((((byte)aiInfo.TargetTypes.Image) & 2) != 0)
@@ -2339,7 +2339,7 @@ public partial class BattleAI : IDisposable
                                             }
                                             else
                                             {
-                                                if (TacticalTables.s_abilityTypes[J] != BattleEffectType.None)
+                                                if (TacticalTables.AbilityTypes[J] != BattleEffectType.None)
                                                 {
                                                     AoWHSSet.Current.AbilityControl.GetAbility(J).GetCombatInfo(U.Troop, ref aiInfo);
                                                     if ((((byte)aiInfo.TargetTypes.Image) & 1) != 0)
@@ -2405,7 +2405,7 @@ public partial class BattleAI : IDisposable
                                         {
                                             var wall = CombatMap.Current.Walls[J];
                                             var wall2 = CombatMap.Current.Walls[J];
-                                            condition = ((CityWall)wall).HitPoints < TacticalTables.s_wallMaxHitPoints[((CityWall)wall2).WallType - 1];
+                                            condition = ((CityWall)wall).HitPoints < TacticalTables.WallMaxHitPoints[((CityWall)wall2).WallType - 1];
                                         }
 
                                         if (condition)
@@ -2510,7 +2510,7 @@ public partial class BattleAI : IDisposable
                                         }
                                         else
                                         {
-                                            if (TacticalTables.s_abilityTypes[J] != BattleEffectType.None)
+                                            if (TacticalTables.AbilityTypes[J] != BattleEffectType.None)
                                             {
                                                 AoWHSSet.Current.AbilityControl.GetAbility(J).GetCombatInfo(U.Troop, ref aiInfo);
                                                 if (aiInfo.DamageTypes.Contains(DamageType.Wall))
@@ -2552,7 +2552,7 @@ public partial class BattleAI : IDisposable
                                         if (!(U.Troop is Hero) || _heroMoves == 0)
                                         {
                                             var hexY = Wall.GetHexY();
-                                            CheckUnit(Wall.GetHexX(), hexY, Wall.HitPoints, TacticalTables.s_wallMaxHitPoints[Wall.WallType - 1] * 2, settings, U, CombatMap.Current.Combat.CombatData.Wall, abilities, Wall);
+                                            CheckUnit(Wall.GetHexX(), hexY, Wall.HitPoints, TacticalTables.WallMaxHitPoints[Wall.WallType - 1] * 2, settings, U, CombatMap.Current.Combat.CombatData.Wall, abilities, Wall);
                                         }
                                     }
 
@@ -2577,7 +2577,7 @@ public partial class BattleAI : IDisposable
                                         if (Wall != null)
                                         {
                                             var hexY = Wall.GetHexY();
-                                            CheckUnit(Wall.GetHexX(), hexY, Wall.HitPoints * 2, TacticalTables.s_wallMaxHitPoints[Wall.WallType - 1], settings, U, CombatMap.Current.Combat.CombatData.Wall, abilities, Wall);
+                                            CheckUnit(Wall.GetHexX(), hexY, Wall.HitPoints * 2, TacticalTables.WallMaxHitPoints[Wall.WallType - 1], settings, U, CombatMap.Current.Combat.CombatData.Wall, abilities, Wall);
                                         }
                                     }
 

@@ -3,6 +3,7 @@ using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
+using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
@@ -150,7 +151,7 @@ public partial class HexBridge : AbstractRoad
                     var sideB = _sideB[I];
                     HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, sideB, ref hexX, ref hexY);
                     mapField = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
-                    ((MoveControl)info.Sender).ExecuteExternalMove((AoWMapField)info.MapField, (AoWMapField)mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - -1]);
+                    ((MoveControl)info.Sender).ExecuteExternalMove((AoWMapField)info.MapField, (AoWMapField)mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
                 }
             }
             else
@@ -162,7 +163,7 @@ public partial class HexBridge : AbstractRoad
                         var sideA = _sideA[I];
                         HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, sideA, ref hexX, ref hexY);
                         mapField = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
-                        ((MoveControl)info.Sender).ExecuteExternalMove((AoWMapField)info.MapField, (AoWMapField)mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - -1]);
+                        ((MoveControl)info.Sender).ExecuteExternalMove((AoWMapField)info.MapField, (AoWMapField)mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
                     }
                 }
             }

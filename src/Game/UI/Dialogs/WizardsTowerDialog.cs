@@ -127,7 +127,7 @@ public partial class WizardsTowerDialog : DataModule
             dialog.PriceLabel.Text = format + ".";
             spell = AoWHSSet.Current.SpellControl.GetSpell(tower.SpellId);
             dialog.SpellNameLabel.Text = spell.SpellName;
-            var magicSphere = AbilityRules.TranslateResourceString(GameTables.s_magicSphereTexts[(int)spell.MagicSphere]);
+            var magicSphere = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
             var level = AbilityRules.TranslateResourceString(GameText.LevelText);
             dialog.SpellClassLabel.Text = magicSphere + ", " + level + " " + IntToStr(spell.SpellLevel);
             var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);

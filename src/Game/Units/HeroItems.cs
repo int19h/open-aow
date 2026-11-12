@@ -259,10 +259,10 @@ public partial class HeroItems : ItemList
     }
 
     // Hero.PAS:558
-    public ItemType GetPositionItemType(HeroItemPosition position) => s_positionItemTypes[(int)position];
+    public ItemType GetPositionItemType(HeroItemPosition position) => PositionItemTypes[(int)position];
 
     // Hero.PAS:564
-    public HeroItemPosition GetItemTypePosition(ItemType itemType) => s_itemTypePositions[(int)itemType];
+    public HeroItemPosition GetItemTypePosition(ItemType itemType) => ItemTypePositions[(int)itemType];
 
     // Hero.PAS:571
     public bool CanPlaceItem(Item item, HeroItemPosition position) => item != null && (int)position < 6 && GetPositionItem(position) == null && GetPositionItemType(position) == item.ItemType;
@@ -284,18 +284,16 @@ public partial class HeroItems : ItemList
         return result;
     }
 
-    private static ItemTypeArray6 s_positionItemTypes = ItemTypeArray6.From((ReadOnlySpan<ItemType>)new ItemType[6]
-    {
+    private static ReadOnlySpan<ItemType> PositionItemTypes => [
         ItemType.Attack,
         ItemType.Head,
         ItemType.Defense,
         ItemType.Ring,
         ItemType.Torso,
         ItemType.Ring
-    });
+    ];
 
-    private static HeroItemPositionArray7 s_itemTypePositions = HeroItemPositionArray7.From((ReadOnlySpan<HeroItemPosition>)new HeroItemPosition[7]
-    {
+    private static ReadOnlySpan<HeroItemPosition> ItemTypePositions => [
         HeroItemPosition.HeadSlot,
         HeroItemPosition.TorsoSlot,
         HeroItemPosition.AttackSlot,
@@ -303,7 +301,7 @@ public partial class HeroItems : ItemList
         HeroItemPosition.LeftRingSlot,
         HeroItemPosition.None,
         HeroItemPosition.None
-    });
+    ];
 
     // intf_P2_06.inc:25
 

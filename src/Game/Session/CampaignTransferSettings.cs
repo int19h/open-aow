@@ -137,7 +137,7 @@ public partial class CampaignTransferSettings : EngineObject
     {
         int index;
         int maxUnits;
-        Int32Array4 levelCounts = default;
+        Span<int> levelCounts = stackalloc int[4];
         DelphiList candidates;
         Troop troop;
         Units.Clear();

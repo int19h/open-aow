@@ -24,7 +24,7 @@ public partial class LeadershipAbility : MultiLevelAbility
         level = GetLevel(owner);
         if (level != 0)
         {
-            result = s_leadershipAttack[level];
+            result = LeadershipAttack[level];
         }
         else
         {
@@ -42,7 +42,7 @@ public partial class LeadershipAbility : MultiLevelAbility
         level = GetLevel(owner);
         if (level != 0)
         {
-            result = s_leadershipDefense[level];
+            result = LeadershipDefense[level];
         }
         else
         {
@@ -186,8 +186,9 @@ public partial class LeadershipAbility : MultiLevelAbility
     // AoWAb.PAS:973
     public override EngineClass AbilityDataClass() => EngineClass.Of<LeadershipAbilityData>();
 
-    private static SByteArray5 s_leadershipAttack = SByteArray5.From((ReadOnlySpan<sbyte>)new sbyte[5] { 0, 1, 1, 2, 2 });
-    private static SByteArray5 s_leadershipDefense = SByteArray5.From((ReadOnlySpan<sbyte>)new sbyte[5] { 2, 0, 1, 1, 2 });
+    private static ReadOnlySpan<sbyte> LeadershipAttack => [0, 1, 1, 2, 2];
+    private static ReadOnlySpan<sbyte> LeadershipDefense => [2, 0, 1, 1, 2];
+
     private static readonly string s_leadershipText = "Leadership";
 
 }

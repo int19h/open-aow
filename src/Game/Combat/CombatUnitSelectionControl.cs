@@ -364,7 +364,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                     var path = MoveControlSettings.Path[I];
                     var path2 = MoveControlSettings.Path[I];
                     var mapField = CombatMap.Current.MapContainer.MapLevels[0].Field[path2.X, path.Y];
-                    moveSettings.Path.List[I].Tag = MoveControlSettings.MovePointTable[mapField.TerrainType][-1 - -1];
+                    moveSettings.Path.List[I].Tag = MoveControlSettings.MovePointTable[mapField.TerrainType][-1 - MovementTables.FirstOverlay];
                 }
                 else
                 {
@@ -374,7 +374,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                     var path3 = MoveControlSettings.Path[I];
                     var path4 = MoveControlSettings.Path[I];
                     var fieldItem = CombatMap.Current.MapContainer.MapLevels[0].Field[path4.X, path3.Y];
-                    moveSettings.Path.List[I].Tag = MoveControlSettings.MovePointTable[fieldItem.TerrainType][item.OverlayType - -1];
+                    moveSettings.Path.List[I].Tag = MoveControlSettings.MovePointTable[fieldItem.TerrainType][item.OverlayType - MovementTables.FirstOverlay];
                 }
             }
 
@@ -551,7 +551,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                 }
             }
 
-            cost = MoveControlSettings.MovePointTable[field.TerrainType][field.OverlayType - -1];
+            cost = MoveControlSettings.MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay];
             if (unitHexSprite.Unit.MovePoints == 0)
             {
                 cost = 0;
@@ -871,13 +871,13 @@ public partial class CombatUnitSelectionControl : MoveSelector
                     case 30:
                     case >= 86 and <= 90:
                         var unitHexSpriteHexY = unitHexSprite.GetHexY();
-                        HexGeometry.CenterHexNumberToHex(unitHexSprite.GetHexX(), unitHexSpriteHexY, TacticalTables.s_breathHexNumber[TacticalTables.BreathDirection[direction - 1] * 12 - 12], ref hexX, ref hexY);
+                        HexGeometry.CenterHexNumberToHex(unitHexSprite.GetHexX(), unitHexSpriteHexY, TacticalTables.BreathHexNumber[TacticalTables.BreathDirection[direction - 1] * 12 - 12], ref hexX, ref hexY);
                         break;
                     case 52:
                         if (TacticalTables.SpellTypes[unitHexSprite.SelectedSpell] == BattleEffectType.Breath)
                         {
                             var hexY2 = unitHexSprite.GetHexY();
-                            HexGeometry.CenterHexNumberToHex(unitHexSprite.GetHexX(), hexY2, TacticalTables.s_breathHexNumber[TacticalTables.BreathDirection[direction - 1] * 12 - 12], ref hexX, ref hexY);
+                            HexGeometry.CenterHexNumberToHex(unitHexSprite.GetHexX(), hexY2, TacticalTables.BreathHexNumber[TacticalTables.BreathDirection[direction - 1] * 12 - 12], ref hexX, ref hexY);
                         }
 
                         break;
@@ -1236,7 +1236,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
                                 }
                                 else
                                 {
-                                    effectType = TacticalTables.s_abilityTypes[unitHexSprite.SelectedAbility];
+                                    effectType = TacticalTables.AbilityTypes[unitHexSprite.SelectedAbility];
                                 }
 
                                 switch (effectType)

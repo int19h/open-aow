@@ -33,7 +33,7 @@ public partial class FreeMovement : UnitSpell
     }
 
     // UnitSpells.pas:399
-    public override bool ExecuteSpell(Troop source, Troop target, int mana, ref Int32Array2 data)
+    public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
         bool result;
         UnitEnchantment enchantment;

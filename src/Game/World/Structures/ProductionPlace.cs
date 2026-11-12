@@ -527,7 +527,7 @@ public partial class ProductionPlace : PlayerStructure
                 var magicSphere = GetMagicSphere();
                 picks = AoWHSMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
                 var magicSphere2 = GetMagicSphere();
-                var magicSphereText = AbilityRules.TranslateResourceString(GameTables.s_magicSphereTexts[(int)magicSphere2]);
+                var magicSphereText = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)magicSphere2]);
                 names.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(s_sphereCountFormat), [IntToStr(picks), LowerCase(magicSphereText)]));
                 values.Add(IntToStr(picks * 5));
                 if (ProductionControl.Status != ProductionControlStatus.Producing || ProductionControl.Queue.GetItem(0).Order is Trade)

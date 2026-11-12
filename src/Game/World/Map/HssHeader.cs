@@ -15,12 +15,12 @@ public struct HssHeader
     [FieldOffset(0)]
     public int Size;
     [FieldOffset(4)]
-    public ByteArray5 IdImage;
+    public Array5<byte> IdImage;
 
     public string Id { get => ReadShortString(IdImage); set => WriteShortString(IdImage, value); }
 
     [FieldOffset(9)]
-    public ByteArray41 NameImage;
+    public Array41<byte> NameImage;
 
     public string Name { get => ReadShortString(NameImage); set => WriteShortString(NameImage, value); }
 }

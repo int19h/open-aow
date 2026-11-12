@@ -35,7 +35,7 @@ public partial class DarkGift : UnitSpell
     }
 
     // UnitSpells.pas:845
-    public override bool ExecuteSpell(Troop source, Troop target, int mana, ref Int32Array2 data)
+    public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
         bool result;
         UnitEnchantment enchantment;

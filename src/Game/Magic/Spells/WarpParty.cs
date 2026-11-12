@@ -93,7 +93,7 @@ public partial class WarpParty : Spell
     public int CalculateWarpLocation(ArmyHexSprite army)
     {
         DelphiList candidates;
-        SByteArray16By16 table = default;
+        MovePointTable table = default;
         MapFieldMessage message = default;
         HexNumberWalkData walk = default;
         MapLevel level;
@@ -111,7 +111,7 @@ public partial class WarpParty : Spell
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 field = (AoWMapField)level.GetField(walk.X, walk.Y);
-                if (table[field.TerrainType][field.OverlayType - -1] != -1)
+                if (table[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] != -1)
                 {
                     candidates.Add(field);
                 }
@@ -133,7 +133,7 @@ public partial class WarpParty : Spell
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                     {
                         field = (AoWMapField)level.GetField(walk.X, walk.Y);
-                        if (table[field.TerrainType][field.OverlayType - -1] != -1)
+                        if (table[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] != -1)
                         {
                             candidates.Add(field);
                         }

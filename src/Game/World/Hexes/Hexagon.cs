@@ -19,7 +19,7 @@ public partial class Hexagon : AbstractHexagon
 
     public new const int ClassId = 131410;
 
-    protected internal ByteArray3 Transitions;
+    protected internal byte[] Transitions { get; } = new byte[3];
 
     protected internal byte TransitionSides { get; protected set; }
 

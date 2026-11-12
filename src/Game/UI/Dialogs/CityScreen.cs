@@ -1,4 +1,5 @@
 // Translated from AoWCityScreen.pas.
+using System.Collections.Immutable;
 using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -393,11 +394,11 @@ public partial class CityScreen : DataModule
             MigrationTurnsList.Selected = index;
             MigrationRelationList.Selected = index;
             MigrateTurnsLabel.Text = IntToStr(item.Time);
-            var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[_city.Race]);
+            var raceNames = AbilityRules.TranslateResourceString(GameTables.RaceNames[_city.Race]);
             var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationMinusFormat), [raceNames, -15]);
             MigrateInfoLabel.Text = format;
             MigrateInfoLabel.Text = MigrateInfoLabel.Text + "   ";
-            var raceNamesText = AbilityRules.TranslateResourceString(GameTables.s_raceNames[item.Race]);
+            var raceNamesText = AbilityRules.TranslateResourceString(GameTables.RaceNames[item.Race]);
             var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationPlusFormat), [raceNamesText, 10]);
             MigrateInfoLabel.Text = MigrateInfoLabel.Text + formattedText;
             CityButton1.Visible = true;
@@ -509,7 +510,7 @@ public partial class CityScreen : DataModule
 
                 var fortifyText = AbilityRules.TranslateResourceString(GameText.FortifyText);
                 UpgradeLabel.Text = fortifyText;
-                var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[_city.Race]);
+                var raceNames = AbilityRules.TranslateResourceString(GameTables.RaceNames[_city.Race]);
                 var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationPlusFormat), [raceNames, 5]);
                 UpgradeInfoLabel.Text = formattedText;
                 break;
@@ -527,7 +528,7 @@ public partial class CityScreen : DataModule
                 UpgradePicture.CurrentImage = 25;
                 var lootText = AbilityRules.TranslateResourceString(GameText.LootText);
                 UpgradeLabel.Text = lootText;
-                var raceNamesText = AbilityRules.TranslateResourceString(GameTables.s_raceNames[_city.Race]);
+                var raceNamesText = AbilityRules.TranslateResourceString(GameTables.RaceNames[_city.Race]);
                 var format2 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationMinusFormat), [raceNamesText, -30]);
                 UpgradeInfoLabel.Text = format2;
                 break;
@@ -541,7 +542,7 @@ public partial class CityScreen : DataModule
                 UpgradePicture.CurrentImage = 26;
                 var razeText = AbilityRules.TranslateResourceString(GameText.RazeText);
                 UpgradeLabel.Text = razeText;
-                var raceNames3 = AbilityRules.TranslateResourceString(GameTables.s_raceNames[_city.Race]);
+                var raceNames3 = AbilityRules.TranslateResourceString(GameTables.RaceNames[_city.Race]);
                 var format3 = AbilityRules.Format(AbilityRules.TranslateResourceString(s_relationMinusFormat), [raceNames3, -30]);
                 UpgradeInfoLabel.Text = format3;
                 break;
@@ -638,7 +639,7 @@ public partial class CityScreen : DataModule
         var status = AbilityRules.TranslateResourceString(StatusText);
         PopulationHeader.Items.Add(status + ":");
         var civilStatus = _city.GetCivilStatus();
-        var civilStatusText = AbilityRules.TranslateResourceString(s_civilStatusTexts[(int)civilStatus]);
+        var civilStatusText = AbilityRules.TranslateResourceString(CivilStatusTexts[(int)civilStatus]);
         PopulationHeader.Items.Add(" " + civilStatusText);
         PopulationMemo.Items.Clear();
         _city.ListCivilStatusInfo(PopulationMemo.Items);
@@ -1569,5 +1570,6 @@ public partial class CityScreen : DataModule
 
     private static readonly string s_relationMinusFormat = "%s Relation %d";
     private static readonly string s_relationPlusFormat = "%s Relation +%d";
-    internal static StringArray7 s_civilStatusTexts = StringArray7.From(["Unruly", "Unrest", "Stable", "Content", "Cheerful", "Oppressed", "Slavery"]);
+
+    internal static ImmutableArray<string> CivilStatusTexts { get; } = ["Unruly", "Unrest", "Stable", "Content", "Cheerful", "Oppressed", "Slavery"];
 }

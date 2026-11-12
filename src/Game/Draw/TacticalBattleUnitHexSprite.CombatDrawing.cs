@@ -245,9 +245,9 @@ public partial class TacticalBattleUnitHexSprite
             hexX = 0;
             for (; hexX <= 13; hexX += 1)
             {
-                if (Unit.GetAbilityEnabled(s_statusAbilities[hexX]))
+                if (Unit.GetAbilityEnabled(StatusAbilities[hexX]))
                 {
-                    sequence = AoWHSSet.Current.AbilityControl.GetAbility(s_statusAbilities[hexX]).ImageSequences.ImageSequences[0];
+                    sequence = AoWHSSet.Current.AbilityControl.GetAbility(StatusAbilities[hexX]).ImageSequences.ImageSequences[0];
                     while (sequence != null)
                     {
                         index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
@@ -554,7 +554,7 @@ public partial class TacticalBattleUnitHexSprite
                 break;
             case SpriteAction.RoundAttack:
             case SpriteAction.RoundAttackHit:
-                if (ActionFrame < 18 && CombatMap.Current.PlaySounds && TacticalTables.s_rangedAttackDirection[ActionFrame] > 0)
+                if (ActionFrame < 18 && CombatMap.Current.PlaySounds && TacticalTables.RangedAttackDirection[ActionFrame] > 0)
                 {
                     if (Action == SpriteAction.RoundAttack)
                     {

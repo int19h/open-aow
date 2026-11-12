@@ -54,7 +54,7 @@ public partial class Fury : UnitSpell
     }
 
     // UnitSpells.pas:350
-    public override bool ExecuteSpell(Troop source, Troop target, int mana, ref Int32Array2 data)
+    public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
         bool result;
         UnitEnchantment enchantment;

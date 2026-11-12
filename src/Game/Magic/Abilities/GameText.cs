@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 
 using Aow.Engine.Buffers;
 
@@ -360,7 +361,7 @@ internal static class GameText
 
     internal static string ProducedFormat { get; } = "%0:s produced at %1:s";
 
-    internal static StringArray3 s_playModeTexts = StringArray3.From(["None", "Classic", "Simultaneous"]);
+    internal static ImmutableArray<string> PlayModeTexts { get; } = ["None", "Classic", "Simultaneous"];
 
     internal static string[] AlignmentTexts { get; } = ["Pure Good", "Good", "Pure Neutral", "Neutral", "Evil", "Pure Evil", "None"];
 

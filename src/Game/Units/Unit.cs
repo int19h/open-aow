@@ -103,21 +103,21 @@ public partial class Unit : Troop
     public override sbyte GetInherentAttack()
     {
         var rank = GetRank();
-        return (sbyte)(RankTables.s_rankAttack[(int)rank] + UnitResource.Attack);
+        return (sbyte)(RankTables.RankAttack[(int)rank] + UnitResource.Attack);
     }
 
     // Unit.PAS:2033
     public override sbyte GetInherentDefense()
     {
         var rank = GetRank();
-        return (sbyte)(RankTables.s_rankDefense[(int)rank] + UnitResource.Defense);
+        return (sbyte)(RankTables.RankDefense[(int)rank] + UnitResource.Defense);
     }
 
     // Unit.PAS:2041
     public override sbyte GetInherentDamage()
     {
         var rank = GetRank();
-        return (sbyte)(RankTables.s_rankDamage[(int)rank] + UnitResource.Damage);
+        return (sbyte)(RankTables.RankDamage[(int)rank] + UnitResource.Damage);
     }
 
     // Unit.PAS:2049
@@ -127,7 +127,7 @@ public partial class Unit : Troop
     public override sbyte GetAttack()
     {
         var rank = GetRank();
-        sbyte result = (sbyte)(RankTables.s_rankAttack[(int)rank] + (UnitResource.Attack + AbilityAttack));
+        sbyte result = (sbyte)(RankTables.RankAttack[(int)rank] + (UnitResource.Attack + AbilityAttack));
         if (result < 1)
         {
             result = 1;
@@ -146,7 +146,7 @@ public partial class Unit : Troop
     {
         var rank = GetRank();
         var morale = GetMorale();
-        sbyte result = (sbyte)(RankTables.s_rankDefense[(int)rank] + (UnitResource.Defense + _abilityDefense) + Hero.s_moraleDefense[(int)morale]);
+        sbyte result = (sbyte)(RankTables.RankDefense[(int)rank] + (UnitResource.Defense + _abilityDefense) + Hero.MoraleDefense[(int)morale]);
         if (result < 1)
         {
             result = 1;
@@ -164,7 +164,7 @@ public partial class Unit : Troop
     public override sbyte GetDamage()
     {
         var rank = GetRank();
-        sbyte result = (sbyte)(RankTables.s_rankDamage[(int)rank] + (UnitResource.Damage + _abilityDamage));
+        sbyte result = (sbyte)(RankTables.RankDamage[(int)rank] + (UnitResource.Damage + _abilityDamage));
         if (result < 1)
         {
             result = 1;
@@ -183,7 +183,7 @@ public partial class Unit : Troop
     {
         var morale = GetMorale();
         var rank = GetRank();
-        sbyte result = (sbyte)(Hero.s_moraleResistance[(int)morale] + (UnitResource.Resistance + _abilityResistance) + RankTables.s_rankResistance[(int)rank]);
+        sbyte result = (sbyte)(Hero.MoraleResistance[(int)morale] + (UnitResource.Resistance + _abilityResistance) + RankTables.RankResistance[(int)rank]);
         if (result < 1)
         {
             result = 1;
@@ -201,7 +201,7 @@ public partial class Unit : Troop
     public override sbyte GetHits()
     {
         var rank = GetRank();
-        return (sbyte)(RankTables.s_rankHits[(int)rank] + UnitResource.Hits);
+        return (sbyte)(RankTables.RankHits[(int)rank] + UnitResource.Hits);
     }
 
     // Unit.PAS:2077

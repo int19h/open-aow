@@ -32,7 +32,9 @@ public partial class CombatData : EngineObject
     public int AttackerX;
     public int AttackerY;
     public int AttackerL;
-    public ByteArray2 TerrainAndOverlayTypes;
+
+    public byte[] TerrainAndOverlayTypes { get; } = new byte[2];
+
     public Set<DamageType> ImmunityTypes;
     public sbyte AttackerPlayer;
     public sbyte DefenderPlayer;

@@ -66,7 +66,7 @@ public partial class DispelMagic : UnitSpell
     public override bool ValidTargetParty(Troop source, ArmyHexSprite party) => party.Army.Player == source.Player;
 
     // UnitSpells.pas:1036
-    public override bool ExecuteSpell(Troop source, Troop target, int mana, ref Int32Array2 data)
+    public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
         bool result;
         int count;

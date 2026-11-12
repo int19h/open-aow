@@ -108,7 +108,7 @@ public partial class CombatMap : CustomCombatMap
     public bool EndTurnPending { get; set; }
     public bool PlaySounds { get; set; }
 
-    public ByteArray8 PositionStatus;
+    public byte[] PositionStatus { get; } = new byte[8];
 
     public int Round { get; private set; }
 

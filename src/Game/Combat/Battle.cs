@@ -53,7 +53,8 @@ public partial class Battle : EngineObject
     public CombatResult CombatResult { get; protected set; }
 
     public CombatLogbook Logbook;
-    public CombatSideArray2 Sides;
+
+    public CombatSide[] Sides { get; } = new CombatSide[2];
 
     private EventStore<Battle> _executedEventsStore;
 

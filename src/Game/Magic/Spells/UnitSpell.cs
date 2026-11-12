@@ -211,7 +211,7 @@ public partial class UnitSpell : Spell
     public virtual void ValidateUnitSelection(Troop source, UnitList targets, ref byte selection)
     {
         var count = targets.GetCount();
-        selection = (byte)(selection & s_selectionMasks[count]);
+        selection = (byte)(selection & SelectionMasks[count]);
         for (int I = 0, last = targets.GetCount() - 1; I <= last; I++)
         {
             if ((selection & (1 << I)) != 0)
@@ -287,7 +287,7 @@ public partial class UnitSpell : Spell
     }
 
     // Spells.PAS:1224
-    public virtual bool ExecuteSpell(Troop source, Troop target, int mana, ref Int32Array2 data) => false;
+    public virtual bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data) => false;
 
     // Spells.PAS:1400
     public virtual UnitSpellCombatAction CreateCombatAction(CombatObject source, CombatObject target, int mana)
@@ -317,7 +317,7 @@ public partial class UnitSpell : Spell
         target = combat.CombatData.FindId(action.TargetId);
         if (source is CombatUnit && target is CombatUnit)
         {
-            if (ExecuteSpell(((CombatUnit)source).Troop, ((CombatUnit)target).Troop, action.Mana, ref action.SpellData))
+            if (ExecuteSpell(((CombatUnit)source).Troop, ((CombatUnit)target).Troop, action.Mana, action.SpellData))
             {
                 if (action.Mana != 0 && (((byte)combat.Status.Image) & 1) != 0)
                 {
@@ -464,6 +464,7 @@ public partial class UnitSpell : Spell
         control.InvalidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(22).GetPreviewImage();
     }
 
-    private static ByteArray9 s_selectionMasks = ByteArray9.From((ReadOnlySpan<byte>)new byte[9] { 0, 1, 3, 7, 15, 31, 63, 127, 255 });
+    private static ReadOnlySpan<byte> SelectionMasks => [0, 1, 3, 7, 15, 31, 63, 127, 255];
+
     private static readonly string s_selectTargetPartyFormat = "Select target party for %s on map";
 }

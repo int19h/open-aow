@@ -902,9 +902,9 @@ public partial class CombatUnit : CombatObject
         int result = 0;
         for (int I = 0; I <= 2; I++)
         {
-            if (GetAbilityEnabled(CombatAbilityTables.s_commandingPriorityAbilityIds[I]))
+            if (GetAbilityEnabled(CombatAbilityTables.CommandingPriorityAbilityIds[I]))
             {
-                data = (CommandAbilityData)Troop.GetAbilityData(CombatAbilityTables.s_commandingPriorityAbilityIds[I]);
+                data = (CommandAbilityData)Troop.GetAbilityData(CombatAbilityTables.CommandingPriorityAbilityIds[I]);
                 if (data != null)
                 {
                     result += data.CommandingTargetPriority(Combat);
@@ -922,9 +922,9 @@ public partial class CombatUnit : CombatObject
         int result = 0;
         for (int I = 0; I <= 2; I++)
         {
-            if (GetAbilityEnabled(CombatAbilityTables.s_commandingStrengthAbilityIds[I]))
+            if (GetAbilityEnabled(CombatAbilityTables.CommandingStrengthAbilityIds[I]))
             {
-                data = (CommandAbilityData)Troop.GetAbilityData(CombatAbilityTables.s_commandingStrengthAbilityIds[I]);
+                data = (CommandAbilityData)Troop.GetAbilityData(CombatAbilityTables.CommandingStrengthAbilityIds[I]);
                 if (data != null)
                 {
                     result += data.CommandingTargetStrength(Combat);

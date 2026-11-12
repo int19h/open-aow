@@ -1118,28 +1118,28 @@ public partial class SetupControl : Component
     {
         if (GetRemote())
         {
-            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[5]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[5]));
             for (int I = 0, last = Settings.RemotePlayers.Count - 1; I <= last; I++)
             {
                 list.Add(Settings.RemotePlayers.GetPlayers(I).Name);
             }
 
-            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[1]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[2]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[3]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[6]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[7]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[4]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[1]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[2]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[3]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[6]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[7]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[4]));
         }
         else
         {
-            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[0]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[1]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[2]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[3]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[6]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[7]));
-            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[4]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[0]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[1]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[2]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[3]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[6]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[7]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[4]));
         }
     }
 
@@ -1210,7 +1210,7 @@ public partial class SetupControl : Component
             playerType = 0;
             while (!result && playerType <= 7)
             {
-                if (CompareText(name, AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[playerType])) == 0)
+                if (CompareText(name, AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[playerType])) == 0)
                 {
                     result = true;
                     behavior.PlayerType = playerType;
@@ -1747,14 +1747,14 @@ public partial class SetupControl : Component
     private static SetupPlayerBehavior s_cpuBehavior = new SetupPlayerBehavior
     {
         PlayerType = 1,
-        Reserved = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Reserved = default,
         Flags = 0
     };
 
     private static SetupPlayerBehavior s_freeBehavior = new SetupPlayerBehavior
     {
         PlayerType = 5,
-        Reserved = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Reserved = default,
         Flags = 0
     };
 
