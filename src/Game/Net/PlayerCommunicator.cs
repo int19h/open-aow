@@ -6,14 +6,14 @@ using Aow.Rtl;
 
 namespace Aow.Game.Net;
 
-// _engine, FOnReceive, _receivedPackage, SendStream, ReceiveStream, _playerCommunicationControl, FOnProcess
+// _engine, Received, _receivedPackage, SendStream, ReceiveStream, _playerCommunicationControl, Processed
 public partial class PlayerCommunicator : EngineObject
 {
     private GameEngine _engine;
 
     internal EventStore<PlayerCommunicator> OnReceiveStore { get; }
 
-    internal event NotifyEvent<PlayerCommunicator> FOnReceive
+    internal event NotifyEvent<PlayerCommunicator> Received
     {
         add => OnReceiveStore.Add(value);
         remove => OnReceiveStore.Remove(value);
@@ -28,7 +28,7 @@ public partial class PlayerCommunicator : EngineObject
 
     internal EventStore<PlayerCommunicator> OnProcessStore { get; }
 
-    internal event NotifyEvent<PlayerCommunicator> FOnProcess
+    internal event NotifyEvent<PlayerCommunicator> Processed
     {
         add => OnProcessStore.Add(value);
         remove => OnProcessStore.Remove(value);

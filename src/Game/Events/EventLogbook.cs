@@ -51,13 +51,12 @@ public partial class EventLogbook : EngineObject
     // EventLog.pas:538
     public int GetCount() => _events.GetCount();
 
-    // EventLog.pas:541
-    public NotifyEvent<object> GetOnChanged() => _events.OnChanged;
-
-    // EventLog.pas:544
-    public void SetOnChanged(NotifyEvent<object> value)
+    // EventLog.pas:541 and EventLog.pas:544, the OnChanged property of the logbook, which reads
+    // and writes the handler of its event list. A handler joins and leaves the list's event.
+    public event NotifyEvent<object> OnChanged
     {
-        _events.OnChanged = value;
+        add => _events.OnChanged += value;
+        remove => _events.OnChanged -= value;
     }
 
     // EventLog.pas:550

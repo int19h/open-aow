@@ -21,7 +21,7 @@ public partial class ConfirmationDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dialog";
-        Window.OnKeyDown = (_, ref key, shift) => DialogKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DialogKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 157;
@@ -135,7 +135,7 @@ public partial class ConfirmationDialog : ILayoutModule
         dButton.TextColor = 7921903;
         dButton.TextSelectedColor = 16777215;
         dButton.WinWidth = 140;
-        dButton.OnClick = _ => DButtonClick();
+        dButton.OnClick += _ => DButtonClick();
         session.EndRead(dButton);
         DebugWindow = new Window(this);
         session.BeginRead(DebugWindow);
@@ -232,7 +232,7 @@ public partial class ConfirmationDialog : ILayoutModule
         debugDOkBtn.TextColor = 0;
         debugDOkBtn.TextSelectedColor = 0;
         debugDOkBtn.WinWidth = 160;
-        debugDOkBtn.OnClick = _ => Layout_DebugDOkBtnClick_0();
+        debugDOkBtn.OnClick += _ => DebugDOkBtnClick();
         session.EndRead(debugDOkBtn);
         FrameRateLabel = new Label(this);
         session.BeginRead(FrameRateLabel);
@@ -433,7 +433,7 @@ public partial class ConfirmationDialog : ILayoutModule
         yesBtn.TextColor = 0;
         yesBtn.TextSelectedColor = 16777215;
         yesBtn.WinWidth = 105;
-        yesBtn.OnClick = _ => yesBtnClick();
+        yesBtn.OnClick += _ => yesBtnClick();
         session.EndRead(yesBtn);
         Button noBtn = new Button(this);
         session.BeginRead(noBtn);
@@ -464,7 +464,7 @@ public partial class ConfirmationDialog : ILayoutModule
         noBtn.TextColor = 0;
         noBtn.TextSelectedColor = 16777215;
         noBtn.WinWidth = 105;
-        noBtn.OnClick = _ => DButtonClick();
+        noBtn.OnClick += _ => DButtonClick();
         session.EndRead(noBtn);
         Frame bCeltL = new Frame(this);
         session.BeginRead(bCeltL);
@@ -777,10 +777,5 @@ public partial class ConfirmationDialog : ILayoutModule
         frame1.ImageLibraryLine = DialogHosts.UIGraphics.CelticDecorations;
         signBLine.ImageLibraryLine = DialogHosts.UIGraphics.CelticDecorations;
         sIcon.ImageLibrary = DialogHosts.UIGraphics.TitleIcons;
-    }
-
-    private void Layout_DebugDOkBtnClick_0()
-    {
-        DebugDOkBtnClick();
     }
 }

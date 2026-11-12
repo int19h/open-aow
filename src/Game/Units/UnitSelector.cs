@@ -23,8 +23,8 @@ public partial class UnitSelector : IDisposable
     public byte Selectable { get; private set; }
     public int SourceUnitId { get; private set; }
 
-    private NotifyEvent _onSelect;
-    private NotifyEvent _onCancel;
+    private event NotifyEvent OnSelect;
+    private event NotifyEvent OnCancel;
 
     // Ability.PAS:583
     public virtual void Dispose()
@@ -84,9 +84,9 @@ public partial class UnitSelector : IDisposable
     // Ability.PAS:651
     public virtual void Cancel()
     {
-        if (_onCancel != null)
+        if (OnCancel != null)
         {
-            _onCancel(this);
+            OnCancel(this);
         }
     }
 
@@ -132,7 +132,7 @@ public partial class UnitSelector : IDisposable
     }
 
     // intf_P1_08.inc:65
-    public virtual bool Select() { _onSelect?.Invoke(this); return true; }
+    public virtual bool Select() { OnSelect?.Invoke(this); return true; }
 
     public delegate void NotifyEvent(UnitSelector Selector);
 }

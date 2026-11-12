@@ -70,7 +70,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
 
         if (StrategicMap.Current != null)
         {
-            StrategicMap.Current.UnitDestroyed(this);
+            StrategicMap.Current.NotifyUnitDestroyed(this);
         }
 
         base.Dispose();
@@ -220,7 +220,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             UpdateEnchanted();
             if (StrategicMap.Current != null)
             {
-                StrategicMap.Current.UnitChanged(this);
+                StrategicMap.Current.NotifyUnitChanged(this);
             }
         }
 

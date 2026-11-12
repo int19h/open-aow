@@ -35,11 +35,11 @@ public partial class Image
         try
         {
             if (!Valid || !Visible) return;
-            _onPreDraw?.Invoke(this, surface);
+            RaisePreDraw(this, surface);
             var rectangle = new Rect(Window.WinLeft + WinLeft,
                 Window.WinTop + WinTop, WinWidth, WinHeight);
             _imageLibrary.DrawTiled(_currentImage, rectangle, ref surface);
-            _onDraw?.Invoke(this, surface);
+            RaiseDraw(this, surface);
         }
         catch
         {

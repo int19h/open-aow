@@ -13231,7 +13231,7 @@
             "$type": "Aow.Game.World.Map.StrategicMap",
             "GameMap._backHexSelector": {
               "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-              "CustomFixedVisibleHexSprite._onShow": [
+              "CustomFixedVisibleHexSprite.OnShow": [
                 "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
               ],
               "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -13244,7 +13244,7 @@
             "GameMap.FogEnabled": true,
             "GameMap._frontHexSelector": {
               "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-              "CustomFixedVisibleHexSprite._onShow": [
+              "CustomFixedVisibleHexSprite.OnShow": [
                 "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
               ],
               "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -16894,7 +16894,7 @@
             "StrategicMap.TokenEventLogging": false,
             "StrategicMap.TokenManager": {
               "$type": "Aow.Game.Net.AoWTokenManager",
-              "TokenManager._onMessage": [
+              "TokenManager.OnMessage": [
                 "Aow.Game.World.Map.StrategicMap.OnTokenManagerMessage"
               ],
               "TokenManager._owner": "$owner",
@@ -16944,11 +16944,11 @@
                     null
                   ]
                 },
-                "TokenExecutor._onExecuteTokenEvent": [
+                "TokenExecutor.OnExecuteTokenEvent": [
                   "Aow.Game.World.Map.StrategicMap.OnExecuteTokenEvent"
                 ],
-                "TokenExecutor._onGetSyncValue": null,
-                "TokenExecutor._onSyncError": null,
+                "TokenExecutor.OnGetSyncValue": null,
+                "TokenExecutor.OnSyncError": null,
                 "TokenExecutor._prefetchTacticalBattle": null,
                 "TokenExecutor._round": 0,
                 "TokenExecutor._state": {
@@ -17212,10 +17212,10 @@
               "EventStore\u00601._count": 0,
               "EventStore\u00601._items": null
             },
-            "GameMap._onCenterView": null,
-            "GameMap._onChangeView": null,
-            "GameMap._onProgress": null,
-            "GameMap._onViewLevel": null,
+            "GameMap.OnCenterView": null,
+            "GameMap.OnChangeView": null,
+            "GameMap.OnProgress": null,
+            "GameMap.OnViewLevel": null,
             "GameMap._selection": {
               "$type": "Aow.Game.World.Map.HexSpriteSelection",
               "EControlStyleNode._controlStyle": {
@@ -17397,7 +17397,7 @@
             "$type": "Aow.Game.World.Map.StrategicMap",
             "GameMap._backHexSelector": {
               "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-              "CustomFixedVisibleHexSprite._onShow": [
+              "CustomFixedVisibleHexSprite.OnShow": [
                 "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
               ],
               "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -17410,7 +17410,7 @@
             "GameMap.FogEnabled": true,
             "GameMap._frontHexSelector": {
               "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-              "CustomFixedVisibleHexSprite._onShow": [
+              "CustomFixedVisibleHexSprite.OnShow": [
                 "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
               ],
               "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -21060,7 +21060,7 @@
             "StrategicMap.TokenEventLogging": false,
             "StrategicMap.TokenManager": {
               "$type": "Aow.Game.Net.AoWTokenManager",
-              "TokenManager._onMessage": [
+              "TokenManager.OnMessage": [
                 "Aow.Game.World.Map.StrategicMap.OnTokenManagerMessage"
               ],
               "TokenManager._owner": "$owner",
@@ -21110,11 +21110,11 @@
                     null
                   ]
                 },
-                "TokenExecutor._onExecuteTokenEvent": [
+                "TokenExecutor.OnExecuteTokenEvent": [
                   "Aow.Game.World.Map.StrategicMap.OnExecuteTokenEvent"
                 ],
-                "TokenExecutor._onGetSyncValue": null,
-                "TokenExecutor._onSyncError": null,
+                "TokenExecutor.OnGetSyncValue": null,
+                "TokenExecutor.OnSyncError": null,
                 "TokenExecutor._prefetchTacticalBattle": null,
                 "TokenExecutor._round": 0,
                 "TokenExecutor._state": {
@@ -21378,10 +21378,10 @@
               "EventStore\u00601._count": 0,
               "EventStore\u00601._items": null
             },
-            "GameMap._onCenterView": null,
-            "GameMap._onChangeView": null,
-            "GameMap._onProgress": null,
-            "GameMap._onViewLevel": null,
+            "GameMap.OnCenterView": null,
+            "GameMap.OnChangeView": null,
+            "GameMap.OnProgress": null,
+            "GameMap.OnViewLevel": null,
             "GameMap._selection": {
               "$type": "Aow.Game.World.Map.HexSpriteSelection",
               "EControlStyleNode._controlStyle": {
@@ -21685,10 +21685,10 @@
               "GameMap._mapContainer": null,
               "GameMap._mouse": null,
               "GameMap.NewFrameEventsStore": null,
-              "GameMap._onCenterView": null,
-              "GameMap._onChangeView": null,
-              "GameMap._onProgress": null,
-              "GameMap._onViewLevel": null,
+              "GameMap.OnCenterView": null,
+              "GameMap.OnChangeView": null,
+              "GameMap.OnProgress": null,
+              "GameMap.OnViewLevel": null,
               "GameMap._selection": null,
               "GameMap._staticFixedVisibleHexSprite": null,
               "GameMap._staticSceneInvalid": false,
@@ -23787,7 +23787,7 @@
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary._loadOnDemand": true,
               "CustomImageLibrary._loadedFileName": "",
-              "CustomImageLibrary._onChange": null,
+              "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager._palettes": []
@@ -23892,7 +23892,7 @@
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary._loadOnDemand": true,
               "CustomImageLibrary._loadedFileName": "",
-              "CustomImageLibrary._onChange": null,
+              "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager._palettes": []
@@ -25153,7 +25153,7 @@
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary._loadOnDemand": true,
               "CustomImageLibrary._loadedFileName": "",
-              "CustomImageLibrary._onChange": null,
+              "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager._palettes": []
@@ -25266,7 +25266,7 @@
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary._loadOnDemand": true,
               "CustomImageLibrary._loadedFileName": "",
-              "CustomImageLibrary._onChange": null,
+              "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager._palettes": []
@@ -25345,7 +25345,7 @@
             "$type": "Aow.Game.World.Structures.ProductionControl",
             "EngineObject._owner": null,
             "ProductionControl.LoopQueue": false,
-            "ProductionControl._onChange": null,
+            "ProductionControl.OnChange": null,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "ENode._children": {
@@ -25405,7 +25405,7 @@
             "$type": "Aow.Game.World.Structures.ProductionControl",
             "EngineObject._owner": "$owner",
             "ProductionControl.LoopQueue": false,
-            "ProductionControl._onChange": null,
+            "ProductionControl.OnChange": null,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "ENode._children": {
@@ -25452,7 +25452,7 @@
               "$type": "Aow.Game.World.Structures.ProductionControl",
               "EngineObject._owner": "$owner",
               "ProductionControl.LoopQueue": false,
-              "ProductionControl._onChange": null,
+              "ProductionControl.OnChange": null,
               "ProductionControl.Queue": null,
               "ProductionControl.Settings": null,
               "ProductionControl.Status": 0,
@@ -25511,7 +25511,7 @@
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary._loadOnDemand": true,
               "CustomImageLibrary._loadedFileName": "",
-              "CustomImageLibrary._onChange": null,
+              "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager._palettes": []
@@ -25626,7 +25626,7 @@
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary._loadOnDemand": true,
               "CustomImageLibrary._loadedFileName": "",
-              "CustomImageLibrary._onChange": null,
+              "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager._palettes": []

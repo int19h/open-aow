@@ -52,8 +52,8 @@ public partial class CombatUnitInfo : ILayoutModule
         MainWindow.DragHeight = 20;
         MainWindow.Draggable = true;
         MainWindow.Resizable = true;
-        MainWindow.OnDrag = _ => Layout_TCUnitWinResize_0();
-        MainWindow.OnResize = _ => Layout_TCUnitWinResize_0();
+        MainWindow.OnDrag += _ => TCUnitWinResize();
+        MainWindow.OnResize += _ => TCUnitWinResize();
         MainWindow.MinWidth = 150;
         MainWindow.MinHeight = 262;
         MainWindow.MaxWidth = 0;
@@ -123,7 +123,7 @@ public partial class CombatUnitInfo : ILayoutModule
         min.TextColor = 0;
         min.TextSelectedColor = 0;
         min.WinWidth = 15;
-        min.OnClick = _ => Layout_MinClick_1();
+        min.OnClick += _ => MinClick();
         session.EndRead(min);
         Button close = new Button(this);
         session.BeginRead(close);
@@ -157,7 +157,7 @@ public partial class CombatUnitInfo : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CloseClick_2();
+        close.OnClick += _ => CloseClick();
         session.EndRead(close);
         Label iwTitle = new Label(this);
         session.BeginRead(iwTitle);
@@ -594,9 +594,9 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitAbilityList = new ListBox(this);
         session.BeginRead(UnitAbilityList);
         UnitAbilityList.Name = "UAbilLB";
-        UnitAbilityList.OnMouseDown = (_, button, shift, x, y) => UAbilLBMouseDown(button, shift, x, y);
-        UnitAbilityList.OnMouseMove = (_, shift, x, y) => UAbilLBMouseMove(shift, x, y);
-        UnitAbilityList.OnUpdate = _ => Layout_UAbilLBUpdate_3();
+        UnitAbilityList.OnMouseDown += (_, button, shift, x, y) => UAbilLBMouseDown(button, shift, x, y);
+        UnitAbilityList.OnMouseMove += (_, shift, x, y) => UAbilLBMouseMove(shift, x, y);
+        UnitAbilityList.OnUpdate += _ => UAbilLBUpdate();
         UnitAbilityList.Priority = 0;
         UnitAbilityList.WinLeft = 1;
         UnitAbilityList.WinTop = 113;
@@ -619,7 +619,7 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitAbilityList.BorderWidth = 20;
         UnitAbilityList.BorderHeight = 3;
         UnitAbilityList.Selected = -1;
-        UnitAbilityList.OnPreDrawItem = (_, in drawRectangle, drawItem, ref lockedSurface) => UAbilLBPreDrawItem(in drawRectangle, drawItem, ref lockedSurface);
+        UnitAbilityList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => UAbilLBPreDrawItem(drawRectangle, drawItem, ref surface);
         UnitAbilityList.TextColor = 9415072;
         UnitAbilityList.TextSelectedColor = 0;
         UnitAbilityList.ImageLibraryIndexFrame = 113;
@@ -1661,7 +1661,7 @@ public partial class CombatUnitInfo : ILayoutModule
         center.TextColor = 0;
         center.TextSelectedColor = 0;
         center.WinWidth = 15;
-        center.OnClick = _ => Layout_CenterClick_4();
+        center.OnClick += _ => CenterClick();
         session.EndRead(center);
         VerticalScrollBar abilSB = new VerticalScrollBar(this);
         session.BeginRead(abilSB);
@@ -1883,7 +1883,7 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitFramePanel = new Panel(this);
         session.BeginRead(UnitFramePanel);
         UnitFramePanel.Name = "UnitFr";
-        UnitFramePanel.OnMouseDown = (_, button, shift, x, y) => HeroSMapMouseDown(button, shift, x, y);
+        UnitFramePanel.OnMouseDown += (_, button, shift, x, y) => HeroSMapMouseDown(button, shift, x, y);
         UnitFramePanel.Priority = 30;
         UnitFramePanel.WinLeft = 1;
         UnitFramePanel.WinTop = 2;
@@ -1911,8 +1911,8 @@ public partial class CombatUnitInfo : ILayoutModule
         UserDrawBox unitBox = new UserDrawBox(this);
         session.BeginRead(unitBox);
         unitBox.Name = "UnitBox";
-        unitBox.OnMouseDown = (_, button, shift, x, y) => HeroSMapMouseDown(button, shift, x, y);
-        unitBox.OnDraw = (_, lockedSurface) => TCUnitPnlDrawBack(lockedSurface);
+        unitBox.OnMouseDown += (_, button, shift, x, y) => HeroSMapMouseDown(button, shift, x, y);
+        unitBox.OnDraw += (_, surface) => TCUnitPnlDrawBack(surface);
         unitBox.Priority = 10;
         unitBox.WinLeft = 5;
         unitBox.WinTop = 0;
@@ -2196,30 +2196,5 @@ public partial class CombatUnitInfo : ILayoutModule
         targerFr.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
         tNamePnl.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
         UnitFramePanel.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-    }
-
-    private void Layout_TCUnitWinResize_0()
-    {
-        TCUnitWinResize();
-    }
-
-    private void Layout_MinClick_1()
-    {
-        MinClick();
-    }
-
-    private void Layout_CloseClick_2()
-    {
-        CloseClick();
-    }
-
-    private void Layout_UAbilLBUpdate_3()
-    {
-        UAbilLBUpdate();
-    }
-
-    private void Layout_CenterClick_4()
-    {
-        CenterClick();
     }
 }

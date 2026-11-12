@@ -3,7 +3,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Audio;
 
-// _currentSong, _status, _songs, _songNames, _currentIndex, _onSongChange, _backup (Pause),
+// _currentSong, _status, _songs, _songNames, _currentIndex, OnSongChange, _backup (Pause),
 // FPauseCount. Plays the songs in turn (Update starts the next one)
 public partial class SongPlayer : IDisposable
 {
@@ -12,7 +12,10 @@ public partial class SongPlayer : IDisposable
     private StringList _songs;
     private StringList _songNames;
     private int _currentIndex;
-    private NotifyEvent<SongPlayer> _onSongChange;
+    public event NotifyEvent<SongPlayer> OnSongChange;
+
+    internal void SetSongChangeHandler(NotifyEvent<SongPlayer> handler) => OnSongChange = handler;
+
     private SongStatus _backup;
     private int _pauseCount;
 
@@ -127,9 +130,9 @@ public partial class SongPlayer : IDisposable
             {
                 _currentIndex = index;
                 _currentSong = _songs[index];
-                if (_onSongChange != null)
+                if (OnSongChange != null)
                 {
-                    _onSongChange(this);
+                    OnSongChange(this);
                 }
             }
             else
@@ -159,9 +162,9 @@ public partial class SongPlayer : IDisposable
             {
                 _currentIndex = index;
                 _currentSong = _songs[index];
-                if (_onSongChange != null)
+                if (OnSongChange != null)
                 {
-                    _onSongChange(this);
+                    OnSongChange(this);
                 }
             }
             else
@@ -256,7 +259,6 @@ public partial class SongPlayer : IDisposable
     public StringList Songs { get => _songs; set => SetSongs(value); }
     public StringList SongNames { get => _songNames; }
     public int CurrentIndex { get => _currentIndex; }
-    public NotifyEvent<SongPlayer> OnSongChange { get => _onSongChange; set => _onSongChange = value; }
 
     public enum StatusElement : byte
     {

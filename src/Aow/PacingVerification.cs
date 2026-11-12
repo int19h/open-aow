@@ -83,7 +83,7 @@ internal static class PacingVerification
     {
         public TimedDisplay() : base(null!) { }
 
-        public void SetUpdate(UpdateFrameEvent action) => OnUpdateFrame = action;
+        public void SetUpdate(UpdateFrameEvent action) => SetUpdateFrameHandler(action);
     }
 
     private sealed class NullPresenter : IDisplayHost, IDisplayEvents

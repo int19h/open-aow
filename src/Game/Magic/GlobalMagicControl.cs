@@ -39,7 +39,7 @@ public partial class GlobalMagicControl : EngineObject
 
     private EventStore<GlobalMagicControl> _changedEventsStore;
 
-    public event NotifyEvent<GlobalMagicControl> FChangedEvents
+    public event NotifyEvent<GlobalMagicControl> Changed
     {
         add => _changedEventsStore.Add(value);
         remove => _changedEventsStore.Remove(value);

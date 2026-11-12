@@ -292,6 +292,14 @@ whose handlers declare it as `var Info: MapChangedInfo` or `var Info: ShowMessag
 parameters of other types, the transpiler reports an error. A handler name that no method
 matches is a load error (the VCL raised `PropValueError`).
 
+Since issue 156 every handler property is a C# event and the layout subscribes with `+=` on the
+component it has just constructed, so each event holds the one handler the form binds. A handler
+whose parameters match the event binds as a method group. Any other handler binds through a lambda
+over the event's parameters that calls it with what it takes, and a parameter the call does not
+read is a discard. The layouts hold no forwarding methods. A derived control publishes an event
+with its own sender type through typed `add` and `remove` accessors over the base event
+(`EventSlot`).
+
 ## 6. Translators
 
 Each of 62 modules has a `IvTranslator` component with `DictionaryName` (`'AoW'` for the game's

@@ -11,7 +11,7 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
 
     internal PackageDataList PackageDataList { get; }
 
-    private SendDataEvent _onSendData;
+    public event SendDataEvent OnSendData;
 
     // NetworkE.pas:819
     public override int GetLocalSystemId() => _localSystemId;
@@ -149,9 +149,9 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
     public bool SendData(object data, int size, int systemId)
     {
         bool result = default;
-        if (_onSendData != null)
+        if (OnSendData != null)
         {
-            result = _onSendData(data, size, systemId);
+            result = OnSendData(data, size, systemId);
         }
         else
         {
@@ -160,7 +160,5 @@ public partial class RemotePlayerCommunicationControl : PlayerCommunicationContr
 
         return result;
     }
-
-    public SendDataEvent OnSendData { get => _onSendData; set => _onSendData = value; }
 
 }

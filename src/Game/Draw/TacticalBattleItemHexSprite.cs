@@ -19,7 +19,7 @@ public partial class TacticalBattleItemHexSprite : ItemHexSprite
     {
         ItemHexSprite itemHexSprite;
         ItemList items;
-        Items.OnChanged = null;
+        Items.ClearChangedHandler();
         if (CombatMap.Current.Combat.ExplorationSite == 1)
         {
             // An item site's combat returns the items to the site's list. A dungeon's combat holds

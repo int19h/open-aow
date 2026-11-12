@@ -89,7 +89,7 @@ public partial class ArmyCombatMoveTokenEvent
         var item2 = Path[0];
         var hexX = ArmyHexSprite.GetHexX();
         combat.Setup((byte)ArmyHexSprite.Army.Player, (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, hexLevel, (byte)player, independentRelation, item.X, fPathItem.Y, item2.MapLevel, _combatType == CombatType.Fast);
-        combat.OnExecuted = CombatExecuted;
+        combat.SetExecutedHandler(CombatExecuted);
         message.MessageId = 4359;
         message.Param[0] = combat;
         message.Param[1] = ArmyHexSprite;

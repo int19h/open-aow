@@ -119,10 +119,7 @@ public partial class Gauge : Control
         {
             if (Valid && Visible)
             {
-                if (_onPreDraw != null)
-                {
-                    _onPreDraw(this, lockedSurface);
-                }
+                RaisePreDraw(this, lockedSurface);
 
                 oldClip = lockedSurface.ClipRectangle;
                 switch (_style)
@@ -171,10 +168,7 @@ public partial class Gauge : Control
                         break;
                 }
 
-                if (_onDraw != null)
-                {
-                    _onDraw(this, lockedSurface);
-                }
+                RaiseDraw(this, lockedSurface);
             }
         }
         catch
@@ -191,10 +185,7 @@ public partial class Gauge : Control
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (_onMouseDown != null)
-            {
-                _onMouseDown(this, button, shift, X, Y);
-            }
+            RaiseMouseDown(this, button, shift, X, Y);
         }
     }
 
@@ -205,10 +196,7 @@ public partial class Gauge : Control
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (_onMouseUp != null)
-            {
-                _onMouseUp(this, button, shift, X, Y);
-            }
+            RaiseMouseUp(this, button, shift, X, Y);
         }
     }
 
@@ -219,10 +207,7 @@ public partial class Gauge : Control
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (_onMouseMove != null)
-            {
-                _onMouseMove(this, shift, X, Y);
-            }
+            RaiseMouseMove(this, shift, X, Y);
         }
     }
 
@@ -339,58 +324,58 @@ public partial class Gauge : Control
     [Published]
     public int ImageLibraryIndexTSelected { get => _imageLibraryIndexTSelected; set => SetImageLibraryTsIndex(value); }
 
-    public new NotifyEvent<Gauge> OnChange
+    public new event NotifyEvent<Gauge> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<Gauge> OnMouseDown
+    public new event MouseEvent<Gauge> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<Gauge> OnMouseUp
+    public new event MouseEvent<Gauge> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<Gauge> OnMouseMove
+    public new event MouseMoveEvent<Gauge> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<Gauge> OnKeyPress
+    public new event KeyPressEvent<Gauge> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<Gauge> OnKeyDown
+    public new event KeyEvent<Gauge> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<Gauge> OnPreDraw
+    public new event AoWOnDrawEvent<Gauge> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<Gauge> OnDraw
+    public new event AoWOnDrawEvent<Gauge> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<Gauge> OnUpdate
+    public new event NotifyEvent<Gauge> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(OnUpdate), value: value);
     }
 
     public enum GaugeType : byte

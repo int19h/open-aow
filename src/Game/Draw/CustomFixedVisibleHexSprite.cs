@@ -11,7 +11,7 @@ public partial class CustomFixedVisibleHexSprite : FixedVisibleHexSprite
     { }
 
     private int _showPriority;
-    private OnShowHSEvent _onShow;
+    public event OnShowHSEvent OnShow;
 
     // HXSPRITE.PAS:800
     public override int GetShowPriority() => _showPriority;
@@ -19,14 +19,13 @@ public partial class CustomFixedVisibleHexSprite : FixedVisibleHexSprite
     // HXSPRITE.PAS:805
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (_onShow != null)
+        if (OnShow != null)
         {
-            _onShow(pixelXSurface, pixelYSurface, lockedSurface);
+            OnShow(pixelXSurface, pixelYSurface, lockedSurface);
         }
     }
 
     public new int ShowPriority { get => GetShowPriority(); set => _showPriority = value; }
-    public OnShowHSEvent OnShow { get => _onShow; set => _onShow = value; }
 
     public delegate void OnShowHSEvent(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc);
 

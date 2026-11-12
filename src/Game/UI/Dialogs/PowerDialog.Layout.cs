@@ -78,7 +78,7 @@ public partial class PowerDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CancelBtnClick_0();
+        close.OnClick += _ => CancelBtnClick();
         session.EndRead(close);
         Label title = new Label(this);
         session.BeginRead(title);
@@ -159,7 +159,7 @@ public partial class PowerDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 120;
-        cancelBtn.OnClick = _ => Layout_CancelBtnClick_0();
+        cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
         Button setBtn = new Button(this);
         session.BeginRead(setBtn);
@@ -190,12 +190,12 @@ public partial class PowerDialog : ILayoutModule
         setBtn.TextColor = 0;
         setBtn.TextSelectedColor = 16777215;
         setBtn.WinWidth = 120;
-        setBtn.OnClick = _ => Layout_SetBtnClick_1();
+        setBtn.OnClick += _ => SetBtnClick();
         session.EndRead(setBtn);
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 159;
@@ -629,7 +629,7 @@ public partial class PowerDialog : ILayoutModule
         PowerSlider.WinHeight = 11;
         PowerSlider.WinWidth = 78;
         PowerSlider.NumberVisible = 1;
-        PowerSlider.OnChange = _ => Layout_PowerSliderChange_2();
+        PowerSlider.OnChange += _ => PowerSliderChange();
         PowerSlider.VanishWhenFull = false;
         PowerSlider.ImageLibraryIndexIncrementUp = 0;
         PowerSlider.ImageLibraryIndexIncrementDown = 0;
@@ -641,7 +641,7 @@ public partial class PowerDialog : ILayoutModule
         Image paMana = new Image(this);
         session.BeginRead(paMana);
         paMana.Name = "PAMana";
-        paMana.OnDraw = PAManaDraw;
+        paMana.OnDraw += PAManaDraw;
         paMana.Priority = 0;
         paMana.WinLeft = 0;
         paMana.WinTop = 89;
@@ -670,7 +670,7 @@ public partial class PowerDialog : ILayoutModule
         Image paRes = new Image(this);
         session.BeginRead(paRes);
         paRes.Name = "PARes";
-        paRes.OnDraw = PAResDraw;
+        paRes.OnDraw += PAResDraw;
         paRes.Priority = 0;
         paRes.WinLeft = 141;
         paRes.WinTop = 89;
@@ -792,20 +792,5 @@ public partial class PowerDialog : ILayoutModule
         PowerSlider.ThumbStrip = DialogHosts.UIGraphics.GenericScrollBars;
         paMana.ImageLibrary = DialogHosts.UIGraphics.RelationWindow;
         paRes.ImageLibrary = DialogHosts.UIGraphics.MiscArt;
-    }
-
-    private void Layout_CancelBtnClick_0()
-    {
-        CancelBtnClick();
-    }
-
-    private void Layout_SetBtnClick_1()
-    {
-        SetBtnClick();
-    }
-
-    private void Layout_PowerSliderChange_2()
-    {
-        PowerSliderChange();
     }
 }

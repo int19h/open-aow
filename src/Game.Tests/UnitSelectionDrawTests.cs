@@ -28,10 +28,12 @@ public sealed class UnitSelectionDrawTests
         {
             // The layout (UnitSelectionDialog.Layout.cs) makes each slot a check box with this handler.
             dialog.UnitPanel = new Panel(dialog);
-            dialog.Unit1CheckBox = new CheckBox(dialog) { OnPreDraw = (sender, surface) => dialog.U1PreDraw(sender, surface, 0) };
+            dialog.Unit1CheckBox = new CheckBox(dialog);
+            dialog.Unit1CheckBox.OnPreDraw += (sender, surface) => dialog.U1PreDraw(sender, surface, 0);
             dialog.Event = new HealingUnitSelector();
             LockedSurface lockedSurface = default;
-            dialog.Unit1CheckBox.OnPreDraw(dialog.Unit1CheckBox, lockedSurface);
+            // The check box raises the base event, as its PreDraw does.
+            EventFields.Handler<AoWOnDrawEvent<UIComponent>>(dialog.Unit1CheckBox, declaring: typeof(UIComponent), name: nameof(UIComponent.OnPreDraw))!(dialog.Unit1CheckBox, lockedSurface);
         }
         finally
         {

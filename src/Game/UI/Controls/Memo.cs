@@ -28,7 +28,8 @@ public partial class Memo : Control
     private int _numberVisible;
     private int _topItem;
     private bool _scrollSet;
-    private NotifyEvent<Memo> _onDrawItem;
+    [Published]
+    public event NotifyEvent<Memo> OnDrawItem;
     private int _scrollWidth;
 
     private byte _cursorChar;
@@ -387,10 +388,7 @@ public partial class Memo : Control
         {
             if (Valid && Visible)
             {
-                if (_onPreDraw != null)
-                {
-                    _onPreDraw(this, lockedSurface);
-                }
+                RaisePreDraw(this, lockedSurface);
 
                 _font.Color = Color;
                 oldClip = lockedSurface.ClipRectangle;
@@ -470,9 +468,9 @@ public partial class Memo : Control
                             _itemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
                         }
 
-                        if (_onDrawItem != null)
+                        if (OnDrawItem != null)
                         {
-                            _onDrawItem(this);
+                            OnDrawItem(this);
                         }
                     }
                 }
@@ -492,10 +490,7 @@ public partial class Memo : Control
                     _font.SetText(_borderWidth + X + textWidth, _borderHeight + Y + (_currentLine - _topItem) * _itemHeight, Cp1252.Text(_cursorChar), lockedSurface);
                 }
 
-                if (_onDraw != null)
-                {
-                    _onDraw(this, lockedSurface);
-                }
+                RaiseDraw(this, lockedSurface);
             }
         }
         catch
@@ -512,10 +507,7 @@ public partial class Memo : Control
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (_onMouseDown != null)
-            {
-                _onMouseDown(this, button, shift, X, Y);
-            }
+            RaiseMouseDown(this, button, shift, X, Y);
         }
     }
 
@@ -532,10 +524,7 @@ public partial class Memo : Control
                 Window._cursor = -4;
             }
 
-            if (_onMouseMove != null)
-            {
-                _onMouseMove(this, shift, X, Y);
-            }
+            RaiseMouseMove(this, shift, X, Y);
         }
     }
 
@@ -640,15 +629,12 @@ public partial class Memo : Control
 
             KeyStuff();
             // { tests OnKeyDown and calls OnKeyPress (original bug) }
-            if (_onKeyDown != null)
+            if (HasKeyDownHandlers)
             {
-                _onKeyPress(this, ref key);
+                RaiseKeyPressUnchecked(this, ref key);
             }
 
-            if (_onChange != null)
-            {
-                _onChange(this);
-            }
+            RaiseChange(this);
         }
     }
 
@@ -782,15 +768,9 @@ public partial class Memo : Control
             }
 
             KeyStuff();
-            if (_onKeyDown != null)
-            {
-                _onKeyDown(this, ref key, shift);
-            }
+            RaiseKeyDown(this, ref key, shift);
 
-            if (_onChange != null)
-            {
-                _onChange(this);
-            }
+            RaiseChange(this);
         }
     }
 
@@ -1006,9 +986,6 @@ public partial class Memo : Control
     internal void SetVerticalScrollBarWithoutLayout(VerticalScrollBar value) => _verticalScrollBar = value;
 
     [Published]
-    public NotifyEvent<Memo> OnDrawItem { get => _onDrawItem; set => _onDrawItem = value; }
-
-    [Published]
     public byte CursorChar { get => _cursorChar; set => _cursorChar = value; }
 
     [Published]
@@ -1038,57 +1015,57 @@ public partial class Memo : Control
     [Published]
     public TextAlignment TextAlign { get => _textAlign; set => _textAlign = value; }
 
-    public new NotifyEvent<Memo> OnChange
+    public new event NotifyEvent<Memo> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<Memo> OnMouseDown
+    public new event MouseEvent<Memo> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<Memo> OnMouseUp
+    public new event MouseEvent<Memo> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<Memo> OnMouseMove
+    public new event MouseMoveEvent<Memo> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<Memo> OnKeyPress
+    public new event KeyPressEvent<Memo> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<Memo> OnKeyDown
+    public new event KeyEvent<Memo> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<Memo> OnPreDraw
+    public new event AoWOnDrawEvent<Memo> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<Memo> OnDraw
+    public new event AoWOnDrawEvent<Memo> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<Memo> OnUpdate
+    public new event NotifyEvent<Memo> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnUpdate), value: value);
     }
 }

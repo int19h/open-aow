@@ -18,8 +18,10 @@ public partial class TurnButton : Controls.Control
     private bool _animating;
     private int _animationPhase;
     private int _frameOffset;
-    private NotifyEvent<TurnButton> _onAnimationDone;
-    private NotifyEvent<TurnButton> _onPlayerChange;
+    [Published]
+    public event NotifyEvent<TurnButton> OnAnimationDone;
+    [Published]
+    public new event NotifyEvent<TurnButton> OnChange;
 
     public bool ButtonChecked { get; set; }
     public int AnimationFrame { get; set; }
@@ -100,9 +102,9 @@ public partial class TurnButton : Controls.Control
                         _frameOffset = 11;
                         _lastPlayer = _currentPlayer;
                         _animating = false;
-                        if (_onAnimationDone != null)
+                        if (OnAnimationDone != null)
                         {
-                            _onAnimationDone(this);
+                            OnAnimationDone(this);
                         }
                     }
 
@@ -118,10 +120,7 @@ public partial class TurnButton : Controls.Control
         {
             if (Visible == true && Valid == true)
             {
-                if (_onPreDraw != null)
-                {
-                    _onPreDraw(this, lockedSurface);
-                }
+                RaisePreDraw(this, lockedSurface);
 
                 if (!_animating && ButtonChecked == true)
                 {
@@ -132,10 +131,7 @@ public partial class TurnButton : Controls.Control
                     _imageLibrary[_frameOffset + AnimationFrame].ShowClipped(Window.WinLeft + WinLeft, Window.WinTop + WinTop, lockedSurface);
                 }
 
-                if (_onDraw != null)
-                {
-                    _onDraw(this, lockedSurface);
-                }
+                RaiseDraw(this, lockedSurface);
             }
         }
         catch
@@ -154,10 +150,7 @@ public partial class TurnButton : Controls.Control
             Handled = true;
             if (button == MouseButton.Left && Press())
             {
-                if (_onMouseDown != null)
-                {
-                    _onMouseDown(this, button, shift, X, Y);
-                }
+                RaiseMouseDown(this, button, shift, X, Y);
             }
         }
     }
@@ -169,10 +162,7 @@ public partial class TurnButton : Controls.Control
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (_onMouseUp != null)
-            {
-                _onMouseUp(this, button, shift, X, Y);
-            }
+            RaiseMouseUp(this, button, shift, X, Y);
         }
     }
 
@@ -184,10 +174,7 @@ public partial class TurnButton : Controls.Control
         if (X >= Window.WinLeft + WinLeft && X <= Window.WinLeft + WinLeft + WinWidth - 1 && Y >= Window.WinTop + WinTop && Y <= Window.WinTop + WinTop + WinHeight - 1)
         {
             Handled = true;
-            if (_onMouseMove != null)
-            {
-                _onMouseMove(this, shift, X, Y);
-            }
+            RaiseMouseMove(this, shift, X, Y);
         }
     }
 
@@ -217,59 +204,53 @@ public partial class TurnButton : Controls.Control
     public bool Animating { get => _animating; set => _animating = value; }
 
     [Published]
-    public NotifyEvent<TurnButton> OnAnimationDone { get => _onAnimationDone; set => _onAnimationDone = value; }
-
-    [Published]
-    public new NotifyEvent<TurnButton> OnChange { get => _onPlayerChange; set => _onPlayerChange = value; }
-
-    [Published]
     public bool Checked { get => ButtonChecked; set => ButtonChecked = value; }
 
-    public new MouseEvent<TurnButton> OnMouseDown
+    public new event MouseEvent<TurnButton> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<TurnButton> OnMouseUp
+    public new event MouseEvent<TurnButton> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<TurnButton> OnMouseMove
+    public new event MouseMoveEvent<TurnButton> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<TurnButton> OnKeyPress
+    public new event KeyPressEvent<TurnButton> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<TurnButton> OnKeyDown
+    public new event KeyEvent<TurnButton> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<TurnButton> OnPreDraw
+    public new event AoWOnDrawEvent<TurnButton> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<TurnButton> OnDraw
+    public new event AoWOnDrawEvent<TurnButton> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<TurnButton> OnUpdate
+    public new event NotifyEvent<TurnButton> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnUpdate), value: value);
     }
 }

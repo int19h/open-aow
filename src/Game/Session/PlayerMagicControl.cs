@@ -79,7 +79,7 @@ public partial class PlayerMagicControl : EngineObject
 
     private EventStore<PlayerMagicControl> _changedEventsStore;
 
-    public event NotifyEvent<PlayerMagicControl> FChangedEvents
+    public event NotifyEvent<PlayerMagicControl> Changed
     {
         add => _changedEventsStore.Add(value);
         remove => _changedEventsStore.Remove(value);

@@ -9,8 +9,8 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Net;
 
 // _activeTacticalBattle, _prefetchTacticalBattle, _activeTacticalBattleIndex, Events, TacticalBattleList, _tokenCounter, _round,
-// _executeCount, _state, FOnEventsExecuted, FOnActivateTacticalBattle, _onSyncError, _onGetSyncValue,
-// _onExecuteTokenEvent, _executing, _lockCount, SystemEvents, _holdTacticalBattle, TokenManager
+// _executeCount, _state, EventsExecuted, TacticalBattleActivating, OnSyncError, OnGetSyncValue,
+// OnExecuteTokenEvent, _executing, _lockCount, SystemEvents, _holdTacticalBattle, TokenManager
 public partial class TokenExecutor : IDisposable
 {
     private TokenControl _activeTacticalBattle;
@@ -27,7 +27,7 @@ public partial class TokenExecutor : IDisposable
 
     internal EventStore<TokenExecutor> OnEventsExecutedStore { get; }
 
-    internal event NotifyEvent<TokenExecutor> FOnEventsExecuted
+    internal event NotifyEvent<TokenExecutor> EventsExecuted
     {
         add => OnEventsExecutedStore.Add(value);
         remove => OnEventsExecutedStore.Remove(value);
@@ -35,15 +35,38 @@ public partial class TokenExecutor : IDisposable
 
     internal EventStore<TokenExecutor> OnActivateTacticalBattleStore { get; }
 
-    internal event NotifyEvent<TokenExecutor> FOnActivateTacticalBattle
+    internal event NotifyEvent<TokenExecutor> TacticalBattleActivating
     {
         add => OnActivateTacticalBattleStore.Add(value);
         remove => OnActivateTacticalBattleStore.Remove(value);
     }
 
-    private NotifyEvent<object> _onSyncError;
-    private GetSyncValueEvent _onGetSyncValue;
-    private TokenEventEvent _onExecuteTokenEvent;
+    public event NotifyEvent<object> OnSyncError;
+
+    internal void RaiseSyncError(object sender)
+    {
+        if (OnSyncError != null)
+        {
+            OnSyncError(sender);
+        }
+    }
+
+    internal bool HasSyncErrorHandlers => OnSyncError != null;
+
+    internal void SetSyncErrorHandler(NotifyEvent<object> handler) => OnSyncError = handler;
+
+    internal void ClearSyncErrorHandler() => OnSyncError = null;
+
+    public event GetSyncValueEvent OnGetSyncValue;
+
+    internal void SetGetSyncValueHandler(GetSyncValueEvent handler) => OnGetSyncValue = handler;
+
+    internal void ClearGetSyncValueHandler() => OnGetSyncValue = null;
+
+    public event TokenEventEvent OnExecuteTokenEvent;
+
+    internal void SetExecuteTokenEventHandler(TokenEventEvent handler) => OnExecuteTokenEvent = handler;
+
     private bool _executing;
     private int _lockCount;
 
@@ -58,9 +81,9 @@ public partial class TokenExecutor : IDisposable
     {
         ExecuteResult result = default;
         _executing = true;
-        if (_onExecuteTokenEvent != null)
+        if (OnExecuteTokenEvent != null)
         {
-            _onExecuteTokenEvent(tokenEvent);
+            OnExecuteTokenEvent(tokenEvent);
         }
 
         try
@@ -104,9 +127,9 @@ public partial class TokenExecutor : IDisposable
     public int GetSyncValue()
     {
         int result = default;
-        if (_onGetSyncValue != null)
+        if (OnGetSyncValue != null)
         {
-            _onGetSyncValue(ref result);
+            OnGetSyncValue(ref result);
         }
         else
         {
@@ -389,10 +412,6 @@ public partial class TokenExecutor : IDisposable
         add => OnActivateTacticalBattleStore.Add(value);
         remove => OnActivateTacticalBattleStore.Remove(value);
     }
-
-    public NotifyEvent<object> OnSyncError { get => _onSyncError; set => _onSyncError = value; }
-    public GetSyncValueEvent OnGetSyncValue { get => _onGetSyncValue; set => _onGetSyncValue = value; }
-    public TokenEventEvent OnExecuteTokenEvent { get => _onExecuteTokenEvent; set => _onExecuteTokenEvent = value; }
 
     public delegate void GetSyncValueEvent(ref int Value);
     public delegate void TokenEventEvent(TokenEvent TE);

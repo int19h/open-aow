@@ -27,7 +27,7 @@ public partial class MessageDialog : ILayoutModule
         Window.WinTop = 119;
         Window.WinWidth = 385;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_DlgHide_0();
+        Window.OnHide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -142,7 +142,7 @@ public partial class MessageDialog : ILayoutModule
         yesBtn.TextColor = 0;
         yesBtn.TextSelectedColor = 16777215;
         yesBtn.WinWidth = 105;
-        yesBtn.OnClick = _ => Layout_YesBtnClick_1();
+        yesBtn.OnClick += _ => YesBtnClick();
         session.EndRead(yesBtn);
         Button noBtn = new Button(this);
         session.BeginRead(noBtn);
@@ -173,7 +173,7 @@ public partial class MessageDialog : ILayoutModule
         noBtn.TextColor = 0;
         noBtn.TextSelectedColor = 16777215;
         noBtn.WinWidth = 105;
-        noBtn.OnClick = _ => Layout_NoBtnClick_2();
+        noBtn.OnClick += _ => NoBtnClick();
         session.EndRead(noBtn);
         Frame bCeltL = new Frame(this);
         session.BeginRead(bCeltL);
@@ -342,7 +342,7 @@ public partial class MessageDialog : ILayoutModule
         okBtn.TextColor = 0;
         okBtn.TextSelectedColor = 16777215;
         okBtn.WinWidth = 130;
-        okBtn.OnClick = _ => Layout_OKBtnClick_3();
+        okBtn.OnClick += _ => OKBtnClick();
         session.EndRead(okBtn);
         OKPanel = new Panel(this);
         session.BeginRead(OKPanel);
@@ -429,7 +429,7 @@ public partial class MessageDialog : ILayoutModule
         okBtn2.TextColor = 0;
         okBtn2.TextSelectedColor = 16777215;
         okBtn2.WinWidth = 105;
-        okBtn2.OnClick = _ => Layout_OKBtn2Click_4();
+        okBtn2.OnClick += _ => OKBtn2Click();
         session.EndRead(okBtn2);
         Button cancelBtn = new Button(this);
         session.BeginRead(cancelBtn);
@@ -460,7 +460,7 @@ public partial class MessageDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 105;
-        cancelBtn.OnClick = _ => Layout_CancelBtnClick_5();
+        cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
         MessageMemo = new Memo(this);
         session.BeginRead(MessageMemo);
@@ -589,7 +589,7 @@ public partial class MessageDialog : ILayoutModule
         yesBtn2.TextColor = 0;
         yesBtn2.TextSelectedColor = 16777215;
         yesBtn2.WinWidth = 105;
-        yesBtn2.OnClick = _ => Layout_YesBtnClick_1();
+        yesBtn2.OnClick += _ => YesBtnClick();
         session.EndRead(yesBtn2);
         Button noBtn2 = new Button(this);
         session.BeginRead(noBtn2);
@@ -620,7 +620,7 @@ public partial class MessageDialog : ILayoutModule
         noBtn2.TextColor = 0;
         noBtn2.TextSelectedColor = 16777215;
         noBtn2.WinWidth = 105;
-        noBtn2.OnClick = _ => Layout_NoBtnClick_2();
+        noBtn2.OnClick += _ => NoBtnClick();
         session.EndRead(noBtn2);
         Button cancelBtn2 = new Button(this);
         session.BeginRead(cancelBtn2);
@@ -651,7 +651,7 @@ public partial class MessageDialog : ILayoutModule
         cancelBtn2.TextColor = 0;
         cancelBtn2.TextSelectedColor = 16777215;
         cancelBtn2.WinWidth = 105;
-        cancelBtn2.OnClick = _ => Layout_CancelBtnClick_5();
+        cancelBtn2.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn2);
         MemoPanel = new Panel(this);
         session.BeginRead(MemoPanel);
@@ -902,35 +902,5 @@ public partial class MessageDialog : ILayoutModule
         headerMemoSB.ImageLibraryTileBack = DialogHosts.UIGraphics.GenericScrollBars;
         headerMemoSB.ThumbStrip = DialogHosts.UIGraphics.GenericScrollBars;
         HeaderLabel.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
-    }
-
-    private void Layout_DlgHide_0()
-    {
-        DlgHide();
-    }
-
-    private void Layout_YesBtnClick_1()
-    {
-        YesBtnClick();
-    }
-
-    private void Layout_NoBtnClick_2()
-    {
-        NoBtnClick();
-    }
-
-    private void Layout_OKBtnClick_3()
-    {
-        OKBtnClick();
-    }
-
-    private void Layout_OKBtn2Click_4()
-    {
-        OKBtn2Click();
-    }
-
-    private void Layout_CancelBtnClick_5()
-    {
-        CancelBtnClick();
     }
 }

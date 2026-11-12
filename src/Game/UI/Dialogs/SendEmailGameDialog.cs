@@ -21,7 +21,7 @@ public partial class SendEmailGameDialog : DataModule
     public CheckBox ManualCheckBox;
     public CheckBox AutomatedCheckBox;
     public Label RecipientNameLabel;
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
     private SendEmailGameEventLog _sendEvent;
 
     // AoWSendEmailGameDlg.pas:63
@@ -30,9 +30,9 @@ public partial class SendEmailGameDialog : DataModule
         ExecuteDoneEvent done;
         EventLog eventValue;
         Window.Visible = false;
-        done = _done;
+        done = Done;
         eventValue = _sendEvent;
-        _done = null;
+        Done = null;
         _sendEvent = null;
         if (done != null)
         {
@@ -48,7 +48,7 @@ public partial class SendEmailGameDialog : DataModule
     // AoWSendEmailGameDlg.pas:77
     public void ShowSendDialog(SendEmailGameEventLog eventValue, ExecuteDoneEvent done)
     {
-        _done = done;
+        Done = done;
         _sendEvent = eventValue;
         _sendEvent.AddRef();
         var sendEmailGameEventLog = _sendEvent;

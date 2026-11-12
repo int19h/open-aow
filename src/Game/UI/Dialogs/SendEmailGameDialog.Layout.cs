@@ -21,14 +21,14 @@ public partial class SendEmailGameDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 130;
         Window.WinTop = 81;
         Window.WinWidth = 380;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_DlgHide_0();
+        Window.OnHide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -280,7 +280,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         okBtn.TextColor = 0;
         okBtn.TextSelectedColor = 16777215;
         okBtn.WinWidth = 120;
-        okBtn.OnClick = _ => Layout_OKBtnClick_1();
+        okBtn.OnClick += _ => OKBtnClick();
         session.EndRead(okBtn);
         Button exitBtn = new Button(this);
         session.BeginRead(exitBtn);
@@ -315,7 +315,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         exitBtn.TextColor = 0;
         exitBtn.TextSelectedColor = 16777215;
         exitBtn.WinWidth = 120;
-        exitBtn.OnClick = _ => Layout_ExitBtnClick_2();
+        exitBtn.OnClick += _ => ExitBtnClick();
         session.EndRead(exitBtn);
         EmailAddressEdit = new Edit(this);
         session.BeginRead(EmailAddressEdit);
@@ -345,7 +345,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         EmailAddressEdit.WinWidth = 279;
         EmailAddressEdit.BorderWidth = 8;
         EmailAddressEdit.BorderHeight = 5;
-        EmailAddressEdit.OnChange = _ => Layout_EmailAddressEditChange_3();
+        EmailAddressEdit.OnChange += _ => EmailAddressEditChange();
         EmailAddressEdit.MaxChars = 0;
         EmailAddressEdit.CursorChar = 95;
         EmailAddressEdit.BlinkDelay = 1;
@@ -657,7 +657,7 @@ public partial class SendEmailGameDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_ExitBtnClick_2();
+        close.OnClick += _ => ExitBtnClick();
         session.EndRead(close);
         LayoutIvTranslator translator = new LayoutIvTranslator(this);
         session.BeginRead(translator);
@@ -747,25 +747,5 @@ public partial class SendEmailGameDialog : ILayoutModule
         editPnl.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
         close.ToolTip = DialogHosts.General.ToolTip;
         close.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
-    }
-
-    private void Layout_DlgHide_0()
-    {
-        DlgHide();
-    }
-
-    private void Layout_OKBtnClick_1()
-    {
-        OKBtnClick();
-    }
-
-    private void Layout_ExitBtnClick_2()
-    {
-        ExitBtnClick();
-    }
-
-    private void Layout_EmailAddressEditChange_3()
-    {
-        EmailAddressEditChange();
     }
 }

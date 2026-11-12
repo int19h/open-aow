@@ -7,7 +7,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Map;
 
 // shows a map on a surface. FStaticSurface (the static scene, kept between frames),
-// _sceneWidth, _sceneHeight, _sceneX, _sceneY, _sceneL, _staticSurfaceValid, _onSceneChanged
+// _sceneWidth, _sceneHeight, _sceneX, _sceneY, _sceneL, _staticSurfaceValid, OnSceneChanged
 // (published), FHSMap. SetHSMap points the map's OnCenterView, OnChangeView and OnViewLevel at
 // CenterScene, ChangeScene and SetSceneL
 public partial class HexSpriteMapViewer : Component
@@ -19,7 +19,8 @@ public partial class HexSpriteMapViewer : Component
     private int _sceneY;
     private int _sceneL;
     private bool _staticSurfaceValid;
-    private NotifyEvent<object> _onSceneChanged;
+    [Published]
+    public event NotifyEvent<object> OnSceneChanged;
     private GameMap _hexSpriteMap;
 
     // Port extension: the scene drawn under the original clamp before ShowCenteredMap centers it.
@@ -29,7 +30,7 @@ public partial class HexSpriteMapViewer : Component
     public HexSpriteMapViewer(Component owner) : base(owner)
     {
         _staticSurfaceValid = false;
-        _onSceneChanged = null;
+        OnSceneChanged = null;
     }
 
     // HSEngine.pas:4678
@@ -38,8 +39,8 @@ public partial class HexSpriteMapViewer : Component
     {
         if (_hexSpriteMap != null)
         {
-            _hexSpriteMap.OnCenterView = null;
-            _hexSpriteMap.OnViewLevel = null;
+            _hexSpriteMap.ClearCenterViewHandler();
+            _hexSpriteMap.ClearViewLevelHandler();
         }
 
         _staticSurface?.Dispose();
@@ -54,9 +55,9 @@ public partial class HexSpriteMapViewer : Component
         if (_hexSpriteMap != null)
         {
             // { Install viewer callbacks on the assigned map. }
-            _hexSpriteMap.OnCenterView = CenterScene;
-            _hexSpriteMap.OnChangeView = ChangeScene;
-            _hexSpriteMap.OnViewLevel = SetSceneL;
+            _hexSpriteMap.SetCenterViewHandler(CenterScene);
+            _hexSpriteMap.SetChangeViewHandler(ChangeScene);
+            _hexSpriteMap.SetViewLevelHandler(SetSceneL);
         }
     }
 
@@ -122,9 +123,9 @@ public partial class HexSpriteMapViewer : Component
             SetSceneX(pixelX);
             SetSceneY(pixelY);
             SetSceneL(lHitPoints);
-            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && _onSceneChanged != null)
+            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged != null)
             {
-                _onSceneChanged(this);
+                OnSceneChanged(this);
             }
         }
     }
@@ -140,9 +141,9 @@ public partial class HexSpriteMapViewer : Component
             SetSceneX(pixelX + 16 - (int)(((uint)_sceneWidth) >> 1));
             SetSceneY(pixelY + 16 - (int)(((uint)_sceneHeight) >> 1));
             SetSceneL(hexLevel);
-            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && _onSceneChanged != null)
+            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged != null)
             {
-                _onSceneChanged(this);
+                OnSceneChanged(this);
             }
         }
     }
@@ -255,9 +256,9 @@ public partial class HexSpriteMapViewer : Component
             if (mp != null)
             {
                 M = (GameMap)mp;
-                if (M.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && _onSceneChanged != null)
+                if (M.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged != null)
                 {
-                    _onSceneChanged(this);
+                    OnSceneChanged(this);
                 }
 
                 // Port extension: a scene larger than the map draws as the original does into
@@ -449,7 +450,4 @@ public partial class HexSpriteMapViewer : Component
     public int SceneL { get => _sceneL; set => SetSceneL(value); }
     public int SceneWidth { get => _sceneWidth; set => SetSceneWidth(value); }
     public int SceneHeight { get => _sceneHeight; set => SetSceneHeight(value); }
-
-    [Published]
-    public NotifyEvent<object> OnSceneChanged { get => _onSceneChanged; set => _onSceneChanged = value; }
 }

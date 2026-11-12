@@ -46,7 +46,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     // Army.PAS:2654
     public override void Dispose()
     {
-        Army.OnUpdate = null;
+        Army.ClearUpdateHandler();
         base.Dispose();
         Army?.Dispose();
         Army = null;
@@ -449,7 +449,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         var hexX = GetHexX();
         Army.SetMapCoordinate(hexX, hexY, hexLevel);
         Army.Activate();
-        Army.OnUpdate = ArmyUpdated;
+        Army.SetUpdateHandler(ArmyUpdated);
         if (this == Owner.GetArmyHexSprite())
         {
             if (Army.Count != 0)

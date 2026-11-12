@@ -26,7 +26,7 @@ public partial class ItemControl : EngineObject
 
     private EventStore<ItemControl> _onChangedStore;
 
-    public event NotifyEvent<ItemControl> FOnChanged
+    public event NotifyEvent<ItemControl> Changed
     {
         add => _onChangedStore.Add(value);
         remove => _onChangedStore.Remove(value);
@@ -36,7 +36,7 @@ public partial class ItemControl : EngineObject
 
     private EventStore<Item> _onItemChangedStore;
 
-    public event NotifyEvent<Item> FOnItemChanged
+    public event NotifyEvent<Item> ItemChanged
     {
         add => _onItemChangedStore.Add(value);
         remove => _onItemChangedStore.Remove(value);
@@ -55,7 +55,7 @@ public partial class ItemControl : EngineObject
         }
 
         _items.Clear();
-        Changed();
+        NotifyChanged();
         _items?.Clear();
         _onItemChangedStore.Clear();
         _onChangedStore.Clear();
@@ -146,13 +146,13 @@ public partial class ItemControl : EngineObject
     }
 
     // Army.PAS:4733
-    public void ItemChanged(Item item)
+    public void NotifyItemChanged(Item item)
     {
         _onItemChangedStore.Raise(item);
     }
 
     // Army.PAS:4738
-    public void Changed()
+    public void NotifyChanged()
     {
         if (_updateLock == 0)
         {
@@ -172,7 +172,7 @@ public partial class ItemControl : EngineObject
         _updateLock -= 1;
         if (_updateLock == 0)
         {
-            Changed();
+            NotifyChanged();
         }
     }
 
@@ -240,7 +240,7 @@ public partial class ItemControl : EngineObject
                 item.Activate();
             }
 
-            Changed();
+            NotifyChanged();
         }
     }
 
@@ -252,7 +252,7 @@ public partial class ItemControl : EngineObject
             _items.Remove(item);
             item.Status = item.Status - Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
             item.Release();
-            Changed();
+            NotifyChanged();
         }
     }
 

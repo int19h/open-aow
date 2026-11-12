@@ -348,7 +348,7 @@ public sealed class PersistCorpusTests
         memory.Write(image);
         memory.Position = 0;
         var reader = new StorageReader(memory, EngineFixture.Engine, false);
-        reader.OnError = static (StorageStream _, string _, ref bool cont) => cont = false;
+        reader.OnError += static (StorageStream _, string _, ref bool cont) => cont = false;
         try
         {
             objectValue.MainReadWrite(reader);

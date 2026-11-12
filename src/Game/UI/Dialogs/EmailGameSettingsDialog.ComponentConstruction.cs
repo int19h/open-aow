@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class EmailGameSettingsDialog
 {
-    public NotifyEvent<EmailGameSettingsDialog> LayoutOnCreate { get; set; }
-    public NotifyEvent<EmailGameSettingsDialog> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<EmailGameSettingsDialog> LayoutOnCreate;
+    public event NotifyEvent<EmailGameSettingsDialog> LayoutOnDestroy;
 
     public override void Dispose()
     {

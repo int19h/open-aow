@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class ProductionScreen
 {
-    public NotifyEvent<ProductionScreen> LayoutOnCreate { get; set; }
-    public NotifyEvent<ProductionScreen> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<ProductionScreen> LayoutOnCreate;
+    public event NotifyEvent<ProductionScreen> LayoutOnDestroy;
 
     public override void Dispose()
     {

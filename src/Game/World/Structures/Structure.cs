@@ -75,7 +75,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         base.Dispose();
         if (StrategicMap.Current != null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            StrategicMap.Current.StructureDestroyed(this);
+            StrategicMap.Current.NotifyStructureDestroyed(this);
         }
     }
 
@@ -936,7 +936,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                 animation.SetImageSequence(_resource.ImageSequenceList.GetImageSequence(20));
                 animation.SetPixelXOffset(animation.PixelXOffset - 16);
                 animation.SetPixelYOffset(animation.PixelYOffset - 16);
-                animation.OnShow = ShowRazeAnimation;
+                animation.OnShow += ShowRazeAnimation;
                 var hexLevel3 = GetHexLevel();
                 var hexY3 = GetHexY();
                 var hexX = GetHexX();
@@ -1013,7 +1013,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     {
         if (UpdateCount == 0)
         {
-            StrategicMap.Current.StructureChanged(this);
+            StrategicMap.Current.NotifyStructureChanged(this);
         }
     }
 
@@ -1264,7 +1264,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         UpdateCount -= 1;
         if (UpdateCount == 0)
         {
-            StrategicMap.Current.StructureChanged(this);
+            StrategicMap.Current.NotifyStructureChanged(this);
         }
     }
 

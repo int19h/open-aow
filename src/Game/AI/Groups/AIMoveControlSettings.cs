@@ -37,7 +37,16 @@ public partial class AIMoveControlSettings : EngineObject
 
     public MovePointTable MovePointTable;
 
-    public NotifyEvent<object> OnDone { get; set; }
+    public event NotifyEvent<object> OnDone;
+
+    internal void RaiseDone(object sender)
+    {
+        if (OnDone != null)
+        {
+            OnDone(sender);
+        }
+    }
+
     public Troop Transporter { get; set; }
     public int MovePointsMax { get; private set; }
     public int QuickMovePointsMax { get; private set; }

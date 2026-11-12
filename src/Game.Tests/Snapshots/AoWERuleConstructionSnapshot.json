@@ -14424,8 +14424,8 @@
         "$type": "Aow.Game.Magic.Abilities.DispelMagicAbilityUnitSelector",
         "UnitSelector.Canceled": false,
         "UnitSelector.Caption": "",
-        "UnitSelector._onCancel": null,
-        "UnitSelector._onSelect": null,
+        "UnitSelector.OnCancel": null,
+        "UnitSelector.OnSelect": null,
         "UnitSelector.Player": 0,
         "UnitSelector._references": 1,
         "UnitSelector.Selectable": 0,
@@ -16486,8 +16486,8 @@
         "$type": "Aow.Game.Units.HealingUnitSelector",
         "UnitSelector.Canceled": false,
         "UnitSelector.Caption": "",
-        "UnitSelector._onCancel": null,
-        "UnitSelector._onSelect": null,
+        "UnitSelector.OnCancel": null,
+        "UnitSelector.OnSelect": null,
         "UnitSelector.Player": 0,
         "UnitSelector._references": 1,
         "UnitSelector.Selectable": 0,
@@ -18205,7 +18205,7 @@
           "$type": "Aow.Game.World.Map.StrategicMap",
           "GameMap._backHexSelector": {
             "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-            "CustomFixedVisibleHexSprite._onShow": [
+            "CustomFixedVisibleHexSprite.OnShow": [
               "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
             ],
             "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -18218,7 +18218,7 @@
           "GameMap.FogEnabled": true,
           "GameMap._frontHexSelector": {
             "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-            "CustomFixedVisibleHexSprite._onShow": [
+            "CustomFixedVisibleHexSprite.OnShow": [
               "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
             ],
             "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -21868,7 +21868,7 @@
           "StrategicMap.TokenEventLogging": false,
           "StrategicMap.TokenManager": {
             "$type": "Aow.Game.Net.AoWTokenManager",
-            "TokenManager._onMessage": [
+            "TokenManager.OnMessage": [
               "Aow.Game.World.Map.StrategicMap.OnTokenManagerMessage"
             ],
             "TokenManager._owner": "$owner",
@@ -21918,11 +21918,11 @@
                   null
                 ]
               },
-              "TokenExecutor._onExecuteTokenEvent": [
+              "TokenExecutor.OnExecuteTokenEvent": [
                 "Aow.Game.World.Map.StrategicMap.OnExecuteTokenEvent"
               ],
-              "TokenExecutor._onGetSyncValue": null,
-              "TokenExecutor._onSyncError": null,
+              "TokenExecutor.OnGetSyncValue": null,
+              "TokenExecutor.OnSyncError": null,
               "TokenExecutor._prefetchTacticalBattle": null,
               "TokenExecutor._round": 0,
               "TokenExecutor._state": {
@@ -22186,10 +22186,10 @@
             "EventStore\u00601._count": 0,
             "EventStore\u00601._items": null
           },
-          "GameMap._onCenterView": null,
-          "GameMap._onChangeView": null,
-          "GameMap._onProgress": null,
-          "GameMap._onViewLevel": null,
+          "GameMap.OnCenterView": null,
+          "GameMap.OnChangeView": null,
+          "GameMap.OnProgress": null,
+          "GameMap.OnViewLevel": null,
           "GameMap._selection": {
             "$type": "Aow.Game.World.Map.HexSpriteSelection",
             "EControlStyleNode._controlStyle": {
@@ -26801,7 +26801,7 @@
         "$type": "Aow.Game.World.Structures.ProductionControl",
         "EngineObject._owner": "$owner",
         "ProductionControl.LoopQueue": false,
-        "ProductionControl._onChange": null,
+        "ProductionControl.OnChange": null,
         "ProductionControl.Queue": {
           "$type": "Aow.Game.World.Structures.ProductionQueue",
           "ENode._children": {
@@ -31063,8 +31063,8 @@
         "$type": "Aow.Game.Units.UnitSelector",
         "UnitSelector.Canceled": false,
         "UnitSelector.Caption": "",
-        "UnitSelector._onCancel": null,
-        "UnitSelector._onSelect": null,
+        "UnitSelector.OnCancel": null,
+        "UnitSelector.OnSelect": null,
         "UnitSelector.Player": 0,
         "UnitSelector._references": 1,
         "UnitSelector.Selectable": 0,

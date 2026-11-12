@@ -19,12 +19,12 @@ public partial class CampaignJoinDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "CampaignJoinDlg";
-        LayoutOnCreate = _ => Layout_CampaignJoinDlgCreate_0();
-        LayoutOnDestroy = _ => Layout_CampaignJoinDlgDestroy_1();
+        LayoutOnCreate += _ => CampaignJoinDialogCreate();
+        LayoutOnDestroy += _ => CampaignJoinDialogDestroy();
         CharacterGenerationPanel = new Panel(this);
         session.BeginRead(CharacterGenerationPanel);
         CharacterGenerationPanel.Name = "CharGenPnl";
-        CharacterGenerationPanel.OnMouseDown = (_, button, shift, x, y) => CharGenPnlMouseDown(button, shift, x, y);
+        CharacterGenerationPanel.OnMouseDown += (_, button, shift, x, y) => CharGenPnlMouseDown(button, shift, x, y);
         CharacterGenerationPanel.Visible = false;
         CharacterGenerationPanel.Priority = 5;
         CharacterGenerationPanel.WinLeft = 0;
@@ -107,7 +107,7 @@ public partial class CampaignJoinDialog : ILayoutModule
         customBtn.TextColor = 0;
         customBtn.TextSelectedColor = 16777215;
         customBtn.WinWidth = 150;
-        customBtn.OnClick = _ => Layout_CustomBtnClick_2();
+        customBtn.OnClick += _ => CustomBtnClick();
         session.EndRead(customBtn);
         Button defaultBtn = new Button(this);
         session.BeginRead(defaultBtn);
@@ -138,7 +138,7 @@ public partial class CampaignJoinDialog : ILayoutModule
         defaultBtn.TextColor = 0;
         defaultBtn.TextSelectedColor = 16777215;
         defaultBtn.WinWidth = 150;
-        defaultBtn.OnClick = _ => Layout_DefaultBtnClick_3();
+        defaultBtn.OnClick += _ => DefaultBtnClick();
         session.EndRead(defaultBtn);
         Memo leaderTypeMsg = new Memo(this);
         session.BeginRead(leaderTypeMsg);
@@ -181,8 +181,8 @@ public partial class CampaignJoinDialog : ILayoutModule
         DefaultFacePanel = new Panel(this);
         session.BeginRead(DefaultFacePanel);
         DefaultFacePanel.Name = "DefaultFacePnl";
-        DefaultFacePanel.OnMouseDown = (_, button, shift, x, y) => Layout_DefaultFacePnlMouseDown_4(button, shift, x, y);
-        DefaultFacePanel.OnDraw = (_, lockedSurface) => DefaultFacePnlDraw(lockedSurface);
+        DefaultFacePanel.OnMouseDown += (_, _, _, _, _) => DefaultFacePnlMouseDown(default(int), default(int), default(int), default(int), default(int));
+        DefaultFacePanel.OnDraw += (_, surface) => DefaultFacePnlDraw(surface);
         DefaultFacePanel.Priority = 0;
         DefaultFacePanel.WinLeft = 62;
         DefaultFacePanel.WinTop = 103;
@@ -237,8 +237,8 @@ public partial class CampaignJoinDialog : ILayoutModule
         ScrollTextView = new UserDrawBox(this);
         session.BeginRead(ScrollTextView);
         ScrollTextView.Name = "ScrollTextDB";
-        ScrollTextView.OnDraw = (_, lockedSurface) => ScrollTextDBDraw(lockedSurface);
-        ScrollTextView.OnUpdate = _ => Layout_ScrollTextDBUpdate_5();
+        ScrollTextView.OnDraw += (_, surface) => ScrollTextDBDraw(surface);
+        ScrollTextView.OnUpdate += _ => ScrollTextDBUpdate();
         ScrollTextView.Priority = 0;
         ScrollTextView.WinLeft = 150;
         ScrollTextView.WinTop = 380;
@@ -301,35 +301,5 @@ public partial class CampaignJoinDialog : ILayoutModule
         customFacePnl.ImageLibraryTexture = DialogHosts.UIGraphics.FactionWindow;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
-    }
-
-    private void Layout_CampaignJoinDlgCreate_0()
-    {
-        CampaignJoinDialogCreate();
-    }
-
-    private void Layout_CampaignJoinDlgDestroy_1()
-    {
-        CampaignJoinDialogDestroy();
-    }
-
-    private void Layout_CustomBtnClick_2()
-    {
-        CustomBtnClick();
-    }
-
-    private void Layout_DefaultBtnClick_3()
-    {
-        DefaultBtnClick();
-    }
-
-    private void Layout_DefaultFacePnlMouseDown_4(MouseButton p1, Set<ShiftState> p2, int p3, int p4)
-    {
-        DefaultFacePnlMouseDown(default(int), default(int), default(int), default(int), default(int));
-    }
-
-    private void Layout_ScrollTextDBUpdate_5()
-    {
-        ScrollTextDBUpdate();
     }
 }

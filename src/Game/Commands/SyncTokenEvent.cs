@@ -28,9 +28,9 @@ public partial class SyncTokenEvent : TokenEvent
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         ExecuteResult result = base.Execute(tokenEvent);
-        if (tokenEvent.GetSyncValue() != _syncValue && tokenEvent.OnSyncError != null)
+        if (tokenEvent.GetSyncValue() != _syncValue)
         {
-            tokenEvent.OnSyncError(tokenEvent);
+            tokenEvent.RaiseSyncError(tokenEvent);
         }
 
         return result;

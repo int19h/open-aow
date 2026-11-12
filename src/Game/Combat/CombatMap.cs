@@ -23,7 +23,7 @@ public partial class CombatMap : GameMap
 {
     internal EventStore<CombatSpellCaster> CombatStartedEventsStore { get; }
 
-    public event NotifyEvent<CombatSpellCaster> FCombatStartedEvents
+    public event NotifyEvent<CombatSpellCaster> CombatStarted
     {
         add => CombatStartedEventsStore.Add(value);
         remove => CombatStartedEventsStore.Remove(value);
@@ -31,7 +31,7 @@ public partial class CombatMap : GameMap
 
     internal EventStore<AbilityActivation> AbilityActivatedEventsStore { get; }
 
-    public event NotifyEvent<AbilityActivation> FAbilityActivatedEvents
+    public event NotifyEvent<AbilityActivation> AbilityActivated
     {
         add => AbilityActivatedEventsStore.Add(value);
         remove => AbilityActivatedEventsStore.Remove(value);
@@ -48,7 +48,7 @@ public partial class CombatMap : GameMap
 
     internal EventStore<sbyte> ChangeTurnEventsStore { get; }
 
-    public event NotifyEvent<sbyte> FChangeTurnEvents
+    public event NotifyEvent<sbyte> TurnChanged
     {
         add => ChangeTurnEventsStore.Add(value);
         remove => ChangeTurnEventsStore.Remove(value);
@@ -56,7 +56,7 @@ public partial class CombatMap : GameMap
 
     private EventStore<CombatMap> _playerChangedEventsStore;
 
-    public event NotifyEvent<CombatMap> FPlayerChangedEvents
+    public event NotifyEvent<CombatMap> PlayerChanged
     {
         add => _playerChangedEventsStore.Add(value);
         remove => _playerChangedEventsStore.Remove(value);
@@ -64,7 +64,7 @@ public partial class CombatMap : GameMap
 
     private EventStore<sbyte> _seatedPlayerChangedEventsStore;
 
-    public event NotifyEvent<sbyte> FSeatedPlayerChangedEvents
+    public event NotifyEvent<sbyte> SeatedPlayerChanged
     {
         add => _seatedPlayerChangedEventsStore.Add(value);
         remove => _seatedPlayerChangedEventsStore.Remove(value);
@@ -75,7 +75,7 @@ public partial class CombatMap : GameMap
 
     internal EventStore<TacticalBattle> SelectEventsStore { get; }
 
-    public event NotifyEvent<TacticalBattle> FSelectEvents
+    public event NotifyEvent<TacticalBattle> Selected
     {
         add => SelectEventsStore.Add(value);
         remove => SelectEventsStore.Remove(value);
@@ -83,7 +83,7 @@ public partial class CombatMap : GameMap
 
     internal EventStore<TacticalBattle> DeselectEventsStore { get; }
 
-    public event NotifyEvent<TacticalBattle> FDeselectEvents
+    public event NotifyEvent<TacticalBattle> Deselected
     {
         add => DeselectEventsStore.Add(value);
         remove => DeselectEventsStore.Remove(value);
@@ -93,7 +93,7 @@ public partial class CombatMap : GameMap
 
     internal EventStore<HexSprite> MouseOverTargetEventsStore { get; }
 
-    public event NotifyEvent<HexSprite> FMouseOverTargetEvents
+    public event NotifyEvent<HexSprite> MouseOverTarget
     {
         add => MouseOverTargetEventsStore.Add(value);
         remove => MouseOverTargetEventsStore.Remove(value);
@@ -103,7 +103,7 @@ public partial class CombatMap : GameMap
 
     internal EventStore<TacticalBattleUnitHexSprite> UnitChangedEventsStore { get; }
 
-    public event NotifyEvent<TacticalBattleUnitHexSprite> FUnitChangedEvents
+    public event NotifyEvent<TacticalBattleUnitHexSprite> UnitChanged
     {
         add => UnitChangedEventsStore.Add(value);
         remove => UnitChangedEventsStore.Remove(value);
@@ -175,7 +175,7 @@ public partial class CombatMap : GameMap
         UnitChangedEventsStore = new();
         Players = new TacticalBattlePlayerList();
         UnitSelection = new CombatUnitSelectionControl();
-        ((GameMapMouse)Mouse).FRectangleSelectEvents += UnitSelection.RectangleSelectEvent;
+        ((GameMapMouse)Mouse).RectangleSelected += UnitSelection.RectangleSelectEvent;
         Effects = new List<BattleEffectSprite>();
         Walls = new List<World.Terrain.CityWall>();
         FleeLocations = new List<FleeLocation>();

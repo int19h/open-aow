@@ -21,14 +21,14 @@ public partial class DeformFaceDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 5000;
         Window.WinLeft = 120;
         Window.WinTop = 91;
         Window.WinWidth = 400;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_DlgHide_0();
+        Window.OnHide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -66,7 +66,7 @@ public partial class DeformFaceDialog : ILayoutModule
         Frame faceFrame = new Frame(this);
         session.BeginRead(faceFrame);
         faceFrame.Name = "FaceFrame";
-        faceFrame.OnDraw = (sender, surface) => DrawFace(sender, surface, 0);
+        faceFrame.OnDraw += (sender, surface) => DrawFace(sender, surface, 0);
         faceFrame.Priority = 500;
         faceFrame.WinLeft = 152;
         faceFrame.WinTop = 75;
@@ -120,7 +120,7 @@ public partial class DeformFaceDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 100;
-        cancelBtn.OnClick = _ => Layout_CancelBtnClick_1();
+        cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
         Image titleIcon = new Image(this);
         session.BeginRead(titleIcon);
@@ -202,7 +202,7 @@ public partial class DeformFaceDialog : ILayoutModule
         castBtn.TextColor = 0;
         castBtn.TextSelectedColor = 16777215;
         castBtn.WinWidth = 100;
-        castBtn.OnClick = _ => Layout_CastBtnClick_2();
+        castBtn.OnClick += _ => CastBtnClick();
         session.EndRead(castBtn);
         Label selectNewFaceLbl = new Label(this);
         session.BeginRead(selectNewFaceLbl);
@@ -259,13 +259,13 @@ public partial class DeformFaceDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CastBtnClick_2();
+        close.OnClick += _ => CastBtnClick();
         session.EndRead(close);
         Frame leftFace = new Frame(this);
         session.BeginRead(leftFace);
         leftFace.Name = "LeftFace";
         leftFace.Tag = -1;
-        leftFace.OnDraw = (sender, surface) => DrawFace(sender, surface, -1);
+        leftFace.OnDraw += (sender, surface) => DrawFace(sender, surface, -1);
         leftFace.Priority = 500;
         leftFace.WinLeft = 60;
         leftFace.WinTop = 75;
@@ -294,7 +294,7 @@ public partial class DeformFaceDialog : ILayoutModule
         session.BeginRead(rightFace);
         rightFace.Name = "RightFace";
         rightFace.Tag = 1;
-        rightFace.OnDraw = (sender, surface) => DrawFace(sender, surface, 1);
+        rightFace.OnDraw += (sender, surface) => DrawFace(sender, surface, 1);
         rightFace.Priority = 500;
         rightFace.WinLeft = 266;
         rightFace.WinTop = 75;
@@ -459,7 +459,7 @@ public partial class DeformFaceDialog : ILayoutModule
         prevFaceBtn.TextColor = 0;
         prevFaceBtn.TextSelectedColor = 16777215;
         prevFaceBtn.WinWidth = 50;
-        prevFaceBtn.OnClick = _ => Layout_PrevFaceBtnClick_3();
+        prevFaceBtn.OnClick += _ => PrevFaceBtnClick();
         session.EndRead(prevFaceBtn);
         Button nextFaceBtn = new Button(this);
         session.BeginRead(nextFaceBtn);
@@ -490,7 +490,7 @@ public partial class DeformFaceDialog : ILayoutModule
         nextFaceBtn.TextColor = 0;
         nextFaceBtn.TextSelectedColor = 16777215;
         nextFaceBtn.WinWidth = 50;
-        nextFaceBtn.OnClick = _ => Layout_NextFaceBtnClick_4();
+        nextFaceBtn.OnClick += _ => NextFaceBtnClick();
         session.EndRead(nextFaceBtn);
         UnitNameLabel = new Label(this);
         session.BeginRead(UnitNameLabel);
@@ -587,30 +587,5 @@ public partial class DeformFaceDialog : ILayoutModule
         nextFaceBtn.Font = DialogHosts.UIFonts.Age10;
         nextFaceBtn.ImageLibraryButton = DialogHosts.UIGraphics.GenericButtons;
         UnitNameLabel.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
-    }
-
-    private void Layout_DlgHide_0()
-    {
-        DlgHide();
-    }
-
-    private void Layout_CancelBtnClick_1()
-    {
-        CancelBtnClick();
-    }
-
-    private void Layout_CastBtnClick_2()
-    {
-        CastBtnClick();
-    }
-
-    private void Layout_PrevFaceBtnClick_3()
-    {
-        PrevFaceBtnClick();
-    }
-
-    private void Layout_NextFaceBtnClick_4()
-    {
-        NextFaceBtnClick();
     }
 }

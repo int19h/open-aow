@@ -115,7 +115,7 @@ public partial class AIProductionLocationFinder : AIGroupTask
     public void Reset()
     {
         Selector.Clear();
-        Selector.OnTargetFound = ProductionLocationFoundEvent;
+        Selector.SetTargetFoundHandler(ProductionLocationFoundEvent);
         _mode = Set<ModeElement>.Of();
         _range = 8;
         _step = 1;

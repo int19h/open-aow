@@ -118,7 +118,7 @@ public sealed class OfflineStubTests
         var window = Populate(new LeaderSetupWindow(null!));
         var control = new LeaderSetupControl(null!) { OriginalLeader = new Leader(null!) };
         bool done = false;
-        control.OnDone = sender => done = ReferenceEquals(sender, control);
+        control.OnDone += sender => done = ReferenceEquals(sender, control);
         control.AddRef();
         window.Setup = control;
         window.Leader = new Leader(null!) { HeroName = "Gorbag" };

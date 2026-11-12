@@ -71,7 +71,11 @@ public partial class WorldMap : DataModule
     private bool _descriptionHandled;
 
     public EngineObject BookContext { get; set; }
-    public NotifyEvent<object> OnBookClosed { get; set; }
+
+    public event NotifyEvent<object> OnBookClosed;
+
+    internal void SetBookClosedHandler(NotifyEvent<object> handler) => OnBookClosed = handler;
+
     public byte BookAction { get; set; }
 
     // AoWWorldMap.pas:152
@@ -566,7 +570,7 @@ public partial class WorldMap : DataModule
         DialogHosts.LeaderSetupWindow.SetFixedSpheres(picks);
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_assignNewSpheresFormat), [IntToStr(2)]);
         DialogHosts.LeaderSetupWindow.Phase3Header.Text = format;
-        control.OnDone = SpheresDone;
+        control.OnDone += SpheresDone;
         control.Release();
         DialogHosts.LeaderSetupWindow.LeaderPanel.ImageLibraryTexture = DialogHosts.UIGraphics.WorldMap;
         DialogHosts.LeaderSetupWindow.LeaderPanel.ImageLibraryIndexTexture = 0;

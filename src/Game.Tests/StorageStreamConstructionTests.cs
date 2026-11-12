@@ -71,8 +71,8 @@ public sealed class StorageStreamConstructionTests
             if (kind >= 3) Assert.Null(stream.Stream);
             else Assert.Same(memory, stream.Stream);
             Assert.False(Field<bool>(stream, "_errorHandled"));
-            Assert.Null(stream.OnError);
-            Assert.Null(stream.OnProgress);
+            Assert.Null(Field<Delegate>(stream, "OnError"));
+            Assert.Null(stream.ProgressHandler);
             Assert.Equal(kind == 1 ? 2L : 1L, memory.Position);
             if (kind == 0) Assert.Null(stream.PropertyTable);
             else Assert.Equal(0, stream.PropertyTable.Count);

@@ -79,8 +79,8 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
                             mountain.Mode = mountain.Mode + Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
                             animation = new ImageSequenceAnimation(null);
                             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(19).CastImages.ImageSequences[0]);
-                            animation.OnShow = mountain.ShowRaiseTerrainAnimation;
-                            animation.OnNewFrame = mountain.NewFrameRaiseTerrainAnimation;
+                            animation.OnShow += mountain.ShowRaiseTerrainAnimation;
+                            animation.OnNewFrame += mountain.NewFrameRaiseTerrainAnimation;
                             animation.FrameCounter = -StrategicMap.Current.Random(15);
                             StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
                         }

@@ -18,12 +18,12 @@ public partial class SoundDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "SoundDlg";
-        LayoutOnCreate = _ => Layout_SoundDlgWindowCreate_0();
-        LayoutOnDestroy = _ => Layout_SoundDlgWindowDestroy_1();
+        LayoutOnCreate += _ => SoundDialogCreate();
+        LayoutOnDestroy += _ => SoundDialogDestroy();
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 110;
@@ -93,7 +93,7 @@ public partial class SoundDialog : ILayoutModule
         closeBut.TextColor = 0;
         closeBut.TextSelectedColor = 16777215;
         closeBut.WinWidth = 136;
-        closeBut.OnClick = _ => Layout_CloseClick_2();
+        closeBut.OnClick += _ => CloseClick();
         session.EndRead(closeBut);
         Image tCeltLL = new Image(this);
         session.BeginRead(tCeltLL);
@@ -197,8 +197,8 @@ public partial class SoundDialog : ILayoutModule
         SongList.WinHeight = 114;
         SongList.BorderWidth = 6;
         SongList.BorderHeight = 3;
-        SongList.OnChange = _ => Layout_SongLBChange_3();
-        SongList.OnDoubleClick = _ => AddBtnClick();
+        SongList.OnChange += _ => SongLBChange();
+        SongList.OnDoubleClick += _ => AddBtnClick();
         SongList.Selected = -1;
         SongList.TextColor = 9415072;
         SongList.TextSelectedColor = 0;
@@ -263,7 +263,7 @@ public partial class SoundDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CloseClick_2();
+        close.OnClick += _ => CloseClick();
         session.EndRead(close);
         PlayListPanel = new Panel(this);
         session.BeginRead(PlayListPanel);
@@ -318,7 +318,7 @@ public partial class SoundDialog : ILayoutModule
             "SOUND OPTIONS"
         };
         soundTab.BorderHeight = 6;
-        soundTab.OnChange = _ => Layout_SoundTabChange_4();
+        soundTab.OnChange += _ => SoundTabChange();
         soundTab.Selected = 0;
         soundTab.WinWidth = 380;
         soundTab.TextColor = 0;
@@ -351,10 +351,10 @@ public partial class SoundDialog : ILayoutModule
         PlayList.WinHeight = 114;
         PlayList.BorderWidth = 20;
         PlayList.BorderHeight = 3;
-        PlayList.OnChange = _ => Layout_PlayLBChange_5();
-        PlayList.OnDoubleClick = _ => Layout_PlayBtnClick_6();
+        PlayList.OnChange += _ => PlayLBChange();
+        PlayList.OnDoubleClick += _ => PlayBtnClick();
         PlayList.Selected = -1;
-        PlayList.OnDrawItem = (_, in drawRectangle, drawItem, ref lockedSurface) => PlayLBDrawItem(in drawRectangle, drawItem, ref lockedSurface);
+        PlayList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => PlayLBDrawItem(drawRectangle, drawItem, ref surface);
         PlayList.TextColor = 9415072;
         PlayList.TextSelectedColor = 0;
         PlayList.ImageLibraryIndexFrame = 113;
@@ -396,7 +396,7 @@ public partial class SoundDialog : ILayoutModule
         AddButton.TextColor = 0;
         AddButton.TextSelectedColor = 16777215;
         AddButton.WinWidth = 173;
-        AddButton.OnClick = _ => AddBtnClick();
+        AddButton.OnClick += _ => AddBtnClick();
         session.EndRead(AddButton);
         RemoveButton = new Button(this);
         session.BeginRead(RemoveButton);
@@ -431,7 +431,7 @@ public partial class SoundDialog : ILayoutModule
         RemoveButton.TextColor = 0;
         RemoveButton.TextSelectedColor = 16777215;
         RemoveButton.WinWidth = 80;
-        RemoveButton.OnClick = _ => RemoveBtnClick();
+        RemoveButton.OnClick += _ => RemoveBtnClick();
         session.EndRead(RemoveButton);
         PlayButton = new Button(this);
         session.BeginRead(PlayButton);
@@ -466,7 +466,7 @@ public partial class SoundDialog : ILayoutModule
         PlayButton.TextColor = 0;
         PlayButton.TextSelectedColor = 16777215;
         PlayButton.WinWidth = 87;
-        PlayButton.OnClick = _ => Layout_PlayBtnClick_6();
+        PlayButton.OnClick += _ => PlayBtnClick();
         session.EndRead(PlayButton);
         Label playLbl = new Label(this);
         session.BeginRead(playLbl);
@@ -757,7 +757,7 @@ public partial class SoundDialog : ILayoutModule
         SoundQualityNoneCheckBox.TextSelectedColor = 0;
         SoundQualityNoneCheckBox.WinWidth = 12;
         SoundQualityNoneCheckBox.Checked = false;
-        SoundQualityNoneCheckBox.OnChange = SQCB1Change;
+        SoundQualityNoneCheckBox.OnChange += SQCB1Change;
         SoundQualityNoneCheckBox.RadioIndex = 1;
         session.EndRead(SoundQualityNoneCheckBox);
         Label sqlbL1 = new Label(this);
@@ -820,7 +820,7 @@ public partial class SoundDialog : ILayoutModule
         SoundQualityLowCheckBox.TextSelectedColor = 0;
         SoundQualityLowCheckBox.WinWidth = 12;
         SoundQualityLowCheckBox.Checked = false;
-        SoundQualityLowCheckBox.OnChange = SQCB2Change;
+        SoundQualityLowCheckBox.OnChange += SQCB2Change;
         SoundQualityLowCheckBox.RadioIndex = 1;
         session.EndRead(SoundQualityLowCheckBox);
         Label sqlbL2 = new Label(this);
@@ -883,7 +883,7 @@ public partial class SoundDialog : ILayoutModule
         SoundQualityMediumCheckBox.TextSelectedColor = 0;
         SoundQualityMediumCheckBox.WinWidth = 12;
         SoundQualityMediumCheckBox.Checked = false;
-        SoundQualityMediumCheckBox.OnChange = SQCB3Change;
+        SoundQualityMediumCheckBox.OnChange += SQCB3Change;
         SoundQualityMediumCheckBox.RadioIndex = 1;
         session.EndRead(SoundQualityMediumCheckBox);
         Label sqlbL3 = new Label(this);
@@ -946,7 +946,7 @@ public partial class SoundDialog : ILayoutModule
         SoundQualityHighCheckBox.TextSelectedColor = 0;
         SoundQualityHighCheckBox.WinWidth = 12;
         SoundQualityHighCheckBox.Checked = false;
-        SoundQualityHighCheckBox.OnChange = SQCB4Change;
+        SoundQualityHighCheckBox.OnChange += SQCB4Change;
         SoundQualityHighCheckBox.RadioIndex = 1;
         session.EndRead(SoundQualityHighCheckBox);
         Label sqlbL4 = new Label(this);
@@ -1036,7 +1036,7 @@ public partial class SoundDialog : ILayoutModule
         MusicEnabledCheckBox.TextSelectedColor = 0;
         MusicEnabledCheckBox.WinWidth = 12;
         MusicEnabledCheckBox.Checked = false;
-        MusicEnabledCheckBox.OnChange = MusicEnabledChkChange;
+        MusicEnabledCheckBox.OnChange += MusicEnabledChkChange;
         MusicEnabledCheckBox.RadioIndex = 0;
         session.EndRead(MusicEnabledCheckBox);
         Label sfxlbL2 = new Label(this);
@@ -1099,7 +1099,7 @@ public partial class SoundDialog : ILayoutModule
         EffectsEnabledCheckBox.TextSelectedColor = 0;
         EffectsEnabledCheckBox.WinWidth = 12;
         EffectsEnabledCheckBox.Checked = false;
-        EffectsEnabledCheckBox.OnChange = SFXEnabledChkChange;
+        EffectsEnabledCheckBox.OnChange += SFXEnabledChkChange;
         EffectsEnabledCheckBox.RadioIndex = 0;
         session.EndRead(EffectsEnabledCheckBox);
         Label sfxlbL3 = new Label(this);
@@ -1272,7 +1272,7 @@ public partial class SoundDialog : ILayoutModule
         MusicVolumeSlider.WinHeight = 18;
         MusicVolumeSlider.WinWidth = 92;
         MusicVolumeSlider.NumberVisible = 10;
-        MusicVolumeSlider.OnChange = _ => Layout_MusicVolumeChange_7();
+        MusicVolumeSlider.OnChange += _ => MusicVolumeChange();
         MusicVolumeSlider.VanishWhenFull = false;
         MusicVolumeSlider.ImageLibraryIndexIncrementUp = 0;
         MusicVolumeSlider.ImageLibraryIndexIncrementDown = 0;
@@ -1313,7 +1313,7 @@ public partial class SoundDialog : ILayoutModule
         EffectsVolumeSlider.WinHeight = 18;
         EffectsVolumeSlider.WinWidth = 92;
         EffectsVolumeSlider.NumberVisible = 10;
-        EffectsVolumeSlider.OnChange = _ => Layout_SFXVolumeChange_8();
+        EffectsVolumeSlider.OnChange += _ => SFXVolumeChange();
         EffectsVolumeSlider.VanishWhenFull = false;
         EffectsVolumeSlider.ImageLibraryIndexIncrementUp = 0;
         EffectsVolumeSlider.ImageLibraryIndexIncrementDown = 0;
@@ -1457,7 +1457,7 @@ public partial class SoundDialog : ILayoutModule
         DirectSoundEnabledCheckBox.TextSelectedColor = 0;
         DirectSoundEnabledCheckBox.WinWidth = 12;
         DirectSoundEnabledCheckBox.Checked = false;
-        DirectSoundEnabledCheckBox.OnChange = DirectSoundEnabledChkChange;
+        DirectSoundEnabledCheckBox.OnChange += DirectSoundEnabledChkChange;
         DirectSoundEnabledCheckBox.RadioIndex = 0;
         session.EndRead(DirectSoundEnabledCheckBox);
         Label useDirectSoundLbl = new Label(this);
@@ -1757,50 +1757,5 @@ public partial class SoundDialog : ILayoutModule
         playPnl.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
-    }
-
-    private void Layout_SoundDlgWindowCreate_0()
-    {
-        SoundDialogCreate();
-    }
-
-    private void Layout_SoundDlgWindowDestroy_1()
-    {
-        SoundDialogDestroy();
-    }
-
-    private void Layout_CloseClick_2()
-    {
-        CloseClick();
-    }
-
-    private void Layout_SongLBChange_3()
-    {
-        SongLBChange();
-    }
-
-    private void Layout_SoundTabChange_4()
-    {
-        SoundTabChange();
-    }
-
-    private void Layout_PlayLBChange_5()
-    {
-        PlayLBChange();
-    }
-
-    private void Layout_PlayBtnClick_6()
-    {
-        PlayBtnClick();
-    }
-
-    private void Layout_MusicVolumeChange_7()
-    {
-        MusicVolumeChange();
-    }
-
-    private void Layout_SFXVolumeChange_8()
-    {
-        SFXVolumeChange();
     }
 }

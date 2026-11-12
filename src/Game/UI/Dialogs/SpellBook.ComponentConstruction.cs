@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class SpellBook
 {
-    public NotifyEvent<SpellBook> LayoutOnCreate { get; set; }
-    public NotifyEvent<SpellBook> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<SpellBook> LayoutOnCreate;
+    public event NotifyEvent<SpellBook> LayoutOnDestroy;
 
     public override void Dispose()
     {

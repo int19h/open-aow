@@ -134,7 +134,7 @@ public partial class RelationWindow : DataModule
     public List<Image> FImages { get; private set; }
     public List<CheckBox> FChecks { get; private set; }
 
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
     private DiplomaticActionEventLog _event;
     private int _glowIntensity;
     private bool _glowIncreasing;
@@ -612,9 +612,9 @@ public partial class RelationWindow : DataModule
         pending = _event;
         if (pending != null)
         {
-            done = _done;
+            done = Done;
             eventValue = pending;
-            _done = null;
+            Done = null;
             _event = null;
             if (done != null)
             {
@@ -1182,7 +1182,7 @@ public partial class RelationWindow : DataModule
             WindowActions.OriginalAssert("Assertion failure", "D:\\AoWDev\\AoWRelations.pas", 663);
         }
 
-        dialog._done = done;
+        dialog.Done = done;
         dialog._event = eventValue;
         eventValue.AddRef();
 

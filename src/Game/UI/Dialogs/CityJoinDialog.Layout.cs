@@ -21,15 +21,15 @@ public partial class CityJoinDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 5000;
         Window.WinLeft = 93;
         Window.WinTop = 91;
         Window.WinWidth = 455;
-        Window.OnDrawBack = (_, lockedSurface) => DlgDrawBack(lockedSurface);
+        Window.OnDrawBack += (_, surface) => DlgDrawBack(surface);
         Window.Masked = true;
-        Window.OnHide = _ => Layout_DlgHide_0();
+        Window.OnHide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -234,7 +234,7 @@ public partial class CityJoinDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 119;
-        cancelBtn.OnClick = _ => Layout_CancelBtnClick_1();
+        cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
         Button attackBtn = new Button(this);
         session.BeginRead(attackBtn);
@@ -265,7 +265,7 @@ public partial class CityJoinDialog : ILayoutModule
         attackBtn.TextColor = 328543;
         attackBtn.TextSelectedColor = 16777215;
         attackBtn.WinWidth = 125;
-        attackBtn.OnClick = _ => Layout_AttackBtnClick_2();
+        attackBtn.OnClick += _ => AttackBtnClick();
         session.EndRead(attackBtn);
         Image titleIcon = new Image(this);
         session.BeginRead(titleIcon);
@@ -347,7 +347,7 @@ public partial class CityJoinDialog : ILayoutModule
         acceptBtn.TextColor = 0;
         acceptBtn.TextSelectedColor = 16777215;
         acceptBtn.WinWidth = 119;
-        acceptBtn.OnClick = _ => Layout_AcceptBtnClick_3();
+        acceptBtn.OnClick += _ => AcceptBtnClick();
         session.EndRead(acceptBtn);
         Label whatLbl = new Label(this);
         session.BeginRead(whatLbl);
@@ -426,7 +426,7 @@ public partial class CityJoinDialog : ILayoutModule
         closeBtn.TextColor = 0;
         closeBtn.TextSelectedColor = 0;
         closeBtn.WinWidth = 15;
-        closeBtn.OnClick = _ => Layout_CloseBtnClick_4();
+        closeBtn.OnClick += _ => CloseBtnClick();
         session.EndRead(closeBtn);
         LayoutIvTranslator translator = new LayoutIvTranslator(this);
         session.BeginRead(translator);
@@ -488,30 +488,5 @@ public partial class CityJoinDialog : ILayoutModule
         whatLbl.Font = DialogHosts.UIFonts.Age10Shadow;
         closeBtn.ToolTip = DialogHosts.General.ToolTip;
         closeBtn.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
-    }
-
-    private void Layout_DlgHide_0()
-    {
-        DlgHide();
-    }
-
-    private void Layout_CancelBtnClick_1()
-    {
-        CancelBtnClick();
-    }
-
-    private void Layout_AttackBtnClick_2()
-    {
-        AttackBtnClick();
-    }
-
-    private void Layout_AcceptBtnClick_3()
-    {
-        AcceptBtnClick();
-    }
-
-    private void Layout_CloseBtnClick_4()
-    {
-        CloseBtnClick();
     }
 }

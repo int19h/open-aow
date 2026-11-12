@@ -29,8 +29,8 @@ public partial class ChatWindow : ILayoutModule
         MainWindow.WinTop = 272;
         MainWindow.WinWidth = 440;
         MainWindow.Masked = false;
-        MainWindow.OnHide = _ => Layout_ChatWinHide_0();
-        MainWindow.OnShow = _ => Layout_ChatWinShow_1();
+        MainWindow.OnHide += _ => ChatWinHide();
+        MainWindow.OnShow += _ => ChatWinShow();
         MainWindow.Alignment.AlignWidth = AlignWidth.Both;
         MainWindow.Alignment.AlignHeight = AlignHeight.Bottom;
         MainWindow.Alignment.HeightPercent = 0;
@@ -56,8 +56,8 @@ public partial class ChatWindow : ILayoutModule
         MainWindow.DragHeight = 20;
         MainWindow.Draggable = true;
         MainWindow.Resizable = true;
-        MainWindow.OnDrag = _ => Layout_ChatWinResize_2();
-        MainWindow.OnResize = _ => Layout_ChatWinResize_2();
+        MainWindow.OnDrag += _ => ChatWinResize();
+        MainWindow.OnResize += _ => ChatWinResize();
         MainWindow.MinWidth = 440;
         MainWindow.MinHeight = 160;
         MainWindow.MaxWidth = 0;
@@ -70,7 +70,7 @@ public partial class ChatWindow : ILayoutModule
         ChatMemo = new Memo(this);
         session.BeginRead(ChatMemo);
         ChatMemo.Name = "ChatMemo";
-        ChatMemo.OnUpdate = _ => Layout_ChatMemoUpdate_3();
+        ChatMemo.OnUpdate += _ => ChatMemoUpdate();
         ChatMemo.Priority = 0;
         ChatMemo.WinLeft = 1;
         ChatMemo.WinTop = 0;
@@ -131,7 +131,7 @@ public partial class ChatWindow : ILayoutModule
         ChatEdit.TextColor = 11002593;
         ChatEdit.Editable = true;
         ChatEdit.ImageLibraryIndex = 15;
-        ChatEdit.OnReturn = _ => Layout_ChatEditReturn_4();
+        ChatEdit.OnReturn += _ => ChatEditReturn();
         ChatEdit.PassWordChar = 0;
         session.EndRead(ChatEdit);
         PlayerList = new ListBox(this);
@@ -159,7 +159,7 @@ public partial class ChatWindow : ILayoutModule
         PlayerList.BorderWidth = 8;
         PlayerList.BorderHeight = 2;
         PlayerList.Selected = -1;
-        PlayerList.OnPreDrawItem = (_, in drawRectangle, drawItem, ref lockedSurface) => Layout_PlayerListPreDrawItem_5(in drawRectangle, drawItem, ref lockedSurface);
+        PlayerList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => PlayerListPreDrawItem(default(Rect), drawItem, default(LockedSurface));
         PlayerList.TextColor = 9415072;
         PlayerList.TextSelectedColor = 16777215;
         PlayerList.ImageLibraryIndexFrame = 113;
@@ -251,7 +251,7 @@ public partial class ChatWindow : ILayoutModule
         min.TextColor = 0;
         min.TextSelectedColor = 0;
         min.WinWidth = 15;
-        min.OnClick = _ => Layout_MinClick_6();
+        min.OnClick += _ => MinClick();
         session.EndRead(min);
         Panel chatPnl = new Panel(this);
         session.BeginRead(chatPnl);
@@ -412,40 +412,5 @@ public partial class ChatWindow : ILayoutModule
         ChatScrollBar.ImageLibraryIDecrement = DialogHosts.UIGraphics.GenericScrollBars;
         ChatScrollBar.ImageLibraryTileBack = DialogHosts.UIGraphics.GenericScrollBars;
         ChatScrollBar.ThumbStrip = DialogHosts.UIGraphics.GenericScrollBars;
-    }
-
-    private void Layout_ChatWinHide_0()
-    {
-        ChatWinHide();
-    }
-
-    private void Layout_ChatWinShow_1()
-    {
-        ChatWinShow();
-    }
-
-    private void Layout_ChatWinResize_2()
-    {
-        ChatWinResize();
-    }
-
-    private void Layout_ChatMemoUpdate_3()
-    {
-        ChatMemoUpdate();
-    }
-
-    private void Layout_ChatEditReturn_4()
-    {
-        ChatEditReturn();
-    }
-
-    private void Layout_PlayerListPreDrawItem_5(in Rect p1, int p2, ref LockedSurface p3)
-    {
-        PlayerListPreDrawItem(default(Rect), p2, default(LockedSurface));
-    }
-
-    private void Layout_MinClick_6()
-    {
-        MinClick();
     }
 }

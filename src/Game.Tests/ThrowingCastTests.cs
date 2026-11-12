@@ -95,7 +95,7 @@ public sealed class ThrowingCastTests
         troop.SetOwnerWithoutNotify(heroList);
         int source = -1;
         int count = -1;
-        scope.Map.FOnActivateAbility += sender =>
+        scope.Map.AbilityActivated += sender =>
         {
             var info = (UnitSelectionActivation)sender;
             source = info.UnitSelector.SourceUnitId;

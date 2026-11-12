@@ -20,15 +20,15 @@ public partial class NewTurnDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "NewTDlg";
-        Window.OnMouseDown = (_, button, shift, x, y) => NewTDlgMouseDown(button, shift, x, y);
-        Window.OnKeyPress = (_, ref key) => NewTDlgKeyPress(ref key);
+        Window.OnMouseDown += (_, button, shift, x, y) => NewTDlgMouseDown(button, shift, x, y);
+        Window.OnKeyPress += (_, ref key) => NewTDlgKeyPress(ref key);
         Window.Visible = false;
         Window.Priority = 1000;
         Window.WinLeft = 80;
         Window.WinTop = 45;
         Window.WinWidth = 480;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_NewTDlgHide_0();
+        Window.OnHide += _ => NewTDlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -347,7 +347,7 @@ public partial class NewTurnDialog : ILayoutModule
         Image faceFrame = new Image(this);
         session.BeginRead(faceFrame);
         faceFrame.Name = "FaceFrame";
-        faceFrame.OnPreDraw = (_, lockedSurface) => FaceFramePreDraw(lockedSurface);
+        faceFrame.OnPreDraw += (_, surface) => FaceFramePreDraw(surface);
         faceFrame.Priority = 2000;
         faceFrame.WinLeft = 186;
         faceFrame.WinTop = 35;
@@ -417,10 +417,5 @@ public partial class NewTurnDialog : ILayoutModule
         tCeltLineL.ImageLibrary = DialogHosts.UIGraphics.CelticDecorations;
         tCeltLineR.ImageLibrary = DialogHosts.UIGraphics.CelticDecorations;
         faceFrame.ImageLibrary = DialogHosts.UIGraphics.GenericFrames;
-    }
-
-    private void Layout_NewTDlgHide_0()
-    {
-        NewTDlgHide();
     }
 }

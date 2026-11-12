@@ -22,7 +22,7 @@ public partial class EventLogList : ENode, IChildList<EventLog>
 
     private int _updateCount;
 
-    public NotifyEvent<object> OnChanged { get; set; }
+    public event NotifyEvent<object> OnChanged;
 
     // EventLog.pas:481
     public override void MainReadWrite(StorageStream stream)

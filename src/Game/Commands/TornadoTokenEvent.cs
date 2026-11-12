@@ -82,7 +82,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
             animation = (ImageSequenceAnimation)new Animation(null);
             _animation = animation;
             animation.AnimationLevel = 27;
-            animation.OnShow = ShowAnimation;
+            animation.SetShowHandler(ShowAnimation);
             animation.AnimationMap = StrategicMap.Current;
             animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
             animation.Activate();

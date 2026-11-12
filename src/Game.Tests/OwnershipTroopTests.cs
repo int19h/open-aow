@@ -187,7 +187,7 @@ public sealed class OwnershipTroopTests
         var second = new Item(null!) { ItemId = 2 };
         first.SetOwner(items);
         second.SetOwner(items);
-        items.OnChanged = _ => changes++;
+        items.OnChanged += _ => changes++;
         static int ById(EngineObject? left, EngineObject? right) => ((Item)right!).ItemId - ((Item)left!).ItemId;
         items.SortChildren(ById);
         items.ExchangeChildren(0, second: 1);

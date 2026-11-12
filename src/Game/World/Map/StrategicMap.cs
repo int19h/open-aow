@@ -112,7 +112,7 @@ public partial class StrategicMap : GameMap
 
     internal EventStore<Leader> OnLeaderChangedStore { get; }
 
-    public event NotifyEvent<Leader> FOnLeaderChanged
+    public event NotifyEvent<Leader> LeaderChanged
     {
         add => OnLeaderChangedStore.Add(value);
         remove => OnLeaderChangedStore.Remove(value);
@@ -129,7 +129,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<StrategicMap> _playerChangedEventsStore;
 
-    public event NotifyEvent<StrategicMap> FPlayerChangedEvents
+    public event NotifyEvent<StrategicMap> PlayerChanged
     {
         add => _playerChangedEventsStore.Add(value);
         remove => _playerChangedEventsStore.Remove(value);
@@ -137,7 +137,7 @@ public partial class StrategicMap : GameMap
 
     internal EventStore<PlayerControl> NewDayEventsStore { get; }
 
-    public event NotifyEvent<PlayerControl> FNewDayEvents
+    public event NotifyEvent<PlayerControl> DayStarted
     {
         add => NewDayEventsStore.Add(value);
         remove => NewDayEventsStore.Remove(value);
@@ -145,7 +145,7 @@ public partial class StrategicMap : GameMap
 
     internal EventStore<sbyte> NewTurnEventsStore { get; }
 
-    public event NotifyEvent<sbyte> FNewTurnEvents
+    public event NotifyEvent<sbyte> TurnStarted
     {
         add => NewTurnEventsStore.Add(value);
         remove => NewTurnEventsStore.Remove(value);
@@ -153,7 +153,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<sbyte> _endTurnEventsStore;
 
-    public event NotifyEvent<sbyte> FEndTurnEvents
+    public event NotifyEvent<sbyte> TurnEnded
     {
         add => _endTurnEventsStore.Add(value);
         remove => _endTurnEventsStore.Remove(value);
@@ -161,7 +161,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<StrategicMap> _currentPlayerChangedEventsStore;
 
-    public event NotifyEvent<StrategicMap> FCurrentPlayerChangedEvents
+    public event NotifyEvent<StrategicMap> CurrentPlayerChanged
     {
         add => _currentPlayerChangedEventsStore.Add(value);
         remove => _currentPlayerChangedEventsStore.Remove(value);
@@ -169,7 +169,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<StrategicMap> _seatedPlayerChangedEventsStore;
 
-    public event NotifyEvent<StrategicMap> FSeatedPlayerChangedEvents
+    public event NotifyEvent<StrategicMap> SeatedPlayerChanged
     {
         add => _seatedPlayerChangedEventsStore.Add(value);
         remove => _seatedPlayerChangedEventsStore.Remove(value);
@@ -177,7 +177,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<Battle> _combatEventsStore;
 
-    public event NotifyEvent<Battle> FCombatEvents
+    public event NotifyEvent<Battle> CombatTriggered
     {
         add => _combatEventsStore.Add(value);
         remove => _combatEventsStore.Remove(value);
@@ -185,7 +185,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<sbyte> _playerTerminatedEventsStore;
 
-    public event NotifyEvent<sbyte> FPlayerTerminatedEvents
+    public event NotifyEvent<sbyte> PlayerTerminated
     {
         add => _playerTerminatedEventsStore.Add(value);
         remove => _playerTerminatedEventsStore.Remove(value);
@@ -193,7 +193,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<StrategicMap> _gameOverEventsStore;
 
-    public event NotifyEvent<StrategicMap> FGameOverEvents
+    public event NotifyEvent<StrategicMap> GameEnded
     {
         add => _gameOverEventsStore.Add(value);
         remove => _gameOverEventsStore.Remove(value);
@@ -201,7 +201,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<StrategicMap> _gameTerminatedEventsStore;
 
-    public event NotifyEvent<StrategicMap> FGameTerminatedEvents
+    public event NotifyEvent<StrategicMap> GameTerminated
     {
         add => _gameTerminatedEventsStore.Add(value);
         remove => _gameTerminatedEventsStore.Remove(value);
@@ -211,7 +211,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<StrategicMap> _exitEventsStore;
 
-    public event NotifyEvent<StrategicMap> FExitEvents
+    public event NotifyEvent<StrategicMap> ExitingGame
     {
         add => _exitEventsStore.Add(value);
         remove => _exitEventsStore.Remove(value);
@@ -222,7 +222,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<ExecuteEventLogNotification> _executeEventLogEventsStore;
 
-    public event NotifyEvent<ExecuteEventLogNotification> FExecuteEventLogEvents
+    public event NotifyEvent<ExecuteEventLogNotification> ExecutingEventLog
     {
         add => _executeEventLogEventsStore.Add(value);
         remove => _executeEventLogEventsStore.Remove(value);
@@ -236,7 +236,7 @@ public partial class StrategicMap : GameMap
 
     internal EventStore<SpellCaster> CosmeticSurgeryEventsStore { get; }
 
-    public event NotifyEvent<SpellCaster> FCosmeticSurgeryEvents
+    public event NotifyEvent<SpellCaster> CosmeticSurgeryCast
     {
         add => CosmeticSurgeryEventsStore.Add(value);
         remove => CosmeticSurgeryEventsStore.Remove(value);
@@ -244,7 +244,7 @@ public partial class StrategicMap : GameMap
 
     internal EventStore<AbilityActivation> OnActivateAbilityStore { get; }
 
-    public event NotifyEvent<AbilityActivation> FOnActivateAbility
+    public event NotifyEvent<AbilityActivation> AbilityActivated
     {
         add => OnActivateAbilityStore.Add(value);
         remove => OnActivateAbilityStore.Remove(value);
@@ -252,7 +252,7 @@ public partial class StrategicMap : GameMap
 
     internal EventStore<EngineObject> DiplomaticRelationsChangedEventsStore { get; }
 
-    public event NotifyEvent<EngineObject> FDiplomaticRelationsChangedEvents
+    public event NotifyEvent<EngineObject> DiplomaticRelationsChanged
     {
         add => DiplomaticRelationsChangedEventsStore.Add(value);
         remove => DiplomaticRelationsChangedEventsStore.Remove(value);
@@ -260,7 +260,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<StrategicMap> _updateVisibilityEventsStore;
 
-    public event NotifyEvent<StrategicMap> FUpdateVisibilityEvents
+    public event NotifyEvent<StrategicMap> VisibilityUpdated
     {
         add => _updateVisibilityEventsStore.Add(value);
         remove => _updateVisibilityEventsStore.Remove(value);
@@ -276,7 +276,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<Troop> _unitChangedEventsStore;
 
-    public event NotifyEvent<Troop> FUnitChangedEvents
+    public event NotifyEvent<Troop> UnitChanged
     {
         add => _unitChangedEventsStore.Add(value);
         remove => _unitChangedEventsStore.Remove(value);
@@ -284,7 +284,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<Army> _armyChangedEventsStore;
 
-    public event NotifyEvent<Army> FArmyChangedEvents
+    public event NotifyEvent<Army> ArmyChanged
     {
         add => _armyChangedEventsStore.Add(value);
         remove => _armyChangedEventsStore.Remove(value);
@@ -292,7 +292,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<Structure> _structureChangedEventsStore;
 
-    public event NotifyEvent<Structure> FStructureChangedEvents
+    public event NotifyEvent<Structure> StructureChanged
     {
         add => _structureChangedEventsStore.Add(value);
         remove => _structureChangedEventsStore.Remove(value);
@@ -300,7 +300,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<Troop> _unitDestroyedEventsStore;
 
-    public event NotifyEvent<Troop> FUnitDestroyedEvents
+    public event NotifyEvent<Troop> UnitDestroyed
     {
         add => _unitDestroyedEventsStore.Add(value);
         remove => _unitDestroyedEventsStore.Remove(value);
@@ -308,7 +308,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<Army> _armyDestroyedEventsStore;
 
-    public event NotifyEvent<Army> FArmyDestroyedEvents
+    public event NotifyEvent<Army> ArmyDestroyed
     {
         add => _armyDestroyedEventsStore.Add(value);
         remove => _armyDestroyedEventsStore.Remove(value);
@@ -316,7 +316,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<Structure> _structureDestroyedEventsStore;
 
-    public event NotifyEvent<Structure> FStructureDestroyedEvents
+    public event NotifyEvent<Structure> StructureDestroyed
     {
         add => _structureDestroyedEventsStore.Add(value);
         remove => _structureDestroyedEventsStore.Remove(value);
@@ -324,7 +324,7 @@ public partial class StrategicMap : GameMap
 
     private EventStore<StrategicMap> _tokenControlActivatedEventsStore;
 
-    public event NotifyEvent<StrategicMap> FTokenControlActivatedEvents
+    public event NotifyEvent<StrategicMap> TokenControlActivated
     {
         add => _tokenControlActivatedEventsStore.Add(value);
         remove => _tokenControlActivatedEventsStore.Remove(value);
@@ -332,7 +332,7 @@ public partial class StrategicMap : GameMap
 
     internal EventStore<StrategicMap> CombatMapCreatedEventsStore { get; }
 
-    public event NotifyEvent<StrategicMap> FCombatMapCreatedEvents
+    public event NotifyEvent<StrategicMap> CombatMapCreated
     {
         add => CombatMapCreatedEventsStore.Add(value);
         remove => CombatMapCreatedEventsStore.Remove(value);
@@ -340,7 +340,7 @@ public partial class StrategicMap : GameMap
 
     internal EventStore<StrategicMap> CombatMapDestroyedEventsStore { get; }
 
-    public event NotifyEvent<StrategicMap> FCombatMapDestroyedEvents
+    public event NotifyEvent<StrategicMap> CombatMapDestroyed
     {
         add => CombatMapDestroyedEventsStore.Add(value);
         remove => CombatMapDestroyedEventsStore.Remove(value);
@@ -365,8 +365,8 @@ public partial class StrategicMap : GameMap
     {
         StopTokenEventLogging();
         LockMapChangedEvent();
-        OnViewLevel = null;
-        OnCenterView = null;
+        ClearViewLevelHandler();
+        ClearCenterViewHandler();
         GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "GENERAL.ILB");
         GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "CURSORS.ILB");
         GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "COMBAT.ILB");
@@ -499,7 +499,7 @@ public partial class StrategicMap : GameMap
         IgnoreStreamErrors = false;
         if (Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            stream.OnError = OnStreamError;
+            stream.SetErrorHandler(OnStreamError);
         }
 
         stream.Bytes(Bytes.Of(ref ConnectionType, 1), 1, 31);
@@ -628,8 +628,8 @@ public partial class StrategicMap : GameMap
         ItemControl = new ItemControl(null);
         TokenManager = new AoWTokenManager(GameTables.GameEngine);
         TokenManager.TokenExecutor.OnActivateTacticalBattle += TokenControlActivatedEvent;
-        TokenManager.TokenExecutor.OnExecuteTokenEvent = OnExecuteTokenEvent;
-        TokenManager.OnMessage = OnTokenManagerMessage;
+        TokenManager.TokenExecutor.SetExecuteTokenEventHandler(OnExecuteTokenEvent);
+        TokenManager.OnMessage += OnTokenManagerMessage;
         PlayerCommunicator = new PlayerCommunicator(null);
         PlayerCommunicator.Engine = GameTables.GameEngine;
         ConnectionType = PlayerConnectionType.Local;
@@ -646,7 +646,7 @@ public partial class StrategicMap : GameMap
         DefendersSeed = 0;
         HeroCountMax = 5;
         SelectedArmy = new SelectedArmy();
-        ((GameMapMouse)Mouse).FRectangleSelectEvents += SelectedArmy.RectangleSelectEvent;
+        ((GameMapMouse)Mouse).RectangleSelected += SelectedArmy.RectangleSelectEvent;
         MoveControl = new MoveControl(this);
         GlobalMagicControl = new GlobalMagicControl(null);
         MapName = "noname";
@@ -694,8 +694,8 @@ public partial class StrategicMap : GameMap
         _unitDestroyedEventsStore = new();
         _combatEventsStore = new();
         _executeEventLogEventsStore = new();
-        FUnitChangedEvents += TargetSelection.UnitChanged;
-        FArmyDestroyedEvents += SelectedArmy.OnDestroyArmy;
+        UnitChanged += TargetSelection.UnitChanged;
+        ArmyDestroyed += SelectedArmy.OnDestroyArmy;
         _executeEventLogCallBacks = new ExecuteEventLogCallbackList();
         CosmeticSurgeryEventsStore = new();
         OnActivateAbilityStore = new();
@@ -783,7 +783,7 @@ public partial class StrategicMap : GameMap
         string text = "";
         int percent = default;
         int total = default;
-        if (OnProgress != null)
+        if (HasProgressHandlers)
         {
             defaultText = AbilityRules.TranslateResourceString(s_oneMomentPleaseText);
             switch (progress.ProgressType)
@@ -800,7 +800,7 @@ public partial class StrategicMap : GameMap
                         text = defaultText;
                     }
 
-                    OnProgress(this, text, percent);
+                    RaiseProgress(this, text, percent);
                     break;
                 case MapProgressType.Initializing:
                     total = progress.Percent + progress.Level * 100;
@@ -814,7 +814,7 @@ public partial class StrategicMap : GameMap
                         text = defaultText;
                     }
 
-                    OnProgress(this, text, percent);
+                    RaiseProgress(this, text, percent);
                     break;
                 case MapProgressType.UpdatingTerrain:
                     total = progress.Percent + progress.Level * 100;
@@ -828,7 +828,7 @@ public partial class StrategicMap : GameMap
                         text = defaultText;
                     }
 
-                    OnProgress(this, text, percent);
+                    RaiseProgress(this, text, percent);
                     break;
                 case MapProgressType.Activating:
                     total = progress.Percent + progress.Level * 100;
@@ -842,15 +842,15 @@ public partial class StrategicMap : GameMap
                         text = defaultText;
                     }
 
-                    OnProgress(this, text, percent);
+                    RaiseProgress(this, text, percent);
                     break;
                 case MapProgressType.Saving:
                     var savingLevel = AbilityRules.TranslateResourceString(s_savingLevelText);
-                    OnProgress(this, savingLevel + IntToStr(progress.Level), progress.Percent);
+                    RaiseProgress(this, savingLevel + IntToStr(progress.Level), progress.Percent);
                     break;
                 case MapProgressType.Destroying:
                     var translatedText = AbilityRules.TranslateResourceString(s_destroyingLevelText);
-                    OnProgress(this, translatedText + IntToStr(progress.Level), progress.Percent);
+                    RaiseProgress(this, translatedText + IntToStr(progress.Level), progress.Percent);
                     break;
             }
         }
@@ -1513,7 +1513,7 @@ public partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1809
-    public void SeatedPlayerChanged()
+    public void NotifySeatedPlayerChanged()
     {
         EngineMessage message = default;
         Selection.UnselectAll();
@@ -1537,12 +1537,12 @@ public partial class StrategicMap : GameMap
         _unitUpdateCount -= 1;
         if (_unitUpdateCount == 0)
         {
-            UnitChanged(null);
+            NotifyUnitChanged(null);
         }
     }
 
     // AoWHSMap.PAS:1833
-    public void UnitChanged(Troop troop)
+    public void NotifyUnitChanged(Troop troop)
     {
         if (_unitUpdateCount == 0)
         {
@@ -1551,7 +1551,7 @@ public partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1838
-    public void UnitDestroyed(Troop troop)
+    public void NotifyUnitDestroyed(Troop troop)
     {
         if (!Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
@@ -1571,12 +1571,12 @@ public partial class StrategicMap : GameMap
         _armyUpdateCount -= 1;
         if (_armyUpdateCount == 0)
         {
-            ArmyChanged(null);
+            NotifyArmyChanged(null);
         }
     }
 
     // AoWHSMap.PAS:1855
-    public void ArmyChanged(Army army)
+    public void NotifyArmyChanged(Army army)
     {
         if (_armyUpdateCount == 0)
         {
@@ -1585,7 +1585,7 @@ public partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1860
-    public void ArmyDestroyed(Army army)
+    public void NotifyArmyDestroyed(Army army)
     {
         // TArmy.Destroy passes its Self pointer
         _armyDestroyedEventsStore.Raise(army);
@@ -1604,12 +1604,12 @@ public partial class StrategicMap : GameMap
         _structureUpdateCount -= 1;
         if (_structureUpdateCount == 0)
         {
-            StructureChanged(null);
+            NotifyStructureChanged(null);
         }
     }
 
     // AoWHSMap.PAS:1877
-    public void StructureChanged(Structure structure)
+    public void NotifyStructureChanged(Structure structure)
     {
         if (_structureUpdateCount == 0)
         {
@@ -1618,7 +1618,7 @@ public partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1882
-    public void StructureDestroyed(Structure structure)
+    public void NotifyStructureDestroyed(Structure structure)
     {
         _structureDestroyedEventsStore.Raise(structure);
     }
@@ -2197,7 +2197,7 @@ public partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:2546
-    public void PlayerChanged()
+    public void NotifyPlayerChanged()
     {
         _currentPlayerChangedEventsStore.Raise(this);
     }
@@ -2212,7 +2212,7 @@ public partial class StrategicMap : GameMap
             if (player != CurrentPlayer)
             {
                 CurrentPlayer = (sbyte)player;
-                PlayerChanged();
+                NotifyPlayerChanged();
             }
         }
     }

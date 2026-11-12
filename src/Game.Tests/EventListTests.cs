@@ -136,7 +136,7 @@ public sealed class EventListTests
         {
             sbyte seen = -2;
             player.PlayerIndex = 2;
-            player.FGemsChangedEvents += source => seen = source.PlayerIndex;
+            player.GemsChanged += source => seen = source.PlayerIndex;
 
             player.SetGems(9);
 

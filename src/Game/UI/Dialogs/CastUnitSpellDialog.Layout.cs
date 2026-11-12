@@ -288,7 +288,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         castBut.TextColor = 0;
         castBut.TextSelectedColor = 16777215;
         castBut.WinWidth = 128;
-        castBut.OnClick = _ => Layout_CastButClick_0();
+        castBut.OnClick += _ => CastButClick();
         session.EndRead(castBut);
         Image titleIcon = new Image(this);
         session.BeginRead(titleIcon);
@@ -350,7 +350,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CloseClick_1();
+        close.OnClick += _ => CloseClick();
         session.EndRead(close);
         Label title = new Label(this);
         session.BeginRead(title);
@@ -404,19 +404,19 @@ public partial class CastUnitSpellDialog : ILayoutModule
         cancelBut.TextColor = 0;
         cancelBut.TextSelectedColor = 16777215;
         cancelBut.WinWidth = 128;
-        cancelBut.OnClick = _ => Layout_CloseClick_1();
+        cancelBut.OnClick += _ => CloseClick();
         session.EndRead(cancelBut);
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnUpdate = _ => Layout_DlgUpdate_2();
+        Window.OnUpdate += _ => DlgUpdate();
         Window.Visible = false;
         Window.Priority = 520;
         Window.WinLeft = 74;
         Window.WinTop = 98;
         Window.WinWidth = 492;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_DlgHide_3();
+        Window.OnHide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -669,8 +669,8 @@ public partial class CastUnitSpellDialog : ILayoutModule
         Unit1CheckBox = new CheckBox(this);
         session.BeginRead(Unit1CheckBox);
         Unit1CheckBox.Name = "U1";
-        Unit1CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 0);
-        Unit1CheckBox.OnDraw = (_, lockedSurface) => Layout_U1Draw_4(lockedSurface);
+        Unit1CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 0);
+        Unit1CheckBox.OnDraw += (_, _) => U1Draw();
         Unit1CheckBox.Priority = 0;
         Unit1CheckBox.WinLeft = 0;
         Unit1CheckBox.WinTop = 0;
@@ -697,15 +697,15 @@ public partial class CastUnitSpellDialog : ILayoutModule
         Unit1CheckBox.TextSelectedColor = 0;
         Unit1CheckBox.WinWidth = 50;
         Unit1CheckBox.Checked = false;
-        Unit1CheckBox.OnChange = sender => U1Change(sender, 0);
+        Unit1CheckBox.OnChange += sender => U1Change(sender, 0);
         Unit1CheckBox.RadioIndex = 0;
         session.EndRead(Unit1CheckBox);
         Unit2CheckBox = new CheckBox(this);
         session.BeginRead(Unit2CheckBox);
         Unit2CheckBox.Name = "U2";
         Unit2CheckBox.Tag = 1;
-        Unit2CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 1);
-        Unit2CheckBox.OnDraw = (_, lockedSurface) => Layout_U1Draw_4(lockedSurface);
+        Unit2CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 1);
+        Unit2CheckBox.OnDraw += (_, _) => U1Draw();
         Unit2CheckBox.Priority = 0;
         Unit2CheckBox.WinLeft = 55;
         Unit2CheckBox.WinTop = 0;
@@ -732,15 +732,15 @@ public partial class CastUnitSpellDialog : ILayoutModule
         Unit2CheckBox.TextSelectedColor = 0;
         Unit2CheckBox.WinWidth = 50;
         Unit2CheckBox.Checked = false;
-        Unit2CheckBox.OnChange = sender => U1Change(sender, 1);
+        Unit2CheckBox.OnChange += sender => U1Change(sender, 1);
         Unit2CheckBox.RadioIndex = 0;
         session.EndRead(Unit2CheckBox);
         Unit3CheckBox = new CheckBox(this);
         session.BeginRead(Unit3CheckBox);
         Unit3CheckBox.Name = "U3";
         Unit3CheckBox.Tag = 2;
-        Unit3CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 2);
-        Unit3CheckBox.OnDraw = (_, lockedSurface) => Layout_U1Draw_4(lockedSurface);
+        Unit3CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 2);
+        Unit3CheckBox.OnDraw += (_, _) => U1Draw();
         Unit3CheckBox.Priority = 0;
         Unit3CheckBox.WinLeft = 110;
         Unit3CheckBox.WinTop = 0;
@@ -767,15 +767,15 @@ public partial class CastUnitSpellDialog : ILayoutModule
         Unit3CheckBox.TextSelectedColor = 0;
         Unit3CheckBox.WinWidth = 50;
         Unit3CheckBox.Checked = false;
-        Unit3CheckBox.OnChange = sender => U1Change(sender, 2);
+        Unit3CheckBox.OnChange += sender => U1Change(sender, 2);
         Unit3CheckBox.RadioIndex = 0;
         session.EndRead(Unit3CheckBox);
         Unit4CheckBox = new CheckBox(this);
         session.BeginRead(Unit4CheckBox);
         Unit4CheckBox.Name = "U4";
         Unit4CheckBox.Tag = 3;
-        Unit4CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 3);
-        Unit4CheckBox.OnDraw = (_, lockedSurface) => Layout_U1Draw_4(lockedSurface);
+        Unit4CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 3);
+        Unit4CheckBox.OnDraw += (_, _) => U1Draw();
         Unit4CheckBox.Priority = 0;
         Unit4CheckBox.WinLeft = 165;
         Unit4CheckBox.WinTop = 0;
@@ -802,15 +802,15 @@ public partial class CastUnitSpellDialog : ILayoutModule
         Unit4CheckBox.TextSelectedColor = 0;
         Unit4CheckBox.WinWidth = 50;
         Unit4CheckBox.Checked = false;
-        Unit4CheckBox.OnChange = sender => U1Change(sender, 3);
+        Unit4CheckBox.OnChange += sender => U1Change(sender, 3);
         Unit4CheckBox.RadioIndex = 0;
         session.EndRead(Unit4CheckBox);
         Unit5CheckBox = new CheckBox(this);
         session.BeginRead(Unit5CheckBox);
         Unit5CheckBox.Name = "U5";
         Unit5CheckBox.Tag = 4;
-        Unit5CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 4);
-        Unit5CheckBox.OnDraw = (_, lockedSurface) => Layout_U1Draw_4(lockedSurface);
+        Unit5CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 4);
+        Unit5CheckBox.OnDraw += (_, _) => U1Draw();
         Unit5CheckBox.Priority = 0;
         Unit5CheckBox.WinLeft = 220;
         Unit5CheckBox.WinTop = 0;
@@ -837,15 +837,15 @@ public partial class CastUnitSpellDialog : ILayoutModule
         Unit5CheckBox.TextSelectedColor = 0;
         Unit5CheckBox.WinWidth = 50;
         Unit5CheckBox.Checked = false;
-        Unit5CheckBox.OnChange = sender => U1Change(sender, 4);
+        Unit5CheckBox.OnChange += sender => U1Change(sender, 4);
         Unit5CheckBox.RadioIndex = 0;
         session.EndRead(Unit5CheckBox);
         Unit6CheckBox = new CheckBox(this);
         session.BeginRead(Unit6CheckBox);
         Unit6CheckBox.Name = "U6";
         Unit6CheckBox.Tag = 5;
-        Unit6CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 5);
-        Unit6CheckBox.OnDraw = (_, lockedSurface) => Layout_U1Draw_4(lockedSurface);
+        Unit6CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 5);
+        Unit6CheckBox.OnDraw += (_, _) => U1Draw();
         Unit6CheckBox.Priority = 0;
         Unit6CheckBox.WinLeft = 275;
         Unit6CheckBox.WinTop = 0;
@@ -872,15 +872,15 @@ public partial class CastUnitSpellDialog : ILayoutModule
         Unit6CheckBox.TextSelectedColor = 0;
         Unit6CheckBox.WinWidth = 50;
         Unit6CheckBox.Checked = false;
-        Unit6CheckBox.OnChange = sender => U1Change(sender, 5);
+        Unit6CheckBox.OnChange += sender => U1Change(sender, 5);
         Unit6CheckBox.RadioIndex = 0;
         session.EndRead(Unit6CheckBox);
         Unit7CheckBox = new CheckBox(this);
         session.BeginRead(Unit7CheckBox);
         Unit7CheckBox.Name = "U7";
         Unit7CheckBox.Tag = 6;
-        Unit7CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 6);
-        Unit7CheckBox.OnDraw = (_, lockedSurface) => Layout_U1Draw_4(lockedSurface);
+        Unit7CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 6);
+        Unit7CheckBox.OnDraw += (_, _) => U1Draw();
         Unit7CheckBox.Priority = 0;
         Unit7CheckBox.WinLeft = 330;
         Unit7CheckBox.WinTop = 0;
@@ -907,15 +907,15 @@ public partial class CastUnitSpellDialog : ILayoutModule
         Unit7CheckBox.TextSelectedColor = 0;
         Unit7CheckBox.WinWidth = 50;
         Unit7CheckBox.Checked = false;
-        Unit7CheckBox.OnChange = sender => U1Change(sender, 6);
+        Unit7CheckBox.OnChange += sender => U1Change(sender, 6);
         Unit7CheckBox.RadioIndex = 0;
         session.EndRead(Unit7CheckBox);
         Unit8CheckBox = new CheckBox(this);
         session.BeginRead(Unit8CheckBox);
         Unit8CheckBox.Name = "U8";
         Unit8CheckBox.Tag = 7;
-        Unit8CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 7);
-        Unit8CheckBox.OnDraw = (_, lockedSurface) => Layout_U1Draw_4(lockedSurface);
+        Unit8CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 7);
+        Unit8CheckBox.OnDraw += (_, _) => U1Draw();
         Unit8CheckBox.Priority = 0;
         Unit8CheckBox.WinLeft = 386;
         Unit8CheckBox.WinTop = 0;
@@ -942,7 +942,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         Unit8CheckBox.TextSelectedColor = 0;
         Unit8CheckBox.WinWidth = 50;
         Unit8CheckBox.Checked = false;
-        Unit8CheckBox.OnChange = sender => U1Change(sender, 7);
+        Unit8CheckBox.OnChange += sender => U1Change(sender, 7);
         Unit8CheckBox.RadioIndex = 0;
         session.EndRead(Unit8CheckBox);
         Image decoL = new Image(this);
@@ -1004,7 +1004,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         SpellFrame = new Image(this);
         session.BeginRead(SpellFrame);
         SpellFrame.Name = "SpellFr";
-        SpellFrame.OnPreDraw = (_, lockedSurface) => SpellFrPreDraw(lockedSurface);
+        SpellFrame.OnPreDraw += (_, surface) => SpellFrPreDraw(surface);
         SpellFrame.Priority = 0;
         SpellFrame.WinLeft = 0;
         SpellFrame.WinTop = 0;
@@ -1033,7 +1033,7 @@ public partial class CastUnitSpellDialog : ILayoutModule
         FaceFrame = new Image(this);
         session.BeginRead(FaceFrame);
         FaceFrame.Name = "FaceFrame";
-        FaceFrame.OnPreDraw = (_, lockedSurface) => FaceFramePreDraw(lockedSurface);
+        FaceFrame.OnPreDraw += (_, surface) => FaceFramePreDraw(surface);
         FaceFrame.Priority = 0;
         FaceFrame.WinLeft = 382;
         FaceFrame.WinTop = 0;
@@ -1272,31 +1272,6 @@ public partial class CastUnitSpellDialog : ILayoutModule
         FaceFrame.ImageLibrary = DialogHosts.UIGraphics.CelticDecorations;
         frame1.ImageLibraryLine = DialogHosts.UIGraphics.CelticDecorations;
         SelectionInfoLabel.Font = DialogHosts.UIFonts.Age10;
-    }
-
-    private void Layout_CastButClick_0()
-    {
-        CastButClick();
-    }
-
-    private void Layout_CloseClick_1()
-    {
-        CloseClick();
-    }
-
-    private void Layout_DlgUpdate_2()
-    {
-        DlgUpdate();
-    }
-
-    private void Layout_DlgHide_3()
-    {
-        DlgHide();
-    }
-
-    private void Layout_U1Draw_4(LockedSurface p1)
-    {
-        U1Draw();
     }
 
 }

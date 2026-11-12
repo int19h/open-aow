@@ -31,8 +31,10 @@ public partial class Edit : Control
 
     private bool _editable;
     private InterfaceImageLibrary _imageLibraryEdit;
-    private NotifyEvent<Edit> _onExit;
-    private NotifyEvent<Edit> _onReturn;
+    [Published]
+    public event NotifyEvent<Edit> OnExit;
+    [Published]
+    public event NotifyEvent<Edit> OnReturn;
     private int _imageLibraryIndex;
     private int _cursorPosition;
 
@@ -123,10 +125,7 @@ public partial class Edit : Control
         {
             if (Valid && Visible)
             {
-                if (_onPreDraw != null)
-                {
-                    _onPreDraw(this, lockedSurface);
-                }
+                RaisePreDraw(this, lockedSurface);
 
                 var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                 _imageLibraryEdit.DrawHorizontalStrip(_imageLibraryIndex, rectangle, ref lockedSurface);
@@ -161,10 +160,7 @@ public partial class Edit : Control
                     _font.SetText(Window.WinLeft + WinLeft + _borderWidth + textWidth, Window.WinTop + WinTop + _borderHeight, Cp1252.Text(_cursorChar), lockedSurface);
                 }
 
-                if (_onDraw != null)
-                {
-                    _onDraw(this, lockedSurface);
-                }
+                RaiseDraw(this, lockedSurface);
             }
         }
         catch
@@ -227,10 +223,7 @@ public partial class Edit : Control
                     Drawn = false;
                 }
 
-                if (_onMouseDown != null)
-                {
-                    _onMouseDown(this, button, shift, X, Y);
-                }
+                RaiseMouseDown(this, button, shift, X, Y);
             }
         }
         else
@@ -238,9 +231,9 @@ public partial class Edit : Control
             if (_cursorShown)
             {
                 _cursorShown = false;
-                if (_onExit != null)
+                if (OnExit != null)
                 {
-                    _onExit(this);
+                    OnExit(this);
                 }
             }
 
@@ -260,10 +253,7 @@ public partial class Edit : Control
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (_onMouseUp != null)
-            {
-                _onMouseUp(this, button, shift, X, Y);
-            }
+            RaiseMouseUp(this, button, shift, X, Y);
         }
     }
 
@@ -280,10 +270,7 @@ public partial class Edit : Control
                 Window._cursor = -4;
             }
 
-            if (_onMouseMove != null)
-            {
-                _onMouseMove(this, shift, X, Y);
-            }
+            RaiseMouseMove(this, shift, X, Y);
         }
     }
 
@@ -311,9 +298,9 @@ public partial class Edit : Control
                 case 13:
                     _cursorShown = false;
                     Redraw = false;
-                    if (_onReturn != null)
+                    if (OnReturn != null)
                     {
-                        _onReturn(this);
+                        OnReturn(this);
                     }
 
                     break;
@@ -351,15 +338,9 @@ public partial class Edit : Control
 
             _blinkCount = 0;
             Drawn = false;
-            if (_onKeyPress != null)
-            {
-                _onKeyPress(this, ref key);
-            }
+            RaiseKeyPress(this, ref key);
 
-            if (_onChange != null)
-            {
-                _onChange(this);
-            }
+            RaiseChange(this);
         }
     }
 
@@ -421,12 +402,6 @@ public partial class Edit : Control
     public int ImageLibraryIndex { get => _imageLibraryIndex; set => SetImageLibraryIndex(value); }
 
     [Published]
-    public NotifyEvent<Edit> OnExit { get => _onExit; set => _onExit = value; }
-
-    [Published]
-    public NotifyEvent<Edit> OnReturn { get => _onReturn; set => _onReturn = value; }
-
-    [Published]
     public byte PassWordChar { get => _passWordChar; set => _passWordChar = value; }
 
     // AoWEdit.pas:350. Clipboard integration has no host in this port.
@@ -459,61 +434,61 @@ public partial class Edit : Control
         _cursorShown = true;
         _blinkCount = 0;
         Drawn = false;
-        _onKeyDown?.Invoke(this, ref key, shift);
-        _onChange?.Invoke(this);
+        RaiseKeyDown(this, ref key, shift);
+        RaiseChange(this);
     }
 
-    public new NotifyEvent<Edit> OnChange
+    public new event NotifyEvent<Edit> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<Edit> OnMouseDown
+    public new event MouseEvent<Edit> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<Edit> OnMouseUp
+    public new event MouseEvent<Edit> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<Edit> OnMouseMove
+    public new event MouseMoveEvent<Edit> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<Edit> OnKeyPress
+    public new event KeyPressEvent<Edit> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<Edit> OnKeyDown
+    public new event KeyEvent<Edit> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<Edit> OnPreDraw
+    public new event AoWOnDrawEvent<Edit> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<Edit> OnDraw
+    public new event AoWOnDrawEvent<Edit> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<Edit> OnUpdate
+    public new event NotifyEvent<Edit> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnUpdate), value: value);
     }
 }

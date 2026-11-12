@@ -162,7 +162,7 @@ public class Component : Persistent
     public delegate void GetChildProc(Component child);
 }
 
-[AttributeUsage(AttributeTargets.Property)]
+[AttributeUsage(AttributeTargets.Property | AttributeTargets.Event)]
 public sealed class PublishedAttribute : Attribute
 {
     public PublishedAttribute() : base() { }

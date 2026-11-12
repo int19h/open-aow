@@ -29,7 +29,7 @@ public partial class Vortex : GlobalTargetSpell
         // { Use the incoming target. }
         base.SetupTargetSelection(source, targetSelection);
         targetSelection.HexNumbers.Clear();
-        targetSelection.OnValidateTarget = ValidateTargetEvent;
+        targetSelection.SetValidateTargetHandler(ValidateTargetEvent);
     }
 
     // GlobalTargetSpells.pas:2100

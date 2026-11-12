@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // the selected sprites of a map. The children (TENode.FChildren,) are every selected sprite.
-// FLocationHS the sprites selected by location (clicking on a hexagon), FOnSelect, FOnDeselect
+// FLocationHS the sprites selected by location (clicking on a hexagon), Selected, Deselected
 // (triggered with the map as the sender), FEventHS the sprite of the last event. The owner is
 // the map
 public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprite>, IOwned<GameMap>, IOwnedSink<GameMap>
@@ -34,7 +34,7 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
 
     internal EventStore<ECustomNode> OnSelectStore { get; }
 
-    internal event NotifyEvent<ECustomNode> FOnSelect
+    internal event NotifyEvent<ECustomNode> Selected
     {
         add => OnSelectStore.Add(value);
         remove => OnSelectStore.Remove(value);
@@ -42,7 +42,7 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
 
     internal EventStore<ECustomNode> OnDeselectStore { get; }
 
-    internal event NotifyEvent<ECustomNode> FOnDeselect
+    internal event NotifyEvent<ECustomNode> Deselected
     {
         add => OnDeselectStore.Add(value);
         remove => OnDeselectStore.Remove(value);

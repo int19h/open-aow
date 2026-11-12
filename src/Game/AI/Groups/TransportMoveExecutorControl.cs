@@ -47,7 +47,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                         Armies.GetArmies(I).RetrieveArmy(255, ref armyHexSprite, ref selection);
                         settings.Setup(armyHexSprite, selection, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel);
                         settings.Transporter = Executor.Transporter.Troop;
-                        settings.OnDone = CalculateTransportPathCallback;
+                        settings.OnDone += CalculateTransportPathCallback;
                         settings.MoveMode = Set<MoveModeElement>.Of(MoveModeElement.AI);
                         MoveControl.Reset();
                         MoveControl.CanMove(settings);

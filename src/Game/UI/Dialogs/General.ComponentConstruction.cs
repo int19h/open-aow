@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class General
 {
-    public NotifyEvent<General> LayoutOnCreate { get; set; }
-    public NotifyEvent<General> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<General> LayoutOnCreate;
+    public event NotifyEvent<General> LayoutOnDestroy;
 
     public override void Dispose()
     {

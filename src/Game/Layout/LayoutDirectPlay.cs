@@ -13,16 +13,56 @@ public class LayoutDirectPlay : GDPlay
     public int FilePacketSize { get; set; }
     public bool GuaranteeMessages { get; set; }
     public int MaxPlayers { get; set; }
-    public GDChatMessageEvent OnChatMessage { get; set; }
-    public GDDestroyPlayerEvent OnDestroyPlayer { get; set; }
-    public NotifyEvent<LayoutDirectPlay> OnEjected { get; set; }
-    public GDFileDoneMessageEvent OnFileDoneMessage { get; set; }
-    public GDFileProgressMessageEvent OnFileProgressMessage { get; set; }
-    public GDFileStartMessageEvent OnFileStartMessage { get; set; }
-    public GDMessageEvent OnMessage { get; set; }
-    public GDMessageErrorEvent OnMessageError { get; set; }
-    public GDPingMessageEvent OnPingMessage { get; set; }
-    public GDSessionLostEvent OnSessionLost { get; set; }
+
+    // Nothing in the port raises OnChatMessage. The bound handler is kept.
+    private GDChatMessageEvent _onChatMessage;
+
+    public event GDChatMessageEvent OnChatMessage { add => _onChatMessage += value; remove => _onChatMessage -= value; }
+
+    // Nothing in the port raises OnDestroyPlayer. The bound handler is kept.
+    private GDDestroyPlayerEvent _onDestroyPlayer;
+
+    public event GDDestroyPlayerEvent OnDestroyPlayer { add => _onDestroyPlayer += value; remove => _onDestroyPlayer -= value; }
+
+    // Nothing in the port raises OnEjected. The bound handler is kept.
+    private NotifyEvent<LayoutDirectPlay> _onEjected;
+
+    public event NotifyEvent<LayoutDirectPlay> OnEjected { add => _onEjected += value; remove => _onEjected -= value; }
+
+    // Nothing in the port raises OnFileDoneMessage. The bound handler is kept.
+    private GDFileDoneMessageEvent _onFileDoneMessage;
+
+    public event GDFileDoneMessageEvent OnFileDoneMessage { add => _onFileDoneMessage += value; remove => _onFileDoneMessage -= value; }
+
+    // Nothing in the port raises OnFileProgressMessage. The bound handler is kept.
+    private GDFileProgressMessageEvent _onFileProgressMessage;
+
+    public event GDFileProgressMessageEvent OnFileProgressMessage { add => _onFileProgressMessage += value; remove => _onFileProgressMessage -= value; }
+
+    // Nothing in the port raises OnFileStartMessage. The bound handler is kept.
+    private GDFileStartMessageEvent _onFileStartMessage;
+
+    public event GDFileStartMessageEvent OnFileStartMessage { add => _onFileStartMessage += value; remove => _onFileStartMessage -= value; }
+
+    // Nothing in the port raises OnMessage. The bound handler is kept.
+    private GDMessageEvent _onMessage;
+
+    public event GDMessageEvent OnMessage { add => _onMessage += value; remove => _onMessage -= value; }
+
+    // Nothing in the port raises OnMessageError. The bound handler is kept.
+    private GDMessageErrorEvent _onMessageError;
+
+    public event GDMessageErrorEvent OnMessageError { add => _onMessageError += value; remove => _onMessageError -= value; }
+
+    // Nothing in the port raises OnPingMessage. The bound handler is kept.
+    private GDPingMessageEvent _onPingMessage;
+
+    public event GDPingMessageEvent OnPingMessage { add => _onPingMessage += value; remove => _onPingMessage -= value; }
+
+    // Nothing in the port raises OnSessionLost. The bound handler is kept.
+    private GDSessionLostEvent _onSessionLost;
+
+    public event GDSessionLostEvent OnSessionLost { add => _onSessionLost += value; remove => _onSessionLost -= value; }
     public bool UseCodes { get; set; }
     public bool UseSetupDialogs { get; set; }
 

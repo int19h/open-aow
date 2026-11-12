@@ -18,20 +18,20 @@ public partial class FileDialogWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "FileDlgWindow";
-        LayoutOnCreate = _ => Layout_FileDlgWindowCreate_0();
-        LayoutOnDestroy = _ => Layout_FileDlgWindowDestroy_1();
+        LayoutOnCreate += _ => FileDialogWindowCreate();
+        LayoutOnDestroy += _ => FileDialogWindowDestroy();
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "FileDialog";
-        Window.OnKeyDown = (_, ref key, shift) => FileDialogKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => FileDialogKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 130;
         Window.WinTop = 35;
         Window.WinWidth = 380;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_FileDialogHide_2();
-        Window.OnShow = _ => Layout_FileDialogShow_3();
+        Window.OnHide += _ => FileDialogHide();
+        Window.OnShow += _ => FileDialogShow();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -95,7 +95,7 @@ public partial class FileDialogWindow : ILayoutModule
         cancelBut.TextColor = 0;
         cancelBut.TextSelectedColor = 16777215;
         cancelBut.WinWidth = 122;
-        cancelBut.OnClick = _ => Layout_CloseClick_4();
+        cancelBut.OnClick += _ => CloseClick();
         session.EndRead(cancelBut);
         Frame bCeltL = new Frame(this);
         session.BeginRead(bCeltL);
@@ -153,7 +153,7 @@ public partial class FileDialogWindow : ILayoutModule
         OpenButton.TextColor = 0;
         OpenButton.TextSelectedColor = 16777215;
         OpenButton.WinWidth = 122;
-        OpenButton.OnClick = _ => OpenbutClick();
+        OpenButton.OnClick += _ => OpenbutClick();
         session.EndRead(OpenButton);
         TitleLabel = new Label(this);
         session.BeginRead(TitleLabel);
@@ -202,10 +202,10 @@ public partial class FileDialogWindow : ILayoutModule
         FileList.WinHeight = 140;
         FileList.BorderWidth = 21;
         FileList.BorderHeight = 3;
-        FileList.OnChange = FileLBChange;
-        FileList.OnDoubleClick = _ => OpenbutClick();
+        FileList.OnChange += FileLBChange;
+        FileList.OnDoubleClick += _ => OpenbutClick();
         FileList.Selected = -1;
-        FileList.OnDrawItem = (_, in drawRectangle, drawItem, ref lockedSurface) => FileLBDrawItem(in drawRectangle, drawItem, ref lockedSurface);
+        FileList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => FileLBDrawItem(drawRectangle, drawItem, ref surface);
         FileList.TextColor = 9415072;
         FileList.TextSelectedColor = 0;
         FileList.ImageLibraryIndexFrame = 113;
@@ -295,7 +295,7 @@ public partial class FileDialogWindow : ILayoutModule
         DriveComboBox.ListBorderWidth = 7;
         DriveComboBox.ListBorderHeight = 5;
         DriveComboBox.NumberVisible = 4;
-        DriveComboBox.OnChange = _ => Layout_DriveCmbChange_6();
+        DriveComboBox.OnChange += _ => DriveCmbChange();
         DriveComboBox.Selected = -1;
         DriveComboBox.PriorityOpened = 2000;
         DriveComboBox.TextColor = 11002593;
@@ -361,7 +361,7 @@ public partial class FileDialogWindow : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CloseClick_4();
+        close.OnClick += _ => CloseClick();
         session.EndRead(close);
         Button upDirBtn = new Button(this);
         session.BeginRead(upDirBtn);
@@ -395,7 +395,7 @@ public partial class FileDialogWindow : ILayoutModule
         upDirBtn.TextColor = 9402970;
         upDirBtn.TextSelectedColor = 12632256;
         upDirBtn.WinWidth = 32;
-        upDirBtn.OnClick = _ => Layout_UpDirBtnClick_7();
+        upDirBtn.OnClick += _ => UpDirBtnClick();
         session.EndRead(upDirBtn);
         Label pathL = new Label(this);
         session.BeginRead(pathL);
@@ -1142,10 +1142,10 @@ public partial class FileDialogWindow : ILayoutModule
         SaveList.WinHeight = 125;
         SaveList.BorderWidth = 21;
         SaveList.BorderHeight = 4;
-        SaveList.OnChange = FileLBChange;
-        SaveList.OnDoubleClick = _ => OpenbutClick();
+        SaveList.OnChange += FileLBChange;
+        SaveList.OnDoubleClick += _ => OpenbutClick();
         SaveList.Selected = -1;
-        SaveList.OnDrawItem = (_, in drawRectangle, drawItem, ref lockedSurface) => FileLBDrawItem(in drawRectangle, drawItem, ref lockedSurface);
+        SaveList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => FileLBDrawItem(drawRectangle, drawItem, ref surface);
         SaveList.TextColor = 9415072;
         SaveList.TextSelectedColor = 0;
         SaveList.ImageLibraryIndexFrame = 113;
@@ -1177,14 +1177,14 @@ public partial class FileDialogWindow : ILayoutModule
         SaveFileNameEdit.WinWidth = 309;
         SaveFileNameEdit.BorderWidth = 7;
         SaveFileNameEdit.BorderHeight = 5;
-        SaveFileNameEdit.OnChange = _ => SFileNameChange();
+        SaveFileNameEdit.OnChange += _ => SFileNameChange();
         SaveFileNameEdit.MaxChars = 0;
         SaveFileNameEdit.CursorChar = 95;
         SaveFileNameEdit.BlinkDelay = 2;
         SaveFileNameEdit.TextColor = 11002593;
         SaveFileNameEdit.Editable = true;
         SaveFileNameEdit.ImageLibraryIndex = 15;
-        SaveFileNameEdit.OnReturn = _ => Layout_SFileNameReturn_9();
+        SaveFileNameEdit.OnReturn += _ => SFileNameReturn();
         SaveFileNameEdit.PassWordChar = 0;
         session.EndRead(SaveFileNameEdit);
         Label savedInfo = new Label(this);
@@ -1262,8 +1262,8 @@ public partial class FileDialogWindow : ILayoutModule
         DateList.WinHeight = 125;
         DateList.BorderWidth = 8;
         DateList.BorderHeight = 4;
-        DateList.OnChange = FileLBChange;
-        DateList.OnDoubleClick = _ => OpenbutClick();
+        DateList.OnChange += FileLBChange;
+        DateList.OnDoubleClick += _ => OpenbutClick();
         DateList.Selected = -1;
         DateList.TextColor = 9415072;
         DateList.TextSelectedColor = 0;
@@ -1302,7 +1302,7 @@ public partial class FileDialogWindow : ILayoutModule
         saveBtn.TextColor = 0;
         saveBtn.TextSelectedColor = 16777215;
         saveBtn.WinWidth = 180;
-        saveBtn.OnClick = _ => SaveBtnClick();
+        saveBtn.OnClick += _ => SaveBtnClick();
         session.EndRead(saveBtn);
         Button dateBtn = new Button(this);
         session.BeginRead(dateBtn);
@@ -1333,7 +1333,7 @@ public partial class FileDialogWindow : ILayoutModule
         dateBtn.TextColor = 0;
         dateBtn.TextSelectedColor = 16777215;
         dateBtn.WinWidth = 130;
-        dateBtn.OnClick = _ => DateBtnClick();
+        dateBtn.OnClick += _ => DateBtnClick();
         session.EndRead(dateBtn);
         VerticalScrollBar nsBar = new VerticalScrollBar(this);
         session.BeginRead(nsBar);
@@ -1646,7 +1646,7 @@ public partial class FileDialogWindow : ILayoutModule
         SaveScrollBar.WinHeight = 125;
         SaveScrollBar.WinWidth = 17;
         SaveScrollBar.NumberVisible = 7;
-        SaveScrollBar.OnChange = _ => Layout_SSBarChange_10();
+        SaveScrollBar.OnChange += _ => SSBarChange();
         SaveScrollBar.VanishWhenFull = true;
         SaveScrollBar.ImageLibraryIndexIncrementUp = 96;
         SaveScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -2022,50 +2022,5 @@ public partial class FileDialogWindow : ILayoutModule
         savedInfo4.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
-    }
-
-    private void Layout_FileDlgWindowCreate_0()
-    {
-        FileDialogWindowCreate();
-    }
-
-    private void Layout_FileDlgWindowDestroy_1()
-    {
-        FileDialogWindowDestroy();
-    }
-
-    private void Layout_FileDialogHide_2()
-    {
-        FileDialogHide();
-    }
-
-    private void Layout_FileDialogShow_3()
-    {
-        FileDialogShow();
-    }
-
-    private void Layout_CloseClick_4()
-    {
-        CloseClick();
-    }
-
-    private void Layout_DriveCmbChange_6()
-    {
-        DriveCmbChange();
-    }
-
-    private void Layout_UpDirBtnClick_7()
-    {
-        UpDirBtnClick();
-    }
-
-    private void Layout_SFileNameReturn_9()
-    {
-        SFileNameReturn();
-    }
-
-    private void Layout_SSBarChange_10()
-    {
-        SSBarChange();
     }
 }

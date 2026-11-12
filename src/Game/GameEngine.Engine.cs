@@ -37,7 +37,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game;
 
 // FMsgCount, FEClasses, FClassTable, FEditors, FControlNode, FComponent (the owning component),
-// FDebugIDs, FDebugEvents, FStartupDirectory, FOptions. Every engine is in the Engines list
+// FDebugIDs, DebugMessage, FStartupDirectory, FOptions. Every engine is in the Engines list
 public partial class GameEngine : ENode
 {
     private int _messageCount;
@@ -50,7 +50,7 @@ public partial class GameEngine : ENode
 
     internal EventStore<EngineDebugNotification> DebugEventsStore { get; set; }
 
-    internal event NotifyEvent<EngineDebugNotification> FDebugEvents
+    internal event NotifyEvent<EngineDebugNotification> DebugMessage
     {
         add => DebugEventsStore.Add(value);
         remove => DebugEventsStore.Remove(value);
@@ -356,7 +356,7 @@ public partial class GameEngine : ENode
     {
         StorageStream S;
         S = new StorageWriter(stream, this, false);
-        S.OnProgress = progress;
+        S.OnProgress += progress;
         try
         {
             S.Object(objectValue, 0);
@@ -372,7 +372,7 @@ public partial class GameEngine : ENode
     {
         StorageStream S;
         S = new StorageReader(stream, this, false);
-        S.OnProgress = progress;
+        S.OnProgress += progress;
         try
         {
             S.Object(objectValue, 0);
@@ -388,7 +388,7 @@ public partial class GameEngine : ENode
     {
         StorageStream S;
         S = new StorageWriter(stream, this, true);
-        S.OnProgress = progress;
+        S.OnProgress += progress;
         try
         {
             S.Object(objectValue, 0);
@@ -404,7 +404,7 @@ public partial class GameEngine : ENode
     {
         StorageStream S;
         S = new StorageReader(stream, this, true);
-        S.OnProgress = progress;
+        S.OnProgress += progress;
         try
         {
             S.Object(objectValue, 0);
@@ -420,7 +420,7 @@ public partial class GameEngine : ENode
     {
         StorageStream S;
         S = new StorageWriter(stream, this, false);
-        S.OnProgress = progress;
+        S.OnProgress += progress;
         try
         {
             S.Created(ref objectValue, null, 0);
@@ -437,7 +437,7 @@ public partial class GameEngine : ENode
         EngineObject result = default;
         StorageStream S;
         S = new StorageReader(stream, this, false);
-        S.OnProgress = progress;
+        S.OnProgress += progress;
         try
         {
             S.Created(ref result, null, 0);

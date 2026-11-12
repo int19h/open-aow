@@ -18,7 +18,7 @@ public partial class GameMapMouse : HexSpriteMapMouse
 
     internal EventStore<GameMapMouse> RectangleSelectEventsStore { get; }
 
-    public event NotifyEvent<GameMapMouse> FRectangleSelectEvents
+    public event NotifyEvent<GameMapMouse> RectangleSelected
     {
         add => RectangleSelectEventsStore.Add(value);
         remove => RectangleSelectEventsStore.Remove(value);

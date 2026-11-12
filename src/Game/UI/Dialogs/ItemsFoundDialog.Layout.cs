@@ -21,14 +21,14 @@ public partial class ItemsFoundDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 128;
         Window.WinTop = 109;
         Window.WinWidth = 385;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_DlgHide_0();
+        Window.OnHide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -142,7 +142,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         pickupBtn.TextColor = 0;
         pickupBtn.TextSelectedColor = 16777215;
         pickupBtn.WinWidth = 105;
-        pickupBtn.OnClick = _ => Layout_PickupBtnClick_1();
+        pickupBtn.OnClick += _ => PickupBtnClick();
         session.EndRead(pickupBtn);
         Button closeBtn = new Button(this);
         session.BeginRead(closeBtn);
@@ -173,7 +173,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         closeBtn.TextColor = 0;
         closeBtn.TextSelectedColor = 16777215;
         closeBtn.WinWidth = 105;
-        closeBtn.OnClick = _ => Layout_CloseBtn2Click_2();
+        closeBtn.OnClick += _ => CloseBtn2Click();
         session.EndRead(closeBtn);
         Frame bCeltL = new Frame(this);
         session.BeginRead(bCeltL);
@@ -342,7 +342,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         closeBtn2.TextColor = 0;
         closeBtn2.TextSelectedColor = 16777215;
         closeBtn2.WinWidth = 130;
-        closeBtn2.OnClick = _ => Layout_CloseBtn2Click_2();
+        closeBtn2.OnClick += _ => CloseBtn2Click();
         session.EndRead(closeBtn2);
         OKPanel = new Panel(this);
         session.BeginRead(OKPanel);
@@ -488,8 +488,8 @@ public partial class ItemsFoundDialog : ILayoutModule
         session.BeginRead(gnd3);
         gnd3.Name = "Gnd3";
         gnd3.Tag = 2;
-        gnd3.OnMouseDown = (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 2);
-        gnd3.OnDraw = (sender, surface) => Gnd3Draw(sender, surface, 2);
+        gnd3.OnMouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 2);
+        gnd3.OnDraw += (sender, surface) => Gnd3Draw(sender, surface, 2);
         gnd3.Priority = 1000;
         gnd3.WinLeft = 172;
         gnd3.WinTop = 123;
@@ -522,8 +522,8 @@ public partial class ItemsFoundDialog : ILayoutModule
         session.BeginRead(gnd2);
         gnd2.Name = "Gnd2";
         gnd2.Tag = 1;
-        gnd2.OnMouseDown = (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 1);
-        gnd2.OnDraw = (sender, surface) => Gnd3Draw(sender, surface, 1);
+        gnd2.OnMouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 1);
+        gnd2.OnDraw += (sender, surface) => Gnd3Draw(sender, surface, 1);
         gnd2.Priority = 1000;
         gnd2.WinLeft = 124;
         gnd2.WinTop = 123;
@@ -555,8 +555,8 @@ public partial class ItemsFoundDialog : ILayoutModule
         CheckBox gnd1 = new CheckBox(this);
         session.BeginRead(gnd1);
         gnd1.Name = "Gnd1";
-        gnd1.OnMouseDown = (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 0);
-        gnd1.OnDraw = (sender, surface) => Gnd3Draw(sender, surface, 0);
+        gnd1.OnMouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 0);
+        gnd1.OnDraw += (sender, surface) => Gnd3Draw(sender, surface, 0);
         gnd1.Priority = 1000;
         gnd1.WinLeft = 80;
         gnd1.WinTop = 123;
@@ -589,8 +589,8 @@ public partial class ItemsFoundDialog : ILayoutModule
         session.BeginRead(gnd4);
         gnd4.Name = "Gnd4";
         gnd4.Tag = 3;
-        gnd4.OnMouseDown = (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 3);
-        gnd4.OnDraw = (sender, surface) => Gnd3Draw(sender, surface, 3);
+        gnd4.OnMouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 3);
+        gnd4.OnDraw += (sender, surface) => Gnd3Draw(sender, surface, 3);
         gnd4.Priority = 1000;
         gnd4.WinLeft = 221;
         gnd4.WinTop = 123;
@@ -623,8 +623,8 @@ public partial class ItemsFoundDialog : ILayoutModule
         session.BeginRead(gnd5);
         gnd5.Name = "Gnd5";
         gnd5.Tag = 4;
-        gnd5.OnMouseDown = (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 4);
-        gnd5.OnDraw = (sender, surface) => Gnd3Draw(sender, surface, 4);
+        gnd5.OnMouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 4);
+        gnd5.OnDraw += (sender, surface) => Gnd3Draw(sender, surface, 4);
         gnd5.Priority = 1000;
         gnd5.WinLeft = 265;
         gnd5.WinTop = 123;
@@ -681,7 +681,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         LeftButton.TextColor = 0;
         LeftButton.TextSelectedColor = 0;
         LeftButton.WinWidth = 13;
-        LeftButton.OnClick = _ => Layout_LeftBtnClick_4();
+        LeftButton.OnClick += _ => LeftBtnClick();
         session.EndRead(LeftButton);
         RightButton = new Button(this);
         session.BeginRead(RightButton);
@@ -711,7 +711,7 @@ public partial class ItemsFoundDialog : ILayoutModule
         RightButton.TextColor = 0;
         RightButton.TextSelectedColor = 0;
         RightButton.WinWidth = 13;
-        RightButton.OnClick = _ => Layout_RightBtnClick_5();
+        RightButton.OnClick += _ => RightBtnClick();
         session.EndRead(RightButton);
         session.EndRead(this);
         TitleLabel.Window = Window;
@@ -795,30 +795,5 @@ public partial class ItemsFoundDialog : ILayoutModule
         LeftButton.ImageLibraryIcon = DialogHosts.UIGraphics.GenericScrollBars;
         RightButton.ToolTip = DialogHosts.General.ToolTip;
         RightButton.ImageLibraryIcon = DialogHosts.UIGraphics.GenericScrollBars;
-    }
-
-    private void Layout_DlgHide_0()
-    {
-        DlgHide();
-    }
-
-    private void Layout_PickupBtnClick_1()
-    {
-        PickupBtnClick();
-    }
-
-    private void Layout_CloseBtn2Click_2()
-    {
-        CloseBtn2Click();
-    }
-
-    private void Layout_LeftBtnClick_4()
-    {
-        LeftBtnClick();
-    }
-
-    private void Layout_RightBtnClick_5()
-    {
-        RightBtnClick();
     }
 }

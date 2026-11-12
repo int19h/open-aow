@@ -82,7 +82,7 @@ public partial class ScenarioSetup : ILayoutModule
         ChatScrollBar = new VerticalScrollBar(this);
         session.BeginRead(ChatScrollBar);
         ChatScrollBar.Name = "ChatSB";
-        ChatScrollBar.OnUpdate = _ => Layout_ChatSBUpdate_0();
+        ChatScrollBar.OnUpdate += _ => ChatSBUpdate();
         ChatScrollBar.Visible = false;
         ChatScrollBar.Priority = 2;
         ChatScrollBar.WinLeft = 292;
@@ -146,7 +146,7 @@ public partial class ScenarioSetup : ILayoutModule
         ChatEdit.TextColor = 15134446;
         ChatEdit.Editable = true;
         ChatEdit.ImageLibraryIndex = 23;
-        ChatEdit.OnReturn = _ => Layout_ChatEditReturn_1();
+        ChatEdit.OnReturn += _ => ChatEditReturn();
         ChatEdit.PassWordChar = 0;
         session.EndRead(ChatEdit);
         Panel sidesPnl = new Panel(this);
@@ -231,9 +231,9 @@ public partial class ScenarioSetup : ILayoutModule
         PlayerList.WinHeight = 78;
         PlayerList.BorderWidth = 3;
         PlayerList.BorderHeight = 3;
-        PlayerList.OnChange = PlayerListChange;
+        PlayerList.OnChange += PlayerListChange;
         PlayerList.Selected = -1;
-        PlayerList.OnDrawItem = (_, in drawRectangle, drawItem, ref lockedSurface) => PlayerListDrawItem(in drawRectangle, drawItem, ref lockedSurface);
+        PlayerList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => PlayerListDrawItem(drawRectangle, drawItem, ref surface);
         PlayerList.TextColor = 15134446;
         PlayerList.TextSelectedColor = 0;
         PlayerList.ImageLibraryIndexFrame = 64;
@@ -275,7 +275,7 @@ public partial class ScenarioSetup : ILayoutModule
         EjectButton.TextColor = 15134446;
         EjectButton.TextSelectedColor = 16777215;
         EjectButton.WinWidth = 70;
-        EjectButton.OnClick = _ => Layout_EjectBtnClick_2();
+        EjectButton.OnClick += _ => EjectBtnClick();
         session.EndRead(EjectButton);
         Panel r1Pnl = new Panel(this);
         session.BeginRead(r1Pnl);
@@ -284,7 +284,7 @@ public partial class ScenarioSetup : ILayoutModule
         r1Pnl.WinLeft = 0;
         r1Pnl.WinTop = 0;
         r1Pnl.WinWidth = 156;
-        r1Pnl.OnDrawBack = (sender, surface) => SidePanelDrawBack(sender, surface, 0);
+        r1Pnl.OnDrawBack += (sender, surface) => SidePanelDrawBack(sender, surface, 0);
         r1Pnl.Masked = true;
         r1Pnl.Alignment.AlignWidth = AlignWidth.Left;
         r1Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -313,7 +313,7 @@ public partial class ScenarioSetup : ILayoutModule
         r5Pnl.WinLeft = 164;
         r5Pnl.WinTop = 0;
         r5Pnl.WinWidth = 156;
-        r5Pnl.OnDrawBack = (sender, surface) => SidePanelDrawBack(sender, surface, 4);
+        r5Pnl.OnDrawBack += (sender, surface) => SidePanelDrawBack(sender, surface, 4);
         r5Pnl.Masked = true;
         r5Pnl.Alignment.AlignWidth = AlignWidth.Left;
         r5Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -342,7 +342,7 @@ public partial class ScenarioSetup : ILayoutModule
         r9Pnl.WinLeft = 328;
         r9Pnl.WinTop = 0;
         r9Pnl.WinWidth = 156;
-        r9Pnl.OnDrawBack = (sender, surface) => SidePanelDrawBack(sender, surface, 8);
+        r9Pnl.OnDrawBack += (sender, surface) => SidePanelDrawBack(sender, surface, 8);
         r9Pnl.Masked = true;
         r9Pnl.Alignment.AlignWidth = AlignWidth.Left;
         r9Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -371,7 +371,7 @@ public partial class ScenarioSetup : ILayoutModule
         r2Pnl.WinLeft = 0;
         r2Pnl.WinTop = 70;
         r2Pnl.WinWidth = 156;
-        r2Pnl.OnDrawBack = (sender, surface) => SidePanelDrawBack(sender, surface, 1);
+        r2Pnl.OnDrawBack += (sender, surface) => SidePanelDrawBack(sender, surface, 1);
         r2Pnl.Masked = true;
         r2Pnl.Alignment.AlignWidth = AlignWidth.Left;
         r2Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -400,7 +400,7 @@ public partial class ScenarioSetup : ILayoutModule
         r6Pnl.WinLeft = 164;
         r6Pnl.WinTop = 70;
         r6Pnl.WinWidth = 156;
-        r6Pnl.OnDrawBack = (sender, surface) => SidePanelDrawBack(sender, surface, 5);
+        r6Pnl.OnDrawBack += (sender, surface) => SidePanelDrawBack(sender, surface, 5);
         r6Pnl.Masked = true;
         r6Pnl.Alignment.AlignWidth = AlignWidth.Left;
         r6Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -429,7 +429,7 @@ public partial class ScenarioSetup : ILayoutModule
         r10Pnl.WinLeft = 328;
         r10Pnl.WinTop = 70;
         r10Pnl.WinWidth = 156;
-        r10Pnl.OnDrawBack = (sender, surface) => SidePanelDrawBack(sender, surface, 9);
+        r10Pnl.OnDrawBack += (sender, surface) => SidePanelDrawBack(sender, surface, 9);
         r10Pnl.Masked = true;
         r10Pnl.Alignment.AlignWidth = AlignWidth.Left;
         r10Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -458,7 +458,7 @@ public partial class ScenarioSetup : ILayoutModule
         r3Pnl.WinLeft = 0;
         r3Pnl.WinTop = 140;
         r3Pnl.WinWidth = 156;
-        r3Pnl.OnDrawBack = (sender, surface) => SidePanelDrawBack(sender, surface, 2);
+        r3Pnl.OnDrawBack += (sender, surface) => SidePanelDrawBack(sender, surface, 2);
         r3Pnl.Masked = true;
         r3Pnl.Alignment.AlignWidth = AlignWidth.Left;
         r3Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -487,7 +487,7 @@ public partial class ScenarioSetup : ILayoutModule
         r7Pnl.WinLeft = 164;
         r7Pnl.WinTop = 140;
         r7Pnl.WinWidth = 156;
-        r7Pnl.OnDrawBack = (sender, surface) => SidePanelDrawBack(sender, surface, 6);
+        r7Pnl.OnDrawBack += (sender, surface) => SidePanelDrawBack(sender, surface, 6);
         r7Pnl.Masked = true;
         r7Pnl.Alignment.AlignWidth = AlignWidth.Left;
         r7Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -516,7 +516,7 @@ public partial class ScenarioSetup : ILayoutModule
         r11Pnl.WinLeft = 328;
         r11Pnl.WinTop = 140;
         r11Pnl.WinWidth = 156;
-        r11Pnl.OnDrawBack = (sender, surface) => SidePanelDrawBack(sender, surface, 10);
+        r11Pnl.OnDrawBack += (sender, surface) => SidePanelDrawBack(sender, surface, 10);
         r11Pnl.Masked = true;
         r11Pnl.Alignment.AlignWidth = AlignWidth.Left;
         r11Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -545,7 +545,7 @@ public partial class ScenarioSetup : ILayoutModule
         r4Pnl.WinLeft = 0;
         r4Pnl.WinTop = 210;
         r4Pnl.WinWidth = 156;
-        r4Pnl.OnDrawBack = (sender, surface) => SidePanelDrawBack(sender, surface, 3);
+        r4Pnl.OnDrawBack += (sender, surface) => SidePanelDrawBack(sender, surface, 3);
         r4Pnl.Masked = true;
         r4Pnl.Alignment.AlignWidth = AlignWidth.Left;
         r4Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -574,7 +574,7 @@ public partial class ScenarioSetup : ILayoutModule
         r8Pnl.WinLeft = 164;
         r8Pnl.WinTop = 210;
         r8Pnl.WinWidth = 156;
-        r8Pnl.OnDrawBack = (sender, surface) => SidePanelDrawBack(sender, surface, 7);
+        r8Pnl.OnDrawBack += (sender, surface) => SidePanelDrawBack(sender, surface, 7);
         r8Pnl.Masked = true;
         r8Pnl.Alignment.AlignWidth = AlignWidth.Left;
         r8Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -603,7 +603,7 @@ public partial class ScenarioSetup : ILayoutModule
         r12Pnl.WinLeft = 328;
         r12Pnl.WinTop = 210;
         r12Pnl.WinWidth = 156;
-        r12Pnl.OnDrawBack = (sender, surface) => SidePanelDrawBack(sender, surface, 11);
+        r12Pnl.OnDrawBack += (sender, surface) => SidePanelDrawBack(sender, surface, 11);
         r12Pnl.Masked = true;
         r12Pnl.Alignment.AlignWidth = AlignWidth.Left;
         r12Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -657,7 +657,7 @@ public partial class ScenarioSetup : ILayoutModule
         exitGame.TextColor = 15134446;
         exitGame.TextSelectedColor = 16777215;
         exitGame.WinWidth = 114;
-        exitGame.OnClick = _ => ExitGameClick();
+        exitGame.OnClick += _ => ExitGameClick();
         session.EndRead(exitGame);
         PickScenarioButton = new Button(this);
         session.BeginRead(PickScenarioButton);
@@ -692,7 +692,7 @@ public partial class ScenarioSetup : ILayoutModule
         PickScenarioButton.TextColor = 15134446;
         PickScenarioButton.TextSelectedColor = 16777215;
         PickScenarioButton.WinWidth = 114;
-        PickScenarioButton.OnClick = _ => Layout_PickScenarioBtnClick_3();
+        PickScenarioButton.OnClick += _ => PickScenarioBtnClick();
         session.EndRead(PickScenarioButton);
         StartButton = new Button(this);
         session.BeginRead(StartButton);
@@ -727,7 +727,7 @@ public partial class ScenarioSetup : ILayoutModule
         StartButton.TextColor = 15134446;
         StartButton.TextSelectedColor = 16777215;
         StartButton.WinWidth = 114;
-        StartButton.OnClick = _ => Layout_StartBtnClick_4();
+        StartButton.OnClick += _ => StartBtnClick();
         session.EndRead(StartButton);
         Label miscLbl = new Label(this);
         session.BeginRead(miscLbl);
@@ -755,7 +755,7 @@ public partial class ScenarioSetup : ILayoutModule
         ScenarioSetupPanel = new Panel(this);
         session.BeginRead(ScenarioSetupPanel);
         ScenarioSetupPanel.Name = "ScenSetupPnl";
-        ScenarioSetupPanel.OnUpdate = _ => Layout_ScenSetupPnlUpdate_5();
+        ScenarioSetupPanel.OnUpdate += _ => ScenSetupPnlUpdate();
         ScenarioSetupPanel.Visible = false;
         ScenarioSetupPanel.Priority = 10;
         ScenarioSetupPanel.WinLeft = 0;
@@ -858,7 +858,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side1PlayerComboBox.ListBorderWidth = 6;
         Side1PlayerComboBox.ListBorderHeight = 2;
         Side1PlayerComboBox.NumberVisible = 7;
-        Side1PlayerComboBox.OnChange = sender => SidePlayerComboBoxChange(sender, 0);
+        Side1PlayerComboBox.OnChange += sender => SidePlayerComboBoxChange(sender, 0);
         Side1PlayerComboBox.Selected = -1;
         Side1PlayerComboBox.PriorityOpened = 170;
         Side1PlayerComboBox.TextColor = 14316400;
@@ -1028,7 +1028,7 @@ public partial class ScenarioSetup : ILayoutModule
         TurnTimeSlider.WinHeight = 11;
         TurnTimeSlider.WinWidth = 50;
         TurnTimeSlider.NumberVisible = 1;
-        TurnTimeSlider.OnChange = _ => Layout_TurnTimeSlChange_6();
+        TurnTimeSlider.OnChange += _ => TurnTimeSlChange();
         TurnTimeSlider.VanishWhenFull = false;
         TurnTimeSlider.ImageLibraryIndexIncrementUp = 0;
         TurnTimeSlider.ImageLibraryIndexIncrementDown = 0;
@@ -1123,7 +1123,7 @@ public partial class ScenarioSetup : ILayoutModule
         TurnsSlider.WinHeight = 11;
         TurnsSlider.WinWidth = 50;
         TurnsSlider.NumberVisible = 1;
-        TurnsSlider.OnChange = _ => TurnsSlChange();
+        TurnsSlider.OnChange += _ => TurnsSlChange();
         TurnsSlider.VanishWhenFull = false;
         TurnsSlider.ImageLibraryIndexIncrementUp = 0;
         TurnsSlider.ImageLibraryIndexIncrementDown = 0;
@@ -1185,7 +1185,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side1BehaviorComboBox.ListBorderWidth = 6;
         Side1BehaviorComboBox.ListBorderHeight = 2;
         Side1BehaviorComboBox.NumberVisible = 6;
-        Side1BehaviorComboBox.OnChange = sender => SideBehaviorComboBoxChange(sender, 0);
+        Side1BehaviorComboBox.OnChange += sender => SideBehaviorComboBoxChange(sender, 0);
         Side1BehaviorComboBox.Selected = -1;
         Side1BehaviorComboBox.PriorityOpened = 160;
         Side1BehaviorComboBox.TextColor = 14316400;
@@ -1296,7 +1296,7 @@ public partial class ScenarioSetup : ILayoutModule
         PlayModeComboBox.ListBorderWidth = 6;
         PlayModeComboBox.ListBorderHeight = 2;
         PlayModeComboBox.NumberVisible = 2;
-        PlayModeComboBox.OnChange = _ => Layout_PlayModeCBChange_8();
+        PlayModeComboBox.OnChange += _ => PlayModeCBChange();
         PlayModeComboBox.Selected = -1;
         PlayModeComboBox.PriorityOpened = 500;
         PlayModeComboBox.TextColor = 15134446;
@@ -1443,7 +1443,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side3BehaviorComboBox.ListBorderWidth = 6;
         Side3BehaviorComboBox.ListBorderHeight = 2;
         Side3BehaviorComboBox.NumberVisible = 6;
-        Side3BehaviorComboBox.OnChange = sender => SideBehaviorComboBoxChange(sender, 2);
+        Side3BehaviorComboBox.OnChange += sender => SideBehaviorComboBoxChange(sender, 2);
         Side3BehaviorComboBox.Selected = -1;
         Side3BehaviorComboBox.PriorityOpened = 120;
         Side3BehaviorComboBox.TextColor = 9347661;
@@ -1568,7 +1568,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side3PlayerComboBox.ListBorderWidth = 6;
         Side3PlayerComboBox.ListBorderHeight = 2;
         Side3PlayerComboBox.NumberVisible = 7;
-        Side3PlayerComboBox.OnChange = sender => SidePlayerComboBoxChange(sender, 2);
+        Side3PlayerComboBox.OnChange += sender => SidePlayerComboBoxChange(sender, 2);
         Side3PlayerComboBox.Selected = -1;
         Side3PlayerComboBox.PriorityOpened = 130;
         Side3PlayerComboBox.TextColor = 9347661;
@@ -1715,7 +1715,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side2BehaviorComboBox.ListBorderWidth = 6;
         Side2BehaviorComboBox.ListBorderHeight = 2;
         Side2BehaviorComboBox.NumberVisible = 6;
-        Side2BehaviorComboBox.OnChange = sender => SideBehaviorComboBoxChange(sender, 1);
+        Side2BehaviorComboBox.OnChange += sender => SideBehaviorComboBoxChange(sender, 1);
         Side2BehaviorComboBox.Selected = -1;
         Side2BehaviorComboBox.PriorityOpened = 140;
         Side2BehaviorComboBox.TextColor = 7845352;
@@ -1840,7 +1840,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side2PlayerComboBox.ListBorderWidth = 6;
         Side2PlayerComboBox.ListBorderHeight = 2;
         Side2PlayerComboBox.NumberVisible = 7;
-        Side2PlayerComboBox.OnChange = sender => SidePlayerComboBoxChange(sender, 1);
+        Side2PlayerComboBox.OnChange += sender => SidePlayerComboBoxChange(sender, 1);
         Side2PlayerComboBox.Selected = -1;
         Side2PlayerComboBox.PriorityOpened = 150;
         Side2PlayerComboBox.TextColor = 7845352;
@@ -2068,7 +2068,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side4PlayerComboBox.ListBorderWidth = 6;
         Side4PlayerComboBox.ListBorderHeight = 2;
         Side4PlayerComboBox.NumberVisible = 7;
-        Side4PlayerComboBox.OnChange = sender => SidePlayerComboBoxChange(sender, 3);
+        Side4PlayerComboBox.OnChange += sender => SidePlayerComboBoxChange(sender, 3);
         Side4PlayerComboBox.Selected = -1;
         Side4PlayerComboBox.PriorityOpened = 110;
         Side4PlayerComboBox.TextColor = 15188376;
@@ -2222,7 +2222,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side5PlayerComboBox.ListBorderWidth = 6;
         Side5PlayerComboBox.ListBorderHeight = 2;
         Side5PlayerComboBox.NumberVisible = 7;
-        Side5PlayerComboBox.OnChange = sender => SidePlayerComboBoxChange(sender, 4);
+        Side5PlayerComboBox.OnChange += sender => SidePlayerComboBoxChange(sender, 4);
         Side5PlayerComboBox.Selected = -1;
         Side5PlayerComboBox.PriorityOpened = 170;
         Side5PlayerComboBox.TextColor = 4830826;
@@ -2287,7 +2287,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side5BehaviorComboBox.ListBorderWidth = 6;
         Side5BehaviorComboBox.ListBorderHeight = 2;
         Side5BehaviorComboBox.NumberVisible = 6;
-        Side5BehaviorComboBox.OnChange = sender => SideBehaviorComboBoxChange(sender, 4);
+        Side5BehaviorComboBox.OnChange += sender => SideBehaviorComboBoxChange(sender, 4);
         Side5BehaviorComboBox.Selected = -1;
         Side5BehaviorComboBox.PriorityOpened = 160;
         Side5BehaviorComboBox.TextColor = 4830826;
@@ -2493,7 +2493,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side6BehaviorComboBox.ListBorderWidth = 6;
         Side6BehaviorComboBox.ListBorderHeight = 2;
         Side6BehaviorComboBox.NumberVisible = 6;
-        Side6BehaviorComboBox.OnChange = sender => SideBehaviorComboBoxChange(sender, 5);
+        Side6BehaviorComboBox.OnChange += sender => SideBehaviorComboBoxChange(sender, 5);
         Side6BehaviorComboBox.Selected = -1;
         Side6BehaviorComboBox.PriorityOpened = 140;
         Side6BehaviorComboBox.TextColor = 7464174;
@@ -2618,7 +2618,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side6PlayerComboBox.ListBorderWidth = 6;
         Side6PlayerComboBox.ListBorderHeight = 2;
         Side6PlayerComboBox.NumberVisible = 7;
-        Side6PlayerComboBox.OnChange = sender => SidePlayerComboBoxChange(sender, 5);
+        Side6PlayerComboBox.OnChange += sender => SidePlayerComboBoxChange(sender, 5);
         Side6PlayerComboBox.Selected = -1;
         Side6PlayerComboBox.PriorityOpened = 150;
         Side6PlayerComboBox.TextColor = 7464174;
@@ -2765,7 +2765,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side7BehaviorComboBox.ListBorderWidth = 6;
         Side7BehaviorComboBox.ListBorderHeight = 2;
         Side7BehaviorComboBox.NumberVisible = 6;
-        Side7BehaviorComboBox.OnChange = sender => SideBehaviorComboBoxChange(sender, 6);
+        Side7BehaviorComboBox.OnChange += sender => SideBehaviorComboBoxChange(sender, 6);
         Side7BehaviorComboBox.Selected = -1;
         Side7BehaviorComboBox.PriorityOpened = 120;
         Side7BehaviorComboBox.TextColor = 9351120;
@@ -2890,7 +2890,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side7PlayerComboBox.ListBorderWidth = 6;
         Side7PlayerComboBox.ListBorderHeight = 2;
         Side7PlayerComboBox.NumberVisible = 7;
-        Side7PlayerComboBox.OnChange = sender => SidePlayerComboBoxChange(sender, 6);
+        Side7PlayerComboBox.OnChange += sender => SidePlayerComboBoxChange(sender, 6);
         Side7PlayerComboBox.Selected = -1;
         Side7PlayerComboBox.PriorityOpened = 130;
         Side7PlayerComboBox.TextColor = 9351120;
@@ -3081,7 +3081,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side8BehaviorComboBox.ListBorderWidth = 6;
         Side8BehaviorComboBox.ListBorderHeight = 2;
         Side8BehaviorComboBox.NumberVisible = 6;
-        Side8BehaviorComboBox.OnChange = sender => SideBehaviorComboBoxChange(sender, 7);
+        Side8BehaviorComboBox.OnChange += sender => SideBehaviorComboBoxChange(sender, 7);
         Side8BehaviorComboBox.Selected = -1;
         Side8BehaviorComboBox.PriorityOpened = 100;
         Side8BehaviorComboBox.TextColor = 14346733;
@@ -3156,7 +3156,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side8PlayerComboBox.ListBorderWidth = 6;
         Side8PlayerComboBox.ListBorderHeight = 2;
         Side8PlayerComboBox.NumberVisible = 7;
-        Side8PlayerComboBox.OnChange = sender => SidePlayerComboBoxChange(sender, 7);
+        Side8PlayerComboBox.OnChange += sender => SidePlayerComboBoxChange(sender, 7);
         Side8PlayerComboBox.Selected = -1;
         Side8PlayerComboBox.PriorityOpened = 110;
         Side8PlayerComboBox.TextColor = 14346733;
@@ -3310,7 +3310,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side9PlayerComboBox.ListBorderWidth = 6;
         Side9PlayerComboBox.ListBorderHeight = 2;
         Side9PlayerComboBox.NumberVisible = 7;
-        Side9PlayerComboBox.OnChange = sender => SidePlayerComboBoxChange(sender, 8);
+        Side9PlayerComboBox.OnChange += sender => SidePlayerComboBoxChange(sender, 8);
         Side9PlayerComboBox.Selected = -1;
         Side9PlayerComboBox.PriorityOpened = 170;
         Side9PlayerComboBox.TextColor = 12215222;
@@ -3375,7 +3375,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side9BehaviorComboBox.ListBorderWidth = 6;
         Side9BehaviorComboBox.ListBorderHeight = 2;
         Side9BehaviorComboBox.NumberVisible = 6;
-        Side9BehaviorComboBox.OnChange = sender => SideBehaviorComboBoxChange(sender, 8);
+        Side9BehaviorComboBox.OnChange += sender => SideBehaviorComboBoxChange(sender, 8);
         Side9BehaviorComboBox.Selected = -1;
         Side9BehaviorComboBox.PriorityOpened = 160;
         Side9BehaviorComboBox.TextColor = 12215222;
@@ -3581,7 +3581,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side10BehaviorComboBox.ListBorderWidth = 6;
         Side10BehaviorComboBox.ListBorderHeight = 2;
         Side10BehaviorComboBox.NumberVisible = 6;
-        Side10BehaviorComboBox.OnChange = sender => SideBehaviorComboBoxChange(sender, 9);
+        Side10BehaviorComboBox.OnChange += sender => SideBehaviorComboBoxChange(sender, 9);
         Side10BehaviorComboBox.Selected = -1;
         Side10BehaviorComboBox.PriorityOpened = 140;
         Side10BehaviorComboBox.TextColor = 4408305;
@@ -3706,7 +3706,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side10PlayerComboBox.ListBorderWidth = 6;
         Side10PlayerComboBox.ListBorderHeight = 2;
         Side10PlayerComboBox.NumberVisible = 7;
-        Side10PlayerComboBox.OnChange = sender => SidePlayerComboBoxChange(sender, 9);
+        Side10PlayerComboBox.OnChange += sender => SidePlayerComboBoxChange(sender, 9);
         Side10PlayerComboBox.Selected = -1;
         Side10PlayerComboBox.PriorityOpened = 150;
         Side10PlayerComboBox.TextColor = 4408305;
@@ -3853,7 +3853,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side11BehaviorComboBox.ListBorderWidth = 6;
         Side11BehaviorComboBox.ListBorderHeight = 2;
         Side11BehaviorComboBox.NumberVisible = 6;
-        Side11BehaviorComboBox.OnChange = sender => SideBehaviorComboBoxChange(sender, 10);
+        Side11BehaviorComboBox.OnChange += sender => SideBehaviorComboBoxChange(sender, 10);
         Side11BehaviorComboBox.Selected = -1;
         Side11BehaviorComboBox.PriorityOpened = 120;
         Side11BehaviorComboBox.TextColor = 5731259;
@@ -3978,7 +3978,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side11PlayerComboBox.ListBorderWidth = 6;
         Side11PlayerComboBox.ListBorderHeight = 2;
         Side11PlayerComboBox.NumberVisible = 7;
-        Side11PlayerComboBox.OnChange = sender => SidePlayerComboBoxChange(sender, 10);
+        Side11PlayerComboBox.OnChange += sender => SidePlayerComboBoxChange(sender, 10);
         Side11PlayerComboBox.Selected = -1;
         Side11PlayerComboBox.PriorityOpened = 130;
         Side11PlayerComboBox.TextColor = 5731259;
@@ -4169,7 +4169,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side12BehaviorComboBox.ListBorderWidth = 6;
         Side12BehaviorComboBox.ListBorderHeight = 2;
         Side12BehaviorComboBox.NumberVisible = 6;
-        Side12BehaviorComboBox.OnChange = sender => SideBehaviorComboBoxChange(sender, 11);
+        Side12BehaviorComboBox.OnChange += sender => SideBehaviorComboBoxChange(sender, 11);
         Side12BehaviorComboBox.Selected = -1;
         Side12BehaviorComboBox.PriorityOpened = 100;
         Side12BehaviorComboBox.TextColor = 7765394;
@@ -4244,7 +4244,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side12PlayerComboBox.ListBorderWidth = 6;
         Side12PlayerComboBox.ListBorderHeight = 2;
         Side12PlayerComboBox.NumberVisible = 7;
-        Side12PlayerComboBox.OnChange = sender => SidePlayerComboBoxChange(sender, 11);
+        Side12PlayerComboBox.OnChange += sender => SidePlayerComboBoxChange(sender, 11);
         Side12PlayerComboBox.Selected = -1;
         Side12PlayerComboBox.PriorityOpened = 110;
         Side12PlayerComboBox.TextColor = 7765394;
@@ -4351,7 +4351,7 @@ public partial class ScenarioSetup : ILayoutModule
         PreferredRaceComboBox.ListBorderWidth = 6;
         PreferredRaceComboBox.ListBorderHeight = 2;
         PreferredRaceComboBox.NumberVisible = 2;
-        PreferredRaceComboBox.OnChange = _ => Layout_PreferredRaceCBChange_9();
+        PreferredRaceComboBox.OnChange += _ => PreferredRaceCBChange();
         PreferredRaceComboBox.Selected = 0;
         PreferredRaceComboBox.PriorityOpened = 99990;
         PreferredRaceComboBox.TextColor = 15134446;
@@ -4482,7 +4482,7 @@ public partial class ScenarioSetup : ILayoutModule
         CustomizeLeadersCheckBox.TextSelectedColor = 0;
         CustomizeLeadersCheckBox.WinWidth = 12;
         CustomizeLeadersCheckBox.Checked = false;
-        CustomizeLeadersCheckBox.OnChange = CustomizeLeadersChange;
+        CustomizeLeadersCheckBox.OnChange += CustomizeLeadersChange;
         CustomizeLeadersCheckBox.RadioIndex = 0;
         session.EndRead(CustomizeLeadersCheckBox);
         CustomizeLeadersLabel = new Label(this);
@@ -4539,7 +4539,7 @@ public partial class ScenarioSetup : ILayoutModule
         Side4BehaviorComboBox.ListBorderWidth = 6;
         Side4BehaviorComboBox.ListBorderHeight = 2;
         Side4BehaviorComboBox.NumberVisible = 6;
-        Side4BehaviorComboBox.OnChange = sender => SideBehaviorComboBoxChange(sender, 3);
+        Side4BehaviorComboBox.OnChange += sender => SideBehaviorComboBoxChange(sender, 3);
         Side4BehaviorComboBox.Selected = -1;
         Side4BehaviorComboBox.PriorityOpened = 100;
         Side4BehaviorComboBox.TextColor = 15188376;
@@ -5011,7 +5011,7 @@ public partial class ScenarioSetup : ILayoutModule
         PreferredRaceList.WinHeight = 78;
         PreferredRaceList.BorderWidth = 3;
         PreferredRaceList.BorderHeight = 3;
-        PreferredRaceList.OnChange = PlayerListChange;
+        PreferredRaceList.OnChange += PlayerListChange;
         PreferredRaceList.Selected = -1;
         PreferredRaceList.TextColor = 15134446;
         PreferredRaceList.TextSelectedColor = 0;
@@ -5075,9 +5075,9 @@ public partial class ScenarioSetup : ILayoutModule
         PingList.WinHeight = 78;
         PingList.BorderWidth = 3;
         PingList.BorderHeight = 3;
-        PingList.OnChange = PlayerListChange;
+        PingList.OnChange += PlayerListChange;
         PingList.Selected = -1;
-        PingList.OnDrawItem = (_, in drawRectangle, drawItem, ref lockedSurface) => PingListDrawItem(in drawRectangle, drawItem, ref lockedSurface);
+        PingList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => PingListDrawItem(drawRectangle, drawItem, ref surface);
         PingList.TextColor = 15134446;
         PingList.TextSelectedColor = 0;
         PingList.ImageLibraryIndexFrame = 64;
@@ -5115,7 +5115,7 @@ public partial class ScenarioSetup : ILayoutModule
         PlayerListScrollBar.WinHeight = 78;
         PlayerListScrollBar.WinWidth = 17;
         PlayerListScrollBar.NumberVisible = 1;
-        PlayerListScrollBar.OnChange = _ => Layout_PlayerListSBChange_10();
+        PlayerListScrollBar.OnChange += _ => PlayerListSBChange();
         PlayerListScrollBar.VanishWhenFull = true;
         PlayerListScrollBar.ImageLibraryIndexIncrementUp = 58;
         PlayerListScrollBar.ImageLibraryIndexIncrementDown = 59;
@@ -5211,7 +5211,7 @@ public partial class ScenarioSetup : ILayoutModule
         ExplorationCheckBox.TextSelectedColor = 0;
         ExplorationCheckBox.WinWidth = 12;
         ExplorationCheckBox.Checked = false;
-        ExplorationCheckBox.OnChange = ExplorationChange;
+        ExplorationCheckBox.OnChange += ExplorationChange;
         ExplorationCheckBox.RadioIndex = 0;
         session.EndRead(ExplorationCheckBox);
         ScenarioLabel = new Label(this);
@@ -5335,7 +5335,7 @@ public partial class ScenarioSetup : ILayoutModule
         MakeHostButton.TextColor = 15134446;
         MakeHostButton.TextSelectedColor = 16777215;
         MakeHostButton.WinWidth = 70;
-        MakeHostButton.OnClick = _ => Layout_MakeHostBtnClick_11();
+        MakeHostButton.OnClick += _ => MakeHostBtnClick();
         session.EndRead(MakeHostButton);
         RestartSettingsFogPanel = new Panel(this);
         session.BeginRead(RestartSettingsFogPanel);
@@ -5426,7 +5426,7 @@ public partial class ScenarioSetup : ILayoutModule
         LeadersOnMapCheckBox.TextSelectedColor = 0;
         LeadersOnMapCheckBox.WinWidth = 12;
         LeadersOnMapCheckBox.Checked = false;
-        LeadersOnMapCheckBox.OnChange = LeadersOnMapCBChange;
+        LeadersOnMapCheckBox.OnChange += LeadersOnMapCBChange;
         LeadersOnMapCheckBox.RadioIndex = 0;
         session.EndRead(LeadersOnMapCheckBox);
         Label label1 = new Label(this);
@@ -5489,7 +5489,7 @@ public partial class ScenarioSetup : ILayoutModule
         AlliedVictoryCheckBox.TextSelectedColor = 0;
         AlliedVictoryCheckBox.WinWidth = 12;
         AlliedVictoryCheckBox.Checked = false;
-        AlliedVictoryCheckBox.OnChange = AlliedVictoryCBChange;
+        AlliedVictoryCheckBox.OnChange += AlliedVictoryCBChange;
         AlliedVictoryCheckBox.RadioIndex = 0;
         session.EndRead(AlliedVictoryCheckBox);
         AlliedVictoryLabel = new Label(this);
@@ -5590,7 +5590,7 @@ public partial class ScenarioSetup : ILayoutModule
         TacticalCombatComboBox.ListBorderWidth = 6;
         TacticalCombatComboBox.ListBorderHeight = 2;
         TacticalCombatComboBox.NumberVisible = 5;
-        TacticalCombatComboBox.OnChange = _ => Layout_TacticalCombatCBChange_12();
+        TacticalCombatComboBox.OnChange += _ => TacticalCombatCBChange();
         TacticalCombatComboBox.Selected = -1;
         TacticalCombatComboBox.PriorityOpened = 199999;
         TacticalCombatComboBox.TextColor = 15134446;
@@ -5657,7 +5657,7 @@ public partial class ScenarioSetup : ILayoutModule
         AlwaysViewTacticalCombatCheckBox.TextSelectedColor = 0;
         AlwaysViewTacticalCombatCheckBox.WinWidth = 12;
         AlwaysViewTacticalCombatCheckBox.Checked = false;
-        AlwaysViewTacticalCombatCheckBox.OnChange = _ => Layout_AlwaysViewTCCBChange_13();
+        AlwaysViewTacticalCombatCheckBox.OnChange += _ => AlwaysViewTCCBChange();
         AlwaysViewTacticalCombatCheckBox.RadioIndex = 0;
         session.EndRead(AlwaysViewTacticalCombatCheckBox);
         AlwaysViewTacticalCombatLabel = new Label(this);
@@ -6523,70 +6523,5 @@ public partial class ScenarioSetup : ILayoutModule
         AlwaysViewTacticalCombatCheckBox.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
         AlwaysViewTacticalCombatLabel.ToolTip = DialogHosts.General.ToolTip;
         AlwaysViewTacticalCombatLabel.Font = DialogHosts.UIFonts.Age8Shadow;
-    }
-
-    private void Layout_ChatSBUpdate_0()
-    {
-        ChatSBUpdate();
-    }
-
-    private void Layout_ChatEditReturn_1()
-    {
-        ChatEditReturn();
-    }
-
-    private void Layout_EjectBtnClick_2()
-    {
-        EjectBtnClick();
-    }
-
-    private void Layout_PickScenarioBtnClick_3()
-    {
-        PickScenarioBtnClick();
-    }
-
-    private void Layout_StartBtnClick_4()
-    {
-        StartBtnClick();
-    }
-
-    private void Layout_ScenSetupPnlUpdate_5()
-    {
-        ScenSetupPnlUpdate();
-    }
-
-    private void Layout_TurnTimeSlChange_6()
-    {
-        TurnTimeSlChange();
-    }
-
-    private void Layout_PlayModeCBChange_8()
-    {
-        PlayModeCBChange();
-    }
-
-    private void Layout_PreferredRaceCBChange_9()
-    {
-        PreferredRaceCBChange();
-    }
-
-    private void Layout_PlayerListSBChange_10()
-    {
-        PlayerListSBChange();
-    }
-
-    private void Layout_MakeHostBtnClick_11()
-    {
-        MakeHostBtnClick();
-    }
-
-    private void Layout_TacticalCombatCBChange_12()
-    {
-        TacticalCombatCBChange();
-    }
-
-    private void Layout_AlwaysViewTCCBChange_13()
-    {
-        AlwaysViewTCCBChange();
     }
 }

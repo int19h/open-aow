@@ -115,8 +115,8 @@ public partial class GlobalTargetSpell : Spell
         targetSelection.SourceY = unitY;
         targetSelection.SourceL = unitLayer;
         targetSelection.Range = 12;
-        targetSelection.FOnChange += OnTargetSelectionChange;
-        targetSelection.OnShow = ShowTargetSelection;
+        targetSelection.Changed += OnTargetSelectionChange;
+        targetSelection.SetShowHandler(ShowTargetSelection);
         var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.SelectTargetLocationForOnMapFormat), [SpellName]);
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
@@ -153,13 +153,13 @@ public partial class GlobalTargetSpell : Spell
         var caster = StrategicMap.Current.UnitControl.FindUnit(_casterId);
         if (caster is null || target.Change == TargetSelectionChange.Deactivated)
         {
-            target.FOnChange -= OnTargetSelectionChange;
+            target.Changed -= OnTargetSelectionChange;
             target.Deactivate();
         }
         else if (target.Change == TargetSelectionChange.Selected && ValidTargetSelection(target) &&
             TargetSelected(caster, target.TargetX, target.TargetY, target.TargetL))
         {
-            target.FOnChange -= OnTargetSelectionChange;
+            target.Changed -= OnTargetSelectionChange;
             target.Deactivate();
         }
     }

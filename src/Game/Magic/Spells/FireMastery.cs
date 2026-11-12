@@ -43,7 +43,7 @@ public partial class FireMastery : GlobalEnchantmentSpell
             StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
             var animation = new Animation(null);
             animation.AnimationLevel = 27;
-            animation.OnShow = ShowAnimation;
+            animation.OnShow += ShowAnimation;
             animation.AnimationMap = StrategicMap.Current;
             animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
             animation.Activate();

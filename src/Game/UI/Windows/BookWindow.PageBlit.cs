@@ -61,6 +61,6 @@ public partial class BookWindow
         if (BackRectangle.Top >= WinTop && BackRectangle.Top <= WinTop + FrameTop) BackRectangle.Top = WinTop - 1;
         BackRectangle.Bottom = WinTop - area.Top + WinHeight;
         SurfaceValid = true;
-        _onDrawSurface?.Invoke(this, surface, WinLeft, WinTop);
+        RaiseDrawSurface(this, surface, WinLeft, WinTop);
     }
 }

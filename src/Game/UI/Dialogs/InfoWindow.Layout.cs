@@ -54,8 +54,8 @@ public partial class InfoWindow : ILayoutModule
         MainWindow.DragHeight = 20;
         MainWindow.Draggable = true;
         MainWindow.Resizable = true;
-        MainWindow.OnDrag = _ => Layout_InfoWinResize_0();
-        MainWindow.OnResize = _ => Layout_InfoWinResize_0();
+        MainWindow.OnDrag += _ => InfoWinResize();
+        MainWindow.OnResize += _ => InfoWinResize();
         MainWindow.MinWidth = 200;
         MainWindow.MinHeight = 216;
         MainWindow.MaxWidth = 0;
@@ -97,7 +97,7 @@ public partial class InfoWindow : ILayoutModule
         min.TextColor = 0;
         min.TextSelectedColor = 0;
         min.WinWidth = 15;
-        min.OnClick = _ => Layout_MinClick_1();
+        min.OnClick += _ => MinClick();
         session.EndRead(min);
         Button close = new Button(this);
         session.BeginRead(close);
@@ -131,7 +131,7 @@ public partial class InfoWindow : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => CloseClick();
+        close.OnClick += _ => CloseClick();
         session.EndRead(close);
         TitleLabel = new Label(this);
         session.BeginRead(TitleLabel);
@@ -213,7 +213,7 @@ public partial class InfoWindow : ILayoutModule
         MainButton.TextColor = 0;
         MainButton.TextSelectedColor = 16777215;
         MainButton.WinWidth = 108;
-        MainButton.OnClick = _ => Layout_MainBtnClick_2();
+        MainButton.OnClick += _ => MainBtnClick();
         session.EndRead(MainButton);
         Frame celtFrame = new Frame(this);
         session.BeginRead(celtFrame);
@@ -745,7 +745,7 @@ public partial class InfoWindow : ILayoutModule
         ProductionOrb = new Image(this);
         session.BeginRead(ProductionOrb);
         ProductionOrb.Name = "ProdOrb";
-        ProductionOrb.OnDraw = (_, lockedSurface) => Layout_ProdOrb2Draw_3(lockedSurface);
+        ProductionOrb.OnDraw += (_, _) => ProdOrb2Draw();
         ProductionOrb.Priority = 5;
         ProductionOrb.WinLeft = 20;
         ProductionOrb.WinTop = 102;
@@ -1306,7 +1306,7 @@ public partial class InfoWindow : ILayoutModule
         center.TextColor = 0;
         center.TextSelectedColor = 0;
         center.WinWidth = 15;
-        center.OnClick = _ => Layout_CenterClick_4();
+        center.OnClick += _ => CenterClick();
         session.EndRead(center);
         ConstructionPanel = new Panel(this);
         session.BeginRead(ConstructionPanel);
@@ -1503,7 +1503,7 @@ public partial class InfoWindow : ILayoutModule
         RazeButton.TextColor = 0;
         RazeButton.TextSelectedColor = 0;
         RazeButton.WinWidth = 43;
-        RazeButton.OnClick = _ => Layout_RazeBtnClick_5();
+        RazeButton.OnClick += _ => RazeBtnClick();
         session.EndRead(RazeButton);
         CivilStatusLabel = new Label(this);
         session.BeginRead(CivilStatusLabel);
@@ -2210,7 +2210,7 @@ public partial class InfoWindow : ILayoutModule
         ItemBagList.BorderWidth = 6;
         ItemBagList.BorderHeight = 3;
         ItemBagList.Selected = -1;
-        ItemBagList.OnDrawItem = (_, in drawRectangle, drawItem, ref lockedSurface) => Layout_ItembagLBDrawItem_6(in drawRectangle, drawItem, ref lockedSurface);
+        ItemBagList.OnDrawItem += (_, in drawRectangle, _, ref surface) => ItembagLBDrawItem(drawRectangle, default(int), surface);
         ItemBagList.TextColor = 9415072;
         ItemBagList.TextSelectedColor = 0;
         ItemBagList.ImageLibraryIndexFrame = 40;
@@ -2457,7 +2457,7 @@ public partial class InfoWindow : ILayoutModule
         essb.WinHeight = 92;
         essb.WinWidth = 17;
         essb.NumberVisible = 1;
-        essb.OnChange = _ => Layout_ESSBChange_7();
+        essb.OnChange += _ => ESSBChange();
         essb.VanishWhenFull = true;
         essb.ImageLibraryIndexIncrementUp = 96;
         essb.ImageLibraryIndexIncrementDown = 97;
@@ -2544,7 +2544,7 @@ public partial class InfoWindow : ILayoutModule
         help.TextColor = 0;
         help.TextSelectedColor = 0;
         help.WinWidth = 15;
-        help.OnClick = _ => Layout_HelpClick_8();
+        help.OnClick += _ => HelpClick();
         session.EndRead(help);
         PopulationRaceLabel = new Label(this);
         session.BeginRead(PopulationRaceLabel);
@@ -2911,50 +2911,5 @@ public partial class InfoWindow : ILayoutModule
         help.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
         PopulationRaceLabel.Font = DialogHosts.UIFonts.Age8Shadow;
         PopulationLabel.Font = DialogHosts.UIFonts.Age8Shadow;
-    }
-
-    private void Layout_InfoWinResize_0()
-    {
-        InfoWinResize();
-    }
-
-    private void Layout_MinClick_1()
-    {
-        MinClick();
-    }
-
-    private void Layout_MainBtnClick_2()
-    {
-        MainBtnClick();
-    }
-
-    private void Layout_ProdOrb2Draw_3(LockedSurface p1)
-    {
-        ProdOrb2Draw();
-    }
-
-    private void Layout_CenterClick_4()
-    {
-        CenterClick();
-    }
-
-    private void Layout_RazeBtnClick_5()
-    {
-        RazeBtnClick();
-    }
-
-    private void Layout_ItembagLBDrawItem_6(in Rect p1, int p2, ref LockedSurface p3)
-    {
-        ItembagLBDrawItem(p1, default(int), p3);
-    }
-
-    private void Layout_ESSBChange_7()
-    {
-        ESSBChange();
-    }
-
-    private void Layout_HelpClick_8()
-    {
-        HelpClick();
     }
 }

@@ -11,7 +11,11 @@ public class LayoutVideoPlayer : VideoPlayer
     }
 
     public VideoPlayerLoopMode LoopMode { get; set; }
-    public StreamSoundEvent OnStreamSound { get; set; }
+
+    // Nothing in the port raises OnStreamSound. The bound handler is kept.
+    private StreamSoundEvent _onStreamSound;
+
+    public event StreamSoundEvent OnStreamSound { add => _onStreamSound += value; remove => _onStreamSound -= value; }
     public Set<VideoPlayerOptionsElement> Options { get; set; }
 
     public enum VideoPlayerLoopMode

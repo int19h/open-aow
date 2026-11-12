@@ -62,10 +62,10 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     private void Initialize(string argument)
     {
-        Display.OnUpdateFrame = DisplayUpdateFrame;
-        Display.OnResizeBackSurface = (_, w, h) => DisplayResizeBackSurface(w, h);
-        Display.OnSurfaceDataLost = (_, _) => DialogHosts.General.Manager.Aligned = false;
-        Display.OnSwapDisplayController = _ => { DialogHosts.VideoDialog.ModeChanged = true; DialogHosts.VideoDialog.ApplyMode(); };
+        Display.SetUpdateFrameHandler(DisplayUpdateFrame);
+        Display.SetResizeBackSurfaceHandler((_, w, h) => DisplayResizeBackSurface(w, h));
+        Display.SetSurfaceDataLostHandler((_, _) => DialogHosts.General.Manager.Aligned = false);
+        Display.SetSwapDisplayControllerHandler(_ => { DialogHosts.VideoDialog.ModeChanged = true; DialogHosts.VideoDialog.ApplyMode(); });
         Display.PrimaryDisplayController = WinDisplayController;
         Display.SecondaryDisplayController = WinDisplayController;
         FormCreate();
@@ -122,7 +122,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     private void FormShow(string argument)
     {
-        AudioHost.SongPlayer.OnSongChange = _ => DialogHosts.SoundDialog.SongChange();
+        AudioHost.SongPlayer.SetSongChangeHandler(_ => DialogHosts.SoundDialog.SongChange());
         GameTables.GameEngine.OutputDebugString("ParamStr: " + argument);
         if (argument.Length != 0 && RtlUnit.FileExists(argument) && IsSaveName(argument))
         {

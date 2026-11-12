@@ -21,7 +21,7 @@ public partial class ScrollBar
         }
 
         Drawn = false;
-        if (_onChange != null) _onChange(this);
+        RaiseChange(this);
     }
 
     // Positive steps move toward FMin, one SmallChange and one OnChange per step.

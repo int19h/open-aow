@@ -932,7 +932,7 @@ public sealed class PersistEquivalenceTests
         memory.Write(image);
         memory.Position = 0;
         var reader = new StorageReader(memory, EngineFixture.Engine, false);
-        if (onError is not null) reader.OnError = onError;
+        if (onError is not null) reader.OnError += onError;
         try
         {
             objectValue.MainReadWrite(reader);

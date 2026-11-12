@@ -60,7 +60,7 @@ public partial class CityTargetSpell : Spell
             switch (targetSelection.Change)
             {
                 case TargetSelectionChange.Deactivated:
-                    targetSelection.FOnChange -= OnTargetSelectionChange;
+                    targetSelection.Changed -= OnTargetSelectionChange;
                     targetSelection.Deactivate();
                     break;
                 case TargetSelectionChange.Selected:
@@ -69,7 +69,7 @@ public partial class CityTargetSpell : Spell
                     {
                         if (TargetSelected(source, targetSelection.TargetX, targetSelection.TargetY, targetSelection.TargetL))
                         {
-                            targetSelection.FOnChange -= OnTargetSelectionChange;
+                            targetSelection.Changed -= OnTargetSelectionChange;
                             targetSelection.Deactivate();
                         }
                     }
@@ -79,7 +79,7 @@ public partial class CityTargetSpell : Spell
         }
         else
         {
-            targetSelection.FOnChange -= OnTargetSelectionChange;
+            targetSelection.Changed -= OnTargetSelectionChange;
             targetSelection.Deactivate();
         }
     }
@@ -166,8 +166,8 @@ public partial class CityTargetSpell : Spell
             throw new InvalidOperationException("oohps");
         }
 
-        targetSelection.FOnChange += OnTargetSelectionChange;
-        targetSelection.OnValidateTarget = ValidateTarget;
+        targetSelection.Changed += OnTargetSelectionChange;
+        targetSelection.SetValidateTargetHandler(ValidateTarget);
     }
 
     // CitySpells.pas:359

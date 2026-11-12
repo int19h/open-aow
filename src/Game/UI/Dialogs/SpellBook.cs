@@ -145,7 +145,7 @@ public partial class SpellBook : DataModule
     private Hero _hero;
     private AbilityActivation _activation;
     private int _researchedSpell;
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
     private PlayerMagicEventLog _event;
     private DoubleItemList _playerPages;
 
@@ -155,9 +155,9 @@ public partial class SpellBook : DataModule
         ExecuteDoneEvent done;
         PlayerMagicEventLog eventValue;
         AudioPlayback.PlaySample("SFX\\INT\\BOOKCLSE.WAV");
-        done = _done;
+        done = Done;
         eventValue = _event;
-        _done = null;
+        Done = null;
         _event = null;
         if (done != null)
         {
@@ -806,7 +806,7 @@ public partial class SpellBook : DataModule
     {
         _event = eventValue;
         _event.AddRef();
-        _done = done;
+        Done = done;
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId == 0)
         {
             Reset();
@@ -837,7 +837,7 @@ public partial class SpellBook : DataModule
     {
         _event = eventValue;
         _event.AddRef();
-        _done = done;
+        Done = done;
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId == 0)
         {
             Reset();

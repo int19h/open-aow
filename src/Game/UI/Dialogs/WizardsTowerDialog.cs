@@ -27,7 +27,7 @@ public partial class WizardsTowerDialog : DataModule
     public Label SpellCostLabel;
     public Memo ResearchMemo;
     public Label PriceLabel;
-    private ExecuteDoneEvent _onClose;
+    private event ExecuteDoneEvent OnClose;
     private EnterWizardsTowerEventLog _event;
 
     // AoWWizardsTowerDlg.pas:54
@@ -36,9 +36,9 @@ public partial class WizardsTowerDialog : DataModule
         EnterWizardsTowerEventLog eventValue;
         ExecuteDoneEvent notify;
         Window.Visible = false;
-        notify = _onClose;
+        notify = OnClose;
         eventValue = _event;
-        _onClose = null;
+        OnClose = null;
         _event = null;
         if (notify != null)
         {
@@ -116,7 +116,7 @@ public partial class WizardsTowerDialog : DataModule
     {
         WizardsTower tower;
         Spell spell;
-        dialog._onClose = done;
+        dialog.OnClose = done;
         dialog._event = eventValue;
         dialog._event.AddRef();
         tower = dialog._event.Tower;

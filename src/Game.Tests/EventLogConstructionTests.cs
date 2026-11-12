@@ -21,11 +21,15 @@ public sealed class EventLogConstructionTests
         internal int DestroyEntries { get; private set; }
         internal List<string> Observations { get; } = [];
 
+        // Removals in progress. A removal can run inside another one.
+        private int _removing;
+
         internal EventListOwner() : base(null!)
         {
-            OnChanged = _ =>
+            OnChanged += _ =>
             {
                 Changes++;
+                if (_removing != 0) return;
                 var child = GetEvents(GetCount() - 1);
                 bool nil = true;
                 for (Type? type = child.GetType(); type != typeof(EventLog); type = type!.BaseType)
@@ -47,10 +51,9 @@ public sealed class EventLogConstructionTests
         {
             DestroyEntries = Math.Max(DestroyEntries, new StackTrace().GetFrames().Count(x => x.GetMethod() is { Name: "Dispose", DeclaringType: { } t } && t == typeof(EngineObject)));
             // Record removal notifications without indexing an empty list.
-            var changed = OnChanged;
-            OnChanged = _ => Changes++;
+            _removing++;
             try { return base.RemoveChild(child); }
-            finally { OnChanged = changed; }
+            finally { _removing--; }
         }
     }
 

@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class LeaderSetupWindow
 {
-    public NotifyEvent<LeaderSetupWindow> LayoutOnCreate { get; set; }
-    public NotifyEvent<LeaderSetupWindow> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<LeaderSetupWindow> LayoutOnCreate;
+    public event NotifyEvent<LeaderSetupWindow> LayoutOnDestroy;
 
     public override void Dispose()
     {

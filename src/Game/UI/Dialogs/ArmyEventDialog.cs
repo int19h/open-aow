@@ -26,7 +26,7 @@ public partial class ArmyEventDialog : DataModule
     public Panel UnitPanel;
     public Label EventTextLabel;
     public Image DamagePicture;
-    private ExecuteDoneEvent _onClose;
+    private event ExecuteDoneEvent OnClose;
     private ArmyEventLog _event;
     private int _frame;
     private ByteList _units;
@@ -130,9 +130,9 @@ public partial class ArmyEventDialog : DataModule
             }
         }
 
-        notify = _onClose;
+        notify = OnClose;
         eventValue = _event;
-        _onClose = null;
+        OnClose = null;
         _event = null;
         if (notify != null)
         {
@@ -203,7 +203,7 @@ public partial class ArmyEventDialog : DataModule
         ArmyView army;
         int image;
         Assert(dialog._event == null, "", "AoWArmyEventDlg.pas", 92);
-        dialog._onClose = done;
+        dialog.OnClose = done;
         dialog._event = eventValue;
         dialog._event.AddRef();
         log = dialog._event;

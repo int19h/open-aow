@@ -53,8 +53,8 @@ public partial class CombatScanner : ILayoutModule
         CombatScannerWindow.DragHeight = 20;
         CombatScannerWindow.Draggable = true;
         CombatScannerWindow.Resizable = true;
-        CombatScannerWindow.OnDrag = _ => Layout_TCScannerWinDrag_0();
-        CombatScannerWindow.OnResize = _ => Layout_TCScannerWinDrag_0();
+        CombatScannerWindow.OnDrag += _ => TCScannerWinDrag();
+        CombatScannerWindow.OnResize += _ => TCScannerWinDrag();
         CombatScannerWindow.MinWidth = 150;
         CombatScannerWindow.MinHeight = 170;
         CombatScannerWindow.MaxWidth = 0;
@@ -121,7 +121,7 @@ public partial class CombatScanner : ILayoutModule
         Scanner.Buildings = true;
         Scanner.Armies = true;
         Scanner.Naturals = true;
-        Scanner.OnChangeTileBox = _ => Layout_ScannerChangeTileBox_1();
+        Scanner.OnChangeTileBox += _ => ScannerChangeTileBox();
         Scanner.MapDrawSteps = 5;
         Scanner.ImageLibraryIndexFrame = 20;
         session.EndRead(Scanner);
@@ -208,7 +208,7 @@ public partial class CombatScanner : ILayoutModule
         sMinIcon.TextColor = 0;
         sMinIcon.TextSelectedColor = 0;
         sMinIcon.WinWidth = 15;
-        sMinIcon.OnClick = _ => Layout_SMinIconClick_2();
+        sMinIcon.OnClick += _ => SMinIconClick();
         session.EndRead(sMinIcon);
         LayoutIvTranslator translator = new LayoutIvTranslator(this);
         session.BeginRead(translator);
@@ -246,20 +246,5 @@ public partial class CombatScanner : ILayoutModule
         sTitleLabel.Font = DialogHosts.UIFonts.Age10;
         sMinIcon.ToolTip = DialogHosts.General.ToolTip;
         sMinIcon.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
-    }
-
-    private void Layout_TCScannerWinDrag_0()
-    {
-        TCScannerWinDrag();
-    }
-
-    private void Layout_ScannerChangeTileBox_1()
-    {
-        ScannerChangeTileBox();
-    }
-
-    private void Layout_SMinIconClick_2()
-    {
-        SMinIconClick();
     }
 }

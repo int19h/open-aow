@@ -4,7 +4,7 @@ using Aow.Rtl;
 namespace Aow.Game.Net;
 
 // _tokenExecutor, _tokenPackageDistributor, _owner, _tokenControls (one per player, nil for a
-// free slot), _onMessage
+// free slot), OnMessage
 public partial class TokenManager : IDisposable
 {
 
@@ -20,7 +20,7 @@ public partial class TokenManager : IDisposable
     private TokenPackageDistributor _tokenPackageDistributor;
     private object _owner;
     private List<TokenControl> _tokenControls;
-    private NetworkMessageEvent _onMessage;
+    public event NetworkMessageEvent OnMessage;
 
     // NetworkE.pas:1642
     public virtual TokenExecutor CreateTokenExecutor() => new TokenExecutor(this);
@@ -160,9 +160,9 @@ public partial class TokenManager : IDisposable
     // NetworkE.pas:1718
     public void TriggerMessage(string message)
     {
-        if (_onMessage != null)
+        if (OnMessage != null)
         {
-            _onMessage(this, message);
+            OnMessage(this, message);
         }
     }
 
@@ -177,7 +177,6 @@ public partial class TokenManager : IDisposable
     }
 
     public TokenControlsAccessor TokenControls => new TokenControlsAccessor(this);
-    public NetworkMessageEvent OnMessage { get => _onMessage; set => _onMessage = value; }
 
     public delegate void NetworkMessageEvent(object Sender, string Msg);
 

@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class VideoDialog
 {
-    public NotifyEvent<VideoDialog> LayoutOnCreate { get; set; }
-    public NotifyEvent<VideoDialog> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<VideoDialog> LayoutOnCreate;
+    public event NotifyEvent<VideoDialog> LayoutOnDestroy;
 
     public override void Dispose()
     {

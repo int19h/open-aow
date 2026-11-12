@@ -55,7 +55,7 @@ public partial class CustomDisplay
         if (_activeDisplayController is null) return;
         var screen = _activeDisplayController.GetSurface(0);
         if (_options.Contains(AutoResizeBackSurface)) ResizeBackSurfaces(screen.Width, screen.Height);
-        _onResize?.Invoke(this);
+        OnResize?.Invoke(this);
     }
 
     public virtual void ShowError(string message) => RtlUnit.ShowMessage(message);
@@ -95,7 +95,7 @@ public partial class CustomDisplay
         GetMousePosition(ref x, ref y);
         if (_mouseAboveSurface && x == -1 && GetMouseButton() == 0) EventSink.MouseMove(default, -1, -1);
         _mouseAboveSurface = x != -1;
-        _onUpdateFrame?.Invoke(this, _activeDisplayController, SurfaceIndex);
+        OnUpdateFrame?.Invoke(this, _activeDisplayController, SurfaceIndex);
         if (_activeDisplayController is null) return;
         _activeDisplayController.NewFrame();
         _activeDisplayController.WaitForVerticalBlank();
@@ -131,7 +131,7 @@ public partial class CustomDisplay
             Resize();
             for (int i = 1; i <= (int)_bufferingScheme; i++)
                 if (saved[i] is not null) RemapSurface(saved[i], _activeDisplayController.GetSurface(i));
-            _onActivateDisplayController?.Invoke(this, _activeDisplayController);
+            OnActivateDisplayController?.Invoke(this, _activeDisplayController);
             return result;
         }
         finally
@@ -148,7 +148,7 @@ public partial class CustomDisplay
         {
             if (Host is null) return DisplayCodes.DCERR_NOTACTIVATED;
             Host.Fullscreen = !Host.Fullscreen;
-            _onSwapDisplayController?.Invoke(_activeDisplayController);
+            OnSwapDisplayController?.Invoke(_activeDisplayController);
             Resize();
             return 0;
         }

@@ -6,5 +6,5 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class WorldMap
 {
-    public NotifyEvent<WorldMap> LayoutOnCreate { get; set; }
+    public event NotifyEvent<WorldMap> LayoutOnCreate;
 }

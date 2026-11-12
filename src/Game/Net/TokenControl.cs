@@ -58,7 +58,7 @@ public partial class TokenControl : IDisposable
             {
                 if (Local())
                 {
-                    if (executor.OnSyncError != null)
+                    if (executor.HasSyncErrorHandlers)
                     {
                         tokenEvent = new SyncTokenEvent(null);
                         var syncValue = executor.GetSyncValue();

@@ -116,10 +116,7 @@ public partial class MenuBar : Control
         {
             if (Valid && Visible)
             {
-                if (_onPreDraw != null)
-                {
-                    _onPreDraw(this, lockedSurface);
-                }
+                RaisePreDraw(this, lockedSurface);
 
                 oldClip = lockedSurface.ClipRectangle;
                 for (int I = 0, last = _items.Count - 1; I <= last; I++)
@@ -154,10 +151,7 @@ public partial class MenuBar : Control
                     }
                 }
 
-                if (_onDraw != null)
-                {
-                    _onDraw(this, lockedSurface);
-                }
+                RaiseDraw(this, lockedSurface);
             }
         }
         catch
@@ -185,10 +179,7 @@ public partial class MenuBar : Control
                 if (I == _selected)
                 {
                     _selected = -1;
-                    if (_onChange != null)
-                    {
-                        _onChange(this);
-                    }
+                    RaiseChange(this);
 
                     Drawn = false;
                 }
@@ -209,20 +200,14 @@ public partial class MenuBar : Control
                             }
                         }
 
-                        if (_onChange != null)
-                        {
-                            _onChange(this);
-                        }
+                        RaiseChange(this);
 
                         Drawn = false;
                     }
                 }
             }
 
-            if (_onMouseDown != null)
-            {
-                _onMouseDown(this, button, shift, X, Y);
-            }
+            RaiseMouseDown(this, button, shift, X, Y);
         }
         else
         {
@@ -243,10 +228,7 @@ public partial class MenuBar : Control
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid == true && Visible == true)
         {
             Handled = true;
-            if (_onMouseUp != null)
-            {
-                _onMouseUp(this, button, shift, X, Y);
-            }
+            RaiseMouseUp(this, button, shift, X, Y);
         }
     }
 
@@ -258,10 +240,7 @@ public partial class MenuBar : Control
         if (X >= Window.WinLeft + WinLeft && X <= Window.WinLeft + WinLeft + WinWidth - 1 && Y >= Window.WinTop + WinTop && Y <= Window.WinTop + WinTop + WinHeight - 1)
         {
             Handled = true;
-            if (_onMouseMove != null)
-            {
-                _onMouseMove(this, shift, X, Y);
-            }
+            RaiseMouseMove(this, shift, X, Y);
         }
     }
 
@@ -336,57 +315,57 @@ public partial class MenuBar : Control
     [Published]
     public int ImageLibraryIndexUp { get => _imageLibraryIndexUp; set => SetImageLibraryUIndex(value); }
 
-    public new NotifyEvent<MenuBar> OnChange
+    public new event NotifyEvent<MenuBar> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<MenuBar> OnMouseDown
+    public new event MouseEvent<MenuBar> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<MenuBar> OnMouseUp
+    public new event MouseEvent<MenuBar> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<MenuBar> OnMouseMove
+    public new event MouseMoveEvent<MenuBar> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<MenuBar> OnKeyPress
+    public new event KeyPressEvent<MenuBar> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<MenuBar> OnKeyDown
+    public new event KeyEvent<MenuBar> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<MenuBar> OnPreDraw
+    public new event AoWOnDrawEvent<MenuBar> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<MenuBar> OnDraw
+    public new event AoWOnDrawEvent<MenuBar> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<MenuBar> OnUpdate
+    public new event NotifyEvent<MenuBar> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(OnUpdate), value: value);
     }
 }

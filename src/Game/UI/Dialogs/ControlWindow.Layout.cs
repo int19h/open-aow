@@ -52,8 +52,8 @@ public partial class ControlWindow : ILayoutModule
         MainWindow.DragHeight = 20;
         MainWindow.Draggable = true;
         MainWindow.Resizable = true;
-        MainWindow.OnDrag = _ => Layout_ControlWindowResize_0();
-        MainWindow.OnResize = _ => Layout_ControlWindowResize_0();
+        MainWindow.OnDrag += _ => ControlWindowResize();
+        MainWindow.OnResize += _ => ControlWindowResize();
         MainWindow.MinWidth = 200;
         MainWindow.MinHeight = 216;
         MainWindow.MaxWidth = 400;
@@ -118,13 +118,13 @@ public partial class ControlWindow : ILayoutModule
         cwMinIcon.TextColor = 0;
         cwMinIcon.TextSelectedColor = 0;
         cwMinIcon.WinWidth = 15;
-        cwMinIcon.OnClick = _ => Layout_CWMinIconClick_1();
+        cwMinIcon.OnClick += _ => CWMinIconClick();
         session.EndRead(cwMinIcon);
         Unit1Frame = new Frame(this);
         session.BeginRead(Unit1Frame);
         Unit1Frame.Name = "Unit1Frame";
-        Unit1Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 0);
-        Unit1Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 0);
+        Unit1Frame.OnMouseDown += (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 0);
+        Unit1Frame.OnPreDraw += (sender, surface) => Unit1FramePreDraw(sender, surface, 0);
         Unit1Frame.Priority = 0;
         Unit1Frame.WinLeft = 1;
         Unit1Frame.WinTop = 0;
@@ -153,8 +153,8 @@ public partial class ControlWindow : ILayoutModule
         session.BeginRead(Unit2Frame);
         Unit2Frame.Name = "Unit2Frame";
         Unit2Frame.Tag = 1;
-        Unit2Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 1);
-        Unit2Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 1);
+        Unit2Frame.OnMouseDown += (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 1);
+        Unit2Frame.OnPreDraw += (sender, surface) => Unit1FramePreDraw(sender, surface, 1);
         Unit2Frame.Priority = 0;
         Unit2Frame.WinLeft = 49;
         Unit2Frame.WinTop = 0;
@@ -183,8 +183,8 @@ public partial class ControlWindow : ILayoutModule
         session.BeginRead(Unit3Frame);
         Unit3Frame.Name = "Unit3Frame";
         Unit3Frame.Tag = 2;
-        Unit3Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 2);
-        Unit3Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 2);
+        Unit3Frame.OnMouseDown += (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 2);
+        Unit3Frame.OnPreDraw += (sender, surface) => Unit1FramePreDraw(sender, surface, 2);
         Unit3Frame.Priority = 0;
         Unit3Frame.WinLeft = 97;
         Unit3Frame.WinTop = 0;
@@ -213,8 +213,8 @@ public partial class ControlWindow : ILayoutModule
         session.BeginRead(Unit4Frame);
         Unit4Frame.Name = "Unit4Frame";
         Unit4Frame.Tag = 3;
-        Unit4Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 3);
-        Unit4Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 3);
+        Unit4Frame.OnMouseDown += (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 3);
+        Unit4Frame.OnPreDraw += (sender, surface) => Unit1FramePreDraw(sender, surface, 3);
         Unit4Frame.Priority = 0;
         Unit4Frame.WinLeft = 145;
         Unit4Frame.WinTop = 0;
@@ -243,8 +243,8 @@ public partial class ControlWindow : ILayoutModule
         session.BeginRead(Unit5Frame);
         Unit5Frame.Name = "Unit5Frame";
         Unit5Frame.Tag = 4;
-        Unit5Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 4);
-        Unit5Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 4);
+        Unit5Frame.OnMouseDown += (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 4);
+        Unit5Frame.OnPreDraw += (sender, surface) => Unit1FramePreDraw(sender, surface, 4);
         Unit5Frame.Priority = 0;
         Unit5Frame.WinLeft = 1;
         Unit5Frame.WinTop = 0;
@@ -273,8 +273,8 @@ public partial class ControlWindow : ILayoutModule
         session.BeginRead(Unit6Frame);
         Unit6Frame.Name = "Unit6Frame";
         Unit6Frame.Tag = 5;
-        Unit6Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 5);
-        Unit6Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 5);
+        Unit6Frame.OnMouseDown += (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 5);
+        Unit6Frame.OnPreDraw += (sender, surface) => Unit1FramePreDraw(sender, surface, 5);
         Unit6Frame.Priority = 0;
         Unit6Frame.WinLeft = 49;
         Unit6Frame.WinTop = 0;
@@ -303,8 +303,8 @@ public partial class ControlWindow : ILayoutModule
         session.BeginRead(Unit7Frame);
         Unit7Frame.Name = "Unit7Frame";
         Unit7Frame.Tag = 6;
-        Unit7Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 6);
-        Unit7Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 6);
+        Unit7Frame.OnMouseDown += (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 6);
+        Unit7Frame.OnPreDraw += (sender, surface) => Unit1FramePreDraw(sender, surface, 6);
         Unit7Frame.Priority = 0;
         Unit7Frame.WinLeft = 97;
         Unit7Frame.WinTop = 0;
@@ -333,8 +333,8 @@ public partial class ControlWindow : ILayoutModule
         session.BeginRead(Unit8Frame);
         Unit8Frame.Name = "Unit8Frame";
         Unit8Frame.Tag = 7;
-        Unit8Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 7);
-        Unit8Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 7);
+        Unit8Frame.OnMouseDown += (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 7);
+        Unit8Frame.OnPreDraw += (sender, surface) => Unit1FramePreDraw(sender, surface, 7);
         Unit8Frame.Priority = 0;
         Unit8Frame.WinLeft = 145;
         Unit8Frame.WinTop = 0;
@@ -471,7 +471,7 @@ public partial class ControlWindow : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => CloseClick();
+        close.OnClick += _ => CloseClick();
         session.EndRead(close);
         Unit1MovesIcon = new Image(this);
         session.BeginRead(Unit1MovesIcon);
@@ -1128,7 +1128,7 @@ public partial class ControlWindow : ILayoutModule
         Unit1CheckBox = new CheckBox(this);
         session.BeginRead(Unit1CheckBox);
         Unit1CheckBox.Name = "Unit1Chk";
-        Unit1CheckBox.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
+        Unit1CheckBox.OnMouseDown += (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit1CheckBox.Priority = 0;
         Unit1CheckBox.WinLeft = 1;
         Unit1CheckBox.WinTop = 0;
@@ -1159,13 +1159,13 @@ public partial class ControlWindow : ILayoutModule
         Unit1CheckBox.TextSelectedColor = 0;
         Unit1CheckBox.WinWidth = 46;
         Unit1CheckBox.Checked = false;
-        Unit1CheckBox.OnChange = Unit1ChkChange;
+        Unit1CheckBox.OnChange += Unit1ChkChange;
         Unit1CheckBox.RadioIndex = 0;
         session.EndRead(Unit1CheckBox);
         Unit2CheckBox = new CheckBox(this);
         session.BeginRead(Unit2CheckBox);
         Unit2CheckBox.Name = "Unit2Chk";
-        Unit2CheckBox.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
+        Unit2CheckBox.OnMouseDown += (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit2CheckBox.Priority = 0;
         Unit2CheckBox.WinLeft = 49;
         Unit2CheckBox.WinTop = 0;
@@ -1196,13 +1196,13 @@ public partial class ControlWindow : ILayoutModule
         Unit2CheckBox.TextSelectedColor = 0;
         Unit2CheckBox.WinWidth = 46;
         Unit2CheckBox.Checked = false;
-        Unit2CheckBox.OnChange = Unit1ChkChange;
+        Unit2CheckBox.OnChange += Unit1ChkChange;
         Unit2CheckBox.RadioIndex = 0;
         session.EndRead(Unit2CheckBox);
         Unit3CheckBox = new CheckBox(this);
         session.BeginRead(Unit3CheckBox);
         Unit3CheckBox.Name = "Unit3Chk";
-        Unit3CheckBox.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
+        Unit3CheckBox.OnMouseDown += (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit3CheckBox.Priority = 0;
         Unit3CheckBox.WinLeft = 97;
         Unit3CheckBox.WinTop = 0;
@@ -1233,13 +1233,13 @@ public partial class ControlWindow : ILayoutModule
         Unit3CheckBox.TextSelectedColor = 0;
         Unit3CheckBox.WinWidth = 46;
         Unit3CheckBox.Checked = false;
-        Unit3CheckBox.OnChange = Unit1ChkChange;
+        Unit3CheckBox.OnChange += Unit1ChkChange;
         Unit3CheckBox.RadioIndex = 0;
         session.EndRead(Unit3CheckBox);
         Unit5CheckBox = new CheckBox(this);
         session.BeginRead(Unit5CheckBox);
         Unit5CheckBox.Name = "Unit5Chk";
-        Unit5CheckBox.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
+        Unit5CheckBox.OnMouseDown += (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit5CheckBox.Priority = 0;
         Unit5CheckBox.WinLeft = 1;
         Unit5CheckBox.WinTop = 0;
@@ -1270,13 +1270,13 @@ public partial class ControlWindow : ILayoutModule
         Unit5CheckBox.TextSelectedColor = 0;
         Unit5CheckBox.WinWidth = 46;
         Unit5CheckBox.Checked = false;
-        Unit5CheckBox.OnChange = Unit1ChkChange;
+        Unit5CheckBox.OnChange += Unit1ChkChange;
         Unit5CheckBox.RadioIndex = 0;
         session.EndRead(Unit5CheckBox);
         Unit6CheckBox = new CheckBox(this);
         session.BeginRead(Unit6CheckBox);
         Unit6CheckBox.Name = "Unit6Chk";
-        Unit6CheckBox.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
+        Unit6CheckBox.OnMouseDown += (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit6CheckBox.Priority = 0;
         Unit6CheckBox.WinLeft = 49;
         Unit6CheckBox.WinTop = 0;
@@ -1307,13 +1307,13 @@ public partial class ControlWindow : ILayoutModule
         Unit6CheckBox.TextSelectedColor = 0;
         Unit6CheckBox.WinWidth = 46;
         Unit6CheckBox.Checked = false;
-        Unit6CheckBox.OnChange = Unit1ChkChange;
+        Unit6CheckBox.OnChange += Unit1ChkChange;
         Unit6CheckBox.RadioIndex = 0;
         session.EndRead(Unit6CheckBox);
         Unit7CheckBox = new CheckBox(this);
         session.BeginRead(Unit7CheckBox);
         Unit7CheckBox.Name = "Unit7Chk";
-        Unit7CheckBox.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
+        Unit7CheckBox.OnMouseDown += (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit7CheckBox.Priority = 0;
         Unit7CheckBox.WinLeft = 97;
         Unit7CheckBox.WinTop = 0;
@@ -1344,13 +1344,13 @@ public partial class ControlWindow : ILayoutModule
         Unit7CheckBox.TextSelectedColor = 0;
         Unit7CheckBox.WinWidth = 46;
         Unit7CheckBox.Checked = false;
-        Unit7CheckBox.OnChange = Unit1ChkChange;
+        Unit7CheckBox.OnChange += Unit1ChkChange;
         Unit7CheckBox.RadioIndex = 0;
         session.EndRead(Unit7CheckBox);
         Unit4CheckBox = new CheckBox(this);
         session.BeginRead(Unit4CheckBox);
         Unit4CheckBox.Name = "Unit4Chk";
-        Unit4CheckBox.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
+        Unit4CheckBox.OnMouseDown += (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit4CheckBox.Priority = 0;
         Unit4CheckBox.WinLeft = 145;
         Unit4CheckBox.WinTop = 0;
@@ -1381,13 +1381,13 @@ public partial class ControlWindow : ILayoutModule
         Unit4CheckBox.TextSelectedColor = 0;
         Unit4CheckBox.WinWidth = 46;
         Unit4CheckBox.Checked = false;
-        Unit4CheckBox.OnChange = Unit1ChkChange;
+        Unit4CheckBox.OnChange += Unit1ChkChange;
         Unit4CheckBox.RadioIndex = 0;
         session.EndRead(Unit4CheckBox);
         Unit8CheckBox = new CheckBox(this);
         session.BeginRead(Unit8CheckBox);
         Unit8CheckBox.Name = "Unit8Chk";
-        Unit8CheckBox.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
+        Unit8CheckBox.OnMouseDown += (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit8CheckBox.Priority = 0;
         Unit8CheckBox.WinLeft = 145;
         Unit8CheckBox.WinTop = 0;
@@ -1418,7 +1418,7 @@ public partial class ControlWindow : ILayoutModule
         Unit8CheckBox.TextSelectedColor = 0;
         Unit8CheckBox.WinWidth = 46;
         Unit8CheckBox.Checked = false;
-        Unit8CheckBox.OnChange = Unit1ChkChange;
+        Unit8CheckBox.OnChange += Unit1ChkChange;
         Unit8CheckBox.RadioIndex = 0;
         session.EndRead(Unit8CheckBox);
         EmptySlot1Frame = new Frame(this);
@@ -1934,7 +1934,7 @@ public partial class ControlWindow : ILayoutModule
         center.TextColor = 0;
         center.TextSelectedColor = 0;
         center.WinWidth = 15;
-        center.OnClick = _ => Layout_CenterClick_3();
+        center.OnClick += _ => CenterClick();
         session.EndRead(center);
         Button help = new Button(this);
         session.BeginRead(help);
@@ -1968,7 +1968,7 @@ public partial class ControlWindow : ILayoutModule
         help.TextColor = 0;
         help.TextSelectedColor = 0;
         help.WinWidth = 15;
-        help.OnClick = _ => Layout_HelpClick_4();
+        help.OnClick += _ => HelpClick();
         session.EndRead(help);
         Button pPrev = new Button(this);
         session.BeginRead(pPrev);
@@ -2003,7 +2003,7 @@ public partial class ControlWindow : ILayoutModule
         pPrev.TextColor = 0;
         pPrev.TextSelectedColor = 16777215;
         pPrev.WinWidth = 29;
-        pPrev.OnClick = _ => Layout_PPrevClick_5();
+        pPrev.OnClick += _ => PPrevClick();
         session.EndRead(pPrev);
         Button pMove = new Button(this);
         session.BeginRead(pMove);
@@ -2038,7 +2038,7 @@ public partial class ControlWindow : ILayoutModule
         pMove.TextColor = 0;
         pMove.TextSelectedColor = 16777215;
         pMove.WinWidth = 69;
-        pMove.OnClick = _ => Layout_PMoveClick_6();
+        pMove.OnClick += _ => PMoveClick();
         session.EndRead(pMove);
         Button pNext = new Button(this);
         session.BeginRead(pNext);
@@ -2073,7 +2073,7 @@ public partial class ControlWindow : ILayoutModule
         pNext.TextColor = 0;
         pNext.TextSelectedColor = 16777215;
         pNext.WinWidth = 29;
-        pNext.OnClick = _ => Layout_PNextClick_7();
+        pNext.OnClick += _ => PNextClick();
         session.EndRead(pNext);
         PartyControlPanel = new Panel(this);
         session.BeginRead(PartyControlPanel);
@@ -2136,7 +2136,7 @@ public partial class ControlWindow : ILayoutModule
         PartyGuardCheckBox.TextSelectedColor = 16777215;
         PartyGuardCheckBox.WinWidth = 68;
         PartyGuardCheckBox.Checked = false;
-        PartyGuardCheckBox.OnChange = _ => Layout_PGuardChange_8();
+        PartyGuardCheckBox.OnChange += _ => PGuardChange();
         PartyGuardCheckBox.RadioIndex = 0;
         session.EndRead(PartyGuardCheckBox);
         Frame frame2 = new Frame(this);
@@ -2561,45 +2561,5 @@ public partial class ControlWindow : ILayoutModule
         frame1.ImageLibraryLine = DialogHosts.UIGraphics.Units;
         PartyActionLabel1.Font = DialogHosts.UIFonts.Age10Shadow;
         PartyActionLabel2.Font = DialogHosts.UIFonts.Age10Shadow;
-    }
-
-    private void Layout_ControlWindowResize_0()
-    {
-        ControlWindowResize();
-    }
-
-    private void Layout_CWMinIconClick_1()
-    {
-        CWMinIconClick();
-    }
-
-    private void Layout_CenterClick_3()
-    {
-        CenterClick();
-    }
-
-    private void Layout_HelpClick_4()
-    {
-        HelpClick();
-    }
-
-    private void Layout_PPrevClick_5()
-    {
-        PPrevClick();
-    }
-
-    private void Layout_PMoveClick_6()
-    {
-        PMoveClick();
-    }
-
-    private void Layout_PNextClick_7()
-    {
-        PNextClick();
-    }
-
-    private void Layout_PGuardChange_8()
-    {
-        PGuardChange();
     }
 }

@@ -48,8 +48,8 @@ public partial class ArmyInfoDialog : ILayoutModule
         Frame u1 = new Frame(this);
         session.BeginRead(u1);
         u1.Name = "U1";
-        u1.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 0);
-        u1.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 0);
+        u1.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 0);
+        u1.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 0);
         u1.Priority = 0;
         u1.WinLeft = 0;
         u1.WinTop = 0;
@@ -78,8 +78,8 @@ public partial class ArmyInfoDialog : ILayoutModule
         session.BeginRead(u2);
         u2.Name = "U2";
         u2.Tag = 1;
-        u2.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 1);
-        u2.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 1);
+        u2.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 1);
+        u2.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 1);
         u2.Priority = 0;
         u2.WinLeft = 46;
         u2.WinTop = 0;
@@ -108,8 +108,8 @@ public partial class ArmyInfoDialog : ILayoutModule
         session.BeginRead(u4);
         u4.Name = "U4";
         u4.Tag = 3;
-        u4.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 3);
-        u4.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 3);
+        u4.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 3);
+        u4.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 3);
         u4.Priority = 0;
         u4.WinLeft = 138;
         u4.WinTop = 0;
@@ -138,8 +138,8 @@ public partial class ArmyInfoDialog : ILayoutModule
         session.BeginRead(u5);
         u5.Name = "U5";
         u5.Tag = 4;
-        u5.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 4);
-        u5.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 4);
+        u5.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 4);
+        u5.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 4);
         u5.Priority = 0;
         u5.WinLeft = 185;
         u5.WinTop = 0;
@@ -168,8 +168,8 @@ public partial class ArmyInfoDialog : ILayoutModule
         session.BeginRead(u3);
         u3.Name = "U3";
         u3.Tag = 2;
-        u3.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 2);
-        u3.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 2);
+        u3.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 2);
+        u3.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 2);
         u3.Priority = 0;
         u3.WinLeft = 92;
         u3.WinTop = 0;
@@ -198,8 +198,8 @@ public partial class ArmyInfoDialog : ILayoutModule
         session.BeginRead(u6);
         u6.Name = "U6";
         u6.Tag = 5;
-        u6.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 5);
-        u6.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 5);
+        u6.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 5);
+        u6.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 5);
         u6.Priority = 0;
         u6.WinLeft = 231;
         u6.WinTop = 0;
@@ -228,8 +228,8 @@ public partial class ArmyInfoDialog : ILayoutModule
         session.BeginRead(u7);
         u7.Name = "U7";
         u7.Tag = 6;
-        u7.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 6);
-        u7.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 6);
+        u7.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 6);
+        u7.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 6);
         u7.Priority = 0;
         u7.WinLeft = 277;
         u7.WinTop = 0;
@@ -258,8 +258,8 @@ public partial class ArmyInfoDialog : ILayoutModule
         session.BeginRead(u8);
         u8.Name = "U8";
         u8.Tag = 7;
-        u8.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 7);
-        u8.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 7);
+        u8.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 7);
+        u8.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 7);
         u8.Priority = 0;
         u8.WinLeft = 323;
         u8.WinTop = 0;
@@ -313,7 +313,7 @@ public partial class ArmyInfoDialog : ILayoutModule
         closeBtn.TextColor = 0;
         closeBtn.TextSelectedColor = 16777215;
         closeBtn.WinWidth = 120;
-        closeBtn.OnClick = _ => Layout_CloseBtnClick_0();
+        closeBtn.OnClick += _ => CloseBtnClick();
         session.EndRead(closeBtn);
         Image titleIcon = new Image(this);
         session.BeginRead(titleIcon);
@@ -375,7 +375,7 @@ public partial class ArmyInfoDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CloseClick_1();
+        close.OnClick += _ => CloseClick();
         session.EndRead(close);
         TitleLabel = new Label(this);
         session.BeginRead(TitleLabel);
@@ -430,14 +430,14 @@ public partial class ArmyInfoDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 100;
         Window.WinTop = 81;
         Window.WinWidth = 440;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_DlgHide_2();
+        Window.OnHide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -568,7 +568,7 @@ public partial class ArmyInfoDialog : ILayoutModule
         FaceFrame = new Image(this);
         session.BeginRead(FaceFrame);
         FaceFrame.Name = "FaceFrame";
-        FaceFrame.OnPreDraw = (_, lockedSurface) => FaceFramePreDraw(lockedSurface);
+        FaceFrame.OnPreDraw += (_, surface) => FaceFramePreDraw(surface);
         FaceFrame.Priority = 100;
         FaceFrame.WinLeft = 22;
         FaceFrame.WinTop = 23;
@@ -719,20 +719,5 @@ public partial class ArmyInfoDialog : ILayoutModule
         detailsLbl.Font = DialogHosts.UIFonts.Age10Shadow;
         HeaderLabel.ToolTip = DialogHosts.General.ToolTip;
         HeaderLabel.Font = DialogHosts.UIFonts.Age10Shadow;
-    }
-
-    private void Layout_CloseBtnClick_0()
-    {
-        CloseBtnClick();
-    }
-
-    private void Layout_CloseClick_1()
-    {
-        CloseClick();
-    }
-
-    private void Layout_DlgHide_2()
-    {
-        DlgHide();
     }
 }

@@ -26,7 +26,7 @@ public partial class MessageDialog : DataModule
     public Panel HeaderMemoPanel;
     public Memo HeaderMemo;
     public Label HeaderLabel;
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
     private MessageEventLog _event;
 
     // AoWMessageDlg.pas:68
@@ -35,9 +35,9 @@ public partial class MessageDialog : DataModule
         ExecuteDoneEvent done;
         MessageEventLog log;
         Window.Visible = false;
-        done = _done;
+        done = Done;
         log = _event;
-        _done = null;
+        Done = null;
         _event = null;
         if (done != null)
         {
@@ -133,7 +133,7 @@ public partial class MessageDialog : DataModule
     {
         MessageEventLog log;
         ResetMessageDialog(dialog);
-        dialog._done = done;
+        dialog.Done = done;
         dialog._event = eventValue;
         dialog._event.AddRef();
         log = dialog._event;

@@ -24,7 +24,7 @@ public partial class HeroInfoDialog : DataModule
     public Label HeroLevelLabel;
     public Image FaceFrame;
     public Memo MessageMemo;
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
     private ArmyInfoEventLog _armyInfo;
     private bool _detailsOpen;
 
@@ -40,9 +40,9 @@ public partial class HeroInfoDialog : DataModule
             DialogHosts.UnitWindow.MainWindow.Visible = false;
         }
 
-        done = _done;
+        done = Done;
         eventValue = _armyInfo;
-        _done = null;
+        Done = null;
         _armyInfo = null;
         if (done != null)
         {
@@ -176,7 +176,7 @@ public partial class HeroInfoDialog : DataModule
     {
         Hero hero;
         Assert(dialog._armyInfo == null, "", "AoWHeroInfoDlg.pas", 80);
-        dialog._done = done;
+        dialog.Done = done;
         dialog._armyInfo = eventValue;
         dialog._armyInfo.AddRef();
         var text = eventValue.Messages.Text;

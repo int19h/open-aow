@@ -64,8 +64,8 @@ public partial class PoisonPlantSpellTokenEvent : GlobalTargetSpellTokenEvent
                         plant.PlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
                         animation = new ImageSequenceAnimation(null);
                         animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(12).CastImages.ImageSequences[0]);
-                        animation.OnShow = plant.ShowSummonAnimation;
-                        animation.OnNewFrame = plant.NewFrameSummonAnimation;
+                        animation.OnShow += plant.ShowSummonAnimation;
+                        animation.OnNewFrame += plant.NewFrameSummonAnimation;
                         animation.FrameCounter = -StrategicMap.Current.Random(15);
                         animation.AnimationLevel = 27;
                         StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);

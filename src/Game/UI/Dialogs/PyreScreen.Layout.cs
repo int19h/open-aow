@@ -20,9 +20,9 @@ public partial class PyreScreen : ILayoutModule
         DeadPanel = new Panel(this);
         session.BeginRead(DeadPanel);
         DeadPanel.Name = "DeadPnl";
-        DeadPanel.OnMouseDown = (_, button, shift, x, y) => DeadPnlMouseDown(button, shift, x, y);
-        DeadPanel.OnKeyDown = (_, ref key, shift) => DeadPnlKeyDown(ref key, shift);
-        DeadPanel.OnUpdate = _ => Layout_DeadPnlUpdate_0();
+        DeadPanel.OnMouseDown += (_, button, shift, x, y) => DeadPnlMouseDown(button, shift, x, y);
+        DeadPanel.OnKeyDown += (_, ref key, shift) => DeadPnlKeyDown(ref key, shift);
+        DeadPanel.OnUpdate += _ => DeadPnlUpdate();
         DeadPanel.Visible = false;
         DeadPanel.Priority = 5;
         DeadPanel.WinLeft = 0;
@@ -79,7 +79,7 @@ public partial class PyreScreen : ILayoutModule
         LeaderFaceFrame = new Image(this);
         session.BeginRead(LeaderFaceFrame);
         LeaderFaceFrame.Name = "LeaderFaceFr";
-        LeaderFaceFrame.OnPreDraw = (_, lockedSurface) => LeaderFaceFrPreDraw(lockedSurface);
+        LeaderFaceFrame.OnPreDraw += (_, surface) => LeaderFaceFrPreDraw(surface);
         LeaderFaceFrame.Priority = 1000;
         LeaderFaceFrame.WinLeft = 225;
         LeaderFaceFrame.WinTop = 5;
@@ -108,8 +108,8 @@ public partial class PyreScreen : ILayoutModule
         PyreAnimationView = new UserDrawBox(this);
         session.BeginRead(PyreAnimationView);
         PyreAnimationView.Name = "PyreAnimation";
-        PyreAnimationView.OnDraw = (_, lockedSurface) => PyreAnimationDraw(lockedSurface);
-        PyreAnimationView.OnUpdate = _ => Layout_PyreAnimationUpdate_1();
+        PyreAnimationView.OnDraw += (_, surface) => PyreAnimationDraw(surface);
+        PyreAnimationView.OnUpdate += _ => PyreAnimationUpdate();
         PyreAnimationView.Priority = 10;
         PyreAnimationView.WinLeft = 0;
         PyreAnimationView.WinTop = 0;
@@ -143,15 +143,5 @@ public partial class PyreScreen : ILayoutModule
         DeadPanel.Window = DialogHosts.TitleWindow.MainWindow;
         pyreTop.ImageLibrary = DialogHosts.UIGraphics.PyreFrames;
         LeaderFaceFrame.ImageLibrary = DialogHosts.UIGraphics.PyreFrames;
-    }
-
-    private void Layout_DeadPnlUpdate_0()
-    {
-        DeadPnlUpdate();
-    }
-
-    private void Layout_PyreAnimationUpdate_1()
-    {
-        PyreAnimationUpdate();
     }
 }

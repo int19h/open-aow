@@ -79,7 +79,7 @@ public partial class ConstructDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CancelBtnClick_0();
+        close.OnClick += _ => CancelBtnClick();
         session.EndRead(close);
         Label title = new Label(this);
         session.BeginRead(title);
@@ -160,7 +160,7 @@ public partial class ConstructDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 130;
-        cancelBtn.OnClick = _ => Layout_CancelBtnClick_0();
+        cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
         Button constructBtn = new Button(this);
         session.BeginRead(constructBtn);
@@ -191,19 +191,19 @@ public partial class ConstructDialog : ILayoutModule
         constructBtn.TextColor = 0;
         constructBtn.TextSelectedColor = 16777215;
         constructBtn.WinWidth = 130;
-        constructBtn.OnClick = _ => ConstructBtnClick();
+        constructBtn.OnClick += _ => ConstructBtnClick();
         session.EndRead(constructBtn);
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 140;
         Window.WinTop = 112;
         Window.WinWidth = 360;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_DlgHide_1();
+        Window.OnHide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -289,8 +289,8 @@ public partial class ConstructDialog : ILayoutModule
         ConstructionList.WinHeight = 88;
         ConstructionList.BorderWidth = 22;
         ConstructionList.BorderHeight = 4;
-        ConstructionList.OnChange = _ => Layout_ConstructionListChange_2();
-        ConstructionList.OnDoubleClick = _ => ConstructBtnClick();
+        ConstructionList.OnChange += _ => ConstructionListChange();
+        ConstructionList.OnDoubleClick += _ => ConstructBtnClick();
         ConstructionList.Selected = -1;
         ConstructionList.TextColor = 9402970;
         ConstructionList.TextSelectedColor = 0;
@@ -329,7 +329,7 @@ public partial class ConstructDialog : ILayoutModule
         sortConstructionsBtn.TextColor = 0;
         sortConstructionsBtn.TextSelectedColor = 16777215;
         sortConstructionsBtn.WinWidth = 210;
-        sortConstructionsBtn.OnClick = _ => Layout_SortConstructionsBtnClick_3();
+        sortConstructionsBtn.OnClick += _ => SortConstructionsBtnClick();
         session.EndRead(sortConstructionsBtn);
         Button sortConstructionCostBtn = new Button(this);
         session.BeginRead(sortConstructionCostBtn);
@@ -360,7 +360,7 @@ public partial class ConstructDialog : ILayoutModule
         sortConstructionCostBtn.TextColor = 0;
         sortConstructionCostBtn.TextSelectedColor = 16777215;
         sortConstructionCostBtn.WinWidth = 48;
-        sortConstructionCostBtn.OnClick = _ => Layout_SortConstructionCostBtnClick_4();
+        sortConstructionCostBtn.OnClick += _ => SortConstructionCostBtnClick();
         session.EndRead(sortConstructionCostBtn);
         ConstructionCostList = new ListBox(this);
         session.BeginRead(ConstructionCostList);
@@ -386,8 +386,8 @@ public partial class ConstructDialog : ILayoutModule
         ConstructionCostList.WinHeight = 88;
         ConstructionCostList.BorderWidth = 10;
         ConstructionCostList.BorderHeight = 4;
-        ConstructionCostList.OnChange = _ => Layout_ConstructionCostListChange_5();
-        ConstructionCostList.OnDoubleClick = _ => ConstructBtnClick();
+        ConstructionCostList.OnChange += _ => ConstructionCostListChange();
+        ConstructionCostList.OnDoubleClick += _ => ConstructBtnClick();
         ConstructionCostList.Selected = -1;
         ConstructionCostList.TextColor = 9402970;
         ConstructionCostList.TextSelectedColor = 0;
@@ -421,8 +421,8 @@ public partial class ConstructDialog : ILayoutModule
         ConstructionTurnsList.WinHeight = 88;
         ConstructionTurnsList.BorderWidth = 10;
         ConstructionTurnsList.BorderHeight = 4;
-        ConstructionTurnsList.OnChange = _ => Layout_ConstructionTurnsListChange_6();
-        ConstructionTurnsList.OnDoubleClick = _ => ConstructBtnClick();
+        ConstructionTurnsList.OnChange += _ => ConstructionTurnsListChange();
+        ConstructionTurnsList.OnDoubleClick += _ => ConstructBtnClick();
         ConstructionTurnsList.Selected = -1;
         ConstructionTurnsList.TextColor = 9402970;
         ConstructionTurnsList.TextSelectedColor = 0;
@@ -461,7 +461,7 @@ public partial class ConstructDialog : ILayoutModule
         sortConstructionTurnsBtn.TextColor = 0;
         sortConstructionTurnsBtn.TextSelectedColor = 16777215;
         sortConstructionTurnsBtn.WinWidth = 43;
-        sortConstructionTurnsBtn.OnClick = _ => Layout_SortConstructionTurnsBtnClick_7();
+        sortConstructionTurnsBtn.OnClick += _ => SortConstructionTurnsBtnClick();
         session.EndRead(sortConstructionTurnsBtn);
         Label label1 = new Label(this);
         session.BeginRead(label1);
@@ -711,45 +711,5 @@ public partial class ConstructDialog : ILayoutModule
         t4VSB.ImageLibraryIDecrement = DialogHosts.UIGraphics.GenericScrollBars;
         t4VSB.ImageLibraryTileBack = DialogHosts.UIGraphics.GenericScrollBars;
         t4VSB.ThumbStrip = DialogHosts.UIGraphics.GenericScrollBars;
-    }
-
-    private void Layout_CancelBtnClick_0()
-    {
-        CancelBtnClick();
-    }
-
-    private void Layout_DlgHide_1()
-    {
-        DlgHide();
-    }
-
-    private void Layout_ConstructionListChange_2()
-    {
-        ConstructionListChange();
-    }
-
-    private void Layout_SortConstructionsBtnClick_3()
-    {
-        SortConstructionsBtnClick();
-    }
-
-    private void Layout_SortConstructionCostBtnClick_4()
-    {
-        SortConstructionCostBtnClick();
-    }
-
-    private void Layout_ConstructionCostListChange_5()
-    {
-        ConstructionCostListChange();
-    }
-
-    private void Layout_ConstructionTurnsListChange_6()
-    {
-        ConstructionTurnsListChange();
-    }
-
-    private void Layout_SortConstructionTurnsBtnClick_7()
-    {
-        SortConstructionTurnsBtnClick();
     }
 }

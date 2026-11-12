@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class ArmyEventDialog
 {
-    public NotifyEvent<ArmyEventDialog> LayoutOnCreate { get; set; }
-    public NotifyEvent<ArmyEventDialog> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<ArmyEventDialog> LayoutOnCreate;
+    public event NotifyEvent<ArmyEventDialog> LayoutOnDestroy;
 
     public override void Dispose()
     {

@@ -33,7 +33,7 @@ public partial class ArenaDialog : DataModule
     public Label SelectionInfoLabel;
     public UserDrawBox MapView;
     private EnterArenaEventLog _event;
-    private ExecuteDoneEvent _onClose;
+    private event ExecuteDoneEvent OnClose;
 
     // AoWArenaDlg.pas:104
     public void DrawUnit(int index, int X, int Y, ref LockedSurface lockedSurface)
@@ -82,9 +82,9 @@ public partial class ArenaDialog : DataModule
         EnterArenaEventLog eventValue;
         ExecuteDoneEvent notify;
         DialogHosts.General.Manager.OverlayPriority = 0;
-        notify = _onClose;
+        notify = OnClose;
         eventValue = _event;
-        _onClose = null;
+        OnClose = null;
         _event = null;
         if (notify != null)
         {
@@ -243,7 +243,7 @@ public partial class ArenaDialog : DataModule
     {
         Assert(dialog._event == null, "", "AoWArenaDlg.pas", 94);
         ResetArena(dialog);
-        dialog._onClose = done;
+        dialog.OnClose = done;
         dialog._event = eventValue;
         dialog._event.AddRef();
         DialogHosts.General.Manager.OverlayPriority = 49;

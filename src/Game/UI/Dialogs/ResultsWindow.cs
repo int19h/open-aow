@@ -469,9 +469,8 @@ public partial class ResultsWindow : DataModule
         }
         dialog.GameOverEvent.Handled();
         DialogHosts.General.Manager.OverlayPriority = 0;
-        ExecuteDoneEvent fDone = dialog.Done;
+        ExecuteDoneEvent fDone = dialog.TakeDoneHandler();
         GameOverEventLog fGameOverEvent = dialog.GameOverEvent;
-        dialog.Done = null;
         dialog.GameOverEvent = null;
         fDone?.Invoke(fGameOverEvent);
         fGameOverEvent?.Release();

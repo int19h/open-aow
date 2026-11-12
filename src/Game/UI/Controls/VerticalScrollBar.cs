@@ -114,10 +114,7 @@ public partial class VerticalScrollBar : ScrollBar
         {
             if (Valid && Visible)
             {
-                if (_onPreDraw != null)
-                {
-                    _onPreDraw(this, lockedSurface);
-                }
+                RaisePreDraw(this, lockedSurface);
 
                 switch (ScrollType)
                 {
@@ -229,10 +226,7 @@ public partial class VerticalScrollBar : ScrollBar
                         break;
                 }
 
-                if (_onDraw != null)
-                {
-                    _onDraw(this, lockedSurface);
-                }
+                RaiseDraw(this, lockedSurface);
             }
         }
         catch
@@ -305,10 +299,7 @@ public partial class VerticalScrollBar : ScrollBar
                                 }
 
                                 Drawn = false;
-                                if (_onChange != null)
-                                {
-                                    _onChange(this);
-                                }
+                                RaiseChange(this);
                             }
 
                             var imageLibraryImageDecrement2 = ImageLibraryIDecrement[ImageLibraryIndexDecrementUp];
@@ -331,10 +322,7 @@ public partial class VerticalScrollBar : ScrollBar
                                 }
 
                                 Drawn = false;
-                                if (_onChange != null)
-                                {
-                                    _onChange(this);
-                                }
+                                RaiseChange(this);
                             }
 
                             if (HeldPart == 5)
@@ -355,10 +343,7 @@ public partial class VerticalScrollBar : ScrollBar
                                 }
 
                                 Drawn = false;
-                                if (_onChange != null)
-                                {
-                                    _onChange(this);
-                                }
+                                RaiseChange(this);
                             }
 
                             if (Y > Window.WinTop + WinTop + thumbPosition + ThumbLength && Y < Window.WinTop + WinTop + WinHeight)
@@ -372,10 +357,7 @@ public partial class VerticalScrollBar : ScrollBar
                                 }
 
                                 Drawn = false;
-                                if (_onChange != null)
-                                {
-                                    _onChange(this);
-                                }
+                                RaiseChange(this);
                             }
 
                             if (HeldPart == 5)
@@ -388,10 +370,7 @@ public partial class VerticalScrollBar : ScrollBar
                 }
             }
 
-            if (_onMouseDown != null)
-            {
-                _onMouseDown(this, button, shift, X, Y);
-            }
+            RaiseMouseDown(this, button, shift, X, Y);
         }
     }
 
@@ -409,10 +388,7 @@ public partial class VerticalScrollBar : ScrollBar
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (_onMouseUp != null)
-            {
-                _onMouseUp(this, button, shift, X, Y);
-            }
+            RaiseMouseUp(this, button, shift, X, Y);
         }
     }
 
@@ -436,73 +412,67 @@ public partial class VerticalScrollBar : ScrollBar
             }
 
             Drawn = false;
-            if (_onChange != null)
-            {
-                _onChange(this);
-            }
+            RaiseChange(this);
         }
 
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (_onMouseMove != null)
-            {
-                _onMouseMove(this, shift, X, Y);
-            }
+            RaiseMouseMove(this, shift, X, Y);
         }
     }
 
-    public new NotifyEvent<VerticalScrollBar> OnChange
+    public new event NotifyEvent<VerticalScrollBar> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<VerticalScrollBar> OnMouseDown
+    public new event MouseEvent<VerticalScrollBar> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<VerticalScrollBar> OnMouseUp
+    public new event MouseEvent<VerticalScrollBar> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<VerticalScrollBar> OnMouseMove
+    public new event MouseMoveEvent<VerticalScrollBar> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<VerticalScrollBar> OnKeyPress
+    public new event KeyPressEvent<VerticalScrollBar> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<VerticalScrollBar> OnKeyDown
+    public new event KeyEvent<VerticalScrollBar> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<VerticalScrollBar> OnPreDraw
+    public new event AoWOnDrawEvent<VerticalScrollBar> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<VerticalScrollBar> OnDraw
+    public new event AoWOnDrawEvent<VerticalScrollBar> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<VerticalScrollBar> OnUpdate
+    public new event NotifyEvent<VerticalScrollBar> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnUpdate), value: value);
     }
 }

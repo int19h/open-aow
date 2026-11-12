@@ -12,7 +12,7 @@ namespace Aow.Game.UI.Windows;
 //   (DrawSurfDesc), redrawing only the dirty rectangles, and passes invalidated rectangles on to the
 //   windows above it and to its owner. }
 // Fields: FBuffer (freed by TAOWGenericWindow.Destroy), FFreeSurfaceOnHide, FWinManager,
-// _onShow, _onHide
+// OnShow, OnHide
 public partial class BaseWindow : WindowControl
 {
     public BaseWindow(Component owner) : base(owner)
@@ -22,8 +22,27 @@ public partial class BaseWindow : WindowControl
 
     public bool _freeSurfaceOnHide;
     public WindowManager _windowManager;
-    public NotifyEvent<BaseWindow> _onShow;
-    public NotifyEvent<BaseWindow> _onHide;
+    [Published]
+    public event NotifyEvent<BaseWindow> OnShow;
+
+    protected void RaiseShow(BaseWindow sender)
+    {
+        if (OnShow != null)
+        {
+            OnShow(sender);
+        }
+    }
+
+    [Published]
+    public event NotifyEvent<BaseWindow> OnHide;
+
+    protected void RaiseHide(BaseWindow sender)
+    {
+        if (OnHide != null)
+        {
+            OnHide(sender);
+        }
+    }
 
     // AoWBaseWin.pas:56
     public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
@@ -76,9 +95,9 @@ public partial class BaseWindow : WindowControl
             if (!Visible)
             {
                 Hidden = true;
-                if (_onHide != null)
+                if (OnHide != null)
                 {
-                    _onHide(this);
+                    OnHide(this);
                 }
 
                 if (_freeSurfaceOnHide && BackSurface != null)
@@ -113,9 +132,9 @@ public partial class BaseWindow : WindowControl
 
                 ClearBlitList();
                 ClearDrawList();
-                if (_onShow != null)
+                if (OnShow != null)
                 {
-                    _onShow(this);
+                    OnShow(this);
                 }
             }
         }
@@ -250,10 +269,7 @@ public partial class BaseWindow : WindowControl
                                 }
                             }
 
-                            if (_onDraw != null)
-                            {
-                                _onDraw(this, lockedSurface);
-                            }
+                            RaiseDraw(this, lockedSurface);
                         }
 
                         if (locked)
@@ -269,10 +285,7 @@ public partial class BaseWindow : WindowControl
                             {
                                 if (BlitCount > 0)
                                 {
-                                    if (_onPreDrawSurface != null)
-                                    {
-                                        _onPreDrawSurface(this, BackSurface, 0, 0);
-                                    }
+                                    RaisePreDrawSurface(this, BackSurface, 0, 0);
 
                                     for (int J = 0, last = BlitCount - 1; J <= last; J++)
                                     {
@@ -293,10 +306,7 @@ public partial class BaseWindow : WindowControl
                                         _windowManager.AddBlitRectangle(ref R, this);
                                     }
 
-                                    if (_onDrawSurface != null)
-                                    {
-                                        _onDrawSurface(this, surface, 0, 0);
-                                    }
+                                    RaiseDrawSurface(this, surface, 0, 0);
                                 }
                             }
                             else
@@ -321,10 +331,7 @@ public partial class BaseWindow : WindowControl
                             }
                         }
 
-                        if (_onDraw != null)
-                        {
-                            _onDraw(this, lockedSurface);
-                        }
+                        RaiseDraw(this, lockedSurface);
 
                         if (locked)
                         {
@@ -333,15 +340,9 @@ public partial class BaseWindow : WindowControl
 
                         try
                         {
-                            if (_onPreDrawSurface != null)
-                            {
-                                _onPreDrawSurface(this, surface, WinLeft, WinTop);
-                            }
+                            RaisePreDrawSurface(this, surface, WinLeft, WinTop);
 
-                            if (_onDrawSurface != null)
-                            {
-                                _onDrawSurface(this, surface, WinLeft, WinTop);
-                            }
+                            RaiseDrawSurface(this, surface, WinLeft, WinTop);
                         }
                         catch
                         {
@@ -430,10 +431,7 @@ public partial class BaseWindow : WindowControl
                     }
                 }
 
-                if (_onDraw != null)
-                {
-                    _onDraw(this, lockedSurface);
-                }
+                RaiseDraw(this, lockedSurface);
 
                 if (_doubleBuffered)
                 {
@@ -518,81 +516,75 @@ public partial class BaseWindow : WindowControl
     public int ImageLibraryIndexFrame { get => _imageLibraryIndexFrame; set => SetILFIndex(value); }
     public int ImageLibraryIndexTexture { get => _imageLibraryIndexTexture; set => SetImageLibraryTileIndex(value); }
 
-    [Published]
-    public NotifyEvent<BaseWindow> OnHide { get => _onHide; set => _onHide = value; }
-
-    [Published]
-    public NotifyEvent<BaseWindow> OnShow { get => _onShow; set => _onShow = value; }
-
-    public new NotifyEvent<BaseWindow> OnChange
+    public new event NotifyEvent<BaseWindow> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<BaseWindow> OnMouseDown
+    public new event MouseEvent<BaseWindow> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<BaseWindow> OnMouseUp
+    public new event MouseEvent<BaseWindow> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<BaseWindow> OnMouseMove
+    public new event MouseMoveEvent<BaseWindow> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<BaseWindow> OnKeyPress
+    public new event KeyPressEvent<BaseWindow> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<BaseWindow> OnKeyDown
+    public new event KeyEvent<BaseWindow> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<BaseWindow> OnPreDraw
+    public new event AoWOnDrawEvent<BaseWindow> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<BaseWindow> OnDraw
+    public new event AoWOnDrawEvent<BaseWindow> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<BaseWindow> OnUpdate
+    public new event NotifyEvent<BaseWindow> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(OnUpdate), value: value);
     }
 
-    public new AoWOnDrawBackEvent<BaseWindow> OnDrawBack
+    public new event AoWOnDrawBackEvent<BaseWindow> OnDrawBack
     {
-        get => EventSlot.Get(this, _onDrawBack);
-        set => EventSlot.Set(this, ref _onDrawBack, value);
+        add => ((WindowControl)this).OnDrawBack += EventSlot.Add<WindowControl, BaseWindow>(this, slot: nameof(OnDrawBack), value: value);
+        remove => ((WindowControl)this).OnDrawBack -= EventSlot.Remove<WindowControl, BaseWindow>(this, slot: nameof(OnDrawBack), value: value);
     }
 
-    public new NotifyEvent<BaseWindow> OnEnter
+    public new event NotifyEvent<BaseWindow> OnEnter
     {
-        get => EventSlot.Get(this, _onEnter);
-        set => EventSlot.Set(this, ref _onEnter, value);
+        add => ((WindowControl)this).OnEnter += EventSlot.Add<WindowControl, BaseWindow>(this, slot: nameof(OnEnter), value: value);
+        remove => ((WindowControl)this).OnEnter -= EventSlot.Remove<WindowControl, BaseWindow>(this, slot: nameof(OnEnter), value: value);
     }
 
-    public new NotifyEvent<BaseWindow> OnExit
+    public new event NotifyEvent<BaseWindow> OnExit
     {
-        get => EventSlot.Get(this, _onExit);
-        set => EventSlot.Set(this, ref _onExit, value);
+        add => ((WindowControl)this).OnExit += EventSlot.Add<WindowControl, BaseWindow>(this, slot: nameof(OnExit), value: value);
+        remove => ((WindowControl)this).OnExit -= EventSlot.Remove<WindowControl, BaseWindow>(this, slot: nameof(OnExit), value: value);
     }
 }

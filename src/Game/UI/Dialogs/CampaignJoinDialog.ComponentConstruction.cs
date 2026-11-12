@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class CampaignJoinDialog
 {
-    public NotifyEvent<CampaignJoinDialog> LayoutOnCreate { get; set; }
-    public NotifyEvent<CampaignJoinDialog> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<CampaignJoinDialog> LayoutOnCreate;
+    public event NotifyEvent<CampaignJoinDialog> LayoutOnDestroy;
 
     public override void Dispose()
     {

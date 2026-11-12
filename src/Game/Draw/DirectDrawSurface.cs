@@ -3,11 +3,15 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw;
 
-// a DirectDraw surface. _onSurfaceLost, _pixelFormatId, _width, _height, FSurface,
+// a DirectDraw surface. OnSurfaceLost, _pixelFormatId, _width, _height, FSurface,
 // FCreationFlags, FStatus, FLockCount, FLockExCount, FSurfaceDesc (the description of the lock)
 public partial class DirectDrawSurface : Surface
 {
+    // Nothing in the port raises OnSurfaceLost. The bound handler is kept.
     private NotifyEvent<object> _onSurfaceLost;
+
+    public event NotifyEvent<object> OnSurfaceLost { add => _onSurfaceLost += value; remove => _onSurfaceLost -= value; }
+
     private int _pixelFormatId;
     private int _width;
     private int _height;
@@ -25,7 +29,6 @@ public partial class DirectDrawSurface : Surface
 
     public Set<DirectDrawSurfaceStatusElement> Status { get => _status; }
     public Set<DirectDrawSurfaceCreationFlagsElement> CreationFlags { get => _creationFlags; }
-    public NotifyEvent<object> OnSurfaceLost { get => _onSurfaceLost; set => _onSurfaceLost = value; }
 
     public const DirectDrawSurfaceStatusElement SystemMemory = DirectDrawSurfaceStatusElement.Created;
 }

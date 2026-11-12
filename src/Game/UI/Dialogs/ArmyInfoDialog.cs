@@ -25,7 +25,7 @@ public partial class ArmyInfoDialog : DataModule
     public Image FaceFrame;
     public Label HeaderLabel;
     private bool _unitInfoShown;
-    private ExecuteDoneEvent _onClose;
+    private event ExecuteDoneEvent OnClose;
     private ArmyInfoEventLog _event;
 
     // AoWArmyInfoDlg.pas:63
@@ -77,9 +77,9 @@ public partial class ArmyInfoDialog : DataModule
             DialogHosts.UnitWindow.MainWindow.Visible = false;
         }
 
-        notify = _onClose;
+        notify = OnClose;
         eventValue = _event;
-        _onClose = null;
+        OnClose = null;
         _event = null;
         if (notify != null)
         {
@@ -173,7 +173,7 @@ public partial class ArmyInfoDialog : DataModule
 
     internal static void ShowArmyInfo(ArmyInfoDialog dialog, ArmyInfoEventLog eventValue, ExecuteDoneEvent done)
     {
-        dialog._onClose = done;
+        dialog.OnClose = done;
         dialog._event = eventValue;
         dialog._event.AddRef();
         var text = eventValue.Messages.Text;

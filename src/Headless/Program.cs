@@ -136,8 +136,8 @@ internal static class Program
             HeadlessHooks.TacticalBattles = tacticalBattles;
             directed = new(map, exerciseItems, globalSpell);
             if (globalSpell != 0) HeadlessHooks.BeforeAIPlayerProcess = directed.BeforeFrame;
-            map.FGameOverEvents += _ => ended = true;
-            map.FExecuteEventLogEvents += notification =>
+            map.GameEnded += _ => ended = true;
+            map.ExecutingEventLog += notification =>
             {
                 var info = notification.Info;
                 if (info.Log is MessageEventLog message)

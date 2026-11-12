@@ -20,9 +20,9 @@ namespace Aow.Game.World.Map;
 // the map. FMouse, FMapContainer, FEngine, FSelection, FStaticVisibleHS, FDynamicVisibleHS (the
 // sprites in the view port), FStaticFixedVisibleHS, FDynamicFixedVisibleHS (sprites shown
 // wherever the view is), FTimer, FStaticSceneInvalid, FDynamicSceneInvalid, FVersion,
-// _hssFileName, _status, _frame, FTerrainChangedEvents, _onCenterView, _onChangeView,
-// _onViewLevel, _onProgress, _terrainChangedLockCounter, FNewFrameEvents,
-// FViewPortChangedEvents, FDestroyEvents, _hexSpriteChangedEvents, _fileName, _viewPixelX, _viewPixelY,
+// _hssFileName, _status, _frame, TerrainChanged, OnCenterView, OnChangeView,
+// OnViewLevel, OnProgress, _terrainChangedLockCounter, FrameStarted,
+// ViewPortChanged, MapDestroying, _hexSpriteChangedEvents, _fileName, _viewPixelX, _viewPixelY,
 // FViewL, FViewWidth, FViewHeight (the view port in pixels), FViewXhx, FViewYhx, FViewWidthHX,
 // FViewHeightHX (the hexagons it covers). Persisted (ReadWrite): 2 FHSSFileName (rwString, not
 // in text streams), 3 FVersion (rwByte of a Shortint copy), 4 FViewXhp, 5 FViewYhp, 6 FViewL
@@ -56,9 +56,9 @@ public partial class GameMap : ENode
         _mapChangedEventsStore = new();
         _scannerIconsChangedEventsStore = new();
         _backHexSelector = new CustomFixedVisibleHexSprite(null);
-        _backHexSelector.OnShow = ShowBackHexSelector;
+        _backHexSelector.OnShow += ShowBackHexSelector;
         _frontHexSelector = new CustomFixedVisibleHexSprite(null);
-        _frontHexSelector.OnShow = ShowFrontHexSelector;
+        _frontHexSelector.OnShow += ShowFrontHexSelector;
         _hexSelectorVisible = false;
         ExplorationEnabled = true;
         FogEnabled = true;
@@ -84,21 +84,49 @@ public partial class GameMap : ENode
 
     internal EventStore<TerrainChangedNotification> TerrainChangedEventsStore { get; }
 
-    internal event NotifyEvent<TerrainChangedNotification> FTerrainChangedEvents
+    internal event NotifyEvent<TerrainChangedNotification> TerrainChanged
     {
         add => TerrainChangedEventsStore.Add(value);
         remove => TerrainChangedEventsStore.Remove(value);
     }
 
-    private CenterViewEvent _onCenterView;
-    private ChangeViewEvent _onChangeView;
-    private ViewLevelEvent _onViewLevel;
-    private Aow.Engine.ProgressEvent _onProgress;
+    public event CenterViewEvent OnCenterView;
+
+    internal void SetCenterViewHandler(CenterViewEvent handler) => OnCenterView = handler;
+
+    internal void ClearCenterViewHandler() => OnCenterView = null;
+
+    public event ChangeViewEvent OnChangeView;
+
+    internal void SetChangeViewHandler(ChangeViewEvent handler) => OnChangeView = handler;
+
+    public event ViewLevelEvent OnViewLevel;
+
+    internal void SetViewLevelHandler(ViewLevelEvent handler) => OnViewLevel = handler;
+
+    internal void ClearViewLevelHandler() => OnViewLevel = null;
+
+    public event Aow.Engine.ProgressEvent OnProgress;
+
+    protected void RaiseProgress(EngineObject sender, string message, int progression)
+    {
+        if (OnProgress != null)
+        {
+            OnProgress(sender, message, progression);
+        }
+    }
+
+    protected bool HasProgressHandlers => OnProgress != null;
+
+    internal void SetProgressHandler(Aow.Engine.ProgressEvent handler) => OnProgress = handler;
+
+    internal void ClearProgressHandler() => OnProgress = null;
+
     private int _terrainChangedLockCounter;
 
     internal EventStore<GameMap> NewFrameEventsStore { get; }
 
-    internal event NotifyEvent<GameMap> FNewFrameEvents
+    internal event NotifyEvent<GameMap> FrameStarted
     {
         add => NewFrameEventsStore.Add(value);
         remove => NewFrameEventsStore.Remove(value);
@@ -106,7 +134,7 @@ public partial class GameMap : ENode
 
     internal EventStore<GameMap> ViewPortChangedEventsStore { get; }
 
-    internal event NotifyEvent<GameMap> FViewPortChangedEvents
+    internal event NotifyEvent<GameMap> ViewPortChanged
     {
         add => ViewPortChangedEventsStore.Add(value);
         remove => ViewPortChangedEventsStore.Remove(value);
@@ -114,7 +142,7 @@ public partial class GameMap : ENode
 
     internal EventStore<GameMap> DestroyEventsStore { get; }
 
-    internal event NotifyEvent<GameMap> FDestroyEvents
+    internal event NotifyEvent<GameMap> MapDestroying
     {
         add => DestroyEventsStore.Add(value);
         remove => DestroyEventsStore.Remove(value);
@@ -197,7 +225,7 @@ public partial class GameMap : ENode
 
         if (!stream.StorageMode().Contains(EngineServices.Partial) && stream.StorageMode().Contains(StorageModeElement.Read) && !IsEmpty(_hssFileName))
         {
-            ((GameEngine)stream.Engine).InitializeHexSpriteSet(stream.Engine.StartupDirectory + _hssFileName, stream.OnProgress);
+            ((GameEngine)stream.Engine).InitializeHexSpriteSet(stream.Engine.StartupDirectory + _hssFileName, stream.ProgressHandler);
         }
 
         B = (sbyte)_version;
@@ -353,27 +381,27 @@ public partial class GameMap : ENode
     // { Tests OnCenterView instead of OnViewLevel (original slip). }
     public virtual void ViewLevel(int hexLevel)
     {
-        if (_onCenterView != null && hexLevel < _mapContainer.LevelCount)
+        if (OnCenterView != null && hexLevel < _mapContainer.LevelCount)
         {
-            _onViewLevel(hexLevel);
+            OnViewLevel(hexLevel);
         }
     }
 
     // HSMAP.PAS:115
     public virtual void CenterViewTo(int hexX, int hexY, int hexLevel)
     {
-        if (_onCenterView != null)
+        if (OnCenterView != null)
         {
-            _onCenterView(hexX, hexY, hexLevel);
+            OnCenterView(hexX, hexY, hexLevel);
         }
     }
 
     // HSMAP.PAS:121
     public virtual void ChangeViewTo(int pixelX, int pixelY, int lHitPoints)
     {
-        if (_onChangeView != null)
+        if (OnChangeView != null)
         {
-            _onChangeView(pixelX, pixelY, lHitPoints);
+            OnChangeView(pixelX, pixelY, lHitPoints);
         }
     }
 
@@ -503,7 +531,7 @@ public partial class GameMap : ENode
                 R.Bottom = mapLevel.Height;
             }
 
-            TerrainChanged(R, (sbyte)L);
+            NotifyTerrainChanged(R, (sbyte)L);
         }
 
         return count;
@@ -628,7 +656,7 @@ public partial class GameMap : ENode
                     R.Bottom = mapLevel.Height;
                 }
 
-                TerrainChanged(R, (sbyte)L);
+                NotifyTerrainChanged(R, (sbyte)L);
             }
 
             result = count;
@@ -811,7 +839,7 @@ public partial class GameMap : ENode
     }
 
     // HSMAP.PAS:151
-    public void TerrainChanged(in Rect R, sbyte L)
+    public void NotifyTerrainChanged(in Rect R, sbyte L)
     {
         if (_terrainChangedLockCounter == 0)
         {
@@ -849,7 +877,7 @@ public partial class GameMap : ENode
             R.Bottom = mapLevel.Height;
         }
 
-        TerrainChanged(R, L);
+        NotifyTerrainChanged(R, L);
     }
 
     // HSMAP.PAS:178
@@ -968,7 +996,7 @@ public partial class GameMap : ENode
             R.Bottom = mapLevel.Height;
         }
 
-        TerrainChanged(R, (sbyte)L);
+        NotifyTerrainChanged(R, (sbyte)L);
     }
 
     // HSMAP.PAS:561
@@ -1127,11 +1155,6 @@ public partial class GameMap : ENode
         remove => TerrainChangedEventsStore.Remove(value);
     }
 
-    public CenterViewEvent OnCenterView { get => _onCenterView; set => _onCenterView = value; }
-    public ChangeViewEvent OnChangeView { get => _onChangeView; set => _onChangeView = value; }
-    public ViewLevelEvent OnViewLevel { get => _onViewLevel; set => _onViewLevel = value; }
-    public Aow.Engine.ProgressEvent OnProgress { get => _onProgress; set => _onProgress = value; }
-
     public event NotifyEvent<GameMap> NewFrameEvents
     {
         add => NewFrameEventsStore.Add(value);
@@ -1179,7 +1202,7 @@ public partial class GameMap : ENode
 
     private EventStore<ShowMessageNotification> _showMessageEventsStore;
 
-    public event NotifyEvent<ShowMessageNotification> FShowMessageEvents
+    public event NotifyEvent<ShowMessageNotification> ShowingMessage
     {
         add => _showMessageEventsStore.Add(value);
         remove => _showMessageEventsStore.Remove(value);
@@ -1193,7 +1216,7 @@ public partial class GameMap : ENode
 
     private EventStore<MapChangedNotification> _mapChangedEventsStore;
 
-    public event NotifyEvent<MapChangedNotification> FMapChangedEvents
+    public event NotifyEvent<MapChangedNotification> MapChanged
     {
         add => _mapChangedEventsStore.Add(value);
         remove => _mapChangedEventsStore.Remove(value);
@@ -1201,7 +1224,7 @@ public partial class GameMap : ENode
 
     private EventStore<MapChangedNotification> _scannerIconsChangedEventsStore;
 
-    public event NotifyEvent<MapChangedNotification> FScannerIconsChangedEvents
+    public event NotifyEvent<MapChangedNotification> ScannerIconsChanged
     {
         add => _scannerIconsChangedEventsStore.Add(value);
         remove => _scannerIconsChangedEventsStore.Remove(value);
@@ -1409,7 +1432,7 @@ public partial class GameMap : ENode
     }
 
     // AoWHSMap.PAS:445
-    public void MapChanged(in Rect R, int L)
+    public void NotifyMapChanged(in Rect R, int L)
     {
         if (MapChangedLockCount == 0 && Status.Contains(HexSpriteMapStatusElement.Activated))
         {
@@ -1447,7 +1470,7 @@ public partial class GameMap : ENode
             R.Bottom = level.Height;
         }
 
-        TerrainChanged(R, (sbyte)L);
+        NotifyTerrainChanged(R, (sbyte)L);
     }
 
     // AoWHSMap.PAS:468
@@ -1460,7 +1483,7 @@ public partial class GameMap : ENode
         R.Bottom = MapContainer.Height;
         for (int I = 0, last = MapContainer.LevelCount - 1; I <= last; I++)
         {
-            MapChanged(R, I);
+            NotifyMapChanged(R, I);
         }
     }
 
@@ -1490,7 +1513,7 @@ public partial class GameMap : ENode
     }
 
     // AoWHSMap.PAS:500
-    public void ScannerIconsChanged(in Rect R, int L)
+    public void NotifyScannerIconsChanged(in Rect R, int L)
     {
         if (_scannerIconsChangedLockCount == 0 && (Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated, HexSpriteMapStatusElement.Destroying) & Status) == Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated))
         {
@@ -1528,7 +1551,7 @@ public partial class GameMap : ENode
             R.Bottom = level.Height;
         }
 
-        ScannerIconsChanged(R, hexLevel);
+        NotifyScannerIconsChanged(R, hexLevel);
     }
 
     // AoWHSMap.PAS:522
@@ -1541,7 +1564,7 @@ public partial class GameMap : ENode
         R.Bottom = MapContainer.Height;
         for (int I = 0, last = MapContainer.LevelCount - 1; I <= last; I++)
         {
-            ScannerIconsChanged(R, I);
+            NotifyScannerIconsChanged(R, I);
         }
     }
 

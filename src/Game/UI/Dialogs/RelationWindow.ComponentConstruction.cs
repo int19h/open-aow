@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class RelationWindow
 {
-    public NotifyEvent<RelationWindow> LayoutOnCreate { get; set; }
-    public NotifyEvent<RelationWindow> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<RelationWindow> LayoutOnCreate;
+    public event NotifyEvent<RelationWindow> LayoutOnDestroy;
 
     public override void Dispose()
     {

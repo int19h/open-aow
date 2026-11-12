@@ -79,7 +79,7 @@ public partial class AIGroupTargetFinder : AIGroupTask
     public virtual void Reset()
     {
         Selector.Reset();
-        this.Selector.OnTargetFound = TargetFoundEvent;
+        this.Selector.SetTargetFoundHandler(TargetFoundEvent);
         this.Selector.MovePointsMax = 200;
         this.Selector.MovePointsMin = 150;
         Range = 9;

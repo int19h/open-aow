@@ -11,7 +11,10 @@ public partial class Sample : IDisposable
 
     private int _delay;
     private SampleData _sampleData;
-    private SampleCallBack _callback;
+    public event SampleCallBack Callback;
+
+    internal void SetCallbackHandler(SampleCallBack handler) => Callback = handler;
+
     private Set<StatusElement> _status;
 
     // Sound.pas:746
@@ -100,9 +103,9 @@ public partial class Sample : IDisposable
     // Sound.pas:735
     public virtual void Dispose()
     {
-        if (_callback != null)
+        if (Callback != null)
         {
-            _callback(this, SampleCallbackMode.Done);
+            Callback(this, SampleCallbackMode.Done);
         }
 
         if (_sampleData != null)
@@ -130,7 +133,6 @@ public partial class Sample : IDisposable
 
     public SampleData SampleData { get => _sampleData; }
     public int Delay { get => _delay; set => _delay = value; }
-    public SampleCallBack Callback { get => _callback; set => _callback = value; }
     public Set<StatusElement> Status { get => _status; }
     public bool Playing { get => GetPlaying(); }
     public int Volume { get => GetVolume(); set => SetVolume(value); }

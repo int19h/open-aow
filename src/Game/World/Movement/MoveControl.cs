@@ -54,7 +54,10 @@ public partial class MoveControl : IDisposable
     public ArmyHexSprite ArmyHexSprite { get; private set; }
     public int Selection { get; private set; }
     public ArmyHexSprite TransporterArmy { get; private set; }
-    public MoveOnMovePointProc OnMovePoint { get; set; }
+
+    public event MoveOnMovePointProc OnMovePoint;
+
+    internal void SetMovePointHandler(MoveOnMovePointProc handler) => OnMovePoint = handler;
 
     private readonly int[][] _fieldOffsets = [new int[8], new int[8]];
     private readonly int[][] _pointOffsets = [new int[8], new int[8]];

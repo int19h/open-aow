@@ -18,19 +18,19 @@ public partial class VideoDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "VideoDialog";
-        LayoutOnCreate = _ => Layout_VideoDlgWindowCreate_0();
-        LayoutOnDestroy = _ => Layout_VideoDlgWindowDestroy_1();
+        LayoutOnCreate += _ => VideoDialogCreate();
+        LayoutOnDestroy += _ => VideoDialogDestroy();
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 150;
         Window.WinTop = 76;
         Window.WinWidth = 340;
         Window.Masked = true;
-        Window.OnShow = _ => Layout_DlgShow_2();
+        Window.OnShow += _ => DlgShow();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -94,7 +94,7 @@ public partial class VideoDialog : ILayoutModule
         closeBut.TextColor = 0;
         closeBut.TextSelectedColor = 16777215;
         closeBut.WinWidth = 136;
-        closeBut.OnClick = _ => Layout_CloseButClick_3();
+        closeBut.OnClick += _ => CloseButClick();
         session.EndRead(closeBut);
         Frame bCeltL = new Frame(this);
         session.BeginRead(bCeltL);
@@ -178,7 +178,7 @@ public partial class VideoDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CloseButClick_3();
+        close.OnClick += _ => CloseButClick();
         session.EndRead(close);
         Image tCeltLR = new Image(this);
         session.BeginRead(tCeltLR);
@@ -370,7 +370,7 @@ public partial class VideoDialog : ILayoutModule
         };
         DisplayModesList.BorderWidth = 6;
         DisplayModesList.BorderHeight = 4;
-        DisplayModesList.OnDoubleClick = _ => Layout_ApplyBtnClick_4();
+        DisplayModesList.OnDoubleClick += _ => ApplyBtnClick();
         DisplayModesList.Selected = 0;
         DisplayModesList.TextColor = 9415072;
         DisplayModesList.TextSelectedColor = 0;
@@ -413,7 +413,7 @@ public partial class VideoDialog : ILayoutModule
         ResolutionCheckBox.TextSelectedColor = 0;
         ResolutionCheckBox.WinWidth = 12;
         ResolutionCheckBox.Checked = false;
-        ResolutionCheckBox.OnChange = ResCBChange;
+        ResolutionCheckBox.OnChange += ResCBChange;
         ResolutionCheckBox.RadioIndex = 0;
         session.EndRead(ResolutionCheckBox);
         Label resSwLbl = new Label(this);
@@ -468,7 +468,7 @@ public partial class VideoDialog : ILayoutModule
         applyBtn.TextColor = 0;
         applyBtn.TextSelectedColor = 16777215;
         applyBtn.WinWidth = 136;
-        applyBtn.OnClick = _ => Layout_ApplyBtnClick_4();
+        applyBtn.OnClick += _ => ApplyBtnClick();
         session.EndRead(applyBtn);
         Panel t3LBPnl = new Panel(this);
         session.BeginRead(t3LBPnl);
@@ -611,30 +611,5 @@ public partial class VideoDialog : ILayoutModule
         videoSB.ThumbStrip = DialogHosts.UIGraphics.GenericScrollBars;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
-    }
-
-    private void Layout_VideoDlgWindowCreate_0()
-    {
-        VideoDialogCreate();
-    }
-
-    private void Layout_VideoDlgWindowDestroy_1()
-    {
-        VideoDialogDestroy();
-    }
-
-    private void Layout_DlgShow_2()
-    {
-        DlgShow();
-    }
-
-    private void Layout_CloseButClick_3()
-    {
-        CloseButClick();
-    }
-
-    private void Layout_ApplyBtnClick_4()
-    {
-        ApplyBtnClick();
     }
 }

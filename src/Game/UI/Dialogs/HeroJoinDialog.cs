@@ -30,7 +30,7 @@ public partial class HeroJoinDialog : DataModule
     public Label HeroLevelLabel;
     public Image FaceFrame;
     public Memo JoinMemo;
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
     private JoinEventLog _joinEvent;
     private bool _detailsOpen;
     private byte _selection;
@@ -62,9 +62,9 @@ public partial class HeroJoinDialog : DataModule
             DialogHosts.UnitWindow.MainWindow.Visible = false;
         }
 
-        done = _done;
+        done = Done;
         eventValue = _joinEvent;
-        _done = null;
+        Done = null;
         _joinEvent = null;
         if (done != null)
         {
@@ -258,7 +258,7 @@ public partial class HeroJoinDialog : DataModule
         ResetHeroJoin(dialog);
         dialog._joinEvent = eventValue;
         dialog._joinEvent.AddRef();
-        dialog._done = done;
+        dialog.Done = done;
         var accept = AbilityRules.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;
         dialog.MiddleButton.Visible = false;
@@ -273,7 +273,7 @@ public partial class HeroJoinDialog : DataModule
         ResetHeroJoin(dialog);
         dialog._joinEvent = eventValue;
         dialog._joinEvent.AddRef();
-        dialog._done = done;
+        dialog.Done = done;
         var accept = AbilityRules.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;
         var attack = AbilityRules.TranslateResourceString(GameText.AttackText);
@@ -296,7 +296,7 @@ public partial class HeroJoinDialog : DataModule
         ResetHeroJoin(dialog);
         dialog._joinEvent = eventValue;
         dialog._joinEvent.AddRef();
-        dialog._done = done;
+        dialog.Done = done;
         var accept = AbilityRules.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;
         dialog.MiddleButton.Visible = false;

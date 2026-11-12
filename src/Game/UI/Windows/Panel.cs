@@ -226,10 +226,7 @@ public partial class Panel : BaseWindow
                 SetWinTopWithoutInvalidate(WinTop + (_window.WinTop));
             }
 
-            if (_onUpdate != null)
-            {
-                _onUpdate(this);
-            }
+            RaiseUpdate(this);
 
             for (int I = 0, last = Children.Count - 1; I <= last; I++)
             {
@@ -380,10 +377,7 @@ public partial class Panel : BaseWindow
             if (!Visible)
             {
                 Hidden = true;
-                if (_onHide != null)
-                {
-                    _onHide(this);
-                }
+                RaiseHide(this);
             }
             else
             {
@@ -397,10 +391,7 @@ public partial class Panel : BaseWindow
                     Hidden = true;
                 }
 
-                if (_onShow != null)
-                {
-                    _onShow(this);
-                }
+                RaiseShow(this);
             }
         }
 
@@ -509,10 +500,7 @@ public partial class Panel : BaseWindow
                 else
                 {
                     DrawBack();
-                    if (_onDrawBack != null)
-                    {
-                        _onDrawBack(this, lockedSurface);
-                    }
+                    RaiseDrawBack(this, lockedSurface);
                 }
 
                 DrawCount = 0;
@@ -552,10 +540,7 @@ public partial class Panel : BaseWindow
                     }
                 }
 
-                if (_onDraw != null)
-                {
-                    _onDraw(this, lockedSurface);
-                }
+                RaiseDraw(this, lockedSurface);
 
                 Drawn = SurfaceValid;
                 lockedSurface.ClipRectangle = oldClip;
@@ -614,10 +599,7 @@ public partial class Panel : BaseWindow
                 Redraw = true;
                 SetWinLeftWithoutInvalidate(_savedLeft);
                 SetWinTopWithoutInvalidate(_savedTop);
-                if (_onMouseDown != null)
-                {
-                    _onMouseDown(this, button, shift, X, Y);
-                }
+                RaiseMouseDown(this, button, shift, X, Y);
             }
             else
             {
@@ -663,10 +645,7 @@ public partial class Panel : BaseWindow
                 Handled = true;
                 SetWinLeftWithoutInvalidate(_savedLeft);
                 SetWinTopWithoutInvalidate(_savedTop);
-                if (_onMouseUp != null)
-                {
-                    _onMouseUp(this, button, shift, X, Y);
-                }
+                RaiseMouseUp(this, button, shift, X, Y);
             }
             else
             {
@@ -712,10 +691,7 @@ public partial class Panel : BaseWindow
                 Handled = true;
                 SetWinLeftWithoutInvalidate(_savedLeft);
                 SetWinTopWithoutInvalidate(_savedTop);
-                if (_onMouseMove != null)
-                {
-                    _onMouseMove(this, shift, X, Y);
-                }
+                RaiseMouseMove(this, shift, X, Y);
             }
             else
             {
@@ -807,87 +783,87 @@ public partial class Panel : BaseWindow
     [Published]
     public int MinHeight { get => _minHeight; set => _minHeight = value; }
 
-    public new NotifyEvent<Panel> OnChange
+    public new event NotifyEvent<Panel> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<Panel> OnMouseDown
+    public new event MouseEvent<Panel> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<Panel> OnMouseUp
+    public new event MouseEvent<Panel> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<Panel> OnMouseMove
+    public new event MouseMoveEvent<Panel> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<Panel> OnKeyPress
+    public new event KeyPressEvent<Panel> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<Panel> OnKeyDown
+    public new event KeyEvent<Panel> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<Panel> OnPreDraw
+    public new event AoWOnDrawEvent<Panel> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<Panel> OnDraw
+    public new event AoWOnDrawEvent<Panel> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<Panel> OnUpdate
+    public new event NotifyEvent<Panel> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(OnUpdate), value: value);
     }
 
-    public new AoWOnDrawBackEvent<Panel> OnDrawBack
+    public new event AoWOnDrawBackEvent<Panel> OnDrawBack
     {
-        get => EventSlot.Get(this, _onDrawBack);
-        set => EventSlot.Set(this, ref _onDrawBack, value);
+        add => ((WindowControl)this).OnDrawBack += EventSlot.Add<WindowControl, Panel>(this, slot: nameof(OnDrawBack), value: value);
+        remove => ((WindowControl)this).OnDrawBack -= EventSlot.Remove<WindowControl, Panel>(this, slot: nameof(OnDrawBack), value: value);
     }
 
-    public new NotifyEvent<Panel> OnEnter
+    public new event NotifyEvent<Panel> OnEnter
     {
-        get => EventSlot.Get(this, _onEnter);
-        set => EventSlot.Set(this, ref _onEnter, value);
+        add => ((WindowControl)this).OnEnter += EventSlot.Add<WindowControl, Panel>(this, slot: nameof(OnEnter), value: value);
+        remove => ((WindowControl)this).OnEnter -= EventSlot.Remove<WindowControl, Panel>(this, slot: nameof(OnEnter), value: value);
     }
 
-    public new NotifyEvent<Panel> OnExit
+    public new event NotifyEvent<Panel> OnExit
     {
-        get => EventSlot.Get(this, _onExit);
-        set => EventSlot.Set(this, ref _onExit, value);
+        add => ((WindowControl)this).OnExit += EventSlot.Add<WindowControl, Panel>(this, slot: nameof(OnExit), value: value);
+        remove => ((WindowControl)this).OnExit -= EventSlot.Remove<WindowControl, Panel>(this, slot: nameof(OnExit), value: value);
     }
 
-    public new NotifyEvent<Panel> OnHide
+    public new event NotifyEvent<Panel> OnHide
     {
-        get => EventSlot.Get(this, _onHide);
-        set => EventSlot.Set(this, ref _onHide, value);
+        add => ((BaseWindow)this).OnHide += EventSlot.Add<BaseWindow, Panel>(this, slot: nameof(OnHide), value: value);
+        remove => ((BaseWindow)this).OnHide -= EventSlot.Remove<BaseWindow, Panel>(this, slot: nameof(OnHide), value: value);
     }
 
-    public new NotifyEvent<Panel> OnShow
+    public new event NotifyEvent<Panel> OnShow
     {
-        get => EventSlot.Get(this, _onShow);
-        set => EventSlot.Set(this, ref _onShow, value);
+        add => ((BaseWindow)this).OnShow += EventSlot.Add<BaseWindow, Panel>(this, slot: nameof(OnShow), value: value);
+        remove => ((BaseWindow)this).OnShow -= EventSlot.Remove<BaseWindow, Panel>(this, slot: nameof(OnShow), value: value);
     }
 }

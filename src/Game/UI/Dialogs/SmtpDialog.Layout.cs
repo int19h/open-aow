@@ -22,14 +22,14 @@ public partial class SmtpDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnUpdate = _ => Layout_DlgUpdate_0();
+        Window.OnUpdate += _ => DlgUpdate();
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 127;
         Window.WinTop = 111;
         Window.WinWidth = 386;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_DlgHide_1();
+        Window.OnHide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -232,7 +232,7 @@ public partial class SmtpDialog : ILayoutModule
         ExitButton.TextColor = 0;
         ExitButton.TextSelectedColor = 16777215;
         ExitButton.WinWidth = 130;
-        ExitButton.OnClick = _ => Layout_ExitBtnClick_2();
+        ExitButton.OnClick += _ => ExitBtnClick();
         session.EndRead(ExitButton);
         SendingGameLabel = new Label(this);
         session.BeginRead(SendingGameLabel);
@@ -260,7 +260,7 @@ public partial class SmtpDialog : ILayoutModule
         ProgressBar = new Gauge(this);
         session.BeginRead(ProgressBar);
         ProgressBar.Name = "ProgressBar";
-        ProgressBar.OnUpdate = _ => Layout_ProgressBarUpdate_3();
+        ProgressBar.OnUpdate += _ => ProgressBarUpdate();
         ProgressBar.Priority = 0;
         ProgressBar.WinLeft = 0;
         ProgressBar.WinTop = 65;
@@ -433,7 +433,7 @@ public partial class SmtpDialog : ILayoutModule
         settingsBtn.TextColor = 0;
         settingsBtn.TextSelectedColor = 16777215;
         settingsBtn.WinWidth = 110;
-        settingsBtn.OnClick = _ => Layout_SettingsBtnClick_4();
+        settingsBtn.OnClick += _ => SettingsBtnClick();
         session.EndRead(settingsBtn);
         Button retryBtn = new Button(this);
         session.BeginRead(retryBtn);
@@ -464,7 +464,7 @@ public partial class SmtpDialog : ILayoutModule
         retryBtn.TextColor = 0;
         retryBtn.TextSelectedColor = 16777215;
         retryBtn.WinWidth = 110;
-        retryBtn.OnClick = _ => Layout_RetryBtnClick_5();
+        retryBtn.OnClick += _ => RetryBtnClick();
         session.EndRead(retryBtn);
         Button exitBtn2 = new Button(this);
         session.BeginRead(exitBtn2);
@@ -495,7 +495,7 @@ public partial class SmtpDialog : ILayoutModule
         exitBtn2.TextColor = 0;
         exitBtn2.TextSelectedColor = 16777215;
         exitBtn2.WinWidth = 110;
-        exitBtn2.OnClick = _ => Layout_ExitBtnClick_2();
+        exitBtn2.OnClick += _ => ExitBtnClick();
         session.EndRead(exitBtn2);
         Label titleLbl = new Label(this);
         session.BeginRead(titleLbl);
@@ -591,8 +591,8 @@ public partial class SmtpDialog : ILayoutModule
         session.BeginRead(SmtpSender);
         SmtpSender.Name = "IMSSMTP";
         SmtpSender.DefaultPort = 25;
-        SmtpSender.OnError = (_, ref error) => SmtpSenderError(ref error);
-        SmtpSender.OnProgress = (_, progress, total) => SmtpSenderProgress(progress, total);
+        SmtpSender.OnError += (_, ref error) => SmtpSenderError(ref error);
+        SmtpSender.OnProgress += (_, progress, total) => SmtpSenderProgress(progress, total);
         session.EndRead(SmtpSender);
         LayoutIvTranslator translator = new LayoutIvTranslator(this);
         session.BeginRead(translator);
@@ -671,35 +671,5 @@ public partial class SmtpDialog : ILayoutModule
         close.ToolTip = DialogHosts.General.ToolTip;
         close.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
         titleIcon.ImageLibrary = DialogHosts.UIGraphics.TitleIcons;
-    }
-
-    private void Layout_DlgUpdate_0()
-    {
-        DlgUpdate();
-    }
-
-    private void Layout_DlgHide_1()
-    {
-        DlgHide();
-    }
-
-    private void Layout_ExitBtnClick_2()
-    {
-        ExitBtnClick();
-    }
-
-    private void Layout_ProgressBarUpdate_3()
-    {
-        ProgressBarUpdate();
-    }
-
-    private void Layout_SettingsBtnClick_4()
-    {
-        SettingsBtnClick();
-    }
-
-    private void Layout_RetryBtnClick_5()
-    {
-        RetryBtnClick();
     }
 }

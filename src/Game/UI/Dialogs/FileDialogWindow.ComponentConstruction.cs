@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class FileDialogWindow
 {
-    public NotifyEvent<FileDialogWindow> LayoutOnCreate { get; set; }
-    public NotifyEvent<FileDialogWindow> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<FileDialogWindow> LayoutOnCreate;
+    public event NotifyEvent<FileDialogWindow> LayoutOnDestroy;
 
     public override void Dispose()
     {
