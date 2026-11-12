@@ -11,7 +11,7 @@ public partial class City
         base.Activate();
         UpdateVisibleForSeatedPlayer();
         Production.Activate();
-        var map = AoWHSMap.Current;
+        var map = StrategicMap.Current;
         if (Player != -1) map.Players.GetPlayers(Player).ProductionControls.Add(Production);
         if (map.Status.Contains(HexSpriteMapStatusElement.Editting) && map.Day == 0) SetUpgradeLevel(UpgradeLevel);
         UpdateImages();
@@ -28,7 +28,7 @@ public partial class City
         {
             if (Race >= 0)
             {
-                var race = AoWHSSet.Current.RaceResources.GetRaceResource(Race);
+                var race = GamePack.Current.RaceResources.GetRaceResource(Race);
                 int size = ((Resource)_resource).Size;
                 if (race != null) CityImage = race.GetCityImage(size, terrain, field.HexLevel);
                 if (CityImage == null) CityImage = images[images.ImageExist(offset) ? offset : 0];

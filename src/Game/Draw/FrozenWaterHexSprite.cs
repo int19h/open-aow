@@ -71,7 +71,7 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
         var hexX = HexX;
         var hexY2 = HexY;
         var hexY3 = HexY;
-        AoWHSSet.Current.ImageSequences.ShowLooped(70, X, Y, AoWHSMap.Current.Frame, hexX + hexY2 + hexY3 * 2, lockedSurface);
+        GamePack.Current.ImageSequences.ShowLooped(70, X, Y, StrategicMap.Current.Frame, hexX + hexY2 + hexY3 * 2, lockedSurface);
     }
 
     // Structur.PAS:4494
@@ -81,7 +81,7 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
         {
             var hexY = HexY;
             var hexX = HexX;
-            AoWHSMap.Current.ChangeTerrain(this, hexX, hexY, HexLevel, 0, 0);
+            StrategicMap.Current.ChangeTerrain(this, hexX, hexY, HexLevel, 0, 0);
         }
         else
         {
@@ -89,7 +89,7 @@ public partial class FrozenWaterHexSprite : SingleHexSprite
             {
                 var hexY = HexY;
                 var hexX = HexX;
-                AoWHSMap.Current.ChangeTerrain(this, hexX, hexY, HexLevel, 0, 10);
+                StrategicMap.Current.ChangeTerrain(this, hexX, hexY, HexLevel, 0, 10);
             }
             else
             {

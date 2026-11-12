@@ -93,7 +93,7 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
     {
         int result;
         int player;
-        player = AoWHSMap.Current.Players.RaceToPlayer(race);
+        player = StrategicMap.Current.Players.RaceToPlayer(race);
         if (player == -1)
         {
             result = StatusToStatusValue((Status)DefaultRelations[race]);
@@ -111,14 +111,14 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
     {
         Status result;
         int player;
-        player = AoWHSMap.Current.Players.RaceToPlayer(race);
+        player = StrategicMap.Current.Players.RaceToPlayer(race);
         if (player == -1)
         {
-            result = StatusValueToStatus(StatusToStatusValue((Status)DefaultRelations[race]) + AoWHSMap.Current.Races.RelationOffset);
+            result = StatusValueToStatus(StatusToStatusValue((Status)DefaultRelations[race]) + StrategicMap.Current.Races.RelationOffset);
         }
         else
         {
-            result = StatusValueToStatus(_playerRelations[player - 1] + AoWHSMap.Current.Races.RelationOffset);
+            result = StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset);
         }
 
         return result;
@@ -130,10 +130,10 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
         if (player > 0)
         {
             // { Original dereferences AoWHSMap before the nil check below. }
-            _playerRelations[player - 1] = value - AoWHSMap.Current.Races.RelationOffset;
-            if (AoWHSMap.Current != null)
+            _playerRelations[player - 1] = value - StrategicMap.Current.Races.RelationOffset;
+            if (StrategicMap.Current != null)
             {
-                AoWHSMap.Current.TriggerRelationsChanged();
+                StrategicMap.Current.TriggerRelationsChanged();
             }
         }
     }
@@ -144,7 +144,7 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
         int result;
         if (player > 0)
         {
-            result = _playerRelations[player - 1] + AoWHSMap.Current.Races.RelationOffset;
+            result = _playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset;
         }
         else
         {
@@ -160,7 +160,7 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
         Status result;
         if (player > 0)
         {
-            result = StatusValueToStatus(_playerRelations[player - 1] + AoWHSMap.Current.Races.RelationOffset);
+            result = StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset);
         }
         else
         {
@@ -174,13 +174,13 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
     public void NewDay()
     {
         int defaultValue;
-        if (AoWHSMap.Current.Day != 1)
+        if (StrategicMap.Current.Day != 1)
         {
-            if ((AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments & Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.Hatred, GlobalEnchantmentType.Harmony)) == Set<GlobalEnchantmentType>.Of())
+            if ((StrategicMap.Current.GlobalMagicControl.ActiveEnchantments & Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.Hatred, GlobalEnchantmentType.Harmony)) == Set<GlobalEnchantmentType>.Of())
             {
                 for (int I = 0, last = _playerRelations.Count - 1; I <= last; I++)
                 {
-                    var players = AoWHSMap.Current.Players.GetPlayers(I + 1);
+                    var players = StrategicMap.Current.Players.GetPlayers(I + 1);
                     defaultValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
                     if (_playerRelations[I] > defaultValue)
                     {
@@ -243,9 +243,9 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
     public void ResetPlayerRelations()
     {
         _playerRelations.Clear();
-        for (int I = 1, last = AoWHSMap.Current.Players.GetCount() - 1; I <= last; I++)
+        for (int I = 1, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
         {
-            var players = AoWHSMap.Current.Players.GetPlayers(I);
+            var players = StrategicMap.Current.Players.GetPlayers(I);
             var statusToStatusValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
             _playerRelations.Add(statusToStatusValue);
         }
@@ -263,15 +263,15 @@ public partial class Race : EngineObject, IOwned<RaceList>, IOwnedSink<RaceList>
     {
         if (value != Enabled)
         {
-            if (AoWHSSet.Current.RaceResources.GetRaceResource(RaceIndex) != null)
+            if (GamePack.Current.RaceResources.GetRaceResource(RaceIndex) != null)
             {
                 if (value)
                 {
-                    AoWHSSet.Current.RaceResources.GetRaceResource(RaceIndex).AddRef();
+                    GamePack.Current.RaceResources.GetRaceResource(RaceIndex).AddRef();
                 }
                 else
                 {
-                    AoWHSSet.Current.RaceResources.GetRaceResource(RaceIndex).Release();
+                    GamePack.Current.RaceResources.GetRaceResource(RaceIndex).Release();
                 }
 
                 Enabled = value;

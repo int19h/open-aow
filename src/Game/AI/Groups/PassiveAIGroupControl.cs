@@ -31,8 +31,8 @@ public partial class PassiveAIGroupControl : AIGroupControl
                 selector.Execute(Group, location.X, location.Y, location.MapLevel, null);
                 if (selector.Defenders.Count != Group.Count && Group.Player != 0)
                 {
-                    var randomGroupBehavior = AoWHSMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
-                    group = AoWHSMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, randomGroupBehavior);
+                    var randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
+                    group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, randomGroupBehavior);
                     for (int I = Group.Count - 1; I >= 0; I--)
                     {
                         troop = Group.GetUnit(I);
@@ -71,7 +71,7 @@ public partial class PassiveAIGroupControl : AIGroupControl
         MapCoordinate location = default;
         MapCoordinate otherLocation = default;
         AIGroup group;
-        player = AoWHSMap.Current.Players.GetPlayers(Group.Player);
+        player = StrategicMap.Current.Players.GetPlayers(Group.Player);
         location.Packed = Group.GetLocation();
         for (int I = player.AIGroups.Count - 1; I >= 0; I--)
         {

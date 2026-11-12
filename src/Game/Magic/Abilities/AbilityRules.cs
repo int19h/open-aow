@@ -2,14 +2,11 @@ using System.Collections.Immutable;
 
 using System.Runtime.InteropServices;
 using Aow.Engine;
-using Aow.Engine.Buffers;
-using Aow.Game.AI;
-using Aow.Game.AI.Groups;
+
 using Aow.Game.Combat;
 
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Animations;
 
 using Aow.Game.Magic.Spells;
 
@@ -242,7 +239,7 @@ public static class AbilityRules
     {
         int I;
         int points;
-        AoWMapField field;
+        MapField field;
         int result = 0;
         I = path.Count;
         points = 0;
@@ -253,7 +250,7 @@ public static class AbilityRules
             if (points <= movePoints)
             {
                 var item = path[I];
-                field = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(item.Packed);
+                field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(item.Packed);
                 if (CanConstructRoad(player, field))
                 {
                     result += 10;
@@ -283,7 +280,7 @@ public static class AbilityRules
     {
         if (damageType != DamageType.None)
         {
-            AoWHSSet.Current.CombatImages[(int)damageType + 10].Show(X + 15, Y + 10, surface);
+            GamePack.Current.CombatImages[(int)damageType + 10].Show(X + 15, Y + 10, surface);
             if (Set<DamageType>.Of(DamageType.Cold, DamageType.Lightning, DamageType.Magic, DamageType.Holy).Contains(damageType))
             {
                 GameTables.GameEngine.CombatFont.Color = 0;
@@ -420,17 +417,17 @@ public static class AbilityRules
             {
                 tries -= 1;
                 index = units[Random(units.Count)];
-                if (index != -1 && types.Contains(AoWHSSet.Current.UnitResources.GetUnitResource(index).UnitType) && AoWHSSet.Current.UnitResources.GetUnitResource(index).GetObtainValue() + result > value && AoWHSSet.Current.UnitResources.GetUnitResource(index).Level <= level)
+                if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType) && GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() + result > value && GamePack.Current.UnitResources.GetUnitResource(index).Level <= level)
                 {
                     bestIndex = index;
                     I = 20;
-                    difference = Math.Abs(AoWHSSet.Current.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
+                    difference = Math.Abs(GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
                     do
                     {
                         index = units[Random(units.Count)];
-                        if (index != -1 && types.Contains(AoWHSSet.Current.UnitResources.GetUnitResource(index).UnitType))
+                        if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType))
                         {
-                            delta = Math.Abs(AoWHSSet.Current.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
+                            delta = Math.Abs(GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
                             if (delta < difference)
                             {
                                 difference = delta;
@@ -444,10 +441,10 @@ public static class AbilityRules
                     index = bestIndex;
                 }
 
-                if (index != -1 && types.Contains(AoWHSSet.Current.UnitResources.GetUnitResource(index).UnitType) && AoWHSSet.Current.UnitResources.GetUnitResource(index).Level <= level)
+                if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType) && GamePack.Current.UnitResources.GetUnitResource(index).Level <= level)
                 {
                     unit = new Unit(null);
-                    unit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(index));
+                    unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
                     if (unit.Place(X, Y, L, player, Set<UnitPlaceModeElement>.Of()) != null)
                     {
                         result += unit.GetObtainValue();
@@ -485,7 +482,7 @@ public static class AbilityRules
         }
         else
         {
-            result = AoWHSSet.Current.RaceResources.GetRaceResource(relation).GetAlignment();
+            result = GamePack.Current.RaceResources.GetRaceResource(relation).GetAlignment();
         }
 
         return result;
@@ -502,7 +499,7 @@ public static class AbilityRules
         {
             if (player != 0)
             {
-                race = AoWHSMap.Current.Players.GetPlayers(player).PlayerRace;
+                race = StrategicMap.Current.Players.GetPlayers(player).PlayerRace;
             }
             else
             {
@@ -518,7 +515,7 @@ public static class AbilityRules
 
             if (otherPlayer != 0)
             {
-                otherRace = AoWHSMap.Current.Players.GetPlayers(otherPlayer).PlayerRace;
+                otherRace = StrategicMap.Current.Players.GetPlayers(otherPlayer).PlayerRace;
             }
             else
             {
@@ -536,7 +533,7 @@ public static class AbilityRules
             {
                 if (race != -1)
                 {
-                    alignment = AoWHSSet.Current.RaceResources.GetRaceResource(race).GetAlignment();
+                    alignment = GamePack.Current.RaceResources.GetRaceResource(race).GetAlignment();
                 }
                 else
                 {
@@ -545,7 +542,7 @@ public static class AbilityRules
 
                 if (otherRace != -1)
                 {
-                    otherAlignment = AoWHSSet.Current.RaceResources.GetRaceResource(otherRace).GetAlignment();
+                    otherAlignment = GamePack.Current.RaceResources.GetRaceResource(otherRace).GetAlignment();
                 }
                 else
                 {
@@ -556,14 +553,14 @@ public static class AbilityRules
             }
             else
             {
-                result = AlignmentTables.StatusToDiplomaticRelation(AoWHSMap.Current.Races.GetRace(race).GetRelation(otherRace));
+                result = AlignmentTables.StatusToDiplomaticRelation(StrategicMap.Current.Races.GetRace(race).GetRelation(otherRace));
             }
         }
         else
         {
             if (player != otherPlayer)
             {
-                result = AoWHSMap.Current.Players.GetDiplomaticRelation(player, otherPlayer);
+                result = StrategicMap.Current.Players.GetDiplomaticRelation(player, otherPlayer);
             }
             else
             {
@@ -592,7 +589,7 @@ public static class AbilityRules
         }
         else
         {
-            result = AoWHSMap.Current.Players.GetPlayers(player).ValidAttackRelation(targetPlayer, targetRace);
+            result = StrategicMap.Current.Players.GetPlayers(player).ValidAttackRelation(targetPlayer, targetRace);
         }
 
         return result;
@@ -643,7 +640,7 @@ public static class AbilityRules
         HexNumberWalkData walk = default;
         BattleFieldInfo info = default;
         MapLevel level;
-        AoWMapField field;
+        MapField field;
         ArmyHexSprite army;
         if (movePath != null && movePath.Count > 0)
         {
@@ -663,7 +660,7 @@ public static class AbilityRules
             {
                 units = new UnitUserList(null);
                 var item = movePath[movePath.Count - 1];
-                level = AoWHSMap.Current.MapContainer.MapLevels[item.MapLevel];
+                level = StrategicMap.Current.MapContainer.MapLevels[item.MapLevel];
                 var movePathItem = movePath[movePath.Count - 1];
                 var item2 = movePath[movePath.Count - 1];
                 HexNumberWalkData.InitializeHexNumberWalk(ref walk, item2.X, movePathItem.Y, 0);
@@ -671,7 +668,7 @@ public static class AbilityRules
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                     {
-                        field = (AoWMapField)level.GetField(walk.X, walk.Y);
+                        field = level.GetField(walk.X, walk.Y);
                         if ((field.FieldFlags & 67108864) != 0)
                         {
                             army = field.GetArmyHexSprite();
@@ -694,7 +691,7 @@ public static class AbilityRules
                 var item = movePath[I];
                 var movePathItem = movePath[I];
                 var item2 = movePath[I];
-                AoWHSMap.Current.RetrieveBattleFieldInfo(item2.X, movePathItem.Y, item.MapLevel, range, ref info);
+                StrategicMap.Current.RetrieveBattleFieldInfo(item2.X, movePathItem.Y, item.MapLevel, range, ref info);
                 if (info.Strength > result)
                 {
                     result = info.Strength;
@@ -732,7 +729,7 @@ public static class AbilityRules
                         var item3 = movePath[J + 1];
                         var item4 = movePath[J + 1];
                         var item5 = movePath[J + 1];
-                        AoWHSMap.Current.RetrieveBattleFieldInfo(item5.X, item4.Y, item3.MapLevel, range, ref info);
+                        StrategicMap.Current.RetrieveBattleFieldInfo(item5.X, item4.Y, item3.MapLevel, range, ref info);
                         if (info.Strength > result)
                         {
                             result = info.Strength;
@@ -748,7 +745,7 @@ public static class AbilityRules
                 units?.Dispose();
             }
 
-            AoWHSMap.Current.AIExecutor.UseProcessTime(50);
+            StrategicMap.Current.AIExecutor.UseProcessTime(50);
         }
         else
         {
@@ -799,9 +796,9 @@ public static class AbilityRules
         EndTurnTokenEvent eventValue;
         eventValue = new EndTurnTokenEvent(null);
         eventValue.Player = player;
-        eventValue.Day = AoWHSMap.Current.Day;
+        eventValue.Day = StrategicMap.Current.Day;
         eventValue.Mode = EndTurnTokenEventMode.EndTurn;
-        AoWHSMap.Current.TokenManager.TokenControls[player].AddEvent(eventValue);
+        StrategicMap.Current.TokenManager.TokenControls[player].AddEvent(eventValue);
         eventValue.Release();
         return true;
     }
@@ -816,7 +813,7 @@ public static class AbilityRules
         return attack * damage * repeats / 2;
     }
 
-    internal static bool CanConstructRoad(sbyte player, AoWMapField field)
+    internal static bool CanConstructRoad(sbyte player, MapField field)
     {
         bool result = player == field.GetPlayer() || field.GetPlayer() == -1;
         result = result && Set<byte>.WithBounds(0, 255).WithRange(1, 5).Contains((byte)field.TerrainType);
@@ -837,7 +834,7 @@ public static class AbilityRules
                 EnemyRelations = Set<byte>.WithBounds(0, 7).With(1).With(3)
             }
         };
-        var mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(level);
+        var mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(level);
         var message = new MapFieldMessage { MessageId = 0x1151 };
         message.Param[0] = (int)storm;
         message.Param[2] = query;
@@ -867,7 +864,7 @@ public static class AbilityRules
         MapFieldMessage message = default;
         HexNumberWalkData walk = default;
         MapLevel level;
-        level = AoWHSMap.Current.MapContainer.MapLevels[L];
+        level = StrategicMap.Current.MapContainer.MapLevels[L];
         message.MessageId = 4432;
         message.Param[0] = (int)storm;
         message.Param[2] = player;

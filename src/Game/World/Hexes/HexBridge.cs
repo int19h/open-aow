@@ -150,8 +150,8 @@ public partial class HexBridge : AbstractRoad
                 {
                     var sideB = _sideB[I];
                     HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, sideB, ref hexX, ref hexY);
-                    mapField = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
-                    ((MoveControl)info.Sender).ExecuteExternalMove((AoWMapField)info.MapField, (AoWMapField)mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
+                    mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
+                    ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
                 }
             }
             else
@@ -162,8 +162,8 @@ public partial class HexBridge : AbstractRoad
                     {
                         var sideA = _sideA[I];
                         HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, sideA, ref hexX, ref hexY);
-                        mapField = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
-                        ((MoveControl)info.Sender).ExecuteExternalMove((AoWMapField)info.MapField, (AoWMapField)mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
+                        mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, Owner.HexLevel);
+                        ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, mapField, ((MoveControl)info.Sender).MovePointTable[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay]);
                     }
                 }
             }
@@ -182,7 +182,7 @@ public partial class HexBridge : AbstractRoad
     {
         if (info.HexNumber != 0)
         {
-            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 32768;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 32768;
         }
     }
 
@@ -254,7 +254,7 @@ public partial class HexBridge : AbstractRoad
                     }
                     else
                     {
-                        if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                         {
                             Direction = -1;
                         }

@@ -80,7 +80,7 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
         this.Dispose();
         if (overlay > 0)
         {
-            AoWHSMap.Current.PlaceTerrain(field.HexX, field.HexY, field.HexLevel, field.TerrainType, overlay);
+            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, field.HexLevel, field.TerrainType, overlay);
         }
     }
 
@@ -104,22 +104,22 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
         var hexLevel = animation.GetHexLevel();
         var hexY = animation.GetHexY();
         var hexX = animation.GetHexX();
-        field = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         // { Original tests the base mountain ID, although this object is raised terrain. }
         if (this == field.FindOwnedChild(131432) && animation.FrameCounter == 0)
         {
-            bool condition = AoWHSMap.Current.SeatedPlayer == animation.Tag;
+            bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
                 var hexLevel2 = GetHexLevel();
                 var hexY2 = GetHexY();
                 var hexX2 = GetHexX();
-                condition = AoWHSMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
+                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
             }
 
             if (condition)
             {
-                AoWHSSet.Current.SpellControl.GetSpell(19).CastSounds.Play(0);
+                GamePack.Current.SpellControl.GetSpell(19).CastSounds.Play(0);
             }
         }
     }
@@ -130,7 +130,7 @@ public partial class RaisedMountain : ImageLibraryTerrainMapObject
         var hexLevel = animation.GetHexLevel();
         var hexY = animation.GetHexY();
         var hexX = animation.GetHexX();
-        var field = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        var field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (field.FindOwnedChild(131434) == this && frameCounter == 9)
         {
             Mode = Mode - Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);

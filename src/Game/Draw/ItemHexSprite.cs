@@ -48,7 +48,7 @@ public partial class ItemHexSprite : SingleHexSprite
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
         base.MessageProc(ref message, sender);
-        if (message.MessageId == 537001985 && AoWHSMap.Current.Day == 1)
+        if (message.MessageId == 537001985 && StrategicMap.Current.Day == 1)
         {
             GenerateItems();
         }
@@ -82,10 +82,10 @@ public partial class ItemHexSprite : SingleHexSprite
     {
         int pixelX = default;
         int pixelY = default;
-        if (!GetSelected() || (AoWHSMap.Current.Frame & 6) != 6)
+        if (!GetSelected() || (StrategicMap.Current.Frame & 6) != 6)
         {
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
-            AoWHSSet.Current.GeneralImages[0].Show(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface);
+            GamePack.Current.GeneralImages[0].Show(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface);
         }
     }
 
@@ -106,7 +106,7 @@ public partial class ItemHexSprite : SingleHexSprite
     public override bool CanSelect(int pixelX, int pixelY)
     {
         bool result;
-        if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FieldFlags).Hi).Lo == 0 && AoWHSMap.Current.FogEnabled)
+        if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Owner.FieldFlags).Hi).Lo == 0 && StrategicMap.Current.FogEnabled)
         {
             result = false;
         }
@@ -127,7 +127,7 @@ public partial class ItemHexSprite : SingleHexSprite
     // Army.PAS:5228
     public void ItemsChanged(object sender)
     {
-        if (Items.Count == 0 && (_generateMode == ItemHexSpriteGenerateMode.UserDefined || AoWHSMap.Current.Day > 0))
+        if (Items.Count == 0 && (_generateMode == ItemHexSpriteGenerateMode.UserDefined || StrategicMap.Current.Day > 0))
         {
             Dispose();
         }
@@ -144,18 +144,18 @@ public partial class ItemHexSprite : SingleHexSprite
         Item item = default;
         if (_generateMode != ItemHexSpriteGenerateMode.UserDefined)
         {
-            RandSeed = AoWHSMap.Current.Random(16777215);
+            RandSeed = StrategicMap.Current.Random(16777215);
             Items.OnChanged = null;
             if (_generateMode == ItemHexSpriteGenerateMode.Random)
             {
-                _generateMode = (ItemHexSpriteGenerateMode)(AoWHSMap.Current.Random(3) + 1);
+                _generateMode = (ItemHexSpriteGenerateMode)(StrategicMap.Current.Random(3) + 1);
             }
 
             Items.Clear();
             for (int iOrdinal = 1, last = (int)_generateMode; iOrdinal <= last; iOrdinal++)
             {
                 I = (byte)iOrdinal;
-                item = AoWHSMap.Current.ItemControl.GenerateItem(Set<ItemType>.Of(ItemType.Head, ItemType.Torso, ItemType.Attack, ItemType.Defense, ItemType.Ring, ItemType.Use), 0, 65535);
+                item = StrategicMap.Current.ItemControl.GenerateItem(Set<ItemType>.Of(ItemType.Head, ItemType.Torso, ItemType.Attack, ItemType.Defense, ItemType.Ring, ItemType.Use), 0, 65535);
                 if (item != null)
                 {
                     item.SetOwner(Items);

@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using System.Runtime.InteropServices;
 using Aow.Engine;
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -286,7 +285,7 @@ public partial class GlobalMagicControl : EngineObject
         bool result;
         ChangeGlobalMagicTokenEvent eventValue;
         string reason = "";
-        if (!AoWHSMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment._enchantmentId) != -1)
+        if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment._enchantmentId) != -1)
         {
             if (enchantment.CanDispel(player, ref reason))
             {
@@ -294,15 +293,15 @@ public partial class GlobalMagicControl : EngineObject
                 eventValue.Mode = ChangeGlobalMagicTokenEventMode.DispelEnchantment;
                 eventValue.EnchantmentId = enchantment._enchantmentId;
                 eventValue.PlayerIndex = (byte)player;
-                AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+                StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
                 eventValue.Release();
                 result = true;
             }
             else
             {
-                if (player == AoWHSMap.Current.SeatedPlayer)
+                if (player == StrategicMap.Current.SeatedPlayer)
                 {
-                    AoWHSMap.Current.ShowWarning(reason);
+                    StrategicMap.Current.ShowWarning(reason);
                 }
 
                 result = false;
@@ -340,7 +339,7 @@ public partial class GlobalMagicControl : EngineObject
         bool result;
         ChangeGlobalMagicTokenEvent eventValue;
         string reason = "";
-        if (!AoWHSMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment._enchantmentId) != -1)
+        if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment._enchantmentId) != -1)
         {
             if (enchantment.CanRemove(player, ref reason))
             {
@@ -348,15 +347,15 @@ public partial class GlobalMagicControl : EngineObject
                 eventValue.Mode = ChangeGlobalMagicTokenEventMode.RemoveEnchantment;
                 eventValue.EnchantmentId = enchantment._enchantmentId;
                 eventValue.PlayerIndex = (byte)player;
-                AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+                StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
                 eventValue.Release();
                 result = true;
             }
             else
             {
-                if (player == AoWHSMap.Current.SeatedPlayer)
+                if (player == StrategicMap.Current.SeatedPlayer)
                 {
-                    AoWHSMap.Current.ShowWarning(reason);
+                    StrategicMap.Current.ShowWarning(reason);
                 }
 
                 result = false;

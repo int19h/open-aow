@@ -176,7 +176,7 @@ public partial class HeroControl : EngineObject
         for (int I = _heroes.GetCount() - 1; I >= 0; I--)
         {
             hero = _heroes[I];
-            if (hero != null && hero.LibraryId != -1 && AoWHSSet.Current.HeroLibraries.FindHero(hero.LibraryName, hero.LibraryId) == null)
+            if (hero != null && hero.LibraryId != -1 && GamePack.Current.HeroLibraries.FindHero(hero.LibraryName, hero.LibraryId) == null)
             {
                 if (hero.Owner == null)
                 {
@@ -251,7 +251,7 @@ public partial class HeroControl : EngineObject
     // Hero.PAS:2528
     public void HeroChanged(Hero hero)
     {
-        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             _onHeroChangedStore.Raise(hero);
         }

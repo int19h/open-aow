@@ -63,8 +63,8 @@ public partial class ScoutAIGroupControl : AIGroupControl
                 bool condition = Group.Player != 0;
                 if (!condition)
                 {
-                    var independentAIMode = AoWHSMap.Current.GetIndependentAIMode();
-                    condition = AoWHSMap.Current.Random(3) < (int)independentAIMode;
+                    var independentAIMode = StrategicMap.Current.GetIndependentAIMode();
+                    condition = StrategicMap.Current.Random(3) < (int)independentAIMode;
                 }
 
                 if (condition)

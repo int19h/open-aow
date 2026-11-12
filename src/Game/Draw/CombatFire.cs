@@ -7,7 +7,7 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Host;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using Aow.Game.World.Terrain;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
@@ -153,12 +153,12 @@ public partial class CombatFire : SingleHexSprite
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
-        sequence = AoWHSSet.Current.ImageSequences.GetImageSequence(60);
+        sequence = GamePack.Current.ImageSequences.GetImageSequence(60);
         if (sequence != null)
         {
             do
             {
-                imageIndex = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                imageIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (imageIndex != -1)
                 {
                     sequence.ImageLibrary.Get(imageIndex).Show(pixelXSurface + sequence.OffsetX + _xShift, pixelYSurface + sequence.OffsetY + _yShift, lockedSurface);

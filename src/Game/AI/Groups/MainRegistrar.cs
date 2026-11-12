@@ -9,11 +9,11 @@ namespace Aow.Game.AI.Groups;
 public partial class MainRegistrar
 {
     // MainAG.pas:115
-    public static void MapLoaded(HSMap sender)
+    public static void MapLoaded(GameMap sender)
     {
-        if (sender == AoWHSMap.Current)
+        if (sender == StrategicMap.Current)
         {
-            AoWHSMap.Current.AIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<PassiveAIGroup>(), AIGroupClass.Of<SuicidalAIGroup>(), AIGroupClass.Of<FortifyAIGroup>(), AIGroupClass.Of<TransportAIGroup>()]);
+            StrategicMap.Current.AIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<PassiveAIGroup>(), AIGroupClass.Of<SuicidalAIGroup>(), AIGroupClass.Of<FortifyAIGroup>(), AIGroupClass.Of<TransportAIGroup>()]);
         }
     }
 

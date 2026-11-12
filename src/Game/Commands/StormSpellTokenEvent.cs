@@ -42,9 +42,9 @@ public partial class StormSpellTokenEvent : SpellTokenEvent
         base.Process(source, value);
         if (value == 0)
         {
-            _storm = ((StormSpell)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).CreateStorm();
+            _storm = ((StormSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).CreateStorm();
             _storm.InitializeStorm(source.Player, X, Y, MapLevel);
-            AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
+            GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         }
 
         if (!_storm.UpdateStorm())

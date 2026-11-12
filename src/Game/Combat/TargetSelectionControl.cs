@@ -74,7 +74,7 @@ public partial class TargetSelectionControl : IDisposable
         if (ImageLibrary != null)
         {
             // { Original links the image library again when destroying the control. }
-            AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
+            GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
             ImageLibrary = null;
         }
     }
@@ -102,14 +102,14 @@ public partial class TargetSelectionControl : IDisposable
         HexSpriteMapMouse mouse;
         if (Status.Contains(TargetSelectionStatusElement.Activated))
         {
-            if (AoWHSMap.Current.Mouse.Capture != this || AoWHSMap.Current.Mouse.Button == MouseButton.Right)
+            if (StrategicMap.Current.Mouse.Capture != this || StrategicMap.Current.Mouse.Button == MouseButton.Right)
             {
                 Deactivate();
-                AoWHSMap.Current.SelectedArmy.IgnoreMouseDown = true;
+                StrategicMap.Current.SelectedArmy.IgnoreMouseDown = true;
             }
             else
             {
-                mouse = AoWHSMap.Current.Mouse;
+                mouse = StrategicMap.Current.Mouse;
                 if (mouse.Capture == this && mouse.Button == MouseButton.Left)
                 {
                     if (ValidTarget(TargetX, TargetY, TargetL))
@@ -117,7 +117,7 @@ public partial class TargetSelectionControl : IDisposable
                         TriggerOnChangeEvent(TargetSelectionChange.Selected);
                         if (!Status.Contains(TargetSelectionStatusElement.Activated))
                         {
-                            AoWHSMap.Current.SelectedArmy.IgnoreMouseDown = true;
+                            StrategicMap.Current.SelectedArmy.IgnoreMouseDown = true;
                         }
                     }
                 }
@@ -146,7 +146,7 @@ public partial class TargetSelectionControl : IDisposable
                 result = result && L == SourceL;
             }
 
-            mapField = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+            mapField = StrategicMap.Current.MapContainer.GetField(X, Y, L);
             result = result && mapField.TerrainType != 15;
             if (result && OnValidateTarget != null)
             {
@@ -168,13 +168,13 @@ public partial class TargetSelectionControl : IDisposable
         {
             if (Status.Contains(TargetSelectionStatusElement.Visible))
             {
-                AoWHSMap.Current.Mouse.SetCursor(110 + (int)(((uint)AoWHSMap.Current.Frame) >> 2) % 10);
-                AoWHSMap.Current.Mouse.CursorVisible = true;
+                StrategicMap.Current.Mouse.SetCursor(110 + (int)(((uint)StrategicMap.Current.Frame) >> 2) % 10);
+                StrategicMap.Current.Mouse.CursorVisible = true;
             }
             else
             {
-                AoWHSMap.Current.Mouse.SetCursor(120);
-                AoWHSMap.Current.Mouse.CursorVisible = false;
+                StrategicMap.Current.Mouse.SetCursor(120);
+                StrategicMap.Current.Mouse.CursorVisible = false;
             }
         }
     }
@@ -184,14 +184,14 @@ public partial class TargetSelectionControl : IDisposable
     {
         if (Status.Contains(TargetSelectionStatusElement.Activated))
         {
-            TargetX = (sbyte)AoWHSMap.Current.Mouse.GetHexX();
-            TargetY = (sbyte)AoWHSMap.Current.Mouse.GetHexY();
-            TargetL = (sbyte)AoWHSMap.Current.ViewL;
-            bool condition = AoWHSMap.Current.Mouse.GetHexX() != -1 && AoWHSMap.Current.Mouse.GetHexY() != -1;
+            TargetX = (sbyte)StrategicMap.Current.Mouse.GetHexX();
+            TargetY = (sbyte)StrategicMap.Current.Mouse.GetHexY();
+            TargetL = (sbyte)StrategicMap.Current.ViewL;
+            bool condition = StrategicMap.Current.Mouse.GetHexX() != -1 && StrategicMap.Current.Mouse.GetHexY() != -1;
             if (condition)
             {
-                var hexY = AoWHSMap.Current.Mouse.GetHexY();
-                condition = ValidTarget((sbyte)AoWHSMap.Current.Mouse.GetHexX(), (sbyte)hexY, (sbyte)AoWHSMap.Current.ViewL);
+                var hexY = StrategicMap.Current.Mouse.GetHexY();
+                condition = ValidTarget((sbyte)StrategicMap.Current.Mouse.GetHexX(), (sbyte)hexY, (sbyte)StrategicMap.Current.ViewL);
             }
 
             if (condition)
@@ -248,7 +248,7 @@ public partial class TargetSelectionControl : IDisposable
     {
         if (ImageLibrary == null)
         {
-            ImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
+            ImageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
         }
 
         if (!Status.Contains(TargetSelectionStatusElement.Activated))
@@ -269,13 +269,13 @@ public partial class TargetSelectionControl : IDisposable
         if (!Status.Contains(TargetSelectionStatusElement.Activated))
         {
             Status = Status + Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
-            AoWHSMap.Current.Mouse.SetCapture(this);
-            AoWHSMap.Current.Mouse.OnDown += MouseDownEvent;
-            AoWHSMap.Current.Mouse.OnMove += MouseMoveEvent;
-            AoWHSMap.Current.NewFrameEvents += NewFrameEvent;
-            AoWHSMap.Current.Selection.OnDeselect += DeselectHexSprite;
-            AoWHSMap.Current.Mouse.CursorMode = 256;
-            AoWHSMap.Current.Keyboard.Lock();
+            StrategicMap.Current.Mouse.SetCapture(this);
+            StrategicMap.Current.Mouse.OnDown += MouseDownEvent;
+            StrategicMap.Current.Mouse.OnMove += MouseMoveEvent;
+            StrategicMap.Current.NewFrameEvents += NewFrameEvent;
+            StrategicMap.Current.Selection.OnDeselect += DeselectHexSprite;
+            StrategicMap.Current.Mouse.CursorMode = 256;
+            StrategicMap.Current.Keyboard.Lock();
             TriggerOnChangeEvent(TargetSelectionChange.Activated);
             MouseMoveEvent(this);
         }
@@ -292,26 +292,26 @@ public partial class TargetSelectionControl : IDisposable
         if (Status.Contains(TargetSelectionStatusElement.Activated))
         {
             Status = Status - Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
-            AoWHSMap.Current.Mouse.OnDown -= MouseDownEvent;
-            AoWHSMap.Current.Mouse.OnMove -= MouseMoveEvent;
-            AoWHSMap.Current.NewFrameEvents -= NewFrameEvent;
-            AoWHSMap.Current.Selection.OnDeselect -= DeselectHexSprite;
-            if (AoWHSMap.Current.Mouse.Capture == this)
+            StrategicMap.Current.Mouse.OnDown -= MouseDownEvent;
+            StrategicMap.Current.Mouse.OnMove -= MouseMoveEvent;
+            StrategicMap.Current.NewFrameEvents -= NewFrameEvent;
+            StrategicMap.Current.Selection.OnDeselect -= DeselectHexSprite;
+            if (StrategicMap.Current.Mouse.Capture == this)
             {
-                if (AoWHSMap.Current.SelectedArmy.GetArmyHexSprite() != null)
+                if (StrategicMap.Current.SelectedArmy.GetArmyHexSprite() != null)
                 {
-                    armyHexSprite = AoWHSMap.Current.SelectedArmy.GetArmyHexSprite();
-                    AoWHSMap.Current.Mouse.SetCapture(null);
-                    AoWHSMap.Current.Selection.UnselectLocation();
-                    AoWHSMap.Current.Selection.SelectLocationHexSprite(armyHexSprite);
+                    armyHexSprite = StrategicMap.Current.SelectedArmy.GetArmyHexSprite();
+                    StrategicMap.Current.Mouse.SetCapture(null);
+                    StrategicMap.Current.Selection.UnselectLocation();
+                    StrategicMap.Current.Selection.SelectLocationHexSprite(armyHexSprite);
                 }
                 else
                 {
-                    AoWHSMap.Current.Mouse.SetCapture(null);
+                    StrategicMap.Current.Mouse.SetCapture(null);
                 }
             }
 
-            AoWHSMap.Current.Keyboard.Unlock();
+            StrategicMap.Current.Keyboard.Unlock();
             TriggerOnChangeEvent(TargetSelectionChange.Deactivated);
             Source = null;
             OnShow = null;

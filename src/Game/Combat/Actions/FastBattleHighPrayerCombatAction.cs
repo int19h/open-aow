@@ -23,7 +23,7 @@ public partial class FastBattleHighPrayerCombatAction : MultiTargetCombatSpellCo
             var targetId = TargetIds[I];
             target = combat.CombatData.FindId(targetId);
             target.SetHitPoints((byte)(target.GetHitPoints() + 5));
-            AoWHSSet.Current.AbilityControl.GetAbility(100).Expand(((CombatUnit)target).Troop);
+            GamePack.Current.AbilityControl.GetAbility(100).Expand(((CombatUnit)target).Troop);
         }
     }
 

@@ -23,12 +23,12 @@ public partial class HuntAIGroupControl : AIGroupControl
     // AIGroup.pas:1479
     public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
-        AoWMapField field;
+        MapField field;
         ArmyHexSprite army;
         int I;
         HuntAIGroup group;
         bool found;
-        field = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location));
+        field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location));
         if (field.GetPlayer() != Group.Player)
         {
             army = field.GetArmyHexSprite();
@@ -76,7 +76,7 @@ public partial class HuntAIGroupControl : AIGroupControl
                     for (int I = group.TargetUnitIds.Count - 1; I >= 0; I--)
                     {
                         var item = group.TargetUnitIds[I];
-                        troop = AoWHSMap.Current.UnitControl.FindUnit(item);
+                        troop = StrategicMap.Current.UnitControl.FindUnit(item);
                         if (troop == null || troop.Player == 0)
                         {
                             group.TargetUnitIds.Delete(I);
@@ -95,7 +95,7 @@ public partial class HuntAIGroupControl : AIGroupControl
                 }
                 else
                 {
-                    newGroup = AoWHSMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, GroupBehavior.Patrol);
+                    newGroup = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, GroupBehavior.Patrol);
                     newGroup.AddUnits(Group);
                     newGroup.Release();
                     Done();

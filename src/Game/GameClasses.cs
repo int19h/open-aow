@@ -32,12 +32,12 @@ internal static class GameClasses
     {
         if (GameTables.ValidateGameEngine())
         {
-            (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<AoWHexagon>(), EngineClass.Of<AoWHexagon.Resource>()]);
-            (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<AoWBorderHexagon>(), EngineClass.Of<BorderHexagon.Resource>()]);
+            (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<Hex>(), EngineClass.Of<Hex.Resource>()]);
+            (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<BorderHex>(), EngineClass.Of<BorderHex.Resource>()]);
             (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<WaterHex>(), EngineClass.Of<WaterHex.Resource>()]);
             (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<UpperIsometricHex>(), EngineClass.Of<UpperIsometricHex.Resource>()]);
             (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<Terrain>(), EngineClass.Of<Terrain.Resource>()]);
-            (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<AoWRoad>(), EngineClass.Of<Road.Resource>()]);
+            (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<Road>(), EngineClass.Of<Road.Resource>()]);
             (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<HexBridge>(), EngineClass.Of<HexBridge.Resource>()]);
             (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<MountainMapObject>(), EngineClass.Of<MountainMapObjectResource>(), EngineClass.Of<RaiseTerrainTokenEvent>(), EngineClass.Of<RaisedMountain>(), EngineClass.Of<RaisedMountain.Resource>()]);
             var raiseTerrain = new RaiseTerrain(null);
@@ -57,7 +57,7 @@ internal static class GameClasses
             (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<Mine>(), EngineClass.Of<Mine.Resource>()]);
             (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<Tower>(), EngineClass.Of<Tower.Resource>()]);
             var towerConstructionControl = new TowerConstructionControl(null);
-            ((ConstructAbility)AoWHSSet.Current.AbilityControl.GetAbility(125)).RegisterConstructionControl(towerConstructionControl);
+            ((ConstructAbility)GamePack.Current.AbilityControl.GetAbility(125)).RegisterConstructionControl(towerConstructionControl);
             (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<PoisonPlant>(), EngineClass.Of<PoisonPlant.Resource>(), EngineClass.Of<PoisonPlantSpellTokenEvent>()]);
             var poisonPlantSpell = new PoisonPlantSpell(null);
             (GameTables.GameEngine).GameSet.SpellControl.RegisterSpell(poisonPlantSpell);
@@ -77,7 +77,7 @@ internal static class GameClasses
             (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<Pyramid>(), EngineClass.Of<Pyramid.Resource>()]);
             (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<Shipyard>(), EngineClass.Of<Shipyard.Resource>()]);
             var shipyardConstructionControl = new ShipyardConstructionControl(null);
-            ((ConstructAbility)AoWHSSet.Current.AbilityControl.GetAbility(125)).RegisterConstructionControl(shipyardConstructionControl);
+            ((ConstructAbility)GamePack.Current.AbilityControl.GetAbility(125)).RegisterConstructionControl(shipyardConstructionControl);
             (GameTables.GameEngine).RegisterEngineClasses([EngineClass.Of<HolyGround>(), EngineClass.Of<HolyGround.Resource>(), EngineClass.Of<HolyGroundSpellTokenEvent>()]);
             var holyGroundSpell = new HolyGroundSpell(null);
             GameTables.GameEngine.GameSet.SpellControl.RegisterSpell(holyGroundSpell);

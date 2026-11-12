@@ -37,7 +37,7 @@ public partial class Storm : Animation
     {
         Player = player;
         AnimationLevel = 28;
-        AoWHSMap.Current.LockExecuteEventLog();
+        StrategicMap.Current.LockExecuteEventLog();
     }
 
     // Storms.pas:216
@@ -46,7 +46,7 @@ public partial class Storm : Animation
     // Storms.pas:221
     public virtual void FinalizeStorm()
     {
-        AoWHSMap.Current.UnlockExecuteEventLog();
+        StrategicMap.Current.UnlockExecuteEventLog();
     }
 
     // Storms.pas:226
@@ -54,7 +54,7 @@ public partial class Storm : Animation
     {
         int intensity;
         hexNumber = HexGeometry.HexNumberToRadius(hexNumber);
-        intensity = Math.Abs((AoWHSMap.Current.Frame + hexNumber) % 9 - 4) * 20 + 20;
+        intensity = Math.Abs((StrategicMap.Current.Frame + hexNumber) % 9 - 4) * 20 + 20;
         var lookupTable = GraphicsState.IntensityBlendTable.GetLookupTables(intensity);
         selection.ImageLibrary[0].ShowBlended(xs - 8, ys, lockedSurface, lookupTable);
     }
@@ -66,7 +66,7 @@ public partial class Storm : Animation
         HexNumberWalkData walk = default;
         MapLevel level;
         ArmyHexSprite armyHexSprite;
-        level = AoWHSMap.Current.MapContainer.MapLevels[L];
+        level = StrategicMap.Current.MapContainer.MapLevels[L];
         target.Packed = 16777215;
         bool result = false;
         info = default;
@@ -76,7 +76,7 @@ public partial class Storm : Animation
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                armyHexSprite = ((AoWMapField)level.Field[walk.X, walk.Y]).GetArmyHexSprite();
+                armyHexSprite = level.Field[walk.X, walk.Y].GetArmyHexSprite();
                 if (armyHexSprite != null && armyHexSprite.Army.Player != 0 && AbilityRules.ValidAttackRelation(player, 0, armyHexSprite.Army.Player, 0))
                 {
                     GetTargetDamageInfo(player, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)L, ref candidate);

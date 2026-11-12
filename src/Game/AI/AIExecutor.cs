@@ -144,7 +144,7 @@ public partial class AIExecutor : EngineObject
         {
             _players.Add((byte)player);
             Status = Status + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Enabled);
-            AoWHSMap.Current.Players.GetPlayers(player).AIControl.Activate(this);
+            StrategicMap.Current.Players.GetPlayers(player).AIControl.Activate(this);
             if (Player == -1)
             {
                 Player = player;
@@ -166,7 +166,7 @@ public partial class AIExecutor : EngineObject
         if (_players.IndexOf((byte)player) != -1)
         {
             _players.Remove((byte)player);
-            AoWHSMap.Current.Players.GetPlayers(player).AIControl.Deactivate();
+            StrategicMap.Current.Players.GetPlayers(player).AIControl.Deactivate();
             if (_players.Count == 0)
             {
                 Player = -1;
@@ -178,10 +178,10 @@ public partial class AIExecutor : EngineObject
     // AI.pas:644
     public void TokenControlDoneEvent(object sender)
     {
-        if (Status.Contains(AIExecutorStatusElement.Enabled) && AoWHSMap.Current.PlayMode == PlayMode.Simultaneous)
+        if (Status.Contains(AIExecutorStatusElement.Enabled) && StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
         {
             _tokenControlDone = true;
-            if (AoWHSMap.Current.CurrentPlayer == 0 && AoWHSMap.Current.CombatMap == null)
+            if (StrategicMap.Current.CurrentPlayer == 0 && StrategicMap.Current.CombatMap == null)
             {
                 CaptureTokenCycles(5);
             }
@@ -206,7 +206,7 @@ public partial class AIExecutor : EngineObject
     {
         Assert(!Status.Contains(AIExecutorStatusElement.TokenLocked), "", "AI.pas", 937);
         Status = Status + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
-        AoWHSMap.Current.TokenManager.TokenExecutor.Lock();
+        StrategicMap.Current.TokenManager.TokenExecutor.Lock();
         _tokenCycle = 0;
         _tokenCycles = cycles;
     }
@@ -216,7 +216,7 @@ public partial class AIExecutor : EngineObject
     {
         Assert(Status.Contains(AIExecutorStatusElement.TokenLocked), "", "AI.pas", 947);
         Status = Status - Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
-        AoWHSMap.Current.TokenManager.TokenExecutor.Unlock();
+        StrategicMap.Current.TokenManager.TokenExecutor.Unlock();
     }
 
     // AI.pas:952
@@ -228,7 +228,7 @@ public partial class AIExecutor : EngineObject
         if (Status.Contains(AIExecutorStatusElement.Enabled) && LockCount == 0)
         {
             Status = Status + Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
-            AoWHSMap.Current.SynchronizeBegin();
+            StrategicMap.Current.SynchronizeBegin();
             _processTimeUsed = 0;
             if (_processTimeMode == AIExecutorProcessTimeMode.Dynamic)
             {
@@ -241,13 +241,13 @@ public partial class AIExecutor : EngineObject
 
             try
             {
-                switch (AoWHSMap.Current.PlayMode)
+                switch (StrategicMap.Current.PlayMode)
                 {
                     case PlayMode.Turn:
-                        if (!AoWHSMap.Current.Players.GetPlayers(Player).GetBusy() && AoWHSMap.Current.TokenManager.PlayerReady(Player))
+                        if (!StrategicMap.Current.Players.GetPlayers(Player).GetBusy() && StrategicMap.Current.TokenManager.PlayerReady(Player))
                         {
                             ProcessCycles += 1;
-                            AoWHSMap.Current.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
+                            StrategicMap.Current.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
                             _tokenControlDone = false;
                         }
 
@@ -260,7 +260,7 @@ public partial class AIExecutor : EngineObject
                             I = 0;
                             while (!done && GetProcessTimeLeft() > 0 && Status.Contains(AIExecutorStatusElement.Enabled) && I < _players.Count)
                             {
-                                done = AoWHSMap.Current.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
+                                done = StrategicMap.Current.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
                                 if (done)
                                 {
                                     _playerProcessCycles += 1;
@@ -272,7 +272,7 @@ public partial class AIExecutor : EngineObject
                                 }
 
                                 _tokenControlDone = false;
-                                if (!done || AoWHSMap.Current.Players.GetPlayers(Player).AIControl.GetProcessCyclesMax() <= _playerProcessCycles)
+                                if (!done || StrategicMap.Current.Players.GetPlayers(Player).AIControl.GetProcessCyclesMax() <= _playerProcessCycles)
                                 {
                                     index = _players.IndexOf((byte)Player);
                                     index += 1;
@@ -302,7 +302,7 @@ public partial class AIExecutor : EngineObject
                 ShowMessage("AI ERROR");
             }
 
-            AoWHSMap.Current.SynchronizeEnd();
+            StrategicMap.Current.SynchronizeEnd();
             Status = Status - Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
         }
     }

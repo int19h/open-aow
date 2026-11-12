@@ -55,9 +55,9 @@ public partial class PlayerDiplomaticRelations : EngineObject
                 Player.LegacyNewRelations.Clear();
             }
 
-            if (AoWHSMap.Current.Day == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+            if (StrategicMap.Current.Day == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
-                for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+                for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
                 {
                     // { The loop index supplies the player. }
                     var diplomaticRelation = GetDiplomaticRelation((sbyte)I);
@@ -68,7 +68,7 @@ public partial class PlayerDiplomaticRelations : EngineObject
             {
                 if (Player.LegacyRelations.Count != 0)
                 {
-                    for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+                    for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
                     {
                         var diplomaticRelation = Player.LegacyRelations.GetDiplomaticRelation(I);
                         GetHistory((sbyte)I).Add(diplomaticRelation, 0);
@@ -100,9 +100,9 @@ public partial class PlayerDiplomaticRelations : EngineObject
     public void SetDiplomaticRelation(sbyte player, DiplomaticRelation value)
     {
         _relations[player] = (byte)value;
-        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && AoWHSMap.Current.Day > 0)
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && StrategicMap.Current.Day > 0)
         {
-            GetHistory(player).Add(value, AoWHSMap.Current.Day);
+            GetHistory(player).Add(value, StrategicMap.Current.Day);
         }
     }
 
@@ -112,12 +112,12 @@ public partial class PlayerDiplomaticRelations : EngineObject
     // Player.PAS:119
     public void ValidateHistory()
     {
-        while (_history.Count + 1 < AoWHSMap.Current.Players.Count)
+        while (_history.Count + 1 < StrategicMap.Current.Players.Count)
         {
             new DiplomaticRelationHistoryList(null).Owner = _history;
         }
 
-        while (_history.Count + 1 > AoWHSMap.Current.Players.Count)
+        while (_history.Count + 1 > StrategicMap.Current.Players.Count)
         {
             var count = _history.Count;
             _history.Children[count - 1]?.Dispose();

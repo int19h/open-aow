@@ -29,7 +29,7 @@ public partial class TurnUndeadCombatAction : DamageCombatAction
             target = (CombatUnit)combat.CombatData.FindId(TargetId);
             if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                AoWHSSet.Current.AbilityControl.GetAbility(34).Expand(target.Troop);
+                GamePack.Current.AbilityControl.GetAbility(34).Expand(target.Troop);
                 data = (UnitEnchantmentAbilityData)target.Troop.GetAbilityData(34);
 
                 if (data != null)
@@ -46,7 +46,7 @@ public partial class TurnUndeadCombatAction : DamageCombatAction
         bool result = base.Play(viewer);
         if (viewer.Time == 0)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(38).SfxLibrary.Play(0);
+            GamePack.Current.AbilityControl.GetAbility(38).SfxLibrary.Play(0);
         }
 
         return result;
@@ -58,7 +58,7 @@ public partial class TurnUndeadCombatAction : DamageCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(38).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            GamePack.Current.AbilityControl.GetAbility(38).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

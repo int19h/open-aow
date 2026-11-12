@@ -131,7 +131,7 @@ public partial class Campaign : EngineObject
 
     // Diplomacy.pas:2413
     // The name takes the extension the host writes for a campaign save (own-formats.md 4.2).
-    public virtual string GetAutoSaveFileName(CampaignAutoSaveType auto) => AoWHSMap.Current.MapName + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
+    public virtual string GetAutoSaveFileName(CampaignAutoSaveType auto) => StrategicMap.Current.MapName + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
 
     // Diplomacy.pas:2330
     public virtual void SelectNextScenario(int id)
@@ -161,93 +161,93 @@ public partial class Campaign : EngineObject
         Spell spell;
         Race race;
         byte relation;
-        player = (sbyte)(AoWHSMap.Current.Players.Count - 1);
-        while (player > 1 && AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+        player = (sbyte)(StrategicMap.Current.Players.Count - 1);
+        while (player > 1 && StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
         {
             player = (sbyte)(player - 1);
         }
 
         level = 1 + CompletedScenarios.Count / 4;
-        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+        for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {
             if (I != player)
             {
-                for (int J = 0, lastJ = AoWHSSet.Current.SpellControl.GetCount() - 1; J <= lastJ; J++)
+                for (int J = 0, lastJ = GamePack.Current.SpellControl.GetCount() - 1; J <= lastJ; J++)
                 {
-                    spell = AoWHSSet.Current.SpellControl.GetSpell(J);
+                    spell = GamePack.Current.SpellControl.GetSpell(J);
                     bool condition = spell != null && spell.SpellLevel <= level;
                     if (condition)
                     {
-                        var spherePicks = AoWHSMap.Current.Players.GetPlayers(I).Leader.GetSpherePicks(spell.MagicSphere);
+                        var spherePicks = StrategicMap.Current.Players.GetPlayers(I).Leader.GetSpherePicks(spell.MagicSphere);
                         condition = spell.SpellLevel <= spherePicks;
                     }
 
                     if (condition)
                     {
-                        if (AoWHSMap.Current.Players.GetPlayers(I).MagicControl.Spells.IndexOf(J) == -1)
+                        if (StrategicMap.Current.Players.GetPlayers(I).MagicControl.Spells.IndexOf(J) == -1)
                         {
-                            AoWHSMap.Current.Players.GetPlayers(I).MagicControl.Spells.Add(J);
+                            StrategicMap.Current.Players.GetPlayers(I).MagicControl.Spells.Add(J);
                         }
                     }
                 }
             }
         }
 
-        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+        for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Human && AoWHSMap.Current.Players.GetDiplomaticRelation((sbyte)I, player) != DiplomaticRelation.Alliance)
+            if (StrategicMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Human && StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)I, player) != DiplomaticRelation.Alliance)
             {
                 if (DifficultyLevel == CampaignDifficultyLevel.Easy)
                 {
-                    switch (AoWHSMap.Current.Players.GetPlayers(I).PlayerType)
+                    switch (StrategicMap.Current.Players.GetPlayers(I).PlayerType)
                     {
                         case PlayerType.Cpu2:
-                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu1;
+                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu1;
                             break;
                         case PlayerType.Cpu3:
-                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu2;
+                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu2;
                             break;
                         case PlayerType.Cpu4:
-                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu3;
+                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu3;
                             break;
                         case PlayerType.Cpu5:
-                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu3;
+                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu3;
                             break;
                     }
                 }
 
                 if (DifficultyLevel == CampaignDifficultyLevel.Hard)
                 {
-                    switch (AoWHSMap.Current.Players.GetPlayers(I).PlayerType)
+                    switch (StrategicMap.Current.Players.GetPlayers(I).PlayerType)
                     {
                         case PlayerType.Cpu1:
-                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu3;
+                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu3;
                             break;
                         case PlayerType.Cpu2:
-                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu4;
+                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu4;
                             break;
                         case PlayerType.Cpu3:
-                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu5;
+                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu5;
                             break;
                         case PlayerType.Cpu4:
-                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu5;
+                            StrategicMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu5;
                             break;
                     }
                 }
             }
         }
 
-        AoWHSMap.Current.SetupPlayerControl(PlayMode, PlayerConnectionType.Local);
-        for (int R = 0, last = AoWHSMap.Current.Races.Count - 1; R <= last; R++)
+        StrategicMap.Current.SetupPlayerControl(PlayMode, PlayerConnectionType.Local);
+        for (int R = 0, last = StrategicMap.Current.Races.Count - 1; R <= last; R++)
         {
-            if (AoWHSMap.Current.Races.GetRace(R) != null)
+            if (StrategicMap.Current.Races.GetRace(R) != null)
             {
-                race = AoWHSMap.Current.Races.GetRace(R);
+                race = StrategicMap.Current.Races.GetRace(R);
                 if (race != null)
                 {
                     for (int I = 0; I <= 11; I++)
                     {
-                        if ((RaceHistory.IndexOf((byte)I) != -1 || I == AoWHSMap.Current.Players.GetPlayers(player).PlayerRace) && AoWHSMap.Current.Players.GetPlayers(player).PlayerRace == R || (RaceHistory.IndexOf((byte)R) != -1 || AoWHSMap.Current.Players.GetPlayers(player).PlayerRace == R) && I == AoWHSMap.Current.Players.GetPlayers(player).PlayerRace)
+                        if ((RaceHistory.IndexOf((byte)I) != -1 || I == StrategicMap.Current.Players.GetPlayers(player).PlayerRace) && StrategicMap.Current.Players.GetPlayers(player).PlayerRace == R || (RaceHistory.IndexOf((byte)R) != -1 || StrategicMap.Current.Players.GetPlayers(player).PlayerRace == R) && I == StrategicMap.Current.Players.GetPlayers(player).PlayerRace)
                         {
                             relation = race.DefaultRelations[I];
                             switch (relation)
@@ -273,7 +273,7 @@ public partial class Campaign : EngineObject
             }
         }
 
-        AoWHSMap.Current.AlliedVictory = AoWHSMap.Current.CampaignSettings.AlliedVictory;
+        StrategicMap.Current.AlliedVictory = StrategicMap.Current.CampaignSettings.AlliedVictory;
         TransferSettings.ExecuteSelection();
         ScenarioStarted = true;
     }
@@ -287,16 +287,16 @@ public partial class Campaign : EngineObject
         CompletedScenarios.Add(CurrentScenarioId);
         TransferSettings.Retrieve();
         Stream.Clear();
-        player = (sbyte)(AoWHSMap.Current.Players.Count - 1);
-        while (player > 1 && AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+        player = (sbyte)(StrategicMap.Current.Players.Count - 1);
+        while (player > 1 && StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
         {
             player = (sbyte)(player - 1);
         }
 
-        var players = AoWHSMap.Current.Players.GetPlayers(player);
+        var players = StrategicMap.Current.Players.GetPlayers(player);
         if (RaceHistory.IndexOf((byte)players.PlayerRace) == -1)
         {
-            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(player);
+            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
             RaceHistory.Add((byte)fPlayersPlayers.PlayerRace);
         }
 

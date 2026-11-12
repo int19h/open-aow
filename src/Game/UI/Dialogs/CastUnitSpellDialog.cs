@@ -8,7 +8,7 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -100,7 +100,7 @@ public partial class CastUnitSpellDialog : DataModule
         }
         else
         {
-            AoWHSMap.Current.ShowMessage(reason);
+            StrategicMap.Current.ShowMessage(reason);
         }
     }
 
@@ -109,7 +109,7 @@ public partial class CastUnitSpellDialog : DataModule
     {
         Troop U;
         Rect R = default;
-        U = AoWHSMap.Current.UnitControl.FindUnit(Caster.CasterSourceId);
+        U = StrategicMap.Current.UnitControl.FindUnit(Caster.CasterSourceId);
         if (U != null)
         {
             if (U.GetFace() != null)
@@ -136,7 +136,7 @@ public partial class CastUnitSpellDialog : DataModule
         Rect R = default;
         if (Caster != null)
         {
-            spell = AoWHSSet.Current.SpellControl.GetSpell(Caster.CasterSpellId);
+            spell = GamePack.Current.SpellControl.GetSpell(Caster.CasterSpellId);
             if (spell != null)
             {
                 R.Left = this.SpellFrame.WinLeft + TopPanel.WinLeft;

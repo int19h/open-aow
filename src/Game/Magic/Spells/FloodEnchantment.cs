@@ -156,7 +156,7 @@ public partial class FloodEnchantment : GlobalEnchantment
         {
             DispelPlayer = (sbyte)player;
             Removed = true;
-            if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous)
+            if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
             {
                 RestoreDays = 2;
             }
@@ -165,8 +165,8 @@ public partial class FloodEnchantment : GlobalEnchantment
                 RestoreDays = 1;
             }
 
-            AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
-            AoWHSMap.Current.GlobalMagicControl.Update();
+            StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
+            StrategicMap.Current.GlobalMagicControl.Update();
             result = true;
         }
         else
@@ -190,13 +190,13 @@ public partial class FloodEnchantment : GlobalEnchantment
     public int DaysBeforeActive()
     {
         int result;
-        if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && TurnsActive < 2)
+        if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && TurnsActive < 2)
         {
             result = 2 - TurnsActive;
         }
         else
         {
-            if (AoWHSMap.Current.PlayMode == PlayMode.Turn && TurnsActive == 0)
+            if (StrategicMap.Current.PlayMode == PlayMode.Turn && TurnsActive == 0)
             {
                 result = 1;
             }
@@ -215,7 +215,7 @@ public partial class FloodEnchantment : GlobalEnchantment
         if (!Removed)
         {
             TurnsActive += 1;
-            if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous)
+            if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
             {
                 if (TurnsActive > 1 && TurnsActive < 4)
                 {
@@ -225,7 +225,7 @@ public partial class FloodEnchantment : GlobalEnchantment
                 {
                     if (TurnsActive == 4)
                     {
-                        if (AoWHSMap.Current.Random(2) == 1)
+                        if (StrategicMap.Current.Random(2) == 1)
                         {
                             FloodControl.Flood();
                         }
@@ -234,7 +234,7 @@ public partial class FloodEnchantment : GlobalEnchantment
             }
             else
             {
-                if (AoWHSMap.Current.PlayMode == PlayMode.Turn)
+                if (StrategicMap.Current.PlayMode == PlayMode.Turn)
                 {
                     if (TurnsActive < 3)
                     {
@@ -244,7 +244,7 @@ public partial class FloodEnchantment : GlobalEnchantment
                     {
                         if (TurnsActive == 3)
                         {
-                            if (AoWHSMap.Current.Random(2) == 1)
+                            if (StrategicMap.Current.Random(2) == 1)
                             {
                                 FloodControl.Flood();
                             }

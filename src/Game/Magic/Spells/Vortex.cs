@@ -38,18 +38,18 @@ public partial class Vortex : GlobalTargetSpell
         bool result;
         VortexTokenEvent eventValue;
         ArmyHexSprite army;
-        if (!AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             eventValue = new VortexTokenEvent(null);
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHexSprite();
+            army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
             if (army != null)
             {
                 eventValue.ArmyId = army.Army.CreateId(255);
             }
 
-            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             // Original queues through AddEvent
             eventValue.Release();
             result = true;
@@ -69,7 +69,7 @@ public partial class Vortex : GlobalTargetSpell
         MapField mapField;
         if (targetSelection.TargetX != -1)
         {
-            mapField = AoWHSMap.Current.MapContainer.MapLevels[targetSelection.TargetL].GetField(targetSelection.TargetX, targetSelection.TargetY);
+            mapField = StrategicMap.Current.MapContainer.MapLevels[targetSelection.TargetL].GetField(targetSelection.TargetX, targetSelection.TargetY);
             result = Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)mapField.TerrainType);
         }
         else
@@ -86,7 +86,7 @@ public partial class Vortex : GlobalTargetSpell
         MapLevel mapLevel;
         if (X != -1)
         {
-            mapLevel = AoWHSMap.Current.MapContainer.MapLevels[layer];
+            mapLevel = StrategicMap.Current.MapContainer.MapLevels[layer];
             var fieldValue = mapLevel.GetField(X, Y);
             valid = Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)fieldValue.TerrainType);
         }

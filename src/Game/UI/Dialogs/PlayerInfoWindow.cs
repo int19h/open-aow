@@ -7,7 +7,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -30,20 +30,20 @@ public partial class PlayerInfoWindow : DataModule
     public void UpdatePlayer()
     {
         int raceIndex;
-        if (AoWHSMap.Current.SeatedPlayer > -1)
+        if (StrategicMap.Current.SeatedPlayer > -1)
         {
-            var name = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetName();
+            var name = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetName();
             DialogHosts.PlayerInfoWindow.PlayerLabel.Text = name;
-            if (AoWHSMap.Current.SeatedPlayer != 0)
+            if (StrategicMap.Current.SeatedPlayer != 0)
             {
-                var player = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
+                var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
                 DialogHosts.PlayerInfoWindow.RaceLabel.Text = raceNamesPlural;
             }
 
             var day = AbilityRules.TranslateResourceString(GameText.DayText);
-            DialogHosts.PlayerInfoWindow.TurnLabel.Text = day + " " + IntToStr(AoWHSMap.Current.Day);
-            raceIndex = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).PlayerRace;
+            DialogHosts.PlayerInfoWindow.TurnLabel.Text = day + " " + IntToStr(StrategicMap.Current.Day);
+            raceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
             if (raceIndex == -1)
             {
                 raceIndex = 12;
@@ -58,9 +58,9 @@ public partial class PlayerInfoWindow : DataModule
     public void UpdateEvents()
     {
         EventList.Items.Clear();
-        if (AoWHSMap.Current.SeatedPlayer > -1)
+        if (StrategicMap.Current.SeatedPlayer > -1)
         {
-            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).EventLogbook.ListEvents(EventList.Items);
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.ListEvents(EventList.Items);
         }
 
         var count = EventList.Items.Count;
@@ -78,7 +78,7 @@ public partial class PlayerInfoWindow : DataModule
     public void EventListDoubleClick()
     {
         var objectValue = EventList.Items.Objects[EventList.Selected];
-        AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).Execute(true, ExecuteTrigger.User, null);
+        StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).Execute(true, ExecuteTrigger.User, null);
     }
 
     // AoWPInfoWin.pas:78
@@ -87,7 +87,7 @@ public partial class PlayerInfoWindow : DataModule
         if (drawItem != EventList.Selected)
         {
             var objectValue = EventList.Items.Objects[drawItem];
-            var textColor = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).GetTextColor();
+            var textColor = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).GetTextColor();
             EventList.TextColor = textColor;
         }
     }
@@ -99,11 +99,11 @@ public partial class PlayerInfoWindow : DataModule
         int middleIcon;
         int rightIcon;
         var objectValue = EventList.Items.Objects[drawItem];
-        leftIcon = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).GetLeftIcon();
+        leftIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).GetLeftIcon();
         var objectValue2 = EventList.Items.Objects[drawItem];
-        middleIcon = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue2)).GetMiddleIcon();
+        middleIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue2)).GetMiddleIcon();
         var objectValue3 = EventList.Items.Objects[drawItem];
-        rightIcon = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue3)).GetRightIcon();
+        rightIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue3)).GetRightIcon();
         if (leftIcon > -1)
         {
             if (middleIcon == -1)
@@ -141,7 +141,7 @@ public partial class PlayerInfoWindow : DataModule
         if (EventList.Selected > -1 && button == MouseButton.Right)
         {
             var objectValue = EventList.Items.Objects[EventList.Selected];
-            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).ViewLocation();
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).ViewLocation();
         }
     }
 
@@ -152,13 +152,13 @@ public partial class PlayerInfoWindow : DataModule
         sbyte Y = default;
         sbyte L = default;
         DialogHosts.General.PlayButtonSound(0);
-        if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Leader != null)
+        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader != null)
         {
-            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetLeaderLocation(ref X, ref Y, ref L);
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(ref X, ref Y, ref L);
             if (X > -1)
             {
-                AoWHSMap.Current.CenterViewTo(X, Y, L);
-                AoWHSMap.Current.PlayCenterAnimation(X, Y, L);
+                StrategicMap.Current.CenterViewTo(X, Y, L);
+                StrategicMap.Current.PlayCenterAnimation(X, Y, L);
             }
         }
     }
@@ -173,12 +173,12 @@ public partial class PlayerInfoWindow : DataModule
     public void FaceFrDraw(LockedSurface lockedSurface)
     {
         Rect R;
-        if (AoWHSMap.Current.SeatedPlayer > -1)
+        if (StrategicMap.Current.SeatedPlayer > -1)
         {
             R = new Rect(FaceFrame.WinLeft + 3, FaceFrame.WinTop + 3, FaceFrame.WinLeft + FaceFrame.WinWidth - 3, FaceFrame.WinTop + FaceFrame.WinHeight - 3);
-            if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetFace() != null)
+            if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFace() != null)
             {
-                AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetFace().ShowStretched(R, lockedSurface);
+                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFace().ShowStretched(R, lockedSurface);
             }
         }
     }
@@ -189,12 +189,12 @@ public partial class PlayerInfoWindow : DataModule
         sbyte hexX = default;
         sbyte hexY = default;
         sbyte hexLevel = default;
-        if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Leader != null)
+        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader != null)
         {
-            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetLeaderLocation(ref hexX, ref hexY, ref hexLevel);
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(ref hexX, ref hexY, ref hexLevel);
             if (hexX > -1)
             {
-                var player = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
+                var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 DialogHosts.General.SelectedUnit = player.Leader;
                 switch (button)
                 {

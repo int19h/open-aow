@@ -45,7 +45,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
         base.MessageProc(ref message, sender);
-        if (message.MessageId == 537001985 && AoWHSMap.Current.Day == 1)
+        if (message.MessageId == 537001985 && StrategicMap.Current.Day == 1)
         {
             GenerateGemsAmount();
         }
@@ -76,7 +76,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
     {
         if (info.HexNumber == 0)
         {
-            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 134217728;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 134217728;
         }
     }
 
@@ -85,19 +85,19 @@ public partial class Gems : ImageLibraryTerrainMapObject
     {
         if (_generateMode == GemsGenerateMode.Random)
         {
-            _generateMode = (GemsGenerateMode)(AoWHSMap.Current.Random(3) + 1);
+            _generateMode = (GemsGenerateMode)(StrategicMap.Current.Random(3) + 1);
         }
 
         switch (_generateMode)
         {
             case GemsGenerateMode.Low:
-                _amount = AoWHSMap.Current.Random(25) + 25;
+                _amount = StrategicMap.Current.Random(25) + 25;
                 break;
             case GemsGenerateMode.Normal:
-                _amount = AoWHSMap.Current.Random(25) + 50;
+                _amount = StrategicMap.Current.Random(25) + 50;
                 break;
             case GemsGenerateMode.High:
-                _amount = AoWHSMap.Current.Random(50) + 100;
+                _amount = StrategicMap.Current.Random(50) + 100;
                 break;
         }
     }
@@ -128,13 +128,13 @@ public partial class Gems : ImageLibraryTerrainMapObject
         LocationTextEventLog eventValue;
         if (armyHexSprite.Army.Player != 0)
         {
-            bool condition = AoWHSMap.Current.SeatedPlayer == armyHexSprite.Army.Player;
+            bool condition = StrategicMap.Current.SeatedPlayer == armyHexSprite.Army.Player;
             if (!condition)
             {
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                condition = AoWHSMap.Current.Watching(hexX, hexY, hexLevel, 0);
+                condition = StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0);
             }
 
             if (condition)
@@ -142,7 +142,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
                 AudioPlayback.PlaySample("SFX\\EVENTS\\GOLD.WAV");
             }
 
-            var player = AoWHSMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
+            var player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
             player.SetGems(player.Gems + _amount);
 
             eventValue = new LocationTextEventLog(null);
@@ -151,7 +151,7 @@ public partial class Gems : ImageLibraryTerrainMapObject
             var hexLevel2 = GetHexLevel();
             var hexY2 = GetHexY();
             eventValue.SetLocation(GetHexX(), hexY2, hexLevel2);
-            AoWHSMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);
+            StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);
             eventValue.Release();
             Dispose();
         }

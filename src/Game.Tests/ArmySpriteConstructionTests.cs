@@ -55,7 +55,7 @@ public sealed class ArmySpriteConstructionTests
                 }
                 Assert.NotNull(value);
                 actual.Add($"owner{owned}.route{route}", JsonSerializer.Serialize(new { State = state, owner?.Events, Count = owner?.Members.Count, DestroyEntries = destroyEntries }));
-                AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
+                StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
                 value?.SetOwner(null!);
                 value?.Dispose();
             }
@@ -81,7 +81,7 @@ public sealed class ArmySpriteConstructionTests
         }
         finally
         {
-            AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
+            StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
             loaded?.Dispose();
             source.Dispose();
         }

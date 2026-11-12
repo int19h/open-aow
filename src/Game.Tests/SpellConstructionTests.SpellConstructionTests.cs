@@ -43,7 +43,7 @@ public sealed partial class SpellConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly AoWHSSet _previousSet = AoWHSSet.Current;
+        private readonly GamePack _previousSet = GamePack.Current;
         private readonly GameEngine _previousEngine = GameTables.GameEngine;
 
         internal ImageLibraryManager Manager { get; } = new ImageLibraryManager(null!);
@@ -51,13 +51,13 @@ public sealed partial class SpellConstructionTests
         internal Fixture()
         {
             var set = EngineFixture.CreateGameSet(Manager);
-            AoWHSSet.Current = set;
+            GamePack.Current = set;
             GameTables.GameEngine = null!;
         }
 
         public void Dispose()
         {
-            AoWHSSet.Current = _previousSet;
+            GamePack.Current = _previousSet;
             GameTables.GameEngine = _previousEngine;
             Manager.Dispose();
         }

@@ -47,7 +47,7 @@ public partial class TwinkleAnimation : Animation
         pixelYSurface = Y - pixelYSurface + 16;
         var hexX = GetHexX();
         var hexY = GetHexY();
-        RandSeed = hexX + AoWHSMap.Current.InitialRandomSeed + hexY * 3;
+        RandSeed = hexX + StrategicMap.Current.InitialRandomSeed + hexY * 3;
         for (int I = 0, last = _count - 1; I <= last; I++)
         {
             radius = Random(_radius);

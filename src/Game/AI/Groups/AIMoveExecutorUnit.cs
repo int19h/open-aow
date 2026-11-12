@@ -59,7 +59,7 @@ public partial class AIMoveExecutorUnit : EngineObject
     // AIGroup.pas:4301
     public bool Validate()
     {
-        bool result = AoWHSMap.Current.UnitControl.FindUnit(UnitId) == Troop;
+        bool result = StrategicMap.Current.UnitControl.FindUnit(UnitId) == Troop;
         if (result && !Troop.UnitStatus.Contains(UnitStatusElement.Killed))
         {
             if (Status == AIMoveExecutorUnitStatus.Moving)

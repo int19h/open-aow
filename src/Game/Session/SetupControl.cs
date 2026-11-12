@@ -1,5 +1,4 @@
 // Translated from AoWSetup.pas.
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 
@@ -293,7 +292,7 @@ public partial class SetupControl : Component
         MapValidationInfo validation;
         if (!IsEmpty(Settings.MapName) && RemotePlayer.MapValidation != MapValidationInfo.Valid)
         {
-            if (AoWHSSet.Current.HssCrc == Settings.SetCrc)
+            if (GamePack.Current.HssCrc == Settings.SetCrc)
             {
                 // The client looks up the host's map by name, its own document first (own-formats.md 2.9).
                 fileName = FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + Settings.MapName);
@@ -744,9 +743,9 @@ public partial class SetupControl : Component
     public void RemoveIndependentPlayers()
     {
         Player player;
-        for (int I = AoWHSMap.Current.Players.GetCount() - 1; I >= 1; I--)
+        for (int I = StrategicMap.Current.Players.GetCount() - 1; I >= 1; I--)
         {
-            player = AoWHSMap.Current.Players.GetPlayers(I);
+            player = StrategicMap.Current.Players.GetPlayers(I);
             if (player.PlayerType == PlayerType.Independent)
             {
                 for (int J = player.Structures.GetCount() - 1; J >= 0; J--)
@@ -776,7 +775,7 @@ public partial class SetupControl : Component
         for (int I = 0, last = Settings.GetCount() - 1; I <= last; I++)
         {
             var settingPlayerId = Settings.GetSettings(I);
-            Player = AoWHSMap.Current.Players.GetPlayers((sbyte)settingPlayerId.PlayerId);
+            Player = StrategicMap.Current.Players.GetPlayers((sbyte)settingPlayerId.PlayerId);
             Player.PlayerType = (PlayerType)Settings.GetSettings(I).Behavior.PlayerType;
             Player.Behavior = (PlayerBehavior)Settings.GetSettings(I).BehaviorMode;
             if (Settings.ConnectionType == 2)
@@ -819,11 +818,11 @@ public partial class SetupControl : Component
             }
         }
 
-        AoWHSMap.Current.ConnectionType = (PlayerConnectionType)Settings.ConnectionType;
+        StrategicMap.Current.ConnectionType = (PlayerConnectionType)Settings.ConnectionType;
         if (GetRemote())
         {
             remotePlayerCommunicationControl = new RemotePlayerCommunicationControl();
-            remotePlayerCommunicationControl.Setup(AoWHSMap.Current.Players.GetCount(), RemotePlayer.RemoteId);
+            remotePlayerCommunicationControl.Setup(StrategicMap.Current.Players.GetCount(), RemotePlayer.RemoteId);
             remotePlayerCommunicationControl.SetConnectionMode(0, ConnectionMode.Global);
             remotePlayerCommunicationControl.SetSystemId(0, RemotePlayer.RemoteId);
             for (int I = 0, last = Settings.GetCount() - 1; I <= last; I++)
@@ -849,7 +848,7 @@ public partial class SetupControl : Component
                 }
             }
 
-            AoWHSMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(remotePlayerCommunicationControl);
+            StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(remotePlayerCommunicationControl);
             remotePlayerCommunicationControl.OnSendData = _onSendData;
             ListPlayerCommunicationControlInfo(remotePlayerCommunicationControl);
             remotePlayerCommunicationControl.Release();
@@ -857,7 +856,7 @@ public partial class SetupControl : Component
         else
         {
             localPlayerCommunicationControl = new LocalPlayerCommunicationControl();
-            localPlayerCommunicationControl.Setup(AoWHSMap.Current.Players.GetCount());
+            localPlayerCommunicationControl.Setup(StrategicMap.Current.Players.GetCount());
             localPlayerCommunicationControl.SetConnectionMode(0, ConnectionMode.Global);
             for (int I = 0, last = Settings.GetCount() - 1; I <= last; I++)
             {
@@ -871,27 +870,27 @@ public partial class SetupControl : Component
                 }
             }
 
-            AoWHSMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(localPlayerCommunicationControl);
+            StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(localPlayerCommunicationControl);
             ListPlayerCommunicationControlInfo(localPlayerCommunicationControl);
             localPlayerCommunicationControl.Release();
         }
 
         if (Settings.MapDay == 0)
         {
-            AoWHSMap.Current.InitialRandomSeed = Settings.RandomSeed;
-            AoWHSMap.Current.FixedLeaders = Settings.LeadersOnMap;
-            AoWHSMap.Current.AlliedVictory = Settings.AlliedVictory;
-            AoWHSMap.Current.SetExplorationEnabled(Settings.ExplorationEnabled);
-            AoWHSMap.Current.SetFogEnabled(true);
+            StrategicMap.Current.InitialRandomSeed = Settings.RandomSeed;
+            StrategicMap.Current.FixedLeaders = Settings.LeadersOnMap;
+            StrategicMap.Current.AlliedVictory = Settings.AlliedVictory;
+            StrategicMap.Current.SetExplorationEnabled(Settings.ExplorationEnabled);
+            StrategicMap.Current.SetFogEnabled(true);
         }
 
-        AoWHSMap.Current.DayLimit = Settings.DayLimit;
-        AoWHSMap.Current.TurnTime = Settings.TurnTime;
-        AoWHSMap.Current.VictoryMode = Settings.TacticalBattleAvailability;
-        AoWHSMap.Current.LeadersFixed = Settings.CustomizeLeaders;
-        AoWHSMap.Current.StartingGame = Settings.AlwaysViewTacticalBattle;
+        StrategicMap.Current.DayLimit = Settings.DayLimit;
+        StrategicMap.Current.TurnTime = Settings.TurnTime;
+        StrategicMap.Current.VictoryMode = Settings.TacticalBattleAvailability;
+        StrategicMap.Current.LeadersFixed = Settings.CustomizeLeaders;
+        StrategicMap.Current.StartingGame = Settings.AlwaysViewTacticalBattle;
         RemoveIndependentPlayers();
-        AoWHSMap.Current.SetupPlayerControl((PlayMode)Settings.PlayMode, (PlayerConnectionType)Settings.ConnectionType);
+        StrategicMap.Current.SetupPlayerControl((PlayMode)Settings.PlayMode, (PlayerConnectionType)Settings.ConnectionType);
         if (_onSetupMap != null)
         {
             try
@@ -1538,8 +1537,8 @@ public partial class SetupControl : Component
         bool result = default;
         bool firstHuman = default;
         PlayerSetupSettings settings = default;
-        AoWHSMap preview;
-        preview = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(GameTables.GameEngine.StartupDirectory + fileName, GameProfile.WorldMap);
+        StrategicMap preview;
+        preview = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(GameTables.GameEngine.StartupDirectory + fileName, GameProfile.WorldMap);
         if (GetHost() && preview != null && (!GameTables.GameEngine.Demo || preview.ShowAllPlayers) && preview.ConnectionType != PlayerConnectionType.Email)
         {
             GameTables.GameEngine.InitializeHexSpriteSet(GameTables.GameEngine.StartupDirectory + preview.HssFileName, null);
@@ -1551,7 +1550,7 @@ public partial class SetupControl : Component
             // The map CRC is taken over the engine image, so an own copy and its original agree (own-formats.md 4.1).
             var fileCrc = FileBoundary.ImageCrc32(GameTables.GameEngine.StartupDirectory + fileName, GameProfile.WorldMap);
             Settings.MapCrc = fileCrc;
-            Settings.SetCrc = AoWHSSet.Current.HssCrc;
+            Settings.SetCrc = GamePack.Current.HssCrc;
             Settings.RandomSeed = RandSeed;
             Settings.VictoryCondition = (byte)(int)preview.VictoryCondition;
             if (preview.Day != 0)

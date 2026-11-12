@@ -47,7 +47,7 @@ public partial class TownGateTokenEvent : CityTargetSpellTokenEvent
         if (result)
         {
             ArmyId.RetrieveArmy(ref army, ref selection);
-            result = ((TownGate)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).ValidTeleportLocation(army, selection, TeleportLocation.X, TeleportLocation.Y, TeleportLocation.MapLevel);
+            result = ((TownGate)GamePack.Current.SpellControl.GetSpell(EventSpellId)).ValidTeleportLocation(army, selection, TeleportLocation.X, TeleportLocation.Y, TeleportLocation.MapLevel);
         }
 
         return result;

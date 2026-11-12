@@ -10,7 +10,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -131,7 +130,7 @@ public partial class PartyJoinDialog : DataModule
             DialogHosts.General.PlayButtonSound(0);
             if (!_joinEvent.Accept(ref reason))
             {
-                AoWHSMap.Current.ShowWarning(reason);
+                StrategicMap.Current.ShowWarning(reason);
             }
             else
             {
@@ -149,7 +148,7 @@ public partial class PartyJoinDialog : DataModule
             DialogHosts.General.PlayButtonSound(0);
             if (!_joinEvent.Reject(ref reason))
             {
-                AoWHSMap.Current.ShowWarning(reason);
+                StrategicMap.Current.ShowWarning(reason);
             }
             else
             {
@@ -262,7 +261,7 @@ public partial class PartyJoinDialog : DataModule
         if (dialog.ValidateJoin())
         {
             dialog._units.Clear();
-            dialog._faceUnit = AoWHSMap.Current.UnitControl.FindUnit(dialog._joinEvent.FirstUnitId);
+            dialog._faceUnit = StrategicMap.Current.UnitControl.FindUnit(dialog._joinEvent.FirstUnitId);
             dialog._joinEvent.ListJoinUnits(dialog._units, ref dialog._selection);
             var text = dialog._joinEvent.JoinMessage.Text;
             dialog.JoinMemo.Items.Text = text;
@@ -283,7 +282,7 @@ public partial class PartyJoinDialog : DataModule
         var cancel = AbilityRules.TranslateResourceString(GameText.CancelText);
         dialog.RightButton.Text = cancel;
         UpdatePartyJoin(dialog);
-        AoWHSMap.Current.TutorialControl.ShowMessage(70, true, true);
+        StrategicMap.Current.TutorialControl.ShowMessage(70, true, true);
     }
 
     internal static void ShowPrisonersJoin(PartyJoinDialog dialog, PrisonersJoinEventLog eventValue, ExecuteDoneEvent done)

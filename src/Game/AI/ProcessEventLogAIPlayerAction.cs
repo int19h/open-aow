@@ -30,7 +30,7 @@ public partial class ProcessEventLogAIPlayerAction : AIPlayerAction, IAIPlayerAc
         {
             if (_logIndex == -1)
             {
-                _logIndex = Control.Player.EventLogbook.FindFirstLog(131811, Control.Player.PlayerIndex, AoWHSMap.Current.Day - 1) + 1;
+                _logIndex = Control.Player.EventLogbook.FindFirstLog(131811, Control.Player.PlayerIndex, StrategicMap.Current.Day - 1) + 1;
             }
             else
             {

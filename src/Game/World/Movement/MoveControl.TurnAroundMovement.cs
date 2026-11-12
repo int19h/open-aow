@@ -8,7 +8,7 @@ public partial class MoveControl
     public int CalculateTurnAroundMovePoints(ref int gapIndex)
     {
         var start = GapStarts[gapIndex];
-        var rightField = (AoWMapField)MapLevel.GetField(start.X, start.Y);
+        var rightField = MapLevel.GetField(start.X, start.Y);
         var leftField = rightField;
         int rightDirection = start.MapLevel, leftDirection = start.MapLevel;
         int rightPoints = 0, leftPoints = 0;
@@ -23,11 +23,11 @@ public partial class MoveControl
         gapIndex = index;
         return leftFound ? leftPoints : rightFound ? rightPoints : -1;
 
-        void Step(bool right, ref AoWMapField field, ref int direction, ref int total,
+        void Step(bool right, ref MapField field, ref int direction, ref int total,
             ref int over, ref bool active, ref bool found)
         {
             int attempts = 0, points, nextOver;
-            AoWMapField next;
+            MapField next;
             do
             {
                 next = NeighborField(field, direction);

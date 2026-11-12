@@ -43,7 +43,7 @@ public partial class TacticalBattleUnitHexSprite
             if (Unit.GetPlayer() > 0)
             {
                 var player = Unit.GetPlayer();
-                race = AoWHSMap.Current.Players.GetPlayers(player).PlayerRace;
+                race = StrategicMap.Current.Players.GetPlayers(player).PlayerRace;
             }
             else
             {
@@ -140,7 +140,7 @@ public partial class TacticalBattleUnitHexSprite
 
                     while (sequence != null)
                     {
-                        index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (index != -1)
                         {
                             sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + flyingOffset, lockedSurface);
@@ -194,7 +194,7 @@ public partial class TacticalBattleUnitHexSprite
                     {
                         while (sequence != null)
                         {
-                            index = sequence.GetFrameIndex(AoWHSMap.Current.Frame + ActionFrame, FrameFixtureInputs.AnimationOffset(this));
+                            index = sequence.GetFrameIndex(StrategicMap.Current.Frame + ActionFrame, FrameFixtureInputs.AnimationOffset(this));
                             if (index != -1)
                             {
                                 sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + flyingOffset, lockedSurface);
@@ -207,7 +207,7 @@ public partial class TacticalBattleUnitHexSprite
                     break;
                 case SpriteAction.RoundAttack:
                 case SpriteAction.RoundAttackHit:
-                    sequence = AoWHSSet.Current.ImageSequences.ImageSequences[Direction + 15];
+                    sequence = GamePack.Current.ImageSequences.ImageSequences[Direction + 15];
                     if (sequence != null)
                     {
                         while (sequence != null)
@@ -239,7 +239,7 @@ public partial class TacticalBattleUnitHexSprite
 
             if (Unit.Troop.UnitStatus.Contains(UnitStatusElement.Enchanted))
             {
-                AoWHSSet.Current.ImageSequences.ShowLooped(70, pixelXSurface + 16, pixelYSurface + 18 + flyingOffset, AoWHSMap.Current.Frame, lockedSurface);
+                GamePack.Current.ImageSequences.ShowLooped(70, pixelXSurface + 16, pixelYSurface + 18 + flyingOffset, StrategicMap.Current.Frame, lockedSurface);
             }
 
             hexX = 0;
@@ -247,10 +247,10 @@ public partial class TacticalBattleUnitHexSprite
             {
                 if (Unit.GetAbilityEnabled(StatusAbilities[hexX]))
                 {
-                    sequence = AoWHSSet.Current.AbilityControl.GetAbility(StatusAbilities[hexX]).ImageSequences.ImageSequences[0];
+                    sequence = GamePack.Current.AbilityControl.GetAbility(StatusAbilities[hexX]).ImageSequences.ImageSequences[0];
                     while (sequence != null)
                     {
-                        index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (index != -1)
                         {
                             sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX + 15, pixelYSurface + sequence.OffsetY + 10 + flyingOffset, lockedSurface);
@@ -267,22 +267,22 @@ public partial class TacticalBattleUnitHexSprite
                 {
                     if (Unit.MovePoints == 0 || Unit.CombatPlayer != CombatMap.Current.SeatedCombatPlayer)
                     {
-                        AoWHSSet.Current.FlagControl.Flags[70].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
+                        GamePack.Current.FlagControl.Flags[70].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                     }
                     else
                     {
-                        AoWHSSet.Current.FlagControl.Flags[_moveIndicator + 69].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
+                        GamePack.Current.FlagControl.Flags[_moveIndicator + 69].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                     }
                 }
                 else
                 {
                     if (Unit.MovePoints == 0 || Unit.CombatPlayer != CombatMap.Current.SeatedCombatPlayer)
                     {
-                        AoWHSSet.Current.RaceResources.GetRaceResource(race).ImageLibrary[70].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
+                        GamePack.Current.RaceResources.GetRaceResource(race).ImageLibrary[70].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                     }
                     else
                     {
-                        AoWHSSet.Current.RaceResources.GetRaceResource(race).ImageLibrary[_moveIndicator + 69].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
+                        GamePack.Current.RaceResources.GetRaceResource(race).ImageLibrary[_moveIndicator + 69].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                     }
                 }
 
@@ -298,7 +298,7 @@ public partial class TacticalBattleUnitHexSprite
                     lockedSurfaceLocal.ClipRectangle.Right = pixelXSurface - 4 + hexX;
                 }
 
-                AoWHSSet.Current.CombatImages[1].ShowClipped(pixelXSurface - 4, pixelYSurface - 4, lockedSurfaceLocal);
+                GamePack.Current.CombatImages[1].ShowClipped(pixelXSurface - 4, pixelYSurface - 4, lockedSurfaceLocal);
             }
         }
         catch
@@ -339,7 +339,7 @@ public partial class TacticalBattleUnitHexSprite
         sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 23];
         while (sequence != null)
         {
-            index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+            index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
             if (index != -1)
             {
                 sequence.ImageLibrary[index].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
@@ -469,7 +469,7 @@ public partial class TacticalBattleUnitHexSprite
                 break;
             case SpriteAction.RoundAttack:
             case SpriteAction.RoundAttackHit:
-                sequence = AoWHSSet.Current.ImageSequences.ImageSequences[Direction + 16];
+                sequence = GamePack.Current.ImageSequences.ImageSequences[Direction + 16];
                 if (sequence != null)
                 {
                     ActionFrame = (short)(ActionFrame + 1);
@@ -497,7 +497,7 @@ public partial class TacticalBattleUnitHexSprite
                     sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 5];
                     if (sequence != null && sequence.SpeedCount == sequence.SequenceSpeed && CombatMap.Current.PlaySounds)
                     {
-                        var frameIndex = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        var frameIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         UnitGraphicsResource.SfxLibraries[1].Play(frameIndex % 100);
                     }
                 }
@@ -515,12 +515,12 @@ public partial class TacticalBattleUnitHexSprite
                         {
                             if (SelectedSpell != 112 && SelectedSpell != 122 && SelectedSpell != 119)
                             {
-                                AoWHSSet.Current.SpellControl.GetSpell(SelectedSpell).CastSounds.Play(0);
+                                GamePack.Current.SpellControl.GetSpell(SelectedSpell).CastSounds.Play(0);
                             }
                         }
                         else
                         {
-                            AoWHSSet.Current.AbilityControl.GetAbility(SelectedAbility).SfxLibrary.Play(0);
+                            GamePack.Current.AbilityControl.GetAbility(SelectedAbility).SfxLibrary.Play(0);
                         }
                     }
                     else

@@ -11,7 +11,7 @@ namespace Aow.Game.Combat;
 public partial class CombatMoveControl : MoveControl
 {
 
-    public CombatMoveControl(HSMap owner) : base(owner)
+    public CombatMoveControl(GameMap owner) : base(owner)
     { }
 
     public TacticalBattleUnitHexSprite UnitHexSprite { get; set; }

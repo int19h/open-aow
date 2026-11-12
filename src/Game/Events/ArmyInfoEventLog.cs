@@ -73,21 +73,21 @@ public partial class ArmyInfoEventLog : EventLog
             switch (trigger)
             {
                 case ExecuteTrigger.User:
-                    AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
+                    StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
                     result = true;
                     break;
                 case ExecuteTrigger.NewTurn:
-                    if (AoWHSMap.Current.SeatedPlayer == _player || AoWHSMap.Current.SeatedPlayer == ArmyView.Player)
+                    if (StrategicMap.Current.SeatedPlayer == _player || StrategicMap.Current.SeatedPlayer == ArmyView.Player)
                     {
-                        AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
+                        StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
                         result = true;
                     }
 
                     break;
                 case ExecuteTrigger.Event:
-                    if (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Local && (AoWHSMap.Current.SeatedPlayer == _player || AoWHSMap.Current.SeatedPlayer == ArmyView.Player))
+                    if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && (StrategicMap.Current.SeatedPlayer == _player || StrategicMap.Current.SeatedPlayer == ArmyView.Player))
                     {
-                        AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
+                        StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
                         result = true;
                     }
                     else

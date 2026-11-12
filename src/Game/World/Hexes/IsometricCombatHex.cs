@@ -18,7 +18,7 @@ public partial class IsometricCombatHex : UpperIsometricHex
     public new const int ClassId = 2229514;
 
     // IsoCombatHex.pas:43
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
 
     // IsoCombatHex.pas:46
     public override void ShowDynamic(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -159,7 +159,7 @@ public partial class IsometricCombatHex : UpperIsometricHex
         public override int ResourceUserClassId() => 2229514;
 
         // IsoCombatHex.pas:117
-        public override HexControl GetHexControl() => ((AoWHSSet)Engine.HexSpriteSet).CombatHexes;
+        public override HexControl GetHexControl() => Engine.HexSpriteSet.CombatHexes;
 
         // IsoCombatHex.pas:111
         public override string ResourceEditName() => "Combat ISO-Hex";

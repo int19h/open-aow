@@ -87,7 +87,7 @@ public partial class CombatObstacle : MultiHexMapObject
         base.UpdateMapField(info);
         if (info.HexNumber < _resource.TerrainList.Count)
         {
-            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 16384;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 16384;
         }
     }
 
@@ -112,7 +112,7 @@ public partial class CombatObstacle : MultiHexMapObject
     }
 
     // CombatObstacle.pas:107
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
 
     // CombatObstacle.pas:104
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => true;
@@ -130,7 +130,7 @@ public partial class CombatObstacle : MultiHexMapObject
                 DestroyShadow();
             }
 
-            if (AoWHSMap.Current == null || AoWHSMap.Current.ShowUnitShadows)
+            if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
             {
                 _shadow = new CombatObstacleShadow(null);
                 _shadow.Obstacle = this;
@@ -163,7 +163,7 @@ public partial class CombatObstacle : MultiHexMapObject
                 DestroyOverlay();
             }
 
-            if (AoWHSMap.Current == null || AoWHSMap.Current.ShowUnitShadows)
+            if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
             {
                 _overlay = new CombatObstacleOverlay(null);
                 _overlay.Obstacle = this;

@@ -53,7 +53,7 @@ public partial class BuildRoadsControl : ConstructionControl
         string reason = "";
         if (CanConstruct(troop, ref reason))
         {
-            AoWHSMap.Current.SelectedArmy.SelectBuildRoad(troop);
+            StrategicMap.Current.SelectedArmy.SelectBuildRoad(troop);
             result = true;
         }
         else

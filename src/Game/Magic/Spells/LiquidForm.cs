@@ -1,5 +1,4 @@
 // Translated from UnitSpells.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
@@ -30,9 +29,9 @@ public partial class LiquidForm : UnitSpell
     public override void PlayDefaultCastEffects(sbyte player, sbyte X, sbyte Y, sbyte layer)
     {
         base.PlayDefaultCastEffects(player, X, Y, layer);
-        if (player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Watching(X, Y, layer, 0))
+        if (player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, layer, 0))
         {
-            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(1);
+            GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(1);
         }
     }
 

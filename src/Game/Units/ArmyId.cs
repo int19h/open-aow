@@ -44,7 +44,7 @@ public partial class ArmyId : EngineObject
         int I;
         if (X != -1)
         {
-            armyHexSprite = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel)).GetArmyHexSprite();
+            armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).GetArmyHexSprite();
             if (armyHexSprite != null && armyHexSprite.Army.Player == Player)
             {
                 I = UnitIds.Count;
@@ -78,7 +78,7 @@ public partial class ArmyId : EngineObject
         if (X != -1)
         {
             selection = 0;
-            armyHexSprite = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel)).GetArmyHexSprite();
+            armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).GetArmyHexSprite();
             if (armyHexSprite != null && armyHexSprite.Army.Player == Player)
             {
                 I = UnitIds.Count;

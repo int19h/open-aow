@@ -22,7 +22,7 @@ public abstract class FileProfile
 
     public static IReadOnlyList<FileProfile> All { get; } =
     [
-        new HsmProfile("world-hsm", "game", ["save", "map", "campaign-map"], "AoWHSMap"),
+        new HsmProfile("world-hsm", "game", ["save", "map", "campaign-map"], "StrategicMap"),
         new HsmProfile("tactical-hsm", "tactical", ["map"], "CombatMap"),
         new StoredObjectProfile(),
         new ScenarioSetProfile(),
@@ -319,7 +319,7 @@ public sealed class ScenarioSetProfile : FileProfile
     public override string Name => "scenario-set";
     public override string Engine => "game";
     public override IReadOnlyList<string> Kinds => ["scenario-set"];
-    public override string RootFamily => "AoWHSSet";
+    public override string RootFamily => "GamePack";
     public override bool RootHasClass => false;
 
     private const int HeaderSize = 52;

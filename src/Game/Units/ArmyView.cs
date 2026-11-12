@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using System.Runtime.InteropServices;
 using Aow.Engine;
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -98,7 +97,7 @@ public partial class ArmyView : Army
                 var unit = army.GetUnit(I);
                 var count = GetCount();
                 MoraleValues[count - 1] = unit.MoraleValue;
-                for (int player = 1, lastPlayer = AoWHSMap.Current.Players.GetCount() - 1; player <= lastPlayer; player++)
+                for (int player = 1, lastPlayer = StrategicMap.Current.Players.GetCount() - 1; player <= lastPlayer; player++)
                 {
                     var unitConcealedForPlayer = army.GetUnitConcealedForPlayer(I, (sbyte)player);
                     SetUnitConcealedForPlayer(GetCount() - 1, (sbyte)player, unitConcealedForPlayer);

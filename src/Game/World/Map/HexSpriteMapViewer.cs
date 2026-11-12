@@ -20,7 +20,7 @@ public partial class HexSpriteMapViewer : Component
     private int _sceneL;
     private bool _staticSurfaceValid;
     private NotifyEvent<object> _onSceneChanged;
-    private HSMap _hexSpriteMap;
+    private GameMap _hexSpriteMap;
 
     // Port extension: the scene drawn under the original clamp before ShowCenteredMap centers it.
     internal Surface CenteredSurface { get; private set; }
@@ -48,7 +48,7 @@ public partial class HexSpriteMapViewer : Component
     }
 
     // HSEngine.pas:4718
-    public virtual void SetHexSpriteMap(HSMap value)
+    public virtual void SetHexSpriteMap(GameMap value)
     {
         _hexSpriteMap = value;
         if (_hexSpriteMap != null)
@@ -211,7 +211,7 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4770
     public void SetSceneWidth(int value)
     {
-        HSMap M;
+        GameMap M;
         M = _hexSpriteMap;
         if (M != null && value > 0)
         {
@@ -223,7 +223,7 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4782
     public void SetSceneHeight(int value)
     {
-        HSMap M;
+        GameMap M;
         M = _hexSpriteMap;
         if (M != null && value > 0)
         {
@@ -242,7 +242,7 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4843
     public void ShowScene(int X, int Y, Surface surface)
     {
-        HSMap M;
+        GameMap M;
         object mp;
         LockedSurface lockedSurface = default;
         Rect R = default;
@@ -254,7 +254,7 @@ public partial class HexSpriteMapViewer : Component
             mp = _hexSpriteMap;
             if (mp != null)
             {
-                M = (HSMap)mp;
+                M = (GameMap)mp;
                 if (M.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && _onSceneChanged != null)
                 {
                     _onSceneChanged(this);
@@ -441,7 +441,7 @@ public partial class HexSpriteMapViewer : Component
         PixelFormats.ColorFillSurfaceDescription(new Rect(inside.Right, inside.Top, lockedSurface.Width, inside.Bottom), 0, lockedSurface);
     }
 
-    public HSMap HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }
+    public GameMap HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }
     public Surface StaticSurface { get => _staticSurface; }
     public bool StaticSurfaceValid { get => _staticSurfaceValid; set => _staticSurfaceValid = value; }
     public int SceneX { get => _sceneX; set => SetSceneX(value); }

@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Runtime.ExceptionServices;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using Aow.Engine;
+
 using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
@@ -52,7 +52,7 @@ public sealed class EngineStartupTests
         "Aow.Game.UI.Windows.HtmlMemo._fonts",
         "Aow.Game.Units.ItemControl._items",
         "Aow.Game.Units.UnitControl.Units",
-        "Aow.Game.World.Map.AoWHSMap.Effects",
+        "Aow.Game.World.Map.StrategicMap.Effects",
         "Aow.Game.World.Map.HexSpriteSelection._locationHexSprite",
         "Aow.Game.World.Map.MapObjectResourceTerrainControl._resources",
         "Aow.Game.World.PadControl.PadResources",

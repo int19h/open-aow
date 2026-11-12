@@ -395,7 +395,7 @@
               "Set\u00601.low": 0
             },
             "AIGroupDefendTargetSelector._mode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupDefendTargetSelector\u002BModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupDefendTargetSelector+ModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -1071,7 +1071,7 @@
                 },
                 "MoveControlSettings.Player": -1,
                 "MoveControlSettings.ProcessedMapFields": {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
                 },
@@ -1497,7 +1497,7 @@
               "Set\u00601.low": 0
             },
             "AIGroupDefendTargetSelector._mode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupDefendTargetSelector\u002BModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupDefendTargetSelector+ModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -2173,7 +2173,7 @@
                 },
                 "MoveControlSettings.Player": -1,
                 "MoveControlSettings.ProcessedMapFields": {
-                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                  "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                   "DelphiList\u00601.count": 0,
                   "DelphiList\u00601.items": []
                 },
@@ -2586,7 +2586,7 @@
                 "Set\u00601.low": 0
               },
               "AIGroupDefendTargetSelector._mode": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupDefendTargetSelector\u002BModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupDefendTargetSelector+ModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -3155,7 +3155,7 @@
               },
               "MoveControlSettings.Player": -1,
               "MoveControlSettings.ProcessedMapFields": {
-                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
@@ -3578,7 +3578,7 @@
               },
               "MoveControlSettings.Player": -1,
               "MoveControlSettings.ProcessedMapFields": {
-                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "DelphiList\u00601.count": 0,
                 "DelphiList\u00601.items": []
               },
@@ -4259,7 +4259,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -4411,7 +4411,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -5051,7 +5051,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -5203,7 +5203,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -5745,7 +5745,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -6389,7 +6389,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -6541,7 +6541,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -7181,7 +7181,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -7333,7 +7333,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -7875,7 +7875,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -8519,7 +8519,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -8671,7 +8671,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -9311,7 +9311,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -9463,7 +9463,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -10005,7 +10005,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -10649,7 +10649,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -10801,7 +10801,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -11441,7 +11441,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -11593,7 +11593,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -12135,7 +12135,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -12779,7 +12779,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -12943,7 +12943,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -13582,7 +13582,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -13746,7 +13746,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -14287,7 +14287,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -14942,7 +14942,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -15403,7 +15403,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -15766,7 +15766,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -16436,7 +16436,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -16897,7 +16897,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -17260,7 +17260,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -17903,7 +17903,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -18055,7 +18055,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -18695,7 +18695,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -18847,7 +18847,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -19389,7 +19389,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -20033,7 +20033,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -20494,7 +20494,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -20857,7 +20857,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -21560,7 +21560,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -22021,7 +22021,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -22384,7 +22384,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -23027,7 +23027,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -23488,7 +23488,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -23851,7 +23851,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -24494,7 +24494,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -24955,7 +24955,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -25318,7 +25318,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -25961,7 +25961,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -26113,7 +26113,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -26753,7 +26753,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -26905,7 +26905,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -27447,7 +27447,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -28091,7 +28091,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -28552,7 +28552,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -28915,7 +28915,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -29558,7 +29558,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -29710,7 +29710,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -30350,7 +30350,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -30502,7 +30502,7 @@
               "AIGroupTargetSelector._aiGroupTask": null,
               "AIGroupTargetSelector._priority": 0,
               "AIGroupTargetSelector.Priorities": {
-                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector\u002BPrioritySettings",
+                "$type": "Aow.Game.AI.Groups.AIGroupTargetSelector+PrioritySettings",
                 "PrioritySettings.CompleteCooperationPenalty": 0,
                 "PrioritySettings.CompleteRecruitmentPenalty": 0,
                 "PrioritySettings.ExecuteBonus": 0,
@@ -31044,7 +31044,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -31688,7 +31688,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -32149,7 +32149,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -32512,7 +32512,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -33155,7 +33155,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -33616,7 +33616,7 @@
             "AIGroupControl.Selection": 0,
             "AIGroupControl.State": 0,
             "AIGroupControl._status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set\u00601.a": 0,
               "Set\u00601.b": 0,
               "Set\u00601.bounded": false,
@@ -33979,7 +33979,7 @@
               "AIGroupControl.Selection": 0,
               "AIGroupControl.State": 0,
               "AIGroupControl._status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.AI.Groups.AIGroupControl+StatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set\u00601.a": 0,
                 "Set\u00601.b": 0,
                 "Set\u00601.bounded": false,
@@ -34426,7 +34426,7 @@
             },
             "MoveControlSettings.Player": -1,
             "MoveControlSettings.ProcessedMapFields": {
-              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
@@ -34839,7 +34839,7 @@
             },
             "MoveControlSettings.Player": -1,
             "MoveControlSettings.ProcessedMapFields": {
-              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },
@@ -43260,13 +43260,13 @@
       "owner:0"
     ]
   },
-  "Aow.Game.UI.Windows.HtmlMemo\u002BChangeInfo.owner0route0": {
+  "Aow.Game.UI.Windows.HtmlMemo+ChangeInfo.owner0route0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.UI.Windows.HtmlMemo\u002BChangeInfo",
+            "$type": "Aow.Game.UI.Windows.HtmlMemo+ChangeInfo",
             "ChangeInfo.Align": 0,
             "ChangeInfo.Color": 0,
             "ChangeInfo.Font": "",

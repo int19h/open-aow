@@ -77,7 +77,7 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
     {
         if (viewer.Time == 0)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(60).SfxLibrary.Play(0);
+            GamePack.Current.AbilityControl.GetAbility(60).SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -94,7 +94,7 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(60).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            GamePack.Current.AbilityControl.GetAbility(60).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 
@@ -112,7 +112,7 @@ public partial class DispelMagicCombatAction : SingleTargetCombatAction
             for (int I = Enchantments.GetCount() - 1; I >= 0; I--)
             {
                 chance = Enchantments.GetEnchantments(I).DispelChance(dispelMana);
-                if (chance > AoWHSMap.Current.Random(100))
+                if (chance > StrategicMap.Current.Random(100))
                 {
                     var enchantments = Enchantments.GetEnchantments(I);
                     EnchantmentIds.Add(enchantments.EnchantmentId);

@@ -29,9 +29,9 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         RefCount = 1;
     }
 
-    public int _day = AoWHSMap.Current is { } map ? map.Day : 0;
+    public int _day = StrategicMap.Current is { } map ? map.Day : 0;
     public int Id;
-    public sbyte _player = AoWHSMap.Current is { } map ? map.CurrentPlayer : (sbyte)0;
+    public sbyte _player = StrategicMap.Current is { } map ? map.CurrentPlayer : (sbyte)0;
 
     public int RefCount { get; private set; }
 
@@ -97,13 +97,13 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         bool condition = _player > 0;
         if (condition)
         {
-            var count = AoWHSMap.Current.Players.GetCount();
+            var count = StrategicMap.Current.Players.GetCount();
             condition = _player < count;
         }
 
         if (condition)
         {
-            index = AoWHSMap.Current.Players.GetPlayers(_player).PlayerRace;
+            index = StrategicMap.Current.Players.GetPlayers(_player).PlayerRace;
         }
         else
         {
@@ -120,13 +120,13 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         bool condition = _player > 0;
         if (condition)
         {
-            var count = AoWHSMap.Current.Players.GetCount();
+            var count = StrategicMap.Current.Players.GetCount();
             condition = _player < count;
         }
 
         if (condition)
         {
-            result = AoWHSMap.Current.Players.GetPlayers(_player).PlayerRace;
+            result = StrategicMap.Current.Players.GetPlayers(_player).PlayerRace;
         }
         else
         {
@@ -162,7 +162,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     // EventLog.pas:449
     public virtual void NotifyLogged(EventLogbook logbook)
     {
-        if (AoWHSMap.Current.SeatedPlayer == logbook.Player && AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.None)
+        if (StrategicMap.Current.SeatedPlayer == logbook.Player && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.None)
         {
             PlayLoggedSfx(logbook);
         }
@@ -172,9 +172,9 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     public virtual bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
         bool result = default;
-        if (trigger == ExecuteTrigger.User || ((trigger == ExecuteTrigger.Event || (trigger == ExecuteTrigger.NewTurn && AoWHSMap.Current.RequestCombatType)) && AoWHSMap.Current.SeatedPlayer == _player))
+        if (trigger == ExecuteTrigger.User || ((trigger == ExecuteTrigger.Event || (trigger == ExecuteTrigger.NewTurn && StrategicMap.Current.RequestCombatType)) && StrategicMap.Current.SeatedPlayer == _player))
         {
-            AoWHSMap.Current.TriggerExecuteEventLog(this, mode, done);
+            StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
             result = true;
         }
         else
@@ -199,30 +199,30 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         GetLocation(ref X, ref Y, ref L);
         if (X != -1)
         {
-            AoWHSMap.Current.CenterViewTo(X, Y, L);
-            AoWHSMap.Current.PlayCenterAnimation(X, Y, L);
+            StrategicMap.Current.CenterViewTo(X, Y, L);
+            StrategicMap.Current.PlayCenterAnimation(X, Y, L);
         }
     }
 
     // EventLog.pas:419
     public void CenterViewTo(sbyte X, sbyte Y, sbyte L)
     {
-        AoWHSMap.Current.CenterViewTo(X, Y, L);
-        AoWHSMap.Current.PlayCenterAnimation(X, Y, L);
+        StrategicMap.Current.CenterViewTo(X, Y, L);
+        StrategicMap.Current.PlayCenterAnimation(X, Y, L);
     }
 
     internal static void DistributeEventLog(EventLog log, bool execute)
     {
         Player player;
         EventLog copyLog;
-        for (int I = 0, last = AoWHSMap.Current.Players.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
         {
-            player = AoWHSMap.Current.Players.GetPlayers(I);
+            player = StrategicMap.Current.Players.GetPlayers(I);
             if (player.Status == PlayerStatus.Playing)
             {
                 copyLog = (EventLog)log.Copy(GameTables.GameEngine);
                 player.EventLogbook.AddEvent(copyLog);
-                if (I == AoWHSMap.Current.SeatedPlayer && execute)
+                if (I == StrategicMap.Current.SeatedPlayer && execute)
                 {
                     copyLog.Execute(false, ExecuteTrigger.Event, null);
                 }
@@ -236,14 +236,14 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     {
         Player targetPlayer;
         EventLog copyLog;
-        for (int I = 0, last = AoWHSMap.Current.Players.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
         {
-            targetPlayer = AoWHSMap.Current.Players.GetPlayers(I);
-            if (targetPlayer.Status == PlayerStatus.Playing && (I == player || !AoWHSMap.Current.FoggedForPlayer(X, Y, L, (sbyte)I)))
+            targetPlayer = StrategicMap.Current.Players.GetPlayers(I);
+            if (targetPlayer.Status == PlayerStatus.Playing && (I == player || !StrategicMap.Current.FoggedForPlayer(X, Y, L, (sbyte)I)))
             {
                 copyLog = (EventLog)log.Copy(GameTables.GameEngine);
                 targetPlayer.EventLogbook.AddEvent(copyLog);
-                if (I == AoWHSMap.Current.SeatedPlayer && AoWHSMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human && execute)
+                if (I == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human && execute)
                 {
                     copyLog.Execute(false, ExecuteTrigger.Event, null);
                 }

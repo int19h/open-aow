@@ -37,9 +37,9 @@ public sealed class SweepConstructionTests
     private sealed class Fixture : IDisposable
     {
         private readonly int _previousSeed = Runtime.RandSeed;
-        private readonly AoWHSSet _previousSet = AoWHSSet.Current;
+        private readonly GamePack _previousSet = GamePack.Current;
         private readonly GameEngine _previousEngine = GameTables.GameEngine;
-        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
+        private readonly StrategicMap _previousMap = StrategicMap.Current;
         private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
         private readonly MapObjectResourceList _combatResources = new MapObjectResourceList(null!);
 
@@ -47,10 +47,10 @@ public sealed class SweepConstructionTests
         {
             Runtime.RandSeed = 123456789;
             var set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
-            AoWHSSet.Current = set;
+            GamePack.Current = set;
             GameTables.GameEngine = EngineFixture.Engine;
-            AoWHSMap.Current = null!;
-            AoWHSSet.Current.UnitGraphicsResources = null!;
+            StrategicMap.Current = null!;
+            GamePack.Current.UnitGraphicsResources = null!;
             Runtime.RandSeed = 123456789;
         }
 
@@ -58,9 +58,9 @@ public sealed class SweepConstructionTests
         {
             Runtime.RandSeed = _previousSeed;
 
-            AoWHSSet.Current = _previousSet;
+            GamePack.Current = _previousSet;
             GameTables.GameEngine = _previousEngine;
-            AoWHSMap.Current = _previousMap;
+            StrategicMap.Current = _previousMap;
             _combatResources.Dispose();
             _manager.Dispose();
         }
@@ -124,12 +124,12 @@ public sealed class SweepConstructionTests
         "Aow.Game.Commands.AnimationTokenEvent",
         "Aow.Game.Draw.Animations.ImageSequenceAnimation",
         "Aow.Game.Draw.Animations.TwinkleAnimation",
-        "Aow.Game.World.Hexes.AoWBorderHexagon",
-        "Aow.Game.World.Hexes.AoWHexagon",
-        "Aow.Game.World.Hexes.AoWHexagon+Resource",
+        "Aow.Game.World.Hexes.BorderHex",
+        "Aow.Game.World.Hexes.Hex",
+        "Aow.Game.World.Hexes.Hex+Resource",
         "Aow.Game.World.Hexes.WaterHex",
         "Aow.Game.World.Hexes.WaterHex+Resource",
-        "Aow.Game.World.Hexes.AoWRoad",
+        "Aow.Game.World.Hexes.Road",
         "Aow.Game.Combat.CombatMapLevel",
         "Aow.Game.Draw.TacticalBattleBloodHexSprite",
         "Aow.Game.Draw.TacticalBattleCorpseHexSprite",
@@ -149,8 +149,7 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.Structures.BloodShrine",
         "Aow.Game.Draw.Animations.BloodShrineAnimation",
         "Aow.Game.World.Structures.BloodShrine+Resource",
-        "Aow.Game.World.Hexes.BorderHexagon",
-        "Aow.Game.World.Hexes.BorderHexagon+Resource",
+        "Aow.Game.World.Hexes.BorderHex+Resource",
         "Aow.Game.World.Bridge",
         "Aow.Game.World.Bridge+Resource",
         "Aow.Game.World.Structures.Cave",
@@ -221,7 +220,6 @@ public sealed class SweepConstructionTests
         "Aow.Game.Draw.MovementHexSprite",
         "Aow.Game.World.Terrain.Gems",
         "Aow.Game.World.Terrain.Gems+Resource",
-        "Aow.Game.World.Hexes.Hexagon",
         "Aow.Game.World.Hexes.HexagonResource",
         "Aow.Game.World.Terrain.HolyGround",
         "Aow.Game.World.Terrain.HolyGround+Resource",
@@ -277,7 +275,6 @@ public sealed class SweepConstructionTests
         "Aow.Game.World.Structures.Pyramid+Resource",
         "Aow.Game.World.Structures.ReflectingPool",
         "Aow.Game.World.Structures.ReflectingPool+Resource",
-        "Aow.Game.World.Hexes.Road",
         "Aow.Game.World.Hexes.Road+Resource",
         "Aow.Game.World.Structures.Ruin",
         "Aow.Game.World.Structures.Ruin+Resource",
@@ -335,8 +332,8 @@ public sealed class SweepConstructionTests
         "Aow.Game.Commands.MoveTokenEvent",
         "Aow.Game.Commands.SpellTokenEvent",
         "Aow.Game.Commands.StructureTokenEvent",
-        "Aow.Game.World.Map.AoWMapField",
-        "Aow.Game.World.Map.AoWMapLevel",
+        "Aow.Game.World.Map.MapField",
+        "Aow.Game.World.Map.MapLevel",
         "Aow.Game.World.Map.AbstractBorderHexagon+Resource",
         "Aow.Game.World.Hexes.IsometricHex",
         "Aow.Game.World.Hexes.LowerIsometricHex",
@@ -426,7 +423,7 @@ public sealed class SweepConstructionTests
     {
         using var fixture = new Fixture();
         Type type = typeof(Spell).Assembly.GetType(name)!;
-        Type[] signature = name.EndsWith(".CombatMoveControl", StringComparison.Ordinal) ? [typeof(HSMap)] : [];
+        Type[] signature = name.EndsWith(".CombatMoveControl", StringComparison.Ordinal) ? [typeof(GameMap)] : [];
         var value = (object)Invoke(() => type.GetConstructor(signature)!.Invoke(signature.Length == 0 ? [] : [null]))!;
         try
         {

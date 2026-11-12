@@ -90,7 +90,7 @@ public partial class HeroResource : TroopResource
         {
             if (Abilities.GetAbilitySetAt(I))
             {
-                result += AoWHSSet.Current.AbilityControl.GetAbility(I).GetSkillPoints(Abilities);
+                result += GamePack.Current.AbilityControl.GetAbility(I).GetSkillPoints(Abilities);
             }
         }
 

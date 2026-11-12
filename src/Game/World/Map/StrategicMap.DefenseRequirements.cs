@@ -5,7 +5,7 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World.Map;
 
-public partial class AoWHSMap
+public partial class StrategicMap
 {
     public void RetrieveBattleFieldInfo(int x, int y, int level, int radius, ref BattleFieldInfo info)
     {
@@ -21,7 +21,7 @@ public partial class AoWHSMap
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
-                    var field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                    var field = mapLevel.GetField(walk.X, walk.Y);
                     if ((field.FieldFlags & 0x04000000) != 0)
                     {
                         int friendly = query.Info.FriendlyStrength, enemy = query.Info.Strength;

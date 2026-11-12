@@ -60,8 +60,8 @@ public sealed partial class RuleConstructionTests
     public void UnitCreationMatchesTheBaseCommitThroughEveryFacade(string name)
     {
         Type type = TypeNamed(name);
-        var previous = AoWHSMap.Current;
-        AoWHSMap.Current = null!;
+        var previous = StrategicMap.Current;
+        StrategicMap.Current = null!;
         try
         {
             var states = new List<string>();
@@ -87,18 +87,18 @@ public sealed partial class RuleConstructionTests
             }
             ConstructionSnapshot.Check("UnitConstruction", name, string.Join("\n", states));
         }
-        finally { AoWHSMap.Current = previous; }
+        finally { StrategicMap.Current = previous; }
     }
 
     [Theory]
     [MemberData(nameof(UnitClasses))]
     public void BinarySavedClassIdLoadsTheExactUnitWithOneReference(string name)
     {
-        var previousMap = AoWHSMap.Current;
-        var previousSet = AoWHSSet.Current;
-        AoWHSMap.Current = null!;
-        var set = EngineFixture.Configure(AoWHSSet.Create(null!), value => { value.UnitResources = new UnitResourceList(null!); value.HeroResources = new HeroResourceList(null!); value.AbilityControl = new AbilityControl(null!); });
-        AoWHSSet.Current = set;
+        var previousMap = StrategicMap.Current;
+        var previousSet = GamePack.Current;
+        StrategicMap.Current = null!;
+        var set = EngineFixture.Configure(GamePack.Create(null!), value => { value.UnitResources = new UnitResourceList(null!); value.HeroResources = new HeroResourceList(null!); value.AbilityControl = new AbilityControl(null!); });
+        GamePack.Current = set;
         Type type = TypeNamed(name);
         var meta = EngineClass.Of(type);
         if (EngineHost.Engines is null) EngineHost.Initialize();
@@ -140,8 +140,8 @@ public sealed partial class RuleConstructionTests
             set.UnitResources.Dispose();
             set.HeroResources.Dispose();
             set.AbilityControl.Dispose();
-            AoWHSMap.Current = previousMap;
-            AoWHSSet.Current = previousSet;
+            StrategicMap.Current = previousMap;
+            GamePack.Current = previousSet;
         }
         Assert.Empty(owner.Members);
     }
@@ -169,8 +169,8 @@ public sealed partial class RuleConstructionTests
     [InlineData(true, true)]
     public void UnitReferenceCountsKeepThePreBaseSequence(bool hero, bool reject)
     {
-        var previous = AoWHSMap.Current;
-        AoWHSMap.Current = null!;
+        var previous = StrategicMap.Current;
+        StrategicMap.Current = null!;
         var owner = new UnitOwner(reject);
         s_refcountOwner = owner;
         try
@@ -183,6 +183,6 @@ public sealed partial class RuleConstructionTests
             value.Dispose();
             Assert.Empty(owner.Members);
         }
-        finally { s_refcountOwner = null; AoWHSMap.Current = previous; }
+        finally { s_refcountOwner = null; StrategicMap.Current = previous; }
     }
 }

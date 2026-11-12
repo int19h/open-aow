@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Headless;
 
 // The directed inputs mirror equip_test_items and cast_test_global in playtest.py.
-internal sealed class DirectedInputs(AoWHSMap map, bool items, int spell)
+internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
 {
     public List<object> ItemActions { get; } = [];
     public List<object> GlobalRequests { get; } = [];

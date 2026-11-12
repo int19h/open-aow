@@ -13,12 +13,12 @@ public partial class MapWindow
 {
     private void PressEndTurnShortcut(ushort key, Set<ShiftState> shift)
     {
-        if (AoWHSMap.Current == null || CombatMap.Current != null)
+        if (StrategicMap.Current == null || CombatMap.Current != null)
         {
             return;
         }
 
-        var keyboard = AoWHSMap.Current.Keyboard;
+        var keyboard = StrategicMap.Current.Keyboard;
         if (keyboard.LockCount != 0 || keyboard.Mode != HexSpriteMapKeyboardMode.Default)
         {
             return;

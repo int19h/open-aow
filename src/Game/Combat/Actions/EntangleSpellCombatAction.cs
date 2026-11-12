@@ -26,7 +26,7 @@ public partial class EntangleSpellCombatAction : ExclusiveCombatSpellCombatActio
         {
             source = combat.CombatData.FindId(SourceId);
             target = (CombatUnit)combat.CombatData.FindId(TargetId);
-            AoWHSSet.Current.AbilityControl.GetAbility(94).Expand(target.Troop);
+            GamePack.Current.AbilityControl.GetAbility(94).Expand(target.Troop);
             data = (UnitEnchantmentAbilityData)target.Troop.GetAbilityData(94);
             if (data != null)
             {

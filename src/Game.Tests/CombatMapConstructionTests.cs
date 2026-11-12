@@ -48,8 +48,8 @@ public sealed class CombatMapConstructionTests
                         using var fixture = new OrderingRecording.Fixture(typeof(CombatMap));
                         var entry = fixture.Manager.DiskList.AddImageLibraryFile("TargHex.ILB");
                         entry.ImageLibrary = new ImageLibrary(null!);
-                        var set = AoWHSSet.Current;
-                        if (failure == 2) AoWHSSet.Current = null!;
+                        var set = GamePack.Current;
+                        if (failure == 2) GamePack.Current = null!;
                         CombatMap.Current = null!;
                         var owner = owned == 1 || failure == 1 ? new MapPublicationOwner(failure == 1) : null;
                         CombatMap? value = null;
@@ -59,7 +59,7 @@ public sealed class CombatMapConstructionTests
                             value = Assert.IsType<CombatMap>(OrderingRecording.Create(typeof(CombatMap), owner, route, fixture.Engine));
                         }
                         catch (Exception error) when (error is not XunitException) { caught = error; }
-                        finally { AoWHSSet.Current = set; }
+                        finally { GamePack.Current = set; }
                         Assert.Equal(failure == 0, value is not null);
                         var published = CombatMap.Current;
                         Assert.NotNull(published);

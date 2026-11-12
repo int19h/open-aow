@@ -63,7 +63,7 @@ public partial class CityTargetSpellTokenEvent : SpellTokenEvent
     }
 
     // CitySpells.pas:204
-    public City GetSelectedCity() => (City)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(_targetLocation.Packed).FindNoneTransparentHexSprite(typeof(City));
+    public City GetSelectedCity() => (City)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_targetLocation.Packed).FindNoneTransparentHexSprite(typeof(City));
 
     // NetworkE.pas:230
 

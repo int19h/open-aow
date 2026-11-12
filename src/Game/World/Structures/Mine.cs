@@ -51,7 +51,7 @@ public partial class Mine : PlayerStructure
         base.Activate();
         if (Player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).RegisterIncomeSource(_incomeSource);
+            StrategicMap.Current.Players.GetPlayers((sbyte)(byte)Player).RegisterIncomeSource(_incomeSource);
         }
     }
 
@@ -60,7 +60,7 @@ public partial class Mine : PlayerStructure
     {
         if (Player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).UnregisterIncomeSource(_incomeSource);
+            StrategicMap.Current.Players.GetPlayers((sbyte)(byte)Player).UnregisterIncomeSource(_incomeSource);
         }
 
         base.Deactivate();
@@ -109,7 +109,7 @@ public partial class Mine : PlayerStructure
                         {
                             if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, (sbyte)(byte)Player, 0))
                             {
-                                candidatePriority = 50 - AoWHSMap.Current.Players.GetPlayers(info.Player).Income / 2;
+                                candidatePriority = 50 - StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2;
                                 if (candidatePriority < 25)
                                 {
                                     candidatePriority = 25;
@@ -150,13 +150,13 @@ public partial class Mine : PlayerStructure
             {
                 if (Player != -1)
                 {
-                    AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).UnregisterIncomeSource(_incomeSource);
+                    StrategicMap.Current.Players.GetPlayers((sbyte)(byte)Player).UnregisterIncomeSource(_incomeSource);
                 }
 
                 base.SetPlayer(player);
                 if (Player != -1)
                 {
-                    AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).RegisterIncomeSource(_incomeSource);
+                    StrategicMap.Current.Players.GetPlayers((sbyte)(byte)Player).RegisterIncomeSource(_incomeSource);
                 }
             }
             else

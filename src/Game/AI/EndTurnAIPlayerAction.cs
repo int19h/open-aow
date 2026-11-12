@@ -23,9 +23,9 @@ public partial class EndTurnAIPlayerAction : AIPlayerAction, IAIPlayerActionClas
         {
             eventValue = new EndTurnTokenEvent(null);
             eventValue.Player = Control.Player.PlayerIndex;
-            eventValue.Day = AoWHSMap.Current.Day;
+            eventValue.Day = StrategicMap.Current.Day;
             eventValue.Mode = EndTurnTokenEventMode.EndTurn;
-            AoWHSMap.Current.TokenManager.GetTokenControl(Control.Player.PlayerIndex).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(Control.Player.PlayerIndex).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }

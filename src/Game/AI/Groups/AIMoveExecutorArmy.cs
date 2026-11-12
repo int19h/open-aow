@@ -54,7 +54,7 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     public void RetrieveArmy(byte selection, ref ArmyHexSprite army, ref byte armySelection)
     {
         int index;
-        army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel)).GetArmyHexSprite();
+        army = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetArmyHexSprite();
         if (army != null)
         {
             armySelection = 0;

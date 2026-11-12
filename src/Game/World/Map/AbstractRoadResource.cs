@@ -24,7 +24,7 @@ public partial class AbstractRoadResource : MapObjectResource
     }
 
     // MAPOBJ.PAS:883
-    public override MapObject PlaceResourceUser(HSMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override MapObject PlaceResourceUser(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         int pixelX = default;
         int pixelY = default;

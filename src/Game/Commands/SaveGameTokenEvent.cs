@@ -35,23 +35,23 @@ public partial class SaveGameTokenEvent : TokenEvent
     {
         ExecuteResult result = default;
         base.Execute(tokenEvent);
-        if (AoWHSMap.Current.SeatedPlayer == tokenEvent.ActiveTacticalBattleIndex)
+        if (StrategicMap.Current.SeatedPlayer == tokenEvent.ActiveTacticalBattleIndex)
         {
             if (tokenEvent.ExecuteCount == 0)
             {
                 var fileName = ExtractFileName(FileName);
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_savingGameFormat), [fileName]);
-                AoWHSMap.Current.ShowMessage(format);
+                StrategicMap.Current.ShowMessage(format);
                 result = ExecuteResult.Retry;
             }
             else
             {
                 var fileName = ExtractFileName(FileName);
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.GameSavedFormat), [fileName]);
-                AoWHSMap.Current.ShowMessage(format);
+                StrategicMap.Current.ShowMessage(format);
                 try
                 {
-                    AoWHSMap.Current.DisableTurnTimer();
+                    StrategicMap.Current.DisableTurnTimer();
                     if (GameTables.GameEngine.Campaign != null)
                     {
                         GameTables.GameEngine.SaveCampaign(FileName);
@@ -60,16 +60,16 @@ public partial class SaveGameTokenEvent : TokenEvent
                     else
                     {
                         GameTables.GameEngine.SaveHsm(FileName, null, GameProfile.WorldMap);
-                        AoWHSMap.Current.FileName = FileName;
+                        StrategicMap.Current.FileName = FileName;
                     }
 
-                    AoWHSMap.Current.EnableTurnTimer();
+                    StrategicMap.Current.EnableTurnTimer();
                 }
                 catch
                 {
                     // { Original leaves the turn timer disabled after a save failure. }
                     var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_errorSavingFormat), [FileName]);
-                    AoWHSMap.Current.ShowMessage(formattedText);
+                    StrategicMap.Current.ShowMessage(formattedText);
                 }
 
                 result = ExecuteResult.Done;

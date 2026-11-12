@@ -1,5 +1,4 @@
 // Translated from AoWWinMan.pas.
-using Aow.Engine.Buffers;
 using Aow.Formats;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
@@ -385,7 +384,7 @@ public partial class General : DataModule
             {
                 A = new CombatAbilityRef();
                 A.Ability = I;
-                if (DialogHosts.General.SelectedUnit.Player == AoWHSMap.Current.SeatedPlayer && (AoWHSSet.Current.AbilityControl.GetAbility(I).GetControlType(DialogHosts.General.SelectedUnit) & Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action)) != Set<AbilityControlTypeElement>.Of())
+                if (DialogHosts.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && (GamePack.Current.AbilityControl.GetAbility(I).GetControlType(DialogHosts.General.SelectedUnit) & Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action)) != Set<AbilityControlTypeElement>.Of())
                 {
                     Abilities.Insert(ActiveAbilityCount, A);
                     ActiveAbilityCount += 1;
@@ -516,9 +515,9 @@ public partial class General : DataModule
         }
 
         scanner.WinWidth = scanner.WinHeight * 200 / 216;
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
-            scanner.Visible = AoWHSMap.Current.CombatMap == null && DialogHosts.MapWindow.MainWindow.Visible;
+            scanner.Visible = StrategicMap.Current.CombatMap == null && DialogHosts.MapWindow.MainWindow.Visible;
         }
 
         var playerInfo = DialogHosts.PlayerInfoWindow.MainWindow;
@@ -528,9 +527,9 @@ public partial class General : DataModule
 
         playerInfo.WinWidth = scanner.WinWidth;
         playerInfo.WinHeight = scanner.WinHeight;
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
-            playerInfo.Visible = AoWHSMap.Current.CombatMap == null && DialogHosts.MapWindow.MainWindow.Visible;
+            playerInfo.Visible = StrategicMap.Current.CombatMap == null && DialogHosts.MapWindow.MainWindow.Visible;
         }
 
         var controls = DialogHosts.ControlWindow.MainWindow;
@@ -611,9 +610,9 @@ public partial class General : DataModule
 
         tacticalBattleScanner.WinHeight = (DialogHosts.General.Manager.WinHeight - DialogHosts.TaskBar.TaskWindow.WinHeight) * 170 / 432;
         tacticalBattleScanner.WinWidth = tacticalBattleScanner.WinHeight * 150 / 170;
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
-            tacticalBattleScanner.Visible = AoWHSMap.Current.CombatMap != null && DialogHosts.MapWindow.MainWindow.Visible;
+            tacticalBattleScanner.Visible = StrategicMap.Current.CombatMap != null && DialogHosts.MapWindow.MainWindow.Visible;
         }
 
         var tacticalBattleUnit = DialogHosts.CombatUnitInfo.MainWindow;
@@ -639,9 +638,9 @@ public partial class General : DataModule
         DialogHosts.MapWindow.MapAlignWidth = AlignWidth.Both;
         var rectangle2 = new Rect(0, 0, tacticalBattleScanner.WinWidth, DialogHosts.TaskBar.TaskWindow.WinHeight);
         DialogHosts.MapWindow.MapRectangle = rectangle2;
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
-            if (AoWHSMap.Current.CombatMap == null)
+            if (StrategicMap.Current.CombatMap == null)
             {
                 DialogHosts.MapWindow.MainWindow.Alignment.RightOffset = scanner.WinWidth;
             }
@@ -673,9 +672,9 @@ public partial class General : DataModule
         string S;
         if (GameTables.GameEngine.Debug)
         {
-            if (AoWHSMap.Current != null && (AoWHSMap.Current.PlayMode != PlayMode.Simultaneous || AoWHSMap.Current.Players.LocalPlayers.Count == 1) && Set<byte>.WithBounds(0, 255).WithRange(49, 57).Contains((byte)key) && CombatMap.Current == null && AoWHSMap.Current.Players.GetCount() > key - 48 && GameTables.GameEngine.Registry.GetDebugMode())
+            if (StrategicMap.Current != null && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Players.LocalPlayers.Count == 1) && Set<byte>.WithBounds(0, 255).WithRange(49, 57).Contains((byte)key) && CombatMap.Current == null && StrategicMap.Current.Players.GetCount() > key - 48 && GameTables.GameEngine.Registry.GetDebugMode())
             {
-                player = AoWHSMap.Current.Players.GetPlayers(key - 48);
+                player = StrategicMap.Current.Players.GetPlayers(key - 48);
                 if (player.PlayerType == PlayerType.Cpu5)
                 {
                     player.PlayerType = PlayerType.Human;
@@ -687,9 +686,9 @@ public partial class General : DataModule
 
                 var playerType = AbilityRules.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player.PlayerType]);
                 S = "Player " + IntToStr(key - 48) + " set to: " + playerType;
-                AoWHSMap.Current.ShowMessage(S);
-                AoWHSMap.Current.Players.Update();
-                AoWHSMap.Current.RequestCombatType = AoWHSMap.Current.Players.LocalHumanPlayers.Count > 1;
+                StrategicMap.Current.ShowMessage(S);
+                StrategicMap.Current.Players.Update();
+                StrategicMap.Current.RequestCombatType = StrategicMap.Current.Players.LocalHumanPlayers.Count > 1;
             }
 
             switch (key)
@@ -887,7 +886,7 @@ public partial class General : DataModule
 
     internal static void LoadGame(General controller, string name)
     {
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
             GameTables.GameEngine.CloseHsm(null);
         }
@@ -908,7 +907,7 @@ public partial class General : DataModule
         AudioHost.SongPlayer.Songs.Clear();
         AudioPlayback.FadeMusicVolume(0, 1);
         GameTables.GameEngine.LoadHsm(name, false, (_, message, progression) => controller.MapProgress(message, progression), GameProfile.WorldMap);
-        if (GameTables.GameEngine.Demo && AoWHSMap.Current != null && !AoWHSMap.Current.ShowAllPlayers)
+        if (GameTables.GameEngine.Demo && StrategicMap.Current != null && !StrategicMap.Current.ShowAllPlayers)
         {
             controller.ReturnToTitle();
         }
@@ -921,12 +920,12 @@ public partial class General : DataModule
     {
         controller.WindowsHidden = false;
         AudioHost.SongPlayer.Songs.Clear();
-        if (AoWHSMap.Current.GameSongs.Songs.Count != 0) AudioHost.SongPlayer.Songs.AddStrings(AoWHSMap.Current.GameSongs.Songs);
-        else if (AoWHSMap.Current.StartupSongs.Songs.Count != 0)
+        if (StrategicMap.Current.GameSongs.Songs.Count != 0) AudioHost.SongPlayer.Songs.AddStrings(StrategicMap.Current.GameSongs.Songs);
+        else if (StrategicMap.Current.StartupSongs.Songs.Count != 0)
         {
-            for (int i = 0; i < AoWHSMap.Current.StartupSongs.Songs.Count; i++)
-                if (RtlUnit.CompareText(AoWHSMap.Current.StartupSongs.SongNames[i], AbilityRules.TranslateResourceString(LayerText.FileNotFoundText)) != 0)
-                    AudioHost.SongPlayer.Songs.Add(AoWHSMap.Current.StartupSongs.Songs[i]);
+            for (int i = 0; i < StrategicMap.Current.StartupSongs.Songs.Count; i++)
+                if (RtlUnit.CompareText(StrategicMap.Current.StartupSongs.SongNames[i], AbilityRules.TranslateResourceString(LayerText.FileNotFoundText)) != 0)
+                    AudioHost.SongPlayer.Songs.Add(StrategicMap.Current.StartupSongs.Songs[i]);
         }
         else AudioHost.SongPlayer.Songs.Add("Songs\\Heartwoo.it");
         AudioHost.SongPlayer.Play(0);
@@ -940,10 +939,10 @@ public partial class General : DataModule
         DialogHosts.TaskBar.TaskWindow.Visible = true;
         DialogHosts.MapWindow.MainWindow.Visible = true;
         DialogHosts.ScannerWindow.MainWindow.Visible = true;
-        DialogHosts.MapWindow.MapViewer.HexSpriteMap = AoWHSMap.Current;
+        DialogHosts.MapWindow.MapViewer.HexSpriteMap = StrategicMap.Current;
         var scanner = DialogHosts.ScannerWindow.Scanner;
-        scanner.SetMap(AoWHSMap.Current);
-        scanner.SetLevel(AoWHSMap.Current.MapContainer.GetMapLevel(0));
+        scanner.SetMap(StrategicMap.Current);
+        scanner.SetLevel(StrategicMap.Current.MapContainer.GetMapLevel(0));
         DialogHosts.TaskBar.WorldTurnButton.ButtonChecked = false;
         DialogHosts.TaskBar.ChatButton.Visible = DialogHosts.SetupEvents.DirectPlay.Connected;
         DialogHosts.General.Manager.Aligned = false;
@@ -953,8 +952,8 @@ public partial class General : DataModule
         var tabs = DialogHosts.ScannerWindow.ScannerTabs;
         tabs.Items.Clear();
         tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.SurfaceText));
-        if (AoWHSMap.Current.MapContainer.LevelCount > 1) tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.CavernsText));
-        if (AoWHSMap.Current.MapContainer.LevelCount > 2) tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.DepthsText));
+        if (StrategicMap.Current.MapContainer.LevelCount > 1) tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.CavernsText));
+        if (StrategicMap.Current.MapContainer.LevelCount > 2) tabs.Items.Add(AbilityRules.TranslateResourceString(LayerText.DepthsText));
         tabs.Selected = 0;
         tabs.Sized = false;
         scanner.SetTWidth(0);
@@ -962,28 +961,28 @@ public partial class General : DataModule
         scanner.SetTLeft(-1);
         scanner.SetTTop(-1);
         scanner.UpdateStep = -1;
-        scanner.SetMap(AoWHSMap.Current);
-        scanner.SetLevel(AoWHSMap.Current.MapContainer.GetMapLevel(0));
-        DialogHosts.MapWindow.MapViewer.HexSpriteMap = AoWHSMap.Current;
+        scanner.SetMap(StrategicMap.Current);
+        scanner.SetLevel(StrategicMap.Current.MapContainer.GetMapLevel(0));
+        DialogHosts.MapWindow.MapViewer.HexSpriteMap = StrategicMap.Current;
         DialogHosts.MapWindow.MapViewer.SceneWidth = DialogHosts.MapWindow.MainWindow.WinWidth - 24;
         DialogHosts.MapWindow.MapViewer.SceneHeight = DialogHosts.MapWindow.MainWindow.WinHeight - 24;
-        AoWHSMap.Current.Activate();
+        StrategicMap.Current.Activate();
         DialogHosts.RealmWindow.Window.Visible = false;
         DialogHosts.MapEvents.TheMapArmyDeselected();
         DialogHosts.MapEvents.TheMapStructureDeselected();
         // The original call at targets the indicator sizing routine
         DialogHosts.TaskBar.UpdatePlayerIndicator();
         DialogHosts.PlayerInfoWindow.UpdatePlayer();
-        if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             var turn = DialogHosts.TaskBar.WorldTurnButton;
-            if (AoWHSMap.Current.SeatedPlayer != -1)
+            if (StrategicMap.Current.SeatedPlayer != -1)
             {
-                turn.LastPlayer = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).PlayerRace;
+                turn.LastPlayer = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
                 if (turn.LastPlayer == -1) turn.LastPlayer = 12;
                 turn.CurrentPlayer = turn.LastPlayer;
                 turn.AnimationFrame = turn.CurrentPlayer * 7;
-                DialogHosts.TaskBar.CurrentPlayerImage.Visible = AoWHSMap.Current.PlayMode == PlayMode.Turn;
+                DialogHosts.TaskBar.CurrentPlayerImage.Visible = StrategicMap.Current.PlayMode == PlayMode.Turn;
             }
             else
             {

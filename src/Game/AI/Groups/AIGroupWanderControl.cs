@@ -46,8 +46,8 @@ public partial class AIGroupWanderControl : AIGroupTask
         bool result = default;
         AIGroupControl control = default;
         MoveControlSettings settings = default;
-        DoubleItemList<AoWMapField> fields = default;
-        AoWMapField field = default;
+        DoubleItemList<MapField> fields = default;
+        MapField field = default;
         int I = default;
         int targetWeight = default;
         MapCoordinate location = default;
@@ -69,7 +69,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                     moveControlSettings.Selection = control.Selection;
                     moveControlSettings.MovePointTable = control.MovePointTable;
                     moveControlSettings.Mode = moveControlSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
-                    AoWHSMap.Current.MoveControl.ProcessMove(_moveSettings);
+                    StrategicMap.Current.MoveControl.ProcessMove(_moveSettings);
                 }
 
                 {
@@ -89,7 +89,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                 break;
             case 1:
                 settings = _moveSettings;
-                fields = new DoubleItemList<AoWMapField>();
+                fields = new DoubleItemList<MapField>();
                 if (settings.ProcessedMapFields.Count > 40)
                 {
                     I = settings.ProcessedMapFields.Count - 1;
@@ -127,7 +127,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                     I = 0;
                     while (fields.Count != 0 && field == null)
                     {
-                        I = AoWHSMap.Current.Random(Round((double)fields.Count * 0.1) + 1);
+                        I = StrategicMap.Current.Random(Round((double)fields.Count * 0.1) + 1);
                         field = fields[I].First;
                         if (field.GetPlayer() != -1)
                         {
@@ -195,7 +195,7 @@ public partial class AIGroupWanderControl : AIGroupTask
         return true;
     }
 
-    private static int CompareWanderFields(in DoubleItem<AoWMapField> item1, in DoubleItem<AoWMapField> item2)
+    private static int CompareWanderFields(in DoubleItem<MapField> item1, in DoubleItem<MapField> item2)
     {
         return item2.Second - item1.Second;
     }

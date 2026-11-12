@@ -2,7 +2,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Aow.Engine;
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -78,9 +77,9 @@ public partial class Army : UnitList
     // Army.PAS:336
     public override void Dispose()
     {
-        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            AoWHSMap.Current.ArmyDestroyed(this);
+            StrategicMap.Current.ArmyDestroyed(this);
         }
 
         OnUpdate = null;
@@ -98,7 +97,7 @@ public partial class Army : UnitList
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref X), 5);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Y), 6);
         stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 7);
-        if (!stream.StorageMode().Contains(StorageModeElement.Write) || AoWHSMap.Current == null || AoWHSMap.Current.ConnectionType != (PlayerConnectionType)1)
+        if (!stream.StorageMode().Contains(StorageModeElement.Write) || StrategicMap.Current == null || StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
         {
             stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationX), 8);
             stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationY), 9);
@@ -121,7 +120,7 @@ public partial class Army : UnitList
         PersistSupport.UnsignedByte(persister, "X", ref X);
         PersistSupport.UnsignedByte(persister, "Y", ref Y);
         PersistSupport.UnsignedByte(persister, "L", ref MapLevel);
-        if (persister.Loading || AoWHSMap.Current == null || AoWHSMap.Current.ConnectionType != (PlayerConnectionType)1)
+        if (persister.Loading || StrategicMap.Current == null || StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
         {
             PersistSupport.UnsignedByte(persister, "DestinationX", ref DestinationX);
             PersistSupport.UnsignedByte(persister, "DestinationY", ref DestinationY);
@@ -162,7 +161,7 @@ public partial class Army : UnitList
         }
         else
         {
-            if (message.MessageId == 537001990 && AoWHSMap.Current.SeatedPlayer != -1)
+            if (message.MessageId == 537001990 && StrategicMap.Current.SeatedPlayer != -1)
             {
                 UpdateUnfog();
                 UpdateConcealment();
@@ -173,7 +172,7 @@ public partial class Army : UnitList
                 {
                     UpdateVisibilityRanges();
                     UpdateExploration();
-                    if (AoWHSMap.Current.SeatedPlayer != -1)
+                    if (StrategicMap.Current.SeatedPlayer != -1)
                     {
                         UpdateUnfog();
                         UpdateConcealment();
@@ -286,7 +285,7 @@ public partial class Army : UnitList
             if (result && !hasTransporter && X != -1 && X != 0 && !Mode.Contains(ArmyModeElement.DisableTerrainValidation))
             {
                 // { Original skips terrain validation on the zero X column. }
-                field = AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel);
+                field = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel);
                 result = troop.ValidTerrain(field.TerrainType, field.OverlayType);
             }
 
@@ -356,13 +355,13 @@ public partial class Army : UnitList
     {
         bool result;
         MapLevel level;
-        AoWMapField field;
+        MapField field;
         MapFieldMessage message = default;
         HexNumberWalkData walk = default;
         if (player != -1)
         {
             result = true;
-            level = AoWHSMap.Current.MapContainer.MapLevels[MapLevel];
+            level = StrategicMap.Current.MapContainer.MapLevels[MapLevel];
             message.MessageId = 4363;
             message.Result = 0;
             message.Param[1] = player;
@@ -371,7 +370,7 @@ public partial class Army : UnitList
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    field = (AoWMapField)level.GetField(walk.X, walk.Y);
+                    field = level.GetField(walk.X, walk.Y);
                     if ((field.FieldFlags & 4096) != 0)
                     {
                         message.Param[0] = walk.Radius;
@@ -620,7 +619,7 @@ public partial class Army : UnitList
     public void SetBehavior(byte selection, GroupBehavior behavior)
     {
         AIGroup group;
-        group = AoWHSMap.Current.AIGroupManager.CreateGroup(Player, IndependentRelation, behavior);
+        group = StrategicMap.Current.AIGroupManager.CreateGroup(Player, IndependentRelation, behavior);
         if (group != null)
         {
             for (int I = 0, last = Count - 1; I <= last; I++)
@@ -682,9 +681,9 @@ public partial class Army : UnitList
             behavior = OldAIBehavior;
             if (behavior == GroupBehavior.None)
             {
-                if (Player == 0 && AoWHSMap.Current.GetIndependentAIMode() != AoWHSMapIndependentAIMode.Off)
+                if (Player == 0 && StrategicMap.Current.GetIndependentAIMode() != StrategicMapIndependentAIMode.Off)
                 {
-                    if (X != -1 && AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) == null)
+                    if (X != -1 && StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) == null)
                     {
                         if (IndependentRelation >= 0)
                         {
@@ -702,7 +701,7 @@ public partial class Army : UnitList
                 }
                 else
                 {
-                    behavior = AoWHSMap.Current.Players.GetPlayers(Player).AIControl.GetRandomGroupBehavior();
+                    behavior = StrategicMap.Current.Players.GetPlayers(Player).AIControl.GetRandomGroupBehavior();
                 }
             }
 
@@ -736,9 +735,9 @@ public partial class Army : UnitList
             }
             else
             {
-                if (Player == 0 && AoWHSMap.Current.GetIndependentAIMode() != AoWHSMapIndependentAIMode.Off && X != -1)
+                if (Player == 0 && StrategicMap.Current.GetIndependentAIMode() != StrategicMapIndependentAIMode.Off && X != -1)
                 {
-                    if (AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) == null)
+                    if (StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) == null)
                     {
                         if (IndependentRelation >= 0)
                         {
@@ -799,7 +798,7 @@ public partial class Army : UnitList
         GetLocation(ref X, ref Y, ref L);
         if (X != -1)
         {
-            result = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131607);
+            result = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131607);
         }
         else
         {
@@ -834,7 +833,7 @@ public partial class Army : UnitList
 
             if (Status.Contains(ArmyStatusElement.Activated) && X != -1)
             {
-                AoWHSMap.Current.ScannerIconsChangedRadius(X, Y, MapLevel, 0);
+                StrategicMap.Current.ScannerIconsChangedRadius(X, Y, MapLevel, 0);
             }
         }
     }
@@ -851,9 +850,9 @@ public partial class Army : UnitList
         bool showCrown;
         if (Status.Contains(ArmyStatusElement.Activated))
         {
-            if (ConcealedUnits != 0 && AoWHSMap.Current.SeatedPlayer != Player && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+            if (ConcealedUnits != 0 && StrategicMap.Current.SeatedPlayer != Player && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
-                concealed = GetConcealedForPlayer(AoWHSMap.Current.SeatedPlayer);
+                concealed = GetConcealedForPlayer(StrategicMap.Current.SeatedPlayer);
             }
             else
             {
@@ -999,12 +998,12 @@ public partial class Army : UnitList
     public void UpdateConcealedUnits()
     {
         int I;
-        AoWMapField field;
+        MapField field;
         if (X != -1 && MapLevel != -1 && Status.Contains(ArmyStatusElement.Activated))
         {
             ConcealedUnits = 0;
             I = Count;
-            field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel);
+            field = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel);
             while (I != 0)
             {
                 I -= 1;
@@ -1033,8 +1032,8 @@ public partial class Army : UnitList
         if (previous != upkeep && Status.Contains(ArmyStatusElement.Activated))
         {
             delta = upkeep - previous;
-            var players = AoWHSMap.Current.Players.GetPlayers(Player);
-            AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + delta);
+            var players = StrategicMap.Current.Players.GetPlayers(Player);
+            StrategicMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + delta);
         }
 
         _upkeep = upkeep;
@@ -1067,7 +1066,7 @@ public partial class Army : UnitList
 
         if (selection != 0)
         {
-            if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && AoWHSMap.Current.Day != 0)
+            if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && StrategicMap.Current.Day != 0)
             {
                 BeginUpdate();
                 log = new ArmyEventLog(null);
@@ -1137,7 +1136,7 @@ public partial class Army : UnitList
     {
         Troop troop;
         Unit newUnit;
-        AoWHSMap.Current.LockGameOverEvent();
+        StrategicMap.Current.LockGameOverEvent();
         BeginUpdate();
         for (int I = Count - 1; I >= 0; I--)
         {
@@ -1147,7 +1146,7 @@ public partial class Army : UnitList
                 if (troop.GetAbilityEnabled(107))
                 {
                     newUnit = new Unit(null);
-                    newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(152));
+                    newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(152));
                     troop.Killed();
                     AddUnit(newUnit);
                 }
@@ -1159,7 +1158,7 @@ public partial class Army : UnitList
         }
 
         EndUpdate();
-        AoWHSMap.Current.UnlockGameOverEvent();
+        StrategicMap.Current.UnlockGameOverEvent();
     }
 
     // Army.PAS:812
@@ -1176,7 +1175,7 @@ public partial class Army : UnitList
             troop.UpdateMoraleValue();
             if (troop.GetAbilityEnabled(46) || troop.GetAbilityLevel(46) > 0)
             {
-                ((LeadershipAbility)AoWHSSet.Current.AbilityControl.GetAbility(46)).ResetExternalSource(troop);
+                ((LeadershipAbility)GamePack.Current.AbilityControl.GetAbility(46)).ResetExternalSource(troop);
                 unitLevel = troop.GetAbilityLevel(46);
                 if (unitLevel > level)
                 {
@@ -1197,7 +1196,7 @@ public partial class Army : UnitList
                 troop = this[I];
                 if (troop.GetAbilityLevel(46) < level)
                 {
-                    ((LeadershipAbility)AoWHSSet.Current.AbilityControl.GetAbility(46)).SetExternalSource(troop, (byte)level, sourceName);
+                    ((LeadershipAbility)GamePack.Current.AbilityControl.GetAbility(46)).SetExternalSource(troop, (byte)level, sourceName);
                 }
             }
         }
@@ -1217,9 +1216,9 @@ public partial class Army : UnitList
             UpdateConcealment();
             UpdateFormation();
             UpdateIndependentRelation();
-            if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && X != -1)
+            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && X != -1)
             {
-                AoWHSMap.Current.ScannerIconsChangedRadius(X, Y, MapLevel, 0);
+                StrategicMap.Current.ScannerIconsChangedRadius(X, Y, MapLevel, 0);
             }
 
             UnlockChanged();
@@ -1232,7 +1231,7 @@ public partial class Army : UnitList
     {
         if (UpdateCount == 0 && Status.Contains(ArmyStatusElement.Activated))
         {
-            AoWHSMap.Current.ArmyChanged(this);
+            StrategicMap.Current.ArmyChanged(this);
             if (OnUpdate != null)
             {
                 OnUpdate(this);
@@ -1263,7 +1262,7 @@ public partial class Army : UnitList
         _upkeep = 0;
         if (Player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers(Player).Armies.AddChild(this);
+            StrategicMap.Current.Players.GetPlayers(Player).Armies.AddChild(this);
         }
 
         // { Original treats X = 0 as an unset location. }
@@ -1285,7 +1284,7 @@ public partial class Army : UnitList
         {
             if (_unfogRange != 0)
             {
-                AoWHSMap.Current.FogArea(X, Y, MapLevel, _unfogRange);
+                StrategicMap.Current.FogArea(X, Y, MapLevel, _unfogRange);
                 _unfogRange = 0;
             }
 
@@ -1300,9 +1299,9 @@ public partial class Army : UnitList
 
             if (Player != -1)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).Armies.RemoveChild(this);
-                var players = AoWHSMap.Current.Players.GetPlayers(Player);
-                AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - _upkeep);
+                StrategicMap.Current.Players.GetPlayers(Player).Armies.RemoveChild(this);
+                var players = StrategicMap.Current.Players.GetPlayers(Player);
+                StrategicMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - _upkeep);
             }
 
             Status = Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.Activated);
@@ -1358,8 +1357,8 @@ public partial class Army : UnitList
     // Army.PAS:1244
     public bool GetUnitConcealed(int index)
     {
-        AoWMapField field;
-        field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel);
+        MapField field;
+        field = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel);
         return this[index].ConcealedOnMapField(field);
     }
 
@@ -1383,7 +1382,7 @@ public partial class Army : UnitList
     // Army.PAS:1298
     public void SetPlayer(sbyte player)
     {
-        if (AoWHSMap.Current.Players.GetPlayers(player) == null)
+        if (StrategicMap.Current.Players.GetPlayers(player) == null)
         {
             player = 0;
         }
@@ -1395,17 +1394,17 @@ public partial class Army : UnitList
             {
                 if (Player != -1)
                 {
-                    var players = AoWHSMap.Current.Players.GetPlayers(Player);
-                    AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - _upkeep);
-                    AoWHSMap.Current.Players.GetPlayers(Player).Armies.RemoveChild(this);
+                    var players = StrategicMap.Current.Players.GetPlayers(Player);
+                    StrategicMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - _upkeep);
+                    StrategicMap.Current.Players.GetPlayers(Player).Armies.RemoveChild(this);
                 }
 
                 Player = player;
                 if (Player != -1)
                 {
-                    var players = AoWHSMap.Current.Players.GetPlayers(Player);
-                    AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + _upkeep);
-                    AoWHSMap.Current.Players.GetPlayers(Player).Armies.AddChild(this);
+                    var players = StrategicMap.Current.Players.GetPlayers(Player);
+                    StrategicMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + _upkeep);
+                    StrategicMap.Current.Players.GetPlayers(Player).Armies.AddChild(this);
                 }
 
                 for (int I = Count - 1; I >= 0; I--)
@@ -1415,12 +1414,12 @@ public partial class Army : UnitList
 
                 if (X != -1)
                 {
-                    AoWHSMap.Current.ScannerIconsChangedRadius(X, Y, MapLevel, 0);
+                    StrategicMap.Current.ScannerIconsChangedRadius(X, Y, MapLevel, 0);
                 }
 
-                if (Player > 0 && AoWHSMap.Current.Day > 0)
+                if (Player > 0 && StrategicMap.Current.Day > 0)
                 {
-                    if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+                    if (StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
                     {
                         SetBehavior(255, GroupBehavior.Passive);
                     }
@@ -1778,7 +1777,7 @@ public partial class Army : UnitList
     {
         MapField field;
         int I;
-        field = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+        field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
         bool result = ValidTerrain(field.TerrainType, field.OverlayType);
         I = 0;
         if (!Status.Contains(ArmyStatusElement.Activated))
@@ -1936,7 +1935,7 @@ public partial class Army : UnitList
         MapField field;
         if (X != -1)
         {
-            field = AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel);
+            field = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel);
             I = 0;
             result = 0;
             while (I != GetCount())
@@ -1998,7 +1997,7 @@ public partial class Army : UnitList
             range = _unfogRange;
             if (range != 0)
             {
-                AoWHSMap.Current.FogArea(X, Y, MapLevel, range);
+                StrategicMap.Current.FogArea(X, Y, MapLevel, range);
                 _unfogRange = 0;
             }
         }
@@ -2009,12 +2008,12 @@ public partial class Army : UnitList
     {
         if (Status.Contains(ArmyStatusElement.Activated))
         {
-            for (int player = 1, last = AoWHSMap.Current.Players.GetCount() - 1; player <= last; player++)
+            for (int player = 1, last = StrategicMap.Current.Players.GetCount() - 1; player <= last; player++)
             {
-                if (player == Player || AoWHSMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Alliance)
+                if (player == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Alliance)
                 {
                     var visibilityRange = VisibilityRange();
-                    AoWHSMap.Current.ExploreArea(X, Y, MapLevel, (sbyte)player, visibilityRange);
+                    StrategicMap.Current.ExploreArea(X, Y, MapLevel, (sbyte)player, visibilityRange);
                 }
             }
         }
@@ -2026,7 +2025,7 @@ public partial class Army : UnitList
         int range;
         if (Status.Contains(ArmyStatusElement.Activated))
         {
-            if (AoWHSMap.Current.SeatedPlayer != -1 && (AoWHSMap.Current.SeatedPlayer == Player || AoWHSMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(AoWHSMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance))
+            if (StrategicMap.Current.SeatedPlayer != -1 && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(StrategicMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance))
             {
                 range = VisibilityRange();
             }
@@ -2039,7 +2038,7 @@ public partial class Army : UnitList
             {
                 if (_unfogRange != 0)
                 {
-                    AoWHSMap.Current.FogArea(X, Y, MapLevel, _unfogRange);
+                    StrategicMap.Current.FogArea(X, Y, MapLevel, _unfogRange);
                 }
 
                 _unfogRange = (byte)range;
@@ -2047,7 +2046,7 @@ public partial class Army : UnitList
                 {
                     if (_unfogRange != 0)
                     {
-                        AoWHSMap.Current.UnFogArea(X, Y, MapLevel, _unfogRange);
+                        StrategicMap.Current.UnFogArea(X, Y, MapLevel, _unfogRange);
                     }
                 }
                 else
@@ -2403,7 +2402,7 @@ public partial class Army : UnitList
             Race = -1;
             for (int J = races.Count - 1; J >= 0; J--)
             {
-                if (races.List[J] != null && AoWHSSet.Current.RaceResources.GetRaceResource(J).Alignments.Contains(alignment))
+                if (races.List[J] != null && GamePack.Current.RaceResources.GetRaceResource(J).Alignments.Contains(alignment))
                 {
                     // { Original chooses the largest compatible race group. }
                     if (Race == -1 || races.List[Race].GetCount() <= races.List[J].GetCount())
@@ -2536,7 +2535,7 @@ public partial class Army : UnitList
                 {
                     race = IndependentRelation;
                     IndependentRelation = -1;
-                    IndependentRelation = (sbyte)((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel)).GetIndependentRelation();
+                    IndependentRelation = (sbyte)StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).GetIndependentRelation();
                     if (IndependentRelation >= 0)
                     {
                         race = IndependentRelation;
@@ -2569,7 +2568,7 @@ public partial class Army : UnitList
                 if (!condition)
                 {
                     var alignment = this[I].GetAlignment();
-                    condition = AoWHSSet.Current.RaceResources.GetRaceResource(race).Alignments.Contains(alignment);
+                    condition = GamePack.Current.RaceResources.GetRaceResource(race).Alignments.Contains(alignment);
                 }
 
                 valid = condition;
@@ -2628,7 +2627,7 @@ public partial class Army : UnitList
         int bit;
         ArmyInfoEventLog log;
         Troop troop;
-        AoWHSMap.Current.LockGameOverEvent();
+        StrategicMap.Current.LockGameOverEvent();
         units = new DelphiList<Troop>();
         count = SelectionCount(selection);
         log = new ArmyInfoEventLog(null);
@@ -2637,16 +2636,16 @@ public partial class Army : UnitList
         log._player = Player;
         log.Title = AbilityRules.TranslateResourceString(s_desertionText);
         log.Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.User);
-        if (AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
+        if (StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
         {
             log.Triggers = log.Triggers + Set<ExecuteTrigger>.Of(ExecuteTrigger.Event);
-            if (AoWHSMap.Current.RequestCombatType)
+            if (StrategicMap.Current.RequestCombatType)
             {
                 log.Triggers = log.Triggers + Set<ExecuteTrigger>.Of(ExecuteTrigger.NewTurn);
             }
         }
 
-        if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
+        if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
         {
             log.Triggers = log.Triggers + Set<ExecuteTrigger>.Of(ExecuteTrigger.Event, ExecuteTrigger.NewTurn);
         }
@@ -2661,7 +2660,7 @@ public partial class Army : UnitList
             log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_unitsDesertedFormat), [IntToStr(count)]);
         }
 
-        if (AoWHSMap.Current.Players.GetPlayers(Player).Gems == 0 && AoWHSMap.Current.Players.GetPlayers(Player).GetUpkeep() > AoWHSMap.Current.Players.GetPlayers(Player).Income)
+        if (StrategicMap.Current.Players.GetPlayers(Player).Gems == 0 && StrategicMap.Current.Players.GetPlayers(Player).GetUpkeep() > StrategicMap.Current.Players.GetPlayers(Player).Income)
         {
             if (count == 1)
             {
@@ -2743,7 +2742,7 @@ public partial class Army : UnitList
 
         armies?.Dispose();
         units?.Dispose();
-        AoWHSMap.Current.UnlockGameOverEvent();
+        StrategicMap.Current.UnlockGameOverEvent();
     }
 
     // Army.PAS:2155
@@ -2841,7 +2840,7 @@ public partial class Army : UnitList
                     chance = 50;
                 }
 
-                if (chance > AoWHSMap.Current.Random(100))
+                if (chance > StrategicMap.Current.Random(100))
                 {
                     selection = 0;
                     for (int I = Count - 1; I >= 0; I--)
@@ -2918,7 +2917,7 @@ public partial class Army : UnitList
     {
         if (player == Player)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
+            if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
             {
                 UpdateGroupBehavior();
             }
@@ -2928,16 +2927,16 @@ public partial class Army : UnitList
     // Army.PAS:2245
     public void NewDay()
     {
-        if (AoWHSMap.Current.Day == 1)
+        if (StrategicMap.Current.Day == 1)
         {
             ResetDestinationPosition();
             if (X != -1 && Player > 0)
             {
                 var visibilityRange = VisibilityRange();
-                AoWHSMap.Current.ExploreArea(X, Y, MapLevel, Player, visibilityRange);
+                StrategicMap.Current.ExploreArea(X, Y, MapLevel, Player, visibilityRange);
                 var visibilityRange2 = VisibilityRange();
                 var trueVisionRange = TrueVisionRange();
-                AoWHSMap.Current.UpdatePlayerSeen(Player, X, Y, MapLevel, visibilityRange2, trueVisionRange);
+                StrategicMap.Current.UpdatePlayerSeen(Player, X, Y, MapLevel, visibilityRange2, trueVisionRange);
             }
 
             InitializeGroupBehavior();
@@ -2953,7 +2952,7 @@ public partial class Army : UnitList
         MoveAction result = MoveAction.Normal;
         if (player != Player)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
+            if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
                 if (!Status.Contains(ArmyStatusElement.FullyConcealed))
                 {
@@ -3116,7 +3115,7 @@ public partial class Army : UnitList
                         if (joinCount == 1)
                         {
                             log.Text = AbilityRules.TranslateResourceString(s_oneUnitJoinedText);
-                            var name = AoWHSMap.Current.Players.GetPlayers(offer.Player).GetName();
+                            var name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
                             var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_unitJoinedForcesFormat), [name]);
                             log.Messages.Text = format;
                         }
@@ -3124,7 +3123,7 @@ public partial class Army : UnitList
                         {
                             log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_unitsJoinedFormat), [IntToStr(joinCount)]);
                             var selectionCount = SelectionCount(selection);
-                            var name = AoWHSMap.Current.Players.GetPlayers(offer.Player).GetName();
+                            var name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
                             var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_unitsJoinedForcesFormat), [selectionCount, name]);
                             log.Messages.Text = format;
                         }
@@ -3132,7 +3131,7 @@ public partial class Army : UnitList
                     else
                     {
                         log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_joinedFormat), [hero.HeroName]);
-                        var name = AoWHSMap.Current.Players.GetPlayers(offer.Player).GetName();
+                        var name = StrategicMap.Current.Players.GetPlayers(offer.Player).GetName();
                         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_joinedForcesFormat), [hero.HeroName, name]);
                         log.Messages.Text = format;
                     }
@@ -3238,7 +3237,7 @@ public partial class Army : UnitList
         Troop troop;
         int damage;
         bool damaged;
-        RandSeed = AoWHSMap.Current.Random(16777215);
+        RandSeed = StrategicMap.Current.Random(16777215);
         log = new ArmyEventLog(null);
         log.ArmyText = AbilityRules.TranslateResourceString(s_fireDamageText);
         log._player = GetArmyHexSprite().Army.Player;
@@ -3360,7 +3359,7 @@ public partial class Army : UnitList
         ArmyEventLog log;
         bool damaged;
         int damage;
-        RandSeed = AoWHSMap.Current.Random(16777215);
+        RandSeed = StrategicMap.Current.Random(16777215);
         log = new ArmyEventLog(null);
         log.ArmyText = AbilityRules.TranslateResourceString(GameTables.StormTypeTexts[(int)storm]);
         log._player = player;
@@ -3563,7 +3562,7 @@ public partial class Army : UnitList
     public virtual bool GetUnitConcealedForPlayer(int index, sbyte player)
     {
         if (player == Player || player == -1 || X == -1) return false;
-        var field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel);
+        var field = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel);
         return GetUnit(index).ConcealedOnMapField(field) && GetConcealedForPlayer(player);
     }
 

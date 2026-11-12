@@ -50,7 +50,7 @@ public partial class MapWindow : DataModule
             // Port extension: a scene larger than the map shows the map centered (THSMapViewer.ShowScene).
             if (MapViewer.SceneToMapMouse(ref X, ref Y))
             {
-                AoWHSMap.Current.Mouse.Down(button, shift, X, Y);
+                StrategicMap.Current.Mouse.Down(button, shift, X, Y);
             }
         }
     }
@@ -70,11 +70,11 @@ public partial class MapWindow : DataModule
                 Y = -1;
             }
 
-            AoWHSMap.Current.Mouse.Up(button, shift, X, Y);
+            StrategicMap.Current.Mouse.Up(button, shift, X, Y);
         }
         else
         {
-            AoWHSMap.Current.Mouse.Up(button, shift, -1, -1);
+            StrategicMap.Current.Mouse.Up(button, shift, -1, -1);
         }
     }
 
@@ -93,7 +93,7 @@ public partial class MapWindow : DataModule
                 Y = -1;
             }
 
-            AoWHSMap.Current.Mouse.Move(shift, X, Y);
+            StrategicMap.Current.Mouse.Move(shift, X, Y);
             MainWindow.Cursor = 9999;
         }
     }
@@ -101,7 +101,7 @@ public partial class MapWindow : DataModule
     // AOWMWindow.pas:93
     public void MapViewerSceneChanged()
     {
-        if (AoWHSMap.Current.SeatedPlayer != -1)
+        if (StrategicMap.Current.SeatedPlayer != -1)
         {
             DialogHosts.ScannerWindow.Scanner.SetTWidth(DialogHosts.MapWindow.MapViewer.SceneWidth / 32);
             DialogHosts.ScannerWindow.Scanner.SetTHeight(DialogHosts.MapWindow.MapViewer.SceneHeight / 32);
@@ -113,26 +113,26 @@ public partial class MapWindow : DataModule
             DialogHosts.CombatScanner.Scanner.SetTTop(DialogHosts.MapWindow.MapViewer.SceneY / 32 - 6);
         }
 
-        if (AoWHSMap.Current.CombatMap == null)
+        if (StrategicMap.Current.CombatMap == null)
         {
-            if (AoWHSMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL) != DialogHosts.ScannerWindow.Scanner.Level)
+            if (StrategicMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL) != DialogHosts.ScannerWindow.Scanner.Level)
             {
                 var scanner = DialogHosts.ScannerWindow.Scanner;
                 scanner.UpdateStep = -1;
-                scanner.SetLevel(AoWHSMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL));
+                scanner.SetLevel(StrategicMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL));
 
                 DialogHosts.ScannerWindow.ScannerTabs.SetIndex(MapViewer.SceneL);
             }
         }
 
-        if (AoWHSMap.Current.CombatMap != null)
+        if (StrategicMap.Current.CombatMap != null)
         {
-            var hexSpriteMapMouse = AoWHSMap.Current.CombatMap.Mouse;
+            var hexSpriteMapMouse = StrategicMap.Current.CombatMap.Mouse;
             hexSpriteMapMouse.Move(Set<ShiftState>.Of(), hexSpriteMapMouse.X, hexSpriteMapMouse.Y);
         }
         else
         {
-            var hexSpriteMapMouse = AoWHSMap.Current.Mouse;
+            var hexSpriteMapMouse = StrategicMap.Current.Mouse;
             hexSpriteMapMouse.Move(Set<ShiftState>.Of(), hexSpriteMapMouse.X, hexSpriteMapMouse.Y);
         }
     }
@@ -152,16 +152,16 @@ public partial class MapWindow : DataModule
     // AOWMWindow.pas:136
     public void MapWindowExit()
     {
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
-            AoWHSMap.Current.Mouse.Move(Set<ShiftState>.Of(), -1, -1);
+            StrategicMap.Current.Mouse.Move(Set<ShiftState>.Of(), -1, -1);
         }
     }
 
     // AOWMWindow.pas:150
     public void MapWindowPreDrawSurface(Surface surface, int X, int Y)
     {
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
             MapViewer.SceneWidth = MainWindow.WinWidth - 24;
             MapViewer.SceneHeight = MainWindow.WinHeight - 24;
@@ -180,9 +180,9 @@ public partial class MapWindow : DataModule
     public void MapWindowKeyDown(UIComponent sender, ref ushort key, Set<ShiftState> shift)
     {
         ushort K;
-        if (AoWHSMap.Current != null && CombatMap.Current == null)
+        if (StrategicMap.Current != null && CombatMap.Current == null)
         {
-            AoWHSMap.Current.Keyboard.KeyDown(ref key, shift);
+            StrategicMap.Current.Keyboard.KeyDown(ref key, shift);
             PressEndTurnShortcut(key, shift);
         }
 
@@ -211,7 +211,7 @@ public partial class MapWindow : DataModule
                 break;
         }
 
-        if (MapViewer != null && AoWHSMap.Current != null)
+        if (MapViewer != null && StrategicMap.Current != null)
         {
             switch (K)
             {
@@ -295,12 +295,12 @@ public partial class MapWindow : DataModule
                     }
                     else
                     {
-                        AoWHSMap.Current.ShowGrid = !AoWHSMap.Current.ShowGrid;
+                        StrategicMap.Current.ShowGrid = !StrategicMap.Current.ShowGrid;
                     }
 
                     break;
                 case 117:
-                    if (GameTables.GameEngine.Debug && AoWHSMap.Current.ConnectionType != PlayerConnectionType.Network)
+                    if (GameTables.GameEngine.Debug && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
                     {
                         if (CombatMap.Current != null)
                         {
@@ -316,16 +316,16 @@ public partial class MapWindow : DataModule
                         }
                         else
                         {
-                            if (AoWHSMap.Current != null)
+                            if (StrategicMap.Current != null)
                             {
-                                AoWHSMap.Current.SetFogEnabled(!AoWHSMap.Current.FogEnabled);
-                                if (AoWHSMap.Current.FogEnabled)
+                                StrategicMap.Current.SetFogEnabled(!StrategicMap.Current.FogEnabled);
+                                if (StrategicMap.Current.FogEnabled)
                                 {
-                                    AoWHSMap.Current.ShowMessage("Fog Enabled");
+                                    StrategicMap.Current.ShowMessage("Fog Enabled");
                                 }
                                 else
                                 {
-                                    AoWHSMap.Current.ShowMessage("Fog Disabled");
+                                    StrategicMap.Current.ShowMessage("Fog Disabled");
                                 }
                             }
                         }
@@ -333,7 +333,7 @@ public partial class MapWindow : DataModule
 
                     break;
                 case 118:
-                    if (GameTables.GameEngine.Debug && AoWHSMap.Current.ConnectionType != PlayerConnectionType.Network)
+                    if (GameTables.GameEngine.Debug && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
                     {
                         if (CombatMap.Current != null)
                         {
@@ -350,16 +350,16 @@ public partial class MapWindow : DataModule
                         }
                         else
                         {
-                            if (AoWHSMap.Current != null)
+                            if (StrategicMap.Current != null)
                             {
-                                AoWHSMap.Current.SetExplorationEnabled(!AoWHSMap.Current.ExplorationEnabled);
-                                if (AoWHSMap.Current.ExplorationEnabled)
+                                StrategicMap.Current.SetExplorationEnabled(!StrategicMap.Current.ExplorationEnabled);
+                                if (StrategicMap.Current.ExplorationEnabled)
                                 {
-                                    AoWHSMap.Current.ShowMessage("Exploration Enabled");
+                                    StrategicMap.Current.ShowMessage("Exploration Enabled");
                                 }
                                 else
                                 {
-                                    AoWHSMap.Current.ShowMessage("Exploration Disabled");
+                                    StrategicMap.Current.ShowMessage("Exploration Disabled");
                                 }
                             }
                         }
@@ -369,7 +369,7 @@ public partial class MapWindow : DataModule
                 case 119:
                     if (!GameTables.GameEngine.Demo && GameTables.GameEngine.Registry.GetDeveloper())
                     {
-                        if (AoWHSMap.Current.CombatMap != null)
+                        if (StrategicMap.Current.CombatMap != null)
                         {
                             CombatMap.Current.EndCombat();
                         }
@@ -383,8 +383,8 @@ public partial class MapWindow : DataModule
     // AOWMWindow.pas:141. Frame invalidation and measured FPS use the active host.
     public void MapWindowUpdate()
     {
-        if (AoWHSMap.Current is null) return;
-        AoWHSMap.Current.UpdateFPS(FrameFixtureInputs.MeasuredFrameRate ?? GameHost.MainForm.Display.CurrentFrameRate);
+        if (StrategicMap.Current is null) return;
+        StrategicMap.Current.UpdateFPS(FrameFixtureInputs.MeasuredFrameRate ?? GameHost.MainForm.Display.CurrentFrameRate);
         MainWindow.Drawn &= MainWindow._doubleBuffered;
     }
 }

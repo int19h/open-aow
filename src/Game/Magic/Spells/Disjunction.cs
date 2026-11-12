@@ -28,9 +28,9 @@ public partial class Disjunction : Spell
         int count;
         string reason = "";
         count = 0;
-        for (int I = 0, last = AoWHSMap.Current.GlobalMagicControl.Enchantments.Count - 1; I <= last; I++)
+        for (int I = 0, last = StrategicMap.Current.GlobalMagicControl.Enchantments.Count - 1; I <= last; I++)
         {
-            if (AoWHSMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(I).PlayerIndex != source.Player && AoWHSMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(I).VisibleForPlayer(source.Player) && AoWHSMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(I).CanDispel(source.Player, ref reason))
+            if (StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(I).PlayerIndex != source.Player && StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(I).VisibleForPlayer(source.Player) && StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(I).CanDispel(source.Player, ref reason))
             {
                 count += 1;
             }
@@ -60,7 +60,7 @@ public partial class Disjunction : Spell
             caster = new DisjunctionSpellCaster(null);
             caster.CasterSpellId = SpellId;
             caster.CasterSourceId = source.UnitId;
-            AoWHSMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
+            StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
             caster.Release();
             result = true;
         }

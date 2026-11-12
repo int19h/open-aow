@@ -27,9 +27,9 @@ public partial class PowerLeakEnchantment : GlobalEnchantment
     public override bool Deactivate(byte player)
     {
         base.Deactivate(player);
-        for (int I = AoWHSMap.Current.Players.Count - 1; I >= 0; I--)
+        for (int I = StrategicMap.Current.Players.Count - 1; I >= 0; I--)
         {
-            AoWHSMap.Current.Players.GetPlayers(I).MagicControl.Update();
+            StrategicMap.Current.Players.GetPlayers(I).MagicControl.Update();
         }
 
         return true;
@@ -39,9 +39,9 @@ public partial class PowerLeakEnchantment : GlobalEnchantment
     public override bool Activate(sbyte player)
     {
         base.Activate(player);
-        for (int I = AoWHSMap.Current.Players.Count - 1; I >= 0; I--)
+        for (int I = StrategicMap.Current.Players.Count - 1; I >= 0; I--)
         {
-            AoWHSMap.Current.Players.GetPlayers(I).MagicControl.Update();
+            StrategicMap.Current.Players.GetPlayers(I).MagicControl.Update();
         }
 
         return true;

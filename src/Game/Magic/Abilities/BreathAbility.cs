@@ -55,10 +55,10 @@ public partial class BreathAbility : RangedAttackAbility
                 }
             }
 
-            count = AoWHSMap.Current.Random(2) + 1;
+            count = StrategicMap.Current.Random(2) + 1;
             while (count != 0 && targets.Count != 0)
             {
-                other = targets[AoWHSMap.Current.Random(targets.Count)];
+                other = targets[StrategicMap.Current.Random(targets.Count)];
                 action = CreateRangedAttackCombatAction(source, other, 2);
                 source.Combat.ExecuteCombatAction(action);
                 action.Release();

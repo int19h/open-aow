@@ -28,7 +28,7 @@ public partial class PlayerConnectionEventLog : MessageEventLog
         log = new SaveGameEventLog(null);
         log.DefaultName = "";
         log.Directory = GameTables.GameEngine.StartupDirectory + "Save\\";
-        AoWHSMap.Current.TriggerExecuteEventLog(log, false, ExitSaveGameCallback);
+        StrategicMap.Current.TriggerExecuteEventLog(log, false, ExitSaveGameCallback);
         log.Release();
         return true;
     }
@@ -36,7 +36,7 @@ public partial class PlayerConnectionEventLog : MessageEventLog
     // PlayerC.PAS:1726
     public override bool No()
     {
-        AoWHSMap.Current.ExecuteExitGame();
+        StrategicMap.Current.ExecuteExitGame();
         return true;
     }
 
@@ -56,7 +56,7 @@ public partial class PlayerConnectionEventLog : MessageEventLog
                 break;
             case 1:
                 Buttons = MessageEventLogButtons.YesNo;
-                var name = AoWHSMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
+                var name = StrategicMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_connectionTimeOutFormat), [name]);
                 Message.Text = format;
                 Message.Add("");
@@ -67,7 +67,7 @@ public partial class PlayerConnectionEventLog : MessageEventLog
                 Buttons = MessageEventLogButtons.YesNo;
                 if (_disconnectedPlayer != -1)
                 {
-                    var name2 = AoWHSMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
+                    var name2 = StrategicMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
                     var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_connectionLostFormat), [name2]);
                     Message.Text = formattedText;
                 }
@@ -101,10 +101,10 @@ public partial class PlayerConnectionEventLog : MessageEventLog
         else
         {
             // { Original exits twice when the dialog is canceled. }
-            AoWHSMap.Current.ExecuteExitGame();
+            StrategicMap.Current.ExecuteExitGame();
         }
 
-        AoWHSMap.Current.ExecuteExitGame();
+        StrategicMap.Current.ExecuteExitGame();
     }
 
     private static readonly string s_connectionLostText = "Connection Lost!";

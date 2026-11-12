@@ -8,12 +8,12 @@
     "DestroyEntries": 0,
     "FieldGraph": {
       "$type": "Aow.Game.Combat.CombatMap",
-      "CustomCombatMap.AbilityActivatedEventsStore": {
+      "CombatMap.AbilityActivatedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "CustomCombatMap.CombatStartedEventsStore": {
+      "CombatMap.CombatStartedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
@@ -1031,7 +1031,7 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "DelphiList`1.count": 0,
             "DelphiList`1.items": []
           },
@@ -1090,23 +1090,23 @@
         "$type": "Aow.Engine.Nodes.EngineObjectList",
         "DelphiList`1.count": 6,
         "DelphiList`1.items": [
-          "$ref:$.HSMap._selection",
-          "$ref:$.HSMap._staticVisibleHexSprite",
-          "$ref:$.HSMap._dynamicVisibleHexSprite",
-          "$ref:$.HSMap._staticFixedVisibleHexSprite",
-          "$ref:$.HSMap._dynamicFixedVisibleHexSprite",
-          "$ref:$.HSMap._timer",
+          "$ref:$.GameMap._selection",
+          "$ref:$.GameMap._staticVisibleHexSprite",
+          "$ref:$.GameMap._dynamicVisibleHexSprite",
+          "$ref:$.GameMap._staticFixedVisibleHexSprite",
+          "$ref:$.GameMap._dynamicFixedVisibleHexSprite",
+          "$ref:$.GameMap._timer",
           null,
           null
         ]
       },
       "EngineObject._owner": null,
-      "HSMap.DestroyEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.DestroyEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._dynamicFixedVisibleHexSprite": {
+      "GameMap._dynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1124,8 +1124,8 @@
         "ESortNode.Items": [],
         "ESortNode._sorted": false
       },
-      "HSMap._dynamicSceneInvalid": false,
-      "HSMap._dynamicVisibleHexSprite": {
+      "GameMap._dynamicSceneInvalid": false,
+      "GameMap._dynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1140,20 +1140,20 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._engine": null,
-      "HSMap._fileName": "",
-      "HSMap._frame": 0,
-      "HSMap.HexSpriteChangedEventsStore": {
+      "GameMap._engine": null,
+      "GameMap._fileName": "",
+      "GameMap._frame": 0,
+      "GameMap.HexSpriteChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._hssFileName": "",
-      "HSMap._mapContainer": null,
-      "HSMap._mouse": {
+      "GameMap._hssFileName": "",
+      "GameMap._mapContainer": null,
+      "GameMap._mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
         "GameMapMouse.RectangleSelectEventsStore": {
           "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1236,16 +1236,16 @@
         "HexSpriteMapMouse._x": -2147483648,
         "HexSpriteMapMouse._y": -2147483648
       },
-      "HSMap.NewFrameEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.NewFrameEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._onCenterView": null,
-      "HSMap._onChangeView": null,
-      "HSMap._onProgress": null,
-      "HSMap._onViewLevel": null,
-      "HSMap._selection": {
+      "GameMap._onCenterView": null,
+      "GameMap._onChangeView": null,
+      "GameMap._onProgress": null,
+      "GameMap._onViewLevel": null,
+      "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1276,7 +1276,7 @@
           "EventStore`1._items": null
         }
       },
-      "HSMap._staticFixedVisibleHexSprite": {
+      "GameMap._staticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1291,11 +1291,11 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._staticSceneInvalid": false,
-      "HSMap._staticVisibleHexSprite": {
+      "GameMap._staticSceneInvalid": false,
+      "GameMap._staticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1310,10 +1310,10 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._status": {
+      "GameMap._status": {
         "$type": "Aow.Rtl.Set`1[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "Set`1.a": 0,
         "Set`1.b": 0,
@@ -1323,13 +1323,13 @@
         "Set`1.high": 0,
         "Set`1.low": 0
       },
-      "HSMap.TerrainChangedEventsStore": {
+      "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._terrainChangedLockCounter": 0,
-      "HSMap._timer": {
+      "GameMap._terrainChangedLockCounter": 0,
+      "GameMap._timer": {
         "$type": "Aow.Engine.Nodes.ETimerNode",
         "EngineObject._owner": "$owner",
         "ETimerNode._count": 0,
@@ -1387,21 +1387,21 @@
           }
         ]
       },
-      "HSMap._version": 0,
-      "HSMap._viewHeight": 0,
-      "HSMap._viewHeightHex": 0,
-      "HSMap._viewL": 0,
-      "HSMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap._version": 0,
+      "GameMap._viewHeight": 0,
+      "GameMap._viewHeightHex": 0,
+      "GameMap._viewL": 0,
+      "GameMap.ViewPortChangedEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._viewWidth": 0,
-      "HSMap._viewWidthHex": 0,
-      "HSMap._viewPixelX": 0,
-      "HSMap._viewHexX": 0,
-      "HSMap._viewPixelY": 0,
-      "HSMap._viewHexY": 0
+      "GameMap._viewWidth": 0,
+      "GameMap._viewWidthHex": 0,
+      "GameMap._viewPixelX": 0,
+      "GameMap._viewHexX": 0,
+      "GameMap._viewPixelY": 0,
+      "GameMap._viewHexY": 0
     }
   },
   "failure0.owner0.route1": {
@@ -1413,12 +1413,12 @@
     "DestroyEntries": 0,
     "FieldGraph": {
       "$type": "Aow.Game.Combat.CombatMap",
-      "CustomCombatMap.AbilityActivatedEventsStore": {
+      "CombatMap.AbilityActivatedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "CustomCombatMap.CombatStartedEventsStore": {
+      "CombatMap.CombatStartedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
@@ -2436,7 +2436,7 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "DelphiList`1.count": 0,
             "DelphiList`1.items": []
           },
@@ -2495,23 +2495,23 @@
         "$type": "Aow.Engine.Nodes.EngineObjectList",
         "DelphiList`1.count": 6,
         "DelphiList`1.items": [
-          "$ref:$.HSMap._selection",
-          "$ref:$.HSMap._staticVisibleHexSprite",
-          "$ref:$.HSMap._dynamicVisibleHexSprite",
-          "$ref:$.HSMap._staticFixedVisibleHexSprite",
-          "$ref:$.HSMap._dynamicFixedVisibleHexSprite",
-          "$ref:$.HSMap._timer",
+          "$ref:$.GameMap._selection",
+          "$ref:$.GameMap._staticVisibleHexSprite",
+          "$ref:$.GameMap._dynamicVisibleHexSprite",
+          "$ref:$.GameMap._staticFixedVisibleHexSprite",
+          "$ref:$.GameMap._dynamicFixedVisibleHexSprite",
+          "$ref:$.GameMap._timer",
           null,
           null
         ]
       },
       "EngineObject._owner": null,
-      "HSMap.DestroyEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.DestroyEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._dynamicFixedVisibleHexSprite": {
+      "GameMap._dynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2529,8 +2529,8 @@
         "ESortNode.Items": [],
         "ESortNode._sorted": false
       },
-      "HSMap._dynamicSceneInvalid": false,
-      "HSMap._dynamicVisibleHexSprite": {
+      "GameMap._dynamicSceneInvalid": false,
+      "GameMap._dynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2545,20 +2545,20 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._engine": null,
-      "HSMap._fileName": "",
-      "HSMap._frame": 0,
-      "HSMap.HexSpriteChangedEventsStore": {
+      "GameMap._engine": null,
+      "GameMap._fileName": "",
+      "GameMap._frame": 0,
+      "GameMap.HexSpriteChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._hssFileName": "",
-      "HSMap._mapContainer": null,
-      "HSMap._mouse": {
+      "GameMap._hssFileName": "",
+      "GameMap._mapContainer": null,
+      "GameMap._mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
         "GameMapMouse.RectangleSelectEventsStore": {
           "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2641,16 +2641,16 @@
         "HexSpriteMapMouse._x": -2147483648,
         "HexSpriteMapMouse._y": -2147483648
       },
-      "HSMap.NewFrameEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.NewFrameEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._onCenterView": null,
-      "HSMap._onChangeView": null,
-      "HSMap._onProgress": null,
-      "HSMap._onViewLevel": null,
-      "HSMap._selection": {
+      "GameMap._onCenterView": null,
+      "GameMap._onChangeView": null,
+      "GameMap._onProgress": null,
+      "GameMap._onViewLevel": null,
+      "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2681,7 +2681,7 @@
           "EventStore`1._items": null
         }
       },
-      "HSMap._staticFixedVisibleHexSprite": {
+      "GameMap._staticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2696,11 +2696,11 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._staticSceneInvalid": false,
-      "HSMap._staticVisibleHexSprite": {
+      "GameMap._staticSceneInvalid": false,
+      "GameMap._staticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2715,10 +2715,10 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._status": {
+      "GameMap._status": {
         "$type": "Aow.Rtl.Set`1[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "Set`1.a": 0,
         "Set`1.b": 0,
@@ -2728,13 +2728,13 @@
         "Set`1.high": 0,
         "Set`1.low": 0
       },
-      "HSMap.TerrainChangedEventsStore": {
+      "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._terrainChangedLockCounter": 0,
-      "HSMap._timer": {
+      "GameMap._terrainChangedLockCounter": 0,
+      "GameMap._timer": {
         "$type": "Aow.Engine.Nodes.ETimerNode",
         "EngineObject._owner": "$owner",
         "ETimerNode._count": 0,
@@ -2792,21 +2792,21 @@
           }
         ]
       },
-      "HSMap._version": 0,
-      "HSMap._viewHeight": 0,
-      "HSMap._viewHeightHex": 0,
-      "HSMap._viewL": 0,
-      "HSMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap._version": 0,
+      "GameMap._viewHeight": 0,
+      "GameMap._viewHeightHex": 0,
+      "GameMap._viewL": 0,
+      "GameMap.ViewPortChangedEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._viewWidth": 0,
-      "HSMap._viewWidthHex": 0,
-      "HSMap._viewPixelX": 0,
-      "HSMap._viewHexX": 0,
-      "HSMap._viewPixelY": 0,
-      "HSMap._viewHexY": 0
+      "GameMap._viewWidth": 0,
+      "GameMap._viewWidthHex": 0,
+      "GameMap._viewPixelX": 0,
+      "GameMap._viewHexX": 0,
+      "GameMap._viewPixelY": 0,
+      "GameMap._viewHexY": 0
     }
   },
   "failure0.owner0.route2": {
@@ -2818,12 +2818,12 @@
     "DestroyEntries": 0,
     "FieldGraph": {
       "$type": "Aow.Game.Combat.CombatMap",
-      "CustomCombatMap.AbilityActivatedEventsStore": {
+      "CombatMap.AbilityActivatedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "CustomCombatMap.CombatStartedEventsStore": {
+      "CombatMap.CombatStartedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
@@ -3841,7 +3841,7 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "DelphiList`1.count": 0,
             "DelphiList`1.items": []
           },
@@ -3900,23 +3900,23 @@
         "$type": "Aow.Engine.Nodes.EngineObjectList",
         "DelphiList`1.count": 6,
         "DelphiList`1.items": [
-          "$ref:$.HSMap._selection",
-          "$ref:$.HSMap._staticVisibleHexSprite",
-          "$ref:$.HSMap._dynamicVisibleHexSprite",
-          "$ref:$.HSMap._staticFixedVisibleHexSprite",
-          "$ref:$.HSMap._dynamicFixedVisibleHexSprite",
-          "$ref:$.HSMap._timer",
+          "$ref:$.GameMap._selection",
+          "$ref:$.GameMap._staticVisibleHexSprite",
+          "$ref:$.GameMap._dynamicVisibleHexSprite",
+          "$ref:$.GameMap._staticFixedVisibleHexSprite",
+          "$ref:$.GameMap._dynamicFixedVisibleHexSprite",
+          "$ref:$.GameMap._timer",
           null,
           null
         ]
       },
       "EngineObject._owner": null,
-      "HSMap.DestroyEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.DestroyEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._dynamicFixedVisibleHexSprite": {
+      "GameMap._dynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3934,8 +3934,8 @@
         "ESortNode.Items": [],
         "ESortNode._sorted": false
       },
-      "HSMap._dynamicSceneInvalid": false,
-      "HSMap._dynamicVisibleHexSprite": {
+      "GameMap._dynamicSceneInvalid": false,
+      "GameMap._dynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3950,20 +3950,20 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._engine": null,
-      "HSMap._fileName": "",
-      "HSMap._frame": 0,
-      "HSMap.HexSpriteChangedEventsStore": {
+      "GameMap._engine": null,
+      "GameMap._fileName": "",
+      "GameMap._frame": 0,
+      "GameMap.HexSpriteChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._hssFileName": "",
-      "HSMap._mapContainer": null,
-      "HSMap._mouse": {
+      "GameMap._hssFileName": "",
+      "GameMap._mapContainer": null,
+      "GameMap._mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
         "GameMapMouse.RectangleSelectEventsStore": {
           "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -4046,16 +4046,16 @@
         "HexSpriteMapMouse._x": -2147483648,
         "HexSpriteMapMouse._y": -2147483648
       },
-      "HSMap.NewFrameEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.NewFrameEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._onCenterView": null,
-      "HSMap._onChangeView": null,
-      "HSMap._onProgress": null,
-      "HSMap._onViewLevel": null,
-      "HSMap._selection": {
+      "GameMap._onCenterView": null,
+      "GameMap._onChangeView": null,
+      "GameMap._onProgress": null,
+      "GameMap._onViewLevel": null,
+      "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -4086,7 +4086,7 @@
           "EventStore`1._items": null
         }
       },
-      "HSMap._staticFixedVisibleHexSprite": {
+      "GameMap._staticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -4101,11 +4101,11 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._staticSceneInvalid": false,
-      "HSMap._staticVisibleHexSprite": {
+      "GameMap._staticSceneInvalid": false,
+      "GameMap._staticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -4120,10 +4120,10 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._status": {
+      "GameMap._status": {
         "$type": "Aow.Rtl.Set`1[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "Set`1.a": 0,
         "Set`1.b": 0,
@@ -4133,13 +4133,13 @@
         "Set`1.high": 0,
         "Set`1.low": 0
       },
-      "HSMap.TerrainChangedEventsStore": {
+      "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._terrainChangedLockCounter": 0,
-      "HSMap._timer": {
+      "GameMap._terrainChangedLockCounter": 0,
+      "GameMap._timer": {
         "$type": "Aow.Engine.Nodes.ETimerNode",
         "EngineObject._owner": "$owner",
         "ETimerNode._count": 0,
@@ -4197,21 +4197,21 @@
           }
         ]
       },
-      "HSMap._version": 0,
-      "HSMap._viewHeight": 0,
-      "HSMap._viewHeightHex": 0,
-      "HSMap._viewL": 0,
-      "HSMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap._version": 0,
+      "GameMap._viewHeight": 0,
+      "GameMap._viewHeightHex": 0,
+      "GameMap._viewL": 0,
+      "GameMap.ViewPortChangedEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._viewWidth": 0,
-      "HSMap._viewWidthHex": 0,
-      "HSMap._viewPixelX": 0,
-      "HSMap._viewHexX": 0,
-      "HSMap._viewPixelY": 0,
-      "HSMap._viewHexY": 0
+      "GameMap._viewWidth": 0,
+      "GameMap._viewWidthHex": 0,
+      "GameMap._viewPixelX": 0,
+      "GameMap._viewHexX": 0,
+      "GameMap._viewPixelY": 0,
+      "GameMap._viewHexY": 0
     }
   },
   "failure0.owner0.route3": {
@@ -4223,12 +4223,12 @@
     "DestroyEntries": 0,
     "FieldGraph": {
       "$type": "Aow.Game.Combat.CombatMap",
-      "CustomCombatMap.AbilityActivatedEventsStore": {
+      "CombatMap.AbilityActivatedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "CustomCombatMap.CombatStartedEventsStore": {
+      "CombatMap.CombatStartedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
@@ -5246,7 +5246,7 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "DelphiList`1.count": 0,
             "DelphiList`1.items": []
           },
@@ -5305,23 +5305,23 @@
         "$type": "Aow.Engine.Nodes.EngineObjectList",
         "DelphiList`1.count": 6,
         "DelphiList`1.items": [
-          "$ref:$.HSMap._selection",
-          "$ref:$.HSMap._staticVisibleHexSprite",
-          "$ref:$.HSMap._dynamicVisibleHexSprite",
-          "$ref:$.HSMap._staticFixedVisibleHexSprite",
-          "$ref:$.HSMap._dynamicFixedVisibleHexSprite",
-          "$ref:$.HSMap._timer",
+          "$ref:$.GameMap._selection",
+          "$ref:$.GameMap._staticVisibleHexSprite",
+          "$ref:$.GameMap._dynamicVisibleHexSprite",
+          "$ref:$.GameMap._staticFixedVisibleHexSprite",
+          "$ref:$.GameMap._dynamicFixedVisibleHexSprite",
+          "$ref:$.GameMap._timer",
           null,
           null
         ]
       },
       "EngineObject._owner": null,
-      "HSMap.DestroyEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.DestroyEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._dynamicFixedVisibleHexSprite": {
+      "GameMap._dynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -5339,8 +5339,8 @@
         "ESortNode.Items": [],
         "ESortNode._sorted": false
       },
-      "HSMap._dynamicSceneInvalid": false,
-      "HSMap._dynamicVisibleHexSprite": {
+      "GameMap._dynamicSceneInvalid": false,
+      "GameMap._dynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -5355,20 +5355,20 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._engine": null,
-      "HSMap._fileName": "",
-      "HSMap._frame": 0,
-      "HSMap.HexSpriteChangedEventsStore": {
+      "GameMap._engine": null,
+      "GameMap._fileName": "",
+      "GameMap._frame": 0,
+      "GameMap.HexSpriteChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._hssFileName": "",
-      "HSMap._mapContainer": null,
-      "HSMap._mouse": {
+      "GameMap._hssFileName": "",
+      "GameMap._mapContainer": null,
+      "GameMap._mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
         "GameMapMouse.RectangleSelectEventsStore": {
           "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -5451,16 +5451,16 @@
         "HexSpriteMapMouse._x": -2147483648,
         "HexSpriteMapMouse._y": -2147483648
       },
-      "HSMap.NewFrameEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.NewFrameEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._onCenterView": null,
-      "HSMap._onChangeView": null,
-      "HSMap._onProgress": null,
-      "HSMap._onViewLevel": null,
-      "HSMap._selection": {
+      "GameMap._onCenterView": null,
+      "GameMap._onChangeView": null,
+      "GameMap._onProgress": null,
+      "GameMap._onViewLevel": null,
+      "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -5491,7 +5491,7 @@
           "EventStore`1._items": null
         }
       },
-      "HSMap._staticFixedVisibleHexSprite": {
+      "GameMap._staticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -5506,11 +5506,11 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._staticSceneInvalid": false,
-      "HSMap._staticVisibleHexSprite": {
+      "GameMap._staticSceneInvalid": false,
+      "GameMap._staticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -5525,10 +5525,10 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._status": {
+      "GameMap._status": {
         "$type": "Aow.Rtl.Set`1[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "Set`1.a": 0,
         "Set`1.b": 0,
@@ -5538,13 +5538,13 @@
         "Set`1.high": 0,
         "Set`1.low": 0
       },
-      "HSMap.TerrainChangedEventsStore": {
+      "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._terrainChangedLockCounter": 0,
-      "HSMap._timer": {
+      "GameMap._terrainChangedLockCounter": 0,
+      "GameMap._timer": {
         "$type": "Aow.Engine.Nodes.ETimerNode",
         "EngineObject._owner": "$owner",
         "ETimerNode._count": 0,
@@ -5602,21 +5602,21 @@
           }
         ]
       },
-      "HSMap._version": 0,
-      "HSMap._viewHeight": 0,
-      "HSMap._viewHeightHex": 0,
-      "HSMap._viewL": 0,
-      "HSMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap._version": 0,
+      "GameMap._viewHeight": 0,
+      "GameMap._viewHeightHex": 0,
+      "GameMap._viewL": 0,
+      "GameMap.ViewPortChangedEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._viewWidth": 0,
-      "HSMap._viewWidthHex": 0,
-      "HSMap._viewPixelX": 0,
-      "HSMap._viewHexX": 0,
-      "HSMap._viewPixelY": 0,
-      "HSMap._viewHexY": 0
+      "GameMap._viewWidth": 0,
+      "GameMap._viewWidthHex": 0,
+      "GameMap._viewPixelX": 0,
+      "GameMap._viewHexX": 0,
+      "GameMap._viewPixelY": 0,
+      "GameMap._viewHexY": 0
     }
   },
   "failure0.owner1.route0": {
@@ -5630,12 +5630,12 @@
     "DestroyEntries": 0,
     "FieldGraph": {
       "$type": "Aow.Game.Combat.CombatMap",
-      "CustomCombatMap.AbilityActivatedEventsStore": {
+      "CombatMap.AbilityActivatedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "CustomCombatMap.CombatStartedEventsStore": {
+      "CombatMap.CombatStartedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
@@ -6653,7 +6653,7 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "DelphiList`1.count": 0,
             "DelphiList`1.items": []
           },
@@ -6712,23 +6712,23 @@
         "$type": "Aow.Engine.Nodes.EngineObjectList",
         "DelphiList`1.count": 6,
         "DelphiList`1.items": [
-          "$ref:$.HSMap._selection",
-          "$ref:$.HSMap._staticVisibleHexSprite",
-          "$ref:$.HSMap._dynamicVisibleHexSprite",
-          "$ref:$.HSMap._staticFixedVisibleHexSprite",
-          "$ref:$.HSMap._dynamicFixedVisibleHexSprite",
-          "$ref:$.HSMap._timer",
+          "$ref:$.GameMap._selection",
+          "$ref:$.GameMap._staticVisibleHexSprite",
+          "$ref:$.GameMap._dynamicVisibleHexSprite",
+          "$ref:$.GameMap._staticFixedVisibleHexSprite",
+          "$ref:$.GameMap._dynamicFixedVisibleHexSprite",
+          "$ref:$.GameMap._timer",
           null,
           null
         ]
       },
       "EngineObject._owner": "$owner",
-      "HSMap.DestroyEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.DestroyEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._dynamicFixedVisibleHexSprite": {
+      "GameMap._dynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6746,8 +6746,8 @@
         "ESortNode.Items": [],
         "ESortNode._sorted": false
       },
-      "HSMap._dynamicSceneInvalid": false,
-      "HSMap._dynamicVisibleHexSprite": {
+      "GameMap._dynamicSceneInvalid": false,
+      "GameMap._dynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6762,20 +6762,20 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._engine": null,
-      "HSMap._fileName": "",
-      "HSMap._frame": 0,
-      "HSMap.HexSpriteChangedEventsStore": {
+      "GameMap._engine": null,
+      "GameMap._fileName": "",
+      "GameMap._frame": 0,
+      "GameMap.HexSpriteChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._hssFileName": "",
-      "HSMap._mapContainer": null,
-      "HSMap._mouse": {
+      "GameMap._hssFileName": "",
+      "GameMap._mapContainer": null,
+      "GameMap._mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
         "GameMapMouse.RectangleSelectEventsStore": {
           "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6858,16 +6858,16 @@
         "HexSpriteMapMouse._x": -2147483648,
         "HexSpriteMapMouse._y": -2147483648
       },
-      "HSMap.NewFrameEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.NewFrameEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._onCenterView": null,
-      "HSMap._onChangeView": null,
-      "HSMap._onProgress": null,
-      "HSMap._onViewLevel": null,
-      "HSMap._selection": {
+      "GameMap._onCenterView": null,
+      "GameMap._onChangeView": null,
+      "GameMap._onProgress": null,
+      "GameMap._onViewLevel": null,
+      "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6898,7 +6898,7 @@
           "EventStore`1._items": null
         }
       },
-      "HSMap._staticFixedVisibleHexSprite": {
+      "GameMap._staticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6913,11 +6913,11 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._staticSceneInvalid": false,
-      "HSMap._staticVisibleHexSprite": {
+      "GameMap._staticSceneInvalid": false,
+      "GameMap._staticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6932,10 +6932,10 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._status": {
+      "GameMap._status": {
         "$type": "Aow.Rtl.Set`1[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "Set`1.a": 0,
         "Set`1.b": 0,
@@ -6945,13 +6945,13 @@
         "Set`1.high": 0,
         "Set`1.low": 0
       },
-      "HSMap.TerrainChangedEventsStore": {
+      "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._terrainChangedLockCounter": 0,
-      "HSMap._timer": {
+      "GameMap._terrainChangedLockCounter": 0,
+      "GameMap._timer": {
         "$type": "Aow.Engine.Nodes.ETimerNode",
         "EngineObject._owner": "$owner",
         "ETimerNode._count": 0,
@@ -7009,21 +7009,21 @@
           }
         ]
       },
-      "HSMap._version": 0,
-      "HSMap._viewHeight": 0,
-      "HSMap._viewHeightHex": 0,
-      "HSMap._viewL": 0,
-      "HSMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap._version": 0,
+      "GameMap._viewHeight": 0,
+      "GameMap._viewHeightHex": 0,
+      "GameMap._viewL": 0,
+      "GameMap.ViewPortChangedEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._viewWidth": 0,
-      "HSMap._viewWidthHex": 0,
-      "HSMap._viewPixelX": 0,
-      "HSMap._viewHexX": 0,
-      "HSMap._viewPixelY": 0,
-      "HSMap._viewHexY": 0
+      "GameMap._viewWidth": 0,
+      "GameMap._viewWidthHex": 0,
+      "GameMap._viewPixelX": 0,
+      "GameMap._viewHexX": 0,
+      "GameMap._viewPixelY": 0,
+      "GameMap._viewHexY": 0
     }
   },
   "failure0.owner1.route1": {
@@ -7037,12 +7037,12 @@
     "DestroyEntries": 0,
     "FieldGraph": {
       "$type": "Aow.Game.Combat.CombatMap",
-      "CustomCombatMap.AbilityActivatedEventsStore": {
+      "CombatMap.AbilityActivatedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "CustomCombatMap.CombatStartedEventsStore": {
+      "CombatMap.CombatStartedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
@@ -8060,7 +8060,7 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "DelphiList`1.count": 0,
             "DelphiList`1.items": []
           },
@@ -8119,23 +8119,23 @@
         "$type": "Aow.Engine.Nodes.EngineObjectList",
         "DelphiList`1.count": 6,
         "DelphiList`1.items": [
-          "$ref:$.HSMap._selection",
-          "$ref:$.HSMap._staticVisibleHexSprite",
-          "$ref:$.HSMap._dynamicVisibleHexSprite",
-          "$ref:$.HSMap._staticFixedVisibleHexSprite",
-          "$ref:$.HSMap._dynamicFixedVisibleHexSprite",
-          "$ref:$.HSMap._timer",
+          "$ref:$.GameMap._selection",
+          "$ref:$.GameMap._staticVisibleHexSprite",
+          "$ref:$.GameMap._dynamicVisibleHexSprite",
+          "$ref:$.GameMap._staticFixedVisibleHexSprite",
+          "$ref:$.GameMap._dynamicFixedVisibleHexSprite",
+          "$ref:$.GameMap._timer",
           null,
           null
         ]
       },
       "EngineObject._owner": "$owner",
-      "HSMap.DestroyEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.DestroyEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._dynamicFixedVisibleHexSprite": {
+      "GameMap._dynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -8153,8 +8153,8 @@
         "ESortNode.Items": [],
         "ESortNode._sorted": false
       },
-      "HSMap._dynamicSceneInvalid": false,
-      "HSMap._dynamicVisibleHexSprite": {
+      "GameMap._dynamicSceneInvalid": false,
+      "GameMap._dynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -8169,20 +8169,20 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._engine": null,
-      "HSMap._fileName": "",
-      "HSMap._frame": 0,
-      "HSMap.HexSpriteChangedEventsStore": {
+      "GameMap._engine": null,
+      "GameMap._fileName": "",
+      "GameMap._frame": 0,
+      "GameMap.HexSpriteChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._hssFileName": "",
-      "HSMap._mapContainer": null,
-      "HSMap._mouse": {
+      "GameMap._hssFileName": "",
+      "GameMap._mapContainer": null,
+      "GameMap._mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
         "GameMapMouse.RectangleSelectEventsStore": {
           "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -8265,16 +8265,16 @@
         "HexSpriteMapMouse._x": -2147483648,
         "HexSpriteMapMouse._y": -2147483648
       },
-      "HSMap.NewFrameEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.NewFrameEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._onCenterView": null,
-      "HSMap._onChangeView": null,
-      "HSMap._onProgress": null,
-      "HSMap._onViewLevel": null,
-      "HSMap._selection": {
+      "GameMap._onCenterView": null,
+      "GameMap._onChangeView": null,
+      "GameMap._onProgress": null,
+      "GameMap._onViewLevel": null,
+      "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -8305,7 +8305,7 @@
           "EventStore`1._items": null
         }
       },
-      "HSMap._staticFixedVisibleHexSprite": {
+      "GameMap._staticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -8320,11 +8320,11 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._staticSceneInvalid": false,
-      "HSMap._staticVisibleHexSprite": {
+      "GameMap._staticSceneInvalid": false,
+      "GameMap._staticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -8339,10 +8339,10 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._status": {
+      "GameMap._status": {
         "$type": "Aow.Rtl.Set`1[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "Set`1.a": 0,
         "Set`1.b": 0,
@@ -8352,13 +8352,13 @@
         "Set`1.high": 0,
         "Set`1.low": 0
       },
-      "HSMap.TerrainChangedEventsStore": {
+      "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._terrainChangedLockCounter": 0,
-      "HSMap._timer": {
+      "GameMap._terrainChangedLockCounter": 0,
+      "GameMap._timer": {
         "$type": "Aow.Engine.Nodes.ETimerNode",
         "EngineObject._owner": "$owner",
         "ETimerNode._count": 0,
@@ -8416,21 +8416,21 @@
           }
         ]
       },
-      "HSMap._version": 0,
-      "HSMap._viewHeight": 0,
-      "HSMap._viewHeightHex": 0,
-      "HSMap._viewL": 0,
-      "HSMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap._version": 0,
+      "GameMap._viewHeight": 0,
+      "GameMap._viewHeightHex": 0,
+      "GameMap._viewL": 0,
+      "GameMap.ViewPortChangedEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._viewWidth": 0,
-      "HSMap._viewWidthHex": 0,
-      "HSMap._viewPixelX": 0,
-      "HSMap._viewHexX": 0,
-      "HSMap._viewPixelY": 0,
-      "HSMap._viewHexY": 0
+      "GameMap._viewWidth": 0,
+      "GameMap._viewWidthHex": 0,
+      "GameMap._viewPixelX": 0,
+      "GameMap._viewHexX": 0,
+      "GameMap._viewPixelY": 0,
+      "GameMap._viewHexY": 0
     }
   },
   "failure0.owner1.route2": {
@@ -8444,12 +8444,12 @@
     "DestroyEntries": 0,
     "FieldGraph": {
       "$type": "Aow.Game.Combat.CombatMap",
-      "CustomCombatMap.AbilityActivatedEventsStore": {
+      "CombatMap.AbilityActivatedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "CustomCombatMap.CombatStartedEventsStore": {
+      "CombatMap.CombatStartedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
@@ -9467,7 +9467,7 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "DelphiList`1.count": 0,
             "DelphiList`1.items": []
           },
@@ -9526,23 +9526,23 @@
         "$type": "Aow.Engine.Nodes.EngineObjectList",
         "DelphiList`1.count": 6,
         "DelphiList`1.items": [
-          "$ref:$.HSMap._selection",
-          "$ref:$.HSMap._staticVisibleHexSprite",
-          "$ref:$.HSMap._dynamicVisibleHexSprite",
-          "$ref:$.HSMap._staticFixedVisibleHexSprite",
-          "$ref:$.HSMap._dynamicFixedVisibleHexSprite",
-          "$ref:$.HSMap._timer",
+          "$ref:$.GameMap._selection",
+          "$ref:$.GameMap._staticVisibleHexSprite",
+          "$ref:$.GameMap._dynamicVisibleHexSprite",
+          "$ref:$.GameMap._staticFixedVisibleHexSprite",
+          "$ref:$.GameMap._dynamicFixedVisibleHexSprite",
+          "$ref:$.GameMap._timer",
           null,
           null
         ]
       },
       "EngineObject._owner": "$owner",
-      "HSMap.DestroyEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.DestroyEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._dynamicFixedVisibleHexSprite": {
+      "GameMap._dynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -9560,8 +9560,8 @@
         "ESortNode.Items": [],
         "ESortNode._sorted": false
       },
-      "HSMap._dynamicSceneInvalid": false,
-      "HSMap._dynamicVisibleHexSprite": {
+      "GameMap._dynamicSceneInvalid": false,
+      "GameMap._dynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -9576,20 +9576,20 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._engine": null,
-      "HSMap._fileName": "",
-      "HSMap._frame": 0,
-      "HSMap.HexSpriteChangedEventsStore": {
+      "GameMap._engine": null,
+      "GameMap._fileName": "",
+      "GameMap._frame": 0,
+      "GameMap.HexSpriteChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._hssFileName": "",
-      "HSMap._mapContainer": null,
-      "HSMap._mouse": {
+      "GameMap._hssFileName": "",
+      "GameMap._mapContainer": null,
+      "GameMap._mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
         "GameMapMouse.RectangleSelectEventsStore": {
           "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -9672,16 +9672,16 @@
         "HexSpriteMapMouse._x": -2147483648,
         "HexSpriteMapMouse._y": -2147483648
       },
-      "HSMap.NewFrameEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.NewFrameEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._onCenterView": null,
-      "HSMap._onChangeView": null,
-      "HSMap._onProgress": null,
-      "HSMap._onViewLevel": null,
-      "HSMap._selection": {
+      "GameMap._onCenterView": null,
+      "GameMap._onChangeView": null,
+      "GameMap._onProgress": null,
+      "GameMap._onViewLevel": null,
+      "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -9712,7 +9712,7 @@
           "EventStore`1._items": null
         }
       },
-      "HSMap._staticFixedVisibleHexSprite": {
+      "GameMap._staticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -9727,11 +9727,11 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._staticSceneInvalid": false,
-      "HSMap._staticVisibleHexSprite": {
+      "GameMap._staticSceneInvalid": false,
+      "GameMap._staticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -9746,10 +9746,10 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._status": {
+      "GameMap._status": {
         "$type": "Aow.Rtl.Set`1[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "Set`1.a": 0,
         "Set`1.b": 0,
@@ -9759,13 +9759,13 @@
         "Set`1.high": 0,
         "Set`1.low": 0
       },
-      "HSMap.TerrainChangedEventsStore": {
+      "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._terrainChangedLockCounter": 0,
-      "HSMap._timer": {
+      "GameMap._terrainChangedLockCounter": 0,
+      "GameMap._timer": {
         "$type": "Aow.Engine.Nodes.ETimerNode",
         "EngineObject._owner": "$owner",
         "ETimerNode._count": 0,
@@ -9823,21 +9823,21 @@
           }
         ]
       },
-      "HSMap._version": 0,
-      "HSMap._viewHeight": 0,
-      "HSMap._viewHeightHex": 0,
-      "HSMap._viewL": 0,
-      "HSMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap._version": 0,
+      "GameMap._viewHeight": 0,
+      "GameMap._viewHeightHex": 0,
+      "GameMap._viewL": 0,
+      "GameMap.ViewPortChangedEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._viewWidth": 0,
-      "HSMap._viewWidthHex": 0,
-      "HSMap._viewPixelX": 0,
-      "HSMap._viewHexX": 0,
-      "HSMap._viewPixelY": 0,
-      "HSMap._viewHexY": 0
+      "GameMap._viewWidth": 0,
+      "GameMap._viewWidthHex": 0,
+      "GameMap._viewPixelX": 0,
+      "GameMap._viewHexX": 0,
+      "GameMap._viewPixelY": 0,
+      "GameMap._viewHexY": 0
     }
   },
   "failure0.owner1.route3": {
@@ -9851,12 +9851,12 @@
     "DestroyEntries": 0,
     "FieldGraph": {
       "$type": "Aow.Game.Combat.CombatMap",
-      "CustomCombatMap.AbilityActivatedEventsStore": {
+      "CombatMap.AbilityActivatedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Magic.Abilities.AbilityActivation, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "CustomCombatMap.CombatStartedEventsStore": {
+      "CombatMap.CombatStartedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Combat.CombatSpellCaster, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
@@ -10874,7 +10874,7 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "DelphiList`1.count": 0,
             "DelphiList`1.items": []
           },
@@ -10933,23 +10933,23 @@
         "$type": "Aow.Engine.Nodes.EngineObjectList",
         "DelphiList`1.count": 6,
         "DelphiList`1.items": [
-          "$ref:$.HSMap._selection",
-          "$ref:$.HSMap._staticVisibleHexSprite",
-          "$ref:$.HSMap._dynamicVisibleHexSprite",
-          "$ref:$.HSMap._staticFixedVisibleHexSprite",
-          "$ref:$.HSMap._dynamicFixedVisibleHexSprite",
-          "$ref:$.HSMap._timer",
+          "$ref:$.GameMap._selection",
+          "$ref:$.GameMap._staticVisibleHexSprite",
+          "$ref:$.GameMap._dynamicVisibleHexSprite",
+          "$ref:$.GameMap._staticFixedVisibleHexSprite",
+          "$ref:$.GameMap._dynamicFixedVisibleHexSprite",
+          "$ref:$.GameMap._timer",
           null,
           null
         ]
       },
       "EngineObject._owner": "$owner",
-      "HSMap.DestroyEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.DestroyEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._dynamicFixedVisibleHexSprite": {
+      "GameMap._dynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -10967,8 +10967,8 @@
         "ESortNode.Items": [],
         "ESortNode._sorted": false
       },
-      "HSMap._dynamicSceneInvalid": false,
-      "HSMap._dynamicVisibleHexSprite": {
+      "GameMap._dynamicSceneInvalid": false,
+      "GameMap._dynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -10983,20 +10983,20 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._engine": null,
-      "HSMap._fileName": "",
-      "HSMap._frame": 0,
-      "HSMap.HexSpriteChangedEventsStore": {
+      "GameMap._engine": null,
+      "GameMap._fileName": "",
+      "GameMap._frame": 0,
+      "GameMap.HexSpriteChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.Draw.HexSprite, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._hssFileName": "",
-      "HSMap._mapContainer": null,
-      "HSMap._mouse": {
+      "GameMap._hssFileName": "",
+      "GameMap._mapContainer": null,
+      "GameMap._mouse": {
         "$type": "Aow.Game.Combat.CombatMapMouse",
         "GameMapMouse.RectangleSelectEventsStore": {
           "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMapMouse, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -11079,16 +11079,16 @@
         "HexSpriteMapMouse._x": -2147483648,
         "HexSpriteMapMouse._y": -2147483648
       },
-      "HSMap.NewFrameEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap.NewFrameEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._onCenterView": null,
-      "HSMap._onChangeView": null,
-      "HSMap._onProgress": null,
-      "HSMap._onViewLevel": null,
-      "HSMap._selection": {
+      "GameMap._onCenterView": null,
+      "GameMap._onChangeView": null,
+      "GameMap._onProgress": null,
+      "GameMap._onViewLevel": null,
+      "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -11119,7 +11119,7 @@
           "EventStore`1._items": null
         }
       },
-      "HSMap._staticFixedVisibleHexSprite": {
+      "GameMap._staticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -11134,11 +11134,11 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._staticSceneInvalid": false,
-      "HSMap._staticVisibleHexSprite": {
+      "GameMap._staticSceneInvalid": false,
+      "GameMap._staticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
         "EControlStyleInverseSortNode._controlStyle": {
           "$type": "Aow.Rtl.Set`1[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -11153,10 +11153,10 @@
         "EngineObject._owner": "$owner",
         "ESortNode.Capacity": 0,
         "ESortNode._count": 0,
-        "ESortNode.Items": "$ref:$.HSMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
+        "ESortNode.Items": "$ref:$.GameMap._dynamicFixedVisibleHexSprite.ESortNode.Items",
         "ESortNode._sorted": false
       },
-      "HSMap._status": {
+      "GameMap._status": {
         "$type": "Aow.Rtl.Set`1[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "Set`1.a": 0,
         "Set`1.b": 0,
@@ -11166,13 +11166,13 @@
         "Set`1.high": 0,
         "Set`1.low": 0
       },
-      "HSMap.TerrainChangedEventsStore": {
+      "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._terrainChangedLockCounter": 0,
-      "HSMap._timer": {
+      "GameMap._terrainChangedLockCounter": 0,
+      "GameMap._timer": {
         "$type": "Aow.Engine.Nodes.ETimerNode",
         "EngineObject._owner": "$owner",
         "ETimerNode._count": 0,
@@ -11230,21 +11230,21 @@
           }
         ]
       },
-      "HSMap._version": 0,
-      "HSMap._viewHeight": 0,
-      "HSMap._viewHeightHex": 0,
-      "HSMap._viewL": 0,
-      "HSMap.ViewPortChangedEventsStore": {
-        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.HSMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+      "GameMap._version": 0,
+      "GameMap._viewHeight": 0,
+      "GameMap._viewHeightHex": 0,
+      "GameMap._viewL": 0,
+      "GameMap.ViewPortChangedEventsStore": {
+        "$type": "Aow.Engine.EventStore`1[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "HSMap._viewWidth": 0,
-      "HSMap._viewWidthHex": 0,
-      "HSMap._viewPixelX": 0,
-      "HSMap._viewHexX": 0,
-      "HSMap._viewPixelY": 0,
-      "HSMap._viewHexY": 0
+      "GameMap._viewWidth": 0,
+      "GameMap._viewWidthHex": 0,
+      "GameMap._viewPixelX": 0,
+      "GameMap._viewHexX": 0,
+      "GameMap._viewPixelY": 0,
+      "GameMap._viewHexY": 0
     }
   },
   "failure1.owner0.route0": {

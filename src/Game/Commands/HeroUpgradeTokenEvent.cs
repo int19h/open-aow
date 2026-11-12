@@ -61,7 +61,7 @@ public partial class HeroUpgradeTokenEvent : TokenEvent
     {
         Hero hero;
         ExecuteResult result = base.Execute(tokenEvent);
-        hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+        hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
         if (hero != null && hero.GetHitPoints() != 0 && hero.Player == Player)
         {
             hero.SetUnitAttack((sbyte)(hero.UnitAttack + Attack));

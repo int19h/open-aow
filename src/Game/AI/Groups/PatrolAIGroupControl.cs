@@ -43,8 +43,8 @@ public partial class PatrolAIGroupControl : AIGroupControl
     // IndependentAG.pas:426
     public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
-        AoWMapField mapField;
-        mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(target.Location.Packed);
+        MapField mapField;
+        mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location.Packed);
         if (mapField.GetPlayer() != Group.Player)
         {
             SetupCP(target);
@@ -148,7 +148,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
 
                 break;
             case 6:
-                if (AoWHSMap.Current.Random(3) != 0 && ((PatrolAIGroup)Group).PatrolTo.X != -1)
+                if (StrategicMap.Current.Random(3) != 0 && ((PatrolAIGroup)Group).PatrolTo.X != -1)
                 {
                     State += 1;
                     SetupME();
@@ -171,7 +171,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
                 settings.ArmyHexSprite = ArmyHexSprite;
                 settings.Selection = Selection;
                 settings.MovePointTable = MovePointTable;
-                AoWHSMap.Current.MoveControl.ProcessMove(settings);
+                StrategicMap.Current.MoveControl.ProcessMove(settings);
                 if (settings.Path.Count == 0)
                 {
                     ((PatrolAIGroup)Group).PatrolFrom.Packed = 16777215;
@@ -190,18 +190,18 @@ public partial class PatrolAIGroupControl : AIGroupControl
         int previousHeading = default;
         int X = default;
         int Y = default;
-        DoubleItemList<AoWMapField> newList = default;
+        DoubleItemList<MapField> newList = default;
         PatrolAIGroup group = default;
         MoveControlSettings settings = default;
-        DelphiList<AoWMapField> fields = default;
-        var lists = new DoubleItemList<AoWMapField>[HexDirectionSlotCount];
+        DelphiList<MapField> fields = default;
+        var lists = new DoubleItemList<MapField>[HexDirectionSlotCount];
         MapFieldMessage message = default;
         int J = default;
         int heading = default;
         int lastHeading = default;
-        AoWMapField mapField = default;
+        MapField mapField = default;
         ByteList choices = default;
-        DoubleItemList<AoWMapField> selectedList = default;
+        DoubleItemList<MapField> selectedList = default;
         group = (PatrolAIGroup)Group;
         if (group.PatrolFrom.X == -1)
         {
@@ -217,11 +217,11 @@ public partial class PatrolAIGroupControl : AIGroupControl
         settings.ArmyHexSprite = ArmyHexSprite;
         settings.Selection = Selection;
         settings.MovePointTable = MovePointTable;
-        AoWHSMap.Current.MoveControl.ProcessMove(settings);
+        StrategicMap.Current.MoveControl.ProcessMove(settings);
         fields = settings.ProcessedMapFields;
         for (int I = 0; I < HexDirectionSlotCount; I++)
         {
-            var doubleItemList = new DoubleItemList<AoWMapField>();
+            var doubleItemList = new DoubleItemList<MapField>();
             lists[I] = doubleItemList;
         }
 
@@ -248,7 +248,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
         message.Param[0] = ArmyHexSprite;
         for (int I = 1; I < HexDirectionSlotCount; I++)
         {
-            newList = new DoubleItemList<AoWMapField>();
+            newList = new DoubleItemList<MapField>();
             J = 0;
             while (newList.Count != 30 && J != lists[I].Count)
             {
@@ -271,7 +271,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
             lists[I] = newList;
         }
 
-        mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(group.PatrolFrom.Packed);
+        mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(group.PatrolFrom.Packed);
         if (mapField.GetPlayer() == -1)
         {
             lists[0].AddAbility(mapField, 0);
@@ -313,9 +313,9 @@ public partial class PatrolAIGroupControl : AIGroupControl
         if (choices.Count != 0)
         {
             group.PreviousHeading = (sbyte)lastHeading;
-            heading = choices[AoWHSMap.Current.Random(choices.Count)];
+            heading = choices[StrategicMap.Current.Random(choices.Count)];
             selectedList = lists[heading];
-            var random = AoWHSMap.Current.Random(selectedList.Count);
+            var random = StrategicMap.Current.Random(selectedList.Count);
             mapField = selectedList.List[random].First;
             var mapCoordinate = mapField.GetMapCoordinate();
             group.PatrolTo.Packed = mapCoordinate;
@@ -336,7 +336,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
         return result;
     }
 
-    private static int ComparePatrolFields(in DoubleItem<AoWMapField> A, in DoubleItem<AoWMapField> B)
+    private static int ComparePatrolFields(in DoubleItem<MapField> A, in DoubleItem<MapField> B)
     {
         return B.Second - A.Second;
     }

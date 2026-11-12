@@ -47,9 +47,9 @@ public sealed class EngineClassTests
             Assert.True(seen.Add(engineClass));
             Assert.True(engineClass.InheritsFrom(typeof(EngineObject)));
         }
-        Assert.Same(EngineClass.Of<AoWHSMap>(), EngineClass.Of(typeof(AoWHSMap)));
-        Assert.Equal(131089, EngineClass.Of<AoWHSMap>().ClassId);
-        Assert.Equal(AoWHSMap.ClassId, EngineClass.Of<AoWHSMap>().ClassId);
+        Assert.Same(EngineClass.Of<StrategicMap>(), EngineClass.Of(typeof(StrategicMap)));
+        Assert.Equal(131089, EngineClass.Of<StrategicMap>().ClassId);
+        Assert.Equal(StrategicMap.ClassId, EngineClass.Of<StrategicMap>().ClassId);
         // An inherit-only class carries the ancestor's id with its own type.
         Assert.Equal(EngineObject.ClassId, EngineClass.Of<AIBudgetManager>().ClassId);
         Assert.Equal(typeof(AIBudgetManager), EngineClass.Of<AIBudgetManager>().Type);

@@ -23,7 +23,7 @@ public partial class StructureShadow : HexSprite
     {
         if (ShadowStatus.Contains(StructureShadowStatusElement.Visible))
         {
-            AoWHSMap.Current.StaticVisibleHexSprite.RemoveChild(this);
+            StrategicMap.Current.StaticVisibleHexSprite.RemoveChild(this);
         }
 
         base.Dispose();

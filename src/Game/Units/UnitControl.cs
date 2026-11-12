@@ -108,7 +108,7 @@ public partial class UnitControl : EngineObject
                     }
                     else
                     {
-                        if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                         {
                             troop.UnitId = GetFreeId();
                             HashTables.Add(UnitTable, key: troop.UnitId, value: troop);

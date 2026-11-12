@@ -51,7 +51,7 @@ public partial class PowerNode : PlayerStructure
         base.Activate();
         if (Player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
+            StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
         }
     }
 
@@ -60,7 +60,7 @@ public partial class PowerNode : PlayerStructure
     {
         if (Player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
+            StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
         }
 
         base.Deactivate();
@@ -110,7 +110,7 @@ public partial class PowerNode : PlayerStructure
                     {
                         if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, 0))
                         {
-                            P = 50 - AoWHSMap.Current.Players.GetPlayers(info.Player).Income / 2;
+                            P = 50 - StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2;
                             if (P < 25)
                             {
                                 P = 25;
@@ -142,13 +142,13 @@ public partial class PowerNode : PlayerStructure
             {
                 if (Player != -1)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
+                    StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
                 }
 
                 base.SetPlayer(player);
                 if (Player != -1)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
+                    StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
                 }
             }
             else

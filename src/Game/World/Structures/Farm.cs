@@ -87,7 +87,7 @@ public partial class Farm : PlayerCropStructure
                         {
                             if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, 0))
                             {
-                                priority = 50 - AoWHSMap.Current.Players.GetPlayers(info.Player).Income / 2;
+                                priority = 50 - StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2;
                                 if (priority < 25)
                                 {
                                     priority = 25;
@@ -129,7 +129,7 @@ public partial class Farm : PlayerCropStructure
             }
             else
             {
-                if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                 {
                     count = ((PlayerCropStructureResource)_resource).CropLocations.Count;
                 }

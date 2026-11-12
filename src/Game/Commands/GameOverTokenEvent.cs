@@ -35,7 +35,7 @@ public partial class GameOverTokenEvent : TokenEvent
     // MoveT.PAS:3240
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        AoWHSMap.Current.PlayerControl.GameOver(Player, GameOverStatus);
+        StrategicMap.Current.PlayerControl.GameOver(Player, GameOverStatus);
         return ExecuteResult.Done;
     }
 

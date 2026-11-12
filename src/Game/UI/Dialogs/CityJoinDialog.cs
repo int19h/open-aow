@@ -8,7 +8,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -54,7 +53,7 @@ public partial class CityJoinDialog : DataModule
         DialogHosts.General.PlayButtonSound(0);
         if (!_event.Accept(ref reason))
         {
-            AoWHSMap.Current.ShowWarning(reason);
+            StrategicMap.Current.ShowWarning(reason);
         }
         else
         {
@@ -69,7 +68,7 @@ public partial class CityJoinDialog : DataModule
         DialogHosts.General.PlayButtonSound(0);
         if (!_event.Reject(ref reason))
         {
-            AoWHSMap.Current.ShowWarning(reason);
+            StrategicMap.Current.ShowWarning(reason);
         }
         else
         {
@@ -88,7 +87,7 @@ public partial class CityJoinDialog : DataModule
     public void DlgDrawBack(LockedSurface surface)
     {
         LibraryImage face;
-        face = AoWHSSet.Current.RaceResources.GetRaceResource(_race).GetFace();
+        face = GamePack.Current.RaceResources.GetRaceResource(_race).GetFace();
         if (face != null)
         {
             face.ShowClipped(CelticFrame.WinLeft + 10, CelticFrame.WinTop + 28, surface);
@@ -128,7 +127,7 @@ public partial class CityJoinDialog : DataModule
         var text = log.JoinMessage.Text;
         dialog.Memo.Items.Text = text;
         dialog.ApproachLabel.Text = log.Text;
-        town = (City)AoWHSMap.Current.MapContainer.GetField(log.X, log.Y, log.MapLevel).FindNoneTransparentHexSprite(typeof(City));
+        town = (City)StrategicMap.Current.MapContainer.GetField(log.X, log.Y, log.MapLevel).FindNoneTransparentHexSprite(typeof(City));
         dialog._race = town.Race;
         var topCityActionImage = town.GetTopCityActionImage(null);
         dialog.CityPictureLine.ImageTop = topCityActionImage;
@@ -137,7 +136,7 @@ public partial class CityJoinDialog : DataModule
         var bottomCityActionImage = town.GetBottomCityActionImage(null);
         dialog.CityPictureLine.ImageBottom = bottomCityActionImage;
         dialog.Window.Visible = true;
-        AoWHSMap.Current.TutorialControl.ShowMessage(62, true, true);
+        StrategicMap.Current.TutorialControl.ShowMessage(62, true, true);
     }
 
 }

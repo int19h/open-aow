@@ -33,7 +33,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     private void Random(RandomTraceEvent entry)
     {
-        if (entry.Kind == "random" && (AoWHSMap.Current is null || AoWHSMap.Current is { Day: 1, Frame: <= 1 }))
+        if (entry.Kind == "random" && (StrategicMap.Current is null || StrategicMap.Current is { Day: 1, Frame: <= 1 }))
             _writer.WriteLine(JsonSerializer.Serialize(new
             {
                 kind = "startup-random",
@@ -45,10 +45,10 @@ internal sealed class FrameDiagnostics : IDisposable
                     .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")
                     .Select(method => $"{method!.DeclaringType!.Name}.{method.Name}")
             }));
-        if (AoWHSMap.Current is not { Day: 2 } map || entry.Kind != "random") return;
+        if (StrategicMap.Current is not { Day: 2 } map || entry.Kind != "random") return;
         var stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
             .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Game").ToArray();
-        if (!stack.Any(method => method is { Name: "Random", DeclaringType.Name: "AoWHSMap" })) return;
+        if (!stack.Any(method => method is { Name: "Random", DeclaringType.Name: nameof(StrategicMap) })) return;
         _writer.WriteLine(JsonSerializer.Serialize(new
         {
             kind = "random",
@@ -66,7 +66,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     private void Cost(int cost, int used)
     {
-        if (AoWHSMap.Current is not { Day: 2 } map) return;
+        if (StrategicMap.Current is not { Day: 2 } map) return;
         _writer.WriteLine(JsonSerializer.Serialize(new
         {
             kind = "cost",
@@ -83,7 +83,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     public void Snapshot(string name)
     {
-        if (AoWHSMap.Current is not { } map) return;
+        if (StrategicMap.Current is not { } map) return;
         var viewer = DialogHosts.MapWindow.MapViewer;
         var window = DialogHosts.MapWindow.MainWindow;
         var level = map.MapContainer.GetMapLevel(viewer.SceneL);

@@ -1,5 +1,4 @@
 // Translated from AoWE.pas.
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 
@@ -83,7 +82,7 @@ public partial class AIMoveControl : EngineObject
         {
             case 0:
                 _pathSettings.MovePointsMax = Settings.QuickMovePointsMax;
-                points = AoWHSMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
                 Settings.MovePoints = points;
                 if (points != -1)
                 {
@@ -92,7 +91,7 @@ public partial class AIMoveControl : EngineObject
                 else
                 {
                     _state += 1;
-                    if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
+                    if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
                     {
                         ProcessCanMove();
                     }
@@ -101,7 +100,7 @@ public partial class AIMoveControl : EngineObject
                 break;
             case 1:
                 _pathSettings.MovePointsMax = Settings.MovePointsMax;
-                var canMove = AoWHSMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
+                var canMove = StrategicMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
                 Settings.MovePoints = canMove;
                 Settings.TransportPath.Assign(_pathSettings.Path);
                 ProcessingDone(AIMoveControlStatus.Done);
@@ -141,7 +140,7 @@ public partial class AIMoveControl : EngineObject
         int lastGap;
         int gaps;
         bool inGap;
-        AoWMapField mapField;
+        MapField mapField;
         gaps = 0;
         firstGap = -1;
         lastGap = -1;
@@ -153,7 +152,7 @@ public partial class AIMoveControl : EngineObject
             var item = path[I];
             var pathItem = path[I];
             var item2 = path[I];
-            mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(item2.X, pathItem.Y, item.MapLevel);
+            mapField = StrategicMap.Current.MapContainer.GetField(item2.X, pathItem.Y, item.MapLevel);
             if (table[mapField.TerrainType][mapField.OverlayType - MovementTables.FirstOverlay] == -1)
             {
                 if (!inGap)
@@ -213,12 +212,12 @@ public partial class AIMoveControl : EngineObject
             case 0:
                 _pathSettings.MovePointTable = _movePointTable;
                 _pathSettings.MovePointsMax = Settings.QuickMovePointsMax;
-                points = AoWHSMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
                 Settings.MovePoints = points;
                 if (points == -1)
                 {
                     _state += 1;
-                    if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
+                    if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
                     {
                         ProcessTransporterCanMove();
                     }
@@ -233,7 +232,7 @@ public partial class AIMoveControl : EngineObject
                 SelectCombinedTransporterArmyMpT();
                 _pathSettings.MovePointsMax = Settings.MovePointsMax;
                 _pathSettings.Mode = Settings.MoveMode + Set<MoveModeElement>.Of(MoveModeElement.AvoidArmies);
-                AoWHSMap.Current.MoveControl.ProcessMove(_pathSettings);
+                StrategicMap.Current.MoveControl.ProcessMove(_pathSettings);
                 if (_pathSettings.Path.Count != 0)
                 {
                     var item = _pathSettings.Path[0];
@@ -251,7 +250,7 @@ public partial class AIMoveControl : EngineObject
                         ref var location = ref Settings.TransportSource;
                         _pathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
 
-                        if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
+                        if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                         {
                             ProcessTransporterCanMove();
                         }
@@ -269,11 +268,11 @@ public partial class AIMoveControl : EngineObject
                 break;
             case 2:
                 _pathSettings.MovePointsMax = Settings.QuickMovePointsMax;
-                points = AoWHSMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
                 if (points == -1)
                 {
                     _state = 3;
-                    if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
+                    if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 6)
                     {
                         ProcessTransporterCanMove();
                     }
@@ -288,7 +287,7 @@ public partial class AIMoveControl : EngineObject
                         _pathSettings.SetDestinationPosition(location.X, location.Y, location.MapLevel);
 
                         _multipleTransportGaps = false;
-                        if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
+                        if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                         {
                             ProcessTransporterCanMove();
                         }
@@ -303,7 +302,7 @@ public partial class AIMoveControl : EngineObject
             case 3:
                 _pathSettings.MovePointTable = _transportMovePointTable;
                 _pathSettings.MovePointsMax = Settings.MovePointsMax;
-                points = AoWHSMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
+                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
                 if (points == -1)
                 {
                     Settings.MovePoints = -1;
@@ -319,7 +318,7 @@ public partial class AIMoveControl : EngineObject
 
                         _multipleTransportGaps = false;
                         _state = 2;
-                        if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
+                        if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                         {
                             ProcessTransporterCanMove();
                         }
@@ -388,7 +387,7 @@ public partial class AIMoveControl : EngineObject
             if (Settings.SourceL == Settings.DestinationL)
             {
                 _state = 0;
-                if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
+                if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                 {
                     ProcessCanMove();
                 }
@@ -408,7 +407,7 @@ public partial class AIMoveControl : EngineObject
             if (Settings.SourceL == Settings.DestinationL)
             {
                 _state = 0;
-                if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
+                if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 1)
                 {
                     ProcessTransporterCanMove();
                 }

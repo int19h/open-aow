@@ -8,7 +8,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -127,17 +127,17 @@ public partial class CombatChoice : DataModule
         }
 
         LockedSurface.CreateFrom(lockedSurface, R, ref viewSurfaceDescription);
-        AoWHSMap.Current.SetViewPort(X, Y, _request.MapLevel, R.Right - R.Left, R.Bottom - R.Top);
-        AoWHSMap.Current.UpdateStaticScene();
-        AoWHSMap.Current.UpdateDynamicScene();
-        AoWHSMap.Current.DrawStaticScene(ref viewSurfaceDescription);
-        AoWHSMap.Current.DrawDynamicScene(ref viewSurfaceDescription);
+        StrategicMap.Current.SetViewPort(X, Y, _request.MapLevel, R.Right - R.Left, R.Bottom - R.Top);
+        StrategicMap.Current.UpdateStaticScene();
+        StrategicMap.Current.UpdateDynamicScene();
+        StrategicMap.Current.DrawStaticScene(ref viewSurfaceDescription);
+        StrategicMap.Current.DrawDynamicScene(ref viewSurfaceDescription);
     }
 
     // TCFCDlg.pas:113
     public void MapViewUpdate()
     {
-        MapView.Drawn = MapView.Drawn && (AoWHSMap.Current.Frame & 1) != 0;
+        MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
     }
 
     // TCFCDlg.pas:116
@@ -198,7 +198,7 @@ public partial class CombatChoice : DataModule
                 eventValue.Select((CombatType)1);
             }
 
-            if (AoWHSMap.Current.Players.GetPlayers(dialog._request.Player).PlayerType == PlayerType.Human)
+            if (StrategicMap.Current.Players.GetPlayers(dialog._request.Player).PlayerType == PlayerType.Human)
             {
                 dialog.CancelButton.Visible = true;
                 dialog.FightButton.Alignment.AlignWidth = AlignWidth.Left;
@@ -211,7 +211,7 @@ public partial class CombatChoice : DataModule
 
             dialog.Window.ReAlign();
             dialog.Window.Visible = true;
-            AoWHSMap.Current.TutorialControl.ShowMessage(61, true, true);
+            StrategicMap.Current.TutorialControl.ShowMessage(61, true, true);
         }
     }
 

@@ -25,7 +25,7 @@ public partial class FastBattleTerrorCombatAction : MultiTargetCombatSpellCombat
         {
             var targetId = TargetIds[I];
             target = (CombatUnit)combat.CombatData.FindId(targetId);
-            AoWHSSet.Current.AbilityControl.GetAbility(108).Expand(target.Troop);
+            GamePack.Current.AbilityControl.GetAbility(108).Expand(target.Troop);
         }
     }
 

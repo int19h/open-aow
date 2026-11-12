@@ -1,5 +1,4 @@
 // Translated from City.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
@@ -90,7 +89,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
             }
             else
             {
-                if (AoWHSMap.Current.Day > 5)
+                if (StrategicMap.Current.Day > 5)
                 {
                     fortifyBudget = new AICityFortifyBudget(null);
                     fortifyBudget.Days = 7;
@@ -209,7 +208,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                     unitIndex = city.Production.UnitProductions.GetItem(J).UnitIndex;
                     if (unitIndex != -1)
                     {
-                        valid = valid || AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex).Level == city.UpgradeLevel && !city.Production.UnitProductions.GetItem(J).Researched && city.ResearchCost(J) <= researchBudget.Gold + upgradeBudget.Gold;
+                        valid = valid || GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level == city.UpgradeLevel && !city.Production.UnitProductions.GetItem(J).Researched && city.ResearchCost(J) <= researchBudget.Gold + upgradeBudget.Gold;
                     }
                 }
 
@@ -231,9 +230,9 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                 index += 1;
             }
 
-            index = AoWHSMap.Current.Random(index + 1);
+            index = StrategicMap.Current.Random(index + 1);
             city = cities[index].First;
-            RandSeed = AoWHSMap.Current.Random(16777215);
+            RandSeed = StrategicMap.Current.Random(16777215);
             index = cities[index].First.Production.FindOptimalResearchProduction(null, researchBudget.Gold + upgradeBudget.Gold);
             if (index != -1)
             {
@@ -402,7 +401,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     {
         string reason = "";
         bool Result = city.CanFortify(false, ref reason);
-        Result = Result && city.WallType == 0 || city.WallType == 1 && city.GetSize() > 2 && city.UpgradeLevel > 1 && AoWHSMap.Current.Day >= 30;
+        Result = Result && city.WallType == 0 || city.WallType == 1 && city.GetSize() > 2 && city.UpgradeLevel > 1 && StrategicMap.Current.Day >= 30;
         bool result = Result;
         if (result)
         {
@@ -421,7 +420,7 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     }
 
     // City.pas:3009
-    public bool ValidFortifyBudgetCity(City city) => city.WallType == 0 || city.WallType == 1 && city.GetSize() > 2 && city.UpgradeLevel > 1 && AoWHSMap.Current.Day >= 30;
+    public bool ValidFortifyBudgetCity(City city) => city.WallType == 0 || city.WallType == 1 && city.GetSize() > 2 && city.UpgradeLevel > 1 && StrategicMap.Current.Day >= 30;
 
     // City.pas:3015
     public bool FortifyCity(AIBudget budget)

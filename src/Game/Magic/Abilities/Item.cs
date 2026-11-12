@@ -1,8 +1,6 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
-using Aow.Engine.Buffers;
-
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
@@ -78,7 +76,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
 
         if (Status.Contains(ItemStatusElement.Registered))
         {
-            AoWHSMap.Current.ItemControl.UnregisterItem(this);
+            StrategicMap.Current.ItemControl.UnregisterItem(this);
         }
 
         _description?.Dispose();
@@ -233,7 +231,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
     {
         if (Status.Contains(ItemStatusElement.Registered))
         {
-            AoWHSMap.Current.ItemControl.ItemChanged(this);
+            StrategicMap.Current.ItemControl.ItemChanged(this);
         }
     }
 
@@ -243,14 +241,14 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
         bool result;
         if (ItemType == ItemType.Scroll && _spellId != 0)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(hero.Player).MagicControl.Spells.IndexOf(_spellId) == -1)
+            if (StrategicMap.Current.Players.GetPlayers(hero.Player).MagicControl.Spells.IndexOf(_spellId) == -1)
             {
                 result = true;
             }
             else
             {
                 result = false;
-                var spell = AoWHSSet.Current.SpellControl.GetSpell(_spellId);
+                var spell = GamePack.Current.SpellControl.GetSpell(_spellId);
                 reason = AbilityRules.Format(AbilityRules.TranslateResourceString(s_itemSpellAlreadyResearchedFormat), [spell.SpellName]);
             }
         }
@@ -269,12 +267,12 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
         bool result;
         string reason = "";
         ItemTokenEvent eventValue;
-        if (CanUse(hero, ref reason) && !AoWHSMap.Current.Players.GetPlayers(hero.Player).GetBusy())
+        if (CanUse(hero, ref reason) && !StrategicMap.Current.Players.GetPlayers(hero.Player).GetBusy())
         {
             eventValue = new ItemTokenEvent(null);
             eventValue.ItemId = ItemId;
             eventValue.HeroId = hero.UnitId;
-            AoWHSMap.Current.TokenManager.GetTokenControl(hero.Player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(hero.Player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }
@@ -297,13 +295,13 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
             switch (ItemType)
             {
                 case ItemType.Scroll:
-                    AoWHSMap.Current.Players.GetPlayers(hero.Player).MagicControl.ExecuteSpellResearched(_spellId);
-                    if (AoWHSMap.Current.SeatedPlayer == hero.Player)
+                    StrategicMap.Current.Players.GetPlayers(hero.Player).MagicControl.ExecuteSpellResearched(_spellId);
+                    if (StrategicMap.Current.SeatedPlayer == hero.Player)
                     {
                         AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
-                        var spell = AoWHSSet.Current.SpellControl.GetSpell(_spellId);
+                        var spell = GamePack.Current.SpellControl.GetSpell(_spellId);
                         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_itemSpellResearchedFormat), [spell.SpellName]);
-                        AoWHSMap.Current.ShowMessage(format);
+                        StrategicMap.Current.ShowMessage(format);
                     }
 
                     Dispose();
@@ -319,7 +317,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
     public virtual void Show(int X, int Y, in LockedSurface surface)
     {
         ItemGraphics graphics;
-        graphics = AoWHSSet.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
+        graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
         if (graphics != null)
         {
             graphics.AddRef();
@@ -333,7 +331,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
     {
         if (!Status.Contains(ItemStatusElement.Activated))
         {
-            if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || AoWHSMap.Current.Day == 0)
+            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || StrategicMap.Current.Day == 0)
             {
                 UpdateFromLibrary();
             }
@@ -374,7 +372,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
     {
         LibraryImage result;
         ItemGraphics graphics;
-        graphics = AoWHSSet.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
+        graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
         if (graphics != null)
         {
             graphics.AddRef();
@@ -415,7 +413,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
         Item item;
         if (LibraryId != -1)
         {
-            item = AoWHSSet.Current.ItemLibraries.FindItem(LibraryName, LibraryId);
+            item = GamePack.Current.ItemLibraries.FindItem(LibraryName, LibraryId);
             if (item != null)
             {
                 id = ItemId;
@@ -453,7 +451,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
         Damage = 0;
         itemType = value;
         ItemType = itemType;
-        _itemGraphicsIndex = AoWHSSet.Current.ItemGraphicsResources.FindItemTypeGraphics(itemType);
+        _itemGraphicsIndex = GamePack.Current.ItemGraphicsResources.FindItemTypeGraphics(itemType);
         base.Clear();
     }
 

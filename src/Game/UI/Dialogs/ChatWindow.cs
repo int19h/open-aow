@@ -5,7 +5,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -80,11 +80,11 @@ public partial class ChatWindow : DataModule
         if (drawItem != 0)
         {
             var objectValue = PlayerList.Items.Objects[drawItem];
-            Player = (sbyte)AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(ObjectToInt(objectValue));
+            Player = (sbyte)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(ObjectToInt(objectValue));
             // { Original leaves player zero without a race color. }
-            if (Player > 0 && Player < AoWHSMap.Current.Players.Count)
+            if (Player > 0 && Player < StrategicMap.Current.Players.Count)
             {
-                var player = AoWHSMap.Current.Players.GetPlayers(Player);
+                var player = StrategicMap.Current.Players.GetPlayers(Player);
                 PlayerList.TextColor = AbilityRules.RaceColors[player.PlayerRace];
             }
         }

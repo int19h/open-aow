@@ -1,7 +1,4 @@
 
-using Aow.Engine;
-using Aow.Engine.Buffers;
-
 using Aow.Game.Combat;
 
 using Aow.Game.Units;
@@ -22,19 +19,19 @@ internal static class RosterTables
         int value;
         Unit unit;
         HypotheticalUnit defaultUnit;
-        resource = AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex);
+        resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         if (resource != null && resource.GetTransportCapacity() == 0)
         {
             if (player != 0)
             {
                 if (resource.Race != -1)
                 {
-                    value = AoWHSMap.Current.Races.GetRace(resource.Race).GetPlayerRelationValue(player);
+                    value = StrategicMap.Current.Races.GetRace(resource.Race).GetPlayerRelationValue(player);
                 }
                 else
                 {
-                    var players = AoWHSMap.Current.Players.GetPlayers(player);
-                    var alignment = AoWHSSet.Current.RaceResources.GetRaceResource(players.PlayerRace).GetAlignment();
+                    var players = StrategicMap.Current.Players.GetPlayers(player);
+                    var alignment = GamePack.Current.RaceResources.GetRaceResource(players.PlayerRace).GetAlignment();
                     value = AlignmentTables.AlignmentStatusValues[(int)resource.Alignment][(int)alignment];
                 }
             }
@@ -63,7 +60,7 @@ internal static class RosterTables
                         result += 150;
                     }
 
-                    if (AoWHSMap.Current != null && AoWHSMap.Current.Day > 20 && (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(20) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(19) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(18) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(121) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(88) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(89)))
+                    if (StrategicMap.Current != null && StrategicMap.Current.Day > 20 && (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(20) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(19) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(18) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(121) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(88) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(89)))
                     {
                         result += 100;
                     }

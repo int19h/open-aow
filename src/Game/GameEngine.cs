@@ -2,7 +2,6 @@
 using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 using Aow.Engine;
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -49,16 +48,16 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
     // AcceptsChild admits only the kinds of GameEngineChild, so the read never fails.
     public GameEngineChild this[int index] => GameEngineChild.Of(GetChild(index));
 
-    protected sealed override bool AcceptsChild(EngineObject child) => child is EControlStyleNode or HSSet or HSMap;
+    protected sealed override bool AcceptsChild(EngineObject child) => child is EControlStyleNode or GamePack or GameMap;
 
     int IChildSink<GameEngineChild>.AddChild(GameEngineChild child) => AddChild(child.Node);
 
     public int Version { get; private set; }
     public GameSettings Registry { get; set; }
 
-    private AoWHSMap _gameMap;
+    private StrategicMap _gameMap;
 
-    public AoWHSSet GameSet { get; private set; }
+    public GamePack GameSet { get; private set; }
     public ImageLibraryFont CombatFont { get; set; }
     public bool Debug { get; set; }
     public byte AnimationDetail { get; private set; }
@@ -115,19 +114,19 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
     // Army.PAS:5955
     public virtual void CreateHexSpriteSet()
     {
-        _hexSpriteSet = AoWHSSet.Create(this);
-        GameSet = (AoWHSSet)_hexSpriteSet;
-        AoWHSSet.Current = GameSet;
+        _hexSpriteSet = GamePack.Create(this);
+        GameSet = _hexSpriteSet;
+        GamePack.Current = GameSet;
     }
 
     // Army.PAS:5973. The HSEngine body assigns the map, then the game body records an AoW map.
-    public virtual void SetHexSpriteMap(HSMap value)
+    public virtual void SetHexSpriteMap(GameMap value)
     {
         _hexSpriteMap = value;
-        if (value is AoWHSMap)
+        if (value is StrategicMap)
         {
-            _gameMap = (AoWHSMap)_hexSpriteMap;
-            AoWHSMap.Current = (AoWHSMap)value;
+            _gameMap = (StrategicMap)_hexSpriteMap;
+            StrategicMap.Current = (StrategicMap)value;
         }
     }
 
@@ -145,7 +144,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
             }
 
             _gameMap = null;
-            AoWHSMap.Current = null;
+            StrategicMap.Current = null;
         }
         catch
         {

@@ -190,7 +190,7 @@ public sealed class ClassFamilyTests
     [Fact]
     public void IsometricHexBuildsItsDynamicSpriteInOneConstructor()
     {
-        using var map = new HSMap(null!);
+        using var map = new GameMap(null!);
         using var container = new MapContainer(map);
         using var level = new MapLevel(container);
         level.CreateMapFieldList(3, 3);
@@ -223,7 +223,7 @@ public sealed class ClassFamilyTests
     [Fact]
     public void WaterHexReadsTheShoreOfItsOpenSides()
     {
-        using var map = new HSMap(null!);
+        using var map = new GameMap(null!);
         using var container = new MapContainer(map);
         using var level = new MapLevel(container);
         level.CreateMapFieldList(3, 3);

@@ -17,7 +17,7 @@ public sealed class MapViewerCenteringTests
     private const int Red = 0x7C00;
 
     // Draws white over the whole scene and a red column and row on the map's left and top edges.
-    private sealed class PaintedMap() : HSMap(null!)
+    private sealed class PaintedMap() : GameMap(null!)
     {
         public override void UpdateStaticScene() => StaticSceneInvalid = false;
         public override void UpdateDynamicScene() => DynamicSceneInvalid = false;

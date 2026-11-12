@@ -42,117 +42,117 @@ public partial class CheatTokenEvent : TokenEvent
         {
             case 0:
                 {
-                    for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+                    for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
                     {
-                        var players = AoWHSMap.Current.Players.GetPlayers(I);
-                        AoWHSMap.Current.Players.GetPlayers(I).SetGems(players.Gems + 1000);
+                        var players = StrategicMap.Current.Players.GetPlayers(I);
+                        StrategicMap.Current.Players.GetPlayers(I).SetGems(players.Gems + 1000);
                     }
                 }
 
                 break;
             case 1:
                 {
-                    for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+                    for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
                     {
-                        var players = AoWHSMap.Current.Players.GetPlayers(I);
-                        AoWHSMap.Current.Players.GetPlayers(I).MagicControl.SetMana(players.MagicControl.Mana + 1000);
+                        var players = StrategicMap.Current.Players.GetPlayers(I);
+                        StrategicMap.Current.Players.GetPlayers(I).MagicControl.SetMana(players.MagicControl.Mana + 1000);
                     }
                 }
 
                 break;
             case 2:
-                AoWHSMap.Current.SetExplorationEnabled(!AoWHSMap.Current.ExplorationEnabled);
-                if (AoWHSMap.Current.ExplorationEnabled)
+                StrategicMap.Current.SetExplorationEnabled(!StrategicMap.Current.ExplorationEnabled);
+                if (StrategicMap.Current.ExplorationEnabled)
                 {
                     var explorationEnabled = AbilityRules.TranslateResourceString(s_explorationEnabledText);
-                    AoWHSMap.Current.ShowMessage(explorationEnabled);
+                    StrategicMap.Current.ShowMessage(explorationEnabled);
                 }
                 else
                 {
                     var explorationDisabled = AbilityRules.TranslateResourceString(s_explorationDisabledText);
-                    AoWHSMap.Current.ShowMessage(explorationDisabled);
+                    StrategicMap.Current.ShowMessage(explorationDisabled);
                 }
 
                 break;
             case 3:
-                AoWHSMap.Current.SetFogEnabled(!AoWHSMap.Current.FogEnabled);
-                if (AoWHSMap.Current.FogEnabled)
+                StrategicMap.Current.SetFogEnabled(!StrategicMap.Current.FogEnabled);
+                if (StrategicMap.Current.FogEnabled)
                 {
                     var fogEnabled = AbilityRules.TranslateResourceString(s_fogEnabledText);
-                    AoWHSMap.Current.ShowMessage(fogEnabled);
+                    StrategicMap.Current.ShowMessage(fogEnabled);
                 }
                 else
                 {
                     var fogDisabled = AbilityRules.TranslateResourceString(s_fogDisabledText);
-                    AoWHSMap.Current.ShowMessage(fogDisabled);
+                    StrategicMap.Current.ShowMessage(fogDisabled);
                 }
 
                 break;
             case 4:
-                var cheatEnabled = AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
-                AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.CheatEnabled = !cheatEnabled;
-                if (AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
+                var cheatEnabled = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
+                StrategicMap.Current.Players.GetPlayers(Player).MagicControl.CheatEnabled = !cheatEnabled;
+                if (StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
                 {
                     var spellCheatEnabled = AbilityRules.TranslateResourceString(s_spellCheatEnabledText);
-                    AoWHSMap.Current.ShowMessage(spellCheatEnabled);
+                    StrategicMap.Current.ShowMessage(spellCheatEnabled);
                 }
                 else
                 {
                     var spellCheatDisabled = AbilityRules.TranslateResourceString(s_spellCheatDisabledText);
-                    AoWHSMap.Current.ShowMessage(spellCheatDisabled);
+                    StrategicMap.Current.ShowMessage(spellCheatDisabled);
                 }
 
                 {
-                    for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+                    for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
                     {
-                        var fMagicControlCheatEnabled = AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
-                        AoWHSMap.Current.Players.GetPlayers(I).MagicControl.CheatEnabled = fMagicControlCheatEnabled;
+                        var fMagicControlCheatEnabled = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
+                        StrategicMap.Current.Players.GetPlayers(I).MagicControl.CheatEnabled = fMagicControlCheatEnabled;
                     }
                 }
 
                 break;
             case 5:
-                AoWHSMap.Current.PlayerControl.GameOver(Player, GameOverStatus.Won);
+                StrategicMap.Current.PlayerControl.GameOver(Player, GameOverStatus.Won);
                 break;
             case 6:
-                AoWHSMap.Current.UnlimitedMoves = !AoWHSMap.Current.UnlimitedMoves;
-                if (AoWHSMap.Current.UnlimitedMoves)
+                StrategicMap.Current.UnlimitedMoves = !StrategicMap.Current.UnlimitedMoves;
+                if (StrategicMap.Current.UnlimitedMoves)
                 {
                     var freeMovementEnabled = AbilityRules.TranslateResourceString(s_freeMovementEnabledText);
-                    AoWHSMap.Current.ShowMessage(freeMovementEnabled);
+                    StrategicMap.Current.ShowMessage(freeMovementEnabled);
                 }
                 else
                 {
                     var freeMovementDisabled = AbilityRules.TranslateResourceString(s_freeMovementDisabledText);
-                    AoWHSMap.Current.ShowMessage(freeMovementDisabled);
+                    StrategicMap.Current.ShowMessage(freeMovementDisabled);
                 }
 
                 break;
             case 7:
                 {
-                    for (int I = AoWHSMap.Current.Players.GetPlayers(0).Structures.Count - 1; I >= 0; I--)
+                    for (int I = StrategicMap.Current.Players.GetPlayers(0).Structures.Count - 1; I >= 0; I--)
                     {
-                        if (AoWHSMap.Current.Players.GetPlayers(0).Structures.GetStructure(I).EngineClass.ClassId == 131336)
+                        if (StrategicMap.Current.Players.GetPlayers(0).Structures.GetStructure(I).EngineClass.ClassId == 131336)
                         {
-                            AoWHSMap.Current.Players.GetPlayers(0).Structures.GetStructure(I).SetPlayer(Player);
+                            StrategicMap.Current.Players.GetPlayers(0).Structures.GetStructure(I).SetPlayer(Player);
                         }
                     }
                 }
 
                 break;
             case 8:
-                AoWHSMap.Current.PlayerControl.GameOver(Player, GameOverStatus.Lost);
+                StrategicMap.Current.PlayerControl.GameOver(Player, GameOverStatus.Lost);
                 break;
             case 9:
                 {
-                    for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+                    for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
                     {
-                        AoWHSMap.Current.Players.GetPlayers(I).MagicControl.Spells.Clear();
-                        for (int J = 1, lastJ = AoWHSSet.Current.SpellControl.GetCount() - 1; J <= lastJ; J++)
+                        StrategicMap.Current.Players.GetPlayers(I).MagicControl.Spells.Clear();
+                        for (int J = 1, lastJ = GamePack.Current.SpellControl.GetCount() - 1; J <= lastJ; J++)
                         {
-                            if (AoWHSSet.Current.SpellControl.GetSpell(J) != null)
+                            if (GamePack.Current.SpellControl.GetSpell(J) != null)
                             {
-                                AoWHSMap.Current.Players.GetPlayers(I).MagicControl.Spells.Add(J);
+                                StrategicMap.Current.Players.GetPlayers(I).MagicControl.Spells.Add(J);
                             }
                         }
                     }

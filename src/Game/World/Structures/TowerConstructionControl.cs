@@ -45,7 +45,7 @@ public partial class TowerConstructionControl : StructureConstructionControl
     }
 
     // Tower.pas:133
-    public override StructureResource StructureResource(Troop troop) => (StructureResource)AoWHSSet.Current.MapObjectResourceList.FindChild(132159);
+    public override StructureResource StructureResource(Troop troop) => (StructureResource)GamePack.Current.MapObjectResourceList.FindChild(132159);
 
     // Tower.pas:130
     public override int Id() => 3;

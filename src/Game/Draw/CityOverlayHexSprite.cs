@@ -40,7 +40,7 @@ public partial class CityOverlayHexSprite : SingleHexSprite
         {
             if (City.Enchantments.Contains(CityEnchantmentId.Warmonger))
             {
-                intensity = Math.Abs((int)(((uint)AoWHSMap.Current.Frame) >> 1) % 20 - 10) + 50;
+                intensity = Math.Abs((int)(((uint)StrategicMap.Current.Frame) >> 1) % 20 - 10) + 50;
                 sequence = City._resource.ImageSequenceList.ImageSequences[17];
                 while (sequence != null)
                 {
@@ -60,7 +60,7 @@ public partial class CityOverlayHexSprite : SingleHexSprite
 
             if (City.Enchantments.Contains(CityEnchantmentId.GoldRush))
             {
-                intensity = Math.Abs((int)(((uint)AoWHSMap.Current.Frame) >> 1) % 20 - 10) + 70;
+                intensity = Math.Abs((int)(((uint)StrategicMap.Current.Frame) >> 1) % 20 - 10) + 70;
                 sequence = City._resource.ImageSequenceList.ImageSequences[18];
                 while (sequence != null)
                 {
@@ -74,7 +74,7 @@ public partial class CityOverlayHexSprite : SingleHexSprite
                     }
                     else
                     {
-                        index = sequence.GetFrameIndex(0, AoWHSMap.Current.Frame);
+                        index = sequence.GetFrameIndex(0, StrategicMap.Current.Frame);
                         if (sequence.ImageLibrary.ImageExist(index))
                         {
                             sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);
@@ -92,12 +92,12 @@ public partial class CityOverlayHexSprite : SingleHexSprite
                 {
                     intensity = 50;
                     index = sequence.GetFrameIndex(0, 0);
-                    if (_shellEndFrame != -1 && AoWHSMap.Current.Frame < _shellEndFrame)
+                    if (_shellEndFrame != -1 && StrategicMap.Current.Frame < _shellEndFrame)
                     {
                         switch (_shellAnimation)
                         {
                             case ShellAnimationPhase.Setup:
-                                frame = _shellEndFrame - AoWHSMap.Current.Frame;
+                                frame = _shellEndFrame - StrategicMap.Current.Frame;
                                 if (frame <= 50)
                                 {
                                     intensity = 50 - frame;
@@ -109,7 +109,7 @@ public partial class CityOverlayHexSprite : SingleHexSprite
 
                                 break;
                             case ShellAnimationPhase.Fade:
-                                frame = _shellEndFrame - AoWHSMap.Current.Frame;
+                                frame = _shellEndFrame - StrategicMap.Current.Frame;
                                 if (frame <= 20)
                                 {
                                     intensity = intensity + (10 - Math.Abs(frame - 10)) * 3;
@@ -138,14 +138,14 @@ public partial class CityOverlayHexSprite : SingleHexSprite
     public void PlaySetupShellAnimation()
     {
         _shellAnimation = ShellAnimationPhase.Setup;
-        _shellEndFrame = AoWHSMap.Current.Frame + 50;
+        _shellEndFrame = StrategicMap.Current.Frame + 50;
     }
 
     // City.pas:727
     public void PlayFadeShellAnimation()
     {
         _shellAnimation = ShellAnimationPhase.Fade;
-        _shellEndFrame = AoWHSMap.Current.Frame + 20;
+        _shellEndFrame = StrategicMap.Current.Frame + 20;
     }
 
     // City.pas:815

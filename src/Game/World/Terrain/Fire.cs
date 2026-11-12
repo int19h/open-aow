@@ -2,7 +2,6 @@
 using System.Runtime.CompilerServices;
 
 using Aow.Engine;
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -114,7 +113,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
         int Y = default;
         if (_explosionFrame != 0)
         {
-            frame = AoWHSMap.Current.Frame - _explosionFrame;
+            frame = StrategicMap.Current.Frame - _explosionFrame;
             if (frame >= 0 && frame < _resource.ImageSequenceList.GetImageSequence(20).GetTotalSequenceFrames())
             {
                 HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
@@ -162,7 +161,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     // Structur.PAS:3589
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (message.MessageId != 16 || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (message.MessageId != 16 || StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             base.MapFieldMessageProc(ref message);
         }
@@ -210,17 +209,17 @@ public partial class Fire : ImageLibraryTerrainMapObject
     {
         if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 8192;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 8192;
         }
     }
 
     // Structur.PAS:3509
     public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!Status.Contains(MapObjectStatusElement.Visible) && _explosionFrame != 0 && AoWHSMap.Current.Frame == _explosionFrame)
+        if (!Status.Contains(MapObjectStatusElement.Visible) && _explosionFrame != 0 && StrategicMap.Current.Frame == _explosionFrame)
         {
             var hexX = GetHexX();
-            AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[(hexX + AoWHSMap.Current.Frame) % 2]);
+            AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[(hexX + StrategicMap.Current.Frame) % 2]);
         }
 
         base.MakeVisible(visibilityList);
@@ -314,7 +313,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     {
         if (_resource.ImageSequenceList.GetImageSequence(20) != null)
         {
-            _explosionFrame = delay + AoWHSMap.Current.Frame;
+            _explosionFrame = delay + StrategicMap.Current.Frame;
         }
     }
 
@@ -348,7 +347,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     // Structur.PAS:3584
     public void ArmyPlaced(ArmyHexSprite armyHexSprite)
     {
-        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             armyHexSprite.Army.TriggerFireDamage();
         }
@@ -381,12 +380,12 @@ public partial class Fire : ImageLibraryTerrainMapObject
                 // { Original excludes the top row when spreading fire. }
                 if (walk.X >= 0 && walk.X < mapLevel.Width && walk.Y > 0 && walk.Y < mapLevel.Height)
                 {
-                    chance = AoWMapField.IgnitionChance((AoWMapField)mapLevel.GetField(walk.X, walk.Y));
-                    if (chance > AoWHSMap.Current.Random(1000))
+                    chance = MapField.IgnitionChance(mapLevel.GetField(walk.X, walk.Y));
+                    if (chance > StrategicMap.Current.Random(1000))
                     {
-                        RandSeed = AoWHSMap.Current.Random(16777215);
+                        RandSeed = StrategicMap.Current.Random(16777215);
                         var hexLevel = GetHexLevel();
-                        fire = AoWHSSet.Current.FireControl.PlaceFire(walk.X, walk.Y, hexLevel, FireType.Large);
+                        fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, hexLevel, FireType.Large);
                         if (fire != null)
                         {
                             fire.Player = Player;
@@ -445,9 +444,9 @@ public partial class Fire : ImageLibraryTerrainMapObject
         // FireType
         public override void Dispose()
         {
-            if (Engine != null && !AoWHSSet.Current.Status.Contains(HexSpriteSetStatusElement.Destroying))
+            if (Engine != null && !GamePack.Current.Status.Contains(HexSpriteSetStatusElement.Destroying))
             {
-                AoWHSSet.Current.FireControl.UnregisterFireResource(this);
+                GamePack.Current.FireControl.UnregisterFireResource(this);
             }
 
             base.Dispose();
@@ -466,7 +465,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
             base.MessageProc(ref message, sender);
             if (message.MessageId == 536870920)
             {
-                AoWHSSet.Current.FireControl.RegisterFireResource(this);
+                GamePack.Current.FireControl.RegisterFireResource(this);
             }
         }
 

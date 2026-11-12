@@ -47,7 +47,7 @@ public partial class HolyGroundSpell : GlobalTargetSpell
         eventValue = new HolyGroundSpellTokenEvent(null);
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-        AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+        StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         eventValue.Release();
         return true;
     }
@@ -62,7 +62,7 @@ public partial class HolyGroundSpell : GlobalTargetSpell
         result = result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null;
         if (result)
         {
-            army = ((AoWMapField)field).GetArmyHexSprite();
+            army = field.GetArmyHexSprite();
             if (army != null)
             {
                 result = !army.VisibleForSeatedPlayer();
@@ -78,7 +78,7 @@ public partial class HolyGroundSpell : GlobalTargetSpell
         bool result = base.ValidTargetMapField(field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)field.TerrainType);
         // { Original overlay test allows these overlays even when the terrain check failed. }
         result = (result && field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)field.OverlayType);
-        return result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && ((AoWMapField)field).GetArmyHexSprite() == null;
+        return result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && field.GetArmyHexSprite() == null;
     }
 
     private static readonly string s_holyGroundsText = "Holy Woods";

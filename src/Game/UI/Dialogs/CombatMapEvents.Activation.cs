@@ -42,7 +42,7 @@ public partial class CombatMapEvents
 
         DialogHosts.MapWindow.MainWindow.Visible = true;
         DialogHosts.General.HideWindows();
-        CombatMap.Current = (CombatMap)AoWHSMap.Current.CombatMap;
+        CombatMap.Current = StrategicMap.Current.CombatMap;
         DialogHosts.MapWindow.MainWindow.Visible = CombatMap.Current.PlaySounds;
         DialogHosts.MapWindow.WorldAlignWidth = DialogHosts.MapWindow.MainWindow.Alignment.AlignWidth;
         DialogHosts.MapWindow.WorldAlignHeight = DialogHosts.MapWindow.MainWindow.Alignment.AlignHeight;

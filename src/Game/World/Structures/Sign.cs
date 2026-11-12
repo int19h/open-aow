@@ -43,7 +43,7 @@ public partial class Sign : Structure
     {
         base.ReadWrite(stream);
         stream.rwStrings(Text, 7);
-        if (AoWHSMap.Current != null && AoWHSMap.Current.ConnectionType != (PlayerConnectionType)1)
+        if (StrategicMap.Current != null && StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
         {
             stream.rwStreamProc(8, TextSeen.LoadFromStream, TextSeen.SaveToStream);
         }
@@ -58,9 +58,9 @@ public partial class Sign : Structure
     public override void Select()
     {
         base.Select();
-        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            TextSeen[AoWHSMap.Current.SeatedPlayer] = true;
+            TextSeen[StrategicMap.Current.SeatedPlayer] = true;
         }
     }
 
@@ -78,8 +78,8 @@ public partial class Sign : Structure
     public bool CanChangeText()
     {
         ArmyHexSprite armyHexSprite;
-        armyHexSprite = ((AoWMapField)Owner).GetArmyHexSprite();
-        return armyHexSprite != null && (byte)armyHexSprite.Army.Player == (byte)AoWHSMap.Current.SeatedPlayer;
+        armyHexSprite = Owner.GetArmyHexSprite();
+        return armyHexSprite != null && (byte)armyHexSprite.Army.Player == (byte)StrategicMap.Current.SeatedPlayer;
     }
 
     // Sign.pas:134
@@ -87,14 +87,14 @@ public partial class Sign : Structure
     {
         bool result;
         UpdateSignTokenEvent eventValue;
-        if (!AoWHSMap.Current.Players.GetPlayers(player).GetBusy() && CanChangeText())
+        if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && CanChangeText())
         {
             eventValue = new UpdateSignTokenEvent(null);
             eventValue.HexX = GetHexX();
             eventValue.HexY = GetHexY();
             eventValue.HexLevel = GetHexLevel();
             eventValue.Text.Assign(text);
-            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }
@@ -134,7 +134,7 @@ public partial class Sign : Structure
             {
                 index = structure.ImageIndex;
                 offset = structure.Owner.HexX + structure.Owner.HexY * 16;
-                animate = AoWHSMap.Current.SeatedPlayer < 0 || !((Sign)structure).GetTextSeen(AoWHSMap.Current.SeatedPlayer);
+                animate = StrategicMap.Current.SeatedPlayer < 0 || !((Sign)structure).GetTextSeen(StrategicMap.Current.SeatedPlayer);
                 if (index < ImageSequenceList.Count)
                 {
                     sequence = ImageSequenceList.List[index];
@@ -148,7 +148,7 @@ public partial class Sign : Structure
                 {
                     if (animate)
                     {
-                        image = sequence.GetFrameIndex(AoWHSMap.Current.Frame, offset);
+                        image = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset);
                     }
                     else
                     {
@@ -157,7 +157,7 @@ public partial class Sign : Structure
 
                     if (image != -1)
                     {
-                        if (structure.GetSelected() && (AoWHSMap.Current.Frame & 6) == 6)
+                        if (structure.GetSelected() && (StrategicMap.Current.Frame & 6) == 6)
                         {
                             sequence.ImageLibrary[image].ShowTransparent(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
                         }

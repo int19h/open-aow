@@ -75,7 +75,7 @@ public partial class AIGroupDefenseControl : AIGroupTask
                             index = units.IndexOfBehavior(GroupBehavior.Passive);
                             if (index == -1)
                             {
-                                group = AoWHSMap.Current.AIGroupManager.CreateGroup(GroupControl.Group.Player, GroupControl.Group.IndependentRelation, GroupBehavior.Passive);
+                                group = StrategicMap.Current.AIGroupManager.CreateGroup(GroupControl.Group.Player, GroupControl.Group.IndependentRelation, GroupBehavior.Passive);
                                 group.AddUnits(_selector.Defenders);
                                 group.SetupTarget(GroupControl.Location, 0, AIGroupTargetStatus.None, 2, -1, 0, 0);
                                 group.Release();

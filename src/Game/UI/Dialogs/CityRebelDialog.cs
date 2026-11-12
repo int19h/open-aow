@@ -5,7 +5,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -52,7 +51,7 @@ public partial class CityRebelDialog : DataModule
     {
         DialogHosts.General.PlayButtonSound(0);
         var cityRebellionEventLog = _event;
-        AoWHSMap.Current.CenterViewTo(cityRebellionEventLog.HexX, cityRebellionEventLog.HexY, cityRebellionEventLog.HexLevel);
+        StrategicMap.Current.CenterViewTo(cityRebellionEventLog.HexX, cityRebellionEventLog.HexY, cityRebellionEventLog.HexLevel);
     }
 
     // AoWCityRebelDlg.pas:72

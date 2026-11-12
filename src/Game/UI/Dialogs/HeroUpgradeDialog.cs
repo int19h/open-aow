@@ -12,7 +12,7 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -86,7 +86,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:280
     public bool ValidateHero()
     {
-        _hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(_referencedHero.UnitId);
+        _hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(_referencedHero.UnitId);
         bool result = _hero != null;
         if (!result)
         {
@@ -188,9 +188,9 @@ public partial class HeroUpgradeDialog : DataModule
         Ability ability;
         AvailableAbilitiesList.Items.Clear();
         AvailableAbilitiesCostList.Items.Clear();
-        for (int I = 1, last = AoWHSSet.Current.AbilityControl.GetCount() - 1; I <= last; I++)
+        for (int I = 1, last = GamePack.Current.AbilityControl.GetCount() - 1; I <= last; I++)
         {
-            ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
+            ability = GamePack.Current.AbilityControl.GetAbility(I);
             if (ability != null && ability.CanExpand(_editedHero) && ability.SelectionTypes.Contains(AbilitySelectionType.HeroUpgrade))
             {
                 var expandName = ability.ExpandName(_editedHero);
@@ -206,7 +206,7 @@ public partial class HeroUpgradeDialog : DataModule
         {
             if (_editedHero.GetInherentAbility(I))
             {
-                ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
+                ability = GamePack.Current.AbilityControl.GetAbility(I);
                 name = ability.GetName(_editedHero);
                 if (_hero.GetAbEnabled(I) && _hero.GetInherentAbilityLevel(I) == _editedHero.GetInherentAbilityLevel(I))
                 {
@@ -249,7 +249,7 @@ public partial class HeroUpgradeDialog : DataModule
     public bool CanAddAbility(int abilityId)
     {
         bool result;
-        if (!AoWHSSet.Current.AbilityControl.GetAbility(abilityId).CanExpand(_editedHero) || AoWHSSet.Current.AbilityControl.GetAbility(abilityId).ExpandCost(_editedHero) > _editedHero.GetSkillPoints())
+        if (!GamePack.Current.AbilityControl.GetAbility(abilityId).CanExpand(_editedHero) || GamePack.Current.AbilityControl.GetAbility(abilityId).ExpandCost(_editedHero) > _editedHero.GetSkillPoints())
         {
             result = false;
         }
@@ -556,7 +556,7 @@ public partial class HeroUpgradeDialog : DataModule
         HeroUpgradeTokenEvent eventValue;
         if (ValidateHero())
         {
-            if (!AoWHSMap.Current.Players.GetPlayers(_hero.Player).GetBusy())
+            if (!StrategicMap.Current.Players.GetPlayers(_hero.Player).GetBusy())
             {
                 eventValue = new HeroUpgradeTokenEvent(null);
                 eventValue.Setup(_hero);
@@ -567,7 +567,7 @@ public partial class HeroUpgradeDialog : DataModule
                 eventValue.Hits = (sbyte)(_editedHero.UnitHits - _hero.UnitHits);
                 eventValue.Moves = (sbyte)(_editedHero.UnitMoves - _hero.UnitMoves);
                 eventValue.Abilities.AssignAbility(_editedHero);
-                AoWHSMap.Current.TokenManager.GetTokenControl(_hero.Player).AddEvent(eventValue);
+                StrategicMap.Current.TokenManager.GetTokenControl(_hero.Player).AddEvent(eventValue);
                 eventValue.Release();
                 Window.Visible = false;
             }
@@ -587,7 +587,7 @@ public partial class HeroUpgradeDialog : DataModule
         if (button == MouseButton.Right && AvailableAbilitiesList.Selected != -1)
         {
             var objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
-            ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {
                 var name = ability.GetName(null);
@@ -603,7 +603,7 @@ public partial class HeroUpgradeDialog : DataModule
         if (button == MouseButton.Right && SelectedAbilitiesList.Selected != -1)
         {
             var objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
-            ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {
                 var name = ability.GetName(null);

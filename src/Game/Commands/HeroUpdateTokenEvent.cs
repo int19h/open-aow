@@ -43,7 +43,7 @@ public partial class HeroUpdateTokenEvent : TokenEvent
         ExecuteResult result;
         bool success;
         success = false;
-        Troop troop = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+        Troop troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (troop == null)
         {
             // A missing id is a nil hero. The original reads FPlayer and faults.
@@ -52,7 +52,7 @@ public partial class HeroUpdateTokenEvent : TokenEvent
             _ = troop.Player;
         }
 
-        if (troop is Hero hero && ((AoWHSMap.Current.Combat == null && AoWHSMap.Current.CurrentPlayer == hero.Player) || (AoWHSMap.Current.Combat != null && AoWHSMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)AoWHSMap.Current.Combat.CombatData.CurrentPlayer).Player == hero.Player)))
+        if (troop is Hero hero && ((StrategicMap.Current.Combat == null && StrategicMap.Current.CurrentPlayer == hero.Player) || (StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == hero.Player)))
         {
             switch (Mode)
             {

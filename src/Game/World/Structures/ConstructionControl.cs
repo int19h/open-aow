@@ -29,7 +29,7 @@ public partial class ConstructionControl : EngineObject
         int days = default;
         string text = "";
         GetInfo(troop, ref text, ref gold, ref days);
-        if (AoWHSMap.Current.Players.GetPlayers(troop.Player).Gems < gold)
+        if (StrategicMap.Current.Players.GetPlayers(troop.Player).Gems < gold)
         {
             reason = AbilityRules.TranslateResourceString(s_notEnoughGoldText);
             result = false;

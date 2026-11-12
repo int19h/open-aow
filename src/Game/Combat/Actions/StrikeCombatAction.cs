@@ -52,12 +52,12 @@ public partial class StrikeCombatAction : DamageCombatAction
 
         if (StrikeMode.Contains(StrikeModeElement.CausedFear) && target is CombatUnit)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(108).Expand(((CombatUnit)target).Troop);
+            GamePack.Current.AbilityControl.GetAbility(108).Expand(((CombatUnit)target).Troop);
         }
 
         if (StrikeMode.Contains(StrikeModeElement.Entangled) && target is CombatUnit)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(94).Expand(((CombatUnit)target).Troop);
+            GamePack.Current.AbilityControl.GetAbility(94).Expand(((CombatUnit)target).Troop);
             data = (UnitEnchantmentAbilityData)((CombatUnit)target).Troop.GetAbilityData(94);
             if (data != null)
             {

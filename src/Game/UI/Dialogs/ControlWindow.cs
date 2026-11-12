@@ -1,6 +1,6 @@
 // Translated from AOWControlWin.pas.
 using System.Collections.Immutable;
-using Aow.Engine.Buffers;
+
 using Aow.Game.Draw;
 
 using Aow.Game.Magic.Abilities;
@@ -9,7 +9,7 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -144,7 +144,7 @@ public partial class ControlWindow : DataModule
     public void Unit1ChkChange(CheckBox sender)
     {
         CheckStart();
-        AoWHSMap.Current.SelectedArmy.SetSelection(_selection);
+        StrategicMap.Current.SelectedArmy.SetSelection(_selection);
         CheckEnd();
         if (sender.Checked)
         {
@@ -204,7 +204,7 @@ public partial class ControlWindow : DataModule
     // AOWControlWin.pas:375
     public void CheckEnd()
     {
-        _selection = AoWHSMap.Current.SelectedArmy.GetSelection();
+        _selection = StrategicMap.Current.SelectedArmy.GetSelection();
         Unit1CheckBox.Checked = DialogHosts.General.SelectedUnits[0] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[0])) == 0;
         Unit2CheckBox.Checked = DialogHosts.General.SelectedUnits[1] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[1])) == 0;
         Unit3CheckBox.Checked = DialogHosts.General.SelectedUnits[2] != -1 && (_selection & (1 << DialogHosts.General.SelectedUnits[2])) == 0;
@@ -285,15 +285,15 @@ public partial class ControlWindow : DataModule
             Unit8Frame.ImageLibraryIndexFrame = 12;
         }
 
-        var selection = AoWHSMap.Current.SelectedArmy.GetSelection();
+        var selection = StrategicMap.Current.SelectedArmy.GetSelection();
         var partyMove = DialogHosts.General.UnitList.GetPartyMoves(selection);
         var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(partyMove);
         MoveIcon.CurrentImage = moveTypesToInt32;
-        var fSelectedArmySelection = AoWHSMap.Current.SelectedArmy.GetSelection();
+        var fSelectedArmySelection = StrategicMap.Current.SelectedArmy.GetSelection();
         var movePoints = DialogHosts.General.UnitList.MovePoints(fSelectedArmySelection);
         MovesLabel.Text = IntToStr(movePoints);
-        var selection2 = AoWHSMap.Current.SelectedArmy.GetSelection();
-        var partyStatus = AoWHSMap.Current.SelectedArmy.GetArmyHexSprite().Army.GetPartyStatus(selection2);
+        var selection2 = StrategicMap.Current.SelectedArmy.GetSelection();
+        var partyStatus = StrategicMap.Current.SelectedArmy.GetArmyHexSprite().Army.GetPartyStatus(selection2);
         var partyStatusText = AbilityRules.TranslateResourceString(s_partyStatusTexts[(int)partyStatus]);
         PartyStatusLabel.Text = partyStatusText;
     }
@@ -304,7 +304,7 @@ public partial class ControlWindow : DataModule
         if (button == MouseButton.Right)
         {
             CheckStart();
-            AoWHSMap.Current.SelectedArmy.SetSelection((byte)~_selection);
+            StrategicMap.Current.SelectedArmy.SetSelection((byte)~_selection);
             CheckEnd();
         }
     }
@@ -314,10 +314,10 @@ public partial class ControlWindow : DataModule
     {
         DialogHosts.General.PlayButtonSound(0);
         var army = DialogHosts.General.UnitList;
-        AoWHSMap.Current.CenterViewTo(army.X, army.Y, army.MapLevel);
+        StrategicMap.Current.CenterViewTo(army.X, army.Y, army.MapLevel);
 
         var army2 = DialogHosts.General.UnitList;
-        AoWHSMap.Current.PlayCenterAnimation(army2.X, army2.Y, army2.MapLevel);
+        StrategicMap.Current.PlayCenterAnimation(army2.X, army2.Y, army2.MapLevel);
     }
 
     // AOWControlWin.pas:422
@@ -344,19 +344,19 @@ public partial class ControlWindow : DataModule
     // AOWControlWin.pas:442
     public void PPrevClick()
     {
-        AoWHSMap.Current.SelectPreviousArmy();
+        StrategicMap.Current.SelectPreviousArmy();
     }
 
     // AOWControlWin.pas:447
     public void PNextClick()
     {
-        AoWHSMap.Current.SelectNextArmy();
+        StrategicMap.Current.SelectNextArmy();
     }
 
     // AOWControlWin.pas:452
     public void PMoveClick()
     {
-        AoWHSMap.Current.SelectedArmy.ExecuteMove();
+        StrategicMap.Current.SelectedArmy.ExecuteMove();
     }
 
     // AOWControlWin.pas:457

@@ -61,7 +61,7 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
         {
             U = new Unit(null);
             var unitIndex = UnitIndices[I];
-            U.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex));
+            U.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
             army = U.Place(X, Y, L, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
             if (army != null)
             {
@@ -72,9 +72,9 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
                     if (U.ExpandAbility(155))
                     {
                         enchantment = ((UnitEnchantmentAbilityData)U.GetAbilityData(155)).Enchantment;
-                        enchantment.SetUpkeep(AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).ManaUpkeep);
+                        enchantment.SetUpkeep(GamePack.Current.SpellControl.GetSpell(EventSpellId).ManaUpkeep);
                         enchantment.SetSource(source.Player);
-                        enchantment.DispelResistance = (sbyte)((SummonSpell)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).GetDispelResistance(U);
+                        enchantment.DispelResistance = (sbyte)((SummonSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).GetDispelResistance(U);
                         group = source.Group;
                         if (group != null)
                         {
@@ -95,36 +95,36 @@ public partial class SummonSpellTokenEvent : SpellTokenEvent
 
         if (done)
         {
-            if (source.Player == AoWHSMap.Current.SeatedPlayer)
+            if (source.Player == StrategicMap.Current.SeatedPlayer)
             {
-                AoWHSMap.Current.MakeVisible(X, Y, L, 3);
+                StrategicMap.Current.MakeVisible(X, Y, L, 3);
             }
 
-            AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
-            if (AoWHSMap.Current.Visible(X, Y, L, 0))
+            StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+            if (StrategicMap.Current.Visible(X, Y, L, 0))
             {
-                if (AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
+                if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
                 {
                     animation = new ImageSequenceAnimation(null);
-                    animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
-                    AoWHSMap.Current.PlaceHex(animation, X, Y, L);
+                    animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
+                    StrategicMap.Current.PlaceHex(animation, X, Y, L);
                 }
 
-                if (source.Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Watching(X, Y, L, 0))
+                if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, L, 0))
                 {
-                    AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+                    GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
                 }
             }
 
-            var spell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
-            AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
+            var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+            GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
         }
         else
         {
-            if (source.Player == AoWHSMap.Current.SeatedPlayer)
+            if (source.Player == StrategicMap.Current.SeatedPlayer)
             {
                 var noSummonLocationFound = AbilityRules.TranslateResourceString(s_noSummonLocationFoundText);
-                AoWHSMap.Current.ShowMessage(noSummonLocationFound);
+                StrategicMap.Current.ShowMessage(noSummonLocationFound);
             }
         }
 

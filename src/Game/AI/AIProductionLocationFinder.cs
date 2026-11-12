@@ -93,7 +93,7 @@ public partial class AIProductionLocationFinder : AIGroupTask
     {
         AIGroupProductionLocation location;
         ProductionControl control;
-        control = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel)).GetProductionControl();
+        control = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetProductionControl();
         if (_control.ProductionLocations.IndexOfPC(control) == -1)
         {
             location = new AIGroupProductionLocation(null);

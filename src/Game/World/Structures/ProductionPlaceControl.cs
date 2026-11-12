@@ -56,7 +56,7 @@ public partial class ProductionPlaceControl : ProductionControl
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.ProducedFormat), [name, fProductionPlaceName]);
         var productionPlaceHexY = productionPlace.HexY;
         log.SetLocation(productionPlace.HexX, productionPlaceHexY, productionPlace.HexLevel);
-        AoWHSMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
+        StrategicMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
         log.Release();
 
         return result;
@@ -71,12 +71,12 @@ public partial class ProductionPlaceControl : ProductionControl
         log = new ProductionPlaceEventLog(null);
         log._player = productionPlace.Player;
         var unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
-        var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
+        var unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         var name = ProductionPlace.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.InstalledFormat), [unitName, name]);
         var hexY = productionPlace.HexY;
         log.SetLocation(productionPlace.HexX, hexY, productionPlace.HexLevel);
-        AoWHSMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
+        StrategicMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
         log.Release();
     }
 
@@ -147,7 +147,7 @@ public partial class ProductionPlaceControl : ProductionControl
         if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
         {
             var unitProduction = UnitProductions.GetItem(index);
-            result = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 5;
+            result = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 5;
         }
         else
         {
@@ -163,14 +163,14 @@ public partial class ProductionPlaceControl : ProductionControl
         sbyte player;
         int picks;
         index = UnitProductions.GetItem(index).UnitIndex;
-        int result = AoWHSSet.Current.UnitResources.GetUnitResource(index).Level * 2;
+        int result = GamePack.Current.UnitResources.GetUnitResource(index).Level * 2;
         if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
         {
             player = ProductionPlace.Player;
             if (player > 0)
             {
                 var magicSphere = ProductionPlace.GetMagicSphere();
-                picks = AoWHSMap.Current.Players.GetPlayers(player).Leader.GetSpherePicks(magicSphere);
+                picks = StrategicMap.Current.Players.GetPlayers(player).Leader.GetSpherePicks(magicSphere);
             }
             else
             {

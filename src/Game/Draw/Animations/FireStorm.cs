@@ -35,7 +35,7 @@ public partial class FireStorm : Storm
         HexGeometry.HexToPixel(GetHexX(), hexY, ref X, ref Y);
         X = X - pixelXSurface + 8;
         Y = Y - pixelYSurface;
-        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[0];
+        sequence = GamePack.Current.ImageSequences.ImageSequences[0];
         while (sequence != null)
         {
             frame = sequence.GetUnloopedFrameIndex(FrameCounter);
@@ -61,7 +61,7 @@ public partial class FireStorm : Storm
         // { Original adds to the map selection, without clearing its existing hexes. }
         for (int I = 0, last = HexGeometry.RadiusToHexNumber(3) - 1; I <= last; I++)
         {
-            AoWHSMap.Current.TargetSelection.HexNumbers.Add(0);
+            StrategicMap.Current.TargetSelection.HexNumbers.Add(0);
         }
     }
 
@@ -75,8 +75,8 @@ public partial class FireStorm : Storm
         R.Top = -80;
         R.Bottom = 96;
         SetDimensions(R);
-        AoWHSMap.Current.ValidateTerrainObservation(AoWHSMap.Current.CurrentPlayer, X, Y, L, 2);
-        PlaceHex(AoWHSMap.Current.MapContainer, X, Y, L);
+        StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
+        PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
     }
 
     // Storms.pas:569
@@ -90,14 +90,14 @@ public partial class FireStorm : Storm
         {
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
-            AbilityRules.TriggerStormDamage(StormType.Fire, GetHexX(), hexY, hexLevel, 0, 2, AoWHSMap.Current.CurrentPlayer);
+            AbilityRules.TriggerStormDamage(StormType.Fire, GetHexX(), hexY, hexLevel, 0, 2, StrategicMap.Current.CurrentPlayer);
             var hexLevel2 = GetHexLevel();
             var hexY2 = GetHexY();
             var hexX = GetHexX();
-            AoWHSMap.Current.ChangeTerrain(this, hexX, hexY2, hexLevel2, 2, ChangeStormTerrain, null);
+            StrategicMap.Current.ChangeTerrain(this, hexX, hexY2, hexLevel2, 2, ChangeStormTerrain, null);
         }
 
-        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[0];
+        sequence = GamePack.Current.ImageSequences.ImageSequences[0];
         frame = -1;
         while (sequence != null && frame == -1)
         {
@@ -107,13 +107,13 @@ public partial class FireStorm : Storm
 
         if (frame == 1)
         {
-            bool condition = AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer;
+            bool condition = StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer;
             if (!condition)
             {
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                condition = AoWHSMap.Current.TerrainVisible(hexX, hexY, hexLevel, 2);
+                condition = StrategicMap.Current.TerrainVisible(hexX, hexY, hexLevel, 2);
             }
 
             if (condition)

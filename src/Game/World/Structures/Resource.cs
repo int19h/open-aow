@@ -57,7 +57,7 @@ public partial class Resource : PlayerCropStructureResource
         if (city.CityImage != null)
         {
             // { Original blinks the selected city from frame bits. }
-            if (city.GetSelected() && (AoWHSMap.Current.Frame & 6) == 6)
+            if (city.GetSelected() && (StrategicMap.Current.Frame & 6) == 6)
             {
                 city.CityImage.ShowTransparent(dX, dY, lockedSurface);
             }

@@ -119,8 +119,10 @@ public partial class MapField
             if (s_loadedList[i].Owner == this && !s_loadedList[i].MainLoaded()) s_loadedList[i]?.Dispose();
     }
 
+    // AoWHSMap.PAS:85 clears the flags, then the engine body updates the sprites.
     public virtual void UpdateMapField()
     {
+        FieldFlags = FieldFlags & -57345;
         HexSpriteMapFieldInfo info = new() { MapField = this };
         for (int i = _count - 1; i >= 0; i--)
         {

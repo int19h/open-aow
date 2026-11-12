@@ -81,7 +81,7 @@ public partial class JoinEventLog : EventLog
         {
             I -= 1;
             var item = UnitIds[I];
-            troop = AoWHSMap.Current.UnitControl.FindUnit(item);
+            troop = StrategicMap.Current.UnitControl.FindUnit(item);
             // { Original behavior: missing and dead units do not invalidate the offer. }
             if (troop != null && troop.Player == 0)
             {
@@ -100,7 +100,7 @@ public partial class JoinEventLog : EventLog
         for (int I = 0, last = UnitIds.Count - 1; I <= last; I++)
         {
             var item = UnitIds[I];
-            troop = AoWHSMap.Current.UnitControl.FindUnit(item);
+            troop = StrategicMap.Current.UnitControl.FindUnit(item);
             units.AddUnit(troop);
         }
 
@@ -111,7 +111,7 @@ public partial class JoinEventLog : EventLog
     public virtual bool Accept(ref string errorText)
     {
         bool result;
-        if (AoWHSMap.Current.Players.GetPlayers(_player).Gems >= Gold)
+        if (StrategicMap.Current.Players.GetPlayers(_player).Gems >= Gold)
         {
             result = true;
         }

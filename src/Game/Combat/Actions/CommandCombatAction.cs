@@ -41,17 +41,17 @@ public partial class CommandCombatAction : SingleTargetCombatAction
             source.SetExperience(source.GetExperience() + target.GetLevel());
             for (int I = 0; I <= 2; I++)
             {
-                ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[I])).ResetCommandedUnits(target);
+                ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[I])).ResetCommandedUnits(target);
             }
 
             for (int I = 0; I <= 2; I++)
             {
-                ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[I])).Uncommand(target);
+                ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[I])).Uncommand(target);
             }
 
             if (source.GetSide() != target.GetSide())
             {
-                ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).Command(source, target);
+                ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).Command(source, target);
             }
         }
     }
@@ -61,7 +61,7 @@ public partial class CommandCombatAction : SingleTargetCombatAction
     {
         if (viewer.Time == 0)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(AbilityId).SfxLibrary.Play(0);
+            GamePack.Current.AbilityControl.GetAbility(AbilityId).SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -78,7 +78,7 @@ public partial class CommandCombatAction : SingleTargetCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(AbilityId).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            GamePack.Current.AbilityControl.GetAbility(AbilityId).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

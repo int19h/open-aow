@@ -38,32 +38,32 @@ public partial class CombatFlowControlTokenEvent : TokenEvent
     {
         if (Mode.Contains(CombatFlowControlModeElement.SetAutoSwitch))
         {
-            AoWHSMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = false;
+            StrategicMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = false;
         }
 
         if (Mode.Contains(CombatFlowControlModeElement.LockAIExecutor))
         {
-            AoWHSMap.Current.AIExecutor.Lock();
+            StrategicMap.Current.AIExecutor.Lock();
         }
 
         if (Mode.Contains(CombatFlowControlModeElement.UnlockAIExecutor))
         {
-            AoWHSMap.Current.AIExecutor.Unlock();
+            StrategicMap.Current.AIExecutor.Unlock();
         }
 
         if (Mode.Contains(CombatFlowControlModeElement.ActivateTacticalBattle))
         {
-            AoWHSMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(Player);
+            StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(Player);
         }
 
         if (Mode.Contains(CombatFlowControlModeElement.EnableTurnTimer))
         {
-            AoWHSMap.Current.EnableTurnTimer();
+            StrategicMap.Current.EnableTurnTimer();
         }
 
         if (Mode.Contains(CombatFlowControlModeElement.DisableTurnTimer))
         {
-            AoWHSMap.Current.DisableTurnTimer();
+            StrategicMap.Current.DisableTurnTimer();
         }
 
         return ExecuteResult.Done;

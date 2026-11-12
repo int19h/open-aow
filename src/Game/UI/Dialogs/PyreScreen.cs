@@ -64,14 +64,14 @@ public partial class PyreScreen : DataModule
         SavedSongStatus = AudioPlayback.BackupSongStatus();
         AudioPlayback.FadeMusicVolume(0, 1);
         DialogHosts.General.Manager.OverlayPriority = 249;
-        switch (AoWHSMap.Current.Players.GetPlayers(eventValue._player).GameOverStatus)
+        switch (StrategicMap.Current.Players.GetPlayers(eventValue._player).GameOverStatus)
         {
             case GameOverStatus.Lost:
                 _animation = AudioPlayback.PlaySample("Sfx\\Attack\\Fireloop.wav", 64, true, 0, SamplePanning.Center, null);
-                AoWHSMap.Current.TutorialControl.ShowMessage(68, true, true);
+                StrategicMap.Current.TutorialControl.ShowMessage(68, true, true);
                 break;
             case GameOverStatus.Won:
-                AoWHSMap.Current.TutorialControl.ShowMessage(67, true, true);
+                StrategicMap.Current.TutorialControl.ShowMessage(67, true, true);
                 break;
         }
 
@@ -100,13 +100,13 @@ public partial class PyreScreen : DataModule
     public void LeaderFaceFrPreDraw(LockedSurface lockedSurface)
     {
         Rect R = default;
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
             R.Left = DeadPanel.WinLeft + LeaderFaceFrame.WinLeft + 45;
             R.Right = R.Left + 103;
             R.Top = DeadPanel.WinTop + LeaderFaceFrame.WinTop + 35;
             R.Bottom = R.Top + 128;
-            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Leader.ShowFace(R, lockedSurface);
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader.ShowFace(R, lockedSurface);
         }
     }
 
@@ -143,7 +143,7 @@ public partial class PyreScreen : DataModule
 
         Y += DeadPanel.WinTop;
         X += DeadPanel.WinLeft;
-        switch (AoWHSMap.Current.Players.GetPlayers(GameOverEvent._player).GameOverStatus)
+        switch (StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GameOverStatus)
         {
             case GameOverStatus.Lost:
                 frame = _animationFrame / 3 % 9;
@@ -153,12 +153,12 @@ public partial class PyreScreen : DataModule
                 }
 
                 DialogHosts.UIGraphics.PyreFrames[frame].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop + PyreAnimationView.WinTop, lockedSurface);
-                text = AoWHSMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + AbilityRules.TranslateResourceString(s_yourReignHasEndedText);
+                text = StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + AbilityRules.TranslateResourceString(s_yourReignHasEndedText);
                 DialogHosts.UIFonts.Age15BlackOnBrown.SetTextCentered(X, Y, text, lockedSurface);
                 break;
             case GameOverStatus.Won:
                 DialogHosts.UIGraphics.VictoryFrames[0].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop, lockedSurface);
-                text = AoWHSMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + AbilityRules.TranslateResourceString(s_youWereVictoriousText);
+                text = StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + AbilityRules.TranslateResourceString(s_youWereVictoriousText);
                 DialogHosts.UIFonts.Age15WhiteOnGrey.SetTextCentered(X, Y, text, lockedSurface);
                 break;
         }
@@ -198,9 +198,9 @@ public partial class PyreScreen : DataModule
         AudioPlayback.SetMusicVolume(0);
         AudioPlayback.FadeMusicVolume(DialogHosts.SoundDialog.MusicVolumeSlider.Position, 1);
         window.Players.Clear();
-        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+        for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Independent)
+            if (StrategicMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Independent)
             {
                 window.Players.Add((byte)I);
             }
@@ -209,11 +209,11 @@ public partial class PyreScreen : DataModule
         for (int I = 0; I <= 11; I++)
         {
             (window.Controls[I]).Visible = I < window.Players.Count;
-            bool condition = I < window.Players.Count && window.Players[I] == AoWHSMap.Current.SeatedPlayer;
+            bool condition = I < window.Players.Count && window.Players[I] == StrategicMap.Current.SeatedPlayer;
             (window.Controls[I]).Checked = condition;
         }
 
-        if (GameTables.GameEngine.Campaign != null && AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.Lost)
+        if (GameTables.GameEngine.Campaign != null && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.Lost)
         {
             var replay = AbilityRules.TranslateResourceString(s_replayText);
             window.ContinueButton.Text = replay;

@@ -1,5 +1,5 @@
 using System.Runtime.CompilerServices;
-using Aow.Engine.Nodes;
+
 using Aow.Formats;
 using Aow.Game;
 using Aow.Game.Audio;
@@ -53,7 +53,7 @@ internal static class FrameFixtureChecks
             new DateTime(2000, 1, 1, 21, 0, 0, DateTimeKind.Utc), "standard file stamp preserves captured 1 PM text");
 
         var oldWindow = DialogHosts.MapWindow;
-        var oldMap = AoWHSMap.Current;
+        var oldMap = StrategicMap.Current;
         GameEngine oldEngine = GameTables.GameEngine;
         var oldSettings = RtlUnit.Settings;
         try
@@ -82,8 +82,8 @@ internal static class FrameFixtureChecks
             players.AddChild(new Player(null!) { Status = PlayerStatus.Playing });
             players.AddChild(new Player(null!) { Status = PlayerStatus.Terminated });
             players.AddChild(new Player(null!) { Status = PlayerStatus.Playing });
-            AoWHSMap.Current = new AoWHSMap(null!);
-            AoWHSMap.Current.Players = players;
+            StrategicMap.Current = new StrategicMap(null!);
+            StrategicMap.Current.Players = players;
             TaskBar bar = new TaskBar(null)
             {
                 PlayerIndicatorFrame = new(null) { Aligned = true },
@@ -105,18 +105,18 @@ internal static class FrameFixtureChecks
             FrameFixtureInputs.MeasuredFrameRate = 9;
             var world = new MapWindow(null) { MainWindow = mapWindow };
             world.MapWindowUpdate();
-            Check(AoWHSMap.Current.FPS == 9, "captured FPS reaches the strategic movement input");
+            Check(StrategicMap.Current.FPS == 9, "captured FPS reaches the strategic movement input");
             var army = new MovementArmy { MoveStep = -1, UnitGraphicsResource = new(null) { MoveAnimationSpeed = 2 } };
             army.MoveFirst(1, false);
             Check(army.MoveSteps == 4, "native capture advances each eight-step move in four frames");
             foreach (int fps in new[] { 1, 6, 8, 9, 14 })
             {
-                AoWHSMap.Current.UpdateFPS(fps);
+                StrategicMap.Current.UpdateFPS(fps);
                 army.MoveStep = -1;
                 army.MoveFirst(1, false);
                 Check(army.MoveSteps == 4, "positive FPS below 15 preserves the captured movement tier: " + fps);
             }
-            AoWHSMap.Current.UpdateFPS(30);
+            StrategicMap.Current.UpdateFPS(30);
             army.MoveStep = -1;
             army.MoveFirst(1, false);
             Check(army.MoveSteps == 8, "normal measured FPS retains the eight-step animation");
@@ -124,7 +124,7 @@ internal static class FrameFixtureChecks
         finally
         {
             DialogHosts.MapWindow = oldWindow;
-            AoWHSMap.Current = oldMap;
+            StrategicMap.Current = oldMap;
             GameTables.GameEngine = oldEngine;
             RtlUnit.Settings = oldSettings;
             FrameFixtureInputs.AddressAnimationPhase = null;

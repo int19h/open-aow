@@ -68,7 +68,7 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
     // IndependentAG.pas:205
     public override void ProcessStates()
     {
-        AoWMapField mapField;
+        MapField mapField;
         AIGroupTargetFinder finder;
         MoveControlSettings settings;
         switch (State)
@@ -106,7 +106,7 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
                         settings.ArmyHexSprite = ArmyHexSprite;
                         settings.Selection = Selection;
                         settings.MovePointTable = MovePointTable;
-                        AoWHSMap.Current.MoveControl.ProcessMove(settings);
+                        StrategicMap.Current.MoveControl.ProcessMove(settings);
                         for (int I = Targets.Count - 1; I >= 0; I--)
                         {
                             if (settings.GetMovePointsMapCoordinate(Targets.GetTargets(I).Location.Packed) == 16777215)
@@ -141,7 +141,7 @@ public partial class GuardAreaAIGroupControl : AIGroupControl
             case 2:
                 if (((GuardAreaAIGroup)Group).GuardLocation.Packed != Location.Packed)
                 {
-                    mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(((GuardAreaAIGroup)Group).GuardLocation.Packed);
+                    mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(((GuardAreaAIGroup)Group).GuardLocation.Packed);
                     if (mapField.GetPlayer() == -1 || mapField.GetPlayer() == Group.Player)
                     {
                         SetupME();

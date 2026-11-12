@@ -57,11 +57,11 @@ public partial class HarmonyEnchantment : GlobalEnchantment
         base.Deactivate(player);
         if (DaysActive > 10)
         {
-            AoWHSMap.Current.Races.RelationOffset -= 40;
+            StrategicMap.Current.Races.RelationOffset -= 40;
         }
         else
         {
-            AoWHSMap.Current.Races.RelationOffset -= DaysActive * 4;
+            StrategicMap.Current.Races.RelationOffset -= DaysActive * 4;
         }
 
         return true;
@@ -81,7 +81,7 @@ public partial class HarmonyEnchantment : GlobalEnchantment
         DaysActive += 1;
         if (DaysActive <= 10)
         {
-            AoWHSMap.Current.Races.RelationOffset += 4;
+            StrategicMap.Current.Races.RelationOffset += 4;
         }
     }
 

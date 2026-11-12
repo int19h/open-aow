@@ -23,8 +23,8 @@ public partial class LevelTerrainTokenEvent : GlobalTargetSpellTokenEvent
         base.Process(source, value);
         PlayDefaultEffects(Location.X, Location.Y, Location.MapLevel);
         LevelTerrain();
-        var spell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
-        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
+        var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
         return false;
     }
 
@@ -33,20 +33,20 @@ public partial class LevelTerrainTokenEvent : GlobalTargetSpellTokenEvent
     {
         HexNumberWalkData walk = default;
         MapLevel level;
-        AoWMapField mapField;
-        level = AoWHSMap.Current.MapContainer.MapLevels[Location.MapLevel];
+        MapField mapField;
+        level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, Location.X, Location.Y, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                mapField = (AoWMapField)level.Field[walk.X, walk.Y];
-                if (((GlobalTargetSpell)(object)AoWHSSet.Current.SpellControl.GetSpell(18)).ValidTargetMapField((MapField)(object)mapField) && mapField.GetArmyHexSprite() == null)
+                mapField = level.Field[walk.X, walk.Y];
+                if (((GlobalTargetSpell)(object)GamePack.Current.SpellControl.GetSpell(18)).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() == null)
                 {
-                    AoWHSMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
+                    StrategicMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
                     if (mapField.TerrainType == (int)TerrainType.Earth)
                     {
-                        AoWHSMap.Current.ChangeTerrain(null, walk.X, walk.Y, Location.MapLevel, 0, (int)TerrainType.Dirt);
+                        StrategicMap.Current.ChangeTerrain(null, walk.X, walk.Y, Location.MapLevel, 0, (int)TerrainType.Dirt);
                     }
                 }
             }

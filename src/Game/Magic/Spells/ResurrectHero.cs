@@ -47,11 +47,11 @@ public partial class ResurrectHero : Spell
         if (executeCount == 0)
         {
             source.GetLocation(ref X, ref Y, ref layer);
-            AoWHSMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
+            StrategicMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
             animation = new TwinkleAnimation(null);
             animation.Setup(CastImages.GetImageSequence(0), Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
-            AoWHSMap.Current.PlaceHex(animation, X, Y, layer);
-            if (source.Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Watching(X, Y, layer, 0))
+            StrategicMap.Current.PlaceHex(animation, X, Y, layer);
+            if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, layer, 0))
             {
                 CastSounds.Play(0);
             }
@@ -60,10 +60,10 @@ public partial class ResurrectHero : Spell
         if (executeCount == 20)
         {
             heroes = new HeroList(null);
-            AoWHSMap.Current.HeroControl.ListDeadHeroes(heroes);
+            StrategicMap.Current.HeroControl.ListDeadHeroes(heroes);
             for (int I = heroes.Count - 1; I >= 0; I--)
             {
-                if (heroes.GetHero(I) is Leader || heroes.GetHero(I).GetLevel() > AoWHSMap.Current.Players.GetPlayers(source.Player).BaseHeroJoinLevel + 2)
+                if (heroes.GetHero(I) is Leader || heroes.GetHero(I).GetLevel() > StrategicMap.Current.Players.GetPlayers(source.Player).BaseHeroJoinLevel + 2)
                 {
                     heroes.RemoveChild(heroes.GetHero(I));
                 }
@@ -73,7 +73,7 @@ public partial class ResurrectHero : Spell
             {
                 source.GetLocation(ref X, ref Y, ref layer);
                 var count = heroes.Count;
-                hero = heroes.GetHero(AoWHSMap.Current.Random(count));
+                hero = heroes.GetHero(StrategicMap.Current.Random(count));
                 hero.Resurrect();
                 army = hero.Place(X, Y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
                 log = new LocationTextEventLog(null);
@@ -111,7 +111,7 @@ public partial class ResurrectHero : Spell
             else
             {
                 var noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GameText.NoHeroAnswersYourCallText);
-                AoWHSMap.Current.ShowMessage(noHeroAnswersYourCall);
+                StrategicMap.Current.ShowMessage(noHeroAnswersYourCall);
             }
 
             CastingDone(source, eventValue.EventMana);
@@ -133,11 +133,11 @@ public partial class ResurrectHero : Spell
         string reason = "";
         SpellTokenEvent eventValue;
         base.Activate(source);
-        if (CanActivate(source, ref reason) && !AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             eventValue = new SpellTokenEvent(null);
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
-            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }

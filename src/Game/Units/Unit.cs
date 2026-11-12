@@ -58,7 +58,7 @@ public partial class Unit : Troop
                 if (stream.StorageMode().Contains(StorageModeElement.Read))
                 {
                     stream.rwWord(ref Unsafe.As<short, ushort>(ref resourceIndex), 10);
-                    resource = AoWHSSet.Current.UnitResources.GetUnitResource(resourceIndex);
+                    resource = GamePack.Current.UnitResources.GetUnitResource(resourceIndex);
                     UnitResource = resource;
                     if (resource == null)
                     {
@@ -253,13 +253,13 @@ public partial class Unit : Troop
         int faceIndex;
         if (!GetAbilityEnabled(126))
         {
-            return AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitResource.UnitGraphicsResourceIndex).GetFaceImage();
+            return GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitResource.UnitGraphicsResourceIndex).GetFaceImage();
         }
 
         faceIndex = ((CosmeticSurgeryEnchantment)(object)((UnitEnchantmentAbilityData)this.GetAbilityData(126)).Enchantment).FaceIndex;
-        if (AoWHSSet.Current.FaceResources.GetFaceResource(faceIndex) != null)
+        if (GamePack.Current.FaceResources.GetFaceResource(faceIndex) != null)
         {
-            result = AoWHSSet.Current.FaceResources.GetFaceResource(faceIndex).GetCellImage();
+            result = GamePack.Current.FaceResources.GetFaceResource(faceIndex).GetCellImage();
         }
         else
         {
@@ -318,7 +318,7 @@ public partial class Unit : Troop
     {
         Rank rank;
         base.NewDay();
-        if (AoWHSMap.Current.Day == 1)
+        if (StrategicMap.Current.Day == 1)
         {
             SetAbilityCount(0);
             for (int rankOrdinal = (int)Unit.Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
@@ -416,10 +416,10 @@ public partial class Unit : Troop
             switch (GetRank())
             {
                 case Rank.Silver:
-                    AoWHSSet.Current.CombatImages[5].Show(X + 33, Y + 12, lockedSurface);
+                    GamePack.Current.CombatImages[5].Show(X + 33, Y + 12, lockedSurface);
                     break;
                 case Rank.Gold:
-                    AoWHSSet.Current.CombatImages[6].Show(X + 33, Y + 12, lockedSurface);
+                    GamePack.Current.CombatImages[6].Show(X + 33, Y + 12, lockedSurface);
                     break;
             }
         }

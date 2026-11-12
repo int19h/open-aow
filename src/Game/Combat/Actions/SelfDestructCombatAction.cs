@@ -38,7 +38,7 @@ public partial class SelfDestructCombatAction : DamageCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if ((objectValue.Id == TargetId || objectValue.Id == SourceId) && viewer.Time >= viewer.Delay - 2)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(65).ImageSequences.Show(40, X + 32, Y + 32, viewer.Time, surface);
+            GamePack.Current.AbilityControl.GetAbility(65).ImageSequences.Show(40, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

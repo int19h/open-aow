@@ -14,7 +14,7 @@ public partial class UnitWindow
     public void Gnd1Change(CheckBox check)
     {
         var hero = (Hero)DialogHosts.General.SelectedUnit;
-        if (hero is null || AoWHSMap.Current.Players.GetPlayers(hero.Player).GetBusy() || !check.Checked) return;
+        if (hero is null || StrategicMap.Current.Players.GetPlayers(hero.Player).GetBusy() || !check.Checked) return;
         _cursorImage = null;
         var selected = s_selectedItem;
         if (check != selected)

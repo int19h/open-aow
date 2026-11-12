@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using System.Runtime.InteropServices;
 
-using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -70,16 +69,16 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
         {
             I -= 1;
             var item = TargetUnitIds[I];
-            target = AoWHSMap.Current.UnitControl.FindUnit(item);
+            target = StrategicMap.Current.UnitControl.FindUnit(item);
             if (target != null)
             {
                 target.GetLocation(ref targetX, ref targetY, ref targetL);
                 result = target.GetHitPoints() != 0 && (byte)target.Player == TargetPlayer;
                 if (result)
                 {
-                    if (((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).TargetRange != -1)
+                    if (((UnitSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).TargetRange != -1)
                     {
-                        result = HexGeometry.DeltaHexToRadius(X, Y, targetX, targetY) <= ((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).TargetRange;
+                        result = HexGeometry.DeltaHexToRadius(X, Y, targetX, targetY) <= ((UnitSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).TargetRange;
                     }
                 }
 
@@ -105,14 +104,14 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
         if (_targetUnits.GetCount() != 0)
         {
             _targetUnits.GetUnit(0).GetLocation(ref X, ref Y, ref L);
-            AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).PlayDefaultCastEffects(source.Player, X, Y, L);
+            GamePack.Current.SpellControl.GetSpell(EventSpellId).PlayDefaultCastEffects(source.Player, X, Y, L);
             for (int I = 0, last = _targetUnits.GetCount() - 1; I <= last; I++)
             {
                 target = _targetUnits.GetUnit(I);
                 target.AddRef();
-                if (((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).ExecuteSpell(source, target, EventMana, SpellData))
+                if (((UnitSpell)GamePack.Current.SpellControl.GetSpell(EventSpellId)).ExecuteSpell(source, target, EventMana, SpellData))
                 {
-                    AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
+                    GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
                     target.Changed();
                 }
 

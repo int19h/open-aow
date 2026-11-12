@@ -83,7 +83,7 @@ public partial class Tower : PlayerStructure
         if (!GetBuilding())
         {
             result = 12;
-            if (GetHexLevel() != 0 || Player > 0 && (((byte)AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
+            if (GetHexLevel() != 0 || Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
             {
                 result = (int)(((uint)(result + 1)) >> 1);
             }

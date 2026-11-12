@@ -12,14 +12,14 @@ public partial class AIPlayerControl
     public bool Process(AIExecutor executor, bool tokenControlDone)
     {
         HeadlessHooks.BeforeAIPlayerProcess?.Invoke();
-        if (Player.GetBusy() || !AoWHSMap.Current.TokenManager.PlayerReady(Player.PlayerIndex)) return false;
+        if (Player.GetBusy() || !StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex)) return false;
         bool done;
         switch (Phase)
         {
             case AIPlayerProcessPhase.Main:
                 done = false;
                 while (!done && Actions.Count != 0 && !Player.GetBusy() &&
-                    AoWHSMap.Current.TokenManager.PlayerReady(Player.PlayerIndex))
+                    StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex))
                 {
                     if (MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                     {
@@ -40,12 +40,12 @@ public partial class AIPlayerControl
                     if (!done && executor.GetProcessTimeLeft() <= 0) done = true;
                 }
                 if (Actions.Count == 0) SetupProcessPhase(AIPlayerProcessPhase.Loop);
-                return !Player.GetBusy() && AoWHSMap.Current.TokenManager.PlayerReady(Player.PlayerIndex);
+                return !Player.GetBusy() && StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex);
             case AIPlayerProcessPhase.Loop:
                 done = false;
                 int index = 0;
                 while (!done && index < Actions.Count && !Player.GetBusy() &&
-                    AoWHSMap.Current.TokenManager.PlayerReady(Player.PlayerIndex))
+                    StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex))
                 {
                     if (MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                     {
@@ -66,7 +66,7 @@ public partial class AIPlayerControl
                     if (!done && executor.GetProcessTimeLeft() <= 0) done = true;
                 }
                 return Actions.Count != 0 && !Player.GetBusy() &&
-                    AoWHSMap.Current.TokenManager.PlayerReady(Player.PlayerIndex);
+                    StrategicMap.Current.TokenManager.PlayerReady(Player.PlayerIndex);
             default: return false;
         }
     }

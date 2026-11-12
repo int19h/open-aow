@@ -33,7 +33,7 @@ public partial class ItemBanner : DataModule
         Item item;
         int X;
         int Y;
-        item = AoWHSMap.Current.ItemControl.FindItem(ItemId);
+        item = StrategicMap.Current.ItemControl.FindItem(ItemId);
         if (item != null)
         {
             ItemNameLabel.Text = item.OwnerName;
@@ -127,7 +127,7 @@ public partial class ItemBanner : DataModule
             {
                 if (item.GetAbEnabled(X))
                 {
-                    var name = AoWHSSet.Current.AbilityControl.GetAbility(X).GetName(item);
+                    var name = GamePack.Current.AbilityControl.GetAbility(X).GetName(item);
                     AbilityList.Items.AddObject(name, IntToObject(X));
                 }
             }
@@ -154,7 +154,7 @@ public partial class ItemBanner : DataModule
     public void DrawBoxPreDraw(LockedSurface lockedSurface)
     {
         Item item;
-        item = AoWHSMap.Current.ItemControl.FindItem(ItemId);
+        item = StrategicMap.Current.ItemControl.FindItem(ItemId);
         if (item != null)
         {
             item.Show(ItemView.WinLeft, ItemView.WinTop, lockedSurface);

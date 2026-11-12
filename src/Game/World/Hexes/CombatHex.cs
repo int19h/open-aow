@@ -1,5 +1,4 @@
 // Translated from CombatHex.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -31,14 +30,14 @@ public partial class CombatHex : AbstractHexagon
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                ((AoWHSSet)_resource.Engine.HexSpriteSet).CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                _resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
             else
             {
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                ((AoWHSSet)_resource.Engine.HexSpriteSet).CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
+                _resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
             }
         }
     }
@@ -95,7 +94,7 @@ public partial class CombatHex : AbstractHexagon
     }
 
     // CombatHex.pas:73
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
 
     // CombatHex.pas:134
     public override void UpdateTransitions()
@@ -276,7 +275,7 @@ public partial class CombatHex : AbstractHexagon
 
             if (message.MessageId == 536870920)
             {
-                TransitionLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCombat\\Base_Hex\\CTransHx.ILB");
+                TransitionLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCombat\\Base_Hex\\CTransHx.ILB");
             }
         }
 
@@ -301,7 +300,7 @@ public partial class CombatHex : AbstractHexagon
         public override int ResourceUserClassId() => 2229504;
 
         // CombatHex.pas:191
-        public override HexControl GetHexControl() => ((AoWHSSet)Engine.HexSpriteSet).CombatHexes;
+        public override HexControl GetHexControl() => Engine.HexSpriteSet.CombatHexes;
 
         // CombatHex.pas:188
         public override string ResourceEditName() => "Combat Hexagon";

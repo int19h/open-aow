@@ -40,7 +40,7 @@ public partial class UnitHexSprite
                 sequence = UnitGraphicsResource.Sequences.List[Direction + 5];
                 if (sequence != null && GetSelected())
                 {
-                    index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                    index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                     // sound timing gate
                     if (sequence.SpeedCount == sequence.SequenceSpeed)
                     {
@@ -58,11 +58,11 @@ public partial class UnitHexSprite
             sequence = UnitGraphicsResource.Sequences.List[Direction - 1];
         }
 
-        if (!GetSelected() || (AoWHSMap.Current.Frame & 6) != 6)
+        if (!GetSelected() || (StrategicMap.Current.Frame & 6) != 6)
         {
             while (sequence != null)
             {
-                index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (index != -1)
                 {
                     sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);
@@ -105,7 +105,7 @@ public partial class UnitHexSprite
 
         while (sequence != null)
         {
-            index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+            index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
             sequence.ImageLibrary[index].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
             sequence = sequence.Next;
         }

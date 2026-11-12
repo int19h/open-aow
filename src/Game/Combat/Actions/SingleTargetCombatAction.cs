@@ -50,14 +50,14 @@ public partial class SingleTargetCombatAction : CombatAction
         {
             if (objectValue.Id == SourceId)
             {
-                AoWHSSet.Current.CombatImages[2].Show(X + 15, Y + 18, surface);
+                GamePack.Current.CombatImages[2].Show(X + 15, Y + 18, surface);
             }
         }
         else
         {
             if (objectValue.Id == TargetId)
             {
-                AoWHSSet.Current.CombatImages[2].Show(X + 15, Y + 18, surface);
+                GamePack.Current.CombatImages[2].Show(X + 15, Y + 18, surface);
             }
         }
 
@@ -66,14 +66,14 @@ public partial class SingleTargetCombatAction : CombatAction
         {
             if (objectValue.Id == TargetId)
             {
-                AoWHSSet.Current.CombatImages[3].Show(X + 15, Y + 18, surface);
+                GamePack.Current.CombatImages[3].Show(X + 15, Y + 18, surface);
             }
         }
         else
         {
             if (objectValue.Id == SourceId)
             {
-                AoWHSSet.Current.CombatImages[3].Show(X + 15, Y + 18, surface);
+                GamePack.Current.CombatImages[3].Show(X + 15, Y + 18, surface);
             }
         }
     }

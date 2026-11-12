@@ -1,5 +1,4 @@
 // Translated from UnitSpells.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -81,24 +80,24 @@ public partial class DispelMagic : UnitSpell
             {
                 var dispelMana = GetDispelMana(source);
                 chance = enchantments.GetEnchantments(I).DispelChance(dispelMana);
-                if (chance > AoWHSMap.Current.Random(100))
+                if (chance > StrategicMap.Current.Random(100))
                 {
                     count += 1;
                     enchantments.GetEnchantments(I).Dispel();
                 }
             }
 
-            if (source.Player == AoWHSMap.Current.SeatedPlayer)
+            if (source.Player == StrategicMap.Current.SeatedPlayer)
             {
                 if (count > 0)
                 {
                     var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
-                    AoWHSMap.Current.ShowMessage(format);
+                    StrategicMap.Current.ShowMessage(format);
                 }
                 else
                 {
                     var dispelMagicFailed = AbilityRules.TranslateResourceString(GameText.DispelMagicFailedText);
-                    AoWHSMap.Current.ShowMessage(dispelMagicFailed);
+                    StrategicMap.Current.ShowMessage(dispelMagicFailed);
                 }
             }
 

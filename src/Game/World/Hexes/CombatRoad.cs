@@ -1,5 +1,4 @@
 // Translated from CombatRoad.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -58,7 +57,7 @@ public partial class CombatRoad : AbstractRoad
     }
 
     // CombatRoad.pas:54
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
 
     // CombatRoad.pas:57
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
@@ -185,7 +184,7 @@ public partial class CombatRoad : AbstractRoad
         public override int ResourceUserClassId() => 2229506;
 
         // CombatRoad.pas:139
-        public override RoadControl GetRoadControl() => ((AoWHSSet)Engine.HexSpriteSet).CombatRoads;
+        public override RoadControl GetRoadControl() => Engine.HexSpriteSet.CombatRoads;
 
         // CombatRoad.pas:136
         public override string ResourceEditName() => "Combat Road";

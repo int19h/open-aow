@@ -49,7 +49,7 @@ public partial class WorldMapCampaign : Campaign
         string result;
         if (auto == CampaignAutoSaveType.ScenarioFinished)
         {
-            result = AoWHSMap.Current.MapName;
+            result = StrategicMap.Current.MapName;
             if (Faction == 0)
             {
                 result = result + "_" + AbilityRules.TranslateResourceString(s_wonText);

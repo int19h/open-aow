@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
 using Aow.Engine;
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -32,7 +31,7 @@ public partial class Ability : EngineObject
     {
         Description = new StringList();
         SfxLibrary = new SfxLibrary(null);
-        ImageSequences = new ImageSequenceList(AoWHSSet.Current.ImageLibraryManager, null);
+        ImageSequences = new ImageSequenceList(GamePack.Current.ImageLibraryManager, null);
     }
 
     public string AbilityName { get; set; } = "";
@@ -184,7 +183,7 @@ public partial class Ability : EngineObject
                 info.UnitId = 0;
             }
 
-            AoWHSMap.Current.OnActivateAbilityStore.Raise(info);
+            StrategicMap.Current.OnActivateAbilityStore.Raise(info);
             info.Release();
             result = true;
         }
@@ -221,7 +220,7 @@ public partial class Ability : EngineObject
                 info.UnitId = 0;
             }
 
-            AoWHSMap.Current.CombatMap.AbilityActivatedEventsStore.Raise(info);
+            StrategicMap.Current.CombatMap.AbilityActivatedEventsStore.Raise(info);
             info.Release();
             result = true;
         }

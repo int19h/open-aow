@@ -25,16 +25,16 @@ public partial class WatcherTokenEvent : GlobalTargetSpellTokenEvent
         PlayDefaultEffects(Location.X, Location.Y, Location.MapLevel);
         watcher = new WatcherHexSprite(null);
         watcher.Enchantment.PlayerIndex = source.Player;
-        var spell = AoWHSSet.Current.SpellControl.GetSpell(57);
+        var spell = GamePack.Current.SpellControl.GetSpell(57);
         watcher.Enchantment.EnchantmentManaUpkeep = spell.ManaUpkeep;
-        AoWHSMap.Current.PlaceHex(watcher, Location.X, Location.Y, Location.MapLevel);
-        if ((byte)AoWHSMap.Current.SeatedPlayer == EventPlayerIndex)
+        StrategicMap.Current.PlaceHex(watcher, Location.X, Location.Y, Location.MapLevel);
+        if ((byte)StrategicMap.Current.SeatedPlayer == EventPlayerIndex)
         {
             watcher.StartAnimation(Location.X, Location.Y, Location.MapLevel);
         }
 
-        var fSpellControlSpell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
-        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, fSpellControlSpell.BaseManaCost);
+        var fSpellControlSpell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, fSpellControlSpell.BaseManaCost);
         return false;
     }
 

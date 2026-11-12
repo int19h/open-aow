@@ -44,32 +44,32 @@ public sealed partial class RuleConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly AoWHSSet _previousSet = AoWHSSet.Current;
+        private readonly GamePack _previousSet = GamePack.Current;
         private readonly GameEngine _previousEngine = GameTables.GameEngine;
-        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
+        private readonly StrategicMap _previousMap = StrategicMap.Current;
         private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
 
-        internal AoWHSMap Map { get; }
+        internal StrategicMap Map { get; }
 
         internal Fixture()
         {
             GameTables.GameEngine = EngineFixture.Engine;
-            Map = new AoWHSMap(null!);
+            Map = new StrategicMap(null!);
             var set = EngineFixture.CreateGameSet(_manager);
-            AoWHSSet.Current = set;
+            GamePack.Current = set;
             GameTables.GameEngine = null!;
             Map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
             Map.Races = new RaceList(null!);
             Map.UnitControl = new UnitControl(null!);
             Map.HeroControl = new HeroControl(null!);
-            AoWHSMap.Current = Map;
+            StrategicMap.Current = Map;
         }
 
         public void Dispose()
         {
-            AoWHSSet.Current = _previousSet;
+            GamePack.Current = _previousSet;
             GameTables.GameEngine = _previousEngine;
-            AoWHSMap.Current = _previousMap;
+            StrategicMap.Current = _previousMap;
             _manager.Dispose();
             Map.Races.Dispose();
             Map.UnitControl.Dispose();
@@ -167,7 +167,7 @@ public sealed partial class RuleConstructionTests
         ParameterInfo[] parameters = factory?.GetParameters() ?? constructor!.GetParameters();
         object?[] arguments = parameters.Select(p => p.ParameterType == typeof(ECustomNode) ? owner
             : p.ParameterType == typeof(int) ? (object)37
-            : p.ParameterType == typeof(HSMap) ? fixture.Map
+            : p.ParameterType == typeof(GameMap) ? fixture.Map
             : p.ParameterType == typeof(FastBattle) ? new FastBattle(null!)
             : p.ParameterType == typeof(CombatSide) ? new CombatSide(null!)
             : null).ToArray();

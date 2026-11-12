@@ -77,7 +77,7 @@ public partial class ExplorationSite : Structure
         bool result;
         int hexX = default;
         int hexY = default;
-        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
             if (Owner.HexX == hexX && Owner.HexY == hexY)
@@ -102,7 +102,7 @@ public partial class ExplorationSite : Structure
     {
         int result;
         int image;
-        if (!GetExplored() || AoWHSMap.Current.Day == 0)
+        if (!GetExplored() || StrategicMap.Current.Day == 0)
         {
             result = terrainType;
         }
@@ -145,7 +145,7 @@ public partial class ExplorationSite : Structure
     public override void NewDay()
     {
         base.NewDay();
-        if (AoWHSMap.Current.Day == 1 && _defendersMode != ExplorationSiteDefendersMode.UserDefined)
+        if (StrategicMap.Current.Day == 1 && _defendersMode != ExplorationSiteDefendersMode.UserDefined)
         {
             GenerateDefenders();
         }
@@ -205,8 +205,8 @@ public partial class ExplorationSite : Structure
             {
                 if (combatType == CombatType.Fast)
                 {
-                    AoWHSMap.Current.LockGameOverEvent();
-                    combat = AoWHSMap.Current.CreateCombat(131760);
+                    StrategicMap.Current.LockGameOverEvent();
+                    combat = StrategicMap.Current.CreateCombat(131760);
                     SetupCombat(combat, armyHexSprite);
                     combat.LockExecuted();
                     combat.Initialize();
@@ -218,20 +218,20 @@ public partial class ExplorationSite : Structure
                     combat.Logbook.FinalData.Header = name + " " + combat.Logbook.FinalData.Header;
                     eventValue = new CombatEventLog(null);
                     eventValue.SetCombatLogbook(combat.Logbook);
-                    AoWHSMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
-                    if (AoWHSMap.Current.SeatedPlayer == player && AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
+                    StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
+                    if (StrategicMap.Current.SeatedPlayer == player && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
                     {
                         eventValue.Execute(false, ExecuteTrigger.Event, null);
                     }
 
                     eventValue.Release();
                     combat.UnlockExecuted();
-                    AoWHSMap.Current.DestroyCombat();
-                    AoWHSMap.Current.UnlockGameOverEvent();
+                    StrategicMap.Current.DestroyCombat();
+                    StrategicMap.Current.UnlockGameOverEvent();
                 }
                 else
                 {
-                    combat = AoWHSMap.Current.CreateCombat(2228496);
+                    combat = StrategicMap.Current.CreateCombat(2228496);
                     SetupCombat(combat, armyHexSprite);
                     combat.Initialize();
                     combat.Activate();
@@ -243,14 +243,14 @@ public partial class ExplorationSite : Structure
                         combat.Logbook.FinalData.Header = name + " " + combat.Logbook.FinalData.Header;
                         eventValue = new CombatEventLog(null);
                         eventValue.SetCombatLogbook(combat.Logbook);
-                        AoWHSMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
-                        if (AoWHSMap.Current.SeatedPlayer == player && AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
+                        StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
+                        if (StrategicMap.Current.SeatedPlayer == player && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
                         {
                             eventValue.Execute(false, ExecuteTrigger.Event, null);
                         }
 
                         eventValue.Release();
-                        AoWHSMap.Current.DestroyCombat();
+                        StrategicMap.Current.DestroyCombat();
                     }
                 }
             }
@@ -275,8 +275,8 @@ public partial class ExplorationSite : Structure
         armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
         if (armyHexSprite != null && CanSearch(armyHexSprite.Army.Player))
         {
-            var playerList = AoWHSMap.Current.Players;
-            if (playerList.LocalPlayers.Count == 1 || AoWHSMap.Current.RequestCombatType)
+            var playerList = StrategicMap.Current.Players;
+            if (playerList.LocalPlayers.Count == 1 || StrategicMap.Current.RequestCombatType)
             {
                 request = new CombatTypeRequestEventLog(null);
                 var hexLevel = GetHexLevel();
@@ -284,7 +284,7 @@ public partial class ExplorationSite : Structure
                 request.SetCenterLocation((byte)GetHexX(), (byte)hexY, hexLevel);
                 request.Player = armyHexSprite.Army.Player;
                 request.DefenderPlayer = 0;
-                AoWHSMap.Current.TriggerExecuteEventLog(request, true, RequestCombatTypeCallback);
+                StrategicMap.Current.TriggerExecuteEventLog(request, true, RequestCombatTypeCallback);
                 request.Release();
                 result = true;
             }
@@ -296,7 +296,7 @@ public partial class ExplorationSite : Structure
                     SetupTokenEvent(tokenEvent);
                     tokenEvent.Action = 0;
                     tokenEvent.Param = 1;
-                    AoWHSMap.Current.TokenManager.GetTokenControl(tokenEvent.Player).AddEvent(tokenEvent);
+                    StrategicMap.Current.TokenManager.GetTokenControl(tokenEvent.Player).AddEvent(tokenEvent);
                     tokenEvent.Release();
                     result = true;
                 }
@@ -355,7 +355,7 @@ public partial class ExplorationSite : Structure
             SetupTokenEvent(tokenEvent);
             tokenEvent.Action = 0;
             tokenEvent.Param = (int)combatTypeRequestEventLog.CombatType;
-            AoWHSMap.Current.TokenManager.GetTokenControl(tokenEvent.Player).AddEvent(tokenEvent);
+            StrategicMap.Current.TokenManager.GetTokenControl(tokenEvent.Player).AddEvent(tokenEvent);
             tokenEvent.Release();
         }
     }
@@ -391,7 +391,7 @@ public partial class ExplorationSite : Structure
         int collection;
         UnitIndexList list;
         UnitIndexListCollection collections;
-        RandSeed = AoWHSMap.Current.DefendersSeed;
+        RandSeed = StrategicMap.Current.DefendersSeed;
         if (_defendersMode == ExplorationSiteDefendersMode.Random)
         {
             _defendersMode = (ExplorationSiteDefendersMode)(Random(3) + 1);

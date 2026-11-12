@@ -8,8 +8,8 @@ public partial class TaskBar
     public void UpdatePlayerIndicator()
     {
         int count = 0;
-        for (int i = 0; i < World.Map.AoWHSMap.Current.Players.GetCount(); i++)
-            if (World.Map.AoWHSMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing) count++;
+        for (int i = 0; i < World.Map.StrategicMap.Current.Players.GetCount(); i++)
+            if (World.Map.StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing) count++;
         PlayerIndicatorFrame.WinWidth = count * 5 + 4;
         PlayerIndicatorFrame.Aligned = false;
         WorldMessageEdit.Alignment.RightOffset = PlayerIndicatorFrame.WinWidth + 278;

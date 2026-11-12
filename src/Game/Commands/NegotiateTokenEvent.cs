@@ -100,7 +100,7 @@ public partial class NegotiateTokenEvent : TokenEvent
             message.MessageId = 4367;
             message.Param[0] = this;
             message.Result = 0;
-            AoWHSMap.Current.MapContainer.GetField((sbyte)X, (sbyte)Y, (sbyte)MapLevel).SendMapFieldMessage(ref message);
+            StrategicMap.Current.MapContainer.GetField((sbyte)X, (sbyte)Y, (sbyte)MapLevel).SendMapFieldMessage(ref message);
         }
 
         return ExecuteResult.Done;
@@ -123,7 +123,7 @@ public partial class NegotiateTokenEvent : TokenEvent
 
         if (result && X != 255)
         {
-            result = (byte)((AoWMapField)AoWHSMap.Current.MapContainer.GetField((sbyte)X, (sbyte)Y, (sbyte)MapLevel)).GetPlayer() == _ownerPlayer;
+            result = (byte)StrategicMap.Current.MapContainer.GetField((sbyte)X, (sbyte)Y, (sbyte)MapLevel).GetPlayer() == _ownerPlayer;
         }
         else
         {
@@ -139,16 +139,16 @@ public partial class NegotiateTokenEvent : TokenEvent
         EventLog log;
         MovePath path;
         MoveArmyTokenEvent move;
-        if (AoWHSMap.Current.Players.GetPlayers(Player).Gems >= Gold)
+        if (StrategicMap.Current.Players.GetPlayers(Player).Gems >= Gold)
         {
-            var players = AoWHSMap.Current.Players.GetPlayers(Player);
-            AoWHSMap.Current.Players.GetPlayers(Player).SetGems(players.Gems - Gold);
+            var players = StrategicMap.Current.Players.GetPlayers(Player);
+            StrategicMap.Current.Players.GetPlayers(Player).SetGems(players.Gems - Gold);
             if (EventLogId != -1)
             {
-                log = AoWHSMap.Current.Players.GetPlayers(Player).EventLogbook.FindId(EventLogId);
+                log = StrategicMap.Current.Players.GetPlayers(Player).EventLogbook.FindId(EventLogId);
                 if (log != null)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).EventLogbook.RemoveEvent(log);
+                    StrategicMap.Current.Players.GetPlayers(Player).EventLogbook.RemoveEvent(log);
                 }
             }
 
@@ -160,7 +160,7 @@ public partial class NegotiateTokenEvent : TokenEvent
                 path.AddMapCoordinate(ArmyHexSprite.HexX, hexY, ArmyHexSprite.HexLevel);
                 path.List[0].Tag = (sbyte)MovePoints;
                 move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, (MoveAction)(byte)3, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
-                AoWHSMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
+                StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
                 // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
                 move.Release();
                 path?.Dispose();
@@ -181,7 +181,7 @@ public partial class NegotiateTokenEvent : TokenEvent
             path.AddMapCoordinate(ArmyHexSprite.HexX, hexY, ArmyHexSprite.HexLevel);
             path.List[0].Tag = (sbyte)MovePoints;
             move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, (MoveAction)(byte)1, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
-            AoWHSMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
+            StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
             // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
             move.Release();
             path?.Dispose();

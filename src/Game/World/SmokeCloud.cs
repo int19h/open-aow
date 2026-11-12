@@ -88,7 +88,7 @@ public partial class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:300
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (_visibleForSeatedPlayer || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (_visibleForSeatedPlayer || StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -118,7 +118,7 @@ public partial class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:245
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (message.MessageId != 16 || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (message.MessageId != 16 || StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             base.MapFieldMessageProc(ref message);
         }
@@ -145,7 +145,7 @@ public partial class SmokeCloud : MultiHexMapObject
         base.Activate();
         if (_direction == 0)
         {
-            _direction = (byte)(AoWHSMap.Current.Random(6) + 1);
+            _direction = (byte)(StrategicMap.Current.Random(6) + 1);
         }
 
         var smokeCloudEnchantment = Enchantment;
@@ -178,7 +178,7 @@ public partial class SmokeCloud : MultiHexMapObject
     {
         if (info.HexNumber > 18 && info.HexNumber < 37)
         {
-            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 16777216;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 16777216;
         }
     }
 
@@ -208,15 +208,15 @@ public partial class SmokeCloud : MultiHexMapObject
     {
         HexNumberWalkData walk = default;
         MapLevel level;
-        AoWMapField mapField;
+        MapField mapField;
         ArmyHexSprite armyHexSprite;
-        level = AoWHSMap.Current.MapContainer.MapLevels[hexLevel];
+        level = StrategicMap.Current.MapContainer.MapLevels[hexLevel];
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
         while (_resource.TerrainList.Count > walk.HexNumber)
         {
             if (_resource.TerrainList.Terrain[walk.HexNumber] >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
             {
-                mapField = (AoWMapField)level.GetField(walk.X, walk.Y);
+                mapField = level.GetField(walk.X, walk.Y);
                 armyHexSprite = mapField.GetArmyHexSprite();
                 if (armyHexSprite != null)
                 {
@@ -235,11 +235,11 @@ public partial class SmokeCloud : MultiHexMapObject
         var hexLevel = GetHexLevel();
         var hexY = GetHexY();
         var hexX = GetHexX();
-        visible = AoWHSMap.Current.Visible(hexX, hexY, hexLevel, 3) || Enchantment.PlayerIndex == AoWHSMap.Current.SeatedPlayer;
+        visible = StrategicMap.Current.Visible(hexX, hexY, hexLevel, 3) || Enchantment.PlayerIndex == StrategicMap.Current.SeatedPlayer;
         if (_visibleForSeatedPlayer ^ visible)
         {
             _visibleForSeatedPlayer = visible;
-            AoWHSMap.Current.GlobalMagicControl.TriggerChangedEvent();
+            StrategicMap.Current.GlobalMagicControl.TriggerChangedEvent();
         }
     }
 
@@ -300,7 +300,7 @@ public partial class SmokeCloud : MultiHexMapObject
 
                 while (directions.Count != 0 && !valid)
                 {
-                    direction = directions[AoWHSMap.Current.Random(directions.Count)];
+                    direction = directions[StrategicMap.Current.Random(directions.Count)];
                     valid = ValidMoveDirection(direction);
                     if (!valid)
                     {
@@ -314,7 +314,7 @@ public partial class SmokeCloud : MultiHexMapObject
                     tries = 20;
                     while (!valid && tries != 0)
                     {
-                        direction = AoWHSMap.Current.Random(6) + 1;
+                        direction = StrategicMap.Current.Random(6) + 1;
                         valid = ValidMoveDirection(direction);
                         tries -= 1;
                     }
@@ -331,7 +331,7 @@ public partial class SmokeCloud : MultiHexMapObject
                     UpdateConcealment(_hexX, _hexY, (sbyte)hexLevel);
                     _hexX = (sbyte)hexX;
                     _hexY = (sbyte)hexY;
-                    Owner = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+                    Owner = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
                     Connect();
                     UpdateConcealment(_hexX, _hexY, (sbyte)hexLevel);
                 }

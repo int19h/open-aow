@@ -74,7 +74,7 @@ public partial class ArmyEventLog : EventLog
         int result;
         if (ArmyView.Player > 0)
         {
-            result = AoWHSMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace;
+            result = StrategicMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace;
         }
         else
         {
@@ -92,22 +92,22 @@ public partial class ArmyEventLog : EventLog
         switch (trigger)
         {
             case ExecuteTrigger.User:
-                AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
+                StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
                 result = true;
                 break;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
                 showEvent = false;
-                if (AoWHSMap.Current.SeatedPlayer == _player || AoWHSMap.Current.SeatedPlayer == ArmyView.Player)
+                if (StrategicMap.Current.SeatedPlayer == _player || StrategicMap.Current.SeatedPlayer == ArmyView.Player)
                 {
-                    showEvent = showEvent || AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
-                    showEvent = showEvent || AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
+                    showEvent = showEvent || StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
+                    showEvent = showEvent || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
                 }
 
                 showEvent = showEvent || _gameOver;
                 if (showEvent)
                 {
-                    AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
+                    StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
                     result = true;
                 }
 
@@ -167,7 +167,7 @@ public partial class ArmyEventLog : EventLog
     // Army.PAS:212
     public void ValidateGameOver()
     {
-        _gameOver = LeaderKilled() || PartyDestroyed() && AoWHSMap.Current.Players.GetPlayers(ArmyView.Player).Armies.GetCount() == 1;
+        _gameOver = LeaderKilled() || PartyDestroyed() && StrategicMap.Current.Players.GetPlayers(ArmyView.Player).Armies.GetCount() == 1;
     }
 
 }

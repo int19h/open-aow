@@ -179,7 +179,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                         if (Frame == 0 && CombatMap.Current.PlaySounds && AbilityIndex == 52 && SpellIndex == 122)
                         {
-                            AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
+                            GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
                         }
 
                         var count = Path.Count;
@@ -189,11 +189,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             {
                                 if (AbilityIndex == 52)
                                 {
-                                    AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
+                                    GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
                                 }
                                 else
                                 {
-                                    AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                    GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                                 }
                             }
 
@@ -214,7 +214,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                     case BattleEffectType.DecayComet:
                         if (Frame == 0 && CombatMap.Current.PlaySounds && AbilityIndex == 52)
                         {
-                            AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
+                            GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
                         }
 
                         var fPathCount = Path.Count;
@@ -224,11 +224,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             {
                                 if (AbilityIndex == 52)
                                 {
-                                    AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
+                                    GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
                                 }
                                 else
                                 {
-                                    AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                    GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                                 }
                             }
 
@@ -240,7 +240,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                     case BattleEffectType.AltArrow:
                         if (Frame == 0 && CombatMap.Current.PlaySounds && AbilityIndex == 52)
                         {
-                            AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
+                            GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
                         }
 
                         Frame += 3;
@@ -251,11 +251,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             {
                                 if (AbilityIndex == 52)
                                 {
-                                    AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
+                                    GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
                                 }
                                 else
                                 {
-                                    AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                    GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                                 }
                             }
 
@@ -282,11 +282,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             {
                                 if (AbilityIndex == 52)
                                 {
-                                    AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
+                                    GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
                                 }
                                 else
                                 {
-                                    AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                    GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                                 }
                             }
 
@@ -307,11 +307,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                     case BattleEffectType.HailImpact:
                         if (AbilityIndex == 52)
                         {
-                            sequence = AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[2];
+                            sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[2];
                         }
                         else
                         {
-                            sequence = AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[2];
+                            sequence = GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[2];
                         }
 
                         if (sequence != null)
@@ -332,11 +332,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                     case BattleEffectType.PrayerGlow:
                         if (AbilityIndex == 52)
                         {
-                            sequence = AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1];
+                            sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1];
                         }
                         else
                         {
-                            sequence = AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[1];
+                            sequence = GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[1];
                         }
 
                         if (sequence != null)
@@ -376,11 +376,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             {
                                 if (Target != null && AbilityIndex == 52)
                                 {
-                                    AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
+                                    GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
                                 }
                                 else
                                 {
-                                    AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                    GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                                 }
                             }
 
@@ -398,11 +398,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             {
                                 if (AbilityIndex == 52)
                                 {
-                                    AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
+                                    GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
                                 }
                                 else
                                 {
-                                    AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                    GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                                 }
                             }
 
@@ -560,11 +560,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 {
                                     if (AbilityIndex == 52)
                                     {
-                                        AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
+                                        GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
                                     }
                                     else
                                     {
-                                        AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                        GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                                     }
                                 }
 
@@ -625,11 +625,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 {
                                     if (AbilityIndex == 52)
                                     {
-                                        AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
+                                        GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
                                     }
                                     else
                                     {
-                                        AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
+                                        GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
                                     }
                                 }
 
@@ -709,11 +709,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 {
                                     if (AbilityIndex == 52)
                                     {
-                                        AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
+                                        GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
                                     }
                                     else
                                     {
-                                        AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                        GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                                     }
                                 }
 
@@ -840,11 +840,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         {
                                             if (AbilityIndex == 52)
                                             {
-                                                AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
+                                                GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
                                             }
                                             else
                                             {
-                                                AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                                GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                                             }
                                         }
 
@@ -867,11 +867,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                     {
                                         if (AbilityIndex == 52)
                                         {
-                                            AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
+                                            GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
                                         }
                                         else
                                         {
-                                            AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
+                                            GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
                                         }
                                     }
 
@@ -938,11 +938,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 {
                                     if (AbilityIndex == 52)
                                     {
-                                        AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
+                                        GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
                                     }
                                     else
                                     {
-                                        AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
+                                        GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
                                     }
                                 }
 
@@ -981,11 +981,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                         {
                                             if (AbilityIndex == 52)
                                             {
-                                                AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
+                                                GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
                                             }
                                             else
                                             {
-                                                AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                                GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                                             }
                                         }
 
@@ -1023,11 +1023,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 {
                                     if (AbilityIndex == 52)
                                     {
-                                        AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
+                                        GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
                                     }
                                     else
                                     {
-                                        AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                        GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                                     }
                                 }
 
@@ -1291,11 +1291,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                             {
                                 if (AbilityIndex == 52)
                                 {
-                                    AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
+                                    GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
                                 }
                                 else
                                 {
-                                    AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                    GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                                 }
                             }
 
@@ -1310,16 +1310,16 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                     case BattleEffectType.Effect:
                         if (Frame == 0 && CombatMap.Current.PlaySounds && AbilityIndex == 65)
                         {
-                            AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
+                            GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
                         }
 
                         if (AbilityIndex == 52)
                         {
-                            sequence = AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[0];
+                            sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[0];
                         }
                         else
                         {
-                            sequence = AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[0];
+                            sequence = GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[0];
                         }
 
                         if (sequence != null)
@@ -1331,11 +1331,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 {
                                     if (AbilityIndex == 52)
                                     {
-                                        AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
+                                        GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
                                     }
                                     else
                                     {
-                                        AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                        GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                                     }
                                 }
 
@@ -1352,11 +1352,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                     case BattleEffectType.SacredWrath:
                         if (AbilityIndex == 52)
                         {
-                            sequence = AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1];
+                            sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1];
                         }
                         else
                         {
-                            sequence = AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[1];
+                            sequence = GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[1];
                         }
 
                         if (sequence == null)
@@ -1366,7 +1366,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                         break;
                     case BattleEffectType.FBExplosion:
-                        sequence = AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1];
+                        sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1];
                         if (sequence != null)
                         {
                             var totalSequenceFrames = sequence.GetTotalSequenceFrames();
@@ -1437,7 +1437,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                         break;
                     case BattleEffectType.WallSmoke:
-                        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[5];
+                        sequence = GamePack.Current.ImageSequences.ImageSequences[5];
                         if (sequence == null)
                         {
                             Frame = -1;
@@ -1454,7 +1454,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                         break;
                     case BattleEffectType.HitGround:
-                        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[9];
+                        sequence = GamePack.Current.ImageSequences.ImageSequences[9];
                         if (sequence == null)
                         {
                             Frame = -1;
@@ -1471,7 +1471,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
 
                         break;
                     case BattleEffectType.HitWater:
-                        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[10];
+                        sequence = GamePack.Current.ImageSequences.ImageSequences[10];
                         if (sequence == null)
                         {
                             Frame = -1;
@@ -1489,7 +1489,7 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                         break;
                     case BattleEffectType.Blood:
                         var pathZ2 = Path[0];
-                        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[pathZ2.Z];
+                        sequence = GamePack.Current.ImageSequences.ImageSequences[pathZ2.Z];
                         if (sequence == null)
                         {
                             Frame = -1;
@@ -1562,11 +1562,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                     case BattleEffectType.CloudPuff:
                         if (AbilityIndex == 52)
                         {
-                            sequence = AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[0];
+                            sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[0];
                         }
                         else
                         {
-                            sequence = AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[0];
+                            sequence = GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[0];
                         }
 
                         if (sequence != null)
@@ -1684,11 +1684,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                     {
                                         if (AbilityIndex == 52)
                                         {
-                                            AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
+                                            GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1);
                                         }
                                         else
                                         {
-                                            AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                            GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                                         }
                                     }
 
@@ -1707,11 +1707,11 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 {
                                     if (AbilityIndex == 52)
                                     {
-                                        AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
+                                        GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
                                     }
                                     else
                                     {
-                                        AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
+                                        GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
                                     }
                                 }
 

@@ -46,7 +46,7 @@ public partial class Cave : Structure
             {
                 if (oldEntrance == CaveEntrance.Up)
                 {
-                    partner = (Cave)AoWHSMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel - 1).FindOwnedChild(131966);
+                    partner = (Cave)StrategicMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel - 1).FindOwnedChild(131966);
                     if (partner != null && partner.Entrance == CaveEntrance.Down)
                     {
                         partner.Dispose();
@@ -54,7 +54,7 @@ public partial class Cave : Structure
                 }
                 else
                 {
-                    partner = (Cave)AoWHSMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel + 1).FindOwnedChild(131966);
+                    partner = (Cave)StrategicMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel + 1).FindOwnedChild(131966);
                     if (partner != null && partner.Entrance == CaveEntrance.Up)
                     {
                         partner.Dispose();
@@ -96,10 +96,10 @@ public partial class Cave : Structure
             switch (Entrance)
             {
                 case CaveEntrance.Up:
-                    field = AoWHSMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel - 1);
+                    field = StrategicMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel - 1);
                     break;
                 case CaveEntrance.Down:
-                    field = AoWHSMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel + 1);
+                    field = StrategicMap.Current.MapContainer.GetField(_hexX, _hexY, Owner.HexLevel + 1);
                     break;
                 default:
                     field = null;
@@ -107,7 +107,7 @@ public partial class Cave : Structure
             }
 
             // { Original dereferences the destination even for an idle entrance. }
-            ((MoveControl)info.Sender).ExecuteExternalMove((AoWMapField)info.MapField, (AoWMapField)field, MemoryMarshal.Cast<Array16<sbyte>, sbyte>(((MoveControl)(object)info.Sender).MovePointTable)[1 + 16 * field.TerrainType + field.OverlayType]);
+            ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, field, MemoryMarshal.Cast<Array16<sbyte>, sbyte>(((MoveControl)(object)info.Sender).MovePointTable)[1 + 16 * field.TerrainType + field.OverlayType]);
         }
     }
 
@@ -131,7 +131,7 @@ public partial class Cave : Structure
     {
         if (info.HexNumber == 0)
         {
-            ((AoWMapField)(object)info.MapField).FieldFlags = ((AoWMapField)(object)info.MapField).FieldFlags | 32768;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 32768;
         }
     }
 
@@ -311,7 +311,7 @@ public partial class Cave : Structure
             var visibilityRange = armyHexSprite.Army.VisibilityRange();
             var hexY = armyHexSprite.GetHexY();
             var hexX = armyHexSprite.GetHexX();
-            ((AoWMapLevel)AoWHSMap.Current.MapContainer.GetMapLevel(L)).ExploreArea(hexX, hexY, armyHexSprite.Army.Player, visibilityRange);
+            StrategicMap.Current.MapContainer.GetMapLevel(L).ExploreArea(hexX, hexY, armyHexSprite.Army.Player, visibilityRange);
         }
     }
 
@@ -331,7 +331,7 @@ public partial class Cave : Structure
 
         var hexY = GetHexY();
         var hexX = GetHexX();
-        field = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, L);
+        field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, L);
         return (sbyte)army.MoveOnMovePoints(selection, field.TerrainType, field.OverlayType);
     }
 
@@ -352,7 +352,7 @@ public partial class Cave : Structure
 
         var hexY = GetHexY();
         var hexX = GetHexX();
-        field = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, L);
+        field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, L);
         byte result = 0;
         for (int I = 0, last = units.Count - 1; I <= last; I++)
         {
@@ -383,7 +383,7 @@ public partial class Cave : Structure
         sbyte L;
         string messageText;
         ArmyHexSprite armyHexSprite;
-        AoWMapField field;
+        MapField field;
         TokenEvent eventValue;
         armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
         if (armyHexSprite != null && CanEnter(armyHexSprite.Army.Player))
@@ -410,12 +410,12 @@ public partial class Cave : Structure
             path.AddMapCoordinate(GetHexX(), hexY2, hexLevel);
             var hexY3 = GetHexY();
             var hexX = GetHexX();
-            field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(hexX, hexY3, L);
+            field = StrategicMap.Current.MapContainer.GetField(hexX, hexY3, L);
             bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
             if (!condition)
             {
                 var player = field.GetPlayer();
-                var diplomaticRelation = AoWHSMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, player);
+                var diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, player);
                 condition = Set<byte>.WithBounds(0, 255).With(1).With(3).Contains((byte)(int)diplomaticRelation);
             }
 
@@ -423,13 +423,13 @@ public partial class Cave : Structure
             {
                 if (field.GetPlayer() > -1 && field.GetPlayer() != armyHexSprite.Army.Player)
                 {
-                    if (!AoWHSMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).GetBusy())
+                    if (!StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).GetBusy())
                     {
                         // { Original passes action before mode. }
                         eventValue = Draw.ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection, path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
                         if (eventValue != null)
                         {
-                            AoWHSMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
+                            StrategicMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
                             eventValue.Release();
                             result = true;
                         }
@@ -448,22 +448,22 @@ public partial class Cave : Structure
                     result = Draw.ArmyHexSprite.MoveArmy(armyHexSprite, selection, path, Set<ArmyMoveModeElement>.Of(), false);
                 }
 
-                if (result && (byte)AoWHSMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player)
+                if (result && (byte)StrategicMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player)
                 {
-                    AoWHSMap.Current.ViewLevel(L);
-                    AoWHSMap.Current.SelectedArmy.Select(armyHexSprite);
+                    StrategicMap.Current.ViewLevel(L);
+                    StrategicMap.Current.SelectedArmy.Select(armyHexSprite);
                 }
             }
             else
             {
                 // { Original only warns the seated player. }
-                if (armyHexSprite.Army.Player == AoWHSMap.Current.SeatedPlayer)
+                if (armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
                 {
                     var player = field.GetPlayer();
-                    var playerPlayerRace = AoWHSMap.Current.Players.GetPlayers(player);
+                    var playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
                     var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
                     messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.NoWarDeclaredFormat), [raceNamesPlural]);
-                    AoWHSMap.Current.ShowMessage(messageText);
+                    StrategicMap.Current.ShowMessage(messageText);
                 }
 
                 result = false;

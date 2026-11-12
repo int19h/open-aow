@@ -4,7 +4,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -79,9 +78,9 @@ public partial class ConfirmationDialog : DataModule
                 DialogHosts.General.City.Loot();
                 break;
             case 3:
-                if (DialogHosts.General.City.CanRaze(AoWHSMap.Current.SeatedPlayer, ref reason))
+                if (DialogHosts.General.City.CanRaze(StrategicMap.Current.SeatedPlayer, ref reason))
                 {
-                    if (DialogHosts.General.City.Raze(AoWHSMap.Current.SeatedPlayer))
+                    if (DialogHosts.General.City.Raze(StrategicMap.Current.SeatedPlayer))
                     {
                         structure = DialogHosts.General.Structure;
                         DialogHosts.MapEvents.TheMapStructureDeselected();
@@ -90,12 +89,12 @@ public partial class ConfirmationDialog : DataModule
                 }
                 else
                 {
-                    AoWHSMap.Current.ShowWarning(reason);
+                    StrategicMap.Current.ShowWarning(reason);
                 }
 
                 break;
             case 4:
-                AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Surrender();
+                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Surrender();
                 break;
             case 5:
                 DialogHosts.WorldMap.WorldPanel.Visible = false;
@@ -120,7 +119,7 @@ public partial class ConfirmationDialog : DataModule
                     }
                     else
                     {
-                        AoWHSMap.Current.ShowWarning(reason);
+                        StrategicMap.Current.ShowWarning(reason);
                     }
                 }
 

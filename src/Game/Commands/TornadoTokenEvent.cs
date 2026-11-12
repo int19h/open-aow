@@ -63,7 +63,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
         bool exposed = default;
         ArmyHexSprite army = default;
         Troop troopObject = default;
-        AoWMapField mapField = default;
+        MapField mapField = default;
         ArmyEventLog log = default;
         ImageSequenceAnimation animation = default;
         ArmyHexSprite placed = default;
@@ -71,26 +71,26 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
         if (value == 0)
         {
             _angle = 0;
-            var spell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
-            AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
-            AoWHSMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
-            if (source.Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
+            var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+            GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
+            StrategicMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
+            if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
             {
-                AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+                GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
             }
 
             animation = (ImageSequenceAnimation)new Animation(null);
             _animation = animation;
             animation.AnimationLevel = 27;
             animation.OnShow = ShowAnimation;
-            animation.AnimationMap = AoWHSMap.Current;
-            animation.Tag = (AoWHSMap.Current.ViewWidth & 65535) | (AoWHSMap.Current.ViewHeight << 16);
+            animation.AnimationMap = StrategicMap.Current;
+            animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
             animation.Activate();
         }
 
         if (value == 80)
         {
-            mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+            mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
             if (ArmyId != null && !mapField.GetMagicShieldActive())
             {
                 ArmyId.RetrieveArmy(ref army, ref selection);
@@ -124,7 +124,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                             chance = chance / 2;
                         }
 
-                        if (chance < AoWHSMap.Current.Random(100))
+                        if (chance < StrategicMap.Current.Random(100))
                         {
                             selection = (byte)(selection & ~(1 << I));
                         }
@@ -157,37 +157,37 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                     var hexX = army.HexX;
                     EventLog.DistributeLocationEventLog(log, (sbyte)EventPlayerIndex, hexX, hexY, army.HexLevel, true);
                     log.Release();
-                    location.Packed = ((Tornado)AoWHSSet.Current.SpellControl.GetSpell(68)).CalculateWarpLocation(army, selection);
+                    location.Packed = ((Tornado)GamePack.Current.SpellControl.GetSpell(68)).CalculateWarpLocation(army, selection);
                     if (location.Packed != 16777215)
                     {
-                        if (source.Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
+                        if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
                         {
-                            AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(1);
+                            GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(1);
                         }
 
-                        if (AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.VisibleForPlayer(Location.X, Location.Y, Location.MapLevel, AoWHSMap.Current.SeatedPlayer))
+                        if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(Location.X, Location.Y, Location.MapLevel, StrategicMap.Current.SeatedPlayer))
                         {
-                            if (AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] != null)
+                            if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] != null)
                             {
                                 animation = new ImageSequenceAnimation(null);
-                                animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1]);
-                                AoWHSMap.Current.PlaceHex(animation, Location.X, Location.Y, Location.MapLevel);
+                                animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1]);
+                                StrategicMap.Current.PlaceHex(animation, Location.X, Location.Y, Location.MapLevel);
                             }
                         }
 
-                        if (AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, AoWHSMap.Current.SeatedPlayer))
+                        if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, StrategicMap.Current.SeatedPlayer))
                         {
-                            if (AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] != null)
+                            if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] != null)
                             {
                                 animation = new ImageSequenceAnimation(null);
-                                animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1]);
-                                AoWHSMap.Current.PlaceHex(animation, location.X, location.Y, location.MapLevel);
+                                animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1]);
+                                StrategicMap.Current.PlaceHex(animation, location.X, location.Y, location.MapLevel);
                             }
                         }
 
                         movedUnits = new UnitUserList(null);
                         owner = (byte)army.Army.Player;
-                        mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(location.Packed);
+                        mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(location.Packed);
                         if (army.Army.ValidateSelection(255) != selection)
                         {
                             for (int I = army.Army.Count - 1; I >= 0; I--)
@@ -213,7 +213,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                         if (owner == 0)
                         {
                             var unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(movedUnits, 5);
-                            group = AoWHSMap.Current.AIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
+                            group = StrategicMap.Current.AIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
                             group.AddUnits(movedUnits);
                             ((HuntAIGroup)group).TargetUnitIds.Add(source.UnitId);
                             group.Release();
@@ -248,13 +248,13 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
         int direction;
         int radius;
         int last;
-        if (AoWHSMap.Current.ViewL == Location.MapLevel)
+        if (StrategicMap.Current.ViewL == Location.MapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, ref pixelX, ref pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
             _angle = this._angle + 20 + _animation.FrameCounter / 5;
-            RandSeed = AoWHSMap.Current.InitialRandomSeed;
+            RandSeed = StrategicMap.Current.InitialRandomSeed;
             for (int I = 0; I <= 200; I++)
             {
                 direction = Random(360);
@@ -285,7 +285,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
                     {
                         X = Round((double)Math.Cos(angle) * radius) + xShift;
                         Y = Round((double)((double)Math.Sin(angle) * radius) * 0.5) + height;
-                        AoWHSSet.Current.SpellControl.GetSpell(68).CastImages.Show(0, pixelX + X, pixelY - Y, 0, lockedSurface);
+                        GamePack.Current.SpellControl.GetSpell(68).CastImages.Show(0, pixelX + X, pixelY - Y, 0, lockedSurface);
                         angle = (float)((double)0.035 + angle);
                     }
                 }

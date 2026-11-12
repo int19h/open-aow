@@ -115,9 +115,9 @@ public partial class RaceList : EControlStyleNode, IChildList<Race>
     public void Update()
     {
         Race race;
-        for (int I = 0, last = AoWHSSet.Current.RaceResources.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = GamePack.Current.RaceResources.GetCount() - 1; I <= last; I++)
         {
-            if (AoWHSSet.Current.RaceResources.GetRaceResource(I) != null)
+            if (GamePack.Current.RaceResources.GetRaceResource(I) != null)
             {
                 if (GetRace(I) == null)
                 {

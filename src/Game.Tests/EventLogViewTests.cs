@@ -57,7 +57,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             if (negotiateRequestEventLog.Object == NegotiateObject.City) return "CityNegotiation";
             if (negotiateRequestEventLog.Object == NegotiateObject.Army)
             {
-                var armyHexSprite = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(negotiateRequestEventLog.X, negotiateRequestEventLog.Y, negotiateRequestEventLog.MapLevel).FindOwnedChild(131607);
+                var armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(negotiateRequestEventLog.X, negotiateRequestEventLog.Y, negotiateRequestEventLog.MapLevel).FindOwnedChild(131607);
                 if (armyHexSprite != null)
                 {
                     var joinSelection = armyHexSprite.Army.GetJoinSelection(negotiateRequestEventLog._player);
@@ -66,7 +66,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             }
             return "None";
         }
-        if (eventValue is GameOverEventLog) return AoWHSMap.Current.SeatedPlayer == eventValue._player ? "GameOver" : "ReceivedMessage";
+        if (eventValue is GameOverEventLog) return StrategicMap.Current.SeatedPlayer == eventValue._player ? "GameOver" : "ReceivedMessage";
         if (eventValue is NewTurnEventLog) return "NewTurn";
         if (eventValue is CombatTypeRequestEventLog) return "CombatType";
         if (eventValue is ShowBookEventLog) return "InformationBook";
@@ -89,7 +89,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         }
         if (eventValue is PrisonersJoinEventLog)
         {
-            var troopObject = AoWHSMap.Current.UnitControl.FindUnit(((PrisonersJoinEventLog)eventValue).FirstUnitId);
+            var troopObject = StrategicMap.Current.UnitControl.FindUnit(((PrisonersJoinEventLog)eventValue).FirstUnitId);
             return troopObject != null && troopObject is Hero ? "PrisonerHero" : "PrisonersJoin";
         }
         if (eventValue is EnterWizardsTowerEventLog) return "WizardsTower";
@@ -250,9 +250,9 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
     private sealed class Scene : IDisposable
     {
-        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
+        private readonly StrategicMap _previousMap = StrategicMap.Current;
         private readonly List<EngineObject> _created = [];
-        private readonly AoWHSMap _map;
+        private readonly StrategicMap _map;
         private readonly MapField _field;
 
         internal CountingInt32Comparer UnitFinds { get; } = new();
@@ -261,7 +261,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         internal Scene()
         {
-            _map = new AoWHSMap(null!);
+            _map = new StrategicMap(null!);
             _map.SeatedPlayer = Seated;
             _map.UnitControl = new UnitControl(null!);
             _units = new Dictionary<int, Troop>(UnitFinds);
@@ -272,7 +272,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             level.CreateMapFieldList(1, 1);
             _map.MapContainer = container;
             _field = container.GetField(0, 0, 0);
-            AoWHSMap.Current = _map;
+            StrategicMap.Current = _map;
         }
 
         internal EventLog Create(Type type)
@@ -324,7 +324,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         public void Dispose()
         {
-            AoWHSMap.Current = _previousMap;
+            StrategicMap.Current = _previousMap;
             foreach (var log in _created) _ = Record.Exception(log.Dispose);
         }
     }

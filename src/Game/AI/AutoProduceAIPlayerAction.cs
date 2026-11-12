@@ -52,7 +52,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                     var player = Control.Player;
                     if (player.PlayerIndex != 0)
                     {
-                        if (FindAvailableTransporter() == null && !ProducingTransporter() && AoWHSMap.Current.Day > 5)
+                        if (FindAvailableTransporter() == null && !ProducingTransporter() && StrategicMap.Current.Day > 5)
                         {
                             budget = (AIBudget)player.AIBudget.Budgets.FindChild(131742);
                             if (budget == null)
@@ -140,7 +140,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                         I += 1;
                     }
 
-                    I = AoWHSMap.Current.Random(I + 1);
+                    I = StrategicMap.Current.Random(I + 1);
                     var item = _productions[I];
                     ExecuteProduce(_productions[I].First, item.Second);
                     _productions.Delete(I);
@@ -251,7 +251,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
         int result;
         UnitResource resource;
         Unit unit;
-        resource = AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex);
+        resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         if (resource != null && resource.GetTransportCapacity() != 0)
         {
             unit = new Unit(null);
@@ -301,7 +301,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                         if (control.UnitProductions.GetItem(J).UnitIndex != -1 && !control.UnitProductions.GetItem(J).Researched)
                         {
                             var unitProduction = control.UnitProductions.GetItem(J);
-                            resource = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                            resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                             if (resource.GetTransportCapacity() != 0)
                             {
                                 var unitResearchMana = control.UnitResearchMana(J);
@@ -309,7 +309,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                 if (player.AIBudget.RequestBudgetExpense(unitResearchGold, unitResearchMana, budget, false))
                                 {
                                     control.GetLocation(ref X, ref Y, ref L);
-                                    structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+                                    structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(PlayerStructure));
                                     priority = TransporterPriority(control.UnitProductions.GetItem(J).UnitIndex);
                                     if (priority != -1)
                                     {
@@ -388,7 +388,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                         if (control.UnitProductions.GetItem(J).UnitIndex != -1 && control.UnitProductions.GetItem(J).Researched)
                         {
                             var unitProduction = control.UnitProductions.GetItem(J);
-                            resource = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                            resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                             if (resource.GetTransportCapacity() != 0)
                             {
                                 var unitProductionMana = control.UnitProductionMana(J);
@@ -402,7 +402,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                                     if (player.AIBudget.RequestProductionExpense(controlUnitProductionGold, unitProductionGoldUpkeep, controlUnitProductionMana, unitProductionManaUpkeep, budget))
                                     {
                                         control.GetLocation(ref X, ref Y, ref L);
-                                        structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+                                        structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(PlayerStructure));
                                         priority = TransporterPriority(control.UnitProductions.GetItem(J).UnitIndex);
                                         if (priority != -1)
                                         {
@@ -499,7 +499,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                 if (control.UnitProductions.GetItem(J).UnitIndex != -1 && control.UnitProductions.GetItem(J).Researched)
                 {
                     var unitProduction = control.UnitProductions.GetItem(J);
-                    resource = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                    resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                     result = result || resource.GetTransportCapacity() != 0;
                 }
             }
@@ -550,7 +550,7 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                 if (control.Queue.GetItem(0).Order is ResearchSpell)
                 {
                     var unitProduction = control.UnitProductions.GetItem(control.Settings.UnitProductionIndex);
-                    resource = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                    resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                     if (resource != null)
                     {
                         result = resource.GetTransportCapacity() != 0;

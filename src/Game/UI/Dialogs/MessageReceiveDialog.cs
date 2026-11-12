@@ -5,7 +5,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -65,7 +64,7 @@ public partial class MessageReceiveDialog : DataModule
         dialog.HeaderMemo.Items.Text = text;
         var fMessageText = ((GameOverEventLog)eventValue).Message.Text;
         dialog.MessageMemo.Items.Text = fMessageText;
-        var player = AoWHSMap.Current.Players.GetPlayers(eventValue._player);
+        var player = StrategicMap.Current.Players.GetPlayers(eventValue._player);
         dialog.LeftShield.CurrentImage = player.PlayerRace + 13;
         dialog.RightShield.CurrentImage = dialog.LeftShield.CurrentImage;
         dialog.Window.Visible = true;

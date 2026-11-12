@@ -47,7 +47,7 @@ public partial class FountainOfLife : CityEnchantmentSpell
             A = new Animation(null);
             A.AnimationLevel = 27;
             A.OnShow = ShowFountain;
-            A.AnimationMap = AoWHSMap.Current;
+            A.AnimationMap = StrategicMap.Current;
             A.Tag = (int)(((uint)(int)targetCity.GetHexX()) | ((uint)(targetCity.GetHexY() << 8)));
             A.Activate();
         }
@@ -84,7 +84,7 @@ public partial class FountainOfLife : CityEnchantmentSpell
                 deltaY = vy * T - Round((double)((double)T * 0.25) * T);
                 if (T > 0)
                 {
-                    AoWHSSet.Current.SpellControl.GetSpell(52).CastImages.Show(0, cx + deltaX + offset, cy - deltaY, 0, lockedSurface);
+                    GamePack.Current.SpellControl.GetSpell(52).CastImages.Show(0, cx + deltaX + offset, cy - deltaY, 0, lockedSurface);
                 }
             }
         }

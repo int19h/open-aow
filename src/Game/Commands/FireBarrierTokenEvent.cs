@@ -25,8 +25,8 @@ public partial class FireBarrierTokenEvent : GlobalTargetSpellTokenEvent
     {
         base.Process(source, value);
         CreateFireBarrier();
-        var spell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
-        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
+        var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
         return false;
     }
 
@@ -35,19 +35,19 @@ public partial class FireBarrierTokenEvent : GlobalTargetSpellTokenEvent
     {
         HexNumberWalkData walk = default;
         MapLevel level;
-        AoWMapField mapField;
+        MapField mapField;
         Fire fire;
-        RandSeed = AoWHSMap.Current.Random(16777215);
-        level = AoWHSMap.Current.MapContainer.MapLevels[Location.MapLevel];
+        RandSeed = StrategicMap.Current.Random(16777215);
+        level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, Location.X, Location.Y, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                mapField = (AoWMapField)level.Field[walk.X, walk.Y];
-                if (((GlobalTargetSpell)(object)AoWHSSet.Current.SpellControl.GetSpell(11)).ValidTargetMapField((MapField)(object)mapField) && mapField.GetArmyHexSprite() == null)
+                mapField = level.Field[walk.X, walk.Y];
+                if (((GlobalTargetSpell)(object)GamePack.Current.SpellControl.GetSpell(11)).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() == null)
                 {
-                    fire = AoWHSSet.Current.FireControl.PlaceFire(walk.X, walk.Y, Location.MapLevel, FireType.Large);
+                    fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, Location.MapLevel, FireType.Large);
                     if (fire != null)
                     {
                         fire.SetupExplosion(Random(35));

@@ -36,27 +36,27 @@ public sealed class RemainingConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly AoWHSSet _previousSet = AoWHSSet.Current;
+        private readonly GamePack _previousSet = GamePack.Current;
         private readonly GameEngine _previousEngine = GameTables.GameEngine;
-        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
+        private readonly StrategicMap _previousMap = StrategicMap.Current;
         private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
         private readonly MapObjectResourceList _combatResources = new MapObjectResourceList(null!);
 
         internal Fixture()
         {
             var set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
-            AoWHSSet.Current = set;
+            GamePack.Current = set;
             GameTables.GameEngine = null!;
-            AoWHSMap.Current = null!;
-            AoWHSSet.Current.UnitGraphicsResources = null!;
+            StrategicMap.Current = null!;
+            GamePack.Current.UnitGraphicsResources = null!;
             Runtime.RandSeed = 123456789;
         }
 
         public void Dispose()
         {
-            AoWHSSet.Current = _previousSet;
+            GamePack.Current = _previousSet;
             GameTables.GameEngine = _previousEngine;
-            AoWHSMap.Current = _previousMap;
+            StrategicMap.Current = _previousMap;
             _combatResources.Dispose();
             _manager.Dispose();
         }

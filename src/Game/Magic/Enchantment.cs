@@ -65,7 +65,7 @@ public partial class Enchantment : EngineObject
             Upkeep = value;
             if (Source > -1)
             {
-                AoWHSMap.Current.Players.GetPlayers(Source).MagicControl.Update();
+                StrategicMap.Current.Players.GetPlayers(Source).MagicControl.Update();
             }
         }
     }
@@ -77,13 +77,13 @@ public partial class Enchantment : EngineObject
         {
             if (Source > -1)
             {
-                AoWHSMap.Current.Players.GetPlayers(Source).MagicControl.UnregisterEnchantment(this);
+                StrategicMap.Current.Players.GetPlayers(Source).MagicControl.UnregisterEnchantment(this);
             }
 
             Source = player;
             if (Source > -1)
             {
-                AoWHSMap.Current.Players.GetPlayers(Source).MagicControl.RegisterEnchantment(this);
+                StrategicMap.Current.Players.GetPlayers(Source).MagicControl.RegisterEnchantment(this);
             }
         }
     }
@@ -109,16 +109,16 @@ public partial class Enchantment : EngineObject
         GetLocation(ref X, ref Y, ref L);
         if (X != -1)
         {
-            if (AoWHSMap.Current.Visible(X, Y, L, 0))
+            if (StrategicMap.Current.Visible(X, Y, L, 0))
             {
-                AoWHSMap.Current.CenterViewTo(X, Y, L);
-                AoWHSMap.Current.PlayCenterAnimation(X, Y, L);
+                StrategicMap.Current.CenterViewTo(X, Y, L);
+                StrategicMap.Current.PlayCenterAnimation(X, Y, L);
             }
             else
             {
                 var binding = GetBinding();
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.IsOutOfSightFormat), [binding]);
-                AoWHSMap.Current.ShowMessage(format);
+                StrategicMap.Current.ShowMessage(format);
             }
 
             result = true;

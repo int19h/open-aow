@@ -42,13 +42,13 @@ public partial class TacticalBattleOozeHexSprite : SingleHexSprite
             case 3:
             case 6:
             case 13:
-                sequence = AoWHSSet.Current.ImageSequences.ImageSequences[26];
+                sequence = GamePack.Current.ImageSequences.ImageSequences[26];
                 break;
             case 12:
-                sequence = AoWHSSet.Current.ImageSequences.ImageSequences[27];
+                sequence = GamePack.Current.ImageSequences.ImageSequences[27];
                 break;
             default:
-                sequence = AoWHSSet.Current.ImageSequences.ImageSequences[25];
+                sequence = GamePack.Current.ImageSequences.ImageSequences[25];
                 break;
         }
 

@@ -15,7 +15,7 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -82,7 +82,7 @@ public partial class MagicWindow : DataModule
         if (index != -1)
         {
             enchantment = GlobalEnchantmentList.Items.Objects[index];
-            var canRemove = enchantment.CanRemove(AoWHSMap.Current.SeatedPlayer, ref reason);
+            var canRemove = enchantment.CanRemove(StrategicMap.Current.SeatedPlayer, ref reason);
             GlobalDispelButton.Visible = canRemove;
         }
         else
@@ -224,7 +224,7 @@ public partial class MagicWindow : DataModule
         if (condition)
         {
             var enchantment = EnchantmentList.Items.Objects[EnchantmentList.Selected];
-            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.DispelEnchantment(enchantment);
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.DispelEnchantment(enchantment);
         }
     }
 
@@ -260,7 +260,7 @@ public partial class MagicWindow : DataModule
         if (condition)
         {
             var globalEnchantment = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
-            AoWHSMap.Current.GlobalMagicControl.RemoveEnchantment(AoWHSMap.Current.SeatedPlayer, globalEnchantment);
+            StrategicMap.Current.GlobalMagicControl.RemoveEnchantment(StrategicMap.Current.SeatedPlayer, globalEnchantment);
         }
     }
 
@@ -315,10 +315,10 @@ public partial class MagicWindow : DataModule
         Spell spell;
         int X;
         int Y;
-        magic = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl;
+        magic = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
         if (magic.ResearchSpellId != 0)
         {
-            spell = AoWHSSet.Current.SpellControl.GetSpell(magic.ResearchSpellId);
+            spell = GamePack.Current.SpellControl.GetSpell(magic.ResearchSpellId);
             if (spell != null)
             {
                 if (spell.CastImages.GetImageSequence(10) != null)
@@ -599,9 +599,9 @@ public partial class MagicWindow : DataModule
         PlayerMagicControl control;
         int turns;
         Spell spell;
-        if (AoWHSMap.Current.SeatedPlayer != -1)
+        if (StrategicMap.Current.SeatedPlayer != -1)
         {
-            control = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl;
+            control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
             window.EnchantmentList.Items.Clear();
             window.BindingList.Items.Clear();
             window.UpkeepList.Items.Clear();
@@ -641,7 +641,7 @@ public partial class MagicWindow : DataModule
             window.ResearchPointsLabel.Text = IntToStr(netPowerToResearch);
             if (control.ResearchSpellId != 0)
             {
-                spell = AoWHSSet.Current.SpellControl.GetSpell(control.ResearchSpellId);
+                spell = GamePack.Current.SpellControl.GetSpell(control.ResearchSpellId);
                 window.SpellNameLabel.Text = spell.SpellName;
                 var magicSphere = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                 var level = AbilityRules.TranslateResourceString(GameText.LevelText);
@@ -649,7 +649,7 @@ public partial class MagicWindow : DataModule
                 var castingCost = AbilityRules.TranslateResourceString(GameText.CastingCostText);
                 var mana = AbilityRules.TranslateResourceString(GameText.ManaText);
                 window.SpellCostLabel.Text = castingCost + ": " + IntToStr(spell.BaseManaCost) + " " + mana;
-                turns = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.GetResearchTurnsLeft();
+                turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.GetResearchTurnsLeft();
                 if (turns < 999)
                 {
                     var formatTurnsLeftString = DurationText.FormatTurnsLeftString(turns);
@@ -678,19 +678,19 @@ public partial class MagicWindow : DataModule
     internal static void RefreshGlobalMagic(MagicWindow window)
     {
         GlobalMagicControl control;
-        control = AoWHSMap.Current.GlobalMagicControl;
+        control = StrategicMap.Current.GlobalMagicControl;
         window.GlobalEnchantmentList.Items.Clear();
         window.GlobalNameList.Items.Clear();
         window.GlobalUpkeepList.Items.Clear();
         for (int I = 0, last = control.Enchantments.Count - 1; I <= last; I++)
         {
-            if (control.Enchantments.GetEnchantments(I).VisibleForPlayer(AoWHSMap.Current.SeatedPlayer))
+            if (control.Enchantments.GetEnchantments(I).VisibleForPlayer(StrategicMap.Current.SeatedPlayer))
             {
                 var name = control.Enchantments.GetEnchantments(I).GetName();
                 var enchantment = control.Enchantments.GetEnchantments(I);
                 window.GlobalEnchantmentList.Items.AddObject(name, enchantment);
                 var enchantmentPlayerIndex = control.Enchantments.GetEnchantments(I);
-                var player = AoWHSMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
+                var player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
                 window.GlobalNameList.Items.Add(player.Leader.HeroName);
                 var upkeep = control.Enchantments.GetEnchantments(I).GetUpkeep();
                 window.GlobalUpkeepList.Items.Add(IntToStr(upkeep));

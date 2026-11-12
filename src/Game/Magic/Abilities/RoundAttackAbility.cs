@@ -68,10 +68,10 @@ public partial class RoundAttackAbility : TouchAbility
             }
         }
 
-        count = AoWHSMap.Current.Random(2) + 1;
+        count = StrategicMap.Current.Random(2) + 1;
         while (count != 0 && targets.Count != 0)
         {
-            other = targets[AoWHSMap.Current.Random(targets.Count)];
+            other = targets[StrategicMap.Current.Random(targets.Count)];
             action = CombatObject.CreateStrikeCombatAction(source, other, false);
             if (action != null)
             {
@@ -114,7 +114,7 @@ public partial class RoundAttackAbility : TouchAbility
             var unitStrikeDamageValueLocal = Troop.UnitStrikeDamageValue(attacker, defender);
             damageValues.TargetDamage = unitStrikeDamageValueLocal;
             damageValues.TargetCost = 0;
-            var damageTypes = ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).GetDamageTypes(attacker);
+            var damageTypes = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(attacker);
             var immunityTypes = defender.GetImmunityTypes();
             damageValues.DamageTypes = damageTypes - immunityTypes;
         }
@@ -139,7 +139,7 @@ public partial class RoundAttackAbility : TouchAbility
             damage = troop.GetDamage();
 
             strength = AbilityRules.LimitedDamage(attack, damage, 1) * 3;
-            types = ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).GetDamageTypes(owner);
+            types = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(owner);
         }
     }
 
@@ -236,7 +236,7 @@ public partial class RoundAttackAbility : TouchAbility
             info.Attack = attack;
             var damage = source.GetDamage();
             info.Damage = damage;
-            var damageTypes = ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).GetDamageTypes(source);
+            var damageTypes = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(source);
             info.DamageTypes = damageTypes;
             info.RepeatCount = 2;
             info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);

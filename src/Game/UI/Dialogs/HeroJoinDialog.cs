@@ -10,7 +10,7 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -133,7 +133,7 @@ public partial class HeroJoinDialog : DataModule
             DialogHosts.General.PlayButtonSound(0);
             if (!_joinEvent.Accept(ref reason))
             {
-                AoWHSMap.Current.ShowWarning(reason);
+                StrategicMap.Current.ShowWarning(reason);
             }
             else
             {
@@ -151,7 +151,7 @@ public partial class HeroJoinDialog : DataModule
             DialogHosts.General.PlayButtonSound(0);
             if (!_joinEvent.Reject(ref reason))
             {
-                AoWHSMap.Current.ShowWarning(reason);
+                StrategicMap.Current.ShowWarning(reason);
             }
             else
             {
@@ -242,7 +242,7 @@ public partial class HeroJoinDialog : DataModule
         if (dialog.ValidateJoin())
         {
             dialog._units.Clear();
-            dialog._faceUnit = AoWHSMap.Current.UnitControl.FindUnit(dialog._joinEvent.FirstUnitId);
+            dialog._faceUnit = StrategicMap.Current.UnitControl.FindUnit(dialog._joinEvent.FirstUnitId);
             dialog._joinEvent.ListJoinUnits(dialog._units, ref dialog._selection);
             var level = ((Hero)dialog._faceUnit).GetLevel();
             var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.LevelFormat), [IntToStr(level)]);

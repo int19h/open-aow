@@ -171,35 +171,35 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                 switch (EffectType)
                 {
                     case WorldEffectType.EMParticle:
-                        sequence = AoWHSSet.Current.SpellControl.GetSpell(64).CastImages.GetImageSequence(0);
+                        sequence = GamePack.Current.SpellControl.GetSpell(64).CastImages.GetImageSequence(0);
                         ShowGlobal(false, false);
                         break;
                     case WorldEffectType.WMParticle:
-                        sequence = AoWHSSet.Current.SpellControl.GetSpell(45).CastImages.GetImageSequence(0);
+                        sequence = GamePack.Current.SpellControl.GetSpell(45).CastImages.GetImageSequence(0);
                         ShowGlobal(false, false);
                         break;
                     case WorldEffectType.WMLParticle:
-                        if (AoWHSMap.Current.ViewL == Layer)
+                        if (StrategicMap.Current.ViewL == Layer)
                         {
-                            sequence = AoWHSSet.Current.SpellControl.GetSpell(75).CastImages.GetImageSequence(1);
+                            sequence = GamePack.Current.SpellControl.GetSpell(75).CastImages.GetImageSequence(1);
                             ShowLocal(false);
                         }
 
                         break;
                     case WorldEffectType.HatredParticle:
-                        sequence = AoWHSSet.Current.SpellControl.GetSpell(46).CastImages.GetImageSequence(0);
+                        sequence = GamePack.Current.SpellControl.GetSpell(46).CastImages.GetImageSequence(0);
                         ShowGlobal(true, false);
                         break;
                     case WorldEffectType.TranqParticle:
-                        sequence = AoWHSSet.Current.SpellControl.GetSpell(47).CastImages.GetImageSequence(0);
+                        sequence = GamePack.Current.SpellControl.GetSpell(47).CastImages.GetImageSequence(0);
                         ShowGlobal(false, false);
                         break;
                     case WorldEffectType.SWParticle:
-                        sequence = AoWHSSet.Current.SpellControl.GetSpell(65).CastImages.GetImageSequence(1);
+                        sequence = GamePack.Current.SpellControl.GetSpell(65).CastImages.GetImageSequence(1);
                         ShowGlobal(false, true);
                         break;
                     case WorldEffectType.SWBeamParticle:
-                        sequence = AoWHSSet.Current.SpellControl.GetSpell(65).CastImages.GetImageSequence(1);
+                        sequence = GamePack.Current.SpellControl.GetSpell(65).CastImages.GetImageSequence(1);
                         ShowGlobal(false, false);
                         break;
                 }
@@ -215,14 +215,14 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
     public override void Activate()
     {
         base.Activate();
-        AoWHSMap.Current.NewFrameEvents += NewFrame;
+        StrategicMap.Current.NewFrameEvents += NewFrame;
         Frame = -1;
     }
 
     // Army.PAS:5347
     public override void Deactivate()
     {
-        AoWHSMap.Current.NewFrameEvents -= NewFrame;
+        StrategicMap.Current.NewFrameEvents -= NewFrame;
         base.Deactivate();
     }
 
@@ -252,7 +252,7 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                                 radiusY = 200;
                                 for (int I = 0; I <= 29; I++)
                                 {
-                                    effect = AoWHSMap.Current.AddEffect(WorldEffectType.HatredParticle);
+                                    effect = StrategicMap.Current.AddEffect(WorldEffectType.HatredParticle);
                                     effect.X = 50;
                                     effect.Y = 50;
                                     radiusX = -radiusX;
@@ -282,7 +282,7 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                                 radiusY = 200;
                                 for (int I = 0; I <= 29; I++)
                                 {
-                                    effect = AoWHSMap.Current.AddEffect(WorldEffectType.TranqParticle);
+                                    effect = StrategicMap.Current.AddEffect(WorldEffectType.TranqParticle);
                                     effect.X = 50;
                                     effect.Y = 50;
                                     radiusX = -radiusX;
@@ -312,7 +312,7 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                                 radiusY = 150;
                                 for (int I = 0; I <= 59; I++)
                                 {
-                                    effect = AoWHSMap.Current.AddEffect(WorldEffectType.WMLParticle);
+                                    effect = StrategicMap.Current.AddEffect(WorldEffectType.WMLParticle);
                                     effect.Layer = Layer;
                                     radiusX = -radiusX;
                                     var pi = Math.PI;
@@ -338,11 +338,11 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                         case >= 0 and <= 199:
                             if (Frame % 5 == 0)
                             {
-                                AoWHSSet.Current.SpellControl.GetSpell(45).CastSounds.Play(1);
+                                GamePack.Current.SpellControl.GetSpell(45).CastSounds.Play(1);
                                 Count = Random(10) + 100;
                                 for (int J = 0; J <= Count; J++)
                                 {
-                                    effect = AoWHSMap.Current.AddEffect(WorldEffectType.WMParticle);
+                                    effect = StrategicMap.Current.AddEffect(WorldEffectType.WMParticle);
                                     effect.X = 50;
                                     effect.Y = 50;
                                     speed = (float)((double)(Random(50) + 50) * 0.1);
@@ -359,7 +359,7 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                                     Count = Random(3) + 7;
                                     for (int I = 1; I <= Count - 1; I++)
                                     {
-                                        effect = AoWHSMap.Current.AddEffect(WorldEffectType.WMParticle);
+                                        effect = StrategicMap.Current.AddEffect(WorldEffectType.WMParticle);
                                         var pi = Math.PI;
                                         effect.X = 50 + Round((double)Math.Cos((double)((double)((double)(Frame * 360) * 0.005) * pi) / 180) * Frame) / 4;
                                         var mathPI = Math.PI;
@@ -395,7 +395,7 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                             {
                                 for (int I = 0; I <= 29; I++)
                                 {
-                                    effect = AoWHSMap.Current.AddEffect(WorldEffectType.SWParticle);
+                                    effect = StrategicMap.Current.AddEffect(WorldEffectType.SWParticle);
                                     effect.X = 50;
                                     effect.Y = 50;
                                     radiusX = -radiusX;
@@ -423,7 +423,7 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                                 Count = Random(10) + 100;
                                 for (int J = 0; J <= Count; J++)
                                 {
-                                    effect = AoWHSMap.Current.AddEffect(WorldEffectType.SWBeamParticle);
+                                    effect = StrategicMap.Current.AddEffect(WorldEffectType.SWBeamParticle);
                                     effect.X = 50;
                                     effect.Y = 50;
                                     speed = (float)((double)(Random(50) + 50) * 0.1);
@@ -448,7 +448,7 @@ public partial class WorldEffectHexSprite : FixedVisibleHexSprite
                             {
                                 for (int I = 0; I <= 29; I++)
                                 {
-                                    effect = AoWHSMap.Current.AddEffect(WorldEffectType.EMParticle);
+                                    effect = StrategicMap.Current.AddEffect(WorldEffectType.EMParticle);
                                     radiusX = Random(12);
                                     var pi = Math.PI;
                                     effect.X = Round((double)Math.Cos((double)((double)(I * 12 + radiusX) * pi) / 180) * Frame) + 50;

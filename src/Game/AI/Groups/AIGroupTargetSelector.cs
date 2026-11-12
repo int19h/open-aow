@@ -2,8 +2,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-using Aow.Engine.Buffers;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -163,7 +161,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                 bool test = target.GetTargetGold() <= 0;
                 if (!test)
                 {
-                    var players = AoWHSMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+                    var players = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
                     var targetGold = target.GetTargetGold();
                     test = players.Gems >= targetGold;
                 }
@@ -178,7 +176,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                 bool test = target.GetTargetMana() <= 0;
                 if (!test)
                 {
-                    var players = AoWHSMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+                    var players = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
                     var targetMana = target.GetTargetMana();
                     test = players.MagicControl.Mana >= targetMana;
                 }
@@ -255,7 +253,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                         _priority = _target.DataA;
                         strength = GetRequiredStrength(_target);
                         superiority = GetRequiredCombatPredictorSuperiority(_target);
-                        AoWHSMap.Current.AIExecutor.UseProcessTime(100);
+                        StrategicMap.Current.AIExecutor.UseProcessTime(100);
                         busy = GroupControl.StrengthMax < strength;
                         if (!busy)
                         {
@@ -583,7 +581,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     {
                         if (_target.TransporterId != -1)
                         {
-                            var troop = AoWHSMap.Current.UnitControl.FindUnit(_target.TransporterId);
+                            var troop = StrategicMap.Current.UnitControl.FindUnit(_target.TransporterId);
                             GroupControl.Group.AddTransporter(troop);
                         }
                         else
@@ -691,7 +689,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                         {
                             var group = GroupControl.Group;
                             var behavior = group.GroupClass.Behavior;
-                            Group = AoWHSMap.Current.AIGroupManager.CreateGroup(group.Player, group.IndependentRelation, behavior);
+                            Group = StrategicMap.Current.AIGroupManager.CreateGroup(group.Player, group.IndependentRelation, behavior);
 
                             Group.AddUnits(required);
                             Group.SetupTarget(_nextTarget, AIGroupTargetStatus.Execute, 0);
@@ -741,7 +739,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         Player player;
         int I;
         AIGroup group;
-        player = AoWHSMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+        player = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
         I = player.AIGroups.Count;
         bool result = false;
         while (I != 0 && !result)
@@ -764,7 +762,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         int days;
         Player player;
         AIGroup other;
-        player = AoWHSMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+        player = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
         I = player.AIGroups.Count;
         bool result = true;
         while (I != 0 && result)
@@ -933,7 +931,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
     public bool Setup(AIGroupControl control)
     {
         Reset();
-        switch ((int)AoWHSMap.Current.Players.GetPlayers(control.Group.Player).PlayerType)
+        switch ((int)StrategicMap.Current.Players.GetPlayers(control.Group.Player).PlayerType)
         {
             case (int)PlayerType.Cpu1:
                 _validTargetLimit = 5;
@@ -1008,9 +1006,9 @@ public partial class AIGroupTargetSelector : AIGroupTask
         {
             BattleFieldInfo.SetupBattleFieldInfo(ref info, GroupControl.Group.Player, GroupControl.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
             info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
-            AoWHSMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, 1, ref info);
+            StrategicMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, 1, ref info);
             result = Round((double)GetRequiredSuperiority(target) * info.Strength);
-            ((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location))).GetDefenseRequirements(GroupControl.Group.Player, ref strengths);
+            StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location)).GetDefenseRequirements(GroupControl.Group.Player, ref strengths);
             result += StrengthInfoMax(Bytes.Of(ref strengths)) / 2;
         }
         else
@@ -1048,7 +1046,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
             BattleFieldInfo.SetupBattleFieldInfo(ref info, GroupControl.Group.Player, GroupControl.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
             info.Units = GroupControl.Group;
             info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
-            AoWHSMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, _battleFieldRadius, ref info);
+            StrategicMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, _battleFieldRadius, ref info);
             result = Round((double)GetRequiredBattleFieldSuperiority(target) * (info.Strength - info.FriendlyStrength));
         }
         else
@@ -1085,7 +1083,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
             result = battleFieldStrength;
         }
 
-        AoWHSMap.Current.AIExecutor.UseProcessTime(250);
+        StrategicMap.Current.AIExecutor.UseProcessTime(250);
         return result;
     }
 
@@ -1102,7 +1100,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         requiredUnits = new UnitUserList(null);
         optionalUnits = new UnitUserList(null);
         predictor.AddUnits(units);
-        if (((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location))).GetMoveAction(GroupControl.Group.Player) != MoveAction.Negotiate)
+        if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location)).GetMoveAction(GroupControl.Group.Player) != MoveAction.Negotiate)
         {
             predictor.InitializeAdjacentOpponents((byte)GroupControl.Group.Player, (byte)GroupControl.Group.IndependentRelation, target.Location.X, target.Location.Y, target.Location.MapLevel);
         }

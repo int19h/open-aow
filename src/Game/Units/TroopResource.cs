@@ -53,7 +53,7 @@ public partial class TroopResource : EngineResource
     public virtual LibraryImage GetPreviewImage()
     {
         UnitGraphicsResource resource;
-        resource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
+        resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
         if (resource != null)
         {
             return resource.GetCellImage();
@@ -66,7 +66,7 @@ public partial class TroopResource : EngineResource
     public virtual LibraryImage GetFace()
     {
         UnitGraphicsResource resource;
-        resource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
+        resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
         if (resource != null)
         {
             return resource.GetFaceImage();

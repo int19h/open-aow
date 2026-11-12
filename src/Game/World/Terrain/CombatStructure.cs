@@ -66,43 +66,43 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
             switch (message.MessageId)
             {
                 case 200704:
-                    AoWHSSet.Current.AbilityControl.GetAbility(65).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
-                    RandSeed = AoWHSMap.Current.Random(16777215);
+                    GamePack.Current.AbilityControl.GetAbility(65).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
+                    RandSeed = StrategicMap.Current.Random(16777215);
                     var defense = GetDefense();
                     var executeDamageRole = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense);
                     SetHitPoints(HitPoints - executeDamageRole);
                     break;
                 case 200705:
-                    AoWHSSet.Current.AbilityControl.GetAbility(24).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
-                    RandSeed = AoWHSMap.Current.Random(16777215);
+                    GamePack.Current.AbilityControl.GetAbility(24).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
+                    RandSeed = StrategicMap.Current.Random(16777215);
                     var defense2 = GetDefense();
                     var executeDamageRole2 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense2);
                     SetHitPoints(HitPoints - executeDamageRole2);
                     break;
                 case 200706:
-                    AoWHSSet.Current.AbilityControl.GetAbility(44).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
-                    RandSeed = AoWHSMap.Current.Random(16777215);
+                    GamePack.Current.AbilityControl.GetAbility(44).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
+                    RandSeed = StrategicMap.Current.Random(16777215);
                     var defense3 = GetDefense();
                     var executeDamageRole3 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense3);
                     SetHitPoints(HitPoints - executeDamageRole3);
                     break;
                 case 200707:
-                    AoWHSSet.Current.SpellControl.GetSpell(117).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
-                    RandSeed = AoWHSMap.Current.Random(16777215);
+                    GamePack.Current.SpellControl.GetSpell(117).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
+                    RandSeed = StrategicMap.Current.Random(16777215);
                     var defense4 = GetDefense();
                     var executeDamageRole4 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense4);
                     SetHitPoints(HitPoints - executeDamageRole4);
                     break;
                 case 200714:
-                    AoWHSSet.Current.AbilityControl.GetAbility(31).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
-                    RandSeed = AoWHSMap.Current.Random(16777215);
+                    GamePack.Current.AbilityControl.GetAbility(31).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
+                    RandSeed = StrategicMap.Current.Random(16777215);
                     var defense5 = GetDefense();
                     var executeDamageRole5 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense5);
                     SetHitPoints(HitPoints - executeDamageRole5);
                     break;
                 case 200715:
-                    AoWHSSet.Current.SpellControl.GetSpell(113).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
-                    RandSeed = AoWHSMap.Current.Random(16777215);
+                    GamePack.Current.SpellControl.GetSpell(113).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
+                    RandSeed = StrategicMap.Current.Random(16777215);
                     var defense6 = GetDefense();
                     var executeDamageRole6 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense6);
                     SetHitPoints(HitPoints - executeDamageRole6);
@@ -110,8 +110,8 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                 case 200722:
                     if (message.Param[1].Int == 30 || message.Param[1].Int == 86)
                     {
-                        AoWHSSet.Current.AbilityControl.GetAbility(message.Param[1].Int).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
-                        RandSeed = AoWHSMap.Current.Random(16777215);
+                        GamePack.Current.AbilityControl.GetAbility(message.Param[1].Int).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
+                        RandSeed = StrategicMap.Current.Random(16777215);
                         var defense7 = GetDefense();
                         var executeDamageRole7 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - defense7);
                         SetHitPoints(HitPoints - executeDamageRole7);
@@ -121,8 +121,8 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
                 case 200723:
                     if (message.Param[1].Int == 114)
                     {
-                        AoWHSSet.Current.SpellControl.GetSpell(message.Param[1].Int).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
-                        RandSeed = AoWHSMap.Current.Random(16777215);
+                        GamePack.Current.SpellControl.GetSpell(message.Param[1].Int).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
+                        RandSeed = StrategicMap.Current.Random(16777215);
                         var defense7 = GetDefense();
                         var executeDamageRole7 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense7);
                         SetHitPoints(HitPoints - executeDamageRole7);
@@ -130,37 +130,37 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
 
                     break;
                 case 200710:
-                    AoWHSSet.Current.SpellControl.GetSpell(116).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
-                    RandSeed = AoWHSMap.Current.Random(16777215);
+                    GamePack.Current.SpellControl.GetSpell(116).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
+                    RandSeed = StrategicMap.Current.Random(16777215);
                     var defense8 = GetDefense();
                     var executeDamageRole8 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense8);
                     SetHitPoints(HitPoints - executeDamageRole8);
                     break;
                 case 200717:
-                    AoWHSSet.Current.SpellControl.GetSpell(127).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
-                    RandSeed = AoWHSMap.Current.Random(16777215);
+                    GamePack.Current.SpellControl.GetSpell(127).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
+                    RandSeed = StrategicMap.Current.Random(16777215);
                     var defense9 = GetDefense();
                     var executeDamageRole9 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense9);
                     SetHitPoints(HitPoints - executeDamageRole9);
                     break;
                 case 200718:
-                    AoWHSSet.Current.SpellControl.GetSpell(128).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
-                    RandSeed = AoWHSMap.Current.Random(16777215);
+                    GamePack.Current.SpellControl.GetSpell(128).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
+                    RandSeed = StrategicMap.Current.Random(16777215);
                     var defense10 = GetDefense();
                     var executeDamageRole10 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense10);
                     SetHitPoints(HitPoints - executeDamageRole10);
                     break;
                 case 200708:
                     _playSound = message.Param[1].Int == 0;
-                    AoWHSSet.Current.SpellControl.GetSpell(112).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
-                    RandSeed = AoWHSMap.Current.Random(16777215);
+                    GamePack.Current.SpellControl.GetSpell(112).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
+                    RandSeed = StrategicMap.Current.Random(16777215);
                     var defense11 = GetDefense();
                     var executeDamageRole11 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - defense11);
                     SetHitPoints(HitPoints - executeDamageRole11);
                     message.Param[1] = 1;
                     break;
                 case 200711:
-                    RandSeed = AoWHSMap.Current.Random(16777215);
+                    RandSeed = StrategicMap.Current.Random(16777215);
                     var defense12 = GetDefense();
                     var executeDamageRole12 = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[1], TacticalTables.TacticalBattleAttack[1] - defense12);
                     SetHitPoints(HitPoints - executeDamageRole12);
@@ -204,7 +204,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
         {
             _playSound = true;
             razed = false;
-            structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+            structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite(typeof(PlayerStructure));
             if (structure != null)
             {
                 razed = structure.GetRazed();
@@ -231,7 +231,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
         base.UpdateMapField(info);
         if (info.HexNumber == 0)
         {
-            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 16384 | 8192;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 16384 | 8192;
         }
     }
 

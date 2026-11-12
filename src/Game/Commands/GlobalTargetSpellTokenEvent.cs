@@ -39,14 +39,14 @@ public partial class GlobalTargetSpellTokenEvent : SpellTokenEvent
     public void PlayDefaultEffects(sbyte X, sbyte Y, sbyte layer)
     {
         ImageSequenceAnimation animation;
-        if (AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
+        if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
         {
             animation = new ImageSequenceAnimation(null);
-            animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
-            AoWHSMap.Current.PlaceHex(animation, X, Y, layer);
+            animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
+            StrategicMap.Current.PlaceHex(animation, X, Y, layer);
         }
 
-        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
     }
 
     // NetworkE.pas:230

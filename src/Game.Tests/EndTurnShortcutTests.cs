@@ -75,19 +75,19 @@ public sealed class EndTurnShortcutTests
 
     private sealed class Play : IDisposable
     {
-        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
+        private readonly StrategicMap _previousMap = StrategicMap.Current;
         private readonly CombatMap _previousCombat = CombatMap.Current;
         private readonly TaskBar _previousWindow = DialogHosts.TaskBar;
         private CombatMap? _combat;
 
-        internal AoWHSMap Map { get; }
+        internal StrategicMap Map { get; }
         internal MapWindow Window { get; }
         internal TurnButton Button { get; }
 
         public Play()
         {
-            Map = new AoWHSMap(null!);
-            AoWHSMap.Current = Map;
+            Map = new StrategicMap(null!);
+            StrategicMap.Current = Map;
             var playerCommunicationControl = new LocalPlayerCommunicationControl();
             playerCommunicationControl.Setup(Map.Players.Count);
             for (int i = 0; i < Map.Players.Count; i++)
@@ -158,7 +158,7 @@ public sealed class EndTurnShortcutTests
             Button.Dispose();
             Bar.Dispose();
             DialogHosts.TaskBar = _previousWindow;
-            AoWHSMap.Current = _previousMap;
+            StrategicMap.Current = _previousMap;
             Map.Dispose();
         }
     }

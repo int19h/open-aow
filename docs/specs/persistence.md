@@ -134,7 +134,7 @@ of its HSM header.
 
 | profile | files | engine table, root | G1 domain B | engine image |
 |---|---|---|---|---|
-| `world-hsm` | `.asg`, `.hsm` world maps, `.csm` | game, `AoWHSMap` | the five CFS bytes and the inflated payload, or the whole file for raw HSM. CFS level 0 and raw HSM stay distinct | the payload: HSM header and root |
+| `world-hsm` | `.asg`, `.hsm` world maps, `.csm` | game, `StrategicMap` (Delphi `TAoWHSMap`) | the five CFS bytes and the inflated payload, or the whole file for raw HSM. CFS level 0 and raw HSM stay distinct | the payload: HSM header and root |
 | `tactical-hsm` | `.hsm` under `TCMaps` | tactical, `CombatMap` (Delphi `TAoWCombatMap`) | as `world-hsm` | the payload |
 | `campaign` | `.cam`, `.acg` | campaign, `Campaign` | the whole file | the whole file |
 | `scenario-set` | `.hss` | game, `AoWHSSet` (Delphi `TAoWHSSet`) | the whole file, header and CRC-32 included | the whole file |

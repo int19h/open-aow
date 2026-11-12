@@ -29,18 +29,18 @@ public partial class CosmeticSurgerySpellCaster : SpellCaster
         Troop target;
         UnitSpellTokenEvent eventValue;
         string reason = "";
-        ((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(59)).ResetTargetSelection();
-        source = AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId);
-        target = AoWHSMap.Current.UnitControl.FindUnit(TargetUnitId);
-        if (source != null && target != null && CanCast(ref reason) && !AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        ((UnitSpell)GamePack.Current.SpellControl.GetSpell(59)).ResetTargetSelection();
+        source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+        target = StrategicMap.Current.UnitControl.FindUnit(TargetUnitId);
+        if (source != null && target != null && CanCast(ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             eventValue = new UnitSpellTokenEvent(null);
-            var spell = AoWHSSet.Current.SpellControl.GetSpell(59);
+            var spell = GamePack.Current.SpellControl.GetSpell(59);
             eventValue.Initialize(CasterSpellId, source, null, spell.BaseManaCost);
             eventValue.TargetUnitIds.Add(TargetUnitId);
             eventValue.SpellData[0] = FaceIndex;
             eventValue.TargetPlayer = (byte)target.Player;
-            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }

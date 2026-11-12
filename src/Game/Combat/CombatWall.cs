@@ -154,10 +154,10 @@ public partial class CombatWall : CombatObject
         switch (_wallType)
         {
             case 1:
-                AoWHSSet.Current.CombatImages[21].Show(X + 15, Y + 5, surface);
+                GamePack.Current.CombatImages[21].Show(X + 15, Y + 5, surface);
                 break;
             case 2:
-                AoWHSSet.Current.CombatImages[22].Show(X + 15, Y + 5, surface);
+                GamePack.Current.CombatImages[22].Show(X + 15, Y + 5, surface);
                 break;
         }
 

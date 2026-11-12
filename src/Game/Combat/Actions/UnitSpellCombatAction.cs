@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using System.Runtime.InteropServices;
 using Aow.Engine;
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -54,7 +53,7 @@ public partial class UnitSpellCombatAction : CombatAction
     // Spells.PAS:1111
     public override void Execute(Battle combat)
     {
-        ((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(SpellId)).ExecuteCombatAction(combat, this);
+        ((UnitSpell)GamePack.Current.SpellControl.GetSpell(SpellId)).ExecuteCombatAction(combat, this);
     }
 
     // Spells.PAS:1115

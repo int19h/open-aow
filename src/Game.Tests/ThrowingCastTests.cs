@@ -24,17 +24,17 @@ public sealed class ThrowingCastTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly AoWHSMap _previous = AoWHSMap.Current;
+        private readonly StrategicMap _previous = StrategicMap.Current;
 
         public MapScope()
         {
-            Map = new AoWHSMap(null!);
-            AoWHSMap.Current = Map;
+            Map = new StrategicMap(null!);
+            StrategicMap.Current = Map;
         }
 
-        public AoWHSMap Map { get; }
+        public StrategicMap Map { get; }
 
-        public void Dispose() => AoWHSMap.Current = _previous;
+        public void Dispose() => StrategicMap.Current = _previous;
     }
 
     private sealed class ItemSite : Structure
@@ -191,7 +191,7 @@ public sealed class ThrowingCastTests
         try
         {
             var container = new MapContainer(null!);
-            var level = new AoWMapLevel(container);
+            var level = new MapLevel(container);
             level.CreateMapFieldList(7, 7);
             container.Map = scope.Map;
             scope.Map.MapContainer = container;

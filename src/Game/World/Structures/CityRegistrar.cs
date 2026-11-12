@@ -9,11 +9,11 @@ namespace Aow.Game.World.Structures;
 public partial class CityRegistrar
 {
     // City.pas:3306
-    public static void MapLoaded(HSMap sender)
+    public static void MapLoaded(GameMap sender)
     {
-        if (sender == AoWHSMap.Current)
+        if (sender == StrategicMap.Current)
         {
-            AoWHSMap.Current.AIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<CityAIPlayerAction>()]);
+            StrategicMap.Current.AIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<CityAIPlayerAction>()]);
         }
     }
 

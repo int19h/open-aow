@@ -151,7 +151,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
     {
         if (_resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
-            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 8192;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 8192;
         }
     }
 
@@ -163,7 +163,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         int damaged;
         Troop troop;
         damaged = 0;
-        RandSeed = AoWHSMap.Current.Random(16777215);
+        RandSeed = StrategicMap.Current.Random(16777215);
         log = new ArmyEventLog(null);
         log.ArmyText = AbilityRules.TranslateResourceString(s_unholyGroundDamageText);
         var unholyGroundDamage = AbilityRules.TranslateResourceString(s_unholyGroundDamageText);
@@ -224,7 +224,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
     // UnHolyG.pas:142
     public void ArmyPlaced(ArmyHexSprite army)
     {
-        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             TriggerArmyDamage(army);
         }
@@ -240,7 +240,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         Dispose();
         if (overlay > 0)
         {
-            AoWHSMap.Current.PlaceTerrain(field.HexX, field.HexY, field.HexLevel, field.TerrainType, overlay);
+            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, field.HexLevel, field.TerrainType, overlay);
         }
     }
 
@@ -295,21 +295,21 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         var hexLevel = animation.GetHexLevel();
         var hexY = animation.GetHexY();
         var hexX = animation.GetHexX();
-        field = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131985) && GameTables.GameEngine.AnimationDetail != 0 && animation.FrameCounter == 0)
         {
-            bool condition = AoWHSMap.Current.SeatedPlayer == animation.Tag;
+            bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
                 var hexLevel2 = GetHexLevel();
                 var hexY2 = GetHexY();
                 var hexX2 = GetHexX();
-                condition = AoWHSMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
+                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
             }
 
             if (condition)
             {
-                AoWHSSet.Current.SpellControl.GetSpell(14).CastSounds.Play(0);
+                GamePack.Current.SpellControl.GetSpell(14).CastSounds.Play(0);
             }
         }
     }
@@ -320,7 +320,7 @@ public partial class UnholyGround : ImageLibraryTerrainMapObject
         var hexLevel = animation.GetHexLevel();
         var hexY = animation.GetHexY();
         var hexX = animation.GetHexX();
-        var field = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        var field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131985) && frameCounter == 9)
         {
             Mode = Mode - Set<UnholySummoning>.Of(UnholySummoning.Summoning);

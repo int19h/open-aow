@@ -73,7 +73,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                         {
                             var hexY = Unit.UnitHexSprite.HexY;
                             var hexX = Unit.UnitHexSprite.HexX;
-                            notExplorationEnabled = ((AoWMapField)CombatMap.Current.MapContainer.GetField(hexX, hexY, 0)).GetExplored(CombatMap.Current.SeatedPlayer);
+                            notExplorationEnabled = CombatMap.Current.MapContainer.GetField(hexX, hexY, 0).GetExplored(CombatMap.Current.SeatedPlayer);
                         }
 
                         if (notExplorationEnabled)
@@ -198,7 +198,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                 {
                                     case 117:
                                         Step = TokenStep.End;
-                                        RandSeed = AoWHSMap.Current.Random(16777215);
+                                        RandSeed = StrategicMap.Current.Random(16777215);
                                         var defense = _wall.GetDefense();
                                         var executeDamageRole = AbilityRules.ExecuteDamageRole(TacticalTables.TacticalBattleDamage[0], TacticalTables.TacticalBattleAttack[0] - defense);
                                         _wall.SetHitPoints(_wall.HitPoints - executeDamageRole);
@@ -262,7 +262,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                                     }
                                                     else
                                                     {
-                                                        RandSeed = AoWHSMap.Current.Random(16777215);
+                                                        RandSeed = StrategicMap.Current.Random(16777215);
                                                         Strike = CombatObject.CreateStrikeCombatAction(Unit, hexSprite.Unit, true);
                                                         if (Strike.Damage > 0)
                                                         {
@@ -300,15 +300,15 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                     switch (AbilityId)
                                     {
                                         case 40:
-                                            RandSeed = AoWHSMap.Current.Random(16777215);
-                                            _entangleAction = ((EntangleAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateEntangleCombatAction(Unit, PreviousUnit);
+                                            RandSeed = StrategicMap.Current.Random(16777215);
+                                            _entangleAction = ((EntangleAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateEntangleCombatAction(Unit, PreviousUnit);
                                             _successful = _entangleAction.Successful;
                                             CombatMap.Current.Combat.ExecuteCombatAction(_entangleAction);
                                             _entangleAction.Release();
                                             break;
                                         case 27:
-                                            RandSeed = AoWHSMap.Current.Random(16777215);
-                                            _webAction = ((WebAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateWebCombatAction(Unit, PreviousUnit);
+                                            RandSeed = StrategicMap.Current.Random(16777215);
+                                            _webAction = ((WebAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateWebCombatAction(Unit, PreviousUnit);
                                             _successful = _webAction.Successful;
                                             CombatMap.Current.Combat.ExecuteCombatAction(_webAction);
                                             _webAction.Release();
@@ -316,44 +316,44 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                         case 28:
                                         case 29:
                                         case 148:
-                                            RandSeed = AoWHSMap.Current.Random(16777215);
-                                            _commandAction = ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCommandCombatAction(Unit, PreviousUnit);
+                                            RandSeed = StrategicMap.Current.Random(16777215);
+                                            _commandAction = ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateCommandCombatAction(Unit, PreviousUnit);
                                             _successful = _commandAction.Successful;
                                             CombatMap.Current.Combat.ExecuteCombatAction(_commandAction);
                                             _commandAction.Release();
                                             break;
                                         case 38:
-                                            RandSeed = AoWHSMap.Current.Random(16777215);
-                                            _turnUndeadAction = ((TurnUndeadAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateTurnUndeadCombatAction(Unit, PreviousUnit);
+                                            RandSeed = StrategicMap.Current.Random(16777215);
+                                            _turnUndeadAction = ((TurnUndeadAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateTurnUndeadCombatAction(Unit, PreviousUnit);
                                             _successful = _turnUndeadAction.GetSuccessful();
                                             CombatMap.Current.Combat.ExecuteCombatAction(_turnUndeadAction);
                                             _turnUndeadAction.Release();
                                             break;
                                         case 35:
-                                            RandSeed = AoWHSMap.Current.Random(16777215);
-                                            _deathAction = ((InvokeDeathAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(Unit, PreviousUnit);
+                                            RandSeed = StrategicMap.Current.Random(16777215);
+                                            _deathAction = ((InvokeDeathAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(Unit, PreviousUnit);
                                             _successful = _deathAction.Successful;
                                             CombatMap.Current.Combat.ExecuteCombatAction(_deathAction);
                                             _deathAction.Release();
                                             break;
                                         case 47:
-                                            RandSeed = AoWHSMap.Current.Random(16777215);
-                                            _healingAction = ((HealingAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateHealingCombatAction(Unit, PreviousUnit);
+                                            RandSeed = StrategicMap.Current.Random(16777215);
+                                            _healingAction = ((HealingAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateHealingCombatAction(Unit, PreviousUnit);
                                             _successful = true;
                                             CombatMap.Current.Combat.ExecuteCombatAction(_healingAction);
                                             _healingAction.Release();
                                             break;
                                         case 60:
-                                            RandSeed = AoWHSMap.Current.Random(16777215);
-                                            _dispelAction = ((DispelMagicAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(Unit, PreviousUnit);
+                                            RandSeed = StrategicMap.Current.Random(16777215);
+                                            _dispelAction = ((DispelMagicAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(Unit, PreviousUnit);
                                             _successful = _dispelAction.EnchantmentIds.Count > 0;
                                             CombatMap.Current.Combat.ExecuteCombatAction(_dispelAction);
                                             _dispelAction.Release();
                                             break;
                                         case 106:
                                         case 107:
-                                            RandSeed = AoWHSMap.Current.Random(16777215);
-                                            _possessAction = ((PossessAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreatePossessCombatAction(Unit, PreviousUnit);
+                                            RandSeed = StrategicMap.Current.Random(16777215);
+                                            _possessAction = ((PossessAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreatePossessCombatAction(Unit, PreviousUnit);
                                             _successful = _possessAction.Successful;
                                             CombatMap.Current.Combat.ExecuteCombatAction(_possessAction);
                                             _possessAction.Release();
@@ -382,7 +382,7 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                 {
                                     if (!_successful && PreviousUnit != null && PreviousUnit.GetEnabled() && !PreviousUnit.GetLocked() && CombatObject.MeleeDamageTypes(PreviousUnit) != Set<DamageType>.Of() && PreviousUnit.GetSide() != Unit.GetSide())
                                     {
-                                        RandSeed = AoWHSMap.Current.Random(16777215);
+                                        RandSeed = StrategicMap.Current.Random(16777215);
                                         Strike = CombatObject.CreateStrikeCombatAction(PreviousUnit, Unit, true);
                                         if (Strike.Damage == 0)
                                         {

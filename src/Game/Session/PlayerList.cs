@@ -54,7 +54,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
     public int GetDiplomaticRelationCount(sbyte player, Set<DiplomaticRelation> relations)
     {
         int result = 0;
-        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+        for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {
             if (I != player)
             {
@@ -109,13 +109,13 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
                 this[otherPlayer].AIValidAttackPlayers[player] = false;
             }
 
-            AoWHSMap.Current.DiplomaticRelationsChangedEventsStore.Raise(this);
+            StrategicMap.Current.DiplomaticRelationsChangedEventsStore.Raise(this);
             for (int J = Count - 1; J >= 1; J--)
             {
                 this[J].MagicControl.UpdateEnemyEnchantments();
             }
 
-            AoWHSMap.Current.UpdateVisibility();
+            StrategicMap.Current.UpdateVisibility();
         }
     }
 
@@ -351,9 +351,9 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
 
         I = 0;
         defaultRace = -1;
-        while (I != AoWHSSet.Current.RaceResources.Count && defaultRace == -1)
+        while (I != GamePack.Current.RaceResources.Count && defaultRace == -1)
         {
-            if (AoWHSSet.Current.RaceResources.GetRaceResource(I) != null)
+            if (GamePack.Current.RaceResources.GetRaceResource(I) != null)
             {
                 if (races == null || races.GetRace(I).Enabled)
                 {
@@ -472,7 +472,7 @@ public partial class PlayerList : EControlStyleNode, IChildList<Player>
     // intf_P1_03.inc:319
     public void Update()
     {
-        if (AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl is null) return;
+        if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is null) return;
         _localControlledPlayers.Clear();
         LocalHumanPlayers.Clear();
         LocalPlayers.Clear();

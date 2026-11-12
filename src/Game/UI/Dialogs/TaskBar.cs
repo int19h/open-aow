@@ -7,7 +7,7 @@ using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -107,7 +107,7 @@ public partial class TaskBar : DataModule
     public void TBNextButtonClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        AoWHSMap.Current.SelectNextArmy();
+        StrategicMap.Current.SelectNextArmy();
     }
 
     // AoWTBWindow.pas:159
@@ -153,14 +153,14 @@ public partial class TaskBar : DataModule
     // AoWTBWindow.pas:188
     public void TurnButtonChange()
     {
-        if (!AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).SingleProcessCycle)
+        if (!StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).SingleProcessCycle)
         {
-            var endTurn = AoWHSMap.Current.EndTurn();
+            var endTurn = StrategicMap.Current.EndTurn();
             WorldTurnButton.Checked = endTurn;
         }
         else
         {
-            var cancelEndTurn = AoWHSMap.Current.CancelEndTurn();
+            var cancelEndTurn = StrategicMap.Current.CancelEndTurn();
             WorldTurnButton.Checked = !cancelEndTurn;
         }
     }
@@ -171,22 +171,22 @@ public partial class TaskBar : DataModule
         int position;
         int race;
         position = 0;
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
-            for (int I = 0, last = AoWHSMap.Current.Players.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
             {
-                if (AoWHSMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing)
+                if (StrategicMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing)
                 {
-                    race = AoWHSMap.Current.Players.GetPlayers(I).PlayerRace;
+                    race = StrategicMap.Current.Players.GetPlayers(I).PlayerRace;
                     if (race == -1)
                     {
                         race = 12;
                     }
 
                     DialogHosts.UIGraphics.TaskBar[race + 32].ShowClipped(PlayerIndicatorFrame.WinLeft + 3 + position * 5, PlayerIndicatorFrame.WinTop + 2, surface);
-                    if (AoWHSMap.Current.PlayMode == PlayMode.Turn)
+                    if (StrategicMap.Current.PlayMode == PlayMode.Turn)
                     {
-                        if (I == AoWHSMap.Current.CurrentPlayer)
+                        if (I == StrategicMap.Current.CurrentPlayer)
                         {
                             CurrentPlayerImage.WinLeft = PlayerIndicatorFrame.WinLeft + 2 + position * 5;
                             CurrentPlayerImage.WinTop = PlayerIndicatorFrame.WinTop + 11;
@@ -194,7 +194,7 @@ public partial class TaskBar : DataModule
                     }
                     else
                     {
-                        if (AoWHSMap.Current.Players.GetPlayers(I).SingleProcessCycle)
+                        if (StrategicMap.Current.Players.GetPlayers(I).SingleProcessCycle)
                         {
                             DialogHosts.UIGraphics.TaskBar[50].ShowClipped(PlayerIndicatorFrame.WinLeft + 2 + position * 5, PlayerIndicatorFrame.WinTop + 11, surface);
                         }
@@ -256,7 +256,7 @@ public partial class TaskBar : DataModule
         {
             var turnOrder = CombatMap.Current.Combat.CombatData.TurnOrder[I];
             var player = CombatMap.Current.Players.GetPlayers((sbyte)turnOrder);
-            race = AoWHSMap.Current.Players.GetPlayers(player.Player).PlayerRace;
+            race = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
             if (race == -1)
             {
                 race = 12;
@@ -312,16 +312,16 @@ public partial class TaskBar : DataModule
         ushort minute = default;
         ushort second = default;
         ushort millisecond = default;
-        if (WorldPanel.Visible && AoWHSMap.Current != null)
+        if (WorldPanel.Visible && StrategicMap.Current != null)
         {
             WorldClockDelay = (short)(WorldClockDelay - 1);
             if (WorldClockDelay < 0)
             {
-                if (AoWHSMap.Current.TurnTime != 0)
+                if (StrategicMap.Current.TurnTime != 0)
                 {
                     WorldClockDelay = 10;
-                    minute = (ushort)(AoWHSMap.Current.GetTurnTimeLeft() / 60000);
-                    second = (ushort)(AoWHSMap.Current.GetTurnTimeLeft() % 60000 / 1000);
+                    minute = (ushort)(StrategicMap.Current.GetTurnTimeLeft() / 60000);
+                    second = (ushort)(StrategicMap.Current.GetTurnTimeLeft() % 60000 / 1000);
                     if (minute == 0 && second > 0 && second <= 10)
                     {
                         WorldTimeLabel.TextColor = 255;
@@ -438,7 +438,7 @@ public partial class TaskBar : DataModule
         }
         else
         {
-            DialogHosts.RelationWindow.ShowRelations(AoWHSMap.Current.SeatedPlayer);
+            DialogHosts.RelationWindow.ShowRelations(StrategicMap.Current.SeatedPlayer);
         }
     }
 

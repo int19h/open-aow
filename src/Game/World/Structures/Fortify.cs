@@ -30,7 +30,7 @@ public sealed partial record Fortify : ProductionOrder
             return base.CanExecute(control, ref reason);
         }
 
-        if (AoWHSMap.Current.Players.GetPlayers(control.GetPlayer()).Gems >= city.FortifyCost())
+        if (StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).Gems >= city.FortifyCost())
         {
             return true;
         }
@@ -51,8 +51,8 @@ public sealed partial record Fortify : ProductionOrder
         control.Settings.TurnsLeft = control.Settings.TurnsTotal;
         control.Settings.Player = control.GetPlayer();
         control.Settings.Gold = city.FortifyCost();
-        var playerGems = AoWHSMap.Current.Players.GetPlayers(control.GetPlayer());
-        AoWHSMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems - control.Settings.Gold);
+        var playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
+        StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems - control.Settings.Gold);
         control.Status = ProductionControlStatus.Producing;
     }
 

@@ -553,7 +553,7 @@ public partial class CombatObject : EngineObject
         {
             if (GetAbilityEnabled(I))
             {
-                AoWHSSet.Current.AbilityControl.GetAbility(I).CombatObjectDestroyed(this);
+                GamePack.Current.AbilityControl.GetAbility(I).CombatObjectDestroyed(this);
             }
         }
 
@@ -804,7 +804,7 @@ public partial class CombatObject : EngineObject
         Set<DamageType> result;
         if (source is CombatUnit)
         {
-            result = ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).GetDamageTypes(((CombatUnit)source).Troop);
+            result = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(((CombatUnit)source).Troop);
         }
         else
         {

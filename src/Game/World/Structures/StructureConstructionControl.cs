@@ -28,13 +28,13 @@ public partial class StructureConstructionControl : ConstructionControl
         bool result;
         ConstructStructureTokenEvent eventValue;
         string reason = "";
-        if (CanConstruct(troop, ref reason) && !AoWHSMap.Current.Players.GetPlayers(troop.Player).GetBusy())
+        if (CanConstruct(troop, ref reason) && !StrategicMap.Current.Players.GetPlayers(troop.Player).GetBusy())
         {
             eventValue = new ConstructStructureTokenEvent(null);
             eventValue.UnitId = troop.UnitId;
             eventValue.Player = troop.Player;
             eventValue.ControlId = Id();
-            AoWHSMap.Current.TokenManager.GetTokenControl(troop.Player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(troop.Player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }
@@ -54,12 +54,12 @@ public partial class StructureConstructionControl : ConstructionControl
         sbyte Y = default;
         sbyte L = default;
         MapLevel level;
-        AoWMapField mapField;
+        MapField mapField;
         HexNumberWalkData walk = default;
         bool result = true;
         resource = StructureResource(troop);
         troop.GetLocation(ref X, ref Y, ref L);
-        level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+        level = StrategicMap.Current.MapContainer.GetMapLevel(L);
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
         while (resource.TerrainList.Count > walk.HexNumber && result)
         {
@@ -67,7 +67,7 @@ public partial class StructureConstructionControl : ConstructionControl
             {
                 if (resource.TerrainList.GetUsed(walk.HexNumber))
                 {
-                    mapField = (AoWMapField)level.GetField(walk.X, walk.Y);
+                    mapField = level.GetField(walk.X, walk.Y);
                     result = mapField.GetPlayer() == -1 || mapField.GetPlayer() == troop.Player;
                     result = result && mapField.FindNoneTransparentHexSprite(typeof(Structure)) == null;
                     result = result && !Set<byte>.WithBounds(0, 255).With(0).With(2).Contains((byte)mapField.OverlayType);

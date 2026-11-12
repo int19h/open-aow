@@ -17,7 +17,7 @@ public sealed class MapNetSoundDispatchTests
         public override void SetOwner(ECustomNode owner) { _ownerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ConvertedMap(ECustomNode owner) : HSMap(owner)
+    private sealed class ConvertedMap(ECustomNode owner) : GameMap(owner)
     {
         internal int MouseCalls { get; private set; }
 

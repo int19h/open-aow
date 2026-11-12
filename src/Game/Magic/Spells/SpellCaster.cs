@@ -49,6 +49,6 @@ public partial class SpellCaster : EngineObject
     public virtual bool Cast() => true;
 
     // intf_P4_02.inc:998
-    public Troop GetSource() => AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId);
-    public virtual bool CanCast(ref string reason) => AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId) != null;
+    public Troop GetSource() => StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+    public virtual bool CanCast(ref string reason) => StrategicMap.Current.UnitControl.FindUnit(CasterSourceId) != null;
 }

@@ -36,7 +36,7 @@ public partial class TownGate : CityTargetSpell
         bool showTarget;
         byte selection = default;
         ArmyHexSprite army = default;
-        AoWMapField field;
+        MapField field;
         ArmyHexSprite newArmy;
         sbyte X = default;
         sbyte Y = default;
@@ -44,11 +44,11 @@ public partial class TownGate : CityTargetSpell
         ImageSequenceAnimation A;
         source.GetLocation(ref X, ref Y, ref L);
         ((TownGateTokenEvent)eventValue).ArmyId.RetrieveArmy(ref army, ref selection);
-        field = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(((TownGateTokenEvent)eventValue).TeleportLocation.Packed);
+        field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(((TownGateTokenEvent)eventValue).TeleportLocation.Packed);
         army.Army.ResetDestinationPosition();
-        if (AoWHSMap.Current.SelectedArmy.GetArmyHexSprite() == army)
+        if (StrategicMap.Current.SelectedArmy.GetArmyHexSprite() == army)
         {
-            AoWHSMap.Current.SelectedArmy.Select(army);
+            StrategicMap.Current.SelectedArmy.Select(army);
         }
 
         if (army.Army.ValidateSelection(selection) != army.Army.ValidateSelection(255))
@@ -56,7 +56,7 @@ public partial class TownGate : CityTargetSpell
             newArmy = new ArmyHexSprite(null);
             newArmy.Army.SetPlayer(army.Army.Player);
             newArmy.Army.AddUnitSelection(army.Army, selection);
-            AoWHSMap.Current.PlaceHex(newArmy, ((TownGateTokenEvent)eventValue).TeleportLocation.X, ((TownGateTokenEvent)eventValue).TeleportLocation.Y, ((TownGateTokenEvent)eventValue).TeleportLocation.MapLevel);
+            StrategicMap.Current.PlaceHex(newArmy, ((TownGateTokenEvent)eventValue).TeleportLocation.X, ((TownGateTokenEvent)eventValue).TeleportLocation.Y, ((TownGateTokenEvent)eventValue).TeleportLocation.MapLevel);
         }
         else
         {
@@ -70,43 +70,43 @@ public partial class TownGate : CityTargetSpell
             }
         }
 
-        showSource = AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.Visible(X, Y, L, 0);
-        showTarget = AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.Visible(field.HexX, field.HexY, field.HexLevel, 0);
+        showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Visible(X, Y, L, 0);
+        showTarget = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Visible(field.HexX, field.HexY, field.HexLevel, 0);
         if (showSource)
         {
-            if (AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] != null)
+            if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] != null)
             {
                 A = new ImageSequenceAnimation(null);
-                A.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
-                AoWHSMap.Current.PlaceHex(A, X, Y, L);
+                A.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
+                StrategicMap.Current.PlaceHex(A, X, Y, L);
             }
         }
 
         if (showTarget)
         {
-            if (AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] != null)
+            if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] != null)
             {
                 A = new ImageSequenceAnimation(null);
-                A.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
-                AoWHSMap.Current.PlaceHex(A, field.HexX, field.HexY, field.HexLevel);
+                A.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
+                StrategicMap.Current.PlaceHex(A, field.HexX, field.HexY, field.HexLevel);
             }
         }
 
-        if (AoWHSMap.Current.SeatedPlayer == source.Player)
+        if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
-            AoWHSMap.Current.CenterViewTo(field.HexX, field.HexY, field.HexLevel);
+            StrategicMap.Current.CenterViewTo(field.HexX, field.HexY, field.HexLevel);
         }
         else
         {
-            if (!AoWHSMap.Current.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, 0))
+            if (!StrategicMap.Current.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, 0))
             {
-                AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+                StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
             }
         }
 
-        if (AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.Watching(X, Y, L, 0) || AoWHSMap.Current.Watching(field.HexX, field.HexY, field.HexLevel, 0))
+        if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Watching(X, Y, L, 0) || StrategicMap.Current.Watching(field.HexX, field.HexY, field.HexLevel, 0))
         {
-            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+            GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
         }
 
         CastingDone(source, eventValue.EventMana);
@@ -143,9 +143,9 @@ public partial class TownGate : CityTargetSpell
             }
 
             army = source.ArmyOwner.GetArmyHexSprite();
-            if (army.Army.Player == AoWHSMap.Current.SeatedPlayer && AoWHSMap.Current.SelectedArmy.GetArmyHexSprite() == army)
+            if (army.Army.Player == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.SelectedArmy.GetArmyHexSprite() == army)
             {
-                selection = AoWHSMap.Current.SelectedArmy.GetSelection();
+                selection = StrategicMap.Current.SelectedArmy.GetSelection();
             }
             else
             {
@@ -154,7 +154,7 @@ public partial class TownGate : CityTargetSpell
 
             HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
             found = false;
-            level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+            level = StrategicMap.Current.MapContainer.GetMapLevel(L);
             while (walk.Radius < 4 && !found)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -189,8 +189,8 @@ public partial class TownGate : CityTargetSpell
     public bool ValidTeleportLocation(ArmyHexSprite army, byte selection, sbyte X, sbyte Y, sbyte L)
     {
         bool result;
-        AoWMapField field;
-        field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+        MapField field;
+        field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
         if (field.GetPlayer() != -1 && field.GetPlayer() != army.Army.Player)
         {
             result = false;

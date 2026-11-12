@@ -1,6 +1,4 @@
 
-using Aow.Engine.Buffers;
-
 using Aow.Game.Commands;
 using Aow.Game.Draw;
 
@@ -29,15 +27,15 @@ internal static class MovementTables
         settings.Selection = selection;
         settings.SetDestinationPosition(X, Y, L);
         army.Army.CreateMovePointTable(selection, Bytes.Of(ref settings.MovePointTable));
-        AoWHSMap.Current.MoveControl.ProcessMove(settings);
+        StrategicMap.Current.MoveControl.ProcessMove(settings);
         if (settings.Path.Count != 0)
         {
-            if ((force || AoWHSMap.Current.TokenManager.PlayerReady(player)) && settings.Path.Count > 1)
+            if ((force || StrategicMap.Current.TokenManager.PlayerReady(player)) && settings.Path.Count > 1)
             {
                 result = ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection, settings.Path, action, Set<ArmyMoveModeElement>.Of());
                 if (result != null)
                 {
-                    AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(result);
+                    StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(result);
                     // { Original returns the token-event pointer after releasing its reference. }
                     result.Release();
                 }

@@ -77,13 +77,13 @@ public partial class CombatMapControl : Component
         CombatMap.Current.FUnitChangedEvents += UnitChanged;
         CombatMap.Current.FAbilityActivatedEvents += ActivateAbility;
         CombatMap.Current.FCombatStartedEvents += CastSpell;
-        AoWHSMap.Current.FExecuteEventLogEvents += ExecuteEventLog;
-        for (int I = 0, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+        StrategicMap.Current.FExecuteEventLogEvents += ExecuteEventLog;
+        for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {
-            AoWHSMap.Current.Players.GetPlayers(I).FGemsChangedEvents += GemsChanged;
-            AoWHSMap.Current.Players.GetPlayers(I).FIncomeChangedEvents += IncomeChanged;
-            AoWHSMap.Current.Players.GetPlayers(I).FUpkeepChangedEvents += UpkeepChanged;
-            AoWHSMap.Current.Players.GetPlayers(I).FLogbookChangedEvents += LogbookChanged;
+            StrategicMap.Current.Players.GetPlayers(I).FGemsChangedEvents += GemsChanged;
+            StrategicMap.Current.Players.GetPlayers(I).FIncomeChangedEvents += IncomeChanged;
+            StrategicMap.Current.Players.GetPlayers(I).FUpkeepChangedEvents += UpkeepChanged;
+            StrategicMap.Current.Players.GetPlayers(I).FLogbookChangedEvents += LogbookChanged;
         }
     }
 
@@ -97,24 +97,24 @@ public partial class CombatMapControl : Component
         CombatMap.Current.Selection.OnDeselect -= DeselectHexSprite;
         CombatMap.Current.FShowMessageEvents -= ShowMessage;
         CombatMap.Current.FMapChangedEvents -= MapChanged;
-        AoWHSMap.Current.FExecuteEventLogEvents -= ExecuteEventLog;
+        StrategicMap.Current.FExecuteEventLogEvents -= ExecuteEventLog;
         CombatMap.Current.FDeselectEvents -= ActivateMap;
         CombatMap.Current.FSelectEvents -= DeactivateMap;
         CombatMap.Current.FMouseOverTargetEvents -= MouseOverTarget;
         CombatMap.Current.FUnitChangedEvents -= UnitChanged;
         CombatMap.Current.FAbilityActivatedEvents -= ActivateAbility;
         CombatMap.Current.FCombatStartedEvents -= CastSpell;
-        for (int I = 0, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+        for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {
-            AoWHSMap.Current.Players.GetPlayers(I).FGemsChangedEvents -= GemsChanged;
-            AoWHSMap.Current.Players.GetPlayers(I).FIncomeChangedEvents -= IncomeChanged;
-            AoWHSMap.Current.Players.GetPlayers(I).FUpkeepChangedEvents -= UpkeepChanged;
-            AoWHSMap.Current.Players.GetPlayers(I).FLogbookChangedEvents -= LogbookChanged;
+            StrategicMap.Current.Players.GetPlayers(I).FGemsChangedEvents -= GemsChanged;
+            StrategicMap.Current.Players.GetPlayers(I).FIncomeChangedEvents -= IncomeChanged;
+            StrategicMap.Current.Players.GetPlayers(I).FUpkeepChangedEvents -= UpkeepChanged;
+            StrategicMap.Current.Players.GetPlayers(I).FLogbookChangedEvents -= LogbookChanged;
         }
     }
 
     // CMapCtrl.pas:180
-    public void ActivateHsm(HSMap sender)
+    public void ActivateHsm(GameMap sender)
     {
         if (sender.EngineClass.ClassId == 2228480)
         {
@@ -127,7 +127,7 @@ public partial class CombatMapControl : Component
     }
 
     // CMapCtrl.pas:189
-    public void DeactivateHsm(HSMap sender)
+    public void DeactivateHsm(GameMap sender)
     {
         if (sender.EngineClass.ClassId == 2228480)
         {

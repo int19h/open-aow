@@ -126,9 +126,9 @@ public partial class AIPlayerControl : EngineObject
         AIPlayerActionClass actionClass;
         AIPlayerAction action;
         Actions.Clear();
-        for (int I = 0, last = AoWHSMap.Current.AIPlayerActionManager.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = StrategicMap.Current.AIPlayerActionManager.GetCount() - 1; I <= last; I++)
         {
-            actionClass = AoWHSMap.Current.AIPlayerActionManager.GetRegisteredClasses(I);
+            actionClass = StrategicMap.Current.AIPlayerActionManager.GetRegisteredClasses(I);
             if (actionClass.SupportedPhases.Contains(phase))
             {
                 action = actionClass.CreateInstance(null);
@@ -166,9 +166,9 @@ public partial class AIPlayerControl : EngineObject
     public void Activate(AIExecutor executor)
     {
         Reset();
-        if (AoWHSMap.Current.Day < 10)
+        if (StrategicMap.Current.Day < 10)
         {
-            DefenseStrengthMultiplier = (float)((double)AoWHSMap.Current.Day * 0.1);
+            DefenseStrengthMultiplier = (float)((double)StrategicMap.Current.Day * 0.1);
         }
         else
         {
@@ -214,7 +214,7 @@ public partial class AIPlayerControl : EngineObject
         if (Player.PlayerIndex == 0)
         {
             var random = Random(10);
-            var independentAIMode = AoWHSMap.Current.GetIndependentAIMode();
+            var independentAIMode = StrategicMap.Current.GetIndependentAIMode();
             result = s_independentGroupBehaviorTable[(int)independentAIMode][random];
         }
         else
@@ -246,7 +246,7 @@ public partial class AIPlayerControl : EngineObject
             }
         }
 
-        if (AoWHSMap.Current.Day > 5)
+        if (StrategicMap.Current.Day > 5)
         {
             wantedCount = Player.AIGroups.Count / 6;
             if (wantedCount > 4)
@@ -254,7 +254,7 @@ public partial class AIPlayerControl : EngineObject
                 wantedCount = 4;
             }
 
-            if (wantedCount == 0 && (AoWHSMap.Current.Day & 16) == 16)
+            if (wantedCount == 0 && (StrategicMap.Current.Day & 16) == 16)
             {
                 wantedCount = 1;
             }
@@ -293,7 +293,7 @@ public partial class AIPlayerControl : EngineObject
             units.SortDescendingItemB();
             while (skirmishCount < wantedCount && units.Count != 0)
             {
-                group = AoWHSMap.Current.AIGroupManager.CreateGroup(Player.PlayerIndex, 0, GroupBehavior.Skirmish);
+                group = StrategicMap.Current.AIGroupManager.CreateGroup(Player.PlayerIndex, 0, GroupBehavior.Skirmish);
                 item = units[0];
                 group.AddUnit(item.First);
                 group.Release();
@@ -338,13 +338,13 @@ public partial class AIPlayerControl : EngineObject
         peace.Clear();
         war.Clear();
         peace.Add((byte)Player.PlayerIndex);
-        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+        for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {
             if (I != Player.PlayerIndex)
             {
-                if (AoWHSMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing)
+                if (StrategicMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing)
                 {
-                    relation = AoWHSMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, (sbyte)I);
+                    relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, (sbyte)I);
                     if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(relation))
                     {
                         peace.Add((byte)I);
@@ -387,19 +387,19 @@ public partial class AIPlayerControl : EngineObject
         war.Clear();
         Players = new DoubleItemList();
         Players.AddAbility(Player.PlayerIndex, 999);
-        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+        for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {
-            if (I != Player.PlayerIndex && AoWHSMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing)
+            if (I != Player.PlayerIndex && StrategicMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing)
             {
                 priority = 0;
-                relation = AoWHSMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, (sbyte)I);
-                var players = AoWHSMap.Current.Players.GetPlayers(I);
-                var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(Player.PlayerIndex);
-                raceRelation = AoWHSMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
+                relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, (sbyte)I);
+                var players = StrategicMap.Current.Players.GetPlayers(I);
+                var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
+                raceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
                 action = Player.DiplomaticActions.FindLastAction(DeclareWar.Kind, DiplomaticActionReaction.None, (sbyte)I, Player.PlayerIndex, -1);
                 if (action != null)
                 {
-                    days = AoWHSMap.Current.Day - action.Day;
+                    days = StrategicMap.Current.Day - action.Day;
                     if (days < 30)
                     {
                         priority = days + (priority - 30);
@@ -433,7 +433,7 @@ public partial class AIPlayerControl : EngineObject
                     }
                 }
 
-                if (AoWHSMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human && Set<PlayerType>.Of(PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(Player.PlayerType))
+                if (StrategicMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human && Set<PlayerType>.Of(PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(Player.PlayerType))
                 {
                     priority -= 5;
                 }
@@ -460,9 +460,9 @@ public partial class AIPlayerControl : EngineObject
             item = Players[Players.Count / 2];
             middlePlayer = item.First;
             // { The middle player relation is evaluated directly below. }
-            var players = AoWHSMap.Current.Players.GetPlayers(middlePlayer);
-            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(Player.PlayerIndex);
-            var defaultRaceRelation = AoWHSMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
+            var players = StrategicMap.Current.Players.GetPlayers(middlePlayer);
+            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
+            var defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
             if (Set<Status>.Of(Status.Hostile, Status.Wary).Contains(defaultRaceRelation))
             {
                 war.Add((byte)middlePlayer);
@@ -535,12 +535,12 @@ public partial class AIPlayerControl : EngineObject
                 }
             }
 
-            result = !(peaceCount > warCount && !(warCount == 0 && peaceCount == 1 && AoWHSMap.Current.Players.ActivePlayers.Count > 2));
+            result = !(peaceCount > warCount && !(warCount == 0 && peaceCount == 1 && StrategicMap.Current.Players.ActivePlayers.Count > 2));
             if (Set<PlayerType>.Of(PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(Player.PlayerType))
             {
-                var players = AoWHSMap.Current.Players.GetPlayers((sbyte)player);
-                var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(Player.PlayerIndex);
-                var defaultRaceRelation = AoWHSMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
+                var players = StrategicMap.Current.Players.GetPlayers((sbyte)player);
+                var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
+                var defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
                 if (Set<Status>.Of(Status.Hostile, Status.Wary).Contains(defaultRaceRelation))
                 {
                     result = false;
@@ -641,16 +641,16 @@ public partial class AIPlayerControl : EngineObject
         bool result;
         if (CanOfferPeace(player) && Player.DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Peace)
         {
-            result = AoWHSMap.Current.Day > 10;
+            result = StrategicMap.Current.Day > 10;
             var lastModifiedOnDay = Player.DiplomaticRelations.GetHistory((sbyte)player).GetLastModifiedOnDay();
-            if (AoWHSMap.Current.Day - lastModifiedOnDay < 8)
+            if (StrategicMap.Current.Day - lastModifiedOnDay < 8)
             {
                 result = false;
             }
 
-            var players = AoWHSMap.Current.Players.GetPlayers((sbyte)player);
-            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(Player.PlayerIndex);
-            var defaultRaceRelation = AoWHSMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
+            var players = StrategicMap.Current.Players.GetPlayers((sbyte)player);
+            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
+            var defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
             if (Set<Status>.Of(Status.Hostile, Status.Wary).Contains(defaultRaceRelation))
             {
                 result = false;

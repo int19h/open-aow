@@ -51,7 +51,7 @@ public partial class FastBattleUnit : CombatUnit
             troop = Troop;
             combatValue = 0;
             damageValue = 0;
-            abilities = AoWHSSet.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
+            abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
             for (int I = abilities.Count - 1; I >= 0; I--)
             {
                 ability = abilities.GetAbility(I);
@@ -81,7 +81,7 @@ public partial class FastBattleUnit : CombatUnit
 
             if (troop.GetAbilityEnabled(52))
             {
-                ability = AoWHSSet.Current.AbilityControl.GetAbility(52);
+                ability = GamePack.Current.AbilityControl.GetAbility(52);
                 ability.TacticalBattleGetDamageValues(this, target, ref values);
                 if (values.SourceDamage > 0)
                 {
@@ -131,7 +131,7 @@ public partial class FastBattleUnit : CombatUnit
             wall = WallSituation.Target;
         }
 
-        abilities = AoWHSSet.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
+        abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
         for (int I = abilities.Count - 1; I >= 0; I--)
         {
             ability = abilities.GetAbility(I);
@@ -325,7 +325,7 @@ public partial class FastBattleUnit : CombatUnit
         {
             if (troop.GetAbilityEnabled(I))
             {
-                var ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
+                var ability = GamePack.Current.AbilityControl.GetAbility(I);
                 ability.FastBattlePrefetchCombatCommands(Commands);
             }
         }
@@ -342,7 +342,7 @@ public partial class FastBattleUnit : CombatUnit
                     {
                         if (troop.GetAbilityEnabled(I))
                         {
-                            var ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
+                            var ability = GamePack.Current.AbilityControl.GetAbility(I);
                             ability.FastBattlePrefetchCombatCommands(Commands);
                         }
                     }
@@ -372,7 +372,7 @@ public partial class FastBattleUnit : CombatUnit
             {
                 var commands = Commands.GetCommands(0);
                 var commandsCommands = Commands.GetCommands(0);
-                executed = AoWHSSet.Current.AbilityControl.GetAbility(commandsCommands.AbilityId).FastBattleExecuteCombatCommand(this, commands);
+                executed = GamePack.Current.AbilityControl.GetAbility(commandsCommands.AbilityId).FastBattleExecuteCombatCommand(this, commands);
                 if (Commands.GetCommands(0).AbilityId == 52)
                 {
                     UpdateWallSiegeObjectRegistration();
@@ -444,7 +444,7 @@ public partial class FastBattleUnit : CombatUnit
     {
         if (State.Contains(FastBattleUnitStateElement.OutsideWall))
         {
-            AoWHSSet.Current.CombatImages[21].Show(X + 10, Y, surface);
+            GamePack.Current.CombatImages[21].Show(X + 10, Y, surface);
         }
 
         base.Show(frame, direction, X, Y, surface);
@@ -455,7 +455,7 @@ public partial class FastBattleUnit : CombatUnit
     {
         if (direction != 6 && State.Contains(FastBattleUnitStateElement.OutsideWall))
         {
-            AoWHSSet.Current.CombatImages[21].Show(X + 10, Y, surface);
+            GamePack.Current.CombatImages[21].Show(X + 10, Y, surface);
         }
 
         return base.ShowAttackAnimation(frame, direction, X, Y, surface);
@@ -466,7 +466,7 @@ public partial class FastBattleUnit : CombatUnit
     {
         if (State.Contains(FastBattleUnitStateElement.OutsideWall))
         {
-            AoWHSSet.Current.CombatImages[21].Show(X + 10, Y, surface);
+            GamePack.Current.CombatImages[21].Show(X + 10, Y, surface);
         }
 
         // { The original uses the attack animation for this hit-animation override. }
@@ -497,14 +497,14 @@ public partial class FastBattleUnit : CombatUnit
         if (troop is Hero && Combat.Status.Contains(CombatStatusElement.Executing))
         {
             var combatData = Combat.CombatData;
-            ((Hero)troop).DropItemsOnMap(AoWHSMap.Current, (sbyte)combatData.X, (sbyte)combatData.Y, (sbyte)combatData.MapLevel);
+            ((Hero)troop).DropItemsOnMap(StrategicMap.Current, (sbyte)combatData.X, (sbyte)combatData.Y, (sbyte)combatData.MapLevel);
         }
 
         base.KillUnit();
     }
 
     // AIGroup.pas:6803
-    public bool CanCastWallSiegeSpell() => Troop.GetAbilityEnabled(52) && ((SpellCastingAbility)AoWHSSet.Current.AbilityControl.GetAbility(52)).CanCastBreachWallSpell(Troop);
+    public bool CanCastWallSiegeSpell() => Troop.GetAbilityEnabled(52) && ((SpellCastingAbility)GamePack.Current.AbilityControl.GetAbility(52)).CanCastBreachWallSpell(Troop);
 
     // AIGroup.pas:6809
     public void UpdateWallSiegeObjectRegistration()

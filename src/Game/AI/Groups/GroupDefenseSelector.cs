@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -15,8 +14,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
-
-using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -49,8 +46,8 @@ public partial class GroupDefenseSelector : IDisposable
         AIGroup group;
         bool result = false;
         location = Unsafe.BitCast<MapCoordinate, int>(HexGeometry.PackMapCoordinate(X, Y, L));
-        priority = (DefensePriority)((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetDefensePriority();
-        P = AoWHSMap.Current.Players.GetPlayers(player);
+        priority = (DefensePriority)StrategicMap.Current.MapContainer.GetField(X, Y, L).GetDefensePriority();
+        P = StrategicMap.Current.Players.GetPlayers(player);
         for (int I = P.AIGroups.Count - 1; I >= 0; I--)
         {
             group = P.AIGroups.GetGroups(I);
@@ -101,7 +98,7 @@ public partial class GroupDefenseSelector : IDisposable
     }
 
     // AIGroup.pas:1699
-    public void UpdateDefenseLocation(AoWMapField mapField)
+    public void UpdateDefenseLocation(MapField mapField)
     {
         if (Unsafe.As<MapCoordinate, int>(ref DefenseLocation) == 16777215 || mapField.FindOwnedHexSprite(typeof(Structure)) != null)
         {
@@ -119,18 +116,18 @@ public partial class GroupDefenseSelector : IDisposable
         int I = default;
         MapLevel level = default;
         Troop troop = default;
-        AoWMapField mapField = default;
+        MapField mapField = default;
         DamageType damageType = default;
         DefenseRequirements strengths = default;
         HexNumberWalkData walk = default;
         Defenders.Clear();
-        level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+        level = StrategicMap.Current.MapContainer.GetMapLevel(L);
         DefenseLocation.Packed = 16777215;
         candidates = new UnitUserList(null);
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
         while (walk.Radius <= 1 && Defenders.Count != group.Count)
         {
-            mapField = (AoWMapField)level.GetField(walk.X, walk.Y);
+            mapField = level.GetField(walk.X, walk.Y);
             if (mapField.GetPlayer() == group.Player)
             {
                 candidates.Clear();
@@ -213,7 +210,7 @@ public partial class GroupDefenseSelector : IDisposable
             result = Defenders.Count == 0;
         }
 
-        AoWHSMap.Current.AIExecutor.UseProcessTime(30);
+        StrategicMap.Current.AIExecutor.UseProcessTime(30);
         return result;
     }
 

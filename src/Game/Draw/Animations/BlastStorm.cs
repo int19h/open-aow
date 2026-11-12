@@ -62,7 +62,7 @@ public partial class BlastStorm : Storm
         Rect R = default;
         base.InitializeStorm(player, X, Y, L);
         var stormFileName = StormFileName();
-        _stormImages = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
+        _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
         if (GetVisible())
         {
             _stormImages.LoadDiscardableImageData();
@@ -73,13 +73,13 @@ public partial class BlastStorm : Storm
         R.Top = -(int)(((uint)_stormImages[0].Height) >> 1);
         R.Bottom = (int)(((uint)_stormImages[0].Height) >> 1);
         SetDimensions(R);
-        AoWHSMap.Current.ValidateTerrainObservation(AoWHSMap.Current.CurrentPlayer, X, Y, L, 4);
-        if (AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.TerrainVisible(X, Y, L, 4))
+        StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 4);
+        if (StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.TerrainVisible(X, Y, L, 4))
         {
             AudioPlayback.PlaySample("SFX\\ATTACK\\STORMBIG.WAV");
         }
 
-        PlaceHex(AoWHSMap.Current.MapContainer, X, Y, L);
+        PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
     }
 
     // Storms.pas:312
@@ -92,7 +92,7 @@ public partial class BlastStorm : Storm
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
             var hexX = GetHexX();
-            AoWHSMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 1, ChangeStormTerrain, StormTerrainChanged);
+            StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 1, ChangeStormTerrain, StormTerrainChanged);
         }
         else
         {
@@ -101,7 +101,7 @@ public partial class BlastStorm : Storm
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                AoWHSMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 2, ChangeStormTerrain, StormTerrainChanged);
+                StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 2, ChangeStormTerrain, StormTerrainChanged);
             }
             else
             {
@@ -110,7 +110,7 @@ public partial class BlastStorm : Storm
                     var hexLevel = GetHexLevel();
                     var hexY = GetHexY();
                     var hexX = GetHexX();
-                    AoWHSMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 3, ChangeStormTerrain, StormTerrainChanged);
+                    StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 3, ChangeStormTerrain, StormTerrainChanged);
                 }
                 else
                 {
@@ -119,7 +119,7 @@ public partial class BlastStorm : Storm
                         var hexLevel = GetHexLevel();
                         var hexY = GetHexY();
                         var hexX = GetHexX();
-                        AoWHSMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 4, ChangeStormTerrain, StormTerrainChanged);
+                        StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 4, ChangeStormTerrain, StormTerrainChanged);
                     }
                 }
             }
@@ -130,7 +130,7 @@ public partial class BlastStorm : Storm
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
             var hexX = GetHexX();
-            AbilityRules.TriggerStormDamage(StormType(), hexX, hexY, hexLevel, 0, 4, AoWHSMap.Current.CurrentPlayer);
+            AbilityRules.TriggerStormDamage(StormType(), hexX, hexY, hexLevel, 0, 4, StrategicMap.Current.CurrentPlayer);
             result = false;
         }
         else
@@ -146,7 +146,7 @@ public partial class BlastStorm : Storm
     {
         _stormImages.ReleaseDiscardableImageData();
         var stormFileName = StormFileName();
-        AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
         base.FinalizeStorm();
     }
 

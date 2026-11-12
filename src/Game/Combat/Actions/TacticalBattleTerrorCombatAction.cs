@@ -41,13 +41,13 @@ public partial class TacticalBattleTerrorCombatAction : CombatAction
         if (_succeeded)
         {
             target = (CombatUnit)combat.CombatData.FindId(_targetId);
-            AoWHSSet.Current.AbilityControl.GetAbility(108).Expand(target.Troop);
+            GamePack.Current.AbilityControl.GetAbility(108).Expand(target.Troop);
         }
 
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
             source = (CombatUnit)combat.CombatData.FindId(_sourceId);
-            AoWHSSet.Current.SpellControl.GetSpell(105).CastingDone(source.Troop, ManaCost);
+            GamePack.Current.SpellControl.GetSpell(105).CastingDone(source.Troop, ManaCost);
         }
     }
 

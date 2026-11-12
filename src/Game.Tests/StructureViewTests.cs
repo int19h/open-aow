@@ -209,17 +209,17 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
     private sealed class Scene : IDisposable
     {
-        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
+        private readonly StrategicMap _previousMap = StrategicMap.Current;
         private readonly bool _previousDebug = GameTables.GameEngine.Debug;
         private readonly List<Structure> _created = [];
 
-        internal AoWHSMap Map { get; }
+        internal StrategicMap Map { get; }
 
         internal Scene()
         {
-            Map = new AoWHSMap(null!);
+            Map = new StrategicMap(null!);
             Map.SeatedPlayer = Viewer;
-            AoWHSMap.Current = Map;
+            StrategicMap.Current = Map;
         }
 
         internal (Structure Structure, ArmyOwner Owner) Create(Type type)
@@ -233,7 +233,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
         public void Dispose()
         {
-            AoWHSMap.Current = _previousMap;
+            StrategicMap.Current = _previousMap;
             GameTables.GameEngine.Debug = _previousDebug;
             // Some kinds need a world to tear down (ClassRegistryTests lists them).
             foreach (var structure in _created) _ = Record.Exception(structure.Dispose);

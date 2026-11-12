@@ -221,7 +221,7 @@ internal static class EffectPaths
         {
             if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild(2229578) == null)
             {
-                if (AoWHSMap.Current.Random(100) < chance)
+                if (StrategicMap.Current.Random(100) < chance)
                 {
                     canBurn = false;
                     if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).GetDecorationType() == 9 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).GetDecorationType() == 1 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).GetDecorationType() == 2 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).GetDecorationType() == 3)

@@ -46,7 +46,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
         base.MessageProc(ref message, sender);
-        if (message.MessageId == 537001985 && AoWHSMap.Current.Day == 1)
+        if (message.MessageId == 537001985 && StrategicMap.Current.Day == 1)
         {
             GenerateManaCrystalsAmount();
         }
@@ -86,7 +86,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
     {
         if (info.HexNumber == 0)
         {
-            ((AoWMapField)(object)info.MapField).FieldFlags = ((AoWMapField)(object)info.MapField).FieldFlags | 134217728;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 134217728;
         }
     }
 
@@ -95,19 +95,19 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
     {
         if (_size == 4)
         {
-            _size = (byte)(AoWHSMap.Current.Random(3) + 1);
+            _size = (byte)(StrategicMap.Current.Random(3) + 1);
         }
 
         switch (_size)
         {
             case 1:
-                _amount = AoWHSMap.Current.Random(25) + 25;
+                _amount = StrategicMap.Current.Random(25) + 25;
                 break;
             case 2:
-                _amount = AoWHSMap.Current.Random(25) + 50;
+                _amount = StrategicMap.Current.Random(25) + 50;
                 break;
             case 3:
-                _amount = AoWHSMap.Current.Random(50) + 100;
+                _amount = StrategicMap.Current.Random(50) + 100;
                 break;
         }
     }
@@ -141,13 +141,13 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
             return;
         }
 
-        bool condition = (byte)AoWHSMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player;
+        bool condition = (byte)StrategicMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player;
         if (!condition)
         {
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
             var hexX = GetHexX();
-            condition = AoWHSMap.Current.Watching(hexX, hexY, hexLevel, 0);
+            condition = StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0);
         }
 
         if (condition)
@@ -155,7 +155,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
             AudioPlayback.PlaySample("SFX\\EVENTS\\MANA.WAV");
         }
 
-        var player = AoWHSMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
+        var player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
         player.MagicControl.SetMana(player.MagicControl.Mana + _amount);
 
         log = new LocationTextEventLog(null);
@@ -164,7 +164,7 @@ public partial class ManaCrystals : ImageLibraryTerrainMapObject
         var hexLevel2 = GetHexLevel();
         var hexY2 = GetHexY();
         log.SetLocation(GetHexX(), hexY2, hexLevel2);
-        AoWHSMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(log);
+        StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(log);
         log.Release();
         Dispose();
     }

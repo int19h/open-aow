@@ -27,7 +27,7 @@ public partial class ArmyCombineMoveTokenEvent : MoveArmyTokenEvent
         Army sourceArmy;
         Army targetArmy;
         AddUnitsResult combineResult;
-        if (MoveIndex == 1 && Path[0].X == TargetX && Path[0].Y == TargetY && Path[0].MapLevel == TargetL && ArmyHexSprite.Army.Player == AoWHSMap.Current.SeatedPlayer)
+        if (MoveIndex == 1 && Path[0].X == TargetX && Path[0].Y == TargetY && Path[0].MapLevel == TargetL && ArmyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
         {
             armyHexSprite = GetMapField(Path[0]).GetArmyHexSprite();
             if (armyHexSprite != null && armyHexSprite.Army.Player == ArmyHexSprite.Army.Player)
@@ -53,15 +53,15 @@ public partial class ArmyCombineMoveTokenEvent : MoveArmyTokenEvent
         {
             case AddUnitsResult.InvalidMoveType:
                 var cannotCombineArmies = AbilityRules.TranslateResourceString(s_cannotCombineArmiesText);
-                AoWHSMap.Current.ShowMessage(cannotCombineArmies);
+                StrategicMap.Current.ShowMessage(cannotCombineArmies);
                 break;
             case AddUnitsResult.TooManyUnits:
                 var translatedText = AbilityRules.TranslateResourceString(s_cannotCombineArmiesText);
-                AoWHSMap.Current.ShowMessage(translatedText);
+                StrategicMap.Current.ShowMessage(translatedText);
                 break;
             case AddUnitsResult.MultipleTransporters:
                 var cannotCombineTransporters = AbilityRules.TranslateResourceString(s_cannotCombineTransportersText);
-                AoWHSMap.Current.ShowMessage(cannotCombineTransporters);
+                StrategicMap.Current.ShowMessage(cannotCombineTransporters);
                 break;
         }
     }

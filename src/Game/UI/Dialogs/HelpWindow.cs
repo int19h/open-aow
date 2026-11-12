@@ -4,7 +4,6 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -111,7 +110,7 @@ public partial class HelpWindow : DataModule
         }
 
         lines = new StringList();
-        AoWHSSet.Current.TextControl.RetrieveText(helpId, lines);
+        GamePack.Current.TextControl.RetrieveText(helpId, lines);
         DialogHosts.HelpWindow.HelpScrollBar.Position = 0;
         DialogHosts.HelpWindow.HeaderMemo.Items.Clear();
         if (lines.Count > 0)

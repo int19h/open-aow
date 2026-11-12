@@ -26,7 +26,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
     {
         // { Matches: Assign inherited Validate to Result before the conjunction. }
         bool result = base.Validate();
-        return result && ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(TargetX, TargetY, TargetL)).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate;
+        return result && StrategicMap.Current.MapContainer.GetField(TargetX, TargetY, TargetL).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate;
     }
 
     // MoveT.PAS:2442
@@ -83,7 +83,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
     public override MoveStatus ExecuteMove()
     {
         MoveStatus result;
-        AoWMapField field;
+        MapField field;
         int direction;
         if (MoveIndex == 1)
         {
@@ -129,9 +129,9 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
     {
         string errorText = "";
         MapFieldMessage message = default(MapFieldMessage);
-        if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
+        if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
         {
-            if (player == AoWHSMap.Current.SeatedPlayer)
+            if (player == StrategicMap.Current.SeatedPlayer)
             {
                 NegotiateRequestEventLog negotiateRequestEventLog = new NegotiateRequestEventLog(null);
                 negotiateRequestEventLog.ArmyId = armyHexSprite.Army.CreateId(selection);
@@ -144,7 +144,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
                 message.Param[0] = new MsgArg((object)negotiateRequestEventLog);
                 message.Param[1] = (MsgArg)(0);
                 message.Result = (MsgArg)(0);
-                AoWHSMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
+                StrategicMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
                 if (message.Param[1].Int != 0)
                 {
                     negotiateRequestEventLog.Execute(mode: true, ExecuteTrigger.Event, null);
@@ -152,7 +152,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
                 negotiateRequestEventLog.Release();
             }
         }
-        else if (AoWHSMap.Current.Players.GetPlayers(player).GetLocal())
+        else if (StrategicMap.Current.Players.GetPlayers(player).GetLocal())
         {
             NegotiateRequestEventLog negotiateRequestEventLog = new NegotiateRequestEventLog(null);
             negotiateRequestEventLog.ArmyId = armyHexSprite.Army.CreateId(selection);
@@ -165,8 +165,8 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
             message.Param[0] = new MsgArg((object)negotiateRequestEventLog);
             message.Param[1] = (MsgArg)(0);
             message.Result = (MsgArg)(0);
-            AoWHSMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
-            if (message.Param[1].Int != 0 && AoWHSMap.Current.Players.GetPlayers(player).Gems >= negotiateRequestEventLog.Gold)
+            StrategicMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
+            if (message.Param[1].Int != 0 && StrategicMap.Current.Players.GetPlayers(player).Gems >= negotiateRequestEventLog.Gold)
             {
                 negotiateRequestEventLog.Accept(ref errorText);
             }

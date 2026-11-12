@@ -42,23 +42,23 @@ public partial class EndTurnTokenEvent : TokenEvent
     {
         ExecuteResult result;
         base.Execute(tokenEvent);
-        if (AoWHSMap.Current.Day == Day)
+        if (StrategicMap.Current.Day == Day)
         {
-            if (Mode == EndTurnTokenEventMode.EndTurn && !AoWHSMap.Current.Players.GetPlayers(Player).SingleProcessCycle)
+            if (Mode == EndTurnTokenEventMode.EndTurn && !StrategicMap.Current.Players.GetPlayers(Player).SingleProcessCycle)
             {
-                AoWHSMap.Current.PlayerControl.EndTurn(Player);
-                if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && AoWHSMap.Current.Players.GetPlayers(Player).PlayerRace != -1)
+                StrategicMap.Current.PlayerControl.EndTurn(Player);
+                if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && StrategicMap.Current.Players.GetPlayers(Player).PlayerRace != -1)
                 {
-                    var players = AoWHSMap.Current.Players.GetPlayers(Player);
+                    var players = StrategicMap.Current.Players.GetPlayers(Player);
                     var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players.PlayerRace]);
                     var translatedText = AbilityRules.TranslateResourceString(s_finishedTheirTurnText);
-                    AoWHSMap.Current.ShowMessage(raceNamesPlural + " " + translatedText);
+                    StrategicMap.Current.ShowMessage(raceNamesPlural + " " + translatedText);
                 }
             }
 
             if (Mode == EndTurnTokenEventMode.CancelEndTurn)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).SetEndTurn(false);
+                StrategicMap.Current.Players.GetPlayers(Player).SetEndTurn(false);
             }
 
             result = ExecuteResult.Done;

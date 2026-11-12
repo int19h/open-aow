@@ -45,20 +45,20 @@ public partial class SpellCastingAbility : MultiLevelAbility
         if (source is CombatUnit)
         {
             var players = combat.CombatData.Players.GetPlayers(source.CombatPlayer);
-            if (AoWHSMap.Current.Players.GetPlayers(players.Player).PlayerType != PlayerType.Human || ((Hero)((CombatUnit)source).Troop).CastingSpellId == 0)
+            if (StrategicMap.Current.Players.GetPlayers(players.Player).PlayerType != PlayerType.Human || ((Hero)((CombatUnit)source).Troop).CastingSpellId == 0)
             {
                 var side = source.GetSide();
                 var opponentSide = source.GetOpponentSide();
                 if (combat.Sides[(int)side].Strength < combat.Sides[(int)opponentSide].Strength * 2 || source.GetHitPoints() < 10 || combat.CombatData.WallType != 0 && !combat.CombatData.WallBreached && CanCastBreachWallSpell(((CombatUnit)source).Troop))
                 {
                     var player = commands.Source.GetPlayer();
-                    magic = AoWHSMap.Current.Players.GetPlayers(player).MagicControl;
+                    magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
                     if (!magic.GetCheatEnabled())
                     {
                         for (int I = magic.Spells.Count - 1; I >= 0; I--)
                         {
                             var item = magic.Spells[I];
-                            spell = AoWHSSet.Current.SpellControl.GetSpell(item);
+                            spell = GamePack.Current.SpellControl.GetSpell(item);
                             if (spell != null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat))
                             {
                                 if (((CombatUnit)commands.Source).Troop is Hero)
@@ -73,9 +73,9 @@ public partial class SpellCastingAbility : MultiLevelAbility
                     }
                     else
                     {
-                        for (int I = 0, last = AoWHSSet.Current.SpellControl.GetCount() - 1; I <= last; I++)
+                        for (int I = 0, last = GamePack.Current.SpellControl.GetCount() - 1; I <= last; I++)
                         {
-                            spell = AoWHSSet.Current.SpellControl.GetSpell(I);
+                            spell = GamePack.Current.SpellControl.GetSpell(I);
                             if (spell != null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat))
                             {
                                 spell.FastBattlePrefetchCombatCommands(commands);
@@ -88,7 +88,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:4484
-    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command) => AoWHSSet.Current.SpellControl.GetSpell(((FastBattleSpellCommand)command).SpellId).FastBattleExecuteCombatCommand(source, command);
+    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command) => GamePack.Current.SpellControl.GetSpell(((FastBattleSpellCommand)command).SpellId).FastBattleExecuteCombatCommand(source, command);
 
     // AoWAb.PAS:4479
     public override bool CanActivate(AbilityOwner owner, ref string reason)
@@ -112,9 +112,9 @@ public partial class SpellCastingAbility : MultiLevelAbility
         bool result = base.Expand(owner);
         if (result)
         {
-            if (owner is Troop && AoWHSMap.Current != null)
+            if (owner is Troop && StrategicMap.Current != null)
             {
-                AoWHSMap.Current.Players.GetPlayers(((Troop)owner).Player).MagicControl.Update();
+                StrategicMap.Current.Players.GetPlayers(((Troop)owner).Player).MagicControl.Update();
             }
         }
 
@@ -127,9 +127,9 @@ public partial class SpellCastingAbility : MultiLevelAbility
         bool result = base.Remove(owner);
         if (result)
         {
-            if (owner is Troop && AoWHSMap.Current != null)
+            if (owner is Troop && StrategicMap.Current != null)
             {
-                AoWHSMap.Current.Players.GetPlayers(((Troop)owner).Player).MagicControl.Update();
+                StrategicMap.Current.Players.GetPlayers(((Troop)owner).Player).MagicControl.Update();
             }
         }
 
@@ -147,12 +147,12 @@ public partial class SpellCastingAbility : MultiLevelAbility
         if (attacker is CombatUnit)
         {
             var player = attacker.GetPlayer();
-            magic = AoWHSMap.Current.Players.GetPlayers(player).MagicControl;
+            magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
             source = ((CombatUnit)attacker).Troop;
             for (int I = magic.Spells.Count - 1; I >= 0; I--)
             {
                 var item = magic.Spells[I];
-                spell = AoWHSSet.Current.SpellControl.GetSpell(item);
+                spell = GamePack.Current.SpellControl.GetSpell(item);
                 if (spell != null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) && source.GetCastingPointsMax() >= spell.BaseManaCost)
                 {
                     spell.FastBattleGetDamageValues(attacker, defender, wallSituation, ref values);
@@ -176,12 +176,12 @@ public partial class SpellCastingAbility : MultiLevelAbility
         if (attacker is CombatUnit)
         {
             var player = attacker.GetPlayer();
-            magic = AoWHSMap.Current.Players.GetPlayers(player).MagicControl;
+            magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
             source = ((CombatUnit)attacker).Troop;
             for (int I = magic.Spells.Count - 1; I >= 0; I--)
             {
                 var item = magic.Spells[I];
-                spell = AoWHSSet.Current.SpellControl.GetSpell(item);
+                spell = GamePack.Current.SpellControl.GetSpell(item);
                 if (spell != null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) && source.GetCastingPoints() >= spell.BaseManaCost)
                 {
                     spell.FastBattleGetDamageValues(attacker, defender, WallSituation.None, ref values);
@@ -234,14 +234,14 @@ public partial class SpellCastingAbility : MultiLevelAbility
         PlayerMagicControl magic;
         if (troop is Hero)
         {
-            magic = AoWHSMap.Current.Players.GetPlayers(troop.Player).MagicControl;
+            magic = StrategicMap.Current.Players.GetPlayers(troop.Player).MagicControl;
             result = magic.GetCheatEnabled();
             I = magic.Spells.Count;
             while (!result && I != 0)
             {
                 I -= 1;
                 var item = magic.Spells[I];
-                spell = AoWHSSet.Current.SpellControl.GetSpell(item);
+                spell = GamePack.Current.SpellControl.GetSpell(item);
                 if (spell != null && spell.SpellType == SpellType.Combat)
                 {
                     spell.GetCombatInfo(troop, ref info);
@@ -272,7 +272,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
         int targetStrength;
         float ratio;
         hero = (Hero)source.Troop;
-        bool result = AoWHSMap.Current.Players.GetPlayers(hero.Player).PlayerType != PlayerType.Human || hero.CastingSpellId == 0;
+        bool result = StrategicMap.Current.Players.GetPlayers(hero.Player).PlayerType != PlayerType.Human || hero.CastingSpellId == 0;
         if (result)
         {
             var side = source.GetSide();

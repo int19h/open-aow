@@ -34,18 +34,18 @@ public partial class AntiMagicShell : CityEnchantmentSpell
     public override void PlayDefaultCityEffects(Troop source, City targetCity)
     {
         base.PlayDefaultCityEffects(source, targetCity);
-        bool condition = source.Player == AoWHSMap.Current.SeatedPlayer;
+        bool condition = source.Player == StrategicMap.Current.SeatedPlayer;
         if (!condition)
         {
             var hexLevel = targetCity.GetHexLevel();
             var hexY = targetCity.GetHexY();
             var hexX = targetCity.GetHexX();
-            condition = AoWHSMap.Current.WatchingTerrain(hexX, hexY, hexLevel, 1);
+            condition = StrategicMap.Current.WatchingTerrain(hexX, hexY, hexLevel, 1);
         }
 
         if (condition)
         {
-            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(1, -1, false, 30, SamplePanning.Center, null);
+            GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(1, -1, false, 30, SamplePanning.Center, null);
         }
     }
 }

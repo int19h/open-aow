@@ -72,7 +72,7 @@ public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
 
                 break;
             case 5:
-                var player = AoWHSMap.Current.Players.GetPlayers(Group.Player);
+                var player = StrategicMap.Current.Players.GetPlayers(Group.Player);
                 if (Set<PlayerType>.Of(PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(player.PlayerType))
                 {
                     State = 0;
@@ -89,8 +89,8 @@ public partial class SkirmishAIGroupControl : BehaviorAIGroupControl
                     Group.DeleteUnit(Group.Transporter);
                 }
 
-                var randomGroupBehavior = AoWHSMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
-                group = AoWHSMap.Current.AIGroupManager.CreateGroup(Group.Player, 0, randomGroupBehavior);
+                var randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
+                group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, 0, randomGroupBehavior);
                 group.AddUnits(Group);
                 group.Release();
                 Done();

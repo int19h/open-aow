@@ -1,14 +1,14 @@
 // Translated from FastCombatWin.pas.
 using Aow.Game.Combat;
 using Aow.Game.Draw;
-using Aow.Game.Draw.Images;
+
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -160,62 +160,62 @@ public partial class FastBattleWindow : DataModule
 
         if (HasWall(1, 6))
         {
-            AoWHSSet.Current.CombatImages[image].Show(X + 180, Y + 218 - 50, surface);
+            GamePack.Current.CombatImages[image].Show(X + 180, Y + 218 - 50, surface);
         }
 
         if (HasWall(1, 2))
         {
-            AoWHSSet.Current.CombatImages[image].Show(X + 372, Y + 218 - 50, surface);
+            GamePack.Current.CombatImages[image].Show(X + 372, Y + 218 - 50, surface);
         }
 
         if (HasWall(0, 1))
         {
-            AoWHSSet.Current.CombatImages[image + 4].Show(X + 180, Y + 218, surface);
+            GamePack.Current.CombatImages[image + 4].Show(X + 180, Y + 218, surface);
         }
 
         if (HasWall(0, 6))
         {
-            AoWHSSet.Current.CombatImages[image + 5].Show(X + 180, Y + 218, surface);
+            GamePack.Current.CombatImages[image + 5].Show(X + 180, Y + 218, surface);
         }
 
         if (HasWall(0, 2))
         {
-            AoWHSSet.Current.CombatImages[image + 5].Show(X + 372, Y + 218, surface);
+            GamePack.Current.CombatImages[image + 5].Show(X + 372, Y + 218, surface);
         }
 
         if (HasWall(5, 6))
         {
-            AoWHSSet.Current.CombatImages[image + 3].Show(X + 0, Y + 275, surface);
+            GamePack.Current.CombatImages[image + 3].Show(X + 0, Y + 275, surface);
         }
 
         if (HasWall(2, 3))
         {
-            AoWHSSet.Current.CombatImages[image + 2].Show(X + 374, Y + 275, surface);
+            GamePack.Current.CombatImages[image + 2].Show(X + 374, Y + 275, surface);
         }
 
         if (HasWall(0, 5))
         {
-            AoWHSSet.Current.CombatImages[image + 5].Show(X + 180, Y + 275, surface);
+            GamePack.Current.CombatImages[image + 5].Show(X + 180, Y + 275, surface);
         }
 
         if (HasWall(0, 3))
         {
-            AoWHSSet.Current.CombatImages[image + 5].Show(X + 372, Y + 275, surface);
+            GamePack.Current.CombatImages[image + 5].Show(X + 372, Y + 275, surface);
         }
 
         if (HasWall(0, 4))
         {
-            AoWHSSet.Current.CombatImages[image + 4].Show(X + 180, Y + 332, surface);
+            GamePack.Current.CombatImages[image + 4].Show(X + 180, Y + 332, surface);
         }
 
         if (HasWall(4, 5))
         {
-            AoWHSSet.Current.CombatImages[image + 1].Show(X + 180, Y + 342, surface);
+            GamePack.Current.CombatImages[image + 1].Show(X + 180, Y + 342, surface);
         }
 
         if (HasWall(4, 3))
         {
-            AoWHSSet.Current.CombatImages[image + 1].Show(X + 372, Y + 342, surface);
+            GamePack.Current.CombatImages[image + 1].Show(X + 372, Y + 342, surface);
         }
 
         var combatData = _viewer.Combat.CombatData;
@@ -274,7 +274,7 @@ public partial class FastBattleWindow : DataModule
                             glow = _phaseFrame / 2;
                             glow = Math.Abs((glow + 7) % 15 - 7);
                             GetPartyPosition(I, ref pixelX, ref pixelY);
-                            AoWHSSet.Current.CombatImages[glow + 100].ShowClipped(pixelX + X - 10, pixelY + Y - 9, surface);
+                            GamePack.Current.CombatImages[glow + 100].ShowClipped(pixelX + X - 10, pixelY + Y - 9, surface);
                         }
                     }
                 }
@@ -298,7 +298,7 @@ public partial class FastBattleWindow : DataModule
         else
         {
             var player = data.Players.GetPlayers(data.AttackerPlayer);
-            left = AoWHSMap.Current.Players.GetPlayers(player.Player).PlayerRace;
+            left = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
         }
 
         if (data.CurrentPlayer == 255 || data.Players.GetPlayers((sbyte)data.CurrentPlayer).SideIndex != 0)
@@ -322,7 +322,7 @@ public partial class FastBattleWindow : DataModule
         else
         {
             var player = data.Players.GetPlayers(data.DefenderPlayer);
-            right = AoWHSMap.Current.Players.GetPlayers(player.Player).PlayerRace;
+            right = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
         }
 
         if (data.CurrentPlayer == 255 || data.Players.GetPlayers((sbyte)data.CurrentPlayer).SideIndex != 1)
@@ -705,7 +705,7 @@ public partial class FastBattleWindow : DataModule
                 playerIndex = combat.CombatData.Players.GetPlayers((sbyte)party.PlayerIndex).Player;
                 if (playerIndex != 0)
                 {
-                    partyRace = AoWHSMap.Current.Players.GetPlayers(playerIndex).PlayerRace;
+                    partyRace = StrategicMap.Current.Players.GetPlayers(playerIndex).PlayerRace;
                 }
                 else
                 {
@@ -732,8 +732,8 @@ public partial class FastBattleWindow : DataModule
             else
             {
                 var player = combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer);
-                raceIndex = AoWHSMap.Current.Players.GetPlayers(player.Player).PlayerRace;
-                var raceResource = AoWHSSet.Current.RaceResources.GetRaceResource(raceIndex);
+                raceIndex = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
+                var raceResource = GamePack.Current.RaceResources.GetRaceResource(raceIndex);
                 dialog.LeftSideLabel.Text = raceResource.RaceName;
             }
 
@@ -745,8 +745,8 @@ public partial class FastBattleWindow : DataModule
             else
             {
                 var player = combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer);
-                raceIndex = AoWHSMap.Current.Players.GetPlayers(player.Player).PlayerRace;
-                var raceResource = AoWHSSet.Current.RaceResources.GetRaceResource(raceIndex);
+                raceIndex = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
+                var raceResource = GamePack.Current.RaceResources.GetRaceResource(raceIndex);
                 dialog.RightSideLabel.Text = raceResource.RaceName;
             }
         }

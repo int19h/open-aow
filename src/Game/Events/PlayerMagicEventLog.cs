@@ -48,11 +48,11 @@ public partial class PlayerMagicEventLog : EventLog
         switch (Mode)
         {
             case EventMode.SpellResearched:
-                var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+                var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
                 result = AbilityRules.Format(AbilityRules.TranslateResourceString(s_researchedFormat), [spell.SpellName]);
                 break;
             case EventMode.OutOfMana:
-                if (AoWHSMap.Current.SeatedPlayer == _player)
+                if (StrategicMap.Current.SeatedPlayer == _player)
                 {
                     result = AbilityRules.Format(AbilityRules.TranslateResourceString(s_removedOutOfManaFormat), [EnchantmentName]);
                 }
@@ -80,7 +80,7 @@ public partial class PlayerMagicEventLog : EventLog
             case EventMode.SpellResearched:
                 if (trigger != ExecuteTrigger.User)
                 {
-                    if (AoWHSMap.Current.PlayMode == PlayMode.Turn)
+                    if (StrategicMap.Current.PlayMode == PlayMode.Turn)
                     {
                         show = GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched);
                     }
@@ -122,8 +122,8 @@ public partial class PlayerMagicEventLog : EventLog
         X = Location.X;
         if (X != -1)
         {
-            AoWHSMap.Current.CenterViewTo(X, Location.Y, Location.MapLevel);
-            AoWHSMap.Current.PlayCenterAnimation(Location.X, Location.Y, Location.MapLevel);
+            StrategicMap.Current.CenterViewTo(X, Location.Y, Location.MapLevel);
+            StrategicMap.Current.PlayCenterAnimation(Location.X, Location.Y, Location.MapLevel);
         }
     }
 

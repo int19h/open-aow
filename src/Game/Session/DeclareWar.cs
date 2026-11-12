@@ -29,12 +29,12 @@ public sealed partial record DeclareWar : DiplomaticProposal
     public override void Sent(DiplomaticAction action)
     {
         action.ApplyRelationModifiers();
-        AoWHSMap.Current.Players.GetPlayers(action.Target).PlayerSeen((sbyte)(byte)action.Source);
-        AoWHSMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.War);
-        if (action.Source == AoWHSMap.Current.SeatedPlayer)
+        StrategicMap.Current.Players.GetPlayers(action.Target).PlayerSeen((sbyte)(byte)action.Source);
+        StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.War);
+        if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
             var warDeclared = AbilityRules.TranslateResourceString(s_warDeclaredText);
-            AoWHSMap.Current.ShowMessage(warDeclared);
+            StrategicMap.Current.ShowMessage(warDeclared);
         }
 
         Broadcast(action, -1, action.Target);
@@ -51,7 +51,7 @@ public sealed partial record DeclareWar : DiplomaticProposal
             return RaceModifier(action.Target, race, modifier);
         }
 
-        if (player == action.Target && Relation(action.Source, action.Target) != DiplomaticRelation.War && AoWHSMap.Current.Players.GetPlayers(action.Source).PlayerRace == race)
+        if (player == action.Target && Relation(action.Source, action.Target) != DiplomaticRelation.War && StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace == race)
         {
             return -20;
         }

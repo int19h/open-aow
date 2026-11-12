@@ -1,5 +1,4 @@
 // Translated from AoWE.pas.
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -66,13 +65,13 @@ public partial class DiplomaticActionEventLog : EventLog
             bool condition = Action.OtherPlayer > 0;
             if (condition)
             {
-                var count = AoWHSMap.Current.Players.Count;
+                var count = StrategicMap.Current.Players.Count;
                 condition = Action.OtherPlayer < count;
             }
 
             if (condition)
             {
-                race = AoWHSMap.Current.Players.GetPlayers(Action.OtherPlayer).PlayerRace;
+                race = StrategicMap.Current.Players.GetPlayers(Action.OtherPlayer).PlayerRace;
             }
             else
             {
@@ -88,13 +87,13 @@ public partial class DiplomaticActionEventLog : EventLog
                 bool condition = Action.Target > 0;
                 if (condition)
                 {
-                    var count = AoWHSMap.Current.Players.Count;
+                    var count = StrategicMap.Current.Players.Count;
                     condition = Action.Target < count;
                 }
 
                 if (condition)
                 {
-                    race = AoWHSMap.Current.Players.GetPlayers(Action.Target).PlayerRace;
+                    race = StrategicMap.Current.Players.GetPlayers(Action.Target).PlayerRace;
                 }
                 else
                 {
@@ -105,18 +104,18 @@ public partial class DiplomaticActionEventLog : EventLog
             }
             else
             {
-                if (AoWHSMap.Current.SeatedPlayer != Action.Source)
+                if (StrategicMap.Current.SeatedPlayer != Action.Source)
                 {
                     bool condition = Action.Source > 0;
                     if (condition)
                     {
-                        var count = AoWHSMap.Current.Players.Count;
+                        var count = StrategicMap.Current.Players.Count;
                         condition = Action.Source < count;
                     }
 
                     if (condition)
                     {
-                        race = AoWHSMap.Current.Players.GetPlayers(Action.Source).PlayerRace;
+                        race = StrategicMap.Current.Players.GetPlayers(Action.Source).PlayerRace;
                     }
                     else
                     {
@@ -130,13 +129,13 @@ public partial class DiplomaticActionEventLog : EventLog
                     bool condition = Action.Target > 0;
                     if (condition)
                     {
-                        var count = AoWHSMap.Current.Players.Count;
+                        var count = StrategicMap.Current.Players.Count;
                         condition = Action.Target < count;
                     }
 
                     if (condition)
                     {
-                        race = AoWHSMap.Current.Players.GetPlayers(Action.Target).PlayerRace;
+                        race = StrategicMap.Current.Players.GetPlayers(Action.Target).PlayerRace;
                     }
                     else
                     {
@@ -162,13 +161,13 @@ public partial class DiplomaticActionEventLog : EventLog
             bool condition = action.Source > 0;
             if (condition)
             {
-                var count = AoWHSMap.Current.Players.Count;
+                var count = StrategicMap.Current.Players.Count;
                 condition = action.Source < count;
             }
 
             if (condition)
             {
-                result = AoWHSMap.Current.Players.GetPlayers(action.Source).PlayerRace;
+                result = StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace;
             }
             else
             {
@@ -180,13 +179,13 @@ public partial class DiplomaticActionEventLog : EventLog
             bool condition = action.OtherPlayer > 0;
             if (condition)
             {
-                var count = AoWHSMap.Current.Players.Count;
+                var count = StrategicMap.Current.Players.Count;
                 condition = action.OtherPlayer < count;
             }
 
             if (condition)
             {
-                result = AoWHSMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerRace;
+                result = StrategicMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerRace;
             }
             else
             {
@@ -207,13 +206,13 @@ public partial class DiplomaticActionEventLog : EventLog
         bool condition = action.Target > 0;
         if (condition)
         {
-            var count = AoWHSMap.Current.Players.Count;
+            var count = StrategicMap.Current.Players.Count;
             condition = action.Target < count;
         }
 
         if (condition)
         {
-            result = AoWHSMap.Current.Players.GetPlayers(action.Target).PlayerRace;
+            result = StrategicMap.Current.Players.GetPlayers(action.Target).PlayerRace;
         }
         else
         {
@@ -247,16 +246,16 @@ public partial class DiplomaticActionEventLog : EventLog
         bool result = default;
         bool show;
         show = trigger == ExecuteTrigger.User;
-        if (AoWHSMap.Current.SeatedPlayer == Action.Target || AoWHSMap.Current.SeatedPlayer == Action.Source)
+        if (StrategicMap.Current.SeatedPlayer == Action.Target || StrategicMap.Current.SeatedPlayer == Action.Source)
         {
-            show = show || AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn;
-            show = show || AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy);
+            show = show || StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn;
+            show = show || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy);
         }
 
         show = show && (trigger == ExecuteTrigger.User || Action.Reaction != DiplomaticActionReaction.Ignore);
         if (show)
         {
-            AoWHSMap.Current.TriggerExecuteEventLog(this, mode, done);
+            StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
             result = true;
         }
         else
@@ -297,14 +296,14 @@ public partial class DiplomaticActionEventLog : EventLog
     internal static bool DiplomaticExecute(DiplomaticActionEventLog log, bool immediate, ExecuteTrigger trigger, object data, ExecuteDoneEvent done)
     {
         bool result = trigger == ExecuteTrigger.User;
-        if (log.Action.Target == AoWHSMap.Current.SeatedPlayer || log.Action.Source == AoWHSMap.Current.SeatedPlayer)
+        if (log.Action.Target == StrategicMap.Current.SeatedPlayer || log.Action.Source == StrategicMap.Current.SeatedPlayer)
         {
-            result = result || AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn;
-            result = result || AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy);
+            result = result || StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn;
+            result = result || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy);
         }
         result = result && (trigger == ExecuteTrigger.User || log.Action.Reaction != DiplomaticActionReaction.Ignore);
         if (!result) return false;
-        AoWHSMap.Current.TriggerExecuteEventLog(log, immediate, done);
+        StrategicMap.Current.TriggerExecuteEventLog(log, immediate, done);
         return true;
     }
 

@@ -139,7 +139,7 @@ public partial class TerrainMapObject : MultiHexMapObject
         int X = default;
         int Y = default;
         TerrainList terrainList;
-        HSMap map;
+        GameMap map;
         TerrainMapObjectResource R;
         MapObjectResourceList resources;
         int I;

@@ -318,10 +318,10 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void ArmyViewCoversBothArrayWidths()
     {
-        var previous = AoWHSMap.Current;
-        var map = new AoWHSMap(null!);
+        var previous = StrategicMap.Current;
+        var map = new StrategicMap(null!);
         map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
-        AoWHSMap.Current = map;
+        StrategicMap.Current = map;
         try
         {
             Check("Army", new Army(null!));
@@ -348,7 +348,7 @@ public sealed class PersistEquivalenceTests
         }
         finally
         {
-            AoWHSMap.Current = previous!;
+            StrategicMap.Current = previous!;
             map.Dispose();
         }
     }
@@ -846,19 +846,19 @@ public sealed class PersistEquivalenceTests
         Assert.Equal(0, info.ByName["SaveLoad"]);
     }
 
-    private static void WithDestroyingMap(Action<AoWHSMap> body)
+    private static void WithDestroyingMap(Action<StrategicMap> body)
     {
-        var previous = AoWHSMap.Current;
-        var map = new AoWHSMap(null!);
+        var previous = StrategicMap.Current;
+        var map = new StrategicMap(null!);
         map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
-        AoWHSMap.Current = map;
+        StrategicMap.Current = map;
         try
         {
             body(map);
         }
         finally
         {
-            AoWHSMap.Current = previous!;
+            StrategicMap.Current = previous!;
             map.Dispose();
         }
     }
@@ -947,7 +947,7 @@ public sealed class PersistEquivalenceTests
     {
         var ability = new Ability(null!);
         ability.AbilityId = id;
-        var list = AoWHSSet.Current.AbilityControl.Abilities;
+        var list = GamePack.Current.AbilityControl.Abilities;
         while (id >= list.Count) list.Add(null);
         list[id] = ability;
         return ability;
@@ -955,7 +955,7 @@ public sealed class PersistEquivalenceTests
 
     private static void ReleaseAbility(Ability ability)
     {
-        var list = AoWHSSet.Current.AbilityControl.Abilities;
+        var list = GamePack.Current.AbilityControl.Abilities;
         int id = ability.AbilityId;
         if ((uint)id < (uint)list.Count && ReferenceEquals(list[id], ability)) list[id] = null;
         ability.Dispose();

@@ -31,8 +31,8 @@ public partial class SpellWard : GlobalEnchantmentSpell
         sbyte L = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         source.GetLocation(ref X, ref Y, ref L);
-        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
-        AoWHSMap.Current.AddEffect(WorldEffectType.SpellWard);
+        StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+        StrategicMap.Current.AddEffect(WorldEffectType.SpellWard);
         CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);
         return false;

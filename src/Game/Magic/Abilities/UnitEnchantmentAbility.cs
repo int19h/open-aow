@@ -74,10 +74,10 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         string result;
         UnitEnchantmentAbilityData data;
         Troop source;
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
             data = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
-            source = AoWHSMap.Current.UnitControl.FindUnit(data.Enchantment.UnitId);
+            source = StrategicMap.Current.UnitControl.FindUnit(data.Enchantment.UnitId);
             // { Original also reports player zero as unknown. }
             if (data.Enchantment.Source <= 0)
             {
@@ -91,7 +91,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
                 }
                 else
                 {
-                    result = AoWHSMap.Current.Players.GetPlayers(data.Enchantment.Source).Leader.HeroName;
+                    result = StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).Leader.HeroName;
                 }
             }
         }
@@ -177,9 +177,9 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         data = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
         if (data != null)
         {
-            if (AoWHSMap.Current != null && data.Enchantment.Source > -1)
+            if (StrategicMap.Current != null && data.Enchantment.Source > -1)
             {
-                AoWHSMap.Current.Players.GetPlayers(data.Enchantment.Source).MagicControl.UnregisterEnchantment(data.Enchantment);
+                StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).MagicControl.UnregisterEnchantment(data.Enchantment);
             }
 
             SetAbility(owner, AbilityId, 0);

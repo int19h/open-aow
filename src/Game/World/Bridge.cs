@@ -1,5 +1,4 @@
 // Translated from Bridge.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
@@ -91,7 +90,7 @@ public partial class Bridge : AbstractRoad
                 mapField = level.GetField(hexX, hexY);
                 terrainType = mapField.TerrainType;
                 hasRoad = mapField.FindHexSprite(typeof(AbstractRoad)) != null;
-                isShore = terrainType != 0 && _resource.TerrainList.GetTerrain(0) != terrainType && mapField.FindHexSprite(typeof(BorderHexagon)) == null;
+                isShore = terrainType != 0 && _resource.TerrainList.GetTerrain(0) != terrainType && mapField.FindHexSprite(typeof(BorderHex)) == null;
                 if (hasRoad)
                 {
                     sides[hexNumber - 1] = 1;

@@ -68,7 +68,7 @@ public partial class PossessedAbility : PossessAbility
         var combatUnit = (CombatUnit)combatObject;
         combatUnit.SetStatus(combatUnit.Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
         newUnit = new Unit(null);
-        newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(152));
+        newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(152));
         data = (PossessedAbilityData)combatUnit.Troop.GetAbilityData(107);
         if (data != null)
         {

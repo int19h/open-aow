@@ -20,7 +20,7 @@ public partial class RebuildConstructionControl : ConstructionControl
         sbyte Y = default;
         sbyte L = default;
         troop.GetLocation(ref X, ref Y, ref L);
-        Structure result = (Structure)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(Structure));
+        Structure result = (Structure)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(Structure));
         if (result != null)
         {
             if (!result.GetRazed() || result.GetBuilding())

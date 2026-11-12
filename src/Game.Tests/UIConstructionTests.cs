@@ -32,10 +32,10 @@ public sealed class UIConstructionTests
     private sealed class Fixture : IDisposable
     {
         private readonly GameEngine _previousEngine = GameTables.GameEngine;
-        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
+        private readonly StrategicMap _previousMap = StrategicMap.Current;
         private readonly CombatMap _previousCombat = CombatMap.Current;
-        private readonly EventStore<HSMap> _loaded;
-        private readonly EventStore<HSMap> _closed;
+        private readonly EventStore<GameMap> _loaded;
+        private readonly EventStore<GameMap> _closed;
 
         internal Fixture()
         {
@@ -43,9 +43,9 @@ public sealed class UIConstructionTests
             GameTables.GameEngine = EngineFixture.Engine;
             _loaded = GameTables.GameEngine.OnHsmLoadedStore;
             _closed = GameTables.GameEngine.OnHsmCloseStore;
-            GameTables.GameEngine.OnHsmLoadedStore = new EventStore<HSMap>();
-            GameTables.GameEngine.OnHsmCloseStore = new EventStore<HSMap>();
-            AoWHSMap.Current = null!;
+            GameTables.GameEngine.OnHsmLoadedStore = new EventStore<GameMap>();
+            GameTables.GameEngine.OnHsmCloseStore = new EventStore<GameMap>();
+            StrategicMap.Current = null!;
             CombatMap.Current = null!;
         }
 
@@ -54,7 +54,7 @@ public sealed class UIConstructionTests
             GameTables.GameEngine.OnHsmLoadedStore = _loaded;
             GameTables.GameEngine.OnHsmCloseStore = _closed;
             GameTables.GameEngine = _previousEngine;
-            AoWHSMap.Current = _previousMap;
+            StrategicMap.Current = _previousMap;
             CombatMap.Current = _previousCombat;
         }
     }

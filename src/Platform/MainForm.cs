@@ -149,7 +149,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         Display.StartUpdateFrameLoop();
     }
 
-    public void DisplayUpdateFrame(object sender, CustomDisplayController displayController, int surfaceType)
+    public void DisplayUpdateFrame(object sender, DisplayController displayController, int surfaceType)
     {
         RtlUnit.Clock.WaitMilliseconds(GameTables.GameEngine.Registry.GetDebugMode() ? 1 : 0);
         switch (GameHost.DeferredSetupAction)
@@ -160,7 +160,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         if (DialogHosts.SetupEvents.DirectPlay.DPlay is not null)
             DialogHosts.SetupEvents.DirectPlay.CheckMessages();
         AudioPlayback.ProcessSound();
-        try { AoWHSMap.Current?.NewFrame(); }
+        try { StrategicMap.Current?.NewFrame(); }
         catch (Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during AoWHSMap.NewFrame"); }
         if (displayController?.GetSurface(1) is Surface back)
         {
@@ -168,10 +168,10 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             Display.GetMousePosition(ref x, ref y);
             Rect rectangle = default;
             GetCursorRectangle(x, y, ref rectangle);
-            FCursorChanged |= (AoWHSMap.Current is not null && AoWHSMap.Current.Mouse.CursorVisible) ||
+            FCursorChanged |= (StrategicMap.Current is not null && StrategicMap.Current.Mouse.CursorVisible) ||
                 FLastCursorRectangle.Left != rectangle.Left || FLastCursorRectangle.Top != rectangle.Top ||
                 FLastCursorRectangle.Right != rectangle.Right || FLastCursorRectangle.Bottom != rectangle.Bottom;
-            if (AoWHSMap.Current is not null) ScrollMap(x, y);
+            if (StrategicMap.Current is not null) ScrollMap(x, y);
             try { DialogHosts.General.Manager.DrawSurface(back); }
             catch (Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during WinManager DrawSurface"); }
             LockedSurface descriptor = default;
@@ -183,11 +183,11 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             FLastCursorRectangle = rectangle;
             DialogHosts.ConfirmationDialog.FrameRateLabel.Text = RtlUnit.IntToStr(Display.CurrentFrameRate);
         }
-        if (AoWHSMap.Current is not null && AoWHSMap.Current.ExitPending) DialogHosts.General.ReturnToTitle();
+        if (StrategicMap.Current is not null && StrategicMap.Current.ExitPending) DialogHosts.General.ReturnToTitle();
         VideoDialog.ApplyVideoSettings(DialogHosts.VideoDialog);
     }
 
-    private int CursorIndex => FCursor == 9999 && AoWHSMap.Current is not null ? AoWHSMap.Current.Mouse.Cursor : FCursor;
+    private int CursorIndex => FCursor == 9999 && StrategicMap.Current is not null ? StrategicMap.Current.Mouse.Cursor : FCursor;
 
     public void GetCursorRectangle(int x, int y, ref Rect rectangle)
     {
@@ -203,10 +203,10 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             RtlUnit.UnionRect(ref _cursorBounds, _cursorBounds, bounds);
         }
         _cursorBounds = default;
-        if (AoWHSMap.Current is not null)
+        if (StrategicMap.Current is not null)
         {
             Include(FCursorImage, -15, -20);
-            if (CursorIndex != 1) Include(AoWHSSet.Current.CursorImages[CursorIndex], -25, -25);
+            if (CursorIndex != 1) Include(GamePack.Current.CursorImages[CursorIndex], -25, -25);
         }
         else if (FCursor != 1 && DialogHosts.UIGraphics.Cursors.ImageExist(FCursor)) Include(DialogHosts.UIGraphics.Cursors[FCursor], -25, -25);
         rectangle = _cursorBounds;
@@ -217,17 +217,17 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     public void DrawCursor(int x, int y, in LockedSurface surface)
     {
         if (x == -1) return;
-        if (AoWHSMap.Current is not null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             FCursorImage?.Show(x - 15, y - 20, surface);
-            var image = CursorIndex != 1 ? AoWHSSet.Current.CursorImages[CursorIndex] : null;
+            var image = CursorIndex != 1 ? GamePack.Current.CursorImages[CursorIndex] : null;
             if (image is null) return;
-            if (AoWHSMap.Current.SeatedPlayer != -1 && AoWHSMap.Current.CombatMap is null)
+            if (StrategicMap.Current.SeatedPlayer != -1 && StrategicMap.Current.CombatMap is null)
             {
-                var player = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
+                var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 if (player.GetBusy() && player.GameOverStatus == GameOverStatus.None)
                 {
-                    image.ShowBlended(x - 25, y - 25, surface, GraphicsState.AlphaBlendTable.GetLookupTables(Math.Abs((AoWHSMap.Current.Frame << 2) % 100 - 50) + 30));
+                    image.ShowBlended(x - 25, y - 25, surface, GraphicsState.AlphaBlendTable.GetLookupTables(Math.Abs((StrategicMap.Current.Frame << 2) % 100 - 50) + 30));
                     FCursorChanged = true;
                     return;
                 }
@@ -252,7 +252,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     {
         Display.MouseButtons = shift;
         DialogHosts.General.Manager.CheckMouseUp(button, shift, x, y);
-        if (AoWHSMap.Current?.Mouse is GameMapMouse mouse) mouse.ResetRectangleSelection();
+        if (StrategicMap.Current?.Mouse is GameMapMouse mouse) mouse.ResetRectangleSelection();
     }
 
     public void MouseMove(Set<ShiftState> shift, int x, int y) { Display.MouseButtons = shift; DialogHosts.General.Manager.CheckMouseMove(shift, x, y); }
@@ -263,12 +263,12 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     {
         if (key == 13 && shift.Contains(ShiftState.Alt)) { Display.SwapDisplayController(); return; }
         DialogHosts.General.Manager.CheckKeyDown(ref key, shift);
-        if (key == 112 && AoWHSMap.Current is not null && AoWHSMap.Current.GameType == GameType.Tutorial) TutorialWindow.ShowTutorialMessage(GameLayouts.TutorialWindow);
+        if (key == 112 && StrategicMap.Current is not null && StrategicMap.Current.GameType == GameType.Tutorial) TutorialWindow.ShowTutorialMessage(GameLayouts.TutorialWindow);
     }
 
     public void KeyPress(byte key) => DialogHosts.General.Manager.CheckKeyPress(ref key);
 
-    public void DoubleClick() { if (AoWHSMap.Current is not null && !General.HasModalWindow(DialogHosts.General)) AoWHSMap.Current.Mouse.DoubleClick(); }
+    public void DoubleClick() { if (StrategicMap.Current is not null && !General.HasModalWindow(DialogHosts.General)) StrategicMap.Current.Mouse.DoubleClick(); }
 
     public void Resize(int width, int height) => Display.Resize();
 
@@ -276,11 +276,11 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     public bool CloseRequested()
     {
-        if (AoWHSMap.Current is null) return IsClosed = true;
-        if (AoWHSMap.Current.CombatMap is null)
+        if (StrategicMap.Current is null) return IsClosed = true;
+        if (StrategicMap.Current.CombatMap is null)
         {
-            AoWHSMap.Current.ExitGame(ExitGameMode.Terminate, (_, exited) => IsClosed |= exited);
-            return IsClosed |= AoWHSMap.Current.ExitPending;
+            StrategicMap.Current.ExitGame(ExitGameMode.Terminate, (_, exited) => IsClosed |= exited);
+            return IsClosed |= StrategicMap.Current.ExitPending;
         }
         DialogHosts.ConfirmationDialog.Confirm(AbilityRules.TranslateResourceString(PlayerControl.ConfirmText), AbilityRules.TranslateResourceString(PopupWindows.QuitCombatText), 6);
         return false;

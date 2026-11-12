@@ -127,7 +127,7 @@ internal static class Program
             CombatClasses.Register(GameTables.GameEngine);
             gameplay = true;
             GameTables.GameEngine.LoadHsm(input, false, null!, GameProfile.WorldMap);
-            if (GameTables.GameEngine.HexSpriteMap is not AoWHSMap map)
+            if (GameTables.GameEngine.HexSpriteMap is not StrategicMap map)
                 throw new InvalidDataException("engine load failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
             map.SetViewPort(map.ViewPixelX, map.ViewPixelY, map.ViewL, 0, 0);
             Shim.RandSeed = seed;

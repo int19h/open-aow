@@ -23,7 +23,7 @@ public partial class ArmyHexSprite
         int deltaX = default;
         int deltaY = default;
         double part;
-        if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FieldFlags).Hi).Lo != 0 || !AoWHSMap.Current.FogEnabled)
+        if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Owner.FieldFlags).Hi).Lo != 0 || !StrategicMap.Current.FogEnabled)
         {
             if (Direction >= UnitGraphicsResource.Sequences.Count)
             {
@@ -81,11 +81,11 @@ public partial class ArmyHexSprite
 
             if (!Army.Status.Contains(ArmyStatusElement.Concealed))
             {
-                if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || AoWHSMap.Current.SeatedPlayer != Army.Player || Army.Count != Army.ConcealedUnitsCount())
+                if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || StrategicMap.Current.SeatedPlayer != Army.Player || Army.Count != Army.ConcealedUnitsCount())
                 {
                     while (sequence != null)
                     {
-                        frame = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (frame != -1)
                         {
                             sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + _unitYOffset, lockedSurface);
@@ -95,20 +95,20 @@ public partial class ArmyHexSprite
                     }
 
                     ShowEnchantments(pixelXSurface, pixelYSurface + _unitYOffset, lockedSurface);
-                    if (!Army.Status.Contains(ArmyStatusElement.Selected) || (AoWHSMap.Current.Frame & 6) != 6)
+                    if (!Army.Status.Contains(ArmyStatusElement.Selected) || (StrategicMap.Current.Frame & 6) != 6)
                     {
                         if (FlagId == 32)
                         {
                             var count = Army.Count;
-                            AoWHSSet.Current.FlagControl.Flags[count + 39].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
+                            GamePack.Current.FlagControl.Flags[count + 39].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                         }
                         else
                         {
                             var count = Army.Count;
-                            AoWHSSet.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
+                            GamePack.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                             if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
                             {
-                                AoWHSSet.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
+                                GamePack.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
                             }
                         }
                     }
@@ -117,7 +117,7 @@ public partial class ArmyHexSprite
                 {
                     while (sequence != null)
                     {
-                        frame = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (frame != -1)
                         {
                             sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + _unitYOffset, lockedSurface);
@@ -129,21 +129,21 @@ public partial class ArmyHexSprite
                     ShowEnchantments(pixelXSurface, pixelYSurface + _unitYOffset, lockedSurface);
                     if (Army.Status.Contains(ArmyStatusElement.Selected))
                     {
-                        if ((AoWHSMap.Current.Frame & 6) != 6)
+                        if ((StrategicMap.Current.Frame & 6) != 6)
                         {
                             if (FlagId != 32)
                             {
                                 var count = Army.Count;
-                                AoWHSSet.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[50]);
+                                GamePack.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[50]);
                                 if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
                                 {
-                                    AoWHSSet.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
+                                    GamePack.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
                                 }
                             }
                             else
                             {
                                 var count = Army.Count;
-                                AoWHSSet.Current.FlagControl.Flags[count + 39].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[50]);
+                                GamePack.Current.FlagControl.Flags[count + 39].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[50]);
                             }
                         }
                     }
@@ -152,16 +152,16 @@ public partial class ArmyHexSprite
                         if (FlagId != 32)
                         {
                             var count = Army.Count;
-                            AoWHSSet.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[Math.Abs((AoWHSMap.Current.Frame << 2) % 60 - 30) + 40]);
+                            GamePack.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[Math.Abs((StrategicMap.Current.Frame << 2) % 60 - 30) + 40]);
                             if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
                             {
-                                AoWHSSet.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
+                                GamePack.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
                             }
                         }
                         else
                         {
                             var count = Army.Count;
-                            AoWHSSet.Current.FlagControl.Flags[count + 39].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[Math.Abs((AoWHSMap.Current.Frame << 2) % 60 - 30) + 40]);
+                            GamePack.Current.FlagControl.Flags[count + 39].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[Math.Abs((StrategicMap.Current.Frame << 2) % 60 - 30) + 40]);
                         }
                     }
                 }
@@ -172,7 +172,7 @@ public partial class ArmyHexSprite
                 {
                     while (sequence != null)
                     {
-                        frame = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (frame != -1)
                         {
                             sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + _unitYOffset, lockedSurface);
@@ -181,22 +181,22 @@ public partial class ArmyHexSprite
                         sequence = sequence.Next;
                     }
 
-                    if (!Army.Status.Contains(ArmyStatusElement.Selected) || (AoWHSMap.Current.Frame & 6) != 6)
+                    if (!Army.Status.Contains(ArmyStatusElement.Selected) || (StrategicMap.Current.Frame & 6) != 6)
                     {
                         if (FlagId == 32)
                         {
                             var count = Army.Count;
                             var concealedUnitsCount = Army.ConcealedUnitsCount();
-                            AoWHSSet.Current.FlagControl.Flags[count - concealedUnitsCount + 39].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
+                            GamePack.Current.FlagControl.Flags[count - concealedUnitsCount + 39].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                         }
                         else
                         {
                             var count = Army.Count;
                             var concealedUnitsCount = Army.ConcealedUnitsCount();
-                            AoWHSSet.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count - concealedUnitsCount + 29].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
+                            GamePack.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count - concealedUnitsCount + 29].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
                             if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
                             {
-                                AoWHSSet.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
+                                GamePack.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
                             }
                         }
                     }
@@ -214,7 +214,7 @@ public partial class ArmyHexSprite
         int deltaX = default;
         int deltaY = default;
         int frame;
-        if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FieldFlags).Hi).Lo != 0 || !AoWHSMap.Current.FogEnabled) && !Army.Status.Contains(ArmyStatusElement.FullyConcealed))
+        if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Owner.FieldFlags).Hi).Lo != 0 || !StrategicMap.Current.FogEnabled) && !Army.Status.Contains(ArmyStatusElement.FullyConcealed))
         {
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
             X = pixelX - X;
@@ -242,7 +242,7 @@ public partial class ArmyHexSprite
 
             while (sequence != null)
             {
-                frame = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 sequence.ImageLibrary[frame].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
                 sequence = sequence.Next;
             }
@@ -266,7 +266,7 @@ public partial class ArmyHexSprite
 
             if (sequence != null)
             {
-                frame = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (sequence.SpeedCount == sequence.SequenceSpeed)
                 {
                     UnitGraphicsResource.SfxLibraries[1].Play(frame % 100);

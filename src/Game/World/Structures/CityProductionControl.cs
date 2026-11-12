@@ -77,7 +77,7 @@ public partial class CityProductionControl : ProductionControl
         var cityHexLevel = city.GetHexLevel();
         var hexY2 = city.GetHexY();
         log.SetLocation(city.GetHexX(), hexY2, cityHexLevel);
-        AoWHSMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
+        StrategicMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
         log.Release();
         return valid;
     }
@@ -92,13 +92,13 @@ public partial class CityProductionControl : ProductionControl
         log = new CityProductionEventLog(null);
         log._player = city.Player;
         var unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
-        var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
+        var unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         var name = City.GetName();
         log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.InstalledFormat), [unitName, name]);
         var hexLevel = city.GetHexLevel();
         var hexY = city.GetHexY();
         log.SetLocation(city.GetHexX(), hexY, hexLevel);
-        AoWHSMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
+        StrategicMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
         log.Release();
     }
 
@@ -129,7 +129,7 @@ public partial class CityProductionControl : ProductionControl
     {
         int unitIndex;
         unitIndex = UnitProductions.GetItem(index).UnitIndex;
-        var unitResource = AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex);
+        var unitResource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         var size = City.GetSize();
         int result = unitResource.Level - size / 2 + 1;
         if (result < 1)

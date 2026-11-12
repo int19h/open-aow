@@ -29,8 +29,8 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
     {
         base.Process(source, value);
         RaiseTerrain(source);
-        AoWHSMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
-        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
+        StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
+        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         return false;
     }
 
@@ -40,22 +40,22 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
         MapObjectResourceList resources = default;
         MapLevel level = default;
         HexNumberWalkData walk = default;
-        AoWMapField field = default;
+        MapField field = default;
         RaisedMountain mountain = default;
         MapObjectResource resource = default;
         int I = default;
         bool found = default;
         ImageSequenceAnimation animation = default;
-        resources = AoWHSSet.Current.MapObjectResourceList;
-        level = AoWHSMap.Current.MapContainer.MapLevels[Location.MapLevel];
+        resources = GamePack.Current.MapObjectResourceList;
+        level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, Location.X, Location.Y, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                field = (AoWMapField)level.Field[walk.X, walk.Y];
+                field = level.Field[walk.X, walk.Y];
                 resource = null;
-                if (((GlobalTargetSpell)AoWHSSet.Current.SpellControl.GetSpell(19)).ValidTargetMapField(field))
+                if (((GlobalTargetSpell)GamePack.Current.SpellControl.GetSpell(19)).ValidTargetMapField(field))
                 {
                     found = false;
                     I = resources.Count;
@@ -70,19 +70,19 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
                     {
                         field.RestoreTerrain();
                         mountain = (RaisedMountain)resource.CreateResourceUser();
-                        mountain.Duration = (sbyte)((AoWHSMap.Current.Random(11) - 5) / 5 + 3);
+                        mountain.Duration = (sbyte)((StrategicMap.Current.Random(11) - 5) / 5 + 3);
                         mountain.Player = caster.Player;
                         mountain.OriginalOverlay = field.OverlayType;
-                        AoWHSMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
-                        if (AoWHSMap.Current.PlaceHex(mountain, walk.X, walk.Y, Location.MapLevel))
+                        StrategicMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
+                        if (StrategicMap.Current.PlaceHex(mountain, walk.X, walk.Y, Location.MapLevel))
                         {
                             mountain.Mode = mountain.Mode + Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
                             animation = new ImageSequenceAnimation(null);
-                            animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(19).CastImages.ImageSequences[0]);
+                            animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(19).CastImages.ImageSequences[0]);
                             animation.OnShow = mountain.ShowRaiseTerrainAnimation;
                             animation.OnNewFrame = mountain.NewFrameRaiseTerrainAnimation;
-                            animation.FrameCounter = -AoWHSMap.Current.Random(15);
-                            AoWHSMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
+                            animation.FrameCounter = -StrategicMap.Current.Random(15);
+                            StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
                         }
                     }
                 }

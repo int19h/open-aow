@@ -9,7 +9,7 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -115,7 +115,7 @@ public partial class ArenaDialog : DataModule
         }
         else
         {
-            AoWHSMap.Current.ShowWarning(reason);
+            StrategicMap.Current.ShowWarning(reason);
         }
     }
 
@@ -212,17 +212,17 @@ public partial class ArenaDialog : DataModule
 
         LockedSurface.CreateFrom(lockedSurface, R, ref mapSurfaceDescription);
         var hexLevel = _event.Arena.GetHexLevel();
-        AoWHSMap.Current.SetViewPort(X, Y, hexLevel, R.Right - R.Left, R.Bottom - R.Top);
-        AoWHSMap.Current.UpdateStaticScene();
-        AoWHSMap.Current.UpdateDynamicScene();
-        AoWHSMap.Current.DrawStaticScene(ref mapSurfaceDescription);
-        AoWHSMap.Current.DrawDynamicScene(ref mapSurfaceDescription);
+        StrategicMap.Current.SetViewPort(X, Y, hexLevel, R.Right - R.Left, R.Bottom - R.Top);
+        StrategicMap.Current.UpdateStaticScene();
+        StrategicMap.Current.UpdateDynamicScene();
+        StrategicMap.Current.DrawStaticScene(ref mapSurfaceDescription);
+        StrategicMap.Current.DrawDynamicScene(ref mapSurfaceDescription);
     }
 
     // AoWArenaDlg.pas:224
     public void MapViewUpdate()
     {
-        MapView.Drawn = MapView.Drawn && (AoWHSMap.Current.Frame & 1) != 0;
+        MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
     }
 
     // AoWArenaDlg.pas:229

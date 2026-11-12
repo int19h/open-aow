@@ -37,9 +37,9 @@ public sealed class LeftoverConstructionTests
     private sealed class Fixture : IDisposable
     {
         private readonly int _previousSeed = Runtime.RandSeed;
-        private readonly AoWHSSet _previousSet = AoWHSSet.Current;
+        private readonly GamePack _previousSet = GamePack.Current;
         private readonly GameEngine _previousEngine = GameTables.GameEngine;
-        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
+        private readonly StrategicMap _previousMap = StrategicMap.Current;
         private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
         private readonly MapObjectResourceList _combatResources = new MapObjectResourceList(null!);
 
@@ -47,10 +47,10 @@ public sealed class LeftoverConstructionTests
         {
             Runtime.RandSeed = 123456789;
             var set = EngineFixture.Configure(EngineFixture.CreateGameSet(_manager), value => { value.CombatResources = _combatResources; });
-            AoWHSSet.Current = set;
+            GamePack.Current = set;
             GameTables.GameEngine = EngineFixture.Engine;
-            AoWHSMap.Current = null!;
-            AoWHSSet.Current.UnitGraphicsResources = null!;
+            StrategicMap.Current = null!;
+            GamePack.Current.UnitGraphicsResources = null!;
             Runtime.RandSeed = 123456789;
         }
 
@@ -58,9 +58,9 @@ public sealed class LeftoverConstructionTests
         {
             Runtime.RandSeed = _previousSeed;
 
-            AoWHSSet.Current = _previousSet;
+            GamePack.Current = _previousSet;
             GameTables.GameEngine = _previousEngine;
-            AoWHSMap.Current = _previousMap;
+            StrategicMap.Current = _previousMap;
             _combatResources.Dispose();
             _manager.Dispose();
         }
@@ -74,7 +74,10 @@ public sealed class LeftoverConstructionTests
             if (item is null) return null;
             if (item is GameEngine) return "$engine";
             Type type = item.GetType();
-            if (item is string text) return text;
+            // A game pack searches the fixture's temporary game root for its images and sounds
+            // (issue 200 folded the game part into the set), so the root reads as $root.
+            if (item is string text)
+                return text.StartsWith(EngineFixture.Root, StringComparison.OrdinalIgnoreCase) ? "$root" + text[EngineFixture.Root.Length..] : text;
             if (type.IsEnum) return Convert.ToInt64(item);
             if (type.IsPrimitive || item is string || item is decimal) return item;
             if (item is Type represented) return represented.FullName;
@@ -117,7 +120,7 @@ public sealed class LeftoverConstructionTests
         "Aow.Game.Magic.Abilities.AbilityOwner",
         "Aow.Game.Session.Campaign",
         "Aow.Game.Session.CampaignScenario",
-        "Aow.Game.World.Map.AoWHSMap",
+        "Aow.Game.World.Map.StrategicMap",
         "Aow.Game.Units.Army",
         "Aow.Game.Commands.ArmyCombatMoveTokenEvent",
         "Aow.Game.Commands.ArmyCombineMoveTokenEvent",
@@ -203,7 +206,7 @@ public sealed class LeftoverConstructionTests
         "Aow.Game.Draw.WatcherHexSprite",
         "Aow.Game.Commands.WatcherTokenEvent",
         "Aow.Game.Draw.FixedVisibleHexSprite",
-        "Aow.Game.World.Map.HSSet",
+        "Aow.Game.World.Map.GamePack",
         "Aow.Game.World.Map.MapField",
         "Aow.Game.World.Map.MapLevel",
         "Aow.Game.World.MapObjectResource",
@@ -289,11 +292,11 @@ public sealed class LeftoverConstructionTests
     {
         public RejectingOwner() : base() { }
 
-        private AoWHSMap? _captured;
+        private StrategicMap? _captured;
 
         public override int AddChild(EngineObject child)
         {
-            _captured = Assert.IsType<AoWHSMap>(child);
+            _captured = Assert.IsType<StrategicMap>(child);
             Assert.Equal(0, _captured.MapChangedLockCount);
             throw new InvalidOperationException("reject after insertion");
         }
@@ -307,12 +310,12 @@ public sealed class LeftoverConstructionTests
     public void PlainWorldMapPublishesItsCompletedState(int route)
     {
         using var fixture = new Fixture();
-        var value = Assert.IsType<AoWHSMap>(route switch
+        var value = Assert.IsType<StrategicMap>(route switch
         {
-            0 => new AoWHSMap(null!),
-            1 => EngineClass.Of<AoWHSMap>().CreateInstance(null!),
-            2 => EngineClass.Of(typeof(AoWHSMap)).CreateInstance(null!),
-            _ => Saved(typeof(AoWHSMap), null!)
+            0 => new StrategicMap(null!),
+            1 => EngineClass.Of<StrategicMap>().CreateInstance(null!),
+            2 => EngineClass.Of(typeof(StrategicMap)).CreateInstance(null!),
+            _ => Saved(typeof(StrategicMap), null!)
         });
         Assert.Equal(0, value.MapChangedLockCount);
         Assert.NotNull(value.ItemControl);

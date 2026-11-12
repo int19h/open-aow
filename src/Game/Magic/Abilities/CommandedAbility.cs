@@ -39,7 +39,7 @@ public partial class CommandedAbility : AdjustableAbility
         data = (CommandedAbilityData)combatObject.GetAbilityOwner().GetAbilityData(AbilityId);
         if (data != null)
         {
-            ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(data.CommandAbilityId)).Uncommand((CombatUnit)combatObject);
+            ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(data.CommandAbilityId)).Uncommand((CombatUnit)combatObject);
         }
     }
 

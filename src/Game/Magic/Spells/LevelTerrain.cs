@@ -47,7 +47,7 @@ public partial class LevelTerrain : GlobalTargetSpell
         eventValue = new LevelTerrainTokenEvent(null);
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-        AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+        StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         eventValue.Release();
         return true;
     }
@@ -59,7 +59,7 @@ public partial class LevelTerrain : GlobalTargetSpell
         bool result = base.ValidTargetSelectionMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)field.TerrainType) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null;
         if (result)
         {
-            army = ((AoWMapField)field).GetArmyHexSprite();
+            army = field.GetArmyHexSprite();
             if (army != null)
             {
                 result = !army.VisibleForSeatedPlayer();
@@ -70,7 +70,7 @@ public partial class LevelTerrain : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:988
-    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)field.TerrainType) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && ((AoWMapField)field).GetArmyHexSprite() == null;
+    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)field.TerrainType) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && field.GetArmyHexSprite() == null;
 
     private static readonly string s_levelTerrainText = "Level Terrain";
 }

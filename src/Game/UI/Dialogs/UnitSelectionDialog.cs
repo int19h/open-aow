@@ -8,7 +8,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -107,7 +106,7 @@ public partial class UnitSelectionDialog : DataModule
         _eventLog.AddRef();
         Event = request.UnitSelector;
         Event.AddRef();
-        U = AoWHSMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
+        U = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
         if (U != null)
         {
             SourcePanel.Visible = true;
@@ -158,7 +157,7 @@ public partial class UnitSelectionDialog : DataModule
         }
         else
         {
-            AoWHSMap.Current.ShowWarning(reason);
+            StrategicMap.Current.ShowWarning(reason);
         }
     }
 
@@ -232,7 +231,7 @@ public partial class UnitSelectionDialog : DataModule
         Troop U;
         if (Event != null)
         {
-            U = AoWHSMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
+            U = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
             if (U != null)
             {
                 R.Left = this.SourceFace.WinLeft + SourcePanel.WinLeft;

@@ -28,14 +28,14 @@ public partial class RangedAttackCombatAction : DamageCombatAction
     }
 
     // AoWAb.PAS:4643
-    public override string GetName() => AoWHSSet.Current.AbilityControl.GetAbility(AbilityId).GetName(null);
+    public override string GetName() => GamePack.Current.AbilityControl.GetAbility(AbilityId).GetName(null);
 
     // AoWAb.PAS:4647
     public override bool Play(CombatViewer viewer)
     {
         if (viewer.Time == 1)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(AbilityId).SfxLibrary.Play(0);
+            GamePack.Current.AbilityControl.GetAbility(AbilityId).SfxLibrary.Play(0);
         }
 
         return base.Play(viewer);
@@ -47,7 +47,7 @@ public partial class RangedAttackCombatAction : DamageCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId && viewer.Time != 0)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(AbilityId).ImageSequences.ShowLooped(40, X + 32, Y + 32, viewer.Time, surface);
+            GamePack.Current.AbilityControl.GetAbility(AbilityId).ImageSequences.ShowLooped(40, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

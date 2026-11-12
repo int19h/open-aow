@@ -103,7 +103,7 @@ internal static class MemberNameMigration
                                 if (cell is JsonObject fieldObject) Visit(fieldObject, fieldClass);
                     break;
                 case CampaignMapCodec when member.Value is JsonObject map && map["root"] is JsonObject campaignRoot:
-                    var campaignClass = campaignRoot["$class"] is JsonString nestedName ? schema.Find(nestedName.Value) : schema.Find("AoWHSMap");
+                    var campaignClass = campaignRoot["$class"] is JsonString nestedName ? schema.Find(nestedName.Value) : schema.Find("StrategicMap");
                     if (campaignClass is not null) Visit(campaignRoot, campaignClass);
                     break;
             }

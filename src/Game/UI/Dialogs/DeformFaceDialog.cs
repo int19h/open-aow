@@ -7,7 +7,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -27,7 +26,7 @@ public partial class DeformFaceDialog : DataModule
         Troop U;
         _caster = caster;
         _caster.AddRef();
-        U = AoWHSMap.Current.UnitControl.FindUnit(_caster.TargetUnitId);
+        U = StrategicMap.Current.UnitControl.FindUnit(_caster.TargetUnitId);
         if (U != null)
         {
             var name = U.GetName();
@@ -66,7 +65,7 @@ public partial class DeformFaceDialog : DataModule
         }
         else
         {
-            AoWHSMap.Current.ShowMessage(reason);
+            StrategicMap.Current.ShowMessage(reason);
         }
     }
 
@@ -80,19 +79,19 @@ public partial class DeformFaceDialog : DataModule
         while (offset < 0)
         {
             offset += 1;
-            face = AoWHSSet.Current.FaceResources.PreviousFace(face);
+            face = GamePack.Current.FaceResources.PreviousFace(face);
         }
 
         while (offset > 0)
         {
             offset -= 1;
-            face = AoWHSSet.Current.FaceResources.NextFace(face);
+            face = GamePack.Current.FaceResources.NextFace(face);
         }
 
         R = new Rect(Window.WinLeft + sender.WinLeft + 2, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth - 2, Window.WinTop + sender.WinTop + sender.WinHeight - 2);
         if (face != -1)
         {
-            resource = AoWHSSet.Current.FaceResources.GetFaceResource(face);
+            resource = GamePack.Current.FaceResources.GetFaceResource(face);
             resource.AddRef();
             resource.GetFaceImage().ShowStretched(R, lockedSurface);
             resource.Release();
@@ -103,7 +102,7 @@ public partial class DeformFaceDialog : DataModule
     public void PrevFaceBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var previousFace = AoWHSSet.Current.FaceResources.PreviousFace(_caster.FaceIndex);
+        var previousFace = GamePack.Current.FaceResources.PreviousFace(_caster.FaceIndex);
         _caster.FaceIndex = previousFace;
         Window.Drawn = false;
     }
@@ -112,7 +111,7 @@ public partial class DeformFaceDialog : DataModule
     public void NextFaceBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var nextFace = AoWHSSet.Current.FaceResources.NextFace(_caster.FaceIndex);
+        var nextFace = GamePack.Current.FaceResources.NextFace(_caster.FaceIndex);
         _caster.FaceIndex = nextFace;
         Window.Drawn = false;
     }

@@ -116,13 +116,13 @@ public partial class GlobalEnchantment : EngineObject
         }
         else
         {
-            AoWHSMap.Current.GlobalMagicControl.Enchantments.RemoveChild(this);
+            StrategicMap.Current.GlobalMagicControl.Enchantments.RemoveChild(this);
         }
 
-        AoWHSMap.Current.GlobalMagicControl.Update();
+        StrategicMap.Current.GlobalMagicControl.Update();
         if (EnchantmentManaUpkeep != 0)
         {
-            AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
+            StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
         }
 
         Release();
@@ -133,7 +133,7 @@ public partial class GlobalEnchantment : EngineObject
     public virtual bool CanActivate(sbyte player, ref string reason)
     {
         bool result;
-        if (EnchantmentType != GlobalEnchantmentType.None && AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(EnchantmentType))
+        if (EnchantmentType != GlobalEnchantmentType.None && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(EnchantmentType))
         {
             reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.IsAlreadyActiveFormat), [Name]);
             result = false;
@@ -152,21 +152,21 @@ public partial class GlobalEnchantment : EngineObject
     {
         PlayerIndex = player;
         EnchantmentStatus = EnchantmentStatus + Set<GlobalEnchantmentStatusElement>.Of(GlobalEnchantmentStatusElement.Activated);
-        AoWHSMap.Current.GlobalMagicControl.ValidateEnchantmentId(this);
+        StrategicMap.Current.GlobalMagicControl.ValidateEnchantmentId(this);
         if (EnchantmentMode.Contains(GlobalEnchantmentModeElement.Owned))
         {
-            Owner = AoWHSMap.Current.GlobalMagicControl.Enchantments;
+            Owner = StrategicMap.Current.GlobalMagicControl.Enchantments;
         }
         else
         {
-            AoWHSMap.Current.GlobalMagicControl.Enchantments.AddChild(this);
+            StrategicMap.Current.GlobalMagicControl.Enchantments.AddChild(this);
         }
 
         AddRef();
-        AoWHSMap.Current.GlobalMagicControl.Update();
+        StrategicMap.Current.GlobalMagicControl.Update();
         if (EnchantmentManaUpkeep != 0)
         {
-            AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
+            StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
         }
 
         return true;
@@ -216,7 +216,7 @@ public partial class GlobalEnchantment : EngineObject
         {
             AddRef();
             location = GetLocation();
-            for (int I = 1, last = AoWHSMap.Current.Players.GetCount() - 1; I <= last; I++)
+            for (int I = 1, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
             {
                 if (VisibleForPlayer((sbyte)I))
                 {
@@ -226,7 +226,7 @@ public partial class GlobalEnchantment : EngineObject
                     log.SetLocation(location.X, location.Y, location.MapLevel);
                     var name = GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_dispelledFormat), [name]);
-                    AoWHSMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
+                    StrategicMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
                     log.Release();
                 }
             }
@@ -269,7 +269,7 @@ public partial class GlobalEnchantment : EngineObject
         {
             AddRef();
             location = GetLocation();
-            for (int I = 1, last = AoWHSMap.Current.Players.GetCount() - 1; I <= last; I++)
+            for (int I = 1, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
             {
                 if (VisibleForPlayer((sbyte)I))
                 {
@@ -279,7 +279,7 @@ public partial class GlobalEnchantment : EngineObject
                     log.SetLocation(location.X, location.Y, location.MapLevel);
                     var name = GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.RemovedFormat), [name]);
-                    AoWHSMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
+                    StrategicMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
                     log.Release();
                 }
             }
@@ -305,7 +305,7 @@ public partial class GlobalEnchantment : EngineObject
             location = GetLocation();
             if (location.X != -1)
             {
-                result = AoWHSMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, player);
+                result = StrategicMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, player);
             }
             else
             {
@@ -327,8 +327,8 @@ public partial class GlobalEnchantment : EngineObject
         location = GetLocation();
         if (location.X != -1)
         {
-            AoWHSMap.Current.CenterViewTo(location.X, location.Y, location.MapLevel);
-            AoWHSMap.Current.PlayCenterAnimation(location.X, location.Y, location.MapLevel);
+            StrategicMap.Current.CenterViewTo(location.X, location.Y, location.MapLevel);
+            StrategicMap.Current.PlayCenterAnimation(location.X, location.Y, location.MapLevel);
         }
     }
 

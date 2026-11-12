@@ -41,28 +41,28 @@ public partial class Arena : Structure
                 for (int I = 0, last = ((ArenaTokenEvent)tokenEvent).UnitIds.Count - 1; I <= last; I++)
                 {
                     var unitId = ((ArenaTokenEvent)tokenEvent).UnitIds[I];
-                    troop = AoWHSMap.Current.UnitControl.FindUnit(unitId);
+                    troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
                     if (troop != null)
                     {
-                        var player = AoWHSMap.Current.Players.GetPlayers(tokenEvent.Param);
+                        var player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
                         var unitTrainCost = UnitTrainCost(troop);
-                        AoWHSMap.Current.Players.GetPlayers(tokenEvent.Param).SetGems(player.Gems - unitTrainCost);
+                        StrategicMap.Current.Players.GetPlayers(tokenEvent.Param).SetGems(player.Gems - unitTrainCost);
                         ExecuteTrainUnit(troop);
                     }
                 }
 
-                if (AoWHSMap.Current.SeatedPlayer == tokenEvent.Param)
+                if (StrategicMap.Current.SeatedPlayer == tokenEvent.Param)
                 {
                     var arenaTokenEvent = (ArenaTokenEvent)tokenEvent;
                     if (arenaTokenEvent.UnitIds.Count == 1)
                     {
                         var oneUnitTrained = AbilityRules.TranslateResourceString(s_oneUnitTrainedText);
-                        AoWHSMap.Current.ShowMessage(oneUnitTrained);
+                        StrategicMap.Current.ShowMessage(oneUnitTrained);
                     }
                     else
                     {
                         var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_unitsTrainedFormat), [IntToStr(arenaTokenEvent.UnitIds.Count)]);
-                        AoWHSMap.Current.ShowMessage(format);
+                        StrategicMap.Current.ShowMessage(format);
                     }
                 }
             }
@@ -72,7 +72,7 @@ public partial class Arena : Structure
     }
 
     // Arena.pas:98
-    public override bool CanDoubleClick() => CanEnter(AoWHSMap.Current.SeatedPlayer);
+    public override bool CanDoubleClick() => CanEnter(StrategicMap.Current.SeatedPlayer);
 
     // Arena.pas:101
     public int UnitTrainCost(Troop troop)
@@ -141,7 +141,7 @@ public partial class Arena : Structure
             {
                 I -= 1;
                 var unit = units[I];
-                troop = AoWHSMap.Current.UnitControl.FindUnit(unit);
+                troop = StrategicMap.Current.UnitControl.FindUnit(unit);
                 if (troop != null)
                 {
                     cost = UnitTrainCost(troop);
@@ -162,7 +162,7 @@ public partial class Arena : Structure
 
             if (result)
             {
-                if (AoWHSMap.Current.Players.GetPlayers(player).Gems >= total)
+                if (StrategicMap.Current.Players.GetPlayers(player).Gems >= total)
                 {
                     result = true;
                 }
@@ -188,14 +188,14 @@ public partial class Arena : Structure
         bool result;
         ArenaTokenEvent tokenEvent;
         errorText = "";
-        if (CanTrainUnits(player, units, ref errorText) && !AoWHSMap.Current.Players.GetPlayers(player).GetBusy())
+        if (CanTrainUnits(player, units, ref errorText) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
             tokenEvent = (ArenaTokenEvent)CreateTokenEvent();
             SetupTokenEvent(tokenEvent);
             tokenEvent.UnitIds.Assign(units);
             tokenEvent.Param = player;
             tokenEvent.Action = 1;
-            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
+            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
             tokenEvent.Release();
             result = true;
         }
@@ -231,7 +231,7 @@ public partial class Arena : Structure
         bool result = default;
         EnterArenaEventLog log;
         ArmyHexSprite army;
-        if (CanEnter(AoWHSMap.Current.SeatedPlayer))
+        if (CanEnter(StrategicMap.Current.SeatedPlayer))
         {
             log = new EnterArenaEventLog(null);
             log.Arena = this;

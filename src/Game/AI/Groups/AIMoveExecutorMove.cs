@@ -84,7 +84,7 @@ public partial class AIMoveExecutorMove : AIMoveExecutorUnitList
     {
         bool result;
         int index;
-        army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(SourceX, SourceY, SourceL)).GetArmyHexSprite();
+        army = StrategicMap.Current.MapContainer.GetField(SourceX, SourceY, SourceL).GetArmyHexSprite();
         if (army != null)
         {
             selection = 0;

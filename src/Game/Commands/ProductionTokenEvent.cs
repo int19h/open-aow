@@ -63,7 +63,7 @@ public partial class ProductionTokenEvent : TokenEvent
     {
         ExecuteResult result;
         ProductionControl control;
-        control = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel)).GetProductionControl();
+        control = StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).GetProductionControl();
         if (control != null)
         {
             result = control.ExecuteProductionTokenEvent(this);

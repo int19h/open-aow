@@ -55,21 +55,21 @@ public partial class ConstructStructureTokenEvent : TokenEvent
         HexNumberWalkData walk = default;
         ExecuteResult result = ExecuteResult.DoneHalt;
         base.Execute(tokenEvent);
-        troop = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
-        control = (StructureConstructionControl)((ConstructAbility)AoWHSSet.Current.AbilityControl.GetAbility(125)).ConstructionControls.FindId(ControlId);
+        troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        control = (StructureConstructionControl)((ConstructAbility)GamePack.Current.AbilityControl.GetAbility(125)).ConstructionControls.FindId(ControlId);
         if (control != null && troop != null && troop.Player == Player && control.CanConstruct(troop, ref reason))
         {
             resource = control.StructureResource(troop);
             if (resource != null)
             {
                 troop.GetLocation(ref X, ref Y, ref L);
-                level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+                level = StrategicMap.Current.MapContainer.GetMapLevel(L);
                 HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
                 while (walk.HexNumber < resource.TerrainList.Count)
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && level.Width > walk.X && level.Height > walk.Y && resource.TerrainList.GetUsed(walk.HexNumber))
                     {
-                        AoWHSMap.Current.ClearTerrain(walk.X, walk.Y, L, 0, -1);
+                        StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L, 0, -1);
                     }
 
                     HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -82,13 +82,13 @@ public partial class ConstructStructureTokenEvent : TokenEvent
                     owner.BeginUpdate();
                 }
 
-                structure = (Structure)resource.PlaceResourceUser(AoWHSMap.Current, X, Y, L);
+                structure = (Structure)resource.PlaceResourceUser(StrategicMap.Current, X, Y, L);
                 if (structure != null)
                 {
                     control.GetInfo(troop, ref text, ref gold, ref days);
                     structure.ExecuteBuild(troop, days);
-                    var players = AoWHSMap.Current.Players.GetPlayers(troop.Player);
-                    AoWHSMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - gold);
+                    var players = StrategicMap.Current.Players.GetPlayers(troop.Player);
+                    StrategicMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - gold);
                     troop.Killed();
                     result = ExecuteResult.Done;
                 }

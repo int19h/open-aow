@@ -36,22 +36,22 @@ public partial class UnitSpellCaster : SpellCaster
         bool result;
         Hero hero;
         int mana;
-        hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(CasterSourceId);
+        hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(CasterSourceId);
         if (hero != null && !hero.UnitStatus.Contains(UnitStatusElement.Killed))
         {
             if (SelectionMask != 0)
             {
-                if (!AoWHSMap.Current.Players.GetPlayers(hero.Player).MagicControl.GetCheatEnabled())
+                if (!StrategicMap.Current.Players.GetPlayers(hero.Player).MagicControl.GetCheatEnabled())
                 {
                     mana = GetRequiredMana();
                     if (hero.CastingReady() && hero.CastingSpellId == CasterSpellId)
                     {
-                        mana -= AoWHSSet.Current.SpellControl.GetSpell(CasterSpellId).BaseManaCost;
+                        mana -= GamePack.Current.SpellControl.GetSpell(CasterSpellId).BaseManaCost;
                     }
 
                     if (mana <= hero.GetCastingPoints())
                     {
-                        if (mana <= AoWHSMap.Current.Players.GetPlayers(hero.Player).MagicControl.Mana)
+                        if (mana <= StrategicMap.Current.Players.GetPlayers(hero.Player).MagicControl.Mana)
                         {
                             result = true;
                         }
@@ -95,7 +95,7 @@ public partial class UnitSpellCaster : SpellCaster
         Troop source;
         if (CanCast(ref reason))
         {
-            source = AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId);
+            source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
             if (source != null)
             {
                 targets = new UnitUserList(null);
@@ -107,7 +107,7 @@ public partial class UnitSpellCaster : SpellCaster
                     }
                 }
 
-                result = ((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(CasterSpellId)).CastSpell(source, targets);
+                result = ((UnitSpell)GamePack.Current.SpellControl.GetSpell(CasterSpellId)).CastSpell(source, targets);
                 targets?.Dispose();
             }
             else
@@ -147,7 +147,7 @@ public partial class UnitSpellCaster : SpellCaster
     {
         bool result;
         Troop source;
-        source = AoWHSMap.Current.UnitControl.FindUnit<Troop>(CasterSourceId);
+        source = StrategicMap.Current.UnitControl.FindUnit<Troop>(CasterSourceId);
         if (source == null || (((byte)source.UnitStatus.Image) & 16) != 0)
         {
             result = false;
@@ -164,8 +164,8 @@ public partial class UnitSpellCaster : SpellCaster
     public void SetSelection(byte selection)
     {
         byte value = selection;
-        var source = AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId);
-        ((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(CasterSpellId)).ValidateUnitSelection(source, TargetUnits, ref value);
+        var source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+        ((UnitSpell)GamePack.Current.SpellControl.GetSpell(CasterSpellId)).ValidateUnitSelection(source, TargetUnits, ref value);
         SelectionMask = value;
     }
 }

@@ -67,7 +67,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     // AIGroup.pas:72
     public override void Dispose()
     {
-        if (AoWHSMap.Current != null && AoWHSMap.Current.UnitControl == null && Count != 0)
+        if (StrategicMap.Current != null && StrategicMap.Current.UnitControl == null && Count != 0)
         {
             // { Original diagnostic raises and immediately swallows its exception. }
             try
@@ -455,7 +455,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
     {
         if (GoldBudget > 0 || ManaBudget > 0)
         {
-            AoWHSMap.Current.Players.GetPlayers(Player).AIBudget.ReturnExpense(GoldBudget, ManaBudget);
+            StrategicMap.Current.Players.GetPlayers(Player).AIBudget.ReturnExpense(GoldBudget, ManaBudget);
             GoldBudget = 0;
             ManaBudget = 0;
         }
@@ -468,8 +468,8 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         int M;
         G = gold - GoldBudget;
         M = mana - ManaBudget;
-        var players = AoWHSMap.Current.Players.GetPlayers(Player);
-        return AoWHSMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(G, M, players.AIBudget.DefaultBudget, true);
+        var players = StrategicMap.Current.Players.GetPlayers(Player);
+        return StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(G, M, players.AIBudget.DefaultBudget, true);
     }
 
     // AIGroup.pas:243
@@ -479,8 +479,8 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         if (RequestTargetExpense(gold, mana))
         {
             ReturnTargetExpense();
-            var players = AoWHSMap.Current.Players.GetPlayers(Player);
-            result = AoWHSMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(gold, mana, players.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.PoolThenBudget);
+            var players = StrategicMap.Current.Players.GetPlayers(Player);
+            result = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(gold, mana, players.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.PoolThenBudget);
             if (result)
             {
                 GoldBudget = gold;
@@ -526,7 +526,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
 
         if (Unsafe.As<MapCoordinate, int>(ref location) != 16777215 && transporterId != -1)
         {
-            AddTransporter(AoWHSMap.Current.UnitControl.FindUnit(transporterId));
+            AddTransporter(StrategicMap.Current.UnitControl.FindUnit(transporterId));
         }
         else
         {
@@ -572,7 +572,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
 
         if (target != null && target.TransporterId != -1)
         {
-            AddTransporter(AoWHSMap.Current.UnitControl.FindUnit(target.TransporterId));
+            AddTransporter(StrategicMap.Current.UnitControl.FindUnit(target.TransporterId));
         }
         else
         {
@@ -668,7 +668,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         player = Player;
         if (player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers(player).AIGroups.AddChild(this);
+            StrategicMap.Current.Players.GetPlayers(player).AIGroups.AddChild(this);
         }
 
         Leader = FindId(LeaderId);
@@ -689,7 +689,7 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         player = Player;
         if (player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers(player).AIGroups.RemoveChild(this);
+            StrategicMap.Current.Players.GetPlayers(player).AIGroups.RemoveChild(this);
         }
     }
 
@@ -700,13 +700,13 @@ public partial class AIGroup : UnitUserList, IAIGroupClass
         {
             if (Status.Contains(AIGroupStatusElement.Activated) && Player != -1)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).AIGroups.RemoveChild(this);
+                StrategicMap.Current.Players.GetPlayers(Player).AIGroups.RemoveChild(this);
             }
 
             Player = player;
             if (Status.Contains(AIGroupStatusElement.Activated) && Player != -1)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).AIGroups.AddChild(this);
+                StrategicMap.Current.Players.GetPlayers(Player).AIGroups.AddChild(this);
             }
         }
     }

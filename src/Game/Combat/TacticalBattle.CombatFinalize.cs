@@ -19,14 +19,14 @@ public partial class TacticalBattle
         for (int i = 0; i < CombatData.Players.GetCount(); i++)
         {
             int player = CombatData.Players.GetPlayers((sbyte)i).Player;
-            if (World.Map.AoWHSMap.Current.Players.GetPlayers((sbyte)player).PlayerType != PlayerType.Human)
-                RestorePlayerConnection(World.Map.AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl, player);
+            if (World.Map.StrategicMap.Current.Players.GetPlayers((sbyte)player).PlayerType != PlayerType.Human)
+                RestorePlayerConnection(World.Map.StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl, player);
         }
         if (CombatMap.Current != null)
         {
             CombatMap.Current.UnitSelection.Clear();
             CombatMap.Current.SelectEventsStore.Raise(this);
-            World.Map.AoWHSMap.Current.ReleaseCombatMap();
+            World.Map.StrategicMap.Current.ReleaseCombatMap();
         }
         base.Finalize();
     }

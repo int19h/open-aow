@@ -98,7 +98,7 @@ public partial class SummonedAbility : UnitEnchantmentAbility
     public int UnitIndexToAIUpkeepPriority(int unitIndex)
     {
         int result;
-        switch (AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex).Level)
+        switch (GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level)
         {
             case 1:
                 result = 250;

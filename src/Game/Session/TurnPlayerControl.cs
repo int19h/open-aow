@@ -31,29 +31,29 @@ public partial class TurnPlayerControl : PlayerControl
         ShowBookEventLog bookLog = default;
         SpellList spells = default;
         PlayerMagicEventLog magicLog = default;
-        AoWHSMap.Current.LockMapChangedEvent();
-        AoWHSMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(player);
-        if (AoWHSMap.Current.RequestCombatType)
+        StrategicMap.Current.LockMapChangedEvent();
+        StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(player);
+        if (StrategicMap.Current.RequestCombatType)
         {
-            if (AoWHSMap.Current.SeatedPlayer != -1)
+            if (StrategicMap.Current.SeatedPlayer != -1)
             {
-                AoWHSMap.Current.SetSeatedPlayer(-1);
+                StrategicMap.Current.SetSeatedPlayer(-1);
             }
 
-            if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
+            if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
                 log = new NewTurnEventLog(null);
-                log.TurnPlayer = AoWHSMap.Current.CurrentPlayer;
+                log.TurnPlayer = StrategicMap.Current.CurrentPlayer;
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
                 log.Text = AbilityRules.TranslateResourceString(s_itsYourTurnText);
-                AoWHSMap.Current.TriggerExecuteEventLog(log, false, ShowNewTurnCallback);
+                StrategicMap.Current.TriggerExecuteEventLog(log, false, ShowNewTurnCallback);
                 log.Release();
             }
             else
             {
                 log = new NewTurnEventLog(null);
-                log.TurnPlayer = AoWHSMap.Current.CurrentPlayer;
+                log.TurnPlayer = StrategicMap.Current.CurrentPlayer;
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of();
                 if (player == 0)
@@ -62,92 +62,92 @@ public partial class TurnPlayerControl : PlayerControl
                 }
                 else
                 {
-                    var name = AoWHSMap.Current.Players.GetPlayers(player).GetName();
+                    var name = StrategicMap.Current.Players.GetPlayers(player).GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_playerIsMovingFormat), [name]);
                 }
 
-                AoWHSMap.Current.TriggerExecuteEventLog(log, true, null);
+                StrategicMap.Current.TriggerExecuteEventLog(log, true, null);
                 log.Release();
             }
         }
         else
         {
-            if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human && player == AoWHSMap.Current.SeatedPlayer)
+            if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human && player == StrategicMap.Current.SeatedPlayer)
             {
-                if (AoWHSMap.Current.GameType != GameType.Tutorial || AoWHSMap.Current.Day != 1)
+                if (StrategicMap.Current.GameType != GameType.Tutorial || StrategicMap.Current.Day != 1)
                 {
-                    AoWHSMap.Current.ResetTurnTimer();
-                    AoWHSMap.Current.EnableTurnTimer();
-                    AoWHSMap.Current.ResetSeatedPlayerView();
+                    StrategicMap.Current.ResetTurnTimer();
+                    StrategicMap.Current.EnableTurnTimer();
+                    StrategicMap.Current.ResetSeatedPlayerView();
                     log = new NewTurnEventLog(null);
                     log.TurnPlayer = player;
                     log.Mode = NewTurnEventLogMode.Dialog;
                     log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
                     log.Text = AbilityRules.TranslateResourceString(s_itsYourTurnText);
-                    AoWHSMap.Current.TriggerExecuteEventLog(log, false, null);
+                    StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
                     log.Release();
                     ReplayLogbook();
                 }
                 else
                 {
-                    AoWHSMap.Current.TutorialControl.ShowMessage(50, false, true);
+                    StrategicMap.Current.TutorialControl.ShowMessage(50, false, true);
                 }
             }
         }
 
         base.NewTurn(player);
-        if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human && AoWHSMap.Current.ConnectionType != PlayerConnectionType.Email && GameTables.GameEngine.Registry.GetAutoSave())
+        if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human && StrategicMap.Current.ConnectionType != PlayerConnectionType.Email && GameTables.GameEngine.Registry.GetAutoSave())
         {
             AutoSave();
         }
 
-        AoWHSMap.Current.UnlockMapChangedEvent();
-        AoWHSMap.Current.InvalidateMap();
-        if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+        StrategicMap.Current.UnlockMapChangedEvent();
+        StrategicMap.Current.InvalidateMap();
+        if (StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
         {
-            AoWHSMap.Current.AIExecutor.ActivatePlayer(player);
+            StrategicMap.Current.AIExecutor.ActivatePlayer(player);
             if (player == 0)
             {
                 var independents = AbilityRules.TranslateResourceString(GameTables.IndependentsText);
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_areMovingFormat), [independents]);
-                AoWHSMap.Current.ShowMessage(format);
+                StrategicMap.Current.ShowMessage(format);
             }
             else
             {
-                var players = AoWHSMap.Current.Players.GetPlayers(player);
+                var players = StrategicMap.Current.Players.GetPlayers(player);
                 var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players.PlayerRace]);
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_areMovingFormat), [raceNamesPlural]);
-                AoWHSMap.Current.ShowMessage(format);
+                StrategicMap.Current.ShowMessage(format);
             }
         }
         else
         {
             AudioPlayback.PlaySample("SFX\\EVENTS\\NEWTURN.WAV");
-            if (AoWHSMap.Current.Day == 1 && (AoWHSMap.Current.RequestCombatType || player == AoWHSMap.Current.SeatedPlayer))
+            if (StrategicMap.Current.Day == 1 && (StrategicMap.Current.RequestCombatType || player == StrategicMap.Current.SeatedPlayer))
             {
-                if (Set<GameType>.Of(GameType.Custom, GameType.Tutorial).Contains(AoWHSMap.Current.GameType))
+                if (Set<GameType>.Of(GameType.Custom, GameType.Tutorial).Contains(StrategicMap.Current.GameType))
                 {
                     bookLog = new ShowBookEventLog(null);
-                    AoWHSMap.Current.TriggerExecuteEventLog(bookLog, false, null);
+                    StrategicMap.Current.TriggerExecuteEventLog(bookLog, false, null);
                     bookLog.Release();
                 }
 
-                if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId == 0)
+                if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId == 0)
                 {
                     spells = new SpellList();
-                    AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(ref spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+                    StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(ref spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
                     if (spells.GetCount() > 0)
                     {
                         magicLog = new PlayerMagicEventLog(null);
                         magicLog.Mode = PlayerMagicEventLog.EventMode.StartResearch;
-                        AoWHSMap.Current.TriggerExecuteEventLog(magicLog, false, null);
+                        StrategicMap.Current.TriggerExecuteEventLog(magicLog, false, null);
                         magicLog.Release();
                     }
 
                     spells?.Dispose();
                 }
 
-                AoWHSMap.Current.TutorialControl.ShowMessage(52, false, true);
+                StrategicMap.Current.TutorialControl.ShowMessage(52, false, true);
             }
         }
     }
@@ -155,17 +155,17 @@ public partial class TurnPlayerControl : PlayerControl
     // PlayerC.PAS:875
     public override void ValidateTurnTiming()
     {
-        if (AoWHSMap.Current.GetTurnTimerEnabled())
+        if (StrategicMap.Current.GetTurnTimerEnabled())
         {
-            if (AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer)
+            if (StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
             {
-                if (AoWHSMap.Current.GetTurnTimeLeft() <= 0)
+                if (StrategicMap.Current.GetTurnTimeLeft() <= 0)
                 {
-                    if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.None && !AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).SingleProcessCycle)
+                    if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.None && !StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).SingleProcessCycle)
                     {
-                        if (AoWHSMap.Current.TokenManager.PlayerReady(AoWHSMap.Current.SeatedPlayer))
+                        if (StrategicMap.Current.TokenManager.PlayerReady(StrategicMap.Current.SeatedPlayer))
                         {
-                            AbilityRules.EndPlayerTurn(AoWHSMap.Current.SeatedPlayer);
+                            AbilityRules.EndPlayerTurn(StrategicMap.Current.SeatedPlayer);
                         }
                     }
                 }
@@ -177,7 +177,7 @@ public partial class TurnPlayerControl : PlayerControl
     public override void Setup()
     {
         base.Setup();
-        AoWHSMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
+        StrategicMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
     }
 
     // PlayerC.PAS:766
@@ -186,22 +186,22 @@ public partial class TurnPlayerControl : PlayerControl
         base.StartNewMap();
         DefaultStartMap();
         NewDay();
-        if (!AoWHSMap.Current.RequestCombatType)
+        if (!StrategicMap.Current.RequestCombatType)
         {
-            var item = AoWHSMap.Current.Players.LocalHumanPlayers[0];
-            AoWHSMap.Current.SetSeatedPlayer((sbyte)item);
-            AoWHSMap.Current.ResetSeatedPlayerView();
+            var item = StrategicMap.Current.Players.LocalHumanPlayers[0];
+            StrategicMap.Current.SetSeatedPlayer((sbyte)item);
+            StrategicMap.Current.ResetSeatedPlayerView();
         }
 
-        NewTurn((sbyte)AoWHSMap.Current.TurnOrder[1]);
+        NewTurn((sbyte)StrategicMap.Current.TurnOrder[1]);
     }
 
     // PlayerC.PAS:835
     public override void StartLoadedMap()
     {
-        if (!IsEmpty(AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).Settings))
+        if (!IsEmpty(StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).Settings))
         {
-            ValidatePassword(AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).Settings);
+            ValidatePassword(StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).Settings);
         }
         else
         {
@@ -219,19 +219,19 @@ public partial class TurnPlayerControl : PlayerControl
     public override void SetPlayerGameOverStatus(sbyte player, GameOverStatus status)
     {
         base.SetPlayerGameOverStatus(player, status);
-        if (!AoWHSMap.Current.RequestCombatType || AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+        if (!StrategicMap.Current.RequestCombatType || StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
         {
-            AoWHSMap.Current.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
-            AoWHSMap.Current.Players.Update();
-            AoWHSMap.Current.TriggerPlayerTerminatedEvent(player);
-            if (AoWHSMap.Current.CurrentPlayer == player && AoWHSMap.Current.Players.GetPlayers(player).GetLocal())
+            StrategicMap.Current.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
+            StrategicMap.Current.Players.Update();
+            StrategicMap.Current.TriggerPlayerTerminatedEvent(player);
+            if (StrategicMap.Current.CurrentPlayer == player && StrategicMap.Current.Players.GetPlayers(player).GetLocal())
             {
-                AbilityRules.EndPlayerTurn(AoWHSMap.Current.CurrentPlayer);
+                AbilityRules.EndPlayerTurn(StrategicMap.Current.CurrentPlayer);
             }
 
-            if (AoWHSMap.Current.Players.LocalHumanPlayers.Count == 0)
+            if (StrategicMap.Current.Players.LocalHumanPlayers.Count == 0)
             {
-                AoWHSMap.Current.TriggerGameTerminatedEvent();
+                StrategicMap.Current.TriggerGameTerminatedEvent();
             }
         }
     }
@@ -239,26 +239,26 @@ public partial class TurnPlayerControl : PlayerControl
     // PlayerC.PAS:868
     public override void GameOver(sbyte player, GameOverStatus status)
     {
-        AoWHSMap.Current.LockGameOverEvent();
+        StrategicMap.Current.LockGameOverEvent();
         base.GameOver(player, status);
-        AoWHSMap.Current.UnlockGameOverEvent();
+        StrategicMap.Current.UnlockGameOverEvent();
     }
 
     // PlayerC.PAS:842
     public override void GameOverEventHandled(sbyte player)
     {
-        if (AoWHSMap.Current.RequestCombatType)
+        if (StrategicMap.Current.RequestCombatType)
         {
-            AoWHSMap.Current.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
-            AoWHSMap.Current.Players.Update();
-            AoWHSMap.Current.TriggerPlayerTerminatedEvent(player);
-            if (AoWHSMap.Current.Players.LocalHumanPlayers.Count == 0)
+            StrategicMap.Current.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
+            StrategicMap.Current.Players.Update();
+            StrategicMap.Current.TriggerPlayerTerminatedEvent(player);
+            if (StrategicMap.Current.Players.LocalHumanPlayers.Count == 0)
             {
-                AoWHSMap.Current.TriggerGameTerminatedEvent();
+                StrategicMap.Current.TriggerGameTerminatedEvent();
             }
             else
             {
-                AbilityRules.EndPlayerTurn(AoWHSMap.Current.CurrentPlayer);
+                AbilityRules.EndPlayerTurn(StrategicMap.Current.CurrentPlayer);
             }
         }
     }
@@ -271,40 +271,40 @@ public partial class TurnPlayerControl : PlayerControl
         bool found;
         sbyte nextPlayer;
         base.EndTurn(player);
-        if (player == AoWHSMap.Current.SeatedPlayer)
+        if (player == StrategicMap.Current.SeatedPlayer)
         {
-            AoWHSMap.Current.ZeroTurnTimer();
-            if (AoWHSMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
+            StrategicMap.Current.ZeroTurnTimer();
+            if (StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
             {
-                AoWHSMap.Current.ClearExecuteEventLogBuffer();
+                StrategicMap.Current.ClearExecuteEventLogBuffer();
             }
 
-            AoWHSMap.Current.Selection.UnselectLocation();
+            StrategicMap.Current.Selection.UnselectLocation();
         }
 
-        if (player == AoWHSMap.Current.CurrentPlayer)
+        if (player == StrategicMap.Current.CurrentPlayer)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+            if (StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
             {
-                AoWHSMap.Current.AIExecutor.DeactivatePlayer(player);
+                StrategicMap.Current.AIExecutor.DeactivatePlayer(player);
             }
 
             log = new EndTurnEventLog(null);
-            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).EventLogbook.AddEvent(log);
+            StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).EventLogbook.AddEvent(log);
             log.Release();
-            index = AoWHSMap.Current.TurnOrder.IndexOf((byte)AoWHSMap.Current.CurrentPlayer);
+            index = StrategicMap.Current.TurnOrder.IndexOf((byte)StrategicMap.Current.CurrentPlayer);
             found = false;
             while (!found)
             {
                 index += 1;
-                if (index == AoWHSMap.Current.TurnOrder.Count)
+                if (index == StrategicMap.Current.TurnOrder.Count)
                 {
                     NewDay();
                     index = 0;
                 }
 
-                nextPlayer = (sbyte)AoWHSMap.Current.TurnOrder[index];
-                found = AoWHSMap.Current.Players.GetPlayers(nextPlayer).Status == PlayerStatus.Playing;
+                nextPlayer = (sbyte)StrategicMap.Current.TurnOrder[index];
+                found = StrategicMap.Current.Players.GetPlayers(nextPlayer).Status == PlayerStatus.Playing;
                 if (!found)
                 {
                     base.NewTurn(nextPlayer);
@@ -312,9 +312,9 @@ public partial class TurnPlayerControl : PlayerControl
                 }
             }
 
-            if (AoWHSMap.Current.TurnOrder.Count != 0)
+            if (StrategicMap.Current.TurnOrder.Count != 0)
             {
-                NewTurn((sbyte)AoWHSMap.Current.TurnOrder[index]);
+                NewTurn((sbyte)StrategicMap.Current.TurnOrder[index]);
             }
             else
             {
@@ -326,10 +326,10 @@ public partial class TurnPlayerControl : PlayerControl
     // PlayerC.PAS:693
     public override void SetSeatedPlayer(sbyte player)
     {
-        AoWHSMap.Current.LockMapChangedEvent();
+        StrategicMap.Current.LockMapChangedEvent();
         base.SetSeatedPlayer(player);
-        AoWHSMap.Current.UnlockMapChangedEvent();
-        AoWHSMap.Current.InvalidateMap();
+        StrategicMap.Current.UnlockMapChangedEvent();
+        StrategicMap.Current.InvalidateMap();
     }
 
     // PlayerC.PAS:779
@@ -337,63 +337,63 @@ public partial class TurnPlayerControl : PlayerControl
     {
         NewTurnEventLog log = default;
         DefaultStartMap();
-        AoWHSMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(AoWHSMap.Current.CurrentPlayer);
-        if (AoWHSMap.Current.RequestCombatType)
+        StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
+        if (StrategicMap.Current.RequestCombatType)
         {
-            AoWHSMap.Current.SetSeatedPlayer(-1);
-            if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PlayerType == PlayerType.Human)
+            StrategicMap.Current.SetSeatedPlayer(-1);
+            if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PlayerType == PlayerType.Human)
             {
                 log = new NewTurnEventLog(null);
-                log.TurnPlayer = AoWHSMap.Current.CurrentPlayer;
+                log.TurnPlayer = StrategicMap.Current.CurrentPlayer;
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
                 log.Text = AbilityRules.TranslateResourceString(GameText.YourTurnContinuesText);
-                AoWHSMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
+                StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
                 log.Release();
             }
             else
             {
                 log = new NewTurnEventLog(null);
-                log.TurnPlayer = AoWHSMap.Current.CurrentPlayer;
+                log.TurnPlayer = StrategicMap.Current.CurrentPlayer;
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of();
-                if (AoWHSMap.Current.CurrentPlayer == 0)
+                if (StrategicMap.Current.CurrentPlayer == 0)
                 {
                     log.Text = AbilityRules.TranslateResourceString(s_independentsAreMovingText);
                 }
                 else
                 {
-                    var name = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).GetName();
+                    var name = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).GetName();
                     log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_playerIsMovingFormat), [name]);
                 }
 
-                AoWHSMap.Current.TriggerExecuteEventLog(log, true, null);
+                StrategicMap.Current.TriggerExecuteEventLog(log, true, null);
                 log.Release();
             }
         }
         else
         {
-            var item = AoWHSMap.Current.Players.LocalHumanPlayers[0];
-            AoWHSMap.Current.SetSeatedPlayer((sbyte)item);
-            AoWHSMap.Current.ResetSeatedPlayerView();
-            if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PlayerType == PlayerType.Human && AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer)
+            var item = StrategicMap.Current.Players.LocalHumanPlayers[0];
+            StrategicMap.Current.SetSeatedPlayer((sbyte)item);
+            StrategicMap.Current.ResetSeatedPlayerView();
+            if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PlayerType == PlayerType.Human && StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
             {
                 log = new NewTurnEventLog(null);
-                log.TurnPlayer = AoWHSMap.Current.SeatedPlayer;
+                log.TurnPlayer = StrategicMap.Current.SeatedPlayer;
                 log.Mode = NewTurnEventLogMode.Dialog;
                 log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
                 log.Text = AbilityRules.TranslateResourceString(GameText.YourTurnContinuesText);
-                AoWHSMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
+                StrategicMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
                 log.Release();
             }
         }
 
-        if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PlayerType != PlayerType.Human)
+        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PlayerType != PlayerType.Human)
         {
-            AoWHSMap.Current.AIExecutor.ActivatePlayer(AoWHSMap.Current.CurrentPlayer);
+            StrategicMap.Current.AIExecutor.ActivatePlayer(StrategicMap.Current.CurrentPlayer);
         }
 
-        GameTables.GameEngine.OutputDebugString("Random Seed: " + IntToStr(AoWHSMap.Current.DefendersSeed));
+        GameTables.GameEngine.OutputDebugString("Random Seed: " + IntToStr(StrategicMap.Current.DefendersSeed));
     }
 
     // PlayerC.PAS:683
@@ -401,8 +401,8 @@ public partial class TurnPlayerControl : PlayerControl
     {
         EventLogbook book;
         int index;
-        book = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).EventLogbook;
-        index = book.FindFirstLog(131811, AoWHSMap.Current.CurrentPlayer, AoWHSMap.Current.Day - 1);
+        book = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).EventLogbook;
+        index = book.FindFirstLog(131811, StrategicMap.Current.CurrentPlayer, StrategicMap.Current.Day - 1);
         for (int I = index + 1, last = book.GetCount() - 1; I <= last; I++)
         {
             book.GetLogs(I).Execute(false, ExecuteTrigger.NewTurn, null);
@@ -412,10 +412,10 @@ public partial class TurnPlayerControl : PlayerControl
     // PlayerC.PAS:701
     public void ShowNewTurnCallback(EventLog log)
     {
-        SetSeatedPlayer(AoWHSMap.Current.CurrentPlayer);
-        AoWHSMap.Current.ResetTurnTimer();
-        AoWHSMap.Current.EnableTurnTimer();
-        if (AoWHSMap.Current.CurrentPlayer != -1)
+        SetSeatedPlayer(StrategicMap.Current.CurrentPlayer);
+        StrategicMap.Current.ResetTurnTimer();
+        StrategicMap.Current.EnableTurnTimer();
+        if (StrategicMap.Current.CurrentPlayer != -1)
         {
             ReplayLogbook();
         }
@@ -424,20 +424,20 @@ public partial class TurnPlayerControl : PlayerControl
     // PlayerC.PAS:709
     public void StartGameCallback(EventLog log)
     {
-        if (AoWHSMap.Current.SeatedPlayer == -1)
+        if (StrategicMap.Current.SeatedPlayer == -1)
         {
-            SetSeatedPlayer(AoWHSMap.Current.CurrentPlayer);
+            SetSeatedPlayer(StrategicMap.Current.CurrentPlayer);
         }
 
-        AoWHSMap.Current.EnableTurnTimer();
+        StrategicMap.Current.EnableTurnTimer();
     }
 
     // PlayerC.PAS:758
     public void DefaultStartMap()
     {
-        AoWHSMap.Current.Players.Update();
-        AoWHSMap.Current.RequestCombatType = AoWHSMap.Current.ConnectionType == PlayerConnectionType.Email || (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Local && AoWHSMap.Current.Players.LocalHumanPlayers.Count > 1);
-        AoWHSMap.Current.ShowIndependentMoves = !AoWHSMap.Current.RequestCombatType;
+        StrategicMap.Current.Players.Update();
+        StrategicMap.Current.RequestCombatType = StrategicMap.Current.ConnectionType == PlayerConnectionType.Email || (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && StrategicMap.Current.Players.LocalHumanPlayers.Count > 1);
+        StrategicMap.Current.ShowIndependentMoves = !StrategicMap.Current.RequestCombatType;
     }
 
     private static readonly string s_itsYourTurnText = "It's your turn!";

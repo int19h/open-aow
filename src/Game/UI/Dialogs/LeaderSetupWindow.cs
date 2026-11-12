@@ -8,7 +8,7 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -318,15 +318,15 @@ public partial class LeaderSetupWindow : DataModule
         Ability ability;
         AvailableAbilitiesList.Items.Clear();
         AvailableAbilitiesCostList.Items.Clear();
-        for (int I = 0, last = AoWHSSet.Current.AbilityControl.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = GamePack.Current.AbilityControl.GetCount() - 1; I <= last; I++)
         {
-            if (AoWHSSet.Current.AbilityControl.GetAbility(I) != null && (AoWHSSet.Current.AbilityControl.GetAbility(I).SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of())
+            if (GamePack.Current.AbilityControl.GetAbility(I) != null && (GamePack.Current.AbilityControl.GetAbility(I).SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of())
             {
-                if (AoWHSSet.Current.AbilityControl.GetAbility(I).CanExpand(Leader))
+                if (GamePack.Current.AbilityControl.GetAbility(I).CanExpand(Leader))
                 {
-                    var expandName = AoWHSSet.Current.AbilityControl.GetAbility(I).ExpandName(Leader);
+                    var expandName = GamePack.Current.AbilityControl.GetAbility(I).ExpandName(Leader);
                     AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(I));
-                    var expandCost = AoWHSSet.Current.AbilityControl.GetAbility(I).ExpandCost(Leader);
+                    var expandCost = GamePack.Current.AbilityControl.GetAbility(I).ExpandCost(Leader);
                     AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
                 }
             }
@@ -336,10 +336,10 @@ public partial class LeaderSetupWindow : DataModule
         SelectedAbilitiesCostList.Items.Clear();
         for (int I = 0, last = Leader.GetAbCount() - 1; I <= last; I++)
         {
-            ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
+            ability = GamePack.Current.AbilityControl.GetAbility(I);
             if (Leader.GetAbilitySetAt(I) && (Leader.HeroResource.Abilities.GetAbilitySetAt(I) || (ability.SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of()))
             {
-                name = AoWHSSet.Current.AbilityControl.GetAbility(I).GetName(Leader);
+                name = GamePack.Current.AbilityControl.GetAbility(I).GetName(Leader);
                 if (Leader.HeroResource.Abilities.GetAbilitySetAt(I) && Leader.HeroResource.Abilities.GetAbLevel(I) == Leader.GetAbilityLevel(I))
                 {
                     name = name + " (" + AbilityRules.TranslateResourceString(GameText.FixedText) + ")";
@@ -378,7 +378,7 @@ public partial class LeaderSetupWindow : DataModule
     }
 
     // AoWLeaderSetup.pas:846
-    public bool CanAddAbility(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).CanExpand(Leader) && AoWHSSet.Current.AbilityControl.GetAbility(abilityId).ExpandCost(Leader) <= Leader.GetSkillPoints();
+    public bool CanAddAbility(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).CanExpand(Leader) && GamePack.Current.AbilityControl.GetAbility(abilityId).ExpandCost(Leader) <= Leader.GetSkillPoints();
 
     // AoWLeaderSetup.pas:913
     public void SetPhase(int value)
@@ -671,13 +671,13 @@ public partial class LeaderSetupWindow : DataModule
         while (offset < 0)
         {
             offset += 1;
-            index = AoWHSSet.Current.FaceResources.PreviousFace(index);
+            index = GamePack.Current.FaceResources.PreviousFace(index);
         }
 
         while (offset > 0)
         {
             offset -= 1;
-            index = AoWHSSet.Current.FaceResources.NextFace(index);
+            index = GamePack.Current.FaceResources.NextFace(index);
         }
 
         var image = sender;
@@ -685,7 +685,7 @@ public partial class LeaderSetupWindow : DataModule
 
         if (setup.OriginalLeader.GetFace() != null)
         {
-            face = AoWHSSet.Current.FaceResources.GetFaceResource(index);
+            face = GamePack.Current.FaceResources.GetFaceResource(index);
             face.AddRef();
             face.GetFaceImage().ShowStretched(R, lockedSurface);
             face.Release();
@@ -696,7 +696,7 @@ public partial class LeaderSetupWindow : DataModule
     public void FacePrevBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var previousFace = AoWHSSet.Current.FaceResources.PreviousFace(Leader.FaceIndex);
+        var previousFace = GamePack.Current.FaceResources.PreviousFace(Leader.FaceIndex);
         Leader.SetFaceIndex(previousFace);
         DialogHosts.TitleWindow.MainWindow.Drawn = false;
     }
@@ -705,7 +705,7 @@ public partial class LeaderSetupWindow : DataModule
     public void FaceNextBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var nextFace = AoWHSSet.Current.FaceResources.NextFace(Leader.FaceIndex);
+        var nextFace = GamePack.Current.FaceResources.NextFace(Leader.FaceIndex);
         Leader.SetFaceIndex(nextFace);
         DialogHosts.TitleWindow.MainWindow.Drawn = false;
     }
@@ -1225,7 +1225,7 @@ public partial class LeaderSetupWindow : DataModule
         if (button == MouseButton.Right && SelectedAbilitiesList.Selected != -1)
         {
             var objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
-            ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {
                 var name = ability.GetName(null);
@@ -1241,7 +1241,7 @@ public partial class LeaderSetupWindow : DataModule
         if (button == MouseButton.Right && AvailableAbilitiesList.Selected != -1)
         {
             var objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
-            ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (ability != null)
             {
                 var name = ability.GetName(null);

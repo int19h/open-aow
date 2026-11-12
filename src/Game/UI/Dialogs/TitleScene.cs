@@ -1,5 +1,4 @@
 // Translated from AoWTitleScene.pas.
-using Aow.Engine.Buffers;
 using Aow.Formats;
 
 using Aow.Game.Audio;
@@ -732,7 +731,7 @@ public partial class TitleScene : DataModule
 
     private static void LoadGame(General controller, string fileName)
     {
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
             GameTables.GameEngine.CloseHsm(null);
         }
@@ -753,7 +752,7 @@ public partial class TitleScene : DataModule
         AudioHost.SongPlayer.Songs.Clear();
         AudioPlayback.FadeMusicVolume(0, 1);
         GameTables.GameEngine.LoadHsm(fileName, false, (_, message, progression) => controller.MapProgress(message, progression), GameProfile.WorldMap);
-        if (GameTables.GameEngine.Demo && AoWHSMap.Current != null && !AoWHSMap.Current.ShowAllPlayers)
+        if (GameTables.GameEngine.Demo && StrategicMap.Current != null && !StrategicMap.Current.ShowAllPlayers)
         {
             CloseGame(controller);
         }
@@ -766,20 +765,20 @@ public partial class TitleScene : DataModule
     {
         controller.WindowsHidden = false;
         AudioHost.SongPlayer.Songs.Clear();
-        if (AoWHSMap.Current.GameSongs.Songs.Count != 0)
+        if (StrategicMap.Current.GameSongs.Songs.Count != 0)
         {
-            AudioHost.SongPlayer.Songs.AddStrings(AoWHSMap.Current.GameSongs.Songs);
+            AudioHost.SongPlayer.Songs.AddStrings(StrategicMap.Current.GameSongs.Songs);
         }
         else
         {
-            if (AoWHSMap.Current.StartupSongs.Songs.Count != 0)
+            if (StrategicMap.Current.StartupSongs.Songs.Count != 0)
             {
-                for (int I = 0, last = AoWHSMap.Current.StartupSongs.Songs.Count - 1; I <= last; I++)
+                for (int I = 0, last = StrategicMap.Current.StartupSongs.Songs.Count - 1; I <= last; I++)
                 {
                     var fileNotFound = AbilityRules.TranslateResourceString(s_fileNotFoundText);
-                    if (CompareText(AoWHSMap.Current.StartupSongs.SongNames[I], fileNotFound) != 0)
+                    if (CompareText(StrategicMap.Current.StartupSongs.SongNames[I], fileNotFound) != 0)
                     {
-                        var song = AoWHSMap.Current.StartupSongs.Songs[I];
+                        var song = StrategicMap.Current.StartupSongs.Songs[I];
                         AudioHost.SongPlayer.Songs.Add(song);
                     }
                 }
@@ -806,9 +805,9 @@ public partial class TitleScene : DataModule
         DialogHosts.TaskBar.TaskWindow.Visible = true;
         DialogHosts.MapWindow.MainWindow.Visible = true;
         DialogHosts.ScannerWindow.MainWindow.Visible = true;
-        DialogHosts.MapWindow.MapViewer.SetHexSpriteMap(AoWHSMap.Current);
-        DialogHosts.ScannerWindow.Scanner.SetMap(AoWHSMap.Current);
-        var mapLevel = AoWHSMap.Current.MapContainer.MapLevels[0];
+        DialogHosts.MapWindow.MapViewer.SetHexSpriteMap(StrategicMap.Current);
+        DialogHosts.ScannerWindow.Scanner.SetMap(StrategicMap.Current);
+        var mapLevel = StrategicMap.Current.MapContainer.MapLevels[0];
         DialogHosts.ScannerWindow.Scanner.SetLevel(mapLevel);
         DialogHosts.TaskBar.WorldTurnButton.ButtonChecked = false;
         DialogHosts.TaskBar.ChatButton.Visible = DialogHosts.SetupEvents.DirectPlay.Connected;
@@ -819,13 +818,13 @@ public partial class TitleScene : DataModule
         DialogHosts.ScannerWindow.ScannerTabs.Items.Clear();
         var surface = AbilityRules.TranslateResourceString(s_surfaceText);
         DialogHosts.ScannerWindow.ScannerTabs.Items.Add(surface);
-        if (AoWHSMap.Current.MapContainer.LevelCount > 1)
+        if (StrategicMap.Current.MapContainer.LevelCount > 1)
         {
             var caverns = AbilityRules.TranslateResourceString(s_cavernsText);
             DialogHosts.ScannerWindow.ScannerTabs.Items.Add(caverns);
         }
 
-        if (AoWHSMap.Current.MapContainer.LevelCount > 2)
+        if (StrategicMap.Current.MapContainer.LevelCount > 2)
         {
             var depths = AbilityRules.TranslateResourceString(s_depthsText);
             DialogHosts.ScannerWindow.ScannerTabs.Items.Add(depths);
@@ -838,22 +837,22 @@ public partial class TitleScene : DataModule
         DialogHosts.ScannerWindow.Scanner.SetTLeft(-1);
         DialogHosts.ScannerWindow.Scanner.SetTTop(-1);
         DialogHosts.ScannerWindow.Scanner.UpdateStep = -1;
-        DialogHosts.ScannerWindow.Scanner.SetMap(AoWHSMap.Current);
-        var mapLevel2 = AoWHSMap.Current.MapContainer.MapLevels[0];
+        DialogHosts.ScannerWindow.Scanner.SetMap(StrategicMap.Current);
+        var mapLevel2 = StrategicMap.Current.MapContainer.MapLevels[0];
         DialogHosts.ScannerWindow.Scanner.SetLevel(mapLevel2);
-        DialogHosts.MapWindow.MapViewer.SetHexSpriteMap(AoWHSMap.Current);
+        DialogHosts.MapWindow.MapViewer.SetHexSpriteMap(StrategicMap.Current);
         DialogHosts.MapWindow.MapViewer.SceneWidth = DialogHosts.MapWindow.MainWindow.WinWidth - 24;
         DialogHosts.MapWindow.MapViewer.SceneHeight = DialogHosts.MapWindow.MainWindow.WinHeight - 24;
-        AoWHSMap.Current.Activate();
+        StrategicMap.Current.Activate();
         DialogHosts.ControlWindow.MainWindow.Visible = false;
         DialogHosts.MapEvents.TheMapArmyDeselected();
         DialogHosts.MapEvents.TheMapStructureDeselected();
         DialogHosts.TaskBar.TBWorldUpdate();
         DialogHosts.PlayerInfoWindow.UpdatePlayer();
-        if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             var turnButton = DialogHosts.TaskBar.WorldTurnButton;
-            if (AoWHSMap.Current.SeatedPlayer == -1)
+            if (StrategicMap.Current.SeatedPlayer == -1)
             {
                 turnButton.CurrentPlayer = 12;
                 turnButton.LastPlayer = 12;
@@ -862,7 +861,7 @@ public partial class TitleScene : DataModule
             }
             else
             {
-                turnButton.LastPlayer = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).PlayerRace;
+                turnButton.LastPlayer = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
                 if (turnButton.LastPlayer == -1)
                 {
                     turnButton.LastPlayer = 12;
@@ -870,7 +869,7 @@ public partial class TitleScene : DataModule
 
                 turnButton.CurrentPlayer = turnButton.LastPlayer;
                 turnButton.AnimationFrame = turnButton.LastPlayer * 7;
-                DialogHosts.TaskBar.AutoCombatCheckBox.Visible = AoWHSMap.Current.PlayMode == PlayMode.Simultaneous;
+                DialogHosts.TaskBar.AutoCombatCheckBox.Visible = StrategicMap.Current.PlayMode == PlayMode.Simultaneous;
             }
         }
 

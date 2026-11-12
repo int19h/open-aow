@@ -38,13 +38,13 @@ public partial class TacticalBattle : Battle
         CombatData.TurnOrder.Clear();
         CombatData.TurnOrder.Add((byte)CombatData.AttackerPlayer);
         HostPlayer = -1;
-        for (int I = 0, last = AoWHSMap.Current.Players.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = StrategicMap.Current.Players.GetCount() - 1; I <= last; I++)
         {
             if (HostPlayer == -1)
             {
-                if (AoWHSMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human)
+                if (StrategicMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human)
                 {
-                    if (AoWHSMap.Current.Players.GetPlayers(I).Status != PlayerStatus.Terminated)
+                    if (StrategicMap.Current.Players.GetPlayers(I).Status != PlayerStatus.Terminated)
                     {
                         HostPlayer = (sbyte)I;
                     }
@@ -63,25 +63,25 @@ public partial class TacticalBattle : Battle
             }
 
             var playerPlayer = CombatData.Players.GetPlayers((sbyte)I);
-            if (AoWHSMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType != PlayerType.Human)
+            if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType != PlayerType.Human)
             {
-                if (AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl)
+                if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl)
                 {
-                    var playerConnectionMode = AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
+                    var playerConnectionMode = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
                     var player = CombatData.Players.GetPlayers((sbyte)I);
-                    ((RemotePlayerCommunicationControl)AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl).SetConnectionMode(player.Player, playerConnectionMode.ConnectionMode);
-                    var playerSystemId = AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
+                    ((RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl).SetConnectionMode(player.Player, playerConnectionMode.ConnectionMode);
+                    var playerSystemId = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
                     var player2 = CombatData.Players.GetPlayers((sbyte)I);
-                    ((RemotePlayerCommunicationControl)AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl).SetSystemId(player2.Player, playerSystemId.SystemId);
+                    ((RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl).SetSystemId(player2.Player, playerSystemId.SystemId);
                 }
             }
         }
 
-        for (int I = 0, last = AoWHSMap.Current.TokenManager.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = StrategicMap.Current.TokenManager.GetCount() - 1; I <= last; I++)
         {
-            if (AoWHSMap.Current.TokenManager.GetTokenControl(I).Local() || AoWHSMap.Current.TokenManager.GetTokenControl(I).Global())
+            if (StrategicMap.Current.TokenManager.GetTokenControl(I).Local() || StrategicMap.Current.TokenManager.GetTokenControl(I).Global())
             {
-                AoWHSMap.Current.TokenManager.GetTokenControl(I).ClearEvents();
+                StrategicMap.Current.TokenManager.GetTokenControl(I).ClearEvents();
             }
         }
 
@@ -162,21 +162,21 @@ public partial class TacticalBattle : Battle
                 }
                 else
                 {
-                    AoWHSMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
+                    StrategicMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
                     generator = new RandomBattleMapGenerator();
                     generator.RandomMap(this, CombatData.X, CombatData.Y, CombatData.MapLevel);
                     generator?.Dispose();
-                    bool condition = AoWHSMap.Current.StartingGame || AoWHSMap.Current.VisibleForPlayer(CombatData.X, CombatData.Y, CombatData.MapLevel, AoWHSMap.Current.SeatedPlayer);
+                    bool condition = StrategicMap.Current.StartingGame || StrategicMap.Current.VisibleForPlayer(CombatData.X, CombatData.Y, CombatData.MapLevel, StrategicMap.Current.SeatedPlayer);
                     CombatMap.Current.PlaySounds = condition;
                     if (!CombatMap.Current.PlaySounds)
                     {
                         for (int I = 0, last = CombatData.Players.GetCount() - 1; I <= last; I++)
                         {
                             var playerPlayer = CombatData.Players.GetPlayers((sbyte)I);
-                            if (AoWHSMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
+                            if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
                             {
                                 var player = CombatData.Players.GetPlayers((sbyte)I);
-                                if (AoWHSMap.Current.Players.GetPlayers(player.Player).GetLocal())
+                                if (StrategicMap.Current.Players.GetPlayers(player.Player).GetLocal())
                                 {
                                     CombatMap.Current.PlaySounds = true;
                                 }
@@ -191,13 +191,13 @@ public partial class TacticalBattle : Battle
                         if (seated == -1)
                         {
                             var playerPlayer = CombatData.Players.GetPlayers((sbyte)I);
-                            if (AoWHSMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
+                            if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
                             {
                                 var player = CombatData.Players.GetPlayers((sbyte)I);
-                                if (AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(player.Player).ConnectionMode != ConnectionMode.Remote)
+                                if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(player.Player).ConnectionMode != ConnectionMode.Remote)
                                 {
                                     var player2 = CombatData.Players.GetPlayers((sbyte)I);
-                                    if (AoWHSMap.Current.Players.GetPlayers(player2.Player).Status != PlayerStatus.Terminated)
+                                    if (StrategicMap.Current.Players.GetPlayers(player2.Player).Status != PlayerStatus.Terminated)
                                     {
                                         seated = I;
                                     }

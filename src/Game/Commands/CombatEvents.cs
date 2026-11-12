@@ -82,7 +82,7 @@ internal static class CombatEvents
     internal static TacticalBattleEndTurnTokenEvent CreateTacticalBattleCancelEndTurnTokenEvent(sbyte player)
     {
         TacticalBattleEndTurnTokenEvent result;
-        if (!AoWHSMap.Current.Players.GetPlayers(player).GetBusy())
+        if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
             result = new TacticalBattleEndTurnTokenEvent(null);
         }

@@ -41,10 +41,10 @@ public partial class HeroPowerSource : PowerSource
         GetLocation(ref X, ref Y, ref L);
         if (X != -1)
         {
-            armyHexSprite = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHexSprite();
+            armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
             if (armyHexSprite != null)
             {
-                AoWHSMap.Current.Select(armyHexSprite, true);
+                StrategicMap.Current.Select(armyHexSprite, true);
             }
         }
     }

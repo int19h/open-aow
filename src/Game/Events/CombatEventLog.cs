@@ -58,7 +58,7 @@ public partial class CombatEventLog : EventLog
         if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
         {
             var players = data.Players.GetPlayers(data.AttackerPlayer);
-            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(players.Player);
+            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(players.Player);
             result = AbilityRules.RaceColors[fPlayersPlayers.PlayerRace];
         }
         else
@@ -78,7 +78,7 @@ public partial class CombatEventLog : EventLog
         if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
         {
             var players = data.Players.GetPlayers(data.AttackerPlayer);
-            result = AoWHSMap.Current.Players.GetPlayers(players.Player).PlayerRace;
+            result = StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
         }
         else
         {
@@ -100,7 +100,7 @@ public partial class CombatEventLog : EventLog
         if (data.Players.GetPlayers(data.DefenderPlayer).Player != 0)
         {
             var players = data.Players.GetPlayers(data.DefenderPlayer);
-            result = AoWHSMap.Current.Players.GetPlayers(players.Player).PlayerRace;
+            result = StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
         }
         else
         {
@@ -113,7 +113,7 @@ public partial class CombatEventLog : EventLog
     // Combat2.pas:467
     public override void PlayLoggedSfx(EventLogbook logbook)
     {
-        if (Logbook.InitialData.Players.IndexOfPlayer((byte)AoWHSMap.Current.SeatedPlayer) != -1)
+        if (Logbook.InitialData.Players.IndexOfPlayer((byte)StrategicMap.Current.SeatedPlayer) != -1)
         {
             AudioPlayback.PlaySample("SFX\\EVENTS\\ROLL.WAV");
         }
@@ -132,18 +132,18 @@ public partial class CombatEventLog : EventLog
         switch (trigger)
         {
             case ExecuteTrigger.User:
-                AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
+                StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
                 result = true;
                 break;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
-                if (Logbook.InitialData.Players.IndexOfPlayer((byte)AoWHSMap.Current.SeatedPlayer) != -1)
+                if (Logbook.InitialData.Players.IndexOfPlayer((byte)StrategicMap.Current.SeatedPlayer) != -1)
                 {
                     data = Logbook.InitialData;
-                    showCombat = data.Players.GetPlayers(data.AttackerPlayer).Player == AoWHSMap.Current.SeatedPlayer;
-                    showCombat = showCombat || AoWHSMap.Current.RequestCombatType && AoWHSMap.Current.ConnectionType == PlayerConnectionType.Email && Logbook.InitialData.Players.GetPlayers(Logbook.InitialData.DefenderPlayer).Player == AoWHSMap.Current.SeatedPlayer;
-                    showCombat = showCombat || trigger == ExecuteTrigger.Event && AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Combat);
-                    showCombat = showCombat || trigger == ExecuteTrigger.Event && AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Combat);
+                    showCombat = data.Players.GetPlayers(data.AttackerPlayer).Player == StrategicMap.Current.SeatedPlayer;
+                    showCombat = showCombat || StrategicMap.Current.RequestCombatType && StrategicMap.Current.ConnectionType == PlayerConnectionType.Email && Logbook.InitialData.Players.GetPlayers(Logbook.InitialData.DefenderPlayer).Player == StrategicMap.Current.SeatedPlayer;
+                    showCombat = showCombat || trigger == ExecuteTrigger.Event && StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Combat);
+                    showCombat = showCombat || trigger == ExecuteTrigger.Event && StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Combat);
                     showCombat = showCombat && Logbook.CombatResult != CombatResult.NoDefenders;
                 }
                 else
@@ -154,7 +154,7 @@ public partial class CombatEventLog : EventLog
                 showCombat = showCombat || Logbook.PlayerEliminated;
                 if (showCombat)
                 {
-                    AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
+                    StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
                     result = true;
                 }
                 else

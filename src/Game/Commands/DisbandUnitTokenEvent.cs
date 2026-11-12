@@ -51,19 +51,19 @@ public partial class DisbandUnitTokenEvent : TokenEvent
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        troop = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+        troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (troop != null && troop.Player == Player)
         {
             troop.AddRef();
-            if (troop.GetRace() == 5 && troop.Player > 0 && AoWHSMap.Current.Players.GetPlayers(troop.Player).PlayerRace == 5 && (troop.GetAbilityEnabled(162) || troop.GetAbilityEnabled(164) || troop.GetAbilityEnabled(165)))
+            if (troop.GetRace() == 5 && troop.Player > 0 && StrategicMap.Current.Players.GetPlayers(troop.Player).PlayerRace == 5 && (troop.GetAbilityEnabled(162) || troop.GetAbilityEnabled(164) || troop.GetAbilityEnabled(165)))
             {
-                AoWHSMap.Current.Players.GetPlayers(troop.Player).HeroEmerging = true;
+                StrategicMap.Current.Players.GetPlayers(troop.Player).HeroEmerging = true;
             }
 
             if (!troop.GetAbilityEnabled(155))
             {
                 troop.GetLocation(ref X, ref Y, ref L);
-                structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+                structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(PlayerStructure));
                 if (!(troop.Owner is Army) || troop.Owner.Count > 1 || (structure != null && structure.Player > 0))
                 {
                     troop.GetLocation(ref X, ref Y, ref L);
@@ -78,7 +78,7 @@ public partial class DisbandUnitTokenEvent : TokenEvent
 
                 if (armyHexSprite != null)
                 {
-                    N = AoWHSMap.Current.Random(10);
+                    N = StrategicMap.Current.Random(10);
                     if (N == 0)
                     {
                         behavior = GroupBehavior.GuardArea;
@@ -116,12 +116,12 @@ public partial class DisbandUnitTokenEvent : TokenEvent
 
             troop.RemoveEnchantments();
             troop.Release();
-            if (AoWHSMap.Current.SeatedPlayer == Player)
+            if (StrategicMap.Current.SeatedPlayer == Player)
             {
-                AoWHSMap.Current.SelectedArmy.Unselect();
+                StrategicMap.Current.SelectedArmy.Unselect();
             }
 
-            AoWHSMap.Current.Players.GetPlayers(Player).UpdateIncome();
+            StrategicMap.Current.Players.GetPlayers(Player).UpdateIncome();
         }
 
         return ExecuteResult.Done;

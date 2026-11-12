@@ -104,7 +104,7 @@ public partial class CustomDisplay
         FramePresented?.Invoke(PresentedFrames);
     }
 
-    public int ActivateDisplayController(CustomDisplayController displayController)
+    public int ActivateDisplayController(DisplayController displayController)
     {
         if (displayController == _activeDisplayController) return 0;
         var previous = _activeDisplayController;

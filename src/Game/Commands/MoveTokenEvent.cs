@@ -49,7 +49,7 @@ public partial class MoveTokenEvent : TokenEvent
             {
                 _status = MoveStatus.Moving;
                 InitializeMove();
-                AoWHSMap.Current.Random(1048575);
+                StrategicMap.Current.Random(1048575);
                 switch (Path.Count)
                 {
                     case >= 0 and <= 1:
@@ -105,7 +105,7 @@ public partial class MoveTokenEvent : TokenEvent
     }
 
     // MoveT.PAS:1970
-    public virtual AoWMapField GetMapField(MapCoordinate location) => (AoWMapField)AoWHSMap.Current.MapContainer.GetField(location.X, location.Y, location.MapLevel);
+    public virtual MapField GetMapField(MapCoordinate location) => StrategicMap.Current.MapContainer.GetField(location.X, location.Y, location.MapLevel);
 
     // MoveT.PAS:2019
     public virtual MoveStatus ProcessMove()

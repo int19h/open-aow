@@ -155,7 +155,7 @@ public partial class HealingAbility : TouchAbility
 
             info.SetUnitSelector(selector);
             // { Original omits Selector.Release here. }
-            AoWHSMap.Current.OnActivateAbilityStore.Raise(info);
+            StrategicMap.Current.OnActivateAbilityStore.Raise(info);
             info.Release();
             result = true;
         }

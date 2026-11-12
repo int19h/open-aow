@@ -15,10 +15,10 @@ public partial class MoveControl
         path.Clear();
         if (level >= Map.MapContainer.LevelCount) return;
         SetMapL(Map.MapContainer.GetMapLevel(level));
-        var field = (AoWMapField)MapLevel.GetField(x, y);
+        var field = MapLevel.GetField(x, y);
         int points = Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
         bool failed = points == 0xffffff;
-        AoWMapField neighbor = null;
+        MapField neighbor = null;
         while (field != null && (field.HexX != _sourceX || field.HexY != _sourceY || field.HexLevel != _sourceL) && !failed)
         {
             path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
@@ -32,7 +32,7 @@ public partial class MoveControl
                 int over = source || (neighbor.FieldFlags & 0x2000) == 0 ? 1 : neighbor.CanMoveOver(this);
                 found = over != 0 && ((field.FieldFlags & 0x4000) == 0 || field.CanMoveOn(this, cost, over) != -1);
             }
-            AoWMapField previous;
+            MapField previous;
             if (found)
             {
                 points = Settings.GetMovePoints(neighbor.HexX, neighbor.HexY, neighbor.HexLevel);
@@ -55,16 +55,16 @@ public partial class MoveControl
         }
         if (failed) path.Clear();
         else if (field != null && points == 0) path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
-        if (AoWHSMap.Current.AIExecutor.Status.Contains(AIExecutorStatusElement.Executing)) AoWHSMap.Current.AIExecutor.UseProcessTime(path.Count);
+        if (StrategicMap.Current.AIExecutor.Status.Contains(AIExecutorStatusElement.Executing)) StrategicMap.Current.AIExecutor.UseProcessTime(path.Count);
     }
 
-    private AoWMapField NeighborField(AoWMapField field, int direction)
+    private MapField NeighborField(MapField field, int direction)
     {
         var delta = HexGeometry.HexNumberToXYTable[field.HexX & 1][direction];
-        return (AoWMapField)field.Owner.GetField(field.HexX + delta.X, field.HexY + delta.Y);
+        return field.Owner.GetField(field.HexX + delta.X, field.HexY + delta.Y);
     }
 
-    public int CalculateMovePointLine(AoWMapField origin, int direction, int moveOverCode)
+    public int CalculateMovePointLine(MapField origin, int direction, int moveOverCode)
     {
         int initialOverCode = moveOverCode;
         int count = 0, points = Settings.GetMovePoints(origin.HexX, origin.HexY, origin.HexLevel);
@@ -90,7 +90,7 @@ public partial class MoveControl
         return count;
     }
 
-    public void ProcessHex(AoWMapField field, int direction, int count)
+    public void ProcessHex(MapField field, int direction, int count)
     {
         _processedCount++;
         int over = (field.FieldFlags & 0x2000) == 0 ? 1 : field.CanMoveOver(this);

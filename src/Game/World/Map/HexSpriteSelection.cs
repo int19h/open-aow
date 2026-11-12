@@ -13,7 +13,7 @@ namespace Aow.Game.World.Map;
 // FLocationHS the sprites selected by location (clicking on a hexagon), FOnSelect, FOnDeselect
 // (triggered with the map as the sender), FEventHS the sprite of the last event. The owner is
 // the map
-public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprite>, IOwned<HSMap>, IOwnedSink<HSMap>
+public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprite>, IOwned<GameMap>, IOwnedSink<GameMap>
 {
     // The sprite in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a sprite, so the cast never fails.
@@ -24,11 +24,11 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
     int IChildSink<HexSprite>.AddChild(HexSprite child) => AddChild(child);
 
     // The map the selection belongs to. AcceptsOwner admits only a map, so the cast never fails.
-    public new HSMap Owner { get => (HSMap)base.Owner; set => SetOwner(value); }
+    public new GameMap Owner { get => (GameMap)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is HSMap;
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is GameMap;
 
-    void IOwnedSink<HSMap>.SetOwner(HSMap owner) => SetOwner(owner);
+    void IOwnedSink<GameMap>.SetOwner(GameMap owner) => SetOwner(owner);
 
     private List<HexSprite> _locationHexSprite;
 

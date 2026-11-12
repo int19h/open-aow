@@ -60,7 +60,7 @@ public partial class AIGroupControlTargetList : EReferenceNode, IChildList<AIGro
         AIGroupControlTarget target;
         bool result = true;
         var count = Count;
-        AoWHSMap.Current.AIExecutor.UseProcessTime(count * 20);
+        StrategicMap.Current.AIExecutor.UseProcessTime(count * 20);
         for (int I = Count - 1; I >= 0; I--)
         {
             target = this[I];

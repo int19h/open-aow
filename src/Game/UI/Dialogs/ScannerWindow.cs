@@ -3,7 +3,6 @@ using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -23,21 +22,21 @@ public partial class ScannerWindow : DataModule
     // AoWSWindow.pas:51
     public void ScannerTabChange()
     {
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
             switch (ScannerTabs.Selected)
             {
                 case 0:
                     Scanner.UpdateStep = -1;
-                    AoWHSMap.Current.ViewLevel(0);
+                    StrategicMap.Current.ViewLevel(0);
                     break;
                 case 1:
                     Scanner.UpdateStep = -1;
-                    AoWHSMap.Current.ViewLevel(1);
+                    StrategicMap.Current.ViewLevel(1);
                     break;
                 case 2:
                     Scanner.UpdateStep = -1;
-                    AoWHSMap.Current.ViewLevel(2);
+                    StrategicMap.Current.ViewLevel(2);
                     break;
             }
         }
@@ -104,7 +103,7 @@ public partial class ScannerWindow : DataModule
     {
         DialogHosts.MapWindow.MapViewer.SceneX = (DialogHosts.ScannerWindow.Scanner.TLeft + 6) * 33;
         DialogHosts.MapWindow.MapViewer.SceneY = (DialogHosts.ScannerWindow.Scanner.TTop + 6) * 33;
-        if (AoWHSMap.Current.SeatedPlayer != -1)
+        if (StrategicMap.Current.SeatedPlayer != -1)
         {
             DialogHosts.ScannerWindow.Scanner.SetTWidth(DialogHosts.MapWindow.MapViewer.SceneWidth / 32);
             DialogHosts.ScannerWindow.Scanner.SetTHeight(DialogHosts.MapWindow.MapViewer.SceneHeight / 32);
