@@ -31,7 +31,11 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
 
     }
 
-    public NotifyEvent<object> OnChanged { get; set; }
+    public event NotifyEvent<object> OnChanged;
+
+    internal void SetChangedHandler(NotifyEvent<object> handler) => OnChanged = handler;
+
+    internal void ClearChangedHandler() => OnChanged = null;
 
     // Army.PAS:4537
     // code, data

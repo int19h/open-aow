@@ -15,60 +15,106 @@ namespace Aow.Game.UI.Grids;
 
 public partial class MapControl : Component
 {
-    private MapObjectEvent<Army> _onSelectArmy;
-    private MapObjectEvent<Army> _onDeselectArmy;
-    private MapObjectEvent<Army> _onDoubleClickArmy;
-    private MapObjectEvent<Army> _onArmyChanged;
-    private MapObjectEvent<Army> _onArmyDestroyed;
-    private MapObjectEvent<Structure> _onSelectStructure;
-    private MapObjectEvent<Structure> _onDeselectStructure;
-    private MapObjectEvent<Structure> _onDoubleClickStructure;
-    private MapObjectEvent<Structure> _onStructureChanged;
-    private MapObjectEvent<Structure> _onStructureDestroyed;
-    private MapObjectEvent<ItemHexSprite> _onSelectItem;
-    private MapObjectEvent<ItemHexSprite> _onDeselectItem;
-    private MapObjectEvent<Troop> _onUnitChanged;
-    private MapObjectEvent<Troop> _onUnitDestroyed;
-    private MapObjectEvent<AbilityActivation> _onActivateAbility;
-    private NotifyEvent<object> _onDiplomaticChange;
-    private NotifyEvent<object> _onActivateHsm;
-    private NotifyEvent<object> _onDeactivateHsm;
-    private MapPlayerEvent _onIncomeChanged;
-    private MapPlayerEvent _onUpkeepChanged;
-    private MapPlayerEvent _onGemsChanged;
-    private MapPlayerEvent _onPlayerMagicChanged;
-    private NotifyEvent<object> _onGlobalMagicChanged;
-    private MapRefEvent<ShowMessageInfo> _onShowMessage;
-    private MapDayEvent _onChangeDay;
-    private NotifyEvent<sbyte> _onNewTurn;
-    private MapPlayerEvent _onPlayerChanged;
-    private MapPlayerEvent _onSeatedPlayerChanged;
-    private NotifyEvent<object> _onCombatEvent;
-    private MapExecuteLogEvent _onExecuteEventLog;
-    private MapRefEvent<MapChangedInfo> _onMapChanged;
-    private MapRefEvent<MapChangedInfo> _onScannerIconsChanged;
-    private NotifyEvent<object> _onMapSettingsChanged;
-    private MapPlayerEvent _onLogbookChanged;
-    private NotifyEvent<object> _onGameOver;
-    private MapPlayerEvent _onGameTerminated;
-    private MapPlayerEvent _onPlayerTerminated;
-    private NotifyEvent<object> _onActivateCombatMap;
-    private NotifyEvent<object> _onDeactivateCombatMap;
-    private MapTargetEvent _onTargetSelectionChange;
-    private NotifyEvent<object> _onViewPortChange;
-    private MapObjectEvent<SpellCaster> _onCastSpell;
-    private MapEndTurnEvent _onEndTurn;
-    private NotifyEvent<object> _onRelationsChanged;
-    private NotifyEvent<object> _onExitGameEvent;
-    private MapObjectEvent<HexSprite> _onHexSpriteChanged;
+    [Published]
+    public event MapObjectEvent<Army> OnArmySelected;
+    [Published]
+    public event MapObjectEvent<Army> OnArmyDeselected;
+    [Published]
+    public event MapObjectEvent<Army> OnArmyDoubleClick;
+    [Published]
+    public event MapObjectEvent<Army> OnArmyChanged;
+    [Published]
+    public event MapObjectEvent<Army> OnArmyDestroyed;
+    [Published]
+    public event MapObjectEvent<Structure> OnStructureSelected;
+    [Published]
+    public event MapObjectEvent<Structure> OnStructureDeselected;
+    [Published]
+    public event MapObjectEvent<Structure> OnStructureDoubleClick;
+    [Published]
+    public event MapObjectEvent<Structure> OnStructureChanged;
+    [Published]
+    public event MapObjectEvent<Structure> OnStructureDestroyed;
+    [Published]
+    public event MapObjectEvent<ItemHexSprite> OnItemsSelected;
+    [Published]
+    public event MapObjectEvent<ItemHexSprite> OnItemsDeselected;
+    [Published]
+    public event MapObjectEvent<Troop> OnUnitChanged;
+    [Published]
+    public event MapObjectEvent<Troop> OnUnitDestroyed;
+    [Published]
+    public event MapObjectEvent<AbilityActivation> OnActivateAbility;
+    [Published]
+    public event NotifyEvent<object> OnDiplomaticChange;
+    [Published]
+    public event NotifyEvent<object> OnActivateHsm;
+    [Published]
+    public event NotifyEvent<object> OnDeactivateHsm;
+    [Published]
+    public event MapPlayerEvent OnIncomeChanged;
+    [Published]
+    public event MapPlayerEvent OnUpkeepChanged;
+    [Published]
+    public event MapPlayerEvent OnGemsChanged;
+    [Published]
+    public event MapPlayerEvent OnPlayerMagicChanged;
+    [Published]
+    public event NotifyEvent<object> OnGlobalMagicChanged;
+    [Published]
+    public event MapRefEvent<ShowMessageInfo> OnShowMessage;
+    [Published]
+    public event MapDayEvent OnDayChanged;
+    [Published]
+    public event NotifyEvent<sbyte> OnNewTurn;
+    [Published]
+    public event MapPlayerEvent OnPlayerChanged;
+    [Published]
+    public event MapPlayerEvent OnSeatedPlayerChanged;
+    [Published]
+    public event NotifyEvent<object> OnCombat;
+    [Published]
+    public event MapExecuteLogEvent OnExecuteEventLog;
+    [Published]
+    public event MapRefEvent<MapChangedInfo> OnMapChanged;
+    [Published]
+    public event MapRefEvent<MapChangedInfo> OnScannerIconsChanged;
+    [Published]
+    public event NotifyEvent<object> OnMapSettingsChanged;
+    [Published]
+    public event MapPlayerEvent OnLogbookChanged;
+    [Published]
+    public event NotifyEvent<object> OnGameOver;
+    [Published]
+    public event MapPlayerEvent OnGameTerminated;
+    [Published]
+    public event MapPlayerEvent OnPlayerTerminated;
+    [Published]
+    public event NotifyEvent<object> OnActivateCombatMap;
+    [Published]
+    public event NotifyEvent<object> OnDeactivateCombatMap;
+    [Published]
+    public event MapTargetEvent OnTargetSelectionChange;
+    [Published]
+    public event NotifyEvent<object> OnViewPortChange;
+    [Published]
+    public event MapObjectEvent<SpellCaster> OnCastSpell;
+    [Published]
+    public event MapEndTurnEvent OnEndTurn;
+    [Published]
+    public event NotifyEvent<object> OnRelationsChanged;
+    [Published]
+    public event NotifyEvent<object> OnExitGame;
+    [Published]
+    public event MapObjectEvent<HexSprite> OnHexSpriteChanged;
 
     // MapCtrl.pas:186
     public override void Dispose()
     {
         if (GameTables.GameEngine != null)
         {
-            GameTables.GameEngine.FOnHsmLoaded -= ActivateHsm;
-            GameTables.GameEngine.FOnHsmClose -= DeactivateHsm;
+            GameTables.GameEngine.HexSpriteMapLoaded -= ActivateHsm;
+            GameTables.GameEngine.HexSpriteMapClosing -= DeactivateHsm;
             if (StrategicMap.Current != null)
             {
                 ReleaseHsm();
@@ -83,8 +129,8 @@ public partial class MapControl : Component
     {
         if (GameTables.ValidateGameEngine())
         {
-            GameTables.GameEngine.FOnHsmLoaded += ActivateHsm;
-            GameTables.GameEngine.FOnHsmClose += DeactivateHsm;
+            GameTables.GameEngine.HexSpriteMapLoaded += ActivateHsm;
+            GameTables.GameEngine.HexSpriteMapClosing += DeactivateHsm;
             if (StrategicMap.Current != null)
             {
                 LinkToHsm();
@@ -95,94 +141,94 @@ public partial class MapControl : Component
     // MapCtrl.pas:197
     public void LinkToHsm()
     {
-        StrategicMap.Current.Mouse.FOnDoubleClick += DoubleClick;
-        StrategicMap.Current.FNewDayEvents += ChangeDay;
-        StrategicMap.Current.FCurrentPlayerChangedEvents += PlayerChanged;
-        StrategicMap.Current.FNewTurnEvents += NewTurn;
-        StrategicMap.Current.FEndTurnEvents += EndTurn;
-        StrategicMap.Current.FSeatedPlayerChangedEvents += SeatedPlayerChanged;
-        StrategicMap.Current.Selection.FOnSelect += SelectHexSprite;
-        StrategicMap.Current.Selection.FOnDeselect += DeselectHexSprite;
-        StrategicMap.Current.FShowMessageEvents += ShowMessage;
-        StrategicMap.Current.FMapChangedEvents += MapChanged;
-        StrategicMap.Current.FScannerIconsChangedEvents += ScannerIconsChanged;
-        StrategicMap.Current.FUpdateVisibilityEvents += MapSettingsChanged;
-        StrategicMap.Current.FCombatEvents += CombatEvent;
-        StrategicMap.Current.FStructureChangedEvents += StructureChanged;
-        StrategicMap.Current.FStructureDestroyedEvents += StructureDestroyed;
-        StrategicMap.Current.FArmyChangedEvents += ArmyChanged;
-        StrategicMap.Current.FArmyDestroyedEvents += ArmyDestroyed;
-        StrategicMap.Current.FUnitChangedEvents += UnitChanged;
-        StrategicMap.Current.FUnitDestroyedEvents += UnitDestroyed;
-        StrategicMap.Current.FGameTerminatedEvents += GameOver;
-        StrategicMap.Current.FGameOverEvents += GameTerminated;
+        StrategicMap.Current.Mouse.DoubleClicked += DoubleClick;
+        StrategicMap.Current.DayStarted += ChangeDay;
+        StrategicMap.Current.CurrentPlayerChanged += PlayerChanged;
+        StrategicMap.Current.TurnStarted += NewTurn;
+        StrategicMap.Current.TurnEnded += EndTurn;
+        StrategicMap.Current.SeatedPlayerChanged += SeatedPlayerChanged;
+        StrategicMap.Current.Selection.Selected += SelectHexSprite;
+        StrategicMap.Current.Selection.Deselected += DeselectHexSprite;
+        StrategicMap.Current.ShowingMessage += ShowMessage;
+        StrategicMap.Current.MapChanged += MapChanged;
+        StrategicMap.Current.ScannerIconsChanged += ScannerIconsChanged;
+        StrategicMap.Current.VisibilityUpdated += MapSettingsChanged;
+        StrategicMap.Current.CombatTriggered += CombatEvent;
+        StrategicMap.Current.StructureChanged += StructureChanged;
+        StrategicMap.Current.StructureDestroyed += StructureDestroyed;
+        StrategicMap.Current.ArmyChanged += ArmyChanged;
+        StrategicMap.Current.ArmyDestroyed += ArmyDestroyed;
+        StrategicMap.Current.UnitChanged += UnitChanged;
+        StrategicMap.Current.UnitDestroyed += UnitDestroyed;
+        StrategicMap.Current.GameTerminated += GameOver;
+        StrategicMap.Current.GameEnded += GameTerminated;
         StrategicMap.Current._hexSpriteChangedEvents += HexSpriteChanged;
-        StrategicMap.Current.FPlayerTerminatedEvents += PlayerTerminated;
-        StrategicMap.Current.FExecuteEventLogEvents += ExecuteEventLog;
-        StrategicMap.Current.TargetSelection.FOnChange += TargetSelectionChange;
-        StrategicMap.Current.FViewPortChangedEvents += ViewPortChange;
-        StrategicMap.Current.FCosmeticSurgeryEvents += CastSpell;
-        StrategicMap.Current.FOnActivateAbility += ActivateAbility;
-        StrategicMap.Current.GlobalMagicControl.FChangedEvents += GlobalMagicChanged;
-        StrategicMap.Current.FPlayerChangedEvents += RelationsChanged;
-        StrategicMap.Current.FDiplomaticRelationsChangedEvents += DiplomaticChange;
-        StrategicMap.Current.FExitEvents += ExitGameEvent;
-        StrategicMap.Current.FCombatMapCreatedEvents += ActivateCombatMap;
-        StrategicMap.Current.FCombatMapDestroyedEvents += DeactivateCombatMap;
+        StrategicMap.Current.PlayerTerminated += PlayerTerminated;
+        StrategicMap.Current.ExecutingEventLog += ExecuteEventLog;
+        StrategicMap.Current.TargetSelection.Changed += TargetSelectionChange;
+        StrategicMap.Current.ViewPortChanged += ViewPortChange;
+        StrategicMap.Current.CosmeticSurgeryCast += CastSpell;
+        StrategicMap.Current.AbilityActivated += ActivateAbility;
+        StrategicMap.Current.GlobalMagicControl.Changed += GlobalMagicChanged;
+        StrategicMap.Current.PlayerChanged += RelationsChanged;
+        StrategicMap.Current.DiplomaticRelationsChanged += DiplomaticChange;
+        StrategicMap.Current.ExitingGame += ExitGameEvent;
+        StrategicMap.Current.CombatMapCreated += ActivateCombatMap;
+        StrategicMap.Current.CombatMapDestroyed += DeactivateCombatMap;
         for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).FGemsChangedEvents += GemsChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).FIncomeChangedEvents += IncomeChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).FUpkeepChangedEvents += UpkeepChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).FLogbookChangedEvents += LogbookChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).MagicControl.FChangedEvents += PlayerMagicChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).GemsChanged += GemsChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).IncomeChanged += IncomeChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).UpkeepChanged += UpkeepChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).LogbookChanged += LogbookChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).MagicControl.Changed += PlayerMagicChanged;
         }
     }
 
     // MapCtrl.pas:244
     public void ReleaseHsm()
     {
-        StrategicMap.Current.Mouse.FOnDoubleClick -= DoubleClick;
-        StrategicMap.Current.FNewDayEvents -= ChangeDay;
-        StrategicMap.Current.FCurrentPlayerChangedEvents -= PlayerChanged;
-        StrategicMap.Current.FNewTurnEvents -= NewTurn;
-        StrategicMap.Current.FEndTurnEvents -= EndTurn;
-        StrategicMap.Current.FSeatedPlayerChangedEvents -= SeatedPlayerChanged;
-        StrategicMap.Current.Selection.FOnSelect -= SelectHexSprite;
-        StrategicMap.Current.Selection.FOnDeselect -= DeselectHexSprite;
-        StrategicMap.Current.FShowMessageEvents -= ShowMessage;
-        StrategicMap.Current.FMapChangedEvents -= MapChanged;
-        StrategicMap.Current.FScannerIconsChangedEvents -= ScannerIconsChanged;
-        StrategicMap.Current.FUpdateVisibilityEvents -= MapSettingsChanged;
-        StrategicMap.Current.FCombatEvents -= CombatEvent;
-        StrategicMap.Current.FArmyChangedEvents -= ArmyChanged;
-        StrategicMap.Current.FArmyDestroyedEvents -= ArmyDestroyed;
-        StrategicMap.Current.FUnitChangedEvents -= UnitChanged;
-        StrategicMap.Current.FUnitDestroyedEvents -= UnitDestroyed;
-        StrategicMap.Current.FStructureChangedEvents -= StructureChanged;
-        StrategicMap.Current.FStructureDestroyedEvents -= StructureDestroyed;
+        StrategicMap.Current.Mouse.DoubleClicked -= DoubleClick;
+        StrategicMap.Current.DayStarted -= ChangeDay;
+        StrategicMap.Current.CurrentPlayerChanged -= PlayerChanged;
+        StrategicMap.Current.TurnStarted -= NewTurn;
+        StrategicMap.Current.TurnEnded -= EndTurn;
+        StrategicMap.Current.SeatedPlayerChanged -= SeatedPlayerChanged;
+        StrategicMap.Current.Selection.Selected -= SelectHexSprite;
+        StrategicMap.Current.Selection.Deselected -= DeselectHexSprite;
+        StrategicMap.Current.ShowingMessage -= ShowMessage;
+        StrategicMap.Current.MapChanged -= MapChanged;
+        StrategicMap.Current.ScannerIconsChanged -= ScannerIconsChanged;
+        StrategicMap.Current.VisibilityUpdated -= MapSettingsChanged;
+        StrategicMap.Current.CombatTriggered -= CombatEvent;
+        StrategicMap.Current.ArmyChanged -= ArmyChanged;
+        StrategicMap.Current.ArmyDestroyed -= ArmyDestroyed;
+        StrategicMap.Current.UnitChanged -= UnitChanged;
+        StrategicMap.Current.UnitDestroyed -= UnitDestroyed;
+        StrategicMap.Current.StructureChanged -= StructureChanged;
+        StrategicMap.Current.StructureDestroyed -= StructureDestroyed;
         StrategicMap.Current._hexSpriteChangedEvents -= HexSpriteChanged;
-        StrategicMap.Current.FGameTerminatedEvents -= GameOver;
-        StrategicMap.Current.FGameOverEvents -= GameTerminated;
-        StrategicMap.Current.FPlayerTerminatedEvents -= PlayerTerminated;
-        StrategicMap.Current.FExecuteEventLogEvents -= ExecuteEventLog;
-        StrategicMap.Current.TargetSelection.FOnChange -= TargetSelectionChange;
-        StrategicMap.Current.FViewPortChangedEvents -= ViewPortChange;
-        StrategicMap.Current.FCosmeticSurgeryEvents -= CastSpell;
-        StrategicMap.Current.FOnActivateAbility -= ActivateAbility;
-        StrategicMap.Current.GlobalMagicControl.FChangedEvents -= GlobalMagicChanged;
-        StrategicMap.Current.FPlayerChangedEvents -= RelationsChanged;
-        StrategicMap.Current.FDiplomaticRelationsChangedEvents -= DiplomaticChange;
-        StrategicMap.Current.FExitEvents -= ExitGameEvent;
-        StrategicMap.Current.FCombatMapCreatedEvents -= ActivateCombatMap;
-        StrategicMap.Current.FCombatMapDestroyedEvents -= DeactivateCombatMap;
+        StrategicMap.Current.GameTerminated -= GameOver;
+        StrategicMap.Current.GameEnded -= GameTerminated;
+        StrategicMap.Current.PlayerTerminated -= PlayerTerminated;
+        StrategicMap.Current.ExecutingEventLog -= ExecuteEventLog;
+        StrategicMap.Current.TargetSelection.Changed -= TargetSelectionChange;
+        StrategicMap.Current.ViewPortChanged -= ViewPortChange;
+        StrategicMap.Current.CosmeticSurgeryCast -= CastSpell;
+        StrategicMap.Current.AbilityActivated -= ActivateAbility;
+        StrategicMap.Current.GlobalMagicControl.Changed -= GlobalMagicChanged;
+        StrategicMap.Current.PlayerChanged -= RelationsChanged;
+        StrategicMap.Current.DiplomaticRelationsChanged -= DiplomaticChange;
+        StrategicMap.Current.ExitingGame -= ExitGameEvent;
+        StrategicMap.Current.CombatMapCreated -= ActivateCombatMap;
+        StrategicMap.Current.CombatMapDestroyed -= DeactivateCombatMap;
         for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).FGemsChangedEvents -= GemsChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).FIncomeChangedEvents -= IncomeChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).FUpkeepChangedEvents -= UpkeepChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).FLogbookChangedEvents -= LogbookChanged;
-            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).MagicControl.FChangedEvents -= PlayerMagicChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).GemsChanged -= GemsChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).IncomeChanged -= IncomeChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).UpkeepChanged -= UpkeepChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).LogbookChanged -= LogbookChanged;
+            ((Player)(object)(object)StrategicMap.Current.Players.GetPlayers(I)).MagicControl.Changed -= PlayerMagicChanged;
         }
     }
 
@@ -192,9 +238,9 @@ public partial class MapControl : Component
         if (map.EngineClass.ClassId == 131089)
         {
             LinkToHsm();
-            if (_onActivateHsm != null)
+            if (OnActivateHsm != null)
             {
-                _onActivateHsm(this);
+                OnActivateHsm(this);
             }
         }
     }
@@ -204,9 +250,9 @@ public partial class MapControl : Component
     {
         if (map.EngineClass.ClassId == 131089)
         {
-            if (_onDeactivateHsm != null)
+            if (OnDeactivateHsm != null)
             {
-                _onDeactivateHsm(this);
+                OnDeactivateHsm(this);
             }
 
             ReleaseHsm();
@@ -217,21 +263,21 @@ public partial class MapControl : Component
     public void DoubleClick(object sender)
     {
         HexSprite hexSprite;
-        if (_onDoubleClickArmy != null)
+        if (OnArmyDoubleClick != null)
         {
             hexSprite = StrategicMap.Current.Selection.FindClass(typeof(ArmyHexSprite));
             if (hexSprite is ArmyHexSprite armyHexSprite)
             {
-                _onDoubleClickArmy(armyHexSprite.Army);
+                OnArmyDoubleClick(armyHexSprite.Army);
             }
         }
 
-        if (_onDoubleClickStructure != null)
+        if (OnStructureDoubleClick != null)
         {
             hexSprite = StrategicMap.Current.Selection.FindClass(typeof(Structure));
             if (hexSprite is Structure structure)
             {
-                _onDoubleClickStructure(structure);
+                OnStructureDoubleClick(structure);
             }
         }
     }
@@ -241,9 +287,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onMapChanged != null)
+            if (OnMapChanged != null)
             {
-                _onMapChanged(ref sender.Info);
+                OnMapChanged(ref sender.Info);
             }
         }
         catch
@@ -257,9 +303,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onScannerIconsChanged != null)
+            if (OnScannerIconsChanged != null)
             {
-                _onScannerIconsChanged(ref sender.Info);
+                OnScannerIconsChanged(ref sender.Info);
             }
         }
         catch
@@ -273,9 +319,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onMapSettingsChanged != null)
+            if (OnMapSettingsChanged != null)
             {
-                _onMapSettingsChanged(this);
+                OnMapSettingsChanged(this);
             }
         }
         catch
@@ -291,19 +337,19 @@ public partial class MapControl : Component
         try
         {
             selection = StrategicMap.Current.Selection;
-            if (_onSelectArmy != null && selection.EventHexSprite is ArmyHexSprite armyHexSprite && StrategicMap.Current.SelectedArmy.GetArmyHexSprite() != null)
+            if (OnArmySelected != null && selection.EventHexSprite is ArmyHexSprite armyHexSprite && StrategicMap.Current.SelectedArmy.GetArmyHexSprite() != null)
             {
-                _onSelectArmy(armyHexSprite.Army);
+                OnArmySelected(armyHexSprite.Army);
             }
 
-            if (_onSelectStructure != null && selection.EventHexSprite is Structure structure)
+            if (OnStructureSelected != null && selection.EventHexSprite is Structure structure)
             {
-                _onSelectStructure(structure);
+                OnStructureSelected(structure);
             }
 
-            if (_onSelectItem != null && selection.EventHexSprite is ItemHexSprite item)
+            if (OnItemsSelected != null && selection.EventHexSprite is ItemHexSprite item)
             {
-                _onSelectItem(item);
+                OnItemsSelected(item);
             }
         }
         catch
@@ -319,19 +365,19 @@ public partial class MapControl : Component
         try
         {
             selection = StrategicMap.Current.Selection;
-            if (_onDeselectArmy != null && selection.EventHexSprite is ArmyHexSprite armyHexSprite)
+            if (OnArmyDeselected != null && selection.EventHexSprite is ArmyHexSprite armyHexSprite)
             {
-                _onDeselectArmy(armyHexSprite.Army);
+                OnArmyDeselected(armyHexSprite.Army);
             }
 
-            if (_onDeselectStructure != null && selection.EventHexSprite is Structure structure)
+            if (OnStructureDeselected != null && selection.EventHexSprite is Structure structure)
             {
-                _onDeselectStructure(structure);
+                OnStructureDeselected(structure);
             }
 
-            if (_onDeselectItem != null && selection.EventHexSprite is ItemHexSprite item)
+            if (OnItemsDeselected != null && selection.EventHexSprite is ItemHexSprite item)
             {
-                _onDeselectItem(item);
+                OnItemsDeselected(item);
             }
         }
         catch
@@ -345,9 +391,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onPlayerChanged != null)
+            if (OnPlayerChanged != null)
             {
-                _onPlayerChanged(StrategicMap.Current.CurrentPlayer);
+                OnPlayerChanged(StrategicMap.Current.CurrentPlayer);
             }
         }
         catch
@@ -361,9 +407,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onExitGameEvent != null)
+            if (OnExitGame != null)
             {
-                _onExitGameEvent(this);
+                OnExitGame(this);
             }
         }
         catch
@@ -377,9 +423,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onNewTurn != null)
+            if (OnNewTurn != null)
             {
-                _onNewTurn(player);
+                OnNewTurn(player);
             }
         }
         catch
@@ -393,10 +439,10 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onEndTurn != null)
+            if (OnEndTurn != null)
             {
                 var listed = (object)StrategicMap.Current.Players.GetPlayers(player);
-                _onEndTurn(player, !((Player)(object)listed).SingleProcessCycle);
+                OnEndTurn(player, !((Player)(object)listed).SingleProcessCycle);
             }
         }
         catch
@@ -410,9 +456,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onSeatedPlayerChanged != null)
+            if (OnSeatedPlayerChanged != null)
             {
-                _onSeatedPlayerChanged(StrategicMap.Current.SeatedPlayer);
+                OnSeatedPlayerChanged(StrategicMap.Current.SeatedPlayer);
             }
         }
         catch
@@ -426,9 +472,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onGemsChanged != null)
+            if (OnGemsChanged != null)
             {
-                _onGemsChanged(player.PlayerIndex);
+                OnGemsChanged(player.PlayerIndex);
             }
         }
         catch
@@ -442,9 +488,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onIncomeChanged != null)
+            if (OnIncomeChanged != null)
             {
-                _onIncomeChanged(player.PlayerIndex);
+                OnIncomeChanged(player.PlayerIndex);
             }
         }
         catch
@@ -458,9 +504,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onUpkeepChanged != null)
+            if (OnUpkeepChanged != null)
             {
-                _onUpkeepChanged(player.PlayerIndex);
+                OnUpkeepChanged(player.PlayerIndex);
             }
         }
         catch
@@ -474,9 +520,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onPlayerMagicChanged != null)
+            if (OnPlayerMagicChanged != null)
             {
-                _onPlayerMagicChanged(control.Player.PlayerIndex);
+                OnPlayerMagicChanged(control.Player.PlayerIndex);
             }
         }
         catch
@@ -490,9 +536,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onGlobalMagicChanged != null)
+            if (OnGlobalMagicChanged != null)
             {
-                _onGlobalMagicChanged(sender);
+                OnGlobalMagicChanged(sender);
             }
         }
         catch
@@ -506,9 +552,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onShowMessage != null)
+            if (OnShowMessage != null)
             {
-                _onShowMessage(ref sender.Info);
+                OnShowMessage(ref sender.Info);
             }
         }
         catch
@@ -522,9 +568,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onChangeDay != null)
+            if (OnDayChanged != null)
             {
-                _onChangeDay(StrategicMap.Current.Day);
+                OnDayChanged(StrategicMap.Current.Day);
             }
         }
         catch
@@ -538,9 +584,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onCombatEvent != null)
+            if (OnCombat != null)
             {
-                _onCombatEvent(sender);
+                OnCombat(sender);
             }
         }
         catch
@@ -554,9 +600,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onLogbookChanged != null)
+            if (OnLogbookChanged != null)
             {
-                _onLogbookChanged(player.PlayerIndex);
+                OnLogbookChanged(player.PlayerIndex);
             }
         }
         catch
@@ -570,9 +616,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onStructureChanged != null)
+            if (OnStructureChanged != null)
             {
-                _onStructureChanged(objectValue);
+                OnStructureChanged(objectValue);
             }
         }
         catch
@@ -586,9 +632,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onStructureDestroyed != null)
+            if (OnStructureDestroyed != null)
             {
-                _onStructureDestroyed(objectValue);
+                OnStructureDestroyed(objectValue);
             }
         }
         catch
@@ -602,9 +648,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onArmyChanged != null)
+            if (OnArmyChanged != null)
             {
-                _onArmyChanged(objectValue);
+                OnArmyChanged(objectValue);
             }
         }
         catch
@@ -618,9 +664,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onArmyDestroyed != null)
+            if (OnArmyDestroyed != null)
             {
-                _onArmyDestroyed(objectValue);
+                OnArmyDestroyed(objectValue);
             }
         }
         catch
@@ -634,9 +680,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onHexSpriteChanged != null)
+            if (OnHexSpriteChanged != null)
             {
-                _onHexSpriteChanged(sender);
+                OnHexSpriteChanged(sender);
             }
         }
         catch
@@ -650,9 +696,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onUnitChanged != null)
+            if (OnUnitChanged != null)
             {
-                _onUnitChanged(objectValue);
+                OnUnitChanged(objectValue);
             }
         }
         catch
@@ -666,9 +712,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onUnitDestroyed != null)
+            if (OnUnitDestroyed != null)
             {
-                _onUnitDestroyed(objectValue);
+                OnUnitDestroyed(objectValue);
             }
         }
         catch
@@ -682,9 +728,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onGameOver != null)
+            if (OnGameOver != null)
             {
-                _onGameOver(sender);
+                OnGameOver(sender);
             }
         }
         catch
@@ -698,9 +744,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onGameTerminated != null)
+            if (OnGameTerminated != null)
             {
-                _onGameTerminated((sbyte)StrategicMap.Current.GameResult);
+                OnGameTerminated((sbyte)StrategicMap.Current.GameResult);
             }
         }
         catch
@@ -714,9 +760,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onPlayerTerminated != null)
+            if (OnPlayerTerminated != null)
             {
-                _onPlayerTerminated(player);
+                OnPlayerTerminated(player);
             }
         }
         catch
@@ -730,9 +776,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onExecuteEventLog != null)
+            if (OnExecuteEventLog != null)
             {
-                _onExecuteEventLog(info.Info.Log, info.Info.Immediate, info.Info.Done);
+                OnExecuteEventLog(info.Info.Log, info.Info.Immediate, info.Info.Done);
             }
         }
         catch
@@ -746,9 +792,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onActivateCombatMap != null)
+            if (OnActivateCombatMap != null)
             {
-                _onActivateCombatMap(this);
+                OnActivateCombatMap(this);
             }
         }
         catch
@@ -762,9 +808,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onDeactivateCombatMap != null)
+            if (OnDeactivateCombatMap != null)
             {
-                _onDeactivateCombatMap(this);
+                OnDeactivateCombatMap(this);
             }
         }
         catch
@@ -778,9 +824,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onTargetSelectionChange != null && control != null && (((int)StrategicMap.Current.TargetSelection.TargetMode.Image) & 8) != 0)
+            if (OnTargetSelectionChange != null && control != null && (((int)StrategicMap.Current.TargetSelection.TargetMode.Image) & 8) != 0)
             {
-                _onTargetSelectionChange(control, control.Change);
+                OnTargetSelectionChange(control, control.Change);
             }
         }
         catch
@@ -794,9 +840,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onCastSpell != null)
+            if (OnCastSpell != null)
             {
-                _onCastSpell(sender);
+                OnCastSpell(sender);
             }
         }
         catch
@@ -810,9 +856,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onViewPortChange != null)
+            if (OnViewPortChange != null)
             {
-                _onViewPortChange(this);
+                OnViewPortChange(this);
             }
         }
         catch
@@ -826,9 +872,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onActivateAbility != null)
+            if (OnActivateAbility != null)
             {
-                _onActivateAbility(sender);
+                OnActivateAbility(sender);
             }
         }
         catch
@@ -842,9 +888,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onDiplomaticChange != null)
+            if (OnDiplomaticChange != null)
             {
-                _onDiplomaticChange(this);
+                OnDiplomaticChange(this);
             }
         }
         catch
@@ -858,9 +904,9 @@ public partial class MapControl : Component
     {
         try
         {
-            if (_onRelationsChanged != null)
+            if (OnRelationsChanged != null)
             {
-                _onRelationsChanged(this);
+                OnRelationsChanged(this);
             }
         }
         catch
@@ -868,144 +914,6 @@ public partial class MapControl : Component
             RtlUnit.ShowMessage("Exception occurred during OnRelationsChanged event (TAoWMapControl)");
         }
     }
-
-    [Published]
-    public MapObjectEvent<Army> OnArmySelected { get => _onSelectArmy; set => _onSelectArmy = value; }
-
-    [Published]
-    public MapObjectEvent<Army> OnArmyDeselected { get => _onDeselectArmy; set => _onDeselectArmy = value; }
-
-    [Published]
-    public MapObjectEvent<Army> OnArmyDoubleClick { get => _onDoubleClickArmy; set => _onDoubleClickArmy = value; }
-
-    [Published]
-    public MapObjectEvent<Army> OnArmyChanged { get => _onArmyChanged; set => _onArmyChanged = value; }
-
-    [Published]
-    public MapObjectEvent<Army> OnArmyDestroyed { get => _onArmyDestroyed; set => _onArmyDestroyed = value; }
-
-    [Published]
-    public MapObjectEvent<Structure> OnStructureSelected { get => _onSelectStructure; set => _onSelectStructure = value; }
-
-    [Published]
-    public MapObjectEvent<Structure> OnStructureDeselected { get => _onDeselectStructure; set => _onDeselectStructure = value; }
-
-    [Published]
-    public MapObjectEvent<Structure> OnStructureDoubleClick { get => _onDoubleClickStructure; set => _onDoubleClickStructure = value; }
-
-    [Published]
-    public MapObjectEvent<Structure> OnStructureChanged { get => _onStructureChanged; set => _onStructureChanged = value; }
-
-    [Published]
-    public MapObjectEvent<Structure> OnStructureDestroyed { get => _onStructureDestroyed; set => _onStructureDestroyed = value; }
-
-    [Published]
-    public MapObjectEvent<Troop> OnUnitChanged { get => _onUnitChanged; set => _onUnitChanged = value; }
-
-    [Published]
-    public MapObjectEvent<Troop> OnUnitDestroyed { get => _onUnitDestroyed; set => _onUnitDestroyed = value; }
-
-    [Published]
-    public NotifyEvent<object> OnActivateHsm { get => _onActivateHsm; set => _onActivateHsm = value; }
-
-    [Published]
-    public NotifyEvent<object> OnDeactivateHsm { get => _onDeactivateHsm; set => _onDeactivateHsm = value; }
-
-    [Published]
-    public MapPlayerEvent OnGemsChanged { get => _onGemsChanged; set => _onGemsChanged = value; }
-
-    [Published]
-    public MapPlayerEvent OnIncomeChanged { get => _onIncomeChanged; set => _onIncomeChanged = value; }
-
-    [Published]
-    public MapPlayerEvent OnUpkeepChanged { get => _onUpkeepChanged; set => _onUpkeepChanged = value; }
-
-    [Published]
-    public MapRefEvent<ShowMessageInfo> OnShowMessage { get => _onShowMessage; set => _onShowMessage = value; }
-
-    [Published]
-    public MapDayEvent OnDayChanged { get => _onChangeDay; set => _onChangeDay = value; }
-
-    [Published]
-    public MapPlayerEvent OnPlayerChanged { get => _onPlayerChanged; set => _onPlayerChanged = value; }
-
-    [Published]
-    public NotifyEvent<sbyte> OnNewTurn { get => _onNewTurn; set => _onNewTurn = value; }
-
-    [Published]
-    public MapEndTurnEvent OnEndTurn { get => _onEndTurn; set => _onEndTurn = value; }
-
-    [Published]
-    public MapObjectEvent<HexSprite> OnHexSpriteChanged { get => _onHexSpriteChanged; set => _onHexSpriteChanged = value; }
-
-    [Published]
-    public MapPlayerEvent OnSeatedPlayerChanged { get => _onSeatedPlayerChanged; set => _onSeatedPlayerChanged = value; }
-
-    [Published]
-    public MapRefEvent<MapChangedInfo> OnMapChanged { get => _onMapChanged; set => _onMapChanged = value; }
-
-    [Published]
-    public MapRefEvent<MapChangedInfo> OnScannerIconsChanged { get => _onScannerIconsChanged; set => _onScannerIconsChanged = value; }
-
-    [Published]
-    public NotifyEvent<object> OnMapSettingsChanged { get => _onMapSettingsChanged; set => _onMapSettingsChanged = value; }
-
-    [Published]
-    public NotifyEvent<object> OnCombat { get => _onCombatEvent; set => _onCombatEvent = value; }
-
-    [Published]
-    public MapPlayerEvent OnLogbookChanged { get => _onLogbookChanged; set => _onLogbookChanged = value; }
-
-    [Published]
-    public MapTargetEvent OnTargetSelectionChange { get => _onTargetSelectionChange; set => _onTargetSelectionChange = value; }
-
-    [Published]
-    public MapObjectEvent<SpellCaster> OnCastSpell { get => _onCastSpell; set => _onCastSpell = value; }
-
-    [Published]
-    public MapObjectEvent<AbilityActivation> OnActivateAbility { get => _onActivateAbility; set => _onActivateAbility = value; }
-
-    [Published]
-    public MapPlayerEvent OnPlayerMagicChanged { get => _onPlayerMagicChanged; set => _onPlayerMagicChanged = value; }
-
-    [Published]
-    public NotifyEvent<object> OnGlobalMagicChanged { get => _onGlobalMagicChanged; set => _onGlobalMagicChanged = value; }
-
-    [Published]
-    public NotifyEvent<object> OnRelationsChanged { get => _onRelationsChanged; set => _onRelationsChanged = value; }
-
-    [Published]
-    public NotifyEvent<object> OnActivateCombatMap { get => _onActivateCombatMap; set => _onActivateCombatMap = value; }
-
-    [Published]
-    public NotifyEvent<object> OnDeactivateCombatMap { get => _onDeactivateCombatMap; set => _onDeactivateCombatMap = value; }
-
-    [Published]
-    public MapObjectEvent<ItemHexSprite> OnItemsSelected { get => _onSelectItem; set => _onSelectItem = value; }
-
-    [Published]
-    public MapObjectEvent<ItemHexSprite> OnItemsDeselected { get => _onDeselectItem; set => _onDeselectItem = value; }
-
-    [Published]
-    public NotifyEvent<object> OnGameOver { get => _onGameOver; set => _onGameOver = value; }
-
-    [Published]
-    public MapPlayerEvent OnGameTerminated { get => _onGameTerminated; set => _onGameTerminated = value; }
-
-    [Published]
-    public MapPlayerEvent OnPlayerTerminated { get => _onPlayerTerminated; set => _onPlayerTerminated = value; }
-
-    [Published]
-    public MapExecuteLogEvent OnExecuteEventLog { get => _onExecuteEventLog; set => _onExecuteEventLog = value; }
-
-    [Published]
-    public NotifyEvent<object> OnViewPortChange { get => _onViewPortChange; set => _onViewPortChange = value; }
-
-    [Published]
-    public NotifyEvent<object> OnDiplomaticChange { get => _onDiplomaticChange; set => _onDiplomaticChange = value; }
-
-    [Published]
-    public NotifyEvent<object> OnExitGame { get => _onExitGameEvent; set => _onExitGameEvent = value; }
 
     public delegate void MapPlayerEvent(sbyte Player);
     public delegate void MapDayEvent(int Day);

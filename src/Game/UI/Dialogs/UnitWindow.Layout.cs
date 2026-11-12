@@ -18,23 +18,23 @@ public partial class UnitWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "UnitWindow";
-        LayoutOnCreate = _ => UnitWindowCreate();
+        LayoutOnCreate += _ => UnitWindowCreate();
         MainWindow = new Window(this);
         session.BeginRead(MainWindow);
         MainWindow.Name = "UnitWin";
-        MainWindow.OnMouseDown = (_, button, shift, x, y) => UnitWinMouseDown(button, shift, x, y);
-        MainWindow.OnKeyDown = (_, ref key, shift) => UnitWinKeyDown(ref key, shift);
-        MainWindow.OnUpdate = _ => UnitWinUpdate();
+        MainWindow.OnMouseDown += (_, button, shift, x, y) => UnitWinMouseDown(button, shift, x, y);
+        MainWindow.OnKeyDown += (_, ref key, shift) => UnitWinKeyDown(ref key, shift);
+        MainWindow.OnUpdate += _ => UnitWinUpdate();
         MainWindow.Visible = false;
         MainWindow.Priority = 300;
         MainWindow.WinLeft = 110;
         MainWindow.WinTop = 8;
         MainWindow.WinWidth = 420;
-        MainWindow.OnEnter = _ => UnitWinEnter();
-        MainWindow.OnExit = _ => UnitWinExit();
+        MainWindow.OnEnter += _ => UnitWinEnter();
+        MainWindow.OnExit += _ => UnitWinExit();
         MainWindow.Masked = true;
-        MainWindow.OnHide = _ => UnitWinShow();
-        MainWindow.OnShow = _ => UnitWinShow();
+        MainWindow.OnHide += _ => UnitWinShow();
+        MainWindow.OnShow += _ => UnitWinShow();
         MainWindow.Alignment.AlignWidth = AlignWidth.Center;
         MainWindow.Alignment.AlignHeight = AlignHeight.Center;
         MainWindow.Alignment.HeightPercent = 0;
@@ -60,8 +60,8 @@ public partial class UnitWindow : ILayoutModule
         MainWindow.DragHeight = 20;
         MainWindow.Draggable = true;
         MainWindow.Resizable = false;
-        MainWindow.OnDrag = _ => UnitWinResize();
-        MainWindow.OnResize = _ => UnitWinResize();
+        MainWindow.OnDrag += _ => UnitWinResize();
+        MainWindow.OnResize += _ => UnitWinResize();
         MainWindow.MinWidth = 420;
         MainWindow.MinHeight = 417;
         MainWindow.MaxWidth = 0;
@@ -120,7 +120,7 @@ public partial class UnitWindow : ILayoutModule
         UnitTabs.Alignment.BottomOffset = 0;
         UnitTabs.Masked = true;
         UnitTabs.BorderHeight = 6;
-        UnitTabs.OnChange = _ => UnitTabChange();
+        UnitTabs.OnChange += _ => UnitTabChange();
         UnitTabs.Selected = -1;
         UnitTabs.WinWidth = 379;
         UnitTabs.TextColor = 0;
@@ -161,7 +161,7 @@ public partial class UnitWindow : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => CloseClick();
+        close.OnClick += _ => CloseClick();
         session.EndRead(close);
         Label title = new Label(this);
         session.BeginRead(title);
@@ -219,7 +219,7 @@ public partial class UnitWindow : ILayoutModule
         help.TextColor = 0;
         help.TextSelectedColor = 0;
         help.WinWidth = 15;
-        help.OnClick = _ => HelpClick();
+        help.OnClick += _ => HelpClick();
         session.EndRead(help);
         Image titleIcon = new Image(this);
         session.BeginRead(titleIcon);
@@ -278,7 +278,7 @@ public partial class UnitWindow : ILayoutModule
         BottomCloseButton.TextColor = 0;
         BottomCloseButton.TextSelectedColor = 16777215;
         BottomCloseButton.WinWidth = 119;
-        BottomCloseButton.OnClick = _ => CloseClick();
+        BottomCloseButton.OnClick += _ => CloseClick();
         session.EndRead(BottomCloseButton);
         Image celtLineR = new Image(this);
         session.BeginRead(celtLineR);
@@ -403,7 +403,7 @@ public partial class UnitWindow : ILayoutModule
         AbilityAbilityList = new ListBox(this);
         session.BeginRead(AbilityAbilityList);
         AbilityAbilityList.Name = "T1AbilityLB";
-        AbilityAbilityList.OnMouseDown = (_, button, shift, x, y) => T1AbilityLBMouseDown(button, shift, x, y);
+        AbilityAbilityList.OnMouseDown += (_, button, shift, x, y) => T1AbilityLBMouseDown(button, shift, x, y);
         AbilityAbilityList.Priority = 100;
         AbilityAbilityList.WinLeft = 1;
         AbilityAbilityList.WinTop = 14;
@@ -425,10 +425,10 @@ public partial class UnitWindow : ILayoutModule
         AbilityAbilityList.WinHeight = 141;
         AbilityAbilityList.BorderWidth = 4;
         AbilityAbilityList.BorderHeight = 4;
-        AbilityAbilityList.OnChange = T1AbilityLBChange;
-        AbilityAbilityList.OnDoubleClick = _ => Layout_UseAbility_0();
+        AbilityAbilityList.OnChange += T1AbilityLBChange;
+        AbilityAbilityList.OnDoubleClick += _ => UseAbility();
         AbilityAbilityList.Selected = -1;
-        AbilityAbilityList.OnPreDrawItem = PreDrawAbilityItem;
+        AbilityAbilityList.OnPreDrawItem += PreDrawAbilityItem;
         AbilityAbilityList.TextColor = 14679807;
         AbilityAbilityList.TextSelectedColor = 0;
         AbilityAbilityList.ImageLibraryIndexFrame = 113;
@@ -466,7 +466,7 @@ public partial class UnitWindow : ILayoutModule
         AbilityUseButton.TextColor = 0;
         AbilityUseButton.TextSelectedColor = 16777215;
         AbilityUseButton.WinWidth = 250;
-        AbilityUseButton.OnClick = _ => Layout_UseAbility_0();
+        AbilityUseButton.OnClick += _ => UseAbility();
         session.EndRead(AbilityUseButton);
         Button t1SortName = new Button(this);
         session.BeginRead(t1SortName);
@@ -497,7 +497,7 @@ public partial class UnitWindow : ILayoutModule
         t1SortName.TextColor = 0;
         t1SortName.TextSelectedColor = 16777215;
         t1SortName.WinWidth = 168;
-        t1SortName.OnClick = _ => Layout_T1SortNameClick_1();
+        t1SortName.OnClick += _ => T1SortNameClick(default(int));
         session.EndRead(t1SortName);
         Button t1SortType = new Button(this);
         session.BeginRead(t1SortType);
@@ -528,7 +528,7 @@ public partial class UnitWindow : ILayoutModule
         t1SortType.TextColor = 0;
         t1SortType.TextSelectedColor = 16777215;
         t1SortType.WinWidth = 85;
-        t1SortType.OnClick = _ => Layout_T1SortTypeClick_2();
+        t1SortType.OnClick += _ => T1SortTypeClick(default(int));
         session.EndRead(t1SortType);
         Button t1SortSource = new Button(this);
         session.BeginRead(t1SortSource);
@@ -559,7 +559,7 @@ public partial class UnitWindow : ILayoutModule
         t1SortSource.TextColor = 0;
         t1SortSource.TextSelectedColor = 16777215;
         t1SortSource.WinWidth = 118;
-        t1SortSource.OnClick = _ => Layout_T1SortSourceClick_3();
+        t1SortSource.OnClick += _ => T1SortSourceClick(default(int));
         session.EndRead(t1SortSource);
         Label t1UseMsg = new Label(this);
         session.BeginRead(t1UseMsg);
@@ -643,7 +643,7 @@ public partial class UnitWindow : ILayoutModule
         AbilityTypeList = new ListBox(this);
         session.BeginRead(AbilityTypeList);
         AbilityTypeList.Name = "T1TypeLB";
-        AbilityTypeList.OnMouseDown = (_, button, shift, x, y) => T1AbilityLBMouseDown(button, shift, x, y);
+        AbilityTypeList.OnMouseDown += (_, button, shift, x, y) => T1AbilityLBMouseDown(button, shift, x, y);
         AbilityTypeList.Priority = 80;
         AbilityTypeList.WinLeft = 164;
         AbilityTypeList.WinTop = 14;
@@ -665,10 +665,10 @@ public partial class UnitWindow : ILayoutModule
         AbilityTypeList.WinHeight = 141;
         AbilityTypeList.BorderWidth = 4;
         AbilityTypeList.BorderHeight = 4;
-        AbilityTypeList.OnChange = T1AbilityLBChange;
-        AbilityTypeList.OnDoubleClick = _ => Layout_UseAbility_0();
+        AbilityTypeList.OnChange += T1AbilityLBChange;
+        AbilityTypeList.OnDoubleClick += _ => UseAbility();
         AbilityTypeList.Selected = -1;
-        AbilityTypeList.OnPreDrawItem = PreDrawAbilityItem;
+        AbilityTypeList.OnPreDrawItem += PreDrawAbilityItem;
         AbilityTypeList.TextColor = 9415072;
         AbilityTypeList.TextSelectedColor = 0;
         AbilityTypeList.ImageLibraryIndexFrame = 113;
@@ -680,7 +680,7 @@ public partial class UnitWindow : ILayoutModule
         AbilitySourceList = new ListBox(this);
         session.BeginRead(AbilitySourceList);
         AbilitySourceList.Name = "T1SrcLB";
-        AbilitySourceList.OnMouseDown = (_, button, shift, x, y) => T1AbilityLBMouseDown(button, shift, x, y);
+        AbilitySourceList.OnMouseDown += (_, button, shift, x, y) => T1AbilityLBMouseDown(button, shift, x, y);
         AbilitySourceList.Priority = 40;
         AbilitySourceList.WinLeft = 248;
         AbilitySourceList.WinTop = 14;
@@ -702,10 +702,10 @@ public partial class UnitWindow : ILayoutModule
         AbilitySourceList.WinHeight = 141;
         AbilitySourceList.BorderWidth = 4;
         AbilitySourceList.BorderHeight = 4;
-        AbilitySourceList.OnChange = T1AbilityLBChange;
-        AbilitySourceList.OnDoubleClick = _ => Layout_UseAbility_0();
+        AbilitySourceList.OnChange += T1AbilityLBChange;
+        AbilitySourceList.OnDoubleClick += _ => UseAbility();
         AbilitySourceList.Selected = -1;
-        AbilitySourceList.OnPreDrawItem = PreDrawAbilityItem;
+        AbilitySourceList.OnPreDrawItem += PreDrawAbilityItem;
         AbilitySourceList.TextColor = 9415072;
         AbilitySourceList.TextSelectedColor = 0;
         AbilitySourceList.ImageLibraryIndexFrame = 113;
@@ -770,7 +770,7 @@ public partial class UnitWindow : ILayoutModule
         AbilityScrollBar.WinHeight = 141;
         AbilityScrollBar.WinWidth = 17;
         AbilityScrollBar.NumberVisible = 1;
-        AbilityScrollBar.OnChange = _ => T1SbarChange();
+        AbilityScrollBar.OnChange += _ => T1SbarChange();
         AbilityScrollBar.VanishWhenFull = true;
         AbilityScrollBar.ImageLibraryIndexIncrementUp = 96;
         AbilityScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -1389,8 +1389,8 @@ public partial class UnitWindow : ILayoutModule
         Backpack1CheckBox = new CheckBox(this);
         session.BeginRead(Backpack1CheckBox);
         Backpack1CheckBox.Name = "BP1";
-        Backpack1CheckBox.OnMouseDown = Gnd3MouseDown;
-        Backpack1CheckBox.OnDraw = Gnd1Draw;
+        Backpack1CheckBox.OnMouseDown += Gnd3MouseDown;
+        Backpack1CheckBox.OnDraw += Gnd1Draw;
         Backpack1CheckBox.Priority = 1000;
         Backpack1CheckBox.WinLeft = 10;
         Backpack1CheckBox.WinTop = 29;
@@ -1421,7 +1421,7 @@ public partial class UnitWindow : ILayoutModule
         Backpack1CheckBox.TextSelectedColor = 0;
         Backpack1CheckBox.WinWidth = 41;
         Backpack1CheckBox.Checked = false;
-        Backpack1CheckBox.OnChange = Gnd1Change;
+        Backpack1CheckBox.OnChange += Gnd1Change;
         Backpack1CheckBox.RadioIndex = 1;
         session.EndRead(Backpack1CheckBox);
         Label bpLbl1 = new Label(this);
@@ -1451,8 +1451,8 @@ public partial class UnitWindow : ILayoutModule
         Backpack2CheckBox = new CheckBox(this);
         session.BeginRead(Backpack2CheckBox);
         Backpack2CheckBox.Name = "BP2";
-        Backpack2CheckBox.OnMouseDown = Gnd3MouseDown;
-        Backpack2CheckBox.OnDraw = Gnd1Draw;
+        Backpack2CheckBox.OnMouseDown += Gnd3MouseDown;
+        Backpack2CheckBox.OnDraw += Gnd1Draw;
         Backpack2CheckBox.Priority = 1000;
         Backpack2CheckBox.WinLeft = 10;
         Backpack2CheckBox.WinTop = 71;
@@ -1483,14 +1483,14 @@ public partial class UnitWindow : ILayoutModule
         Backpack2CheckBox.TextSelectedColor = 0;
         Backpack2CheckBox.WinWidth = 41;
         Backpack2CheckBox.Checked = false;
-        Backpack2CheckBox.OnChange = Gnd1Change;
+        Backpack2CheckBox.OnChange += Gnd1Change;
         Backpack2CheckBox.RadioIndex = 1;
         session.EndRead(Backpack2CheckBox);
         Backpack3CheckBox = new CheckBox(this);
         session.BeginRead(Backpack3CheckBox);
         Backpack3CheckBox.Name = "BP3";
-        Backpack3CheckBox.OnMouseDown = Gnd3MouseDown;
-        Backpack3CheckBox.OnDraw = Gnd1Draw;
+        Backpack3CheckBox.OnMouseDown += Gnd3MouseDown;
+        Backpack3CheckBox.OnDraw += Gnd1Draw;
         Backpack3CheckBox.Priority = 1000;
         Backpack3CheckBox.WinLeft = 10;
         Backpack3CheckBox.WinTop = 113;
@@ -1521,14 +1521,14 @@ public partial class UnitWindow : ILayoutModule
         Backpack3CheckBox.TextSelectedColor = 0;
         Backpack3CheckBox.WinWidth = 41;
         Backpack3CheckBox.Checked = false;
-        Backpack3CheckBox.OnChange = Gnd1Change;
+        Backpack3CheckBox.OnChange += Gnd1Change;
         Backpack3CheckBox.RadioIndex = 1;
         session.EndRead(Backpack3CheckBox);
         Backpack4CheckBox = new CheckBox(this);
         session.BeginRead(Backpack4CheckBox);
         Backpack4CheckBox.Name = "BP4";
-        Backpack4CheckBox.OnMouseDown = Gnd3MouseDown;
-        Backpack4CheckBox.OnDraw = Gnd1Draw;
+        Backpack4CheckBox.OnMouseDown += Gnd3MouseDown;
+        Backpack4CheckBox.OnDraw += Gnd1Draw;
         Backpack4CheckBox.Priority = 1000;
         Backpack4CheckBox.WinLeft = 10;
         Backpack4CheckBox.WinTop = 155;
@@ -1559,14 +1559,14 @@ public partial class UnitWindow : ILayoutModule
         Backpack4CheckBox.TextSelectedColor = 0;
         Backpack4CheckBox.WinWidth = 41;
         Backpack4CheckBox.Checked = false;
-        Backpack4CheckBox.OnChange = Gnd1Change;
+        Backpack4CheckBox.OnChange += Gnd1Change;
         Backpack4CheckBox.RadioIndex = 1;
         session.EndRead(Backpack4CheckBox);
         Backpack5CheckBox = new CheckBox(this);
         session.BeginRead(Backpack5CheckBox);
         Backpack5CheckBox.Name = "BP5";
-        Backpack5CheckBox.OnMouseDown = Gnd3MouseDown;
-        Backpack5CheckBox.OnDraw = Gnd1Draw;
+        Backpack5CheckBox.OnMouseDown += Gnd3MouseDown;
+        Backpack5CheckBox.OnDraw += Gnd1Draw;
         Backpack5CheckBox.Priority = 1000;
         Backpack5CheckBox.WinLeft = 325;
         Backpack5CheckBox.WinTop = 29;
@@ -1597,14 +1597,14 @@ public partial class UnitWindow : ILayoutModule
         Backpack5CheckBox.TextSelectedColor = 0;
         Backpack5CheckBox.WinWidth = 41;
         Backpack5CheckBox.Checked = false;
-        Backpack5CheckBox.OnChange = Gnd1Change;
+        Backpack5CheckBox.OnChange += Gnd1Change;
         Backpack5CheckBox.RadioIndex = 1;
         session.EndRead(Backpack5CheckBox);
         Backpack6CheckBox = new CheckBox(this);
         session.BeginRead(Backpack6CheckBox);
         Backpack6CheckBox.Name = "BP6";
-        Backpack6CheckBox.OnMouseDown = Gnd3MouseDown;
-        Backpack6CheckBox.OnDraw = Gnd1Draw;
+        Backpack6CheckBox.OnMouseDown += Gnd3MouseDown;
+        Backpack6CheckBox.OnDraw += Gnd1Draw;
         Backpack6CheckBox.Priority = 1000;
         Backpack6CheckBox.WinLeft = 325;
         Backpack6CheckBox.WinTop = 71;
@@ -1635,14 +1635,14 @@ public partial class UnitWindow : ILayoutModule
         Backpack6CheckBox.TextSelectedColor = 0;
         Backpack6CheckBox.WinWidth = 41;
         Backpack6CheckBox.Checked = false;
-        Backpack6CheckBox.OnChange = Gnd1Change;
+        Backpack6CheckBox.OnChange += Gnd1Change;
         Backpack6CheckBox.RadioIndex = 1;
         session.EndRead(Backpack6CheckBox);
         Backpack7CheckBox = new CheckBox(this);
         session.BeginRead(Backpack7CheckBox);
         Backpack7CheckBox.Name = "BP7";
-        Backpack7CheckBox.OnMouseDown = Gnd3MouseDown;
-        Backpack7CheckBox.OnDraw = Gnd1Draw;
+        Backpack7CheckBox.OnMouseDown += Gnd3MouseDown;
+        Backpack7CheckBox.OnDraw += Gnd1Draw;
         Backpack7CheckBox.Priority = 1000;
         Backpack7CheckBox.WinLeft = 325;
         Backpack7CheckBox.WinTop = 113;
@@ -1673,14 +1673,14 @@ public partial class UnitWindow : ILayoutModule
         Backpack7CheckBox.TextSelectedColor = 0;
         Backpack7CheckBox.WinWidth = 41;
         Backpack7CheckBox.Checked = false;
-        Backpack7CheckBox.OnChange = Gnd1Change;
+        Backpack7CheckBox.OnChange += Gnd1Change;
         Backpack7CheckBox.RadioIndex = 1;
         session.EndRead(Backpack7CheckBox);
         Backpack8CheckBox = new CheckBox(this);
         session.BeginRead(Backpack8CheckBox);
         Backpack8CheckBox.Name = "BP8";
-        Backpack8CheckBox.OnMouseDown = Gnd3MouseDown;
-        Backpack8CheckBox.OnDraw = Gnd1Draw;
+        Backpack8CheckBox.OnMouseDown += Gnd3MouseDown;
+        Backpack8CheckBox.OnDraw += Gnd1Draw;
         Backpack8CheckBox.Priority = 1000;
         Backpack8CheckBox.WinLeft = 325;
         Backpack8CheckBox.WinTop = 155;
@@ -1711,7 +1711,7 @@ public partial class UnitWindow : ILayoutModule
         Backpack8CheckBox.TextSelectedColor = 0;
         Backpack8CheckBox.WinWidth = 41;
         Backpack8CheckBox.Checked = false;
-        Backpack8CheckBox.OnChange = Gnd1Change;
+        Backpack8CheckBox.OnChange += Gnd1Change;
         Backpack8CheckBox.RadioIndex = 1;
         session.EndRead(Backpack8CheckBox);
         Label bpLbl2 = new Label(this);
@@ -1764,8 +1764,8 @@ public partial class UnitWindow : ILayoutModule
         HeadSlotCheckBox = new CheckBox(this);
         session.BeginRead(HeadSlotCheckBox);
         HeadSlotCheckBox.Name = "Head";
-        HeadSlotCheckBox.OnMouseDown = Gnd3MouseDown;
-        HeadSlotCheckBox.OnDraw = HeadDraw;
+        HeadSlotCheckBox.OnMouseDown += Gnd3MouseDown;
+        HeadSlotCheckBox.OnDraw += HeadDraw;
         HeadSlotCheckBox.Priority = 500;
         HeadSlotCheckBox.WinLeft = 168;
         HeadSlotCheckBox.WinTop = 25;
@@ -1797,14 +1797,14 @@ public partial class UnitWindow : ILayoutModule
         HeadSlotCheckBox.TextSelectedColor = 0;
         HeadSlotCheckBox.WinWidth = 41;
         HeadSlotCheckBox.Checked = false;
-        HeadSlotCheckBox.OnChange = Gnd1Change;
+        HeadSlotCheckBox.OnChange += Gnd1Change;
         HeadSlotCheckBox.RadioIndex = 1;
         session.EndRead(HeadSlotCheckBox);
         TorsoSlotCheckBox = new CheckBox(this);
         session.BeginRead(TorsoSlotCheckBox);
         TorsoSlotCheckBox.Name = "Torso";
-        TorsoSlotCheckBox.OnMouseDown = Gnd3MouseDown;
-        TorsoSlotCheckBox.OnDraw = TorsoDraw;
+        TorsoSlotCheckBox.OnMouseDown += Gnd3MouseDown;
+        TorsoSlotCheckBox.OnDraw += TorsoDraw;
         TorsoSlotCheckBox.Priority = 500;
         TorsoSlotCheckBox.WinLeft = 168;
         TorsoSlotCheckBox.WinTop = 84;
@@ -1835,14 +1835,14 @@ public partial class UnitWindow : ILayoutModule
         TorsoSlotCheckBox.TextSelectedColor = 0;
         TorsoSlotCheckBox.WinWidth = 41;
         TorsoSlotCheckBox.Checked = false;
-        TorsoSlotCheckBox.OnChange = Gnd1Change;
+        TorsoSlotCheckBox.OnChange += Gnd1Change;
         TorsoSlotCheckBox.RadioIndex = 1;
         session.EndRead(TorsoSlotCheckBox);
         AttackSlotCheckBox = new CheckBox(this);
         session.BeginRead(AttackSlotCheckBox);
         AttackSlotCheckBox.Name = "Attack";
-        AttackSlotCheckBox.OnMouseDown = Gnd3MouseDown;
-        AttackSlotCheckBox.OnDraw = AttackDraw;
+        AttackSlotCheckBox.OnMouseDown += Gnd3MouseDown;
+        AttackSlotCheckBox.OnDraw += AttackDraw;
         AttackSlotCheckBox.Priority = 500;
         AttackSlotCheckBox.WinLeft = 78;
         AttackSlotCheckBox.WinTop = 46;
@@ -1873,14 +1873,14 @@ public partial class UnitWindow : ILayoutModule
         AttackSlotCheckBox.TextSelectedColor = 0;
         AttackSlotCheckBox.WinWidth = 41;
         AttackSlotCheckBox.Checked = false;
-        AttackSlotCheckBox.OnChange = Gnd1Change;
+        AttackSlotCheckBox.OnChange += Gnd1Change;
         AttackSlotCheckBox.RadioIndex = 1;
         session.EndRead(AttackSlotCheckBox);
         DefendSlotCheckBox = new CheckBox(this);
         session.BeginRead(DefendSlotCheckBox);
         DefendSlotCheckBox.Name = "Defend";
-        DefendSlotCheckBox.OnMouseDown = Gnd3MouseDown;
-        DefendSlotCheckBox.OnDraw = DefendDraw;
+        DefendSlotCheckBox.OnMouseDown += Gnd3MouseDown;
+        DefendSlotCheckBox.OnDraw += DefendDraw;
         DefendSlotCheckBox.Priority = 500;
         DefendSlotCheckBox.WinLeft = 256;
         DefendSlotCheckBox.WinTop = 46;
@@ -1911,14 +1911,14 @@ public partial class UnitWindow : ILayoutModule
         DefendSlotCheckBox.TextSelectedColor = 0;
         DefendSlotCheckBox.WinWidth = 41;
         DefendSlotCheckBox.Checked = false;
-        DefendSlotCheckBox.OnChange = Gnd1Change;
+        DefendSlotCheckBox.OnChange += Gnd1Change;
         DefendSlotCheckBox.RadioIndex = 1;
         session.EndRead(DefendSlotCheckBox);
         LeftRingCheckBox = new CheckBox(this);
         session.BeginRead(LeftRingCheckBox);
         LeftRingCheckBox.Name = "RingL";
-        LeftRingCheckBox.OnMouseDown = Gnd3MouseDown;
-        LeftRingCheckBox.OnDraw = RingLDraw;
+        LeftRingCheckBox.OnMouseDown += Gnd3MouseDown;
+        LeftRingCheckBox.OnDraw += RingLDraw;
         LeftRingCheckBox.Priority = 500;
         LeftRingCheckBox.WinLeft = 230;
         LeftRingCheckBox.WinTop = 95;
@@ -1949,14 +1949,14 @@ public partial class UnitWindow : ILayoutModule
         LeftRingCheckBox.TextSelectedColor = 0;
         LeftRingCheckBox.WinWidth = 41;
         LeftRingCheckBox.Checked = false;
-        LeftRingCheckBox.OnChange = Gnd1Change;
+        LeftRingCheckBox.OnChange += Gnd1Change;
         LeftRingCheckBox.RadioIndex = 1;
         session.EndRead(LeftRingCheckBox);
         RightRingCheckBox = new CheckBox(this);
         session.BeginRead(RightRingCheckBox);
         RightRingCheckBox.Name = "RingR";
-        RightRingCheckBox.OnMouseDown = Gnd3MouseDown;
-        RightRingCheckBox.OnDraw = RingLDraw;
+        RightRingCheckBox.OnMouseDown += Gnd3MouseDown;
+        RightRingCheckBox.OnDraw += RingLDraw;
         RightRingCheckBox.Priority = 500;
         RightRingCheckBox.WinLeft = 105;
         RightRingCheckBox.WinTop = 95;
@@ -1988,14 +1988,14 @@ public partial class UnitWindow : ILayoutModule
         RightRingCheckBox.TextSelectedColor = 0;
         RightRingCheckBox.WinWidth = 41;
         RightRingCheckBox.Checked = false;
-        RightRingCheckBox.OnChange = Gnd1Change;
+        RightRingCheckBox.OnChange += Gnd1Change;
         RightRingCheckBox.RadioIndex = 1;
         session.EndRead(RightRingCheckBox);
         Ground3CheckBox = new CheckBox(this);
         session.BeginRead(Ground3CheckBox);
         Ground3CheckBox.Name = "Gnd3";
-        Ground3CheckBox.OnMouseDown = Gnd3MouseDown;
-        Ground3CheckBox.OnDraw = Gnd1Draw;
+        Ground3CheckBox.OnMouseDown += Gnd3MouseDown;
+        Ground3CheckBox.OnDraw += Gnd1Draw;
         Ground3CheckBox.Priority = 1000;
         Ground3CheckBox.WinLeft = 168;
         Ground3CheckBox.WinTop = 155;
@@ -2026,14 +2026,14 @@ public partial class UnitWindow : ILayoutModule
         Ground3CheckBox.TextSelectedColor = 0;
         Ground3CheckBox.WinWidth = 41;
         Ground3CheckBox.Checked = false;
-        Ground3CheckBox.OnChange = Gnd1Change;
+        Ground3CheckBox.OnChange += Gnd1Change;
         Ground3CheckBox.RadioIndex = 1;
         session.EndRead(Ground3CheckBox);
         Ground2CheckBox = new CheckBox(this);
         session.BeginRead(Ground2CheckBox);
         Ground2CheckBox.Name = "Gnd2";
-        Ground2CheckBox.OnMouseDown = Gnd3MouseDown;
-        Ground2CheckBox.OnDraw = Gnd1Draw;
+        Ground2CheckBox.OnMouseDown += Gnd3MouseDown;
+        Ground2CheckBox.OnDraw += Gnd1Draw;
         Ground2CheckBox.Priority = 1000;
         Ground2CheckBox.WinLeft = 124;
         Ground2CheckBox.WinTop = 155;
@@ -2064,14 +2064,14 @@ public partial class UnitWindow : ILayoutModule
         Ground2CheckBox.TextSelectedColor = 0;
         Ground2CheckBox.WinWidth = 41;
         Ground2CheckBox.Checked = false;
-        Ground2CheckBox.OnChange = Gnd1Change;
+        Ground2CheckBox.OnChange += Gnd1Change;
         Ground2CheckBox.RadioIndex = 1;
         session.EndRead(Ground2CheckBox);
         Ground1CheckBox = new CheckBox(this);
         session.BeginRead(Ground1CheckBox);
         Ground1CheckBox.Name = "Gnd1";
-        Ground1CheckBox.OnMouseDown = Gnd3MouseDown;
-        Ground1CheckBox.OnDraw = Gnd1Draw;
+        Ground1CheckBox.OnMouseDown += Gnd3MouseDown;
+        Ground1CheckBox.OnDraw += Gnd1Draw;
         Ground1CheckBox.Priority = 1000;
         Ground1CheckBox.WinLeft = 80;
         Ground1CheckBox.WinTop = 155;
@@ -2102,14 +2102,14 @@ public partial class UnitWindow : ILayoutModule
         Ground1CheckBox.TextSelectedColor = 0;
         Ground1CheckBox.WinWidth = 41;
         Ground1CheckBox.Checked = false;
-        Ground1CheckBox.OnChange = Gnd1Change;
+        Ground1CheckBox.OnChange += Gnd1Change;
         Ground1CheckBox.RadioIndex = 1;
         session.EndRead(Ground1CheckBox);
         Ground4CheckBox = new CheckBox(this);
         session.BeginRead(Ground4CheckBox);
         Ground4CheckBox.Name = "Gnd4";
-        Ground4CheckBox.OnMouseDown = Gnd3MouseDown;
-        Ground4CheckBox.OnDraw = Gnd1Draw;
+        Ground4CheckBox.OnMouseDown += Gnd3MouseDown;
+        Ground4CheckBox.OnDraw += Gnd1Draw;
         Ground4CheckBox.Priority = 1000;
         Ground4CheckBox.WinLeft = 212;
         Ground4CheckBox.WinTop = 155;
@@ -2140,14 +2140,14 @@ public partial class UnitWindow : ILayoutModule
         Ground4CheckBox.TextSelectedColor = 0;
         Ground4CheckBox.WinWidth = 41;
         Ground4CheckBox.Checked = false;
-        Ground4CheckBox.OnChange = Gnd1Change;
+        Ground4CheckBox.OnChange += Gnd1Change;
         Ground4CheckBox.RadioIndex = 1;
         session.EndRead(Ground4CheckBox);
         Ground5CheckBox = new CheckBox(this);
         session.BeginRead(Ground5CheckBox);
         Ground5CheckBox.Name = "Gnd5";
-        Ground5CheckBox.OnMouseDown = Gnd3MouseDown;
-        Ground5CheckBox.OnDraw = Gnd1Draw;
+        Ground5CheckBox.OnMouseDown += Gnd3MouseDown;
+        Ground5CheckBox.OnDraw += Gnd1Draw;
         Ground5CheckBox.Priority = 1000;
         Ground5CheckBox.WinLeft = 256;
         Ground5CheckBox.WinTop = 155;
@@ -2178,7 +2178,7 @@ public partial class UnitWindow : ILayoutModule
         Ground5CheckBox.TextSelectedColor = 0;
         Ground5CheckBox.WinWidth = 41;
         Ground5CheckBox.Checked = false;
-        Ground5CheckBox.OnChange = Gnd1Change;
+        Ground5CheckBox.OnChange += Gnd1Change;
         Ground5CheckBox.RadioIndex = 1;
         session.EndRead(Ground5CheckBox);
         Label gndLbl = new Label(this);
@@ -2261,7 +2261,7 @@ public partial class UnitWindow : ILayoutModule
         DisbandButton.TextColor = 89;
         DisbandButton.TextSelectedColor = 16777215;
         DisbandButton.WinWidth = 119;
-        DisbandButton.OnClick = _ => Layout_DisbandBtnClick_4();
+        DisbandButton.OnClick += _ => DisbandBtnClick();
         session.EndRead(DisbandButton);
         Panel itemUsePnl = new Panel(this);
         session.BeginRead(itemUsePnl);
@@ -2323,7 +2323,7 @@ public partial class UnitWindow : ILayoutModule
         ItemUseButton.TextColor = 0;
         ItemUseButton.TextSelectedColor = 16777215;
         ItemUseButton.WinWidth = 210;
-        ItemUseButton.OnClick = _ => UseItemClick();
+        ItemUseButton.OnClick += _ => UseItemClick();
         session.EndRead(ItemUseButton);
         Image itemPic = new Image(this);
         session.BeginRead(itemPic);
@@ -2967,7 +2967,7 @@ public partial class UnitWindow : ILayoutModule
         Image frLSh = new Image(this);
         session.BeginRead(frLSh);
         frLSh.Name = "FrLSh";
-        frLSh.OnPreDraw = FrLShPreDraw;
+        frLSh.OnPreDraw += FrLShPreDraw;
         frLSh.Priority = 100;
         frLSh.WinLeft = 1;
         frLSh.WinTop = 0;
@@ -2996,7 +2996,7 @@ public partial class UnitWindow : ILayoutModule
         Image frRSh = new Image(this);
         session.BeginRead(frRSh);
         frRSh.Name = "FrRSh";
-        frRSh.OnPreDraw = FrRShPreDraw;
+        frRSh.OnPreDraw += FrRShPreDraw;
         frRSh.Priority = 100;
         frRSh.WinLeft = 260;
         frRSh.WinTop = 0;
@@ -3221,7 +3221,7 @@ public partial class UnitWindow : ILayoutModule
         GroundPreviousButton.TextColor = 0;
         GroundPreviousButton.TextSelectedColor = 0;
         GroundPreviousButton.WinWidth = 13;
-        GroundPreviousButton.OnClick = _ => GroundLClick();
+        GroundPreviousButton.OnClick += _ => GroundLClick();
         session.EndRead(GroundPreviousButton);
         GroundNextButton = new Button(this);
         session.BeginRead(GroundNextButton);
@@ -3256,7 +3256,7 @@ public partial class UnitWindow : ILayoutModule
         GroundNextButton.TextColor = 0;
         GroundNextButton.TextSelectedColor = 0;
         GroundNextButton.WinWidth = 13;
-        GroundNextButton.OnClick = _ => GroundRClick();
+        GroundNextButton.OnClick += _ => GroundRClick();
         session.EndRead(GroundNextButton);
         RelationIcon = new Image(this);
         session.BeginRead(RelationIcon);
@@ -3517,7 +3517,7 @@ public partial class UnitWindow : ILayoutModule
         NextUnitButton.TextColor = 0;
         NextUnitButton.TextSelectedColor = 16777215;
         NextUnitButton.WinWidth = 12;
-        NextUnitButton.OnClick = _ => Layout_PNextClick_5();
+        NextUnitButton.OnClick += _ => PNextClick();
         session.EndRead(NextUnitButton);
         PreviousUnitButton = new Button(this);
         session.BeginRead(PreviousUnitButton);
@@ -3551,7 +3551,7 @@ public partial class UnitWindow : ILayoutModule
         PreviousUnitButton.TextColor = 0;
         PreviousUnitButton.TextSelectedColor = 16777215;
         PreviousUnitButton.WinWidth = 12;
-        PreviousUnitButton.OnClick = _ => Layout_PPrevClick_6();
+        PreviousUnitButton.OnClick += _ => PPrevClick();
         session.EndRead(PreviousUnitButton);
         LayoutIvTranslator translator = new LayoutIvTranslator(this);
         session.BeginRead(translator);
@@ -3999,40 +3999,5 @@ public partial class UnitWindow : ILayoutModule
         PreviousUnitButton.ImageLibraryIcon = DialogHosts.UIGraphics.CampaignTransfer;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
-    }
-
-    private void Layout_UseAbility_0()
-    {
-        UseAbility();
-    }
-
-    private void Layout_T1SortNameClick_1()
-    {
-        T1SortNameClick(default(int));
-    }
-
-    private void Layout_T1SortTypeClick_2()
-    {
-        T1SortTypeClick(default(int));
-    }
-
-    private void Layout_T1SortSourceClick_3()
-    {
-        T1SortSourceClick(default(int));
-    }
-
-    private void Layout_DisbandBtnClick_4()
-    {
-        DisbandBtnClick();
-    }
-
-    private void Layout_PNextClick_5()
-    {
-        PNextClick();
-    }
-
-    private void Layout_PPrevClick_6()
-    {
-        PPrevClick();
     }
 }

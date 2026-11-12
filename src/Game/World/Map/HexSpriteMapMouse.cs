@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // the mouse of a map. FHSMap, FX, FY (the position in the view port in pixels, Low(Integer)
-// when outside), _button, FOnUp, FOnDown, FOnMove, FOnDoubleClick, FOnCaptureChanged, _capture
+// when outside), _button, ButtonUp, ButtonDown, Moved, DoubleClicked, CaptureChanged, _capture
 // (the object that gets the mouse events), FStatus, FCursor, FCursorMode, FIgnoreDown, FShift,
 // FCursorVisible (and are used by the game only)
 public partial class HexSpriteMapMouse : IDisposable
@@ -29,7 +29,7 @@ public partial class HexSpriteMapMouse : IDisposable
 
     internal EventStore<HexSpriteMapMouse> OnUpStore { get; }
 
-    internal event NotifyEvent<HexSpriteMapMouse> FOnUp
+    internal event NotifyEvent<HexSpriteMapMouse> ButtonUp
     {
         add => OnUpStore.Add(value);
         remove => OnUpStore.Remove(value);
@@ -37,7 +37,7 @@ public partial class HexSpriteMapMouse : IDisposable
 
     internal EventStore<HexSpriteMapMouse> OnDownStore { get; }
 
-    internal event NotifyEvent<HexSpriteMapMouse> FOnDown
+    internal event NotifyEvent<HexSpriteMapMouse> ButtonDown
     {
         add => OnDownStore.Add(value);
         remove => OnDownStore.Remove(value);
@@ -45,7 +45,7 @@ public partial class HexSpriteMapMouse : IDisposable
 
     internal EventStore<HexSpriteMapMouse> OnMoveStore { get; }
 
-    internal event NotifyEvent<HexSpriteMapMouse> FOnMove
+    internal event NotifyEvent<HexSpriteMapMouse> Moved
     {
         add => OnMoveStore.Add(value);
         remove => OnMoveStore.Remove(value);
@@ -53,7 +53,7 @@ public partial class HexSpriteMapMouse : IDisposable
 
     internal EventStore<HexSpriteMapMouse> OnDoubleClickStore { get; }
 
-    internal event NotifyEvent<HexSpriteMapMouse> FOnDoubleClick
+    internal event NotifyEvent<HexSpriteMapMouse> DoubleClicked
     {
         add => OnDoubleClickStore.Add(value);
         remove => OnDoubleClickStore.Remove(value);
@@ -61,7 +61,7 @@ public partial class HexSpriteMapMouse : IDisposable
 
     internal EventStore<HexSpriteMapMouse> OnCaptureChangedStore { get; }
 
-    internal event NotifyEvent<HexSpriteMapMouse> FOnCaptureChanged
+    internal event NotifyEvent<HexSpriteMapMouse> CaptureChanged
     {
         add => OnCaptureChangedStore.Add(value);
         remove => OnCaptureChangedStore.Remove(value);

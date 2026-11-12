@@ -12,7 +12,7 @@ public partial class CustomImageLibrary : Component
 {
 
     private Set<ImageLibraryStatusElement> _status;
-    private NotifyEvent<object> _onChange;
+    public event NotifyEvent<object> OnChange;
     private byte _changeLock;
     private bool _reloading;
     private bool _loadOnDemand;
@@ -451,10 +451,10 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:9798
     public virtual void CallOnChangeEvent()
     {
-        if (_changeLock == 0 && _onChange != null && !ComponentState.Contains(Rtl.ComponentState.Destroying) && !ComponentState.Contains(Rtl.ComponentState.Reading))
+        if (_changeLock == 0 && OnChange != null && !ComponentState.Contains(Rtl.ComponentState.Destroying) && !ComponentState.Contains(Rtl.ComponentState.Reading))
         {
             _changeLock = (byte)(_changeLock + 1);
-            _onChange(this);
+            OnChange(this);
             _changeLock = (byte)(_changeLock - 1);
         }
     }
@@ -1248,7 +1248,6 @@ public partial class CustomImageLibrary : Component
     public int DataOffset { get => _dataOffset; }
     public bool Reloading { get => _reloading; }
     public bool LoadOnDemand { get => _loadOnDemand; set => SetLoadOnDemand(value); }
-    public NotifyEvent<object> OnChange { get => _onChange; set => _onChange = value; }
     public string FileName { get => _fileName; set => SetFileName(value); }
 
     internal static int UpdateImage(CustomImageLibrary imageLibrary, LibraryImage image)

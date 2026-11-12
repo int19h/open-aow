@@ -19,19 +19,19 @@ public partial class CityScreen : ILayoutModule
     {
         session.Begin(this);
         Name = "CityScreen";
-        LayoutOnCreate = _ => Layout_CityScreenCreate_0();
-        LayoutOnDestroy = _ => Layout_CityScreenDestroy_1();
+        LayoutOnCreate += _ => CityScreenCreate();
+        LayoutOnDestroy += _ => CityScreenDestroy();
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 55;
         Window.WinLeft = 0;
         Window.WinTop = 0;
         Window.WinWidth = 640;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_DlgHide_2();
+        Window.OnHide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -97,7 +97,7 @@ public partial class CityScreen : ILayoutModule
         UnitAbilitiesList = new ListBox(this);
         session.BeginRead(UnitAbilitiesList);
         UnitAbilitiesList.Name = "UAbilitiesLB";
-        UnitAbilitiesList.OnMouseDown = (_, button, shift, x, y) => UAbilitiesLBMouseDown(button, shift, x, y);
+        UnitAbilitiesList.OnMouseDown += (_, button, shift, x, y) => UAbilitiesLBMouseDown(button, shift, x, y);
         UnitAbilitiesList.Priority = 200;
         UnitAbilitiesList.WinLeft = 2;
         UnitAbilitiesList.WinTop = 1;
@@ -760,8 +760,8 @@ public partial class CityScreen : ILayoutModule
         Production1CheckBox = new CheckBox(this);
         session.BeginRead(Production1CheckBox);
         Production1CheckBox.Name = "P1CB";
-        Production1CheckBox.OnPreDraw = (sender, surface) => PreDrawProductions(sender, surface, 0);
-        Production1CheckBox.OnUpdate = sender => ProductionsUpdate(sender, 0);
+        Production1CheckBox.OnPreDraw += (sender, surface) => PreDrawProductions(sender, surface, 0);
+        Production1CheckBox.OnUpdate += sender => ProductionsUpdate(sender, 0);
         Production1CheckBox.Priority = 1511;
         Production1CheckBox.WinLeft = 2;
         Production1CheckBox.WinTop = 0;
@@ -792,16 +792,16 @@ public partial class CityScreen : ILayoutModule
         Production1CheckBox.TextSelectedColor = 0;
         Production1CheckBox.WinWidth = 52;
         Production1CheckBox.Checked = false;
-        Production1CheckBox.OnChange = sender => ProductionChange(sender, 0);
+        Production1CheckBox.OnChange += sender => ProductionChange(sender, 0);
         Production1CheckBox.RadioIndex = 1;
-        Production1CheckBox.OnDoubleClick = sender => ProductionDoubleClick(sender, 0);
+        Production1CheckBox.OnDoubleClick += sender => ProductionDoubleClick(sender, 0);
         session.EndRead(Production1CheckBox);
         Production2CheckBox = new CheckBox(this);
         session.BeginRead(Production2CheckBox);
         Production2CheckBox.Name = "P2CB";
         Production2CheckBox.Tag = 1;
-        Production2CheckBox.OnPreDraw = (sender, surface) => PreDrawProductions(sender, surface, 1);
-        Production2CheckBox.OnUpdate = sender => ProductionsUpdate(sender, 1);
+        Production2CheckBox.OnPreDraw += (sender, surface) => PreDrawProductions(sender, surface, 1);
+        Production2CheckBox.OnUpdate += sender => ProductionsUpdate(sender, 1);
         Production2CheckBox.Priority = 1510;
         Production2CheckBox.WinLeft = 53;
         Production2CheckBox.WinTop = 0;
@@ -832,16 +832,16 @@ public partial class CityScreen : ILayoutModule
         Production2CheckBox.TextSelectedColor = 0;
         Production2CheckBox.WinWidth = 52;
         Production2CheckBox.Checked = false;
-        Production2CheckBox.OnChange = sender => ProductionChange(sender, 1);
+        Production2CheckBox.OnChange += sender => ProductionChange(sender, 1);
         Production2CheckBox.RadioIndex = 1;
-        Production2CheckBox.OnDoubleClick = sender => ProductionDoubleClick(sender, 1);
+        Production2CheckBox.OnDoubleClick += sender => ProductionDoubleClick(sender, 1);
         session.EndRead(Production2CheckBox);
         Production3CheckBox = new CheckBox(this);
         session.BeginRead(Production3CheckBox);
         Production3CheckBox.Name = "P3CB";
         Production3CheckBox.Tag = 2;
-        Production3CheckBox.OnPreDraw = (sender, surface) => PreDrawProductions(sender, surface, 2);
-        Production3CheckBox.OnUpdate = sender => ProductionsUpdate(sender, 2);
+        Production3CheckBox.OnPreDraw += (sender, surface) => PreDrawProductions(sender, surface, 2);
+        Production3CheckBox.OnUpdate += sender => ProductionsUpdate(sender, 2);
         Production3CheckBox.Priority = 1509;
         Production3CheckBox.WinLeft = 104;
         Production3CheckBox.WinTop = 0;
@@ -872,16 +872,16 @@ public partial class CityScreen : ILayoutModule
         Production3CheckBox.TextSelectedColor = 0;
         Production3CheckBox.WinWidth = 52;
         Production3CheckBox.Checked = false;
-        Production3CheckBox.OnChange = sender => ProductionChange(sender, 2);
+        Production3CheckBox.OnChange += sender => ProductionChange(sender, 2);
         Production3CheckBox.RadioIndex = 1;
-        Production3CheckBox.OnDoubleClick = sender => ProductionDoubleClick(sender, 2);
+        Production3CheckBox.OnDoubleClick += sender => ProductionDoubleClick(sender, 2);
         session.EndRead(Production3CheckBox);
         Production4CheckBox = new CheckBox(this);
         session.BeginRead(Production4CheckBox);
         Production4CheckBox.Name = "P4CB";
         Production4CheckBox.Tag = 3;
-        Production4CheckBox.OnPreDraw = (sender, surface) => PreDrawProductions(sender, surface, 3);
-        Production4CheckBox.OnUpdate = sender => ProductionsUpdate(sender, 3);
+        Production4CheckBox.OnPreDraw += (sender, surface) => PreDrawProductions(sender, surface, 3);
+        Production4CheckBox.OnUpdate += sender => ProductionsUpdate(sender, 3);
         Production4CheckBox.Priority = 1508;
         Production4CheckBox.WinLeft = 155;
         Production4CheckBox.WinTop = 0;
@@ -912,16 +912,16 @@ public partial class CityScreen : ILayoutModule
         Production4CheckBox.TextSelectedColor = 0;
         Production4CheckBox.WinWidth = 52;
         Production4CheckBox.Checked = false;
-        Production4CheckBox.OnChange = sender => ProductionChange(sender, 3);
+        Production4CheckBox.OnChange += sender => ProductionChange(sender, 3);
         Production4CheckBox.RadioIndex = 1;
-        Production4CheckBox.OnDoubleClick = sender => ProductionDoubleClick(sender, 3);
+        Production4CheckBox.OnDoubleClick += sender => ProductionDoubleClick(sender, 3);
         session.EndRead(Production4CheckBox);
         Production5CheckBox = new CheckBox(this);
         session.BeginRead(Production5CheckBox);
         Production5CheckBox.Name = "P5CB";
         Production5CheckBox.Tag = 4;
-        Production5CheckBox.OnPreDraw = (sender, surface) => PreDrawProductions(sender, surface, 4);
-        Production5CheckBox.OnUpdate = sender => ProductionsUpdate(sender, 4);
+        Production5CheckBox.OnPreDraw += (sender, surface) => PreDrawProductions(sender, surface, 4);
+        Production5CheckBox.OnUpdate += sender => ProductionsUpdate(sender, 4);
         Production5CheckBox.Priority = 1507;
         Production5CheckBox.WinLeft = 206;
         Production5CheckBox.WinTop = 0;
@@ -952,16 +952,16 @@ public partial class CityScreen : ILayoutModule
         Production5CheckBox.TextSelectedColor = 0;
         Production5CheckBox.WinWidth = 52;
         Production5CheckBox.Checked = false;
-        Production5CheckBox.OnChange = sender => ProductionChange(sender, 4);
+        Production5CheckBox.OnChange += sender => ProductionChange(sender, 4);
         Production5CheckBox.RadioIndex = 1;
-        Production5CheckBox.OnDoubleClick = sender => ProductionDoubleClick(sender, 4);
+        Production5CheckBox.OnDoubleClick += sender => ProductionDoubleClick(sender, 4);
         session.EndRead(Production5CheckBox);
         Production6CheckBox = new CheckBox(this);
         session.BeginRead(Production6CheckBox);
         Production6CheckBox.Name = "P6CB";
         Production6CheckBox.Tag = 5;
-        Production6CheckBox.OnPreDraw = (sender, surface) => PreDrawProductions(sender, surface, 5);
-        Production6CheckBox.OnUpdate = sender => ProductionsUpdate(sender, 5);
+        Production6CheckBox.OnPreDraw += (sender, surface) => PreDrawProductions(sender, surface, 5);
+        Production6CheckBox.OnUpdate += sender => ProductionsUpdate(sender, 5);
         Production6CheckBox.Priority = 1506;
         Production6CheckBox.WinLeft = 257;
         Production6CheckBox.WinTop = 0;
@@ -992,16 +992,16 @@ public partial class CityScreen : ILayoutModule
         Production6CheckBox.TextSelectedColor = 0;
         Production6CheckBox.WinWidth = 52;
         Production6CheckBox.Checked = false;
-        Production6CheckBox.OnChange = sender => ProductionChange(sender, 5);
+        Production6CheckBox.OnChange += sender => ProductionChange(sender, 5);
         Production6CheckBox.RadioIndex = 1;
-        Production6CheckBox.OnDoubleClick = sender => ProductionDoubleClick(sender, 5);
+        Production6CheckBox.OnDoubleClick += sender => ProductionDoubleClick(sender, 5);
         session.EndRead(Production6CheckBox);
         Production7CheckBox = new CheckBox(this);
         session.BeginRead(Production7CheckBox);
         Production7CheckBox.Name = "P7CB";
         Production7CheckBox.Tag = 6;
-        Production7CheckBox.OnPreDraw = (sender, surface) => PreDrawProductions(sender, surface, 6);
-        Production7CheckBox.OnUpdate = sender => ProductionsUpdate(sender, 6);
+        Production7CheckBox.OnPreDraw += (sender, surface) => PreDrawProductions(sender, surface, 6);
+        Production7CheckBox.OnUpdate += sender => ProductionsUpdate(sender, 6);
         Production7CheckBox.Priority = 1505;
         Production7CheckBox.WinLeft = 308;
         Production7CheckBox.WinTop = 0;
@@ -1032,16 +1032,16 @@ public partial class CityScreen : ILayoutModule
         Production7CheckBox.TextSelectedColor = 0;
         Production7CheckBox.WinWidth = 52;
         Production7CheckBox.Checked = false;
-        Production7CheckBox.OnChange = sender => ProductionChange(sender, 6);
+        Production7CheckBox.OnChange += sender => ProductionChange(sender, 6);
         Production7CheckBox.RadioIndex = 1;
-        Production7CheckBox.OnDoubleClick = sender => ProductionDoubleClick(sender, 6);
+        Production7CheckBox.OnDoubleClick += sender => ProductionDoubleClick(sender, 6);
         session.EndRead(Production7CheckBox);
         Production8CheckBox = new CheckBox(this);
         session.BeginRead(Production8CheckBox);
         Production8CheckBox.Name = "P8CB";
         Production8CheckBox.Tag = 7;
-        Production8CheckBox.OnPreDraw = (sender, surface) => PreDrawProductions(sender, surface, 7);
-        Production8CheckBox.OnUpdate = sender => ProductionsUpdate(sender, 7);
+        Production8CheckBox.OnPreDraw += (sender, surface) => PreDrawProductions(sender, surface, 7);
+        Production8CheckBox.OnUpdate += sender => ProductionsUpdate(sender, 7);
         Production8CheckBox.Priority = 1504;
         Production8CheckBox.WinLeft = 359;
         Production8CheckBox.WinTop = 0;
@@ -1072,16 +1072,16 @@ public partial class CityScreen : ILayoutModule
         Production8CheckBox.TextSelectedColor = 0;
         Production8CheckBox.WinWidth = 52;
         Production8CheckBox.Checked = false;
-        Production8CheckBox.OnChange = sender => ProductionChange(sender, 7);
+        Production8CheckBox.OnChange += sender => ProductionChange(sender, 7);
         Production8CheckBox.RadioIndex = 1;
-        Production8CheckBox.OnDoubleClick = sender => ProductionDoubleClick(sender, 7);
+        Production8CheckBox.OnDoubleClick += sender => ProductionDoubleClick(sender, 7);
         session.EndRead(Production8CheckBox);
         Production9CheckBox = new CheckBox(this);
         session.BeginRead(Production9CheckBox);
         Production9CheckBox.Name = "P9CB";
         Production9CheckBox.Tag = 8;
-        Production9CheckBox.OnPreDraw = (sender, surface) => PreDrawProductions(sender, surface, 8);
-        Production9CheckBox.OnUpdate = sender => ProductionsUpdate(sender, 8);
+        Production9CheckBox.OnPreDraw += (sender, surface) => PreDrawProductions(sender, surface, 8);
+        Production9CheckBox.OnUpdate += sender => ProductionsUpdate(sender, 8);
         Production9CheckBox.Priority = 1503;
         Production9CheckBox.WinLeft = 410;
         Production9CheckBox.WinTop = 0;
@@ -1112,16 +1112,16 @@ public partial class CityScreen : ILayoutModule
         Production9CheckBox.TextSelectedColor = 0;
         Production9CheckBox.WinWidth = 52;
         Production9CheckBox.Checked = false;
-        Production9CheckBox.OnChange = sender => ProductionChange(sender, 8);
+        Production9CheckBox.OnChange += sender => ProductionChange(sender, 8);
         Production9CheckBox.RadioIndex = 1;
-        Production9CheckBox.OnDoubleClick = sender => ProductionDoubleClick(sender, 8);
+        Production9CheckBox.OnDoubleClick += sender => ProductionDoubleClick(sender, 8);
         session.EndRead(Production9CheckBox);
         Production10CheckBox = new CheckBox(this);
         session.BeginRead(Production10CheckBox);
         Production10CheckBox.Name = "P10CB";
         Production10CheckBox.Tag = 9;
-        Production10CheckBox.OnPreDraw = (sender, surface) => PreDrawProductions(sender, surface, 9);
-        Production10CheckBox.OnUpdate = sender => ProductionsUpdate(sender, 9);
+        Production10CheckBox.OnPreDraw += (sender, surface) => PreDrawProductions(sender, surface, 9);
+        Production10CheckBox.OnUpdate += sender => ProductionsUpdate(sender, 9);
         Production10CheckBox.Priority = 1502;
         Production10CheckBox.WinLeft = 461;
         Production10CheckBox.WinTop = 0;
@@ -1152,16 +1152,16 @@ public partial class CityScreen : ILayoutModule
         Production10CheckBox.TextSelectedColor = 0;
         Production10CheckBox.WinWidth = 52;
         Production10CheckBox.Checked = false;
-        Production10CheckBox.OnChange = sender => ProductionChange(sender, 9);
+        Production10CheckBox.OnChange += sender => ProductionChange(sender, 9);
         Production10CheckBox.RadioIndex = 1;
-        Production10CheckBox.OnDoubleClick = sender => ProductionDoubleClick(sender, 9);
+        Production10CheckBox.OnDoubleClick += sender => ProductionDoubleClick(sender, 9);
         session.EndRead(Production10CheckBox);
         Production11CheckBox = new CheckBox(this);
         session.BeginRead(Production11CheckBox);
         Production11CheckBox.Name = "P11CB";
         Production11CheckBox.Tag = 10;
-        Production11CheckBox.OnPreDraw = (sender, surface) => PreDrawProductions(sender, surface, 10);
-        Production11CheckBox.OnUpdate = sender => ProductionsUpdate(sender, 10);
+        Production11CheckBox.OnPreDraw += (sender, surface) => PreDrawProductions(sender, surface, 10);
+        Production11CheckBox.OnUpdate += sender => ProductionsUpdate(sender, 10);
         Production11CheckBox.Priority = 1501;
         Production11CheckBox.WinLeft = 512;
         Production11CheckBox.WinTop = 0;
@@ -1192,16 +1192,16 @@ public partial class CityScreen : ILayoutModule
         Production11CheckBox.TextSelectedColor = 0;
         Production11CheckBox.WinWidth = 52;
         Production11CheckBox.Checked = false;
-        Production11CheckBox.OnChange = sender => ProductionChange(sender, 10);
+        Production11CheckBox.OnChange += sender => ProductionChange(sender, 10);
         Production11CheckBox.RadioIndex = 1;
-        Production11CheckBox.OnDoubleClick = sender => ProductionDoubleClick(sender, 10);
+        Production11CheckBox.OnDoubleClick += sender => ProductionDoubleClick(sender, 10);
         session.EndRead(Production11CheckBox);
         Production12CheckBox = new CheckBox(this);
         session.BeginRead(Production12CheckBox);
         Production12CheckBox.Name = "P12CB";
         Production12CheckBox.Tag = 11;
-        Production12CheckBox.OnPreDraw = (sender, surface) => PreDrawProductions(sender, surface, 11);
-        Production12CheckBox.OnUpdate = sender => ProductionsUpdate(sender, 11);
+        Production12CheckBox.OnPreDraw += (sender, surface) => PreDrawProductions(sender, surface, 11);
+        Production12CheckBox.OnUpdate += sender => ProductionsUpdate(sender, 11);
         Production12CheckBox.Priority = 1500;
         Production12CheckBox.WinLeft = 563;
         Production12CheckBox.WinTop = 0;
@@ -1232,15 +1232,15 @@ public partial class CityScreen : ILayoutModule
         Production12CheckBox.TextSelectedColor = 0;
         Production12CheckBox.WinWidth = 52;
         Production12CheckBox.Checked = false;
-        Production12CheckBox.OnChange = sender => ProductionChange(sender, 11);
+        Production12CheckBox.OnChange += sender => ProductionChange(sender, 11);
         Production12CheckBox.RadioIndex = 1;
-        Production12CheckBox.OnDoubleClick = sender => ProductionDoubleClick(sender, 11);
+        Production12CheckBox.OnDoubleClick += sender => ProductionDoubleClick(sender, 11);
         session.EndRead(Production12CheckBox);
         Action4CheckBox = new CheckBox(this);
         session.BeginRead(Action4CheckBox);
         Action4CheckBox.Name = "B4CB";
         Action4CheckBox.Tag = 3;
-        Action4CheckBox.OnPreDraw = (sender, surface) => ActivityPreDraw(sender, surface, 3);
+        Action4CheckBox.OnPreDraw += (sender, surface) => ActivityPreDraw(sender, surface, 3);
         Action4CheckBox.Priority = 1700;
         Action4CheckBox.WinLeft = 153;
         Action4CheckBox.WinTop = 1;
@@ -1271,15 +1271,15 @@ public partial class CityScreen : ILayoutModule
         Action4CheckBox.TextSelectedColor = 0;
         Action4CheckBox.WinWidth = 52;
         Action4CheckBox.Checked = false;
-        Action4CheckBox.OnChange = sender => ActivityChange(sender, 3);
+        Action4CheckBox.OnChange += sender => ActivityChange(sender, 3);
         Action4CheckBox.RadioIndex = 1;
-        Action4CheckBox.OnDoubleClick = sender => ActivityDoubleClick(sender, 3);
+        Action4CheckBox.OnDoubleClick += sender => ActivityDoubleClick(sender, 3);
         session.EndRead(Action4CheckBox);
         Action5CheckBox = new CheckBox(this);
         session.BeginRead(Action5CheckBox);
         Action5CheckBox.Name = "B5CB";
         Action5CheckBox.Tag = 4;
-        Action5CheckBox.OnPreDraw = (sender, surface) => ActivityPreDraw(sender, surface, 4);
+        Action5CheckBox.OnPreDraw += (sender, surface) => ActivityPreDraw(sender, surface, 4);
         Action5CheckBox.Priority = 1600;
         Action5CheckBox.WinLeft = 204;
         Action5CheckBox.WinTop = 1;
@@ -1310,15 +1310,15 @@ public partial class CityScreen : ILayoutModule
         Action5CheckBox.TextSelectedColor = 0;
         Action5CheckBox.WinWidth = 52;
         Action5CheckBox.Checked = false;
-        Action5CheckBox.OnChange = sender => ActivityChange(sender, 4);
+        Action5CheckBox.OnChange += sender => ActivityChange(sender, 4);
         Action5CheckBox.RadioIndex = 1;
-        Action5CheckBox.OnDoubleClick = sender => ActivityDoubleClick(sender, 4);
+        Action5CheckBox.OnDoubleClick += sender => ActivityDoubleClick(sender, 4);
         session.EndRead(Action5CheckBox);
         Action6CheckBox = new CheckBox(this);
         session.BeginRead(Action6CheckBox);
         Action6CheckBox.Name = "B6CB";
         Action6CheckBox.Tag = 5;
-        Action6CheckBox.OnPreDraw = (sender, surface) => ActivityPreDraw(sender, surface, 5);
+        Action6CheckBox.OnPreDraw += (sender, surface) => ActivityPreDraw(sender, surface, 5);
         Action6CheckBox.Priority = 1500;
         Action6CheckBox.WinLeft = 255;
         Action6CheckBox.WinTop = 1;
@@ -1349,14 +1349,14 @@ public partial class CityScreen : ILayoutModule
         Action6CheckBox.TextSelectedColor = 0;
         Action6CheckBox.WinWidth = 52;
         Action6CheckBox.Checked = false;
-        Action6CheckBox.OnChange = sender => ActivityChange(sender, 5);
+        Action6CheckBox.OnChange += sender => ActivityChange(sender, 5);
         Action6CheckBox.RadioIndex = 1;
-        Action6CheckBox.OnDoubleClick = sender => ActivityDoubleClick(sender, 5);
+        Action6CheckBox.OnDoubleClick += sender => ActivityDoubleClick(sender, 5);
         session.EndRead(Action6CheckBox);
         Action1CheckBox = new CheckBox(this);
         session.BeginRead(Action1CheckBox);
         Action1CheckBox.Name = "B1CB";
-        Action1CheckBox.OnPreDraw = (sender, surface) => ActivityPreDraw(sender, surface, 0);
+        Action1CheckBox.OnPreDraw += (sender, surface) => ActivityPreDraw(sender, surface, 0);
         Action1CheckBox.Priority = 2000;
         Action1CheckBox.WinLeft = 0;
         Action1CheckBox.WinTop = 1;
@@ -1387,15 +1387,15 @@ public partial class CityScreen : ILayoutModule
         Action1CheckBox.TextSelectedColor = 0;
         Action1CheckBox.WinWidth = 52;
         Action1CheckBox.Checked = false;
-        Action1CheckBox.OnChange = sender => ActivityChange(sender, 0);
+        Action1CheckBox.OnChange += sender => ActivityChange(sender, 0);
         Action1CheckBox.RadioIndex = 1;
-        Action1CheckBox.OnDoubleClick = sender => ActivityDoubleClick(sender, 0);
+        Action1CheckBox.OnDoubleClick += sender => ActivityDoubleClick(sender, 0);
         session.EndRead(Action1CheckBox);
         Action2CheckBox = new CheckBox(this);
         session.BeginRead(Action2CheckBox);
         Action2CheckBox.Name = "B2CB";
         Action2CheckBox.Tag = 1;
-        Action2CheckBox.OnPreDraw = (sender, surface) => ActivityPreDraw(sender, surface, 1);
+        Action2CheckBox.OnPreDraw += (sender, surface) => ActivityPreDraw(sender, surface, 1);
         Action2CheckBox.Priority = 1900;
         Action2CheckBox.WinLeft = 51;
         Action2CheckBox.WinTop = 1;
@@ -1426,15 +1426,15 @@ public partial class CityScreen : ILayoutModule
         Action2CheckBox.TextSelectedColor = 0;
         Action2CheckBox.WinWidth = 52;
         Action2CheckBox.Checked = false;
-        Action2CheckBox.OnChange = sender => ActivityChange(sender, 1);
+        Action2CheckBox.OnChange += sender => ActivityChange(sender, 1);
         Action2CheckBox.RadioIndex = 1;
-        Action2CheckBox.OnDoubleClick = sender => ActivityDoubleClick(sender, 1);
+        Action2CheckBox.OnDoubleClick += sender => ActivityDoubleClick(sender, 1);
         session.EndRead(Action2CheckBox);
         Action3CheckBox = new CheckBox(this);
         session.BeginRead(Action3CheckBox);
         Action3CheckBox.Name = "B3CB";
         Action3CheckBox.Tag = 2;
-        Action3CheckBox.OnPreDraw = (sender, surface) => ActivityPreDraw(sender, surface, 2);
+        Action3CheckBox.OnPreDraw += (sender, surface) => ActivityPreDraw(sender, surface, 2);
         Action3CheckBox.Priority = 1800;
         Action3CheckBox.WinLeft = 102;
         Action3CheckBox.WinTop = 1;
@@ -1465,9 +1465,9 @@ public partial class CityScreen : ILayoutModule
         Action3CheckBox.TextSelectedColor = 0;
         Action3CheckBox.WinWidth = 52;
         Action3CheckBox.Checked = false;
-        Action3CheckBox.OnChange = sender => ActivityChange(sender, 2);
+        Action3CheckBox.OnChange += sender => ActivityChange(sender, 2);
         Action3CheckBox.RadioIndex = 1;
-        Action3CheckBox.OnDoubleClick = sender => ActivityDoubleClick(sender, 2);
+        Action3CheckBox.OnDoubleClick += sender => ActivityDoubleClick(sender, 2);
         session.EndRead(Action3CheckBox);
         VerticalScrollBar t2SBar = new VerticalScrollBar(this);
         session.BeginRead(t2SBar);
@@ -1811,7 +1811,7 @@ public partial class CityScreen : ILayoutModule
         CityButton3.TextColor = 0;
         CityButton3.TextSelectedColor = 0;
         CityButton3.WinWidth = 153;
-        CityButton3.OnClick = _ => Layout_CityBtn3Click_3();
+        CityButton3.OnClick += _ => CityBtn3Click();
         session.EndRead(CityButton3);
         CityButton1 = new Button(this);
         session.BeginRead(CityButton1);
@@ -1842,7 +1842,7 @@ public partial class CityScreen : ILayoutModule
         CityButton1.TextColor = 0;
         CityButton1.TextSelectedColor = 0;
         CityButton1.WinWidth = 153;
-        CityButton1.OnClick = _ => CityBtn1Click();
+        CityButton1.OnClick += _ => CityBtn1Click();
         session.EndRead(CityButton1);
         QueueList = new ListBox(this);
         session.BeginRead(QueueList);
@@ -1872,7 +1872,7 @@ public partial class CityScreen : ILayoutModule
         QueueList.WinHeight = 63;
         QueueList.BorderWidth = 3;
         QueueList.BorderHeight = 1;
-        QueueList.OnChange = QueueLBChange;
+        QueueList.OnChange += QueueLBChange;
         QueueList.Selected = -1;
         QueueList.TextColor = 6783862;
         QueueList.TextSelectedColor = 0;
@@ -2097,7 +2097,7 @@ public partial class CityScreen : ILayoutModule
         CityButton2.TextColor = 0;
         CityButton2.TextSelectedColor = 0;
         CityButton2.WinWidth = 153;
-        CityButton2.OnClick = _ => Layout_CityBtn2Click_5();
+        CityButton2.OnClick += _ => CityBtn2Click();
         session.EndRead(CityButton2);
         InfoPanel = new Panel(this);
         session.BeginRead(InfoPanel);
@@ -2660,7 +2660,7 @@ public partial class CityScreen : ILayoutModule
         LoopQueueCheckBox.TextSelectedColor = 0;
         LoopQueueCheckBox.WinWidth = 12;
         LoopQueueCheckBox.Checked = false;
-        LoopQueueCheckBox.OnChange = _ => Layout_LoopQueueBoxChange_6();
+        LoopQueueCheckBox.OnChange += _ => LoopQueueBoxChange();
         LoopQueueCheckBox.RadioIndex = 0;
         session.EndRead(LoopQueueCheckBox);
         RepeatLabel = new Label(this);
@@ -2716,7 +2716,7 @@ public partial class CityScreen : ILayoutModule
         CurrentActionImage = new Image(this);
         session.BeginRead(CurrentActionImage);
         CurrentActionImage.Name = "CurrentActionImage";
-        CurrentActionImage.OnDraw = CurrentActionImageDraw;
+        CurrentActionImage.OnDraw += CurrentActionImageDraw;
         CurrentActionImage.Priority = 0;
         CurrentActionImage.WinLeft = 3;
         CurrentActionImage.WinTop = 3;
@@ -2745,7 +2745,7 @@ public partial class CityScreen : ILayoutModule
         Image racePortrait = new Image(this);
         session.BeginRead(racePortrait);
         racePortrait.Name = "RacePortrait";
-        racePortrait.OnDraw = RacePortraitDraw;
+        racePortrait.OnDraw += RacePortraitDraw;
         racePortrait.Priority = 0;
         racePortrait.WinLeft = 5;
         racePortrait.WinTop = 4;
@@ -3629,7 +3629,7 @@ public partial class CityScreen : ILayoutModule
         MigrationRaceList.WinHeight = 53;
         MigrationRaceList.BorderWidth = 6;
         MigrationRaceList.BorderHeight = 5;
-        MigrationRaceList.OnChange = MigrationChange;
+        MigrationRaceList.OnChange += MigrationChange;
         MigrationRaceList.Selected = -1;
         MigrationRaceList.TextColor = 9415072;
         MigrationRaceList.TextSelectedColor = 16777215;
@@ -3663,7 +3663,7 @@ public partial class CityScreen : ILayoutModule
         MigrationRelationList.WinHeight = 53;
         MigrationRelationList.BorderWidth = 6;
         MigrationRelationList.BorderHeight = 5;
-        MigrationRelationList.OnChange = MigrationChange;
+        MigrationRelationList.OnChange += MigrationChange;
         MigrationRelationList.Selected = -1;
         MigrationRelationList.TextColor = 9415072;
         MigrationRelationList.TextSelectedColor = 16777215;
@@ -3697,7 +3697,7 @@ public partial class CityScreen : ILayoutModule
         MigrationTurnsList.WinHeight = 53;
         MigrationTurnsList.BorderWidth = 6;
         MigrationTurnsList.BorderHeight = 5;
-        MigrationTurnsList.OnChange = MigrationChange;
+        MigrationTurnsList.OnChange += MigrationChange;
         MigrationTurnsList.Selected = -1;
         MigrationTurnsList.TextColor = 9415072;
         MigrationTurnsList.TextSelectedColor = 16777215;
@@ -3736,7 +3736,7 @@ public partial class CityScreen : ILayoutModule
         sortMigrationRaces.TextColor = 0;
         sortMigrationRaces.TextSelectedColor = 16777215;
         sortMigrationRaces.WinWidth = 119;
-        sortMigrationRaces.OnClick = _ => Layout_SortMigrationRacesClick_8();
+        sortMigrationRaces.OnClick += _ => SortMigrationRacesClick();
         session.EndRead(sortMigrationRaces);
         Button sortMigrationTurns = new Button(this);
         session.BeginRead(sortMigrationTurns);
@@ -3767,7 +3767,7 @@ public partial class CityScreen : ILayoutModule
         sortMigrationTurns.TextColor = 0;
         sortMigrationTurns.TextSelectedColor = 16777215;
         sortMigrationTurns.WinWidth = 43;
-        sortMigrationTurns.OnClick = _ => Layout_SortMigrationTurnsClick_9();
+        sortMigrationTurns.OnClick += _ => SortMigrationTurnsClick();
         session.EndRead(sortMigrationTurns);
         Button sortMigrationRelation = new Button(this);
         session.BeginRead(sortMigrationRelation);
@@ -3798,7 +3798,7 @@ public partial class CityScreen : ILayoutModule
         sortMigrationRelation.TextColor = 0;
         sortMigrationRelation.TextSelectedColor = 16777215;
         sortMigrationRelation.WinWidth = 103;
-        sortMigrationRelation.OnClick = _ => Layout_SortMigrationRelationClick_10();
+        sortMigrationRelation.OnClick += _ => SortMigrationRelationClick();
         session.EndRead(sortMigrationRelation);
         Panel t3LBPnl = new Panel(this);
         session.BeginRead(t3LBPnl);
@@ -3856,7 +3856,7 @@ public partial class CityScreen : ILayoutModule
         MigrationScrollBar.WinHeight = 53;
         MigrationScrollBar.WinWidth = 17;
         MigrationScrollBar.NumberVisible = 1;
-        MigrationScrollBar.OnChange = MigrationSBChange;
+        MigrationScrollBar.OnChange += MigrationSBChange;
         MigrationScrollBar.VanishWhenFull = true;
         MigrationScrollBar.ImageLibraryIndexIncrementUp = 88;
         MigrationScrollBar.ImageLibraryIndexIncrementDown = 89;
@@ -4323,7 +4323,7 @@ public partial class CityScreen : ILayoutModule
         UserDrawBox uFace = new UserDrawBox(this);
         session.BeginRead(uFace);
         uFace.Name = "UFace";
-        uFace.OnDraw = UFaceDraw;
+        uFace.OnDraw += UFaceDraw;
         uFace.Priority = 0;
         uFace.WinLeft = 0;
         uFace.WinTop = 0;
@@ -4397,8 +4397,8 @@ public partial class CityScreen : ILayoutModule
         MapView = new UserDrawBox(this);
         session.BeginRead(MapView);
         MapView.Name = "MapView";
-        MapView.OnDraw = MapViewDraw;
-        MapView.OnUpdate = _ => Layout_MapViewUpdate_11();
+        MapView.OnDraw += MapViewDraw;
+        MapView.OnUpdate += _ => MapViewUpdate();
         MapView.Priority = 50;
         MapView.WinLeft = 11;
         MapView.WinTop = 12;
@@ -4480,7 +4480,7 @@ public partial class CityScreen : ILayoutModule
         NextCityButton.TextColor = 0;
         NextCityButton.TextSelectedColor = 16777215;
         NextCityButton.WinWidth = 77;
-        NextCityButton.OnClick = _ => Layout_PNextClick_12();
+        NextCityButton.OnClick += _ => PNextClick();
         session.EndRead(NextCityButton);
         PreviousCityButton = new Button(this);
         session.BeginRead(PreviousCityButton);
@@ -4515,7 +4515,7 @@ public partial class CityScreen : ILayoutModule
         PreviousCityButton.TextColor = 0;
         PreviousCityButton.TextSelectedColor = 16777215;
         PreviousCityButton.WinWidth = 77;
-        PreviousCityButton.OnClick = _ => Layout_PPrevClick_13();
+        PreviousCityButton.OnClick += _ => PPrevClick();
         session.EndRead(PreviousCityButton);
         LayoutIvTranslator translator = new LayoutIvTranslator(this);
         session.BeginRead(translator);
@@ -5100,65 +5100,5 @@ public partial class CityScreen : ILayoutModule
         PreviousCityButton.ImageLibraryButton = DialogHosts.UIGraphics.GenericButtons;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
-    }
-
-    private void Layout_CityScreenCreate_0()
-    {
-        CityScreenCreate();
-    }
-
-    private void Layout_CityScreenDestroy_1()
-    {
-        CityScreenDestroy();
-    }
-
-    private void Layout_DlgHide_2()
-    {
-        DlgHide();
-    }
-
-    private void Layout_CityBtn3Click_3()
-    {
-        CityBtn3Click();
-    }
-
-    private void Layout_CityBtn2Click_5()
-    {
-        CityBtn2Click();
-    }
-
-    private void Layout_LoopQueueBoxChange_6()
-    {
-        LoopQueueBoxChange();
-    }
-
-    private void Layout_SortMigrationRacesClick_8()
-    {
-        SortMigrationRacesClick();
-    }
-
-    private void Layout_SortMigrationTurnsClick_9()
-    {
-        SortMigrationTurnsClick();
-    }
-
-    private void Layout_SortMigrationRelationClick_10()
-    {
-        SortMigrationRelationClick();
-    }
-
-    private void Layout_MapViewUpdate_11()
-    {
-        MapViewUpdate();
-    }
-
-    private void Layout_PNextClick_12()
-    {
-        PNextClick();
-    }
-
-    private void Layout_PPrevClick_13()
-    {
-        PPrevClick();
     }
 }

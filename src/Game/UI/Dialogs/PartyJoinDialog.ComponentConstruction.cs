@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class PartyJoinDialog
 {
-    public NotifyEvent<PartyJoinDialog> LayoutOnCreate { get; set; }
-    public NotifyEvent<PartyJoinDialog> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<PartyJoinDialog> LayoutOnCreate;
+    public event NotifyEvent<PartyJoinDialog> LayoutOnDestroy;
 
     public override void Dispose()
     {

@@ -16,7 +16,7 @@ public partial class CityRebelDialog : DataModule
 
     public Window RebelWindow;
     public Label CityNameLabel;
-    private ExecuteDoneEvent _onClose;
+    private event ExecuteDoneEvent OnClose;
     private CityRebellionEventLog _event;
 
     // AoWCityRebelDlg.pas:49
@@ -24,9 +24,9 @@ public partial class CityRebelDialog : DataModule
     {
         CityRebellionEventLog eventValue;
         ExecuteDoneEvent notify;
-        notify = _onClose;
+        notify = OnClose;
         eventValue = _event;
-        _onClose = null;
+        OnClose = null;
         _event = null;
         if (notify != null)
         {
@@ -71,7 +71,7 @@ public partial class CityRebelDialog : DataModule
 
     internal static void ShowRebellion(CityRebelDialog dialog, CityRebellionEventLog eventValue, ExecuteDoneEvent done)
     {
-        dialog._onClose = done;
+        dialog.OnClose = done;
         dialog._event = eventValue;
         dialog._event.AddRef();
         dialog.CityNameLabel.Text = dialog._event.CityName;

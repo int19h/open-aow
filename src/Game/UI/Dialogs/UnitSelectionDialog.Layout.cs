@@ -47,7 +47,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         selectBtn.TextColor = 0;
         selectBtn.TextSelectedColor = 16777215;
         selectBtn.WinWidth = 128;
-        selectBtn.OnClick = _ => Layout_SelectBtnClick_0();
+        selectBtn.OnClick += _ => SelectBtnClick();
         session.EndRead(selectBtn);
         Image titleIcon = new Image(this);
         session.BeginRead(titleIcon);
@@ -109,7 +109,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CloseClick_1();
+        close.OnClick += _ => CloseClick();
         session.EndRead(close);
         Label title = new Label(this);
         session.BeginRead(title);
@@ -163,7 +163,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 128;
-        cancelBtn.OnClick = _ => Layout_CloseClick_1();
+        cancelBtn.OnClick += _ => CloseClick();
         session.EndRead(cancelBtn);
         Window = new Window(this);
         session.BeginRead(Window);
@@ -174,7 +174,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         Window.WinTop = 98;
         Window.WinWidth = 492;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_DlgHide_2();
+        Window.OnHide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -289,7 +289,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         Unit1CheckBox = new CheckBox(this);
         session.BeginRead(Unit1CheckBox);
         Unit1CheckBox.Name = "U1";
-        Unit1CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 0);
+        Unit1CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 0);
         Unit1CheckBox.Priority = 0;
         Unit1CheckBox.WinLeft = 0;
         Unit1CheckBox.WinTop = 0;
@@ -316,14 +316,14 @@ public partial class UnitSelectionDialog : ILayoutModule
         Unit1CheckBox.TextSelectedColor = 0;
         Unit1CheckBox.WinWidth = 50;
         Unit1CheckBox.Checked = false;
-        Unit1CheckBox.OnChange = sender => U1Change(sender, 0);
+        Unit1CheckBox.OnChange += sender => U1Change(sender, 0);
         Unit1CheckBox.RadioIndex = 0;
         session.EndRead(Unit1CheckBox);
         Unit2CheckBox = new CheckBox(this);
         session.BeginRead(Unit2CheckBox);
         Unit2CheckBox.Name = "U2";
         Unit2CheckBox.Tag = 1;
-        Unit2CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 1);
+        Unit2CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 1);
         Unit2CheckBox.Priority = 0;
         Unit2CheckBox.WinLeft = 55;
         Unit2CheckBox.WinTop = 0;
@@ -350,14 +350,14 @@ public partial class UnitSelectionDialog : ILayoutModule
         Unit2CheckBox.TextSelectedColor = 0;
         Unit2CheckBox.WinWidth = 50;
         Unit2CheckBox.Checked = false;
-        Unit2CheckBox.OnChange = sender => U1Change(sender, 1);
+        Unit2CheckBox.OnChange += sender => U1Change(sender, 1);
         Unit2CheckBox.RadioIndex = 0;
         session.EndRead(Unit2CheckBox);
         Unit3CheckBox = new CheckBox(this);
         session.BeginRead(Unit3CheckBox);
         Unit3CheckBox.Name = "U3";
         Unit3CheckBox.Tag = 2;
-        Unit3CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 2);
+        Unit3CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 2);
         Unit3CheckBox.Priority = 0;
         Unit3CheckBox.WinLeft = 110;
         Unit3CheckBox.WinTop = 0;
@@ -384,14 +384,14 @@ public partial class UnitSelectionDialog : ILayoutModule
         Unit3CheckBox.TextSelectedColor = 0;
         Unit3CheckBox.WinWidth = 50;
         Unit3CheckBox.Checked = false;
-        Unit3CheckBox.OnChange = sender => U1Change(sender, 2);
+        Unit3CheckBox.OnChange += sender => U1Change(sender, 2);
         Unit3CheckBox.RadioIndex = 0;
         session.EndRead(Unit3CheckBox);
         Unit4CheckBox = new CheckBox(this);
         session.BeginRead(Unit4CheckBox);
         Unit4CheckBox.Name = "U4";
         Unit4CheckBox.Tag = 3;
-        Unit4CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 3);
+        Unit4CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 3);
         Unit4CheckBox.Priority = 0;
         Unit4CheckBox.WinLeft = 165;
         Unit4CheckBox.WinTop = 0;
@@ -418,14 +418,14 @@ public partial class UnitSelectionDialog : ILayoutModule
         Unit4CheckBox.TextSelectedColor = 0;
         Unit4CheckBox.WinWidth = 50;
         Unit4CheckBox.Checked = false;
-        Unit4CheckBox.OnChange = sender => U1Change(sender, 3);
+        Unit4CheckBox.OnChange += sender => U1Change(sender, 3);
         Unit4CheckBox.RadioIndex = 0;
         session.EndRead(Unit4CheckBox);
         Unit5CheckBox = new CheckBox(this);
         session.BeginRead(Unit5CheckBox);
         Unit5CheckBox.Name = "U5";
         Unit5CheckBox.Tag = 4;
-        Unit5CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 4);
+        Unit5CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 4);
         Unit5CheckBox.Priority = 0;
         Unit5CheckBox.WinLeft = 220;
         Unit5CheckBox.WinTop = 0;
@@ -452,14 +452,14 @@ public partial class UnitSelectionDialog : ILayoutModule
         Unit5CheckBox.TextSelectedColor = 0;
         Unit5CheckBox.WinWidth = 50;
         Unit5CheckBox.Checked = false;
-        Unit5CheckBox.OnChange = sender => U1Change(sender, 4);
+        Unit5CheckBox.OnChange += sender => U1Change(sender, 4);
         Unit5CheckBox.RadioIndex = 0;
         session.EndRead(Unit5CheckBox);
         Unit6CheckBox = new CheckBox(this);
         session.BeginRead(Unit6CheckBox);
         Unit6CheckBox.Name = "U6";
         Unit6CheckBox.Tag = 5;
-        Unit6CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 5);
+        Unit6CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 5);
         Unit6CheckBox.Priority = 0;
         Unit6CheckBox.WinLeft = 275;
         Unit6CheckBox.WinTop = 0;
@@ -486,14 +486,14 @@ public partial class UnitSelectionDialog : ILayoutModule
         Unit6CheckBox.TextSelectedColor = 0;
         Unit6CheckBox.WinWidth = 50;
         Unit6CheckBox.Checked = false;
-        Unit6CheckBox.OnChange = sender => U1Change(sender, 5);
+        Unit6CheckBox.OnChange += sender => U1Change(sender, 5);
         Unit6CheckBox.RadioIndex = 0;
         session.EndRead(Unit6CheckBox);
         Unit7CheckBox = new CheckBox(this);
         session.BeginRead(Unit7CheckBox);
         Unit7CheckBox.Name = "U7";
         Unit7CheckBox.Tag = 6;
-        Unit7CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 6);
+        Unit7CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 6);
         Unit7CheckBox.Priority = 0;
         Unit7CheckBox.WinLeft = 330;
         Unit7CheckBox.WinTop = 0;
@@ -520,14 +520,14 @@ public partial class UnitSelectionDialog : ILayoutModule
         Unit7CheckBox.TextSelectedColor = 0;
         Unit7CheckBox.WinWidth = 50;
         Unit7CheckBox.Checked = false;
-        Unit7CheckBox.OnChange = sender => U1Change(sender, 6);
+        Unit7CheckBox.OnChange += sender => U1Change(sender, 6);
         Unit7CheckBox.RadioIndex = 0;
         session.EndRead(Unit7CheckBox);
         Unit8CheckBox = new CheckBox(this);
         session.BeginRead(Unit8CheckBox);
         Unit8CheckBox.Name = "U8";
         Unit8CheckBox.Tag = 7;
-        Unit8CheckBox.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 7);
+        Unit8CheckBox.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 7);
         Unit8CheckBox.Priority = 0;
         Unit8CheckBox.WinLeft = 386;
         Unit8CheckBox.WinTop = 0;
@@ -554,7 +554,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         Unit8CheckBox.TextSelectedColor = 0;
         Unit8CheckBox.WinWidth = 50;
         Unit8CheckBox.Checked = false;
-        Unit8CheckBox.OnChange = sender => U1Change(sender, 7);
+        Unit8CheckBox.OnChange += sender => U1Change(sender, 7);
         Unit8CheckBox.RadioIndex = 0;
         session.EndRead(Unit8CheckBox);
         Image decoL = new Image(this);
@@ -616,7 +616,7 @@ public partial class UnitSelectionDialog : ILayoutModule
         SourceFace = new Image(this);
         session.BeginRead(SourceFace);
         SourceFace.Name = "SourceFace";
-        SourceFace.OnPreDraw = (_, lockedSurface) => SourceFacePreDraw(lockedSurface);
+        SourceFace.OnPreDraw += (_, surface) => SourceFacePreDraw(surface);
         SourceFace.Priority = 0;
         SourceFace.WinLeft = 0;
         SourceFace.WinTop = 0;
@@ -828,20 +828,5 @@ public partial class UnitSelectionDialog : ILayoutModule
         frame1.ImageLibraryLine = DialogHosts.UIGraphics.CelticDecorations;
         SelectionInfoLabel.Font = DialogHosts.UIFonts.Age10;
         SelectionLabel.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
-    }
-
-    private void Layout_SelectBtnClick_0()
-    {
-        SelectBtnClick();
-    }
-
-    private void Layout_CloseClick_1()
-    {
-        CloseClick();
-    }
-
-    private void Layout_DlgHide_2()
-    {
-        DlgHide();
     }
 }

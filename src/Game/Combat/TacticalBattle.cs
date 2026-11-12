@@ -212,7 +212,7 @@ public partial class TacticalBattle : Battle
                     var turnOrder = CombatData.TurnOrder[0];
                     CombatMap.Current.NewTurn((sbyte)turnOrder);
                     result = CombatResult.Busy;
-                    OnTerminated = _ => CombatMap.Current.EndCombat();
+                    SetTerminatedHandler(_ => CombatMap.Current.EndCombat());
                     SetLogCombatActions(1);
                 }
             }

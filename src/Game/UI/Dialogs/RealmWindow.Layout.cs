@@ -30,8 +30,8 @@ public partial class RealmWindow : ILayoutModule
         Window.WinTop = 272;
         Window.WinWidth = 440;
         Window.Masked = false;
-        Window.OnHide = _ => Layout_DlgHide_0();
-        Window.OnShow = _ => Layout_DlgShow_1();
+        Window.OnHide += _ => DlgHide();
+        Window.OnShow += _ => DlgShow();
         Window.Alignment.AlignWidth = AlignWidth.Left;
         Window.Alignment.AlignHeight = AlignHeight.Bottom;
         Window.Alignment.HeightPercent = 0;
@@ -57,8 +57,8 @@ public partial class RealmWindow : ILayoutModule
         Window.DragHeight = 20;
         Window.Draggable = true;
         Window.Resizable = true;
-        Window.OnDrag = _ => Layout_OverWindowResize_2();
-        Window.OnResize = _ => Layout_OverWindowResize_2();
+        Window.OnDrag += _ => OverWindowResize();
+        Window.OnResize += _ => OverWindowResize();
         Window.MinWidth = 440;
         Window.MinHeight = 160;
         Window.MaxWidth = 1280;
@@ -147,7 +147,7 @@ public partial class RealmWindow : ILayoutModule
             "HEROES"
         };
         HeaderTabs.BorderHeight = 6;
-        HeaderTabs.OnChange = _ => Layout_HeaderTabChange_3();
+        HeaderTabs.OnChange += _ => HeaderTabChange();
         HeaderTabs.Selected = 0;
         HeaderTabs.WinWidth = 433;
         HeaderTabs.TextColor = 0;
@@ -325,7 +325,7 @@ public partial class RealmWindow : ILayoutModule
         minimize.TextColor = 0;
         minimize.TextSelectedColor = 0;
         minimize.WinWidth = 15;
-        minimize.OnClick = _ => Layout_OWMinIconClick_4();
+        minimize.OnClick += _ => OWMinIconClick();
         session.EndRead(minimize);
         PartyPanel = new Panel(this);
         session.BeginRead(PartyPanel);
@@ -336,8 +336,8 @@ public partial class RealmWindow : ILayoutModule
         PartyPanel.WinTop = 45;
         PartyPanel.WinWidth = 424;
         PartyPanel.Masked = true;
-        PartyPanel.OnHide = _ => T4PnlHide();
-        PartyPanel.OnShow = _ => T4PnlShow();
+        PartyPanel.OnHide += _ => T4PnlHide();
+        PartyPanel.OnShow += _ => T4PnlShow();
         PartyPanel.Alignment.AlignWidth = AlignWidth.Both;
         PartyPanel.Alignment.AlignHeight = AlignHeight.Both;
         PartyPanel.Alignment.HeightPercent = 0;
@@ -387,7 +387,7 @@ public partial class RealmWindow : ILayoutModule
         CityNameList = new ListBox<City>(this);
         session.BeginRead(CityNameList);
         CityNameList.Name = "T2NameLB";
-        CityNameList.OnMouseDown = CityListMouseDown;
+        CityNameList.OnMouseDown += CityListMouseDown;
         CityNameList.Priority = 0;
         CityNameList.WinLeft = 1;
         CityNameList.WinTop = 14;
@@ -409,8 +409,8 @@ public partial class RealmWindow : ILayoutModule
         CityNameList.WinHeight = 92;
         CityNameList.BorderWidth = 4;
         CityNameList.BorderHeight = 3;
-        CityNameList.OnChange = CityListChange;
-        CityNameList.OnDoubleClick = CityDoubleClick;
+        CityNameList.OnChange += CityListChange;
+        CityNameList.OnDoubleClick += CityDoubleClick;
         CityNameList.Selected = -1;
         CityNameList.TextColor = 9415072;
         CityNameList.TextSelectedColor = 0;
@@ -423,7 +423,7 @@ public partial class RealmWindow : ILayoutModule
         CityRaceList = new ListBox(this);
         session.BeginRead(CityRaceList);
         CityRaceList.Name = "T2RaceLB";
-        CityRaceList.OnMouseDown = CityListMouseDown;
+        CityRaceList.OnMouseDown += CityListMouseDown;
         CityRaceList.Priority = 0;
         CityRaceList.WinLeft = 113;
         CityRaceList.WinTop = 14;
@@ -445,8 +445,8 @@ public partial class RealmWindow : ILayoutModule
         CityRaceList.WinHeight = 92;
         CityRaceList.BorderWidth = 4;
         CityRaceList.BorderHeight = 3;
-        CityRaceList.OnChange = CityListChange;
-        CityRaceList.OnDoubleClick = CityDoubleClick;
+        CityRaceList.OnChange += CityListChange;
+        CityRaceList.OnDoubleClick += CityDoubleClick;
         CityRaceList.Selected = -1;
         CityRaceList.TextColor = 9415072;
         CityRaceList.TextSelectedColor = 0;
@@ -459,7 +459,7 @@ public partial class RealmWindow : ILayoutModule
         CityIncomeList = new ListBox(this);
         session.BeginRead(CityIncomeList);
         CityIncomeList.Name = "T2IncomeLB";
-        CityIncomeList.OnMouseDown = CityListMouseDown;
+        CityIncomeList.OnMouseDown += CityListMouseDown;
         CityIncomeList.Priority = 0;
         CityIncomeList.WinLeft = 200;
         CityIncomeList.WinTop = 14;
@@ -481,8 +481,8 @@ public partial class RealmWindow : ILayoutModule
         CityIncomeList.WinHeight = 92;
         CityIncomeList.BorderWidth = 3;
         CityIncomeList.BorderHeight = 3;
-        CityIncomeList.OnChange = CityListChange;
-        CityIncomeList.OnDoubleClick = CityDoubleClick;
+        CityIncomeList.OnChange += CityListChange;
+        CityIncomeList.OnDoubleClick += CityDoubleClick;
         CityIncomeList.Selected = -1;
         CityIncomeList.TextColor = 9415072;
         CityIncomeList.TextSelectedColor = 0;
@@ -495,7 +495,7 @@ public partial class RealmWindow : ILayoutModule
         CityLevelList = new ListBox(this);
         session.BeginRead(CityLevelList);
         CityLevelList.Name = "T2LevelLB";
-        CityLevelList.OnMouseDown = CityListMouseDown;
+        CityLevelList.OnMouseDown += CityListMouseDown;
         CityLevelList.Priority = 0;
         CityLevelList.WinLeft = 225;
         CityLevelList.WinTop = 14;
@@ -517,8 +517,8 @@ public partial class RealmWindow : ILayoutModule
         CityLevelList.WinHeight = 92;
         CityLevelList.BorderWidth = 3;
         CityLevelList.BorderHeight = 3;
-        CityLevelList.OnChange = CityListChange;
-        CityLevelList.OnDoubleClick = CityDoubleClick;
+        CityLevelList.OnChange += CityListChange;
+        CityLevelList.OnDoubleClick += CityDoubleClick;
         CityLevelList.Selected = -1;
         CityLevelList.TextColor = 9415072;
         CityLevelList.TextSelectedColor = 0;
@@ -531,7 +531,7 @@ public partial class RealmWindow : ILayoutModule
         CityWallList = new ListBox(this);
         session.BeginRead(CityWallList);
         CityWallList.Name = "T2WallLB";
-        CityWallList.OnMouseDown = CityListMouseDown;
+        CityWallList.OnMouseDown += CityListMouseDown;
         CityWallList.Priority = 0;
         CityWallList.WinLeft = 250;
         CityWallList.WinTop = 14;
@@ -553,10 +553,10 @@ public partial class RealmWindow : ILayoutModule
         CityWallList.WinHeight = 92;
         CityWallList.BorderWidth = 3;
         CityWallList.BorderHeight = 3;
-        CityWallList.OnChange = CityListChange;
-        CityWallList.OnDoubleClick = CityDoubleClick;
+        CityWallList.OnChange += CityListChange;
+        CityWallList.OnDoubleClick += CityDoubleClick;
         CityWallList.Selected = -1;
-        CityWallList.OnDrawItem = (_, in drawRectangle, drawItem, ref lockedSurface) => T2WallLBDrawItem(in drawRectangle, drawItem, ref lockedSurface);
+        CityWallList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => T2WallLBDrawItem(drawRectangle, drawItem, ref surface);
         CityWallList.TextColor = 9415072;
         CityWallList.TextSelectedColor = 0;
         CityWallList.ImageLibraryIndexFrame = 113;
@@ -568,7 +568,7 @@ public partial class RealmWindow : ILayoutModule
         CitySizeList = new ListBox(this);
         session.BeginRead(CitySizeList);
         CitySizeList.Name = "T2SizeLB";
-        CitySizeList.OnMouseDown = CityListMouseDown;
+        CitySizeList.OnMouseDown += CityListMouseDown;
         CitySizeList.Priority = 0;
         CitySizeList.WinLeft = 275;
         CitySizeList.WinTop = 14;
@@ -590,8 +590,8 @@ public partial class RealmWindow : ILayoutModule
         CitySizeList.WinHeight = 92;
         CitySizeList.BorderWidth = 3;
         CitySizeList.BorderHeight = 3;
-        CitySizeList.OnChange = CityListChange;
-        CitySizeList.OnDoubleClick = CityDoubleClick;
+        CitySizeList.OnChange += CityListChange;
+        CitySizeList.OnDoubleClick += CityDoubleClick;
         CitySizeList.Selected = -1;
         CitySizeList.TextColor = 9415072;
         CitySizeList.TextSelectedColor = 0;
@@ -604,7 +604,7 @@ public partial class RealmWindow : ILayoutModule
         CityEnchantmentList = new ListBox(this);
         session.BeginRead(CityEnchantmentList);
         CityEnchantmentList.Name = "T2EncLB";
-        CityEnchantmentList.OnMouseDown = CityListMouseDown;
+        CityEnchantmentList.OnMouseDown += CityListMouseDown;
         CityEnchantmentList.Priority = 400;
         CityEnchantmentList.WinLeft = 375;
         CityEnchantmentList.WinTop = 14;
@@ -626,8 +626,8 @@ public partial class RealmWindow : ILayoutModule
         CityEnchantmentList.WinHeight = 92;
         CityEnchantmentList.BorderWidth = 4;
         CityEnchantmentList.BorderHeight = 3;
-        CityEnchantmentList.OnChange = CityListChange;
-        CityEnchantmentList.OnDoubleClick = CityDoubleClick;
+        CityEnchantmentList.OnChange += CityListChange;
+        CityEnchantmentList.OnDoubleClick += CityDoubleClick;
         CityEnchantmentList.Selected = -1;
         CityEnchantmentList.TextColor = 9415072;
         CityEnchantmentList.TextSelectedColor = 16777215;
@@ -670,7 +670,7 @@ public partial class RealmWindow : ILayoutModule
         t2SName.TextColor = 0;
         t2SName.TextSelectedColor = 16777215;
         t2SName.WinWidth = 113;
-        t2SName.OnClick = _ => Layout_T2SNameClick_6();
+        t2SName.OnClick += _ => T2SNameClick(default(int));
         session.EndRead(t2SName);
         Button t2SRace = new Button(this);
         session.BeginRead(t2SRace);
@@ -705,7 +705,7 @@ public partial class RealmWindow : ILayoutModule
         t2SRace.TextColor = 0;
         t2SRace.TextSelectedColor = 16777215;
         t2SRace.WinWidth = 88;
-        t2SRace.OnClick = _ => Layout_T2SRaceClick_7();
+        t2SRace.OnClick += _ => T2SRaceClick(default(int));
         session.EndRead(t2SRace);
         Button t2SIn = new Button(this);
         session.BeginRead(t2SIn);
@@ -740,7 +740,7 @@ public partial class RealmWindow : ILayoutModule
         t2SIn.TextColor = 0;
         t2SIn.TextSelectedColor = 16777215;
         t2SIn.WinWidth = 26;
-        t2SIn.OnClick = _ => Layout_T2SInClick_8();
+        t2SIn.OnClick += _ => T2SInClick(default(int));
         session.EndRead(t2SIn);
         Button t2SWall = new Button(this);
         session.BeginRead(t2SWall);
@@ -775,7 +775,7 @@ public partial class RealmWindow : ILayoutModule
         t2SWall.TextColor = 0;
         t2SWall.TextSelectedColor = 16777215;
         t2SWall.WinWidth = 26;
-        t2SWall.OnClick = _ => Layout_T2SWallClick_9();
+        t2SWall.OnClick += _ => T2SWallClick(default(int));
         session.EndRead(t2SWall);
         Button t2SLvl = new Button(this);
         session.BeginRead(t2SLvl);
@@ -810,7 +810,7 @@ public partial class RealmWindow : ILayoutModule
         t2SLvl.TextColor = 0;
         t2SLvl.TextSelectedColor = 16777215;
         t2SLvl.WinWidth = 26;
-        t2SLvl.OnClick = _ => Layout_T2SLvlClick_10();
+        t2SLvl.OnClick += _ => T2SLvlClick(default(int));
         session.EndRead(t2SLvl);
         Button t2SSize = new Button(this);
         session.BeginRead(t2SSize);
@@ -845,7 +845,7 @@ public partial class RealmWindow : ILayoutModule
         t2SSize.TextColor = 0;
         t2SSize.TextSelectedColor = 16777215;
         t2SSize.WinWidth = 26;
-        t2SSize.OnClick = _ => Layout_T2SSizeClick_11();
+        t2SSize.OnClick += _ => T2SSizeClick(default(int));
         session.EndRead(t2SSize);
         Button t2SEnc = new Button(this);
         session.BeginRead(t2SEnc);
@@ -880,12 +880,12 @@ public partial class RealmWindow : ILayoutModule
         t2SEnc.TextColor = 0;
         t2SEnc.TextSelectedColor = 16777215;
         t2SEnc.WinWidth = 47;
-        t2SEnc.OnClick = _ => Layout_T2SEncClick_12();
+        t2SEnc.OnClick += _ => T2SEncClick(default(int));
         session.EndRead(t2SEnc);
         CityActionList = new ListBox(this);
         session.BeginRead(CityActionList);
         CityActionList.Name = "T2ActLB";
-        CityActionList.OnMouseDown = CityListMouseDown;
+        CityActionList.OnMouseDown += CityListMouseDown;
         CityActionList.Priority = 300;
         CityActionList.WinLeft = 350;
         CityActionList.WinTop = 14;
@@ -907,10 +907,10 @@ public partial class RealmWindow : ILayoutModule
         CityActionList.WinHeight = 92;
         CityActionList.BorderWidth = 3;
         CityActionList.BorderHeight = 3;
-        CityActionList.OnChange = CityListChange;
-        CityActionList.OnDoubleClick = CityDoubleClick;
+        CityActionList.OnChange += CityListChange;
+        CityActionList.OnDoubleClick += CityDoubleClick;
         CityActionList.Selected = -1;
-        CityActionList.OnDrawItem = (_, in drawRectangle, drawItem, ref lockedSurface) => T2ActLBDrawItem(in drawRectangle, drawItem, ref lockedSurface);
+        CityActionList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => T2ActLBDrawItem(drawRectangle, drawItem, ref surface);
         CityActionList.TextColor = 9415072;
         CityActionList.TextSelectedColor = 0;
         CityActionList.ImageLibraryIndexFrame = 113;
@@ -952,12 +952,12 @@ public partial class RealmWindow : ILayoutModule
         t2SAct.TextColor = 0;
         t2SAct.TextSelectedColor = 16777215;
         t2SAct.WinWidth = 26;
-        t2SAct.OnClick = _ => Layout_T2SActClick_13();
+        t2SAct.OnClick += _ => T2SActClick(default(int));
         session.EndRead(t2SAct);
         CityRelationList = new ListBox(this);
         session.BeginRead(CityRelationList);
         CityRelationList.Name = "T2RelLB";
-        CityRelationList.OnMouseDown = CityListMouseDown;
+        CityRelationList.OnMouseDown += CityListMouseDown;
         CityRelationList.Priority = 100;
         CityRelationList.WinLeft = 300;
         CityRelationList.WinTop = 14;
@@ -979,10 +979,10 @@ public partial class RealmWindow : ILayoutModule
         CityRelationList.WinHeight = 92;
         CityRelationList.BorderWidth = 3;
         CityRelationList.BorderHeight = 3;
-        CityRelationList.OnChange = CityListChange;
-        CityRelationList.OnDoubleClick = CityDoubleClick;
+        CityRelationList.OnChange += CityListChange;
+        CityRelationList.OnDoubleClick += CityDoubleClick;
         CityRelationList.Selected = -1;
-        CityRelationList.OnDrawItem = (_, in drawRectangle, drawItem, ref lockedSurface) => T2RelLBDrawItem(in drawRectangle, drawItem, ref lockedSurface);
+        CityRelationList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => T2RelLBDrawItem(drawRectangle, drawItem, ref surface);
         CityRelationList.TextColor = 9415072;
         CityRelationList.TextSelectedColor = 0;
         CityRelationList.ImageLibraryIndexFrame = 113;
@@ -1024,12 +1024,12 @@ public partial class RealmWindow : ILayoutModule
         t2SRel.TextColor = 0;
         t2SRel.TextSelectedColor = 16777215;
         t2SRel.WinWidth = 26;
-        t2SRel.OnClick = _ => Layout_T2SRelClick_14();
+        t2SRel.OnClick += _ => T2SRelClick(default(int));
         session.EndRead(t2SRel);
         CityMoraleList = new ListBox(this);
         session.BeginRead(CityMoraleList);
         CityMoraleList.Name = "T2MorLB";
-        CityMoraleList.OnMouseDown = CityListMouseDown;
+        CityMoraleList.OnMouseDown += CityListMouseDown;
         CityMoraleList.Priority = 100;
         CityMoraleList.WinLeft = 325;
         CityMoraleList.WinTop = 14;
@@ -1051,10 +1051,10 @@ public partial class RealmWindow : ILayoutModule
         CityMoraleList.WinHeight = 92;
         CityMoraleList.BorderWidth = 3;
         CityMoraleList.BorderHeight = 3;
-        CityMoraleList.OnChange = CityListChange;
-        CityMoraleList.OnDoubleClick = CityDoubleClick;
+        CityMoraleList.OnChange += CityListChange;
+        CityMoraleList.OnDoubleClick += CityDoubleClick;
         CityMoraleList.Selected = -1;
-        CityMoraleList.OnDrawItem = (_, in drawRectangle, drawItem, ref lockedSurface) => T2MorLBDrawItem(in drawRectangle, drawItem, ref lockedSurface);
+        CityMoraleList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => T2MorLBDrawItem(drawRectangle, drawItem, ref surface);
         CityMoraleList.TextColor = 9415072;
         CityMoraleList.TextSelectedColor = 0;
         CityMoraleList.ImageLibraryIndexFrame = 113;
@@ -1096,7 +1096,7 @@ public partial class RealmWindow : ILayoutModule
         t2SMor.TextColor = 0;
         t2SMor.TextSelectedColor = 16777215;
         t2SMor.WinWidth = 26;
-        t2SMor.OnClick = _ => Layout_T2SMorClick_15();
+        t2SMor.OnClick += _ => T2SMorClick(default(int));
         session.EndRead(t2SMor);
         CityScrollBar = new VerticalScrollBar(this);
         session.BeginRead(CityScrollBar);
@@ -1126,7 +1126,7 @@ public partial class RealmWindow : ILayoutModule
         CityScrollBar.WinHeight = 92;
         CityScrollBar.WinWidth = 17;
         CityScrollBar.NumberVisible = 4;
-        CityScrollBar.OnChange = _ => Layout_T2SBChange_16();
+        CityScrollBar.OnChange += _ => CityScrollBarChange();
         CityScrollBar.VanishWhenFull = true;
         CityScrollBar.ImageLibraryIndexIncrementUp = 96;
         CityScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -1138,7 +1138,7 @@ public partial class RealmWindow : ILayoutModule
         PlaceNameList = new ListBox<PlayerStructure>(this);
         session.BeginRead(PlaceNameList);
         PlaceNameList.Name = "T3Name";
-        PlaceNameList.OnMouseDown = PlacesListMouseDown;
+        PlaceNameList.OnMouseDown += PlacesListMouseDown;
         PlaceNameList.Priority = 0;
         PlaceNameList.WinLeft = 1;
         PlaceNameList.WinTop = 14;
@@ -1160,8 +1160,8 @@ public partial class RealmWindow : ILayoutModule
         PlaceNameList.WinHeight = 92;
         PlaceNameList.BorderWidth = 4;
         PlaceNameList.BorderHeight = 3;
-        PlaceNameList.OnChange = T3NameChange;
-        PlaceNameList.OnDoubleClick = PlaceListDoubleClick;
+        PlaceNameList.OnChange += T3NameChange;
+        PlaceNameList.OnDoubleClick += PlaceListDoubleClick;
         PlaceNameList.Selected = -1;
         PlaceNameList.TextColor = 9415072;
         PlaceNameList.TextSelectedColor = 0;
@@ -1204,12 +1204,12 @@ public partial class RealmWindow : ILayoutModule
         t3SName.TextColor = 0;
         t3SName.TextSelectedColor = 16777215;
         t3SName.WinWidth = 209;
-        t3SName.OnClick = _ => Layout_T3SNameClick_18();
+        t3SName.OnClick += _ => T3SNameClick(default(int));
         session.EndRead(t3SName);
         PlaceActionList = new ListBox(this);
         session.BeginRead(PlaceActionList);
         PlaceActionList.Name = "T3ActLB";
-        PlaceActionList.OnMouseDown = PlacesListMouseDown;
+        PlaceActionList.OnMouseDown += PlacesListMouseDown;
         PlaceActionList.Priority = 0;
         PlaceActionList.WinLeft = 209;
         PlaceActionList.WinTop = 14;
@@ -1231,8 +1231,8 @@ public partial class RealmWindow : ILayoutModule
         PlaceActionList.WinHeight = 92;
         PlaceActionList.BorderWidth = 3;
         PlaceActionList.BorderHeight = 3;
-        PlaceActionList.OnChange = T3NameChange;
-        PlaceActionList.OnDoubleClick = PlaceListDoubleClick;
+        PlaceActionList.OnChange += T3NameChange;
+        PlaceActionList.OnDoubleClick += PlaceListDoubleClick;
         PlaceActionList.Selected = -1;
         PlaceActionList.TextColor = 9415072;
         PlaceActionList.TextSelectedColor = 0;
@@ -1275,7 +1275,7 @@ public partial class RealmWindow : ILayoutModule
         t3Activity.TextColor = 0;
         t3Activity.TextSelectedColor = 16777215;
         t3Activity.WinWidth = 213;
-        t3Activity.OnClick = _ => Layout_T3ActivityClick_19();
+        t3Activity.OnClick += _ => T3ActivityClick(default(int));
         session.EndRead(t3Activity);
         PlaceScrollBar = new VerticalScrollBar(this);
         session.BeginRead(PlaceScrollBar);
@@ -1306,7 +1306,7 @@ public partial class RealmWindow : ILayoutModule
         PlaceScrollBar.WinHeight = 92;
         PlaceScrollBar.WinWidth = 17;
         PlaceScrollBar.NumberVisible = 3;
-        PlaceScrollBar.OnChange = _ => Layout_T3SBChange_20();
+        PlaceScrollBar.OnChange += _ => PlaceScrollBarChange();
         PlaceScrollBar.VanishWhenFull = true;
         PlaceScrollBar.ImageLibraryIndexIncrementUp = 96;
         PlaceScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -1396,10 +1396,10 @@ public partial class RealmWindow : ILayoutModule
         Unit1List.WinHeight = 104;
         Unit1List.BorderWidth = 0;
         Unit1List.BorderHeight = 3;
-        Unit1List.OnChange = sender => Unit1LBChange(sender, 0);
-        Unit1List.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 0);
+        Unit1List.OnChange += sender => Unit1LBChange(sender, 0);
+        Unit1List.OnDoubleClick += sender => Unit1LBDoubleClick(sender, 0);
         Unit1List.Selected = -1;
-        Unit1List.OnDrawItem = (_, in rectangle, item, ref surface) => Unit1LBDrawItem(rectangle, item, ref surface, 0);
+        Unit1List.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => Unit1LBDrawItem(drawRectangle, drawItem, ref surface, 0);
         Unit1List.TextColor = 9415072;
         Unit1List.TextSelectedColor = 0;
         Unit1List.ImageLibraryIndexFrame = 40;
@@ -1433,10 +1433,10 @@ public partial class RealmWindow : ILayoutModule
         Unit2List.WinHeight = 104;
         Unit2List.BorderWidth = 0;
         Unit2List.BorderHeight = 3;
-        Unit2List.OnChange = sender => Unit1LBChange(sender, 1);
-        Unit2List.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 1);
+        Unit2List.OnChange += sender => Unit1LBChange(sender, 1);
+        Unit2List.OnDoubleClick += sender => Unit1LBDoubleClick(sender, 1);
         Unit2List.Selected = -1;
-        Unit2List.OnDrawItem = (_, in rectangle, item, ref surface) => Unit1LBDrawItem(rectangle, item, ref surface, 1);
+        Unit2List.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => Unit1LBDrawItem(drawRectangle, drawItem, ref surface, 1);
         Unit2List.TextColor = 9415072;
         Unit2List.TextSelectedColor = 0;
         Unit2List.ImageLibraryIndexFrame = 40;
@@ -1470,10 +1470,10 @@ public partial class RealmWindow : ILayoutModule
         Unit3List.WinHeight = 104;
         Unit3List.BorderWidth = 0;
         Unit3List.BorderHeight = 3;
-        Unit3List.OnChange = sender => Unit1LBChange(sender, 2);
-        Unit3List.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 2);
+        Unit3List.OnChange += sender => Unit1LBChange(sender, 2);
+        Unit3List.OnDoubleClick += sender => Unit1LBDoubleClick(sender, 2);
         Unit3List.Selected = -1;
-        Unit3List.OnDrawItem = (_, in rectangle, item, ref surface) => Unit1LBDrawItem(rectangle, item, ref surface, 2);
+        Unit3List.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => Unit1LBDrawItem(drawRectangle, drawItem, ref surface, 2);
         Unit3List.TextColor = 9415072;
         Unit3List.TextSelectedColor = 0;
         Unit3List.ImageLibraryIndexFrame = 40;
@@ -1507,10 +1507,10 @@ public partial class RealmWindow : ILayoutModule
         Unit4List.WinHeight = 104;
         Unit4List.BorderWidth = 0;
         Unit4List.BorderHeight = 3;
-        Unit4List.OnChange = sender => Unit1LBChange(sender, 3);
-        Unit4List.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 3);
+        Unit4List.OnChange += sender => Unit1LBChange(sender, 3);
+        Unit4List.OnDoubleClick += sender => Unit1LBDoubleClick(sender, 3);
         Unit4List.Selected = -1;
-        Unit4List.OnDrawItem = (_, in rectangle, item, ref surface) => Unit1LBDrawItem(rectangle, item, ref surface, 3);
+        Unit4List.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => Unit1LBDrawItem(drawRectangle, drawItem, ref surface, 3);
         Unit4List.TextColor = 9415072;
         Unit4List.TextSelectedColor = 0;
         Unit4List.ImageLibraryIndexFrame = 40;
@@ -1544,10 +1544,10 @@ public partial class RealmWindow : ILayoutModule
         Unit5List.WinHeight = 104;
         Unit5List.BorderWidth = 0;
         Unit5List.BorderHeight = 3;
-        Unit5List.OnChange = sender => Unit1LBChange(sender, 4);
-        Unit5List.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 4);
+        Unit5List.OnChange += sender => Unit1LBChange(sender, 4);
+        Unit5List.OnDoubleClick += sender => Unit1LBDoubleClick(sender, 4);
         Unit5List.Selected = -1;
-        Unit5List.OnDrawItem = (_, in rectangle, item, ref surface) => Unit1LBDrawItem(rectangle, item, ref surface, 4);
+        Unit5List.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => Unit1LBDrawItem(drawRectangle, drawItem, ref surface, 4);
         Unit5List.TextColor = 9415072;
         Unit5List.TextSelectedColor = 0;
         Unit5List.ImageLibraryIndexFrame = 40;
@@ -1581,10 +1581,10 @@ public partial class RealmWindow : ILayoutModule
         Unit6List.WinHeight = 104;
         Unit6List.BorderWidth = 0;
         Unit6List.BorderHeight = 3;
-        Unit6List.OnChange = sender => Unit1LBChange(sender, 5);
-        Unit6List.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 5);
+        Unit6List.OnChange += sender => Unit1LBChange(sender, 5);
+        Unit6List.OnDoubleClick += sender => Unit1LBDoubleClick(sender, 5);
         Unit6List.Selected = -1;
-        Unit6List.OnDrawItem = (_, in rectangle, item, ref surface) => Unit1LBDrawItem(rectangle, item, ref surface, 5);
+        Unit6List.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => Unit1LBDrawItem(drawRectangle, drawItem, ref surface, 5);
         Unit6List.TextColor = 9415072;
         Unit6List.TextSelectedColor = 0;
         Unit6List.ImageLibraryIndexFrame = 40;
@@ -1618,10 +1618,10 @@ public partial class RealmWindow : ILayoutModule
         Unit7List.WinHeight = 104;
         Unit7List.BorderWidth = 0;
         Unit7List.BorderHeight = 3;
-        Unit7List.OnChange = sender => Unit1LBChange(sender, 6);
-        Unit7List.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 6);
+        Unit7List.OnChange += sender => Unit1LBChange(sender, 6);
+        Unit7List.OnDoubleClick += sender => Unit1LBDoubleClick(sender, 6);
         Unit7List.Selected = -1;
-        Unit7List.OnDrawItem = (_, in rectangle, item, ref surface) => Unit1LBDrawItem(rectangle, item, ref surface, 6);
+        Unit7List.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => Unit1LBDrawItem(drawRectangle, drawItem, ref surface, 6);
         Unit7List.TextColor = 9415072;
         Unit7List.TextSelectedColor = 0;
         Unit7List.ImageLibraryIndexFrame = 40;
@@ -1655,10 +1655,10 @@ public partial class RealmWindow : ILayoutModule
         Unit8List.WinHeight = 104;
         Unit8List.BorderWidth = 0;
         Unit8List.BorderHeight = 3;
-        Unit8List.OnChange = sender => Unit1LBChange(sender, 7);
-        Unit8List.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 7);
+        Unit8List.OnChange += sender => Unit1LBChange(sender, 7);
+        Unit8List.OnDoubleClick += sender => Unit1LBDoubleClick(sender, 7);
         Unit8List.Selected = -1;
-        Unit8List.OnDrawItem = (_, in rectangle, item, ref surface) => Unit1LBDrawItem(rectangle, item, ref surface, 7);
+        Unit8List.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => Unit1LBDrawItem(drawRectangle, drawItem, ref surface, 7);
         Unit8List.TextColor = 9415072;
         Unit8List.TextSelectedColor = 0;
         Unit8List.ImageLibraryIndexFrame = 40;
@@ -1696,7 +1696,7 @@ public partial class RealmWindow : ILayoutModule
         PartyScrollBar.WinHeight = 104;
         PartyScrollBar.WinWidth = 17;
         PartyScrollBar.NumberVisible = 1;
-        PartyScrollBar.OnChange = _ => Layout_PartyVSBChange_21();
+        PartyScrollBar.OnChange += _ => PartyScrollBarChange();
         PartyScrollBar.VanishWhenFull = true;
         PartyScrollBar.ImageLibraryIndexIncrementUp = 96;
         PartyScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -1763,7 +1763,7 @@ public partial class RealmWindow : ILayoutModule
         HeroNameList = new ListBox<Army>(this);
         session.BeginRead(HeroNameList);
         HeroNameList.Name = "T5Name";
-        HeroNameList.OnMouseDown = HeroListMouseDown;
+        HeroNameList.OnMouseDown += HeroListMouseDown;
         HeroNameList.Priority = 0;
         HeroNameList.WinLeft = 0;
         HeroNameList.WinTop = 14;
@@ -1785,8 +1785,8 @@ public partial class RealmWindow : ILayoutModule
         HeroNameList.WinHeight = 91;
         HeroNameList.BorderWidth = 4;
         HeroNameList.BorderHeight = 3;
-        HeroNameList.OnChange = HeroListChange;
-        HeroNameList.OnDoubleClick = HeroListDoubleClick;
+        HeroNameList.OnChange += HeroListChange;
+        HeroNameList.OnDoubleClick += HeroListDoubleClick;
         HeroNameList.Selected = -1;
         HeroNameList.TextColor = 9415072;
         HeroNameList.TextSelectedColor = 0;
@@ -1799,7 +1799,7 @@ public partial class RealmWindow : ILayoutModule
         HeroHealthList = new ListBox<Hero>(this);
         session.BeginRead(HeroHealthList);
         HeroHealthList.Name = "T5Health";
-        HeroHealthList.OnMouseDown = HeroListMouseDown;
+        HeroHealthList.OnMouseDown += HeroListMouseDown;
         HeroHealthList.Priority = 0;
         HeroHealthList.WinLeft = 229;
         HeroHealthList.WinTop = 14;
@@ -1821,8 +1821,8 @@ public partial class RealmWindow : ILayoutModule
         HeroHealthList.WinHeight = 91;
         HeroHealthList.BorderWidth = 4;
         HeroHealthList.BorderHeight = 3;
-        HeroHealthList.OnChange = HeroListChange;
-        HeroHealthList.OnDoubleClick = HeroListDoubleClick;
+        HeroHealthList.OnChange += HeroListChange;
+        HeroHealthList.OnDoubleClick += HeroListDoubleClick;
         HeroHealthList.Selected = -1;
         HeroHealthList.TextColor = 9415072;
         HeroHealthList.TextSelectedColor = 0;
@@ -1835,7 +1835,7 @@ public partial class RealmWindow : ILayoutModule
         HeroLevelList = new ListBox(this);
         session.BeginRead(HeroLevelList);
         HeroLevelList.Name = "T5Level";
-        HeroLevelList.OnMouseDown = HeroListMouseDown;
+        HeroLevelList.OnMouseDown += HeroListMouseDown;
         HeroLevelList.Priority = 0;
         HeroLevelList.WinLeft = 300;
         HeroLevelList.WinTop = 14;
@@ -1857,8 +1857,8 @@ public partial class RealmWindow : ILayoutModule
         HeroLevelList.WinHeight = 91;
         HeroLevelList.BorderWidth = 3;
         HeroLevelList.BorderHeight = 3;
-        HeroLevelList.OnChange = HeroListChange;
-        HeroLevelList.OnDoubleClick = HeroListDoubleClick;
+        HeroLevelList.OnChange += HeroListChange;
+        HeroLevelList.OnDoubleClick += HeroListDoubleClick;
         HeroLevelList.Selected = -1;
         HeroLevelList.TextColor = 9415072;
         HeroLevelList.TextSelectedColor = 0;
@@ -1901,7 +1901,7 @@ public partial class RealmWindow : ILayoutModule
         t5SName.TextColor = 0;
         t5SName.TextSelectedColor = 16777215;
         t5SName.WinWidth = 230;
-        t5SName.OnClick = _ => Layout_T5SNameClick_22();
+        t5SName.OnClick += _ => T5SNameClick(default(int));
         session.EndRead(t5SName);
         Button t5SHealth = new Button(this);
         session.BeginRead(t5SHealth);
@@ -1936,7 +1936,7 @@ public partial class RealmWindow : ILayoutModule
         t5SHealth.TextColor = 0;
         t5SHealth.TextSelectedColor = 16777215;
         t5SHealth.WinWidth = 72;
-        t5SHealth.OnClick = _ => Layout_T5SHealthClick_23();
+        t5SHealth.OnClick += _ => T5SHealthClick(default(int));
         session.EndRead(t5SHealth);
         Button t5SLevel = new Button(this);
         session.BeginRead(t5SLevel);
@@ -1971,12 +1971,12 @@ public partial class RealmWindow : ILayoutModule
         t5SLevel.TextColor = 0;
         t5SLevel.TextSelectedColor = 16777215;
         t5SLevel.WinWidth = 54;
-        t5SLevel.OnClick = _ => Layout_T5SLevelClick_24();
+        t5SLevel.OnClick += _ => T5SLevelClick(default(int));
         session.EndRead(t5SLevel);
         HeroHeroInfoPanel = new Panel(this);
         session.BeginRead(HeroHeroInfoPanel);
         HeroHeroInfoPanel.Name = "T5HeroInf";
-        HeroHeroInfoPanel.OnDraw = (_, lockedSurface) => T5HeroInfDraw(lockedSurface);
+        HeroHeroInfoPanel.OnDraw += (_, surface) => T5HeroInfDraw(surface);
         HeroHeroInfoPanel.Priority = 10;
         HeroHeroInfoPanel.WinLeft = 1;
         HeroHeroInfoPanel.WinTop = 0;
@@ -2057,7 +2057,7 @@ public partial class RealmWindow : ILayoutModule
         hInfoBtn.TextColor = 0;
         hInfoBtn.TextSelectedColor = 16777215;
         hInfoBtn.WinWidth = 69;
-        hInfoBtn.OnClick = _ => Layout_HeroInfoClick_25();
+        hInfoBtn.OnClick += _ => HeroInfoClick();
         session.EndRead(hInfoBtn);
         HeroScrollBar = new VerticalScrollBar(this);
         session.BeginRead(HeroScrollBar);
@@ -2087,7 +2087,7 @@ public partial class RealmWindow : ILayoutModule
         HeroScrollBar.WinHeight = 91;
         HeroScrollBar.WinWidth = 17;
         HeroScrollBar.NumberVisible = 4;
-        HeroScrollBar.OnChange = _ => Layout_HeroVSBChange_26();
+        HeroScrollBar.OnChange += _ => HeroScrollBarChange();
         HeroScrollBar.VanishWhenFull = true;
         HeroScrollBar.ImageLibraryIndexIncrementUp = 96;
         HeroScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -2240,7 +2240,7 @@ public partial class RealmWindow : ILayoutModule
         IncomeScrollBar.WinHeight = 76;
         IncomeScrollBar.WinWidth = 17;
         IncomeScrollBar.NumberVisible = 2;
-        IncomeScrollBar.OnChange = _ => Layout_IncomeSBChange_27();
+        IncomeScrollBar.OnChange += _ => IncomeSBChange();
         IncomeScrollBar.VanishWhenFull = true;
         IncomeScrollBar.ImageLibraryIndexIncrementUp = 96;
         IncomeScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -2411,7 +2411,7 @@ public partial class RealmWindow : ILayoutModule
         UpkeepScrollBar.WinHeight = 76;
         UpkeepScrollBar.WinWidth = 17;
         UpkeepScrollBar.NumberVisible = 1;
-        UpkeepScrollBar.OnChange = _ => Layout_UpkeepSBChange_28();
+        UpkeepScrollBar.OnChange += _ => UpkeepSBChange();
         UpkeepScrollBar.VanishWhenFull = true;
         UpkeepScrollBar.ImageLibraryIndexIncrementUp = 96;
         UpkeepScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -2764,7 +2764,7 @@ public partial class RealmWindow : ILayoutModule
         help.TextColor = 0;
         help.TextSelectedColor = 0;
         help.WinWidth = 15;
-        help.OnClick = _ => Layout_HelpClick_29();
+        help.OnClick += _ => HelpClick();
         session.EndRead(help);
         LayoutIvTranslator translator = new LayoutIvTranslator(this);
         session.BeginRead(translator);
@@ -3181,145 +3181,5 @@ public partial class RealmWindow : ILayoutModule
         picPnl.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
         help.ToolTip = DialogHosts.General.ToolTip;
         help.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
-    }
-
-    private void Layout_DlgHide_0()
-    {
-        DlgHide();
-    }
-
-    private void Layout_DlgShow_1()
-    {
-        DlgShow();
-    }
-
-    private void Layout_OverWindowResize_2()
-    {
-        OverWindowResize();
-    }
-
-    private void Layout_HeaderTabChange_3()
-    {
-        HeaderTabChange();
-    }
-
-    private void Layout_OWMinIconClick_4()
-    {
-        OWMinIconClick();
-    }
-
-    private void Layout_T2SNameClick_6()
-    {
-        T2SNameClick(default(int));
-    }
-
-    private void Layout_T2SRaceClick_7()
-    {
-        T2SRaceClick(default(int));
-    }
-
-    private void Layout_T2SInClick_8()
-    {
-        T2SInClick(default(int));
-    }
-
-    private void Layout_T2SWallClick_9()
-    {
-        T2SWallClick(default(int));
-    }
-
-    private void Layout_T2SLvlClick_10()
-    {
-        T2SLvlClick(default(int));
-    }
-
-    private void Layout_T2SSizeClick_11()
-    {
-        T2SSizeClick(default(int));
-    }
-
-    private void Layout_T2SEncClick_12()
-    {
-        T2SEncClick(default(int));
-    }
-
-    private void Layout_T2SActClick_13()
-    {
-        T2SActClick(default(int));
-    }
-
-    private void Layout_T2SRelClick_14()
-    {
-        T2SRelClick(default(int));
-    }
-
-    private void Layout_T2SMorClick_15()
-    {
-        T2SMorClick(default(int));
-    }
-
-    private void Layout_T2SBChange_16()
-    {
-        CityScrollBarChange();
-    }
-
-    private void Layout_T3SNameClick_18()
-    {
-        T3SNameClick(default(int));
-    }
-
-    private void Layout_T3ActivityClick_19()
-    {
-        T3ActivityClick(default(int));
-    }
-
-    private void Layout_T3SBChange_20()
-    {
-        PlaceScrollBarChange();
-    }
-
-    private void Layout_PartyVSBChange_21()
-    {
-        PartyScrollBarChange();
-    }
-
-    private void Layout_T5SNameClick_22()
-    {
-        T5SNameClick(default(int));
-    }
-
-    private void Layout_T5SHealthClick_23()
-    {
-        T5SHealthClick(default(int));
-    }
-
-    private void Layout_T5SLevelClick_24()
-    {
-        T5SLevelClick(default(int));
-    }
-
-    private void Layout_HeroInfoClick_25()
-    {
-        HeroInfoClick();
-    }
-
-    private void Layout_HeroVSBChange_26()
-    {
-        HeroScrollBarChange();
-    }
-
-    private void Layout_IncomeSBChange_27()
-    {
-        IncomeSBChange();
-    }
-
-    private void Layout_UpkeepSBChange_28()
-    {
-        UpkeepSBChange();
-    }
-
-    private void Layout_HelpClick_29()
-    {
-        HelpClick();
     }
 }

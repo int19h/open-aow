@@ -86,7 +86,7 @@ public partial class Memo
                     }
                 }
             }
-            _onMouseUp?.Invoke(this, button, shift, x, y);
+            RaiseMouseUp(this, button, shift, x, y);
         }
         if (Redraw != old) Drawn = false;
     }

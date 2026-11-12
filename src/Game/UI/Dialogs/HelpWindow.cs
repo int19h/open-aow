@@ -17,7 +17,7 @@ public partial class HelpWindow : DataModule
     public VerticalScrollBar HelpScrollBar;
     public Memo HeaderMemo;
     public Memo HelpMemo;
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
     private HelpMessageEventLog _helpEvent;
 
     // aowHelpWin.pas:53
@@ -25,9 +25,9 @@ public partial class HelpWindow : DataModule
     {
         ExecuteDoneEvent done;
         HelpMessageEventLog eventValue;
-        done = _done;
+        done = Done;
         eventValue = _helpEvent;
-        _done = null;
+        Done = null;
         _helpEvent = null;
         if (done != null)
         {
@@ -67,7 +67,7 @@ public partial class HelpWindow : DataModule
 
         if (eventValue.Mode != 0)
         {
-            _done = done;
+            Done = done;
         }
         else
         {

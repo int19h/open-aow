@@ -370,7 +370,7 @@ public sealed class ControlStyleConstructionTests
             stream.Position = 0;
             var reader = new StorageReader(stream, engine, false);
             string message = "";
-            reader.OnError = (StorageStream _, string text, ref bool proceed) =>
+            reader.OnError += (StorageStream _, string text, ref bool proceed) =>
             {
                 message = text;
                 proceed = !propagate;
@@ -424,7 +424,7 @@ public sealed class ControlStyleConstructionTests
             stream.Position = 0;
             var reader = new StorageReader(stream, engine, false);
             string message = "";
-            reader.OnError = (StorageStream _, string text, ref bool proceed) =>
+            reader.OnError += (StorageStream _, string text, ref bool proceed) =>
             {
                 message = text;
                 proceed = !propagate;

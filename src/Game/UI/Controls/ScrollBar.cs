@@ -176,10 +176,7 @@ public partial class ScrollBar : Control
                         }
 
                         Drawn = false;
-                        if (_onChange != null)
-                        {
-                            _onChange(this);
-                        }
+                        RaiseChange(this);
 
                         break;
                     case 3:
@@ -191,10 +188,7 @@ public partial class ScrollBar : Control
                         }
 
                         Drawn = false;
-                        if (_onChange != null)
-                        {
-                            _onChange(this);
-                        }
+                        RaiseChange(this);
 
                         break;
                 }
@@ -488,58 +482,58 @@ public partial class ScrollBar : Control
     [Published]
     public int ThumbImageIndex { get => _thumbImageIndex; set => SetImageLibraryTileIndex(value); }
 
-    public new NotifyEvent<ScrollBar> OnChange
+    public new event NotifyEvent<ScrollBar> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<ScrollBar> OnMouseDown
+    public new event MouseEvent<ScrollBar> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<ScrollBar> OnMouseUp
+    public new event MouseEvent<ScrollBar> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<ScrollBar> OnMouseMove
+    public new event MouseMoveEvent<ScrollBar> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<ScrollBar> OnKeyPress
+    public new event KeyPressEvent<ScrollBar> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<ScrollBar> OnKeyDown
+    public new event KeyEvent<ScrollBar> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<ScrollBar> OnPreDraw
+    public new event AoWOnDrawEvent<ScrollBar> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<ScrollBar> OnDraw
+    public new event AoWOnDrawEvent<ScrollBar> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<ScrollBar> OnUpdate
+    public new event NotifyEvent<ScrollBar> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(OnUpdate), value: value);
     }
 
     public enum Style : byte

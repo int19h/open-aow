@@ -52,8 +52,8 @@ public partial class PlayerInfoWindow : ILayoutModule
         MainWindow.DragHeight = 20;
         MainWindow.Draggable = true;
         MainWindow.Resizable = true;
-        MainWindow.OnDrag = _ => Layout_PInfoWinResize_0();
-        MainWindow.OnResize = _ => Layout_PInfoWinResize_0();
+        MainWindow.OnDrag += _ => PInfoWinResize();
+        MainWindow.OnResize += _ => PInfoWinResize();
         MainWindow.MinWidth = 200;
         MainWindow.MinHeight = 216;
         MainWindow.MaxWidth = 0;
@@ -95,7 +95,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         min.TextColor = 0;
         min.TextSelectedColor = 0;
         min.WinWidth = 15;
-        min.OnClick = _ => Layout_MinClick_1();
+        min.OnClick += _ => MinClick();
         session.EndRead(min);
         Label iwTitle = new Label(this);
         session.BeginRead(iwTitle);
@@ -151,7 +151,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         EventList = new ListBox(this);
         session.BeginRead(EventList);
         EventList.Name = "EventList";
-        EventList.OnMouseDown = (_, button, shift, x, y) => EventListMouseDown(button, shift, x, y);
+        EventList.OnMouseDown += (_, button, shift, x, y) => EventListMouseDown(button, shift, x, y);
         EventList.Priority = 100;
         EventList.WinLeft = 1;
         EventList.WinTop = 1;
@@ -173,10 +173,10 @@ public partial class PlayerInfoWindow : ILayoutModule
         EventList.WinHeight = 108;
         EventList.BorderWidth = 37;
         EventList.BorderHeight = 4;
-        EventList.OnDoubleClick = _ => Layout_EventListDoubleClick_2();
+        EventList.OnDoubleClick += _ => EventListDoubleClick();
         EventList.Selected = -1;
-        EventList.OnDrawItem = (_, in drawRectangle, drawItem, ref lockedSurface) => EventListDrawItem(in drawRectangle, drawItem, ref lockedSurface);
-        EventList.OnPreDrawItem = (_, in drawRectangle, drawItem, ref lockedSurface) => EventListPreDrawItem(in drawRectangle, drawItem, ref lockedSurface);
+        EventList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => EventListDrawItem(drawRectangle, drawItem, ref surface);
+        EventList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => EventListPreDrawItem(drawRectangle, drawItem, ref surface);
         EventList.TextColor = 9415072;
         EventList.TextSelectedColor = 0;
         EventList.ImageLibraryIndexFrame = 113;
@@ -393,8 +393,8 @@ public partial class PlayerInfoWindow : ILayoutModule
         FaceFrame = new Panel(this);
         session.BeginRead(FaceFrame);
         FaceFrame.Name = "FaceFr";
-        FaceFrame.OnMouseDown = (_, button, shift, x, y) => FaceFrMouseDown(button, shift, x, y);
-        FaceFrame.OnDraw = (_, lockedSurface) => FaceFrDraw(lockedSurface);
+        FaceFrame.OnMouseDown += (_, button, shift, x, y) => FaceFrMouseDown(button, shift, x, y);
+        FaceFrame.OnDraw += (_, surface) => FaceFrDraw(surface);
         FaceFrame.Priority = 0;
         FaceFrame.WinLeft = 1;
         FaceFrame.WinTop = 1;
@@ -644,7 +644,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         center.TextColor = 0;
         center.TextSelectedColor = 0;
         center.WinWidth = 15;
-        center.OnClick = _ => CenterButtonClick();
+        center.OnClick += _ => CenterButtonClick();
         session.EndRead(center);
         Button help = new Button(this);
         session.BeginRead(help);
@@ -678,7 +678,7 @@ public partial class PlayerInfoWindow : ILayoutModule
         help.TextColor = 0;
         help.TextSelectedColor = 0;
         help.WinWidth = 15;
-        help.OnClick = _ => Layout_HelpClick_3();
+        help.OnClick += _ => HelpClick();
         session.EndRead(help);
         LayoutIvTranslator translator = new LayoutIvTranslator(this);
         session.BeginRead(translator);
@@ -776,25 +776,5 @@ public partial class PlayerInfoWindow : ILayoutModule
         center.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
         help.ToolTip = DialogHosts.General.ToolTip;
         help.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
-    }
-
-    private void Layout_PInfoWinResize_0()
-    {
-        PInfoWinResize();
-    }
-
-    private void Layout_MinClick_1()
-    {
-        MinClick();
-    }
-
-    private void Layout_EventListDoubleClick_2()
-    {
-        EventListDoubleClick();
-    }
-
-    private void Layout_HelpClick_3()
-    {
-        HelpClick();
     }
 }

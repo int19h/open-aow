@@ -19,7 +19,7 @@ public partial class MessageReceiveDialog : DataModule
     public Image LeftShield;
     public Image RightShield;
     public Memo HeaderMemo;
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
     private EventLog _event;
 
     // AoWMsgReceiveDlg.pas:54
@@ -27,9 +27,9 @@ public partial class MessageReceiveDialog : DataModule
     {
         ExecuteDoneEvent done;
         EventLog log;
-        done = _done;
+        done = Done;
         log = _event;
-        _done = null;
+        Done = null;
         _event = null;
         if (done != null)
         {
@@ -59,7 +59,7 @@ public partial class MessageReceiveDialog : DataModule
     {
         dialog._event = eventValue;
         dialog._event.AddRef();
-        dialog._done = done;
+        dialog.Done = done;
         var text = eventValue.GetText();
         dialog.HeaderMemo.Items.Text = text;
         var fMessageText = ((GameOverEventLog)eventValue).Message.Text;

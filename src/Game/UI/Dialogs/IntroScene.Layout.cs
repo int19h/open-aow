@@ -21,16 +21,16 @@ public partial class IntroScene : ILayoutModule
         Window = new UserWindow(this);
         session.BeginRead(Window);
         Window.Name = "Window";
-        Window.OnMouseDown = (_, button, shift, x, y) => WindowMouseDown(button, shift, x, y);
-        Window.OnKeyDown = (_, ref key, shift) => WindowKeyDown(ref key, shift);
-        Window.OnUpdate = _ => Layout_WindowUpdate_0();
+        Window.OnMouseDown += (_, button, shift, x, y) => WindowMouseDown(button, shift, x, y);
+        Window.OnKeyDown += (_, ref key, shift) => WindowKeyDown(ref key, shift);
+        Window.OnUpdate += _ => WindowUpdate();
         Window.Visible = false;
         Window.Priority = 0;
         Window.WinLeft = 0;
         Window.WinTop = 0;
         Window.WinWidth = 640;
         Window.Masked = false;
-        Window.OnHide = _ => Layout_WindowHide_1();
+        Window.OnHide += _ => WindowHide();
         Window.Alignment.AlignWidth = AlignWidth.Both;
         Window.Alignment.AlignHeight = AlignHeight.Both;
         Window.Alignment.HeightPercent = 0;
@@ -64,12 +64,12 @@ public partial class IntroScene : ILayoutModule
         Window.Modal = false;
         Window.WinHeight = 480;
         Window.Dockable = false;
-        Window.OnCustomDrawSurface = WindowDrawSurfaceEx;
+        Window.OnCustomDrawSurface += WindowDrawSurfaceEx;
         session.EndRead(Window);
         LayoutVideoPlayer videoPlayer = new LayoutVideoPlayer(this);
         session.BeginRead(videoPlayer);
         videoPlayer.Name = "VideoPlayer";
-        videoPlayer.OnStreamSound = VideoPlayerStreamSound;
+        videoPlayer.OnStreamSound += VideoPlayerStreamSound;
         videoPlayer.LoopMode = LayoutVideoPlayer.VideoPlayerLoopMode.None;
         videoPlayer.Options = Set<VideoPlayerOptionsElement>.Of(VideoPlayerOptionsElement.SoundEnabled, VideoPlayerOptionsElement.VideoEnabled);
         session.EndRead(videoPlayer);
@@ -79,15 +79,5 @@ public partial class IntroScene : ILayoutModule
         videoPlayer.Loaded();
         session.Resolve(this);
         Window.WindowManager = DialogHosts.General.Manager;
-    }
-
-    private void Layout_WindowUpdate_0()
-    {
-        WindowUpdate();
-    }
-
-    private void Layout_WindowHide_1()
-    {
-        WindowHide();
     }
 }

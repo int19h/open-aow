@@ -14,7 +14,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units;
 
-// FOnChanged. UpdateCount. FOnHeroChanged. Heroes
+// Changed. UpdateCount. HeroChanged. Heroes
 public partial class HeroControl : EngineObject
 {
     // Hero.PAS:2413
@@ -27,7 +27,7 @@ public partial class HeroControl : EngineObject
 
     private EventStore<HeroControl> _onChangedStore;
 
-    public event NotifyEvent<HeroControl> FOnChanged
+    public event NotifyEvent<HeroControl> Changed
     {
         add => _onChangedStore.Add(value);
         remove => _onChangedStore.Remove(value);
@@ -37,7 +37,7 @@ public partial class HeroControl : EngineObject
 
     private EventStore<Hero> _onHeroChangedStore;
 
-    public event NotifyEvent<Hero> FOnHeroChanged
+    public event NotifyEvent<Hero> HeroChanged
     {
         add => _onHeroChangedStore.Add(value);
         remove => _onHeroChangedStore.Remove(value);
@@ -103,7 +103,7 @@ public partial class HeroControl : EngineObject
     }
 
     // Hero.PAS:2432
-    public void Changed()
+    public void NotifyChanged()
     {
         if (_updateCount == 0)
         {
@@ -123,7 +123,7 @@ public partial class HeroControl : EngineObject
         _updateCount -= 1;
         if (_updateCount == 0)
         {
-            Changed();
+            NotifyChanged();
         }
     }
 
@@ -226,7 +226,7 @@ public partial class HeroControl : EngineObject
         {
             hero.Registered = true;
             _heroes.AddChild(hero);
-            Changed();
+            NotifyChanged();
             result = true;
         }
         else
@@ -244,12 +244,12 @@ public partial class HeroControl : EngineObject
         {
             hero.Registered = false;
             _heroes.RemoveChild(hero);
-            Changed();
+            NotifyChanged();
         }
     }
 
     // Hero.PAS:2528
-    public void HeroChanged(Hero hero)
+    public void NotifyHeroChanged(Hero hero)
     {
         if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {

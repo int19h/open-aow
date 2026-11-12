@@ -42,8 +42,8 @@ public partial class PlayerControl : EngineObject
         if (StrategicMap.Current != null && StrategicMap.Current.TokenManager != null)
         {
             var tokenExecutor = StrategicMap.Current.TokenManager.TokenExecutor;
-            tokenExecutor.OnGetSyncValue = null;
-            tokenExecutor.OnSyncError = null;
+            tokenExecutor.ClearGetSyncValueHandler();
+            tokenExecutor.ClearSyncErrorHandler();
         }
 
         _disconnectedPlayers?.Dispose();
@@ -248,8 +248,8 @@ public partial class PlayerControl : EngineObject
             }
 
             var tokenExecutor = StrategicMap.Current.TokenManager.TokenExecutor;
-            tokenExecutor.OnGetSyncValue = this.GetSyncValue;
-            tokenExecutor.OnSyncError = OutOfSync;
+            tokenExecutor.SetGetSyncValueHandler(this.GetSyncValue);
+            tokenExecutor.SetSyncErrorHandler(OutOfSync);
         }
         else
         {
@@ -508,7 +508,7 @@ public partial class PlayerControl : EngineObject
         if (player != StrategicMap.Current.SeatedPlayer)
         {
             StrategicMap.Current.SeatedPlayer = player;
-            StrategicMap.Current.SeatedPlayerChanged();
+            StrategicMap.Current.NotifySeatedPlayerChanged();
             StrategicMap.Current.ResetSeatedPlayerView();
         }
     }

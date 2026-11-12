@@ -28,7 +28,8 @@ public partial class WindowManager : UIComponent
     private int _borderBottom;
     private int _oldCursor;
     private int _defaultCursor;
-    private NotifyEvent<WindowManager> _onChangeCursor;
+    [Published]
+    public event NotifyEvent<WindowManager> OnChangeCursor;
     private int _imageLibraryIndexTBack;
     private int _imageLibraryIndexTFore;
     private bool _drawOverlay;
@@ -72,10 +73,7 @@ public partial class WindowManager : UIComponent
         {
             if (Valid && Visible)
             {
-                if (_onUpdate != null)
-                {
-                    _onUpdate(this);
-                }
+                RaiseUpdate(this);
 
                 for (int I = 0, last = Children.Count - 1; I <= last; I++)
                 {
@@ -454,10 +452,7 @@ public partial class WindowManager : UIComponent
             }
         }
 
-        if (_onMouseDown != null)
-        {
-            _onMouseDown(this, button, shift, X, Y);
-        }
+        RaiseMouseDown(this, button, shift, X, Y);
     }
 
     // AOWWinManager.pas:473
@@ -482,10 +477,7 @@ public partial class WindowManager : UIComponent
             }
         }
 
-        if (_onMouseUp != null)
-        {
-            _onMouseUp(this, button, shift, X, Y);
-        }
+        RaiseMouseUp(this, button, shift, X, Y);
     }
 
     // AOWWinManager.pas:494
@@ -531,10 +523,7 @@ public partial class WindowManager : UIComponent
                             if (!C.MouseInside)
                             {
                                 C.MouseInside = true;
-                                if (C._onEnter != null)
-                                {
-                                    C._onEnter(C);
-                                }
+                                C.RaiseEnter(C);
                             }
                         }
                         else
@@ -542,10 +531,7 @@ public partial class WindowManager : UIComponent
                             if (C.MouseInside)
                             {
                                 C.MouseInside = false;
-                                if (C._onExit != null)
-                                {
-                                    C._onExit(C);
-                                }
+                                C.RaiseExit(C);
                             }
                         }
 
@@ -556,10 +542,7 @@ public partial class WindowManager : UIComponent
                         if (C.MouseInside)
                         {
                             C.MouseInside = false;
-                            if (C._onExit != null)
-                            {
-                                C._onExit(C);
-                            }
+                            C.RaiseExit(C);
                         }
                     }
                 }
@@ -568,10 +551,7 @@ public partial class WindowManager : UIComponent
                     if (C.MouseInside)
                     {
                         C.MouseInside = false;
-                        if (C._onExit != null)
-                        {
-                            C._onExit(C);
-                        }
+                        C.RaiseExit(C);
                     }
                 }
             }
@@ -579,16 +559,13 @@ public partial class WindowManager : UIComponent
 
         if (_cursor != _oldCursor)
         {
-            if (_onChangeCursor != null)
+            if (OnChangeCursor != null)
             {
-                _onChangeCursor(this);
+                OnChangeCursor(this);
             }
         }
 
-        if (_onMouseMove != null)
-        {
-            _onMouseMove(this, shift, X, Y);
-        }
+        RaiseMouseMove(this, shift, X, Y);
     }
 
     // AOWWinManager.pas:558
@@ -609,10 +586,7 @@ public partial class WindowManager : UIComponent
             }
         }
 
-        if (_onKeyPress != null)
-        {
-            _onKeyPress(this, ref key);
-        }
+        RaiseKeyPress(this, ref key);
     }
 
     // AOWWinManager.pas:578
@@ -633,9 +607,9 @@ public partial class WindowManager : UIComponent
             }
         }
 
-        if (!Handled && _onKeyDown != null)
+        if (!Handled)
         {
-            _onKeyDown(this, ref key, shift);
+            RaiseKeyDown(this, ref key, shift);
         }
     }
 
@@ -695,18 +669,15 @@ public partial class WindowManager : UIComponent
         if (value != _cursor)
         {
             _cursor = value;
-            if (_onChangeCursor != null)
+            if (OnChangeCursor != null)
             {
-                _onChangeCursor(this);
+                OnChangeCursor(this);
             }
         }
     }
 
     [Published]
     public int Cursor { get => _cursor; set => SetCursor(value); }
-
-    [Published]
-    public NotifyEvent<WindowManager> OnChangeCursor { get => _onChangeCursor; set => _onChangeCursor = value; }
 
     [Published]
     public InterfaceImageLibrary BackgroundTexture { get => _backgroundTexture; set => SetILTB(value); }
@@ -740,57 +711,57 @@ public partial class WindowManager : UIComponent
     [Published]
     public bool DrawOverlay { get => _drawOverlay; set => _drawOverlay = value; }
 
-    public new NotifyEvent<WindowManager> OnChange
+    public new event NotifyEvent<WindowManager> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<WindowManager> OnMouseDown
+    public new event MouseEvent<WindowManager> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<WindowManager> OnMouseUp
+    public new event MouseEvent<WindowManager> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<WindowManager> OnMouseMove
+    public new event MouseMoveEvent<WindowManager> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<WindowManager> OnKeyPress
+    public new event KeyPressEvent<WindowManager> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<WindowManager> OnKeyDown
+    public new event KeyEvent<WindowManager> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<WindowManager> OnPreDraw
+    public new event AoWOnDrawEvent<WindowManager> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<WindowManager> OnDraw
+    public new event AoWOnDrawEvent<WindowManager> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<WindowManager> OnUpdate
+    public new event NotifyEvent<WindowManager> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(OnUpdate), value: value);
     }
 }

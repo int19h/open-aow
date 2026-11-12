@@ -40,7 +40,9 @@ public partial class AIMoveTargetSelector : EngineObject
 
     private MoveTargetList _bufferedTargets;
 
-    public MoveTargetFoundEvent OnTargetFound { get; set; }
+    public event MoveTargetFoundEvent OnTargetFound;
+
+    internal void SetTargetFoundHandler(MoveTargetFoundEvent handler) => OnTargetFound = handler;
 
     private MovePointTable _transportMovePointTable;
     public MapCoordinate SourceLocation;

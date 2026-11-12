@@ -55,7 +55,7 @@ public partial class FileDialogWindow : DataModule
     public string LastFileName { get; set; } = "";
 
     private SaveGameEventLog _saveEvent;
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
 
     // is the data pointer of FDone
     public int Mode { get; set; }
@@ -66,9 +66,9 @@ public partial class FileDialogWindow : DataModule
     {
         ExecuteDoneEvent done;
         SaveGameEventLog eventValue;
-        done = _done;
+        done = Done;
         eventValue = _saveEvent;
-        _done = null;
+        Done = null;
         _saveEvent = null;
         if (done != null)
         {
@@ -892,7 +892,7 @@ public partial class FileDialogWindow : DataModule
 
     internal static void ShowSaveGameEvent(FileDialogWindow dialog, SaveGameEventLog eventValue, ExecuteDoneEvent done)
     {
-        dialog._done = done;
+        dialog.Done = done;
         dialog._saveEvent = eventValue;
         dialog._saveEvent.AddRef();
         dialog.Mode = 1;

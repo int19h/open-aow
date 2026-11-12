@@ -30,7 +30,18 @@ public partial class PyreScreen : DataModule
     private object _animation;
 
     public SongStatus SavedSongStatus { get; set; }
-    public ExecuteDoneEvent Done { get; set; }
+
+    public event ExecuteDoneEvent Done;
+
+    // The results window ends the pyre screen: it takes the done handler, the slot is empty
+    // before the handler runs, and the handler runs once.
+    internal ExecuteDoneEvent TakeDoneHandler()
+    {
+        ExecuteDoneEvent done = Done;
+        Done = null;
+        return done;
+    }
+
     public GameOverEventLog GameOverEvent { get; set; }
 
     private int _animationFrame;

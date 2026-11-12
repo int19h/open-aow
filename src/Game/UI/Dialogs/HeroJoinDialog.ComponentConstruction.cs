@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class HeroJoinDialog
 {
-    public NotifyEvent<HeroJoinDialog> LayoutOnCreate { get; set; }
-    public NotifyEvent<HeroJoinDialog> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<HeroJoinDialog> LayoutOnCreate;
+    public event NotifyEvent<HeroJoinDialog> LayoutOnDestroy;
 
     public override void Dispose()
     {

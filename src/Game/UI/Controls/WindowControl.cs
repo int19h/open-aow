@@ -6,18 +6,35 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Controls;
 
-// Fields: _modal, _onDrawSurface, _onPreDrawSurface, Dragging, DragX, DragY, _draggable,
-// _resizable, ResizingX, ResizingY, _onResize, _onInternalResize, _dragHeight,
-// _overlapTopCorners, OldCursor, WindowCursor, _onChangeCursor, _minWidth, _minHeight,
+// Fields: _modal, OnDrawSurface, OnPreDrawSurface, Dragging, DragX, DragY, _draggable,
+// _resizable, ResizingX, ResizingY, OnResize, OnInternalResize, _dragHeight,
+// _overlapTopCorners, OldCursor, WindowCursor, OnChangeCursor, _minWidth, _minHeight,
 // _maxWidth, _maxHeight, InResizeArea, WindowStyle, _imageLibraryFrame, _imageLibraryTexture, _useManagerBorders,
 // FrameLeft, FrameTop, FrameRight, FrameBottom, _maskColor, _useVideoMemory, BackSurface,
-// (unused), BackRectangle, (unused), _onDrawBack, _onEnter, _onExit, MouseInside, _imageLibraryIndexFrame,
+// (unused), BackRectangle, (unused), OnDrawBack, OnEnter, OnExit, MouseInside, _imageLibraryIndexFrame,
 // _imageLibraryIndexTexture, _dockable
 public partial class WindowControl : UIComponent
 {
     public bool _modal;
-    public AoWOnDrawSurface<WindowControl> _onDrawSurface;
-    public AoWOnDrawSurface<WindowControl> _onPreDrawSurface;
+    public event AoWOnDrawSurface<WindowControl> OnDrawSurface;
+
+    protected void RaiseDrawSurface(WindowControl sender, Surface surface, int left, int top)
+    {
+        if (OnDrawSurface != null)
+        {
+            OnDrawSurface(sender, surface, left, top);
+        }
+    }
+
+    public event AoWOnDrawSurface<WindowControl> OnPreDrawSurface;
+
+    protected void RaisePreDrawSurface(WindowControl sender, Surface surface, int left, int top)
+    {
+        if (OnPreDrawSurface != null)
+        {
+            OnPreDrawSurface(sender, surface, left, top);
+        }
+    }
 
     public byte Dragging { get; protected set; }
     public int DragX { get; protected set; }
@@ -29,15 +46,42 @@ public partial class WindowControl : UIComponent
     public byte ResizingX { get; protected set; }
     public byte ResizingY { get; protected set; }
 
-    public NotifyEvent<WindowControl> _onResize;
-    public NotifyEvent<WindowControl> _onInternalResize;
+    public event NotifyEvent<WindowControl> OnResize;
+
+    protected void RaiseResize(WindowControl sender)
+    {
+        if (OnResize != null)
+        {
+            OnResize(sender);
+        }
+    }
+
+    public event NotifyEvent<WindowControl> OnInternalResize;
+
+    protected void RaiseInternalResize(WindowControl sender)
+    {
+        if (OnInternalResize != null)
+        {
+            OnInternalResize(sender);
+        }
+    }
+
     public int _dragHeight;
     public bool _overlapTopCorners;
 
     public int OldCursor { get; protected set; }
     public int WindowCursor { get; protected set; }
 
-    public NotifyEvent<WindowControl> _onChangeCursor;
+    public event NotifyEvent<WindowControl> OnChangeCursor;
+
+    protected void RaiseChangeCursor(WindowControl sender)
+    {
+        if (OnChangeCursor != null)
+        {
+            OnChangeCursor(sender);
+        }
+    }
+
     public int _minWidth;
     public int _minHeight;
     public int _maxWidth;
@@ -62,9 +106,38 @@ public partial class WindowControl : UIComponent
 
     public Rect BackRectangle;
 
-    public AoWOnDrawBackEvent<WindowControl> _onDrawBack;
-    public NotifyEvent<WindowControl> _onEnter;
-    public NotifyEvent<WindowControl> _onExit;
+    [Published]
+    public event AoWOnDrawBackEvent<WindowControl> OnDrawBack;
+
+    protected void RaiseDrawBack(WindowControl sender, LockedSurface surfDesc)
+    {
+        if (OnDrawBack != null)
+        {
+            OnDrawBack(sender, surfDesc);
+        }
+    }
+
+    [Published]
+    public event NotifyEvent<WindowControl> OnEnter;
+
+    internal void RaiseEnter(WindowControl sender)
+    {
+        if (OnEnter != null)
+        {
+            OnEnter(sender);
+        }
+    }
+
+    [Published]
+    public event NotifyEvent<WindowControl> OnExit;
+
+    internal void RaiseExit(WindowControl sender)
+    {
+        if (OnExit != null)
+        {
+            OnExit(sender);
+        }
+    }
 
     public bool MouseInside { get; set; }
 
@@ -147,9 +220,9 @@ public partial class WindowControl : UIComponent
                 }
             }
 
-            if ((Handled || _modal) && _onKeyPress != null)
+            if ((Handled || _modal))
             {
-                _onKeyPress(this, ref key);
+                RaiseKeyPress(this, ref key);
             }
 
             if (_modal)
@@ -176,10 +249,7 @@ public partial class WindowControl : UIComponent
                 }
             }
 
-            if (_onKeyDown != null)
-            {
-                _onKeyDown(this, ref key, shift);
-            }
+            RaiseKeyDown(this, ref key, shift);
 
             if (_modal)
             {
@@ -197,9 +267,9 @@ public partial class WindowControl : UIComponent
     public virtual void Blit(Surface surface)
     {
         Rect R = default;
-        if (_onPreDrawSurface != null)
+        if (OnPreDrawSurface != null)
         {
-            _onPreDrawSurface(this, surface, WinLeft, WinTop);
+            OnPreDrawSurface(this, surface, WinLeft, WinTop);
         }
 
         R = new Rect(0, 0, WinWidth, WinHeight);
@@ -214,9 +284,9 @@ public partial class WindowControl : UIComponent
             BackSurface.BlitAreaColorKeyClipped(surface, R, WinLeft, WinTop, color2PixelInfo);
         }
 
-        if (_onDrawSurface != null)
+        if (OnDrawSurface != null)
         {
-            _onDrawSurface(this, surface, WinLeft, WinTop);
+            OnDrawSurface(this, surface, WinLeft, WinTop);
         }
     }
 
@@ -239,10 +309,7 @@ public partial class WindowControl : UIComponent
             {
                 C._checked = false;
                 C.Drawn = false;
-                if (C._onChange != null)
-                {
-                    C._onChange(C);
-                }
+                C.RaiseChange(C);
             }
         }
     }
@@ -310,67 +377,58 @@ public partial class WindowControl : UIComponent
         return result;
     }
 
-    [Published]
-    public AoWOnDrawBackEvent<WindowControl> OnDrawBack { get => _onDrawBack; set => _onDrawBack = value; }
-
-    [Published]
-    public NotifyEvent<WindowControl> OnEnter { get => _onEnter; set => _onEnter = value; }
-
-    [Published]
-    public NotifyEvent<WindowControl> OnExit { get => _onExit; set => _onExit = value; }
-
-    public new NotifyEvent<WindowControl> OnChange
+    public new event NotifyEvent<WindowControl> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, WindowControl>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, WindowControl>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<WindowControl> OnMouseDown
+    public new event MouseEvent<WindowControl> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, WindowControl>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, WindowControl>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<WindowControl> OnMouseUp
+    public new event MouseEvent<WindowControl> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, WindowControl>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, WindowControl>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<WindowControl> OnMouseMove
+    public new event MouseMoveEvent<WindowControl> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, WindowControl>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, WindowControl>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<WindowControl> OnKeyPress
+    public new event KeyPressEvent<WindowControl> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, WindowControl>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, WindowControl>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<WindowControl> OnKeyDown
+    public new event KeyEvent<WindowControl> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, WindowControl>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, WindowControl>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<WindowControl> OnPreDraw
+    public new event AoWOnDrawEvent<WindowControl> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, WindowControl>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, WindowControl>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<WindowControl> OnDraw
+    public new event AoWOnDrawEvent<WindowControl> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, WindowControl>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, WindowControl>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<WindowControl> OnUpdate
+    public new event NotifyEvent<WindowControl> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, WindowControl>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, WindowControl>(this, slot: nameof(OnUpdate), value: value);
     }
 
     public enum Style : byte

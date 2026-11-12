@@ -21,14 +21,14 @@ public partial class GamePlayDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "GamePlayDlg";
-        Window.OnKeyDown = (_, ref key, shift) => WindowKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => WindowKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 150;
         Window.WinTop = 71;
         Window.WinWidth = 340;
         Window.Masked = true;
-        Window.OnShow = _ => WindowShow();
+        Window.OnShow += _ => WindowShow();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -92,7 +92,7 @@ public partial class GamePlayDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 110;
-        cancelBtn.OnClick = _ => CancelClick();
+        cancelBtn.OnClick += _ => CancelClick();
         session.EndRead(cancelBtn);
         Frame bCeltL = new Frame(this);
         session.BeginRead(bCeltL);
@@ -176,7 +176,7 @@ public partial class GamePlayDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => CancelClick();
+        close.OnClick += _ => CancelClick();
         session.EndRead(close);
         Image tCeltLR = new Image(this);
         session.BeginRead(tCeltLR);
@@ -1300,7 +1300,7 @@ public partial class GamePlayDialog : ILayoutModule
         changePasswordBtn.TextColor = 0;
         changePasswordBtn.TextSelectedColor = 16777215;
         changePasswordBtn.WinWidth = 90;
-        changePasswordBtn.OnClick = _ => Layout_ChangePasswordBtnClick_0();
+        changePasswordBtn.OnClick += _ => ChangePasswordBtnClick();
         session.EndRead(changePasswordBtn);
         MovementSpeedComboBox = new ComboBox(this);
         session.BeginRead(MovementSpeedComboBox);
@@ -1374,7 +1374,7 @@ public partial class GamePlayDialog : ILayoutModule
         okBtn.TextColor = 0;
         okBtn.TextSelectedColor = 16777215;
         okBtn.WinWidth = 110;
-        okBtn.OnClick = _ => OKBtnClick();
+        okBtn.OnClick += _ => OKBtnClick();
         session.EndRead(okBtn);
         Classic8CheckBox = new CheckBox(this);
         session.BeginRead(Classic8CheckBox);
@@ -1913,10 +1913,5 @@ public partial class GamePlayDialog : ILayoutModule
         panel1.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
         panel1.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
         celtLineL.ImageLibrary = DialogHosts.UIGraphics.CelticDecorations;
-    }
-
-    private void Layout_ChangePasswordBtnClick_0()
-    {
-        ChangePasswordBtnClick();
     }
 }

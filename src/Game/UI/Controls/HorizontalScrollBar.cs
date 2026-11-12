@@ -110,10 +110,7 @@ public partial class HorizontalScrollBar : ScrollBar
         {
             if (Valid && Visible)
             {
-                if (_onPreDraw != null)
-                {
-                    _onPreDraw(this, lockedSurface);
-                }
+                RaisePreDraw(this, lockedSurface);
 
                 switch (ScrollType)
                 {
@@ -225,10 +222,7 @@ public partial class HorizontalScrollBar : ScrollBar
                         break;
                 }
 
-                if (_onDraw != null)
-                {
-                    _onDraw(this, lockedSurface);
-                }
+                RaiseDraw(this, lockedSurface);
             }
         }
         catch
@@ -373,16 +367,10 @@ public partial class HorizontalScrollBar : ScrollBar
             if (oldPosition != Position)
             {
                 Drawn = false;
-                if (_onChange != null)
-                {
-                    _onChange(this);
-                }
+                RaiseChange(this);
             }
 
-            if (_onMouseDown != null)
-            {
-                _onMouseDown(this, button, shift, X, Y);
-            }
+            RaiseMouseDown(this, button, shift, X, Y);
         }
     }
 
@@ -400,10 +388,7 @@ public partial class HorizontalScrollBar : ScrollBar
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (_onMouseUp != null)
-            {
-                _onMouseUp(this, button, shift, X, Y);
-            }
+            RaiseMouseUp(this, button, shift, X, Y);
         }
     }
 
@@ -426,73 +411,67 @@ public partial class HorizontalScrollBar : ScrollBar
             }
 
             Drawn = false;
-            if (_onChange != null)
-            {
-                _onChange(this);
-            }
+            RaiseChange(this);
         }
 
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight)
         {
             Handled = true;
-            if (_onMouseMove != null)
-            {
-                _onMouseMove(this, shift, X, Y);
-            }
+            RaiseMouseMove(this, shift, X, Y);
         }
     }
 
-    public new NotifyEvent<HorizontalScrollBar> OnChange
+    public new event NotifyEvent<HorizontalScrollBar> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<HorizontalScrollBar> OnMouseDown
+    public new event MouseEvent<HorizontalScrollBar> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<HorizontalScrollBar> OnMouseUp
+    public new event MouseEvent<HorizontalScrollBar> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<HorizontalScrollBar> OnMouseMove
+    public new event MouseMoveEvent<HorizontalScrollBar> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<HorizontalScrollBar> OnKeyPress
+    public new event KeyPressEvent<HorizontalScrollBar> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<HorizontalScrollBar> OnKeyDown
+    public new event KeyEvent<HorizontalScrollBar> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<HorizontalScrollBar> OnPreDraw
+    public new event AoWOnDrawEvent<HorizontalScrollBar> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<HorizontalScrollBar> OnDraw
+    public new event AoWOnDrawEvent<HorizontalScrollBar> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<HorizontalScrollBar> OnUpdate
+    public new event NotifyEvent<HorizontalScrollBar> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnUpdate), value: value);
     }
 }

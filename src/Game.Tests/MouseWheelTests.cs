@@ -212,7 +212,7 @@ public sealed class MouseWheelTests
         bar.SetSmallChangeUnclamped(2);
         list.SetVerticalScrollBarWithoutLayout(bar);
         int changes = 0;
-        bar._onChange = _ =>
+        bar.OnChange += _ =>
         {
             changes++;
             list.ListOffset = bar.Position;
@@ -251,7 +251,7 @@ public sealed class MouseWheelTests
         Fill(list, 10, 4);
         var bar = Bar(panel, 140, 10, 16, 40, 9, 3);
         int changes = 0;
-        list._onChange = _ => changes++;
+        list.OnChange += _ => changes++;
         Set<ShiftState> shift = default;
 
         Assert.True(manager.CheckMouseWheel(-1, shift, 30, 30));
@@ -276,13 +276,13 @@ public sealed class MouseWheelTests
         var back = new Button(null);
         var forward = new Button(null);
         back.SetVisibleWithoutUpdate(false);
-        back.OnClick = _ =>
+        back.OnClick += _ =>
         {
             page--;
             forward.SetVisibleWithoutUpdate(true);
             if (page == 0) back.SetVisibleWithoutUpdate(false);
         };
-        forward.OnClick = _ =>
+        forward.OnClick += _ =>
         {
             page++;
             back.SetVisibleWithoutUpdate(true);
@@ -382,7 +382,7 @@ public sealed class MouseWheelTests
         bar.SetImageLibraryIDecrementWithoutInvalidate(library);
         bar.SetImageLibraryImageIncrementWithoutInvalidate(library);
         int changes = 0;
-        bar._onChange = _ => changes++;
+        bar.OnChange += _ => changes++;
         int x = window.WinLeft + bar.WinLeft + 1;
         int top = window.WinTop + bar.WinTop;
 

@@ -425,7 +425,7 @@ public partial class UnitSpell : Spell
     public void ResetTargetSelection()
     {
         var targetSelectionControl = StrategicMap.Current.TargetSelection;
-        targetSelectionControl.FOnChange -= OnTargetSelectionChange;
+        targetSelectionControl.Changed -= OnTargetSelectionChange;
         targetSelectionControl.Deactivate();
     }
 
@@ -451,8 +451,8 @@ public partial class UnitSpell : Spell
         control.SourceX = X;
         control.SourceY = Y;
         control.SourceL = L;
-        control.FOnChange += OnTargetSelectionChange;
-        control.OnValidateTarget = OnValidateTarget;
+        control.Changed += OnTargetSelectionChange;
+        control.SetValidateTargetHandler(OnValidateTarget);
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_selectTargetPartyFormat), [SpellName]);
         control.Text.Text = format;
         control.Title = SpellName;

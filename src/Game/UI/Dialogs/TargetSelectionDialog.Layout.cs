@@ -120,7 +120,7 @@ public partial class TargetSelectionDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CloseClick_0();
+        close.OnClick += _ => CloseClick();
         session.EndRead(close);
         Label title = new Label(this);
         session.BeginRead(title);
@@ -202,7 +202,7 @@ public partial class TargetSelectionDialog : ILayoutModule
         MainButton.TextColor = 0;
         MainButton.TextSelectedColor = 16777215;
         MainButton.WinWidth = 110;
-        MainButton.OnClick = _ => Layout_MainBtnClick_1();
+        MainButton.OnClick += _ => MainBtnClick();
         session.EndRead(MainButton);
         DefaultMemo = new Memo(this);
         session.BeginRead(DefaultMemo);
@@ -504,15 +504,5 @@ public partial class TargetSelectionDialog : ILayoutModule
         spellMemo.Font = DialogHosts.UIFonts.Age10Shadow;
         targetRangeLabel.Font = DialogHosts.UIFonts.Age10Shadow;
         TargetLabel.Font = DialogHosts.UIFonts.Age10Shadow;
-    }
-
-    private void Layout_CloseClick_0()
-    {
-        CloseClick();
-    }
-
-    private void Layout_MainBtnClick_1()
-    {
-        MainBtnClick();
     }
 }

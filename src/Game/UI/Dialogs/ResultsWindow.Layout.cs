@@ -18,12 +18,12 @@ public partial class ResultsWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "ResultsWin";
-        LayoutOnCreate = _ => Layout_ResultsWinCreate_0();
-        LayoutOnDestroy = _ => Layout_ResultsWinDestroy_1();
+        LayoutOnCreate += _ => ResultsWinCreate();
+        LayoutOnDestroy += _ => ResultsWinDestroy();
         Player1CheckBox = new CheckBox(this);
         session.BeginRead(Player1CheckBox);
         Player1CheckBox.Name = "P1CB";
-        Player1CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 0);
+        Player1CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 0);
         Player1CheckBox.Priority = 800;
         Player1CheckBox.WinLeft = 14;
         Player1CheckBox.WinTop = 375;
@@ -54,14 +54,14 @@ public partial class ResultsWindow : ILayoutModule
         Player1CheckBox.TextSelectedColor = 0;
         Player1CheckBox.WinWidth = 52;
         Player1CheckBox.Checked = false;
-        Player1CheckBox.OnChange = sender => P1CBChange(sender, 0);
+        Player1CheckBox.OnChange += sender => P1CBChange(sender, 0);
         Player1CheckBox.RadioIndex = 1;
         session.EndRead(Player1CheckBox);
         Player2CheckBox = new CheckBox(this);
         session.BeginRead(Player2CheckBox);
         Player2CheckBox.Name = "P2CB";
         Player2CheckBox.Tag = 1;
-        Player2CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 1);
+        Player2CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 1);
         Player2CheckBox.Priority = 800;
         Player2CheckBox.WinLeft = 65;
         Player2CheckBox.WinTop = 375;
@@ -92,14 +92,14 @@ public partial class ResultsWindow : ILayoutModule
         Player2CheckBox.TextSelectedColor = 0;
         Player2CheckBox.WinWidth = 52;
         Player2CheckBox.Checked = false;
-        Player2CheckBox.OnChange = sender => P1CBChange(sender, 1);
+        Player2CheckBox.OnChange += sender => P1CBChange(sender, 1);
         Player2CheckBox.RadioIndex = 1;
         session.EndRead(Player2CheckBox);
         Player3CheckBox = new CheckBox(this);
         session.BeginRead(Player3CheckBox);
         Player3CheckBox.Name = "P3CB";
         Player3CheckBox.Tag = 2;
-        Player3CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 2);
+        Player3CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 2);
         Player3CheckBox.Priority = 800;
         Player3CheckBox.WinLeft = 116;
         Player3CheckBox.WinTop = 375;
@@ -130,14 +130,14 @@ public partial class ResultsWindow : ILayoutModule
         Player3CheckBox.TextSelectedColor = 0;
         Player3CheckBox.WinWidth = 52;
         Player3CheckBox.Checked = false;
-        Player3CheckBox.OnChange = sender => P1CBChange(sender, 2);
+        Player3CheckBox.OnChange += sender => P1CBChange(sender, 2);
         Player3CheckBox.RadioIndex = 1;
         session.EndRead(Player3CheckBox);
         Player4CheckBox = new CheckBox(this);
         session.BeginRead(Player4CheckBox);
         Player4CheckBox.Name = "P4CB";
         Player4CheckBox.Tag = 3;
-        Player4CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 3);
+        Player4CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 3);
         Player4CheckBox.Priority = 800;
         Player4CheckBox.WinLeft = 167;
         Player4CheckBox.WinTop = 375;
@@ -168,14 +168,14 @@ public partial class ResultsWindow : ILayoutModule
         Player4CheckBox.TextSelectedColor = 0;
         Player4CheckBox.WinWidth = 52;
         Player4CheckBox.Checked = false;
-        Player4CheckBox.OnChange = sender => P1CBChange(sender, 3);
+        Player4CheckBox.OnChange += sender => P1CBChange(sender, 3);
         Player4CheckBox.RadioIndex = 1;
         session.EndRead(Player4CheckBox);
         Player5CheckBox = new CheckBox(this);
         session.BeginRead(Player5CheckBox);
         Player5CheckBox.Name = "P5CB";
         Player5CheckBox.Tag = 4;
-        Player5CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 4);
+        Player5CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 4);
         Player5CheckBox.Priority = 800;
         Player5CheckBox.WinLeft = 218;
         Player5CheckBox.WinTop = 375;
@@ -206,14 +206,14 @@ public partial class ResultsWindow : ILayoutModule
         Player5CheckBox.TextSelectedColor = 0;
         Player5CheckBox.WinWidth = 52;
         Player5CheckBox.Checked = false;
-        Player5CheckBox.OnChange = sender => P1CBChange(sender, 4);
+        Player5CheckBox.OnChange += sender => P1CBChange(sender, 4);
         Player5CheckBox.RadioIndex = 1;
         session.EndRead(Player5CheckBox);
         Player6CheckBox = new CheckBox(this);
         session.BeginRead(Player6CheckBox);
         Player6CheckBox.Name = "P6CB";
         Player6CheckBox.Tag = 5;
-        Player6CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 5);
+        Player6CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 5);
         Player6CheckBox.Priority = 800;
         Player6CheckBox.WinLeft = 269;
         Player6CheckBox.WinTop = 375;
@@ -244,14 +244,14 @@ public partial class ResultsWindow : ILayoutModule
         Player6CheckBox.TextSelectedColor = 0;
         Player6CheckBox.WinWidth = 52;
         Player6CheckBox.Checked = false;
-        Player6CheckBox.OnChange = sender => P1CBChange(sender, 5);
+        Player6CheckBox.OnChange += sender => P1CBChange(sender, 5);
         Player6CheckBox.RadioIndex = 1;
         session.EndRead(Player6CheckBox);
         Player7CheckBox = new CheckBox(this);
         session.BeginRead(Player7CheckBox);
         Player7CheckBox.Name = "P7CB";
         Player7CheckBox.Tag = 6;
-        Player7CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 6);
+        Player7CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 6);
         Player7CheckBox.Priority = 800;
         Player7CheckBox.WinLeft = 320;
         Player7CheckBox.WinTop = 375;
@@ -282,14 +282,14 @@ public partial class ResultsWindow : ILayoutModule
         Player7CheckBox.TextSelectedColor = 0;
         Player7CheckBox.WinWidth = 52;
         Player7CheckBox.Checked = false;
-        Player7CheckBox.OnChange = sender => P1CBChange(sender, 6);
+        Player7CheckBox.OnChange += sender => P1CBChange(sender, 6);
         Player7CheckBox.RadioIndex = 1;
         session.EndRead(Player7CheckBox);
         Player8CheckBox = new CheckBox(this);
         session.BeginRead(Player8CheckBox);
         Player8CheckBox.Name = "P8CB";
         Player8CheckBox.Tag = 7;
-        Player8CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 7);
+        Player8CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 7);
         Player8CheckBox.Priority = 800;
         Player8CheckBox.WinLeft = 371;
         Player8CheckBox.WinTop = 375;
@@ -320,14 +320,14 @@ public partial class ResultsWindow : ILayoutModule
         Player8CheckBox.TextSelectedColor = 0;
         Player8CheckBox.WinWidth = 52;
         Player8CheckBox.Checked = false;
-        Player8CheckBox.OnChange = sender => P1CBChange(sender, 7);
+        Player8CheckBox.OnChange += sender => P1CBChange(sender, 7);
         Player8CheckBox.RadioIndex = 1;
         session.EndRead(Player8CheckBox);
         Player9CheckBox = new CheckBox(this);
         session.BeginRead(Player9CheckBox);
         Player9CheckBox.Name = "P9CB";
         Player9CheckBox.Tag = 8;
-        Player9CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 8);
+        Player9CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 8);
         Player9CheckBox.Priority = 800;
         Player9CheckBox.WinLeft = 422;
         Player9CheckBox.WinTop = 375;
@@ -358,14 +358,14 @@ public partial class ResultsWindow : ILayoutModule
         Player9CheckBox.TextSelectedColor = 0;
         Player9CheckBox.WinWidth = 52;
         Player9CheckBox.Checked = false;
-        Player9CheckBox.OnChange = sender => P1CBChange(sender, 8);
+        Player9CheckBox.OnChange += sender => P1CBChange(sender, 8);
         Player9CheckBox.RadioIndex = 1;
         session.EndRead(Player9CheckBox);
         Player10CheckBox = new CheckBox(this);
         session.BeginRead(Player10CheckBox);
         Player10CheckBox.Name = "P10CB";
         Player10CheckBox.Tag = 9;
-        Player10CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 9);
+        Player10CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 9);
         Player10CheckBox.Priority = 800;
         Player10CheckBox.WinLeft = 473;
         Player10CheckBox.WinTop = 375;
@@ -396,14 +396,14 @@ public partial class ResultsWindow : ILayoutModule
         Player10CheckBox.TextSelectedColor = 0;
         Player10CheckBox.WinWidth = 52;
         Player10CheckBox.Checked = false;
-        Player10CheckBox.OnChange = sender => P1CBChange(sender, 9);
+        Player10CheckBox.OnChange += sender => P1CBChange(sender, 9);
         Player10CheckBox.RadioIndex = 1;
         session.EndRead(Player10CheckBox);
         Player11CheckBox = new CheckBox(this);
         session.BeginRead(Player11CheckBox);
         Player11CheckBox.Name = "P11CB";
         Player11CheckBox.Tag = 10;
-        Player11CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 10);
+        Player11CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 10);
         Player11CheckBox.Priority = 800;
         Player11CheckBox.WinLeft = 524;
         Player11CheckBox.WinTop = 375;
@@ -434,14 +434,14 @@ public partial class ResultsWindow : ILayoutModule
         Player11CheckBox.TextSelectedColor = 0;
         Player11CheckBox.WinWidth = 52;
         Player11CheckBox.Checked = false;
-        Player11CheckBox.OnChange = sender => P1CBChange(sender, 10);
+        Player11CheckBox.OnChange += sender => P1CBChange(sender, 10);
         Player11CheckBox.RadioIndex = 1;
         session.EndRead(Player11CheckBox);
         Player12CheckBox = new CheckBox(this);
         session.BeginRead(Player12CheckBox);
         Player12CheckBox.Name = "P12CB";
         Player12CheckBox.Tag = 11;
-        Player12CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 11);
+        Player12CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 11);
         Player12CheckBox.Priority = 800;
         Player12CheckBox.WinLeft = 575;
         Player12CheckBox.WinTop = 375;
@@ -472,7 +472,7 @@ public partial class ResultsWindow : ILayoutModule
         Player12CheckBox.TextSelectedColor = 0;
         Player12CheckBox.WinWidth = 52;
         Player12CheckBox.Checked = false;
-        Player12CheckBox.OnChange = sender => P1CBChange(sender, 11);
+        Player12CheckBox.OnChange += sender => P1CBChange(sender, 11);
         Player12CheckBox.RadioIndex = 1;
         session.EndRead(Player12CheckBox);
         Label strLbl = new Label(this);
@@ -616,7 +616,7 @@ public partial class ResultsWindow : ILayoutModule
         AxisImage = new Image(this);
         session.BeginRead(AxisImage);
         AxisImage.Name = "Axis";
-        AxisImage.OnDraw = (_, lockedSurface) => AxisDraw(lockedSurface);
+        AxisImage.OnDraw += (_, surface) => AxisDraw(surface);
         AxisImage.Priority = 200;
         AxisImage.WinLeft = 149;
         AxisImage.WinTop = 48;
@@ -672,7 +672,7 @@ public partial class ResultsWindow : ILayoutModule
         ExitButton.TextColor = 0;
         ExitButton.TextSelectedColor = 0;
         ExitButton.WinWidth = 120;
-        ExitButton.OnClick = _ => Layout_ExitBtnClick_2();
+        ExitButton.OnClick += _ => ExitBtnClick();
         session.EndRead(ExitButton);
         Image faceGrid = new Image(this);
         session.BeginRead(faceGrid);
@@ -762,19 +762,19 @@ public partial class ResultsWindow : ILayoutModule
         ContinueButton.TextColor = 0;
         ContinueButton.TextSelectedColor = 0;
         ContinueButton.WinWidth = 119;
-        ContinueButton.OnClick = _ => Layout_ContinueBtnClick_3();
+        ContinueButton.OnClick += _ => ContinueBtnClick();
         session.EndRead(ContinueButton);
         ResultsPanel = new Panel(this);
         session.BeginRead(ResultsPanel);
         ResultsPanel.Name = "ResultsPnl";
-        ResultsPanel.OnUpdate = _ => Layout_ResultsPnlUpdate_4();
+        ResultsPanel.OnUpdate += _ => ResultsPnlUpdate();
         ResultsPanel.Visible = false;
         ResultsPanel.Priority = 5;
         ResultsPanel.WinLeft = 0;
         ResultsPanel.WinTop = 0;
         ResultsPanel.WinWidth = 640;
         ResultsPanel.Masked = true;
-        ResultsPanel.OnShow = _ => Layout_ResultsPnlShow_5();
+        ResultsPanel.OnShow += _ => ResultsPnlShow();
         ResultsPanel.Alignment.AlignWidth = AlignWidth.Center;
         ResultsPanel.Alignment.AlignHeight = AlignHeight.Center;
         ResultsPanel.Alignment.HeightPercent = 0;
@@ -827,7 +827,7 @@ public partial class ResultsWindow : ILayoutModule
         StrengthCheckBox.TextSelectedColor = 0;
         StrengthCheckBox.WinWidth = 12;
         StrengthCheckBox.Checked = true;
-        StrengthCheckBox.OnChange = _ => Layout_AgendaChange_6();
+        StrengthCheckBox.OnChange += _ => AgendaChange();
         StrengthCheckBox.RadioIndex = 1;
         session.EndRead(StrengthCheckBox);
         Panel agendaPnl = new Panel(this);
@@ -913,7 +913,7 @@ public partial class ResultsWindow : ILayoutModule
         GoldCheckBox.TextSelectedColor = 0;
         GoldCheckBox.WinWidth = 12;
         GoldCheckBox.Checked = false;
-        GoldCheckBox.OnChange = _ => Layout_AgendaChange_6();
+        GoldCheckBox.OnChange += _ => AgendaChange();
         GoldCheckBox.RadioIndex = 1;
         session.EndRead(GoldCheckBox);
         Label goldLbl = new Label(this);
@@ -972,7 +972,7 @@ public partial class ResultsWindow : ILayoutModule
         ArmiesCheckBox.TextSelectedColor = 0;
         ArmiesCheckBox.WinWidth = 12;
         ArmiesCheckBox.Checked = false;
-        ArmiesCheckBox.OnChange = _ => Layout_AgendaChange_6();
+        ArmiesCheckBox.OnChange += _ => AgendaChange();
         ArmiesCheckBox.RadioIndex = 1;
         session.EndRead(ArmiesCheckBox);
         Label armiesLbl = new Label(this);
@@ -1031,7 +1031,7 @@ public partial class ResultsWindow : ILayoutModule
         HeroesCheckBox.TextSelectedColor = 0;
         HeroesCheckBox.WinWidth = 12;
         HeroesCheckBox.Checked = false;
-        HeroesCheckBox.OnChange = _ => Layout_AgendaChange_6();
+        HeroesCheckBox.OnChange += _ => AgendaChange();
         HeroesCheckBox.RadioIndex = 1;
         session.EndRead(HeroesCheckBox);
         Label heroesLbl = new Label(this);
@@ -1090,7 +1090,7 @@ public partial class ResultsWindow : ILayoutModule
         StructuresCheckBox.TextSelectedColor = 0;
         StructuresCheckBox.WinWidth = 12;
         StructuresCheckBox.Checked = false;
-        StructuresCheckBox.OnChange = _ => Layout_AgendaChange_6();
+        StructuresCheckBox.OnChange += _ => AgendaChange();
         StructuresCheckBox.RadioIndex = 1;
         session.EndRead(StructuresCheckBox);
         Label structuresLbl = new Label(this);
@@ -1381,40 +1381,5 @@ public partial class ResultsWindow : ILayoutModule
         manaLbl.Font = DialogHosts.UIFonts.Age8;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
-    }
-
-    private void Layout_ResultsWinCreate_0()
-    {
-        ResultsWinCreate();
-    }
-
-    private void Layout_ResultsWinDestroy_1()
-    {
-        ResultsWinDestroy();
-    }
-
-    private void Layout_ExitBtnClick_2()
-    {
-        ExitBtnClick();
-    }
-
-    private void Layout_ContinueBtnClick_3()
-    {
-        ContinueBtnClick();
-    }
-
-    private void Layout_ResultsPnlUpdate_4()
-    {
-        ResultsPnlUpdate();
-    }
-
-    private void Layout_ResultsPnlShow_5()
-    {
-        ResultsPnlShow();
-    }
-
-    private void Layout_AgendaChange_6()
-    {
-        AgendaChange();
     }
 }

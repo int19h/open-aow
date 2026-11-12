@@ -53,8 +53,8 @@ public partial class ScannerWindow : ILayoutModule
         MainWindow.DragHeight = 20;
         MainWindow.Draggable = true;
         MainWindow.Resizable = true;
-        MainWindow.OnDrag = _ => Layout_ScannerWindowResize_0();
-        MainWindow.OnResize = _ => Layout_ScannerWindowResize_0();
+        MainWindow.OnDrag += _ => ScannerWindowResize();
+        MainWindow.OnResize += _ => ScannerWindowResize();
         MainWindow.MinWidth = 200;
         MainWindow.MinHeight = 216;
         MainWindow.MaxWidth = 0;
@@ -94,7 +94,7 @@ public partial class ScannerWindow : ILayoutModule
         ScannerTabs = new TabPanel(this);
         session.BeginRead(ScannerTabs);
         ScannerTabs.Name = "ScannerTab";
-        ScannerTabs.OnMouseDown = (_, button, shift, x, y) => ScannerTabMouseDown(button, shift, x, y);
+        ScannerTabs.OnMouseDown += (_, button, shift, x, y) => ScannerTabMouseDown(button, shift, x, y);
         ScannerTabs.Priority = 10000;
         ScannerTabs.WinLeft = 31;
         ScannerTabs.WinTop = 182;
@@ -117,7 +117,7 @@ public partial class ScannerWindow : ILayoutModule
         ScannerTabs.Alignment.BottomOffset = 19;
         ScannerTabs.Masked = false;
         ScannerTabs.BorderHeight = 3;
-        ScannerTabs.OnChange = _ => Layout_ScannerTabChange_1();
+        ScannerTabs.OnChange += _ => ScannerTabChange();
         ScannerTabs.Selected = 1;
         ScannerTabs.WinWidth = 145;
         ScannerTabs.TextColor = 1777703;
@@ -159,7 +159,7 @@ public partial class ScannerWindow : ILayoutModule
         BuildingCheckBox.TextSelectedColor = 0;
         BuildingCheckBox.WinWidth = 15;
         BuildingCheckBox.Checked = true;
-        BuildingCheckBox.OnChange = BuildingCheckChange;
+        BuildingCheckBox.OnChange += BuildingCheckChange;
         BuildingCheckBox.RadioIndex = 0;
         session.EndRead(BuildingCheckBox);
         ArmyCheckBox = new CheckBox(this);
@@ -195,7 +195,7 @@ public partial class ScannerWindow : ILayoutModule
         ArmyCheckBox.TextSelectedColor = 0;
         ArmyCheckBox.WinWidth = 15;
         ArmyCheckBox.Checked = true;
-        ArmyCheckBox.OnChange = ArmyCheckChange;
+        ArmyCheckBox.OnChange += ArmyCheckChange;
         ArmyCheckBox.RadioIndex = 0;
         session.EndRead(ArmyCheckBox);
         NaturalCheckBox = new CheckBox(this);
@@ -231,7 +231,7 @@ public partial class ScannerWindow : ILayoutModule
         NaturalCheckBox.TextSelectedColor = 0;
         NaturalCheckBox.WinWidth = 15;
         NaturalCheckBox.Checked = true;
-        NaturalCheckBox.OnChange = NaturalCheckChange;
+        NaturalCheckBox.OnChange += NaturalCheckChange;
         NaturalCheckBox.RadioIndex = 0;
         session.EndRead(NaturalCheckBox);
         Scanner = new Scanner(this);
@@ -264,7 +264,7 @@ public partial class ScannerWindow : ILayoutModule
         Scanner.Buildings = true;
         Scanner.Armies = true;
         Scanner.Naturals = true;
-        Scanner.OnChangeTileBox = _ => Layout_ScannerChangeTileBox_5();
+        Scanner.OnChangeTileBox += _ => ScannerChangeTileBox();
         Scanner.MapDrawSteps = 5;
         Scanner.ImageLibraryIndexFrame = 20;
         session.EndRead(Scanner);
@@ -351,7 +351,7 @@ public partial class ScannerWindow : ILayoutModule
         sMinIcon.TextColor = 0;
         sMinIcon.TextSelectedColor = 0;
         sMinIcon.WinWidth = 15;
-        sMinIcon.OnClick = _ => Layout_SMinIconClick_6();
+        sMinIcon.OnClick += _ => SMinIconClick();
         session.EndRead(sMinIcon);
         Button help = new Button(this);
         session.BeginRead(help);
@@ -385,7 +385,7 @@ public partial class ScannerWindow : ILayoutModule
         help.TextColor = 0;
         help.TextSelectedColor = 0;
         help.WinWidth = 15;
-        help.OnClick = _ => Layout_HelpClick_7();
+        help.OnClick += _ => HelpClick();
         session.EndRead(help);
         LayoutIvTranslator translator = new LayoutIvTranslator(this);
         session.BeginRead(translator);
@@ -444,30 +444,5 @@ public partial class ScannerWindow : ILayoutModule
         sMinIcon.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
         help.ToolTip = DialogHosts.General.ToolTip;
         help.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
-    }
-
-    private void Layout_ScannerWindowResize_0()
-    {
-        ScannerWindowResize();
-    }
-
-    private void Layout_ScannerTabChange_1()
-    {
-        ScannerTabChange();
-    }
-
-    private void Layout_ScannerChangeTileBox_5()
-    {
-        ScannerChangeTileBox();
-    }
-
-    private void Layout_SMinIconClick_6()
-    {
-        SMinIconClick();
-    }
-
-    private void Layout_HelpClick_7()
-    {
-        HelpClick();
     }
 }

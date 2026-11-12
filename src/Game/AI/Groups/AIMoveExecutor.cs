@@ -47,7 +47,11 @@ public partial class AIMoveExecutor : EngineObject
     private sbyte _player;
     private int _processCycles;
 
-    public DoneEvent OnDone { get; set; }
+    public event DoneEvent OnDone;
+
+    internal void SetDoneHandler(DoneEvent handler) => OnDone = handler;
+
+    internal void ClearDoneHandler() => OnDone = null;
 
     // AIGroup.pas:5985
     public override void Dispose()

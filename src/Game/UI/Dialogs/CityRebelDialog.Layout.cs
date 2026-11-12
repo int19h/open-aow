@@ -21,14 +21,14 @@ public partial class CityRebelDialog : ILayoutModule
         RebelWindow = new Window(this);
         session.BeginRead(RebelWindow);
         RebelWindow.Name = "RebelWin";
-        RebelWindow.OnKeyDown = (_, ref key, shift) => RebelWinKeyDown(ref key, shift);
+        RebelWindow.OnKeyDown += (_, ref key, shift) => RebelWinKeyDown(ref key, shift);
         RebelWindow.Visible = false;
         RebelWindow.Priority = 300;
         RebelWindow.WinLeft = 162;
         RebelWindow.WinTop = 54;
         RebelWindow.WinWidth = 316;
         RebelWindow.Masked = true;
-        RebelWindow.OnHide = _ => Layout_RebelWinHide_0();
+        RebelWindow.OnHide += _ => RebelWinHide();
         RebelWindow.Alignment.AlignWidth = AlignWidth.Center;
         RebelWindow.Alignment.AlignHeight = AlignHeight.Center;
         RebelWindow.Alignment.HeightPercent = 0;
@@ -118,7 +118,7 @@ public partial class CityRebelDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CloseClick_1();
+        close.OnClick += _ => CloseClick();
         session.EndRead(close);
         Image titleIcon = new Image(this);
         session.BeginRead(titleIcon);
@@ -204,7 +204,7 @@ public partial class CityRebelDialog : ILayoutModule
         centerBut.TextColor = 0;
         centerBut.TextSelectedColor = 16777215;
         centerBut.WinWidth = 161;
-        centerBut.OnClick = _ => Layout_CenterButClick_2();
+        centerBut.OnClick += _ => CenterButClick();
         session.EndRead(centerBut);
         Button closeBut = new Button(this);
         session.BeginRead(closeBut);
@@ -235,7 +235,7 @@ public partial class CityRebelDialog : ILayoutModule
         closeBut.TextColor = 0;
         closeBut.TextSelectedColor = 16777215;
         closeBut.WinWidth = 98;
-        closeBut.OnClick = _ => Layout_CloseClick_1();
+        closeBut.OnClick += _ => CloseClick();
         session.EndRead(closeBut);
         Image rebelBG = new Image(this);
         session.BeginRead(rebelBG);
@@ -413,20 +413,5 @@ public partial class CityRebelDialog : ILayoutModule
         label2.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
         label3.Font = DialogHosts.UIFonts.Age10Shadow;
         frame1.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-    }
-
-    private void Layout_RebelWinHide_0()
-    {
-        RebelWinHide();
-    }
-
-    private void Layout_CloseClick_1()
-    {
-        CloseClick();
-    }
-
-    private void Layout_CenterButClick_2()
-    {
-        CenterButClick();
     }
 }

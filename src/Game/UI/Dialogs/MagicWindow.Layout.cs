@@ -29,8 +29,8 @@ public partial class MagicWindow : ILayoutModule
         Window.WinTop = 272;
         Window.WinWidth = 440;
         Window.Masked = false;
-        Window.OnHide = _ => Layout_DlgHide_0();
-        Window.OnShow = _ => Layout_DlgShow_1();
+        Window.OnHide += _ => DlgHide();
+        Window.OnShow += _ => DlgShow();
         Window.Alignment.AlignWidth = AlignWidth.Left;
         Window.Alignment.AlignHeight = AlignHeight.Bottom;
         Window.Alignment.HeightPercent = 0;
@@ -56,7 +56,7 @@ public partial class MagicWindow : ILayoutModule
         Window.DragHeight = 20;
         Window.Draggable = true;
         Window.Resizable = true;
-        Window.OnResize = _ => Layout_DlgResize_2();
+        Window.OnResize += _ => DlgResize();
         Window.MinWidth = 440;
         Window.MinHeight = 160;
         Window.MaxWidth = 1280;
@@ -145,7 +145,7 @@ public partial class MagicWindow : ILayoutModule
             "POWER"
         };
         headerTab.BorderHeight = 6;
-        headerTab.OnChange = _ => Layout_HeaderTabChange_3();
+        headerTab.OnChange += _ => HeaderTabChange();
         headerTab.Selected = 0;
         headerTab.WinWidth = 433;
         headerTab.TextColor = 0;
@@ -341,7 +341,7 @@ public partial class MagicWindow : ILayoutModule
         EnchantmentList = new ListBox<Enchantment>(this);
         session.BeginRead(EnchantmentList);
         EnchantmentList.Name = "EnchantmentList";
-        EnchantmentList.OnMouseDown = (_, button, shift, x, y) => EnchantmentListMouseDown(button, shift, x, y);
+        EnchantmentList.OnMouseDown += (_, button, shift, x, y) => EnchantmentListMouseDown(button, shift, x, y);
         EnchantmentList.Priority = 30;
         EnchantmentList.WinLeft = 1;
         EnchantmentList.WinTop = 14;
@@ -363,8 +363,8 @@ public partial class MagicWindow : ILayoutModule
         EnchantmentList.WinHeight = 73;
         EnchantmentList.BorderWidth = 6;
         EnchantmentList.BorderHeight = 3;
-        EnchantmentList.OnChange = _ => Layout_EnchantmentListChange_4();
-        EnchantmentList.OnDoubleClick = _ => Layout_EnchantmentListDoubleClick_5();
+        EnchantmentList.OnChange += _ => EnchantmentListChange();
+        EnchantmentList.OnDoubleClick += _ => EnchantmentListDoubleClick();
         EnchantmentList.Selected = -1;
         EnchantmentList.TextColor = 9415072;
         EnchantmentList.TextSelectedColor = 0;
@@ -403,12 +403,12 @@ public partial class MagicWindow : ILayoutModule
         enchantmentSortBtn.TextColor = 0;
         enchantmentSortBtn.TextSelectedColor = 16777215;
         enchantmentSortBtn.WinWidth = 160;
-        enchantmentSortBtn.OnClick = _ => Layout_EnchantmentSortBtnClick_6();
+        enchantmentSortBtn.OnClick += _ => EnchantmentSortBtnClick();
         session.EndRead(enchantmentSortBtn);
         UpkeepList = new ListBox(this);
         session.BeginRead(UpkeepList);
         UpkeepList.Name = "UpkeepList";
-        UpkeepList.OnMouseDown = (_, button, shift, x, y) => EnchantmentListMouseDown(button, shift, x, y);
+        UpkeepList.OnMouseDown += (_, button, shift, x, y) => EnchantmentListMouseDown(button, shift, x, y);
         UpkeepList.Priority = 10;
         UpkeepList.WinLeft = 344;
         UpkeepList.WinTop = 14;
@@ -430,8 +430,8 @@ public partial class MagicWindow : ILayoutModule
         UpkeepList.WinHeight = 73;
         UpkeepList.BorderWidth = 6;
         UpkeepList.BorderHeight = 3;
-        UpkeepList.OnChange = _ => Layout_UpkeepListChange_7();
-        UpkeepList.OnDoubleClick = _ => Layout_EnchantmentListDoubleClick_5();
+        UpkeepList.OnChange += _ => UpkeepListChange();
+        UpkeepList.OnDoubleClick += _ => EnchantmentListDoubleClick();
         UpkeepList.Selected = -1;
         UpkeepList.TextColor = 9415072;
         UpkeepList.TextSelectedColor = 0;
@@ -470,12 +470,12 @@ public partial class MagicWindow : ILayoutModule
         upkeepSortBtn.TextColor = 0;
         upkeepSortBtn.TextSelectedColor = 16777215;
         upkeepSortBtn.WinWidth = 77;
-        upkeepSortBtn.OnClick = _ => Layout_UpkeepSortBtnClick_8();
+        upkeepSortBtn.OnClick += _ => UpkeepSortBtnClick();
         session.EndRead(upkeepSortBtn);
         BindingList = new ListBox(this);
         session.BeginRead(BindingList);
         BindingList.Name = "BindingList";
-        BindingList.OnMouseDown = (_, button, shift, x, y) => EnchantmentListMouseDown(button, shift, x, y);
+        BindingList.OnMouseDown += (_, button, shift, x, y) => EnchantmentListMouseDown(button, shift, x, y);
         BindingList.Priority = 20;
         BindingList.WinLeft = 160;
         BindingList.WinTop = 14;
@@ -497,8 +497,8 @@ public partial class MagicWindow : ILayoutModule
         BindingList.WinHeight = 73;
         BindingList.BorderWidth = 6;
         BindingList.BorderHeight = 3;
-        BindingList.OnChange = _ => Layout_BindingListChange_9();
-        BindingList.OnDoubleClick = _ => Layout_EnchantmentListDoubleClick_5();
+        BindingList.OnChange += _ => BindingListChange();
+        BindingList.OnDoubleClick += _ => EnchantmentListDoubleClick();
         BindingList.Selected = -1;
         BindingList.TextColor = 9415072;
         BindingList.TextSelectedColor = 0;
@@ -537,7 +537,7 @@ public partial class MagicWindow : ILayoutModule
         bindingSortBtn.TextColor = 0;
         bindingSortBtn.TextSelectedColor = 16777215;
         bindingSortBtn.WinWidth = 186;
-        bindingSortBtn.OnClick = _ => Layout_BindingSortBtnClick_10();
+        bindingSortBtn.OnClick += _ => BindingSortBtnClick();
         session.EndRead(bindingSortBtn);
         Panel resPnl = new Panel(this);
         session.BeginRead(resPnl);
@@ -697,7 +697,7 @@ public partial class MagicWindow : ILayoutModule
         GlobalEnchantmentList = new ListBox<GlobalEnchantment>(this);
         session.BeginRead(GlobalEnchantmentList);
         GlobalEnchantmentList.Name = "GlobalEnchantmentList";
-        GlobalEnchantmentList.OnMouseDown = (_, button, shift, x, y) => GlobalEnchantmentMouseDown(button, shift, x, y);
+        GlobalEnchantmentList.OnMouseDown += (_, button, shift, x, y) => GlobalEnchantmentMouseDown(button, shift, x, y);
         GlobalEnchantmentList.Priority = 30;
         GlobalEnchantmentList.WinLeft = 1;
         GlobalEnchantmentList.WinTop = 14;
@@ -719,7 +719,7 @@ public partial class MagicWindow : ILayoutModule
         GlobalEnchantmentList.WinHeight = 73;
         GlobalEnchantmentList.BorderWidth = 6;
         GlobalEnchantmentList.BorderHeight = 3;
-        GlobalEnchantmentList.OnChange = _ => Layout_GlobalEnchantmentListChange_11();
+        GlobalEnchantmentList.OnChange += _ => GlobalEnchantmentListChange();
         GlobalEnchantmentList.Selected = -1;
         GlobalEnchantmentList.TextColor = 9415072;
         GlobalEnchantmentList.TextSelectedColor = 0;
@@ -758,12 +758,12 @@ public partial class MagicWindow : ILayoutModule
         globalEnchantmentSortBtn.TextColor = 0;
         globalEnchantmentSortBtn.TextSelectedColor = 16777215;
         globalEnchantmentSortBtn.WinWidth = 160;
-        globalEnchantmentSortBtn.OnClick = _ => Layout_GlobalEnchantmentSortBtnClick_12();
+        globalEnchantmentSortBtn.OnClick += _ => GlobalEnchantmentSortBtnClick();
         session.EndRead(globalEnchantmentSortBtn);
         GlobalUpkeepList = new ListBox(this);
         session.BeginRead(GlobalUpkeepList);
         GlobalUpkeepList.Name = "GlobalUpkeepList";
-        GlobalUpkeepList.OnMouseDown = (_, button, shift, x, y) => GlobalEnchantmentMouseDown(button, shift, x, y);
+        GlobalUpkeepList.OnMouseDown += (_, button, shift, x, y) => GlobalEnchantmentMouseDown(button, shift, x, y);
         GlobalUpkeepList.Priority = 10;
         GlobalUpkeepList.WinLeft = 344;
         GlobalUpkeepList.WinTop = 14;
@@ -785,7 +785,7 @@ public partial class MagicWindow : ILayoutModule
         GlobalUpkeepList.WinHeight = 73;
         GlobalUpkeepList.BorderWidth = 6;
         GlobalUpkeepList.BorderHeight = 3;
-        GlobalUpkeepList.OnChange = _ => Layout_GlobalUpkeepListChange_13();
+        GlobalUpkeepList.OnChange += _ => GlobalUpkeepListChange();
         GlobalUpkeepList.Selected = -1;
         GlobalUpkeepList.TextColor = 9415072;
         GlobalUpkeepList.TextSelectedColor = 0;
@@ -824,12 +824,12 @@ public partial class MagicWindow : ILayoutModule
         globalUpkeepSortBtn.TextColor = 0;
         globalUpkeepSortBtn.TextSelectedColor = 16777215;
         globalUpkeepSortBtn.WinWidth = 77;
-        globalUpkeepSortBtn.OnClick = _ => Layout_GlobalUpkeepSortBtnClick_14();
+        globalUpkeepSortBtn.OnClick += _ => GlobalUpkeepSortBtnClick();
         session.EndRead(globalUpkeepSortBtn);
         GlobalNameList = new ListBox(this);
         session.BeginRead(GlobalNameList);
         GlobalNameList.Name = "GlobalNameList";
-        GlobalNameList.OnMouseDown = (_, button, shift, x, y) => GlobalEnchantmentMouseDown(button, shift, x, y);
+        GlobalNameList.OnMouseDown += (_, button, shift, x, y) => GlobalEnchantmentMouseDown(button, shift, x, y);
         GlobalNameList.Priority = 20;
         GlobalNameList.WinLeft = 160;
         GlobalNameList.WinTop = 14;
@@ -851,7 +851,7 @@ public partial class MagicWindow : ILayoutModule
         GlobalNameList.WinHeight = 73;
         GlobalNameList.BorderWidth = 6;
         GlobalNameList.BorderHeight = 3;
-        GlobalNameList.OnChange = _ => Layout_GlobalNameListChange_15();
+        GlobalNameList.OnChange += _ => GlobalNameListChange();
         GlobalNameList.Selected = -1;
         GlobalNameList.TextColor = 9415072;
         GlobalNameList.TextSelectedColor = 0;
@@ -890,7 +890,7 @@ public partial class MagicWindow : ILayoutModule
         globalNameSortBtn.TextColor = 0;
         globalNameSortBtn.TextSelectedColor = 16777215;
         globalNameSortBtn.WinWidth = 186;
-        globalNameSortBtn.OnClick = _ => Layout_GlobalNameSortBtnClick_16();
+        globalNameSortBtn.OnClick += _ => GlobalNameSortBtnClick();
         session.EndRead(globalNameSortBtn);
         Panel rightPnl = new Panel(this);
         session.BeginRead(rightPnl);
@@ -972,7 +972,7 @@ public partial class MagicWindow : ILayoutModule
         GlobalDispelButton.TextColor = 0;
         GlobalDispelButton.TextSelectedColor = 16777215;
         GlobalDispelButton.WinWidth = 160;
-        GlobalDispelButton.OnClick = _ => Layout_GlobalDispelBtnClick_17();
+        GlobalDispelButton.OnClick += _ => GlobalDispelBtnClick();
         session.EndRead(GlobalDispelButton);
         DispelButton = new Button(this);
         session.BeginRead(DispelButton);
@@ -1004,7 +1004,7 @@ public partial class MagicWindow : ILayoutModule
         DispelButton.TextColor = 0;
         DispelButton.TextSelectedColor = 16777215;
         DispelButton.WinWidth = 160;
-        DispelButton.OnClick = _ => Layout_DispelBtnClick_18();
+        DispelButton.OnClick += _ => DispelBtnClick();
         session.EndRead(DispelButton);
         Button researchBtn = new Button(this);
         session.BeginRead(researchBtn);
@@ -1039,7 +1039,7 @@ public partial class MagicWindow : ILayoutModule
         researchBtn.TextColor = 0;
         researchBtn.TextSelectedColor = 16777215;
         researchBtn.WinWidth = 183;
-        researchBtn.OnClick = _ => Layout_ResearchBtnClick_19();
+        researchBtn.OnClick += _ => ResearchBtnClick();
         session.EndRead(researchBtn);
         ResearchTurnsLeftLabel = new Label(this);
         session.BeginRead(ResearchTurnsLeftLabel);
@@ -1140,7 +1140,7 @@ public partial class MagicWindow : ILayoutModule
         Image spellIcn = new Image(this);
         session.BeginRead(spellIcn);
         spellIcn.Name = "SpellIcn";
-        spellIcn.OnDraw = SpellIcnDraw;
+        spellIcn.OnDraw += SpellIcnDraw;
         spellIcn.Priority = 0;
         spellIcn.WinLeft = 8;
         spellIcn.WinTop = 8;
@@ -1198,7 +1198,7 @@ public partial class MagicWindow : ILayoutModule
         minimize.TextColor = 0;
         minimize.TextSelectedColor = 0;
         minimize.WinWidth = 15;
-        minimize.OnClick = _ => Layout_MinimizeClick_20();
+        minimize.OnClick += _ => MinimizeClick();
         session.EndRead(minimize);
         Button changePowerBut = new Button(this);
         session.BeginRead(changePowerBut);
@@ -1233,7 +1233,7 @@ public partial class MagicWindow : ILayoutModule
         changePowerBut.TextColor = 0;
         changePowerBut.TextSelectedColor = 16777215;
         changePowerBut.WinWidth = 183;
-        changePowerBut.OnClick = _ => Layout_ChangePowerButClick_21();
+        changePowerBut.OnClick += _ => ChangePowerButClick();
         session.EndRead(changePowerBut);
         PowerLabel = new Label(this);
         session.BeginRead(PowerLabel);
@@ -1443,7 +1443,7 @@ public partial class MagicWindow : ILayoutModule
         PowerValueList = new ListBox(this);
         session.BeginRead(PowerValueList);
         PowerValueList.Name = "PowerValueList";
-        PowerValueList.OnMouseDown = (_, button, shift, x, y) => PowerValueListMouseDown(button, shift, x, y);
+        PowerValueList.OnMouseDown += (_, button, shift, x, y) => PowerValueListMouseDown(button, shift, x, y);
         PowerValueList.Priority = 10;
         PowerValueList.WinLeft = 344;
         PowerValueList.WinTop = 14;
@@ -1465,8 +1465,8 @@ public partial class MagicWindow : ILayoutModule
         PowerValueList.WinHeight = 92;
         PowerValueList.BorderWidth = 6;
         PowerValueList.BorderHeight = 3;
-        PowerValueList.OnChange = _ => Layout_PowerValueListChange_22();
-        PowerValueList.OnDoubleClick = _ => Layout_PowerSourceListDoubleClick_23();
+        PowerValueList.OnChange += _ => PowerValueListChange();
+        PowerValueList.OnDoubleClick += _ => PowerSourceListDoubleClick();
         PowerValueList.Selected = -1;
         PowerValueList.TextColor = 9415072;
         PowerValueList.TextSelectedColor = 0;
@@ -1505,12 +1505,12 @@ public partial class MagicWindow : ILayoutModule
         powerValueSortBtn.TextColor = 0;
         powerValueSortBtn.TextSelectedColor = 16777215;
         powerValueSortBtn.WinWidth = 78;
-        powerValueSortBtn.OnClick = _ => Layout_PowerValueSortBtnClick_24();
+        powerValueSortBtn.OnClick += _ => PowerValueSortBtnClick();
         session.EndRead(powerValueSortBtn);
         PowerSourceList = new ListBox<PowerSource>(this);
         session.BeginRead(PowerSourceList);
         PowerSourceList.Name = "PowerSourceList";
-        PowerSourceList.OnMouseDown = (_, button, shift, x, y) => PowerValueListMouseDown(button, shift, x, y);
+        PowerSourceList.OnMouseDown += (_, button, shift, x, y) => PowerValueListMouseDown(button, shift, x, y);
         PowerSourceList.Priority = 20;
         PowerSourceList.WinLeft = 1;
         PowerSourceList.WinTop = 14;
@@ -1532,8 +1532,8 @@ public partial class MagicWindow : ILayoutModule
         PowerSourceList.WinHeight = 92;
         PowerSourceList.BorderWidth = 6;
         PowerSourceList.BorderHeight = 3;
-        PowerSourceList.OnChange = _ => Layout_PowerSourceListChange_25();
-        PowerSourceList.OnDoubleClick = _ => Layout_PowerSourceListDoubleClick_23();
+        PowerSourceList.OnChange += _ => PowerSourceListChange();
+        PowerSourceList.OnDoubleClick += _ => PowerSourceListDoubleClick();
         PowerSourceList.Selected = -1;
         PowerSourceList.TextColor = 9415072;
         PowerSourceList.TextSelectedColor = 0;
@@ -1572,7 +1572,7 @@ public partial class MagicWindow : ILayoutModule
         powerSourceSortBtn.TextColor = 0;
         powerSourceSortBtn.TextSelectedColor = 16777215;
         powerSourceSortBtn.WinWidth = 344;
-        powerSourceSortBtn.OnClick = _ => Layout_PowerSourceSortBtnClick_26();
+        powerSourceSortBtn.OnClick += _ => PowerSourceSortBtnClick();
         session.EndRead(powerSourceSortBtn);
         Panel t2BottonPnl = new Panel(this);
         session.BeginRead(t2BottonPnl);
@@ -1630,7 +1630,7 @@ public partial class MagicWindow : ILayoutModule
         EnchantmentScrollBar.WinHeight = 73;
         EnchantmentScrollBar.WinWidth = 17;
         EnchantmentScrollBar.NumberVisible = 1;
-        EnchantmentScrollBar.OnChange = _ => Layout_EnchantmentSBChange_27();
+        EnchantmentScrollBar.OnChange += _ => EnchantmentSBChange();
         EnchantmentScrollBar.VanishWhenFull = true;
         EnchantmentScrollBar.ImageLibraryIndexIncrementUp = 96;
         EnchantmentScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -1668,7 +1668,7 @@ public partial class MagicWindow : ILayoutModule
         GlobalEnchantmentScrollBar.WinHeight = 73;
         GlobalEnchantmentScrollBar.WinWidth = 17;
         GlobalEnchantmentScrollBar.NumberVisible = 1;
-        GlobalEnchantmentScrollBar.OnChange = _ => Layout_GlobalEnchantmentSBChange_28();
+        GlobalEnchantmentScrollBar.OnChange += _ => GlobalEnchantmentSBChange();
         GlobalEnchantmentScrollBar.VanishWhenFull = true;
         GlobalEnchantmentScrollBar.ImageLibraryIndexIncrementUp = 96;
         GlobalEnchantmentScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -1706,7 +1706,7 @@ public partial class MagicWindow : ILayoutModule
         PowerScrollBar.WinHeight = 92;
         PowerScrollBar.WinWidth = 17;
         PowerScrollBar.NumberVisible = 1;
-        PowerScrollBar.OnChange = _ => Layout_PowerSBChange_29();
+        PowerScrollBar.OnChange += _ => PowerSBChange();
         PowerScrollBar.VanishWhenFull = true;
         PowerScrollBar.ImageLibraryIndexIncrementUp = 96;
         PowerScrollBar.ImageLibraryIndexIncrementDown = 97;
@@ -1863,7 +1863,7 @@ public partial class MagicWindow : ILayoutModule
         help.TextColor = 0;
         help.TextSelectedColor = 0;
         help.WinWidth = 15;
-        help.OnClick = _ => Layout_HelpClick_30();
+        help.OnClick += _ => HelpClick();
         session.EndRead(help);
         session.EndRead(this);
         owTitle.Window = Window;
@@ -2119,160 +2119,5 @@ public partial class MagicWindow : ILayoutModule
         t3ButtonPnl.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
         help.ToolTip = DialogHosts.General.ToolTip;
         help.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
-    }
-
-    private void Layout_DlgHide_0()
-    {
-        DlgHide();
-    }
-
-    private void Layout_DlgShow_1()
-    {
-        DlgShow();
-    }
-
-    private void Layout_DlgResize_2()
-    {
-        DlgResize();
-    }
-
-    private void Layout_HeaderTabChange_3()
-    {
-        HeaderTabChange();
-    }
-
-    private void Layout_EnchantmentListChange_4()
-    {
-        EnchantmentListChange();
-    }
-
-    private void Layout_EnchantmentListDoubleClick_5()
-    {
-        EnchantmentListDoubleClick();
-    }
-
-    private void Layout_EnchantmentSortBtnClick_6()
-    {
-        EnchantmentSortBtnClick();
-    }
-
-    private void Layout_UpkeepListChange_7()
-    {
-        UpkeepListChange();
-    }
-
-    private void Layout_UpkeepSortBtnClick_8()
-    {
-        UpkeepSortBtnClick();
-    }
-
-    private void Layout_BindingListChange_9()
-    {
-        BindingListChange();
-    }
-
-    private void Layout_BindingSortBtnClick_10()
-    {
-        BindingSortBtnClick();
-    }
-
-    private void Layout_GlobalEnchantmentListChange_11()
-    {
-        GlobalEnchantmentListChange();
-    }
-
-    private void Layout_GlobalEnchantmentSortBtnClick_12()
-    {
-        GlobalEnchantmentSortBtnClick();
-    }
-
-    private void Layout_GlobalUpkeepListChange_13()
-    {
-        GlobalUpkeepListChange();
-    }
-
-    private void Layout_GlobalUpkeepSortBtnClick_14()
-    {
-        GlobalUpkeepSortBtnClick();
-    }
-
-    private void Layout_GlobalNameListChange_15()
-    {
-        GlobalNameListChange();
-    }
-
-    private void Layout_GlobalNameSortBtnClick_16()
-    {
-        GlobalNameSortBtnClick();
-    }
-
-    private void Layout_GlobalDispelBtnClick_17()
-    {
-        GlobalDispelBtnClick();
-    }
-
-    private void Layout_DispelBtnClick_18()
-    {
-        DispelBtnClick();
-    }
-
-    private void Layout_ResearchBtnClick_19()
-    {
-        ResearchBtnClick();
-    }
-
-    private void Layout_MinimizeClick_20()
-    {
-        MinimizeClick();
-    }
-
-    private void Layout_ChangePowerButClick_21()
-    {
-        ChangePowerButClick();
-    }
-
-    private void Layout_PowerValueListChange_22()
-    {
-        PowerValueListChange();
-    }
-
-    private void Layout_PowerSourceListDoubleClick_23()
-    {
-        PowerSourceListDoubleClick();
-    }
-
-    private void Layout_PowerValueSortBtnClick_24()
-    {
-        PowerValueSortBtnClick();
-    }
-
-    private void Layout_PowerSourceListChange_25()
-    {
-        PowerSourceListChange();
-    }
-
-    private void Layout_PowerSourceSortBtnClick_26()
-    {
-        PowerSourceSortBtnClick();
-    }
-
-    private void Layout_EnchantmentSBChange_27()
-    {
-        EnchantmentSBChange();
-    }
-
-    private void Layout_GlobalEnchantmentSBChange_28()
-    {
-        GlobalEnchantmentSBChange();
-    }
-
-    private void Layout_PowerSBChange_29()
-    {
-        PowerSBChange();
-    }
-
-    private void Layout_HelpClick_30()
-    {
-        HelpClick();
     }
 }

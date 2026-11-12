@@ -52,7 +52,7 @@ public partial class FastBattleWindow : DataModule
     private int _rightShield;
     private byte _rightOpacity;
     private CombatViewer _viewer;
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
     private EventLog _event;
 
     // FastCombatWin.pas:231
@@ -361,9 +361,9 @@ public partial class FastBattleWindow : DataModule
         EventLog log;
         _viewer.Finalize();
         DialogHosts.General.Manager.OverlayPriority = 0;
-        done = _done;
+        done = Done;
         log = _event;
-        _done = null;
+        Done = null;
         _event = null;
         if (done != null)
         {
@@ -648,7 +648,7 @@ public partial class FastBattleWindow : DataModule
         DialogHosts.General.Manager.OverlayPriority = 49;
         dialog._event = eventValue;
         dialog._event.AddRef();
-        dialog._done = done;
+        dialog.Done = done;
         dialog._logbook = eventValue.Logbook;
         InitializeCombatDialog(dialog, dialog._logbook);
         dialog.MainWindow.Visible = true;

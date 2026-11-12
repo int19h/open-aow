@@ -60,7 +60,7 @@
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary._loadOnDemand": true,
               "CustomImageLibrary._loadedFileName": "",
-              "CustomImageLibrary._onChange": null,
+              "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager._palettes": []

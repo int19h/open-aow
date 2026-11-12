@@ -16,8 +16,25 @@ public partial class StorageStream : IDisposable
     private protected Stream _stream;
     private protected bool _errorHandled;
     private protected PropertyTable _propertyTable;
-    private protected StorageStreamError _onError;
-    private ProgressEvent _onProgress;
+    public event StorageStreamError OnError;
+
+    protected void RaiseError(StorageStream storageStream, string message, ref bool handled)
+    {
+        if (OnError != null)
+        {
+            OnError(storageStream, message, ref handled);
+        }
+    }
+
+    protected bool HasErrorHandlers => OnError != null;
+
+    internal void SetErrorHandler(StorageStreamError handler) => OnError = handler;
+
+    public event ProgressEvent OnProgress;
+
+    // A map read through this stream reads its hex sprite set through a stream of its own, and
+    // that stream reports progress to the handler of this one (GameMap.ReadWrite).
+    internal ProgressEvent ProgressHandler => OnProgress;
 
     // Engine.pas:1184
     public virtual Set<StorageModeElement> StorageMode()
@@ -133,17 +150,15 @@ public partial class StorageStream : IDisposable
     // Engine.pas:9497
     public void ShowProgress(EngineObject sender, string message, int percent)
     {
-        if (_onProgress != null)
+        if (OnProgress != null)
         {
-            _onProgress(sender, message, percent);
+            OnProgress(sender, message, percent);
         }
     }
 
     public GameEngine Engine { get => _engine; }
     public Stream Stream { get => _stream; }
     public PropertyTable PropertyTable { get => _propertyTable; }
-    public StorageStreamError OnError { get => _onError; set => _onError = value; }
-    public ProgressEvent OnProgress { get => _onProgress; set => _onProgress = value; }
 
     // Delphi var parameters alias a descendant reference through a base-class cast.
     public void Created<T>(ref T value, ECustomNode owner, int id) where T : EngineObject

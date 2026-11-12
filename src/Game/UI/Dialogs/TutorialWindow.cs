@@ -18,7 +18,7 @@ public partial class TutorialWindow : DataModule
     public Memo MessageMemo;
     public Memo HeaderMemo;
     public VerticalScrollBar AbilityScrollBar;
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
     private EventLog _event;
 
     // AoWTutorialWin.pas:51
@@ -26,9 +26,9 @@ public partial class TutorialWindow : DataModule
     {
         ExecuteDoneEvent done;
         EventLog log;
-        done = _done;
+        done = Done;
         log = _event;
-        _done = null;
+        Done = null;
         _event = null;
         if (done != null)
         {
@@ -67,7 +67,7 @@ public partial class TutorialWindow : DataModule
         dialog.FinishDialog();
         dialog._event = eventValue;
         dialog._event.AddRef();
-        dialog._done = done;
+        dialog.Done = done;
         dialog.HeaderMemo.Items.Clear();
         if (eventValue.Message.Count > 0)
         {
@@ -96,7 +96,7 @@ public partial class TutorialWindow : DataModule
         dialog.FinishDialog();
         dialog._event = eventValue;
         dialog._event.AddRef();
-        dialog._done = done;
+        dialog.Done = done;
         dialog.HeaderMemo.Items.Clear();
         dialog.HeaderMemo.Items.Add(eventValue.HelpFileName);
         dialog.MessageMemo.Items.Clear();

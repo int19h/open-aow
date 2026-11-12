@@ -78,7 +78,7 @@ public partial class WizardsTowerDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CancelBtnClick_0();
+        close.OnClick += _ => CancelBtnClick();
         session.EndRead(close);
         Label title = new Label(this);
         session.BeginRead(title);
@@ -159,7 +159,7 @@ public partial class WizardsTowerDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 120;
-        cancelBtn.OnClick = _ => Layout_CancelBtnClick_0();
+        cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
         Button buyBtn = new Button(this);
         session.BeginRead(buyBtn);
@@ -190,19 +190,19 @@ public partial class WizardsTowerDialog : ILayoutModule
         buyBtn.TextColor = 0;
         buyBtn.TextSelectedColor = 16777215;
         buyBtn.WinWidth = 120;
-        buyBtn.OnClick = _ => Layout_BuyBtnClick_1();
+        buyBtn.OnClick += _ => BuyBtnClick();
         session.EndRead(buyBtn);
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 162;
         Window.WinTop = 54;
         Window.WinWidth = 316;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_DlgHide_2();
+        Window.OnHide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -290,7 +290,7 @@ public partial class WizardsTowerDialog : ILayoutModule
         Image spellIcn = new Image(this);
         session.BeginRead(spellIcn);
         spellIcn.Name = "SpellIcn";
-        spellIcn.OnDraw = SpellIcnDraw;
+        spellIcn.OnDraw += SpellIcnDraw;
         spellIcn.Priority = 100;
         spellIcn.WinLeft = 111;
         spellIcn.WinTop = 2;
@@ -535,20 +535,5 @@ public partial class WizardsTowerDialog : ILayoutModule
         offerText.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
         picPnl.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
         picPnl.ImageLibraryTexture = DialogHosts.UIGraphics.MiscArt;
-    }
-
-    private void Layout_CancelBtnClick_0()
-    {
-        CancelBtnClick();
-    }
-
-    private void Layout_BuyBtnClick_1()
-    {
-        BuyBtnClick();
-    }
-
-    private void Layout_DlgHide_2()
-    {
-        DlgHide();
     }
 }

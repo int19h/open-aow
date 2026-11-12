@@ -23,7 +23,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat;
 
-// FCombatStatus. CombatData. NextCombatObjectId. FResult. Logbook. Sides. FExecutedEvents.
+// FCombatStatus. CombatData. NextCombatObjectId. FResult. Logbook. Sides. Executed.
 // ExecutedLock. OnExecuted. Terminated. OnTerminated. FVisibilityMode
 public partial class Battle : EngineObject
 {
@@ -58,7 +58,7 @@ public partial class Battle : EngineObject
 
     private EventStore<Battle> _executedEventsStore;
 
-    public event NotifyEvent<Battle> FExecutedEvents
+    public event NotifyEvent<Battle> Executed
     {
         add => _executedEventsStore.Add(value);
         remove => _executedEventsStore.Remove(value);
@@ -66,9 +66,16 @@ public partial class Battle : EngineObject
 
     private int _executedLock;
 
-    public ExecutedEvent OnExecuted { get; set; }
+    public event ExecutedEvent OnExecuted;
+
+    internal void SetExecutedHandler(ExecutedEvent handler) => OnExecuted = handler;
+
     public bool Terminated { get; private set; }
-    public NotifyEvent<Battle> OnTerminated { get; protected set; }
+
+    public event NotifyEvent<Battle> OnTerminated;
+
+    protected void SetTerminatedHandler(NotifyEvent<Battle> handler) => OnTerminated = handler;
+
     public byte ExplorationSite { get; set; }
     public EngineObject Items { get; set; }
 

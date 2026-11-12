@@ -122,7 +122,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     public void Reset()
     {
         _selector.Reset();
-        this._selector.OnTargetFound = TargetFoundEvent;
+        this._selector.SetTargetFoundHandler(TargetFoundEvent);
         this._selector.MovePointsMax = 150;
         this._selector.MovePointsMin = 0;
         this._selector.TargetInfo.Mode = AITargetMode.Defend;

@@ -132,7 +132,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
         StrategicMap.Current.CurrentPlayer = 0;
         var item = StrategicMap.Current.Players.LocalHumanPlayers[0];
         StrategicMap.Current.SetSeatedPlayer((sbyte)item);
-        StrategicMap.Current.SeatedPlayerChanged();
+        StrategicMap.Current.NotifySeatedPlayerChanged();
         Assert(StrategicMap.Current.SeatedPlayer != 0, "", "PlayerC.PAS", 1584);
         StrategicMap.Current.ResetSeatedPlayerView();
         StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
@@ -271,7 +271,7 @@ public partial class SimultaneousPlayerControl : PlayerControl
         StrategicMap.Current.ShowIndependentMoves = false;
         var item = StrategicMap.Current.Players.LocalHumanPlayers[0];
         StrategicMap.Current.SetSeatedPlayer((sbyte)item);
-        StrategicMap.Current.SeatedPlayerChanged();
+        StrategicMap.Current.NotifySeatedPlayerChanged();
         StrategicMap.Current.ResetSeatedPlayerView();
         for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {

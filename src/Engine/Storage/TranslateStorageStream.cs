@@ -72,10 +72,10 @@ public partial class TranslateStorageStream : StorageStream
         {
             _propertyTable.RestoreSettings();
             // { the original leaves Continue uninitialized here }
-            if (_onError != null)
+            if (HasErrorHandlers)
             {
                 var classId = objectValue.EngineClass.ClassId;
-                _onError(this, "Error reading object (cid:" + IntToStr(classId) + ")", ref canContinue);
+                RaiseError(this, "Error reading object (cid:" + IntToStr(classId) + ")", ref canContinue);
             }
 
             if (!canContinue)

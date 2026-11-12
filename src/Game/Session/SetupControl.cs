@@ -28,19 +28,36 @@ public partial class SetupControl : Component
 
     public RemotePlayer RemotePlayer { get; }
 
-    private Event _onSettingChanged;
-    private LoadMapEvent _onLoadMap;
-    private Event _onSetupMap;
-    private Event _onStart;
+    [Published]
+    public event Event OnSettingChanged;
+    [Published]
+    public event LoadMapEvent OnLoadMap;
+    [Published]
+    public event Event OnSetupMap;
+    [Published]
+    public event Event OnStart;
+    // Nothing in the port raises OnAbort. The bound handler is kept.
     private Event _onAbort;
-    private CustomizeLeaderEvent _onCustomizeLeader;
-    private Event _onSynchronize;
-    private Event _onPlayerSetupDone;
-    private EjectPlayerEvent _onEjectPlayer;
-    private IncompatibleVersionEvent _onIncompatibleVersion;
-    private SendDataEvent _onSendData;
-    private SendMapEvent _onSendMap;
-    private Event _onSendingMaps;
+
+    [Published]
+    public event Event OnAbort { add => _onAbort += value; remove => _onAbort -= value; }
+
+    [Published]
+    public event CustomizeLeaderEvent OnCustomizeLeader;
+    [Published]
+    public event Event OnSynchronize;
+    [Published]
+    public event Event OnPlayerSetupDone;
+    [Published]
+    public event EjectPlayerEvent OnEjectPlayer;
+    [Published]
+    public event IncompatibleVersionEvent OnIncompatibleVersion;
+    [Published]
+    public event SendDataEvent OnSendData;
+    [Published]
+    public event SendMapEvent OnSendMap;
+    [Published]
+    public event Event OnSendingMaps;
 
     // AoWSetup.pas:448
     public override void Dispose()
@@ -64,9 +81,9 @@ public partial class SetupControl : Component
     // AoWSetup.pas:456
     public void SendData(object data, int size, int recipient)
     {
-        if (_onSendData != null)
+        if (OnSendData != null)
         {
-            _onSendData(data, size, recipient);
+            OnSendData(data, size, recipient);
         }
     }
 
@@ -194,9 +211,9 @@ public partial class SetupControl : Component
         {
             if ((int)(((uint)player.Version) >> 24) == 1 && (((int)(((uint)player.Version) >> 16)) & 255) <= 10)
             {
-                if (_onEjectPlayer != null)
+                if (OnEjectPlayer != null)
                 {
-                    _onEjectPlayer(this, player.RemoteId);
+                    OnEjectPlayer(this, player.RemoteId);
                 }
             }
             else
@@ -278,9 +295,9 @@ public partial class SetupControl : Component
                 SendMessage(4, Settings, 0, 0, 0);
             }
 
-            if (_onSettingChanged != null)
+            if (OnSettingChanged != null)
             {
-                _onSettingChanged(this);
+                OnSettingChanged(this);
             }
         }
     }
@@ -379,9 +396,9 @@ public partial class SetupControl : Component
                         }
                     }
 
-                    if (_onSettingChanged != null)
+                    if (OnSettingChanged != null)
                     {
-                        _onSettingChanged(this);
+                        OnSettingChanged(this);
                     }
                 }
 
@@ -404,9 +421,9 @@ public partial class SetupControl : Component
                             ValidateMap();
                         }
 
-                        if (_onSettingChanged != null)
+                        if (OnSettingChanged != null)
                         {
-                            _onSettingChanged(this);
+                            OnSettingChanged(this);
                         }
 
                         LoadMap();
@@ -440,9 +457,9 @@ public partial class SetupControl : Component
                 if (!GetHost())
                 {
                     _phase = SetupPhase.SendMap;
-                    if (_onSendingMaps != null)
+                    if (OnSendingMaps != null)
                     {
-                        _onSendingMaps(this);
+                        OnSendingMaps(this);
                     }
                 }
 
@@ -458,9 +475,9 @@ public partial class SetupControl : Component
             case 9:
                 if (!GetHost())
                 {
-                    if (_onIncompatibleVersion != null)
+                    if (OnIncompatibleVersion != null)
                     {
-                        _onIncompatibleVersion(this, package.Param2, package.Param1);
+                        OnIncompatibleVersion(this, package.Param2, package.Param1);
                     }
                 }
 
@@ -472,9 +489,9 @@ public partial class SetupControl : Component
     public void LoadMap()
     {
         _phase = SetupPhase.LoadMap;
-        if (_onLoadMap != null)
+        if (OnLoadMap != null)
         {
-            _onLoadMap(this, GameTables.GameEngine.StartupDirectory + Settings.MapName);
+            OnLoadMap(this, GameTables.GameEngine.StartupDirectory + Settings.MapName);
         }
     }
 
@@ -507,10 +524,10 @@ public partial class SetupControl : Component
             // The host sends the map's engine image, the bytes FMapCRC covers and LoadHSMfromStream
             // reads, for an own document as for an original (own-formats.md 4.1).
             stream = GameEngine.ImageStream(FileBoundary.LoadOrRaise(GameTables.GameEngine.StartupDirectory + Settings.MapName, GameProfile.WorldMap));
-            if (_onSendMap != null)
+            if (OnSendMap != null)
             {
                 var size = (int)stream.Length;
-                _onSendMap(this, stream.GetBuffer(), size, remoteId);
+                OnSendMap(this, stream.GetBuffer(), size, remoteId);
             }
 
             stream?.Dispose();
@@ -528,9 +545,9 @@ public partial class SetupControl : Component
     public void SendMap()
     {
         _phase = SetupPhase.SendMap;
-        if (_onSendingMaps != null)
+        if (OnSendingMaps != null)
         {
-            _onSendingMaps(this);
+            OnSendingMaps(this);
         }
 
         SendMessage(10, Settings, 0, 0, 0);
@@ -574,9 +591,9 @@ public partial class SetupControl : Component
         if (Settings.MapDay != 0 || !Settings.CustomizeLeaders)
         {
             _phase = SetupPhase.Synchronize;
-            if (_onSynchronize != null)
+            if (OnSynchronize != null)
             {
-                _onSynchronize(this);
+                OnSynchronize(this);
             }
         }
 
@@ -673,9 +690,9 @@ public partial class SetupControl : Component
                 cLC.Mode = Set<LeaderSetupModeElement>.FromMask((cLC.Mode - Set<LeaderSetupModeElement>.Of((LeaderSetupModeElement)1)).Mask);
             }
 
-            if (_onCustomizeLeader != null)
+            if (OnCustomizeLeader != null)
             {
-                _onCustomizeLeader(this, cLC);
+                OnCustomizeLeader(this, cLC);
                 result = true;
             }
 
@@ -684,9 +701,9 @@ public partial class SetupControl : Component
         else
         {
             _phase = SetupPhase.Synchronize;
-            if (_onSynchronize != null)
+            if (OnSynchronize != null)
             {
-                _onSynchronize(this);
+                OnSynchronize(this);
             }
         }
 
@@ -849,7 +866,7 @@ public partial class SetupControl : Component
             }
 
             StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(remotePlayerCommunicationControl);
-            remotePlayerCommunicationControl.OnSendData = _onSendData;
+            remotePlayerCommunicationControl.OnSendData += OnSendData;
             ListPlayerCommunicationControlInfo(remotePlayerCommunicationControl);
             remotePlayerCommunicationControl.Release();
         }
@@ -891,11 +908,11 @@ public partial class SetupControl : Component
         StrategicMap.Current.StartingGame = Settings.AlwaysViewTacticalBattle;
         RemoveIndependentPlayers();
         StrategicMap.Current.SetupPlayerControl((PlayMode)Settings.PlayMode, (PlayerConnectionType)Settings.ConnectionType);
-        if (_onSetupMap != null)
+        if (OnSetupMap != null)
         {
             try
             {
-                _onSetupMap(this);
+                OnSetupMap(this);
             }
             catch
             {
@@ -903,11 +920,11 @@ public partial class SetupControl : Component
         }
 
         Reset();
-        if (_onStart != null)
+        if (OnStart != null)
         {
             try
             {
-                _onStart(this);
+                OnStart(this);
             }
             catch
             {
@@ -958,9 +975,9 @@ public partial class SetupControl : Component
                 SendMessage(4, Settings, 0, 0, 0);
             }
 
-            if (_onSettingChanged != null)
+            if (OnSettingChanged != null)
             {
-                _onSettingChanged(this);
+                OnSettingChanged(this);
             }
 
             _updateCount -= 1;
@@ -1302,9 +1319,9 @@ public partial class SetupControl : Component
         bool result = default;
         if (GetHost() && GetPlayerSetupValid())
         {
-            if (_onPlayerSetupDone != null)
+            if (OnPlayerSetupDone != null)
             {
-                _onPlayerSetupDone(this);
+                OnPlayerSetupDone(this);
             }
 
             if (GetRemote())
@@ -1314,10 +1331,10 @@ public partial class SetupControl : Component
                     var playerRemoteId = Settings.RemotePlayers.GetPlayers(I);
                     if (Settings.IndexOfRemoteId(playerRemoteId.RemoteId) == -1)
                     {
-                        if (_onEjectPlayer != null)
+                        if (OnEjectPlayer != null)
                         {
                             var player = Settings.RemotePlayers.GetPlayers(I);
-                            _onEjectPlayer(this, player.RemoteId);
+                            OnEjectPlayer(this, player.RemoteId);
                         }
 
                         Settings.RemotePlayers.GetPlayers(I)?.Dispose();
@@ -1640,9 +1657,9 @@ public partial class SetupControl : Component
             if (I != -1)
             {
                 Settings.RemotePlayers.GetPlayers(I)?.Dispose();
-                if (_onEjectPlayer != null)
+                if (OnEjectPlayer != null)
                 {
-                    _onEjectPlayer(this, remoteId);
+                    OnEjectPlayer(this, remoteId);
                 }
 
                 J = Settings.IndexOfRemoteId(remoteId);
@@ -1703,45 +1720,6 @@ public partial class SetupControl : Component
         _phase = SetupPhase.SetupPlayers;
         return true;
     }
-
-    [Published]
-    public SendMapEvent OnSendMap { get => _onSendMap; set => _onSendMap = value; }
-
-    [Published]
-    public SendDataEvent OnSendData { get => _onSendData; set => _onSendData = value; }
-
-    [Published]
-    public Event OnPlayerSetupDone { get => _onPlayerSetupDone; set => _onPlayerSetupDone = value; }
-
-    [Published]
-    public Event OnSettingChanged { get => _onSettingChanged; set => _onSettingChanged = value; }
-
-    [Published]
-    public CustomizeLeaderEvent OnCustomizeLeader { get => _onCustomizeLeader; set => _onCustomizeLeader = value; }
-
-    [Published]
-    public LoadMapEvent OnLoadMap { get => _onLoadMap; set => _onLoadMap = value; }
-
-    [Published]
-    public Event OnSetupMap { get => _onSetupMap; set => _onSetupMap = value; }
-
-    [Published]
-    public Event OnStart { get => _onStart; set => _onStart = value; }
-
-    [Published]
-    public Event OnAbort { get => _onAbort; set => _onAbort = value; }
-
-    [Published]
-    public Event OnSynchronize { get => _onSynchronize; set => _onSynchronize = value; }
-
-    [Published]
-    public EjectPlayerEvent OnEjectPlayer { get => _onEjectPlayer; set => _onEjectPlayer = value; }
-
-    [Published]
-    public IncompatibleVersionEvent OnIncompatibleVersion { get => _onIncompatibleVersion; set => _onIncompatibleVersion = value; }
-
-    [Published]
-    public Event OnSendingMaps { get => _onSendingMaps; set => _onSendingMaps = value; }
 
     private static SetupPlayerBehavior s_cpuBehavior = new SetupPlayerBehavior
     {

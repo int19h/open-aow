@@ -30,7 +30,7 @@ public partial class ItemsFoundDialog : DataModule
     public Button LeftButton;
     public Button RightButton;
     private int _itemOffset;
-    private ExecuteDoneEvent _onDone;
+    private event ExecuteDoneEvent OnDone;
     private ItemExplorationSiteEventLog _event;
 
     // AoWItemsFoundDlg.pas:80
@@ -56,9 +56,9 @@ public partial class ItemsFoundDialog : DataModule
         ExecuteDoneEvent done;
         ItemExplorationSiteEventLog eventValue;
         Window.Visible = false;
-        done = _onDone;
+        done = OnDone;
         eventValue = _event;
-        _onDone = null;
+        OnDone = null;
         _event = null;
         if (done != null)
         {
@@ -195,7 +195,7 @@ public partial class ItemsFoundDialog : DataModule
     {
         ItemExplorationSiteEventLog log;
         dialog.Reset();
-        dialog._onDone = done;
+        dialog.OnDone = done;
         dialog._event = eventValue;
         dialog._event.AddRef();
         log = dialog._event;

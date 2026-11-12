@@ -231,7 +231,7 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
     {
         if (Status.Contains(ItemStatusElement.Registered))
         {
-            StrategicMap.Current.ItemControl.ItemChanged(this);
+            StrategicMap.Current.ItemControl.NotifyItemChanged(this);
         }
     }
 

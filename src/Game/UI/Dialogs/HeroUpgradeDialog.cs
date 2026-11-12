@@ -53,7 +53,7 @@ public partial class HeroUpgradeDialog : DataModule
     public ListBox SelectedAbilitiesCostList;
     public Label LevelLabel;
     public Label SkillPointsLabel;
-    private ExecuteDoneEvent _onClose;
+    private event ExecuteDoneEvent OnClose;
     private HeroUpgradeEventLog _referencedHero;
     private int _selectedSort;
     private int _availableSort;
@@ -65,9 +65,9 @@ public partial class HeroUpgradeDialog : DataModule
     {
         ExecuteDoneEvent onClose;
         HeroUpgradeEventLog hero;
-        onClose = _onClose;
+        onClose = OnClose;
         hero = _referencedHero;
-        _onClose = null;
+        OnClose = null;
         _referencedHero = null;
         if (onClose != null)
         {
@@ -625,7 +625,7 @@ public partial class HeroUpgradeDialog : DataModule
     {
         dialog._referencedHero = eventValue;
         dialog._referencedHero.AddRef();
-        dialog._onClose = completed;
+        dialog.OnClose = completed;
         if (dialog.ValidateHero())
         {
             dialog._editedHero = (Hero)dialog._hero.Copy(GameTables.GameEngine);

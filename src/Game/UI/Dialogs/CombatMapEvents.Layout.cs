@@ -19,37 +19,22 @@ public partial class CombatMapEvents : ILayoutModule
         CombatMapControl tcMap = new CombatMapControl(this);
         session.BeginRead(tcMap);
         tcMap.Name = "TCMap";
-        tcMap.OnSelected = TCMapSelected;
-        tcMap.OnDeselected = TCMapDeselected;
-        tcMap.OnMouseOverTarget = CombatMapMouseOverTarget;
-        tcMap.OnUnitChanged = CombatMapUnitChanged;
-        tcMap.OnShowMessage = CombatMapShowMessage;
-        tcMap.OnTurnChanged = Layout_TCMapTurnChanged_1;
-        tcMap.OnSeatedPlayerChanged = CombatMapSeatedPlayerChanged;
-        tcMap.OnMapChanged = CombatMapMapChanged;
-        tcMap.OnActivateMap = _ => Layout_TCMapActivateMap_2();
-        tcMap.OnDeActivateMap = _ => Layout_TCMapDeActivateMap_3();
-        tcMap.OnCastSpell = CombatMapCastSpell;
-        tcMap.OnActivateAbility = CombatMapActivateAbility;
+        tcMap.OnSelected += TCMapSelected;
+        tcMap.OnDeselected += TCMapDeselected;
+        tcMap.OnMouseOverTarget += CombatMapMouseOverTarget;
+        tcMap.OnUnitChanged += CombatMapUnitChanged;
+        tcMap.OnShowMessage += CombatMapShowMessage;
+        tcMap.OnTurnChanged += _ => CombatMapTurnChanged();
+        tcMap.OnSeatedPlayerChanged += CombatMapSeatedPlayerChanged;
+        tcMap.OnMapChanged += CombatMapMapChanged;
+        tcMap.OnActivateMap += _ => CombatMapActivateMap();
+        tcMap.OnDeActivateMap += _ => CombatMapDeactivateMap();
+        tcMap.OnCastSpell += CombatMapCastSpell;
+        tcMap.OnActivateAbility += CombatMapActivateAbility;
         session.EndRead(tcMap);
         session.EndRead(this);
         Loaded();
         tcMap.Loaded();
         session.Resolve(this);
-    }
-
-    private void Layout_TCMapTurnChanged_1(int p0)
-    {
-        CombatMapTurnChanged();
-    }
-
-    private void Layout_TCMapActivateMap_2()
-    {
-        CombatMapActivateMap();
-    }
-
-    private void Layout_TCMapDeActivateMap_3()
-    {
-        CombatMapDeactivateMap();
     }
 }

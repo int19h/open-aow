@@ -106,7 +106,7 @@ public partial class PopupWindows : ILayoutModule
         OverviewsMenu.ItemHeight = 20;
         OverviewsMenu.OwnerItem = 0;
         OverviewsMenu.SubMenuShowDelay = 0;
-        OverviewsMenu.OnSelect = OverViewsMenuSelect;
+        OverviewsMenu.OnSelect += OverViewsMenuSelect;
         OverviewsMenu.WinHeight = 0;
         session.EndRead(OverviewsMenu);
         Menu settingsMenu = new Menu(this);
@@ -154,7 +154,7 @@ public partial class PopupWindows : ILayoutModule
         settingsMenu.ItemHeight = 20;
         settingsMenu.OwnerItem = 1;
         settingsMenu.SubMenuShowDelay = 0;
-        settingsMenu.OnSelect = SettingsMenuSelect;
+        settingsMenu.OnSelect += SettingsMenuSelect;
         settingsMenu.WinHeight = 112;
         session.EndRead(settingsMenu);
         Menu endMenu = new Menu(this);
@@ -200,7 +200,7 @@ public partial class PopupWindows : ILayoutModule
         endMenu.ItemHeight = 20;
         endMenu.OwnerItem = 2;
         endMenu.SubMenuShowDelay = 0;
-        endMenu.OnSelect = EndMenuSelect;
+        endMenu.OnSelect += EndMenuSelect;
         endMenu.WinHeight = 92;
         session.EndRead(endMenu);
         Menu diskMenu = new Menu(this);
@@ -245,7 +245,7 @@ public partial class PopupWindows : ILayoutModule
         diskMenu.ItemHeight = 20;
         diskMenu.OwnerItem = 3;
         diskMenu.SubMenuShowDelay = 0;
-        diskMenu.OnSelect = DiskMenuSelect;
+        diskMenu.OnSelect += DiskMenuSelect;
         diskMenu.WinHeight = 0;
         session.EndRead(diskMenu);
         StartMenu tcStartMenu = new StartMenu(this);
@@ -346,7 +346,7 @@ public partial class PopupWindows : ILayoutModule
         helpMenu.ItemHeight = 20;
         helpMenu.OwnerItem = 4;
         helpMenu.SubMenuShowDelay = 0;
-        helpMenu.OnSelect = HelpMenuSelect;
+        helpMenu.OnSelect += HelpMenuSelect;
         helpMenu.WinHeight = 0;
         session.EndRead(helpMenu);
         Menu tcovMenu = new Menu(this);
@@ -390,7 +390,7 @@ public partial class PopupWindows : ILayoutModule
         tcovMenu.ItemHeight = 20;
         tcovMenu.OwnerItem = 0;
         tcovMenu.SubMenuShowDelay = 0;
-        tcovMenu.OnSelect = OverViewsMenuSelect;
+        tcovMenu.OnSelect += OverViewsMenuSelect;
         tcovMenu.WinHeight = 0;
         session.EndRead(tcovMenu);
         Menu tcDiskMenu = new Menu(this);
@@ -434,7 +434,7 @@ public partial class PopupWindows : ILayoutModule
         tcDiskMenu.ItemHeight = 20;
         tcDiskMenu.OwnerItem = 3;
         tcDiskMenu.SubMenuShowDelay = 0;
-        tcDiskMenu.OnSelect = DiskMenuSelect;
+        tcDiskMenu.OnSelect += DiskMenuSelect;
         tcDiskMenu.WinHeight = 0;
         session.EndRead(tcDiskMenu);
         Menu tcHelpMenu = new Menu(this);
@@ -480,7 +480,7 @@ public partial class PopupWindows : ILayoutModule
         tcHelpMenu.ItemHeight = 20;
         tcHelpMenu.OwnerItem = 4;
         tcHelpMenu.SubMenuShowDelay = 0;
-        tcHelpMenu.OnSelect = HelpMenuSelect;
+        tcHelpMenu.OnSelect += HelpMenuSelect;
         tcHelpMenu.WinHeight = 0;
         session.EndRead(tcHelpMenu);
         Menu tcSettingsMenu = new Menu(this);
@@ -528,7 +528,7 @@ public partial class PopupWindows : ILayoutModule
         tcSettingsMenu.ItemHeight = 20;
         tcSettingsMenu.OwnerItem = 1;
         tcSettingsMenu.SubMenuShowDelay = 0;
-        tcSettingsMenu.OnSelect = SettingsMenuSelect;
+        tcSettingsMenu.OnSelect += SettingsMenuSelect;
         tcSettingsMenu.WinHeight = 0;
         session.EndRead(tcSettingsMenu);
         Menu tcEndMenu = new Menu(this);
@@ -572,7 +572,7 @@ public partial class PopupWindows : ILayoutModule
         tcEndMenu.ItemHeight = 20;
         tcEndMenu.OwnerItem = 2;
         tcEndMenu.SubMenuShowDelay = 0;
-        tcEndMenu.OnSelect = TCEndMenuSelect;
+        tcEndMenu.OnSelect += TCEndMenuSelect;
         tcEndMenu.WinHeight = 0;
         session.EndRead(tcEndMenu);
         session.EndRead(this);

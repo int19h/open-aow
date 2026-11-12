@@ -164,7 +164,7 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:138
     public virtual void SetupCombat(Combat.Battle combat, ArmyHexSprite army)
     {
-        combat.OnExecuted = CombatExecuted;
+        combat.SetExecutedHandler(CombatExecuted);
         var hexY = army.GetHexY();
         var hexLevel = army.GetHexLevel();
         var hexX = GetHexX();

@@ -23,7 +23,7 @@ public partial class CityJoinDialog : DataModule
     public Memo Memo;
     public ArnoLine CityPictureLine;
     private sbyte _race;
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
     private NegotiateRequestEventLog _event;
 
     // AoWCityJoinDlg.pas:55
@@ -31,9 +31,9 @@ public partial class CityJoinDialog : DataModule
     {
         ExecuteDoneEvent done;
         NegotiateRequestEventLog log;
-        done = _done;
+        done = Done;
         log = _event;
-        _done = null;
+        Done = null;
         _event = null;
         if (done != null)
         {
@@ -120,7 +120,7 @@ public partial class CityJoinDialog : DataModule
     {
         NegotiateRequestEventLog log;
         City town;
-        dialog._done = done;
+        dialog.Done = done;
         dialog._event = eventValue;
         dialog._event.AddRef();
         log = dialog._event;

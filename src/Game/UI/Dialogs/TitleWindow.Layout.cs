@@ -46,7 +46,7 @@ public partial class TitleWindow : ILayoutModule
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
         MainWindow.MaskColor = 0;
-        MainWindow.OnDrawSurface = (_, surface, left, top) => TitleWinDrawSurface(surface, left, top);
+        MainWindow.OnDrawSurface += (_, surface, left, top) => TitleWinDrawSurface(surface, left, top);
         MainWindow.FreeSurfaceOnHide = true;
         MainWindow.ImageLibraryIndexFrame = 0;
         MainWindow.ImageLibraryIndexTexture = 18;
@@ -70,7 +70,7 @@ public partial class TitleWindow : ILayoutModule
         TitlePanel.WinLeft = 482;
         TitlePanel.WinTop = 0;
         TitlePanel.WinWidth = 640;
-        TitlePanel.OnDrawBack = (_, lockedSurface) => TitlePnlDrawBack(lockedSurface);
+        TitlePanel.OnDrawBack += (_, surface) => TitlePnlDrawBack(surface);
         TitlePanel.Masked = false;
         TitlePanel.Alignment.AlignWidth = AlignWidth.Center;
         TitlePanel.Alignment.AlignHeight = AlignHeight.Center;
@@ -94,9 +94,9 @@ public partial class TitleWindow : ILayoutModule
         SplashPanel = new Panel(this);
         session.BeginRead(SplashPanel);
         SplashPanel.Name = "SplashPnl";
-        SplashPanel.OnMouseDown = (_, button, shift, x, y) => SplashPnlMouseDown(button, shift, x, y);
-        SplashPanel.OnKeyDown = (_, ref key, shift) => SplashPnlKeyDown(ref key, shift);
-        SplashPanel.OnUpdate = _ => Layout_SplashPnlUpdate_0();
+        SplashPanel.OnMouseDown += (_, button, shift, x, y) => SplashPnlMouseDown(button, shift, x, y);
+        SplashPanel.OnKeyDown += (_, ref key, shift) => SplashPnlKeyDown(ref key, shift);
+        SplashPanel.OnUpdate += _ => SplashPnlUpdate();
         SplashPanel.Visible = false;
         SplashPanel.Priority = 10;
         SplashPanel.WinLeft = 0;
@@ -141,10 +141,5 @@ public partial class TitleWindow : ILayoutModule
         MainWindow.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
         TitlePanel.ImageLibraryTexture = DialogHosts.UIGraphics.TitleScreen;
         SplashPanel.ImageLibraryTexture = DialogHosts.UIGraphics.TitleScreen;
-    }
-
-    private void Layout_SplashPnlUpdate_0()
-    {
-        SplashPnlUpdate();
     }
 }

@@ -70,8 +70,8 @@ public partial class MultiWindow : ILayoutModule
         GamesList.WinHeight = 146;
         GamesList.BorderWidth = 8;
         GamesList.BorderHeight = 5;
-        GamesList.OnChange = _ => Layout_GamesLBChange_0();
-        GamesList.OnDoubleClick = _ => Layout_JoinBtnClick_1();
+        GamesList.OnChange += _ => GamesLBChange();
+        GamesList.OnDoubleClick += _ => JoinBtnClick();
         GamesList.Selected = -1;
         GamesList.TextColor = 12632256;
         GamesList.TextSelectedColor = 16777215;
@@ -151,12 +151,12 @@ public partial class MultiWindow : ILayoutModule
         JoinButton.TextColor = 5046289;
         JoinButton.TextSelectedColor = 9505286;
         JoinButton.WinWidth = 158;
-        JoinButton.OnClick = _ => Layout_JoinBtnClick_1();
+        JoinButton.OnClick += _ => JoinBtnClick();
         session.EndRead(JoinButton);
         MultiPanel = new Panel(this);
         session.BeginRead(MultiPanel);
         MultiPanel.Name = "MultiPnl";
-        MultiPanel.OnUpdate = _ => Layout_MultiWinUpdate_2();
+        MultiPanel.OnUpdate += _ => MultiWinUpdate();
         MultiPanel.Visible = false;
         MultiPanel.Priority = 5;
         MultiPanel.WinLeft = 0;
@@ -211,7 +211,7 @@ public partial class MultiWindow : ILayoutModule
         backBtn.TextColor = 5046289;
         backBtn.TextSelectedColor = 9505286;
         backBtn.WinWidth = 158;
-        backBtn.OnClick = _ => Layout_BackBtnClick_3();
+        backBtn.OnClick += _ => BackBtnClick();
         session.EndRead(backBtn);
         GamePanel = new Panel(this);
         session.BeginRead(GamePanel);
@@ -273,7 +273,7 @@ public partial class MultiWindow : ILayoutModule
         TcpButton.TextColor = 5046289;
         TcpButton.TextSelectedColor = 9505286;
         TcpButton.WinWidth = 158;
-        TcpButton.OnClick = _ => Layout_TCPBtnClick_4();
+        TcpButton.OnClick += _ => TCPBtnClick();
         session.EndRead(TcpButton);
         IpxButton = new Button(this);
         session.BeginRead(IpxButton);
@@ -308,7 +308,7 @@ public partial class MultiWindow : ILayoutModule
         IpxButton.TextColor = 5046289;
         IpxButton.TextSelectedColor = 9505286;
         IpxButton.WinWidth = 158;
-        IpxButton.OnClick = _ => Layout_IPXBtnClick_5();
+        IpxButton.OnClick += _ => IPXBtnClick();
         session.EndRead(IpxButton);
         Button singleBtn = new Button(this);
         session.BeginRead(singleBtn);
@@ -343,7 +343,7 @@ public partial class MultiWindow : ILayoutModule
         singleBtn.TextColor = 5046289;
         singleBtn.TextSelectedColor = 9505286;
         singleBtn.WinWidth = 158;
-        singleBtn.OnClick = _ => Layout_SingleBtnClick_6();
+        singleBtn.OnClick += _ => SingleBtnClick();
         session.EndRead(singleBtn);
         Button emailBtn = new Button(this);
         session.BeginRead(emailBtn);
@@ -378,7 +378,7 @@ public partial class MultiWindow : ILayoutModule
         emailBtn.TextColor = 5046289;
         emailBtn.TextSelectedColor = 9505286;
         emailBtn.WinWidth = 158;
-        emailBtn.OnClick = _ => Layout_EmailBtnClick_7();
+        emailBtn.OnClick += _ => EmailBtnClick();
         session.EndRead(emailBtn);
         TcpPanel = new Panel(this);
         session.BeginRead(TcpPanel);
@@ -510,7 +510,7 @@ public partial class MultiWindow : ILayoutModule
         cancelTCP.TextColor = 5046289;
         cancelTCP.TextSelectedColor = 9505286;
         cancelTCP.WinWidth = 158;
-        cancelTCP.OnClick = _ => Layout_CancelTCPClick_8();
+        cancelTCP.OnClick += _ => CancelTCPClick();
         session.EndRead(cancelTCP);
         Button host = new Button(this);
         session.BeginRead(host);
@@ -545,7 +545,7 @@ public partial class MultiWindow : ILayoutModule
         host.TextColor = 5046289;
         host.TextSelectedColor = 9505286;
         host.WinWidth = 158;
-        host.OnClick = _ => HostClick();
+        host.OnClick += _ => HostClick();
         session.EndRead(host);
         Button find = new Button(this);
         session.BeginRead(find);
@@ -580,7 +580,7 @@ public partial class MultiWindow : ILayoutModule
         find.TextColor = 5046289;
         find.TextSelectedColor = 9505286;
         find.WinWidth = 158;
-        find.OnClick = _ => Layout_FindClick_9();
+        find.OnClick += _ => FindClick();
         session.EndRead(find);
         Label gameLbl = new Label(this);
         session.BeginRead(gameLbl);
@@ -629,7 +629,7 @@ public partial class MultiWindow : ILayoutModule
         TcpNameEdit.Text = "Name";
         TcpNameEdit.BorderWidth = 15;
         TcpNameEdit.BorderHeight = 7;
-        TcpNameEdit.OnChange = _ => Layout_TCPNameChange_10();
+        TcpNameEdit.OnChange += _ => TCPNameChange();
         TcpNameEdit.MaxChars = 15;
         TcpNameEdit.CursorChar = 95;
         TcpNameEdit.BlinkDelay = 0;
@@ -734,7 +734,7 @@ public partial class MultiWindow : ILayoutModule
         lanFind.TextColor = 5046289;
         lanFind.TextSelectedColor = 9505286;
         lanFind.WinWidth = 158;
-        lanFind.OnClick = _ => Layout_LANFindClick_11();
+        lanFind.OnClick += _ => LANFindClick();
         session.EndRead(lanFind);
         Label joinLbl = new Label(this);
         session.BeginRead(joinLbl);
@@ -815,7 +815,7 @@ public partial class MultiWindow : ILayoutModule
         backButn.TextColor = 5046289;
         backButn.TextSelectedColor = 9505286;
         backButn.WinWidth = 158;
-        backButn.OnClick = _ => Layout_CloseBtnClick_12();
+        backButn.OnClick += _ => BackButtonClick();
         session.EndRead(backButn);
         Panel msgPnl = new Panel(this);
         session.BeginRead(msgPnl);
@@ -874,7 +874,7 @@ public partial class MultiWindow : ILayoutModule
         cancelOKBut.TextColor = 5046289;
         cancelOKBut.TextSelectedColor = 9505286;
         cancelOKBut.WinWidth = 158;
-        cancelOKBut.OnClick = _ => Layout_CancelOKButClick_13();
+        cancelOKBut.OnClick += _ => CancelOKButClick();
         session.EndRead(cancelOKBut);
         Memo messageMemo = new Memo(this);
         session.BeginRead(messageMemo);
@@ -943,7 +943,7 @@ public partial class MultiWindow : ILayoutModule
         lanCancel.TextColor = 5046289;
         lanCancel.TextSelectedColor = 9505286;
         lanCancel.WinWidth = 158;
-        lanCancel.OnClick = _ => Layout_CancelTCPClick_8();
+        lanCancel.OnClick += _ => CancelTCPClick();
         session.EndRead(lanCancel);
         Label label1 = new Label(this);
         session.BeginRead(label1);
@@ -1015,7 +1015,7 @@ public partial class MultiWindow : ILayoutModule
         IpxNameEdit.Text = "Name";
         IpxNameEdit.BorderWidth = 15;
         IpxNameEdit.BorderHeight = 7;
-        IpxNameEdit.OnChange = _ => Layout_IPXNameChange_14();
+        IpxNameEdit.OnChange += _ => IPXNameChange();
         IpxNameEdit.MaxChars = 15;
         IpxNameEdit.CursorChar = 95;
         IpxNameEdit.BlinkDelay = 0;
@@ -1057,7 +1057,7 @@ public partial class MultiWindow : ILayoutModule
         lanHost.TextColor = 5046289;
         lanHost.TextSelectedColor = 9505286;
         lanHost.WinWidth = 158;
-        lanHost.OnClick = _ => LANHostClick();
+        lanHost.OnClick += _ => LANHostClick();
         session.EndRead(lanHost);
         EmailPanel = new Panel(this);
         session.BeginRead(EmailPanel);
@@ -1116,7 +1116,7 @@ public partial class MultiWindow : ILayoutModule
         cancelPBEMBtn.TextColor = 5046289;
         cancelPBEMBtn.TextSelectedColor = 9505286;
         cancelPBEMBtn.WinWidth = 158;
-        cancelPBEMBtn.OnClick = _ => Layout_CancelPBEMBtnClick_15();
+        cancelPBEMBtn.OnClick += _ => CancelPBEMBtnClick();
         session.EndRead(cancelPBEMBtn);
         Button checkEmailBtn = new Button(this);
         session.BeginRead(checkEmailBtn);
@@ -1147,7 +1147,7 @@ public partial class MultiWindow : ILayoutModule
         checkEmailBtn.TextColor = 5046289;
         checkEmailBtn.TextSelectedColor = 9505286;
         checkEmailBtn.WinWidth = 158;
-        checkEmailBtn.OnClick = _ => Layout_CheckEmailBtnClick_16();
+        checkEmailBtn.OnClick += _ => CheckEmailBtnClick();
         session.EndRead(checkEmailBtn);
         Button newPBEMGameBtn = new Button(this);
         session.BeginRead(newPBEMGameBtn);
@@ -1178,7 +1178,7 @@ public partial class MultiWindow : ILayoutModule
         newPBEMGameBtn.TextColor = 5046289;
         newPBEMGameBtn.TextSelectedColor = 9505286;
         newPBEMGameBtn.WinWidth = 158;
-        newPBEMGameBtn.OnClick = _ => Layout_NewPBEMGameBtnClick_17();
+        newPBEMGameBtn.OnClick += _ => NewPBEMGameBtnClick();
         session.EndRead(newPBEMGameBtn);
         Button loadPBEMGameBtn = new Button(this);
         session.BeginRead(loadPBEMGameBtn);
@@ -1209,7 +1209,7 @@ public partial class MultiWindow : ILayoutModule
         loadPBEMGameBtn.TextColor = 5046289;
         loadPBEMGameBtn.TextSelectedColor = 9505286;
         loadPBEMGameBtn.WinWidth = 158;
-        loadPBEMGameBtn.OnClick = _ => Layout_LoadPBEMGameBtnClick_18();
+        loadPBEMGameBtn.OnClick += _ => LoadPBEMGameBtnClick();
         session.EndRead(loadPBEMGameBtn);
         Button emailSettingsBtn = new Button(this);
         session.BeginRead(emailSettingsBtn);
@@ -1240,7 +1240,7 @@ public partial class MultiWindow : ILayoutModule
         emailSettingsBtn.TextColor = 5046289;
         emailSettingsBtn.TextSelectedColor = 9505286;
         emailSettingsBtn.WinWidth = 158;
-        emailSettingsBtn.OnClick = _ => Layout_EmailSettingsBtnClick_19();
+        emailSettingsBtn.OnClick += _ => EmailSettingsBtnClick();
         session.EndRead(emailSettingsBtn);
         Button heatNetBtn = new Button(this);
         session.BeginRead(heatNetBtn);
@@ -1274,7 +1274,7 @@ public partial class MultiWindow : ILayoutModule
         heatNetBtn.TextColor = 5046289;
         heatNetBtn.TextSelectedColor = 9505286;
         heatNetBtn.WinWidth = 66;
-        heatNetBtn.OnClick = _ => Layout_HeatNetBtnClick_20();
+        heatNetBtn.OnClick += _ => HeatNetBtnClick();
         session.EndRead(heatNetBtn);
         LayoutIvTranslator translator = new LayoutIvTranslator(this);
         session.BeginRead(translator);
@@ -1461,110 +1461,5 @@ public partial class MultiWindow : ILayoutModule
         heatNetBtn.ToolTip = DialogHosts.General.ToolTip;
         heatNetBtn.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
         heatNetBtn.ImageLibraryIcon = DialogHosts.UIGraphics.TitleScreen;
-    }
-
-    private void Layout_GamesLBChange_0()
-    {
-        GamesLBChange();
-    }
-
-    private void Layout_JoinBtnClick_1()
-    {
-        JoinBtnClick();
-    }
-
-    private void Layout_MultiWinUpdate_2()
-    {
-        MultiWinUpdate();
-    }
-
-    private void Layout_BackBtnClick_3()
-    {
-        BackBtnClick();
-    }
-
-    private void Layout_TCPBtnClick_4()
-    {
-        TCPBtnClick();
-    }
-
-    private void Layout_IPXBtnClick_5()
-    {
-        IPXBtnClick();
-    }
-
-    private void Layout_SingleBtnClick_6()
-    {
-        SingleBtnClick();
-    }
-
-    private void Layout_EmailBtnClick_7()
-    {
-        EmailBtnClick();
-    }
-
-    private void Layout_CancelTCPClick_8()
-    {
-        CancelTCPClick();
-    }
-
-    private void Layout_FindClick_9()
-    {
-        FindClick();
-    }
-
-    private void Layout_TCPNameChange_10()
-    {
-        TCPNameChange();
-    }
-
-    private void Layout_LANFindClick_11()
-    {
-        LANFindClick();
-    }
-
-    private void Layout_CloseBtnClick_12()
-    {
-        BackButtonClick();
-    }
-
-    private void Layout_CancelOKButClick_13()
-    {
-        CancelOKButClick();
-    }
-
-    private void Layout_IPXNameChange_14()
-    {
-        IPXNameChange();
-    }
-
-    private void Layout_CancelPBEMBtnClick_15()
-    {
-        CancelPBEMBtnClick();
-    }
-
-    private void Layout_CheckEmailBtnClick_16()
-    {
-        CheckEmailBtnClick();
-    }
-
-    private void Layout_NewPBEMGameBtnClick_17()
-    {
-        NewPBEMGameBtnClick();
-    }
-
-    private void Layout_LoadPBEMGameBtnClick_18()
-    {
-        LoadPBEMGameBtnClick();
-    }
-
-    private void Layout_EmailSettingsBtnClick_19()
-    {
-        EmailSettingsBtnClick();
-    }
-
-    private void Layout_HeatNetBtnClick_20()
-    {
-        HeatNetBtnClick();
     }
 }

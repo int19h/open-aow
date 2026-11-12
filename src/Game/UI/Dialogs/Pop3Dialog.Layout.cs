@@ -21,8 +21,8 @@ public partial class Pop3Dialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
-        Window.OnUpdate = _ => Layout_DlgUpdate_0();
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnUpdate += _ => DlgUpdate();
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 117;
@@ -294,7 +294,7 @@ public partial class Pop3Dialog : ILayoutModule
         FoundEmailGamesList.WinHeight = 125;
         FoundEmailGamesList.BorderWidth = 6;
         FoundEmailGamesList.BorderHeight = 4;
-        FoundEmailGamesList.OnChange = _ => Layout_FoundEmailGamesChange_1();
+        FoundEmailGamesList.OnChange += _ => FoundEmailGamesChange();
         FoundEmailGamesList.Selected = -1;
         FoundEmailGamesList.TextColor = 9415072;
         FoundEmailGamesList.TextSelectedColor = 0;
@@ -361,7 +361,7 @@ public partial class Pop3Dialog : ILayoutModule
         exit2Btn.TextColor = 0;
         exit2Btn.TextSelectedColor = 16777215;
         exit2Btn.WinWidth = 115;
-        exit2Btn.OnClick = _ => Layout_ExitBtnClick_2();
+        exit2Btn.OnClick += _ => ExitBtnClick();
         session.EndRead(exit2Btn);
         StartExitPanel = new Panel(this);
         session.BeginRead(StartExitPanel);
@@ -419,7 +419,7 @@ public partial class Pop3Dialog : ILayoutModule
         startBtn.TextColor = 0;
         startBtn.TextSelectedColor = 16777215;
         startBtn.WinWidth = 115;
-        startBtn.OnClick = _ => Layout_StartBtnClick_3();
+        startBtn.OnClick += _ => StartBtnClick();
         session.EndRead(startBtn);
         Button exitBtn = new Button(this);
         session.BeginRead(exitBtn);
@@ -450,7 +450,7 @@ public partial class Pop3Dialog : ILayoutModule
         exitBtn.TextColor = 0;
         exitBtn.TextSelectedColor = 16777215;
         exitBtn.WinWidth = 115;
-        exitBtn.OnClick = _ => Layout_ExitBtnClick_2();
+        exitBtn.OnClick += _ => ExitBtnClick();
         session.EndRead(exitBtn);
         LocalEmailAddressEdit = new Edit(this);
         session.BeginRead(LocalEmailAddressEdit);
@@ -749,25 +749,5 @@ public partial class Pop3Dialog : ILayoutModule
         emailGamesSB.ThumbStrip = DialogHosts.UIGraphics.GenericScrollBars;
         close.ToolTip = DialogHosts.General.ToolTip;
         close.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
-    }
-
-    private void Layout_DlgUpdate_0()
-    {
-        DlgUpdate();
-    }
-
-    private void Layout_FoundEmailGamesChange_1()
-    {
-        FoundEmailGamesChange();
-    }
-
-    private void Layout_ExitBtnClick_2()
-    {
-        ExitBtnClick();
-    }
-
-    private void Layout_StartBtnClick_3()
-    {
-        StartBtnClick();
     }
 }

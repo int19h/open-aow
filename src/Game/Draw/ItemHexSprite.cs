@@ -145,7 +145,7 @@ public partial class ItemHexSprite : SingleHexSprite
         if (_generateMode != ItemHexSpriteGenerateMode.UserDefined)
         {
             RandSeed = StrategicMap.Current.Random(16777215);
-            Items.OnChanged = null;
+            Items.ClearChangedHandler();
             if (_generateMode == ItemHexSpriteGenerateMode.Random)
             {
                 _generateMode = (ItemHexSpriteGenerateMode)(StrategicMap.Current.Random(3) + 1);
@@ -162,7 +162,7 @@ public partial class ItemHexSprite : SingleHexSprite
                 }
             }
 
-            Items.OnChanged = ItemsChanged;
+            Items.SetChangedHandler(ItemsChanged);
             ItemsChanged(Items);
         }
     }

@@ -74,7 +74,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         PlayerIndex = -1;
         Participating = false;
         EventLogbook = new EventLogbook(null);
-        EventLogbook.SetOnChanged(LogbookChangedEvent);
+        EventLogbook.OnChanged += LogbookChangedEvent;
         _logbookChangedEventsStore = new();
         DiplomaticRelations = new PlayerDiplomaticRelations(null);
         DiplomaticRelations.Player = this;
@@ -107,7 +107,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
 
     private EventStore<Player> _gemsChangedEventsStore;
 
-    public event NotifyEvent<Player> FGemsChangedEvents
+    public event NotifyEvent<Player> GemsChanged
     {
         add => _gemsChangedEventsStore.Add(value);
         remove => _gemsChangedEventsStore.Remove(value);
@@ -115,7 +115,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
 
     private EventStore<Player> _incomeChangedEventsStore;
 
-    public event NotifyEvent<Player> FIncomeChangedEvents
+    public event NotifyEvent<Player> IncomeChanged
     {
         add => _incomeChangedEventsStore.Add(value);
         remove => _incomeChangedEventsStore.Remove(value);
@@ -123,7 +123,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
 
     private EventStore<Player> _upkeepChangedEventsStore;
 
-    public event NotifyEvent<Player> FUpkeepChangedEvents
+    public event NotifyEvent<Player> UpkeepChanged
     {
         add => _upkeepChangedEventsStore.Add(value);
         remove => _upkeepChangedEventsStore.Remove(value);
@@ -131,7 +131,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
 
     private EventStore<Player> _logbookChangedEventsStore;
 
-    public event NotifyEvent<Player> FLogbookChangedEvents
+    public event NotifyEvent<Player> LogbookChanged
     {
         add => _logbookChangedEventsStore.Add(value);
         remove => _logbookChangedEventsStore.Remove(value);

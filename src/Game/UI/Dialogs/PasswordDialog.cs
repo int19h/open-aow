@@ -16,7 +16,7 @@ public partial class PasswordDialog : DataModule
     public Label TitleLabel;
     public Label PasswordLabel;
     public Edit PasswordEdit;
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
     private PasswordEventLog _passwordEvent;
 
     // AoWPasswordDlg.pas:43
@@ -25,9 +25,9 @@ public partial class PasswordDialog : DataModule
         ExecuteDoneEvent done;
         PasswordEventLog eventValue;
         Window.Visible = false;
-        done = _done;
+        done = Done;
         eventValue = _passwordEvent;
-        _done = null;
+        Done = null;
         _passwordEvent = null;
         if (done != null)
         {
@@ -80,7 +80,7 @@ public partial class PasswordDialog : DataModule
     {
         PasswordEventLog log;
         dialog.Reset();
-        dialog._done = done;
+        dialog.Done = done;
         dialog._passwordEvent = eventValue;
         dialog._passwordEvent.AddRef();
         log = dialog._passwordEvent;

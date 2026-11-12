@@ -18,19 +18,19 @@ public partial class ArmyEventDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "ArmyEventDlg";
-        LayoutOnCreate = _ => Layout_ArmyEventDlgCreate_0();
-        LayoutOnDestroy = _ => Layout_ArmyEventDlgDestroy_1();
+        LayoutOnCreate += _ => ArmyEventDialogCreate();
+        LayoutOnDestroy += _ => ArmyEventDialogDestroy();
         ArmyEventWindow = new Window(this);
         session.BeginRead(ArmyEventWindow);
         ArmyEventWindow.Name = "ArmyEventWin";
-        ArmyEventWindow.OnKeyDown = (_, ref key, shift) => ArmyEventWinKeyDown(ref key, shift);
+        ArmyEventWindow.OnKeyDown += (_, ref key, shift) => ArmyEventWinKeyDown(ref key, shift);
         ArmyEventWindow.Visible = false;
         ArmyEventWindow.Priority = 300;
         ArmyEventWindow.WinLeft = 101;
         ArmyEventWindow.WinTop = 96;
         ArmyEventWindow.WinWidth = 439;
         ArmyEventWindow.Masked = true;
-        ArmyEventWindow.OnHide = _ => Layout_ArmyEventWinHide_2();
+        ArmyEventWindow.OnHide += _ => ArmyEventWinHide();
         ArmyEventWindow.Alignment.AlignWidth = AlignWidth.Center;
         ArmyEventWindow.Alignment.AlignHeight = AlignHeight.Center;
         ArmyEventWindow.Alignment.HeightPercent = 0;
@@ -95,12 +95,12 @@ public partial class ArmyEventDialog : ILayoutModule
         UnitPanel = new Panel(this);
         session.BeginRead(UnitPanel);
         UnitPanel.Name = "UnitPnl";
-        UnitPanel.OnUpdate = _ => Layout_UnitPnlUpdate_3();
+        UnitPanel.OnUpdate += _ => UnitPnlUpdate();
         UnitPanel.Priority = 1000;
         UnitPanel.WinLeft = 35;
         UnitPanel.WinTop = 100;
         UnitPanel.WinWidth = 369;
-        UnitPanel.OnDrawBack = (_, lockedSurface) => UnitPnlDrawBack(lockedSurface);
+        UnitPanel.OnDrawBack += (_, surface) => UnitPnlDrawBack(surface);
         UnitPanel.Masked = true;
         UnitPanel.Alignment.AlignWidth = AlignWidth.None;
         UnitPanel.Alignment.AlignHeight = AlignHeight.None;
@@ -205,7 +205,7 @@ public partial class ArmyEventDialog : ILayoutModule
         closeBut.TextColor = 0;
         closeBut.TextSelectedColor = 16777215;
         closeBut.WinWidth = 120;
-        closeBut.OnClick = _ => Layout_CloseClick_4();
+        closeBut.OnClick += _ => CloseClick();
         session.EndRead(closeBut);
         Image titleIcon = new Image(this);
         session.BeginRead(titleIcon);
@@ -267,7 +267,7 @@ public partial class ArmyEventDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CloseClick_4();
+        close.OnClick += _ => CloseClick();
         session.EndRead(close);
         Label title = new Label(this);
         session.BeginRead(title);
@@ -429,30 +429,5 @@ public partial class ArmyEventDialog : ILayoutModule
         decoR.ImageLibrary = DialogHosts.UIGraphics.CelticDecorations;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
-    }
-
-    private void Layout_ArmyEventDlgCreate_0()
-    {
-        ArmyEventDialogCreate();
-    }
-
-    private void Layout_ArmyEventDlgDestroy_1()
-    {
-        ArmyEventDialogDestroy();
-    }
-
-    private void Layout_ArmyEventWinHide_2()
-    {
-        ArmyEventWinHide();
-    }
-
-    private void Layout_UnitPnlUpdate_3()
-    {
-        UnitPnlUpdate();
-    }
-
-    private void Layout_CloseClick_4()
-    {
-        CloseClick();
     }
 }

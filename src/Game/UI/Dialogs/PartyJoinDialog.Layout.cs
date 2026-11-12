@@ -18,8 +18,8 @@ public partial class PartyJoinDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "PartyJoinDlg";
-        LayoutOnCreate = _ => Layout_PartyJoinDlgCreate_0();
-        LayoutOnDestroy = _ => Layout_PartyJoinDlgDestroy_1();
+        LayoutOnCreate += _ => PartyJoinDialogCreate();
+        LayoutOnDestroy += _ => PartyJoinDialogDestroy();
         UnitPanel = new Panel(this);
         session.BeginRead(UnitPanel);
         UnitPanel.Name = "UnitPnl";
@@ -50,8 +50,8 @@ public partial class PartyJoinDialog : ILayoutModule
         Frame u1 = new Frame(this);
         session.BeginRead(u1);
         u1.Name = "U1";
-        u1.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 0);
-        u1.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 0);
+        u1.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 0);
+        u1.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 0);
         u1.Priority = 0;
         u1.WinLeft = 0;
         u1.WinTop = 0;
@@ -80,8 +80,8 @@ public partial class PartyJoinDialog : ILayoutModule
         session.BeginRead(u2);
         u2.Name = "U2";
         u2.Tag = 1;
-        u2.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 1);
-        u2.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 1);
+        u2.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 1);
+        u2.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 1);
         u2.Priority = 0;
         u2.WinLeft = 46;
         u2.WinTop = 0;
@@ -110,8 +110,8 @@ public partial class PartyJoinDialog : ILayoutModule
         session.BeginRead(u4);
         u4.Name = "U4";
         u4.Tag = 3;
-        u4.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 3);
-        u4.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 3);
+        u4.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 3);
+        u4.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 3);
         u4.Priority = 0;
         u4.WinLeft = 138;
         u4.WinTop = 0;
@@ -140,8 +140,8 @@ public partial class PartyJoinDialog : ILayoutModule
         session.BeginRead(u5);
         u5.Name = "U5";
         u5.Tag = 4;
-        u5.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 4);
-        u5.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 4);
+        u5.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 4);
+        u5.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 4);
         u5.Priority = 0;
         u5.WinLeft = 185;
         u5.WinTop = 0;
@@ -170,8 +170,8 @@ public partial class PartyJoinDialog : ILayoutModule
         session.BeginRead(u3);
         u3.Name = "U3";
         u3.Tag = 2;
-        u3.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 2);
-        u3.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 2);
+        u3.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 2);
+        u3.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 2);
         u3.Priority = 0;
         u3.WinLeft = 92;
         u3.WinTop = 0;
@@ -200,8 +200,8 @@ public partial class PartyJoinDialog : ILayoutModule
         session.BeginRead(u6);
         u6.Name = "U6";
         u6.Tag = 5;
-        u6.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 5);
-        u6.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 5);
+        u6.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 5);
+        u6.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 5);
         u6.Priority = 0;
         u6.WinLeft = 231;
         u6.WinTop = 0;
@@ -230,8 +230,8 @@ public partial class PartyJoinDialog : ILayoutModule
         session.BeginRead(u7);
         u7.Name = "U7";
         u7.Tag = 6;
-        u7.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 6);
-        u7.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 6);
+        u7.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 6);
+        u7.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 6);
         u7.Priority = 0;
         u7.WinLeft = 277;
         u7.WinTop = 0;
@@ -260,8 +260,8 @@ public partial class PartyJoinDialog : ILayoutModule
         session.BeginRead(u8);
         u8.Name = "U8";
         u8.Tag = 7;
-        u8.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 7);
-        u8.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 7);
+        u8.OnMouseDown += (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 7);
+        u8.OnPreDraw += (sender, surface) => U1PreDraw(sender, surface, 7);
         u8.Priority = 0;
         u8.WinLeft = 323;
         u8.WinTop = 0;
@@ -315,7 +315,7 @@ public partial class PartyJoinDialog : ILayoutModule
         MiddleButton.TextColor = 328543;
         MiddleButton.TextSelectedColor = 16777215;
         MiddleButton.WinWidth = 120;
-        MiddleButton.OnClick = _ => Layout_MiddleBtnClick_3();
+        MiddleButton.OnClick += _ => MiddleBtnClick();
         session.EndRead(MiddleButton);
         Image titleIcon = new Image(this);
         session.BeginRead(titleIcon);
@@ -424,7 +424,7 @@ public partial class PartyJoinDialog : ILayoutModule
         RightButton.TextColor = 0;
         RightButton.TextSelectedColor = 16777215;
         RightButton.WinWidth = 120;
-        RightButton.OnClick = _ => Layout_RightBtnClick_4();
+        RightButton.OnClick += _ => RightBtnClick();
         session.EndRead(RightButton);
         LeftButton = new Button(this);
         session.BeginRead(LeftButton);
@@ -455,19 +455,19 @@ public partial class PartyJoinDialog : ILayoutModule
         LeftButton.TextColor = 0;
         LeftButton.TextSelectedColor = 16777215;
         LeftButton.WinWidth = 120;
-        LeftButton.OnClick = _ => Layout_LeftBtnClick_5();
+        LeftButton.OnClick += _ => LeftBtnClick();
         session.EndRead(LeftButton);
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 100;
         Window.WinTop = 81;
         Window.WinWidth = 440;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_DlgHide_6();
+        Window.OnHide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -616,7 +616,7 @@ public partial class PartyJoinDialog : ILayoutModule
         FaceFrame = new Image(this);
         session.BeginRead(FaceFrame);
         FaceFrame.Name = "FaceFrame";
-        FaceFrame.OnPreDraw = (_, lockedSurface) => FaceFramePreDraw(lockedSurface);
+        FaceFrame.OnPreDraw += (_, surface) => FaceFramePreDraw(surface);
         FaceFrame.Priority = 100;
         FaceFrame.WinLeft = 22;
         FaceFrame.WinTop = 23;
@@ -697,7 +697,7 @@ public partial class PartyJoinDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CloseClick_7();
+        close.OnClick += _ => CloseClick();
         session.EndRead(close);
         LayoutIvTranslator translator = new LayoutIvTranslator(this);
         session.BeginRead(translator);
@@ -790,40 +790,5 @@ public partial class PartyJoinDialog : ILayoutModule
         close.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
-    }
-
-    private void Layout_PartyJoinDlgCreate_0()
-    {
-        PartyJoinDialogCreate();
-    }
-
-    private void Layout_PartyJoinDlgDestroy_1()
-    {
-        PartyJoinDialogDestroy();
-    }
-
-    private void Layout_MiddleBtnClick_3()
-    {
-        MiddleBtnClick();
-    }
-
-    private void Layout_RightBtnClick_4()
-    {
-        RightBtnClick();
-    }
-
-    private void Layout_LeftBtnClick_5()
-    {
-        LeftBtnClick();
-    }
-
-    private void Layout_DlgHide_6()
-    {
-        DlgHide();
-    }
-
-    private void Layout_CloseClick_7()
-    {
-        CloseClick();
     }
 }

@@ -41,7 +41,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
         StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         animation = new Animation(null);
         animation.AnimationLevel = 27;
-        animation.OnShow = ShowAnimation;
+        animation.OnShow += ShowAnimation;
         animation.AnimationMap = StrategicMap.Current;
         animation.Activate();
         twinkle = new TwinkleAnimation(null);

@@ -64,13 +64,13 @@ public partial class TokenPackageDistributor
     {
         if (Pc != null)
         {
-            Pc.FOnReceive -= DataPackageReceived;
+            Pc.Received -= DataPackageReceived;
         }
 
         Pc = pc;
         if (Pc != null)
         {
-            Pc.FOnReceive += DataPackageReceived;
+            Pc.Received += DataPackageReceived;
         }
     }
 

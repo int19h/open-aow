@@ -76,7 +76,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
             animation = new Animation(null);
             _animation = animation;
             animation.AnimationLevel = 27;
-            animation.OnShow = ShowAnimation;
+            animation.OnShow += ShowAnimation;
             animation.AnimationMap = StrategicMap.Current;
             animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
             animation.Activate();

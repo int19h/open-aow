@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class SoundDialog
 {
-    public NotifyEvent<SoundDialog> LayoutOnCreate { get; set; }
-    public NotifyEvent<SoundDialog> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<SoundDialog> LayoutOnCreate;
+    public event NotifyEvent<SoundDialog> LayoutOnDestroy;
 
     public override void Dispose()
     {

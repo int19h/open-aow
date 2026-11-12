@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class FastBattleWindow
 {
-    public NotifyEvent<FastBattleWindow> LayoutOnCreate { get; set; }
-    public NotifyEvent<FastBattleWindow> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<FastBattleWindow> LayoutOnCreate;
+    public event NotifyEvent<FastBattleWindow> LayoutOnDestroy;
 
     public override void Dispose()
     {

@@ -34,8 +34,12 @@ public partial class Animation : HexSprite
     public int FrameCounter;
     public Rect Dimensions;
 
-    public ShowAnimationEvent OnShow { get; set; }
-    public NewFrameAnimationEvent OnNewFrame { get; set; }
+    public event ShowAnimationEvent OnShow;
+
+    internal void SetShowHandler(ShowAnimationEvent handler) => OnShow = handler;
+
+    public event NewFrameAnimationEvent OnNewFrame;
+
     public int Tag { get; set; }
     public GameMap AnimationMap { get; set; }
 

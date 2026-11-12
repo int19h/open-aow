@@ -75,7 +75,7 @@ public partial class BloodShrine : Structure
             R = new Rect(-16, -8, 32, 40);
             animation.SetDimensions(R);
             animation.AnimationLevel = 27;
-            animation.OnShow = ShowBlessingAnimation;
+            animation.OnShow += ShowBlessingAnimation;
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
             var hexX = GetHexX();

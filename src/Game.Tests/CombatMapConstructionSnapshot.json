@@ -20,7 +20,7 @@
       },
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -33,7 +33,7 @@
       "GameMap.FogEnabled": true,
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -648,7 +648,7 @@
             "CustomImageLibrary.Images": null,
             "CustomImageLibrary._loadOnDemand": true,
             "CustomImageLibrary._loadedFileName": "",
-            "CustomImageLibrary._onChange": null,
+            "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
               "PaletteManager._palettes": []
@@ -1241,10 +1241,10 @@
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "GameMap._onCenterView": null,
-      "GameMap._onChangeView": null,
-      "GameMap._onProgress": null,
-      "GameMap._onViewLevel": null,
+      "GameMap.OnCenterView": null,
+      "GameMap.OnChangeView": null,
+      "GameMap.OnProgress": null,
+      "GameMap.OnViewLevel": null,
       "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
@@ -1425,7 +1425,7 @@
       },
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -1438,7 +1438,7 @@
       "GameMap.FogEnabled": true,
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -2053,7 +2053,7 @@
             "CustomImageLibrary.Images": null,
             "CustomImageLibrary._loadOnDemand": true,
             "CustomImageLibrary._loadedFileName": "",
-            "CustomImageLibrary._onChange": null,
+            "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
               "PaletteManager._palettes": []
@@ -2646,10 +2646,10 @@
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "GameMap._onCenterView": null,
-      "GameMap._onChangeView": null,
-      "GameMap._onProgress": null,
-      "GameMap._onViewLevel": null,
+      "GameMap.OnCenterView": null,
+      "GameMap.OnChangeView": null,
+      "GameMap.OnProgress": null,
+      "GameMap.OnViewLevel": null,
       "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
@@ -2830,7 +2830,7 @@
       },
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -2843,7 +2843,7 @@
       "GameMap.FogEnabled": true,
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -3458,7 +3458,7 @@
             "CustomImageLibrary.Images": null,
             "CustomImageLibrary._loadOnDemand": true,
             "CustomImageLibrary._loadedFileName": "",
-            "CustomImageLibrary._onChange": null,
+            "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
               "PaletteManager._palettes": []
@@ -4051,10 +4051,10 @@
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "GameMap._onCenterView": null,
-      "GameMap._onChangeView": null,
-      "GameMap._onProgress": null,
-      "GameMap._onViewLevel": null,
+      "GameMap.OnCenterView": null,
+      "GameMap.OnChangeView": null,
+      "GameMap.OnProgress": null,
+      "GameMap.OnViewLevel": null,
       "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
@@ -4235,7 +4235,7 @@
       },
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -4248,7 +4248,7 @@
       "GameMap.FogEnabled": true,
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -4863,7 +4863,7 @@
             "CustomImageLibrary.Images": null,
             "CustomImageLibrary._loadOnDemand": true,
             "CustomImageLibrary._loadedFileName": "",
-            "CustomImageLibrary._onChange": null,
+            "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
               "PaletteManager._palettes": []
@@ -5456,10 +5456,10 @@
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "GameMap._onCenterView": null,
-      "GameMap._onChangeView": null,
-      "GameMap._onProgress": null,
-      "GameMap._onViewLevel": null,
+      "GameMap.OnCenterView": null,
+      "GameMap.OnChangeView": null,
+      "GameMap.OnProgress": null,
+      "GameMap.OnViewLevel": null,
       "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
@@ -5642,7 +5642,7 @@
       },
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -5655,7 +5655,7 @@
       "GameMap.FogEnabled": true,
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -6270,7 +6270,7 @@
             "CustomImageLibrary.Images": null,
             "CustomImageLibrary._loadOnDemand": true,
             "CustomImageLibrary._loadedFileName": "",
-            "CustomImageLibrary._onChange": null,
+            "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
               "PaletteManager._palettes": []
@@ -6863,10 +6863,10 @@
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "GameMap._onCenterView": null,
-      "GameMap._onChangeView": null,
-      "GameMap._onProgress": null,
-      "GameMap._onViewLevel": null,
+      "GameMap.OnCenterView": null,
+      "GameMap.OnChangeView": null,
+      "GameMap.OnProgress": null,
+      "GameMap.OnViewLevel": null,
       "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
@@ -7049,7 +7049,7 @@
       },
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -7062,7 +7062,7 @@
       "GameMap.FogEnabled": true,
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -7677,7 +7677,7 @@
             "CustomImageLibrary.Images": null,
             "CustomImageLibrary._loadOnDemand": true,
             "CustomImageLibrary._loadedFileName": "",
-            "CustomImageLibrary._onChange": null,
+            "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
               "PaletteManager._palettes": []
@@ -8270,10 +8270,10 @@
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "GameMap._onCenterView": null,
-      "GameMap._onChangeView": null,
-      "GameMap._onProgress": null,
-      "GameMap._onViewLevel": null,
+      "GameMap.OnCenterView": null,
+      "GameMap.OnChangeView": null,
+      "GameMap.OnProgress": null,
+      "GameMap.OnViewLevel": null,
       "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
@@ -8456,7 +8456,7 @@
       },
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -8469,7 +8469,7 @@
       "GameMap.FogEnabled": true,
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -9084,7 +9084,7 @@
             "CustomImageLibrary.Images": null,
             "CustomImageLibrary._loadOnDemand": true,
             "CustomImageLibrary._loadedFileName": "",
-            "CustomImageLibrary._onChange": null,
+            "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
               "PaletteManager._palettes": []
@@ -9677,10 +9677,10 @@
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "GameMap._onCenterView": null,
-      "GameMap._onChangeView": null,
-      "GameMap._onProgress": null,
-      "GameMap._onViewLevel": null,
+      "GameMap.OnCenterView": null,
+      "GameMap.OnChangeView": null,
+      "GameMap.OnProgress": null,
+      "GameMap.OnViewLevel": null,
       "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {
@@ -9863,7 +9863,7 @@
       },
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -9876,7 +9876,7 @@
       "GameMap.FogEnabled": true,
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite._onShow": [
+        "CustomFixedVisibleHexSprite.OnShow": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -10491,7 +10491,7 @@
             "CustomImageLibrary.Images": null,
             "CustomImageLibrary._loadOnDemand": true,
             "CustomImageLibrary._loadedFileName": "",
-            "CustomImageLibrary._onChange": null,
+            "CustomImageLibrary.OnChange": null,
             "CustomImageLibrary._paletteManager": {
               "$type": "Aow.Game.Draw.Images.PaletteManager",
               "PaletteManager._palettes": []
@@ -11084,10 +11084,10 @@
         "EventStore`1._count": 0,
         "EventStore`1._items": null
       },
-      "GameMap._onCenterView": null,
-      "GameMap._onChangeView": null,
-      "GameMap._onProgress": null,
-      "GameMap._onViewLevel": null,
+      "GameMap.OnCenterView": null,
+      "GameMap.OnChangeView": null,
+      "GameMap.OnProgress": null,
+      "GameMap.OnViewLevel": null,
       "GameMap._selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
         "EControlStyleNode._controlStyle": {

@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class ResultsWindow
 {
-    public NotifyEvent<ResultsWindow> LayoutOnCreate { get; set; }
-    public NotifyEvent<ResultsWindow> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<ResultsWindow> LayoutOnCreate;
+    public event NotifyEvent<ResultsWindow> LayoutOnDestroy;
 
     public override void Dispose()
     {

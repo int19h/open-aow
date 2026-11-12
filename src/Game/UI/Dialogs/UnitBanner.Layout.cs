@@ -343,14 +343,14 @@ public partial class UnitBanner : ILayoutModule
         BannerMenu = new Menu(this);
         session.BeginRead(BannerMenu);
         BannerMenu.Name = "BannerPopup";
-        BannerMenu.OnMouseDown = (_, button, shift, x, y) => Layout_BannerPopupMouseDown_0(button, shift, x, y);
+        BannerMenu.OnMouseDown += (_, button, _, _, _) => BannerPopupMouseDown(default(int), (byte)button, default(int), default(int), default(int));
         BannerMenu.Visible = false;
         BannerMenu.Priority = 350;
         BannerMenu.WinLeft = 0;
         BannerMenu.WinTop = 0;
         BannerMenu.WinWidth = 160;
         BannerMenu.Masked = true;
-        BannerMenu.OnShow = _ => BannerPopupShow();
+        BannerMenu.OnShow += _ => BannerPopupShow();
         BannerMenu.Alignment.AlignWidth = AlignWidth.None;
         BannerMenu.Alignment.AlignHeight = AlignHeight.None;
         BannerMenu.Alignment.HeightPercent = 0;
@@ -384,9 +384,9 @@ public partial class UnitBanner : ILayoutModule
         AbilityList = new ListBox(this);
         session.BeginRead(AbilityList);
         AbilityList.Name = "AbLB";
-        AbilityList.OnMouseDown = (_, button, shift, x, y) => AbLBMouseDown(button, shift, x, y);
-        AbilityList.OnMouseMove = (_, shift, x, y) => AbLBMouseMove(shift, x, y);
-        AbilityList.OnUpdate = _ => Layout_AbLBUpdate_1();
+        AbilityList.OnMouseDown += (_, button, shift, x, y) => AbLBMouseDown(button, shift, x, y);
+        AbilityList.OnMouseMove += (_, shift, x, y) => AbLBMouseMove(shift, x, y);
+        AbilityList.OnUpdate += _ => AbLBUpdate();
         AbilityList.Priority = 0;
         AbilityList.WinLeft = 25;
         AbilityList.WinTop = 110;
@@ -517,15 +517,5 @@ public partial class UnitBanner : ILayoutModule
         abVSB.ImageLibraryIDecrement = DialogHosts.UIGraphics.GenericScrollBars;
         abVSB.ImageLibraryTileBack = DialogHosts.UIGraphics.GenericScrollBars;
         abVSB.ThumbStrip = DialogHosts.UIGraphics.GenericScrollBars;
-    }
-
-    private void Layout_BannerPopupMouseDown_0(MouseButton p1, Set<ShiftState> p2, int p3, int p4)
-    {
-        BannerPopupMouseDown(default(int), (byte)p1, default(int), default(int), default(int));
-    }
-
-    private void Layout_AbLBUpdate_1()
-    {
-        AbLBUpdate();
     }
 }

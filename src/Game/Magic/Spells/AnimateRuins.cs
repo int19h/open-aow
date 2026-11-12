@@ -62,7 +62,7 @@ public partial class AnimateRuins : CityTargetSpell
                 A.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[20]);
                 A.SetPixelXOffset(A.PixelXOffset - 16);
                 A.SetPixelYOffset(A.PixelYOffset - 16);
-                A.OnShow = ShowAnimation;
+                A.OnShow += ShowAnimation;
                 var hexLevel2 = targetCity.GetHexLevel();
                 var hexY2 = targetCity.GetHexY();
                 var targetCityHexX = targetCity.GetHexX();

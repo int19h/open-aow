@@ -344,15 +344,15 @@ public partial class StorageReader : StorageStream
         if (!_errorHandled)
         {
             canContinue = true;
-            if (_onError != null)
+            if (HasErrorHandlers)
             {
                 if (IsEmpty(error.Message))
                 {
-                    _onError(this, s_readError, ref canContinue);
+                    RaiseError(this, s_readError, ref canContinue);
                 }
                 else
                 {
-                    _onError(this, error.Message, ref canContinue);
+                    RaiseError(this, error.Message, ref canContinue);
                 }
             }
 

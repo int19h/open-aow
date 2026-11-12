@@ -10,6 +10,6 @@ public partial class ItemHexSprite
     {
         Items = new ItemHSList(null);
         Items.Sprite = this;
-        Items.OnChanged = ItemsChanged;
+        Items.OnChanged += ItemsChanged;
     }
 }

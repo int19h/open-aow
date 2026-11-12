@@ -18,21 +18,21 @@ public partial class MapWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "MWindow";
-        LayoutOnCreate = _ => Layout_MWindowCreate_0();
+        LayoutOnCreate += _ => MWindowCreate();
         MainWindow = new Window(this);
         session.BeginRead(MainWindow);
         MainWindow.Name = "MapWindow";
-        MainWindow.OnMouseDown = (_, button, shift, x, y) => MapWindowMouseDown(button, shift, x, y);
-        MainWindow.OnMouseUp = (_, button, shift, x, y) => MapWindowMouseUp(button, shift, x, y);
-        MainWindow.OnMouseMove = (_, shift, x, y) => MapWindowMouseMove(shift, x, y);
-        MainWindow.OnKeyDown = MapWindowKeyDown;
-        MainWindow.OnUpdate = _ => Layout_MapWindowUpdate_5();
+        MainWindow.OnMouseDown += (_, button, shift, x, y) => MapWindowMouseDown(button, shift, x, y);
+        MainWindow.OnMouseUp += (_, button, shift, x, y) => MapWindowMouseUp(button, shift, x, y);
+        MainWindow.OnMouseMove += (_, shift, x, y) => MapWindowMouseMove(shift, x, y);
+        MainWindow.OnKeyDown += MapWindowKeyDown;
+        MainWindow.OnUpdate += _ => MapWindowUpdate();
         MainWindow.Visible = false;
         MainWindow.Priority = 0;
         MainWindow.WinLeft = 0;
         MainWindow.WinTop = 0;
         MainWindow.WinWidth = 440;
-        MainWindow.OnExit = _ => MapWindowExit();
+        MainWindow.OnExit += _ => MapWindowExit();
         MainWindow.Masked = false;
         MainWindow.Alignment.AlignWidth = AlignWidth.Left;
         MainWindow.Alignment.AlignHeight = AlignHeight.Top;
@@ -53,14 +53,14 @@ public partial class MapWindow : ILayoutModule
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = false;
         MainWindow.MaskColor = 0;
-        MainWindow.OnPreDrawSurface = (_, surface, left, top) => MapWindowPreDrawSurface(surface, left, top);
+        MainWindow.OnPreDrawSurface += (_, surface, left, top) => MapWindowPreDrawSurface(surface, left, top);
         MainWindow.FreeSurfaceOnHide = false;
         MainWindow.ImageLibraryIndexFrame = 8;
         MainWindow.ImageLibraryIndexTexture = 0;
         MainWindow.DragHeight = 0;
         MainWindow.Draggable = false;
         MainWindow.Resizable = true;
-        MainWindow.OnResize = _ => Layout_MapWindowResize_6();
+        MainWindow.OnResize += _ => MapWindowResize();
         MainWindow.MinWidth = 200;
         MainWindow.MinHeight = 200;
         MainWindow.MaxWidth = 0;
@@ -73,7 +73,7 @@ public partial class MapWindow : ILayoutModule
         MapViewer = new HexSpriteMapViewer(this);
         session.BeginRead(MapViewer);
         MapViewer.Name = "MapViewer";
-        MapViewer.OnSceneChanged = _ => Layout_MapViewerSceneChanged_7();
+        MapViewer.OnSceneChanged += _ => MapViewerSceneChanged();
         session.EndRead(MapViewer);
         session.EndRead(this);
         Loaded();
@@ -82,25 +82,5 @@ public partial class MapWindow : ILayoutModule
         session.Resolve(this);
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
-    }
-
-    private void Layout_MWindowCreate_0()
-    {
-        MWindowCreate();
-    }
-
-    private void Layout_MapWindowUpdate_5()
-    {
-        MapWindowUpdate();
-    }
-
-    private void Layout_MapWindowResize_6()
-    {
-        MapWindowResize();
-    }
-
-    private void Layout_MapViewerSceneChanged_7()
-    {
-        MapViewerSceneChanged();
     }
 }

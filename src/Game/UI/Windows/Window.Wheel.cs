@@ -30,8 +30,8 @@ public partial class Window
         bool turned = false;
         for (int i = 0; i < count; i++)
         {
-            if (!button.Visible || !button.CaptureInput || button.OnClick == null) break;
-            button.OnClick(button);
+            if (!button.Visible || !button.CaptureInput || !button.HasClickHandlers) break;
+            button.RaiseClick(button);
             turned = true;
             if (OneWheelTurnPerEvent) break;
         }

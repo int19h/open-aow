@@ -27,7 +27,7 @@ public partial class MessageReceiveDialog : ILayoutModule
         Window.WinTop = 85;
         Window.WinWidth = 384;
         Window.Masked = true;
-        Window.OnHide = _ => Layout_MsgReceiveWinHide_0();
+        Window.OnHide += _ => MsgReceiveWinHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -130,7 +130,7 @@ public partial class MessageReceiveDialog : ILayoutModule
         close.TextColor = 855324;
         close.TextSelectedColor = 16777215;
         close.WinWidth = 140;
-        close.OnClick = _ => Layout_CloseClick_1();
+        close.OnClick += _ => CloseClick();
         session.EndRead(close);
         VerticalScrollBar messageSB = new VerticalScrollBar(this);
         session.BeginRead(messageSB);
@@ -315,15 +315,5 @@ public partial class MessageReceiveDialog : ILayoutModule
         RightShield.ImageLibrary = DialogHosts.UIGraphics.Shields;
         HeaderMemo.Font = DialogHosts.UIFonts.Age15BlackOnBrown;
         HeaderMemo.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-    }
-
-    private void Layout_MsgReceiveWinHide_0()
-    {
-        MsgReceiveWinHide();
-    }
-
-    private void Layout_CloseClick_1()
-    {
-        CloseClick();
     }
 }

@@ -137,7 +137,7 @@ public partial class GameEngine : ENode, IChildList<GameEngineChild>
         {
             if (_hexSpriteMap != null)
             {
-                _hexSpriteMap.OnProgress = progress;
+                _hexSpriteMap.SetProgressHandler(progress);
                 OnHsmCloseStore.Raise(_hexSpriteMap);
                 _hexSpriteMap?.Dispose();
                 SetHexSpriteMap(null);

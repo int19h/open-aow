@@ -12,16 +12,28 @@ namespace Aow.Game.Draw;
 // show), _pauseCount, _mouseAboveSurface, _primaryDisplayController, _secondaryDisplayController, _activeDisplayController
 public partial class CustomDisplay : WinControl
 {
-    private NotifyEvent<object> _onBlitSurface;
-    private UpdateFrameEvent _onUpdateFrame;
-    private SurfaceDataLostEvent _onSurfaceDataLost;
-    private NotifyEvent<object> _onResize;
-    private DCNotifyEvent _onActivateDisplayController;
-    private DCNotifyEvent _onDeactivateDisplayController;
-    private NotifyEvent<object> _onHide;
-    private NotifyEvent<object> _onShow;
-    private ResizeBackSurfaceEvent _onResizeBackSurface;
-    private SwapDCEvent _onSwapDisplayController;
+    protected internal event NotifyEvent<object> OnBlitSurface;
+    protected internal event UpdateFrameEvent OnUpdateFrame;
+
+    internal void SetUpdateFrameHandler(UpdateFrameEvent handler) => OnUpdateFrame = handler;
+
+    protected internal event SurfaceDataLostEvent OnSurfaceDataLost;
+
+    internal void SetSurfaceDataLostHandler(SurfaceDataLostEvent handler) => OnSurfaceDataLost = handler;
+
+    protected internal event NotifyEvent<object> OnResize;
+    protected internal event DCNotifyEvent OnActivateDisplayController;
+    protected internal event DCNotifyEvent OnDeactivateDisplayController;
+    protected internal event NotifyEvent<object> OnHide;
+    protected internal event NotifyEvent<object> OnShow;
+    protected internal event ResizeBackSurfaceEvent OnResizeBackSurface;
+
+    internal void SetResizeBackSurfaceHandler(ResizeBackSurfaceEvent handler) => OnResizeBackSurface = handler;
+
+    protected internal event SwapDCEvent OnSwapDisplayController;
+
+    internal void SetSwapDisplayControllerHandler(SwapDCEvent handler) => OnSwapDisplayController = handler;
+
     private int _frameRate;
 
     internal int FrameTime { get; private set; }
@@ -305,18 +317,18 @@ public partial class CustomDisplay : WinControl
             }
         }
 
-        if (_onResizeBackSurface != null)
+        if (OnResizeBackSurface != null)
         {
-            _onResizeBackSurface(_activeDisplayController, width, height);
+            OnResizeBackSurface(_activeDisplayController, width, height);
         }
     }
 
     // DisplayC.pas:1486
     public virtual void SurfaceDataLost(int surfaceType)
     {
-        if (_onSurfaceDataLost != null)
+        if (OnSurfaceDataLost != null)
         {
-            _onSurfaceDataLost(_activeDisplayController, surfaceType);
+            OnSurfaceDataLost(_activeDisplayController, surfaceType);
         }
     }
 
@@ -338,9 +350,9 @@ public partial class CustomDisplay : WinControl
             result = 0;
             if (_activeDisplayController != null && _activeDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Visible))
             {
-                if (_onBlitSurface != null)
+                if (OnBlitSurface != null)
                 {
-                    _onBlitSurface(this);
+                    OnBlitSurface(this);
                 }
 
                 if (_bufferingScheme != BufferingScheme.Single)
@@ -384,9 +396,9 @@ public partial class CustomDisplay : WinControl
     // DisplayC.pas:1653
     public new void Hide()
     {
-        if (_onHide != null)
+        if (OnHide != null)
         {
-            _onHide(this);
+            OnHide(this);
         }
 
         if (_activeDisplayController != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
@@ -403,9 +415,9 @@ public partial class CustomDisplay : WinControl
             _activeDisplayController.Show();
         }
 
-        if (_onShow != null)
+        if (OnShow != null)
         {
-            _onShow(this);
+            OnShow(this);
         }
     }
 
@@ -430,9 +442,9 @@ public partial class CustomDisplay : WinControl
     {
         if (_activeDisplayController != null && _activeDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Activated))
         {
-            if (_onDeactivateDisplayController != null)
+            if (OnDeactivateDisplayController != null)
             {
-                _onDeactivateDisplayController(this, _activeDisplayController);
+                OnDeactivateDisplayController(this, _activeDisplayController);
             }
 
             _activeDisplayController.Deactivate();
@@ -453,16 +465,6 @@ public partial class CustomDisplay : WinControl
     protected internal DisplayController PrimaryDisplayController { get => _primaryDisplayController; set => _primaryDisplayController = value; }
     protected internal DisplayController SecondaryDisplayController { get => _secondaryDisplayController; set => _secondaryDisplayController = value; }
     protected internal UpdateFrameMode UpdateFrameMode { get => _updateFrameMode; set => SetUpdateFrameMode(value); }
-    protected internal NotifyEvent<object> OnResize { get => _onResize; set => _onResize = value; }
-    protected internal NotifyEvent<object> OnBlitSurface { get => _onBlitSurface; set => _onBlitSurface = value; }
-    protected internal DCNotifyEvent OnDeactivateDisplayController { get => _onDeactivateDisplayController; set => _onDeactivateDisplayController = value; }
-    protected internal DCNotifyEvent OnActivateDisplayController { get => _onActivateDisplayController; set => _onActivateDisplayController = value; }
-    protected internal UpdateFrameEvent OnUpdateFrame { get => _onUpdateFrame; set => _onUpdateFrame = value; }
-    protected internal NotifyEvent<object> OnHide { get => _onHide; set => _onHide = value; }
-    protected internal NotifyEvent<object> OnShow { get => _onShow; set => _onShow = value; }
-    protected internal SurfaceDataLostEvent OnSurfaceDataLost { get => _onSurfaceDataLost; set => _onSurfaceDataLost = value; }
-    protected internal ResizeBackSurfaceEvent OnResizeBackSurface { get => _onResizeBackSurface; set => _onResizeBackSurface = value; }
-    protected internal SwapDCEvent OnSwapDisplayController { get => _onSwapDisplayController; set => _onSwapDisplayController = value; }
 
     private const int DCERR_ACTIVATEFAILED = -2147414014;
 

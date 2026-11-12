@@ -33,10 +33,7 @@ public partial class GenericWindow : BaseWindow
         {
             _cursor = value;
             WindowCursor = value;
-            if (_onChangeCursor != null)
-            {
-                _onChangeCursor(this);
-            }
+            RaiseChangeCursor(this);
         }
     }
 
@@ -80,113 +77,113 @@ public partial class GenericWindow : BaseWindow
     public bool DoubleBuffered { get => _doubleBuffered; set => SetBuffer(value); }
 
     [Published]
-    public NotifyEvent<GenericWindow> OnChangeCursor
+    public new event NotifyEvent<GenericWindow> OnChangeCursor
     {
-        get => EventSlot.Get(this, _onChangeCursor);
-        set => EventSlot.Set(this, ref _onChangeCursor, value);
+        add => ((WindowControl)this).OnChangeCursor += EventSlot.Add<WindowControl, GenericWindow>(this, slot: nameof(OnChangeCursor), value: value);
+        remove => ((WindowControl)this).OnChangeCursor -= EventSlot.Remove<WindowControl, GenericWindow>(this, slot: nameof(OnChangeCursor), value: value);
     }
 
     [Published]
     public int MaskColor { get => _maskColor; set => _maskColor = value; }
 
     [Published]
-    public AoWOnDrawSurface<GenericWindow> OnDrawSurface
+    public new event AoWOnDrawSurface<GenericWindow> OnDrawSurface
     {
-        get => EventSlot.Get(this, _onDrawSurface);
-        set => EventSlot.Set(this, ref _onDrawSurface, value);
+        add => ((WindowControl)this).OnDrawSurface += EventSlot.Add<WindowControl, GenericWindow>(this, slot: nameof(OnDrawSurface), value: value);
+        remove => ((WindowControl)this).OnDrawSurface -= EventSlot.Remove<WindowControl, GenericWindow>(this, slot: nameof(OnDrawSurface), value: value);
     }
 
     [Published]
-    public AoWOnDrawSurface<GenericWindow> OnPreDrawSurface
+    public new event AoWOnDrawSurface<GenericWindow> OnPreDrawSurface
     {
-        get => EventSlot.Get(this, _onPreDrawSurface);
-        set => EventSlot.Set(this, ref _onPreDrawSurface, value);
+        add => ((WindowControl)this).OnPreDrawSurface += EventSlot.Add<WindowControl, GenericWindow>(this, slot: nameof(OnPreDrawSurface), value: value);
+        remove => ((WindowControl)this).OnPreDrawSurface -= EventSlot.Remove<WindowControl, GenericWindow>(this, slot: nameof(OnPreDrawSurface), value: value);
     }
 
     [Published]
     public bool FreeSurfaceOnHide { get => _freeSurfaceOnHide; set => _freeSurfaceOnHide = value; }
 
-    public new NotifyEvent<GenericWindow> OnChange
+    public new event NotifyEvent<GenericWindow> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, GenericWindow>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, GenericWindow>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<GenericWindow> OnMouseDown
+    public new event MouseEvent<GenericWindow> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, GenericWindow>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, GenericWindow>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<GenericWindow> OnMouseUp
+    public new event MouseEvent<GenericWindow> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, GenericWindow>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, GenericWindow>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<GenericWindow> OnMouseMove
+    public new event MouseMoveEvent<GenericWindow> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, GenericWindow>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, GenericWindow>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<GenericWindow> OnKeyPress
+    public new event KeyPressEvent<GenericWindow> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, GenericWindow>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, GenericWindow>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<GenericWindow> OnKeyDown
+    public new event KeyEvent<GenericWindow> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, GenericWindow>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, GenericWindow>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<GenericWindow> OnPreDraw
+    public new event AoWOnDrawEvent<GenericWindow> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, GenericWindow>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, GenericWindow>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<GenericWindow> OnDraw
+    public new event AoWOnDrawEvent<GenericWindow> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, GenericWindow>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, GenericWindow>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<GenericWindow> OnUpdate
+    public new event NotifyEvent<GenericWindow> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, GenericWindow>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, GenericWindow>(this, slot: nameof(OnUpdate), value: value);
     }
 
-    public new AoWOnDrawBackEvent<GenericWindow> OnDrawBack
+    public new event AoWOnDrawBackEvent<GenericWindow> OnDrawBack
     {
-        get => EventSlot.Get(this, _onDrawBack);
-        set => EventSlot.Set(this, ref _onDrawBack, value);
+        add => ((WindowControl)this).OnDrawBack += EventSlot.Add<WindowControl, GenericWindow>(this, slot: nameof(OnDrawBack), value: value);
+        remove => ((WindowControl)this).OnDrawBack -= EventSlot.Remove<WindowControl, GenericWindow>(this, slot: nameof(OnDrawBack), value: value);
     }
 
-    public new NotifyEvent<GenericWindow> OnEnter
+    public new event NotifyEvent<GenericWindow> OnEnter
     {
-        get => EventSlot.Get(this, _onEnter);
-        set => EventSlot.Set(this, ref _onEnter, value);
+        add => ((WindowControl)this).OnEnter += EventSlot.Add<WindowControl, GenericWindow>(this, slot: nameof(OnEnter), value: value);
+        remove => ((WindowControl)this).OnEnter -= EventSlot.Remove<WindowControl, GenericWindow>(this, slot: nameof(OnEnter), value: value);
     }
 
-    public new NotifyEvent<GenericWindow> OnExit
+    public new event NotifyEvent<GenericWindow> OnExit
     {
-        get => EventSlot.Get(this, _onExit);
-        set => EventSlot.Set(this, ref _onExit, value);
+        add => ((WindowControl)this).OnExit += EventSlot.Add<WindowControl, GenericWindow>(this, slot: nameof(OnExit), value: value);
+        remove => ((WindowControl)this).OnExit -= EventSlot.Remove<WindowControl, GenericWindow>(this, slot: nameof(OnExit), value: value);
     }
 
-    public new NotifyEvent<GenericWindow> OnHide
+    public new event NotifyEvent<GenericWindow> OnHide
     {
-        get => EventSlot.Get(this, _onHide);
-        set => EventSlot.Set(this, ref _onHide, value);
+        add => ((BaseWindow)this).OnHide += EventSlot.Add<BaseWindow, GenericWindow>(this, slot: nameof(OnHide), value: value);
+        remove => ((BaseWindow)this).OnHide -= EventSlot.Remove<BaseWindow, GenericWindow>(this, slot: nameof(OnHide), value: value);
     }
 
-    public new NotifyEvent<GenericWindow> OnShow
+    public new event NotifyEvent<GenericWindow> OnShow
     {
-        get => EventSlot.Get(this, _onShow);
-        set => EventSlot.Set(this, ref _onShow, value);
+        add => ((BaseWindow)this).OnShow += EventSlot.Add<BaseWindow, GenericWindow>(this, slot: nameof(OnShow), value: value);
+        remove => ((BaseWindow)this).OnShow -= EventSlot.Remove<BaseWindow, GenericWindow>(this, slot: nameof(OnShow), value: value);
     }
 }

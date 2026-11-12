@@ -239,7 +239,7 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1222
     public virtual void Deactivate()
     {
-        MoveExecutor.OnDone = null;
+        MoveExecutor.ClearDoneHandler();
         _status = _status - Set<StatusElement>.Of(StatusElement.Activated);
     }
 
@@ -247,7 +247,7 @@ public partial class AIGroupControl : EngineObject
     public virtual void ResetME()
     {
         MoveExecutor.Reset();
-        MoveExecutor.OnDone = MoveExecutorDone;
+        MoveExecutor.SetDoneHandler(MoveExecutorDone);
     }
 
     // AIGroup.pas:1107

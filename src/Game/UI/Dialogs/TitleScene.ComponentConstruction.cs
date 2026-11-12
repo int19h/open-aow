@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class TitleScene
 {
-    public NotifyEvent<TitleScene> LayoutOnCreate { get; set; }
-    public NotifyEvent<TitleScene> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<TitleScene> LayoutOnCreate;
+    public event NotifyEvent<TitleScene> LayoutOnDestroy;
 
     public override void Dispose()
     {

@@ -3,13 +3,24 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Controls;
 
-// Fields: _onClick
+// Fields: OnClick
 public partial class Button : BaseButton
 {
     public Button(Component owner) : base(owner)
     { }
 
-    private NotifyEvent<Button> _onClick;
+    [Published]
+    public event NotifyEvent<Button> OnClick;
+
+    internal bool HasClickHandlers => OnClick != null;
+
+    internal void RaiseClick(Button sender)
+    {
+        if (OnClick != null)
+        {
+            OnClick(sender);
+        }
+    }
 
     // AoWButton.pas:239
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
@@ -30,10 +41,7 @@ public partial class Button : BaseButton
                     Redraw = true;
                 }
 
-                if (_onMouseDown != null)
-                {
-                    _onMouseDown(this, button, shift, X, Y);
-                }
+                RaiseMouseDown(this, button, shift, X, Y);
             }
         }
     }
@@ -49,18 +57,15 @@ public partial class Button : BaseButton
             Handled = true;
             if (button == MouseButton.Left)
             {
-                if (MouseDown && _onClick != null)
+                if (MouseDown && OnClick != null)
                 {
-                    _onClick(this);
+                    OnClick(this);
                 }
 
                 Drawn = false;
             }
 
-            if (_onMouseUp != null)
-            {
-                _onMouseUp(this, button, shift, X, Y);
-            }
+            RaiseMouseUp(this, button, shift, X, Y);
         }
 
         if (MouseDown)
@@ -92,10 +97,7 @@ public partial class Button : BaseButton
             _checked = MouseDown;
             Lit = !MouseDown;
             Redraw = true;
-            if (_onMouseMove != null)
-            {
-                _onMouseMove(this, shift, X, Y);
-            }
+            RaiseMouseMove(this, shift, X, Y);
         }
 
         if (oldLit != Lit || oldChecked != _checked)
@@ -104,60 +106,57 @@ public partial class Button : BaseButton
         }
     }
 
-    [Published]
-    public NotifyEvent<Button> OnClick { get => _onClick; set => _onClick = value; }
-
-    public new NotifyEvent<Button> OnChange
+    public new event NotifyEvent<Button> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, Button>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<Button> OnMouseDown
+    public new event MouseEvent<Button> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, Button>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<Button> OnMouseUp
+    public new event MouseEvent<Button> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, Button>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<Button> OnMouseMove
+    public new event MouseMoveEvent<Button> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, Button>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<Button> OnKeyPress
+    public new event KeyPressEvent<Button> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, Button>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<Button> OnKeyDown
+    public new event KeyEvent<Button> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, Button>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<Button> OnPreDraw
+    public new event AoWOnDrawEvent<Button> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, Button>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<Button> OnDraw
+    public new event AoWOnDrawEvent<Button> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Button>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<Button> OnUpdate
+    public new event NotifyEvent<Button> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, Button>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(OnUpdate), value: value);
     }
 }

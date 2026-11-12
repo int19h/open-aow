@@ -61,7 +61,7 @@ public partial class CampaignJoinDialog : DataModule
         }
 
         DialogHosts.LeaderSetupWindow.Execute(control);
-        control.OnDone = LeaderCustomized;
+        control.OnDone += LeaderCustomized;
         control.Release();
         DialogHosts.LeaderSetupWindow.LeaderPanel.ImageLibraryTexture = DialogHosts.UIGraphics.FactionWindow;
         DialogHosts.LeaderSetupWindow.LeaderPanel.ImageLibraryIndexTexture = Faction + 10;

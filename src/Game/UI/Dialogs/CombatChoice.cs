@@ -25,7 +25,7 @@ public partial class CombatChoice : DataModule
     public CheckBox TacticalCombatCheckBox;
     public UserDrawBox MapView;
     private CombatTypeRequestEventLog _request;
-    private NotifyEvent<object> _onDone;
+    private event NotifyEvent<object> OnDone;
 
     // TCFCDlg.pas:119
     public void Finish()
@@ -33,9 +33,9 @@ public partial class CombatChoice : DataModule
         NotifyEvent<object> done;
         CombatTypeRequestEventLog request;
         DialogHosts.General.Manager.OverlayPriority = 0;
-        done = _onDone;
+        done = OnDone;
         request = _request;
-        _onDone = null;
+        OnDone = null;
         _request = null;
         if (done != null)
         {
@@ -187,7 +187,7 @@ public partial class CombatChoice : DataModule
         {
             dialog._request = eventValue;
             dialog._request.AddRef();
-            dialog._onDone = RebindDelegate<NotifyEvent<object>>(done);
+            dialog.OnDone = RebindDelegate<NotifyEvent<object>>(done);
             DialogHosts.General.Manager.OverlayPriority = 49;
             if (dialog.TacticalCombatCheckBox.Checked)
             {

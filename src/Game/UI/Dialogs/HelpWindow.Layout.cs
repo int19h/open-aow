@@ -27,7 +27,7 @@ public partial class HelpWindow : ILayoutModule
         MainWindow.WinTop = 16;
         MainWindow.WinWidth = 370;
         MainWindow.Masked = false;
-        MainWindow.OnHide = _ => Layout_HelpWinHide_0();
+        MainWindow.OnHide += _ => HelpWinHide();
         MainWindow.Alignment.AlignWidth = AlignWidth.Center;
         MainWindow.Alignment.AlignHeight = AlignHeight.Center;
         MainWindow.Alignment.HeightPercent = 0;
@@ -53,7 +53,7 @@ public partial class HelpWindow : ILayoutModule
         MainWindow.DragHeight = 20;
         MainWindow.Draggable = true;
         MainWindow.Resizable = true;
-        MainWindow.OnResize = _ => Layout_HelpWinResize_1();
+        MainWindow.OnResize += _ => HelpWinResize();
         MainWindow.MinWidth = 200;
         MainWindow.MinHeight = 200;
         MainWindow.MaxWidth = 400;
@@ -118,7 +118,7 @@ public partial class HelpWindow : ILayoutModule
         closeBtn.TextColor = 0;
         closeBtn.TextSelectedColor = 0;
         closeBtn.WinWidth = 15;
-        closeBtn.OnClick = _ => Layout_CloseBtnClick_2();
+        closeBtn.OnClick += _ => CloseBtnClick();
         session.EndRead(closeBtn);
         Image titleIcon = new Image(this);
         session.BeginRead(titleIcon);
@@ -233,7 +233,7 @@ public partial class HelpWindow : ILayoutModule
         bCloseBut.TextColor = 0;
         bCloseBut.TextSelectedColor = 16777215;
         bCloseBut.WinWidth = 134;
-        bCloseBut.OnClick = _ => Layout_CloseBtnClick_2();
+        bCloseBut.OnClick += _ => CloseBtnClick();
         session.EndRead(bCloseBut);
         Image celtLineR = new Image(this);
         session.BeginRead(celtLineR);
@@ -485,20 +485,5 @@ public partial class HelpWindow : ILayoutModule
         HelpMemo.Font = DialogHosts.UIFonts.Age10;
         HelpMemo.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
         HelpMemo.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
-    }
-
-    private void Layout_HelpWinHide_0()
-    {
-        HelpWinHide();
-    }
-
-    private void Layout_HelpWinResize_1()
-    {
-        HelpWinResize();
-    }
-
-    private void Layout_CloseBtnClick_2()
-    {
-        CloseBtnClick();
     }
 }

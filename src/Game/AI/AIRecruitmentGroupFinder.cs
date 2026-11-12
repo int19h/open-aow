@@ -123,7 +123,7 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
     {
         _mode = Set<ModeElement>.Of();
         _selector.Reset();
-        _selector.OnTargetFound = RecruitGroupFoundEvent;
+        _selector.SetTargetFoundHandler(RecruitGroupFoundEvent);
         _range = 8;
         _step = 1;
         _targetRange = 5;

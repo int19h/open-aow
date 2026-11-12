@@ -27,7 +27,7 @@ public partial class PartyJoinDialog : DataModule
     public Window Window;
     public Memo JoinMemo;
     public Image FaceFrame;
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
     private JoinEventLog _joinEvent;
     private bool _detailsOpen;
     private byte _selection;
@@ -59,9 +59,9 @@ public partial class PartyJoinDialog : DataModule
             DialogHosts.UnitWindow.MainWindow.Visible = false;
         }
 
-        done = _done;
+        done = Done;
         eventValue = _joinEvent;
-        _done = null;
+        Done = null;
         _joinEvent = null;
         if (done != null)
         {
@@ -274,7 +274,7 @@ public partial class PartyJoinDialog : DataModule
         dialog.Window.Visible = true;
         dialog._joinEvent = eventValue;
         dialog._joinEvent.AddRef();
-        dialog._done = done;
+        dialog.Done = done;
         var accept = AbilityRules.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;
         var attack = AbilityRules.TranslateResourceString(GameText.AttackText);
@@ -293,7 +293,7 @@ public partial class PartyJoinDialog : DataModule
         dialog.TitleLabel.Text = prisonerLiberation;
         dialog._joinEvent = eventValue;
         dialog._joinEvent.AddRef();
-        dialog._done = done;
+        dialog.Done = done;
         var accept = AbilityRules.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;
         dialog.MiddleButton.Visible = false;

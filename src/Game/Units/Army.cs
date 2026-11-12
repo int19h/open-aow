@@ -63,7 +63,11 @@ public partial class Army : UnitList
     private byte _unfogRange;
     private byte _upkeep;
 
-    public NotifyEvent<object> OnUpdate { get; set; }
+    public event NotifyEvent<object> OnUpdate;
+
+    internal void SetUpdateHandler(NotifyEvent<object> handler) => OnUpdate = handler;
+
+    internal void ClearUpdateHandler() => OnUpdate = null;
 
     public GroupBehavior OldAIBehavior;
     public sbyte DestinationX;
@@ -79,7 +83,7 @@ public partial class Army : UnitList
     {
         if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            StrategicMap.Current.ArmyDestroyed(this);
+            StrategicMap.Current.NotifyArmyDestroyed(this);
         }
 
         OnUpdate = null;
@@ -1231,7 +1235,7 @@ public partial class Army : UnitList
     {
         if (UpdateCount == 0 && Status.Contains(ArmyStatusElement.Activated))
         {
-            StrategicMap.Current.ArmyChanged(this);
+            StrategicMap.Current.NotifyArmyChanged(this);
             if (OnUpdate != null)
             {
                 OnUpdate(this);

@@ -3,7 +3,7 @@ using Aow.Rtl;
 
 namespace Aow.Engine.Nodes;
 
-// FEvents, notified by Changed
+// Events, notified by Changed
 public partial class EChangeNotifyEventList : EChangeNotifyNode
 {
 
@@ -13,12 +13,6 @@ public partial class EChangeNotifyEventList : EChangeNotifyNode
     }
 
     private EventStore<EChangeNotifyEventList> _eventsStore;
-
-    internal event NotifyEvent<EChangeNotifyEventList> FEvents
-    {
-        add => _eventsStore.Add(value);
-        remove => _eventsStore.Remove(value);
-    }
 
     // Engine.pas:8131
     public override void Dispose()

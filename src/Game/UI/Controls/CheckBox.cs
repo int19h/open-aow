@@ -7,13 +7,14 @@ namespace Aow.Game.UI.Controls;
 //   (Checked) on a left click; with a RadioIndex above 0 it is a radio button, which only turns
 //   on, and its window turns off the other radio buttons of the group (RadioChange). A right
 //   click opens its PopupMenu at the mouse, kept inside the window manager. }
-// Fields: _onDoubleClick
+// Fields: OnDoubleClick
 public partial class CheckBox : BaseButton
 {
     public CheckBox(Component owner) : base(owner)
     { }
 
-    private NotifyEvent<CheckBox> _onDoubleClick;
+    [Published]
+    public event NotifyEvent<CheckBox> OnDoubleClick;
 
     // AoWCheckBox.pas:51
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
@@ -24,10 +25,7 @@ public partial class CheckBox : BaseButton
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid == true && Visible == true)
         {
             Handled = true;
-            if (_onMouseDown != null)
-            {
-                _onMouseDown(this, button, shift, X, Y);
-            }
+            RaiseMouseDown(this, button, shift, X, Y);
 
             if (button == MouseButton.Left)
             {
@@ -36,10 +34,7 @@ public partial class CheckBox : BaseButton
                     if (!_checked)
                     {
                         _checked = true;
-                        if (_onChange != null)
-                        {
-                            _onChange(this);
-                        }
+                        RaiseChange(this);
 
                         _checked = !_checked;
                         Checked = !_checked;
@@ -48,10 +43,7 @@ public partial class CheckBox : BaseButton
                 else
                 {
                     _checked = !_checked;
-                    if (_onChange != null)
-                    {
-                        _onChange(this);
-                    }
+                    RaiseChange(this);
 
                     _checked = !_checked;
                     Checked = !_checked;
@@ -59,9 +51,9 @@ public partial class CheckBox : BaseButton
 
                 if ((shift & Set<ShiftState>.Of(ShiftState.Double)) == Set<ShiftState>.Of(ShiftState.Double))
                 {
-                    if (_onDoubleClick != null)
+                    if (OnDoubleClick != null)
                     {
-                        _onDoubleClick(this);
+                        OnDoubleClick(this);
                     }
                 }
             }
@@ -99,10 +91,7 @@ public partial class CheckBox : BaseButton
         if (X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1 && Y < Window.WinTop + WinTop + WinHeight && Valid == true && Visible == true)
         {
             Handled = true;
-            if (_onMouseUp != null)
-            {
-                _onMouseUp(this, button, shift, X, Y);
-            }
+            RaiseMouseUp(this, button, shift, X, Y);
         }
     }
 
@@ -121,10 +110,7 @@ public partial class CheckBox : BaseButton
         {
             Handled = true;
             Lit = !_checked && !OwnerComponent.Handled;
-            if (_onMouseMove != null)
-            {
-                _onMouseMove(this, shift, X, Y);
-            }
+            RaiseMouseMove(this, shift, X, Y);
         }
 
         Redraw = Lit;
@@ -160,60 +146,57 @@ public partial class CheckBox : BaseButton
     [Published]
     public int RadioIndex { get => _radioIndex; set => _radioIndex = value; }
 
-    [Published]
-    public NotifyEvent<CheckBox> OnDoubleClick { get => _onDoubleClick; set => _onDoubleClick = value; }
-
-    public new NotifyEvent<CheckBox> OnChange
+    public new event NotifyEvent<CheckBox> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<CheckBox> OnMouseDown
+    public new event MouseEvent<CheckBox> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<CheckBox> OnMouseUp
+    public new event MouseEvent<CheckBox> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<CheckBox> OnMouseMove
+    public new event MouseMoveEvent<CheckBox> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<CheckBox> OnKeyPress
+    public new event KeyPressEvent<CheckBox> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<CheckBox> OnKeyDown
+    public new event KeyEvent<CheckBox> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<CheckBox> OnPreDraw
+    public new event AoWOnDrawEvent<CheckBox> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<CheckBox> OnDraw
+    public new event AoWOnDrawEvent<CheckBox> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<CheckBox> OnUpdate
+    public new event NotifyEvent<CheckBox> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(OnUpdate), value: value);
     }
 }

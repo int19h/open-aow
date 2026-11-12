@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class CityScreen
 {
-    public NotifyEvent<CityScreen> LayoutOnCreate { get; set; }
-    public NotifyEvent<CityScreen> LayoutOnDestroy { get; set; }
+    public event NotifyEvent<CityScreen> LayoutOnCreate;
+    public event NotifyEvent<CityScreen> LayoutOnDestroy;
 
     public override void Dispose()
     {

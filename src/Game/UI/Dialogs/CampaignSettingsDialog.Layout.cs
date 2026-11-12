@@ -35,7 +35,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         Window.WinTop = 126;
         Window.WinWidth = 325;
         Window.Masked = true;
-        Window.OnShow = _ => DlgShow();
+        Window.OnShow += _ => DlgShow();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -99,7 +99,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         okBtn.TextColor = 0;
         okBtn.TextSelectedColor = 16777215;
         okBtn.WinWidth = 120;
-        okBtn.OnClick = _ => Layout_OKBtnClick_0();
+        okBtn.OnClick += _ => OKBtnClick();
         session.EndRead(okBtn);
         Frame bCeltL = new Frame(this);
         session.BeginRead(bCeltL);
@@ -183,7 +183,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick = _ => Layout_CancelBtnClick_1();
+        close.OnClick += _ => CancelBtnClick();
         session.EndRead(close);
         Image titleIcon = new Image(this);
         session.BeginRead(titleIcon);
@@ -463,7 +463,7 @@ public partial class CampaignSettingsDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 120;
-        cancelBtn.OnClick = _ => Layout_CancelBtnClick_1();
+        cancelBtn.OnClick += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
         Image tCeltLineL = new Image(this);
         session.BeginRead(tCeltLineL);
@@ -561,15 +561,5 @@ public partial class CampaignSettingsDialog : ILayoutModule
         cancelBtn.Font = DialogHosts.UIFonts.Age10;
         cancelBtn.ImageLibraryButton = DialogHosts.UIGraphics.GenericButtons;
         tCeltLineL.ImageLibrary = DialogHosts.UIGraphics.CelticDecorations;
-    }
-
-    private void Layout_OKBtnClick_0()
-    {
-        OKBtnClick();
-    }
-
-    private void Layout_CancelBtnClick_1()
-    {
-        CancelBtnClick();
     }
 }

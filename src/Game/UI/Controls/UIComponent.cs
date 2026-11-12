@@ -8,11 +8,11 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Controls;
 
 // Fields: Color, SelectedColor, Valid (Validate found everything it needs), Aligned, Sized,
-// _cursor, _onDraw, _onPreDraw, _onMouseDown, _onMouseUp, _onMouseMove, _onKeyPress,
+// _cursor, OnDraw, OnPreDraw, OnMouseDown, OnMouseUp, OnMouseMove, OnKeyPress,
 // FOnKeyDown, FOnChange, FMouseDown, FVisible, FHandled (a Check* method consumed the input),
 // _winWidth, _winHeight, _winLeft, _winTop, _font, _text, Redraw, _borderWidth,
 // FBorderHeight, FPriority, FDrawn (the component is drawn as it is now), FFirstDraw, FMouseIn,
-// ToolTipCount, _radioIndex, _checked, _ownerItem, _onUpdate, _captureInput, _onDebugMessage,
+// ToolTipCount, _radioIndex, _checked, _ownerItem, OnUpdate, _captureInput, OnDebugMessage,
 // _ownerComponent, Children (sorted by _priority), _alignment, _masked, BlitList, DrawList
 // (DirtyRectangle), BlitCount, DrawCount, ToolTipLeft, OldRectangle, Hidden, _doubleBuffered,
 // SurfaceValid
@@ -25,14 +25,98 @@ public partial class UIComponent : Rtl.Component
     public bool Sized { get; set; }
 
     public int _cursor;
-    public AoWOnDrawEvent<UIComponent> _onDraw;
-    public AoWOnDrawEvent<UIComponent> _onPreDraw;
-    public MouseEvent<UIComponent> _onMouseDown;
-    public MouseEvent<UIComponent> _onMouseUp;
-    public MouseMoveEvent<UIComponent> _onMouseMove;
-    public KeyPressEvent<UIComponent> _onKeyPress;
-    public KeyEvent<UIComponent> _onKeyDown;
-    public NotifyEvent<UIComponent> _onChange;
+    [Published]
+    public event AoWOnDrawEvent<UIComponent> OnDraw;
+
+    protected void RaiseDraw(UIComponent sender, LockedSurface surfDesc)
+    {
+        if (OnDraw != null)
+        {
+            OnDraw(sender, surfDesc);
+        }
+    }
+
+    [Published]
+    public event AoWOnDrawEvent<UIComponent> OnPreDraw;
+
+    protected void RaisePreDraw(UIComponent sender, LockedSurface surfDesc)
+    {
+        if (OnPreDraw != null)
+        {
+            OnPreDraw(sender, surfDesc);
+        }
+    }
+
+    [Published]
+    public event MouseEvent<UIComponent> OnMouseDown;
+
+    protected void RaiseMouseDown(UIComponent sender, MouseButton button, Set<ShiftState> shift, int x, int y)
+    {
+        if (OnMouseDown != null)
+        {
+            OnMouseDown(sender, button, shift, x, y);
+        }
+    }
+
+    [Published]
+    public event MouseEvent<UIComponent> OnMouseUp;
+
+    protected void RaiseMouseUp(UIComponent sender, MouseButton button, Set<ShiftState> shift, int x, int y)
+    {
+        if (OnMouseUp != null)
+        {
+            OnMouseUp(sender, button, shift, x, y);
+        }
+    }
+
+    [Published]
+    public event MouseMoveEvent<UIComponent> OnMouseMove;
+
+    protected void RaiseMouseMove(UIComponent sender, Set<ShiftState> shift, int x, int y)
+    {
+        if (OnMouseMove != null)
+        {
+            OnMouseMove(sender, shift, x, y);
+        }
+    }
+
+    [Published]
+    public event KeyPressEvent<UIComponent> OnKeyPress;
+
+    protected void RaiseKeyPress(UIComponent sender, ref byte key)
+    {
+        if (OnKeyPress != null)
+        {
+            OnKeyPress(sender, ref key);
+        }
+    }
+
+    // Memo.CheckKeyPress (AoWMemo.pas) calls OnKeyPress after a test of OnKeyDown only. This call
+    // keeps that: it has no null test of its own and throws when OnKeyPress has no handler.
+    protected void RaiseKeyPressUnchecked(UIComponent sender, ref byte key) => OnKeyPress(sender, ref key);
+
+    [Published]
+    public event KeyEvent<UIComponent> OnKeyDown;
+
+    protected void RaiseKeyDown(UIComponent sender, ref ushort key, Set<ShiftState> shift)
+    {
+        if (OnKeyDown != null)
+        {
+            OnKeyDown(sender, ref key, shift);
+        }
+    }
+
+    protected bool HasKeyDownHandlers => OnKeyDown != null;
+
+    public event NotifyEvent<UIComponent> OnChange;
+
+    internal void RaiseChange(UIComponent sender)
+    {
+        if (OnChange != null)
+        {
+            OnChange(sender);
+        }
+    }
 
     public bool MouseDown { get; protected set; }
 
@@ -61,9 +145,24 @@ public partial class UIComponent : Rtl.Component
     public int _radioIndex;
     public bool _checked;
     public int _ownerItem;
-    public NotifyEvent<UIComponent> _onUpdate;
+    [Published]
+    public event NotifyEvent<UIComponent> OnUpdate;
+
+    protected void RaiseUpdate(UIComponent sender)
+    {
+        if (OnUpdate != null)
+        {
+            OnUpdate(sender);
+        }
+    }
+
     private bool _captureInput;
+    // Nothing in the port raises OnDebugMessage. The bound handler is kept.
     private AoWOnDebugEvent _onDebugMessage;
+
+    [Published]
+    public event AoWOnDebugEvent OnDebugMessage { add => _onDebugMessage += value; remove => _onDebugMessage -= value; }
+
     private UIComponent _ownerComponent;
 
     public DelphiList<UIComponent> Children { get; init; }
@@ -300,9 +399,9 @@ public partial class UIComponent : Rtl.Component
         {
             if (Valid && _visible)
             {
-                if (_onUpdate != null)
+                if (OnUpdate != null)
                 {
-                    _onUpdate(this);
+                    OnUpdate(this);
                 }
 
                 for (int I = Children.Count - 1; I >= 0; I--)
@@ -1002,40 +1101,12 @@ public partial class UIComponent : Rtl.Component
     public Alignment Alignment { get => _alignment; set => SetAlign(value); }
     public bool Masked { get => _masked; set => _masked = value; }
     public bool CaptureInput { get => _captureInput; set => _captureInput = value; }
-    public NotifyEvent<UIComponent> OnChange { get => _onChange; set => _onChange = value; }
-
-    [Published]
-    public MouseEvent<UIComponent> OnMouseDown { get => _onMouseDown; set => _onMouseDown = value; }
-
-    [Published]
-    public MouseEvent<UIComponent> OnMouseUp { get => _onMouseUp; set => _onMouseUp = value; }
-
-    [Published]
-    public MouseMoveEvent<UIComponent> OnMouseMove { get => _onMouseMove; set => _onMouseMove = value; }
-
-    [Published]
-    public KeyPressEvent<UIComponent> OnKeyPress { get => _onKeyPress; set => _onKeyPress = value; }
-
-    [Published]
-    public KeyEvent<UIComponent> OnKeyDown { get => _onKeyDown; set => _onKeyDown = value; }
-
-    [Published]
-    public AoWOnDrawEvent<UIComponent> OnPreDraw { get => _onPreDraw; set => _onPreDraw = value; }
-
-    [Published]
-    public AoWOnDrawEvent<UIComponent> OnDraw { get => _onDraw; set => _onDraw = value; }
-
-    [Published]
-    public NotifyEvent<UIComponent> OnUpdate { get => _onUpdate; set => _onUpdate = value; }
 
     [Published]
     [DefaultValue(true)]
     public bool Visible { get => _visible; set => SetVisible(value); }
 
     protected internal void SetVisibleWithoutUpdate(bool value) => _visible = value;
-
-    [Published]
-    public AoWOnDebugEvent OnDebugMessage { get => _onDebugMessage; set => _onDebugMessage = value; }
 
     public delegate void AoWOnDebugEvent(string Dtext);
 }

@@ -36,8 +36,15 @@ public partial class TargetSelectionControl : IDisposable
     public SByteList HexNumbers { get; private set; }
     public Set<TargetSelectionStatusElement> Status { get; set; }
     public Set<TargetSelectionModeElement> TargetMode { get; set; }
-    public ShowTargetSelectionEvent OnShow { get; set; }
-    public ValidateTargetEvent OnValidateTarget { get; set; }
+
+    public event ShowTargetSelectionEvent OnShow;
+
+    internal void SetShowHandler(ShowTargetSelectionEvent handler) => OnShow = handler;
+
+    public event ValidateTargetEvent OnValidateTarget;
+
+    internal void SetValidateTargetHandler(ValidateTargetEvent handler) => OnValidateTarget = handler;
+
     public int Range { get; set; }
     public int SourceX { get; set; }
     public int SourceY { get; set; }
@@ -46,7 +53,7 @@ public partial class TargetSelectionControl : IDisposable
 
     internal EventStore<TargetSelectionControl> OnChangeStore { get; }
 
-    public event NotifyEvent<TargetSelectionControl> FOnChange
+    public event NotifyEvent<TargetSelectionControl> Changed
     {
         add => OnChangeStore.Add(value);
         remove => OnChangeStore.Remove(value);

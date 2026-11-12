@@ -165,7 +165,7 @@ public partial class PopupWindows : DataModule
 
     internal static void ShowInformationBook(WorldMap dialog, ShowBookEventLog eventValue, ExecuteDoneEvent done)
     {
-        dialog.OnBookClosed = RtlUnit.RebindDelegate<NotifyEvent<object>>((Delegate)done);
+        dialog.SetBookClosedHandler(RtlUnit.RebindDelegate<NotifyEvent<object>>((Delegate)done));
         dialog.BookContext = eventValue;
         if (dialog.BookContext != null)
         {

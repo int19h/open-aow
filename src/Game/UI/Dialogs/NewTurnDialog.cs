@@ -25,7 +25,7 @@ public partial class NewTurnDialog : DataModule
     public Label PlayerRaceLabel;
     public Label TurnLabel;
     public Image RightShield;
-    private ExecuteDoneEvent _done;
+    private event ExecuteDoneEvent Done;
     private NewTurnEventLog _newTurn;
 
     // AoWNewTurnDialog.pas:50
@@ -43,9 +43,9 @@ public partial class NewTurnDialog : DataModule
             }
         }
 
-        done = _done;
+        done = Done;
         eventValue = _newTurn;
-        _done = null;
+        Done = null;
         _newTurn = null;
         if (done != null)
         {
@@ -72,7 +72,7 @@ public partial class NewTurnDialog : DataModule
                     _newTurn = null;
                 }
 
-                _done = done;
+                Done = done;
                 _newTurn = eventValue;
                 _newTurn.AddRef();
                 TurnMessageLabel.Text = eventValue.Text;

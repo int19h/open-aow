@@ -15,7 +15,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game;
 
-// _status, _hexSpriteSet, _hexSpriteMap, _hexSpriteSetSearchPath, _hssFileName, FOnHsmLoaded, FOnHsmClose,
+// _status, _hexSpriteSet, _hexSpriteMap, _hexSpriteSetSearchPath, _hssFileName, HexSpriteMapLoaded, HexSpriteMapClosing,
 // FOnHSSLoaded, FOnHSSClose. The engine of the hex map: it owns the set (.hss: a 52-byte
 // header, the stored set and a CRC32) and the map (.hsm: a 16-byte header and the stored map,
 // compressed). the event lists are told when a map or a set is loaded or closed
@@ -29,7 +29,7 @@ public partial class GameEngine : ENode
 
     internal EventStore<GameMap> OnHsmLoadedStore { get; set; }
 
-    internal event NotifyEvent<GameMap> FOnHsmLoaded
+    internal event NotifyEvent<GameMap> HexSpriteMapLoaded
     {
         add => OnHsmLoadedStore.Add(value);
         remove => OnHsmLoadedStore.Remove(value);
@@ -37,7 +37,7 @@ public partial class GameEngine : ENode
 
     internal EventStore<GameMap> OnHsmCloseStore { get; set; }
 
-    internal event NotifyEvent<GameMap> FOnHsmClose
+    internal event NotifyEvent<GameMap> HexSpriteMapClosing
     {
         add => OnHsmCloseStore.Add(value);
         remove => OnHsmCloseStore.Remove(value);
@@ -45,7 +45,7 @@ public partial class GameEngine : ENode
 
     private EventStore<GameEngine> _onHssLoadedStore;
 
-    internal event NotifyEvent<GameEngine> FOnHssLoaded
+    internal event NotifyEvent<GameEngine> HexSpriteSetLoaded
     {
         add => _onHssLoadedStore.Add(value);
         remove => _onHssLoadedStore.Remove(value);
@@ -53,7 +53,7 @@ public partial class GameEngine : ENode
 
     private EventStore<GameEngine> _onHssCloseStore;
 
-    internal event NotifyEvent<GameEngine> FOnHssClose
+    internal event NotifyEvent<GameEngine> HexSpriteSetClosing
     {
         add => _onHssCloseStore.Add(value);
         remove => _onHssCloseStore.Remove(value);
@@ -99,10 +99,10 @@ public partial class GameEngine : ENode
 
                     try
                     {
-                        _hexSpriteMap.OnProgress = progress;
+                        _hexSpriteMap.SetProgressHandler(progress);
                         ReadEngineObject(stream, _hexSpriteMap, progress);
                         ActivateEngineObject(_hexSpriteMap);
-                        _hexSpriteMap.OnProgress = null;
+                        _hexSpriteMap.ClearProgressHandler();
                         OnHsmLoadedStore.Raise(_hexSpriteMap);
                     }
                     catch
@@ -438,10 +438,10 @@ public partial class GameEngine : ENode
 
                     try
                     {
-                        result.OnProgress = progress;
+                        result.SetProgressHandler(progress);
                         ReadEngineObject(stream, result, progress);
                         ActivateEngineObject(result);
-                        result.OnProgress = null;
+                        result.ClearProgressHandler();
                         OnHsmLoadedStore.Raise(result);
                     }
                     catch
@@ -495,10 +495,10 @@ public partial class GameEngine : ENode
 
                     try
                     {
-                        _hexSpriteMap.OnProgress = progress;
+                        _hexSpriteMap.SetProgressHandler(progress);
                         ReadEngineObject(cStream, _hexSpriteMap, progress);
                         ActivateEngineObject(_hexSpriteMap);
-                        _hexSpriteMap.OnProgress = null;
+                        _hexSpriteMap.ClearProgressHandler();
                         OnHsmLoadedStore.Raise(_hexSpriteMap);
                     }
                     catch

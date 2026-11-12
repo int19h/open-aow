@@ -55,7 +55,7 @@ public partial class Anarchy : CityTargetSpell
                 A.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[16]);
                 A.SetPixelXOffset(A.PixelXOffset - 16);
                 A.SetPixelYOffset(A.PixelYOffset - 16);
-                A.OnShow = ShowAnimation;
+                A.OnShow += ShowAnimation;
                 A.Looped = true;
                 A.FrameCount = 120;
                 var targetCityHexLevel = targetCity.GetHexLevel();

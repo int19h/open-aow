@@ -27,7 +27,7 @@ public partial class SynchronizeDialog : ILayoutModule
         Window.WinTop = 45;
         Window.WinWidth = 480;
         Window.Masked = true;
-        Window.OnShow = _ => Layout_DlgShow_0();
+        Window.OnShow += _ => DlgShow();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -372,7 +372,7 @@ public partial class SynchronizeDialog : ILayoutModule
         Image faceFrame = new Image(this);
         session.BeginRead(faceFrame);
         faceFrame.Name = "FaceFrame";
-        faceFrame.OnPreDraw = (_, lockedSurface) => FaceFramePreDraw(lockedSurface);
+        faceFrame.OnPreDraw += (_, surface) => FaceFramePreDraw(surface);
         faceFrame.Priority = 2000;
         faceFrame.WinLeft = 186;
         faceFrame.WinTop = 35;
@@ -453,10 +453,5 @@ public partial class SynchronizeDialog : ILayoutModule
         newTPnl.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
         newTPnl.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
         faceFrame.ImageLibrary = DialogHosts.UIGraphics.GenericFrames;
-    }
-
-    private void Layout_DlgShow_0()
-    {
-        DlgShow();
     }
 }

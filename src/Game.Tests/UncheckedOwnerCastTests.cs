@@ -105,7 +105,7 @@ public sealed class UncheckedOwnerCastTests
         int id = -1;
         int source = -1;
         bool fired = false;
-        scope.Map.FOnActivateAbility += sender =>
+        scope.Map.AbilityActivated += sender =>
         {
             var info = (UnitSelectionActivation)sender;
             fired = true;

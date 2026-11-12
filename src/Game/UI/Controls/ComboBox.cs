@@ -15,7 +15,7 @@ namespace Aow.Game.UI.Controls;
 // shown), FListBorderWidth, FListBorderHeight, FSelected, F13C (the item under the mouse, -1
 // for none), FPriorityOpened, F144 (the priority before the list was opened), FOnDrawItem, F150
 // (the width the scroll bar takes from the list), F154 (the scroll bar is visible), FILEdit,
-// _imageLibraryFrame, _imageLibraryTextureNormal, _imageLibraryTextureSelected, _itemHeight, _onOpen, _onClose, _ileIndex,
+// _imageLibraryFrame, _imageLibraryTextureNormal, _imageLibraryTextureSelected, _itemHeight, OnOpen, OnClose, _ileIndex,
 // FILFIndex, FILTnIndex, FILTsIndex, FDrawItem, FDrawItemRect (the item and its rectangle while
 // OnDrawItem runs)
 public partial class ComboBox : Control
@@ -33,7 +33,8 @@ public partial class ComboBox : Control
     private int _hoverItem;
     private int _priorityOpened;
     private int _priorityBeforeOpen;
-    private NotifyEvent<ComboBox> _onDrawItem;
+    [Published]
+    public event NotifyEvent<ComboBox> OnDrawItem;
     private int _scrollBarWidth;
 
     private InterfaceImageLibrary _imageLibraryEdit;
@@ -41,8 +42,10 @@ public partial class ComboBox : Control
     private InterfaceImageLibrary _imageLibraryTextureNormal;
     private InterfaceImageLibrary _imageLibraryTextureSelected;
     private int _itemHeight;
-    private NotifyEvent<ComboBox> _onOpen;
-    private NotifyEvent<ComboBox> _onClose;
+    [Published]
+    public event NotifyEvent<ComboBox> OnOpen;
+    [Published]
+    public event NotifyEvent<ComboBox> OnClose;
     private int _ileIndex;
     private int _ilfIndex;
     private int _imageLibraryTnIndex;
@@ -199,10 +202,7 @@ public partial class ComboBox : Control
         {
             if (Valid && Visible)
             {
-                if (_onPreDraw != null)
-                {
-                    _onPreDraw(this, lockedSurface);
-                }
+                RaisePreDraw(this, lockedSurface);
 
                 _font.Color = Color;
                 oldClip = lockedSurface.ClipRectangle;
@@ -268,9 +268,9 @@ public partial class ComboBox : Control
                             var imageLibraryFrame7 = _imageLibraryFrame[_ilfIndex + 1];
                             var imageLibraryFrame8 = _imageLibraryFrame[_ilfIndex + 3];
                             var imageLibraryFrame9 = _imageLibraryFrame[_ilfIndex + 3];
-                            if (_onDrawItem != null)
+                            if (OnDrawItem != null)
                             {
-                                _onDrawItem(this);
+                                OnDrawItem(this);
                             }
                         }
                     }
@@ -278,10 +278,7 @@ public partial class ComboBox : Control
                     lockedSurface.ClipRectangle = oldClip;
                 }
 
-                if (_onDraw != null)
-                {
-                    _onDraw(this, lockedSurface);
-                }
+                RaiseDraw(this, lockedSurface);
             }
         }
         catch
@@ -326,9 +323,9 @@ public partial class ComboBox : Control
                             _verticalScrollBar.Visible = false;
                         }
 
-                        if (_onClose != null)
+                        if (OnClose != null)
                         {
-                            _onClose(this);
+                            OnClose(this);
                         }
                     }
                     else
@@ -386,9 +383,9 @@ public partial class ComboBox : Control
                             _verticalScrollBar.Drawn = false;
                         }
 
-                        if (_onOpen != null)
+                        if (OnOpen != null)
                         {
-                            _onOpen(this);
+                            OnOpen(this);
                         }
                     }
                 }
@@ -408,18 +405,15 @@ public partial class ComboBox : Control
                             _verticalScrollBar.Visible = false;
                         }
 
-                        if (_onClose != null)
+                        if (OnClose != null)
                         {
-                            _onClose(this);
+                            OnClose(this);
                         }
                     }
                 }
             }
 
-            if (_onMouseDown != null)
-            {
-                _onMouseDown(this, button, shift, X, Y);
-            }
+            RaiseMouseDown(this, button, shift, X, Y);
         }
         else
         {
@@ -443,9 +437,9 @@ public partial class ComboBox : Control
                         _verticalScrollBar.Visible = false;
                     }
 
-                    if (_onClose != null)
+                    if (OnClose != null)
                     {
-                        _onClose(this);
+                        OnClose(this);
                     }
                 }
             }
@@ -470,10 +464,7 @@ public partial class ComboBox : Control
         if (condition)
         {
             Handled = true;
-            if (_onMouseUp != null)
-            {
-                _onMouseUp(this, button, shift, X, Y);
-            }
+            RaiseMouseUp(this, button, shift, X, Y);
         }
         else
         {
@@ -506,14 +497,11 @@ public partial class ComboBox : Control
                         }
 
                         Handled = true;
-                        if (_onChange != null)
-                        {
-                            _onChange(this);
-                        }
+                        RaiseChange(this);
 
-                        if (_onClose != null)
+                        if (OnClose != null)
                         {
-                            _onClose(this);
+                            OnClose(this);
                         }
                     }
                 }
@@ -527,9 +515,9 @@ public partial class ComboBox : Control
                         _verticalScrollBar.Visible = false;
                     }
 
-                    if (_onClose != null)
+                    if (OnClose != null)
                     {
-                        _onClose(this);
+                        OnClose(this);
                     }
                 }
             }
@@ -565,10 +553,7 @@ public partial class ComboBox : Control
                 }
             }
 
-            if (_onMouseMove != null)
-            {
-                _onMouseMove(this, shift, X, Y);
-            }
+            RaiseMouseMove(this, shift, X, Y);
         }
 
         if (_open == true && oldItem != _hoverItem)
@@ -726,9 +711,6 @@ public partial class ComboBox : Control
     public int PriorityOpened { get => _priorityOpened; set => _priorityOpened = value; }
 
     [Published]
-    public NotifyEvent<ComboBox> OnDrawItem { get => _onDrawItem; set => _onDrawItem = value; }
-
-    [Published]
     public InterfaceImageLibrary ImageLibraryEdit { get => _imageLibraryEdit; set => SetImageLibraryEdit(value); }
 
     [Published]
@@ -755,63 +737,57 @@ public partial class ComboBox : Control
     [Published]
     public int ItemHeight { get => _itemHeight; set => _itemHeight = value; }
 
-    [Published]
-    public NotifyEvent<ComboBox> OnOpen { get => _onOpen; set => _onOpen = value; }
-
-    [Published]
-    public NotifyEvent<ComboBox> OnClose { get => _onClose; set => _onClose = value; }
-
-    public new NotifyEvent<ComboBox> OnChange
+    public new event NotifyEvent<ComboBox> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<ComboBox> OnMouseDown
+    public new event MouseEvent<ComboBox> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<ComboBox> OnMouseUp
+    public new event MouseEvent<ComboBox> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<ComboBox> OnMouseMove
+    public new event MouseMoveEvent<ComboBox> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<ComboBox> OnKeyPress
+    public new event KeyPressEvent<ComboBox> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<ComboBox> OnKeyDown
+    public new event KeyEvent<ComboBox> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<ComboBox> OnPreDraw
+    public new event AoWOnDrawEvent<ComboBox> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<ComboBox> OnDraw
+    public new event AoWOnDrawEvent<ComboBox> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<ComboBox> OnUpdate
+    public new event NotifyEvent<ComboBox> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(OnUpdate), value: value);
     }
 }

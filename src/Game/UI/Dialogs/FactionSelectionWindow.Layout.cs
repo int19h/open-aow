@@ -21,9 +21,9 @@ public partial class FactionSelectionWindow : ILayoutModule
         FactionPanel = new Panel(this);
         session.BeginRead(FactionPanel);
         FactionPanel.Name = "FactionPnl";
-        FactionPanel.OnMouseMove = (_, shift, x, y) => FactionPnlMouseMove(shift, x, y);
-        FactionPanel.OnKeyDown = (_, ref key, shift) => FactionPnlKeyDown(ref key, shift);
-        FactionPanel.OnUpdate = _ => Layout_FactionPnlUpdate_0();
+        FactionPanel.OnMouseMove += (_, shift, x, y) => FactionPnlMouseMove(shift, x, y);
+        FactionPanel.OnKeyDown += (_, ref key, shift) => FactionPnlKeyDown(ref key, shift);
+        FactionPanel.OnUpdate += _ => FactionPnlUpdate();
         FactionPanel.Visible = false;
         FactionPanel.Priority = 5;
         FactionPanel.WinLeft = 0;
@@ -75,8 +75,8 @@ public partial class FactionSelectionWindow : ILayoutModule
         LightPanel = new Panel(this);
         session.BeginRead(LightPanel);
         LightPanel.Name = "LightPnl";
-        LightPanel.OnMouseDown = (_, button, shift, x, y) => LightPnlMouseDown(button, shift, x, y);
-        LightPanel.OnMouseMove = (_, shift, x, y) => LightPnlMouseMove(shift, x, y);
+        LightPanel.OnMouseDown += (_, button, shift, x, y) => LightPnlMouseDown(button, shift, x, y);
+        LightPanel.OnMouseMove += (_, shift, x, y) => LightPnlMouseMove(shift, x, y);
         LightPanel.Priority = 5;
         LightPanel.WinLeft = 352;
         LightPanel.WinTop = 0;
@@ -177,7 +177,7 @@ public partial class FactionSelectionWindow : ILayoutModule
         LightStartButton.TextColor = 0;
         LightStartButton.TextSelectedColor = 0;
         LightStartButton.WinWidth = 109;
-        LightStartButton.OnClick = _ => LStartClick(0);
+        LightStartButton.OnClick += _ => LStartClick(0);
         session.EndRead(LightStartButton);
         LightBackButton = new Button(this);
         session.BeginRead(LightBackButton);
@@ -209,7 +209,7 @@ public partial class FactionSelectionWindow : ILayoutModule
         LightBackButton.TextColor = 0;
         LightBackButton.TextSelectedColor = 0;
         LightBackButton.WinWidth = 109;
-        LightBackButton.OnClick = _ => Layout_LBackClick_1();
+        LightBackButton.OnClick += _ => LBackClick();
         session.EndRead(LightBackButton);
         LightSphereImage = new Image(this);
         session.BeginRead(LightSphereImage);
@@ -243,8 +243,8 @@ public partial class FactionSelectionWindow : ILayoutModule
         DarkPanel = new Panel(this);
         session.BeginRead(DarkPanel);
         DarkPanel.Name = "DarkPnl";
-        DarkPanel.OnMouseDown = (_, button, shift, x, y) => DarkPnlMouseDown(button, shift, x, y);
-        DarkPanel.OnMouseMove = (_, shift, x, y) => DarkPnlMouseMove(shift, x, y);
+        DarkPanel.OnMouseDown += (_, button, shift, x, y) => DarkPnlMouseDown(button, shift, x, y);
+        DarkPanel.OnMouseMove += (_, shift, x, y) => DarkPnlMouseMove(shift, x, y);
         DarkPanel.Priority = 5;
         DarkPanel.WinLeft = 0;
         DarkPanel.WinTop = 0;
@@ -299,7 +299,7 @@ public partial class FactionSelectionWindow : ILayoutModule
         DarkStartButton.TextColor = 0;
         DarkStartButton.TextSelectedColor = 0;
         DarkStartButton.WinWidth = 109;
-        DarkStartButton.OnClick = _ => LStartClick(1);
+        DarkStartButton.OnClick += _ => LStartClick(1);
         session.EndRead(DarkStartButton);
         DarkBackButton = new Button(this);
         session.BeginRead(DarkBackButton);
@@ -331,7 +331,7 @@ public partial class FactionSelectionWindow : ILayoutModule
         DarkBackButton.TextColor = 0;
         DarkBackButton.TextSelectedColor = 0;
         DarkBackButton.WinWidth = 109;
-        DarkBackButton.OnClick = _ => Layout_DBackClick_2();
+        DarkBackButton.OnClick += _ => DBackClick();
         session.EndRead(DarkBackButton);
         LightNameLabel = new Label(this);
         session.BeginRead(LightNameLabel);
@@ -513,20 +513,5 @@ public partial class FactionSelectionWindow : ILayoutModule
         DarkTextMemo.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
         DarkNameLabel.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
         DarkSphereImage.ImageLibrary = DialogHosts.UIGraphics.FactionWindow;
-    }
-
-    private void Layout_FactionPnlUpdate_0()
-    {
-        FactionPnlUpdate();
-    }
-
-    private void Layout_LBackClick_1()
-    {
-        LBackClick();
-    }
-
-    private void Layout_DBackClick_2()
-    {
-        DBackClick();
     }
 }

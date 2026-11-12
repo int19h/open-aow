@@ -255,7 +255,7 @@ public partial class Altar : PlayerStructure
             selection.SourceY = GetHexY();
             selection.SourceL = GetHexLevel();
             selection.Range = 12;
-            selection.FOnChange += OnTargetSelectionChange;
+            selection.Changed += OnTargetSelectionChange;
             _storm = CreateStorm();
             _storm.UpdateTargetSelection(StrategicMap.Current.TargetSelection);
             var name = _storm.Name();
@@ -307,11 +307,11 @@ public partial class Altar : PlayerStructure
             case TargetSelectionChange.Deactivated:
                 _storm?.Dispose();
                 _storm = null;
-                selection.FOnChange -= OnTargetSelectionChange;
+                selection.Changed -= OnTargetSelectionChange;
                 Update();
                 break;
             case TargetSelectionChange.Selected:
-                selection.FOnChange -= OnTargetSelectionChange;
+                selection.Changed -= OnTargetSelectionChange;
                 if (StormTargetSelected(selection.TargetX, selection.TargetY, selection.TargetL))
                 {
                     selection.Deactivate();

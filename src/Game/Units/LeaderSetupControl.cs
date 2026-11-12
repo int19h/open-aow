@@ -31,7 +31,8 @@ public partial class LeaderSetupControl : EngineObject
     public Leader OriginalLeader { get; init; }
     public Int32List Items { get; }
     public LeaderSetupStatus Status { get; set; }
-    public NotifyEvent<LeaderSetupControl> OnDone { get; set; }
+
+    public event NotifyEvent<LeaderSetupControl> OnDone;
 
     // Player.PAS:1766
     public override void Dispose()

@@ -231,7 +231,7 @@ public partial class Hero : Troop
         base.Changed();
         if (StrategicMap.Current != null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            StrategicMap.Current.HeroControl.HeroChanged(this);
+            StrategicMap.Current.HeroControl.NotifyHeroChanged(this);
         }
     }
 

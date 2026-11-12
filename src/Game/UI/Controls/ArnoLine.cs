@@ -61,10 +61,7 @@ public partial class ArnoLine : Control
         {
             if (Valid && Visible)
             {
-                if (_onPreDraw != null)
-                {
-                    _onPreDraw(this, lockedSurface);
-                }
+                RaisePreDraw(this, lockedSurface);
 
                 oldClip = lockedSurface.ClipRectangle;
                 if (WinTop > lockedSurface.ClipRectangle.Top)
@@ -74,10 +71,7 @@ public partial class ArnoLine : Control
 
                 var rectangle = new Rect(Window.WinLeft + WinLeft, Window.WinTop + WinTop, WinWidth, WinHeight);
                 _lineLibrary.DrawVerticalStrip(0, rectangle, ref lockedSurface);
-                if (_onDraw != null)
-                {
-                    _onDraw(this, lockedSurface);
-                }
+                RaiseDraw(this, lockedSurface);
 
                 lockedSurface.ClipRectangle = oldClip;
             }
@@ -127,57 +121,57 @@ public partial class ArnoLine : Control
     [Published]
     public LibraryImage ImageBottom { get => _imageBottom; set => SetIBottom(value); }
 
-    public new NotifyEvent<ArnoLine> OnChange
+    public new event NotifyEvent<ArnoLine> OnChange
     {
-        get => EventSlot.Get(this, _onChange);
-        set => EventSlot.Set(this, ref _onChange, value);
+        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(OnChange), value: value);
+        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(OnChange), value: value);
     }
 
-    public new MouseEvent<ArnoLine> OnMouseDown
+    public new event MouseEvent<ArnoLine> OnMouseDown
     {
-        get => EventSlot.Get(this, _onMouseDown);
-        set => EventSlot.Set(this, ref _onMouseDown, value);
+        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(OnMouseDown), value: value);
+        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(OnMouseDown), value: value);
     }
 
-    public new MouseEvent<ArnoLine> OnMouseUp
+    public new event MouseEvent<ArnoLine> OnMouseUp
     {
-        get => EventSlot.Get(this, _onMouseUp);
-        set => EventSlot.Set(this, ref _onMouseUp, value);
+        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(OnMouseUp), value: value);
+        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(OnMouseUp), value: value);
     }
 
-    public new MouseMoveEvent<ArnoLine> OnMouseMove
+    public new event MouseMoveEvent<ArnoLine> OnMouseMove
     {
-        get => EventSlot.Get(this, _onMouseMove);
-        set => EventSlot.Set(this, ref _onMouseMove, value);
+        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(OnMouseMove), value: value);
+        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(OnMouseMove), value: value);
     }
 
-    public new KeyPressEvent<ArnoLine> OnKeyPress
+    public new event KeyPressEvent<ArnoLine> OnKeyPress
     {
-        get => EventSlot.Get(this, _onKeyPress);
-        set => EventSlot.Set(this, ref _onKeyPress, value);
+        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(OnKeyPress), value: value);
+        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(OnKeyPress), value: value);
     }
 
-    public new KeyEvent<ArnoLine> OnKeyDown
+    public new event KeyEvent<ArnoLine> OnKeyDown
     {
-        get => EventSlot.Get(this, _onKeyDown);
-        set => EventSlot.Set(this, ref _onKeyDown, value);
+        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(OnKeyDown), value: value);
+        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(OnKeyDown), value: value);
     }
 
-    public new AoWOnDrawEvent<ArnoLine> OnPreDraw
+    public new event AoWOnDrawEvent<ArnoLine> OnPreDraw
     {
-        get => EventSlot.Get(this, _onPreDraw);
-        set => EventSlot.Set(this, ref _onPreDraw, value);
+        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(OnPreDraw), value: value);
+        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(OnPreDraw), value: value);
     }
 
-    public new AoWOnDrawEvent<ArnoLine> OnDraw
+    public new event AoWOnDrawEvent<ArnoLine> OnDraw
     {
-        get => EventSlot.Get(this, _onDraw);
-        set => EventSlot.Set(this, ref _onDraw, value);
+        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(OnDraw), value: value);
+        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new NotifyEvent<ArnoLine> OnUpdate
+    public new event NotifyEvent<ArnoLine> OnUpdate
     {
-        get => EventSlot.Get(this, _onUpdate);
-        set => EventSlot.Set(this, ref _onUpdate, value);
+        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(OnUpdate), value: value);
+        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(OnUpdate), value: value);
     }
 }

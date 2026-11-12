@@ -43822,7 +43822,7 @@
             "CityProductionControl.City": null,
             "EngineObject._owner": null,
             "ProductionControl.LoopQueue": false,
-            "ProductionControl._onChange": null,
+            "ProductionControl.OnChange": null,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "ENode._children": {
@@ -43883,7 +43883,7 @@
             "CityProductionControl.City": null,
             "EngineObject._owner": "$owner",
             "ProductionControl.LoopQueue": false,
-            "ProductionControl._onChange": null,
+            "ProductionControl.OnChange": null,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "ENode._children": {
@@ -43931,7 +43931,7 @@
               "CityProductionControl.City": null,
               "EngineObject._owner": "$owner",
               "ProductionControl.LoopQueue": false,
-              "ProductionControl._onChange": null,
+              "ProductionControl.OnChange": null,
               "ProductionControl.Queue": null,
               "ProductionControl.Settings": null,
               "ProductionControl.Status": 0,
@@ -44232,7 +44232,7 @@
             "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
             "EngineObject._owner": null,
             "ProductionControl.LoopQueue": false,
-            "ProductionControl._onChange": null,
+            "ProductionControl.OnChange": null,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "ENode._children": {
@@ -44293,7 +44293,7 @@
             "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
             "EngineObject._owner": "$owner",
             "ProductionControl.LoopQueue": false,
-            "ProductionControl._onChange": null,
+            "ProductionControl.OnChange": null,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "ENode._children": {
@@ -44341,7 +44341,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": "$owner",
               "ProductionControl.LoopQueue": false,
-              "ProductionControl._onChange": null,
+              "ProductionControl.OnChange": null,
               "ProductionControl.Queue": null,
               "ProductionControl.Settings": null,
               "ProductionControl.Status": 0,

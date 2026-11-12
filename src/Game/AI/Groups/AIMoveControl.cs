@@ -67,10 +67,7 @@ public partial class AIMoveControl : EngineObject
         {
             Status = status;
             Settings.Status = status;
-            if (Settings.OnDone != null)
-            {
-                Settings.OnDone(this);
-            }
+            Settings.RaiseDone(this);
         }
     }
 

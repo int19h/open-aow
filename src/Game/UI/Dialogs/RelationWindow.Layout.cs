@@ -19,19 +19,19 @@ public partial class RelationWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "RelWindow";
-        LayoutOnCreate = _ => Layout_RelWindowCreate_0();
-        LayoutOnDestroy = _ => Layout_RelWindowDestroy_1();
+        LayoutOnCreate += _ => RelationWindowCreate();
+        LayoutOnDestroy += _ => RelationWindowDestroy();
         MainWindow = new Window(this);
         session.BeginRead(MainWindow);
         MainWindow.Name = "RelWin";
-        MainWindow.OnKeyDown = (_, ref key, shift) => RelWinKeyDown(ref key, shift);
+        MainWindow.OnKeyDown += (_, ref key, shift) => RelWinKeyDown(ref key, shift);
         MainWindow.Visible = false;
         MainWindow.Priority = 55;
         MainWindow.WinLeft = 0;
         MainWindow.WinTop = 0;
         MainWindow.WinWidth = 640;
         MainWindow.Masked = true;
-        MainWindow.OnHide = _ => Layout_RelWinHide_2();
+        MainWindow.OnHide += _ => RelWinHide();
         MainWindow.Alignment.AlignWidth = AlignWidth.Center;
         MainWindow.Alignment.AlignHeight = AlignHeight.Center;
         MainWindow.Alignment.HeightPercent = 0;
@@ -155,7 +155,7 @@ public partial class RelationWindow : ILayoutModule
         mExitBtn.TextColor = 0;
         mExitBtn.TextSelectedColor = 16777215;
         mExitBtn.WinWidth = 180;
-        mExitBtn.OnClick = _ => Layout_ExitClick_3();
+        mExitBtn.OnClick += _ => ExitClick();
         session.EndRead(mExitBtn);
         RelationPanel = new Panel(this);
         session.BeginRead(RelationPanel);
@@ -245,7 +245,7 @@ public partial class RelationWindow : ILayoutModule
         mAcceptBtn.TextColor = 0;
         mAcceptBtn.TextSelectedColor = 16777215;
         mAcceptBtn.WinWidth = 86;
-        mAcceptBtn.OnClick = _ => Layout_MAcceptBtnClick_4();
+        mAcceptBtn.OnClick += _ => MAcceptBtnClick();
         session.EndRead(mAcceptBtn);
         Button mRejectBtn = new Button(this);
         session.BeginRead(mRejectBtn);
@@ -280,7 +280,7 @@ public partial class RelationWindow : ILayoutModule
         mRejectBtn.TextColor = 0;
         mRejectBtn.TextSelectedColor = 16777215;
         mRejectBtn.WinWidth = 86;
-        mRejectBtn.OnClick = _ => Layout_MRejectBtnClick_5();
+        mRejectBtn.OnClick += _ => MRejectBtnClick();
         session.EndRead(mRejectBtn);
         VerticalScrollBar mScroll = new VerticalScrollBar(this);
         session.BeginRead(mScroll);
@@ -322,7 +322,7 @@ public partial class RelationWindow : ILayoutModule
         Player1Image = new Image(this);
         session.BeginRead(Player1Image);
         Player1Image.Name = "P1I";
-        Player1Image.OnDraw = (sender, surface) => P1IDraw(sender, surface, 0);
+        Player1Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, 0);
         Player1Image.Priority = 600;
         Player1Image.WinLeft = 14;
         Player1Image.WinTop = 74;
@@ -352,7 +352,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player2Image);
         Player2Image.Name = "P2I";
         Player2Image.Tag = 1;
-        Player2Image.OnDraw = (sender, surface) => P1IDraw(sender, surface, 1);
+        Player2Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, 1);
         Player2Image.Priority = 600;
         Player2Image.WinLeft = 65;
         Player2Image.WinTop = 74;
@@ -382,7 +382,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player3Image);
         Player3Image.Name = "P3I";
         Player3Image.Tag = 2;
-        Player3Image.OnDraw = (sender, surface) => P1IDraw(sender, surface, 2);
+        Player3Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, 2);
         Player3Image.Priority = 600;
         Player3Image.WinLeft = 116;
         Player3Image.WinTop = 74;
@@ -412,7 +412,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player4Image);
         Player4Image.Name = "P4I";
         Player4Image.Tag = 3;
-        Player4Image.OnDraw = (sender, surface) => P1IDraw(sender, surface, 3);
+        Player4Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, 3);
         Player4Image.Priority = 600;
         Player4Image.WinLeft = 167;
         Player4Image.WinTop = 74;
@@ -442,7 +442,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player5Image);
         Player5Image.Name = "P5I";
         Player5Image.Tag = 4;
-        Player5Image.OnDraw = (sender, surface) => P1IDraw(sender, surface, 4);
+        Player5Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, 4);
         Player5Image.Priority = 600;
         Player5Image.WinLeft = 218;
         Player5Image.WinTop = 74;
@@ -472,7 +472,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player6Image);
         Player6Image.Name = "P6I";
         Player6Image.Tag = 5;
-        Player6Image.OnDraw = (sender, surface) => P1IDraw(sender, surface, 5);
+        Player6Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, 5);
         Player6Image.Priority = 600;
         Player6Image.WinLeft = 269;
         Player6Image.WinTop = 74;
@@ -502,7 +502,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player7Image);
         Player7Image.Name = "P7I";
         Player7Image.Tag = 6;
-        Player7Image.OnDraw = (sender, surface) => P1IDraw(sender, surface, 6);
+        Player7Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, 6);
         Player7Image.Priority = 600;
         Player7Image.WinLeft = 320;
         Player7Image.WinTop = 74;
@@ -532,7 +532,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player8Image);
         Player8Image.Name = "P8I";
         Player8Image.Tag = 7;
-        Player8Image.OnDraw = (sender, surface) => P1IDraw(sender, surface, 7);
+        Player8Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, 7);
         Player8Image.Priority = 600;
         Player8Image.WinLeft = 371;
         Player8Image.WinTop = 74;
@@ -562,7 +562,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player9Image);
         Player9Image.Name = "P9I";
         Player9Image.Tag = 8;
-        Player9Image.OnDraw = (sender, surface) => P1IDraw(sender, surface, 8);
+        Player9Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, 8);
         Player9Image.Priority = 600;
         Player9Image.WinLeft = 422;
         Player9Image.WinTop = 74;
@@ -592,7 +592,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player10Image);
         Player10Image.Name = "P10I";
         Player10Image.Tag = 9;
-        Player10Image.OnDraw = (sender, surface) => P1IDraw(sender, surface, 9);
+        Player10Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, 9);
         Player10Image.Priority = 600;
         Player10Image.WinLeft = 473;
         Player10Image.WinTop = 74;
@@ -622,7 +622,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player11Image);
         Player11Image.Name = "P11I";
         Player11Image.Tag = 10;
-        Player11Image.OnDraw = (sender, surface) => P1IDraw(sender, surface, 10);
+        Player11Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, 10);
         Player11Image.Priority = 600;
         Player11Image.WinLeft = 524;
         Player11Image.WinTop = 74;
@@ -652,7 +652,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player12Image);
         Player12Image.Name = "P12I";
         Player12Image.Tag = 11;
-        Player12Image.OnDraw = (sender, surface) => P1IDraw(sender, surface, 11);
+        Player12Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, 11);
         Player12Image.Priority = 600;
         Player12Image.WinLeft = 575;
         Player12Image.WinTop = 74;
@@ -682,7 +682,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race1Image);
         Race1Image.Name = "R1I";
         Race1Image.Tag = 20;
-        Race1Image.OnDraw = (sender, surface) => R1IDraw(sender, surface, 20);
+        Race1Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, 20);
         Race1Image.Priority = 500;
         Race1Image.WinLeft = 14;
         Race1Image.WinTop = 126;
@@ -712,7 +712,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race2Image);
         Race2Image.Name = "R2I";
         Race2Image.Tag = 21;
-        Race2Image.OnDraw = (sender, surface) => R1IDraw(sender, surface, 21);
+        Race2Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, 21);
         Race2Image.Priority = 500;
         Race2Image.WinLeft = 65;
         Race2Image.WinTop = 126;
@@ -742,7 +742,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race3Image);
         Race3Image.Name = "R3I";
         Race3Image.Tag = 22;
-        Race3Image.OnDraw = (sender, surface) => R1IDraw(sender, surface, 22);
+        Race3Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, 22);
         Race3Image.Priority = 500;
         Race3Image.WinLeft = 116;
         Race3Image.WinTop = 126;
@@ -772,7 +772,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race4Image);
         Race4Image.Name = "R4I";
         Race4Image.Tag = 23;
-        Race4Image.OnDraw = (sender, surface) => R1IDraw(sender, surface, 23);
+        Race4Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, 23);
         Race4Image.Priority = 500;
         Race4Image.WinLeft = 167;
         Race4Image.WinTop = 126;
@@ -802,7 +802,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race5Image);
         Race5Image.Name = "R5I";
         Race5Image.Tag = 24;
-        Race5Image.OnDraw = (sender, surface) => R1IDraw(sender, surface, 24);
+        Race5Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, 24);
         Race5Image.Priority = 500;
         Race5Image.WinLeft = 218;
         Race5Image.WinTop = 126;
@@ -832,7 +832,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race6Image);
         Race6Image.Name = "R6I";
         Race6Image.Tag = 25;
-        Race6Image.OnDraw = (sender, surface) => R1IDraw(sender, surface, 25);
+        Race6Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, 25);
         Race6Image.Priority = 500;
         Race6Image.WinLeft = 269;
         Race6Image.WinTop = 126;
@@ -862,7 +862,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race7Image);
         Race7Image.Name = "R7I";
         Race7Image.Tag = 26;
-        Race7Image.OnDraw = (sender, surface) => R1IDraw(sender, surface, 26);
+        Race7Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, 26);
         Race7Image.Priority = 500;
         Race7Image.WinLeft = 320;
         Race7Image.WinTop = 126;
@@ -892,7 +892,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race8Image);
         Race8Image.Name = "R8I";
         Race8Image.Tag = 27;
-        Race8Image.OnDraw = (sender, surface) => R1IDraw(sender, surface, 27);
+        Race8Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, 27);
         Race8Image.Priority = 500;
         Race8Image.WinLeft = 371;
         Race8Image.WinTop = 126;
@@ -922,7 +922,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race9Image);
         Race9Image.Name = "R9I";
         Race9Image.Tag = 28;
-        Race9Image.OnDraw = (sender, surface) => R1IDraw(sender, surface, 28);
+        Race9Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, 28);
         Race9Image.Priority = 500;
         Race9Image.WinLeft = 422;
         Race9Image.WinTop = 126;
@@ -952,7 +952,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race10Image);
         Race10Image.Name = "R10I";
         Race10Image.Tag = 29;
-        Race10Image.OnDraw = (sender, surface) => R1IDraw(sender, surface, 29);
+        Race10Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, 29);
         Race10Image.Priority = 500;
         Race10Image.WinLeft = 473;
         Race10Image.WinTop = 126;
@@ -982,7 +982,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race11Image);
         Race11Image.Name = "R11I";
         Race11Image.Tag = 30;
-        Race11Image.OnDraw = (sender, surface) => R1IDraw(sender, surface, 30);
+        Race11Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, 30);
         Race11Image.Priority = 500;
         Race11Image.WinLeft = 524;
         Race11Image.WinTop = 126;
@@ -1012,7 +1012,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race12Image);
         Race12Image.Name = "R12I";
         Race12Image.Tag = 31;
-        Race12Image.OnDraw = (sender, surface) => R1IDraw(sender, surface, 31);
+        Race12Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, 31);
         Race12Image.Priority = 500;
         Race12Image.WinLeft = 575;
         Race12Image.WinTop = 126;
@@ -1280,7 +1280,7 @@ public partial class RelationWindow : ILayoutModule
         SendMessageMemo.WinHeight = 103;
         SendMessageMemo.BorderWidth = 4;
         SendMessageMemo.BorderHeight = 5;
-        SendMessageMemo.OnChange = ChangeActionMessage;
+        SendMessageMemo.OnChange += ChangeActionMessage;
         SendMessageMemo.TextColor = 12632256;
         SendMessageMemo.CursorChar = 95;
         SendMessageMemo.BlinkDelay = 2;
@@ -1323,7 +1323,7 @@ public partial class RelationWindow : ILayoutModule
         BribeGoldSlider.WinHeight = 18;
         BribeGoldSlider.WinWidth = 80;
         BribeGoldSlider.NumberVisible = 1;
-        BribeGoldSlider.OnChange = _ => SBGoldSlidChange();
+        BribeGoldSlider.OnChange += _ => SBGoldSlidChange();
         BribeGoldSlider.VanishWhenFull = false;
         BribeGoldSlider.ImageLibraryIndexIncrementUp = 0;
         BribeGoldSlider.ImageLibraryIndexIncrementDown = 0;
@@ -1447,7 +1447,7 @@ public partial class RelationWindow : ILayoutModule
         aExit.TextColor = 0;
         aExit.TextSelectedColor = 16777215;
         aExit.WinWidth = 91;
-        aExit.OnClick = _ => Layout_ExitClick_3();
+        aExit.OnClick += _ => ExitClick();
         session.EndRead(aExit);
         PlayerNameLabel = new Label(this);
         session.BeginRead(PlayerNameLabel);
@@ -1576,7 +1576,7 @@ public partial class RelationWindow : ILayoutModule
         Player1CheckBox = new CheckBox(this);
         session.BeginRead(Player1CheckBox);
         Player1CheckBox.Name = "P1CB";
-        Player1CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 0);
+        Player1CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 0);
         Player1CheckBox.Priority = 800;
         Player1CheckBox.WinLeft = 14;
         Player1CheckBox.WinTop = 10;
@@ -1607,14 +1607,14 @@ public partial class RelationWindow : ILayoutModule
         Player1CheckBox.TextSelectedColor = 0;
         Player1CheckBox.WinWidth = 52;
         Player1CheckBox.Checked = false;
-        Player1CheckBox.OnChange = sender => P1CBChange(sender, 0);
+        Player1CheckBox.OnChange += sender => P1CBChange(sender, 0);
         Player1CheckBox.RadioIndex = 1;
         session.EndRead(Player1CheckBox);
         Player2CheckBox = new CheckBox(this);
         session.BeginRead(Player2CheckBox);
         Player2CheckBox.Name = "P2CB";
         Player2CheckBox.Tag = 1;
-        Player2CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 1);
+        Player2CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 1);
         Player2CheckBox.Priority = 800;
         Player2CheckBox.WinLeft = 65;
         Player2CheckBox.WinTop = 10;
@@ -1645,14 +1645,14 @@ public partial class RelationWindow : ILayoutModule
         Player2CheckBox.TextSelectedColor = 0;
         Player2CheckBox.WinWidth = 52;
         Player2CheckBox.Checked = false;
-        Player2CheckBox.OnChange = sender => P1CBChange(sender, 1);
+        Player2CheckBox.OnChange += sender => P1CBChange(sender, 1);
         Player2CheckBox.RadioIndex = 1;
         session.EndRead(Player2CheckBox);
         Player3CheckBox = new CheckBox(this);
         session.BeginRead(Player3CheckBox);
         Player3CheckBox.Name = "P3CB";
         Player3CheckBox.Tag = 2;
-        Player3CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 2);
+        Player3CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 2);
         Player3CheckBox.Priority = 800;
         Player3CheckBox.WinLeft = 116;
         Player3CheckBox.WinTop = 10;
@@ -1683,14 +1683,14 @@ public partial class RelationWindow : ILayoutModule
         Player3CheckBox.TextSelectedColor = 0;
         Player3CheckBox.WinWidth = 52;
         Player3CheckBox.Checked = false;
-        Player3CheckBox.OnChange = sender => P1CBChange(sender, 2);
+        Player3CheckBox.OnChange += sender => P1CBChange(sender, 2);
         Player3CheckBox.RadioIndex = 1;
         session.EndRead(Player3CheckBox);
         Player4CheckBox = new CheckBox(this);
         session.BeginRead(Player4CheckBox);
         Player4CheckBox.Name = "P4CB";
         Player4CheckBox.Tag = 3;
-        Player4CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 3);
+        Player4CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 3);
         Player4CheckBox.Priority = 800;
         Player4CheckBox.WinLeft = 167;
         Player4CheckBox.WinTop = 10;
@@ -1721,14 +1721,14 @@ public partial class RelationWindow : ILayoutModule
         Player4CheckBox.TextSelectedColor = 0;
         Player4CheckBox.WinWidth = 52;
         Player4CheckBox.Checked = false;
-        Player4CheckBox.OnChange = sender => P1CBChange(sender, 3);
+        Player4CheckBox.OnChange += sender => P1CBChange(sender, 3);
         Player4CheckBox.RadioIndex = 1;
         session.EndRead(Player4CheckBox);
         Player5CheckBox = new CheckBox(this);
         session.BeginRead(Player5CheckBox);
         Player5CheckBox.Name = "P5CB";
         Player5CheckBox.Tag = 4;
-        Player5CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 4);
+        Player5CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 4);
         Player5CheckBox.Priority = 800;
         Player5CheckBox.WinLeft = 218;
         Player5CheckBox.WinTop = 10;
@@ -1759,14 +1759,14 @@ public partial class RelationWindow : ILayoutModule
         Player5CheckBox.TextSelectedColor = 0;
         Player5CheckBox.WinWidth = 52;
         Player5CheckBox.Checked = false;
-        Player5CheckBox.OnChange = sender => P1CBChange(sender, 4);
+        Player5CheckBox.OnChange += sender => P1CBChange(sender, 4);
         Player5CheckBox.RadioIndex = 1;
         session.EndRead(Player5CheckBox);
         Player6CheckBox = new CheckBox(this);
         session.BeginRead(Player6CheckBox);
         Player6CheckBox.Name = "P6CB";
         Player6CheckBox.Tag = 5;
-        Player6CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 5);
+        Player6CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 5);
         Player6CheckBox.Priority = 800;
         Player6CheckBox.WinLeft = 269;
         Player6CheckBox.WinTop = 10;
@@ -1797,14 +1797,14 @@ public partial class RelationWindow : ILayoutModule
         Player6CheckBox.TextSelectedColor = 0;
         Player6CheckBox.WinWidth = 52;
         Player6CheckBox.Checked = false;
-        Player6CheckBox.OnChange = sender => P1CBChange(sender, 5);
+        Player6CheckBox.OnChange += sender => P1CBChange(sender, 5);
         Player6CheckBox.RadioIndex = 1;
         session.EndRead(Player6CheckBox);
         Player7CheckBox = new CheckBox(this);
         session.BeginRead(Player7CheckBox);
         Player7CheckBox.Name = "P7CB";
         Player7CheckBox.Tag = 6;
-        Player7CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 6);
+        Player7CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 6);
         Player7CheckBox.Priority = 800;
         Player7CheckBox.WinLeft = 320;
         Player7CheckBox.WinTop = 10;
@@ -1835,14 +1835,14 @@ public partial class RelationWindow : ILayoutModule
         Player7CheckBox.TextSelectedColor = 0;
         Player7CheckBox.WinWidth = 52;
         Player7CheckBox.Checked = false;
-        Player7CheckBox.OnChange = sender => P1CBChange(sender, 6);
+        Player7CheckBox.OnChange += sender => P1CBChange(sender, 6);
         Player7CheckBox.RadioIndex = 1;
         session.EndRead(Player7CheckBox);
         Player8CheckBox = new CheckBox(this);
         session.BeginRead(Player8CheckBox);
         Player8CheckBox.Name = "P8CB";
         Player8CheckBox.Tag = 7;
-        Player8CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 7);
+        Player8CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 7);
         Player8CheckBox.Priority = 800;
         Player8CheckBox.WinLeft = 371;
         Player8CheckBox.WinTop = 10;
@@ -1873,14 +1873,14 @@ public partial class RelationWindow : ILayoutModule
         Player8CheckBox.TextSelectedColor = 0;
         Player8CheckBox.WinWidth = 52;
         Player8CheckBox.Checked = false;
-        Player8CheckBox.OnChange = sender => P1CBChange(sender, 7);
+        Player8CheckBox.OnChange += sender => P1CBChange(sender, 7);
         Player8CheckBox.RadioIndex = 1;
         session.EndRead(Player8CheckBox);
         Player9CheckBox = new CheckBox(this);
         session.BeginRead(Player9CheckBox);
         Player9CheckBox.Name = "P9CB";
         Player9CheckBox.Tag = 8;
-        Player9CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 8);
+        Player9CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 8);
         Player9CheckBox.Priority = 800;
         Player9CheckBox.WinLeft = 422;
         Player9CheckBox.WinTop = 10;
@@ -1911,14 +1911,14 @@ public partial class RelationWindow : ILayoutModule
         Player9CheckBox.TextSelectedColor = 0;
         Player9CheckBox.WinWidth = 52;
         Player9CheckBox.Checked = false;
-        Player9CheckBox.OnChange = sender => P1CBChange(sender, 8);
+        Player9CheckBox.OnChange += sender => P1CBChange(sender, 8);
         Player9CheckBox.RadioIndex = 1;
         session.EndRead(Player9CheckBox);
         Player10CheckBox = new CheckBox(this);
         session.BeginRead(Player10CheckBox);
         Player10CheckBox.Name = "P10CB";
         Player10CheckBox.Tag = 9;
-        Player10CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 9);
+        Player10CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 9);
         Player10CheckBox.Priority = 800;
         Player10CheckBox.WinLeft = 473;
         Player10CheckBox.WinTop = 10;
@@ -1949,14 +1949,14 @@ public partial class RelationWindow : ILayoutModule
         Player10CheckBox.TextSelectedColor = 0;
         Player10CheckBox.WinWidth = 52;
         Player10CheckBox.Checked = false;
-        Player10CheckBox.OnChange = sender => P1CBChange(sender, 9);
+        Player10CheckBox.OnChange += sender => P1CBChange(sender, 9);
         Player10CheckBox.RadioIndex = 1;
         session.EndRead(Player10CheckBox);
         Player11CheckBox = new CheckBox(this);
         session.BeginRead(Player11CheckBox);
         Player11CheckBox.Name = "P11CB";
         Player11CheckBox.Tag = 10;
-        Player11CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 10);
+        Player11CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 10);
         Player11CheckBox.Priority = 800;
         Player11CheckBox.WinLeft = 524;
         Player11CheckBox.WinTop = 10;
@@ -1987,14 +1987,14 @@ public partial class RelationWindow : ILayoutModule
         Player11CheckBox.TextSelectedColor = 0;
         Player11CheckBox.WinWidth = 52;
         Player11CheckBox.Checked = false;
-        Player11CheckBox.OnChange = sender => P1CBChange(sender, 10);
+        Player11CheckBox.OnChange += sender => P1CBChange(sender, 10);
         Player11CheckBox.RadioIndex = 1;
         session.EndRead(Player11CheckBox);
         Player12CheckBox = new CheckBox(this);
         session.BeginRead(Player12CheckBox);
         Player12CheckBox.Name = "P12CB";
         Player12CheckBox.Tag = 11;
-        Player12CheckBox.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 11);
+        Player12CheckBox.OnPreDraw += (sender, surface) => P1CBPreDraw(sender, surface, 11);
         Player12CheckBox.Priority = 800;
         Player12CheckBox.WinLeft = 575;
         Player12CheckBox.WinTop = 10;
@@ -2025,13 +2025,13 @@ public partial class RelationWindow : ILayoutModule
         Player12CheckBox.TextSelectedColor = 0;
         Player12CheckBox.WinWidth = 52;
         Player12CheckBox.Checked = false;
-        Player12CheckBox.OnChange = sender => P1CBChange(sender, 11);
+        Player12CheckBox.OnChange += sender => P1CBChange(sender, 11);
         Player12CheckBox.RadioIndex = 1;
         session.EndRead(Player12CheckBox);
         FaceFrame = new Image(this);
         session.BeginRead(FaceFrame);
         FaceFrame.Name = "FaceFr";
-        FaceFrame.OnPreDraw = (_, lockedSurface) => FaceFrPreDraw(lockedSurface);
+        FaceFrame.OnPreDraw += (_, surface) => FaceFrPreDraw(surface);
         FaceFrame.Priority = 20;
         FaceFrame.WinLeft = 268;
         FaceFrame.WinTop = 269;
@@ -2061,7 +2061,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race1CheckBox);
         Race1CheckBox.Name = "R1CB";
         Race1CheckBox.Tag = 20;
-        Race1CheckBox.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 20);
+        Race1CheckBox.OnPreDraw += (sender, surface) => R1CBPreDraw(sender, surface, 20);
         Race1CheckBox.Priority = 800;
         Race1CheckBox.WinLeft = 14;
         Race1CheckBox.WinTop = 185;
@@ -2092,14 +2092,14 @@ public partial class RelationWindow : ILayoutModule
         Race1CheckBox.TextSelectedColor = 0;
         Race1CheckBox.WinWidth = 52;
         Race1CheckBox.Checked = false;
-        Race1CheckBox.OnChange = sender => R1CBChange(sender, 20);
+        Race1CheckBox.OnChange += sender => R1CBChange(sender, 20);
         Race1CheckBox.RadioIndex = 1;
         session.EndRead(Race1CheckBox);
         Race2CheckBox = new CheckBox(this);
         session.BeginRead(Race2CheckBox);
         Race2CheckBox.Name = "R2CB";
         Race2CheckBox.Tag = 21;
-        Race2CheckBox.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 21);
+        Race2CheckBox.OnPreDraw += (sender, surface) => R1CBPreDraw(sender, surface, 21);
         Race2CheckBox.Priority = 800;
         Race2CheckBox.WinLeft = 65;
         Race2CheckBox.WinTop = 185;
@@ -2130,14 +2130,14 @@ public partial class RelationWindow : ILayoutModule
         Race2CheckBox.TextSelectedColor = 0;
         Race2CheckBox.WinWidth = 52;
         Race2CheckBox.Checked = false;
-        Race2CheckBox.OnChange = sender => R1CBChange(sender, 21);
+        Race2CheckBox.OnChange += sender => R1CBChange(sender, 21);
         Race2CheckBox.RadioIndex = 1;
         session.EndRead(Race2CheckBox);
         Race3CheckBox = new CheckBox(this);
         session.BeginRead(Race3CheckBox);
         Race3CheckBox.Name = "R3CB";
         Race3CheckBox.Tag = 22;
-        Race3CheckBox.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 22);
+        Race3CheckBox.OnPreDraw += (sender, surface) => R1CBPreDraw(sender, surface, 22);
         Race3CheckBox.Priority = 800;
         Race3CheckBox.WinLeft = 116;
         Race3CheckBox.WinTop = 185;
@@ -2168,14 +2168,14 @@ public partial class RelationWindow : ILayoutModule
         Race3CheckBox.TextSelectedColor = 0;
         Race3CheckBox.WinWidth = 52;
         Race3CheckBox.Checked = false;
-        Race3CheckBox.OnChange = sender => R1CBChange(sender, 22);
+        Race3CheckBox.OnChange += sender => R1CBChange(sender, 22);
         Race3CheckBox.RadioIndex = 1;
         session.EndRead(Race3CheckBox);
         Race4CheckBox = new CheckBox(this);
         session.BeginRead(Race4CheckBox);
         Race4CheckBox.Name = "R4CB";
         Race4CheckBox.Tag = 23;
-        Race4CheckBox.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 23);
+        Race4CheckBox.OnPreDraw += (sender, surface) => R1CBPreDraw(sender, surface, 23);
         Race4CheckBox.Priority = 800;
         Race4CheckBox.WinLeft = 167;
         Race4CheckBox.WinTop = 185;
@@ -2206,14 +2206,14 @@ public partial class RelationWindow : ILayoutModule
         Race4CheckBox.TextSelectedColor = 0;
         Race4CheckBox.WinWidth = 52;
         Race4CheckBox.Checked = false;
-        Race4CheckBox.OnChange = sender => R1CBChange(sender, 23);
+        Race4CheckBox.OnChange += sender => R1CBChange(sender, 23);
         Race4CheckBox.RadioIndex = 1;
         session.EndRead(Race4CheckBox);
         Race5CheckBox = new CheckBox(this);
         session.BeginRead(Race5CheckBox);
         Race5CheckBox.Name = "R5CB";
         Race5CheckBox.Tag = 24;
-        Race5CheckBox.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 24);
+        Race5CheckBox.OnPreDraw += (sender, surface) => R1CBPreDraw(sender, surface, 24);
         Race5CheckBox.Priority = 800;
         Race5CheckBox.WinLeft = 218;
         Race5CheckBox.WinTop = 185;
@@ -2244,14 +2244,14 @@ public partial class RelationWindow : ILayoutModule
         Race5CheckBox.TextSelectedColor = 0;
         Race5CheckBox.WinWidth = 52;
         Race5CheckBox.Checked = false;
-        Race5CheckBox.OnChange = sender => R1CBChange(sender, 24);
+        Race5CheckBox.OnChange += sender => R1CBChange(sender, 24);
         Race5CheckBox.RadioIndex = 1;
         session.EndRead(Race5CheckBox);
         Race6CheckBox = new CheckBox(this);
         session.BeginRead(Race6CheckBox);
         Race6CheckBox.Name = "R6CB";
         Race6CheckBox.Tag = 25;
-        Race6CheckBox.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 25);
+        Race6CheckBox.OnPreDraw += (sender, surface) => R1CBPreDraw(sender, surface, 25);
         Race6CheckBox.Priority = 800;
         Race6CheckBox.WinLeft = 269;
         Race6CheckBox.WinTop = 185;
@@ -2282,14 +2282,14 @@ public partial class RelationWindow : ILayoutModule
         Race6CheckBox.TextSelectedColor = 0;
         Race6CheckBox.WinWidth = 52;
         Race6CheckBox.Checked = false;
-        Race6CheckBox.OnChange = sender => R1CBChange(sender, 25);
+        Race6CheckBox.OnChange += sender => R1CBChange(sender, 25);
         Race6CheckBox.RadioIndex = 1;
         session.EndRead(Race6CheckBox);
         Race7CheckBox = new CheckBox(this);
         session.BeginRead(Race7CheckBox);
         Race7CheckBox.Name = "R7CB";
         Race7CheckBox.Tag = 26;
-        Race7CheckBox.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 26);
+        Race7CheckBox.OnPreDraw += (sender, surface) => R1CBPreDraw(sender, surface, 26);
         Race7CheckBox.Priority = 800;
         Race7CheckBox.WinLeft = 320;
         Race7CheckBox.WinTop = 185;
@@ -2320,14 +2320,14 @@ public partial class RelationWindow : ILayoutModule
         Race7CheckBox.TextSelectedColor = 0;
         Race7CheckBox.WinWidth = 52;
         Race7CheckBox.Checked = false;
-        Race7CheckBox.OnChange = sender => R1CBChange(sender, 26);
+        Race7CheckBox.OnChange += sender => R1CBChange(sender, 26);
         Race7CheckBox.RadioIndex = 1;
         session.EndRead(Race7CheckBox);
         Race8CheckBox = new CheckBox(this);
         session.BeginRead(Race8CheckBox);
         Race8CheckBox.Name = "R8CB";
         Race8CheckBox.Tag = 27;
-        Race8CheckBox.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 27);
+        Race8CheckBox.OnPreDraw += (sender, surface) => R1CBPreDraw(sender, surface, 27);
         Race8CheckBox.Priority = 800;
         Race8CheckBox.WinLeft = 371;
         Race8CheckBox.WinTop = 185;
@@ -2358,14 +2358,14 @@ public partial class RelationWindow : ILayoutModule
         Race8CheckBox.TextSelectedColor = 0;
         Race8CheckBox.WinWidth = 52;
         Race8CheckBox.Checked = false;
-        Race8CheckBox.OnChange = sender => R1CBChange(sender, 27);
+        Race8CheckBox.OnChange += sender => R1CBChange(sender, 27);
         Race8CheckBox.RadioIndex = 1;
         session.EndRead(Race8CheckBox);
         Race9CheckBox = new CheckBox(this);
         session.BeginRead(Race9CheckBox);
         Race9CheckBox.Name = "R9CB";
         Race9CheckBox.Tag = 28;
-        Race9CheckBox.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 28);
+        Race9CheckBox.OnPreDraw += (sender, surface) => R1CBPreDraw(sender, surface, 28);
         Race9CheckBox.Priority = 800;
         Race9CheckBox.WinLeft = 422;
         Race9CheckBox.WinTop = 185;
@@ -2396,14 +2396,14 @@ public partial class RelationWindow : ILayoutModule
         Race9CheckBox.TextSelectedColor = 0;
         Race9CheckBox.WinWidth = 52;
         Race9CheckBox.Checked = false;
-        Race9CheckBox.OnChange = sender => R1CBChange(sender, 28);
+        Race9CheckBox.OnChange += sender => R1CBChange(sender, 28);
         Race9CheckBox.RadioIndex = 1;
         session.EndRead(Race9CheckBox);
         Race10CheckBox = new CheckBox(this);
         session.BeginRead(Race10CheckBox);
         Race10CheckBox.Name = "R10CB";
         Race10CheckBox.Tag = 29;
-        Race10CheckBox.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 29);
+        Race10CheckBox.OnPreDraw += (sender, surface) => R1CBPreDraw(sender, surface, 29);
         Race10CheckBox.Priority = 800;
         Race10CheckBox.WinLeft = 473;
         Race10CheckBox.WinTop = 185;
@@ -2434,14 +2434,14 @@ public partial class RelationWindow : ILayoutModule
         Race10CheckBox.TextSelectedColor = 0;
         Race10CheckBox.WinWidth = 52;
         Race10CheckBox.Checked = false;
-        Race10CheckBox.OnChange = sender => R1CBChange(sender, 29);
+        Race10CheckBox.OnChange += sender => R1CBChange(sender, 29);
         Race10CheckBox.RadioIndex = 1;
         session.EndRead(Race10CheckBox);
         Race11CheckBox = new CheckBox(this);
         session.BeginRead(Race11CheckBox);
         Race11CheckBox.Name = "R11CB";
         Race11CheckBox.Tag = 30;
-        Race11CheckBox.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 30);
+        Race11CheckBox.OnPreDraw += (sender, surface) => R1CBPreDraw(sender, surface, 30);
         Race11CheckBox.Priority = 800;
         Race11CheckBox.WinLeft = 524;
         Race11CheckBox.WinTop = 185;
@@ -2472,14 +2472,14 @@ public partial class RelationWindow : ILayoutModule
         Race11CheckBox.TextSelectedColor = 0;
         Race11CheckBox.WinWidth = 52;
         Race11CheckBox.Checked = false;
-        Race11CheckBox.OnChange = sender => R1CBChange(sender, 30);
+        Race11CheckBox.OnChange += sender => R1CBChange(sender, 30);
         Race11CheckBox.RadioIndex = 1;
         session.EndRead(Race11CheckBox);
         Race12CheckBox = new CheckBox(this);
         session.BeginRead(Race12CheckBox);
         Race12CheckBox.Name = "R12CB";
         Race12CheckBox.Tag = 31;
-        Race12CheckBox.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 31);
+        Race12CheckBox.OnPreDraw += (sender, surface) => R1CBPreDraw(sender, surface, 31);
         Race12CheckBox.Priority = 800;
         Race12CheckBox.WinLeft = 575;
         Race12CheckBox.WinTop = 185;
@@ -2510,14 +2510,14 @@ public partial class RelationWindow : ILayoutModule
         Race12CheckBox.TextSelectedColor = 0;
         Race12CheckBox.WinWidth = 52;
         Race12CheckBox.Checked = false;
-        Race12CheckBox.OnChange = sender => R1CBChange(sender, 31);
+        Race12CheckBox.OnChange += sender => R1CBChange(sender, 31);
         Race12CheckBox.RadioIndex = 1;
         session.EndRead(Race12CheckBox);
         PlayerGlow = new Image(this);
         session.BeginRead(PlayerGlow);
         PlayerGlow.Name = "PlyrGlow";
-        PlayerGlow.OnDraw = (_, lockedSurface) => PlyrGlowDraw(lockedSurface);
-        PlayerGlow.OnUpdate = _ => Layout_PlyrGlowUpdate_7();
+        PlayerGlow.OnDraw += (_, surface) => PlyrGlowDraw(surface);
+        PlayerGlow.OnUpdate += _ => PlyrGlowUpdate();
         PlayerGlow.Priority = 1000;
         PlayerGlow.WinLeft = 14;
         PlayerGlow.WinTop = 10;
@@ -2600,7 +2600,7 @@ public partial class RelationWindow : ILayoutModule
         SelectActionButton.TextColor = 0;
         SelectActionButton.TextSelectedColor = 16777215;
         SelectActionButton.WinWidth = 91;
-        SelectActionButton.OnClick = _ => Layout_ASelectClick_8();
+        SelectActionButton.OnClick += _ => ASelectClick();
         session.EndRead(SelectActionButton);
         ActionsList = new ListBox<DiplomaticAction>(this);
         session.BeginRead(ActionsList);
@@ -2626,7 +2626,7 @@ public partial class RelationWindow : ILayoutModule
         ActionsList.WinHeight = 106;
         ActionsList.BorderWidth = 8;
         ActionsList.BorderHeight = 3;
-        ActionsList.OnChange = _ => ActionsLBChange();
+        ActionsList.OnChange += _ => ActionsLBChange();
         ActionsList.Selected = -1;
         ActionsList.TextColor = 9415072;
         ActionsList.TextSelectedColor = 0;
@@ -3460,7 +3460,7 @@ public partial class RelationWindow : ILayoutModule
         msgSendBtn.TextColor = 0;
         msgSendBtn.TextSelectedColor = 16777215;
         msgSendBtn.WinWidth = 92;
-        msgSendBtn.OnClick = _ => Layout_MsgSendActionBtn_9();
+        msgSendBtn.OnClick += _ => SendActionButtonClick();
         session.EndRead(msgSendBtn);
         Button msgCancelBtn = new Button(this);
         session.BeginRead(msgCancelBtn);
@@ -3495,7 +3495,7 @@ public partial class RelationWindow : ILayoutModule
         msgCancelBtn.TextColor = 0;
         msgCancelBtn.TextSelectedColor = 16777215;
         msgCancelBtn.WinWidth = 86;
-        msgCancelBtn.OnClick = _ => Layout_CancelSelectedAction_10();
+        msgCancelBtn.OnClick += _ => CancelSelectedAction();
         session.EndRead(msgCancelBtn);
         Frame rsBribe2 = new Frame(this);
         session.BeginRead(rsBribe2);
@@ -3770,7 +3770,7 @@ public partial class RelationWindow : ILayoutModule
         BribeManaSlider.WinHeight = 18;
         BribeManaSlider.WinWidth = 80;
         BribeManaSlider.NumberVisible = 1;
-        BribeManaSlider.OnChange = _ => SBManaSlidChange();
+        BribeManaSlider.OnChange += _ => SBManaSlidChange();
         BribeManaSlider.VanishWhenFull = false;
         BribeManaSlider.ImageLibraryIndexIncrementUp = 0;
         BribeManaSlider.ImageLibraryIndexIncrementDown = 0;
@@ -3844,7 +3844,7 @@ public partial class RelationWindow : ILayoutModule
         rsbSendBtn.TextColor = 0;
         rsbSendBtn.TextSelectedColor = 16777215;
         rsbSendBtn.WinWidth = 86;
-        rsbSendBtn.OnClick = _ => Layout_MsgSendActionBtn_9();
+        rsbSendBtn.OnClick += _ => SendActionButtonClick();
         session.EndRead(rsbSendBtn);
         Button rbsCanlBtn = new Button(this);
         session.BeginRead(rbsCanlBtn);
@@ -3879,7 +3879,7 @@ public partial class RelationWindow : ILayoutModule
         rbsCanlBtn.TextColor = 0;
         rbsCanlBtn.TextSelectedColor = 16777215;
         rbsCanlBtn.WinWidth = 86;
-        rbsCanlBtn.OnClick = _ => Layout_CancelSelectedAction_10();
+        rbsCanlBtn.OnClick += _ => CancelSelectedAction();
         session.EndRead(rbsCanlBtn);
         Image statusGlow = new Image(this);
         session.BeginRead(statusGlow);
@@ -4052,7 +4052,7 @@ public partial class RelationWindow : ILayoutModule
         rmReplyBtn.TextColor = 0;
         rmReplyBtn.TextSelectedColor = 16777215;
         rmReplyBtn.WinWidth = 92;
-        rmReplyBtn.OnClick = _ => Layout_ReplyBtnClick_11();
+        rmReplyBtn.OnClick += _ => ReplyButtonClick();
         session.EndRead(rmReplyBtn);
         Button rmCancelBtn = new Button(this);
         session.BeginRead(rmCancelBtn);
@@ -4087,7 +4087,7 @@ public partial class RelationWindow : ILayoutModule
         rmCancelBtn.TextColor = 0;
         rmCancelBtn.TextSelectedColor = 16777215;
         rmCancelBtn.WinWidth = 86;
-        rmCancelBtn.OnClick = _ => Layout_RMCancelBtnClick_12();
+        rmCancelBtn.OnClick += _ => RMCancelBtnClick();
         session.EndRead(rmCancelBtn);
         Button rmExitBtn = new Button(this);
         session.BeginRead(rmExitBtn);
@@ -4122,7 +4122,7 @@ public partial class RelationWindow : ILayoutModule
         rmExitBtn.TextColor = 0;
         rmExitBtn.TextSelectedColor = 16777215;
         rmExitBtn.WinWidth = 191;
-        rmExitBtn.OnClick = _ => Layout_ExitClick_3();
+        rmExitBtn.OnClick += _ => ExitClick();
         session.EndRead(rmExitBtn);
         IncomingInfoPanel = new Panel(this);
         session.BeginRead(IncomingInfoPanel);
@@ -4181,7 +4181,7 @@ public partial class RelationWindow : ILayoutModule
         iiOkBtn.TextColor = 0;
         iiOkBtn.TextSelectedColor = 16777215;
         iiOkBtn.WinWidth = 86;
-        iiOkBtn.OnClick = _ => Layout_IIOkBtnClick_13();
+        iiOkBtn.OnClick += _ => IIOkBtnClick();
         session.EndRead(iiOkBtn);
         Button iiExitBtn = new Button(this);
         session.BeginRead(iiExitBtn);
@@ -4216,7 +4216,7 @@ public partial class RelationWindow : ILayoutModule
         iiExitBtn.TextColor = 0;
         iiExitBtn.TextSelectedColor = 16777215;
         iiExitBtn.WinWidth = 86;
-        iiExitBtn.OnClick = _ => Layout_ExitClick_3();
+        iiExitBtn.OnClick += _ => ExitClick();
         session.EndRead(iiExitBtn);
         VerticalScrollBar irScroll = new VerticalScrollBar(this);
         session.BeginRead(irScroll);
@@ -4919,70 +4919,5 @@ public partial class RelationWindow : ILayoutModule
         PlayerRaceLabel.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
-    }
-
-    private void Layout_RelWindowCreate_0()
-    {
-        RelationWindowCreate();
-    }
-
-    private void Layout_RelWindowDestroy_1()
-    {
-        RelationWindowDestroy();
-    }
-
-    private void Layout_RelWinHide_2()
-    {
-        RelWinHide();
-    }
-
-    private void Layout_ExitClick_3()
-    {
-        ExitClick();
-    }
-
-    private void Layout_MAcceptBtnClick_4()
-    {
-        MAcceptBtnClick();
-    }
-
-    private void Layout_MRejectBtnClick_5()
-    {
-        MRejectBtnClick();
-    }
-
-    private void Layout_PlyrGlowUpdate_7()
-    {
-        PlyrGlowUpdate();
-    }
-
-    private void Layout_ASelectClick_8()
-    {
-        ASelectClick();
-    }
-
-    private void Layout_MsgSendActionBtn_9()
-    {
-        SendActionButtonClick();
-    }
-
-    private void Layout_CancelSelectedAction_10()
-    {
-        CancelSelectedAction();
-    }
-
-    private void Layout_ReplyBtnClick_11()
-    {
-        ReplyButtonClick();
-    }
-
-    private void Layout_RMCancelBtnClick_12()
-    {
-        RMCancelBtnClick();
-    }
-
-    private void Layout_IIOkBtnClick_13()
-    {
-        IIOkBtnClick();
     }
 }
